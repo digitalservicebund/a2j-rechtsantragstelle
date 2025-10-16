@@ -1,8 +1,20 @@
-import type { StrapiMeta } from "../cms/models/StrapiMeta";
+import { fetchContentPageMeta } from "../cms/index.server";
+import { buildSubPaths } from "./breadcrumbs";
 
-export function composePageTitle(
+const buildTitlePromises = (
+  pathname: string,
+): Promise<Array<string | undefined>> =>
+  Promise.all(
+    buildSubPaths(pathname).map((url) =>
+      fetchContentPageMeta({ filterValue: url }).then((meta) => meta?.title),
+    ),
+  );
+
+export async function composePageTitle(
   pageTitle: string,
-  parentContentPageMeta: StrapiMeta | null,
-) {
-  return `${pageTitle} - ${parentContentPageMeta?.title ?? ""}`;
+  flowId: string,
+): Promise<string> {
+  const parentMetaTitles = await buildTitlePromises(flowId);
+  const filteredTitles = parentMetaTitles.filter(Boolean).reverse();
+  return `${[pageTitle, ...filteredTitles].join(" - ")} | Justiz-Services`;
 }

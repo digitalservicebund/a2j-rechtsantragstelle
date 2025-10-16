@@ -1,11 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { composePageTitle } from "../composePageTitle";
-import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
+import type { FlowId } from "~/domains/flowIds";
 
 describe("composePageTitle", () => {
-  it("returns pageTitle and parent title separated by a dash when parent meta has a title", () => {
-    const parentMeta: StrapiMeta = { title: "Parent Page" } as StrapiMeta;
-    const result = composePageTitle("Child Page", parentMeta);
-    expect(result).toBe("Child Page - Parent Page");
+  it("returns pageTitle and parent title separated by a dash when parent meta has a title", async () => {
+    const flowName = "Antrag";
+    const serviceName = "Beratungshilfe: So funktioniert's | Justiz-Services"; // remove " | Justiz-Services" when Strapi entry is renamed
+    const flowId: FlowId = "/beratungshilfe/antrag";
+    const result = await composePageTitle("Child Page", flowId);
+    expect(result).toEqual(
+      `Child Page - ${flowName} - ${serviceName} | Justiz-Services`,
+    );
   });
 });

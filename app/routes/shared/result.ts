@@ -1,9 +1,6 @@
 import { type LoaderFunctionArgs, redirectDocument, data } from "react-router";
 import { flows } from "~/domains/flows.server";
-import {
-  fetchFlowPage,
-  fetchContentPageMeta,
-} from "~/services/cms/index.server";
+import { fetchFlowPage } from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
@@ -32,10 +29,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const currentFlow = flows[flowId];
 
-  const [resultPageContent, parentContentPageMeta] = await Promise.all([
-    fetchFlowPage("result-pages", flowId, cmsStepId),
-    fetchContentPageMeta({ filterValue: flowId }),
-  ]);
+  const resultPageContent = await fetchFlowPage(
+    "result-pages",
+    flowId,
+    cmsStepId,
+  );
 
   const cmsContent = applyStringReplacement(
     resultPageContent,
@@ -62,7 +60,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const nextSteps = cmsContent.nextSteps?.element ?? [];
 
   const pageTitle = applyStringReplacement(
-    composePageTitle(cmsContent.pageTitle, parentContentPageMeta),
+    await composePageTitle(cmsContent.pageTitle, flowId),
     replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 

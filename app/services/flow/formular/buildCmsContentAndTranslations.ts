@@ -1,5 +1,5 @@
+import type { FlowId } from "~/domains/flowIds";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
-import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {
@@ -13,7 +13,7 @@ type BuildCmsContentAndTranslations = {
   overviewTranslations: Translations;
   formPageContent: StrapiFormFlowPage;
   replacements?: Replacements;
-  parentMeta: StrapiMeta | null;
+  flowId: FlowId;
 };
 
 const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
@@ -39,17 +39,17 @@ const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
 
 export type CMSContent = ReturnType<typeof structureCmsContent>;
 
-export const buildCmsContentAndTranslations = ({
+export const buildCmsContentAndTranslations = async ({
   flowTranslations,
   flowMenuTranslations,
   overviewTranslations,
   formPageContent,
   replacements,
-  parentMeta,
-}: BuildCmsContentAndTranslations): {
+  flowId,
+}: BuildCmsContentAndTranslations): Promise<{
   translations: Translations;
   cmsContent: CMSContent;
-} => {
+}> => {
   const translationsAfterInterpolation = {
     ...applyStringReplacement(flowTranslations, replacements), // interpolate data on MigrationDataOverview
     ...applyStringReplacement(overviewTranslations, replacements), // interpolate data on Summary page
@@ -60,7 +60,7 @@ export const buildCmsContentAndTranslations = ({
   const cmsContent = applyStringReplacement(
     structureCmsContent({
       ...formPageContent,
-      pageTitle: composePageTitle(formPageContent.pageTitle, parentMeta),
+      pageTitle: await composePageTitle(formPageContent.pageTitle, flowId),
     }),
     {
       ...translationsAfterInterpolation,
