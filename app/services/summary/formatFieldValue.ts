@@ -76,7 +76,7 @@ export function isFieldEmpty(value: unknown, componentType: string): boolean {
     case "form-elements.dropdown":
     case "form-elements.tile-group":
       // For selection components, empty string or no selection is empty
-      return value === "" || value === null || value === undefined;
+      return value === "" || value == null;
 
     case "form-elements.input":
     case "form-elements.textarea":
