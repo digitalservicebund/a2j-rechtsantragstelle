@@ -1,8 +1,8 @@
 import { type NavItem } from "~/components/navigation/types";
-import { type StepState } from "./flow/server/buildFlowController";
-import { navState, stateIsCurrent } from "./navigation/navState";
-import type { Translations } from "./translations/getTranslationByKey";
-import { isStepStateIdCurrent } from "./navigation/isStepStateIdCurrent";
+import { type StepState } from "../flow/server/buildFlowController";
+import { navState, stateIsCurrent } from "./navState";
+import type { Translations } from "../translations/getTranslationByKey";
+import { isStepStateIdCurrent } from "./isStepStateIdCurrent";
 
 function isSubflowCurrent(subflows: NavItem[]) {
   return subflows.some((subflow) => stateIsCurrent(subflow.state));

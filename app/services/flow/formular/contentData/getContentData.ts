@@ -2,7 +2,7 @@ import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
+import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
