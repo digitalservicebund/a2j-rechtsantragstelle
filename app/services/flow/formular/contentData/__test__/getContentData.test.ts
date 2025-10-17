@@ -63,7 +63,7 @@ const callContentData = getContentData(
 
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
-vi.mock("~/services/flowNavigation.server");
+vi.mock("~/services/navigation/navItemsFromStepStates");
 
 beforeEach(() => {
   vi.clearAllMocks();
