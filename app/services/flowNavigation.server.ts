@@ -1,6 +1,6 @@
 import { type NavItem } from "~/components/navigation/types";
 import { type StepState } from "./flow/server/buildFlowController";
-import { type NavState, stateIsCurrent } from "./navigation/navState";
+import { navState, stateIsCurrent } from "./navigation/navState";
 import type { Translations } from "./translations/getTranslationByKey";
 import { isStepStateIdCurrent } from "./navigation/isStepStateIdCurrent";
 
@@ -31,21 +31,4 @@ export function navItemsFromStepStates(
       excludedFromValidation: stepState.excludedFromValidation,
     };
   });
-}
-
-export function navState({
-  isCurrent,
-  isReachable,
-  isDone,
-}: {
-  isCurrent: boolean;
-  isReachable: boolean;
-  isDone: boolean;
-}): NavState {
-  if (isCurrent && isDone) return "DoneCurrent";
-  if (isCurrent) return "Current";
-  if (isReachable && isDone) return "Done";
-  if (isReachable) return "Open";
-
-  return "Disabled";
 }

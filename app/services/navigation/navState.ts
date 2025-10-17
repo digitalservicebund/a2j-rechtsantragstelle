@@ -1,5 +1,22 @@
 export type NavState = "Done" | "DoneCurrent" | "Current" | "Open" | "Disabled";
 
+export function navState({
+  isCurrent,
+  isReachable,
+  isDone,
+}: {
+  isCurrent: boolean;
+  isReachable: boolean;
+  isDone: boolean;
+}): NavState {
+  if (isCurrent && isDone) return "DoneCurrent";
+  if (isCurrent) return "Current";
+  if (isReachable && isDone) return "Done";
+  if (isReachable) return "Open";
+
+  return "Disabled";
+}
+
 export const stateIsCurrent = (state: NavState) =>
   state === "Current" || state === "DoneCurrent";
 
