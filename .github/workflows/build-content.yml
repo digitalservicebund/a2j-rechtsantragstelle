@@ -1,6 +1,7 @@
 name: buildContentImage
 on:
   workflow_dispatch:
+  pull_request:
 
 env:
   REGISTRY: ghcr.io
@@ -18,8 +19,18 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
-      - run: echo "content_file_size=$(du -m content.json | grep -Eo '\d+')" >> $GITHUB_OUTPUT
+      - run: echo "content_file_size=$(du -m ./content.json | grep -Eo '\d+')" >> $GITHUB_OUTPUT
         id: contentFileSize
+      - run: |
+          echo "content.json size: ${{ steps.contentFileSize.outputs.content_file_size }}MB"
+      - name: Alert slack channel upon high content file size
+        if: false
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "Content file is too large. Size: ${{ steps.contentFileSize.outputs.content_file_size }}MB"
       - run: npm run verify:emails
       - run: npm run verify:websites
       - name: Calculate content checksum
@@ -32,23 +43,6 @@ jobs:
           path: content.json
     outputs:
       content_checksum: ${{ steps.checksum.outputs.content_checksum }}
-      content_file_size: ${{ steps.contentFileSize.outputs.content_file_size }}
-
-  check-content-file-size:
-    needs: [get-content-file]
-    runs-on: ubuntu-latest
-    # TODO: increment up to 1000?
-    # if: ${{ needs.get-content-file.outputs.content_file_size > 10 }}
-    steps:
-      - run: |
-          echo "Content file is too large. Size: ${{ needs.get-content-file.outputs.content_file_size }} MB"
-      - name: Alert slack channel
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
-          payload: |
-            text: "Content file is too large. Size: ${{ needs.get-content-file.outputs.content_file_size }}MB"
 
   verify-local-e2e:
     needs: [get-content-file]
