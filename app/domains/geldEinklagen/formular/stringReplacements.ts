@@ -1,4 +1,4 @@
-import { GeldEinklagenFormularUserData } from "./userData";
+import { type GeldEinklagenFormularUserData } from "./userData";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.fuerWenBeklagen === "person" };
