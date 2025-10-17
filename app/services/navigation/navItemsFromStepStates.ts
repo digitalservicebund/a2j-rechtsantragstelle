@@ -12,13 +12,19 @@ export function navItemsFromStepStates(
   stepId: string,
   stepStates: StepState[] | undefined,
   translations: Translations = {},
+  userVisitedValidationPage?: boolean,
 ): NavItem[] | undefined {
   if (!stepStates) return undefined;
 
   return stepStates.map((stepState) => {
     const { isDone, isReachable, subStates } = stepState;
 
-    const subNavItems = navItemsFromStepStates(stepId, subStates, translations);
+    const subNavItems = navItemsFromStepStates(
+      stepId,
+      subStates,
+      translations,
+      userVisitedValidationPage,
+    );
     const isCurrent = subNavItems
       ? isSubflowCurrent(subNavItems)
       : isStepStateIdCurrent(stepState.stepId, stepId);
@@ -27,8 +33,13 @@ export function navItemsFromStepStates(
       destination: stepState.url,
       label: translations[stepState.stepId] ?? stepState.stepId,
       subflows: subNavItems,
-      state: navState({ isCurrent, isDone, isReachable }),
-      excludedFromValidation: stepState.excludedFromValidation,
+      state: navState({
+        isCurrent,
+        isDone,
+        isReachable,
+        userVisitedValidationPage,
+        excludedFromValidation: stepState.excludedFromValidation,
+      }),
     };
   });
 }

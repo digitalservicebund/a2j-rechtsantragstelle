@@ -29,12 +29,7 @@ describe("NavigationItem", () => {
 
   it("renders an incomplete navigation item with a warning icon when the flow is ready for validation", () => {
     const { getByTestId, getByText } = render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={"Open"}
-        userVisitedValidationPage={true}
-      />,
+      <NavItem destination={destination} label={label} state={"Open"} />,
     );
     const warningIcon = getByTestId("WarningAmberIcon");
     expect(warningIcon).toBeInTheDocument();

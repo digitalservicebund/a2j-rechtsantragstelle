@@ -44,8 +44,6 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
 export function NavItem({
   destination,
   label,
-  excludedFromValidation,
-  userVisitedValidationPage,
   state,
   subflows = [],
   forceExpanded,
@@ -67,11 +65,6 @@ export function NavItem({
   const collapse = useCollapse({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
-  const showWarningIcon =
-    userVisitedValidationPage &&
-    !excludedFromValidation &&
-    !isDone &&
-    !isDisabled;
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
@@ -86,8 +79,9 @@ export function NavItem({
   const itemClassNames = classNames(
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
-      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": showWarningIcon,
-      "bg-yellow-300": isCurrent && showWarningIcon,
+      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300":
+        state === "Warning" || state === "WarningCurrent",
+      "bg-yellow-300": state === "WarningCurrent",
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
       "ds-label-02-reg": !isCurrent || hasSubflows,
       "pl-24": isChild,
@@ -117,7 +111,9 @@ export function NavItem({
             <StateIcon
               id={iconId}
               isDone={isDone}
-              showWarningIcon={showWarningIcon}
+              showWarningIcon={
+                state === "Warning" || state === "WarningCurrent"
+              }
             />
           </button>
           {
@@ -128,11 +124,7 @@ export function NavItem({
             // oxlint-disable-next-line jsx-a11y/aria-role
             role={undefined}
           >
-            <NavigationList
-              navItems={visibleChildItems}
-              isChild={true}
-              userVisitedValidationPage={userVisitedValidationPage}
-            />
+            <NavigationList navItems={visibleChildItems} isChild={true} />
           </section>
         </>
       ) : (
@@ -148,7 +140,7 @@ export function NavItem({
           <StateIcon
             id={iconId}
             isDone={isDone}
-            showWarningIcon={showWarningIcon}
+            showWarningIcon={state === "Warning" || state === "WarningCurrent"}
           />
         </a>
       )}

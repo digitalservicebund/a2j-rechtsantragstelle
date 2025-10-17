@@ -76,6 +76,7 @@ export const getContentData = (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
       useStepper: boolean,
+      userVisitedValidationPage?: boolean,
     ) => {
       const stepStates = flowController.stepStates(useStepper);
 
@@ -90,7 +91,13 @@ export const getContentData = (
         : stepStates;
 
       return {
-        navItems: navItemsFromStepStates(stepId, steps, translations) ?? [],
+        navItems:
+          navItemsFromStepStates(
+            stepId,
+            steps,
+            translations,
+            userVisitedValidationPage,
+          ) ?? [],
         expandAll: flowController.getMeta(stepId)?.triggerValidation,
       };
     },
