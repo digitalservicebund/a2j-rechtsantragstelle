@@ -28,7 +28,6 @@ describe("navItemsFromStepStates()", () => {
         label: parentStepState.stepId,
         state: "Current",
         subflows: undefined,
-        excludedFromValidation: undefined,
       },
     ]);
   });
@@ -41,14 +40,12 @@ describe("navItemsFromStepStates()", () => {
         destination: parentStepState.url,
         label: parentStepState.stepId,
         state: "Current",
-        excludedFromValidation: undefined,
         subflows: [
           {
             label: childStepState.stepId,
             destination: childStepState.url,
             state: "Current",
             subflows: undefined,
-            excludedFromValidation: undefined,
           },
         ],
       },
@@ -63,14 +60,12 @@ describe("navItemsFromStepStates()", () => {
         destination: parentStepState.url,
         label: parentStepState.stepId,
         state: "Open",
-        excludedFromValidation: undefined,
         subflows: [
           {
             label: childStepState.stepId,
             destination: childStepState.url,
             state: "Open",
             subflows: undefined,
-            excludedFromValidation: undefined,
           },
         ],
       },
@@ -110,14 +105,12 @@ describe("navItemsFromStepStates()", () => {
         label: "/a",
         subflows: undefined,
         state: "Done",
-        excludedFromValidation: undefined,
       },
       {
         destination: "/",
         label: "/a-b",
         subflows: undefined,
         state: "Current",
-        excludedFromValidation: undefined,
       },
     ]);
   });
@@ -138,29 +131,6 @@ describe("navItemsFromStepStates()", () => {
         label: "/a-b",
         subflows: undefined,
         state: "Current",
-        excludedFromValidation: undefined,
-      },
-    ]);
-  });
-
-  it('should have the correct "excludedFromValidation" property', () => {
-    expect(
-      navItemsFromStepStates("/a-b", [
-        {
-          url: "/",
-          isDone: false,
-          stepId: "/a-b",
-          isReachable: true,
-          excludedFromValidation: true,
-        },
-      ]),
-    ).toStrictEqual([
-      {
-        destination: "/",
-        label: "/a-b",
-        subflows: undefined,
-        state: "Current",
-        excludedFromValidation: true,
       },
     ]);
   });
