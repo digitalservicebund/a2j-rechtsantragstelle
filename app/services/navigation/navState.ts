@@ -1,14 +1,37 @@
-export type NavState = "Done" | "DoneCurrent" | "Current" | "Open" | "Disabled";
+export type NavState =
+  | "Done"
+  | "DoneCurrent"
+  | "Current"
+  | "Open"
+  | "Disabled"
+  | "Warning"
+  | "WarningCurrent";
 
 export function navState({
   isCurrent,
   isReachable,
   isDone,
+  userVisitedValidationPage,
+  excludedFromValidation,
 }: {
   isCurrent: boolean;
   isReachable: boolean;
   isDone: boolean;
+  userVisitedValidationPage?: boolean;
+  excludedFromValidation?: boolean;
 }): NavState {
+  if (
+    userVisitedValidationPage &&
+    !excludedFromValidation &&
+    !isDone &&
+    isReachable
+  ) {
+    if (isCurrent) {
+      return "WarningCurrent";
+    }
+    return "Warning";
+  }
+
   if (isCurrent && isDone) return "DoneCurrent";
   if (isCurrent) return "Current";
   if (isReachable && isDone) return "Done";
