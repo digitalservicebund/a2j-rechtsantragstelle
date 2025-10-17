@@ -27,7 +27,8 @@ export const getMissingInformationStrings = (
         context,
       }) && context.formularArt !== "nachueberpruefung",
     einkuenfteMissingInformation: !einkuenfteDone({ context }),
-    abzuegeMissingInformation: !abzuegeDone({ context }),
+    abzuegeMissingInformation:
+      context.currentlyEmployed === "yes" && !abzuegeDone({ context }),
     partnerMissingInformation: !partnerDone({ context }),
     kinderMissingInformation: !kinderDone({ context }),
     andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(

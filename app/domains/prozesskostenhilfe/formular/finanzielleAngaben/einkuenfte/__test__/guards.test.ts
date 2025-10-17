@@ -11,6 +11,29 @@ describe("Einkünfte guards", () => {
         }),
       ).toBe(true);
     });
+    it("should return true if the user receives asylbewerberleistungen", () => {
+      expect(
+        guards.hasGrundsicherungOrAsylbewerberleistungen({
+          context: { staatlicheLeistungen: "asylbewerberleistungen" },
+        }),
+      ).toBe(true);
+    });
+
+    it("should return false if the user receives keine", () => {
+      expect(
+        guards.hasGrundsicherungOrAsylbewerberleistungen({
+          context: { staatlicheLeistungen: "keine" },
+        }),
+      ).toBe(false);
+    });
+
+    it("should return false if staatlicheLeistungen is undefined", () => {
+      expect(
+        guards.hasGrundsicherungOrAsylbewerberleistungen({
+          context: {},
+        }),
+      ).toBe(false);
+    });
   });
 
   describe("notEmployed", () => {
