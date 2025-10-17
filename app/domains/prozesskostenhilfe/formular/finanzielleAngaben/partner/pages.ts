@@ -1,12 +1,66 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+export const partnerZahlungsfrequenzOptions = [
+  "monthly",
+  "quarterly",
+  "yearly",
+  "one-time",
+] as const;
+
+const sharedPartnerFields = {
+  beschreibung: stringRequiredSchema,
+  betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(partnerZahlungsfrequenzOptions),
+};
+
+const partnerArbeitsausgabenArraySchema = z
+  .union([
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("monthly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("quarterly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("yearly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("one-time"),
+    }),
+  ])
+  .array();
+
+export const partnerWeitereEinkuenfteArraySchema = z
+  .union([
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("monthly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("quarterly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("yearly"),
+    }),
+    z.object({
+      ...sharedPartnerFields,
+      zahlungsfrequenz: z.literal("one-time"),
+    }),
+  ])
+  .array();
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {
@@ -216,19 +270,16 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
     pageSchema: {
-      "partner-arbeitsausgaben": z.array(financialEntryInputSchema),
+      "partner-arbeitsausgaben": partnerArbeitsausgabenArraySchema,
     },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
-          "partner-arbeitsausgaben#beschreibung": z.string().min(1, "required"),
-          "partner-arbeitsausgaben#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "partner-arbeitsausgaben#betrag": buildMoneyValidationSchema(),
+          "partner-arbeitsausgaben#beschreibung":
+            sharedPartnerFields.beschreibung,
+          "partner-arbeitsausgaben#zahlungsfrequenz":
+            sharedPartnerFields.zahlungsfrequenz,
+          "partner-arbeitsausgaben#betrag": sharedPartnerFields.betrag,
         },
       },
     },
@@ -302,21 +353,16 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
     pageSchema: {
-      "partner-weitereEinkuenfte": z.array(financialEntryInputSchema),
+      "partner-weitereEinkuenfte": partnerWeitereEinkuenfteArraySchema,
     },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
-          "partner-weitereEinkuenfte#beschreibung": z
-            .string()
-            .min(1, "required"),
-          "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "partner-weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
+          "partner-weitereEinkuenfte#beschreibung":
+            sharedPartnerFields.beschreibung,
+          "partner-weitereEinkuenfte#zahlungsfrequenz":
+            sharedPartnerFields.zahlungsfrequenz,
+          "partner-weitereEinkuenfte#betrag": sharedPartnerFields.betrag,
         },
       },
     },
