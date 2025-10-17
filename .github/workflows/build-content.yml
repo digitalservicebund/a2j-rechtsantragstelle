@@ -38,7 +38,7 @@ jobs:
     needs: [get-content-file]
     runs-on: ubuntu-latest
     # TODO: increment up to 1000?
-    if: ${{ needs.get-content-file.outputs.content_file_size > 10 }}
+    # if: ${{ needs.get-content-file.outputs.content_file_size > 10 }}
     steps:
       - run: |
           echo "Content file is too large. Size: ${{ needs.get-content-file.outputs.content_file_size }} MB"
