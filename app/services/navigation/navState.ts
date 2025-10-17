@@ -26,10 +26,7 @@ export function navState({
     !isDone &&
     isReachable
   ) {
-    if (isCurrent) {
-      return "WarningCurrent";
-    }
-    return "Warning";
+    return isCurrent ? "WarningCurrent" : "Warning";
   }
 
   if (isCurrent && isDone) return "DoneCurrent";
