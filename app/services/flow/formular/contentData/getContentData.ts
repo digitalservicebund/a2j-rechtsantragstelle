@@ -10,16 +10,15 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
-import type { stepMeta } from "~/services/meta/stepMeta";
+import { isStepStateIdCurrent } from "~/services/navigation/isStepStateIdCurrent";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
-  meta: ReturnType<typeof stepMeta>;
 };
 
 export const getContentData = (
-  { cmsContent, translations, meta }: ContentParameters,
+  { cmsContent, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
 ) => {
   return {
@@ -40,7 +39,6 @@ export const getContentData = (
     getFormElements: () => {
       return buildFormElements(cmsContent, userDataWithPageData);
     },
-    getMeta: () => meta,
     getTranslations: () => {
       return translations;
     },
@@ -77,14 +75,24 @@ export const getContentData = (
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
-    ) => ({
-      navItems:
-        navItemsFromStepStates(
-          stepId,
-          flowController.stepStates(),
-          translations,
-        ) ?? [],
-      expandAll: flowController.getMeta(stepId)?.triggerValidation,
-    }),
+      useStepper: boolean,
+    ) => {
+      const stepStates = flowController.stepStates(useStepper);
+
+      const steps = useStepper
+        ? stepStates
+            .filter((s) =>
+              s.subStates?.some((subState) => {
+                return isStepStateIdCurrent(subState.stepId, stepId);
+              }),
+            )
+            .flatMap((s) => s.subStates ?? [])
+        : stepStates;
+
+      return {
+        navItems: navItemsFromStepStates(stepId, steps, translations) ?? [],
+        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+      };
+    },
   };
 };

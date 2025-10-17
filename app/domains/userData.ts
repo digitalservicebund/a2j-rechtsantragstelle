@@ -31,11 +31,11 @@ export type AllUserDataKeys = KeysOfUnion<
 const contexts = {
   "/beratungshilfe/antrag": {},
   "/beratungshilfe/vorabcheck": {}, // BH vorabcheck is using page-based config. The schemas are accessible via getPageSchema(pathname)
-  "/geld-einklagen/vorabcheck": {},
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": {},
   "/kontopfaendung/wegweiser": {},
+  "/geld-einklagen/formular": {},
 } as const satisfies Record<FlowId, SchemaObject>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];

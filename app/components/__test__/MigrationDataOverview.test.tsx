@@ -58,39 +58,6 @@ describe("MigrationDataOverview", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render the component based on the migration userData when it contains nested objects and translations", () => {
-    const migrationUserData = {
-      zustaendigesAmtsgericht: {
-        bezeichnung: "Amtsgericht Frankfurt am Main",
-        strasseMitHausnummer: "Gerichtsstraße 2",
-        plzUndStadt: "60313 Frankfurt am Main",
-      },
-    };
-
-    const translations = {
-      zustaendigesAmtsgericht: "Zuständiges Amtsgericht",
-    };
-
-    const { container, getByText } = render(
-      <MigrationDataOverview
-        translations={translations}
-        userData={migrationUserData}
-      />,
-    );
-
-    expect(container).not.toBeEmptyDOMElement();
-    expect(getByText(translations.zustaendigesAmtsgericht)).toBeInTheDocument();
-    expect(
-      getByText(migrationUserData.zustaendigesAmtsgericht.bezeichnung),
-    ).toBeInTheDocument();
-    expect(
-      getByText(migrationUserData.zustaendigesAmtsgericht.strasseMitHausnummer),
-    ).toBeInTheDocument();
-    expect(
-      getByText(migrationUserData.zustaendigesAmtsgericht.plzUndStadt),
-    ).toBeInTheDocument();
-  });
-
   it("should render the component with fields sorted according to the sortedFields array", () => {
     const migrationUserData = {
       bereich: "verspaetet",

@@ -1,5 +1,5 @@
 import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNavigation";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import Container from "~/components/layout/Container";
 
 const meta = {
@@ -26,7 +26,7 @@ export const Example: Story = {
       {
         label: "Klage erstellen",
         href: "/klage-erstellen",
-        state: "Disabled",
+        state: "Open",
       },
       {
         label: "Klage herunterladen",

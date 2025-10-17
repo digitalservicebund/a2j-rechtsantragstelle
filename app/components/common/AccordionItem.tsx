@@ -29,7 +29,7 @@ export function AccordionItem({
   ref,
 }: Props) {
   return (
-    <details className="accordion-item" ref={ref} open={startOpened}>
+    <details className="group accordion-item" ref={ref} open={startOpened}>
       <summary
         onClick={onSummaryClick}
         className="flex justify-between cursor-pointer outline-none p-16 bg-blue-100 "
@@ -45,7 +45,7 @@ export function AccordionItem({
         </span>
       </summary>
       <RichText
-        className="ds-body-02-reg px-16 pt-16 pb-24 gap-y-32"
+        className="ds-body-02-reg px-16 pt-16 pb-24 gap-y-32 bg-white"
         html={description}
       />
     </details>

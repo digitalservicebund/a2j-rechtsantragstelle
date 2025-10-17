@@ -27,6 +27,6 @@ describe("isFeatureFlagEnabled", () => {
   it("falls back to local config if posthog instance is undefined", async () => {
     vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
     const result = await isFeatureFlagEnabled("showGeldEinklagenFlow");
-    expect(result).toBe(false);
+    expect(result).toBe(true);
   });
 });

@@ -33,18 +33,11 @@ const mockCmsElement = {
       id: 10,
     },
   ],
-  pageMeta: { title: "title" },
+  pageTitle: "page title",
 } satisfies CMSContent;
 
 const mockTranslations = {
   translation: "translation",
-};
-
-const mockMeta = {
-  description: "meta description",
-  ogTitle: "meta ogTitle",
-  breadcrumb: "meta breadcrumb",
-  title: "meta title",
 };
 
 const mockBuildFlowController = {
@@ -63,7 +56,6 @@ const mockUserData = {
 const callContentData = getContentData(
   {
     cmsContent: mockCmsElement,
-    meta: mockMeta,
     translations: mockTranslations,
   },
   mockUserData,
@@ -72,6 +64,10 @@ const callContentData = getContentData(
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
 vi.mock("~/services/flowNavigation.server");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("getContentData", () => {
   describe("arraySummaryData", () => {
@@ -103,19 +99,6 @@ describe("getContentData", () => {
       const actual = callContentData.getFormElements();
 
       expect(actual).toEqual(mockCmsElement.formContent);
-    });
-  });
-
-  describe("getMeta", () => {
-    it("should return correctly the page meta", () => {
-      const actual = callContentData.getMeta();
-
-      expect(actual).toEqual({
-        description: "meta description",
-        breadcrumb: "meta breadcrumb",
-        ogTitle: "meta ogTitle",
-        title: "meta title",
-      });
     });
   });
 
@@ -181,7 +164,11 @@ describe("getContentData", () => {
 
       vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
     });
@@ -189,12 +176,90 @@ describe("getContentData", () => {
     it("should return empty array when nav items returns undefined", () => {
       vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavProps(mockBuildFlowController, "/");
+      const actual = callContentData.getNavProps(
+        mockBuildFlowController,
+        "/",
+        false,
+      );
 
       expect(actual).toEqual({
         expandAll: undefined,
         navItems: [],
       });
+    });
+
+    it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
+      vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
+        {
+          stepId: "/somePath/menu",
+          url: "/somePath/menu",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/somePath/menu/page1",
+              url: "/somePath/menu/page1",
+              isDone: true,
+              isReachable: true,
+            },
+            {
+              stepId: "/somePath/menu/page2",
+              url: "/somePath/menu/page2",
+              isDone: false,
+              isReachable: true,
+            },
+          ],
+        },
+        {
+          stepId: "/anotherPath/menu",
+          url: "/anotherPath/menu",
+          isDone: true,
+          isReachable: true,
+          subStates: [
+            {
+              stepId: "/anotherPath/menu/page3",
+              url: "/anotherPath/menu/page3",
+              isDone: false,
+              isReachable: false,
+            },
+          ],
+        },
+      ]);
+
+      const callContentDataWithStepper = getContentData(
+        {
+          cmsContent: mockCmsElement,
+          translations: mockTranslations,
+        },
+        mockUserData,
+      );
+
+      callContentDataWithStepper.getNavProps(
+        mockBuildFlowController,
+        "/somePath/menu/page1",
+        true,
+      );
+
+      expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
+
+      expect(navItemsFromStepStates).toHaveBeenCalledWith(
+        "/somePath/menu/page1",
+        [
+          {
+            stepId: "/somePath/menu/page1",
+            url: "/somePath/menu/page1",
+            isDone: true,
+            isReachable: true,
+          },
+          {
+            stepId: "/somePath/menu/page2",
+            url: "/somePath/menu/page2",
+            isDone: false,
+            isReachable: true,
+          },
+        ],
+        mockTranslations,
+      );
     });
   });
 });

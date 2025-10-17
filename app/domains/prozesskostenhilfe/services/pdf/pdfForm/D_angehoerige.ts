@@ -5,6 +5,7 @@ import {
   familyRelationshipMap,
 } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import type { PkhPdfFillFunction } from "../types";
+import type { KinderArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
@@ -20,13 +21,20 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
     empfaengerIsChild({ context: userData }) &&
     userData.child !== undefined
   ) {
-    kinder.unshift({
-      ...userData.child,
-      wohnortBeiAntragsteller: userData.livesTogether ? "yes" : "no",
-      einnahmen: userData.einnahmen
-        ? getTotalMonthlyFinancialEntries(userData.einnahmen)
-        : undefined,
-    });
+    const childEntry: KinderArraySchema =
+      userData.livesTogether === "yes" && userData.einnahmen
+        ? {
+            ...userData.child,
+            wohnortBeiAntragsteller: "yes",
+            eigeneEinnahmen: "yes",
+            einnahmen: getTotalMonthlyFinancialEntries(userData.einnahmen),
+          }
+        : {
+            ...userData.child,
+            wohnortBeiAntragsteller: "no",
+            unterhalt: "yes",
+          };
+    kinder.unshift(childEntry);
   }
   const hasKinder = kinder.length > 0;
 
@@ -57,7 +65,8 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  let startCell = 1;
+  let startCell: 1 | 2 | 3 | 4 = 1;
+
   if (userData.partnerUnterhaltsSumme !== undefined) {
     pdfValues.angehoerigerNr1.value = `${userData.partnerVorname} ${userData.partnerNachname}`;
     pdfValues.verhaeltnis1.value = "Ehepartner";
@@ -72,38 +81,33 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
   }
   if (userData.kinder && userData.kinder.length > 0) {
     userData.kinder.forEach((kind) => {
-      pdfValues[`angehoerigerNr${startCell}` as keyof typeof pdfValues].value =
+      pdfValues[`angehoerigerNr${startCell}`].value =
         `${kind.vorname} ${kind.nachname}`;
-      pdfValues[`geburtsdatum${startCell}` as keyof typeof pdfValues].value =
-        kind.geburtsdatum;
-      pdfValues[`verhaeltnis${startCell}` as keyof typeof pdfValues].value =
-        "Kind";
-      if (kind.unterhalt === "yes" || kind.unterhaltsSumme !== undefined) {
-        pdfValues[`monatsbetrag${startCell}` as keyof typeof pdfValues].value =
+      pdfValues[`geburtsdatum${startCell}`].value = kind.geburtsdatum;
+      pdfValues[`verhaeltnis${startCell}`].value = "Kind";
+      if ("unterhaltsSumme" in kind) {
+        pdfValues[`monatsbetrag${startCell}`].value =
           kind.unterhaltsSumme + " €";
       }
-      if (kind.eigeneEinnahmen === "yes" && kind.einnahmen !== undefined) {
-        pdfValues[`d${startCell * 2}` as keyof typeof pdfValues].value = true;
-        pdfValues[`betrag${startCell}` as keyof typeof pdfValues].value =
-          kind.einnahmen + " €";
+      if ("einnahmen" in kind) {
+        pdfValues[`d${(startCell * 2) as 2 | 4}`].value = true;
+        pdfValues[`betrag${startCell}`].value = kind.einnahmen + " €";
       } else {
-        pdfValues[`d${startCell * 2 - 1}` as keyof typeof pdfValues].value =
-          true;
+        pdfValues[`d${(startCell * 2 - 1) as 1 | 3}`].value = true;
       }
       startCell += 1;
     });
   }
   if (userData.unterhaltszahlungen && userData.unterhaltszahlungen.length > 0) {
     userData.unterhaltszahlungen.forEach((supportRecipient) => {
-      pdfValues[`angehoerigerNr${startCell}` as keyof typeof pdfValues].value =
+      pdfValues[`angehoerigerNr${startCell}`].value =
         `${supportRecipient.firstName} ${supportRecipient.surname}`;
-      pdfValues[`geburtsdatum${startCell}` as keyof typeof pdfValues].value =
-        supportRecipient.birthday;
-      pdfValues[`verhaeltnis${startCell}` as keyof typeof pdfValues].value =
+      pdfValues[`geburtsdatum${startCell}`].value = supportRecipient.birthday;
+      pdfValues[`verhaeltnis${startCell}`].value =
         familyRelationshipMap[supportRecipient.familyRelationship];
-      pdfValues[`monatsbetrag${startCell}` as keyof typeof pdfValues].value =
+      pdfValues[`monatsbetrag${startCell}`].value =
         supportRecipient.monthlyPayment + " €";
-      pdfValues[`d${startCell * 2 - 1}` as keyof typeof pdfValues].value = true;
+      pdfValues[`d${(startCell * 2 - 1) as 1 | 3 | 5}`].value = true;
       startCell += 1;
     });
   }

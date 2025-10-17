@@ -22,14 +22,8 @@ export const persoenlicheDatenXstateConfig = {
         SUBMIT: steps.name.relative,
         BACK: [
           {
-            guard: ({ context }) =>
-              staatlicheLeistungenIsKeine({ context }) &&
-              context.hasAusgaben === "yes",
-            target: "#ausgaben.uebersicht",
-          },
-          {
             guard: staatlicheLeistungenIsKeine,
-            target: "#ausgaben",
+            target: "#ausgaben.situation",
           },
           {
             guard: ({ context }) =>

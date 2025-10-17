@@ -1,16 +1,19 @@
 import { type MultipleSurveyQuestion } from "posthog-js";
 import { useState, type Dispatch, type SetStateAction } from "react";
+import classNames from "classnames";
 import { type SurveyResponses } from "./OpenQuestion";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 
 type MultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
   setResponses: Dispatch<SetStateAction<SurveyResponses | undefined>>;
+  hasError?: boolean;
 };
 
 export const MultipleChoiceQuestion = ({
   question,
   setResponses,
+  hasError = false,
 }: MultipleChoiceQuestionProps) => {
   const [checkboxStates, setCheckboxStates] = useState(
     question.choices.map(() => false),
@@ -50,7 +53,13 @@ export const MultipleChoiceQuestion = ({
                 name={choiceName}
                 readOnly
                 onClick={() => onCheckboxClicked(idx, choice)}
-                className="ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]"
+                className={classNames(
+                  "ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]",
+                  {
+                    "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]":
+                      hasError,
+                  },
+                )}
               />
               {choice}
             </label>

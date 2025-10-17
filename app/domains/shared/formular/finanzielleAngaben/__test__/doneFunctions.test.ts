@@ -1,24 +1,12 @@
 import {
-  childDone,
+  bankKontoDone,
   geldanlageDone,
   singleGrundeigentumDone,
 } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import type {
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
-  KinderSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
-
-const mockCompletedChild: KinderSchema = {
-  vorname: "Child",
-  nachname: "Childson",
-  geburtsdatum: "01.01.2020",
-  wohnortBeiAntragsteller: "yes",
-  eigeneEinnahmen: "yes",
-  einnahmen: "100",
-  unterhalt: "yes",
-  unterhaltsSumme: "100",
-};
 
 const mockCompletedAnlage: GeldanlagenArraySchema[0] = {
   art: "bargeld",
@@ -38,78 +26,38 @@ const mockCompletedGrundeigentum: GrundeigentumArraySchema[0] = {
   land: "Deutschland",
 };
 
-describe("shared finanielle angaben doneFunctions", () => {
-  describe("childDone", () => {
-    it("should return false if the name and birth date are missing", () => {
-      expect(childDone({ ...mockCompletedChild, vorname: undefined })).toBe(
-        false,
-      );
-      expect(childDone({ ...mockCompletedChild, nachname: undefined })).toBe(
-        false,
-      );
-      expect(
-        childDone({ ...mockCompletedChild, geburtsdatum: undefined }),
-      ).toBe(false);
+describe("shared finanzielle angaben doneFunctions", () => {
+  describe("bankKontoDone", () => {
+    it("passes with bankkonto no", () => {
+      expect(bankKontoDone({ context: { hasBankkonto: "no" } })).toBeTruthy();
     });
 
-    it("should return false if the child lives with the antragstellende Person and has income they haven't entered", () => {
-      expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "yes",
-          eigeneEinnahmen: "yes",
-          einnahmen: undefined,
-        }),
-      ).toBe(false);
-      expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "partially",
-          eigeneEinnahmen: "yes",
-          einnahmen: undefined,
-        }),
-      ).toBe(false);
+    it("fails with bankkonto yes but no bankkonten key given", () => {
+      expect(bankKontoDone({ context: { hasBankkonto: "yes" } })).toBeFalsy();
     });
 
-    it("should return false if the child does not live with the antragstellende Person and receives support they haven't entered", () => {
+    it("fails with bankkonto yes but bankkonten is empty list", () => {
       expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "no",
-          unterhalt: "yes",
-          unterhaltsSumme: undefined,
-        }),
-      ).toBe(false);
+        bankKontoDone({ context: { hasBankkonto: "yes", bankkonten: [] } }),
+      ).toBeFalsy();
     });
 
-    it("should return true when the user has added all required child fields", () => {
-      expect(childDone(mockCompletedChild)).toBe(true);
+    it("passes with bankkonto yes and bankkonten given", () => {
+      const validKontoItem = {
+        bankName: "bank",
+        kontostand: "200",
+        iban: "iban",
+        kontoEigentuemer: "myself",
+      } as const;
       expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "no",
-          unterhalt: "no",
+        bankKontoDone({
+          context: { hasBankkonto: "yes", bankkonten: [validKontoItem] },
         }),
-      ).toBe(true);
-      expect(
-        childDone({ ...mockCompletedChild, wohnortBeiAntragsteller: "no" }),
-      ).toBe(true);
-      expect(childDone({ ...mockCompletedChild, eigeneEinnahmen: "no" })).toBe(
-        true,
-      );
-      expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "partially",
-        }),
-      ).toBe(true);
-      expect(
-        childDone({
-          ...mockCompletedChild,
-          wohnortBeiAntragsteller: "partially",
-          eigeneEinnahmen: "no",
-        }),
-      ).toBe(true);
+      ).toBeTruthy();
+    });
+
+    it("fails with all fields missing", () => {
+      expect(bankKontoDone({ context: {} })).toBeFalsy();
     });
   });
 

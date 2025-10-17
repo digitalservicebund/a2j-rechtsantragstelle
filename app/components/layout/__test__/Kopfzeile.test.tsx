@@ -3,12 +3,13 @@ import Kopfzeile from "~/components/layout/Kopfzeile";
 
 describe("Kopfzeile", () => {
   it("should render the Kopfzeile", () => {
-    const { getByText, getByTestId } = render(<Kopfzeile />);
+    const { getByText, getByLabelText } = render(<Kopfzeile />);
     const textElement = getByText(
       "Offizielle Website - Bundesrepublik Deutschland",
     );
-    const icon = getByTestId("kopfzeileIcon");
+    const icon = getByLabelText("Bundesflagge");
     expect(textElement).toBeVisible();
     expect(icon).toBeVisible();
+    expect(icon).toHaveAttribute("aria-hidden");
   });
 });

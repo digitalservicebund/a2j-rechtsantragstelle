@@ -279,7 +279,7 @@
         "vitest/expect-expect": "error",
         "vitest/no-identical-title": "error",
         "vitest/no-commented-out-tests": "error",
-        "vitest/valid-expect": "error",
+        "vitest/valid-expect": "off", // expects only a single property which isn't true for vitest
         "vitest/valid-describe-callback": "error",
         "vitest/require-local-test-context-for-concurrent-snapshots": "error",
         "vitest/no-import-node-test": "error",

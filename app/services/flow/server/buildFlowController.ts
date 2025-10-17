@@ -15,6 +15,7 @@ import type {
   NavigationEvent,
   StateMachineTypes,
 } from "./types";
+import { type ArrayConfigServer } from "~/services/array";
 
 const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
@@ -95,6 +96,7 @@ export type StepState = {
 function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
+  addUnreachableSubSteps: boolean,
 ): StepState[] {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
@@ -110,9 +112,11 @@ function stepStates(
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
     const hasDoneFunction = meta?.done !== undefined;
-    const reachableSubStates = stepStates(state, reachableSteps).filter(
-      (state) => state.isReachable,
-    );
+    const reachableSubStates = stepStates(
+      state,
+      reachableSteps,
+      addUnreachableSubSteps,
+    ).filter((state) => state.isReachable || addUnreachableSubSteps);
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
@@ -183,7 +187,8 @@ export const buildFlowController = ({
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
-    stepStates: () => stepStates(machine.root, reachableSteps),
+    stepStates: (addUnreachableSubSteps = false) =>
+      stepStates(machine.root, reachableSteps, addUnreachableSubSteps),
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
     getConfig: () => config,
@@ -199,6 +204,22 @@ export const buildFlowController = ({
     getNext: (stepId: string) => {
       const destination = nextStepId(machine, stepId, "SUBMIT", context);
       if (destination) return `${machine.id}${destination}`;
+    },
+    getArrayItemStep: (
+      stepId: string,
+      arrayStep: ArrayConfigServer["event"],
+    ) => {
+      const destination = nextStepId(machine, stepId, arrayStep, context);
+      if (destination)
+        return `${machine.id}${destination
+          .split("/")
+          .slice(1)
+          .reduce((prev, curr, idx, arr) => {
+            if (idx === arr.length - 1) {
+              return `${prev}/0/${curr}`;
+            }
+            return `${prev}/${curr}`;
+          }, "")}`;
     },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {

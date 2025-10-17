@@ -10,6 +10,7 @@ type GridItemProps = PropsWithChildren<{
   xlColumn?: Column;
   className?: string;
   id?: string;
+  row?: number;
 }>;
 
 export function GridItem({
@@ -20,6 +21,7 @@ export function GridItem({
   xlColumn,
   className,
   id,
+  row = 1,
 }: GridItemProps) {
   const cls = classNames(
     getGridClass("col-start", smColumn.start as Span),
@@ -30,7 +32,7 @@ export function GridItem({
     lgColumn && getGridClass("col-start", lgColumn.start as Span, "lg"),
     xlColumn && getGridClass("col-span", xlColumn.span as Span, "xl"),
     xlColumn && getGridClass("col-start", xlColumn.start as Span, "xl"),
-    "[grid-row:1] z-10",
+    `[grid-row:${row}] z-10`,
     className,
   );
 

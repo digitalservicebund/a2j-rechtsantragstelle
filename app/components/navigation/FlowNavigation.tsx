@@ -15,9 +15,9 @@ export default function FlowNavigation(props: FlowNavigationProps) {
     <nav
       aria-label={rootLoaderData?.accessibilityTranslations?.navigationLabel}
       className={classNames(
-        "w-full md:border md:border-blue-400 print:hidden",
+        "w-full lg:border lg:border-blue-400 print:hidden",
         {
-          "fixed left-0 bottom-0 z-50 md:static md:z-auto": jsAvailable,
+          "fixed left-0 bottom-0 z-50 lg:static lg:z-auto": jsAvailable,
         },
       )}
     >
@@ -30,7 +30,10 @@ export default function FlowNavigation(props: FlowNavigationProps) {
 
       <NavigationList
         {...props}
-        className={classNames("md:block", { hidden: jsAvailable })}
+        className={classNames("lg:block", {
+          hidden: jsAvailable,
+          "lg:block": !jsAvailable,
+        })}
       />
     </nav>
   );

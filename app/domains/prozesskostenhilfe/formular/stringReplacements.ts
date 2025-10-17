@@ -6,7 +6,6 @@ import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  ausgabenZusammenfassungDone,
   eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
@@ -38,9 +37,6 @@ export const getMissingInformationStrings = (
     eigentumZusammenfassungMissingInformation:
       !eigentumZusammenfassungDone({ context }) && eigentumDone({ context }),
     ausgabenMissingInformation: !ausgabenDone({ context }),
-    ausgabenZusammenfassungMissingInformation: !ausgabenZusammenfassungDone({
-      context,
-    }),
     gesetzlicheVertretungMissingInformation:
       !prozesskostenhilfeGesetzlicheVertretungDone({ context }),
     persoenlicheDatenMissingInformation:

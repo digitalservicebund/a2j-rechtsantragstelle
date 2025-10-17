@@ -6,12 +6,14 @@ import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
+import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
   "/beratungshilfe/antrag": beratungshilfeAntragPages,
+  "/geld-einklagen/formular": geldEinklagenFormularPages,
 } as const;
 
 export function getPageSchema(pathname: string) {

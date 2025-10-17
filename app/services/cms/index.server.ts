@@ -6,7 +6,7 @@ import {
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Filter } from "./filters";
 import { getStrapiEntry } from "./getStrapiEntry";
-import { HasStrapiMetaSchema } from "./models/HasStrapiMeta";
+import { StrapiPageSchema } from "./models/StrapiPage";
 import { collectionSchemas, entrySchemas, strapiSchemas } from "./schemas";
 import type {
   CollectionId,
@@ -19,8 +19,9 @@ import type {
 const P_LEVEL_FLOW_PAGES = 6; // Flow pages require a deeper population level due the FieldSet component
 const P_LEVEL_TRANSLATIONS = 2;
 const P_LEVEL_DEFAULT = 5;
+const StrapiPageMetaSchema = StrapiPageSchema.pick({ pageMeta: true });
 
-export async function fetchMeta(
+export async function fetchContentPageMeta(
   opts: Omit<GetStrapiEntryOpts<"pages">, "apiId" | "filter"> & {
     filterValue: string;
   },
@@ -34,7 +35,7 @@ export async function fetchMeta(
     apiId,
     populate,
   });
-  const parsedEntry = HasStrapiMetaSchema.safeParse(pageEntry[0]);
+  const parsedEntry = StrapiPageMetaSchema.safeParse(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.pageMeta : null;
 }
 

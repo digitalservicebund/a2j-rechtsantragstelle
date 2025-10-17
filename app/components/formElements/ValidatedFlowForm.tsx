@@ -22,7 +22,7 @@ type ValidatedFlowFormProps = {
 function ValidatedFlowForm({
   stepData,
   formElements,
-  buttonNavigationProps,
+  buttonNavigationProps: { back, next },
   csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
@@ -47,11 +47,18 @@ function ValidatedFlowForm({
       noValidate
       action={pathname}
     >
-      <input type="hidden" name={CSRFKey} value={csrf} />
-      <div className="ds-stack ds-stack-40">
-        {inputFormElements}
-        <ButtonNavigation {...buttonNavigationProps} />
-      </div>
+      {(form) => (
+        <>
+          <input type="hidden" name={CSRFKey} value={csrf} />
+          <div className="ds-stack ds-stack-40">
+            {inputFormElements}
+            <ButtonNavigation
+              back={back}
+              next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
+            />
+          </div>
+        </>
+      )}
     </ValidatedForm>
   );
 }

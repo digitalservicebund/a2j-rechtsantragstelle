@@ -1,1 +1,1 @@
-export const nonProductionRoutes = ["/kitchensink", "/geld-einklagen"];
+export const nonProductionRoutes = ["/kitchensink"];
