@@ -41,10 +41,9 @@ export function navState({
 }
 
 export const stateIsCurrent = (state: NavState) =>
-  state === "Current" || state === "DoneCurrent";
+  ["Current", "DoneCurrent", "WarningCurrent"].includes(state);
 
-export const stateIsActive = (state: NavState) =>
-  ["DoneCurrent", "Current", "Open", "Done"].includes(state);
+export const stateIsActive = (state: NavState) => state !== "Disabled";
 
 export const stateIsDone = (state: NavState) =>
   state === "Done" || state === "DoneCurrent";
