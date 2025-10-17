@@ -259,6 +259,7 @@ describe("getContentData", () => {
           },
         ],
         mockTranslations,
+        undefined,
       );
     });
   });
