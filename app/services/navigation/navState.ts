@@ -49,4 +49,7 @@ export const stateIsActive = (state: NavState) =>
 export const stateIsDone = (state: NavState) =>
   state === "Done" || state === "DoneCurrent";
 
+export const stateIsWarning = (state: NavState) =>
+  state === "Warning" || state === "WarningCurrent";
+
 export const stateIsDisabled = (state: NavState) => state === "Disabled";

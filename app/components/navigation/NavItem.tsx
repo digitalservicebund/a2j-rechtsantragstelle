@@ -10,6 +10,7 @@ import {
   stateIsActive,
   stateIsDisabled,
   stateIsDone,
+  stateIsWarning,
 } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
@@ -62,6 +63,7 @@ export function NavItem({
   const isDisabled = stateIsDisabled(state);
   const isCurrent = stateIsCurrent(state);
   const isDone = stateIsDone(state);
+  const isWarning = stateIsWarning(state);
   const collapse = useCollapse({
     defaultExpanded: forceExpanded ?? isCurrent,
   });
@@ -79,8 +81,7 @@ export function NavItem({
   const itemClassNames = classNames(
     "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
     {
-      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300":
-        state === "Warning" || state === "WarningCurrent",
+      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": isWarning,
       "bg-yellow-300": state === "WarningCurrent",
       "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
       "ds-label-02-reg": !isCurrent || hasSubflows,
@@ -111,9 +112,7 @@ export function NavItem({
             <StateIcon
               id={iconId}
               isDone={isDone}
-              showWarningIcon={
-                state === "Warning" || state === "WarningCurrent"
-              }
+              showWarningIcon={isWarning}
             />
           </button>
           {
@@ -137,11 +136,7 @@ export function NavItem({
           ref={firstItemRef}
         >
           {label}
-          <StateIcon
-            id={iconId}
-            isDone={isDone}
-            showWarningIcon={state === "Warning" || state === "WarningCurrent"}
-          />
+          <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
         </a>
       )}
     </li>
