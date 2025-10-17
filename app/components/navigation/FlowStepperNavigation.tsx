@@ -10,9 +10,19 @@ type Props = {
   }>;
 };
 
-const Triangle = () => (
+const Triangle = ({
+  state,
+}: Readonly<{
+  state: NavState;
+}>) => (
   <svg
-    className="triangle"
+    className={classNames(
+      "triangle z-1 h-full absolute right-[-1.25rem] w-[1.25rem] text-blue-400",
+      {
+        "text-white": state === "Open" || state === "Done",
+        "text-gray-100": state === "Disabled",
+      },
+    )}
     viewBox="1 0 100 100"
     preserveAspectRatio="none"
     aria-hidden="true"
@@ -74,25 +84,23 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
               className={classNames(
                 "arrow-step border border-blue-500 border-r-0 not-[&:first-child]:border-l-0 flex w-full relative active:bg-blue-300",
                 {
-                  "bg-white arrow-step-open":
-                    state === "Open" || state === "Done",
-                  "arrow-step-not-disable": state !== "Disabled",
+                  "bg-white": state === "Open" || state === "Done",
                   "bg-blue-400 ds-label-03-bold": isCurrent,
                   "ds-label-03-reg": !isCurrent,
-                  "bg-blue-100 text-gray-600 curser-not-allowed pointer-events-none arrow-step-disabled":
+                  "bg-blue-100 text-gray-600 curser-not-allowed pointer-events-none":
                     state === "Disabled",
                 },
               )}
             >
               <a
                 href={href}
-                className="w-full p-14 flex gap-8 justify-center items-center text-center"
+                className="w-full p-14 flex gap-8 justify-center items-center text-center outline-none"
                 aria-disabled={state === "Disabled"}
                 aria-current={isCurrent}
               >
                 <Content index={index} label={label} state={state} />
               </a>
-              <Triangle />
+              <Triangle state={state} />
             </li>
           );
         })}
