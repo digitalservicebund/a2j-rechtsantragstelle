@@ -114,7 +114,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       vorname: faker.person.firstName(),
       nachname: faker.person.lastName(),
-      geburtsdatum: faker.date.past().toString(),
+      geburtsdatum: "01.01.2010",
       wohnortBeiAntragsteller: YesNoAnswer.enum.yes,
       eigeneEinnahmen: YesNoAnswer.enum.yes,
       einnahmen: faker.finance.amount(),
