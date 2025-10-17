@@ -19,13 +19,14 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
-      - run: echo "content_file_size=$(stat -c %s content.json | numfmt --to=iec)" >> $GITHUB_OUTPUT
+      - run: echo "content_file_size=$(stat -c %s content.json | numfmt --to=iec | grep -Po '\d+')" >> $GITHUB_OUTPUT
         id: contentFileSize
       - run: |
-          echo ${{steps.contentFileSize.outputs.content_file_size}} | grep -Eo '\d+'
+          echo "Content file size: $(stat -c %s content.json)"
+          echo "saved in variable: ${{steps.contentFileSize.outputs.content_file_size}}"
       - name: Alert slack channel upon high content file size
         if: ${{fromJson(steps.contentFileSize.outputs.content_file_size) > 10}} # TODO: Change to 1000MB
-        uses: slackapi/slack-github-action@v2.1.1
+        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
