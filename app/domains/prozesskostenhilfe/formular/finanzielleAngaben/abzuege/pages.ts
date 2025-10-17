@@ -19,7 +19,7 @@ const sharedAbzuegeFields = {
   zahlungsfrequenz: z.enum(zahlungsfrequenzOptions),
 };
 
-export const arbeitsausgabenArraySchema = z
+const arbeitsausgabenArraySchema = z
   .union([
     z.object({
       ...sharedAbzuegeFields,
@@ -85,13 +85,9 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
       daten: {
         pageSchema: {
           "arbeitsausgaben#beschreibung": stringRequiredSchema,
-          "arbeitsausgaben#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "arbeitsausgaben#betrag": buildMoneyValidationSchema(),
+          "arbeitsausgaben#zahlungsfrequenz":
+            sharedAbzuegeFields.zahlungsfrequenz,
+          "arbeitsausgaben#betrag": sharedAbzuegeFields.betrag,
         },
       },
     },
