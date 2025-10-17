@@ -102,7 +102,7 @@ export const prozesskostenhilfeFormularTestCases = {
       {
         stepId: showPKHZusammenfassung
           ? "/abgabe/zusammenfassung"
-          : "/abgabe/ende",
+          : "/abgabe/ueberpruefung",
       },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,

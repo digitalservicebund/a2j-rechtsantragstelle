@@ -1,11 +1,46 @@
-import { z } from "zod";
+import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { kinderSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import { childBirthdaySchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addYears, today } from "~/util/date";
+
+export const sharedKinderFields = {
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  geburtsdatum: childBirthdaySchema,
+  wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
+};
+
+export const kinderArraySchema = z
+  .union([
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.enum(["yes", "partially"]),
+      eigeneEinnahmen: z.literal("yes"),
+      einnahmen: buildMoneyValidationSchema(),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("no"),
+    }),
+    z.object({
+      ...sharedKinderFields,
+      wohnortBeiAntragsteller: z.literal("no"),
+      unterhalt: z.literal("yes"),
+      unterhaltsSumme: buildMoneyValidationSchema(),
+    }),
+  ])
+  .array()
+  .min(1);
+
+export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
 
 export const berhAntragFinanzielleAngabenKinderPages = {
   kinderFrage: {
@@ -20,21 +55,19 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: { kinder: z.array(kinderSchema) },
+    pageSchema: { kinder: kinderArraySchema },
     arrayPages: {
       name: {
         pageSchema: {
-          "kinder#vorname": stringRequiredSchema,
-          "kinder#nachname": stringRequiredSchema,
-          "kinder#geburtsdatum": createDateSchema({
-            earliest: () => addYears(today(), -24),
-            latest: () => today(),
-          }),
+          "kinder#vorname": sharedKinderFields.vorname,
+          "kinder#nachname": sharedKinderFields.nachname,
+          "kinder#geburtsdatum": sharedKinderFields.geburtsdatum,
         },
       },
       wohnort: {
         pageSchema: {
-          "kinder#wohnortBeiAntragsteller": z.enum(["yes", "no", "partially"]),
+          "kinder#wohnortBeiAntragsteller":
+            sharedKinderFields.wohnortBeiAntragsteller,
         },
       },
       "kind-eigene-einnahmen-frage": {
