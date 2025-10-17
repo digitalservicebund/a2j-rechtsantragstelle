@@ -1,12 +1,12 @@
 import { beklagtePersonDone } from "../doneFunctions";
 
-const sachgebiete: (
+const sachgebiete: Array<
   | "versicherung"
   | "reisen"
   | "anderesRechtsproblem"
   | "schaden"
   | "verkehrsunfall"
-)[] = [
+> = [
   "versicherung",
   "reisen",
   "anderesRechtsproblem",
