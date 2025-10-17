@@ -19,7 +19,7 @@ jobs:
         env:
           STRAPI_API: "${{ secrets.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
-      - run: echo "content_file_size=$(du -m ./content.json | grep -Eo '\d+')" >> $GITHUB_OUTPUT
+      - run: echo "content_file_size=$(stat -f "%z" content.json | numfmt --to=iec)" >> $GITHUB_OUTPUT
         id: contentFileSize
       - run: |
           echo "content.json size: ${{ steps.contentFileSize.outputs.content_file_size }}MB"
