@@ -21,46 +21,16 @@ const sharedPaymentFields = {
 };
 
 const partnerArbeitsausgabenArraySchema = z
-  .union([
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("monthly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("quarterly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("yearly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("one-time"),
-    }),
-  ])
+  .object({
+    ...sharedPaymentFields,
+  })
   .array()
   .min(1);
 
 export const partnerWeitereEinkuenfteArraySchema = z
-  .union([
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("monthly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("quarterly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("yearly"),
-    }),
-    z.object({
-      ...sharedPaymentFields,
-      zahlungsfrequenz: z.literal("one-time"),
-    }),
-  ])
+  .object({
+    ...sharedPaymentFields,
+  })
   .array()
   .min(1);
 
@@ -278,10 +248,11 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-daten": {
         pageSchema: {
           "partner-arbeitsausgaben#beschreibung":
-            sharedPaymentFields.beschreibung,
+            partnerArbeitsausgabenArraySchema.element.shape.beschreibung,
           "partner-arbeitsausgaben#zahlungsfrequenz":
-            sharedPaymentFields.zahlungsfrequenz,
-          "partner-arbeitsausgaben#betrag": sharedPaymentFields.betrag,
+            partnerArbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
+          "partner-arbeitsausgaben#betrag":
+            partnerArbeitsausgabenArraySchema.element.shape.betrag,
         },
       },
     },
@@ -361,10 +332,11 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-daten": {
         pageSchema: {
           "partner-weitereEinkuenfte#beschreibung":
-            sharedPaymentFields.beschreibung,
+            partnerWeitereEinkuenfteArraySchema.element.shape.beschreibung,
           "partner-weitereEinkuenfte#zahlungsfrequenz":
-            sharedPaymentFields.zahlungsfrequenz,
-          "partner-weitereEinkuenfte#betrag": sharedPaymentFields.betrag,
+            partnerWeitereEinkuenfteArraySchema.element.shape.zahlungsfrequenz,
+          "partner-weitereEinkuenfte#betrag":
+            partnerWeitereEinkuenfteArraySchema.element.shape.betrag,
         },
       },
     },
