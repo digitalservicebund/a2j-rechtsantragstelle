@@ -5,48 +5,20 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const zahlungsfrequenzOptions = [
-  "monthly",
-  "quarterly",
-  "yearly",
-  "one-time",
-] as const;
-
-const sharedEinnahmenFields = {
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(zahlungsfrequenzOptions),
-};
-
 const einnahmenArraySchema = z
-  .union([
-    z.object({
-      ...sharedEinnahmenFields,
-      zahlungsfrequenz: z.literal("monthly"),
-    }),
-    z.object({
-      ...sharedEinnahmenFields,
-      zahlungsfrequenz: z.literal("quarterly"),
-    }),
-    z.object({
-      ...sharedEinnahmenFields,
-      zahlungsfrequenz: z.literal("yearly"),
-    }),
-    z.object({
-      ...sharedEinnahmenFields,
-      zahlungsfrequenz: z.literal("one-time"),
-    }),
-  ])
+  .object({
+    beschreibung: stringRequiredSchema,
+    betrag: buildMoneyValidationSchema(),
+    zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+  })
   .array()
   .min(1);
 
 const vermoegenArraySchema = z
-  .union([
-    z.object({
-      beschreibung: stringRequiredSchema,
-      wert: buildMoneyValidationSchema(),
-    }),
-  ])
+  .object({
+    beschreibung: stringRequiredSchema,
+    wert: buildMoneyValidationSchema(),
+  })
   .array()
   .min(1);
 
@@ -127,7 +99,8 @@ export const pkhFormularVereinfachteErklaerungPages = {
         pageSchema: {
           "einnahmen#beschreibung": stringRequiredSchema,
           "einnahmen#betrag": buildMoneyValidationSchema(),
-          "einnahmen#zahlungsfrequenz": sharedEinnahmenFields.zahlungsfrequenz,
+          "einnahmen#zahlungsfrequenz":
+            einnahmenArraySchema.element.shape.zahlungsfrequenz,
         },
       },
     },
