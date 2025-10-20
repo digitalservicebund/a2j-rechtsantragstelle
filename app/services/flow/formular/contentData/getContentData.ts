@@ -2,7 +2,7 @@ import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
+import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
@@ -76,6 +76,7 @@ export const getContentData = (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
       useStepper: boolean,
+      userVisitedValidationPage?: boolean,
     ) => {
       const stepStates = flowController.stepStates(useStepper);
 
@@ -90,7 +91,13 @@ export const getContentData = (
         : stepStates;
 
       return {
-        navItems: navItemsFromStepStates(stepId, steps, translations) ?? [],
+        navItems:
+          navItemsFromStepStates(
+            stepId,
+            steps,
+            translations,
+            userVisitedValidationPage,
+          ) ?? [],
         expandAll: flowController.getMeta(stepId)?.triggerValidation,
       };
     },
