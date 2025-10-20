@@ -64,7 +64,8 @@ const unterhaltszahlungenArraySchema = z
       familyRelationship: z.literal("ex-partner"),
     }),
   ])
-  .array();
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
