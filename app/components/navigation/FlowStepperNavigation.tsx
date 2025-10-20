@@ -24,6 +24,7 @@ const Triangle = ({
   state: NavState;
 }>) => (
   <svg
+    data-testid="triangle"
     className={classNames(
       "triangle z-1 h-full absolute right-[-1.25rem] w-[1.25rem] text-blue-400",
       {
@@ -60,6 +61,7 @@ function StateIcon({
   if (stateIsDone(state)) {
     return (
       <CheckCircle
+        data-testid="icon-done"
         id={iconId}
         className="shrink-0 fill-green-700"
         aria-label={translations.navigation.navigationItemFinished.de}
@@ -70,6 +72,7 @@ function StateIcon({
   if (stateIsWarning(state)) {
     return (
       <SvgWarningAmber
+        data-testid="icon-warning"
         id={iconId}
         aria-label={translations.navigation.navigationItemWarning.de}
       />
