@@ -1,10 +1,26 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { childBirthdaySchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const einnahmenArraySchema = z
+  .object({
+    beschreibung: stringRequiredSchema,
+    betrag: buildMoneyValidationSchema(),
+    zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+  })
+  .array()
+  .min(1);
+
+const vermoegenArraySchema = z
+  .object({
+    beschreibung: stringRequiredSchema,
+    wert: buildMoneyValidationSchema(),
+  })
+  .array()
+  .min(1);
 
 export const pkhFormularVereinfachteErklaerungPages = {
   kind: {
@@ -76,19 +92,15 @@ export const pkhFormularVereinfachteErklaerungPages = {
   einnahme: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme",
     pageSchema: {
-      einnahmen: z.array(financialEntryInputSchema),
+      einnahmen: einnahmenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
           "einnahmen#beschreibung": stringRequiredSchema,
           "einnahmen#betrag": buildMoneyValidationSchema(),
-          "einnahmen#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
+          "einnahmen#zahlungsfrequenz":
+            einnahmenArraySchema.element.shape.zahlungsfrequenz,
         },
       },
     },
@@ -96,7 +108,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   einnahmeDaten: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme/daten",
     pageSchema: {
-      einnahmen: z.array(financialEntryInputSchema),
+      einnahmen: einnahmenArraySchema,
     },
   },
   einnahmenWarnung: {
@@ -121,14 +133,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   vermoegenEintrag: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
     pageSchema: {
-      vermoegen: z.array(
-        z
-          .object({
-            beschreibung: stringRequiredSchema,
-            wert: buildMoneyValidationSchema(),
-          })
-          .partial(),
-      ),
+      vermoegen: vermoegenArraySchema,
     },
     arrayPages: {
       daten: {
