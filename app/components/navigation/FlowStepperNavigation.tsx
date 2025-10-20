@@ -8,6 +8,7 @@ import {
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { translations } from "~/services/translations/translations";
+import { useId } from "react";
 
 type Props = {
   steps: Array<{
@@ -49,14 +50,17 @@ const Triangle = ({
 
 function StateIcon({
   state,
-  index,
+  stepIndex,
+  iconId,
 }: Readonly<{
   state: NavState;
-  index: number;
+  stepIndex: number;
+  iconId: string;
 }>) {
   if (stateIsDone(state)) {
     return (
       <CheckCircle
+        id={iconId}
         className="shrink-0 fill-green-700"
         aria-label={translations.navigation.navigationItemFinished.de}
       />
@@ -66,19 +70,61 @@ function StateIcon({
   if (stateIsWarning(state)) {
     return (
       <SvgWarningAmber
+        id={iconId}
         aria-label={translations.navigation.navigationItemWarning.de}
       />
     );
   }
 
-  return <>{index + 1}</>;
+  return <>{stepIndex + 1}</>;
+}
+
+function ContentStep({
+  state,
+  stepIndex,
+  label,
+  href,
+}: Readonly<{
+  state: NavState;
+  stepIndex: number;
+  label: string;
+  href: string;
+}>) {
+  const iconId = useId();
+  const isCurrent = stateIsCurrent(state);
+  const isDone = stateIsDone(state);
+  const isWarning = stateIsWarning(state);
+
+  return (
+    <a
+      href={href}
+      className="w-full p-14 flex gap-8 justify-center items-center text-center outline-none"
+      aria-disabled={state === "Disabled"}
+      aria-current={isCurrent}
+      aria-describedby={isDone || isWarning ? iconId : undefined}
+    >
+      <span
+        className={classNames(
+          "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
+          {
+            "bg-blue-800 text-white": state === "Current",
+            "border border-gray-600": state === "Open",
+            "bg-gray-600 text-white": state === "Disabled",
+          },
+        )}
+      >
+        <StateIcon state={state} stepIndex={stepIndex} iconId={iconId} />
+      </span>
+      <span className="hover:underline">{label}</span>
+    </a>
+  );
 }
 
 export const FlowStepperNavigation = ({ steps }: Props) => {
   return (
     <nav className="w-full">
       <ol className={"flex max-w-full! pl-0"}>
-        {steps.map(({ state, href, label }, index) => {
+        {steps.map(({ state, href, label }, stepIndex) => {
           const isCurrent = stateIsCurrent(state);
 
           return (
@@ -97,26 +143,12 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
                 },
               )}
             >
-              <a
+              <ContentStep
                 href={href}
-                className="w-full p-14 flex gap-8 justify-center items-center text-center outline-none"
-                aria-disabled={state === "Disabled"}
-                aria-current={isCurrent}
-              >
-                <span
-                  className={classNames(
-                    "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
-                    {
-                      "bg-blue-800 text-white": state === "Current",
-                      "border border-gray-600": state === "Open",
-                      "bg-gray-600 text-white": state === "Disabled",
-                    },
-                  )}
-                >
-                  <StateIcon state={state} index={index} />
-                </span>
-                <span className="hover:underline">{label}</span>
-              </a>
+                stepIndex={stepIndex}
+                label={label}
+                state={state}
+              />
               <Triangle state={state} />
             </li>
           );
