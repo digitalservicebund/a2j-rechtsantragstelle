@@ -5,12 +5,14 @@ import {
   unterhaltszahlungInputSchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { zahlungsfrequenzOptions } from "../finanzielleAngaben/abzuege/pages";
+import { arbeitsausgabenArraySchema } from "../finanzielleAngaben/abzuege/pages";
 
 export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
   betrag: faker.finance.amount(),
-  zahlungsfrequenz: faker.helpers.arrayElement(zahlungsfrequenzOptions),
+  zahlungsfrequenz: faker.helpers.arrayElement(
+    arbeitsausgabenArraySchema.element.shape.zahlungsfrequenz.options,
+  ),
 });
 
 export const happyPathData: ProzesskostenhilfeFormularUserData = {
