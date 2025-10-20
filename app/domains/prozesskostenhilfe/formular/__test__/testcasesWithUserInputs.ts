@@ -15,8 +15,8 @@ import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskoste
 import { testCasesPKHFormularPersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "../finanzielleAngaben/__test__/testcasesAusgaben";
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
+import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
 
 const showPKHZusammenfassung = await isFeatureFlagEnabled(
   "showPKHZusammenfassung",
@@ -102,7 +102,7 @@ export const prozesskostenhilfeFormularTestCases = {
       {
         stepId: showPKHZusammenfassung
           ? "/abgabe/zusammenfassung"
-          : "/abgabe/ueberpruefung",
+          : "/abgabe/ende",
       },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
