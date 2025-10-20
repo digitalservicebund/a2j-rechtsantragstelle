@@ -49,6 +49,3 @@ export const stateIsWarning = (state: NavState) =>
   state === "Warning" || state === "WarningCurrent";
 
 export const stateIsDisabled = (state: NavState) => state === "Disabled";
-
-export const stateIsWarning = (state: NavState) =>
-  state === "Warning" || state === "WarningCurrent";
