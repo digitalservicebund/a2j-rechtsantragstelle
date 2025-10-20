@@ -4,7 +4,7 @@ import {
   getArraySummaryData,
 } from "~/services/array/getArraySummaryData";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { navItemsFromStepStates } from "~/services/flowNavigation.server";
+import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
@@ -63,7 +63,7 @@ const callContentData = getContentData(
 
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
-vi.mock("~/services/flowNavigation.server");
+vi.mock("~/services/navigation/navItemsFromStepStates");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -259,6 +259,7 @@ describe("getContentData", () => {
           },
         ],
         mockTranslations,
+        undefined,
       );
     });
   });

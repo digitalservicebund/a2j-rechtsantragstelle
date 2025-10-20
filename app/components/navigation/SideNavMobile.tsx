@@ -33,10 +33,8 @@ const SideNavButton = ({
 };
 
 export default function SideNavMobile({
-  userVisitedValidationPage,
   navItems,
 }: Readonly<{
-  userVisitedValidationPage?: boolean;
   navItems: NavItem[];
 }>) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,7 +69,6 @@ export default function SideNavMobile({
           <div className="pb-10 flex flex-col">
             <NavigationList
               navItems={navItems}
-              userVisitedValidationPage={userVisitedValidationPage}
               className="border border-blue-400 mx-10 mb-10 overflow-auto"
               firstItemRef={firstItemRef}
             />
