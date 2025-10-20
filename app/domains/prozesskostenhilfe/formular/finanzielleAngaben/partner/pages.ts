@@ -7,14 +7,14 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const partnerZahlungsfrequenzOptions = [
+const partnerZahlungsfrequenzOptions = [
   "monthly",
   "quarterly",
   "yearly",
   "one-time",
 ] as const;
 
-const sharedPartnerFields = {
+const sharedPaymentFields = {
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(partnerZahlungsfrequenzOptions),
@@ -23,44 +23,46 @@ const sharedPartnerFields = {
 const partnerArbeitsausgabenArraySchema = z
   .union([
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("monthly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("quarterly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("yearly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("one-time"),
     }),
   ])
-  .array();
+  .array()
+  .min(1);
 
 export const partnerWeitereEinkuenfteArraySchema = z
   .union([
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("monthly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("quarterly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("yearly"),
     }),
     z.object({
-      ...sharedPartnerFields,
+      ...sharedPaymentFields,
       zahlungsfrequenz: z.literal("one-time"),
     }),
   ])
-  .array();
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {
@@ -276,10 +278,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-daten": {
         pageSchema: {
           "partner-arbeitsausgaben#beschreibung":
-            sharedPartnerFields.beschreibung,
+            sharedPaymentFields.beschreibung,
           "partner-arbeitsausgaben#zahlungsfrequenz":
-            sharedPartnerFields.zahlungsfrequenz,
-          "partner-arbeitsausgaben#betrag": sharedPartnerFields.betrag,
+            sharedPaymentFields.zahlungsfrequenz,
+          "partner-arbeitsausgaben#betrag": sharedPaymentFields.betrag,
         },
       },
     },
@@ -359,10 +361,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-daten": {
         pageSchema: {
           "partner-weitereEinkuenfte#beschreibung":
-            sharedPartnerFields.beschreibung,
+            sharedPaymentFields.beschreibung,
           "partner-weitereEinkuenfte#zahlungsfrequenz":
-            sharedPartnerFields.zahlungsfrequenz,
-          "partner-weitereEinkuenfte#betrag": sharedPartnerFields.betrag,
+            sharedPaymentFields.zahlungsfrequenz,
+          "partner-weitereEinkuenfte#betrag": sharedPaymentFields.betrag,
         },
       },
     },
