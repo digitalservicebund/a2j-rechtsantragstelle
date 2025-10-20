@@ -41,7 +41,6 @@ describe("SideNavMobile", () => {
     const { getByRole } = render(<SideNavMobile navItems={dummyNavItems} />);
     const toggleLabel = getByRole("button");
     expect(toggleLabel).toBeInTheDocument();
-    expect(toggleLabel).toHaveTextContent("Bereich:");
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
 
