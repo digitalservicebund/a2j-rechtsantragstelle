@@ -19,6 +19,7 @@ import {
   versicherungenArraySchema,
 } from "./ausgaben/pages";
 import { kinderArraySchema } from "./kinder/pages";
+import { abzuegeDone } from "./abzuege/doneFunctions";
 
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
@@ -135,6 +136,7 @@ export const prozesskostenhilfeFinanzielleAngabeDone: ProzesskostenhilfeFinanzie
     })
       ? true
       : einkuenfteDone({ context }) &&
+          abzuegeDone({ context }) &&
           partnerDone({ context }) &&
           eigentumDone({ context }) &&
           kinderDone({ context }) &&
