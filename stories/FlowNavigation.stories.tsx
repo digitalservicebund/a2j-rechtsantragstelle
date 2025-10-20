@@ -35,6 +35,11 @@ export const Example: Story = {
       },
       {
         destination: ".",
+        label: "Weitere Angaben",
+        state: "Warning",
+      },
+      {
+        destination: ".",
         label: "Abgabe",
         state: "Disabled",
       },

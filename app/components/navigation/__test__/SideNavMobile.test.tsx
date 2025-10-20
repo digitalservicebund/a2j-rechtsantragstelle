@@ -6,6 +6,7 @@ import { type NavItem } from "../types";
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: "Current" as NavState },
   { destination: "/page2", label: "Page 2", state: "Open" as NavState },
+  { destination: "/page3", label: "Page 3", state: "Open" as NavState },
 ];
 
 describe("SideNavMobile", () => {
@@ -15,11 +16,11 @@ describe("SideNavMobile", () => {
     );
 
     const menuButton = getByRole("button");
-    expect(container).not.toHaveTextContent("Page 2");
+    expect(container).not.toHaveTextContent("Page 3");
     fireEvent.click(menuButton);
-    expect(container).toHaveTextContent("Page 2");
+    expect(container).toHaveTextContent("Page 3");
     fireEvent.click(menuButton);
-    expect(container).not.toHaveTextContent("Page 2");
+    expect(container).not.toHaveTextContent("Page 3");
   });
 
   it("clicking the overlay closes the menu", () => {
@@ -27,13 +28,13 @@ describe("SideNavMobile", () => {
       <SideNavMobile navItems={dummyNavItems} />,
     );
     const menuButton = getByRole("button");
-    expect(container).not.toHaveTextContent("Page 2");
+    expect(container).not.toHaveTextContent("Page 3");
     fireEvent.click(menuButton);
-    expect(container).toHaveTextContent("Page 2");
+    expect(container).toHaveTextContent("Page 3");
     const overlay = getByTestId("close-overlay");
     expect(overlay).toHaveClass("bg-black");
     fireEvent.click(overlay);
-    expect(container).not.toHaveTextContent("Page 2");
+    expect(container).not.toHaveTextContent("Page 3");
   });
 
   it("renders the main menu toggle with correct aria-label and text", () => {
