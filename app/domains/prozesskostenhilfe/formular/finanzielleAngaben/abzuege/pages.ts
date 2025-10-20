@@ -6,39 +6,14 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const zahlungsfrequenzOptions = [
-  "monthly",
-  "quarterly",
-  "yearly",
-  "one-time",
-] as const;
-
-const sharedAbzuegeFields = {
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(zahlungsfrequenzOptions),
-};
-
-const arbeitsausgabenArraySchema = z
-  .union([
-    z.object({
-      ...sharedAbzuegeFields,
-      zahlungsfrequenz: z.literal("monthly"),
-    }),
-    z.object({
-      ...sharedAbzuegeFields,
-      zahlungsfrequenz: z.literal("quarterly"),
-    }),
-    z.object({
-      ...sharedAbzuegeFields,
-      zahlungsfrequenz: z.literal("yearly"),
-    }),
-    z.object({
-      ...sharedAbzuegeFields,
-      zahlungsfrequenz: z.literal("one-time"),
-    }),
-  ])
-  .array();
+export const arbeitsausgabenArraySchema = z
+  .object({
+    beschreibung: stringRequiredSchema,
+    betrag: buildMoneyValidationSchema(),
+    zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+  })
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsweg: {
@@ -86,8 +61,9 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
         pageSchema: {
           "arbeitsausgaben#beschreibung": stringRequiredSchema,
           "arbeitsausgaben#zahlungsfrequenz":
-            sharedAbzuegeFields.zahlungsfrequenz,
-          "arbeitsausgaben#betrag": sharedAbzuegeFields.betrag,
+            arbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
+          "arbeitsausgaben#betrag":
+            arbeitsausgabenArraySchema.element.shape.betrag,
         },
       },
     },
