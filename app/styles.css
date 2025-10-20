@@ -313,6 +313,10 @@ h1:focus {
   @apply text-blue-300;
 }
 
+.arrow-step-warning:active .triangle {
+  @apply text-yellow-300;
+}
+
 @layer utilities {
   .grid-fluid {
     display: grid;

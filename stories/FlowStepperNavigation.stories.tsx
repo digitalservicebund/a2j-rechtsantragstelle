@@ -44,7 +44,7 @@ export const StepperCurrentOpenDisabled: Story = {
   ],
 };
 
-export const StepperDoneDoneCurrentOpenDisabled: Story = {
+export const StepperDoneDoneCurrentWarningCurrentWarning: Story = {
   args: {
     steps: [
       {
@@ -60,12 +60,12 @@ export const StepperDoneDoneCurrentOpenDisabled: Story = {
       {
         label: "Klage erstellen 2",
         href: "/klage-erstellen",
-        state: "Open",
+        state: "WarningCurrent",
       },
       {
         label: "Klage herunterladen",
         href: "/klage-herunterladen",
-        state: "Disabled",
+        state: "Warning",
       },
     ],
   },

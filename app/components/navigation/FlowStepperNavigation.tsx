@@ -1,6 +1,13 @@
 import classNames from "classnames";
-import { type NavState } from "~/services/navigation/navState";
+import {
+  stateIsCurrent,
+  stateIsDone,
+  stateIsWarning,
+  type NavState,
+} from "~/services/navigation/navState";
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
+import { translations } from "~/services/translations/translations";
 
 type Props = {
   steps: Array<{
@@ -21,6 +28,7 @@ const Triangle = ({
       {
         "text-white": state === "Open" || state === "Done",
         "text-gray-100": state === "Disabled",
+        "text-yellow-200": stateIsWarning(state),
       },
     )}
     viewBox="1 0 100 100"
@@ -39,36 +47,31 @@ const Triangle = ({
   </svg>
 );
 
-function Content({
+function StateIcon({
   state,
-  label,
   index,
 }: Readonly<{
   state: NavState;
-  label: string;
   index: number;
 }>) {
-  return (
-    <>
-      <span
-        className={classNames(
-          "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
-          {
-            "bg-blue-800 text-white": state === "Current",
-            "border border-gray-600": state === "Open",
-            "bg-gray-600 text-white": state === "Disabled",
-          },
-        )}
-      >
-        {state === "DoneCurrent" || state === "Done" ? (
-          <CheckCircle className="shrink-0 fill-green-700" />
-        ) : (
-          index + 1
-        )}
-      </span>
-      <span className="hover:underline">{label}</span>
-    </>
-  );
+  if (stateIsDone(state)) {
+    return (
+      <CheckCircle
+        className="shrink-0 fill-green-700"
+        aria-label={translations.navigation.navigationItemFinished.de}
+      />
+    );
+  }
+
+  if (stateIsWarning(state)) {
+    return (
+      <SvgWarningAmber
+        aria-label={translations.navigation.navigationItemWarning.de}
+      />
+    );
+  }
+
+  return <>{index + 1}</>;
 }
 
 export const FlowStepperNavigation = ({ steps }: Props) => {
@@ -76,7 +79,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
     <nav className="w-full">
       <ol className={"flex max-w-full! pl-0"}>
         {steps.map(({ state, href, label }, index) => {
-          const isCurrent = state === "Current" || state === "DoneCurrent";
+          const isCurrent = stateIsCurrent(state);
 
           return (
             <li
@@ -87,6 +90,8 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
                   "bg-white": state === "Open" || state === "Done",
                   "bg-blue-400 ds-label-03-bold": isCurrent,
                   "ds-label-03-reg": !isCurrent,
+                  "bg-yellow-200 active:bg-yellow-300 arrow-step-warning":
+                    stateIsWarning(state),
                   "bg-blue-100 text-gray-600 curser-not-allowed pointer-events-none":
                     state === "Disabled",
                 },
@@ -98,7 +103,19 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
                 aria-disabled={state === "Disabled"}
                 aria-current={isCurrent}
               >
-                <Content index={index} label={label} state={state} />
+                <span
+                  className={classNames(
+                    "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
+                    {
+                      "bg-blue-800 text-white": state === "Current",
+                      "border border-gray-600": state === "Open",
+                      "bg-gray-600 text-white": state === "Disabled",
+                    },
+                  )}
+                >
+                  <StateIcon state={state} index={index} />
+                </span>
+                <span className="hover:underline">{label}</span>
               </a>
               <Triangle state={state} />
             </li>
