@@ -19,51 +19,17 @@ const familyRelationship = [
   "ex-partner",
 ] as const;
 
-const sharedAndereUnterhaltszahlungenFields = {
-  familyRelationship: z.enum(familyRelationship),
-  firstName: stringRequiredSchema,
-  surname: stringRequiredSchema,
-  birthday: createDateSchema({
-    earliest: () => addYears(today(), MINUS_150_YEARS),
-    latest: () => today(),
-  }),
-  monthlyPayment: buildMoneyValidationSchema(),
-};
 const unterhaltszahlungenArraySchema = z
-  .union([
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("mother"),
+  .object({
+    familyRelationship: z.enum(familyRelationship),
+    firstName: stringRequiredSchema,
+    surname: stringRequiredSchema,
+    birthday: createDateSchema({
+      earliest: () => addYears(today(), MINUS_150_YEARS),
+      latest: () => today(),
     }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("father"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("grandmother"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("grandfather"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("kid"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("grandchild"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("ex-spouse"),
-    }),
-    z.object({
-      ...sharedAndereUnterhaltszahlungenFields,
-      familyRelationship: z.literal("ex-partner"),
-    }),
-  ])
+    monthlyPayment: buildMoneyValidationSchema(),
+  })
   .array()
   .min(1);
 
@@ -89,15 +55,15 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
       daten: {
         pageSchema: {
           "unterhaltszahlungen#firstName":
-            sharedAndereUnterhaltszahlungenFields.firstName,
+            unterhaltszahlungenArraySchema.element.shape.firstName,
           "unterhaltszahlungen#surname":
-            sharedAndereUnterhaltszahlungenFields.surname,
+            unterhaltszahlungenArraySchema.element.shape.surname,
           "unterhaltszahlungen#familyRelationship":
-            sharedAndereUnterhaltszahlungenFields.familyRelationship,
+            unterhaltszahlungenArraySchema.element.shape.familyRelationship,
           "unterhaltszahlungen#birthday":
-            sharedAndereUnterhaltszahlungenFields.birthday,
+            unterhaltszahlungenArraySchema.element.shape.birthday,
           "unterhaltszahlungen#monthlyPayment":
-            sharedAndereUnterhaltszahlungenFields.monthlyPayment,
+            unterhaltszahlungenArraySchema.element.shape.monthlyPayment,
         },
       },
     },
