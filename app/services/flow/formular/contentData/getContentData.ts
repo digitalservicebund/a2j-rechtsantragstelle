@@ -10,7 +10,11 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
-import { isStepStateIdCurrent } from "~/services/navigation/isStepStateIdCurrent";
+import {
+  navStateStepper,
+  stateIsCurrent,
+} from "~/services/navigation/navState";
+import { type StepStepper } from "~/components/navigation/types";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -80,24 +84,52 @@ export const getContentData = (
     ) => {
       const stepStates = flowController.stepStates(useStepper);
 
-      const steps = useStepper
-        ? stepStates
-            .filter((s) =>
-              s.subStates?.some((subState) => {
-                return isStepStateIdCurrent(subState.stepId, stepId);
-              }),
-            )
-            .flatMap((s) => s.subStates ?? [])
-        : stepStates;
+      if (!useStepper) {
+        return {
+          navItems:
+            navItemsFromStepStates(
+              stepId,
+              stepStates,
+              translations,
+              userVisitedValidationPage,
+            ) ?? [],
+          stepsStepper: [],
+          expandAll: flowController.getMeta(stepId)?.triggerValidation,
+        };
+      }
+
+      const stepsStepper = stepStates
+        .map((stepState) => ({
+          label: translations[stepState.stepId] ?? stepState.stepId,
+          href: flowController.getInitialSubState(
+            stepState.stepId.substring(1),
+          ),
+          navItems:
+            navItemsFromStepStates(
+              stepId,
+              stepState.subStates,
+              translations,
+              userVisitedValidationPage,
+            ) ?? [],
+        }))
+        .map((stepStepper) => ({
+          ...stepStepper,
+          state: navStateStepper(
+            stepStepper.navItems.map(({ state }) => state),
+          ),
+        }));
+
+      const currentNavItems =
+        stepsStepper.find((stepStepper) => stateIsCurrent(stepStepper.state))
+          ?.navItems ?? [];
 
       return {
-        navItems:
-          navItemsFromStepStates(
-            stepId,
-            steps,
-            translations,
-            userVisitedValidationPage,
-          ) ?? [],
+        navItems: currentNavItems,
+        stepsStepper: stepsStepper.map(({ href, label, state }) => ({
+          label,
+          href,
+          state,
+        })) as StepStepper[],
         expandAll: flowController.getMeta(stepId)?.triggerValidation,
       };
     },
