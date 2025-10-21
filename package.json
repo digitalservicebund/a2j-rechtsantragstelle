@@ -134,7 +134,7 @@
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^26.1.0",
     "knip": "^5.66.1",
-    "lefthook": "^1.13.6",
+    "lefthook": "^2.0.0",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.23.0",
     "p-map": "^7.0.3",
