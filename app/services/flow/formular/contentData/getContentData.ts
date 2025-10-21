@@ -1,7 +1,10 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
+import {
+  type StepState,
+  type buildFlowController,
+} from "~/services/flow/server/buildFlowController";
 import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
@@ -20,6 +23,31 @@ type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
 };
+
+function buildStepsStepper(
+  stepStates: StepState[],
+  translations: Translations,
+  flowController: ReturnType<typeof buildFlowController>,
+  stepId: string,
+  userVisitedValidationPage: boolean | undefined,
+) {
+  return stepStates
+    .map((stepState) => ({
+      label: translations[stepState.stepId] ?? stepState.stepId,
+      href: flowController.getInitialSubState(stepState.stepId.substring(1)),
+      navItems:
+        navItemsFromStepStates(
+          stepId,
+          stepState.subStates,
+          translations,
+          userVisitedValidationPage,
+        ) ?? [],
+    }))
+    .map((stepStepper) => ({
+      ...stepStepper,
+      state: navStateStepper(stepStepper.navItems.map(({ state }) => state)),
+    }));
+}
 
 export const getContentData = (
   { cmsContent, translations }: ContentParameters,
@@ -98,26 +126,13 @@ export const getContentData = (
         };
       }
 
-      const stepsStepper = stepStates
-        .map((stepState) => ({
-          label: translations[stepState.stepId] ?? stepState.stepId,
-          href: flowController.getInitialSubState(
-            stepState.stepId.substring(1),
-          ),
-          navItems:
-            navItemsFromStepStates(
-              stepId,
-              stepState.subStates,
-              translations,
-              userVisitedValidationPage,
-            ) ?? [],
-        }))
-        .map((stepStepper) => ({
-          ...stepStepper,
-          state: navStateStepper(
-            stepStepper.navItems.map(({ state }) => state),
-          ),
-        }));
+      const stepsStepper = buildStepsStepper(
+        stepStates,
+        translations,
+        flowController,
+        stepId,
+        userVisitedValidationPage,
+      );
 
       const currentNavItems =
         stepsStepper.find((stepStepper) => stateIsCurrent(stepStepper.state))
