@@ -1,12 +1,31 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const sharedPaymentFields = {
+  beschreibung: stringRequiredSchema,
+  betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+};
+
+const partnerArbeitsausgabenArraySchema = z
+  .object({
+    ...sharedPaymentFields,
+  })
+  .array()
+  .min(1);
+
+export const partnerWeitereEinkuenfteArraySchema = z
+  .object({
+    ...sharedPaymentFields,
+  })
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {
@@ -216,19 +235,17 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
     pageSchema: {
-      "partner-arbeitsausgaben": z.array(financialEntryInputSchema),
+      "partner-arbeitsausgaben": partnerArbeitsausgabenArraySchema,
     },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
-          "partner-arbeitsausgaben#beschreibung": z.string().min(1, "required"),
-          "partner-arbeitsausgaben#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "partner-arbeitsausgaben#betrag": buildMoneyValidationSchema(),
+          "partner-arbeitsausgaben#beschreibung":
+            partnerArbeitsausgabenArraySchema.element.shape.beschreibung,
+          "partner-arbeitsausgaben#zahlungsfrequenz":
+            partnerArbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
+          "partner-arbeitsausgaben#betrag":
+            partnerArbeitsausgabenArraySchema.element.shape.betrag,
         },
       },
     },
@@ -302,21 +319,17 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
     pageSchema: {
-      "partner-weitereEinkuenfte": z.array(financialEntryInputSchema),
+      "partner-weitereEinkuenfte": partnerWeitereEinkuenfteArraySchema,
     },
     arrayPages: {
       "partner-daten": {
         pageSchema: {
-          "partner-weitereEinkuenfte#beschreibung": z
-            .string()
-            .min(1, "required"),
-          "partner-weitereEinkuenfte#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "partner-weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
+          "partner-weitereEinkuenfte#beschreibung":
+            partnerWeitereEinkuenfteArraySchema.element.shape.beschreibung,
+          "partner-weitereEinkuenfte#zahlungsfrequenz":
+            partnerWeitereEinkuenfteArraySchema.element.shape.zahlungsfrequenz,
+          "partner-weitereEinkuenfte#betrag":
+            partnerWeitereEinkuenfteArraySchema.element.shape.betrag,
         },
       },
     },
