@@ -57,7 +57,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
 
   const translations = contentData.getTranslations();
-  const navProps = contentData.getNavProps(
+  const navigationProps = contentData.getNavProps(
     flowController,
     stepId,
     useStepper,
@@ -78,9 +78,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     {
       arraySummaryData,
       userData,
-      navigationProps: {
-        ...navProps,
-      },
+      navigationProps,
       buttonNavigationProps,
       cmsContent,
       csrf,
