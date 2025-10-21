@@ -154,8 +154,8 @@ export const translations = {
     },
   },
   navigationMobile: {
-    currentArea: {
-      de: "Bereich",
+    after: {
+      de: "Danach",
     },
     closeMenu: {
       de: "Schritt-für-Schritt-Menü schließen",
