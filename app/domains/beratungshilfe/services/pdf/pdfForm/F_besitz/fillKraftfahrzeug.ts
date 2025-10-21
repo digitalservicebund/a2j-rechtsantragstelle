@@ -26,12 +26,13 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
     kraftfahrzeuge.length == 1 &&
     singleKraftfahrzeugString.length < KRAFTFAHRZEUG_ART_FIELD_MAX_CHARS
   ) {
-    pdfValues.f10KraftfahrzeugeA.value =
-      singleKraftfahrzeug.eigentuemer == "myself";
-    pdfValues.f10KraftfahrzeugB.value =
-      singleKraftfahrzeug.eigentuemer == "partner";
-    pdfValues.f10KraftfahrzeugC.value =
-      singleKraftfahrzeug.eigentuemer == "myselfAndPartner";
+    const eigentuemer =
+      "eigentuemer" in singleKraftfahrzeug
+        ? singleKraftfahrzeug.eigentuemer
+        : undefined;
+    pdfValues.f10KraftfahrzeugeA.value = eigentuemer == "myself";
+    pdfValues.f10KraftfahrzeugB.value = eigentuemer == "partner";
+    pdfValues.f10KraftfahrzeugC.value = eigentuemer == "myselfAndPartner";
 
     pdfValues.f11Fahrzeugart.value = singleKraftfahrzeugString;
 
@@ -39,9 +40,10 @@ export const fillKraftfahrzeug: BerHPdfFillFunction = ({
       ? verkaufswertMappingDescription[singleKraftfahrzeug.wert]
       : "";
 
-    pdfValues.f12Verkehrswert.value = singleKraftfahrzeug.verkaufswert
-      ? singleKraftfahrzeug.verkaufswert + " €"
-      : singleKfzWert;
+    pdfValues.f12Verkehrswert.value =
+      "verkaufswert" in singleKraftfahrzeug
+        ? singleKraftfahrzeug.verkaufswert + " €"
+        : singleKfzWert;
   } else {
     pdfValues.f11Fahrzeugart.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     const { attachment } = attachKraftfahrzeugeToAnhang(kraftfahrzeuge);

@@ -61,18 +61,37 @@ const sonstigesSchema = z.object({
   verwendungszweck: stringOptionalSchema,
 });
 
-const geldanlagenArraySchema = z
-  .union([
-    z.object({
-      ...sharedGeldanlagenFields,
-    }),
-    sparkontoSchema,
-    befristetSchema,
-    forderungSchema,
-    sonstigesSchema,
-  ])
-  .array()
-  .min(1);
+const sharedKraftfahrzeugFields = {
+  hasArbeitsweg: YesNoAnswer,
+  wert: z.enum(["under10000", "over10000", "unsure"]),
+};
+
+const kraftfahrzeugUnder10000Schema = z.object({
+  ...sharedKraftfahrzeugFields,
+  wert: z.literal("under10000"),
+});
+
+const kraftfahrzeugOver10000OrUnsureSchema = z.object({
+  ...sharedKraftfahrzeugFields,
+  wert: z.enum(["over10000", "unsure"]),
+  art: stringRequiredSchema,
+  marke: stringRequiredSchema,
+  eigentuemer: z.enum([
+    "myself",
+    "partner",
+    "myselfAndPartner",
+    "myselfAndSomeoneElse",
+  ]),
+  verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
+  kilometerstand: integerSchema,
+  anschaffungsjahr: createYearSchema({
+    optional: true,
+    latest: () => today().getFullYear(),
+  }),
+  baujahr: createYearSchema({
+    latest: () => today().getFullYear(),
+  }),
+});
 
 export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
@@ -129,7 +148,18 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumGeldanlage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
     pageSchema: {
-      geldanlagen: geldanlagenArraySchema,
+      geldanlagen: z
+        .union([
+          z.object({
+            ...sharedGeldanlagenFields,
+          }),
+          sparkontoSchema,
+          befristetSchema,
+          forderungSchema,
+          sonstigesSchema,
+        ])
+        .array()
+        .min(1),
     },
     arrayPages: {
       art: {
@@ -210,62 +240,41 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumKraftfahrzeug: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
     pageSchema: {
-      kraftfahrzeuge: z.array(
-        z
-          .object({
-            art: stringRequiredSchema,
-            marke: stringRequiredSchema,
-            eigentuemer: z.enum([
-              "myself",
-              "partner",
-              "myselfAndPartner",
-              "myselfAndSomeoneElse",
-            ]),
-            verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
-            kilometerstand: integerSchema,
-            anschaffungsjahr: createYearSchema({
-              optional: true,
-              latest: () => today().getFullYear(),
-            }),
-            baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-            hasArbeitsweg: YesNoAnswer,
-            wert: z.enum(["under10000", "over10000", "unsure"]),
-          })
-          .partial(),
-      ),
+      kraftfahrzeuge: z
+        .union([
+          kraftfahrzeugUnder10000Schema,
+          kraftfahrzeugOver10000OrUnsureSchema,
+        ])
+        .array()
+        .min(1),
     },
     arrayPages: {
       arbeitsweg: {
         pageSchema: {
-          "kraftfahrzeuge#hasArbeitsweg": YesNoAnswer,
+          "kraftfahrzeuge#hasArbeitsweg":
+            sharedKraftfahrzeugFields.hasArbeitsweg,
         },
       },
       wert: {
         pageSchema: {
-          "kraftfahrzeuge#wert": z.enum(["under10000", "over10000", "unsure"]),
+          "kraftfahrzeuge#wert": sharedKraftfahrzeugFields.wert,
         },
       },
       fahrzeuge: {
         pageSchema: {
-          "kraftfahrzeuge#art": stringRequiredSchema,
-          "kraftfahrzeuge#marke": stringRequiredSchema,
-          "kraftfahrzeuge#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "kraftfahrzeuge#verkaufswert": schemaOrEmptyString(
-            buildMoneyValidationSchema(),
-          ),
-          "kraftfahrzeuge#kilometerstand": integerSchema,
-          "kraftfahrzeuge#anschaffungsjahr": createYearSchema({
-            optional: true,
-            latest: () => today().getFullYear(),
-          }),
-          "kraftfahrzeuge#baujahr": createYearSchema({
-            latest: () => today().getFullYear(),
-          }),
+          "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
+          "kraftfahrzeuge#marke":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
+          "kraftfahrzeuge#eigentuemer":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
+          "kraftfahrzeuge#verkaufswert":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
+          "kraftfahrzeuge#kilometerstand":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
+          "kraftfahrzeuge#anschaffungsjahr":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
+          "kraftfahrzeuge#baujahr":
+            kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
         },
       },
     },
