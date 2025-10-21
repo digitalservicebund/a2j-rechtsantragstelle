@@ -274,11 +274,21 @@ describe("F_besitz", () => {
             wert: "10000",
             auszahlungdatum: "01.01.2000",
             befristetArt: "fixedDepositAccount",
+            verwendungszweck: "zweck",
+          },
+          {
+            art: "forderung",
+            eigentuemer: "myselfAndSomeoneElse",
+            wert: "400",
             forderung: "asd",
+          },
+          {
+            art: "giroTagesgeldSparkonto",
+            eigentuemer: "myself",
+            wert: "10000",
             kontoBankName: "bank",
             kontoBezeichnung: "bezeichnung",
             kontoIban: "13",
-            verwendungszweck: "zweck",
           },
         ],
       };

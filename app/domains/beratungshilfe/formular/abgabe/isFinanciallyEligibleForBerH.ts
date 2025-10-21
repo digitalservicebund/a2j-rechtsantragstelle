@@ -39,7 +39,7 @@ function calculateEigentumTotalWorth(
 
   const totalGeldanlagenWorth =
     userData.geldanlagen?.reduce((acc, geldanlage) => {
-      if (geldanlage.art === "forderung") {
+      if ("forderung" in geldanlage) {
         return acc + parseInt(geldanlage.forderung ?? "0");
       }
       return acc + parseInt(geldanlage.wert ?? "0");

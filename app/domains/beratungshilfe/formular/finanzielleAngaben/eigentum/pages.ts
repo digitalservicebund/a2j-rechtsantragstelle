@@ -10,6 +10,70 @@ import { createYearSchema } from "~/services/validation/year";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
+const sharedGeldanlagenFields = {
+  art: z.enum([
+    "bargeld",
+    "wertpapiere",
+    "guthabenkontoKrypto",
+    "giroTagesgeldSparkonto",
+    "befristet",
+    "forderung",
+    "sonstiges",
+  ]),
+  eigentuemer: z.enum([
+    "myself",
+    "partner",
+    "myselfAndPartner",
+    "myselfAndSomeoneElse",
+  ]),
+  wert: buildMoneyValidationSchema(),
+};
+
+const sparkontoSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal("giroTagesgeldSparkonto"),
+  kontoBankName: stringRequiredSchema,
+  kontoIban: stringOptionalSchema,
+  kontoBezeichnung: stringOptionalSchema,
+});
+
+const befristetSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal("befristet"),
+  befristetArt: z.enum([
+    "lifeInsurance",
+    "buildingSavingsContract",
+    "fixedDepositAccount",
+  ]),
+  verwendungszweck: stringOptionalSchema,
+  auszahlungdatum: stringOptionalSchema,
+});
+
+const forderungSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal("forderung"),
+  forderung: stringOptionalSchema,
+});
+
+const sonstigesSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal("sonstiges"),
+  verwendungszweck: stringOptionalSchema,
+});
+
+const geldanlagenArraySchema = z
+  .union([
+    z.object({
+      ...sharedGeldanlagenFields,
+    }),
+    sparkontoSchema,
+    befristetSchema,
+    forderungSchema,
+    sonstigesSchema,
+  ])
+  .array()
+  .min(1);
+
 export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
     stepId: "finanzielle-angaben/eigentum/eigentum-info",
@@ -65,144 +129,65 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumGeldanlage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
     pageSchema: {
-      geldanlagen: z.array(
-        z
-          .object({
-            art: z.enum([
-              "bargeld",
-              "wertpapiere",
-              "guthabenkontoKrypto",
-              "giroTagesgeldSparkonto",
-              "befristet",
-              "forderung",
-              "sonstiges",
-            ]),
-            eigentuemer: z.enum([
-              "myself",
-              "partner",
-              "myselfAndPartner",
-              "myselfAndSomeoneElse",
-            ]),
-            wert: buildMoneyValidationSchema(),
-            kontoBankName: stringRequiredSchema,
-            kontoIban: stringOptionalSchema,
-            kontoBezeichnung: stringOptionalSchema,
-            befristetArt: z
-              .enum([
-                "lifeInsurance",
-                "buildingSavingsContract",
-                "fixedDepositAccount",
-              ])
-              .optional(),
-
-            forderung: stringOptionalSchema,
-            verwendungszweck: stringOptionalSchema,
-            auszahlungdatum: stringOptionalSchema,
-          })
-          .partial(),
-      ),
+      geldanlagen: geldanlagenArraySchema,
     },
     arrayPages: {
       art: {
         pageSchema: {
-          "geldanlagen#art": z.enum([
-            "bargeld",
-            "wertpapiere",
-            "guthabenkontoKrypto",
-            "giroTagesgeldSparkonto",
-            "befristet",
-            "forderung",
-            "sonstiges",
-          ]),
+          "geldanlagen#art": sharedGeldanlagenFields.art,
         },
       },
       bargeld: {
         pageSchema: {
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
         },
       },
       wertpapiere: {
         pageSchema: {
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
         },
       },
       "guthabenkonto-krypto": {
         pageSchema: {
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
         },
       },
       "giro-tagesgeld-sparkonto": {
         pageSchema: {
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
-          "geldanlagen#kontoBankName": stringRequiredSchema,
-          "geldanlagen#kontoIban": stringOptionalSchema,
-          "geldanlagen#kontoBezeichnung": stringOptionalSchema,
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
+          "geldanlagen#kontoBankName": sparkontoSchema.shape.kontoBankName,
+          "geldanlagen#kontoIban": sparkontoSchema.shape.kontoIban,
+          "geldanlagen#kontoBezeichnung":
+            sparkontoSchema.shape.kontoBezeichnung,
         },
       },
       befristet: {
         pageSchema: {
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
-          "geldanlagen#befristetArt": z.enum([
-            "lifeInsurance",
-            "buildingSavingsContract",
-            "fixedDepositAccount",
-          ]),
-          "geldanlagen#verwendungszweck": stringOptionalSchema,
-          "geldanlagen#auszahlungdatum": stringOptionalSchema,
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
+          "geldanlagen#befristetArt": befristetSchema.shape.befristetArt,
+          "geldanlagen#verwendungszweck":
+            befristetSchema.shape.verwendungszweck,
+          "geldanlagen#auszahlungdatum": befristetSchema.shape.auszahlungdatum,
         },
       },
       forderung: {
         pageSchema: {
-          "geldanlagen#forderung": stringOptionalSchema,
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#forderung": forderungSchema.shape.forderung,
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
         },
       },
       sonstiges: {
         pageSchema: {
-          "geldanlagen#verwendungszweck": stringOptionalSchema,
-          "geldanlagen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "geldanlagen#wert": buildMoneyValidationSchema(),
+          "geldanlagen#verwendungszweck":
+            sonstigesSchema.shape.verwendungszweck,
+          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+          "geldanlagen#wert": sharedGeldanlagenFields.wert,
         },
       },
     },
