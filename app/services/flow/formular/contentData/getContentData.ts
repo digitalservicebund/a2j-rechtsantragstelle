@@ -111,6 +111,7 @@ export const getContentData = (
       userVisitedValidationPage?: boolean,
     ) => {
       const stepStates = flowController.stepStates(useStepper);
+      const expandAll = flowController.getMeta(stepId)?.triggerValidation;
 
       if (!useStepper) {
         return {
@@ -122,7 +123,7 @@ export const getContentData = (
               userVisitedValidationPage,
             ) ?? [],
           stepsStepper: [],
-          expandAll: flowController.getMeta(stepId)?.triggerValidation,
+          expandAll,
         };
       }
 
@@ -145,7 +146,7 @@ export const getContentData = (
           href,
           state,
         })) as StepStepper[],
-        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+        expandAll,
       };
     },
   };
