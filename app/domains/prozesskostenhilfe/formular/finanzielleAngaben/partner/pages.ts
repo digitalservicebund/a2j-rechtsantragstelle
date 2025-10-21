@@ -7,17 +7,10 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const partnerZahlungsfrequenzOptions = [
-  "monthly",
-  "quarterly",
-  "yearly",
-  "one-time",
-] as const;
-
 const sharedPaymentFields = {
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(partnerZahlungsfrequenzOptions),
+  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
 };
 
 const partnerArbeitsausgabenArraySchema = z
