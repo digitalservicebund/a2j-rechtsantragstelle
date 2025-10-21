@@ -67,6 +67,7 @@ vi.mock("~/util/buttonProps");
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.resetAllMocks();
 });
 
 describe("getContentData", () => {
