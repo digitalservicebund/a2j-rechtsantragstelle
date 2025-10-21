@@ -1,5 +1,6 @@
 import {
   navState,
+  navStateStepper,
   stateIsActive,
   stateIsCurrent,
   stateIsWarning,
@@ -139,4 +140,67 @@ describe("stateIsWarning", () => {
       expect(actual).toBe(expected);
     },
   );
+});
+
+describe("navStateStepper", () => {
+  it("should return Done if all the states are done", () => {
+    const statesDone = ["Done" as const, "Done" as const, "Done" as const];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("Done");
+  });
+
+  it("should return DoneCurrent if all the states are done, but one state is DoneCurrent", () => {
+    const statesDone = [
+      "Done" as const,
+      "Done" as const,
+      "DoneCurrent" as const,
+    ];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("DoneCurrent");
+  });
+
+  it("should return Warning if one state is Warning", () => {
+    const statesDone = ["Done" as const, "Done" as const, "Warning" as const];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("Warning");
+  });
+
+  it("should return WarningCurrent if one state is WarningCurrent", () => {
+    const statesDone = [
+      "Done" as const,
+      "Warning" as const,
+      "WarningCurrent" as const,
+    ];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("WarningCurrent");
+  });
+
+  it("should return Disabled if all the states are disabled", () => {
+    const statesDone = [
+      "Disabled" as const,
+      "Disabled" as const,
+      "Disabled" as const,
+    ];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("Disabled");
+  });
+
+  it("should return Open if all the states are opened", () => {
+    const statesDone = ["Open" as const, "Open" as const, "Open" as const];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("Open");
+  });
+
+  it("should return Current if at least one state is current", () => {
+    const statesDone = ["Open" as const, "Open" as const, "Current" as const];
+
+    const actual = navStateStepper(statesDone);
+    expect(actual).toBe("Current");
+  });
 });
