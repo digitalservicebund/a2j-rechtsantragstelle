@@ -1,14 +1,12 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { finanzielleAngabeAbzuegeGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/guards";
-import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/userData";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-type ProzesskostenhilfeFinanzielleAngabenAbzuegeGuard =
-  GenericGuard<ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData>;
-
-export const abzuegeDone: ProzesskostenhilfeFinanzielleAngabenAbzuegeGuard = ({
-  context,
-}) => {
+export const abzuegeDone: GenericGuard<
+  ProzesskostenhilfeFinanzielleAngabenUserData
+> = ({ context }) => {
+  if (context.currentlyEmployed === "no") return true;
   if (context.arbeitsweg === undefined) return false;
 
   const arbeitsplatzDone =

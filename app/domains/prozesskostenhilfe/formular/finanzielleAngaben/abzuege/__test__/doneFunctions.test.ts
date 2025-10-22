@@ -2,6 +2,9 @@ import { abzuegeDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAn
 
 describe("Prozesskostenhilfe Finanzielle Angaben Abzuege doneFunctions", () => {
   describe("abzuegeDone", () => {
+    it("should return true if the user isn't working", () => {
+      expect(abzuegeDone({ context: { currentlyEmployed: "no" } })).toBe(true);
+    });
     it("should return false if the user hasn't entered an arbeitsweg", () => {
       const done = abzuegeDone({ context: {} });
       expect(done).toBe(false);

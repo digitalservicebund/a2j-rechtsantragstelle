@@ -66,6 +66,8 @@ describe("createChecklistSteps", () => {
         {
           art: "befristet",
           befristetArt: "lifeInsurance",
+          eigentuemer: "myself",
+          wert: "100",
         },
       ],
     };
