@@ -178,6 +178,7 @@ export const partnerSupportDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
 export const wohnungDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) => {
+  if (context.livingSituation === "notunterkunft") return true;
   const livesAlone = context.livingSituation === "alone";
   const rentsApartment = context.rentsApartment === "yes" && context.totalRent;
   const parkplatzDone = context.garageParkplatz !== undefined;

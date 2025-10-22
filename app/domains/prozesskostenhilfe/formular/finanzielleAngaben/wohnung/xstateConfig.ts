@@ -17,6 +17,10 @@ export const wohnungXstateConfig = {
       on: {
         SUBMIT: [
           {
+            guard: ({ context }) => context.livingSituation === "notunterkunft",
+            target: "#eigentum",
+          },
+          {
             guard: ({ context }) => context.livingSituation === "alone",
             target: steps.wohnungGroesse.relative,
           },

@@ -8,7 +8,12 @@ export const pkhFormularFinanzielleAngabenWohnungPages = {
   wohnungAlleineZusammen: {
     stepId: "finanzielle-angaben/wohnung/alleine-zusammen",
     pageSchema: {
-      livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
+      livingSituation: z.enum([
+        "alone",
+        "withRelatives",
+        "withOthers",
+        "notunterkunft",
+      ]),
     },
   },
   wohnungAnzahlMitbewohner: {

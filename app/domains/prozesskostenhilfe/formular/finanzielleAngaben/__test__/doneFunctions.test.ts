@@ -262,6 +262,12 @@ describe("Finanzielle Angaben doneFunctions", () => {
   });
 
   describe("wohnungDone", () => {
+    it("should return true if the user lives in a Notunterkunft", () => {
+      expect(
+        wohnungDone({ context: { livingSituation: "notunterkunft" } }),
+      ).toBe(true);
+    });
+
     it("should return false if the apartment size or number of rooms isn't given", () => {
       expect(
         wohnungDone({

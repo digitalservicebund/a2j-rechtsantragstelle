@@ -24,6 +24,10 @@ export const eigentumXstateConfig = {
         ],
         BACK: [
           {
+            guard: ({ context }) => context.livingSituation === "notunterkunft",
+            target: "#wohnung",
+          },
+          {
             guard: ({ context }) => context.rentsApartment === "yes",
             target: "#wohnung.nebenkosten",
           },

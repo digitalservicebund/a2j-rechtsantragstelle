@@ -7,7 +7,12 @@ export const berhAntragFinanzielleAngabenWohnungPages = {
   wohnsituation: {
     stepId: "finanzielle-angaben/wohnung/wohnsituation",
     pageSchema: {
-      livingSituation: z.enum(["alone", "withRelatives", "withOthers"]),
+      livingSituation: z.enum([
+        "alone",
+        "withRelatives",
+        "withOthers",
+        "notunterkunft",
+      ]),
     },
   },
   wohnungGroesse: {
