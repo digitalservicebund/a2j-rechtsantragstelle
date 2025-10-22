@@ -1,6 +1,5 @@
 import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { testCasesFluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck/__test__/testCasesFluggastrechteVorabcheck";
-import { testCasesProzesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular/__test__/testcases";
 import { type UserData } from "~/domains/userData";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
@@ -65,7 +64,6 @@ describe.sequential("state machine form flows", () => {
   const testCases = {
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
-    testCasesProzesskostenhilfeFormular,
     testCasesGeldEinklagenFormular,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;
@@ -119,6 +117,6 @@ describe.sequential("state machine form flows", () => {
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
     );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(189);
+    expect(totalMissingStepCount).toBeLessThanOrEqual(1);
   });
 });

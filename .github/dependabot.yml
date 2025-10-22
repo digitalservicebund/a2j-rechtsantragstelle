@@ -16,7 +16,6 @@ updates:
         patterns:
           - "@storybook/*"
           - "storybook"
-          - "eslint-plugin-storybook"
       react-router:
         patterns:
           - "@react-router/*"
