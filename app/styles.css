@@ -306,7 +306,7 @@ h1:focus {
 }
 
 .arrow-step:focus-within:not(.arrow-step:active) {
-  @apply before:absolute before:inset-x-0 before:bottom-0 before:h-[4px] before:bg-blue-800;
+  @apply before:absolute before:inset-x-0 before:bottom-0 before:h-[4px] before:bg-blue-800 forced-colors:before:bg-[ButtonText];
 }
 
 .arrow-step:active .triangle {
