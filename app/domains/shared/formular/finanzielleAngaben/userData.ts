@@ -73,14 +73,6 @@ export const bankkontenArraySchema = z
   )
   .min(1);
 
-export const financialEntryInputSchema = z.object({
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
-});
-
-export type FinancialEntry = z.infer<typeof financialEntryInputSchema>;
-
 export const kraftfahrzeugWertInputSchema = z.enum([
   "under10000",
   "over10000",

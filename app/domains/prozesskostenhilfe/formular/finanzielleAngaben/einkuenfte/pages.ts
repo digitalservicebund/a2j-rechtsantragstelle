@@ -1,9 +1,19 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const financialEntrySchema = z.object({
+  beschreibung: stringRequiredSchema,
+  betrag: buildMoneyValidationSchema(),
+  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+});
+
+export type FinancialEntry = z.infer<typeof financialEntrySchema>;
+
+export const weitereEinkuenfteArraySchema = financialEntrySchema.array().min(1);
 
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   einkuenfteStart: {
@@ -120,19 +130,17 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   weitereEinkuenfte: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte",
     pageSchema: {
-      weitereEinkuenfte: z.array(financialEntryInputSchema),
+      weitereEinkuenfte: weitereEinkuenfteArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
-          "weitereEinkuenfte#beschreibung": z.string().min(1, "required"),
-          "weitereEinkuenfte#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "weitereEinkuenfte#betrag": buildMoneyValidationSchema(),
+          "weitereEinkuenfte#beschreibung":
+            weitereEinkuenfteArraySchema.element.shape.beschreibung,
+          "weitereEinkuenfte#zahlungsfrequenz":
+            weitereEinkuenfteArraySchema.element.shape.zahlungsfrequenz,
+          "weitereEinkuenfte#betrag":
+            weitereEinkuenfteArraySchema.element.shape.betrag,
         },
       },
     },
