@@ -35,6 +35,10 @@ describe("isFinanciallyEligibleForBerH", () => {
       grundeigentum: [
         {
           verkaufswert: "10001",
+          isBewohnt: "yes",
+          art: "eigentumswohnung",
+          eigentuemer: "myself",
+          flaeche: "100",
         },
       ],
     };

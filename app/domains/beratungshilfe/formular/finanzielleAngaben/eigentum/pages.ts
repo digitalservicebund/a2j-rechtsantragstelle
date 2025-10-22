@@ -93,6 +93,26 @@ const kraftfahrzeugOver10000OrUnsureSchema = z.object({
   }),
 });
 
+const sharedEigentumFields = {
+  isBewohnt: z.enum(["yes", "family", "no"]),
+  art: z.enum([
+    "eigentumswohnung",
+    "einfamilienhaus",
+    "mehrereWohnungen",
+    "unbebaut",
+    "erbbaurecht",
+    "garage",
+  ]),
+  eigentuemer: z.enum([
+    "myself",
+    "partner",
+    "myselfAndPartner",
+    "myselfAndSomeoneElse",
+  ]),
+  flaeche: stringRequiredSchema,
+  verkaufswert: buildMoneyValidationSchema(),
+};
+
 export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
     stepId: "finanzielle-angaben/eigentum/eigentum-info",
@@ -347,58 +367,37 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumGrundeigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
     pageSchema: {
-      grundeigentum: z.array(
-        z
-          .object({
-            isBewohnt: z.enum(["yes", "family", "no"]),
-            art: z.enum([
-              "eigentumswohnung",
-              "einfamilienhaus",
-              "mehrereWohnungen",
-              "unbebaut",
-              "erbbaurecht",
-              "garage",
-            ]),
-            eigentuemer: z.enum([
-              "myself",
-              "partner",
-              "myselfAndPartner",
-              "myselfAndSomeoneElse",
-            ]),
-            flaeche: stringRequiredSchema,
-            verkaufswert: buildMoneyValidationSchema(),
-            strassehausnummer: stringRequiredSchema,
-            plz: stringOptionalSchema,
-            ort: stringRequiredSchema,
-            land: stringRequiredSchema,
-          })
-          .partial(),
-      ),
+      grundeigentum: z
+        .array(
+          z.union([
+            z.object({
+              ...sharedEigentumFields,
+              isBewohnt: z.literal("yes"),
+            }),
+            z.object({
+              ...sharedEigentumFields,
+              isBewohnt: z.enum(["family", "no"]),
+              strassehausnummer: stringRequiredSchema,
+              plz: stringOptionalSchema,
+              ort: stringRequiredSchema,
+              land: stringRequiredSchema,
+            }),
+          ]),
+        )
+        .min(1),
     },
     arrayPages: {
       "bewohnt-frage": {
         pageSchema: {
-          "grundeigentum#isBewohnt": z.enum(["yes", "family", "no"]),
+          "grundeigentum#isBewohnt": sharedEigentumFields.isBewohnt,
         },
       },
       daten: {
         pageSchema: {
-          "grundeigentum#art": z.enum([
-            "eigentumswohnung",
-            "einfamilienhaus",
-            "mehrereWohnungen",
-            "unbebaut",
-            "erbbaurecht",
-            "garage",
-          ]),
-          "grundeigentum#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "grundeigentum#flaeche": stringRequiredSchema,
-          "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
+          "grundeigentum#art": sharedEigentumFields.art,
+          "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
+          "grundeigentum#flaeche": sharedEigentumFields.flaeche,
+          "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
           "grundeigentum#strassehausnummer": stringRequiredSchema,
           "grundeigentum#plz": stringOptionalSchema,
           "grundeigentum#ort": stringRequiredSchema,
@@ -407,22 +406,10 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
       },
       "bewohnt-daten": {
         pageSchema: {
-          "grundeigentum#art": z.enum([
-            "eigentumswohnung",
-            "einfamilienhaus",
-            "mehrereWohnungen",
-            "unbebaut",
-            "erbbaurecht",
-            "garage",
-          ]),
-          "grundeigentum#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "grundeigentum#flaeche": stringRequiredSchema,
-          "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
+          "grundeigentum#art": sharedEigentumFields.art,
+          "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
+          "grundeigentum#flaeche": sharedEigentumFields.flaeche,
+          "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
         },
       },
     },

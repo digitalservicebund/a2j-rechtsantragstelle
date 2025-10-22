@@ -47,7 +47,7 @@ describe("eigentumDone", () => {
           hasGrundeigentum: "yes",
           grundeigentum: [
             {
-              isBewohnt: "yes",
+              isBewohnt: "family",
               art: "einfamilienhaus",
               eigentuemer: "myself",
               flaeche: "120",
@@ -273,7 +273,7 @@ describe("grundeigentumDone", () => {
           hasGrundeigentum: "yes",
           grundeigentum: [
             {
-              isBewohnt: "yes",
+              isBewohnt: "no",
               art: "einfamilienhaus",
               eigentuemer: "myself",
               flaeche: "120",

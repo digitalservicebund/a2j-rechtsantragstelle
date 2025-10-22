@@ -106,7 +106,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            isBewohnt: "yes",
+            isBewohnt: "no",
           },
         ],
       };
@@ -122,7 +122,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f6EigentuemerB.value).toBe(false);
       expect(pdfValues.f6EigentuemerC.value).toBe(false);
       expect(pdfValues.f7Nutzungsart.value).toBe(
-        "Art: Haus für Familie, Eigennutzung, Fläche: 100 m²",
+        "Art: Haus für Familie, Fläche: 100 m²",
       );
     });
 
@@ -139,7 +139,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            isBewohnt: "yes",
+            isBewohnt: "no",
           },
           {
             eigentuemer: "partner",
