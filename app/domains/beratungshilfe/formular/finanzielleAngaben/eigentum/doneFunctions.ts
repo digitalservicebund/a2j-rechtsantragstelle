@@ -1,55 +1,39 @@
-import {
-  singleGrundeigentumDone,
-  bankKontoDone,
-  geldanlageDone,
-} from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
-import { arrayIsNonEmpty } from "~/util/array";
-import { type BeratungshilfeFinanzielleAngabenUserData } from "../userData";
+import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
+import {
+  geldanlagenArraySchema,
+  grundeigentumArraySchema,
+  kraftfahrzeugeArraySchema,
+  wertgegenstandArraySchema,
+} from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
 
 export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGeldanlage === "no" ||
   (context.hasGeldanlage === "yes" &&
-    arrayIsNonEmpty(context.geldanlagen) &&
-    context.geldanlagen.every(geldanlageDone));
-
-const kraftfahrzeugDone = (
-  kraftfahrzeug: NonNullable<
-    BeratungshilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
-  >[0],
-) =>
-  kraftfahrzeug.hasArbeitsweg !== undefined &&
-  kraftfahrzeug.wert !== undefined &&
-  (kraftfahrzeug.wert === "under10000" ||
-    (kraftfahrzeug.art !== undefined &&
-      kraftfahrzeug.marke !== undefined &&
-      kraftfahrzeug.kilometerstand !== undefined &&
-      kraftfahrzeug.baujahr !== undefined &&
-      kraftfahrzeug.eigentuemer !== undefined));
+    geldanlagenArraySchema.safeParse(context.geldanlagen).success);
 
 export const kraftfahrzeugeDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasKraftfahrzeug === "no" ||
   (context.hasKraftfahrzeug === "yes" &&
-    arrayIsNonEmpty(context.kraftfahrzeuge) &&
-    context.kraftfahrzeuge.every(kraftfahrzeugDone));
+    kraftfahrzeugeArraySchema.safeParse(context.kraftfahrzeuge).success);
 
 export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasWertsache === "no" ||
-  (context.hasWertsache === "yes" && arrayIsNonEmpty(context.wertsachen));
+  (context.hasWertsache === "yes" &&
+    wertgegenstandArraySchema.safeParse(context.wertsachen).success);
 
 export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
-    arrayIsNonEmpty(context.grundeigentum) &&
-    context.grundeigentum.every(singleGrundeigentumDone));
+    grundeigentumArraySchema.safeParse(context.grundeigentum).success);
 
 export const eigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

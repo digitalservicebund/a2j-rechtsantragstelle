@@ -6,7 +6,7 @@ import { fillKraftfahrzeug } from "../fillKraftfahrzeug";
 
 describe("fillKraftfahrzeug", () => {
   it("should fill kraftfahrzeug pdf field when kraftfahrzeug is given in context", () => {
-    const userData: BeratungshilfeFormularUserData = {
+    const userData = {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
@@ -14,6 +14,7 @@ describe("fillKraftfahrzeug", () => {
           art: "P 50",
           marke: "Trabant",
           baujahr: "1990",
+          // anschaffungsjahr: "1",
           kilometerstand: 999999,
           verkaufswert: "100000",
           hasArbeitsweg: "yes",
@@ -22,7 +23,7 @@ describe("fillKraftfahrzeug", () => {
       ],
     };
     const { pdfValues } = pdfFillReducer({
-      userData,
+      userData: userData as BeratungshilfeFormularUserData,
       pdfParams: getBeratungshilfeParameters(),
       fillFunctions: [fillKraftfahrzeug],
     });
@@ -107,24 +108,10 @@ describe("fillKraftfahrzeug", () => {
       hasKraftfahrzeug: "yes",
       kraftfahrzeuge: [
         {
-          eigentuemer: "partner",
-          art: "P 50",
-          marke: "Trabant",
-          anschaffungsjahr: "1985",
-          baujahr: "1990",
-          kilometerstand: 999999,
-          verkaufswert: "100000",
-          hasArbeitsweg: "yes",
           wert: "under10000",
+          hasArbeitsweg: "yes",
         },
         {
-          eigentuemer: "myself",
-          art: "P 40",
-          marke: "Trabbi",
-          anschaffungsjahr: "1995",
-          baujahr: "1988",
-          kilometerstand: 99999,
-          verkaufswert: "10000",
           hasArbeitsweg: "yes",
           wert: "under10000",
         },
