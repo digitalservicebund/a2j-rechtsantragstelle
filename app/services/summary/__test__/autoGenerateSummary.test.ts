@@ -128,7 +128,7 @@ describe("generateSummaryFromUserData", () => {
     );
 
     expect(mockGetFormQuestionsForFields).toHaveBeenCalledWith(
-      ["vorname", "nachname", "geburtsdatum", "emptyField"], // emptyField is actually not filtered at this stage
+      ["vorname", "nachname", "geburtsdatum", "emptyField"],
       mockFlowId,
     );
   });

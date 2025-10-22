@@ -2,6 +2,7 @@ import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import {
   fetchAllFormFields,
   type FormFieldsMap,
@@ -34,6 +35,190 @@ export function createFieldToStepMapping(
   return mapping;
 }
 
+function findStepIdForField(
+  fieldName: string,
+  fieldToStepMapping: Record<string, string>,
+): string | undefined {
+  let stepId = fieldToStepMapping[fieldName];
+
+  if (!stepId) {
+    // Look for nested field patterns like "berufart.selbststaendig" -> "/finanzielle-angaben/einkommen/art"
+    const nestedFieldMapping = Object.entries(fieldToStepMapping).find(
+      ([mappedField]) => mappedField.startsWith(`${fieldName}.`),
+    );
+
+    if (nestedFieldMapping) {
+      stepId = nestedFieldMapping[1];
+    }
+  }
+
+  return stepId;
+}
+
+function extractOptionsFromComponent(
+  formComponent: StrapiFormComponent,
+): FieldOption[] | undefined {
+  if (!("options" in formComponent) || !Array.isArray(formComponent.options)) {
+    return undefined;
+  }
+
+  if (formComponent.__component === "form-elements.tile-group") {
+    // Tile group uses {title, value} - convert to {text, value}
+    return formComponent.options.map((opt) => ({
+      text: (opt as { title: string; value: string }).title ?? opt.value,
+      value: opt.value,
+    }));
+  } else {
+    // Select/dropdown use {text, value} - use directly
+    return formComponent.options as FieldOption[];
+  }
+}
+
+function createFieldQuestionFromComponent(
+  formComponent: StrapiFormComponent,
+  formPage: StrapiFormFlowPage,
+): FieldQuestion {
+  const options = extractOptionsFromComponent(formComponent);
+
+  // Handle components with labels
+  if ("label" in formComponent && formComponent.label) {
+    return {
+      question: formComponent.label,
+      ...(options && { options }),
+    };
+  }
+  // Handle components without labels (like radio buttons) but with options
+  else if (options && options.length > 0) {
+    return {
+      question: formPage.heading, // Use page heading as question
+      options: options,
+    };
+  }
+
+  // Fallback to page heading
+  return {
+    question: formPage.heading,
+  };
+}
+
+function processNestedComponents(
+  fieldName: string,
+  formPage: StrapiFormFlowPage,
+): FieldQuestion | null {
+  const hasDirectNestedComponents = formPage.form.some(
+    (component) =>
+      "name" in component && component.name?.startsWith(`${fieldName}.`),
+  );
+
+  if (!hasDirectNestedComponents) {
+    return null;
+  }
+
+  // Extract options from the nested components
+  const nestedComponents = formPage.form.filter(
+    (component) =>
+      "name" in component && component.name?.startsWith(`${fieldName}.`),
+  );
+
+  const options: FieldOption[] = [];
+  nestedComponents.forEach((comp) => {
+    if ("name" in comp && "label" in comp && comp.name && comp.label) {
+      // Extract the suffix after the dot (e.g., "pregnancy" from "besondereBelastungen.pregnancy")
+      const optionValue = comp.name.split(".").pop();
+      if (optionValue) {
+        options.push({
+          text: comp.label,
+          value: optionValue,
+        });
+      }
+    }
+  });
+
+  return {
+    question: formPage.heading,
+    ...(options.length > 0 && { options }),
+  };
+}
+
+function findParentFieldset(
+  fieldName: string,
+  formPage: StrapiFormFlowPage,
+): StrapiFormComponent | null {
+  return (
+    formPage.form.find((component) => {
+      if (
+        "components" in component &&
+        component.components &&
+        Array.isArray(component.components)
+      ) {
+        // Check if any nested component has our fieldName as a prefix
+        return component.components.some(
+          (nestedComp) =>
+            nestedComp &&
+            "name" in nestedComp &&
+            nestedComp.name?.startsWith(`${fieldName}.`),
+        );
+      }
+      return false;
+    }) ?? null
+  );
+}
+
+async function processFieldForQuestions(
+  fieldName: string,
+  fieldToStepMapping: Record<string, string>,
+  stepPagesCache: Record<string, StrapiFormFlowPage>,
+  flowId: FlowId,
+): Promise<FieldQuestion | null> {
+  const stepId = findStepIdForField(fieldName, fieldToStepMapping);
+
+  if (!stepId) {
+    return null;
+  }
+
+  // Cache form pages to avoid duplicate fetches
+  if (!stepPagesCache[stepId]) {
+    stepPagesCache[stepId] = await fetchFlowPage(
+      "form-flow-pages",
+      flowId,
+      stepId,
+    );
+  }
+
+  const formPage = stepPagesCache[stepId];
+
+  let formComponent: StrapiFormComponent | undefined | null =
+    formPage.form.find(
+      (component) => "name" in component && component.name === fieldName,
+    );
+
+  // If direct match not found, look for a parent fieldset or component with nested fields
+  if (!formComponent) {
+    formComponent = findParentFieldset(fieldName, formPage);
+
+    // If no parent fieldset found, check if we have direct components with this prefix
+    if (!formComponent) {
+      const nestedResult = processNestedComponents(fieldName, formPage);
+      if (nestedResult) {
+        return nestedResult;
+      }
+    }
+  }
+
+  if (formComponent) {
+    return createFieldQuestionFromComponent(formComponent, formPage);
+  }
+
+  // Only fall back to page heading if no component was found
+  if (formPage.heading) {
+    return {
+      question: formPage.heading,
+    };
+  }
+
+  return null;
+}
+
 /**
  * Retrieves the original questions for form fields by fetching their form pages
  */
@@ -53,180 +238,20 @@ export async function getFormQuestionsForFields(
     return {};
   }
 
-  try {
-    const formFieldsMap = await fetchAllFormFields(flowId);
-    const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
+  const formFieldsMap = await fetchAllFormFields(flowId);
+  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
-    for (const fieldName of fieldNames) {
-      let stepId = fieldToStepMapping[fieldName];
+  for (const fieldName of fieldNames) {
+    const fieldQuestion = await processFieldForQuestions(
+      fieldName,
+      fieldToStepMapping,
+      stepPagesCache,
+      flowId,
+    );
 
-      if (!stepId) {
-        // Look for nested field patterns like "berufart.selbststaendig" -> "/finanzielle-angaben/einkommen/art"
-        const nestedFieldMapping = Object.entries(fieldToStepMapping).find(
-          ([mappedField]) => mappedField.startsWith(`${fieldName}.`),
-        );
-
-        if (nestedFieldMapping) {
-          stepId = nestedFieldMapping[1];
-        }
-      }
-
-      if (!stepId) {
-        continue;
-      }
-
-      try {
-        // Cache form pages to avoid duplicate fetches
-        if (!stepPagesCache[stepId]) {
-          stepPagesCache[stepId] = await fetchFlowPage(
-            "form-flow-pages",
-            flowId,
-            stepId,
-          );
-        }
-
-        const formPage = stepPagesCache[stepId];
-
-        let formComponent = formPage.form.find(
-          (component) => "name" in component && component.name === fieldName,
-        );
-
-        if (!formComponent) {
-          const availableComponents = formPage.form
-            .filter((comp) => "name" in comp)
-            .map((comp) => ({
-              name: (comp as any).name,
-              type: comp.__component,
-              hasOptions: "options" in comp,
-              optionCount:
-                "options" in comp ? (comp as any).options?.length : 0,
-            }));
-        }
-
-        // If direct match not found, look for a parent fieldset or component with nested fields
-        if (!formComponent) {
-          console.log(
-            `🔍 Looking for parent fieldset containing "${fieldName}.*" components`,
-          );
-
-          // Look for components that have fieldName as a prefix (e.g., "besondereBelastungen" in "besondereBelastungen.pregnancy")
-          formComponent = formPage.form.find((component) => {
-            if (
-              "components" in component &&
-              component.components &&
-              Array.isArray(component.components)
-            ) {
-              // Check if any nested component has our fieldName as a prefix
-              const hasNestedFields = component.components.some(
-                (nestedComp: any) =>
-                  nestedComp &&
-                  "name" in nestedComp &&
-                  nestedComp.name?.startsWith(`${fieldName}.`),
-              );
-
-              return hasNestedFields;
-            }
-            return false;
-          });
-
-          // If no parent fieldset found, check if we have direct components with this prefix
-          if (!formComponent) {
-            const hasDirectNestedComponents = formPage.form.some(
-              (component) =>
-                "name" in component &&
-                (component as any).name?.startsWith(`${fieldName}.`),
-            );
-
-            if (hasDirectNestedComponents) {
-              // Extract options from the nested components
-              const nestedComponents = formPage.form.filter(
-                (component) =>
-                  "name" in component &&
-                  (component as any).name?.startsWith(`${fieldName}.`),
-              );
-
-              const options: FieldOption[] = [];
-              nestedComponents.forEach((comp: any) => {
-                if (comp.name && comp.label) {
-                  // Extract the suffix after the dot (e.g., "pregnancy" from "besondereBelastungen.pregnancy")
-                  const optionValue = comp.name.split(".").pop();
-                  if (optionValue) {
-                    options.push({
-                      text: comp.label,
-                      value: optionValue,
-                    });
-                  }
-                }
-              });
-
-              fieldQuestions[fieldName] = {
-                question: formPage.heading,
-                ...(options.length > 0 && { options }),
-              };
-
-              // Skip the normal component processing since we handled it directly
-              continue;
-            }
-          }
-        }
-
-        if (formComponent) {
-          // Extract options directly if they exist
-          let options: FieldOption[] | undefined;
-          if (
-            "options" in formComponent &&
-            Array.isArray(formComponent.options)
-          ) {
-            // Handle different option structures
-            if (formComponent.__component === "form-elements.tile-group") {
-              // Tile group uses {title, value} - convert to {text, value}
-              options = formComponent.options.map((opt: any) => ({
-                text: opt.title || opt.value,
-                value: opt.value,
-              }));
-            } else {
-              // Select/dropdown use {text, value} - use directly
-              options = formComponent.options as FieldOption[];
-            }
-          }
-
-          // Handle components with labels
-          if ("label" in formComponent && formComponent.label) {
-            const fieldQuestion = {
-              question: formComponent.label,
-              ...(options && { options }),
-            };
-
-            fieldQuestions[fieldName] = fieldQuestion;
-          }
-          // Handle components without labels (like radio buttons) but with options
-          else if (options && options.length > 0) {
-            const fieldQuestion = {
-              question: formPage.heading, // Use page heading as question
-              options: options,
-            };
-
-            fieldQuestions[fieldName] = fieldQuestion;
-          }
-        }
-
-        // Only fall back to page heading if no component was found
-        if (!formComponent && formPage.heading) {
-          // If no specific field label, use the page heading as the question
-          fieldQuestions[fieldName] = {
-            question: formPage.heading,
-          };
-        }
-      } catch (error) {
-        console.warn(
-          `Failed to fetch form page for field ${fieldName} on step ${stepId}:`,
-          error,
-        );
-      }
+    if (fieldQuestion) {
+      fieldQuestions[fieldName] = fieldQuestion;
     }
-  } catch (error) {
-    console.error(`❌ Error in getFormQuestionsForFields:`, error);
-    return {};
   }
 
   return fieldQuestions;
