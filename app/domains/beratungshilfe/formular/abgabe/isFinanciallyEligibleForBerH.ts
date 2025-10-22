@@ -39,7 +39,7 @@ function calculateEigentumTotalWorth(
 
   const totalGeldanlagenWorth =
     userData.geldanlagen?.reduce((acc, geldanlage) => {
-      if (geldanlage.art === "forderung") {
+      if ("forderung" in geldanlage) {
         return acc + parseInt(geldanlage.forderung ?? "0");
       }
       return acc + parseInt(geldanlage.wert ?? "0");
@@ -47,10 +47,12 @@ function calculateEigentumTotalWorth(
 
   const totalKraftfahrzeugeWorth =
     userData.kraftfahrzeuge?.reduce((acc, kraftfahrzeug) => {
+      const verkaufswert =
+        "verkaufswert" in kraftfahrzeug ? kraftfahrzeug.verkaufswert : "0";
       // Kraftfahrzeuge that are used for commuting are not counted
       return kraftfahrzeug.hasArbeitsweg === "yes"
         ? acc
-        : acc + parseInt(kraftfahrzeug.verkaufswert ?? "0");
+        : acc + parseInt(verkaufswert);
     }, 0) ?? 0;
 
   const totalWertgegendstaendeWorth =

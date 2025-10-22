@@ -8,7 +8,7 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 
-export type BasicTypes = string | number | boolean;
+export type BasicTypes = string | number | boolean | undefined;
 type ObjectType = {
   // oxlint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;

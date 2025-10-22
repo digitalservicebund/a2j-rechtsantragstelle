@@ -64,7 +64,10 @@ describe("createChecklistSteps", () => {
       hasGeldanlage: "yes",
       geldanlagen: [
         {
+          art: "befristet",
           befristetArt: "lifeInsurance",
+          eigentuemer: "myself",
+          wert: "100",
         },
       ],
     };
