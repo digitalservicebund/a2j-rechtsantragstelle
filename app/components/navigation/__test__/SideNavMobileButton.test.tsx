@@ -57,54 +57,107 @@ describe("SideNavMobileButton", () => {
     expect(mockToggleMenu).toBeCalledTimes(1);
   });
 
-  it("should have styles for warning in the button in case the navigation item contains Warning Current", () => {
-    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
-      currentAreaTitle: "currentAreaTitle",
-      nextAreaTitle: "nextAreaTitle",
+  describe("warning current state", () => {
+    it("should not have styles for warning in the button in case the navigation item contains Warning Current and menu is opened", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          navItems={[
+            {
+              destination: "",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          menuOpen
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).not.toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
     });
 
-    const { getByRole } = render(
-      <SideNavMobileButton
-        navItems={[
-          {
-            destination: "",
-            label: "",
-            state: "WarningCurrent",
-          },
-        ]}
-        menuOpen
-        toggleMenu={vi.fn()}
-      />,
-    );
+    it("should not have styles for warning in the button in case the steps stepper contains Warning Current and menu is opened", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
 
-    expect(getByRole("button")).toHaveClass(
-      "bg-yellow-200 active:bg-yellow-300",
-    );
-  });
+      const { getByRole } = render(
+        <SideNavMobileButton
+          stepsStepper={[
+            {
+              href: ".",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          navItems={[]}
+          menuOpen
+          toggleMenu={vi.fn()}
+        />,
+      );
 
-  it("should have styles for warning in the button in case the steps stepper contains Warning Current", () => {
-    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
-      currentAreaTitle: "currentAreaTitle",
-      nextAreaTitle: "nextAreaTitle",
+      expect(getByRole("button")).not.toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
     });
 
-    const { getByRole } = render(
-      <SideNavMobileButton
-        stepsStepper={[
-          {
-            href: ".",
-            label: "",
-            state: "WarningCurrent",
-          },
-        ]}
-        navItems={[]}
-        menuOpen
-        toggleMenu={vi.fn()}
-      />,
-    );
+    it("should have styles for warning in the button in case the navigation item contains Warning Current and menu is closed", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
 
-    expect(getByRole("button")).toHaveClass(
-      "bg-yellow-200 active:bg-yellow-300",
-    );
+      const { getByRole } = render(
+        <SideNavMobileButton
+          navItems={[
+            {
+              destination: "",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          menuOpen={false}
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
+
+    it("should have styles for warning in the button in case the steps stepper contains Warning Current and menu is closed", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          stepsStepper={[
+            {
+              href: ".",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          navItems={[]}
+          menuOpen={false}
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
   });
 });
