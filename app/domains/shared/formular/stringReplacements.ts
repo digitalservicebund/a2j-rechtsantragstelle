@@ -34,12 +34,16 @@ export const geldAnlagenStrings = (
     hasLebensversicherung:
       context.hasGeldanlage === "yes" &&
       context.geldanlagen?.some(
-        (geldanlage) => geldanlage.befristetArt === "lifeInsurance",
+        (geldanlage) =>
+          geldanlage.art === "befristet" &&
+          geldanlage.befristetArt === "lifeInsurance",
       ),
     hasBausparvertrag:
       context.hasGeldanlage === "yes" &&
       context.geldanlagen?.some(
-        (geldanlage) => geldanlage.befristetArt === "buildingSavingsContract",
+        (geldanlage) =>
+          geldanlage.art === "befristet" &&
+          geldanlage.befristetArt === "buildingSavingsContract",
       ),
     hasWertpapiere:
       context.hasGeldanlage === "yes" &&

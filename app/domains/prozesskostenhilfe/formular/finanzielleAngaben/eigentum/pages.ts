@@ -16,82 +16,19 @@ const eigentuemerSchema = z.enum([
   "myselfAndSomeoneElse",
 ]);
 
-const kraftfahrzeugWertSchema = z.enum(["under10000", "over10000", "unsure"]);
-
-const grundeigentumArtSchema = z.enum([
-  "eigentumswohnung",
-  "einfamilienhaus",
-  "mehrereWohnungen",
-  "unbebaut",
-  "erbbaurecht",
-  "garage",
-]);
-
-const geldanlagenArtSchema = z.enum([
-  "bargeld",
-  "wertpapiere",
-  "guthabenkontoKrypto",
-  "giroTagesgeldSparkonto",
-  "befristet",
-  "forderung",
-  "sonstiges",
-]);
-
-const befristetArtSchema = z.enum([
-  "lifeInsurance",
-  "buildingSavingsContract",
-  "fixedDepositAccount",
-]);
-
-const bewohntSchema = z.enum(["yes", "family", "no"]);
-
-const sharedBankkontenFields = {
-  bankName: stringRequiredSchema,
-  kontostand: buildMoneyValidationSchema({}),
-  iban: stringOptionalSchema,
-  kontoEigentuemer: eigentuemerSchema,
-  kontoDescription: stringOptionalSchema,
-};
-
 const bankkontenArraySchema = z
-  .union([
-    z.object({
-      ...sharedBankkontenFields,
-      kontoEigentuemer: z.literal("myself"),
-    }),
-    z.object({
-      ...sharedBankkontenFields,
-      kontoEigentuemer: z.literal("partner"),
-    }),
-    z.object({
-      ...sharedBankkontenFields,
-      kontoEigentuemer: z.literal("myselfAndPartner"),
-    }),
-    z.object({
-      ...sharedBankkontenFields,
-      kontoEigentuemer: z.literal("myselfAndSomeoneElse"),
-    }),
-  ])
+  .object({
+    bankName: stringRequiredSchema,
+    kontostand: buildMoneyValidationSchema({}),
+    iban: stringOptionalSchema,
+    kontoEigentuemer: eigentuemerSchema,
+    kontoDescription: stringOptionalSchema,
+  })
   .array()
   .min(1);
 
 const sharedKraftfahrzeugeFields = {
-  art: stringRequiredSchema,
-  marke: stringRequiredSchema,
-  eigentuemer: eigentuemerSchema,
-  verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
-  kilometerstand: integerSchema,
-  anschaffungsjahr: schemaOrEmptyString(
-    createYearSchema({
-      optional: true,
-      latest: () => today().getFullYear(),
-    }),
-  ),
-  baujahr: schemaOrEmptyString(
-    createYearSchema({ latest: () => today().getFullYear() }),
-  ),
-  hasArbeitsweg: YesNoAnswer,
-  wert: kraftfahrzeugWertSchema,
+  wert: z.enum(["under10000", "over10000", "unsure"]),
 };
 
 const kraftfahrzeugeArraySchema = z
@@ -99,43 +36,29 @@ const kraftfahrzeugeArraySchema = z
     z
       .object({
         ...sharedKraftfahrzeugeFields,
-        kontoEigentuemer: z.literal("myself"),
-      })
-      .partial(),
-    z
-      .object({
-        ...sharedKraftfahrzeugeFields,
-        kontoEigentuemer: z.literal("partner"),
-      })
-      .partial(),
-    z
-      .object({
-        ...sharedKraftfahrzeugeFields,
-        kontoEigentuemer: z.literal("myselfAndPartner"),
-      })
-      .partial(),
-    z
-      .object({
-        ...sharedKraftfahrzeugeFields,
-        kontoEigentuemer: z.literal("myselfAndSomeoneElse"),
-      })
-      .partial(),
-    z
-      .object({
-        ...sharedKraftfahrzeugeFields,
+        hasArbeitsweg: YesNoAnswer,
         wert: z.literal("under10000"),
       })
       .partial(),
     z
       .object({
         ...sharedKraftfahrzeugeFields,
-        wert: z.literal("over10000"),
-      })
-      .partial(),
-    z
-      .object({
-        ...sharedKraftfahrzeugeFields,
-        wert: z.literal("unsure"),
+        art: stringRequiredSchema,
+        marke: stringRequiredSchema,
+        eigentuemer: eigentuemerSchema,
+        verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
+        kilometerstand: integerSchema,
+        anschaffungsjahr: schemaOrEmptyString(
+          createYearSchema({
+            optional: true,
+            latest: () => today().getFullYear(),
+          }),
+        ),
+        baujahr: schemaOrEmptyString(
+          createYearSchema({ latest: () => today().getFullYear() }),
+        ),
+        hasArbeitsweg: YesNoAnswer,
+        wert: z.enum(["over10000", "unsure"]),
       })
       .partial(),
   ])
@@ -143,163 +66,96 @@ const kraftfahrzeugeArraySchema = z
   .min(1);
 
 const sharedGeldanlagenFields = {
-  art: geldanlagenArtSchema,
   eigentuemer: eigentuemerSchema,
   wert: buildMoneyValidationSchema(),
-  kontoBankName: stringOptionalSchema,
-  kontoIban: stringOptionalSchema,
-  kontoBezeichnung: stringOptionalSchema,
-  befristetArt: befristetArtSchema.optional(),
-  forderung: stringOptionalSchema,
-  verwendungszweck: stringOptionalSchema,
-  auszahlungdatum: stringOptionalSchema,
+  art: z.enum([
+    "bargeld",
+    "wertpapiere",
+    "guthabenkontoKrypto",
+    "giroTagesgeldSparkonto",
+    "befristet",
+    "forderung",
+    "sonstiges",
+  ]),
 };
 
 const geldanlagenArraySchema = z
   .union([
     z.object({
       ...sharedGeldanlagenFields,
-      art: z.literal("bargeld"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("wertpapiere"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("guthabenkontoKrypto"),
+      art: z.enum(["bargeld", "wertpapiere", "guthabenkontoKrypto"]),
     }),
     z.object({
       ...sharedGeldanlagenFields,
       art: z.literal("giroTagesgeldSparkonto"),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
     }),
     z.object({
       ...sharedGeldanlagenFields,
       art: z.literal("befristet"),
+      befristetArt: z
+        .enum([
+          "lifeInsurance",
+          "buildingSavingsContract",
+          "fixedDepositAccount",
+        ])
+        .optional(),
+      auszahlungdatum: stringOptionalSchema,
     }),
     z.object({
       ...sharedGeldanlagenFields,
       art: z.literal("forderung"),
+      forderung: stringOptionalSchema,
     }),
     z.object({
       ...sharedGeldanlagenFields,
       art: z.literal("sonstiges"),
-    }),
-    z.object({ ...sharedGeldanlagenFields, eigentuemer: z.literal("myself") }),
-    z.object({ ...sharedGeldanlagenFields, eigentuemer: z.literal("partner") }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      eigentuemer: z.literal("myselfAndPartner"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      eigentuemer: z.literal("myselfAndSomeoneElse"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      befristetArt: z.literal("lifeInsurance"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      befristetArt: z.literal("buildingSavingsContract"),
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      befristetArt: z.literal("fixedDepositAccount"),
+      verwendungszweck: stringOptionalSchema,
     }),
   ])
   .array()
   .min(1);
 
 const sharedGrundeigentumFields = {
-  isBewohnt: bewohntSchema,
-  art: grundeigentumArtSchema,
+  isBewohnt: z.enum(["yes", "no", "family"]),
+  art: z.enum([
+    "eigentumswohnung",
+    "einfamilienhaus",
+    "mehrereWohnungen",
+    "unbebaut",
+    "erbbaurecht",
+    "garage",
+  ]),
   eigentuemer: eigentuemerSchema,
   flaeche: stringRequiredSchema,
   verkaufswert: buildMoneyValidationSchema(),
-  strassehausnummer: stringRequiredSchema,
-  plz: stringOptionalSchema,
-  ort: stringRequiredSchema,
-  land: stringRequiredSchema,
 };
-
 const grundeigentumArraySchema = z
   .union([
     z.object({
       ...sharedGrundeigentumFields,
-      isBewohnt: z.literal("yes"),
+      isBewohnt: z.enum(["yes"]),
     }),
     z.object({
       ...sharedGrundeigentumFields,
-      isBewohnt: z.literal("family"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      isBewohnt: z.literal("no"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("eigentumswohnung"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("einfamilienhaus"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("mehrereWohnungen"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("unbebaut"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("erbbaurecht"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      art: z.literal("garage"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      eigentuemer: z.literal("myself"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      eigentuemer: z.literal("partner"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      eigentuemer: z.literal("myselfAndPartner"),
-    }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      eigentuemer: z.literal("myselfAndSomeoneElse"),
+      isBewohnt: z.enum(["no", "family"]),
+      strassehausnummer: stringRequiredSchema,
+      plz: stringOptionalSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
     }),
   ])
   .array()
   .min(1);
 
-const sharedWertsachenFields = {
-  art: stringRequiredSchema,
-  eigentuemer: eigentuemerSchema,
-  wert: buildMoneyValidationSchema(),
-};
-
 const wertsachenArraySchema = z
-  .union([
-    z.object({ ...sharedWertsachenFields, eigentuemer: z.literal("myself") }),
-    z.object({ ...sharedWertsachenFields, eigentuemer: z.literal("partner") }),
-    z.object({
-      ...sharedWertsachenFields,
-      eigentuemer: z.literal("myselfAndPartner"),
-    }),
-    z.object({
-      ...sharedWertsachenFields,
-      eigentuemer: z.literal("myselfAndSomeoneElse"),
-    }),
-  ])
+  .object({
+    art: stringRequiredSchema,
+    eigentuemer: eigentuemerSchema,
+    wert: buildMoneyValidationSchema(),
+  })
   .array()
   .min(1);
 
@@ -354,12 +210,15 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           daten: {
             pageSchema: {
-              "bankkonten#bankName": sharedBankkontenFields.bankName,
-              "bankkonten#kontostand": sharedBankkontenFields.kontostand,
-              "bankkonten#iban": sharedBankkontenFields.iban,
-              "bankkonten#kontoEigentuemer": eigentuemerSchema,
+              "bankkonten#bankName":
+                bankkontenArraySchema.element.shape.bankName,
+              "bankkonten#kontostand":
+                bankkontenArraySchema.element.shape.kontostand,
+              "bankkonten#iban": bankkontenArraySchema.element.shape.iban,
+              "bankkonten#kontoEigentuemer":
+                bankkontenArraySchema.element.shape.kontoEigentuemer,
               "bankkonten#kontoDescription":
-                sharedBankkontenFields.kontoDescription,
+                bankkontenArraySchema.element.shape.kontoDescription,
             },
           },
         },
@@ -368,28 +227,32 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           arbeitsweg: {
             pageSchema: {
-              "kraftfahrzeuge#hasArbeitsweg":
-                sharedKraftfahrzeugeFields.hasArbeitsweg,
+              "kraftfahrzeuge#hasArbeitsweg": YesNoAnswer,
             },
           },
           wert: {
             pageSchema: {
-              "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
+              "kraftfahrzeuge#wert": sharedKraftfahrzeugeFields.wert,
             },
           },
           fahrzeuge: {
             pageSchema: {
-              "kraftfahrzeuge#art": sharedKraftfahrzeugeFields.art,
-              "kraftfahrzeuge#marke": sharedKraftfahrzeugeFields.marke,
-              "kraftfahrzeuge#eigentuemer":
-                sharedKraftfahrzeugeFields.eigentuemer,
-              "kraftfahrzeuge#verkaufswert":
-                sharedKraftfahrzeugeFields.verkaufswert,
-              "kraftfahrzeuge#kilometerstand":
-                sharedKraftfahrzeugeFields.kilometerstand,
-              "kraftfahrzeuge#anschaffungsjahr":
-                sharedKraftfahrzeugeFields.anschaffungsjahr,
-              "kraftfahrzeuge#baujahr": sharedKraftfahrzeugeFields.baujahr,
+              "kraftfahrzeuge#art": stringRequiredSchema,
+              "kraftfahrzeuge#marke": stringRequiredSchema,
+              "kraftfahrzeuge#eigentuemer": eigentuemerSchema,
+              "kraftfahrzeuge#verkaufswert": schemaOrEmptyString(
+                buildMoneyValidationSchema(),
+              ),
+              "kraftfahrzeuge#kilometerstand": integerSchema,
+              "kraftfahrzeuge#anschaffungsjahr": schemaOrEmptyString(
+                createYearSchema({
+                  optional: true,
+                  latest: () => today().getFullYear(),
+                }),
+              ),
+              "kraftfahrzeuge#baujahr": schemaOrEmptyString(
+                createYearSchema({ latest: () => today().getFullYear() }),
+              ),
             },
           },
         },
@@ -398,7 +261,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           art: {
             pageSchema: {
-              "geldanlagen#art": geldanlagenArtSchema,
+              "geldanlagen#art": sharedGeldanlagenFields.art,
             },
           },
           bargeld: {
@@ -423,35 +286,30 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
             pageSchema: {
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": sharedGeldanlagenFields.wert,
-              "geldanlagen#kontoBankName":
-                sharedGeldanlagenFields.kontoBankName,
-              "geldanlagen#kontoIban": sharedGeldanlagenFields.kontoIban,
-              "geldanlagen#kontoBezeichnung":
-                sharedGeldanlagenFields.kontoBezeichnung,
+              "geldanlagen#kontoBankName": stringOptionalSchema,
+              "geldanlagen#kontoIban": stringOptionalSchema,
+              "geldanlagen#kontoBezeichnung": stringOptionalSchema,
             },
           },
           befristet: {
             pageSchema: {
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": sharedGeldanlagenFields.wert,
-              "geldanlagen#befristetArt": befristetArtSchema,
-              "geldanlagen#verwendungszweck":
-                sharedGeldanlagenFields.verwendungszweck,
-              "geldanlagen#auszahlungdatum":
-                sharedGeldanlagenFields.auszahlungdatum,
+              "geldanlagen#befristetArt": sharedGeldanlagenFields.art,
+              "geldanlagen#verwendungszweck": stringOptionalSchema,
+              "geldanlagen#auszahlungdatum": stringOptionalSchema,
             },
           },
           forderung: {
             pageSchema: {
-              "geldanlagen#forderung": sharedGeldanlagenFields.forderung,
+              "geldanlagen#forderung": stringOptionalSchema,
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
           sonstiges: {
             pageSchema: {
-              "geldanlagen#verwendungszweck":
-                sharedGeldanlagenFields.verwendungszweck,
+              "geldanlagen#verwendungszweck": stringOptionalSchema,
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
@@ -462,30 +320,27 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           "bewohnt-frage": {
             pageSchema: {
-              "grundeigentum#isBewohnt": bewohntSchema,
+              "grundeigentum#isBewohnt": sharedGrundeigentumFields.isBewohnt,
             },
           },
           daten: {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#art": sharedGrundeigentumFields.art,
               "grundeigentum#eigentuemer": eigentuemerSchema,
               "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
-              "grundeigentum#verkaufswert":
-                sharedGrundeigentumFields.verkaufswert,
-              "grundeigentum#strassehausnummer":
-                sharedGrundeigentumFields.strassehausnummer,
-              "grundeigentum#plz": sharedGrundeigentumFields.plz,
-              "grundeigentum#ort": sharedGrundeigentumFields.ort,
-              "grundeigentum#land": sharedGrundeigentumFields.land,
+              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
+              "grundeigentum#strassehausnummer": stringRequiredSchema,
+              "grundeigentum#plz": stringOptionalSchema,
+              "grundeigentum#ort": stringRequiredSchema,
+              "grundeigentum#land": stringRequiredSchema,
             },
           },
           "bewohnt-daten": {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#art": sharedGrundeigentumFields.art,
               "grundeigentum#eigentuemer": eigentuemerSchema,
               "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
-              "grundeigentum#verkaufswert":
-                sharedGrundeigentumFields.verkaufswert,
+              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
             },
           },
         },
@@ -494,9 +349,9 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           daten: {
             pageSchema: {
-              "wertsachen#art": sharedWertsachenFields.art,
+              "wertsachen#art": wertsachenArraySchema.element.shape.art,
               "wertsachen#eigentuemer": eigentuemerSchema,
-              "wertsachen#wert": sharedWertsachenFields.wert,
+              "wertsachen#wert": wertsachenArraySchema.element.shape.wert,
             },
           },
         },

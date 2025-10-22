@@ -205,11 +205,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
         kraftfahrzeugDone({
           ...mockedCompleteKraftfahrzeug,
           wert: "under10000",
-          eigentuemer: undefined,
-          art: undefined,
-          marke: undefined,
-          kilometerstand: undefined,
-          baujahr: undefined,
         }),
       ).toBeTruthy();
     });

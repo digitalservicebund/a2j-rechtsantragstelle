@@ -109,7 +109,8 @@ export const kraftfahrzeugDone = (
   kfz.hasArbeitsweg != undefined &&
   kfz.wert != undefined &&
   (kfz.wert === "under10000" ||
-    (kfz.eigentuemer != undefined &&
+    (kfz.wert === "over10000" &&
+      kfz.eigentuemer != undefined &&
       kfz.art != undefined &&
       kfz.marke != undefined &&
       kfz.kilometerstand != undefined &&
