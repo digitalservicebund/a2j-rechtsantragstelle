@@ -16,6 +16,12 @@ const eigentuemerSchema = z.enum([
   "myselfAndSomeoneElse",
 ]);
 
+const befristetArtSchema = z.enum([
+  "lifeInsurance",
+  "buildingSavingsContract",
+  "fixedDepositAccount",
+]);
+
 const bankkontenArraySchema = z
   .object({
     bankName: stringRequiredSchema,
@@ -95,13 +101,7 @@ const geldanlagenArraySchema = z
     z.object({
       ...sharedGeldanlagenFields,
       art: z.literal("befristet"),
-      befristetArt: z
-        .enum([
-          "lifeInsurance",
-          "buildingSavingsContract",
-          "fixedDepositAccount",
-        ])
-        .optional(),
+      befristetArt: befristetArtSchema,
       auszahlungdatum: stringOptionalSchema,
     }),
     z.object({
@@ -295,7 +295,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
             pageSchema: {
               "geldanlagen#eigentuemer": eigentuemerSchema,
               "geldanlagen#wert": sharedGeldanlagenFields.wert,
-              "geldanlagen#befristetArt": sharedGeldanlagenFields.art,
+              "geldanlagen#befristetArt": befristetArtSchema,
               "geldanlagen#verwendungszweck": stringOptionalSchema,
               "geldanlagen#auszahlungdatum": stringOptionalSchema,
             },
