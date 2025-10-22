@@ -433,6 +433,7 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              befristetArt: "fixedDepositAccount",
             },
           ],
         },
@@ -462,6 +463,7 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              befristetArt: "fixedDepositAccount",
             },
             {
               art: "forderung",
