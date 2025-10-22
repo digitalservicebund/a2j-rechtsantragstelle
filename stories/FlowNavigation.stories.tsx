@@ -48,6 +48,39 @@ export const Example: Story = {
   decorators: [(Story) => reactRouterContext(Story)],
 };
 
+export const NavigationWithCurrentWarning: Story = {
+  args: {
+    navItems: [
+      {
+        destination: ".",
+        label: "Das Rechtsproblem",
+        state: "Done",
+      },
+      {
+        destination: ".",
+        label: "Finanzielle Angaben",
+        state: "Done",
+      },
+      {
+        destination: ".",
+        label: "Persönliche Daten",
+        state: "Done",
+      },
+      {
+        destination: ".",
+        label: "Weitere Angaben",
+        state: "WarningCurrent",
+      },
+      {
+        destination: ".",
+        label: "Abgabe",
+        state: "Disabled",
+      },
+    ],
+  },
+  decorators: [(Story) => reactRouterContext(Story)],
+};
+
 export const MobileWithStepper: Story = {
   args: {
     navItems: [
@@ -92,6 +125,61 @@ export const MobileWithStepper: Story = {
         href: "...",
         label: "Klagen herunterladen",
         state: "Warning",
+      },
+      {
+        href: "...",
+        label: "Klagen herunterladen 2",
+        state: "Disabled",
+      },
+    ],
+  },
+  decorators: [(Story) => reactRouterContext(Story)],
+};
+
+export const MobileWithStepperCurrentWarning: Story = {
+  args: {
+    navItems: [
+      {
+        destination: ".",
+        label: "Start",
+        state: "Done",
+      },
+      {
+        destination: "..",
+        label: "Forderung",
+        state: "Done",
+      },
+      {
+        destination: "...",
+        label: "Sachgebiet",
+        state: "Done",
+      },
+      {
+        destination: "....",
+        label: "Klagende Person",
+        state: "Done",
+      },
+      {
+        destination: ".....",
+        label: "Beklagte Person",
+        state: "WarningCurrent",
+      },
+    ],
+    stepsStepper: [
+      {
+        href: ".",
+        label: "Gericht Prüfen",
+        state: "WarningCurrent",
+      },
+      {
+        href: "..",
+        label: "Klagen erstellen",
+        state: "Open",
+      },
+      {
+        href: "...",
+        label: "Klagen herunterladen",
+        state: "Open",
       },
       {
         href: "...",

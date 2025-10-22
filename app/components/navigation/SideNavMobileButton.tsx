@@ -3,6 +3,8 @@ import KeyboardArrowUp from "@digitalservicebund/icons/KeyboardArrowUp";
 import { translations } from "~/services/translations/translations";
 import type { NavItem, StepStepper } from "./types";
 import { getMobileButtonAreaTitles } from "./getMobileButtonAreaTitles";
+import { arrayIsNonEmpty } from "~/util/array";
+import classNames from "classnames";
 
 type Props = Readonly<{
   menuOpen: boolean;
@@ -22,11 +24,20 @@ export const SideNavMobileButton = ({
   const { currentAreaTitle, nextAreaTitle, stepStepperIndex } =
     getMobileButtonAreaTitles(navItems, stepsStepper);
 
+  const isStateCurrentWarning = arrayIsNonEmpty(stepsStepper)
+    ? stepsStepper.some(({ state }) => state === "WarningCurrent")
+    : navItems.some(({ state }) => state === "WarningCurrent");
+
   return (
     <button
       onClick={toggleMenu}
       aria-expanded={menuOpen}
-      className="flex flex-row items-center justify-between py-8 px-16 cursor-pointer w-full"
+      className={classNames(
+        "flex flex-row items-center justify-between py-8 px-16 cursor-pointer w-full active:bg-blue-400 side-nav-mobile-button",
+        {
+          "bg-yellow-200 active:bg-yellow-300": isStateCurrentWarning,
+        },
+      )}
     >
       <div className="flex flex-row gap-8">
         {stepStepperIndex && (

@@ -56,4 +56,55 @@ describe("SideNavMobileButton", () => {
     fireEvent.click(menuButton);
     expect(mockToggleMenu).toBeCalledTimes(1);
   });
+
+  it("should have styles for warning in the button in case the navigation item contains Warning Current", () => {
+    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+      currentAreaTitle: "currentAreaTitle",
+      nextAreaTitle: "nextAreaTitle",
+    });
+
+    const { getByRole } = render(
+      <SideNavMobileButton
+        navItems={[
+          {
+            destination: "",
+            label: "",
+            state: "WarningCurrent",
+          },
+        ]}
+        menuOpen
+        toggleMenu={vi.fn()}
+      />,
+    );
+
+    expect(getByRole("button")).toHaveClass(
+      "bg-yellow-200 active:bg-yellow-300",
+    );
+  });
+
+  it("should have styles for warning in the button in case the steps stepper contains Warning Current", () => {
+    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+      currentAreaTitle: "currentAreaTitle",
+      nextAreaTitle: "nextAreaTitle",
+    });
+
+    const { getByRole } = render(
+      <SideNavMobileButton
+        stepsStepper={[
+          {
+            href: ".",
+            label: "",
+            state: "WarningCurrent",
+          },
+        ]}
+        navItems={[]}
+        menuOpen
+        toggleMenu={vi.fn()}
+      />,
+    );
+
+    expect(getByRole("button")).toHaveClass(
+      "bg-yellow-200 active:bg-yellow-300",
+    );
+  });
 });
