@@ -94,7 +94,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.2",
+    "@axe-core/playwright": "^4.11.0",
     "@faker-js/faker": "^10.1.0",
     "@playwright/test": "^1.56.1",
     "@react-router/dev": "^7.9.4",
