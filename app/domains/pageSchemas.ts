@@ -85,33 +85,19 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export function doneFunctionFromPagesConfig<T extends PagesConfig>(
-  pageSchema: T,
-  context: UserDataFromPagesSchema<T>,
-) {
-  return z
-    .object(
-      Object.values(pageSchema).reduce<SchemaObject>(
-        (acc, v) => ({ ...acc, ...v.pageSchema }),
-        {},
-      ),
-    )
-    .safeParse(context).success;
-}
-
-export const automaticDoneFunction =
+export const doneFunction =
   <T extends PagesConfig>(pageSchema: T) =>
   ({
     context,
     reachableSteps,
   }: {
     context: UserDataFromPagesSchema<T>;
-    reachableSteps: string[];
+    reachableSteps?: string[];
   }) => {
     return z
       .object(
         Object.values(pageSchema)
-          .filter((v) => reachableSteps.includes(`/${v.stepId}`))
+          .filter((v) => reachableSteps?.includes(`/${v.stepId}`))
           .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {}),
       )
       .safeParse(context).success;

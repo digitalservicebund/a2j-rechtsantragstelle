@@ -3,7 +3,7 @@ import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
 import { berHAntragGrundvoraussetzungenPages } from "./pages";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
 import {
-  doneFunctionFromPagesConfig,
+  doneFunction,
   xStateTargetsFromPagesConfig,
 } from "~/domains/pageSchemas";
 
@@ -13,8 +13,7 @@ export const grundvorraussetzungXstateConfig = {
   initial: "rechtsschutzversicherung",
   id: "grundvoraussetzungen",
   meta: {
-    done: ({ context }) =>
-      doneFunctionFromPagesConfig(berHAntragGrundvoraussetzungenPages, context),
+    done: doneFunction(berHAntragGrundvoraussetzungenPages),
   },
   states: {
     [steps.rechtsschutzversicherung.relative]: {

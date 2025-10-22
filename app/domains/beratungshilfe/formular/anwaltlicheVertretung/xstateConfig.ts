@@ -3,8 +3,7 @@ import { beratungshilfeAnwaltlicheVertretungGuards } from "./guards";
 import { berHAntragAnwaltlicheVertretungPages } from "./pages";
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
 import {
-  automaticDoneFunction,
-  doneFunctionFromPagesConfig,
+  doneFunction,
   xStateTargetsFromPagesConfig,
 } from "~/domains/pageSchemas";
 
@@ -16,14 +15,7 @@ export const anwaltlicheVertretungXstateConfig = {
   initial: "start",
   id: "anwaltliche-vertretung",
   meta: {
-    automaticDoneFunction: automaticDoneFunction(
-      berHAntragAnwaltlicheVertretungPages,
-    ),
-    done: ({ context }) =>
-      doneFunctionFromPagesConfig(
-        berHAntragAnwaltlicheVertretungPages,
-        context,
-      ),
+    done: doneFunction(berHAntragAnwaltlicheVertretungPages),
   },
   states: {
     start: {
