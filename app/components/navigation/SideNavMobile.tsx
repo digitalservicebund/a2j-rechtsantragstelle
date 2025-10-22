@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { translations } from "~/services/translations/translations";
-import { type NavItem } from "./types";
+import type { StepStepper, NavItem } from "./types";
 import { SideNavMobileButton } from "./SideNavMobileButton";
 
 export default function SideNavMobile({
   navItems,
+  stepsStepper,
 }: Readonly<{
   navItems: NavItem[];
+  stepsStepper?: StepStepper[];
 }>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -37,7 +39,7 @@ export default function SideNavMobile({
           <div className="pb-10 flex flex-col">
             <NavigationList
               navItems={navItems}
-              className="border border-blue-400 mx-10 mb-10 overflow-auto"
+              className="border border-blue-400 mx-16 mb-10 overflow-auto"
               firstItemRef={firstItemRef}
             />
           </div>
@@ -46,6 +48,7 @@ export default function SideNavMobile({
           navItems={navItems}
           menuOpen={menuOpen}
           toggleMenu={toggleMenu}
+          stepsStepper={stepsStepper}
         />
       </div>
     </div>

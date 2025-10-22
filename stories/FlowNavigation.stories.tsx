@@ -47,3 +47,53 @@ export const Example: Story = {
   },
   decorators: [(Story) => reactRouterContext(Story)],
 };
+
+export const MobileWithStepper: Story = {
+  args: {
+    navItems: [
+      {
+        destination: ".",
+        label: "Start",
+        state: "Done",
+      },
+      {
+        destination: "..",
+        label: "Forderung",
+        state: "Done",
+      },
+      {
+        destination: "...",
+        label: "Sachgebiet",
+        state: "Done",
+      },
+      {
+        destination: "....",
+        label: "Klagende Person",
+        state: "Done",
+      },
+      {
+        destination: ".....",
+        label: "Beklagte Person",
+        state: "DoneCurrent",
+      },
+    ],
+    stepsStepper: [
+      {
+        href: ".",
+        label: "Gericht Prüfen",
+        state: "DoneCurrent",
+      },
+      {
+        href: "..",
+        label: "Klagen erstellen",
+        state: "Open",
+      },
+      {
+        href: "...",
+        label: "Klagen herunterladen",
+        state: "Disabled",
+      },
+    ],
+  },
+  decorators: [(Story) => reactRouterContext(Story)],
+};
