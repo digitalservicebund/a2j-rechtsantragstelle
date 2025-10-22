@@ -91,6 +91,11 @@ export const MobileWithStepper: Story = {
       {
         href: "...",
         label: "Klagen herunterladen",
+        state: "Warning",
+      },
+      {
+        href: "...",
+        label: "Klagen herunterladen 2",
         state: "Disabled",
       },
     ],

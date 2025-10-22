@@ -163,6 +163,9 @@ export const translations = {
     toggleMenu: {
       de: "Schritt-für-Schritt-Menü",
     },
+    toStep: {
+      de: "Zu Schritt:",
+    },
   },
   buttonNavigation: {
     backButtonDefaultLabel: {
