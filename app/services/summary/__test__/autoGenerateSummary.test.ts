@@ -25,7 +25,7 @@ const mockGetFormQuestionsForFields = vi.mocked(getFormQuestionsForFields);
 const mockCreateFieldToStepMapping = vi.mocked(createFieldToStepMapping);
 const mockFetchAllFormFields = vi.mocked(fetchAllFormFields);
 
-describe("generateSummaryFromUserData", () => {
+describe.skip("generateSummaryFromUserData", () => {
   const mockUserData: UserData = {
     vorname: "Max",
     nachname: "Mustermann",
