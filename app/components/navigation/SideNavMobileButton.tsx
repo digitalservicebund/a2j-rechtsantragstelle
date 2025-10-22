@@ -33,10 +33,13 @@ export const SideNavMobileButton = ({
       onClick={toggleMenu}
       aria-expanded={menuOpen}
       className={classNames(
-        "flex flex-row items-center justify-between py-8 px-16 cursor-pointer w-full active:bg-blue-400 side-nav-mobile-button",
+        "flex flex-row items-center justify-between py-8 px-16 cursor-pointer w-full active:bg-blue-400",
         {
           "bg-yellow-200 active:bg-yellow-300":
             isStateCurrentWarning && !menuOpen,
+        },
+        {
+          "focus-within:shadow-[inset_0_0_0_4px_#004b76]": !menuOpen,
         },
       )}
     >
@@ -59,7 +62,7 @@ export const SideNavMobileButton = ({
         </div>
       </div>
 
-      <Icon className={"h-[24px] text-blue-800"} />
+      <Icon className={"h-[24px] text-blue-800 forced-colors:text-white"} />
     </button>
   );
 };
