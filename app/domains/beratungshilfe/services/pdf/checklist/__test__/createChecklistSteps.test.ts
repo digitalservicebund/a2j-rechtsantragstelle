@@ -64,6 +64,7 @@ describe("createChecklistSteps", () => {
       hasGeldanlage: "yes",
       geldanlagen: [
         {
+          art: "befristet",
           befristetArt: "lifeInsurance",
         },
       ],
