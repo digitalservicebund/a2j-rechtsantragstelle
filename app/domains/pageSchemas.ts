@@ -1,5 +1,5 @@
 import mapValues from "lodash/mapValues";
-import type { z } from "zod";
+import { z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
@@ -83,6 +83,18 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
     absolute: "#" + v.stepId.replaceAll("/", "."),
     relative: v.stepId.split("/").pop()!,
   }));
+}
+
+export function doneFunctionFromPagesConfig<T extends PagesConfig>(
+  pageSchema: T,
+  context: UserDataFromPagesSchema<T>,
+) {
+  const thing = Object.values(pageSchema).reduce<SchemaObject>(
+    (acc, v) => ({ ...acc, ...v.pageSchema }),
+    {},
+  );
+  const schema = z.object(thing);
+  return schema.safeParse(context).success;
 }
 
 export type PagesConfig = Record<string, PageConfig>;
