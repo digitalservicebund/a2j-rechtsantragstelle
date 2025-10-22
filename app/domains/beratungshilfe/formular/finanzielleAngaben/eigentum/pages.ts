@@ -61,6 +61,19 @@ const sonstigesSchema = z.object({
   verwendungszweck: stringOptionalSchema,
 });
 
+export const geldanlagenArraySchema = z
+  .union([
+    z.object({
+      ...sharedGeldanlagenFields,
+    }),
+    sparkontoSchema,
+    befristetSchema,
+    forderungSchema,
+    sonstigesSchema,
+  ])
+  .array()
+  .min(1);
+
 const sharedKraftfahrzeugFields = {
   hasArbeitsweg: YesNoAnswer,
   wert: z.enum(["under10000", "over10000", "unsure"]),
@@ -93,6 +106,26 @@ const kraftfahrzeugOver10000OrUnsureSchema = z.object({
   }),
 });
 
+export const kraftfahrzeugeArraySchema = z
+  .union([kraftfahrzeugUnder10000Schema, kraftfahrzeugOver10000OrUnsureSchema])
+  .array()
+  .min(1);
+
+export const wertgegenstandArraySchema = z
+  .array(
+    z.object({
+      art: stringRequiredSchema,
+      eigentuemer: z.enum([
+        "myself",
+        "partner",
+        "myselfAndPartner",
+        "myselfAndSomeoneElse",
+      ]),
+      wert: buildMoneyValidationSchema(),
+    }),
+  )
+  .min(1);
+
 const sharedEigentumFields = {
   isBewohnt: z.enum(["yes", "family", "no"]),
   art: z.enum([
@@ -112,6 +145,25 @@ const sharedEigentumFields = {
   flaeche: stringRequiredSchema,
   verkaufswert: buildMoneyValidationSchema(),
 };
+
+export const grundeigentumArraySchema = z
+  .array(
+    z.union([
+      z.object({
+        ...sharedEigentumFields,
+        isBewohnt: z.literal("yes"),
+      }),
+      z.object({
+        ...sharedEigentumFields,
+        isBewohnt: z.enum(["family", "no"]),
+        strassehausnummer: stringRequiredSchema,
+        plz: stringOptionalSchema,
+        ort: stringRequiredSchema,
+        land: stringRequiredSchema,
+      }),
+    ]),
+  )
+  .min(1);
 
 export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
@@ -168,18 +220,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumGeldanlage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
     pageSchema: {
-      geldanlagen: z
-        .union([
-          z.object({
-            ...sharedGeldanlagenFields,
-          }),
-          sparkontoSchema,
-          befristetSchema,
-          forderungSchema,
-          sonstigesSchema,
-        ])
-        .array()
-        .min(1),
+      geldanlagen: geldanlagenArraySchema,
     },
     arrayPages: {
       art: {
@@ -260,13 +301,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumKraftfahrzeug: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
     pageSchema: {
-      kraftfahrzeuge: z
-        .union([
-          kraftfahrzeugUnder10000Schema,
-          kraftfahrzeugOver10000OrUnsureSchema,
-        ])
-        .array()
-        .min(1),
+      kraftfahrzeuge: kraftfahrzeugeArraySchema,
     },
     arrayPages: {
       arbeitsweg: {
@@ -318,30 +353,15 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumWertgegenstand: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
     pageSchema: {
-      wertsachen: z.array(
-        z.object({
-          art: stringRequiredSchema,
-          eigentuemer: z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          wert: buildMoneyValidationSchema(),
-        }),
-      ),
+      wertsachen: wertgegenstandArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
-          "wertsachen#art": stringRequiredSchema,
-          "wertsachen#eigentuemer": z.enum([
-            "myself",
-            "partner",
-            "myselfAndPartner",
-            "myselfAndSomeoneElse",
-          ]),
-          "wertsachen#wert": buildMoneyValidationSchema(),
+          "wertsachen#art": wertgegenstandArraySchema.element.shape.art,
+          "wertsachen#eigentuemer":
+            wertgegenstandArraySchema.element.shape.eigentuemer,
+          "wertsachen#wert": wertgegenstandArraySchema.element.shape.wert,
         },
       },
     },
@@ -367,24 +387,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumGrundeigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
     pageSchema: {
-      grundeigentum: z
-        .array(
-          z.union([
-            z.object({
-              ...sharedEigentumFields,
-              isBewohnt: z.literal("yes"),
-            }),
-            z.object({
-              ...sharedEigentumFields,
-              isBewohnt: z.enum(["family", "no"]),
-              strassehausnummer: stringRequiredSchema,
-              plz: stringOptionalSchema,
-              ort: stringRequiredSchema,
-              land: stringRequiredSchema,
-            }),
-          ]),
-        )
-        .min(1),
+      grundeigentum: grundeigentumArraySchema,
     },
     arrayPages: {
       "bewohnt-frage": {
