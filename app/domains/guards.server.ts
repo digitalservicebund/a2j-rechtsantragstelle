@@ -6,6 +6,14 @@ export type GenericGuard<TUserData extends UserData> = ({
   context: TUserData;
 }) => boolean;
 
+export type AutomaticDoneFunction<TUserData extends UserData> = ({
+  context,
+  reachableSteps,
+}: {
+  context: TUserData;
+  reachableSteps: string[];
+}) => boolean;
+
 export type Guards<TContext extends UserData = UserData> = Record<
   string,
   GenericGuard<TContext>

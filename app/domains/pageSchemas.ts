@@ -89,13 +89,33 @@ export function doneFunctionFromPagesConfig<T extends PagesConfig>(
   pageSchema: T,
   context: UserDataFromPagesSchema<T>,
 ) {
-  const thing = Object.values(pageSchema).reduce<SchemaObject>(
-    (acc, v) => ({ ...acc, ...v.pageSchema }),
-    {},
-  );
-  const schema = z.object(thing);
-  return schema.safeParse(context).success;
+  return z
+    .object(
+      Object.values(pageSchema).reduce<SchemaObject>(
+        (acc, v) => ({ ...acc, ...v.pageSchema }),
+        {},
+      ),
+    )
+    .safeParse(context).success;
 }
+
+export const automaticDoneFunction =
+  <T extends PagesConfig>(pageSchema: T) =>
+  ({
+    context,
+    reachableSteps,
+  }: {
+    context: UserDataFromPagesSchema<T>;
+    reachableSteps: string[];
+  }) => {
+    return z
+      .object(
+        Object.values(pageSchema)
+          .filter((v) => reachableSteps.includes(`/${v.stepId}`))
+          .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {}),
+      )
+      .safeParse(context).success;
+  };
 
 export type PagesConfig = Record<string, PageConfig>;
 

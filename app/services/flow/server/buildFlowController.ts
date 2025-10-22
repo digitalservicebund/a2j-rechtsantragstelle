@@ -112,6 +112,7 @@ function stepStates(
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
     const hasDoneFunction = meta?.done !== undefined;
+    const hasAutomaticDoneFunction = meta?.automaticDoneFunction !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
@@ -146,9 +147,15 @@ function stepStates(
           ? eventlessStepId
           : initialStepId;
 
+      const done = hasAutomaticDoneFunction
+        ? meta?.automaticDoneFunction!({ context, reachableSteps })
+        : hasDoneFunction
+          ? meta?.done!({ context })
+          : false;
+
       return {
         url: `${state.machine.id}${targetStepId}`,
-        isDone: hasDoneFunction ? meta.done!({ context }) : false,
+        isDone: done,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
