@@ -11,8 +11,7 @@ test.beforeEach(async ({ page }) => {
 test.describe("homepage", () => {
   testPageToBeAccessible();
 
-  // TODO: revert after embedded image PR merged
-  test.skip("BMJ logo is displayed", async ({ page }) => {
+  test("BMJ logo is displayed", async ({ page }) => {
     // check if logo is displayed either as img role or img html tag
     const logoExist = await Promise.any([
       page

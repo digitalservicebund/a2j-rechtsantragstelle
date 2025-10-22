@@ -106,7 +106,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            isBewohnt: "yes",
+            isBewohnt: "no",
           },
         ],
       };
@@ -122,7 +122,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f6EigentuemerB.value).toBe(false);
       expect(pdfValues.f6EigentuemerC.value).toBe(false);
       expect(pdfValues.f7Nutzungsart.value).toBe(
-        "Art: Haus für Familie, Eigennutzung, Fläche: 100 m²",
+        "Art: Haus für Familie, Fläche: 100 m²",
       );
     });
 
@@ -139,7 +139,7 @@ describe("F_besitz", () => {
             ort: "Berlin",
             plz: "12345",
             strassehausnummer: "Musterstraße 1",
-            isBewohnt: "yes",
+            isBewohnt: "no",
           },
           {
             eigentuemer: "partner",
@@ -274,11 +274,21 @@ describe("F_besitz", () => {
             wert: "10000",
             auszahlungdatum: "01.01.2000",
             befristetArt: "fixedDepositAccount",
+            verwendungszweck: "zweck",
+          },
+          {
+            art: "forderung",
+            eigentuemer: "myselfAndSomeoneElse",
+            wert: "400",
             forderung: "asd",
+          },
+          {
+            art: "giroTagesgeldSparkonto",
+            eigentuemer: "myself",
+            wert: "10000",
             kontoBankName: "bank",
             kontoBezeichnung: "bezeichnung",
             kontoIban: "13",
-            verwendungszweck: "zweck",
           },
         ],
       };

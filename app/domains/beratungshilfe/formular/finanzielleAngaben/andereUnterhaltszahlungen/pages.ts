@@ -8,6 +8,29 @@ import { addYears, today } from "~/util/date";
 
 const MINUS_150_YEARS = -150;
 
+const unterhaltszahlungenArraySchema = z
+  .object({
+    familyRelationship: z.enum([
+      "mother",
+      "father",
+      "grandmother",
+      "grandfather",
+      "kid",
+      "ex-spouse",
+      "ex-partner",
+      "grandchild",
+    ]),
+    firstName: stringRequiredSchema,
+    surname: stringRequiredSchema,
+    birthday: createDateSchema({
+      earliest: () => addYears(today(), MINUS_150_YEARS),
+      latest: () => today(),
+    }),
+    monthlyPayment: buildMoneyValidationSchema(),
+  })
+  .array()
+  .min(1);
+
 export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/frage",
@@ -24,48 +47,21 @@ export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenPerson: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
     pageSchema: {
-      unterhaltszahlungen: z.array(
-        z.object({
-          familyRelationship: z.enum([
-            "mother",
-            "father",
-            "grandmother",
-            "grandfather",
-            "kid",
-            "ex-spouse",
-            "ex-partner",
-            "grandchild",
-          ]),
-          firstName: stringRequiredSchema,
-          surname: stringRequiredSchema,
-          birthday: createDateSchema({
-            earliest: () => addYears(today(), MINUS_150_YEARS),
-            latest: () => today(),
-          }),
-          monthlyPayment: buildMoneyValidationSchema(),
-        }),
-      ),
+      unterhaltszahlungen: unterhaltszahlungenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
-          "unterhaltszahlungen#familyRelationship": z.enum([
-            "mother",
-            "father",
-            "grandmother",
-            "grandfather",
-            "kid",
-            "ex-spouse",
-            "ex-partner",
-            "grandchild",
-          ]),
-          "unterhaltszahlungen#firstName": stringRequiredSchema,
-          "unterhaltszahlungen#surname": stringRequiredSchema,
-          "unterhaltszahlungen#birthday": createDateSchema({
-            earliest: () => addYears(today(), MINUS_150_YEARS),
-            latest: () => today(),
-          }),
-          "unterhaltszahlungen#monthlyPayment": buildMoneyValidationSchema(),
+          "unterhaltszahlungen#familyRelationship":
+            unterhaltszahlungenArraySchema.element.shape.familyRelationship,
+          "unterhaltszahlungen#firstName":
+            unterhaltszahlungenArraySchema.element.shape.firstName,
+          "unterhaltszahlungen#surname":
+            unterhaltszahlungenArraySchema.element.shape.surname,
+          "unterhaltszahlungen#birthday":
+            unterhaltszahlungenArraySchema.element.shape.birthday,
+          "unterhaltszahlungen#monthlyPayment":
+            unterhaltszahlungenArraySchema.element.shape.monthlyPayment,
         },
       },
     },
