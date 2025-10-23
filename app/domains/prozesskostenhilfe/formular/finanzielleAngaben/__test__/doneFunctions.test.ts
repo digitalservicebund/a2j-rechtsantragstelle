@@ -249,7 +249,6 @@ describe("Finanzielle Angaben doneFunctions", () => {
     });
 
     it("should return false if the kraftfahrzeug is missing wert and arbeitsweg information", () => {
-      
       expect(
         kraftfahrzeugeDone({
           context: {
@@ -266,11 +265,12 @@ describe("Finanzielle Angaben doneFunctions", () => {
     });
 
     it("should return true if a kraftfahrzeug is complete", () => {
-      
-            const result = kraftfahrzeugeArraySchema.safeParse([mockedCompleteKraftfahrzeug]);
-if (!result.success) {
-  console.log(result.error.format());
-}
+      const result = kraftfahrzeugeArraySchema.safeParse([
+        mockedCompleteKraftfahrzeug,
+      ]);
+      if (!result.success) {
+        console.log(result.error.format());
+      }
       expect(
         kraftfahrzeugeDone({
           context: {
@@ -281,10 +281,12 @@ if (!result.success) {
       ).toBe(true);
     });
 
-test("debug schema validation", () => {
-  const result = kraftfahrzeugeArraySchema.safeParse([mockedCompleteKraftfahrzeug]);
-  console.log(result);
-});
+    test("debug schema validation", () => {
+      const result = kraftfahrzeugeArraySchema.safeParse([
+        mockedCompleteKraftfahrzeug,
+      ]);
+      console.log(result);
+    });
   });
 
   describe("partnerSupportDone", () => {

@@ -12,7 +12,10 @@ import {
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
-import { eigentumDone, eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentum/doneFunctions";
+import {
+  eigentumDone,
+  eigentumZusammenfassungDone,
+} from "./finanzielleAngaben/eigentum/doneFunctions";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularUserData,
