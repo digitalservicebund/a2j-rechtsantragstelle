@@ -9,13 +9,11 @@ import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { translations } from "~/services/translations/translations";
 import { useId } from "react";
+import { type StepStepper } from "./types";
+import { arrayIsNonEmpty } from "~/util/array";
 
 type Props = {
-  steps: Array<{
-    label: string;
-    href: string;
-    state: NavState;
-  }>;
+  steps: StepStepper[];
 };
 
 const Triangle = ({
@@ -124,6 +122,10 @@ function ContentStep({
 }
 
 export const FlowStepperNavigation = ({ steps }: Props) => {
+  if (!arrayIsNonEmpty(steps)) {
+    return null;
+  }
+
   return (
     <nav className="w-full">
       <ol className={"flex max-w-full! pl-0"}>

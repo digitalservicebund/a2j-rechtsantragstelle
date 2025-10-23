@@ -49,3 +49,19 @@ export const stateIsWarning = (state: NavState) =>
   state === "Warning" || state === "WarningCurrent";
 
 export const stateIsDisabled = (state: NavState) => state === "Disabled";
+
+export const navStateStepper = (states: NavState[]): NavState => {
+  const allDone = states.every(stateIsDone);
+  const anyDoneCurrent = states.includes("DoneCurrent");
+
+  const anyWarning = states.some(stateIsWarning);
+  const anyWarningCurrent = states.includes("WarningCurrent");
+
+  const allDisabled = states.every(stateIsDisabled);
+  const allOpen = states.every((s) => s === "Open");
+
+  if (allDone) return anyDoneCurrent ? "DoneCurrent" : "Done";
+  if (anyWarning) return anyWarningCurrent ? "WarningCurrent" : "Warning";
+  if (allDisabled) return "Disabled";
+  return allOpen ? "Open" : "Current";
+};
