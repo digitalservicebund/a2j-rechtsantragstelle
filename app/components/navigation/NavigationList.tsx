@@ -5,6 +5,7 @@ export const NavigationList = ({
   navItems,
   ...props
 }: FlowNavigationProps & {
+  className?: string;
   isChild?: boolean;
   firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
 }) => (

@@ -4,10 +4,10 @@ import {
   getArraySummaryData,
 } from "~/services/array/getArraySummaryData";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
+import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepStates";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -45,6 +45,7 @@ const mockBuildFlowController = {
   isFinal: vi.fn().mockReturnValue(false),
   getPrevious: vi.fn().mockReturnValue(""),
   stepStates: vi.fn().mockReturnValue(undefined),
+  getInitialSubState: vi.fn().mockReturnValue(""),
   getMeta: vi.fn().mockReturnValue(undefined),
 } as unknown as ReturnType<typeof buildFlowController>;
 
@@ -63,10 +64,10 @@ const callContentData = getContentData(
 
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
-vi.mock("~/services/navigation/navItemsFromStepStates");
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.resetAllMocks();
 });
 
 describe("getContentData", () => {
@@ -162,7 +163,10 @@ describe("getContentData", () => {
         },
       ] satisfies NavItem[];
 
-      vi.mocked(navItemsFromStepStates).mockReturnValue(mockNavItems);
+      vi.spyOn(
+        navItemsFromStepStates,
+        "navItemsFromStepStates",
+      ).mockReturnValue(mockNavItems);
 
       const actual = callContentData.getNavProps(
         mockBuildFlowController,
@@ -170,11 +174,18 @@ describe("getContentData", () => {
         false,
       );
 
-      expect(actual).toEqual({ navItems: mockNavItems, expandAll: undefined });
+      expect(actual).toEqual({
+        navItems: mockNavItems,
+        expandAll: undefined,
+        stepsStepper: [],
+      });
     });
 
     it("should return empty array when nav items returns undefined", () => {
-      vi.mocked(navItemsFromStepStates).mockReturnValue(undefined);
+      vi.spyOn(
+        navItemsFromStepStates,
+        "navItemsFromStepStates",
+      ).mockReturnValue(undefined);
 
       const actual = callContentData.getNavProps(
         mockBuildFlowController,
@@ -185,10 +196,11 @@ describe("getContentData", () => {
       expect(actual).toEqual({
         expandAll: undefined,
         navItems: [],
+        stepsStepper: [],
       });
     });
 
-    it("should call the navItemsFromStepStates with subStates of the current stepId when useStepper is true", () => {
+    it("should return the stepsStepper and the navItems if the parameter useStepper is true", () => {
       vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
         {
           stepId: "/somePath/menu",
@@ -213,8 +225,8 @@ describe("getContentData", () => {
         {
           stepId: "/anotherPath/menu",
           url: "/anotherPath/menu",
-          isDone: true,
-          isReachable: true,
+          isDone: false,
+          isReachable: false,
           subStates: [
             {
               stepId: "/anotherPath/menu/page3",
@@ -226,41 +238,43 @@ describe("getContentData", () => {
         },
       ]);
 
-      const callContentDataWithStepper = getContentData(
-        {
-          cmsContent: mockCmsElement,
-          translations: mockTranslations,
-        },
-        mockUserData,
+      vi.mocked(mockBuildFlowController.getInitialSubState).mockReturnValue(
+        "/somePath/menu/page1",
       );
 
-      callContentDataWithStepper.getNavProps(
+      const actual = callContentData.getNavProps(
         mockBuildFlowController,
         "/somePath/menu/page1",
         true,
       );
 
-      expect(navItemsFromStepStates).toHaveBeenCalledTimes(1);
-
-      expect(navItemsFromStepStates).toHaveBeenCalledWith(
-        "/somePath/menu/page1",
-        [
+      expect(actual).toEqual({
+        navItems: [
           {
-            stepId: "/somePath/menu/page1",
-            url: "/somePath/menu/page1",
-            isDone: true,
-            isReachable: true,
+            destination: "/somePath/menu/page1",
+            label: "/somePath/menu/page1",
+            state: "DoneCurrent",
           },
           {
-            stepId: "/somePath/menu/page2",
-            url: "/somePath/menu/page2",
-            isDone: false,
-            isReachable: true,
+            destination: "/somePath/menu/page2",
+            label: "/somePath/menu/page2",
+            state: "Open",
           },
         ],
-        mockTranslations,
-        undefined,
-      );
+        stepsStepper: [
+          {
+            href: "/somePath/menu/page1",
+            label: "/somePath/menu",
+            state: "Current",
+          },
+          {
+            href: "/somePath/menu/page1",
+            label: "/anotherPath/menu",
+            state: "Disabled",
+          },
+        ],
+        expandAll: undefined,
+      });
     });
   });
 });
