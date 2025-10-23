@@ -4,7 +4,6 @@ export type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   expandAll?: boolean;
   stepsStepper?: StepStepper[];
-  className?: string;
 }>;
 
 export type NavItem = {

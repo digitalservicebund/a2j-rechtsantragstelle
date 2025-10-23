@@ -27,6 +27,11 @@ describe("FlowStepperNavigation", () => {
     expect(container).toHaveTextContent("Third step");
   });
 
+  it("should render empty if the steps are empty", () => {
+    const { container } = render(<FlowStepperNavigation steps={[]} />);
+    expect(container).toBeEmptyDOMElement();
+  });
+
   describe("state Current", () => {
     const currentSteps = [
       {
