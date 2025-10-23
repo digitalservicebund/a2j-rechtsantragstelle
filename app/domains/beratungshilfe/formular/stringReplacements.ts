@@ -95,7 +95,7 @@ export const getMissingInformationStrings = (
   };
 
   const requiresEinkommenDone =
-    einkommenDone({ context }) || context.staatlicheLeistungen == "keine"
+    context.staatlicheLeistungen == "keine"
       ? {
           partnerMissingInformation: !partnerDone({ context }),
           kinderMissingInformation: !kinderDone({ context }),
@@ -105,7 +105,11 @@ export const getMissingInformationStrings = (
           eigentumMissingInformation: !eigentumDone({ context }),
           ausgabenMissingInformation: !ausgabenDone({ context }),
         }
-      : {};
+      : context.staatlicheLeistungen == "buergergeld"
+        ? {
+            eigentumMissingInformation: !eigentumDone({ context }),
+          }
+        : {};
 
   return {
     ...alwaysChecked,
