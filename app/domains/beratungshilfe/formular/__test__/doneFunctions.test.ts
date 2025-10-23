@@ -92,42 +92,101 @@ describe("getMissingInformationStrings", () => {
     const result = getMissingInformationStrings({
       staatlicheLeistungen: "buergergeld",
       hasKinder: undefined,
+      anwaltskanzlei: "no",
+      gegenseite: "test",
+      beschreibung: "test",
+      bereich: "authorities",
+      ziel: "test",
+      eigeninitiativeBeschreibung: "test",
+      einkommen: "1000",
+      vorname: "test",
+      nachname: "test",
+      geburtsdatum: { day: "01", month: "01", year: "1990" },
+      hasBankkonto: "no",
+      hasGeldanlage: "no",
+      hasGrundeigentum: "no",
+      hasKraftfahrzeug: "no",
+      hasWertsache: "no",
     });
 
-    expect(result.kinderMissingInformation).toBeUndefined();
-    expect(result.eigentumMissingInformation).toBeDefined(); // Should check eigentum
+    expect("kinderMissingInformation" in result).toBe(false);
+    expect("eigentumMissingInformation" in result).toBe(true);
+    if ("eigentumMissingInformation" in result) {
+      expect(result.eigentumMissingInformation).toBe(false);
+    }
   });
 
   it("should not show any financial missing information for grundsicherung users", () => {
     const result = getMissingInformationStrings({
       staatlicheLeistungen: "grundsicherung",
       hasKinder: undefined,
+      anwaltskanzlei: "no",
+      gegenseite: "test",
+      beschreibung: "test",
+      bereich: "authorities",
+      ziel: "test",
+      eigeninitiativeBeschreibung: "test",
+      einkommen: "1000",
+      vorname: "test",
+      nachname: "test",
+      geburtsdatum: { day: "01", month: "01", year: "1990" },
     });
 
-    expect(result.kinderMissingInformation).toBeUndefined();
-    expect(result.partnerMissingInformation).toBeUndefined();
-    expect(result.eigentumMissingInformation).toBeUndefined();
+    expect("kinderMissingInformation" in result).toBe(false);
+    expect("partnerMissingInformation" in result).toBe(false);
+    expect("eigentumMissingInformation" in result).toBe(false);
   });
 
   it("should not show any financial missing information for asylbewerberleistungen users", () => {
     const result = getMissingInformationStrings({
       staatlicheLeistungen: "asylbewerberleistungen",
       hasKinder: undefined,
+      anwaltskanzlei: "no",
+      gegenseite: "test",
+      beschreibung: "test",
+      bereich: "authorities",
+      ziel: "test",
+      eigeninitiativeBeschreibung: "test",
+      einkommen: "1000",
+      vorname: "test",
+      nachname: "test",
+      geburtsdatum: { day: "01", month: "01", year: "1990" },
     });
 
-    expect(result.kinderMissingInformation).toBeUndefined();
-    expect(result.partnerMissingInformation).toBeUndefined();
-    expect(result.eigentumMissingInformation).toBeUndefined();
+    expect("kinderMissingInformation" in result).toBe(false);
+    expect("partnerMissingInformation" in result).toBe(false);
+    expect("eigentumMissingInformation" in result).toBe(false);
   });
 
   it("should show kinderMissingInformation for other users when children section not filled", () => {
     const result = getMissingInformationStrings({
       staatlicheLeistungen: "keine",
       hasKinder: undefined,
+      anwaltskanzlei: "no",
+      gegenseite: "test",
+      beschreibung: "test",
+      bereich: "authorities",
+      ziel: "test",
+      eigeninitiativeBeschreibung: "test",
+      einkommen: "1000",
+      vorname: "test",
+      nachname: "test",
+      geburtsdatum: { day: "01", month: "01", year: "1990" },
+      partnerschaft: undefined,
+      livingSituation: undefined,
     });
 
-    expect(result.kinderMissingInformation).toBe(true);
-    expect(result.partnerMissingInformation).toBeDefined();
-    expect(result.eigentumMissingInformation).toBeDefined();
+    expect("kinderMissingInformation" in result).toBe(true);
+    expect("partnerMissingInformation" in result).toBe(true);
+    expect("eigentumMissingInformation" in result).toBe(true);
+    if ("kinderMissingInformation" in result) {
+      expect(result.kinderMissingInformation).toBe(true);
+    }
+    if ("partnerMissingInformation" in result) {
+      expect(result.partnerMissingInformation).toBe(true);
+    }
+    if ("eigentumMissingInformation" in result) {
+      expect(result.eigentumMissingInformation).toBe(true);
+    }
   });
 });
