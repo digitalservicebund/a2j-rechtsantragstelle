@@ -45,7 +45,11 @@ export default defineConfig((config) => ({
     coverage: {
       provider: "istanbul",
       include: ["app/**"],
-      exclude: ["app/**/__test__/**", "app/routes/**"],
+      exclude: [
+        "app/**/__test__/**",
+        "app/routes/**",
+        "app/services/gerichtsfinder/readme.md",
+      ],
       reporter: ["text", "lcov"],
     },
     projects: [
