@@ -1,7 +1,10 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
+import {
+  type StepState,
+  type buildFlowController,
+} from "~/services/flow/server/buildFlowController";
 import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
 import { type Translations } from "~/services/translations/getTranslationByKey";
@@ -10,12 +13,41 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
 import { type UserDataWithPageData } from "../../pageData";
-import { isStepStateIdCurrent } from "~/services/navigation/isStepStateIdCurrent";
+import {
+  navStateStepper,
+  stateIsCurrent,
+} from "~/services/navigation/navState";
+import { type StepStepper } from "~/components/navigation/types";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
 };
+
+function buildStepsStepper(
+  stepStates: StepState[],
+  translations: Translations,
+  flowController: ReturnType<typeof buildFlowController>,
+  stepId: string,
+  userVisitedValidationPage: boolean | undefined,
+) {
+  return stepStates
+    .map((stepState) => ({
+      label: translations[stepState.stepId] ?? stepState.stepId,
+      href: flowController.getInitialSubState(stepState.stepId.substring(1)),
+      navItems:
+        navItemsFromStepStates(
+          stepId,
+          stepState.subStates,
+          translations,
+          userVisitedValidationPage,
+        ) ?? [],
+    }))
+    .map((stepStepper) => ({
+      ...stepStepper,
+      state: navStateStepper(stepStepper.navItems.map(({ state }) => state)),
+    }));
+}
 
 export const getContentData = (
   { cmsContent, translations }: ContentParameters,
@@ -79,26 +111,42 @@ export const getContentData = (
       userVisitedValidationPage?: boolean,
     ) => {
       const stepStates = flowController.stepStates(useStepper);
+      const expandAll = flowController.getMeta(stepId)?.triggerValidation;
 
-      const steps = useStepper
-        ? stepStates
-            .filter((s) =>
-              s.subStates?.some((subState) => {
-                return isStepStateIdCurrent(subState.stepId, stepId);
-              }),
-            )
-            .flatMap((s) => s.subStates ?? [])
-        : stepStates;
+      if (!useStepper) {
+        return {
+          navItems:
+            navItemsFromStepStates(
+              stepId,
+              stepStates,
+              translations,
+              userVisitedValidationPage,
+            ) ?? [],
+          stepsStepper: [],
+          expandAll,
+        };
+      }
+
+      const stepsStepper = buildStepsStepper(
+        stepStates,
+        translations,
+        flowController,
+        stepId,
+        userVisitedValidationPage,
+      );
+
+      const currentNavItems =
+        stepsStepper.find((stepStepper) => stateIsCurrent(stepStepper.state))
+          ?.navItems ?? [];
 
       return {
-        navItems:
-          navItemsFromStepStates(
-            stepId,
-            steps,
-            translations,
-            userVisitedValidationPage,
-          ) ?? [],
-        expandAll: flowController.getMeta(stepId)?.triggerValidation,
+        navItems: currentNavItems,
+        stepsStepper: stepsStepper.map(({ href, label, state }) => ({
+          label,
+          href,
+          state,
+        })) as StepStepper[],
+        expandAll,
       };
     },
   };

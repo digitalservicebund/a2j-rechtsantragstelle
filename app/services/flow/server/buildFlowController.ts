@@ -17,6 +17,19 @@ import type {
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
 
+function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
+  const startNode = machine.getStateNodeById(stepId);
+
+  function dive(node: typeof startNode): typeof startNode {
+    if (Object.keys(node.states).length === 0) return node;
+    return dive(Object.values(node.states)[0]);
+  }
+
+  const leaf = dive(startNode);
+
+  return "/" + leaf.path.join("/");
+}
+
 const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
@@ -230,6 +243,9 @@ export const buildFlowController = ({
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
       return { max: total, progress: progressLookup[currentStepId] };
+    },
+    getInitialSubState: (stepId: string) => {
+      return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;
     },
   };
 };
