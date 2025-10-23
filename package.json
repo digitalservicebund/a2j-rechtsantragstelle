@@ -146,7 +146,7 @@
     "vite-env-only": "^3.0.3",
     "vite-node": "^3.2.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.1"
   },
   "resolutions": {
     "form-data": "4.0.4"
