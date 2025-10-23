@@ -79,7 +79,7 @@ export function NavItem({
   );
 
   const itemClassNames = classNames(
-    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-300",
+    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
     {
       "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": isWarning,
       "bg-yellow-300": state === "WarningCurrent",
