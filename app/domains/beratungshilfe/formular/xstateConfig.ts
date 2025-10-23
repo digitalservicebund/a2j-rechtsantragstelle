@@ -38,7 +38,7 @@ export const beratungshilfeXstateConfig = {
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
-      on: { BACK: "#persoenliche-daten.nachbefragung", SUBMIT: "#abgabe" },
+      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
     },
     abgabe: abgabeXstateConfig,
   },
