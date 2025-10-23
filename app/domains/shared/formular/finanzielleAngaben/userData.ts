@@ -73,14 +73,6 @@ export const bankkontenArraySchema = z
   )
   .min(1);
 
-export const financialEntryInputSchema = z.object({
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
-});
-
-export type FinancialEntry = z.infer<typeof financialEntryInputSchema>;
-
 export const kraftfahrzeugWertInputSchema = z.enum([
   "under10000",
   "over10000",
@@ -173,33 +165,6 @@ export const wertsachenArraySchema = z.array(
     wert: buildMoneyValidationSchema(),
   }),
 );
-
-export const partnerschaftInputSchema = z.enum([
-  "yes",
-  "no",
-  "separated",
-  "widowed",
-]);
-
-export const childBirthdaySchema = createDateSchema({
-  earliest: () => addYears(today(), -24),
-  latest: () => today(),
-});
-
-export const kinderSchema = z
-  .object({
-    vorname: stringRequiredSchema,
-    nachname: stringRequiredSchema,
-    geburtsdatum: childBirthdaySchema,
-    wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
-    eigeneEinnahmen: YesNoAnswer,
-    einnahmen: buildMoneyValidationSchema(),
-    unterhalt: YesNoAnswer,
-    unterhaltsSumme: buildMoneyValidationSchema(),
-  })
-  .partial();
-
-export type KinderSchema = z.infer<typeof kinderSchema>;
 
 export const besondereBelastungen = [
   "pregnancy",

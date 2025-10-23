@@ -3,16 +3,32 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const baseContext = {
   forderung: "maximal5000" as const,
-  sachgebietAusgeschlossen: "yes" as const,
+  ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
-  besondere: "versicherung" as const,
+  sachgebiet: "miete" as const,
 };
 
-export const testCasesGeldEinklagenVersicherung = [
+export const testCasesKlagendePersonMiete = [
   [
     {
       ...baseContext,
       klagendeVerbraucher: "no",
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "no",
+      klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/verbraucher",
+      "/gericht-pruefen/klagende-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeVerbraucher: "no",
+      mietePachtVertrag: "no",
       klagendeKaufmann: "yes",
     },
     [
@@ -26,7 +42,7 @@ export const testCasesGeldEinklagenVersicherung = [
     {
       ...baseContext,
       klagendeVerbraucher: "yes",
-      versicherungVertrag: "no",
+      mietePachtVertrag: "no",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
@@ -38,8 +54,8 @@ export const testCasesGeldEinklagenVersicherung = [
     {
       ...baseContext,
       klagendeVerbraucher: "yes",
-      versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "yes",
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
@@ -51,8 +67,8 @@ export const testCasesGeldEinklagenVersicherung = [
     {
       ...baseContext,
       klagendeVerbraucher: "yes",
-      versicherungVertrag: "yes",
-      versicherungsnummer: "no",
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "no",
       klagendeHaustuergeschaeft: "no",
     },
     [

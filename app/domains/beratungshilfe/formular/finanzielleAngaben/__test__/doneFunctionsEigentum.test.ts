@@ -47,7 +47,7 @@ describe("eigentumDone", () => {
           hasGrundeigentum: "yes",
           grundeigentum: [
             {
-              isBewohnt: "yes",
+              isBewohnt: "family",
               art: "einfamilienhaus",
               eigentuemer: "myself",
               flaeche: "120",
@@ -61,13 +61,6 @@ describe("eigentumDone", () => {
           hasKraftfahrzeug: "yes",
           kraftfahrzeuge: [
             {
-              art: "art",
-              marke: "marke",
-              eigentuemer: "myself",
-              verkaufswert: "2000",
-              kilometerstand: 20000,
-              anschaffungsjahr: "1990",
-              baujahr: "1990",
               hasArbeitsweg: "yes",
               wert: "under10000",
             },
@@ -280,7 +273,7 @@ describe("grundeigentumDone", () => {
           hasGrundeigentum: "yes",
           grundeigentum: [
             {
-              isBewohnt: "yes",
+              isBewohnt: "no",
               art: "einfamilienhaus",
               eigentuemer: "myself",
               flaeche: "120",
@@ -321,12 +314,10 @@ describe("kinderDone", () => {
               vorname: "Kinder",
               nachname: "McKindery",
               geburtsdatum: undefined,
-              wohnortBeiAntragsteller: "yes",
-              eigeneEinnahmen: "yes",
-              einnahmen: undefined,
+              wohnortBeiAntragsteller: "no",
               unterhalt: "yes",
               unterhaltsSumme: undefined,
-            },
+            } as any,
           ],
         },
       }),
@@ -342,12 +333,10 @@ describe("kinderDone", () => {
             {
               vorname: "Kinder",
               nachname: "McKindery",
-              geburtsdatum: "2000-01-01",
+              geburtsdatum: "01.10.2016",
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
               einnahmen: "100",
-              unterhalt: "yes",
-              unterhaltsSumme: "100",
             },
           ],
         },
@@ -406,13 +395,6 @@ describe("kraftfahrzeugeDone", () => {
           hasKraftfahrzeug: "yes",
           kraftfahrzeuge: [
             {
-              art: "art",
-              marke: "marke",
-              eigentuemer: "myself",
-              verkaufswert: "2000",
-              kilometerstand: 20000,
-              anschaffungsjahr: "1990",
-              baujahr: "1990",
               hasArbeitsweg: "yes",
               wert: "under10000",
             },

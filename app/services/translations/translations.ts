@@ -154,8 +154,8 @@ export const translations = {
     },
   },
   navigationMobile: {
-    currentArea: {
-      de: "Bereich",
+    after: {
+      de: "Danach",
     },
     closeMenu: {
       de: "Schritt-für-Schritt-Menü schließen",
@@ -192,6 +192,9 @@ export const translations = {
     },
     invalidHousenumber: {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
+    },
+    autosuggestInputHelperText: {
+      de: "Geben Sie Ihre Straße ein und wählen Sie diese anschließend aus der Trefferliste aus",
     },
   },
   arraySummary: {

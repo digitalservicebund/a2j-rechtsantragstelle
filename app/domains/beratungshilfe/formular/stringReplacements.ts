@@ -94,18 +94,24 @@ export const getMissingInformationStrings = (
     }),
   };
 
-  const requiresEinkommenDone =
-    einkommenDone({ context }) || context.staatlicheLeistungen == "keine"
-      ? {
-          partnerMissingInformation: !partnerDone({ context }),
-          kinderMissingInformation: !kinderDone({ context }),
-          andereUnterhaltszahlungenMissingInformation:
-            !andereUnterhaltszahlungenDone({ context }),
-          wohnungMissingInformation: !wohnungDone({ context }),
-          eigentumMissingInformation: !eigentumDone({ context }),
-          ausgabenMissingInformation: !ausgabenDone({ context }),
-        }
-      : {};
+  let requiresEinkommenDone = {};
+
+  if (context.staatlicheLeistungen === "keine") {
+    requiresEinkommenDone = {
+      partnerMissingInformation: !partnerDone({ context }),
+      kinderMissingInformation: !kinderDone({ context }),
+      andereUnterhaltszahlungenMissingInformation:
+        !andereUnterhaltszahlungenDone({ context }),
+      wohnungMissingInformation: !wohnungDone({ context }),
+      eigentumMissingInformation: !eigentumDone({ context }),
+      ausgabenMissingInformation: !ausgabenDone({ context }),
+    };
+  } else if (context.staatlicheLeistungen === "buergergeld") {
+    requiresEinkommenDone = {
+      eigentumMissingInformation: !eigentumDone({ context }),
+    };
+  }
+  // For "grundsicherung" and "asylbewerberleistungen", requiresEinkommenDone remains {}
 
   return {
     ...alwaysChecked,
