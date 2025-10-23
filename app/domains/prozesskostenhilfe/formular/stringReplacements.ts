@@ -6,14 +6,13 @@ import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
 import {
   andereUnterhaltszahlungenDone,
   ausgabenDone,
-  eigentumZusammenfassungDone,
   kinderDone,
   partnerDone,
-  eigentumDone,
 } from "./finanzielleAngaben/doneFunctions";
 import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
 import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
+import { eigentumDone, eigentumZusammenfassungDone } from "./finanzielleAngaben/eigentum/doneFunctions";
 
 export const getMissingInformationStrings = (
   context: ProzesskostenhilfeFormularUserData,
