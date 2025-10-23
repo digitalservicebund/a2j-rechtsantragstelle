@@ -12,7 +12,12 @@ describe("SideNavMobileButton", () => {
     });
 
     const { container } = render(
-      <SideNavMobileButton navItems={[]} menuOpen toggleMenu={vi.fn()} />,
+      <SideNavMobileButton
+        navItems={[]}
+        stepsStepper={[]}
+        menuOpen
+        toggleMenu={vi.fn()}
+      />,
     );
 
     expect(container).toHaveTextContent("currentAreaTitle");
@@ -21,7 +26,12 @@ describe("SideNavMobileButton", () => {
 
   it("should render icon arrow up and button with aria-expanded true if menu is opened", () => {
     const { getByTestId, getByRole } = render(
-      <SideNavMobileButton navItems={[]} menuOpen toggleMenu={vi.fn()} />,
+      <SideNavMobileButton
+        navItems={[]}
+        stepsStepper={[]}
+        menuOpen
+        toggleMenu={vi.fn()}
+      />,
     );
 
     expect(getByTestId("KeyboardArrowUpIcon")).toBeInTheDocument();
@@ -32,6 +42,7 @@ describe("SideNavMobileButton", () => {
     const { getByTestId, getByRole } = render(
       <SideNavMobileButton
         navItems={[]}
+        stepsStepper={[]}
         menuOpen={false}
         toggleMenu={vi.fn()}
       />,
@@ -47,6 +58,7 @@ describe("SideNavMobileButton", () => {
     const { getByRole } = render(
       <SideNavMobileButton
         navItems={[]}
+        stepsStepper={[]}
         menuOpen
         toggleMenu={mockToggleMenu}
       />,
@@ -73,6 +85,7 @@ describe("SideNavMobileButton", () => {
               state: "WarningCurrent",
             },
           ]}
+          stepsStepper={[]}
           menuOpen
           toggleMenu={vi.fn()}
         />,
@@ -124,6 +137,7 @@ describe("SideNavMobileButton", () => {
               state: "WarningCurrent",
             },
           ]}
+          stepsStepper={[]}
           menuOpen={false}
           toggleMenu={vi.fn()}
         />,

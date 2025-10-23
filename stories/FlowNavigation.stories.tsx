@@ -44,6 +44,7 @@ export const Example: Story = {
         state: "Disabled",
       },
     ],
+    stepsStepper: [],
   },
   decorators: [(Story) => reactRouterContext(Story)],
 };
@@ -77,6 +78,7 @@ export const NavigationWithCurrentWarning: Story = {
         state: "Disabled",
       },
     ],
+    stepsStepper: [],
   },
   decorators: [(Story) => reactRouterContext(Story)],
 };

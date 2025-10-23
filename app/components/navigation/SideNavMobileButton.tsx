@@ -10,7 +10,7 @@ type Props = Readonly<{
   menuOpen: boolean;
   navItems: NavItem[];
   toggleMenu: () => void;
-  stepsStepper?: StepStepper[];
+  stepsStepper: StepStepper[];
 }>;
 
 export const SideNavMobileButton = ({

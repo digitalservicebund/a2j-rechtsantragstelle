@@ -16,7 +16,7 @@ import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 const StepStepperLinks = ({
   stepsStepper,
 }: Readonly<{
-  stepsStepper?: StepStepper[];
+  stepsStepper: StepStepper[];
 }>) => {
   if (!arrayIsNonEmpty(stepsStepper)) {
     return null;
@@ -55,7 +55,7 @@ export default function SideNavMobile({
   stepsStepper,
 }: Readonly<{
   navItems: NavItem[];
-  stepsStepper?: StepStepper[];
+  stepsStepper: StepStepper[];
 }>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
