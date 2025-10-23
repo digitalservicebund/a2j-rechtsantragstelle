@@ -3,6 +3,7 @@ import { type BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/berat
 import { dropEachProperty } from "~/util/objects";
 import { grundvoraussetzungDone } from "../grundvoraussetzung/grundvoraussetzungDone";
 import { rechtsproblemDone } from "../rechtsproblem/rechtsproblemDone";
+import { getMissingInformationStrings } from "../stringReplacements";
 
 describe("grundvoraussetzungDone", () => {
   it("tests all relevant fields", () => {
@@ -83,5 +84,50 @@ describe("rechtsproblemDone", () => {
         },
       }),
     ).toBeTruthy();
+  });
+});
+
+describe("getMissingInformationStrings", () => {
+  it("should not show kinderMissingInformation for buergergeld users", () => {
+    const result = getMissingInformationStrings({
+      staatlicheLeistungen: "buergergeld",
+      hasKinder: undefined,
+    });
+
+    expect(result.kinderMissingInformation).toBeUndefined();
+    expect(result.eigentumMissingInformation).toBeDefined(); // Should check eigentum
+  });
+
+  it("should not show any financial missing information for grundsicherung users", () => {
+    const result = getMissingInformationStrings({
+      staatlicheLeistungen: "grundsicherung",
+      hasKinder: undefined,
+    });
+
+    expect(result.kinderMissingInformation).toBeUndefined();
+    expect(result.partnerMissingInformation).toBeUndefined();
+    expect(result.eigentumMissingInformation).toBeUndefined();
+  });
+
+  it("should not show any financial missing information for asylbewerberleistungen users", () => {
+    const result = getMissingInformationStrings({
+      staatlicheLeistungen: "asylbewerberleistungen",
+      hasKinder: undefined,
+    });
+
+    expect(result.kinderMissingInformation).toBeUndefined();
+    expect(result.partnerMissingInformation).toBeUndefined();
+    expect(result.eigentumMissingInformation).toBeUndefined();
+  });
+
+  it("should show kinderMissingInformation for other users when children section not filled", () => {
+    const result = getMissingInformationStrings({
+      staatlicheLeistungen: "keine",
+      hasKinder: undefined,
+    });
+
+    expect(result.kinderMissingInformation).toBe(true);
+    expect(result.partnerMissingInformation).toBeDefined();
+    expect(result.eigentumMissingInformation).toBeDefined();
   });
 });
