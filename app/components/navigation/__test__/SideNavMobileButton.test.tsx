@@ -1,49 +1,37 @@
-import { type NavState } from "~/services/navigation/navState";
-import { type NavItem } from "../types";
 import { render, fireEvent } from "@testing-library/react";
 import { SideNavMobileButton } from "../SideNavMobileButton";
+import { getMobileButtonAreaTitles } from "../getMobileButtonAreaTitles";
+
+vi.mock("../getMobileButtonAreaTitles");
 
 describe("SideNavMobileButton", () => {
-  it("should render the description of the current and next nav item", () => {
-    const dummyNavItems: NavItem[] = [
-      { destination: "/page1", label: "Page 1", state: "Current" as NavState },
-      { destination: "/page2", label: "Page 2", state: "Open" as NavState },
-      { destination: "/page3", label: "Page 3", state: "Open" as NavState },
-    ];
+  it("should render the component correctly", () => {
+    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+      currentAreaTitle: "currentAreaTitle",
+      nextAreaTitle: "nextAreaTitle",
+    });
 
-    const { container, getByTestId } = render(
+    const { container } = render(
       <SideNavMobileButton
-        navItems={dummyNavItems}
+        navItems={[]}
+        stepsStepper={[]}
         menuOpen
         toggleMenu={vi.fn()}
       />,
     );
 
-    expect(container).toHaveTextContent("Page 1");
-    expect(getByTestId("next-nav-item")).toHaveTextContent("Page 2");
-  });
-
-  it("should not render the next nav item if the current is the last one", () => {
-    const dummyNavItems: NavItem[] = [
-      { destination: "/page1", label: "Page 1", state: "Done" as NavState },
-      { destination: "/page2", label: "Page 2", state: "Done" as NavState },
-      { destination: "/page3", label: "Page 3", state: "Current" as NavState },
-    ];
-
-    const { queryByTestId } = render(
-      <SideNavMobileButton
-        navItems={dummyNavItems}
-        menuOpen
-        toggleMenu={vi.fn()}
-      />,
-    );
-
-    expect(queryByTestId("next-nav-item")).not.toBeInTheDocument();
+    expect(container).toHaveTextContent("currentAreaTitle");
+    expect(container).toHaveTextContent("nextAreaTitle");
   });
 
   it("should render icon arrow up and button with aria-expanded true if menu is opened", () => {
     const { getByTestId, getByRole } = render(
-      <SideNavMobileButton navItems={[]} menuOpen toggleMenu={vi.fn()} />,
+      <SideNavMobileButton
+        navItems={[]}
+        stepsStepper={[]}
+        menuOpen
+        toggleMenu={vi.fn()}
+      />,
     );
 
     expect(getByTestId("KeyboardArrowUpIcon")).toBeInTheDocument();
@@ -54,6 +42,7 @@ describe("SideNavMobileButton", () => {
     const { getByTestId, getByRole } = render(
       <SideNavMobileButton
         navItems={[]}
+        stepsStepper={[]}
         menuOpen={false}
         toggleMenu={vi.fn()}
       />,
@@ -69,6 +58,7 @@ describe("SideNavMobileButton", () => {
     const { getByRole } = render(
       <SideNavMobileButton
         navItems={[]}
+        stepsStepper={[]}
         menuOpen
         toggleMenu={mockToggleMenu}
       />,
@@ -77,5 +67,111 @@ describe("SideNavMobileButton", () => {
     const menuButton = getByRole("button");
     fireEvent.click(menuButton);
     expect(mockToggleMenu).toBeCalledTimes(1);
+  });
+
+  describe("warning current state", () => {
+    it("should not have styles for warning in the button in case the navigation item contains Warning Current and menu is opened", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          navItems={[
+            {
+              destination: "",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          stepsStepper={[]}
+          menuOpen
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).not.toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
+
+    it("should not have styles for warning in the button in case the steps stepper contains Warning Current and menu is opened", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          stepsStepper={[
+            {
+              href: ".",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          navItems={[]}
+          menuOpen
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).not.toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
+
+    it("should have styles for warning in the button in case the navigation item contains Warning Current and menu is closed", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          navItems={[
+            {
+              destination: "",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          stepsStepper={[]}
+          menuOpen={false}
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
+
+    it("should have styles for warning in the button in case the steps stepper contains Warning Current and menu is closed", () => {
+      vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
+        currentAreaTitle: "currentAreaTitle",
+        nextAreaTitle: "nextAreaTitle",
+      });
+
+      const { getByRole } = render(
+        <SideNavMobileButton
+          stepsStepper={[
+            {
+              href: ".",
+              label: "",
+              state: "WarningCurrent",
+            },
+          ]}
+          navItems={[]}
+          menuOpen={false}
+          toggleMenu={vi.fn()}
+        />,
+      );
+
+      expect(getByRole("button")).toHaveClass(
+        "bg-yellow-200 active:bg-yellow-300",
+      );
+    });
   });
 });
