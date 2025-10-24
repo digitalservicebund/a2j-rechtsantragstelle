@@ -82,9 +82,9 @@ describe("FlowStepperNavigation", () => {
         <FlowStepperNavigation steps={doneSteps} />,
       );
 
-      expect(getByRole("listitem")).toHaveClass("bg-white");
+      expect(getByRole("listitem")).toHaveClass("bg-blue-100");
       expect(getByRole("listitem")).toHaveClass("ds-label-03-reg");
-      expect(getByTestId("triangle")).toHaveClass("text-white");
+      expect(getByTestId("triangle")).toHaveClass("text-gray-100");
     });
 
     it("should have an icon done", () => {
@@ -153,12 +153,15 @@ describe("FlowStepperNavigation", () => {
     ];
 
     it("should have the correct styles", () => {
-      const { getByRole } = render(<FlowStepperNavigation steps={openSteps} />);
-
-      expect(getByRole("listitem")).toHaveClass("bg-white");
-      expect(getByRole("link").children[0]).toHaveClass(
-        "border border-gray-600",
+      const { getByRole, getByTestId } = render(
+        <FlowStepperNavigation steps={openSteps} />,
       );
+
+      expect(getByRole("listitem")).toHaveClass("bg-blue-100");
+      expect(getByRole("link").children[0]).toHaveClass(
+        "bg-blue-800 text-white",
+      );
+      expect(getByTestId("triangle")).toHaveClass("text-gray-100");
     });
 
     it("should have the step number", () => {

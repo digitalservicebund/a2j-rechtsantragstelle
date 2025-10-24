@@ -26,8 +26,8 @@ const Triangle = ({
     className={classNames(
       "triangle z-1 h-full absolute right-[-1.25rem] w-[1.25rem] text-blue-400",
       {
-        "text-white": state === "Open" || state === "Done",
-        "text-gray-100": state === "Disabled",
+        "text-gray-100":
+          state === "Disabled" || state === "Open" || state === "Done",
         "text-yellow-200": stateIsWarning(state),
       },
     )}
@@ -108,8 +108,7 @@ function ContentStep({
         className={classNames(
           "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
           {
-            "bg-blue-800 text-white": state === "Current",
-            "border border-gray-600": state === "Open",
+            "bg-blue-800 text-white": state === "Current" || state === "Open",
             "bg-gray-600 text-white": state === "Disabled",
           },
         )}
@@ -138,7 +137,8 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
               className={classNames(
                 "arrow-step border border-blue-500 border-r-0 not-[&:first-child]:border-l-0 flex w-full relative active:bg-blue-300",
                 {
-                  "bg-white": state === "Open" || state === "Done",
+                  "bg-blue-100": state === "Open" || state === "Done",
+                  "hover:bg-blue-400 arrow-step-open": state === "Open",
                   "bg-blue-400 ds-label-03-bold": isCurrent,
                   "ds-label-03-reg": !isCurrent,
                   "bg-yellow-200 active:bg-yellow-300 arrow-step-warning":
