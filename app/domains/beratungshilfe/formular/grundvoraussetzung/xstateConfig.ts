@@ -2,19 +2,14 @@ import type { Config } from "~/services/flow/server/types";
 import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
 import { berHAntragGrundvoraussetzungenPages } from "./pages";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
-import {
-  doneFunction,
-  xStateTargetsFromPagesConfig,
-} from "~/domains/pageSchemas";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragGrundvoraussetzungenPages);
 
 export const grundvorraussetzungXstateConfig = {
   initial: "rechtsschutzversicherung",
   id: "grundvoraussetzungen",
-  meta: {
-    done: doneFunction(berHAntragGrundvoraussetzungenPages),
-  },
+  meta: { done: grundvoraussetzungDone },
   states: {
     [steps.rechtsschutzversicherung.relative]: {
       on: {

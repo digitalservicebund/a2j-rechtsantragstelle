@@ -1,11 +1,11 @@
 import type { Config } from "~/services/flow/server/types";
-import { beratungshilfeAnwaltlicheVertretungGuards } from "./guards";
+import {
+  anwaltlicheVertretungDone,
+  beratungshilfeAnwaltlicheVertretungGuards,
+} from "./guards";
 import { berHAntragAnwaltlicheVertretungPages } from "./pages";
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
-import {
-  doneFunction,
-  xStateTargetsFromPagesConfig,
-} from "~/domains/pageSchemas";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 
 const steps = xStateTargetsFromPagesConfig(
   berHAntragAnwaltlicheVertretungPages,
@@ -14,9 +14,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const anwaltlicheVertretungXstateConfig = {
   initial: "start",
   id: "anwaltliche-vertretung",
-  meta: {
-    done: doneFunction(berHAntragAnwaltlicheVertretungPages),
-  },
+  meta: { done: anwaltlicheVertretungDone },
   states: {
     start: {
       on: {

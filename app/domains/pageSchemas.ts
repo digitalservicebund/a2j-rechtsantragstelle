@@ -16,6 +16,19 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/geld-einklagen/formular": geldEinklagenFormularPages,
 } as const;
 
+export function getRelevantPageSchemasForStepId(
+  flowId: FlowId | undefined,
+  stepId: string,
+): PagesConfig {
+  const flowPages = flowId ? pages[flowId] : {};
+  const relevantPageSchemas = Object.fromEntries(
+    Object.entries(flowPages ?? {}).filter(([, pageConfig]) =>
+      pageConfig.stepId.startsWith(stepId.substring(1)),
+    ),
+  );
+  return relevantPageSchemas;
+}
+
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId || !(flowId in pages)) return undefined;
@@ -85,23 +98,21 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export const doneFunction =
-  <T extends PagesConfig>(pageSchema: T) =>
-  ({
-    context,
-    reachableSteps,
-  }: {
-    context: UserDataFromPagesSchema<T>;
-    reachableSteps?: string[];
-  }) => {
-    return z
-      .object(
-        Object.values(pageSchema)
-          .filter((v) => reachableSteps?.includes(`/${v.stepId}`))
-          .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {}),
-      )
-      .safeParse(context).success;
-  };
+export const doneFunction = <T extends PagesConfig>(
+  pageSchema: T,
+  context: UserDataFromPagesSchema<T>,
+  reachableSteps?: string[],
+) => {
+  // Retrieve only the pageSchemas that are reachable
+  const relevantPageSchemas = Object.values(pageSchema).filter((v) =>
+    reachableSteps?.includes(`/${v.stepId}`),
+  );
+  const reducedPageSchemas = relevantPageSchemas.reduce<SchemaObject>(
+    (acc, v) => ({ ...acc, ...v.pageSchema }),
+    {},
+  );
+  return z.object(reducedPageSchemas).safeParse(context).success;
+};
 
 export type PagesConfig = Record<string, PageConfig>;
 

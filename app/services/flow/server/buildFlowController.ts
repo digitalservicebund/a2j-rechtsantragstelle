@@ -16,6 +16,11 @@ import type {
   StateMachineTypes,
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
+import {
+  doneFunction,
+  getRelevantPageSchemasForStepId,
+} from "~/domains/pageSchemas";
+import { type FlowId } from "~/domains/flowIds";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -110,6 +115,7 @@ function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
+  flowId?: FlowId,
 ): StepState[] {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
@@ -129,6 +135,7 @@ function stepStates(
       state,
       reachableSteps,
       addUnreachableSubSteps,
+      flowId,
     ).filter((state) => state.isReachable || addUnreachableSubSteps);
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
@@ -161,9 +168,11 @@ function stepStates(
 
       return {
         url: `${state.machine.id}${targetStepId}`,
-        isDone: hasDoneFunction
-          ? meta.done!({ context, reachableSteps })
-          : false,
+        isDone: doneFunction(
+          getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
+          context,
+          reachableSteps,
+        ),
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
@@ -203,7 +212,12 @@ export const buildFlowController = ({
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
     stepStates: (addUnreachableSubSteps = false) =>
-      stepStates(machine.root, reachableSteps, addUnreachableSubSteps),
+      stepStates(
+        machine.root,
+        reachableSteps,
+        addUnreachableSubSteps,
+        flowId as FlowId,
+      ),
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
     getConfig: () => config,
