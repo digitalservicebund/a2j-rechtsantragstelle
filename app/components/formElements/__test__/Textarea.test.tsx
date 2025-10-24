@@ -21,7 +21,7 @@ vi.mock("@rvf/react-router", async () => {
 });
 
 afterEach(() => {
-  vi.restoreAllMocks(); // This clears all mocks after each test
+  vi.resetAllMocks(); // This clears all mocks after each test
 });
 
 describe("Textarea component", () => {

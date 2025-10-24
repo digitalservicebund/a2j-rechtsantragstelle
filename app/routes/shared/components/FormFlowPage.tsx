@@ -25,7 +25,7 @@ export function FormFlowPage() {
     csrf,
     formElements,
     migration,
-    navigationProps: { navItems, expandAll, stepsStepper },
+    navigationProps,
     stepData,
     translations,
     validFlowPaths,
@@ -56,7 +56,7 @@ export function FormFlowPage() {
             row={1}
             className="hidden lg:block"
           >
-            <FlowStepperNavigation steps={stepsStepper} />
+            <FlowStepperNavigation steps={navigationProps.stepsStepper} />
           </GridItem>
           <GridItem
             className="hidden lg:block"
@@ -65,11 +65,11 @@ export function FormFlowPage() {
             row={2}
           >
             <div className="md:mb-32 lg:w-[312px]">
-              <FlowNavigation navItems={navItems} expandAll={expandAll} />
+              <FlowNavigation {...navigationProps} />
             </div>
           </GridItem>
           <div className="lg:hidden md:col-span-8 ">
-            <FlowNavigation navItems={navItems} expandAll={expandAll} />
+            <FlowNavigation {...navigationProps} />
           </div>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
