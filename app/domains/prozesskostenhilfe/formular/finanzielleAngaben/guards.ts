@@ -26,10 +26,11 @@ import {
 } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { ausgabenDone, eigentumDone } from "./doneFunctions";
+import { ausgabenDone } from "./doneFunctions";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards, type Guards } from "../../../guards.server";
 import { kinderArraySchema } from "./kinder/pages";
+import { eigentumDone } from "./eigentum/doneFunctions";
 
 export const finanzielleAngabeGuards = {
   eigentumDone,

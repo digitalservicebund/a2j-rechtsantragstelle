@@ -52,25 +52,18 @@ export const fillGrundeigentum: PkhPdfFillFunction = ({
   pdfValues.g4.value = hasGrundeigentum === "yes";
   if (!arrayIsNonEmpty(grundeigentum)) return { pdfValues };
   if (grundeigentum.length == 1) {
-    const {
-      isBewohnt,
-      art,
-      eigentuemer,
-      flaeche,
-      verkaufswert,
-      strassehausnummer,
-      plz,
-      ort,
-      land,
-    } = grundeigentum[0];
+    const { isBewohnt, art, eigentuemer, flaeche, verkaufswert } =
+      grundeigentum[0];
     pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value = `Art: ${art ? grundeigentumArtMapping[art] : ""}`;
     if (isBewohnt === "yes")
       pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Eigennutzung`;
     else if (isBewohnt === "family")
       pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value +=
         ", Bewohnt von Familie";
-    if (isBewohnt !== "yes")
+    if (isBewohnt !== "yes") {
+      const { strassehausnummer, plz, ort, land } = grundeigentum[0];
       pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Addresse: ${strassehausnummer}, ${plz} ${ort} ${land}`;
+    }
     pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Fläche: ${flaeche} m²`;
     if (eigentuemer === "myselfAndSomeoneElse")
       pdfValues.groesseAnschriftGrundbuchbezeichnungAlleinoderMiteigentumZahlderWohneinheiten.value += `, Eigentümer: ${eigentuemerMapping[eigentuemer]}`;
@@ -99,9 +92,10 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
     const singleKfzWert = kraftfahrzeug.wert
       ? verkaufswertMappingDescription[kraftfahrzeug.wert]
       : "";
-    pdfValues.verkehrswertKfz.value = kraftfahrzeug.verkaufswert
-      ? `${kraftfahrzeug.verkaufswert} €`
-      : singleKfzWert;
+    pdfValues.verkehrswertKfz.value =
+      "verkaufswert" in kraftfahrzeug && kraftfahrzeug.verkaufswert
+        ? `${kraftfahrzeug.verkaufswert} €`
+        : singleKfzWert;
     return { pdfValues };
   }
   pdfValues.markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand.value =
@@ -238,7 +232,10 @@ export const fillSonstigeVermoegenswerte: PkhPdfFillFunction = ({
   const sonstigeVermoegenswerte = geldanlagen.filter(
     (geldAnlage) =>
       geldAnlage.art !== "bargeld" &&
-      geldAnlage.befristetArt !== "lifeInsurance",
+      !(
+        geldAnlage.art === "befristet" &&
+        geldAnlage.befristetArt === "lifeInsurance"
+      ),
   );
   if (!arrayIsNonEmpty(sonstigeVermoegenswerte)) {
     pdfValues.g11.value = true;

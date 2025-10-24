@@ -102,7 +102,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ],
   grundeigentum: [
     {
-      isBewohnt: "yes",
+      isBewohnt: "no",
       art: "einfamilienhaus",
       eigentuemer: eigentuemerInputSchema.enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
