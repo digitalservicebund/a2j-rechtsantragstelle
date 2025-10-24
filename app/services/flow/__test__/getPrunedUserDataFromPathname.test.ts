@@ -1,4 +1,4 @@
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 
 const mockPrunerData = {

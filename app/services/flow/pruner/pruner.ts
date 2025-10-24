@@ -3,13 +3,13 @@ import { type ValidFlowPagesType } from "~/components/formFlowContext";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
-import { buildFlowController } from "./server/buildFlowController";
-import { validFormPaths, type Path } from "./validFormPaths";
-import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
+import { buildFlowController } from "../server/buildFlowController";
+import { resolveArrayCharacter } from "../../array/resolveArrayCharacter";
 import {
   fetchAllFormFields,
   type FormFieldsMap,
-} from "../cms/fetchAllFormFields";
+} from "../../cms/fetchAllFormFields";
+import { validFormPaths, type Path } from "./validFormPaths";
 
 export async function pruneIrrelevantData(data: UserData, flowId: FlowId) {
   const formFields = await fetchAllFormFields(flowId);
