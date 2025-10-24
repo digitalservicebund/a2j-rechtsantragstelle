@@ -98,7 +98,7 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export const doneFunction = <T extends PagesConfig>(
+export const doneFunction = async <T extends PagesConfig>(
   pageSchema: T,
   context: UserDataFromPagesSchema<T>,
   reachableSteps?: string[],
@@ -111,7 +111,7 @@ export const doneFunction = <T extends PagesConfig>(
     (acc, v) => ({ ...acc, ...v.pageSchema }),
     {},
   );
-  return z.object(reducedPageSchemas).safeParse(context).success;
+  return (await z.object(reducedPageSchemas).safeParseAsync(context)).success;
 };
 
 export type PagesConfig = Record<string, PageConfig>;
