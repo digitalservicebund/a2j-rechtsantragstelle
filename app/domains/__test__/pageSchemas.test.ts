@@ -1,6 +1,10 @@
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { getPageSchema, xStateTargetsFromPagesConfig } from "../pageSchemas";
+import {
+  getAllFieldsFromFlowId,
+  getPageSchema,
+  xStateTargetsFromPagesConfig,
+} from "../pageSchemas";
 
 describe("getPageSchema", () => {
   it("should return the page schema for the current step", () => {
@@ -114,5 +118,27 @@ describe("xStateTargetsFromPageSchema", () => {
         relative: "target",
       },
     });
+  });
+});
+
+describe("getAllFieldsFromFlowId", () => {
+  it("should return specific the fields for the page /rechtsschutzversicherung for the flow id /beratungshilfe/vorabcheck", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/vorabcheck");
+
+    expect(fields["/rechtsschutzversicherung"]).toBeDefined();
+    expect(fields["/rechtsschutzversicherung"]).toEqual([
+      "rechtsschutzversicherung",
+    ]);
+  });
+
+  it("should return specific the fields for array pages in the flow id /beratungshilfe/antrag", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
+
+    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toBeDefined();
+    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toEqual([
+      "kinder#vorname",
+      "kinder#nachname",
+      "kinder#geburtsdatum",
+    ]);
   });
 });

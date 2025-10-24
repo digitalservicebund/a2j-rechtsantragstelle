@@ -8,7 +8,7 @@ import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
   getSessionData,

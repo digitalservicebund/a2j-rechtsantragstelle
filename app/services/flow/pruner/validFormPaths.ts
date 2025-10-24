@@ -1,11 +1,11 @@
 import { parsePathname } from "~/domains/flowIds";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
-import { addPageDataToUserData } from "./pageData";
+import { addPageDataToUserData } from "../pageData";
 import {
   type FlowController,
   buildFlowController,
-} from "./server/buildFlowController";
+} from "../server/buildFlowController";
 
 export type Path = { stepIds: string[]; arrayIndex?: number };
 

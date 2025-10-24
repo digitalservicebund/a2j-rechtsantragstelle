@@ -3,18 +3,26 @@ import { type ValidFlowPagesType } from "~/components/formFlowContext";
 import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
-import { buildFlowController } from "./server/buildFlowController";
-import { validFormPaths, type Path } from "./validFormPaths";
-import { resolveArrayCharacter } from "../array/resolveArrayCharacter";
+import { buildFlowController } from "../server/buildFlowController";
+import { resolveArrayCharacter } from "../../array/resolveArrayCharacter";
 import {
   fetchAllFormFields,
   type FormFieldsMap,
-} from "../cms/fetchAllFormFields";
+} from "../../cms/fetchAllFormFields";
+import { validFormPaths, type Path } from "./validFormPaths";
+import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
 
 export async function pruneIrrelevantData(data: UserData, flowId: FlowId) {
-  const formFields = await fetchAllFormFields(flowId);
   const { guards, config } = flows[flowId];
   const flowController = buildFlowController({ guards, config, data });
+
+  const pruneDataFromPageSchema =
+    flowController.getRootMeta()?.pruneDataFromPageSchema ?? false;
+
+  const formFields = pruneDataFromPageSchema
+    ? getAllFieldsFromFlowId(flowId)
+    : await fetchAllFormFields(flowId);
+
   const formPaths = validFormPaths(flowController);
   const validFormFields = filterFormFields(formFields, formPaths);
 
