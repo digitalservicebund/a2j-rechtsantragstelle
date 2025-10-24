@@ -31,7 +31,7 @@ describe("NavigationItem", () => {
     const { getByTestId, getByText } = render(
       <NavItem destination={destination} label={label} state={"Warning"} />,
     );
-    const warningIcon = getByTestId("WarningAmberIcon");
+    const warningIcon = getByTestId("WarningAmberRoundedIcon");
     expect(warningIcon).toBeInTheDocument();
     expect(warningIcon).toHaveAttribute(
       "aria-label",
@@ -49,7 +49,7 @@ describe("NavigationItem", () => {
         state={"WarningCurrent"}
       />,
     );
-    const warningIcon = getByTestId("WarningAmberIcon");
+    const warningIcon = getByTestId("WarningAmberRoundedIcon");
     expect(warningIcon).toBeInTheDocument();
     expect(warningIcon).toHaveAttribute(
       "aria-label",
