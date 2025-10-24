@@ -3,7 +3,6 @@ import { type NavState } from "~/services/navigation/navState";
 export type FlowNavigationProps = Readonly<{
   navItems: NavItem[];
   expandAll?: boolean;
-  className?: string;
 }>;
 
 export type NavItem = {
@@ -12,4 +11,10 @@ export type NavItem = {
   state: NavState;
   forceExpanded?: boolean;
   subflows?: NavItem[];
+};
+
+export type StepStepper = {
+  label: string;
+  href: string;
+  state: NavState;
 };

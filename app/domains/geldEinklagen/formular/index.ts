@@ -12,6 +12,36 @@ export const geldEinklagenFormular = {
     initial: "gericht-pruefen",
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
+      "klage-erstellen": {
+        id: "klage-erstellen",
+        initial: "intro",
+        states: {
+          intro: {
+            id: "intro",
+            initial: "start",
+            states: {
+              start: {
+                on: {},
+              },
+            },
+          },
+        },
+      },
+      "klage-herunterladen": {
+        id: "klage-herunterladen",
+        initial: "intro",
+        states: {
+          intro: {
+            id: "intro",
+            initial: "start",
+            states: {
+              start: {
+                on: {},
+              },
+            },
+          },
+        },
+      },
     },
   },
   guards: {},
