@@ -10,23 +10,17 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 
 vi.mock("pdfkit", () => {
-  return {
-    default: vi.fn(),
-  };
+  const MockPDFDocument = vi.fn(function (this: any) {
+    this.registerFont = vi.fn();
+    this.lineGap = vi.fn();
+  });
+
+  return { default: MockPDFDocument };
 });
 
 describe("createPdfKitDocument", () => {
-  let mockDocument: unknown;
-
   beforeEach(() => {
-    mockDocument = {
-      registerFont: vi.fn(),
-      lineGap: vi.fn(),
-    };
-
-    vi.mocked(PDFDocument).mockImplementation(
-      () => mockDocument as PDFKit.PDFDocument,
-    );
+    (PDFDocument as any).mockClear();
   });
 
   afterEach(() => {
@@ -59,19 +53,16 @@ describe("createPdfKitDocument", () => {
       },
     });
 
-    expect(document).toBe(mockDocument);
+    expect(document).toBeInstanceOf(PDFDocument as any);
   });
 
   it("should register the fonts and line gap correctly", () => {
     createPdfKitDocument();
 
-    expect(
-      (mockDocument as PDFKit.PDFDocument).registerFont,
-    ).toHaveBeenCalled();
-    expect(
-      (mockDocument as PDFKit.PDFDocument).registerFont,
-    ).toHaveBeenCalled();
-    expect((mockDocument as PDFKit.PDFDocument).lineGap).toHaveBeenCalledWith(
+    const instance = (PDFDocument as any).mock.instances[0];
+
+    expect(instance.registerFont).toHaveBeenCalled();
+    expect((instance as PDFKit.PDFDocument).lineGap).toHaveBeenCalledWith(
       LINE_GAP_GLOBAL,
     );
   });
