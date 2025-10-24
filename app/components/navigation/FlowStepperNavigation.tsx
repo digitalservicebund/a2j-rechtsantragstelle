@@ -99,7 +99,7 @@ function ContentStep({
   return (
     <a
       href={href}
-      className="w-full p-14 flex gap-8 justify-center items-center text-center outline-none"
+      className="group w-full p-14 flex gap-8 justify-center items-center text-center outline-none no-underline"
       aria-disabled={state === "Disabled"}
       aria-current={isCurrent}
       aria-describedby={isDone || isWarning ? iconId : undefined}
@@ -116,7 +116,7 @@ function ContentStep({
       >
         <StateIcon state={state} stepIndex={stepIndex} iconId={iconId} />
       </span>
-      <span className="hover:underline">{label}</span>
+      <span className="group-hover:underline underline-offset-4">{label}</span>
     </a>
   );
 }
