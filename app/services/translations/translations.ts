@@ -69,7 +69,7 @@ export const translations = {
       de: "Vielen Dank!",
     },
     "text-post-submission": {
-      de: "Wir wollen digitale Justiz-Angebote entwickeln, die für alle Menschen gut funktionieren. Ihre Hilfe ist dabei sehr wichtig. Teilen Sie Ihre Erfahrungen mit uns und testen Sie neue Angebote. [Hier können Sie sich anmelden](/feedback).",
+      de: "",
     },
     "success-message": {
       de: "Vielen Dank!",

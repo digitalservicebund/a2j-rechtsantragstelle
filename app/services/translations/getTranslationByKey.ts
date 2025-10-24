@@ -14,7 +14,7 @@ export function getTranslationByKey(
   translations?: Translations,
 ): string {
   const translation = translations?.[key];
-  if (!translation) {
+  if (translation === undefined) {
     sendSentryMessage(
       `Key translation ${key} is not available in the translation record. Please take a look in the CMS system!`,
       "warning",
