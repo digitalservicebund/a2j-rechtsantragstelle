@@ -7,6 +7,7 @@ import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
+import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -15,6 +16,27 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/antrag": beratungshilfeAntragPages,
   "/geld-einklagen/formular": geldEinklagenFormularPages,
 } as const;
+
+export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
+  const pagesConfig = pages[flowId] ?? {};
+
+  return Object.values(pagesConfig).reduce<FormFieldsMap>((acc, page) => {
+    if (page.pageSchema && !isArrayParentPage(page)) {
+      acc["/" + page.stepId] = Object.keys(page.pageSchema);
+    }
+
+    if (isArrayParentPage(page)) {
+      Object.entries(page.arrayPages)
+        .filter(([_, arrayPage]) => arrayPage.pageSchema !== undefined)
+        .forEach(([arrayPageKey, arrayPage]) => {
+          const stepId = `/${page.stepId}/${arrayPageKey}`;
+          acc[stepId] = Object.keys(arrayPage.pageSchema!);
+        });
+    }
+
+    return acc;
+  }, {});
+};
 
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
