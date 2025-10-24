@@ -6,7 +6,7 @@ import {
   type NavState,
 } from "~/services/navigation/navState";
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import { translations } from "~/services/translations/translations";
 import { useId } from "react";
 import { type StepStepper } from "./types";

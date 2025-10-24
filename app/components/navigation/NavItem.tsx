@@ -1,7 +1,7 @@
 import CheckCircle from "@digitalservicebund/icons/CheckCircle";
 import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
 import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmber";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
