@@ -3,12 +3,12 @@ import { integerSchema } from "~/services/validation/integer";
 describe("integer", () => {
   describe("success cases", () => {
     const cases = [
-      { input: " 100  ", expected: "100" },
-      { input: "1000", expected: "1000" },
-      { input: "1.000", expected: "1000" },
-      { input: "1.000.000", expected: "1000000" },
-      { input: "1000,9", expected: "1001" },
-      { input: "1.000.000,1", expected: "1000000" },
+      { input: " 100  ", expected: 100 },
+      { input: "1000", expected: 1000 },
+      { input: "1.000", expected: 1000 },
+      { input: "1.000.000", expected: 1000000 },
+      { input: "1000,9", expected: 1001 },
+      { input: "1.000.000,1", expected: 1000000 },
     ];
 
     test.each(cases)(

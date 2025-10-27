@@ -43,12 +43,9 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
         ort: stringRequiredSchema,
         land: stringOptionalSchema,
       }),
-      arbeitsplatzEntfernung: integerSchema.refine(
-        (distance) => parseInt(distance) > 0,
-        {
-          message: "invalidInteger",
-        },
-      ),
+      arbeitsplatzEntfernung: integerSchema.refine((distance) => distance > 0, {
+        message: "invalidInteger",
+      }),
     },
   },
   arbeitswegKeineRolle: {

@@ -41,7 +41,7 @@ describe("Prozesskostenhilfe Finanzielle Angaben Abzuege doneFunctions", () => {
             plz: "12345",
             ort: "Teststadt",
           },
-          arbeitsplatzEntfernung: "10",
+          arbeitsplatzEntfernung: 10,
           hasArbeitsausgaben: "no",
         },
       });
@@ -57,7 +57,7 @@ describe("Prozesskostenhilfe Finanzielle Angaben Abzuege doneFunctions", () => {
             plz: "12345",
             ort: "Teststadt",
           },
-          arbeitsplatzEntfernung: "10",
+          arbeitsplatzEntfernung: 10,
           hasArbeitsausgaben: "no",
         },
       });

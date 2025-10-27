@@ -18,7 +18,7 @@ const mockedCompleteKraftfahrzeug: NonNullable<
   eigentuemer: "myself",
   art: "kraftfahrzeug",
   marke: "Mercedes",
-  kilometerstand: "200000",
+  kilometerstand: 200000,
   baujahr: "1990",
 };
 
@@ -279,8 +279,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "alone",
             rentsApartment: "yes",
             garageParkplatz: "no",
@@ -292,10 +292,10 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "withOthers",
-            apartmentPersonCount: "2",
+            apartmentPersonCount: 2,
             rentsApartment: "yes",
             garageParkplatz: "no",
             totalRent: "1000",
@@ -309,8 +309,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "alone",
             rentsApartment: "yes",
             garageParkplatz: "no",
@@ -321,8 +321,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "alone",
             rentsApartment: "yes",
             totalRent: "1000",
@@ -335,8 +335,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "alone",
             rentsApartment: "no",
             utilitiesCostOwned: "100",
@@ -350,8 +350,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
       expect(
         wohnungDone({
           context: {
-            apartmentSizeSqm: "55",
-            numberOfRooms: "2",
+            apartmentSizeSqm: 55,
+            numberOfRooms: 2,
             livingSituation: "withOthers",
             rentsApartment: "no",
             utilitiesCostOwned: "100",
