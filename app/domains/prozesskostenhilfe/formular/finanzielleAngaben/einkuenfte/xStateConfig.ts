@@ -371,9 +371,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 target: steps.weitereEinkuenfteUebersicht.relative,
               },
               {
-                guard: ({ context }) =>
-                  !einkuenfteGuards.incomeWithBuergergeld({ context }) &&
-                  context.currentlyEmployed === "yes",
+                guard: ({ context }) => context.currentlyEmployed === "yes",
                 target: "#abzuege",
               },
               "#finanzielle-angaben.partner",
