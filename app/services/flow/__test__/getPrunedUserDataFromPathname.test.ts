@@ -10,7 +10,7 @@ const mockPrunerData = {
   },
 };
 
-vi.mock("~/services/flow/pruner");
+vi.mock("~/services/flow/pruner/pruner");
 
 vi.mocked(pruneIrrelevantData).mockResolvedValue(mockPrunerData);
 
