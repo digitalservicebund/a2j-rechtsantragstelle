@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v5
       - name: Download Content File
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: content-file
       - name: Install cosign
