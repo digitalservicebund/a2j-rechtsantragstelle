@@ -1,7 +1,10 @@
 import type { NavItem } from "../navigation/types";
 
-export const MissingDataList = (props: { navItems: NavItem[] }) => {
-  const navItemsWithWarnings = props.navItems
+type Props = { navItems: NavItem[]; shouldRender?: boolean };
+
+export const MissingDataList = ({ navItems, shouldRender }: Props) => {
+  if (!shouldRender) return null;
+  const navItemsWithWarnings = navItems
     .filter(
       (navItem) =>
         navItem.state === "Warning" ||

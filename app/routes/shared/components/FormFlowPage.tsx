@@ -93,9 +93,10 @@ export function FormFlowPage() {
                   {
                     // Renders a list of menu entries with missing data on pages that have triggerValidation / expandAll set to true
                     // This is a temporary workaround until this functionality is implemented into the summary page
-                    navigationProps.expandAll && (
-                      <MissingDataList navItems={navigationProps.navItems} />
-                    )
+                    <MissingDataList
+                      navItems={navigationProps.navItems}
+                      shouldRender={navigationProps.expandAll}
+                    />
                   }
                 </div>
 
