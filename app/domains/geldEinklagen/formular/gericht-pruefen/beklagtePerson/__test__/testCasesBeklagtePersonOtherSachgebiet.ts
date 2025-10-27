@@ -18,7 +18,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -33,7 +33,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -47,7 +47,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -60,7 +60,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -72,7 +72,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],

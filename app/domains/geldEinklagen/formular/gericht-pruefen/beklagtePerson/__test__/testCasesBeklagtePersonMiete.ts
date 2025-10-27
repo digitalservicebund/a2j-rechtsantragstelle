@@ -17,7 +17,7 @@ export const testCasesBeklagtePersonMiete = [
       mietePachtRaum: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
@@ -32,7 +32,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -49,7 +49,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -65,7 +65,7 @@ export const testCasesBeklagtePersonMiete = [
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -80,7 +80,7 @@ export const testCasesBeklagtePersonMiete = [
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -94,7 +94,7 @@ export const testCasesBeklagtePersonMiete = [
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
@@ -106,7 +106,7 @@ export const testCasesBeklagtePersonMiete = [
       mietePachtRaum: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
@@ -118,7 +118,7 @@ export const testCasesBeklagtePersonMiete = [
       mietePachtRaum: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
@@ -133,7 +133,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -150,7 +150,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -166,7 +166,7 @@ export const testCasesBeklagtePersonMiete = [
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -181,7 +181,7 @@ export const testCasesBeklagtePersonMiete = [
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -195,7 +195,7 @@ export const testCasesBeklagtePersonMiete = [
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
@@ -207,7 +207,7 @@ export const testCasesBeklagtePersonMiete = [
       mietePachtRaum: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],

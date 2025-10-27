@@ -33,7 +33,7 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   // /geld-einklagen/formular/gericht-pruefen/klagende-person/haustuergeschaeft
   await formular.fillRadioPage("klagendeKaufmann", "yes");
 
-  // /geld-einklagen/formular/gericht-pruefen/beklagte-person/fuer-wen
+  // /geld-einklagen/formular/gericht-pruefen/beklagte-person/gegen-wen
   await formular.fillRadioPage("gegenWenBeklagen", "person");
 
   // /geld-einklagen/formular/gericht-pruefen/beklagte-person/kaufmann
