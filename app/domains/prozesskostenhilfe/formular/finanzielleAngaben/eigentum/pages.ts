@@ -34,6 +34,7 @@ export const bankkontenArraySchema = z
   .min(1);
 
 const sharedKraftfahrzeugeFields = {
+  hasArbeitsweg: YesNoAnswer,
   wert: z.enum(["under10000", "over10000", "unsure"]),
 };
 
@@ -41,12 +42,10 @@ export const kraftfahrzeugeArraySchema = z
   .union([
     z.object({
       ...sharedKraftfahrzeugeFields,
-      hasArbeitsweg: YesNoAnswer,
       wert: z.literal("under10000"),
     }),
     z.object({
       ...sharedKraftfahrzeugeFields,
-      hasArbeitsweg: YesNoAnswer,
       wert: z.enum(["over10000", "unsure"]),
       art: stringRequiredSchema,
       marke: stringRequiredSchema,

@@ -94,7 +94,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       eigentuemer: eigentuemerInputSchema.enum.partner,
       art: faker.vehicle.vehicle(),
       marke: faker.vehicle.manufacturer(),
-      kilometerstand: faker.number.int(),
+      kilometerstand: 100000,
       baujahr: faker.date.past().getFullYear(),
       anschaffungsjahr: faker.date.past().getFullYear(),
       verkaufswert: faker.finance.amount(),
