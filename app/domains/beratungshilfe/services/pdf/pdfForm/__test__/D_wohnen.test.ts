@@ -6,7 +6,7 @@ describe("fillWohnen", () => {
   it("should fill wohnen section for living situation alone correct", () => {
     const { pdfValues } = pdfFillReducer({
       userData: {
-        apartmentSizeSqm: 10,
+        apartmentSizeSqm: "10",
         apartmentCostAlone: "100,00",
         livingSituation: "alone",
       },
@@ -28,10 +28,10 @@ describe("fillWohnen", () => {
     (livingSituation) => {
       const { pdfValues, attachment } = pdfFillReducer({
         userData: {
-          apartmentSizeSqm: 10,
+          apartmentSizeSqm: "10",
           apartmentCostFull: "100",
           apartmentCostOwnShare: "20",
-          apartmentPersonCount: 5,
+          apartmentPersonCount: "5",
           livingSituation,
         },
         pdfParams: getBeratungshilfeParameters(),

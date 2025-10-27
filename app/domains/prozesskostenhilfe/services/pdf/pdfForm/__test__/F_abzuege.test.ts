@@ -47,7 +47,7 @@ describe("F_abzuege", () => {
         pdfValues: pdfParams,
         userData: {
           arbeitsweg: "privateVehicle",
-          arbeitsplatzEntfernung: 10,
+          arbeitsplatzEntfernung: "10",
         },
       }));
       expect(

@@ -220,7 +220,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
         land: stringOptionalSchema,
       }),
       "partner-arbeitsplatzEntfernung": integerSchema.refine(
-        (distance) => distance > 0,
+        (distance) => parseInt(distance) > 0,
         {
           message: "invalidInteger",
         },

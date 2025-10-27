@@ -51,7 +51,7 @@ describe("navStates", () => {
             hasWertsache: "no",
             einkommen: "100",
             livingSituation: "alone",
-            apartmentSizeSqm: 100,
+            apartmentSizeSqm: "100",
             apartmentCostAlone: "100",
             hasWeitereUnterhaltszahlungen: "no",
             partnerschaft: "no",
