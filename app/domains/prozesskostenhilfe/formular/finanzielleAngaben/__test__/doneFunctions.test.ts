@@ -9,8 +9,6 @@ import {
   wohnungDone,
 } from "../doneFunctions";
 import { kraftfahrzeugeDone } from "../eigentum/doneFunctions";
-import { kraftfahrzeugeArraySchema } from "../eigentum/pages";
-
 
 describe("Finanzielle Angaben doneFunctions", () => {
   describe("partnerDone", () => {
