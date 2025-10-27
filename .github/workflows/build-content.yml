@@ -34,7 +34,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: content-file
           path: content.json
