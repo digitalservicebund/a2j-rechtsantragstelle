@@ -1,7 +1,7 @@
 import { PDFDocument } from "pdf-lib";
 import { loader } from "../pdfDownloadLoader";
 
-vi.mock("~/services/flow/pruner", () => ({
+vi.mock("~/services/flow/pruner/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockResolvedValue({
     prunedData: { vorname: "Zoe", nachname: "Müller" },
   }),
