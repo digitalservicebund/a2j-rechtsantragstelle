@@ -3,7 +3,10 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 // import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
-import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
+import {
+  finanzielleAngabeEinkuenfteGuards,
+  partnerEinkuenfteGuards,
+} from "../einkuenfte/guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
@@ -21,9 +24,9 @@ export const partnerXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              context.currentlyEmployed === "yes" &&
-              context.staatlicheLeistungen !== "buergergeld" &&
-              !context.arbeitsweg,
+              finanzielleAngabeEinkuenfteGuards.incomeWithNoBuergergeld({
+                context,
+              }) && !context.arbeitsweg,
             target: "#finanzielle-angaben.abzuege.arbeitsweg",
           },
           {
@@ -31,9 +34,7 @@ export const partnerXstateConfig = {
             target: "#finanzielle-angaben.abzuege.arbeitsausgaben.uebersicht",
           },
           {
-            guard: ({ context }) =>
-              context.currentlyEmployed === "yes" &&
-              context.staatlicheLeistungen !== "buergergeld",
+            guard: finanzielleAngabeEinkuenfteGuards.incomeWithNoBuergergeld,
             target: "#finanzielle-angaben.abzuege.arbeitsausgaben",
           },
           {
