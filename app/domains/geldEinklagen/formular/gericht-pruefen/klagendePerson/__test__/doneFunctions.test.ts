@@ -60,15 +60,17 @@ describe("klagendePersonDone", () => {
   });
 
   describe("case for miete", () => {
-    it("should return false given an undefined klagendeVerbraucher", () => {
+    it("should return true given mietePachtVertrag yes and mietePachtRaum yes", () => {
       const actual = klagendePersonDone({
         context: {
           fuerWenKlagen: "selbst",
           sachgebiet: "miete",
+          mietePachtVertrag: "yes",
+          mietePachtRaum: "yes",
         },
       });
 
-      expect(actual).toBe(false);
+      expect(actual).toBe(true);
     });
 
     describe("klagendeVerbraucher is no", () => {
@@ -113,50 +115,9 @@ describe("klagendePersonDone", () => {
 
         expect(actual).toBe(true);
       });
-
-      it("should return true given mietePachtVertrag yes and mietePachtRaum yes", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            sachgebiet: "miete",
-            klagendeVerbraucher: "no",
-            mietePachtVertrag: "yes",
-            mietePachtRaum: "yes",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
     });
 
     describe("klagendeVerbraucher is yes", () => {
-      it("should return true given mietePachtVertrag no", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            sachgebiet: "miete",
-            klagendeVerbraucher: "yes",
-            mietePachtVertrag: "no",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-
-      it("should return true given mietePachtVertrag yes and mietePachtRaum yes", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            sachgebiet: "miete",
-            klagendeVerbraucher: "yes",
-            mietePachtVertrag: "yes",
-            mietePachtRaum: "yes",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-
       it("should return false given undefined klagendeHaustuergeschaeft when mietePachtVertrag is yes and mietePachtRaum is no", () => {
         const actual = klagendePersonDone({
           context: {
