@@ -12,7 +12,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
     },
@@ -24,7 +24,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -41,7 +41,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -58,7 +58,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -73,7 +73,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -88,7 +88,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "no",
@@ -101,7 +101,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
     },
@@ -113,7 +113,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
     },
@@ -125,7 +125,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -142,7 +142,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -159,7 +159,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -174,7 +174,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -189,7 +189,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "no",
@@ -202,7 +202,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
     },

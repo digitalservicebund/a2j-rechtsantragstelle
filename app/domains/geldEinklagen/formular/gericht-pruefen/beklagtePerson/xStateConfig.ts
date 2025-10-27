@@ -11,26 +11,26 @@ export const beklagtePersonXstateConfig = {
   initial: "fuer-wen",
   meta: { done: beklagtePersonDone },
   states: {
-    [steps.beklagtePersonFuerWen.relative]: {
+    [steps.beklagtePersonGegenWen.relative]: {
       on: {
         SUBMIT: [
           {
             guard: ({ context }) =>
-              context.fuerWenBeklagen === "person" &&
+              context.gegenWenBeklagen === "person" &&
               context.sachgebiet === "urheberrecht",
             target: steps.beklagtePersonGeldVerdienen.relative,
           },
           {
             guard: ({ context }) =>
-              context.fuerWenBeklagen === "organisation" &&
+              context.gegenWenBeklagen === "organisation" &&
               context.sachgebiet === "urheberrecht" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
           {
             guard: ({ context }) =>
-              (context.fuerWenBeklagen === "person" ||
-                context.fuerWenBeklagen === "organisation") &&
+              (context.gegenWenBeklagen === "person" ||
+                context.gegenWenBeklagen === "organisation") &&
               context.sachgebiet === "miete" &&
               context.mietePachtRaum === "no" &&
               context.klagendeKaufmann === "yes",
@@ -112,7 +112,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
           },
         ],
-        BACK: steps.beklagtePersonFuerWen.relative,
+        BACK: steps.beklagtePersonGegenWen.relative,
       },
     },
     [steps.beklagtePersonKaufmann.relative]: {
@@ -133,7 +133,7 @@ export const beklagtePersonXstateConfig = {
               context.beklagtePersonGeldVerdienen !== undefined,
             target: steps.beklagtePersonGeldVerdienen.relative,
           },
-          steps.beklagtePersonFuerWen.relative,
+          steps.beklagtePersonGegenWen.relative,
         ],
       },
     },

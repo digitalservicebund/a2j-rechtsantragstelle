@@ -12,7 +12,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "no",
       klagendeKaufmann: "no",
     },
@@ -25,7 +25,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
@@ -42,7 +42,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
@@ -59,7 +59,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
@@ -74,7 +74,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "unknown",
@@ -89,7 +89,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "no",
     },
@@ -102,7 +102,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       klagendeKaufmann: "no",
     },
     [
@@ -113,7 +113,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
@@ -128,7 +128,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
@@ -143,7 +143,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
@@ -156,7 +156,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "unknown",
     },
