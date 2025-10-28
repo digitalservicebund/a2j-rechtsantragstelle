@@ -29,7 +29,9 @@ export const klagendePersonXstateConfig = {
             guard: ({ context }) =>
               context.sachgebiet === "schaden" ||
               context.sachgebiet === "verkehrsunfall" ||
-              context.sachgebiet === "versicherung",
+              context.sachgebiet === "versicherung" ||
+              (context.sachgebiet === "miete" &&
+                context.mietePachtVertrag === "no"),
             target: steps.klagendePersonKaufmann.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },
@@ -124,7 +126,9 @@ export const klagendePersonXstateConfig = {
             guard: ({ context }) =>
               context.sachgebiet === "schaden" ||
               context.sachgebiet === "verkehrsunfall" ||
-              context.sachgebiet === "versicherung",
+              context.sachgebiet === "versicherung" ||
+              (context.sachgebiet === "miete" &&
+                context.mietePachtVertrag === "no"),
             target: steps.klagendePersonFuerWen.relative,
           },
           { target: steps.klagendePersonVerbraucher.relative },

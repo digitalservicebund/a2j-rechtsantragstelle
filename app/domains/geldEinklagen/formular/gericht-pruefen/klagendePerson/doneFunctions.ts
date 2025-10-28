@@ -28,12 +28,16 @@ function checkMiete(context: GeldEinklagenFormularGerichtPruefenUserData) {
     return true;
   }
 
-  return (
-    (klagendeVerbraucher === "no" &&
-      objectKeysNonEmpty(context, ["klagendeKaufmann"])) ||
-    (klagendeVerbraucher === "yes" &&
-      objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]))
-  );
+  if (mietePachtVertrag === "yes") {
+    return (
+      (klagendeVerbraucher === "no" &&
+        objectKeysNonEmpty(context, ["klagendeKaufmann"])) ||
+      (klagendeVerbraucher === "yes" &&
+        objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]))
+    );
+  }
+
+  return objectKeysNonEmpty(context, ["klagendeKaufmann"]);
 }
 
 function checkSachgebietForKlagendePerson(

@@ -89,7 +89,9 @@ export const beklagtePersonXstateConfig = {
               context.klagendeVerbraucher === "no" ||
               context.sachgebiet === "verkehrsunfall" ||
               context.sachgebiet === "schaden" ||
-              context.sachgebiet === "versicherung",
+              context.sachgebiet === "versicherung" ||
+              (context.sachgebiet === "miete" &&
+                context.mietePachtVertrag === "no"),
             target: steps.klagendePersonKaufmann.absolute,
           },
         ],

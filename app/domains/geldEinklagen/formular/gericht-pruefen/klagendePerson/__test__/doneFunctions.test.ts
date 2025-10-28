@@ -73,20 +73,20 @@ describe("klagendePersonDone", () => {
       expect(actual).toBe(true);
     });
 
-    describe("klagendeVerbraucher is no", () => {
-      it("should return false given undefined klagendeKaufmann when mietePachtVertrag is no", () => {
-        const actual = klagendePersonDone({
-          context: {
-            fuerWenKlagen: "selbst",
-            sachgebiet: "miete",
-            klagendeVerbraucher: "no",
-            mietePachtVertrag: "no",
-          },
-        });
-
-        expect(actual).toBe(false);
+    it("should return true given mietePachtVertrag no and having klagendeKaufmann", () => {
+      const actual = klagendePersonDone({
+        context: {
+          fuerWenKlagen: "selbst",
+          sachgebiet: "miete",
+          mietePachtVertrag: "no",
+          klagendeKaufmann: "yes",
+        },
       });
 
+      expect(actual).toBe(true);
+    });
+
+    describe("klagendeVerbraucher is no", () => {
       it("should return false given undefined klagendeKaufmann when mietePachtVertrag is yes and mietePachtRaum is no", () => {
         const actual = klagendePersonDone({
           context: {
