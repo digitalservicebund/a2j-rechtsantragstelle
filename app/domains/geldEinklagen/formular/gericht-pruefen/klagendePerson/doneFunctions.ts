@@ -24,21 +24,20 @@ function checkReisenAnderesRechtsproblemUrheberrecht(
 function checkMiete(context: GeldEinklagenFormularGerichtPruefenUserData) {
   const { klagendeVerbraucher, mietePachtRaum, mietePachtVertrag } = context;
 
-  if (klagendeVerbraucher === "no") {
-    return (
-      (mietePachtVertrag === "yes" && mietePachtRaum === "yes") ||
-      objectKeysNonEmpty(context, ["klagendeKaufmann"])
-    );
-  }
-
-  if (
-    mietePachtVertrag === "no" ||
-    (mietePachtVertrag === "yes" && mietePachtRaum === "yes")
-  ) {
+  if (mietePachtVertrag === "yes" && mietePachtRaum === "yes") {
     return true;
   }
 
-  return objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]);
+  if (mietePachtVertrag === "yes") {
+    return (
+      (klagendeVerbraucher === "no" &&
+        objectKeysNonEmpty(context, ["klagendeKaufmann"])) ||
+      (klagendeVerbraucher === "yes" &&
+        objectKeysNonEmpty(context, ["klagendeHaustuergeschaeft"]))
+    );
+  }
+
+  return objectKeysNonEmpty(context, ["klagendeKaufmann"]);
 }
 
 function checkSachgebietForKlagendePerson(
@@ -52,10 +51,7 @@ function checkSachgebietForKlagendePerson(
       return objectKeysNonEmpty(context, ["klagendeKaufmann"]);
     }
     case "miete": {
-      return (
-        objectKeysNonEmpty(context, ["klagendeVerbraucher"]) &&
-        checkMiete(context)
-      );
+      return checkMiete(context);
     }
     case "reisen":
     case "anderesRechtsproblem":

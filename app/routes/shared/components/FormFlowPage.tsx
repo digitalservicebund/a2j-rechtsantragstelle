@@ -15,6 +15,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
 import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNavigation";
+import { MissingDataList } from "~/components/common/MissingDataList";
 
 export function FormFlowPage() {
   const {
@@ -88,6 +89,12 @@ export function FormFlowPage() {
                     content={cmsContent.content}
                     className="ds-stack ds-stack-16"
                     managedByParent
+                  />
+                  <MissingDataList
+                    // Renders a list of menu entries with missing data on pages that have triggerValidation / expandAll set to true
+                    // This is a temporary workaround until this functionality is implemented into the summary page
+                    navItems={navigationProps.navItems}
+                    shouldRender={navigationProps.expandAll}
                   />
                 </div>
 

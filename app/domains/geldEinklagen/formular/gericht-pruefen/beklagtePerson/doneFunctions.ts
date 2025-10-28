@@ -20,13 +20,13 @@ function checkKaufmann(context: GeldEinklagenFormularGerichtPruefenUserData) {
 }
 
 function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
-  const { sachgebiet, fuerWenBeklagen, mietePachtRaum } = context;
+  const { sachgebiet, gegenWenBeklagen, mietePachtRaum } = context;
   switch (sachgebiet) {
     case "urheberrecht": {
       return (
-        ((fuerWenBeklagen === "person" &&
+        ((gegenWenBeklagen === "person" &&
           objectKeysNonEmpty(context, ["beklagtePersonGeldVerdienen"])) ||
-          fuerWenBeklagen === "organisation") &&
+          gegenWenBeklagen === "organisation") &&
         checkKaufmann(context)
       );
     }
@@ -51,6 +51,7 @@ export const beklagtePersonDone: GeldEinklagenGerichtPruefenDaten = ({
   context,
 }) => {
   return (
-    objectKeysNonEmpty(context, ["fuerWenBeklagen"]) && checkSachgebiet(context)
+    objectKeysNonEmpty(context, ["gegenWenBeklagen"]) &&
+    checkSachgebiet(context)
   );
 };
