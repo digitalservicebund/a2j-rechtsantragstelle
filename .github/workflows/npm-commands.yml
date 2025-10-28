@@ -24,14 +24,14 @@ jobs:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - name: Upload coverage
         if: ${{ matrix.npmCMD == 'test:coverage' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage
           path: coverage/
           retention-days: 1
       - name: Upload build
         if: ${{ matrix.npmCMD == 'build'  && github.ref == 'refs/heads/main' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build
           path: build/
