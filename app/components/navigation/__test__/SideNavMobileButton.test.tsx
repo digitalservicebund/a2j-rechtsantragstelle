@@ -21,7 +21,6 @@ describe("SideNavMobileButton", () => {
     );
 
     expect(container).toHaveTextContent("currentAreaTitle");
-    expect(container).toHaveTextContent("nextAreaTitle");
   });
 
   it("should render icon arrow up and button with aria-expanded true if menu is opened", () => {

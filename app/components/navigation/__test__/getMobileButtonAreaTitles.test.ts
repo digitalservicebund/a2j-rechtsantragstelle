@@ -65,9 +65,8 @@ describe("getMobileButtonAreaTitles", () => {
     ];
 
     const actual = getMobileButtonAreaTitles(dummyNavItems, dummyStepsStepper);
-    expect(actual.currentAreaTitle).toEqual("Step 1 (1/3): Page 1");
+    expect(actual.currentAreaTitle).toEqual("Step 1 (1/3)");
     expect(actual.nextAreaTitle).toEqual("Step 2 (2/3)");
-    expect(actual.stepStepperIndex).toEqual(1);
   });
 
   it("should return empty the nextAreaTitle in case the last step stepper is the current one", () => {
@@ -96,9 +95,8 @@ describe("getMobileButtonAreaTitles", () => {
     ];
 
     const actual = getMobileButtonAreaTitles(dummyNavItems, dummyStepsStepper);
-    expect(actual.currentAreaTitle).toEqual("Step 3 (3/3): Page 1");
+    expect(actual.currentAreaTitle).toEqual("Step 3 (3/3)");
     expect(actual.nextAreaTitle).toEqual("");
-    expect(actual.stepStepperIndex).toEqual(3);
   });
 
   it("should return all empty in case does not have any current step stepper", () => {
@@ -129,6 +127,5 @@ describe("getMobileButtonAreaTitles", () => {
     const actual = getMobileButtonAreaTitles(dummyNavItems, dummyStepsStepper);
     expect(actual.currentAreaTitle).toEqual("");
     expect(actual.nextAreaTitle).toEqual("");
-    expect(actual.stepStepperIndex).toBeUndefined();
   });
 });

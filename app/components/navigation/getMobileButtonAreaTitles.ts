@@ -45,12 +45,12 @@ export const getMobileButtonAreaTitles = (
     const stepStepperIndex = currentAreaStepStepperIndex + 1;
 
     return {
-      currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtdStepsStepper}): ${currentNavTitle}`,
+      currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtdStepsStepper})`,
+      currentNavTitle,
       nextAreaTitle:
         stepStepperIndex < stepsStepper.length
           ? `${stepsStepper[stepStepperIndex].label} (${stepStepperIndex + 1}/${qtdStepsStepper})`
           : "",
-      stepStepperIndex,
     };
   }
 
