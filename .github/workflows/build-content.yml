@@ -34,7 +34,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: content-file
           path: content.json
@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v5
       - name: Download Content File
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: content-file
       - name: Install cosign
