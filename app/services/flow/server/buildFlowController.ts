@@ -170,6 +170,7 @@ async function stepStates(
             getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
             context,
             reachableSteps,
+            state.machine.config.meta?.arrays,
           ),
           stepId,
           isReachable: reachableSteps.includes(targetStepId),

@@ -7,6 +7,7 @@ import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
+import { type ArrayConfigServer } from "~/services/array";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -102,11 +103,23 @@ export const doneFunction = async <T extends PagesConfig>(
   pageSchema: T,
   context: UserDataFromPagesSchema<T>,
   reachableSteps?: string[],
+  arrayConfigurations?: Record<string, ArrayConfigServer> | undefined,
 ) => {
-  // Retrieve only the pageSchemas that are reachable
-  const relevantPageSchemas = Object.values(pageSchema).filter((v) =>
-    reachableSteps?.includes(`/${v.stepId}`),
-  );
+  // Retrieve only the pageSchemas that are reachable, unless we're on an array page
+  const relevantPageSchemas = Object.values(pageSchema).filter((config) => {
+    if ("arrayPages" in config) {
+      const matchingArrayConfig = Object.values(arrayConfigurations ?? {}).find(
+        (arrayConfig) => arrayConfig.url.endsWith(config.stepId),
+      );
+      const statementKey =
+        matchingArrayConfig?.statementKey as keyof typeof context;
+      return context[statementKey] === "yes";
+    }
+    return (
+      "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
+    );
+  });
+  if (relevantPageSchemas.length === 0) return false;
   const reducedPageSchemas = relevantPageSchemas.reduce<SchemaObject>(
     (acc, v) => ({ ...acc, ...v.pageSchema }),
     {},

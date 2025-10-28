@@ -37,7 +37,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
     {
       stepId: "/weitere-angaben",
       userInput: {
-        weitereAngaben: undefined,
+        weitereAngaben: "",
       },
     },
     {

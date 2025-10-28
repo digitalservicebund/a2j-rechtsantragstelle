@@ -304,7 +304,7 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: true,
+          isDone: false,
           isReachable: true,
           stepId: "/start",
           url: "/test/start",
@@ -443,13 +443,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: true,
+          isDone: false,
           isReachable: true,
           stepId: "/child1",
           url: "/test/child1",
         },
         {
-          isDone: true,
+          isDone: false,
           isReachable: false,
           stepId: "/child2",
           url: "/test/child2",
