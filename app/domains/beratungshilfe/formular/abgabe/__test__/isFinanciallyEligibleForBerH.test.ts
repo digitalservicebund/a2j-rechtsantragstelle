@@ -35,6 +35,10 @@ describe("isFinanciallyEligibleForBerH", () => {
       grundeigentum: [
         {
           verkaufswert: "10001",
+          isBewohnt: "yes",
+          art: "eigentumswohnung",
+          eigentuemer: "myself",
+          flaeche: "100",
         },
       ],
     };
@@ -46,11 +50,18 @@ describe("isFinanciallyEligibleForBerH", () => {
       kraftfahrzeuge: [
         {
           hasArbeitsweg: "yes",
+          wert: "over10000",
+          art: "Motorrad",
+          marke: "Honda",
+          eigentuemer: "myself",
           verkaufswert: "11000",
+          kilometerstand: 100000,
+          anschaffungsjahr: "2000",
+          baujahr: "2000",
         },
         {
           hasArbeitsweg: "no",
-          verkaufswert: "1234",
+          wert: "under10000",
         },
       ],
     };
@@ -63,7 +74,13 @@ describe("isFinanciallyEligibleForBerH", () => {
         {
           hasArbeitsweg: "no",
           wert: "over10000",
+          art: "Sportauto",
+          marke: "Ferrari",
+          eigentuemer: "myself",
           verkaufswert: "11000",
+          kilometerstand: 1000,
+          anschaffungsjahr: "2020",
+          baujahr: "2020",
         },
       ],
     };

@@ -1,7 +1,8 @@
 import Close from "@digitalservicebund/icons/Close";
+import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
-import { type ElementType, useState } from "react";
+import { type ElementType, useEffect, useRef, useState } from "react";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
@@ -37,14 +38,45 @@ export const PosthogSurvey = ({
   dialogRef,
 }: PosthogSurveyProps) => {
   const [responses, setResponses] = useState<SurveyResponses>();
+  const [showValidationError, setShowValidationError] = useState(false);
   const isCompletelyFilled = isCompleted(survey, responses);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const onSubmitClicked = () => {
     if (responses && isCompletelyFilled) {
       submitFeedback(responses);
       setResponses(undefined);
+      setShowValidationError(false);
+    } else {
+      setShowValidationError(true);
     }
   };
+
+  useEffect(() => {
+    if (wasSubmitted) {
+      closeButtonRef.current?.focus();
+    }
+  }, [wasSubmitted]);
+
+  useEffect(() => {
+    if (showValidationError && responses && isCompletelyFilled) {
+      setShowValidationError(false);
+    }
+  }, [responses, showValidationError, isCompletelyFilled]);
+
+  useEffect(() => {
+    const dialog = dialogRef?.current;
+    if (!dialog) return;
+
+    const handleClose = () => {
+      setShowValidationError(false);
+    };
+
+    dialog.addEventListener("close", handleClose);
+    return () => {
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, [dialogRef]);
 
   const dialogLabelId = "dialog-label";
 
@@ -57,7 +89,7 @@ export const PosthogSurvey = ({
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
       className={classNames(
-        "self-center justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
+        "self-center m-auto justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
         {
           "gap-40": !wasSubmitted,
           "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
@@ -81,14 +113,34 @@ export const PosthogSurvey = ({
             </output>
           ) : (
             <div className="flex flex-col gap-40">
-              {survey.questions.map((question) => {
+              {survey.questions.map((question, index) => {
                 const Component = questionTypes[question.type];
+                const isFirstQuestion = index === 0;
                 return (
-                  <Component
-                    key={question.id}
-                    setResponses={setResponses}
-                    question={question}
-                  />
+                  <div key={question.id}>
+                    <Component
+                      setResponses={setResponses}
+                      question={question}
+                      hasError={
+                        showValidationError &&
+                        !question.optional &&
+                        !isCompleted({ questions: [question] }, responses)
+                      }
+                    />
+                    {isFirstQuestion &&
+                      showValidationError &&
+                      !wasSubmitted && (
+                        <div
+                          className="flex items-center gap-8 text-red-800 mt-16"
+                          role="alert"
+                        >
+                          <ErrorOutline className="w-20 h-20 shrink-0" />
+                          <span>
+                            {translations.feedback["validation-error"].de}
+                          </span>
+                        </div>
+                      )}
+                  </div>
                 );
               })}
             </div>
@@ -96,6 +148,7 @@ export const PosthogSurvey = ({
           <ButtonContainer className="flex flex-col sm:flex-row">
             {wasSubmitted ? (
               <Button
+                ref={closeButtonRef}
                 size="large"
                 look={"primary"}
                 className="justify-center"
@@ -116,10 +169,7 @@ export const PosthogSurvey = ({
                 <Button
                   look="primary"
                   size="large"
-                  aria-disabled={!isCompletelyFilled}
-                  className={classNames("justify-center", {
-                    "is-disabled": !isCompletelyFilled,
-                  })}
+                  className="justify-center"
                   text={translations.feedback["submit-problem"].de}
                   type="button"
                   onClick={onSubmitClicked}

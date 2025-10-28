@@ -1,39 +1,48 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
-export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = [
-  [
-    { hasWeitereUnterhaltszahlungen: "no" },
-    [
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "/finanzielle-angaben/wohnung/alleine-zusammen",
-    ],
-  ],
-  [
-    { hasWeitereUnterhaltszahlungen: "yes" },
-    [
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
-    ],
-  ],
-  [
+export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
+  noWeitereUnterhaltszahlungen: [
     {
-      hasWeitereUnterhaltszahlungen: "yes",
-      unterhaltszahlungen: [
-        {
-          firstName: "a",
-          surname: "b",
-          familyRelationship: "kid",
-          birthday: "10.10.2010",
-          monthlyPayment: "10",
-        },
-      ],
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      userInput: { hasWeitereUnterhaltszahlungen: "no" },
     },
-    [
-      "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-      "/finanzielle-angaben/wohnung/alleine-zusammen",
-    ],
+    {
+      stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
+    },
   ],
-] as const satisfies TestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;
+  weitereUnterhaltszahlungenUnentered: [
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      userInput: { hasWeitereUnterhaltszahlungen: "yes" },
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+    },
+  ],
+  weitereUnterhaltszahlungen: [
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
+      userInput: { hasWeitereUnterhaltszahlungen: "yes" },
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+      addArrayItemEvent: "add-unterhaltszahlungen",
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/person/0/daten",
+      userInput: {
+        "unterhaltszahlungen#familyRelationship": "kid",
+        "unterhaltszahlungen#firstName": "Kind",
+        "unterhaltszahlungen#surname": "Mustemann",
+        "unterhaltszahlungen#birthday": "01.01.2020",
+        "unterhaltszahlungen#monthlyPayment": "100",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];

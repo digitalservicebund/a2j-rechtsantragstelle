@@ -15,9 +15,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Example: Story = {
+export const StepperCurrentOpenDisabled: Story = {
   args: {
-    steppers: [
+    steps: [
       {
         label: "Gericht prüfen",
         href: "/gericht-pruefen",
@@ -37,7 +37,41 @@ export const Example: Story = {
   },
   decorators: [
     (Story) => (
-      <Container paddingTop="24" paddingBottom="24">
+      <Container paddingTop="24" paddingBottom="32">
+        {Story()}
+      </Container>
+    ),
+  ],
+};
+
+export const StepperDoneDoneCurrentWarningCurrentWarning: Story = {
+  args: {
+    steps: [
+      {
+        label: "Gericht prüfen",
+        href: "/gericht-pruefen",
+        state: "Done",
+      },
+      {
+        label: "Klage erstellen",
+        href: "/klage-erstellen",
+        state: "DoneCurrent",
+      },
+      {
+        label: "Klage erstellen 2",
+        href: "/klage-erstellen",
+        state: "WarningCurrent",
+      },
+      {
+        label: "Klage herunterladen",
+        href: "/klage-herunterladen",
+        state: "Warning",
+      },
+    ],
+  },
+  decorators: [
+    (Story) => (
+      <Container paddingTop="24" paddingBottom="32">
         {Story()}
       </Container>
     ),

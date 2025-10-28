@@ -143,7 +143,7 @@ describe("pruner", () => {
         Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
       );
 
-      const userData = {
+      const userData: BeratungshilfeFormularUserData = {
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
         klageEingereicht: "no",
@@ -170,10 +170,7 @@ describe("pruner", () => {
           {
             art: "bargeld",
             eigentuemer: "partner",
-            befristetArt: "lifeInsurance",
-            verwendungszweck: "123",
             wert: "123",
-            auszahlungdatum: "11.11.2032",
           },
         ],
         hasKinder: "no",
@@ -183,13 +180,11 @@ describe("pruner", () => {
             nachname: "b",
             geburtsdatum: "11.11.2023",
             wohnortBeiAntragsteller: "no",
-            unterhalt: "no",
+            unterhalt: "yes",
             unterhaltsSumme: "123",
-            eigeneEinnahmen: "no",
-            einnahmen: "0",
           },
         ],
-      } satisfies BeratungshilfeFormularUserData;
+      };
       const flowId = "/beratungshilfe/antrag";
 
       const { prunedData } = await pruneIrrelevantData(userData, flowId);
@@ -281,11 +276,9 @@ describe("pruner", () => {
           vorname: "a",
           nachname: "b",
           geburtsdatum: "11.11.2023",
-          wohnortBeiAntragsteller: "no",
-          unterhalt: "no",
-          unterhaltsSumme: "123",
-          eigeneEinnahmen: "no",
-          einnahmen: "0",
+          wohnortBeiAntragsteller: "yes",
+          eigeneEinnahmen: "yes",
+          einnahmen: "100",
         },
       ],
     } satisfies BeratungshilfeFormularUserData;

@@ -69,7 +69,7 @@ export const translations = {
       de: "Vielen Dank!",
     },
     "text-post-submission": {
-      de: "Wir wollen digitale Justiz-Angebote entwickeln, die für alle Menschen gut funktionieren. Ihre Hilfe ist dabei sehr wichtig. Teilen Sie Ihre Erfahrungen mit uns und testen Sie neue Angebote. [Hier können Sie sich anmelden](/feedback).",
+      de: "",
     },
     "success-message": {
       de: "Vielen Dank!",
@@ -103,6 +103,9 @@ export const translations = {
     },
     "open-feedback-placeholder": {
       de: "Beschreibung des Problems ...",
+    },
+    "validation-error": {
+      de: "Bitte treffen Sie eine Auswahl.",
     },
   },
   video: {
@@ -151,14 +154,17 @@ export const translations = {
     },
   },
   navigationMobile: {
-    currentArea: {
-      de: "Bereich",
+    after: {
+      de: "Danach",
     },
     closeMenu: {
       de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
       de: "Schritt-für-Schritt-Menü",
+    },
+    toStep: {
+      de: "Zu Schritt:",
     },
   },
   buttonNavigation: {
@@ -190,6 +196,9 @@ export const translations = {
     invalidHousenumber: {
       de: "Bitte geben Sie eine gültige Hausnummer an.",
     },
+    autosuggestInputHelperText: {
+      de: "Geben Sie Ihre Straße ein und wählen Sie diese anschließend aus der Trefferliste aus",
+    },
   },
   arraySummary: {
     arrayEditButtonLabel: {
@@ -200,6 +209,23 @@ export const translations = {
     },
     arrayAddButtonLabel: {
       de: "hinzufügen",
+    },
+  },
+  splitDateComponent: {
+    tagInputLabel: {
+      de: "Tag",
+    },
+    monatInputLabel: {
+      de: "Monat",
+    },
+    jahrInputLabel: {
+      de: "Jahr",
+    },
+    legend: {
+      de: "Geburtsdatum",
+    },
+    hintText: {
+      de: "Beispielsweise: 17 3 2015",
     },
   },
 } satisfies TranslationRecord;

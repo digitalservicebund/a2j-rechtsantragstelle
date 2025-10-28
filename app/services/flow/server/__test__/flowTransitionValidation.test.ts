@@ -52,6 +52,8 @@ describe("flowTransitionValidation", () => {
     getPrevious: vi.fn().mockReturnValue(undefined),
     getNext: vi.fn().mockReturnValue(undefined),
     getInitial: vi.fn().mockReturnValue("mock"),
+    getArrayItemStep: vi.fn().mockReturnValue(undefined),
+    getInitialSubState: vi.fn().mockReturnValue(""),
   };
 
   it("should return eligibility as true if at least one eligible source page is reachable", async () => {

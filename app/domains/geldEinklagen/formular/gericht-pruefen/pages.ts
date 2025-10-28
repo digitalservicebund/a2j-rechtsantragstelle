@@ -11,19 +11,19 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { forderung: z.enum(["maximal5000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
-    stepId: "gericht-pruefen/ergebnis/forderung/etwas-anderes",
+    stepId: "gericht-pruefen/forderung/ergebnis/etwas-anderes",
   },
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
   },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
-    pageSchema: { sachgebietAusgeschlossen: YesNoAnswer },
+    pageSchema: { ausgeschlossen: YesNoAnswer },
   },
   sachgebietBesondere: {
     stepId: "gericht-pruefen/sachgebiet/besondere",
     pageSchema: {
-      besondere: z.enum([
+      sachgebiet: z.enum([
         "miete",
         "versicherung",
         "schaden",
@@ -63,5 +63,44 @@ export const geldEinklagenGerichtPruefenPages = {
   },
   klagendePersonFuerWen: {
     stepId: "gericht-pruefen/klagende-person/fuer-wen",
+    pageSchema: { fuerWenKlagen: z.enum(["selbst", "organisation"]) },
+  },
+  klagendePersonErrorAbbruch: {
+    stepId: "gericht-pruefen/klagende-person/ergebnis/abbruch",
+  },
+  klagendePersonVerbraucher: {
+    stepId: "gericht-pruefen/klagende-person/verbraucher",
+    pageSchema: { klagendeVerbraucher: YesNoAnswer },
+  },
+  klagendePersonKaufmann: {
+    stepId: "gericht-pruefen/klagende-person/kaufmann",
+    pageSchema: { klagendeKaufmann: YesNoAnswer },
+  },
+  klagendePersonVertrag: {
+    stepId: "gericht-pruefen/klagende-person/vertrag",
+    pageSchema: { klagendeVertrag: YesNoAnswer },
+  },
+  klagendePersonHaustuergeschaeft: {
+    stepId: "gericht-pruefen/klagende-person/haustuergeschaeft",
+    pageSchema: { klagendeHaustuergeschaeft: YesNoAnswer },
+  },
+  beklagtePersonGegenWen: {
+    stepId: "gericht-pruefen/beklagte-person/gegen-wen",
+    pageSchema: { gegenWenBeklagen: z.enum(["person", "organisation"]) },
+  },
+  beklagtePersonGeldVerdienen: {
+    stepId: "gericht-pruefen/beklagte-person/geld-verdienen",
+    pageSchema: { beklagtePersonGeldVerdienen: YesNoAnswer },
+  },
+  beklagtePersonKaufmann: {
+    stepId: "gericht-pruefen/beklagte-person/kaufmann",
+    pageSchema: { beklagtePersonKaufmann: z.enum(["yes", "no", "unknown"]) },
+  },
+  beklagtePersonGerichtsstandsvereinbarung: {
+    stepId: "gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
+    pageSchema: { gerichtsstandsvereinbarung: YesNoAnswer },
+  },
+  gerichtSuchePostleitzahlBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
   },
 } as const satisfies PagesConfig;

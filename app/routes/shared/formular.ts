@@ -57,10 +57,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   ]);
 
   const translations = contentData.getTranslations();
-  const navProps = contentData.getNavProps(flowController, stepId, useStepper);
+  const navigationProps = contentData.getNavProps(
+    flowController,
+    stepId,
+    useStepper,
+    userVisitedValidationPage,
+  );
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
-  const meta = contentData.getMeta();
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigation(
@@ -74,16 +78,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     {
       arraySummaryData,
       userData,
-      navigationProps: {
-        ...navProps,
-        userVisitedValidationPage,
-      },
+      navigationProps,
       buttonNavigationProps,
       cmsContent,
       csrf,
       emailCaptureConsent,
       formElements,
-      meta,
       migration,
       stepData,
       translations,

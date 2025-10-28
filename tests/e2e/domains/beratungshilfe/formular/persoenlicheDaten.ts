@@ -16,7 +16,10 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/geburtsdatum
-  await beratungshilfeFormular.fillInputPage("geburtsdatum", "01.01.1934");
+  await beratungshilfeFormular.fillInput("geburtsdatum.day", "01");
+  await beratungshilfeFormular.fillInput("geburtsdatum.month", "01");
+  await beratungshilfeFormular.fillInput("geburtsdatum.year", "1970");
+  await beratungshilfeFormular.clickNext();
 
   // beratungshilfe/antrag/persoenliche-daten/postleitzahl
   await beratungshilfeFormular.fillInputPage("plz", "20457");
@@ -33,7 +36,4 @@ export async function startPersoenlicheDaten(
 
   // beratungshilfe/antrag/persoenliche-daten/telefonnummer
   await beratungshilfeFormular.fillInputPage("telefonnummer", "123456789");
-
-  // beratungshilfe/antrag/persoenliche-daten/nachbefragung
-  await beratungshilfeFormular.clickNext();
 }

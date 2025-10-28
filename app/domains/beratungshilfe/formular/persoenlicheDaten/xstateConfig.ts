@@ -66,11 +66,8 @@ export const persoenlicheDatenXstateConfig = {
     [steps.telefonnummer.relative]: {
       on: {
         BACK: steps.adresse.relative,
-        SUBMIT: "#persoenliche-daten.nachbefragung",
+        SUBMIT: "#weitere-angaben",
       },
-    },
-    [steps.nachbefragung.relative]: {
-      on: { BACK: steps.telefonnummer.relative, SUBMIT: "#weitere-angaben" },
     },
   },
 } satisfies Config<

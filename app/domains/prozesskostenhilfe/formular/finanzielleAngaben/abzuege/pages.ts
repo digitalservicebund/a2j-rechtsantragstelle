@@ -1,11 +1,19 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { financialEntryInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+export const arbeitsausgabenArraySchema = z
+  .object({
+    beschreibung: stringRequiredSchema,
+    betrag: buildMoneyValidationSchema(),
+    zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+  })
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsweg: {
@@ -46,19 +54,16 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsausgaben: {
     stepId: "finanzielle-angaben/abzuege/arbeitsausgaben",
     pageSchema: {
-      arbeitsausgaben: z.array(financialEntryInputSchema),
+      arbeitsausgaben: arbeitsausgabenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
           "arbeitsausgaben#beschreibung": stringRequiredSchema,
-          "arbeitsausgaben#zahlungsfrequenz": z.enum([
-            "monthly",
-            "quarterly",
-            "yearly",
-            "one-time",
-          ]),
-          "arbeitsausgaben#betrag": buildMoneyValidationSchema(),
+          "arbeitsausgaben#zahlungsfrequenz":
+            arbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
+          "arbeitsausgaben#betrag":
+            arbeitsausgabenArraySchema.element.shape.betrag,
         },
       },
     },

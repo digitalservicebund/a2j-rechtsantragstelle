@@ -1,10 +1,10 @@
 import type PDFDocument from "pdfkit";
 import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringReplacements";
-import type { FinancialEntry } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { type ProzesskostenhilfeFormularUserData } from "../../formular/userData";
+import { type FinancialEntry } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/pages";
 
 export const getTotalMonthlyFinancialEntries = (
   financialEntries: FinancialEntry[],

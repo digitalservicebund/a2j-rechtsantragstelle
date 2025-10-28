@@ -1,289 +1,573 @@
-import { type TestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { type FlowTestCases } from "~/domains/__test__/TestCases";
 
-const prefix = "/antragstellende-person/vereinfachte-erklaerung";
-
-const frageVermoegenFulfilled = [
-  [
+const frageVermoegenFulfilled = {
+  frageVermoegenFulfilledUnterhalt: [
     {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "unterhalt",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/vermoegen",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "vollstreckung",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/vermoegen",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "abstammung",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/vermoegen",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "unterhalt",
-      hasEinnahmen: "yes",
-      hohesEinkommen: "no",
-      einnahmen: [
-        {
-          beschreibung: "Einnahme",
-          betrag: "100",
-          zahlungsfrequenz: "quarterly",
-        },
-      ],
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/einnahmen-value",
-      "/einnahmen-uebersicht",
-      "/vermoegen",
-    ],
-  ],
-];
-
-const frageVermoegenNotFulfilled = [
-  [
-    {
-      minderjaehrig: "no",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "unterhalt",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/hinweis-weiteres-formular",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "no",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/einnahmen",
-      "/hinweis-weiteres-formular",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "other",
-      hasEinnahmen: "no",
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/hinweis-weiteres-formular",
-    ],
-  ],
-  [
-    {
-      minderjaehrig: "yes",
-      unterhaltsOrAbstammungssachen: "yes",
-      rechtlichesThema: "unterhalt",
-      hasEinnahmen: "yes",
-      hohesEinkommen: "yes",
-      einnahmen: [
-        {
-          beschreibung: "Einnahme",
-          betrag: "100",
-          zahlungsfrequenz: "quarterly",
-        },
-      ],
-    },
-    [
-      "/minderjaehrig",
-      "/geburtsdatum",
-      "/worum-gehts",
-      "/rechtliches-thema",
-      "/einnahmen",
-      "/einnahmen-value",
-      "/einnahmen-uebersicht",
-      "/hinweis-weiteres-formular",
-    ],
-  ],
-];
-
-export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung = (
-  [
-    [
-      {
-        child: {
-          vorname: "Max",
-          nachname: "Mustermann",
-          geburtsdatum: "01.01.2015",
-        },
-        livesTogether: "no",
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
       },
-      ["/kind", "/zusammenleben", "/unterhalt", "/minderjaehrig"],
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+    },
+  ],
+  frageVermoegenFulfilledVollstreckung: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "vollstreckung",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+    },
+  ],
+  frageVermoegenFulfilledAbstammung: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "abstammung",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+    },
+  ],
+  frageVermoegenFulfilledEinkommen: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+      userInput: {
+        hohesEinkommen: "no",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+      addArrayItemEvent: "add-einnahmen",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
+      userInput: {
+        "einnahmen#beschreibung": "Einnahme",
+        "einnahmen#betrag": "100",
+        "einnahmen#zahlungsfrequenz": "quarterly",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        einnahmen: [
+          {
+            beschreibung: "Einnahme",
+            betrag: "100",
+            zahlungsfrequenz: "quarterly",
+          },
+        ],
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
+
+const frageVermoegenNotFulfilled = {
+  frageVermoegenNotFulfilledAdultChild: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+  ],
+  frageVermoegenNotFulfilledNotAboutUnterhalt: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2015",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+  ],
+  frageVermoegenNotFulfilledWrongThema: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2015",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "other",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "no",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+  ],
+  frageVermoegenNotFulfilledHighIncome: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+      userInput: {
+        child: {
+          geburtsdatum: "10.10.2005",
+        },
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+      userInput: {
+        unterhaltsOrAbstammungssachen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+      userInput: {
+        rechtlichesThema: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      userInput: {
+        hasEinnahmen: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+      userInput: {
+        hohesEinkommen: "yes",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+      addArrayItemEvent: "add-einnahmen",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
+      userInput: {
+        "einnahmen#beschreibung": "Einnahme",
+        "einnahmen#betrag": "100",
+        "einnahmen#zahlungsfrequenz": "quarterly",
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        einnahmen: [
+          {
+            beschreibung: "Einnahme",
+            betrag: "100",
+            zahlungsfrequenz: "quarterly",
+          },
+        ],
+      },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+  ],
+} satisfies FlowTestCases["testcases"];
+
+export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases["testcases"] =
+  {
+    veChildData: [
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
+        userInput: {
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+          },
+        },
+      },
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/zusammenleben",
+        userInput: {
+          livesTogether: "no",
+        },
+      },
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/unterhalt",
+        userInput: {
+          child: {
+            unterhaltsSumme: "100",
+          },
+        },
+      },
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      },
     ],
     ...frageVermoegenFulfilled,
     ...frageVermoegenNotFulfilled,
-    [
+    veEinnahmenNotEntered: [
       {
-        hasEinnahmen: "yes",
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+        userInput: {
+          hasEinnahmen: "yes",
+        },
       },
-      ["/einnahmen-uebersicht", "/einnahmen-warnung"],
-    ],
-    [
       {
-        hasVermoegen: "no",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+        userInput: {
+          hohesEinkommen: "no",
+        },
       },
-      ["/vermoegen", "/hinweis-vereinfachte-erklaerung"],
-    ],
-    [
       {
-        hasVermoegen: "yes",
-        vermoegenUnder10000: "no",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
       },
-      ["/vermoegen", "/vermoegen-value", "/hinweis-weiteres-formular"],
-    ],
-    [
       {
-        hasVermoegen: "yes",
-        vermoegenUnder10000: "yes",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-warnung",
       },
-      [
-        "/vermoegen",
-        "/vermoegen-value",
-        "/vermoegen-uebersicht",
-        "/vermoegen-warnung",
-      ],
     ],
-    [
+    veNoVermoegen: [
       {
-        hasVermoegen: "yes",
-        vermoegenUnder10000: "yes",
-        vermoegen: [{ beschreibung: "Test", wert: "1000" }],
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        userInput: {
+          hasVermoegen: "no",
+        },
       },
-      [
-        "/vermoegen",
-        "/vermoegen-value",
-        "/vermoegen-uebersicht",
-        "/hinweis-vereinfachte-erklaerung",
-      ],
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+      },
     ],
-  ] as Array<[ProzesskostenhilfeFormularUserData, string[]]>
-).map(([data, steps]) => [
-  data,
-  steps.map((stepId) => prefix + stepId),
-]) satisfies TestCases<ProzesskostenhilfeFormularUserData>;
+    veVermoegenOver10000: [
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        userInput: {
+          hasVermoegen: "yes",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+        userInput: {
+          vermoegenUnder10000: "no",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+      },
+    ],
+    veVermoegenNotEntered: [
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        userInput: {
+          hasVermoegen: "yes",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+        userInput: {
+          vermoegenUnder10000: "yes",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-warnung",
+      },
+    ],
+    veVrmoegenUnder10000: [
+      {
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        userInput: {
+          hasVermoegen: "yes",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+        userInput: {
+          vermoegenUnder10000: "yes",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+        addArrayItemEvent: "add-vermoegen",
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag/0/daten",
+        userInput: {
+          "vermoegen#beschreibung": "Test",
+          "vermoegen#wert": "1000",
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+        skipPageSchemaValidation: true,
+        userInput: {
+          hasVermoegen: "yes",
+          vermoegen: [{ beschreibung: "Test", wert: "1000" }],
+        },
+      },
+      {
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+      },
+    ],
+  };
 
 export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions =
-  [
-    [
+  {
+    antragstellendePersonEmpfaengerChild: [
       {
-        empfaenger: "child",
+        stepId: "/antragstellende-person/empfaenger",
+        userInput: {
+          empfaenger: "child",
+        },
       },
-      ["/antragstellende-person/empfaenger", `${prefix}/kind`],
-    ],
-    [
       {
-        empfaenger: "child",
-        minderjaehrig: "no",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
+        stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
       },
-      [
-        `${prefix}/hinweis-weiteres-formular`,
-        "/antragstellende-person/unterhaltsanspruch",
-      ],
     ],
-    [
+    veNotEligibleTransition: [
       {
-        formularArt: "nachueberpruefung",
-        empfaenger: "child",
-        minderjaehrig: "no",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+        skipPageSchemaValidation: true,
+        userInput: {
+          empfaenger: "child",
+          minderjaehrig: "no",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "unterhalt",
+          hasEinnahmen: "no",
+        },
       },
-      [
-        `${prefix}/hinweis-weiteres-formular`,
-        "/antragstellende-person/unterhaltsanspruch",
-      ],
+      { stepId: "/antragstellende-person/unterhaltsanspruch" },
     ],
-    [
+    veEligibleTransition: [
       {
-        empfaenger: "child",
-        minderjaehrig: "yes",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
-        hasVermoegen: "no",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+        skipPageSchemaValidation: true,
+        userInput: {
+          empfaenger: "child",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "unterhalt",
+          hasEinnahmen: "no",
+        },
       },
-      [
-        `${prefix}/hinweis-vereinfachte-erklaerung`,
-        "/antragstellende-person/unterhaltsanspruch",
-      ],
+      { stepId: "/antragstellende-person/unterhaltsanspruch" },
     ],
-    [
-      {
-        formularArt: "nachueberpruefung",
-        empfaenger: "child",
-        minderjaehrig: "yes",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "unterhalt",
-        hasEinnahmen: "no",
-        hasVermoegen: "no",
-      },
-      [
-        `${prefix}/hinweis-vereinfachte-erklaerung`,
-        "/antragstellende-person/unterhaltsanspruch",
-      ],
-    ],
-  ] as Array<
-    [ProzesskostenhilfeFormularUserData, string[]]
-  > satisfies TestCases<ProzesskostenhilfeFormularUserData>;
+  } satisfies FlowTestCases["testcases"];

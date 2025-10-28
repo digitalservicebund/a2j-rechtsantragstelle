@@ -24,7 +24,7 @@ export default function FlowNavigation(props: FlowNavigationProps) {
       {jsAvailable && (
         <SideNavMobile
           navItems={props.navItems}
-          userVisitedValidationPage={props.userVisitedValidationPage}
+          stepsStepper={props.stepsStepper}
         />
       )}
 

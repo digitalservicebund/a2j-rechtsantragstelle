@@ -15,6 +15,20 @@ import type {
   NavigationEvent,
   StateMachineTypes,
 } from "./types";
+import { type ArrayConfigServer } from "~/services/array";
+
+function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
+  const startNode = machine.getStateNodeById(stepId);
+
+  function dive(node: typeof startNode): typeof startNode {
+    if (Object.keys(node.states).length === 0) return node;
+    return dive(Object.values(node.states)[0]);
+  }
+
+  const leaf = dive(startNode);
+
+  return "/" + leaf.path.join("/");
+}
 
 const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
@@ -204,6 +218,22 @@ export const buildFlowController = ({
       const destination = nextStepId(machine, stepId, "SUBMIT", context);
       if (destination) return `${machine.id}${destination}`;
     },
+    getArrayItemStep: (
+      stepId: string,
+      arrayStep: ArrayConfigServer["event"],
+    ) => {
+      const destination = nextStepId(machine, stepId, arrayStep, context);
+      if (destination)
+        return `${machine.id}${destination
+          .split("/")
+          .slice(1)
+          .reduce((prev, curr, idx, arr) => {
+            if (idx === arr.length - 1) {
+              return `${prev}/0/${curr}`;
+            }
+            return `${prev}/${curr}`;
+          }, "")}`;
+    },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
       const { total, progressLookup } =
@@ -211,6 +241,9 @@ export const buildFlowController = ({
           ? vorabcheckProgresses[flowId]
           : progressLookupForMachine(machine);
       return { max: total, progress: progressLookup[currentStepId] };
+    },
+    getInitialSubState: (stepId: string) => {
+      return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;
     },
   };
 };

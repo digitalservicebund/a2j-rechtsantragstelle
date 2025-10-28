@@ -1,87 +1,161 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 
 const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
   "/finanzielle-angaben/einkommen/staatliche-leistungen";
 const persoenlicheDatenStart = "/persoenliche-daten/start";
 
-export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = [
-  [
-    {},
-    [
-      "/rechtsproblem/situation-beschreibung",
-      finanzielleAngabenStart,
-      finanzielleAngabenEinkommenStaatlicheLeistungen,
-      persoenlicheDatenStart,
-    ],
-  ],
-  [
+export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
+  receivesAsylbewerberleistungen: [
     {
-      staatlicheLeistungen: "buergergeld",
+      stepId: "/rechtsproblem/situation-beschreibung",
+      userInput: {
+        gegenseite: "gegenseite",
+        beschreibung: "beschreibung",
+        ziel: "ziel",
+        eigeninitiativeBeschreibung: "eigeninitiative",
+      },
     },
-    [
-      finanzielleAngabenStart,
-      finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "/finanzielle-angaben/eigentum/eigentum-info",
-      "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
-      "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
-      "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
-      "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
-      persoenlicheDatenStart,
-    ],
-  ],
-  [
     {
-      staatlicheLeistungen: "buergergeld",
-      hasBankkonto: "no",
-      hasWertsache: "no",
-      hasGeldanlage: "no",
-      hasGrundeigentum: "no",
-      hasKraftfahrzeug: "no",
+      stepId: finanzielleAngabenStart,
     },
-    [
-      finanzielleAngabenStart,
-      finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "/finanzielle-angaben/eigentum/eigentum-info",
-      "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
-      "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
-      "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
-      "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
-      persoenlicheDatenStart,
-    ],
+    {
+      stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
+      userInput: {
+        staatlicheLeistungen: "asylbewerberleistungen",
+      },
+    },
+    { stepId: persoenlicheDatenStart },
   ],
-  [
-    { staatlicheLeistungen: "asylbewerberleistungen" },
-    [finanzielleAngabenEinkommenStaatlicheLeistungen, persoenlicheDatenStart],
+  receivesBuergergeld: [
+    {
+      stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
+      userInput: {
+        staatlicheLeistungen: "buergergeld",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/eigentum-info",
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
+      userInput: {
+        hasBankkonto: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
+      userInput: {
+        hasGeldanlage: "no",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
+      userInput: {
+        hasKraftfahrzeug: "no",
+      },
+    },
+    {
+      stepId:
+        "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
+      userInput: {
+        hasWertsache: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
+      userInput: {
+        hasGrundeigentum: "no",
+      },
+    },
+    {
+      stepId: persoenlicheDatenStart,
+    },
   ],
-  [
-    { staatlicheLeistungen: "grundsicherung" },
-    [finanzielleAngabenEinkommenStaatlicheLeistungen, persoenlicheDatenStart],
+  receivesGrundsicherung: [
+    {
+      stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
+      userInput: {
+        staatlicheLeistungen: "grundsicherung",
+      },
+    },
+    {
+      stepId: persoenlicheDatenStart,
+    },
   ],
-  [
-    { staatlicheLeistungen: "keine", erwerbstaetig: "yes" },
-    [
-      finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "/finanzielle-angaben/einkommen/erwerbstaetig",
-      "/finanzielle-angaben/einkommen/art",
-      "/finanzielle-angaben/einkommen/situation",
-      "/finanzielle-angaben/einkommen/weiteres-einkommen",
-      "/finanzielle-angaben/einkommen/einkommen",
-      "/finanzielle-angaben/partner/partnerschaft",
-    ],
+  noStaatlicheLeistungEwerbstaetig: [
+    {
+      stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
+      userInput: {
+        staatlicheLeistungen: "keine",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/erwerbstaetig",
+      userInput: {
+        erwerbstaetig: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/art",
+      userInput: {
+        berufart: {
+          selbststaendig: "on",
+          festangestellt: "off",
+        },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/situation",
+      userInput: {
+        berufsituation: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/weiteres-einkommen",
+      userInput: {
+        weitereseinkommen: {
+          unterhaltszahlungen: "off",
+          arbeitlosengeld: "off",
+          wohngeld: "off",
+          kindergeld: "off",
+          bafoeg: "off",
+          krankengeld: "off",
+          rente: "off",
+          elterngeld: "off",
+          insolvenzgeld: "off",
+          ueberbrueckungsgeld: "off",
+          others: "off",
+          none: "on",
+        },
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/einkommen",
+      userInput: {
+        einkommen: "1000",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/partner/partnerschaft",
+    },
   ],
-  [
-    { staatlicheLeistungen: "keine", erwerbstaetig: "no" },
-    [
-      finanzielleAngabenEinkommenStaatlicheLeistungen,
-      "/finanzielle-angaben/einkommen/erwerbstaetig",
-      "/finanzielle-angaben/einkommen/situation",
-      "/finanzielle-angaben/einkommen/weiteres-einkommen",
-      "/finanzielle-angaben/einkommen/einkommen",
-      "/finanzielle-angaben/partner/partnerschaft",
-    ],
+  noStaatlicheLeistungNotEwerbstaetig: [
+    {
+      stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
+      userInput: {
+        staatlicheLeistungen: "keine",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/erwerbstaetig",
+      userInput: {
+        erwerbstaetig: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/einkommen/situation",
+    },
   ],
-] as const satisfies TestCases<BeratungshilfeFinanzielleAngabenUserData>;
+} satisfies FlowTestCases["testcases"];

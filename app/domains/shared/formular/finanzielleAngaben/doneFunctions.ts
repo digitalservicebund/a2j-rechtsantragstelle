@@ -1,36 +1,14 @@
-import type { FinanzielleAngabenGuard } from "~/domains/shared/formular/finanzielleAngaben/guards";
-import type {
-  GeldanlagenArraySchema,
-  GrundeigentumArraySchema,
-  KinderSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { arrayIsNonEmpty } from "~/util/array";
+import type { FinanzielleAngabenGuard } from "./guards";
+import {
+  bankkontenArraySchema,
+  type GeldanlagenArraySchema,
+  type GrundeigentumArraySchema,
+} from "./userData";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
-  (context.hasBankkonto === "yes" && arrayIsNonEmpty(context.bankkonten));
-
-export const childDone = (child: KinderSchema) =>
-  child.vorname !== undefined &&
-  child.nachname !== undefined &&
-  child.geburtsdatum !== undefined &&
-  childWohnortDone(child);
-
-const childWohnortDone = (child: KinderSchema) => {
-  if (
-    child.wohnortBeiAntragsteller === "yes" ||
-    child.wohnortBeiAntragsteller === "partially"
-  ) {
-    return (
-      child.eigeneEinnahmen === "no" ||
-      (child.eigeneEinnahmen === "yes" && child.einnahmen !== undefined)
-    );
-  }
-  return (
-    child.unterhalt === "no" ||
-    (child.unterhalt === "yes" && child.unterhaltsSumme !== undefined)
-  );
-};
+  (context.hasBankkonto === "yes" &&
+    bankkontenArraySchema.safeParse(context.bankkonten).success);
 
 export const geldanlageDone = (geldanlage: GeldanlagenArraySchema[0]) => {
   if (

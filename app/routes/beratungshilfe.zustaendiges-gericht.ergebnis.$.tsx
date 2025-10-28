@@ -41,7 +41,7 @@ export const Component = () => {
   const { court, content } = useLoaderData<typeof loader>();
 
   return (
-    <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="48" pb="40">
+    <GridSection className={BACKGROUND_COLORS.blue} pt="48" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}

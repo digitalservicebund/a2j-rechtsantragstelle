@@ -4,6 +4,8 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "./userData";
 import { geldEinklagenGerichtPruefenPages } from "./pages";
 import { forderungDone } from "./doneFunctions";
 import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
+import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
+import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -48,56 +50,43 @@ export const gerichtPruefenXstateConfig = {
       },
     },
     sachgebiet: sachgebietXstateConfig,
-    "klagende-person": {
-      id: "klagende-person",
-      initial: "fuer-wen",
+    "klagende-person": klagendePersonXstateConfig,
+    "beklagte-person": beklagtePersonXstateConfig,
+    "gericht-suche": {
+      id: "gericht-suche",
+      initial: "postleitzahl-beklagte-person",
       meta: { done: () => false },
       states: {
-        "fuer-wen": {
+        [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
           on: {
             BACK: [
               {
                 guard: ({ context }) =>
-                  context.besondere === "anderesRechtsproblem" ||
-                  context.besondere === "schaden" ||
-                  context.besondere === "urheberrecht",
-                target: steps.sachgebietBesondere.absolute,
+                  context.gegenWenBeklagen === "person" &&
+                  context.sachgebiet === "urheberrecht" &&
+                  context.beklagtePersonGeldVerdienen === "no",
+                target: steps.beklagtePersonGeldVerdienen.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "yes",
-                target: steps.sachgebietMietePachtRaum.absolute,
+                  context.gegenWenBeklagen === "person" &&
+                  context.sachgebiet === "urheberrecht" &&
+                  context.beklagtePersonGeldVerdienen === "yes" &&
+                  context.klagendeKaufmann === "no",
+                target: steps.beklagtePersonGeldVerdienen.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "miete" &&
-                  context.mietePachtVertrag === "no",
-                target: steps.sachgebietMietePachtVertrag.absolute,
+                  context.beklagtePersonKaufmann === "yes",
+                target: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "no",
-                target: steps.sachgebietVersicherungVertrag.absolute,
+                  context.beklagtePersonKaufmann === "no" ||
+                  context.beklagtePersonKaufmann === "unknown",
+                target: steps.beklagtePersonKaufmann.absolute,
               },
-              {
-                guard: ({ context }) =>
-                  context.besondere === "versicherung" &&
-                  context.versicherungVertrag === "yes",
-                target:
-                  steps.sachgebietVersicherungVersicherungsnummer.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.besondere === "reisen" &&
-                  context.reiseArt === "andereReise",
-                target: steps.sachgebietReiseArt.absolute,
-              },
-              {
-                guard: ({ context }) => context.besondere === "verkehrsunfall",
-                target: steps.sachgebietVerkehrsunfallStrassenverkehr.absolute,
-              },
+              { target: steps.beklagtePersonGegenWen.absolute },
             ],
           },
         },

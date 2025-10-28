@@ -1,3 +1,4 @@
+/* oxlint-disable no-console */
 import Redis from "ioredis";
 import { singleton } from "~/util/singleton.server";
 import { config } from "../env/env.server";
@@ -22,12 +23,28 @@ export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
     logError({ message: "[*] Redis", error });
   });
 
-  redisClient.on("ready", () => {
-    // oxlint-disable-next-line no-console
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  redisClient.on("ready", async () => {
     console.log("Redis client ready");
+    await checkRedisVersion(redisClient);
   });
 
   return redisClient;
+}
+
+async function checkRedisVersion(redis: Redis) {
+  try {
+    const info = await redis.info("server");
+    const versionRegex = /redis_version:(\d+\.\d+\.\d+)/;
+    const match = versionRegex.exec(info);
+    if (match) {
+      console.log("Redis version:", match[1]);
+    } else {
+      console.log("Could not determine Redis version");
+    }
+  } catch (err) {
+    console.error("Error fetching Redis version:", err);
+  }
 }
 
 export function quitRedis(

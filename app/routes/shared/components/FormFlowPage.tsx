@@ -14,6 +14,8 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
+import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNavigation";
+import { MissingDataList } from "~/components/common/MissingDataList";
 
 export function FormFlowPage() {
   const {
@@ -46,24 +48,35 @@ export function FormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <GridSection backgroundClass={BACKGROUND_COLORS.blue} pt="40" pb="40">
+      <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
         <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 11 }}
+            lgColumn={{ start: 1, span: 11 }}
+            xlColumn={{ start: 1, span: 11 }}
+            row={1}
+            className="hidden lg:block"
+          >
+            <FlowStepperNavigation steps={navigationProps.stepsStepper} />
+          </GridItem>
           <GridItem
             className="hidden lg:block"
             lgColumn={{ start: 1, span: 4 }}
             xlColumn={{ start: 1, span: 4 }}
+            row={2}
           >
-            <div className="md:mb-32 md:w-[312px]">
+            <div className="md:mb-32 lg:w-[312px]">
               <FlowNavigation {...navigationProps} />
             </div>
           </GridItem>
-          <div className="lg:hidden">
+          <div className="lg:hidden md:col-span-8 ">
             <FlowNavigation {...navigationProps} />
           </div>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 5, span: 9 }}
-            xlColumn={{ start: 5, span: 9 }}
+            lgColumn={{ start: 5, span: 7 }}
+            xlColumn={{ start: 5, span: 7 }}
+            row={3}
           >
             <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
               <div className="ds-stack ds-stack-40">
@@ -76,6 +89,12 @@ export function FormFlowPage() {
                     content={cmsContent.content}
                     className="ds-stack ds-stack-16"
                     managedByParent
+                  />
+                  <MissingDataList
+                    // Renders a list of menu entries with missing data on pages that have triggerValidation / expandAll set to true
+                    // This is a temporary workaround until this functionality is implemented into the summary page
+                    navItems={navigationProps.navItems}
+                    shouldRender={navigationProps.expandAll}
                   />
                 </div>
 
@@ -124,7 +143,7 @@ export function FormFlowPage() {
               lgColumn={{ start: 1, span: 12 }}
               xlColumn={{ start: 1, span: 12 }}
               className="pb-40 flex justify-end"
-              row={2}
+              row={4}
             >
               <ReportProblem />
             </GridItem>

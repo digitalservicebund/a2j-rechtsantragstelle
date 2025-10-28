@@ -27,16 +27,11 @@ describe("NavigationItem", () => {
     );
   });
 
-  it("renders an incomplete navigation item with a warning icon when the flow is ready for validation", () => {
+  it("renders an incomplete navigation item with a warning icon when the state is warning", () => {
     const { getByTestId, getByText } = render(
-      <NavItem
-        destination={destination}
-        label={label}
-        state={"Open"}
-        userVisitedValidationPage={true}
-      />,
+      <NavItem destination={destination} label={label} state={"Warning"} />,
     );
-    const warningIcon = getByTestId("WarningAmberIcon");
+    const warningIcon = getByTestId("WarningAmberRoundedIcon");
     expect(warningIcon).toBeInTheDocument();
     expect(warningIcon).toHaveAttribute(
       "aria-label",
@@ -44,6 +39,25 @@ describe("NavigationItem", () => {
     );
     const navItem = getByText(label);
     expect(navItem).toHaveClass("bg-yellow-200");
+  });
+
+  it("renders an incomplete navigation item with a warning icon when the state is warning current", () => {
+    const { getByTestId, getByText } = render(
+      <NavItem
+        destination={destination}
+        label={label}
+        state={"WarningCurrent"}
+      />,
+    );
+    const warningIcon = getByTestId("WarningAmberRoundedIcon");
+    expect(warningIcon).toBeInTheDocument();
+    expect(warningIcon).toHaveAttribute(
+      "aria-label",
+      translations.navigation.navigationItemWarning.de,
+    );
+    const navItem = getByText(label);
+    expect(navItem).toHaveClass("bg-yellow-200");
+    expect(navItem).toHaveClass("bg-yellow-300");
   });
 
   it("renders navigation item with the correct classNames when state is disabled", () => {

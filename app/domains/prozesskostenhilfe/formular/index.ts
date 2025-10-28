@@ -38,10 +38,7 @@ import {
 } from "./grundvoraussetzungen/guards";
 import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzungen/stringReplacements";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
-import {
-  belegeStrings,
-  getMissingInformationStrings,
-} from "./stringReplacements";
+import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
@@ -242,7 +239,6 @@ export const prozesskostenhilfeFormular = {
     ...getVereinfachteErklaerungStrings(context),
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
-    ...getMissingInformationStrings(context),
     ...belegeStrings(context),
     ...getWeitereDokumenteStrings(context),
     ...getGrundvoraussetzungenStringReplacements(context),
