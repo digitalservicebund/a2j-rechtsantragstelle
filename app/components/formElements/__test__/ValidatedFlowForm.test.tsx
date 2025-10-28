@@ -56,7 +56,7 @@ describe("ValidatedFlowForm", () => {
       );
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
-      code: "invalidNumber",
+      code: "invalidInteger",
       text: "Please enter a valid integer.",
     });
 
