@@ -7,7 +7,7 @@ const mockNavItems = [
   { label: "label2", destination: "/2", state: "Warning" },
   {
     label: "label3",
-    state: "Open",
+    state: "Warning",
     destination: "1",
     subflows: [
       { label: "label4", destination: "/4", state: "Current" },

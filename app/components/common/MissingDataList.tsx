@@ -1,15 +1,12 @@
 import type { NavItem } from "../navigation/types";
+import { StandaloneLink } from "./StandaloneLink";
 
 type Props = { navItems: NavItem[]; shouldRender?: boolean };
 
 export const MissingDataList = ({ navItems, shouldRender }: Props) => {
   if (!shouldRender) return null;
   const navItemsWithWarnings = navItems
-    .filter(
-      (navItem) =>
-        navItem.state === "Warning" ||
-        navItem.subflows?.some((subflow) => subflow.state === "Warning"),
-    )
+    .filter((navItem) => navItem.state === "Warning")
     .flatMap((navItem) =>
       navItem.subflows
         ? navItem.subflows
@@ -24,9 +21,7 @@ export const MissingDataList = ({ navItems, shouldRender }: Props) => {
     <ul className="ds-stack ds-stack-8">
       {navItemsWithWarnings.flatMap((navItem) => (
         <li key={navItem.destination}>
-          <a className="text-link" href={navItem.destination}>
-            {navItem.label}
-          </a>
+          <StandaloneLink url={navItem.destination} text={navItem.label} />
         </li>
       ))}
     </ul>
