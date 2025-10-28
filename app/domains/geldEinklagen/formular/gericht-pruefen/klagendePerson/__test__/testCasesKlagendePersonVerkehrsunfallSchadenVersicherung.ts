@@ -28,7 +28,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -41,7 +41,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -54,7 +54,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -67,7 +67,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -80,7 +80,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -93,7 +93,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
