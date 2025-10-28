@@ -23,7 +23,7 @@ export const klagendePersonXstateConfig = {
               context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "yes",
-            target: steps.beklagtePersonFuerWen.absolute,
+            target: steps.beklagtePersonGegenWen.absolute,
           },
           {
             guard: ({ context }) =>
@@ -109,7 +109,7 @@ export const klagendePersonXstateConfig = {
           },
           {
             guard: klagendePersonDone,
-            target: steps.beklagtePersonFuerWen.absolute,
+            target: steps.beklagtePersonGegenWen.absolute,
           },
         ],
         BACK: steps.klagendePersonFuerWen.relative,
@@ -119,7 +119,7 @@ export const klagendePersonXstateConfig = {
       on: {
         SUBMIT: {
           guard: klagendePersonDone,
-          target: steps.beklagtePersonFuerWen.absolute,
+          target: steps.beklagtePersonGegenWen.absolute,
         },
         BACK: [
           {
@@ -144,7 +144,7 @@ export const klagendePersonXstateConfig = {
           },
           {
             guard: klagendePersonDone,
-            target: steps.beklagtePersonFuerWen.absolute,
+            target: steps.beklagtePersonGegenWen.absolute,
           },
         ],
         BACK: steps.klagendePersonVerbraucher.relative,
@@ -154,7 +154,7 @@ export const klagendePersonXstateConfig = {
       on: {
         SUBMIT: {
           guard: klagendePersonDone,
-          target: steps.beklagtePersonFuerWen.absolute,
+          target: steps.beklagtePersonGegenWen.absolute,
         },
         BACK: [
           {

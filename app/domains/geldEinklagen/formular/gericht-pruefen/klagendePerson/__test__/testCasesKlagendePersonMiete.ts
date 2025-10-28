@@ -18,7 +18,7 @@ export const testCasesKlagendePersonMiete = [
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -33,7 +33,7 @@ export const testCasesKlagendePersonMiete = [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -48,7 +48,7 @@ export const testCasesKlagendePersonMiete = [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/haustuergeschaeft",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
   [
@@ -60,7 +60,7 @@ export const testCasesKlagendePersonMiete = [
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

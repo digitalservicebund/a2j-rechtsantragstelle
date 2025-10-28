@@ -12,19 +12,19 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -32,7 +32,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -41,7 +41,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -49,7 +49,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -58,14 +58,14 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -73,14 +73,14 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -88,44 +88,44 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -133,7 +133,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -142,7 +142,7 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
@@ -150,7 +150,7 @@ export const testCasesBeklagtePersonMiete = [
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -159,14 +159,14 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -174,14 +174,14 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -189,25 +189,25 @@ export const testCasesBeklagtePersonMiete = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "organisation",
+      gegenWenBeklagen: "organisation",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],
