@@ -1,48 +1,5 @@
-import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
-import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { antragstellendePersonDone } from "./antragstellendePerson/guards";
-import { abzuegeDone } from "./finanzielleAngaben/abzuege/doneFunctions";
-import {
-  andereUnterhaltszahlungenDone,
-  ausgabenDone,
-  eigentumZusammenfassungDone,
-  kinderDone,
-  partnerDone,
-  eigentumDone,
-} from "./finanzielleAngaben/doneFunctions";
-import { prozesskostenhilfePersoenlicheDatenDone } from "./persoenlicheDaten/doneFunctions";
-import { rechtsschutzversicherungDone } from "./rechtsschutzversicherung/doneFunctions";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
-
-export const getMissingInformationStrings = (
-  context: ProzesskostenhilfeFormularUserData,
-) => {
-  return {
-    antragstellendePersonMissingInformation: !antragstellendePersonDone({
-      context,
-    }),
-    rechtsschutzversicherungMissingInformation:
-      !rechtsschutzversicherungDone({
-        context,
-      }) && context.formularArt !== "nachueberpruefung",
-    einkuenfteMissingInformation: !einkuenfteDone({ context }),
-    abzuegeMissingInformation: !abzuegeDone({ context }),
-    partnerMissingInformation: !partnerDone({ context }),
-    kinderMissingInformation: !kinderDone({ context }),
-    andereUnterhaltszahlungenMissingInformation: !andereUnterhaltszahlungenDone(
-      { context },
-    ),
-    eigentumMissingInformation: !eigentumDone({ context }),
-    eigentumZusammenfassungMissingInformation:
-      !eigentumZusammenfassungDone({ context }) && eigentumDone({ context }),
-    ausgabenMissingInformation: !ausgabenDone({ context }),
-    gesetzlicheVertretungMissingInformation:
-      !prozesskostenhilfeGesetzlicheVertretungDone({ context }),
-    persoenlicheDatenMissingInformation:
-      !prozesskostenhilfePersoenlicheDatenDone({ context }),
-  };
-};
 
 export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
   return {
