@@ -1,4 +1,3 @@
-import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
   ausgabenDone,

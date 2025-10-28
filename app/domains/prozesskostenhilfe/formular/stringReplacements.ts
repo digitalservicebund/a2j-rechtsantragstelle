@@ -1,9 +1,5 @@
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import type { ProzesskostenhilfeFormularUserData } from "./userData";
-import {
-  eigentumDone,
-  eigentumZusammenfassungDone,
-} from "./finanzielleAngaben/eigentum/doneFunctions";
 
 export const belegeStrings = (context: ProzesskostenhilfeFormularUserData) => {
   return {
