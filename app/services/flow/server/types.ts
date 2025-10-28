@@ -4,7 +4,7 @@ import {
   type MachineContext,
   type TransitionConfigOrTarget as XStateTransitionConfigOrTarget,
 } from "xstate";
-import type { DoneFunction, Guards } from "~/domains/guards.server";
+import type { GenericGuard, Guards } from "~/domains/guards.server";
 import { type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
@@ -60,6 +60,6 @@ export type FlowConfigTransitions = {
 export type Meta<TUserData extends MachineContext = UserData> = {
   excludedFromValidation?: boolean;
   triggerValidation?: boolean;
-  done?: DoneFunction<TUserData>;
+  done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };
