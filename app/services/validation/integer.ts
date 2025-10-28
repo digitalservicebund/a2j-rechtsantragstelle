@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const integerSchema = z
+export const integerSchema = z.coerce
   .string()
   .trim()
   .min(1, { message: "required" })
