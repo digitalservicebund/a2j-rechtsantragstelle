@@ -6,7 +6,11 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 export const abzuegeDone: GenericGuard<
   ProzesskostenhilfeFinanzielleAngabenUserData
 > = ({ context }) => {
-  if (context.currentlyEmployed === "no") return true;
+  if (
+    context.currentlyEmployed === "no" ||
+    context.staatlicheLeistungen === "buergergeld"
+  )
+    return true;
   if (context.arbeitsweg === undefined) return false;
 
   const arbeitsplatzDone =

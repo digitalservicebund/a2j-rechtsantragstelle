@@ -371,9 +371,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 target: steps.weitereEinkuenfteUebersicht.relative,
               },
               {
-                guard: ({ context }) =>
-                  !einkuenfteGuards.incomeWithBuergergeld({ context }) &&
-                  context.currentlyEmployed === "yes",
+                guard: einkuenfteGuards.incomeWithNoBuergergeld,
                 target: "#abzuege",
               },
               "#finanzielle-angaben.partner",
@@ -407,9 +405,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 target: steps.weitereEinkuenfteWarnung.relative,
               },
               {
-                guard: ({ context }) =>
-                  !einkuenfteGuards.incomeWithBuergergeld({ context }) &&
-                  context.currentlyEmployed === "yes",
+                guard: einkuenfteGuards.incomeWithNoBuergergeld,
                 target: "#abzuege",
               },
               "#finanzielle-angaben.partner",
@@ -426,9 +422,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             BACK: steps.weitereEinkuenfteUebersicht.relative,
             SUBMIT: [
               {
-                guard: ({ context }) =>
-                  !einkuenfteGuards.incomeWithBuergergeld({ context }) &&
-                  context.currentlyEmployed === "yes",
+                guard: einkuenfteGuards.incomeWithNoBuergergeld,
                 target: "#abzuege",
               },
               "#finanzielle-angaben.partner",
