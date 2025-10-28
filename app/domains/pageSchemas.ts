@@ -103,7 +103,7 @@ export const doneFunction = async <T extends PagesConfig>(
   pageSchema: T,
   context: UserDataFromPagesSchema<T>,
   reachableSteps?: string[],
-  arrayConfigurations?: Record<string, ArrayConfigServer> | undefined,
+  arrayConfigurations?: Record<string, ArrayConfigServer>,
 ) => {
   // Retrieve only the pageSchemas that are reachable, unless we're on an array page
   const relevantPageSchemas = Object.values(pageSchema).filter((config) => {
@@ -113,6 +113,7 @@ export const doneFunction = async <T extends PagesConfig>(
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof context;
+      // eslint-disable-next-line sonarjs/different-types-comparison
       return context[statementKey] === "yes";
     }
     return (
