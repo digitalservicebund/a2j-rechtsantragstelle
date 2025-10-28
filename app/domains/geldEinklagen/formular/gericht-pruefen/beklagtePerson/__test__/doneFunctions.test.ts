@@ -15,7 +15,7 @@ const sachgebiete: Array<
 ];
 
 describe("beklagtePersonDone", () => {
-  it("should return false when fuerWenBeklagen is missing", () => {
+  it("should return false when gegenWenBeklagen is missing", () => {
     const actual = beklagtePersonDone({
       context: {},
     });
@@ -24,12 +24,12 @@ describe("beklagtePersonDone", () => {
   });
 
   describe("sachgebiet urheberrecht", () => {
-    describe("fuerWenBeklagen person", () => {
+    describe("gegenWenBeklagen person", () => {
       it("should return false when is missing beklagtePersonGeldVerdienen", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
           },
         });
 
@@ -40,7 +40,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "no",
           },
@@ -53,7 +53,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
           },
         });
@@ -65,7 +65,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
@@ -79,7 +79,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "unknown",
@@ -93,7 +93,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: undefined,
           },
@@ -106,7 +106,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
@@ -121,7 +121,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
@@ -132,12 +132,12 @@ describe("beklagtePersonDone", () => {
       });
     });
 
-    describe("fuerWenBeklagen organisation", () => {
+    describe("gegenWenBeklagen organisation", () => {
       it("should return true when klagendeKaufmann is no", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "no",
           },
@@ -150,7 +150,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
           },
         });
@@ -162,7 +162,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
@@ -176,7 +176,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "unknown",
@@ -190,7 +190,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: undefined,
           },
@@ -203,7 +203,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
@@ -218,7 +218,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
-            fuerWenBeklagen: "organisation",
+            gegenWenBeklagen: "organisation",
             beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
@@ -235,7 +235,7 @@ describe("beklagtePersonDone", () => {
       const actual = beklagtePersonDone({
         context: {
           sachgebiet: "miete",
-          fuerWenBeklagen: "person",
+          gegenWenBeklagen: "person",
           mietePachtRaum: "yes",
         },
       });
@@ -246,7 +246,7 @@ describe("beklagtePersonDone", () => {
     describe("mietePachtRaum is no", () => {
       const baseContextMietePachtRaumNo = {
         sachgebiet: "miete" as const,
-        fuerWenBeklagen: "person" as const,
+        gegenWenBeklagen: "person" as const,
         mietePachtRaum: "no" as const,
       };
 
@@ -336,7 +336,7 @@ describe("beklagtePersonDone", () => {
     describe("mietePachtRaum is undefined", () => {
       const baseContextMietePachtRaumUndefined = {
         sachgebiet: "miete" as const,
-        fuerWenBeklagen: "person" as const,
+        gegenWenBeklagen: "person" as const,
         mietePachtRaum: undefined,
       };
 
@@ -430,7 +430,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "no",
           },
         });
@@ -442,7 +442,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
           },
         });
 
@@ -453,7 +453,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: undefined,
           },
@@ -466,7 +466,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             beklagtePersonKaufmann: "no",
             klagendeKaufmann: "yes",
           },
@@ -479,7 +479,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "unknown",
           },
@@ -492,7 +492,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
             gerichtsstandsvereinbarung: "no",
@@ -506,7 +506,7 @@ describe("beklagtePersonDone", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: sachgebiet,
-            fuerWenBeklagen: "person",
+            gegenWenBeklagen: "person",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
           },

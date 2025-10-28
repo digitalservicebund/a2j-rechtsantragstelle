@@ -62,14 +62,14 @@ export const gerichtPruefenXstateConfig = {
             BACK: [
               {
                 guard: ({ context }) =>
-                  context.fuerWenBeklagen === "person" &&
+                  context.gegenWenBeklagen === "person" &&
                   context.sachgebiet === "urheberrecht" &&
                   context.beklagtePersonGeldVerdienen === "no",
                 target: steps.beklagtePersonGeldVerdienen.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.fuerWenBeklagen === "person" &&
+                  context.gegenWenBeklagen === "person" &&
                   context.sachgebiet === "urheberrecht" &&
                   context.beklagtePersonGeldVerdienen === "yes" &&
                   context.klagendeKaufmann === "no",
@@ -86,7 +86,7 @@ export const gerichtPruefenXstateConfig = {
                   context.beklagtePersonKaufmann === "unknown",
                 target: steps.beklagtePersonKaufmann.absolute,
               },
-              { target: steps.beklagtePersonFuerWen.absolute },
+              { target: steps.beklagtePersonGegenWen.absolute },
             ],
           },
         },
