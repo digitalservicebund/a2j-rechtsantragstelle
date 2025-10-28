@@ -125,7 +125,6 @@ describe("getAllFieldsFromFlowId", () => {
   it("should return specific the fields for the page /rechtsschutzversicherung for the flow id /beratungshilfe/vorabcheck", () => {
     const fields = getAllFieldsFromFlowId("/beratungshilfe/vorabcheck");
 
-    expect(fields["/rechtsschutzversicherung"]).toBeDefined();
     expect(fields["/rechtsschutzversicherung"]).toEqual([
       "rechtsschutzversicherung",
     ]);
@@ -134,7 +133,6 @@ describe("getAllFieldsFromFlowId", () => {
   it("should return specific the fields for array pages in the flow id /beratungshilfe/antrag", () => {
     const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
 
-    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toBeDefined();
     expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toEqual([
       "kinder#vorname",
       "kinder#nachname",
