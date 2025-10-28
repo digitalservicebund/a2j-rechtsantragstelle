@@ -51,6 +51,13 @@ export const beklagtePersonXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
+              context.sachgebiet === "miete" &&
+              context.mietePachtVertrag === "yes" &&
+              context.mietePachtRaum === "yes",
+            target: steps.klagendePersonFuerWen.absolute,
+          },
+          {
+            guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
               (context.sachgebiet === "anderesRechtsproblem" ||
                 context.sachgebiet === "urheberrecht" ||
@@ -70,9 +77,7 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.klagendeVerbraucher === "yes" &&
-              context.sachgebiet === "miete" &&
-              context.mietePachtVertrag === "yes" &&
-              context.mietePachtRaum === "no",
+              context.sachgebiet === "miete",
             target: steps.klagendePersonHaustuergeschaeft.absolute,
           },
           {
@@ -81,18 +86,12 @@ export const beklagtePersonXstateConfig = {
           },
           {
             guard: ({ context }) =>
-              context.klagendeVerbraucher === "no" &&
-              context.sachgebiet === "miete" &&
-              context.mietePachtVertrag === "yes" &&
-              context.mietePachtRaum === "yes",
-            target: steps.klagendePersonVerbraucher.absolute,
-          },
-          {
-            guard: ({ context }) =>
               context.klagendeVerbraucher === "no" ||
               context.sachgebiet === "verkehrsunfall" ||
               context.sachgebiet === "schaden" ||
-              context.sachgebiet === "versicherung",
+              context.sachgebiet === "versicherung" ||
+              (context.sachgebiet === "miete" &&
+                context.mietePachtVertrag === "no"),
             target: steps.klagendePersonKaufmann.absolute,
           },
         ],

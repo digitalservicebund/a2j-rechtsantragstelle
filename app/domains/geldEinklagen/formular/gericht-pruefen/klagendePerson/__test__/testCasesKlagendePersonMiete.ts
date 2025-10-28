@@ -12,6 +12,18 @@ export const testCasesKlagendePersonMiete = [
   [
     {
       ...baseContext,
+      klagendeVerbraucher: "yes",
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
       klagendeVerbraucher: "no",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
@@ -21,45 +33,6 @@ export const testCasesKlagendePersonMiete = [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      klagendeVerbraucher: "no",
-      mietePachtVertrag: "no",
-      klagendeKaufmann: "yes",
-    },
-    [
-      "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
-      "/gericht-pruefen/klagende-person/kaufmann",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      klagendeVerbraucher: "yes",
-      mietePachtVertrag: "no",
-    },
-    [
-      "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
-      "/gericht-pruefen/beklagte-person/fuer-wen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      klagendeVerbraucher: "yes",
-      mietePachtVertrag: "yes",
-      mietePachtRaum: "yes",
-    },
-    [
-      "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
   ],
@@ -75,6 +48,18 @@ export const testCasesKlagendePersonMiete = [
       "/gericht-pruefen/klagende-person/fuer-wen",
       "/gericht-pruefen/klagende-person/verbraucher",
       "/gericht-pruefen/klagende-person/haustuergeschaeft",
+      "/gericht-pruefen/beklagte-person/fuer-wen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      mietePachtVertrag: "no",
+      klagendeKaufmann: "yes",
+    },
+    [
+      "/gericht-pruefen/klagende-person/fuer-wen",
+      "/gericht-pruefen/klagende-person/kaufmann",
       "/gericht-pruefen/beklagte-person/fuer-wen",
     ],
   ],
