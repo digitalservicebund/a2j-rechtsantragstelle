@@ -238,7 +238,6 @@ jobs:
         deploy-staging,
         deploy-preview,
         verify-preview-e2e,
-        deploy-production,
         test-production-text,
       ]
     if: always() && failure() && github.ref == 'refs/heads/main'
