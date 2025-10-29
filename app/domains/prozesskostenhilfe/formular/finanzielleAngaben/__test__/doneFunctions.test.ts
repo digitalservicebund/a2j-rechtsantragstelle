@@ -1,26 +1,13 @@
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
   ausgabenDone,
   kinderDone,
-  kraftfahrzeugDone,
   partnerBesondersAusgabenDone,
   partnerDone,
   partnerSupportDone,
   wohnungDone,
-} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
-import { kraftfahrzeugWertInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-
-const mockedCompleteKraftfahrzeug: NonNullable<
-  ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
->[0] = {
-  hasArbeitsweg: "yes",
-  wert: "over10000",
-  eigentuemer: "myself",
-  art: "kraftfahrzeug",
-  marke: "Mercedes",
-  kilometerstand: 200000,
-  baujahr: "1990",
-};
+} from "../doneFunctions";
+import { kraftfahrzeugeDone } from "../eigentum/doneFunctions";
 
 describe("Finanzielle Angaben doneFunctions", () => {
   describe("partnerDone", () => {
@@ -150,268 +137,274 @@ describe("Finanzielle Angaben doneFunctions", () => {
   });
 
   describe("kraftfahrzeugDone", () => {
-    it("should return false if the kraftfahrzeug is missing any information and worth more than 10000", () => {
-      [
-        kraftfahrzeugWertInputSchema.enum.over10000,
-        kraftfahrzeugWertInputSchema.enum.unsure,
-      ].forEach((v) => {
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            hasArbeitsweg: undefined,
-          }),
-        ).toBe(false);
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            eigentuemer: undefined,
-          }),
-        ).toBe(false);
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            art: undefined,
-          }),
-        ).toBe(false);
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            marke: undefined,
-          }),
-        ).toBe(false);
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            kilometerstand: undefined,
-          }),
-        ).toBe(false);
-        expect(
-          kraftfahrzeugDone({
-            ...mockedCompleteKraftfahrzeug,
-            wert: v,
-            baujahr: undefined,
-          }),
-        ).toBe(false);
-      });
-    });
-
-    it("should return true if the kraftfahrzeug is worth less than 10000 and detailed car information is missing", () => {
+    it("should pass when kraftfahrzeuge is no", () => {
       expect(
-        kraftfahrzeugDone({
-          ...mockedCompleteKraftfahrzeug,
-          wert: "under10000",
-          eigentuemer: undefined,
-          art: undefined,
-          marke: undefined,
-          kilometerstand: undefined,
-          baujahr: undefined,
+        kraftfahrzeugeDone({
+          context: {
+            hasKraftfahrzeug: "no",
+          },
         }),
       ).toBeTruthy();
     });
-
-    it("should return false if the kraftfahrzeug is missing wert and arbeitsweg information", () => {
+    it("should fail when kraftfahrzeuge is yes and no kraftfahrzeuge was given", () => {
       expect(
-        kraftfahrzeugDone({
-          hasArbeitsweg: undefined,
-          wert: undefined,
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if a kraftfahrzeug is complete", () => {
-      expect(kraftfahrzeugDone(mockedCompleteKraftfahrzeug)).toBe(true);
-    });
-  });
-
-  describe("partnerSupportDone", () => {
-    it("should return false if the user hasn't stated yes or no", () => {
-      const done = partnerSupportDone({
-        context: { "partner-receivesSupport": undefined },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return false if the user stated yes but hasn't entered the amount", () => {
-      const done = partnerSupportDone({
-        context: { "partner-receivesSupport": "yes" },
-      });
-      expect(done).toBe(false);
-    });
-
-    it("should return true if the user's partner doesn't receive a pension", () => {
-      const done = partnerSupportDone({
-        context: { "partner-receivesSupport": "no" },
-      });
-      expect(done).toBe(true);
-    });
-
-    it("should return true if the user's partner receives a pension and has entered the amount", () => {
-      const done = partnerSupportDone({
-        context: {
-          "partner-receivesSupport": "no",
-          "partner-supportAmount": "100",
-        },
-      });
-      expect(done).toBe(true);
-    });
-  });
-
-  describe("wohnungDone", () => {
-    it("should return false if the apartment size or number of rooms isn't given", () => {
-      expect(
-        wohnungDone({
-          context: { apartmentSizeSqm: undefined },
-        }),
-      ).toBe(false);
-      expect(
-        wohnungDone({
-          context: { numberOfRooms: undefined },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the applicant is a renter", () => {
-      expect(
-        wohnungDone({
+        kraftfahrzeugeDone({
           context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "alone",
-            rentsApartment: "yes",
-            garageParkplatz: "no",
-            totalRent: "1000",
+            hasKraftfahrzeug: "yes",
           },
         }),
-      ).toBe(true);
-
+      ).toBeFalsy();
+    });
+    it("should fail when kraftfahrzeuge is yes and kraftfahrzeuge is undefined", () => {
       expect(
-        wohnungDone({
+        kraftfahrzeugeDone({
           context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "withOthers",
-            apartmentPersonCount: 2,
-            rentsApartment: "yes",
-            garageParkplatz: "no",
-            totalRent: "1000",
-            sharedRent: "500",
+            hasKraftfahrzeug: "yes",
+            kraftfahrzeuge: undefined,
           },
         }),
-      ).toBe(true);
+      ).toBeFalsy();
     });
-
-    it("should return false if the renter doesn't enter the total rent or parkplatz info", () => {
+    it("shoulf fail when kraftfahrzeuge is yes ans kraftfahrzeuge is empty list", () => {
       expect(
-        wohnungDone({
+        kraftfahrzeugeDone({
           context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "alone",
-            rentsApartment: "yes",
-            garageParkplatz: "no",
+            hasKraftfahrzeug: "yes",
+            kraftfahrzeuge: [],
           },
         }),
-      ).toBe(false);
-
+      ).toBeFalsy();
+    });
+    it("should pass when kraftfahrzeuge is yes and kraftfahrzeuge under10000 is given", () => {
       expect(
-        wohnungDone({
+        kraftfahrzeugeDone({
           context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "alone",
-            rentsApartment: "yes",
-            totalRent: "1000",
-          },
-        }),
-      ).toBe(false);
-    });
-
-    it("should return true if the applicant is an owner", () => {
-      expect(
-        wohnungDone({
-          context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "alone",
-            rentsApartment: "no",
-            utilitiesCostOwned: "100",
-            heatingCostsOwned: "120",
-          },
-        }),
-      ).toBe(true);
-    });
-
-    it("should return false if the shared owner doesn't enter the shared utilities costs", () => {
-      expect(
-        wohnungDone({
-          context: {
-            apartmentSizeSqm: 55,
-            numberOfRooms: 2,
-            livingSituation: "withOthers",
-            rentsApartment: "no",
-            utilitiesCostOwned: "100",
-            heatingCostsOwned: "120",
-            utilitiesCostOwnShared: undefined,
-          },
-        }),
-      ).toBe(false);
-    });
-  });
-
-  describe("ausgabenDone", () => {
-    it("returns true without ausgabe", () => {
-      expect(
-        ausgabenDone({
-          context: { hasAusgaben: "no", besondereBelastungen: { none: "on" } },
-        }),
-      ).toBe(true);
-    });
-
-    describe("needs any valid ausgabe", () => {
-      type Ausgaben = "sonstigeAusgaben" | "ratenzahlungen" | "versicherungen";
-
-      const zahlung = {
-        art: "art",
-        zahlungsempfaenger: "Someone",
-        zahlungspflichtiger: "myself",
-        betragGesamt: "50",
-      } as const;
-
-      const ausgabenItems = {
-        sonstigeAusgaben: zahlung,
-        ratenzahlungen: {
-          ...zahlung,
-          restschuld: "100",
-          laufzeitende: "01.01.2026",
-        },
-        versicherungen: {
-          beitrag: "100",
-          art: "sonstige",
-          sonstigeArt: "beschreibung",
-        },
-      } as const satisfies {
-        [K in Ausgaben]: NonNullable<
-          ProzesskostenhilfeFinanzielleAngabenUserData[K]
-        >[0];
-      };
-
-      Object.entries(ausgabenItems).forEach(([key, item]) => {
-        it(`returns true with valid ${key}`, () => {
-          expect(
-            ausgabenDone({
-              context: {
-                hasAusgaben: "yes",
-                besondereBelastungen: { none: "on" },
-                [key]: [item],
+            hasKraftfahrzeug: "yes",
+            kraftfahrzeuge: [
+              {
+                hasArbeitsweg: "yes",
+                wert: "under10000",
               },
-            }),
-          ).toBe(true);
-        });
+            ],
+          },
+        }),
+      ).toBeTruthy();
+    });
+    it("should pass when kraftfahrzeuge is yes and kraftfahrzeuge over10000 is given", () => {
+      expect(
+        kraftfahrzeugeDone({
+          context: {
+            hasKraftfahrzeug: "yes",
+            kraftfahrzeuge: [
+              {
+                hasArbeitsweg: "yes",
+                wert: "over10000",
+                art: "kraftfahrzeug",
+                marke: "Mercedes",
+                kilometerstand: 200000,
+                anschaffungsjahr: "1990",
+                baujahr: "1990",
+                verkaufswert: "15000",
+                eigentuemer: "myself",
+              },
+            ],
+          },
+        }),
+      ).toBeTruthy();
+    });
+    it("fails with all fields missing", () => {
+      expect(
+        kraftfahrzeugeDone({
+          context: {},
+        }),
+      ).toBeFalsy();
+    });
+  });
+});
+
+describe("partnerSupportDone", () => {
+  it("should return false if the user hasn't stated yes or no", () => {
+    const done = partnerSupportDone({
+      context: { "partner-receivesSupport": undefined },
+    });
+    expect(done).toBe(false);
+  });
+
+  it("should return false if the user stated yes but hasn't entered the amount", () => {
+    const done = partnerSupportDone({
+      context: { "partner-receivesSupport": "yes" },
+    });
+    expect(done).toBe(false);
+  });
+
+  it("should return true if the user's partner doesn't receive a pension", () => {
+    const done = partnerSupportDone({
+      context: { "partner-receivesSupport": "no" },
+    });
+    expect(done).toBe(true);
+  });
+
+  it("should return true if the user's partner receives a pension and has entered the amount", () => {
+    const done = partnerSupportDone({
+      context: {
+        "partner-receivesSupport": "no",
+        "partner-supportAmount": "100",
+      },
+    });
+    expect(done).toBe(true);
+  });
+});
+
+describe("wohnungDone", () => {
+  it("should return false if the apartment size or number of rooms isn't given", () => {
+    expect(
+      wohnungDone({
+        context: { apartmentSizeSqm: undefined },
+      }),
+    ).toBe(false);
+    expect(
+      wohnungDone({
+        context: { numberOfRooms: undefined },
+      }),
+    ).toBe(false);
+  });
+
+  it("should return true if the applicant is a renter", () => {
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "alone",
+          rentsApartment: "yes",
+          garageParkplatz: "no",
+          totalRent: "1000",
+        },
+      }),
+    ).toBe(true);
+
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "withOthers",
+          apartmentPersonCount: 2,
+          rentsApartment: "yes",
+          garageParkplatz: "no",
+          totalRent: "1000",
+          sharedRent: "500",
+        },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return false if the renter doesn't enter the total rent or parkplatz info", () => {
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "alone",
+          rentsApartment: "yes",
+          garageParkplatz: "no",
+        },
+      }),
+    ).toBe(false);
+
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "alone",
+          rentsApartment: "yes",
+          totalRent: "1000",
+        },
+      }),
+    ).toBe(false);
+  });
+
+  it("should return true if the applicant is an owner", () => {
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "alone",
+          rentsApartment: "no",
+          utilitiesCostOwned: "100",
+          heatingCostsOwned: "120",
+        },
+      }),
+    ).toBe(true);
+  });
+
+  it("should return false if the shared owner doesn't enter the shared utilities costs", () => {
+    expect(
+      wohnungDone({
+        context: {
+          apartmentSizeSqm: 55,
+          numberOfRooms: 2,
+          livingSituation: "withOthers",
+          rentsApartment: "no",
+          utilitiesCostOwned: "100",
+          heatingCostsOwned: "120",
+          utilitiesCostOwnShared: undefined,
+        },
+      }),
+    ).toBe(false);
+  });
+});
+
+describe("ausgabenDone", () => {
+  it("returns true without ausgabe", () => {
+    expect(
+      ausgabenDone({
+        context: { hasAusgaben: "no", besondereBelastungen: { none: "on" } },
+      }),
+    ).toBe(true);
+  });
+
+  describe("needs any valid ausgabe", () => {
+    type Ausgaben = "sonstigeAusgaben" | "ratenzahlungen" | "versicherungen";
+
+    const zahlung = {
+      art: "art",
+      zahlungsempfaenger: "Someone",
+      zahlungspflichtiger: "myself",
+      betragGesamt: "50",
+    } as const;
+
+    const ausgabenItems = {
+      sonstigeAusgaben: zahlung,
+      ratenzahlungen: {
+        ...zahlung,
+        restschuld: "100",
+        laufzeitende: "01.01.2026",
+      },
+      versicherungen: {
+        beitrag: "100",
+        art: "sonstige",
+        sonstigeArt: "beschreibung",
+      },
+    } as const satisfies {
+      [K in Ausgaben]: NonNullable<
+        ProzesskostenhilfeFinanzielleAngabenUserData[K]
+      >[0];
+    };
+
+    Object.entries(ausgabenItems).forEach(([key, item]) => {
+      it(`returns true with valid ${key}`, () => {
+        expect(
+          ausgabenDone({
+            context: {
+              hasAusgaben: "yes",
+              besondereBelastungen: { none: "on" },
+              [key]: [item],
+            },
+          }),
+        ).toBe(true);
       });
     });
   });
