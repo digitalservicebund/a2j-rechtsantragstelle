@@ -197,6 +197,8 @@ describe("G_eigentum", () => {
               marke: "Audi",
               baujahr: "2000",
               kilometerstand: 200000,
+              wert: "unsure",
+              verkaufswert: "9000",
             },
           ],
         },
@@ -218,12 +220,8 @@ describe("G_eigentum", () => {
           hasKraftfahrzeug: "yes",
           kraftfahrzeuge: [
             {
-              art: "auto",
               hasArbeitsweg: "no",
-              eigentuemer: "myself",
-              marke: "Audi",
-              baujahr: "2000",
-              kilometerstand: 200000,
+              wert: "under10000",
             },
             {
               art: "motorrad",
@@ -232,6 +230,8 @@ describe("G_eigentum", () => {
               marke: "BMW",
               baujahr: "1996",
               kilometerstand: 120000,
+              wert: "over10000",
+              verkaufswert: "15000",
             },
           ],
         },
@@ -427,13 +427,14 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              befristetArt: "fixedDepositAccount",
             },
           ],
         },
         pdfValues: pdfParams,
       });
       expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBe(
-        "Art: Befristete Geldanlage",
+        "Art: Befristete Geldanlage, Art der Befristung: Festgeldkonto",
       );
       expect(pdfValues.verkehrswertsonstigeVermoegenswerte.value).toBe(
         "1000 €",
@@ -456,6 +457,7 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              befristetArt: "fixedDepositAccount",
             },
             {
               art: "forderung",
