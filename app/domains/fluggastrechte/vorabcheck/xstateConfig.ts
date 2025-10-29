@@ -1,571 +1,539 @@
 import type { Config } from "~/services/flow/server/types";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
+import { fluggastrechteVorabcheckPages } from "./pages";
+import { mapValues } from "lodash";
+
+const stepIds = mapValues(fluggastrechteVorabcheckPages, (v) => v.stepId);
 
 export const fluggastrechteVorabcheckXstateConfig = {
   id: "/fluggastrechte/vorabcheck",
-  initial: "start",
+  initial: stepIds.start,
   states: {
-    start: {
+    [stepIds.start]: {
       on: {
-        SUBMIT: "bereich",
+        SUBMIT: stepIds.bereich,
       },
     },
-    bereich: {
+    [stepIds.bereich]: {
       on: {
-        BACK: "start",
+        BACK: stepIds.start,
         SUBMIT: [
           {
-            target: "verspaetung",
+            target: stepIds.verspaetung,
             guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
-            target: "ausgleich",
+            target: stepIds.ausgleich,
             guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
           {
-            target: "ankuendigung",
+            target: stepIds.ankuendigung,
             guard: ({ context }) => context.bereich === "annullierung",
           },
-          {
-            target: "ergebnis/bereich-abbruch",
-          },
+          stepIds["bereich-abbruch"],
         ],
       },
     },
-    "ergebnis/bereich-abbruch": {
+    [stepIds["bereich-abbruch"]]: {
       on: {
-        BACK: "bereich",
+        BACK: stepIds.bereich,
       },
     },
-    verspaetung: {
+    [stepIds.verspaetung]: {
       on: {
-        BACK: "bereich",
+        BACK: stepIds.bereich,
         SUBMIT: [
           {
-            target: "gruende",
+            target: stepIds.gruende,
             guard: ({ context }) => context.verspaetung === "yes",
           },
-          {
-            target: "ergebnis/verspaetung-abbruch",
-          },
+          stepIds["verspaetung-abbruch"],
         ],
       },
     },
-    ausgleich: {
+    [stepIds.ausgleich]: {
       on: {
-        BACK: "bereich",
+        BACK: stepIds.bereich,
         SUBMIT: [
           {
-            target: "ausgleich-angenommen",
+            target: stepIds.ausgleichAngenommen,
             guard: "ausgleichYes",
           },
-          "checkin-nicht-befoerderung",
+          stepIds["checkin-nicht-befoerderung"],
         ],
       },
     },
-    ankuendigung: {
+    [stepIds.ankuendigung]: {
       on: {
-        BACK: "bereich",
+        BACK: stepIds.bereich,
         SUBMIT: [
           {
-            target: "ergebnis/ankuendigung-abbruch",
+            target: stepIds["ankuendigung-abbruch"],
             guard: ({ context }) => context.ankuendigung === "moreThan13Days",
           },
-          "ersatzflug",
+          stepIds.ersatzflug,
         ],
       },
     },
-    "vertretbare-gruende-annullierung": {
+    [stepIds["vertretbare-gruende-annullierung"]]: {
       on: {
         BACK: [
           {
-            target: "ersatzflug",
+            target: stepIds.ersatzflug,
             guard: ({ context }) =>
               context.ankuendigung !== "moreThan13Days" &&
               context.ersatzflug === "no",
           },
           {
-            target: "ersatzflug-landen-zwei-stunden",
+            target: stepIds["ersatzflug-landen-zwei-stunden"],
             guard: "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo",
           },
           {
-            target: "ersatzflug-landen-vier-stunden",
+            target: stepIds["ersatzflug-landen-vier-stunden"],
             guard: ({ context }) =>
               context.ankuendigung === "between7And13Days" &&
               context.ersatzflug === "yes",
           },
-          "ankuendigung",
+          stepIds.ankuendigung,
         ],
         SUBMIT: [
           {
-            target: "gruende-hinweis",
+            target: stepIds["gruende-hinweis"],
             guard: ({ context }) =>
               context.vertretbareGruendeAnnullierung === "yes",
           },
-          {
-            target: "verjaehrung",
-          },
+          stepIds.verjaehrung,
         ],
       },
     },
-    ersatzflug: {
+    [stepIds.ersatzflug]: {
       on: {
-        BACK: "ankuendigung",
+        BACK: stepIds.ankuendigung,
         SUBMIT: [
           {
-            target: "vertretbare-gruende-annullierung",
+            target: stepIds["vertretbare-gruende-annullierung"],
             guard: "ersatzflugNo",
           },
           {
-            target: "ersatzflug-starten-eine-stunde",
+            target: stepIds["ersatzflug-starten-eine-stunde"],
             guard: "isErsatzflugYesAndAnkuendigungUntil6DaysOrNo",
           },
-          {
-            target: "ersatzflug-starten-zwei-stunden",
-          },
+          stepIds["ersatzflug-starten-zwei-stunden"],
         ],
       },
     },
-    "ersatzflug-starten-eine-stunde": {
+    [stepIds["ersatzflug-starten-eine-stunde"]]: {
       on: {
-        BACK: "ersatzflug",
-        SUBMIT: "ersatzflug-landen-zwei-stunden",
+        BACK: stepIds.ersatzflug,
+        SUBMIT: stepIds["ersatzflug-landen-zwei-stunden"],
       },
     },
-    "ersatzflug-landen-zwei-stunden": {
+    [stepIds["ersatzflug-landen-zwei-stunden"]]: {
       on: {
-        BACK: "ersatzflug-starten-eine-stunde",
+        BACK: stepIds["ersatzflug-starten-eine-stunde"],
         SUBMIT: [
           {
             guard: ({ context }) =>
               context.ersatzflugLandenZweiStunden === "no" &&
               context.ersatzflugStartenEinStunde === "no",
-            target: "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
+            target: stepIds["ersatzflug-starten-eine-landen-zwei-abbruch"],
           },
-          "vertretbare-gruende-annullierung",
+          stepIds["vertretbare-gruende-annullierung"],
         ],
       },
     },
-    "ersatzflug-starten-zwei-stunden": {
+    [stepIds["ersatzflug-starten-zwei-stunden"]]: {
       on: {
-        BACK: "ersatzflug",
-        SUBMIT: "ersatzflug-landen-vier-stunden",
+        BACK: stepIds.ersatzflug,
+        SUBMIT: stepIds["ersatzflug-landen-vier-stunden"],
       },
     },
-    "ersatzflug-landen-vier-stunden": {
+    [stepIds["ersatzflug-landen-vier-stunden"]]: {
       on: {
-        BACK: "ersatzflug-starten-zwei-stunden",
+        BACK: stepIds["ersatzflug-starten-zwei-stunden"],
         SUBMIT: [
           {
             guard: ({ context }) =>
               context.ersatzflugLandenVierStunden === "no" &&
               context.ersatzflugStartenZweiStunden === "no",
-            target: "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
+            target: stepIds["ersatzflug-starten-zwei-landen-vier-abbruch"],
           },
-          "vertretbare-gruende-annullierung",
+          stepIds["vertretbare-gruende-annullierung"],
         ],
       },
     },
-    "ausgleich-angenommen": {
+    [stepIds.ausgleichAngenommen]: {
       on: {
-        BACK: "ausgleich",
+        BACK: stepIds.ausgleich,
         SUBMIT: [
           {
             guard: ({ context }) => context.ausgleichAngenommen === "yes",
-            target: "ausgleich-angenommen-info",
+            target: stepIds["ausgleich-angenommen-info"],
           },
-          "checkin-nicht-befoerderung",
+          stepIds["checkin-nicht-befoerderung"],
         ],
       },
     },
-    "ausgleich-angenommen-info": {
+    [stepIds["ausgleich-angenommen-info"]]: {
       on: {
-        BACK: "ausgleich-angenommen",
-        SUBMIT: "checkin-nicht-befoerderung",
+        BACK: stepIds.ausgleichAngenommen,
+        SUBMIT: stepIds["checkin-nicht-befoerderung"],
       },
     },
-    "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch": {
+    [stepIds["ersatzflug-starten-eine-landen-zwei-abbruch"]]: {
       on: {
-        BACK: "ersatzflug-landen-zwei-stunden",
+        BACK: stepIds["ersatzflug-landen-zwei-stunden"],
       },
     },
-    "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch": {
+    [stepIds["ersatzflug-starten-zwei-landen-vier-abbruch"]]: {
       on: {
-        BACK: "ersatzflug-landen-vier-stunden",
+        BACK: stepIds["ersatzflug-landen-vier-stunden"],
       },
     },
-    gruende: {
+    [stepIds.gruende]: {
       on: {
-        BACK: "verspaetung",
+        BACK: stepIds.verspaetung,
         SUBMIT: [
           {
-            target: "verjaehrung",
+            target: stepIds.verjaehrung,
             guard: "gruendeNo",
           },
-          {
-            target: "gruende-hinweis",
-            guard: "gruendeYes",
-          },
+          stepIds["gruende-hinweis"],
         ],
       },
     },
-    "gruende-hinweis": {
+    [stepIds["gruende-hinweis"]]: {
       on: {
         BACK: [
           {
-            target: "vertretbare-gruende-annullierung",
+            target: stepIds["vertretbare-gruende-annullierung"],
             guard: ({ context }) => context.bereich === "annullierung",
           },
-          {
-            target: "gruende",
-          },
+          stepIds.gruende,
         ],
-        SUBMIT: "verjaehrung",
+        SUBMIT: stepIds.verjaehrung,
       },
     },
-    verjaehrung: {
+    [stepIds.verjaehrung]: {
       on: {
         BACK: [
           {
-            target: "gruende-hinweis",
+            target: stepIds["gruende-hinweis"],
             guard: ({ context }) =>
               context.bereich === "annullierung" &&
               context.vertretbareGruendeAnnullierung === "yes",
           },
           {
-            target: "vertretbare-gruende-annullierung",
+            target: stepIds["vertretbare-gruende-annullierung"],
             guard: ({ context }) => context.bereich === "annullierung",
           },
           {
-            target: "vertretbare-gruende",
+            target: stepIds["vertretbare-gruende"],
             guard: ({ context }) =>
               context?.bereich === "nichtbefoerderung" &&
               context?.vertretbareGruende === "no",
           },
           {
-            target: "vertretbare-gruende-info",
+            target: stepIds["vertretbare-gruende-info"],
             guard: ({ context }) =>
               context?.bereich === "nichtbefoerderung" &&
               context?.vertretbareGruende === "yes",
           },
           {
-            target: "gruende",
+            target: stepIds.gruende,
             guard: "gruendeNo",
           },
-          {
-            target: "gruende-hinweis",
-            guard: "gruendeYes",
-          },
+          stepIds["gruende-hinweis"],
         ],
         SUBMIT: [
           {
-            target: "ergebnis/verjaehrung-abbruch",
+            target: stepIds["verjaehrung-abbruch"],
             guard: "verjaehrungNo",
           },
-          {
-            target: "flughaefen",
-            guard: "verjaehrungYes",
-          },
+          stepIds.flughaefen,
         ],
       },
     },
-    "ergebnis/verjaehrung-abbruch": {
+    [stepIds["verjaehrung-abbruch"]]: {
       on: {
-        BACK: "verjaehrung",
+        BACK: stepIds.verjaehrung,
       },
     },
-    "ergebnis/ankuendigung-abbruch": {
+    [stepIds["ankuendigung-abbruch"]]: {
       on: {
-        BACK: "ankuendigung",
+        BACK: stepIds.ankuendigung,
       },
     },
-    flughaefen: {
+    [stepIds.flughaefen]: {
       on: {
-        BACK: "verjaehrung",
+        BACK: stepIds.verjaehrung,
         SUBMIT: [
           {
-            target: "ergebnis/flughaefen-entfernung-abbruch",
+            target: stepIds["flughaefen-entfernung-abbruch"],
             guard: "isInvalidAirportDistance",
           },
           {
-            target: "ergebnis/flughaefen-abbruch",
+            target: stepIds["flughaefen-abbruch"],
             guard: "areAirportsOutsideEU",
           },
-          "fluggesellschaft",
+          stepIds.fluggesellschaft,
         ],
       },
     },
-    "ergebnis/flughaefen-abbruch": {
+    [stepIds["flughaefen-abbruch"]]: {
       on: {
-        BACK: "flughaefen",
+        BACK: stepIds.flughaefen,
       },
     },
-    "ergebnis/flughaefen-entfernung-abbruch": {
+    [stepIds["flughaefen-entfernung-abbruch"]]: {
       on: {
-        BACK: "flughaefen",
+        BACK: stepIds.flughaefen,
       },
     },
-    fluggesellschaft: {
+    [stepIds.fluggesellschaft]: {
       on: {
-        BACK: "flughaefen",
+        BACK: stepIds.flughaefen,
         SUBMIT: [
           {
-            target: "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            target: stepIds["fluggesellschaft-nicht-eu-abbruch"],
             guard: "isNonGermanAirportsAndIsNotClaimableInEU",
           },
           {
-            target: "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+            target: stepIds["fluggesellschaft-nicht-eu-abbruch"],
             guard: "isGermanEndAirportsAndIsNotClaimable",
           },
           {
-            target: "ergebnis/fluggesellschaft-abbruch",
+            target: stepIds["fluggesellschaft-abbruch"],
             guard: "isGermanEndAirportsAndOtherAirline",
           },
           {
-            target: "ergebnis/fluggesellschaft-abbruch-eu",
+            target: stepIds["fluggesellschaft-abbruch-eu"],
             guard: "isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline",
           },
           {
-            target: "checkin",
+            target: stepIds.checkin,
             guard: ({ context }) => context.bereich === "verspaetet",
           },
-          "kostenlos",
+          stepIds.kostenlos,
         ],
       },
     },
-    "ergebnis/fluggesellschaft-abbruch": {
+    [stepIds["fluggesellschaft-abbruch"]]: {
       on: {
-        BACK: "fluggesellschaft",
+        BACK: stepIds.fluggesellschaft,
       },
     },
-    "ergebnis/fluggesellschaft-nicht-eu-abbruch": {
+    [stepIds["fluggesellschaft-nicht-eu-abbruch"]]: {
       on: {
-        BACK: "fluggesellschaft",
+        BACK: stepIds.fluggesellschaft,
       },
     },
-    "ergebnis/fluggesellschaft-abbruch-eu": {
+    [stepIds["fluggesellschaft-abbruch-eu"]]: {
       on: {
-        BACK: "fluggesellschaft",
+        BACK: stepIds.fluggesellschaft,
       },
     },
-    "ergebnis/verspaetung-abbruch": {
+    [stepIds["verspaetung-abbruch"]]: {
       on: {
-        BACK: "verspaetung",
+        BACK: stepIds.verspaetung,
       },
     },
-    checkin: {
+    [stepIds.checkin]: {
       on: {
-        BACK: ["fluggesellschaft"],
+        BACK: stepIds.fluggesellschaft,
         SUBMIT: [
           {
             target: "kostenlos",
             guard: "checkinYes",
           },
-          "ergebnis/checkin-abbruch",
+          stepIds["checkin-abbruch"],
         ],
       },
     },
-    "checkin-nicht-befoerderung": {
+    [stepIds["checkin-nicht-befoerderung"]]: {
       on: {
         BACK: [
           {
             guard: ({ context }) => context.ausgleichAngenommen === "yes",
-            target: "ausgleich-angenommen-info",
+            target: stepIds["ausgleich-angenommen-info"],
           },
           {
             guard: ({ context }) => context.ausgleich === "no",
-            target: "ausgleich",
+            target: stepIds.ausgleich,
           },
-          "ausgleich-angenommen",
+          stepIds.ausgleichAngenommen,
         ],
         SUBMIT: [
           {
-            target: "vertretbare-gruende",
+            target: stepIds["vertretbare-gruende"],
             guard: "checkinYes",
           },
-          "ergebnis/checkin-abbruch",
+          stepIds["checkin-abbruch"],
         ],
       },
     },
-    "ergebnis/checkin-abbruch": {
+    [stepIds["checkin-abbruch"]]: {
       on: {
         BACK: [
           {
-            target: "checkin-nicht-befoerderung",
+            target: stepIds["checkin-nicht-befoerderung"],
             guard: ({ context }) => context.bereich === "nichtbefoerderung",
           },
-          "checkin",
+          stepIds.checkin,
         ],
       },
     },
-    "vertretbare-gruende": {
+    [stepIds["vertretbare-gruende"]]: {
       on: {
-        BACK: "checkin-nicht-befoerderung",
+        BACK: stepIds["checkin-nicht-befoerderung"],
         SUBMIT: [
           {
-            target: "verjaehrung",
+            target: stepIds.verjaehrung,
             guard: ({ context }) => context.vertretbareGruende === "no",
           },
-          {
-            target: "vertretbare-gruende-info",
-            guard: ({ context }) => context.vertretbareGruende === "yes",
-          },
+          stepIds["vertretbare-gruende-info"],
         ],
       },
     },
-    "vertretbare-gruende-info": {
+    [stepIds["vertretbare-gruende-info"]]: {
       on: {
-        BACK: "vertretbare-gruende",
-        SUBMIT: "verjaehrung",
+        BACK: stepIds["vertretbare-gruende"],
+        SUBMIT: stepIds.verjaehrung,
       },
     },
-    kostenlos: {
+    [stepIds.kostenlos]: {
       on: {
         BACK: [
           {
-            target: "checkin",
+            target: stepIds.checkin,
             guard: ({ context }) => context.bereich === "verspaetet",
           },
-          "fluggesellschaft",
+          stepIds.fluggesellschaft,
         ],
         SUBMIT: [
           {
-            target: "ergebnis/kostenlos-abbruch",
+            target: stepIds["kostenlos-abbruch"],
             guard: ({ context }) => context.kostenlos === "yes",
           },
-          {
-            target: "rabatt",
-          },
+          stepIds.rabatt,
         ],
       },
     },
-    "ergebnis/kostenlos-abbruch": {
+    [stepIds["kostenlos-abbruch"]]: {
       on: {
-        BACK: "kostenlos",
+        BACK: stepIds.kostenlos,
       },
     },
-    rabatt: {
+    [stepIds.rabatt]: {
       on: {
-        BACK: "kostenlos",
+        BACK: stepIds.kostenlos,
         SUBMIT: [
           {
-            target: "buchung",
+            target: stepIds.buchung,
             guard: "rabattNo",
           },
-          {
-            target: "ergebnis/rabatt-abbruch",
-            guard: "rabattYes",
-          },
+          stepIds["rabatt-abbruch"],
         ],
       },
     },
-    "ergebnis/rabatt-abbruch": {
+    [stepIds["rabatt-abbruch"]]: {
       on: {
-        BACK: "rabatt",
+        BACK: stepIds.rabatt,
       },
     },
-    buchung: {
+    [stepIds.buchung]: {
       on: {
-        BACK: "rabatt",
+        BACK: stepIds.rabatt,
         SUBMIT: [
           {
-            target: "abtretung",
+            target: stepIds.abtretung,
             guard: "buchungYes",
           },
-          {
-            target: "ergebnis/buchung-abbruch",
-            guard: "buchungNo",
-          },
+          stepIds["buchung-abbruch"],
         ],
       },
     },
-    "ergebnis/buchung-abbruch": {
+    [stepIds["buchung-abbruch"]]: {
       on: {
-        BACK: "buchung",
+        BACK: stepIds.buchung,
       },
     },
-    abtretung: {
+    [stepIds.abtretung]: {
       on: {
-        BACK: "buchung",
+        BACK: stepIds.buchung,
         SUBMIT: [
           {
-            target: "entschaedigung",
+            target: stepIds.entschaedigung,
             guard: "abtretungNo",
           },
-          {
-            target: "ergebnis/abtretung-abbruch",
-            guard: "abtretungYes",
-          },
+          stepIds["abtretung-abbruch"],
         ],
       },
     },
-    "ergebnis/abtretung-abbruch": {
+    [stepIds["abtretung-abbruch"]]: {
       on: {
-        BACK: "abtretung",
+        BACK: stepIds.abtretung,
       },
     },
-    entschaedigung: {
+    [stepIds.entschaedigung]: {
       on: {
-        BACK: "abtretung",
+        BACK: stepIds.abtretung,
         SUBMIT: [
           {
-            target: "gericht",
+            target: stepIds.gericht,
             guard: "entschaedigungYes",
           },
-          {
-            target: "ergebnis/erfolg-kontakt",
-            guard: "entschaedigungNo",
-          },
+          stepIds["erfolg-kontakt"],
         ],
       },
     },
-    "ergebnis/erfolg-kontakt": {
+    [stepIds["erfolg-kontakt"]]: {
       on: {
-        BACK: "entschaedigung",
+        BACK: stepIds.entschaedigung,
       },
     },
-    gericht: {
+    [stepIds.gericht]: {
       on: {
-        BACK: "entschaedigung",
+        BACK: stepIds.entschaedigung,
         SUBMIT: [
           {
-            target: "ergebnis/erfolg-gericht",
+            target: stepIds["erfolg-gericht"],
             guard: ({ context }) => context.gericht === "yes",
           },
           {
-            target: "ergebnis/erfolg-eu",
+            target: stepIds["erfolg-eu"],
             guard: "isErfolgEU",
           },
           {
-            target: "ergebnis/erfolg-analog",
+            target: stepIds["erfolg-analog"],
             guard: "isErfolgAnalogGuard",
           },
-          "ergebnis/erfolg",
+          stepIds.erfolg,
         ],
       },
     },
-    "ergebnis/erfolg-gericht": {
+    [stepIds["erfolg-gericht"]]: {
       on: {
-        BACK: "gericht",
+        BACK: stepIds.gericht,
       },
     },
-    "ergebnis/erfolg": {
+    [stepIds.erfolg]: {
       on: {
-        SUBMIT: "ergebnis/erfolg-per-post-klagen",
-        BACK: "gericht",
+        SUBMIT: stepIds["erfolg-per-post-klagen"],
+        BACK: stepIds.gericht,
       },
     },
-    "ergebnis/erfolg-eu": {
+    [stepIds["erfolg-eu"]]: {
       on: {
-        BACK: "gericht",
+        BACK: stepIds.gericht,
       },
     },
-    "ergebnis/erfolg-analog": {
+    [stepIds["erfolg-analog"]]: {
       on: {
-        SUBMIT: "ergebnis/erfolg-per-post-klagen",
-        BACK: "gericht",
+        SUBMIT: stepIds["erfolg-per-post-klagen"],
+        BACK: stepIds.gericht,
       },
     },
-    "ergebnis/erfolg-per-post-klagen": {},
+    [stepIds["erfolg-per-post-klagen"]]: {},
   },
 } satisfies Config<FluggastrechtVorabcheckUserData>;
