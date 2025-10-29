@@ -1,7 +1,7 @@
 import type { Config } from "~/services/flow/server/types";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { fluggastrechteVorabcheckPages } from "./pages";
-import { mapValues } from "lodash";
+import mapValues from "lodash/mapValues";
 
 const stepIds = mapValues(fluggastrechteVorabcheckPages, (v) => v.stepId);
 
