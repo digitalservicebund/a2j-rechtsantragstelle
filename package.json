@@ -44,7 +44,7 @@
     "verify:websites": "tsx ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.918.0",
+    "@aws-sdk/client-s3": "^3.919.0",
     "@digitalservice4germany/angie": "2.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
@@ -54,7 +54,7 @@
     "@react-router/node": "^7.9.4",
     "@rvf/react-router": "^8.1.0",
     "@sentry/react-router": "^10.22.0",
-    "@sentry/vite-plugin": "^4.5.0",
+    "@sentry/vite-plugin": "^4.6.0",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.13.0",
     "classnames": "^2.5.1",
