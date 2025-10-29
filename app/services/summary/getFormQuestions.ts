@@ -7,6 +7,7 @@ import {
   fetchAllFormFields,
   type FormFieldsMap,
 } from "~/services/cms/fetchAllFormFields";
+import { createArrayFieldKey, isArraySubField } from "./fieldParsingUtils";
 
 export type FieldOption = {
   text: string;
@@ -16,6 +17,7 @@ export type FieldOption = {
 export type FieldQuestion = {
   question: string; // The actual question text
   options?: FieldOption[]; // Available answer options (for select/dropdown/tile-group)
+  pageTitle?: string; // The page pre-heading/title (useful for array items like "Kind 1")
 };
 
 /**
@@ -32,6 +34,7 @@ export function createFieldToStepMapping(
     }
   }
 
+  // console.log("Mapping: ", mapping);
   return mapping;
 }
 
@@ -50,6 +53,12 @@ function findStepIdForField(
     if (nestedFieldMapping) {
       stepId = nestedFieldMapping[1];
     }
+  }
+
+  // Handle array sub-fields like "kinder[0].vorname" -> look for "kinder#vorname" mappings
+  if (!stepId && isArraySubField(fieldName)) {
+    const arrayFieldKey = createArrayFieldKey(fieldName);
+    stepId = fieldToStepMapping[arrayFieldKey];
   }
 
   return stepId;
@@ -82,23 +91,29 @@ function createFieldQuestionFromComponent(
 
   // Handle components with labels
   if ("label" in formComponent && formComponent.label) {
-    return {
+    const result = {
       question: formComponent.label,
+      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
       ...(options && { options }),
     };
+    return result;
   }
   // Handle components without labels (like radio buttons) but with options
   else if (options && options.length > 0) {
-    return {
+    const result = {
       question: formPage.heading, // Use page heading as question
+      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
       options: options,
     };
+    return result;
   }
 
   // Fallback to page heading
-  return {
+  const result = {
     question: formPage.heading,
+    ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
   };
+  return result;
 }
 
 function processNestedComponents(
@@ -134,10 +149,12 @@ function processNestedComponents(
     }
   });
 
-  return {
+  const result = {
     question: formPage.heading,
+    ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
     ...(options.length > 0 && { options }),
   };
+  return result;
 }
 
 function findParentFieldset(
@@ -187,9 +204,17 @@ async function processFieldForQuestions(
 
   const formPage = stepPagesCache[stepId];
 
+  // For array fields, convert "kinder[0].wohnortBeiAntragsteller" to "kinder#wohnortBeiAntragsteller"
+  let componentLookupName = fieldName;
+
+  if (isArraySubField(fieldName)) {
+    componentLookupName = createArrayFieldKey(fieldName);
+  }
+
   let formComponent: StrapiFormComponent | undefined | null =
     formPage.form.find(
-      (component) => "name" in component && component.name === fieldName,
+      (component) =>
+        "name" in component && component.name === componentLookupName,
     );
 
   // If direct match not found, look for a parent fieldset or component with nested fields
@@ -206,14 +231,17 @@ async function processFieldForQuestions(
   }
 
   if (formComponent) {
-    return createFieldQuestionFromComponent(formComponent, formPage);
+    const result = createFieldQuestionFromComponent(formComponent, formPage);
+    return result;
   }
 
   // Only fall back to page heading if no component was found
   if (formPage.heading) {
-    return {
+    const fallbackResult = {
       question: formPage.heading,
+      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
     };
+    return fallbackResult;
   }
 
   return null;
