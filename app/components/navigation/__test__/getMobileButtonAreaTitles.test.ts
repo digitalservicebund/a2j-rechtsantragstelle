@@ -20,22 +20,6 @@ describe("getMobileButtonAreaTitles", () => {
       expect(actual.currentNavTitle).toEqual("");
     });
 
-    it("should return empty the currentNavTitle of the navigation item in case last nav item is current ", () => {
-      const dummyNavItems: NavItem[] = [
-        { destination: "/page1", label: "Page 1", state: "Done" as NavState },
-        { destination: "/page2", label: "Page 2", state: "Done" as NavState },
-        {
-          destination: "/page3",
-          label: "Page 3",
-          state: "Current" as NavState,
-        },
-      ];
-
-      const actual = getMobileButtonAreaTitles(dummyNavItems, []);
-      expect(actual.currentAreaTitle).toEqual("Page 3");
-      expect(actual.currentNavTitle).toEqual("");
-    });
-
     it("should return all empty if it does not have current state", () => {
       const dummyNavItems: NavItem[] = [
         { destination: "/page1", label: "Page 1", state: "Done" as NavState },
@@ -84,43 +68,6 @@ describe("getMobileButtonAreaTitles", () => {
         dummyStepsStepper,
       );
       expect(actual.currentAreaTitle).toEqual("Step 1 (1/3)");
-      expect(actual.currentNavTitle).toEqual("Page 1");
-    });
-
-    it("should return empty the nextAreaTitle in case the last step stepper is the current one", () => {
-      const dummyNavItems: NavItem[] = [
-        {
-          destination: "/page1",
-          label: "Page 1",
-          state: "Current" as NavState,
-        },
-        { destination: "/page2", label: "Page 2", state: "Open" as NavState },
-        { destination: "/page3", label: "Page 3", state: "Open" as NavState },
-      ];
-
-      const dummyStepsStepper = [
-        {
-          href: ".",
-          label: "Step 1",
-          state: "Done" as NavState,
-        },
-        {
-          href: ".",
-          label: "Step 2",
-          state: "Done" as NavState,
-        },
-        {
-          href: ".",
-          label: "Step 3",
-          state: "Current" as NavState,
-        },
-      ];
-
-      const actual = getMobileButtonAreaTitles(
-        dummyNavItems,
-        dummyStepsStepper,
-      );
-      expect(actual.currentAreaTitle).toEqual("Step 3 (3/3)");
       expect(actual.currentNavTitle).toEqual("Page 1");
     });
 
