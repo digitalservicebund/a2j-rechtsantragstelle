@@ -12,29 +12,29 @@ export const getMobileButtonAreaTitles = (
   const currentNavTitle =
     navItems.find(({ state }) => stateIsCurrent(state))?.label ?? "";
 
-  if (arrayIsNonEmpty(stepsStepper)) {
-    const currentAreaStepStepperIndex = stepsStepper.findIndex(({ state }) =>
-      stateIsCurrent(state),
-    );
-    const qtdStepsStepper = stepsStepper.length;
-
-    if (currentAreaStepStepperIndex === -1) {
-      return {
-        currentAreaTitle: "",
-        currentNavTitle: "",
-      };
-    }
-
-    const stepStepperIndex = currentAreaStepStepperIndex + 1;
-
+  if (!arrayIsNonEmpty(stepsStepper)) {
     return {
-      currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtdStepsStepper})`,
-      currentNavTitle,
+      currentAreaTitle: currentNavTitle,
+      currentNavTitle: "",
     };
   }
 
+  const currentAreaStepStepperIndex = stepsStepper.findIndex(({ state }) =>
+    stateIsCurrent(state),
+  );
+  const qtdStepsStepper = stepsStepper.length;
+
+  if (currentAreaStepStepperIndex === -1) {
+    return {
+      currentAreaTitle: "",
+      currentNavTitle: "",
+    };
+  }
+
+  const stepStepperIndex = currentAreaStepStepperIndex + 1;
+
   return {
-    currentAreaTitle: currentNavTitle,
-    currentNavTitle: "",
+    currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtdStepsStepper})`,
+    currentNavTitle,
   };
 };
