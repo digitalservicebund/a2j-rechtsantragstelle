@@ -92,6 +92,9 @@ jobs:
           output: "vulnerabilities.json"
       - name: Install cosign
         uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+        with:
+          cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
+
       - name: Log into container registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
