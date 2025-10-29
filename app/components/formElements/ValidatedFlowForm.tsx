@@ -11,6 +11,7 @@ import { ButtonNavigation } from "../common/ButtonNavigation";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -28,6 +29,24 @@ function ValidatedFlowForm({
   const { pathname } = useLocation();
   const fieldNames = getFieldsByFormElements(formElements);
 
+  const [persistedData, setPersistedData] = useState<UserData>(stepData);
+
+  useLayoutEffect(() => {
+    const saved = globalThis.localStorage.getItem(`form-${pathname}`);
+    if (saved) {
+      setPersistedData(JSON.parse(saved));
+    } else {
+      setPersistedData(stepData);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    globalThis.localStorage.setItem(
+      `form-${pathname}`,
+      JSON.stringify(persistedData),
+    );
+  }, [pathname, persistedData]);
+
   const pageSchema = getPageSchema(pathname);
   const inputFormElements = pageSchema ? (
     <SchemaComponents pageSchema={pageSchema} formComponents={formElements} />
@@ -38,14 +57,24 @@ function ValidatedFlowForm({
     ? z.object(pageSchema)
     : schemaForFieldNames(fieldNames, pathname);
 
+  // if (!persistedData || Object.keys(persistedData).length === 0) return null;
+
   return (
     <ValidatedForm
       method="post"
       encType="multipart/form-data"
       schema={formSchema}
-      defaultValues={stepData}
+      defaultValues={persistedData}
       noValidate
       action={pathname}
+      onChange={(e) => {
+        const target = e.target as HTMLInputElement;
+        setPersistedData((prev) => ({
+          ...prev,
+          [target.name]: target.value,
+        }));
+      }}
+      onSubmit={() => globalThis.localStorage.removeItem(`form-${pathname}`)}
     >
       {(form) => (
         <>
