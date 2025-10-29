@@ -9,30 +9,111 @@ import {
 import type { FlowId } from "~/domains/flowIds";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { groupFieldsByFlowNavigation } from "./groupFieldsBySection";
-import {
-  getValidUserDataFields,
-  processBoxFields,
-} from "./processUserDataFields";
+import { getValidUserDataFields } from "./fieldValidation";
+import { expandArrayFields } from "./arrayFieldProcessing";
+import { processBoxFields } from "./fieldEntryCreation";
+import { getUserDataFieldPageTitle } from "./templateReplacement";
+import { parseArrayField } from "./fieldParsingUtils";
 
 function createSummarySection(
   sectionName: string,
-  allFields: Array<{ question: string; answer: string; editUrl?: string }>,
+  allFields: Array<{
+    question: string;
+    answer: string;
+    editUrl?: string;
+    isArrayItem?: boolean;
+    arrayIndex?: number;
+    arrayBaseField?: string;
+    multipleQuestions?: Array<{
+      question: string;
+      answer: string;
+    }>;
+  }>,
   sectionTitles: Record<string, string>,
   translations?: Translations,
+  userData?: UserData,
+  fieldQuestions?: Record<string, { question?: string; pageTitle?: string }>,
 ): SummaryItem {
+  // Group array fields by arrayBaseField and arrayIndex
+  const arrayGroups: Record<string, typeof allFields> = {};
+  const nonArrayFields: typeof allFields = [];
+
+  for (const field of allFields) {
+    if (
+      field.isArrayItem &&
+      field.arrayBaseField !== undefined &&
+      field.arrayIndex !== undefined
+    ) {
+      const groupKey = `${field.arrayBaseField}-${field.arrayIndex}`;
+      if (!arrayGroups[groupKey]) {
+        arrayGroups[groupKey] = [];
+      }
+      arrayGroups[groupKey].push(field);
+    } else {
+      nonArrayFields.push(field);
+    }
+  }
+
+  // Convert array groups to single fields with multipleQuestions
+  const processedFields: typeof allFields = [...nonArrayFields];
+
+  for (const [, groupFields] of Object.entries(arrayGroups)) {
+    if (groupFields.length > 0) {
+      const firstField = groupFields[0];
+
+      // Get the page title from field questions or use a fallback
+      const baseFieldName = firstField.arrayBaseField || "";
+      const arrayIndex = firstField.arrayIndex || 0;
+
+      // Use the first field to get the proper page title with template replacement
+      const arrayData = userData && userData[baseFieldName];
+      const arrayItem =
+        Array.isArray(arrayData) && arrayData[arrayIndex]
+          ? arrayData[arrayIndex]
+          : {};
+      const firstFieldName =
+        Object.keys(arrayItem as Record<string, unknown>)[0] || "name";
+      const fullFieldName = `${baseFieldName}[${arrayIndex}].${firstFieldName}`;
+
+      // Use getUserDataFieldPageTitle to get properly replaced page title
+      const pageTitle = userData
+        ? getUserDataFieldPageTitle(
+            fullFieldName,
+            fieldQuestions || {},
+            userData,
+          )
+        : undefined;
+
+      const arrayTitle = pageTitle || `${baseFieldName} ${arrayIndex + 1}`;
+
+      processedFields.push({
+        question: arrayTitle,
+        answer: "", // Empty for array items
+        editUrl: firstField.editUrl,
+        isArrayItem: true,
+        arrayIndex: firstField.arrayIndex,
+        arrayBaseField: firstField.arrayBaseField,
+        multipleQuestions: groupFields.map((field) => ({
+          question: field.question,
+          answer: field.answer,
+        })),
+      });
+    }
+  }
+
   return {
     id: sectionName,
     title:
       sectionTitles[sectionName] ?? translations?.[sectionName] ?? sectionName,
-    fields: allFields,
+    fields: processedFields,
   };
 }
 
 export async function generateSummaryFromUserData(
   userData: UserData,
   flowId: FlowId,
-  translations?: Translations,
   flowController?: FlowController,
+  translations?: Translations,
 ): Promise<SummaryItem[]> {
   const userDataFields = getValidUserDataFields(userData);
 
@@ -40,16 +121,43 @@ export async function generateSummaryFromUserData(
     return [];
   }
 
-  const fieldQuestions = await getFormQuestionsForFields(
-    userDataFields,
-    flowId,
-  );
   const formFieldsMap = await fetchAllFormFields(flowId);
   const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
+  // Expand array fields into individual items
+  const expandedFields = expandArrayFields(
+    userDataFields,
+    userData,
+    fieldToStepMapping,
+  );
+
+  // Filter out nested object fields when parent object exists (to avoid duplication)
+  // But keep array fields like bankkonten[0].bankName
+  const filteredFields = expandedFields.filter((field) => {
+    // If this is a nested field (contains dot) but NOT an array field
+    if (field.includes(".") && !field.includes("[")) {
+      const parentField = field.split(".")[0];
+      // If parent exists and is a non-array object, don't render the nested field separately
+      const parentValue = userData[parentField];
+      if (
+        parentValue &&
+        typeof parentValue === "object" &&
+        !Array.isArray(parentValue)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const fieldQuestions = await getFormQuestionsForFields(
+    expandedFields,
+    flowId,
+  );
+
   const groupingResult = flowController
     ? groupFieldsByFlowNavigation(
-        userDataFields,
+        filteredFields,
         flowController,
         fieldToStepMapping,
         translations,
@@ -63,6 +171,13 @@ export async function generateSummaryFromUserData(
       question: string;
       answer: string;
       editUrl?: string;
+      isArrayItem?: boolean;
+      arrayIndex?: number;
+      arrayBaseField?: string;
+      multipleQuestions?: Array<{
+        question: string;
+        answer: string;
+      }>;
     }> = [];
 
     for (const [, fields] of Object.entries(boxes)) {
@@ -72,7 +187,27 @@ export async function generateSummaryFromUserData(
         fieldQuestions,
         fieldToStepMapping,
       );
-      allFields.push(...boxFields);
+
+      // Check if these are array fields and add array metadata
+      for (const field of boxFields) {
+        const firstFieldName = fields[0];
+        // Handle both "name[index]" and "name[index].subfield" patterns
+        const fieldInfo = parseArrayField(firstFieldName || "");
+
+        if (fieldInfo.isArrayField) {
+          const baseField = fieldInfo.baseFieldName;
+          const arrayIndex = fieldInfo.arrayIndex;
+
+          allFields.push({
+            ...field,
+            isArrayItem: true,
+            arrayIndex,
+            arrayBaseField: baseField,
+          });
+        } else {
+          allFields.push(field);
+        }
+      }
     }
 
     if (allFields.length === 0) {
@@ -84,6 +219,8 @@ export async function generateSummaryFromUserData(
       allFields,
       groupingResult.sectionTitles,
       translations,
+      userData,
+      fieldQuestions,
     );
 
     sections.push(section);
