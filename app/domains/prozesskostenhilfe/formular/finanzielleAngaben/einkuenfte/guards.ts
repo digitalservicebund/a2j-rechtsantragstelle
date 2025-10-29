@@ -7,7 +7,7 @@ import {
 } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumDone } from "../doneFunctions";
+import { eigentumDone } from "../eigentum/doneFunctions";
 
 const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteUserData>[string] =
   ({ context }) => context["partner-hasArbeitsausgaben"] === "yes";
