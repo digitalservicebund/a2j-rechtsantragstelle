@@ -12,9 +12,6 @@ export const berHAntragAbgabePages = {
   ueberpruefung: {
     stepId: "abgabe/ueberpruefung",
   },
-  zusammenfassung: {
-    stepId: "abgabe/zusammenfassung",
-  },
   art: {
     stepId: "abgabe/art",
     pageSchema: {
