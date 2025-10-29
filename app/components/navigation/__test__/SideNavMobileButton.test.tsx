@@ -8,7 +8,7 @@ describe("SideNavMobileButton", () => {
   it("should render the component correctly", () => {
     vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
       currentAreaTitle: "currentAreaTitle",
-      nextAreaTitle: "nextAreaTitle",
+      currentNavTitle: "currentNavTitle",
     });
 
     const { container } = render(
@@ -72,7 +72,7 @@ describe("SideNavMobileButton", () => {
     it("should not have styles for warning in the button in case the navigation item contains Warning Current and menu is opened", () => {
       vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
         currentAreaTitle: "currentAreaTitle",
-        nextAreaTitle: "nextAreaTitle",
+        currentNavTitle: "currentNavTitle",
       });
 
       const { getByRole } = render(
@@ -98,7 +98,7 @@ describe("SideNavMobileButton", () => {
     it("should not have styles for warning in the button in case the steps stepper contains Warning Current and menu is opened", () => {
       vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
         currentAreaTitle: "currentAreaTitle",
-        nextAreaTitle: "nextAreaTitle",
+        currentNavTitle: "currentNavTitle",
       });
 
       const { getByRole } = render(
@@ -124,7 +124,7 @@ describe("SideNavMobileButton", () => {
     it("should have styles for warning in the button in case the navigation item contains Warning Current and menu is closed", () => {
       vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
         currentAreaTitle: "currentAreaTitle",
-        nextAreaTitle: "nextAreaTitle",
+        currentNavTitle: "currentNavTitle",
       });
 
       const { getByRole } = render(
@@ -150,7 +150,7 @@ describe("SideNavMobileButton", () => {
     it("should have styles for warning in the button in case the steps stepper contains Warning Current and menu is closed", () => {
       vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
         currentAreaTitle: "currentAreaTitle",
-        nextAreaTitle: "nextAreaTitle",
+        currentNavTitle: "currentNavTitle",
       });
 
       const { getByRole } = render(
