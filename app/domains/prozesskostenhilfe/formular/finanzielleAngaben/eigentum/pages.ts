@@ -1,12 +1,5 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  bankkontenArraySchema,
-  geldanlagenArraySchema,
-  grundeigentumArraySchema,
-  kraftfahrzeugeArraySchema,
-  wertsachenArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -23,34 +16,144 @@ const eigentuemerSchema = z.enum([
   "myselfAndSomeoneElse",
 ]);
 
-const kraftfahrzeugWertSchema = z.enum(["under10000", "over10000", "unsure"]);
-
-const grundeigentumArtSchema = z.enum([
-  "eigentumswohnung",
-  "einfamilienhaus",
-  "mehrereWohnungen",
-  "unbebaut",
-  "erbbaurecht",
-  "garage",
-]);
-
-const geldanlagenArtSchema = z.enum([
-  "bargeld",
-  "wertpapiere",
-  "guthabenkontoKrypto",
-  "giroTagesgeldSparkonto",
-  "befristet",
-  "forderung",
-  "sonstiges",
-]);
-
 const befristetArtSchema = z.enum([
   "lifeInsurance",
   "buildingSavingsContract",
   "fixedDepositAccount",
 ]);
 
-const bewohntSchema = z.enum(["yes", "family", "no"]);
+export const bankkontenArraySchema = z
+  .object({
+    bankName: stringRequiredSchema,
+    kontostand: buildMoneyValidationSchema({}),
+    iban: stringOptionalSchema,
+    kontoEigentuemer: eigentuemerSchema,
+    kontoDescription: stringOptionalSchema,
+  })
+  .array()
+  .min(1);
+
+const sharedKraftfahrzeugeFields = {
+  hasArbeitsweg: YesNoAnswer,
+  wert: z.enum(["under10000", "over10000", "unsure"]),
+};
+
+export const kraftfahrzeugeArraySchema = z
+  .union([
+    z.object({
+      ...sharedKraftfahrzeugeFields,
+      wert: z.literal("under10000"),
+    }),
+    z.object({
+      ...sharedKraftfahrzeugeFields,
+      wert: z.enum(["over10000", "unsure"]),
+      art: stringRequiredSchema,
+      marke: stringRequiredSchema,
+      eigentuemer: eigentuemerSchema,
+      verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
+      kilometerstand: integerSchema,
+      anschaffungsjahr: schemaOrEmptyString(
+        createYearSchema({
+          optional: true,
+          latest: () => today().getFullYear(),
+        }),
+      ),
+      baujahr: schemaOrEmptyString(
+        createYearSchema({ latest: () => today().getFullYear() }),
+      ),
+    }),
+  ])
+  .array()
+  .min(1);
+
+const sharedGeldanlagenFields = {
+  art: z.enum([
+    "bargeld",
+    "wertpapiere",
+    "guthabenkontoKrypto",
+    "giroTagesgeldSparkonto",
+    "befristet",
+    "forderung",
+    "sonstiges",
+  ]),
+  eigentuemer: eigentuemerSchema,
+  wert: buildMoneyValidationSchema(),
+};
+
+export const geldanlagenArraySchema = z
+  .union([
+    z.object({
+      ...sharedGeldanlagenFields,
+      art: z.enum(["bargeld", "wertpapiere", "guthabenkontoKrypto"]),
+    }),
+    z.object({
+      ...sharedGeldanlagenFields,
+      art: z.literal("giroTagesgeldSparkonto"),
+      kontoBankName: stringOptionalSchema,
+      kontoIban: stringOptionalSchema,
+      kontoBezeichnung: stringOptionalSchema,
+    }),
+    z.object({
+      ...sharedGeldanlagenFields,
+      art: z.literal("befristet"),
+      befristetArt: befristetArtSchema,
+      verwendungszweck: stringOptionalSchema,
+      auszahlungdatum: stringOptionalSchema,
+    }),
+    z.object({
+      ...sharedGeldanlagenFields,
+      art: z.literal("forderung"),
+      forderung: stringOptionalSchema,
+    }),
+    z.object({
+      ...sharedGeldanlagenFields,
+      art: z.literal("sonstiges"),
+      verwendungszweck: stringOptionalSchema,
+    }),
+  ])
+  .array()
+  .min(1);
+
+const sharedGrundeigentumFields = {
+  isBewohnt: z.enum(["yes", "no", "family"]),
+  art: z.enum([
+    "eigentumswohnung",
+    "einfamilienhaus",
+    "mehrereWohnungen",
+    "unbebaut",
+    "erbbaurecht",
+    "garage",
+  ]),
+  eigentuemer: eigentuemerSchema,
+  flaeche: stringRequiredSchema,
+  verkaufswert: buildMoneyValidationSchema(),
+};
+export const grundeigentumArraySchema = z
+  .union([
+    z.object({
+      ...sharedGrundeigentumFields,
+      isBewohnt: z.enum(["yes"]),
+    }),
+    z.object({
+      ...sharedGrundeigentumFields,
+      isBewohnt: z.enum(["no", "family"]),
+      strassehausnummer: stringRequiredSchema,
+      plz: stringOptionalSchema,
+      ort: stringRequiredSchema,
+      land: stringRequiredSchema,
+    }),
+  ])
+  .array()
+  .min(1);
+
+export const wertsachenArraySchema = z
+  .object({
+    art: stringRequiredSchema,
+    eigentuemer: eigentuemerSchema,
+    wert: buildMoneyValidationSchema(),
+  })
+  .array()
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
@@ -121,7 +224,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
           },
           wert: {
             pageSchema: {
-              "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
+              "kraftfahrzeuge#wert": sharedKraftfahrzeugeFields.wert,
             },
           },
           fahrzeuge: {
@@ -148,7 +251,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           art: {
             pageSchema: {
-              "geldanlagen#art": geldanlagenArtSchema,
+              "geldanlagen#art": sharedGeldanlagenFields.art,
             },
           },
           bargeld: {
@@ -207,12 +310,12 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           "bewohnt-frage": {
             pageSchema: {
-              "grundeigentum#isBewohnt": bewohntSchema,
+              "grundeigentum#isBewohnt": sharedGrundeigentumFields.isBewohnt,
             },
           },
           daten: {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#art": sharedGrundeigentumFields.art,
               "grundeigentum#eigentuemer": eigentuemerSchema,
               "grundeigentum#flaeche": stringRequiredSchema,
               "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
@@ -224,7 +327,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
           },
           "bewohnt-daten": {
             pageSchema: {
-              "grundeigentum#art": grundeigentumArtSchema,
+              "grundeigentum#art": sharedGrundeigentumFields.art,
               "grundeigentum#eigentuemer": eigentuemerSchema,
               "grundeigentum#flaeche": stringRequiredSchema,
               "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
