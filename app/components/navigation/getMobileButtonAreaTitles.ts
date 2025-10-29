@@ -2,11 +2,6 @@ import { stateIsCurrent } from "~/services/navigation/navState";
 import type { NavItem, StepStepper } from "./types";
 import { arrayIsNonEmpty } from "~/util/array";
 
-const getCurrentNavTitle = (navItems: NavItem[]): string => {
-  const current = navItems.find(({ state }) => stateIsCurrent(state));
-  return current?.label ?? "";
-};
-
 export const getMobileButtonAreaTitles = (
   navItems: NavItem[],
   stepsStepper?: StepStepper[],
@@ -14,7 +9,8 @@ export const getMobileButtonAreaTitles = (
   currentAreaTitle: string;
   currentNavTitle: string;
 } => {
-  const currentNavTitle = getCurrentNavTitle(navItems);
+  const currentNavTitle =
+    navItems.find(({ state }) => stateIsCurrent(state))?.label ?? "";
 
   if (arrayIsNonEmpty(stepsStepper)) {
     const currentAreaStepStepperIndex = stepsStepper.findIndex(({ state }) =>
