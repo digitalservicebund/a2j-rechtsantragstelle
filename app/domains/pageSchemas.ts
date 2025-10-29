@@ -19,23 +19,30 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
 
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId] ?? {};
+  const fieldsMap: FormFieldsMap = {};
 
-  return Object.values(pagesConfig).reduce<FormFieldsMap>((acc, page) => {
+  for (const page of Object.values(pagesConfig)) {
     if (page.pageSchema && !isArrayParentPage(page)) {
-      acc["/" + page.stepId] = Object.keys(page.pageSchema);
+      const stepId = `/${page.stepId}`;
+      fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
 
     if (isArrayParentPage(page)) {
-      Object.entries(page.arrayPages)
-        .filter(([_, arrayPage]) => arrayPage.pageSchema !== undefined)
-        .forEach(([arrayPageKey, arrayPage]) => {
-          const stepId = `/${page.stepId}/${arrayPageKey}`;
-          acc[stepId] = Object.keys(arrayPage.pageSchema!);
-        });
-    }
+      for (const [arrayPageKey, arrayPage] of Object.entries(page.arrayPages)) {
+        if (
+          !arrayPage.pageSchema ||
+          Object.keys(arrayPage.pageSchema).length === 0
+        ) {
+          continue;
+        }
 
-    return acc;
-  }, {});
+        const stepId = `/${page.stepId}/${arrayPageKey}`;
+        fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
+      }
+    }
+  }
+
+  return fieldsMap;
 };
 
 export function getPageSchema(pathname: string) {

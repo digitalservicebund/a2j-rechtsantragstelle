@@ -139,4 +139,12 @@ describe("getAllFieldsFromFlowId", () => {
       "kinder#geburtsdatum",
     ]);
   });
+
+  it("should not return specific array pages without schema in the flow id /beratungshilfe/antrag", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
+
+    expect(fields).not.toHaveProperty(
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
+    );
+  });
 });
