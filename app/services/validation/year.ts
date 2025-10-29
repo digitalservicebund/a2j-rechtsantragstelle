@@ -14,7 +14,7 @@ export const createYearSchema = (args?: {
   const earliest = args?.earliest?.() ?? defaultEarliestYear;
   const latest = args?.latest?.() ?? defaultLatestYear;
 
-  const schema = z
+  const schema = z.coerce
     .string()
     .min(1, { message: "required" })
     .transform((value, ctx) => {
