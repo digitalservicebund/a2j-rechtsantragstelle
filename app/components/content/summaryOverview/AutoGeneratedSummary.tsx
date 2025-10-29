@@ -10,6 +10,10 @@ export type FieldItem = {
   question: string;
   answer: string;
   editUrl?: string;
+  multipleQuestions?: Array<{
+    question: string;
+    answer: string;
+  }>;
 };
 
 export type SummaryItem = {
@@ -37,6 +41,7 @@ function SummarySection({
   readonly onGlobalToggle?: (itemId: string | number, isOpen: boolean) => void;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
+  console.log(item);
 
   const handleToggle = () => {
     if (onGlobalToggle && detailsRef.current) {
@@ -70,10 +75,24 @@ function SummarySection({
           key={`${field.question}-${index}`}
           className={`bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ${index === 0 ? "mt-16" : ""}`}
         >
-          <div className="flex items-start gap-32">
-            <dt className="ds-body-01-bold flex-1">{field.question}</dt>
-            <dd className="ds-body-01-reg flex-1">{field.answer}</dd>
-          </div>
+          {/* <div className="ds-subhead mb-8">{field.question}</div> */}
+
+          {/* Render multiple questions if they exist, otherwise single question */}
+          {field.multipleQuestions ? (
+            field.multipleQuestions.map((qa, qaIndex) => (
+              <div key={`qa-${qaIndex}`} className="flex items-start gap-32">
+                <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
+                <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
+              </div>
+            ))
+          ) : (
+            <div className="flex items-start gap-32">
+              <dt className="ds-body-01-bold flex-1">{field.question}</dt>
+              <dd className="ds-body-01-reg flex-1">{field.answer}</dd>
+            </div>
+          )}
+
+          {/* Edit button */}
           {field.editUrl && (
             <div>
               <StandaloneLink
