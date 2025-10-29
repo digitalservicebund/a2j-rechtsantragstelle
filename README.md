@@ -4,7 +4,7 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ## Requirements
 
-- Node (>= 22) + npm
+- Node (>= 24) + npm
 - Docker (Redis, S3 bucket)
 
 ### Local development
