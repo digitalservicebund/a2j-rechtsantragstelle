@@ -70,6 +70,8 @@ jobs:
           name: content-file
       - name: Install cosign
         uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+        with:
+          cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - run: ./docker.sh --build content
       - run: ./docker.sh --push content
       - run: ./docker.sh --build prod
