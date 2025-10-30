@@ -18,15 +18,12 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-        target: steps.zusammenfassung.relative,
+        target: steps.art.relative,
       },
-    },
-    [steps.zusammenfassung.relative]: {
-      on: { BACK: "#weitere-angaben", SUBMIT: steps.art.relative },
     },
     [steps.art.relative]: {
       on: {
-        BACK: steps.zusammenfassung.relative,
+        BACK: steps.art.relative,
         SUBMIT: [
           {
             target: showFileUpload
