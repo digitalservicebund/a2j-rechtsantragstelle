@@ -1,6 +1,5 @@
 import KeyboardArrowDown from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@digitalservicebund/icons/KeyboardArrowUp";
-import { translations } from "~/services/translations/translations";
 import type { NavItem, StepStepper } from "./types";
 import { getMobileButtonAreaTitles } from "./getMobileButtonAreaTitles";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -21,8 +20,10 @@ export const SideNavMobileButton = ({
 }: Props) => {
   const Icon = menuOpen ? KeyboardArrowUp : KeyboardArrowDown;
 
-  const { currentAreaTitle, nextAreaTitle, stepStepperIndex } =
-    getMobileButtonAreaTitles(navItems, stepsStepper);
+  const { currentAreaTitle, currentNavTitle } = getMobileButtonAreaTitles(
+    navItems,
+    stepsStepper,
+  );
 
   const isStateCurrentWarning = arrayIsNonEmpty(stepsStepper)
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
@@ -45,21 +46,13 @@ export const SideNavMobileButton = ({
       )}
     >
       <div className="flex flex-row gap-8">
-        {stepStepperIndex && (
-          <span className="flex justify-center items-center w-[24px] h-[24px] rounded-full forced-colors:outline-solid forced-colors:border-0 bg-blue-800 text-white">
-            {stepStepperIndex}
-          </span>
-        )}
         <div className="flex flex-col items-start">
           <span className="ds-label-02-bold truncate text-left w-[70vw]">
             {currentAreaTitle}
           </span>
-
-          {nextAreaTitle.length > 0 && (
-            <span className="ds-body-03-reg text-gray-900">
-              {translations.navigationMobile.after.de}: {nextAreaTitle}
-            </span>
-          )}
+          <span className="ds-body-03-reg text-gray-900">
+            {currentNavTitle}
+          </span>
         </div>
       </div>
 
