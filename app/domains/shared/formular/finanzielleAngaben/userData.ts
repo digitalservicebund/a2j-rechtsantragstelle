@@ -1,13 +1,9 @@
 import { z } from "zod";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { createDateSchema } from "~/services/validation/date";
-import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { createYearSchema } from "~/services/validation/year";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
 export const eigentuemerInputSchema = z.enum([
@@ -72,35 +68,6 @@ export const bankkontenArraySchema = z
     }),
   )
   .min(1);
-
-export const kraftfahrzeugWertInputSchema = z.enum([
-  "under10000",
-  "over10000",
-  "unsure",
-]);
-
-export type KraftfahrzeugeArraySchema = z.infer<
-  typeof kraftfahrzeugeArraySchema
->;
-
-export const kraftfahrzeugeArraySchema = z.array(
-  z
-    .object({
-      art: stringRequiredSchema,
-      marke: stringRequiredSchema,
-      eigentuemer: eigentuemerInputSchema,
-      verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
-      kilometerstand: integerSchema,
-      anschaffungsjahr: createYearSchema({
-        optional: true,
-        latest: () => today().getFullYear(),
-      }),
-      baujahr: createYearSchema({ latest: () => today().getFullYear() }),
-      hasArbeitsweg: YesNoAnswer,
-      wert: kraftfahrzeugWertInputSchema,
-    })
-    .partial(),
-);
 
 export type GeldanlagenArraySchema = z.infer<typeof geldanlagenArraySchema>;
 

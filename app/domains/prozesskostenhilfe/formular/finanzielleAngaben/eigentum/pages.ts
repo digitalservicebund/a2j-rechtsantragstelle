@@ -35,33 +35,39 @@ export const bankkontenArraySchema = z
 
 const sharedKraftfahrzeugeFields = {
   hasArbeitsweg: YesNoAnswer,
-  wert: z.enum(["under10000", "over10000", "unsure"]),
 };
 
-const kraftfahrzeugeArraySchema = z
+const kraftfahrzeugWertSchema = z.enum(["under10000", "over10000", "unsure"]);
+
+const kraftfahrzeugOver10000OrUnsureSchema = z.object({
+  ...sharedKraftfahrzeugeFields,
+  wert: z.enum([
+    kraftfahrzeugWertSchema.def.entries.over10000,
+    kraftfahrzeugWertSchema.def.entries.unsure,
+  ]),
+  art: stringRequiredSchema,
+  marke: stringRequiredSchema,
+  eigentuemer: eigentuemerSchema,
+  verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
+  kilometerstand: integerSchema,
+  anschaffungsjahr: schemaOrEmptyString(
+    createYearSchema({
+      optional: true,
+      latest: () => today().getFullYear(),
+    }),
+  ),
+  baujahr: schemaOrEmptyString(
+    createYearSchema({ latest: () => today().getFullYear() }),
+  ),
+});
+
+export const kraftfahrzeugeArraySchema = z
   .union([
     z.object({
       ...sharedKraftfahrzeugeFields,
-      wert: z.literal("under10000"),
+      wert: z.literal(kraftfahrzeugWertSchema.def.entries.under10000),
     }),
-    z.object({
-      ...sharedKraftfahrzeugeFields,
-      wert: z.enum(["over10000", "unsure"]),
-      art: stringRequiredSchema,
-      marke: stringRequiredSchema,
-      eigentuemer: eigentuemerSchema,
-      verkaufswert: schemaOrEmptyString(buildMoneyValidationSchema()),
-      kilometerstand: integerSchema,
-      anschaffungsjahr: schemaOrEmptyString(
-        createYearSchema({
-          optional: true,
-          latest: () => today().getFullYear(),
-        }),
-      ),
-      baujahr: schemaOrEmptyString(
-        createYearSchema({ latest: () => today().getFullYear() }),
-      ),
-    }),
+    kraftfahrzeugOver10000OrUnsureSchema,
   ])
   .array()
   .min(1);
@@ -218,31 +224,27 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
       kraftfahrzeuge: {
         arrayPages: {
           arbeitsweg: {
-            pageSchema: {
-              "kraftfahrzeuge#hasArbeitsweg": YesNoAnswer,
-            },
+            pageSchema: { "kraftfahrzeuge#hasArbeitsweg": YesNoAnswer },
           },
           wert: {
-            pageSchema: {
-              "kraftfahrzeuge#wert": sharedKraftfahrzeugeFields.wert,
-            },
+            pageSchema: { "kraftfahrzeuge#wert": kraftfahrzeugWertSchema },
           },
           fahrzeuge: {
             pageSchema: {
-              "kraftfahrzeuge#art": stringRequiredSchema,
-              "kraftfahrzeuge#marke": stringRequiredSchema,
-              "kraftfahrzeuge#eigentuemer": eigentuemerSchema,
-              "kraftfahrzeuge#verkaufswert": schemaOrEmptyString(
-                buildMoneyValidationSchema(),
-              ),
-              "kraftfahrzeuge#kilometerstand": integerSchema,
-              "kraftfahrzeuge#anschaffungsjahr": createYearSchema({
-                optional: true,
-                latest: () => today().getFullYear(),
-              }),
-              "kraftfahrzeuge#baujahr": createYearSchema({
-                latest: () => today().getFullYear(),
-              }),
+              "kraftfahrzeuge#art":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.art,
+              "kraftfahrzeuge#marke":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
+              "kraftfahrzeuge#eigentuemer":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
+              "kraftfahrzeuge#verkaufswert":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
+              "kraftfahrzeuge#kilometerstand":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
+              "kraftfahrzeuge#anschaffungsjahr":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
+              "kraftfahrzeuge#baujahr":
+                kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
             },
           },
         },

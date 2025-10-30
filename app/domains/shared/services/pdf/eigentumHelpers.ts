@@ -1,9 +1,11 @@
+import type z from "zod";
+import { type kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
+import { type kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   BankkontenArraySchema,
   Eigentumer,
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
-  KraftfahrzeugeArraySchema,
   WertsachenArraySchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
@@ -118,14 +120,16 @@ export const attachGrundeigentumToAnhang = (
   return { attachment };
 };
 
+type KraftfahrzeugeArraySchema =
+  | z.infer<typeof berhKraftfahrzeugeArraySchema>
+  | z.infer<typeof pkhKraftfahrzeugeArraySchema>;
+
 export const attachKraftfahrzeugeToAnhang = (
   kraftfahrzeuge: KraftfahrzeugeArraySchema,
 ) => {
   const attachment: AttachmentEntries = [];
-  attachment.push({
-    title: "Kraftfahrzeuge",
-    level: "h3",
-  });
+  attachment.push({ title: "Kraftfahrzeuge", level: "h3" });
+
   kraftfahrzeuge.forEach((kraftfahrzeug, index) => {
     const kfzWert = kraftfahrzeug.wert
       ? verkaufswertMappingDescription[kraftfahrzeug.wert]
@@ -137,9 +141,10 @@ export const attachKraftfahrzeugeToAnhang = (
       },
       {
         title: "Verkaufswert",
-        text: kraftfahrzeug.verkaufswert
-          ? kraftfahrzeug.verkaufswert + " €"
-          : kfzWert,
+        text:
+          "verkaufswert" in kraftfahrzeug
+            ? kraftfahrzeug.verkaufswert + " €"
+            : kfzWert,
       },
       {
         title: "Wird für Arbeitsweg benutzt",
@@ -147,30 +152,31 @@ export const attachKraftfahrzeugeToAnhang = (
       },
     );
 
-    if (kraftfahrzeug.eigentuemer)
-      attachment.push({
-        title: "Eigentümer:in",
-        text: eigentuemerMapping[kraftfahrzeug.eigentuemer],
-      });
-    if (kraftfahrzeug.art)
-      attachment.push({ title: "Art", text: kraftfahrzeug.art });
-    if (kraftfahrzeug.marke)
-      attachment.push({ title: "Marke", text: kraftfahrzeug.marke });
-    if (kraftfahrzeug.anschaffungsjahr)
-      attachment.push({
-        title: "Anschaffungsjahr",
-        text: String(kraftfahrzeug.anschaffungsjahr),
-      });
-    if (kraftfahrzeug.baujahr)
-      attachment.push({
-        title: "Baujahr",
-        text: String(kraftfahrzeug.baujahr),
-      });
-    if (kraftfahrzeug.kilometerstand)
-      attachment.push({
-        title: "Kilometerstand",
-        text: String(kraftfahrzeug.kilometerstand) + " km",
-      });
+    if (kraftfahrzeug.wert !== "under10000") {
+      attachment.push(
+        {
+          title: "Eigentümer:in",
+          text: eigentuemerMapping[kraftfahrzeug.eigentuemer],
+        },
+        { title: "Art", text: kraftfahrzeug.art },
+        { title: "Marke", text: kraftfahrzeug.marke },
+        {
+          title: "Kilometerstand",
+          text: String(kraftfahrzeug.kilometerstand) + " km",
+        },
+      );
+
+      if (kraftfahrzeug.anschaffungsjahr)
+        attachment.push({
+          title: "Anschaffungsjahr",
+          text: String(kraftfahrzeug.anschaffungsjahr),
+        });
+      if (kraftfahrzeug.baujahr)
+        attachment.push({
+          title: "Baujahr",
+          text: String(kraftfahrzeug.baujahr),
+        });
+    }
   });
   return { attachment };
 };
@@ -240,14 +246,15 @@ export function fillSingleKraftfahrzeug(
   kraftfahrzeug: KraftfahrzeugeArraySchema[0],
 ) {
   let description = `Wird ${kraftfahrzeug.hasArbeitsweg === "no" ? "nicht " : ""}für Arbeitsweg gebraucht`;
-  if (kraftfahrzeug.art) description += `, Art: ${kraftfahrzeug.art}`;
-  if (kraftfahrzeug.marke) description += `, Marke: ${kraftfahrzeug.marke}`;
-  if (kraftfahrzeug.baujahr)
-    description += `, Baujahr: ${kraftfahrzeug.baujahr}`;
-  if (kraftfahrzeug.anschaffungsjahr)
-    description += `, Anschaffungsjahr: ${kraftfahrzeug.anschaffungsjahr}`;
-  if (kraftfahrzeug.kilometerstand)
+  if (kraftfahrzeug.wert !== "under10000") {
+    description += `, Art: ${kraftfahrzeug.art}`;
+    description += `, Marke: ${kraftfahrzeug.marke}`;
     description += `, Kilometerstand: ${kraftfahrzeug.kilometerstand}`;
+    if (kraftfahrzeug.baujahr)
+      description += `, Baujahr: ${kraftfahrzeug.baujahr}`;
+    if (kraftfahrzeug.anschaffungsjahr)
+      description += `, Anschaffungsjahr: ${kraftfahrzeug.anschaffungsjahr}`;
+  }
   return description;
 }
 
