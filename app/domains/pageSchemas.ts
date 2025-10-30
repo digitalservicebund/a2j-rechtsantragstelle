@@ -8,6 +8,7 @@ import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
+import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -26,6 +27,34 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
     .map(({ pageSchema }) => pageSchema!);
 
   return Object.assign({}, ...schemaObjects) as SchemaObject;
+}
+
+export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
+  const pagesConfig = pages[flowId] ?? {};
+  const fieldsMap: FormFieldsMap = {};
+
+  for (const page of Object.values(pagesConfig)) {
+    if (page.pageSchema && !isArrayParentPage(page)) {
+      const stepId = `/${page.stepId}`;
+      fieldsMap[stepId] = Object.keys(page.pageSchema);
+    }
+
+    if (isArrayParentPage(page)) {
+      for (const [arrayPageKey, arrayPage] of Object.entries(page.arrayPages)) {
+        if (
+          !arrayPage.pageSchema ||
+          Object.keys(arrayPage.pageSchema).length === 0
+        ) {
+          continue;
+        }
+
+        const stepId = `/${page.stepId}/${arrayPageKey}`;
+        fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
+      }
+    }
+  }
+
+  return fieldsMap;
 };
 
 export function getPageSchema(pathname: string) {
