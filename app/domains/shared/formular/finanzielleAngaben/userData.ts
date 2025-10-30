@@ -17,15 +17,6 @@ export type Eigentumer = z.infer<typeof eigentuemerInputSchema>;
 
 const MINUS_150_YEARS = -150;
 
-const grundeigentumArtInputSchema = z.enum([
-  "eigentumswohnung",
-  "einfamilienhaus",
-  "mehrereWohnungen",
-  "unbebaut",
-  "erbbaurecht",
-  "garage",
-]);
-
 export const familyRelationshipInputSchema = z.enum([
   "mother",
   "father",
@@ -101,24 +92,6 @@ export const geldanlagenArraySchema = z.array(
       forderung: stringOptionalSchema,
       verwendungszweck: stringOptionalSchema,
       auszahlungdatum: stringOptionalSchema,
-    })
-    .partial(),
-);
-
-export type GrundeigentumArraySchema = z.infer<typeof grundeigentumArraySchema>;
-
-export const grundeigentumArraySchema = z.array(
-  z
-    .object({
-      isBewohnt: z.enum(["yes", "family", "no"]),
-      art: grundeigentumArtInputSchema,
-      eigentuemer: eigentuemerInputSchema,
-      flaeche: stringRequiredSchema,
-      verkaufswert: buildMoneyValidationSchema(),
-      strassehausnummer: stringRequiredSchema,
-      plz: stringOptionalSchema,
-      ort: stringRequiredSchema,
-      land: stringRequiredSchema,
     })
     .partial(),
 );

@@ -368,15 +368,10 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum",
-    pageSchema: {
-      hasGrundeigentum: YesNoAnswer,
-    },
   },
   eigentumGrundeigentumFrage: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
-    pageSchema: {
-      hasGrundeigentum: YesNoAnswer,
-    },
+    pageSchema: { hasGrundeigentum: YesNoAnswer },
   },
   eigentumGrundeigentumUebersicht: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/uebersicht",

@@ -1,9 +1,5 @@
 import type { FinanzielleAngabenGuard } from "./guards";
-import {
-  bankkontenArraySchema,
-  type GeldanlagenArraySchema,
-  type GrundeigentumArraySchema,
-} from "./userData";
+import { bankkontenArraySchema, type GeldanlagenArraySchema } from "./userData";
 
 export const bankKontoDone: FinanzielleAngabenGuard = ({ context }) =>
   context.hasBankkonto === "no" ||
@@ -37,16 +33,3 @@ export const geldanlageDone = (geldanlage: GeldanlagenArraySchema[0]) => {
       return true;
   }
 };
-
-export const singleGrundeigentumDone = (
-  grundeigentum: GrundeigentumArraySchema[0],
-) =>
-  grundeigentum.art !== undefined &&
-  grundeigentum.eigentuemer !== undefined &&
-  grundeigentum.flaeche !== undefined &&
-  grundeigentum.verkaufswert !== undefined &&
-  (grundeigentum.isBewohnt === "yes" ||
-    (grundeigentum.strassehausnummer !== undefined &&
-      grundeigentum.plz !== undefined &&
-      grundeigentum.ort !== undefined &&
-      grundeigentum.land !== undefined));

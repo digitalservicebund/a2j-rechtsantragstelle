@@ -120,8 +120,8 @@ export const geldanlagenArraySchema = z
   .array()
   .min(1);
 
+const grundeigentumIsBewohntSchema = z.enum(["yes", "no", "family"]);
 const sharedGrundeigentumFields = {
-  isBewohnt: z.enum(["yes", "no", "family"]),
   art: z.enum([
     "eigentumswohnung",
     "einfamilienhaus",
@@ -134,20 +134,26 @@ const sharedGrundeigentumFields = {
   flaeche: stringRequiredSchema,
   verkaufswert: buildMoneyValidationSchema(),
 };
+
+const grundeigentumNotLivedInSchema = {
+  ...sharedGrundeigentumFields,
+  isBewohnt: z.enum([
+    grundeigentumIsBewohntSchema.enum.no,
+    grundeigentumIsBewohntSchema.enum.family,
+  ]),
+  strassehausnummer: stringRequiredSchema,
+  plz: stringOptionalSchema,
+  ort: stringRequiredSchema,
+  land: stringRequiredSchema,
+};
+
 export const grundeigentumArraySchema = z
   .union([
     z.object({
       ...sharedGrundeigentumFields,
-      isBewohnt: z.enum(["yes"]),
+      isBewohnt: z.literal(grundeigentumIsBewohntSchema.enum.yes),
     }),
-    z.object({
-      ...sharedGrundeigentumFields,
-      isBewohnt: z.enum(["no", "family"]),
-      strassehausnummer: stringRequiredSchema,
-      plz: stringOptionalSchema,
-      ort: stringRequiredSchema,
-      land: stringRequiredSchema,
-    }),
+    z.object(grundeigentumNotLivedInSchema),
   ])
   .array()
   .min(1);
@@ -311,27 +317,32 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           "bewohnt-frage": {
             pageSchema: {
-              "grundeigentum#isBewohnt": sharedGrundeigentumFields.isBewohnt,
+              "grundeigentum#isBewohnt": grundeigentumIsBewohntSchema,
             },
           },
           daten: {
             pageSchema: {
               "grundeigentum#art": sharedGrundeigentumFields.art,
-              "grundeigentum#eigentuemer": eigentuemerSchema,
-              "grundeigentum#flaeche": stringRequiredSchema,
-              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
-              "grundeigentum#strassehausnummer": stringRequiredSchema,
-              "grundeigentum#plz": stringOptionalSchema,
-              "grundeigentum#ort": stringRequiredSchema,
-              "grundeigentum#land": stringRequiredSchema,
+              "grundeigentum#eigentuemer":
+                sharedGrundeigentumFields.eigentuemer,
+              "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
+              "grundeigentum#verkaufswert":
+                sharedGrundeigentumFields.verkaufswert,
+              "grundeigentum#strassehausnummer":
+                grundeigentumNotLivedInSchema.strassehausnummer,
+              "grundeigentum#plz": grundeigentumNotLivedInSchema.plz,
+              "grundeigentum#ort": grundeigentumNotLivedInSchema.ort,
+              "grundeigentum#land": grundeigentumNotLivedInSchema.land,
             },
           },
           "bewohnt-daten": {
             pageSchema: {
               "grundeigentum#art": sharedGrundeigentumFields.art,
-              "grundeigentum#eigentuemer": eigentuemerSchema,
-              "grundeigentum#flaeche": stringRequiredSchema,
-              "grundeigentum#verkaufswert": buildMoneyValidationSchema(),
+              "grundeigentum#eigentuemer":
+                sharedGrundeigentumFields.eigentuemer,
+              "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
+              "grundeigentum#verkaufswert":
+                sharedGrundeigentumFields.verkaufswert,
             },
           },
         },

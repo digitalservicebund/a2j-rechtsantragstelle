@@ -1,17 +1,18 @@
 import type z from "zod";
-import {
-  type kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema,
-  type wertsacheSchema as berhWertsacheSchema,
+import type {
+  kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema,
+  wertsacheSchema as berhWertsacheSchema,
+  grundeigentumArraySchema as berhGrundeigentumArraySchema,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
-import {
-  type wertsacheSchema as pkhWertsacheSchema,
-  type kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
+import type {
+  wertsacheSchema as pkhWertsacheSchema,
+  kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
+  grundeigentumArraySchema as pkhGrundeigentumArraySchema,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   BankkontenArraySchema,
   Eigentumer,
   GeldanlagenArraySchema,
-  GrundeigentumArraySchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
@@ -27,6 +28,10 @@ export const eigentuemerMapping: Record<Eigentumer, string> = {
   myselfAndPartner: "Mein:e Ehe-Partner:in und ich gemeinsam",
   myselfAndSomeoneElse: "Ich gemeinsam mit jemand anderem",
 };
+
+type GrundeigentumArraySchema =
+  | z.infer<typeof pkhGrundeigentumArraySchema>
+  | z.infer<typeof berhGrundeigentumArraySchema>;
 
 export const grundeigentumArtMapping: Record<
   NonNullable<GrundeigentumArraySchema[0]["art"]>,
