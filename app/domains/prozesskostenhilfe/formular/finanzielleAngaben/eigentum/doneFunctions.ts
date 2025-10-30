@@ -10,14 +10,14 @@ import { arrayIsNonEmpty } from "~/util/array";
 type ProzesskostenhilfeFinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
 
-export const bankKontoDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const bankKontoDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasBankkonto === "no" ||
   (context.hasBankkonto === "yes" &&
     bankkontenArraySchema.safeParse(context.bankkonten).success);
 
-export const kraftfahrzeugDone = (
+const kraftfahrzeugDone = (
   kfz: NonNullable<
     ProzesskostenhilfeFinanzielleAngabenUserData["kraftfahrzeuge"]
   >[0],
@@ -38,21 +38,21 @@ export const kraftfahrzeugeDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   (context.hasKraftfahrzeug === "yes" &&
     arrayIsNonEmpty(context.kraftfahrzeuge) &&
     context.kraftfahrzeuge?.every(kraftfahrzeugDone));
-export const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const geldanlagenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGeldanlage === "no" ||
   (context.hasGeldanlage === "yes" &&
     geldanlagenArraySchema.safeParse(context.geldanlagen).success);
 
-export const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const grundeigentumDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasGrundeigentum === "no" ||
   (context.hasGrundeigentum === "yes" &&
     grundeigentumArraySchema.safeParse(context.grundeigentum).success);
 
-export const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
+const wertsachenDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   context,
 }) =>
   context.hasWertsache === "no" ||

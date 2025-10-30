@@ -38,7 +38,7 @@ const sharedKraftfahrzeugeFields = {
   wert: z.enum(["under10000", "over10000", "unsure"]),
 };
 
-export const kraftfahrzeugeArraySchema = z
+const kraftfahrzeugeArraySchema = z
   .union([
     z.object({
       ...sharedKraftfahrzeugeFields,
