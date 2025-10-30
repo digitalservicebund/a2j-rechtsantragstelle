@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 
-vi.mock("~/services/flow/pruner", () => ({
+vi.mock("~/services/flow/pruner/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockResolvedValue({
     prunedData: { vorname: "Zoe", nachname: "Müller" },
   }),
