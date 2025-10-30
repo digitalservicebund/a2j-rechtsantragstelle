@@ -1,7 +1,8 @@
 import { PDFDocument } from "pdf-lib";
 import { loader } from "../pdfDownloadLoader";
+import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 
-vi.mock("~/services/flow/pruner", () => ({
+vi.mock("~/services/flow/pruner/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockResolvedValue({
     prunedData: { vorname: "Zoe", nachname: "Müller" },
   }),
@@ -13,13 +14,8 @@ vi.mock("~/services/cms/index.server.ts", () => ({
 
 describe("pdfDownloadLoader", () => {
   it("generates correct PDF for Beratungshilfe", async () => {
-    const response = await loader({
-      request: new Request(
-        "https://mock-url.de/beratungshilfe/antrag/download/pdf",
-      ),
-      params: {},
-      context: {},
-    });
+    const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
+    const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
     const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc
@@ -33,13 +29,8 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Prozesskostenhilfe", async () => {
-    const response = await loader({
-      request: new Request(
-        "https://mock-url.de/prozesskostenhilfe/formular/download/pdf",
-      ),
-      params: {},
-      context: {},
-    });
+    const url = "https://mock-url.de/prozesskostenhilfe/formular/download/pdf";
+    const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
     const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc

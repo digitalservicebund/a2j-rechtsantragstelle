@@ -1,6 +1,7 @@
 import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-rating";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 vi.mock("~/services/session.server");
 vi.stubEnv("PUBLIC_POSTHOG_API_KEY", "-");
@@ -25,11 +26,9 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       options,
     );
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     expect(response.data.success).toEqual(true);
   });
@@ -42,11 +41,9 @@ describe("/action/send-rating route", () => {
       options,
     );
 
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as Response; // TODO revisit this type casting
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as Response; // TODO revisit this type casting
 
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(expectedPath);
@@ -58,11 +55,9 @@ describe("/action/send-rating route", () => {
       options,
     );
 
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     expect(response.init?.status).toBe(400);
   });
@@ -75,11 +70,9 @@ describe("/action/send-rating route", () => {
       optionsWithoutBody,
     );
 
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     expect(response.init?.status).toBe(422);
   });

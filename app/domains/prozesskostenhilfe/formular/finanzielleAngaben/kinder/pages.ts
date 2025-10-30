@@ -5,7 +5,7 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const sharedKinderFields = {
+const sharedKinderFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsdatum: childBirthdaySchema,

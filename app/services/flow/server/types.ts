@@ -62,4 +62,5 @@ export type Meta<TUserData extends MachineContext = UserData> = {
   triggerValidation?: boolean;
   done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
+  pruneDataFromPageSchema?: boolean; // temporary flag until migrate all the flows with page schemas
 };

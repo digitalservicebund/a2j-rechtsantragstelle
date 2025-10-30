@@ -1,7 +1,7 @@
-import type { LoaderFunctionArgs } from "react-router";
 import { describe, it, expect } from "vitest";
 import { loader } from "~/routes/link.$";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 vi.mock("~/services/analytics/customEvent");
 const mockSendCustomAnalyticsEvent = vi.fn();
@@ -11,11 +11,10 @@ vi.mocked(sendCustomAnalyticsEvent).mockImplementation(
 
 describe("link loader", () => {
   it('should redirect "pkh" to the correct path', () => {
-    const mockArgs: LoaderFunctionArgs = {
-      params: { "*": "pkh" },
-      request: new Request("https://test.com/pkh"),
-      context: {},
-    };
+    const mockArgs = mockRouteArgsFromRequest(
+      new Request("https://test.com/pkh"),
+      { "*": "pkh" },
+    );
 
     const response = loader(mockArgs);
 
@@ -27,11 +26,7 @@ describe("link loader", () => {
   });
 
   it("should throw a 404 response when no params are provided", () => {
-    const mockArgs: LoaderFunctionArgs = {
-      params: {},
-      request: new Request("https://test.com"),
-      context: {},
-    };
+    const mockArgs = mockRouteArgsFromRequest(new Request("https://test.com"));
 
     expect(() => loader(mockArgs)).toThrowError();
 
@@ -44,11 +39,10 @@ describe("link loader", () => {
   });
 
   it("should throw a 404 response for an unknown site", () => {
-    const mockArgs: LoaderFunctionArgs = {
-      params: { "*": "unknown-site" },
-      request: new Request("https://test.com/unknown-site"),
-      context: {},
-    };
+    const mockArgs = mockRouteArgsFromRequest(
+      new Request("https://test.com/unknown-site"),
+      { "*": "unknown-site" },
+    );
 
     expect(() => loader(mockArgs)).toThrowError();
 
@@ -61,11 +55,10 @@ describe("link loader", () => {
   });
 
   it("should capture a custom pageview event before redirect", () => {
-    const mockArgs: LoaderFunctionArgs = {
-      params: { "*": "pkh" },
-      request: new Request("https://test.com/pkh"),
-      context: {},
-    };
+    const mockArgs = mockRouteArgsFromRequest(
+      new Request("https://test.com/pkh"),
+      { "*": "pkh" },
+    );
 
     loader(mockArgs);
 

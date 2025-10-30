@@ -18,6 +18,7 @@ import {
   stateIsCurrent,
 } from "~/services/navigation/navState";
 import { type StepStepper } from "~/components/navigation/types";
+import { getPageSchema } from "~/domains/pageSchemas";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -77,8 +78,12 @@ export const getContentData = (
     getCMSContent: () => {
       return cmsContent;
     },
-    getStepData: () => {
-      const fieldNames = getFieldsByFormElements(cmsContent.formContent);
+    getStepData: (pathname: string) => {
+      const pageSchema = getPageSchema(pathname);
+      const fieldNames = pageSchema
+        ? Object.keys(pageSchema)
+        : getFieldsByFormElements(cmsContent.formContent);
+
       return fieldsFromContext(userDataWithPageData, fieldNames);
     },
     getButtonNavigation: (

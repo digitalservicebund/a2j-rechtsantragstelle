@@ -3,6 +3,7 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   doneFunction,
   getPageSchema,
+  getAllFieldsFromFlowId,
   getRelevantPageSchemasForStepId,
   xStateTargetsFromPagesConfig,
 } from "../pageSchemas";
@@ -413,5 +414,33 @@ describe("xStateTargetsFromPageSchema", () => {
         relative: "target",
       },
     });
+  });
+});
+
+describe("getAllFieldsFromFlowId", () => {
+  it("should return specific the fields for the page /rechtsschutzversicherung for the flow id /beratungshilfe/vorabcheck", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/vorabcheck");
+
+    expect(fields["/rechtsschutzversicherung"]).toEqual([
+      "rechtsschutzversicherung",
+    ]);
+  });
+
+  it("should return specific the fields for array pages in the flow id /beratungshilfe/antrag", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
+
+    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toEqual([
+      "kinder#vorname",
+      "kinder#nachname",
+      "kinder#geburtsdatum",
+    ]);
+  });
+
+  it("should not return specific array pages without schema in the flow id /beratungshilfe/antrag", () => {
+    const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
+
+    expect(fields).not.toHaveProperty(
+      "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
+    );
   });
 });

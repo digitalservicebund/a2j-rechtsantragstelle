@@ -1,5 +1,4 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenEigentumPages } from "./pages";
 import {
@@ -20,6 +19,7 @@ import {
 } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
 import {
+  bankKontoDone,
   eigentumDone,
   geldanlagenDone,
   grundeigentumDone,
