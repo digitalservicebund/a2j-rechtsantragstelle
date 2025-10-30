@@ -10,13 +10,6 @@ export const eigentuemerInputSchema = z.enum([
 
 export type Eigentumer = z.infer<typeof eigentuemerInputSchema>;
 
-export const staatlicheLeistungenInputSchema = z.enum([
-  "grundsicherung",
-  "asylbewerberleistungen",
-  "buergergeld",
-  "keine",
-]);
-
 export const besondereBelastungen = [
   "pregnancy",
   "singleParent",
