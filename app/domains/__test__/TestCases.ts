@@ -1,14 +1,15 @@
 import type { Config } from "~/services/flow/server/types";
-import type { UserData } from "../userData";
+import type { AllUserDataKeys, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { type Guards } from "~/domains/guards.server";
+import { type pages, type PagesConfig } from "~/domains/pageSchemas";
 
 // Old flow tests: forward & backward using full user data
 export type TestCases<T extends UserData> = Readonly<
   Array<Readonly<[T, readonly string[]]>>
 >;
 
-export type ExpectedStep = {
+export type ExpectedStep<T extends UserData> = {
   stepId: string;
   addArrayItemEvent?: ArrayConfigServer["event"];
   /**
@@ -17,13 +18,15 @@ export type ExpectedStep = {
    * E.g. Array Summary pages
    */
   skipPageSchemaValidation?: boolean;
-  userInput?: UserData;
+  userInput?: T;
 };
 
 // New flow tests: testing data submission with page schemas
-export type FlowTestCases = {
+export type FlowTestCases<
+  T extends UserData = { [K in AllUserDataKeys]?: UserData[K] },
+> = {
   xstateConfig: Config;
-  testcases: Record<string, ExpectedStep[]>;
+  testcases: Record<string, Array<ExpectedStep<T>>>;
   /**
    * Legacy guard injection, used in cases where legacy guards are referenced
    * via string instead of inline logic

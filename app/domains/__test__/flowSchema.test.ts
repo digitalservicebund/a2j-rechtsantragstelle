@@ -80,11 +80,11 @@ function testXstateArrayLinkages(
   }
 }
 
-function runTestcases(
+function runTestcases<T extends UserData>(
   testName: string,
   flowId: string,
   xstateConfig: Config,
-  expectedSteps: ExpectedStep[],
+  expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
   guards?: FlowTestCases["guards"],
 ) {
