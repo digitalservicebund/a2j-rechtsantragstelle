@@ -3,6 +3,18 @@ import { pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskos
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import { eigentumDone, eigentumZusammenfassungDone } from "./doneFunctions";
+import {
+  eigentumYesAndEmptyArray,
+  grundeigentumIsBewohnt,
+  isGeldanlageBargeld,
+  isGeldanlageBefristet,
+  isGeldanlageForderung,
+  isGeldanlageGiroTagesgeldSparkonto,
+  isGeldanlageGuthabenkontoKrypto,
+  isGeldanlageSonstiges,
+  isGeldanlageWertpapiere,
+  isKraftfahrzeugWertAbove10000OrUnsure,
+} from "../guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenEigentumPages,
@@ -104,7 +116,7 @@ export const eigentumZusammenfassungXstateConfig = {
         BACK: "#eigentum.kraftfahrzeuge-frage",
         SUBMIT: [
           {
-            guard: "eigentumYesAndEmptyArray",
+            guard: eigentumYesAndEmptyArray,
             target: "warnung",
           },
           "#ausgaben",
@@ -147,7 +159,7 @@ export const eigentumZusammenfassungXstateConfig = {
             BACK: "arbeitsweg",
             SUBMIT: [
               {
-                guard: "isKraftfahrzeugWertAbove10000OrUnsure",
+                guard: isKraftfahrzeugWertAbove10000OrUnsure,
                 target: "fahrzeuge",
               },
               "#eigentum-zusammenfassung.zusammenfassung",
@@ -171,31 +183,31 @@ export const eigentumZusammenfassungXstateConfig = {
             SUBMIT: [
               {
                 target: "bargeld",
-                guard: "isGeldanlageBargeld",
+                guard: isGeldanlageBargeld,
               },
               {
                 target: "wertpapiere",
-                guard: "isGeldanlageWertpapiere",
+                guard: isGeldanlageWertpapiere,
               },
               {
                 target: "guthabenkonto-krypto",
-                guard: "isGeldanlageGuthabenkontoKrypto",
+                guard: isGeldanlageGuthabenkontoKrypto,
               },
               {
                 target: "giro-tagesgeld-sparkonto",
-                guard: "isGeldanlageGiroTagesgeldSparkonto",
+                guard: isGeldanlageGiroTagesgeldSparkonto,
               },
               {
                 target: "befristet",
-                guard: "isGeldanlageBefristet",
+                guard: isGeldanlageBefristet,
               },
               {
                 target: "forderung",
-                guard: "isGeldanlageForderung",
+                guard: isGeldanlageForderung,
               },
               {
                 target: "sonstiges",
-                guard: "isGeldanlageSonstiges",
+                guard: isGeldanlageSonstiges,
               },
             ],
             BACK: "#eigentum-zusammenfassung.zusammenfassung",
@@ -253,7 +265,7 @@ export const eigentumZusammenfassungXstateConfig = {
             BACK: "#eigentum-zusammenfassung.zusammenfassung",
             SUBMIT: [
               {
-                guard: "grundeigentumIsBewohnt",
+                guard: grundeigentumIsBewohnt,
                 target: "bewohnt-daten",
               },
               "daten",

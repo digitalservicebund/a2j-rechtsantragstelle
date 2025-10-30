@@ -3,6 +3,7 @@ import { pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/d
 import type { Config } from "~/services/flow/server/types";
 import { andereUnterhaltszahlungenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import { hasWeitereUnterhaltszahlungenYesAndEmptyArray } from "../guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages,
@@ -37,7 +38,7 @@ export const andereUnterhaltszahlungenXstateConfig = {
         BACK: steps.andereUnterhaltszahlungenFrage.relative,
         SUBMIT: [
           {
-            guard: "hasWeitereUnterhaltszahlungenYesAndEmptyArray",
+            guard: hasWeitereUnterhaltszahlungenYesAndEmptyArray,
             target: steps.andereUnterhaltszahlungenWarnung.relative,
           },
           "#wohnung",

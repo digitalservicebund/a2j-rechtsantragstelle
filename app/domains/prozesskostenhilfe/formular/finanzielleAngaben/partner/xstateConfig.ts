@@ -39,7 +39,7 @@ export const partnerXstateConfig = {
             target: "#finanzielle-angaben.abzuege.arbeitsausgaben",
           },
           {
-            guard: "hasFurtherIncome",
+            guard: finanzielleAngabeEinkuenfteGuards.hasFurtherIncome,
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
           },
           {
@@ -62,7 +62,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerschaft.relative,
         SUBMIT: [
           {
-            guard: "zusammenlebenYes",
+            guard: ({ context }) => context.zusammenleben === "yes",
             target: steps.partnerEinkommen.relative,
           },
           steps.partnerUnterhalt.relative,
@@ -74,7 +74,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerZusammenleben.relative,
         SUBMIT: [
           {
-            guard: "unterhaltYes",
+            guard: ({ context }) => context.unterhalt === "yes",
             target: steps.partnerUnterhaltsSumme.relative,
           },
           steps.partnerKeineRolle.relative,
@@ -92,7 +92,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerZusammenleben.relative,
         SUBMIT: [
           {
-            guard: "partnerEinkommenYes",
+            guard: ({ context }) => context.partnerEinkommen == "yes",
             target: "#partner-einkuenfte",
           },
           "#kinder",
@@ -641,7 +641,8 @@ export const partnerXstateConfig = {
             ],
             SUBMIT: [
               {
-                guard: "partnerHasBesondersAusgabenYes",
+                guard: ({ context }) =>
+                  context.partnerHasBesondersAusgaben === "yes",
                 target: "add-partner-besonders-ausgaben",
               },
               "#kinder",
