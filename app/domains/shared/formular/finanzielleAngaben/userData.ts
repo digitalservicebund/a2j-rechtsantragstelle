@@ -1,8 +1,5 @@
 import { z } from "zod";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
-import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const eigentuemerInputSchema = z.enum([
   "myself",
@@ -19,20 +16,6 @@ export const staatlicheLeistungenInputSchema = z.enum([
   "buergergeld",
   "keine",
 ]);
-
-export type BankkontenArraySchema = z.infer<typeof bankkontenArraySchema>;
-
-export const bankkontenArraySchema = z
-  .array(
-    z.object({
-      bankName: stringRequiredSchema,
-      kontostand: buildMoneyValidationSchema({}),
-      iban: stringOptionalSchema,
-      kontoEigentuemer: eigentuemerInputSchema,
-      kontoDescription: stringOptionalSchema,
-    }),
-  )
-  .min(1);
 
 export const besondereBelastungen = [
   "pregnancy",

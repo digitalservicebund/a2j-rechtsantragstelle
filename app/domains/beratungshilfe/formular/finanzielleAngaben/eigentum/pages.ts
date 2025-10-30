@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { bankkontenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { eigentuemerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -9,6 +9,18 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { createYearSchema } from "~/services/validation/year";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
+
+export const bankkontenArraySchema = z
+  .array(
+    z.object({
+      bankName: stringRequiredSchema,
+      kontostand: buildMoneyValidationSchema({}),
+      iban: stringOptionalSchema,
+      kontoEigentuemer: eigentuemerInputSchema,
+      kontoDescription: stringOptionalSchema,
+    }),
+  )
+  .min(1);
 
 const geldanlagenArtSchema = z.enum([
   "bargeld",

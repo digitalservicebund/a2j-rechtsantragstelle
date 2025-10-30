@@ -4,17 +4,16 @@ import type {
   wertsacheSchema as berhWertsacheSchema,
   grundeigentumArraySchema as berhGrundeigentumArraySchema,
   geldanlagenArraySchema as berhGeldanlagenArraySchema,
+  bankkontenArraySchema as berhBankkontenArraySchema,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   wertsacheSchema as pkhWertsacheSchema,
   kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
   grundeigentumArraySchema as pkhGrundeigentumArraySchema,
   geldanlagenArraySchema as pkhGeldanlagenArraySchema,
+  bankkontenArraySchema as pkhBankkontenArraySchema,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
-import type {
-  BankkontenArraySchema,
-  Eigentumer,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import type { Eigentumer } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
 const befristungMapping = {
@@ -36,6 +35,10 @@ type GrundeigentumArraySchema =
 
 type GeldanlagenArraySchema = z.infer<
   typeof berhGeldanlagenArraySchema | typeof pkhGeldanlagenArraySchema
+>;
+
+export type BankkontenArray = z.infer<
+  typeof berhBankkontenArraySchema | typeof pkhBankkontenArraySchema
 >;
 
 export const grundeigentumArtMapping: Record<
@@ -68,7 +71,7 @@ export const verkaufswertMappingDescription = {
 
 export const attachBankkontenToAnhang = (
   attachment: AttachmentEntries,
-  bankkonten: BankkontenArraySchema,
+  bankkonten: BankkontenArray,
 ) => {
   attachment.push({
     title: "Bankkonten",

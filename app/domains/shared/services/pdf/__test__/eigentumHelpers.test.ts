@@ -1,12 +1,14 @@
-import type { BankkontenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
-import { attachBankkontenToAnhang } from "../eigentumHelpers";
+import {
+  attachBankkontenToAnhang,
+  type BankkontenArray,
+} from "../eigentumHelpers";
 
 describe("eigentumHelpers", () => {
   describe("attachBankkontenToAnhang", () => {
     it("should add a header to the attachment", () => {
       const attachment: AttachmentEntries = [];
-      const bankkonten: BankkontenArraySchema = [];
+      const bankkonten: BankkontenArray = [];
       const { attachment: result } = attachBankkontenToAnhang(
         attachment,
         bankkonten,
@@ -16,7 +18,7 @@ describe("eigentumHelpers", () => {
 
     it("should add a bankkonto without description or iban", () => {
       const attachment: AttachmentEntries = [];
-      const bankkonten: BankkontenArraySchema = [
+      const bankkonten: BankkontenArray = [
         {
           bankName: "Bank1",
           kontoEigentuemer: "myself",
@@ -34,7 +36,7 @@ describe("eigentumHelpers", () => {
 
     it("should add a bankkonto with description and iban", () => {
       const attachment: AttachmentEntries = [];
-      const bankkonten: BankkontenArraySchema = [
+      const bankkonten: BankkontenArray = [
         {
           bankName: "Bank1",
           kontoEigentuemer: "myself",
@@ -59,7 +61,7 @@ describe("eigentumHelpers", () => {
 
     it("should add two bankkontos", () => {
       const attachment: AttachmentEntries = [];
-      const bankkonten: BankkontenArraySchema = [
+      const bankkonten: BankkontenArray = [
         {
           bankName: "Bank1",
           kontoEigentuemer: "myself",
