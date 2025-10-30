@@ -7,17 +7,10 @@ import {
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GenericGuard, yesNoGuards } from "../../../guards.server";
 
-export type FinanzielleAngabenGuard = GenericGuard<
+type FinanzielleAngabenGuard = GenericGuard<
   | ProzesskostenhilfeFinanzielleAngabenUserData
   | BeratungshilfeFinanzielleAngabenUserData
 >;
-export const staatlicheLeistungenIsBuergergeld: FinanzielleAngabenGuard = ({
-  context,
-}) => context.staatlicheLeistungen === "buergergeld";
-
-export const staatlicheLeistungenIsKeine: FinanzielleAngabenGuard = ({
-  context,
-}) => context.staatlicheLeistungen === "keine";
 
 export const hasPartnerschaftYesAndZusammenlebenNo: FinanzielleAngabenGuard = ({
   context,

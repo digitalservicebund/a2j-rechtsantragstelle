@@ -1,7 +1,6 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { finanzielleAngabeEinkuenfteGuards as guards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
-import { staatlicheLeistungenIsBuergergeld } from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 type ProzesskostenhilfeFinanzielleAngabenEinkuenfteGuard =
@@ -12,7 +11,7 @@ export const staatlicheLeistungenDone: ProzesskostenhilfeFinanzielleAngabenEinku
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "grundsicherung" ||
     context.staatlicheLeistungen === "keine" ||
-    (staatlicheLeistungenIsBuergergeld({ context }) &&
+    (context.staatlicheLeistungen === "buergergeld" &&
       context.buergergeld !== undefined) ||
     (guards.staatlicheLeistungenIsArbeitslosengeld({ context }) &&
       context.arbeitslosengeld !== undefined);

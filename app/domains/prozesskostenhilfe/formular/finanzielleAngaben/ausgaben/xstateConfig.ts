@@ -3,6 +3,7 @@ import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskos
 import type { Config } from "~/services/flow/server/types";
 import { ausgabenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import { eigentumDone } from "../eigentum/doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenAusgabenPages,
@@ -23,7 +24,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
               target: "#eigentum-zusammenfassung.warnung",
             },
             {
-              guard: "eigentumDone",
+              guard: eigentumDone,
               target: "#eigentum-zusammenfassung.zusammenfassung",
             },
             "#eigentum.kraftfahrzeuge-frage",

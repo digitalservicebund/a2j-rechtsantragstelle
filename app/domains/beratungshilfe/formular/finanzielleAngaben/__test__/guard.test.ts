@@ -1,18 +1,13 @@
-import { finanzielleAngabeGuards } from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
-import type { BeratungshilfeFinanzielleAngabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/userData";
+import {
+  finanzielleAngabeGuards,
+  hasPartnerschaftYes,
+} from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
 import * as pageDataSchemaModule from "~/services/flow/pageDataSchema";
 
 describe("finanzielleAngabeGuards", () => {
   describe("hasPartnerschaftYes", () => {
     it("should return truthy for married context", () => {
-      const context: BeratungshilfeFinanzielleAngabenUserData = {
-        partnerschaft: "yes",
-      };
-
-      const actual = finanzielleAngabeGuards.hasPartnerschaftYes({
-        context,
-      });
-
+      const actual = hasPartnerschaftYes({ context: { partnerschaft: "yes" } });
       expect(actual).toBeTruthy();
     });
   });

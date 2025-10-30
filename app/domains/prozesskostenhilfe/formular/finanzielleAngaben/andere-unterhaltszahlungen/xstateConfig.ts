@@ -24,7 +24,8 @@ export const andereUnterhaltszahlungenXstateConfig = {
         ],
         SUBMIT: [
           {
-            guard: "hasWeitereUnterhaltszahlungenYes",
+            guard: ({ context }) =>
+              context.hasWeitereUnterhaltszahlungen === "yes",
             target: steps.andereUnterhaltszahlungenUebersicht.relative,
           },
           "#wohnung",

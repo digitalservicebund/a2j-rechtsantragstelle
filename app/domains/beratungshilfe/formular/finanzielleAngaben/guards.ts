@@ -204,7 +204,6 @@ export const finanzielleAngabeGuards = {
   hasNoStaatlicheLeistungen,
   hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
-  hasPartnerschaftYes,
   hasPartnerschaftYesAndPartnerEinkommenYes,
   hasPartnerschaftYesAndZusammenlebenYes,
   hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,

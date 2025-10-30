@@ -17,7 +17,7 @@ export const eigentumXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: "hasPartnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
             target: steps.eigentumHeiratInfo.relative,
           },
           steps.eigentumBankkontenFrage.relative,
@@ -53,7 +53,7 @@ export const eigentumXstateConfig = {
       on: {
         BACK: [
           {
-            guard: "hasPartnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
             target: steps.eigentumHeiratInfo.relative,
           },
           steps.eigentumInfo.relative,
@@ -83,7 +83,7 @@ export const eigentumXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: "eigentumDone",
+            guard: eigentumDone,
             target: "#eigentum-zusammenfassung.zusammenfassung",
           },
           "#ausgaben",
