@@ -159,7 +159,7 @@ export async function generateSummaryFromUserData(
   });
 
   const fieldQuestions = await getFormQuestionsForFields(
-    expandedFields,
+    filteredFields,
     flowId,
   );
 
