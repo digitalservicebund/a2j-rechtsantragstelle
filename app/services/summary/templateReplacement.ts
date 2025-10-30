@@ -46,7 +46,7 @@ function replaceTemplateVariables(
 
 export function getUserDataFieldLabel(
   fieldName: string,
-  fieldQuestions: Record<string, { question?: string; pageTitle?: string }>,
+  fieldQuestions: Record<string, { question?: string }>,
   userData?: UserData,
 ): string {
   const question = fieldQuestions[fieldName]?.question;
@@ -60,18 +60,4 @@ export function getUserDataFieldLabel(
   }
 
   return fieldName;
-}
-
-export function getUserDataFieldPageTitle(
-  fieldName: string,
-  fieldQuestions: Record<string, { question?: string; pageTitle?: string }>,
-  userData?: UserData,
-): string | undefined {
-  const pageTitle = fieldQuestions[fieldName]?.pageTitle;
-
-  if (pageTitle && userData) {
-    return replaceTemplateVariables(pageTitle, fieldName, userData);
-  }
-
-  return pageTitle;
 }

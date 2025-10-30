@@ -77,7 +77,6 @@ export function getArrayItemValue(
   const fieldInfo = parseArrayField(arrayFieldName);
   const baseFieldName = fieldInfo.baseFieldName;
   const arrayValue = userData[baseFieldName];
-  // console.log("Array value", arrayValue);
 
   if (Array.isArray(arrayValue) && arrayValue[index]) {
     return arrayValue[index] as Record<string, unknown>;

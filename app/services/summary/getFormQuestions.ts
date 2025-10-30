@@ -21,7 +21,6 @@ export type FieldOption = {
 export type FieldQuestion = {
   question: string; // The actual question text
   options?: FieldOption[]; // Available answer options (for select/dropdown/tile-group)
-  pageTitle?: string; // The page pre-heading/title (useful for array items like "Kind 1")
 };
 
 /**
@@ -109,7 +108,6 @@ function createFieldQuestionFromComponent(
   if ("label" in formComponent && formComponent.label) {
     const result = {
       question: formComponent.label,
-      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
       ...(options && { options }),
     };
     return result;
@@ -118,7 +116,6 @@ function createFieldQuestionFromComponent(
   else if (options && options.length > 0) {
     const result = {
       question: formPage.heading, // Use page heading as question
-      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
       options: options,
     };
     return result;
@@ -127,7 +124,6 @@ function createFieldQuestionFromComponent(
   // Fallback to page heading
   const result = {
     question: formPage.heading,
-    ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
   };
   return result;
 }
@@ -167,7 +163,6 @@ function processNestedComponents(
 
   const result = {
     question: formPage.heading,
-    ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
     ...(options.length > 0 && { options }),
   };
   return result;
@@ -255,7 +250,6 @@ async function processFieldForQuestions(
   if (formPage.heading) {
     const fallbackResult = {
       question: formPage.heading,
-      ...(formPage.preHeading && { pageTitle: formPage.preHeading }),
     };
     return fallbackResult;
   }

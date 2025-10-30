@@ -12,7 +12,6 @@ import { groupFieldsByFlowNavigation } from "./groupFieldsBySection";
 import { getValidUserDataFields } from "./fieldValidation";
 import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
-import { getUserDataFieldPageTitle } from "./templateReplacement";
 import { parseArrayField } from "./fieldParsingUtils";
 
 function createSummarySection(
@@ -31,8 +30,6 @@ function createSummarySection(
   }>,
   sectionTitles: Record<string, string>,
   translations?: Translations,
-  userData?: UserData,
-  fieldQuestions?: Record<string, { question?: string; pageTitle?: string }>,
 ): SummaryItem {
   // Group array fields by arrayBaseField first, then by arrayIndex
   const arrayFieldsByBase: Record<
@@ -85,26 +82,8 @@ function createSummarySection(
         const firstField = groupFields[0];
         const arrayIndex = firstField.arrayIndex || 0;
 
-        // Use the first field to get the proper page title with template replacement
-        const arrayData = userData && userData[baseFieldName];
-        const arrayItem =
-          Array.isArray(arrayData) && arrayData[arrayIndex]
-            ? arrayData[arrayIndex]
-            : {};
-        const firstFieldName =
-          Object.keys(arrayItem as Record<string, unknown>)[0] || "name";
-        const fullFieldName = `${baseFieldName}[${arrayIndex}].${firstFieldName}`;
-
-        // Use getUserDataFieldPageTitle to get properly replaced page title
-        const pageTitle = userData
-          ? getUserDataFieldPageTitle(
-              fullFieldName,
-              fieldQuestions || {},
-              userData,
-            )
-          : undefined;
-
-        const arrayTitle = pageTitle || `${baseFieldName} ${arrayIndex + 1}`;
+        // Simple array item numbering (e.g., "Item 1", "Item 2")
+        const arrayTitle = `${arrayIndex + 1}`;
 
         groupItems.push({
           question: arrayTitle,
@@ -209,7 +188,7 @@ export async function generateSummaryFromUserData(
       }>;
     }> = [];
 
-    for (const [boxKey, fields] of Object.entries(boxes)) {
+    for (const [, fields] of Object.entries(boxes)) {
       const boxFields = processBoxFields(
         fields,
         userData,
@@ -249,8 +228,6 @@ export async function generateSummaryFromUserData(
       allFields,
       groupingResult.sectionTitles,
       translations,
-      userData,
-      fieldQuestions,
     );
 
     sections.push(section);
