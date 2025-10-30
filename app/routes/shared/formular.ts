@@ -68,7 +68,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const arraySummaryData = contentData.arraySummaryData(flowController);
-  const stepData = contentData.getStepData();
+  const stepData = contentData.getStepData(pathname);
   const buttonNavigationProps = contentData.getButtonNavigation(
     flowController,
     pathname,

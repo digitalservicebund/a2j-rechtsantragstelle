@@ -84,9 +84,9 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/klagende-person/haustuergeschaeft",
     pageSchema: { klagendeHaustuergeschaeft: YesNoAnswer },
   },
-  beklagtePersonFuerWen: {
-    stepId: "gericht-pruefen/beklagte-person/fuer-wen",
-    pageSchema: { fuerWenBeklagen: z.enum(["person", "organisation"]) },
+  beklagtePersonGegenWen: {
+    stepId: "gericht-pruefen/beklagte-person/gegen-wen",
+    pageSchema: { gegenWenBeklagen: z.enum(["person", "organisation"]) },
   },
   beklagtePersonGeldVerdienen: {
     stepId: "gericht-pruefen/beklagte-person/geld-verdienen",

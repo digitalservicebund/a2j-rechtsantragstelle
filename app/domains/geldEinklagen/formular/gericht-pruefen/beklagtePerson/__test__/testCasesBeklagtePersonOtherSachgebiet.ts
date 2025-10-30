@@ -12,13 +12,13 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -27,13 +27,13 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
@@ -42,12 +42,12 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -55,12 +55,12 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "unknown",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
@@ -68,11 +68,11 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      fuerWenBeklagen: "person",
+      gegenWenBeklagen: "person",
       klagendeKaufmann: "no",
     },
     [
-      "/gericht-pruefen/beklagte-person/fuer-wen",
+      "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
     ],
   ],

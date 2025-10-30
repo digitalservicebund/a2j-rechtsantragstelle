@@ -1,11 +1,9 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import {
-  eigentuemerInputSchema,
-  unterhaltszahlungInputSchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { eigentuemerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { arbeitsausgabenArraySchema } from "../finanzielleAngaben/abzuege/pages";
+import { familyRelationshipSchema } from "../finanzielleAngaben/andere-unterhaltszahlungen/pages";
 
 export const createFinancialEntry = () => ({
   beschreibung: faker.word.sample(),
@@ -102,7 +100,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ],
   grundeigentum: [
     {
-      isBewohnt: "yes",
+      isBewohnt: "no",
       art: "einfamilienhaus",
       eigentuemer: eigentuemerInputSchema.enum.myselfAndSomeoneElse,
       flaeche: faker.number.int().toString(),
@@ -124,8 +122,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
   ],
   unterhaltszahlungen: [
     {
-      familyRelationship:
-        unterhaltszahlungInputSchema.shape.familyRelationship.enum.mother,
+      familyRelationship: familyRelationshipSchema.enum.mother,
       firstName: faker.person.firstName(),
       surname: faker.person.lastName(),
       birthday: faker.date.past().toString(),

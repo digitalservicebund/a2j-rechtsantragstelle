@@ -84,16 +84,10 @@ export const testCasesBeratungshilfeFormularDefault = {
       userInput: { telefonnummer: "" },
     },
     {
-      stepId: "/persoenliche-daten/nachbefragung",
-    },
-    {
       stepId: "/weitere-angaben",
       userInput: {
         weitereAngaben: "",
       },
-    },
-    {
-      stepId: "/abgabe/zusammenfassung",
     },
   ],
   basicFlow: [
@@ -275,16 +269,10 @@ export const testCasesBeratungshilfeFormularDefault = {
       userInput: { telefonnummer: "" },
     },
     {
-      stepId: "/persoenliche-daten/nachbefragung",
-    },
-    {
       stepId: "/weitere-angaben",
       userInput: {
         weitereAngaben: "",
       },
-    },
-    {
-      stepId: "/abgabe/zusammenfassung",
     },
   ],
 } satisfies FlowTestCases["testcases"];

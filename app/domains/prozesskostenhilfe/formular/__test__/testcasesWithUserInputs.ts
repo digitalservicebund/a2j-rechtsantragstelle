@@ -15,13 +15,8 @@ import { testCasesPKHFormularFinanzielleAngabenWohnung } from "~/domains/prozess
 import { testCasesPKHFormularGrundvoraussetzungen } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/__test__/testcases";
 import { testCasesPKHFormularPersoenlicheDaten } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/__test__/testcases";
 import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
-
-const showPKHZusammenfassung = await isFeatureFlagEnabled(
-  "showPKHZusammenfassung",
-);
 
 export const prozesskostenhilfeFormularTestCases = {
   xstateConfig: prozesskostenhilfeFormular.config,
@@ -101,9 +96,7 @@ export const prozesskostenhilfeFormularTestCases = {
         },
       },
       {
-        stepId: showPKHZusammenfassung
-          ? "/abgabe/zusammenfassung"
-          : "/abgabe/ende",
+        stepId: "/abgabe/ende",
       },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
@@ -140,14 +133,5 @@ export const prozesskostenhilfeFormularTestCases = {
         },
       },
     ],
-    // Uncomment when zusammenfassung page is released
-    // abgabe: [
-    //   {
-    //     stepId: "/abgabe/zusammenfassung",
-    //   },
-    //   {
-    //     stepId: "/abgabe/ende",
-    //   },
-    // ],
   },
 } satisfies FlowTestCases;

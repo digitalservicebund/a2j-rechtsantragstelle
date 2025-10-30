@@ -1,15 +1,5 @@
-import { beratungshilfePersoenlicheDatenDone } from "~/domains/beratungshilfe/formular/persoenlicheDaten/doneFunctions";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { anwaltlicheVertretungDone } from "./anwaltlicheVertretung/guards";
-import { einkommenDone } from "./finanzielleAngaben/einkommen/doneFunctions";
-import { rechtsproblemDone } from "./rechtsproblem/rechtsproblemDone";
 import type { BeratungshilfeFormularUserData } from "./userData";
-import { andereUnterhaltszahlungenDone } from "./finanzielleAngaben/andereUnterhaltszahlungen/doneFunctions";
-import { kinderDone } from "./finanzielleAngaben/kinder/doneFunctions";
-import { eigentumDone } from "./finanzielleAngaben/eigentum/doneFunctions";
-import { partnerDone } from "./finanzielleAngaben/partner/doneFunctions";
-import { ausgabenDone } from "./finanzielleAngaben/regelmaessigeAusgaben/doneFunctions";
-import { wohnungDone } from "./finanzielleAngaben/wohnung/doneFunctions";
 
 export const getAmtsgerichtStrings = (
   context: BeratungshilfeFormularUserData,
@@ -78,45 +68,6 @@ export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
 
 export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
-};
-
-export const getMissingInformationStrings = (
-  context: BeratungshilfeFormularUserData,
-) => {
-  const alwaysChecked = {
-    anwaltlicheVertretungMissingInformation: !anwaltlicheVertretungDone({
-      context,
-    }),
-    rechtsproblemMissingInformation: !rechtsproblemDone({ context }),
-    einkommenMissingInformation: !einkommenDone({ context }),
-    persoenlicheDatenMissingInformation: !beratungshilfePersoenlicheDatenDone({
-      context,
-    }),
-  };
-
-  let requiresEinkommenDone = {};
-
-  if (context.staatlicheLeistungen === "keine") {
-    requiresEinkommenDone = {
-      partnerMissingInformation: !partnerDone({ context }),
-      kinderMissingInformation: !kinderDone({ context }),
-      andereUnterhaltszahlungenMissingInformation:
-        !andereUnterhaltszahlungenDone({ context }),
-      wohnungMissingInformation: !wohnungDone({ context }),
-      eigentumMissingInformation: !eigentumDone({ context }),
-      ausgabenMissingInformation: !ausgabenDone({ context }),
-    };
-  } else if (context.staatlicheLeistungen === "buergergeld") {
-    requiresEinkommenDone = {
-      eigentumMissingInformation: !eigentumDone({ context }),
-    };
-  }
-  // For "grundsicherung" and "asylbewerberleistungen", requiresEinkommenDone remains {}
-
-  return {
-    ...alwaysChecked,
-    ...requiresEinkommenDone,
-  };
 };
 
 export const getWeitereDokumenteStrings = (

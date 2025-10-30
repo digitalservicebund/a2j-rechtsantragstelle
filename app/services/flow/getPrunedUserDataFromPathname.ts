@@ -1,5 +1,5 @@
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from "~/services/session.server";
 import { parsePathname } from "~/domains/flowIds";
 

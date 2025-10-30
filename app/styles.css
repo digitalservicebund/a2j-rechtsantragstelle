@@ -313,6 +313,10 @@ h1:focus {
   @apply text-blue-300;
 }
 
+.arrow-step-open:hover:not(.arrow-step:active) .triangle {
+  @apply text-blue-400;
+}
+
 .arrow-step-warning:active .triangle {
   @apply text-yellow-300;
 }

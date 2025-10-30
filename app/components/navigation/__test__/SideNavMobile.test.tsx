@@ -12,7 +12,7 @@ const dummyNavItems: NavItem[] = [
 describe("SideNavMobile", () => {
   it("clicking the menu opens the menu", () => {
     const { container, getByRole } = render(
-      <SideNavMobile navItems={dummyNavItems} />,
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
 
     const menuButton = getByRole("button");
@@ -25,7 +25,7 @@ describe("SideNavMobile", () => {
 
   it("clicking the overlay closes the menu", () => {
     const { container, getByRole, getByTestId } = render(
-      <SideNavMobile navItems={dummyNavItems} />,
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
     const menuButton = getByRole("button");
     expect(container).not.toHaveTextContent("Page 3");
@@ -38,14 +38,18 @@ describe("SideNavMobile", () => {
   });
 
   it("renders the main menu toggle with correct aria-label and text", () => {
-    const { getByRole } = render(<SideNavMobile navItems={dummyNavItems} />);
+    const { getByRole } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
     const toggleLabel = getByRole("button");
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
 
   it("renders the aria-expanded with the correct value", () => {
-    const { getByRole } = render(<SideNavMobile navItems={dummyNavItems} />);
+    const { getByRole } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
     const menuButton = getByRole("button");
     expect(menuButton).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(menuButton);
@@ -54,7 +58,7 @@ describe("SideNavMobile", () => {
 
   it("should focus in the first nav item when click in the menu button", async () => {
     const { getByRole, container } = render(
-      <SideNavMobile navItems={dummyNavItems} />,
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
     const menuButton = getByRole("button");
     fireEvent.click(menuButton);

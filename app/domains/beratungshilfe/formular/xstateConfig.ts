@@ -20,6 +20,7 @@ export const beratungshilfeXstateConfig = {
     arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
       "/beratungshilfe/antrag/finanzielle-angaben",
     ),
+    pruneDataFromPageSchema: true,
   },
   states: {
     start: {
@@ -38,7 +39,7 @@ export const beratungshilfeXstateConfig = {
     "weitere-angaben": {
       id: "weitere-angaben",
       meta: { done: weitereAngabenDone },
-      on: { BACK: "#persoenliche-daten.nachbefragung", SUBMIT: "#abgabe" },
+      on: { BACK: "#persoenliche-daten.telefonnummer", SUBMIT: "#abgabe" },
     },
     abgabe: abgabeXstateConfig,
   },
