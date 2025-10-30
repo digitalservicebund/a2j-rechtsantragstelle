@@ -2,8 +2,9 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "./userData";
 import {
-  finanzielleAngabeGuards,
   hasWeitereUnterhaltszahlungenYes,
+  livesAlone,
+  livesNotAlone,
 } from "../guards";
 import { berhAntragFinanzielleAngabenWohnungPages } from "./pages";
 import { wohnungDone } from "./doneFunctions";
@@ -38,11 +39,11 @@ export const berhAntragFinanzielleAngabenWohnungXstateConfig = {
         SUBMIT: [
           {
             target: steps.wohnkostenAllein.relative,
-            guard: finanzielleAngabeGuards.livesAlone,
+            guard: livesAlone,
           },
           {
             target: steps.personenAnzahl.relative,
-            guard: finanzielleAngabeGuards.livesNotAlone,
+            guard: livesNotAlone,
           },
         ],
       },

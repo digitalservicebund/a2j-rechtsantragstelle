@@ -154,9 +154,6 @@ export const translations = {
     },
   },
   navigationMobile: {
-    after: {
-      de: "Danach",
-    },
     closeMenu: {
       de: "Schritt-für-Schritt-Menü schließen",
     },

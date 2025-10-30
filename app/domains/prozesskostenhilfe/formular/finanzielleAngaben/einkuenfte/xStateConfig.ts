@@ -1,4 +1,3 @@
-import type { Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
 import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
@@ -14,6 +13,11 @@ import {
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "../../antragstellendePerson/guards";
+import type { Config } from "~/services/flow/server/types";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import type { ProzesskostenhilfeAntragstellendePersonUserData } from "../../antragstellendePerson/userData";
+import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "../../grundvoraussetzungen/userData";
+import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "../../rechtsschutzversicherung/userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenEinkuenftePages,
@@ -101,7 +105,8 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: einkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+            guard: ({ context }) =>
+              context.staatlicheLeistungen === "buergergeld",
             target: steps.buergergeld.relative,
           },
           {
@@ -144,7 +149,8 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             ],
             BACK: [
               {
-                guard: einkuenfteGuards.staatlicheLeistungenIsBuergergeld,
+                guard: ({ context }) =>
+                  context.staatlicheLeistungen === "buergergeld",
                 target: steps.buergergeld.absolute,
               },
               {
@@ -443,4 +449,9 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
       },
     },
   },
-} as Flow["config"];
+} satisfies Config<
+  ProzesskostenhilfeFinanzielleAngabenUserData &
+    ProzesskostenhilfeAntragstellendePersonUserData &
+    ProzesskostenhilfeGrundvoraussetzungenUserData &
+    ProzesskostenhilfeRechtsschutzversicherungUserData
+>;

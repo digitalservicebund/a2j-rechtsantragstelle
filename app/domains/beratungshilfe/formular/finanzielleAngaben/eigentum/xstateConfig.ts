@@ -2,10 +2,10 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenEigentumPages } from "./pages";
 import {
-  finanzielleAngabeGuards,
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
   hasKraftfahrzeugYes,
+  hasPartnerschaftYesAndNoStaatlicheLeistungen,
   hasWertsacheYes,
   isGeldanlageBargeld,
   isGeldanlageBefristet,
@@ -15,6 +15,8 @@ import {
   isGeldanlageSonstiges,
   isGeldanlageWertpapiere,
   isKraftfahrzeugWertAbove10000OrUnsure,
+  livesAlone,
+  livesNotAlone,
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
@@ -40,8 +42,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard:
-              finanzielleAngabeGuards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
+            guard: hasPartnerschaftYesAndNoStaatlicheLeistungen,
             target: steps.eigentumHeiratInfo.relative,
           },
           "bankkonten",
@@ -52,11 +53,11 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             target: "#einkommen.staatliche-leistungen",
           },
           {
-            guard: finanzielleAngabeGuards.livesAlone,
+            guard: livesAlone,
             target: "#finanzielle-angaben.wohnung.wohnkosten-allein",
           },
           {
-            guard: finanzielleAngabeGuards.livesNotAlone,
+            guard: livesNotAlone,
             target: "#finanzielle-angaben.wohnung.wohnkosten-geteilt",
           },
           "#finanzielle-angaben.wohnung.groesse",
@@ -76,8 +77,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
           on: {
             BACK: [
               {
-                guard:
-                  finanzielleAngabeGuards.hasPartnerschaftYesAndNoStaatlicheLeistungen,
+                guard: hasPartnerschaftYesAndNoStaatlicheLeistungen,
                 target: "#eigentum.heirat-info",
               },
               "#eigentum.eigentum-info",
