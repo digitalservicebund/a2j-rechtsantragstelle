@@ -210,7 +210,7 @@ describe("G_eigentum", () => {
           .markeTypBaujahrAnschaffungsjahrAlleinoderMiteigentumKilometerstand
           .value,
       ).toBe(
-        "Wird nicht für Arbeitsweg gebraucht, Art: auto, Marke: Audi, Baujahr: 2000, Kilometerstand: 200000",
+        "Wird nicht für Arbeitsweg gebraucht, Art: auto, Marke: Audi, Kilometerstand: 200000, Baujahr: 2000",
       );
     });
 

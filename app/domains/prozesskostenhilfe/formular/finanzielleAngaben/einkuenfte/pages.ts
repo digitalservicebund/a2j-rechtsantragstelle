@@ -5,15 +5,19 @@ import { buildMoneyValidationSchema } from "~/services/validation/money/buildMon
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const financialEntrySchema = z.object({
-  beschreibung: stringRequiredSchema,
-  betrag: buildMoneyValidationSchema(),
-  zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
-});
+export type FinancialEntry = z.infer<
+  typeof weitereEinkuenfteArraySchema.element
+>;
 
-export type FinancialEntry = z.infer<typeof financialEntrySchema>;
-
-export const weitereEinkuenfteArraySchema = financialEntrySchema.array().min(1);
+const weitereEinkuenfteArraySchema = z
+  .array(
+    z.object({
+      beschreibung: stringRequiredSchema,
+      betrag: buildMoneyValidationSchema(),
+      zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
+    }),
+  )
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   einkuenfteStart: {
