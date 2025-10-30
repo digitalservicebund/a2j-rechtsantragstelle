@@ -1,4 +1,4 @@
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 
 const mockPrunerData = {
@@ -10,7 +10,7 @@ const mockPrunerData = {
   },
 };
 
-vi.mock("~/services/flow/pruner");
+vi.mock("~/services/flow/pruner/pruner");
 
 vi.mocked(pruneIrrelevantData).mockResolvedValue(mockPrunerData);
 

@@ -4,6 +4,17 @@ import type { Config } from "~/services/flow/server/types";
 import { kinderDone } from "../doneFunctions";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import {
+  hasKinderYesAndEmptyArray,
+  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
+  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
+  isValidKinderArrayIndex,
+  kindEigeneEinnahmenYes,
+  kindUnterhaltNo,
+  kindUnterhaltYes,
+  kindWohnortBeiAntragstellerNo,
+  kindWohnortBeiAntragstellerYes,
+} from "../guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenKinderPages,
@@ -25,7 +36,7 @@ export const kinderXstateConfig = {
         ],
         BACK: [
           {
-            guard: "hasPartnerschaftNo",
+            guard: ({ context }) => context.partnerschaft !== "yes",
             target: "#partner",
           },
           {
@@ -34,19 +45,20 @@ export const kinderXstateConfig = {
             target: "#partner-einkuenfte.partner-staatliche-leistungen",
           },
           {
-            guard: "partnerEinkommenNo",
+            guard: ({ context }) => context.partnerEinkommen === "yes",
             target: "#partner.partner-einkuenfte",
           },
           {
-            guard: "partnerHasBesondersAusgabenYes",
+            guard: ({ context }) =>
+              context.partnerHasBesondersAusgaben === "yes",
             target: "#partner-einkuenfte.add-partner-besonders-ausgaben",
           },
           {
-            guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes",
+            guard: hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
             target: "#partner.partner-name",
           },
           {
-            guard: "hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo",
+            guard: hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
             target: "#partner.keine-rolle",
           },
           "#partner-einkuenfte.partner-besonders-ausgaben",
@@ -58,13 +70,13 @@ export const kinderXstateConfig = {
         BACK: steps.kinderFrage.relative,
         SUBMIT: [
           {
-            guard: "hasKinderYesAndEmptyArray",
+            guard: hasKinderYesAndEmptyArray,
             target: steps.kinderWarnung.relative,
           },
           "#andere-unterhaltszahlungen",
         ],
         "add-kinder": {
-          guard: "isValidKinderArrayIndex",
+          guard: isValidKinderArrayIndex,
           target: steps.kinder.relative,
         },
       },
@@ -89,11 +101,11 @@ export const kinderXstateConfig = {
             BACK: "name",
             SUBMIT: [
               {
-                guard: "kindWohnortBeiAntragstellerYes",
+                guard: kindWohnortBeiAntragstellerYes,
                 target: "kind-eigene-einnahmen-frage",
               },
               {
-                guard: "kindWohnortBeiAntragstellerNo",
+                guard: kindWohnortBeiAntragstellerNo,
                 target: "kind-unterhalt-frage",
               },
             ],
@@ -104,7 +116,7 @@ export const kinderXstateConfig = {
             BACK: "wohnort",
             SUBMIT: [
               {
-                guard: "kindEigeneEinnahmenYes",
+                guard: kindEigeneEinnahmenYes,
                 target: "kind-eigene-einnahmen",
               },
               `#kinder.${steps.kinderUebersicht.relative}`,
@@ -122,11 +134,11 @@ export const kinderXstateConfig = {
             BACK: "wohnort",
             SUBMIT: [
               {
-                guard: "kindUnterhaltYes",
+                guard: kindUnterhaltYes,
                 target: "kind-unterhalt",
               },
               {
-                guard: "kindUnterhaltNo",
+                guard: kindUnterhaltNo,
                 target: "kind-unterhalt-ende",
               },
             ],

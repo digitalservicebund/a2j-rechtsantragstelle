@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { bankkontenArraySchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { eigentuemerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -10,16 +10,29 @@ import { createYearSchema } from "~/services/validation/year";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { today } from "~/util/date";
 
+export const bankkontenArraySchema = z
+  .array(
+    z.object({
+      bankName: stringRequiredSchema,
+      kontostand: buildMoneyValidationSchema({}),
+      iban: stringOptionalSchema,
+      kontoEigentuemer: eigentuemerInputSchema,
+      kontoDescription: stringOptionalSchema,
+    }),
+  )
+  .min(1);
+
+const geldanlagenArtSchema = z.enum([
+  "bargeld",
+  "wertpapiere",
+  "guthabenkontoKrypto",
+  "giroTagesgeldSparkonto",
+  "befristet",
+  "forderung",
+  "sonstiges",
+]);
+
 const sharedGeldanlagenFields = {
-  art: z.enum([
-    "bargeld",
-    "wertpapiere",
-    "guthabenkontoKrypto",
-    "giroTagesgeldSparkonto",
-    "befristet",
-    "forderung",
-    "sonstiges",
-  ]),
   eigentuemer: z.enum([
     "myself",
     "partner",
@@ -31,7 +44,7 @@ const sharedGeldanlagenFields = {
 
 const sparkontoSchema = z.object({
   ...sharedGeldanlagenFields,
-  art: z.literal("giroTagesgeldSparkonto"),
+  art: z.literal(geldanlagenArtSchema.enum.giroTagesgeldSparkonto),
   kontoBankName: stringRequiredSchema,
   kontoIban: stringOptionalSchema,
   kontoBezeichnung: stringOptionalSchema,
@@ -39,7 +52,7 @@ const sparkontoSchema = z.object({
 
 const befristetSchema = z.object({
   ...sharedGeldanlagenFields,
-  art: z.literal("befristet"),
+  art: z.literal(geldanlagenArtSchema.enum.befristet),
   befristetArt: z.enum([
     "lifeInsurance",
     "buildingSavingsContract",
@@ -51,13 +64,13 @@ const befristetSchema = z.object({
 
 const forderungSchema = z.object({
   ...sharedGeldanlagenFields,
-  art: z.literal("forderung"),
+  art: z.literal(geldanlagenArtSchema.enum.forderung),
   forderung: stringOptionalSchema,
 });
 
 const sonstigesSchema = z.object({
   ...sharedGeldanlagenFields,
-  art: z.literal("sonstiges"),
+  art: z.literal(geldanlagenArtSchema.enum.sonstiges),
   verwendungszweck: stringOptionalSchema,
 });
 
@@ -65,6 +78,11 @@ export const geldanlagenArraySchema = z
   .union([
     z.object({
       ...sharedGeldanlagenFields,
+      art: z.enum([
+        geldanlagenArtSchema.enum.bargeld,
+        geldanlagenArtSchema.enum.wertpapiere,
+        geldanlagenArtSchema.enum.guthabenkontoKrypto,
+      ]),
     }),
     sparkontoSchema,
     befristetSchema,
@@ -111,20 +129,18 @@ export const kraftfahrzeugeArraySchema = z
   .array()
   .min(1);
 
-export const wertgegenstandArraySchema = z
-  .array(
-    z.object({
-      art: stringRequiredSchema,
-      eigentuemer: z.enum([
-        "myself",
-        "partner",
-        "myselfAndPartner",
-        "myselfAndSomeoneElse",
-      ]),
-      wert: buildMoneyValidationSchema(),
-    }),
-  )
-  .min(1);
+export const wertsacheSchema = z.object({
+  art: stringRequiredSchema,
+  eigentuemer: z.enum([
+    "myself",
+    "partner",
+    "myselfAndPartner",
+    "myselfAndSomeoneElse",
+  ]),
+  wert: buildMoneyValidationSchema(),
+});
+
+export const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 
 const sharedEigentumFields = {
   isBewohnt: z.enum(["yes", "family", "no"]),
@@ -225,7 +241,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arrayPages: {
       art: {
         pageSchema: {
-          "geldanlagen#art": sharedGeldanlagenFields.art,
+          "geldanlagen#art": geldanlagenArtSchema,
         },
       },
       bargeld: {
@@ -353,15 +369,14 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumWertgegenstand: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
     pageSchema: {
-      wertsachen: wertgegenstandArraySchema,
+      wertsachen: wertsachenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
-          "wertsachen#art": wertgegenstandArraySchema.element.shape.art,
-          "wertsachen#eigentuemer":
-            wertgegenstandArraySchema.element.shape.eigentuemer,
-          "wertsachen#wert": wertgegenstandArraySchema.element.shape.wert,
+          "wertsachen#art": wertsacheSchema.shape.art,
+          "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
+          "wertsachen#wert": wertsacheSchema.shape.wert,
         },
       },
     },
@@ -371,15 +386,10 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum",
-    pageSchema: {
-      hasGrundeigentum: YesNoAnswer,
-    },
   },
   eigentumGrundeigentumFrage: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
-    pageSchema: {
-      hasGrundeigentum: YesNoAnswer,
-    },
+    pageSchema: { hasGrundeigentum: YesNoAnswer },
   },
   eigentumGrundeigentumUebersicht: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/uebersicht",

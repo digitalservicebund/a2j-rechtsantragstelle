@@ -3,6 +3,13 @@ import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskos
 import type { Config } from "~/services/flow/server/types";
 import { ausgabenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import { eigentumDone } from "../eigentum/doneFunctions";
+import {
+  eigentumYesAndEmptyArray,
+  isSonstigeVersicherung,
+  ratenzahlungAnteiligYes,
+  sonstigeAusgabeAnteiligYes,
+} from "../guards";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenAusgabenPages,
@@ -19,11 +26,11 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
         on: {
           BACK: [
             {
-              guard: "eigentumYesAndEmptyArray",
+              guard: eigentumYesAndEmptyArray,
               target: "#eigentum-zusammenfassung.warnung",
             },
             {
-              guard: "eigentumDone",
+              guard: eigentumDone,
               target: "#eigentum-zusammenfassung.zusammenfassung",
             },
             "#eigentum.kraftfahrzeuge-frage",
@@ -66,7 +73,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
               BACK: steps.ausgabenZusammenfassung.absolute,
               SUBMIT: [
                 {
-                  guard: "isSonstigeVersicherung",
+                  guard: isSonstigeVersicherung,
                   target: "sonstige-art",
                 },
                 steps.ausgabenZusammenfassung.absolute,
@@ -95,7 +102,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
               BACK: "daten",
               SUBMIT: [
                 {
-                  guard: "ratenzahlungAnteiligYes",
+                  guard: ratenzahlungAnteiligYes,
                   target: "betragGemeinsamerAnteil",
                 },
                 "betragGesamt",
@@ -124,7 +131,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
             on: {
               BACK: [
                 {
-                  guard: "ratenzahlungAnteiligYes",
+                  guard: ratenzahlungAnteiligYes,
                   target: "betragEigenerAnteil",
                 },
                 "betragGesamt",
@@ -154,7 +161,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
               BACK: "daten",
               SUBMIT: [
                 {
-                  guard: "sonstigeAusgabeAnteiligYes",
+                  guard: sonstigeAusgabeAnteiligYes,
                   target: "betragGemeinsamerAnteil",
                 },
                 "betragGesamt",

@@ -1,7 +1,7 @@
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
 import { getContext } from "~/domains/userData";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from ".";
 import pick from "lodash/pick";
 
