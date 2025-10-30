@@ -22,11 +22,10 @@ function replaceTemplateVariables(
     if (Array.isArray(arrayData) && arrayData[arrayIndex]) {
       const arrayItem = arrayData[arrayIndex] as Record<string, unknown>;
 
-      // Replace template variables like {{kind#vorname}} and {{kind#nachname}}
+      // Replace template variables like {{kinder#vorname}} and {{bankkonten#inhaber}}
       result = result.replace(
         /\{\{(\w+)#(\w+)\}\}/g,
         (match, arrayType, fieldKey) => {
-          // Handle both "kind" and "kinder" for backwards compatibility
           if (
             arrayType === baseFieldName ||
             (arrayType === "kind" && baseFieldName === "kinder")

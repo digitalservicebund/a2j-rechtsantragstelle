@@ -34,8 +34,11 @@ function createSummarySection(
   userData?: UserData,
   fieldQuestions?: Record<string, { question?: string; pageTitle?: string }>,
 ): SummaryItem {
-  // Group array fields by arrayBaseField and arrayIndex
-  const arrayGroups: Record<string, typeof allFields> = {};
+  // Group array fields by arrayBaseField first, then by arrayIndex
+  const arrayFieldsByBase: Record<
+    string,
+    Record<string, typeof allFields>
+  > = {};
   const nonArrayFields: typeof allFields = [];
 
   for (const field of allFields) {
@@ -44,59 +47,87 @@ function createSummarySection(
       field.arrayBaseField !== undefined &&
       field.arrayIndex !== undefined
     ) {
-      const groupKey = `${field.arrayBaseField}-${field.arrayIndex}`;
-      if (!arrayGroups[groupKey]) {
-        arrayGroups[groupKey] = [];
+      const baseFieldName = field.arrayBaseField;
+      const groupKey = `${baseFieldName}-${field.arrayIndex}`;
+
+      if (!arrayFieldsByBase[baseFieldName]) {
+        arrayFieldsByBase[baseFieldName] = {};
       }
-      arrayGroups[groupKey].push(field);
+      if (!arrayFieldsByBase[baseFieldName][groupKey]) {
+        arrayFieldsByBase[baseFieldName][groupKey] = [];
+      }
+      arrayFieldsByBase[baseFieldName][groupKey].push(field);
     } else {
       nonArrayFields.push(field);
     }
   }
 
-  // Convert array groups to single fields with multipleQuestions
-  const processedFields: typeof allFields = [...nonArrayFields];
+  // Create array groups for each base field
+  const arrayGroups: Array<{
+    id: string;
+    title: string;
+    items: Array<{
+      question: string;
+      answer: string;
+      editUrl?: string;
+      multipleQuestions?: Array<{
+        question: string;
+        answer: string;
+      }>;
+    }>;
+  }> = [];
 
-  for (const [, groupFields] of Object.entries(arrayGroups)) {
-    if (groupFields.length > 0) {
-      const firstField = groupFields[0];
+  for (const [baseFieldName, itemGroups] of Object.entries(arrayFieldsByBase)) {
+    const groupItems = [];
 
-      // Get the page title from field questions or use a fallback
-      const baseFieldName = firstField.arrayBaseField || "";
-      const arrayIndex = firstField.arrayIndex || 0;
+    for (const [, groupFields] of Object.entries(itemGroups)) {
+      if (groupFields.length > 0) {
+        const firstField = groupFields[0];
+        const arrayIndex = firstField.arrayIndex || 0;
 
-      // Use the first field to get the proper page title with template replacement
-      const arrayData = userData && userData[baseFieldName];
-      const arrayItem =
-        Array.isArray(arrayData) && arrayData[arrayIndex]
-          ? arrayData[arrayIndex]
-          : {};
-      const firstFieldName =
-        Object.keys(arrayItem as Record<string, unknown>)[0] || "name";
-      const fullFieldName = `${baseFieldName}[${arrayIndex}].${firstFieldName}`;
+        // Use the first field to get the proper page title with template replacement
+        const arrayData = userData && userData[baseFieldName];
+        const arrayItem =
+          Array.isArray(arrayData) && arrayData[arrayIndex]
+            ? arrayData[arrayIndex]
+            : {};
+        const firstFieldName =
+          Object.keys(arrayItem as Record<string, unknown>)[0] || "name";
+        const fullFieldName = `${baseFieldName}[${arrayIndex}].${firstFieldName}`;
 
-      // Use getUserDataFieldPageTitle to get properly replaced page title
-      const pageTitle = userData
-        ? getUserDataFieldPageTitle(
-            fullFieldName,
-            fieldQuestions || {},
-            userData,
-          )
-        : undefined;
+        // Use getUserDataFieldPageTitle to get properly replaced page title
+        const pageTitle = userData
+          ? getUserDataFieldPageTitle(
+              fullFieldName,
+              fieldQuestions || {},
+              userData,
+            )
+          : undefined;
 
-      const arrayTitle = pageTitle || `${baseFieldName} ${arrayIndex + 1}`;
+        const arrayTitle = pageTitle || `${baseFieldName} ${arrayIndex + 1}`;
 
-      processedFields.push({
-        question: arrayTitle,
-        answer: "", // Empty for array items
-        editUrl: firstField.editUrl,
-        isArrayItem: true,
-        arrayIndex: firstField.arrayIndex,
-        arrayBaseField: firstField.arrayBaseField,
-        multipleQuestions: groupFields.map((field) => ({
-          question: field.question,
-          answer: field.answer,
-        })),
+        groupItems.push({
+          question: arrayTitle,
+          answer: "", // Empty for array items
+          editUrl: firstField.editUrl,
+          multipleQuestions: groupFields.map((field) => ({
+            question: field.question,
+            answer: field.answer,
+          })),
+        });
+      }
+    }
+
+    if (groupItems.length > 0) {
+      // Get a human-readable title for the array base field
+      const arrayGroupTitle =
+        translations?.[baseFieldName] ||
+        baseFieldName.charAt(0).toUpperCase() + baseFieldName.slice(1);
+
+      arrayGroups.push({
+        id: baseFieldName,
+        title: arrayGroupTitle,
+        items: groupItems,
       });
     }
   }
@@ -105,7 +136,8 @@ function createSummarySection(
     id: sectionName,
     title:
       sectionTitles[sectionName] ?? translations?.[sectionName] ?? sectionName,
-    fields: processedFields,
+    fields: nonArrayFields,
+    arrayGroups: arrayGroups.length > 0 ? arrayGroups : undefined,
   };
 }
 
@@ -131,10 +163,7 @@ export async function generateSummaryFromUserData(
     fieldToStepMapping,
   );
 
-  // Filter out nested object fields when parent object exists (to avoid duplication)
-  // But keep array fields like bankkonten[0].bankName
   const filteredFields = expandedFields.filter((field) => {
-    // If this is a nested field (contains dot) but NOT an array field
     if (field.includes(".") && !field.includes("[")) {
       const parentField = field.split(".")[0];
       // If parent exists and is a non-array object, don't render the nested field separately
@@ -180,7 +209,7 @@ export async function generateSummaryFromUserData(
       }>;
     }> = [];
 
-    for (const [, fields] of Object.entries(boxes)) {
+    for (const [boxKey, fields] of Object.entries(boxes)) {
       const boxFields = processBoxFields(
         fields,
         userData,
@@ -189,25 +218,26 @@ export async function generateSummaryFromUserData(
       );
 
       // Check if these are array fields and add array metadata
-      for (const field of boxFields) {
-        const firstFieldName = fields[0];
+      const processedFields = boxFields.map((field, index) => {
+        const fieldName = fields[index]; // Use the corresponding field name for this field
         // Handle both "name[index]" and "name[index].subfield" patterns
-        const fieldInfo = parseArrayField(firstFieldName || "");
+        const fieldInfo = parseArrayField(fieldName || "");
 
         if (fieldInfo.isArrayField) {
-          const baseField = fieldInfo.baseFieldName;
-          const arrayIndex = fieldInfo.arrayIndex;
+          const { baseFieldName, arrayIndex } = fieldInfo;
 
-          allFields.push({
+          return {
             ...field,
             isArrayItem: true,
             arrayIndex,
-            arrayBaseField: baseField,
-          });
-        } else {
-          allFields.push(field);
+            arrayBaseField: baseFieldName,
+          } as const;
         }
-      }
+
+        return field;
+      });
+
+      allFields.push(...processedFields);
     }
 
     if (allFields.length === 0) {

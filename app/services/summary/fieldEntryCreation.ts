@@ -3,7 +3,8 @@ import { formatFieldValue } from "./formatFieldValue";
 import { isUserDataFieldEmpty } from "./fieldValidation";
 import { getUserDataFieldLabel } from "./templateReplacement";
 import { getArrayItemValue, createArrayEditUrl } from "./arrayFieldProcessing";
-import { parseArrayField, isArrayField } from "./fieldParsingUtils";
+import { parseArrayField } from "./fieldParsingUtils";
+import { findStepIdForField } from "./getFormQuestions";
 
 export function createFieldEntry(
   fieldName: string,
@@ -57,7 +58,7 @@ export function createFieldEntry(
   const fieldQuestion = fieldQuestions[actualFieldName];
 
   const answer = isEmpty
-    ? "Keine Angabe"
+    ? "Keine Angabe" // need to get this from CMS for translations
     : formatFieldValue(
         value,
         fieldQuestion?.options,
@@ -93,31 +94,19 @@ export function processBoxFields(
   if (fields.length === 0) {
     return [];
   }
-
   // Find representative stepId for edit URLs
-  // For array fields, try to find the first step in the array flow (usually 'name' or similar)
+  // For array fields, try to find the first step in the array flow
   let representativeField = fields[0];
-  let representativeStepId = fieldToStepMapping[representativeField];
-
-  // For array fields, look for a better representative field (like 'name' which is usually first)
-  const isArrayFields = fields[0] ? isArrayField(fields[0]) : false;
-  if (isArrayFields) {
-    const nameField = fields.find(
-      (field) =>
-        field.includes(".vorname") ||
-        field.includes(".name") ||
-        field.includes(".nachname"),
-    );
-    if (nameField && fieldToStepMapping[nameField]) {
-      representativeField = nameField;
-      representativeStepId = fieldToStepMapping[nameField];
-    }
-  }
+  let representativeStepId = findStepIdForField(
+    representativeField,
+    fieldToStepMapping,
+  );
 
   // Skip boxes that don't have a real stepId
   if (!representativeStepId) {
     return [];
   }
+  console.log(representativeField, representativeStepId);
 
   return fields.map((fieldName) =>
     createFieldEntry(fieldName, userData, fieldQuestions, representativeStepId),

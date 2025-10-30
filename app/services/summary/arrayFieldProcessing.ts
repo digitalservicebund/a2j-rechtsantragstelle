@@ -23,12 +23,14 @@ function getArraySubFields(
   fieldToStepMapping: Record<string, string>,
 ): string[] {
   // Find all form fields that start with "baseFieldName#"
-  return Object.keys(fieldToStepMapping)
+  const s = Object.keys(fieldToStepMapping)
     .filter(
       (field) => fieldIsArray(field) && field.startsWith(`${baseFieldName}#`),
     )
     .map((field) => field.split("#")[1]) // Extract the sub-field name after #
     .filter(Boolean);
+  console.log(baseFieldName, s);
+  return s;
 }
 
 export function expandArrayFields(
@@ -43,15 +45,19 @@ export function expandArrayFields(
     const hasArrayFields = hasArrayFormFields(fieldName, fieldToStepMapping);
 
     if (isArray && hasArrayFields) {
-      // This is an array field with form mappings - expand it into sub-fields
+      // Expand array fields into sub-fields
       const arrayValue = userData[fieldName] as Array<Record<string, unknown>>;
       const subFields = getArraySubFields(fieldName, fieldToStepMapping);
 
       // Add each array item's sub-fields as separate fields
       for (let index = 0; index < arrayValue.length; index++) {
+        const arrayItem = arrayValue[index] as Record<string, unknown>;
         for (const subField of subFields) {
-          const expandedField = `${fieldName}[${index}].${subField}`;
-          expandedFields.push(expandedField);
+          // Only add fields that actually exist in the userData
+          if (arrayItem && subField in arrayItem) {
+            const expandedField = `${fieldName}[${index}].${subField}`;
+            expandedFields.push(expandedField);
+          }
         }
       }
     } else {
@@ -71,6 +77,7 @@ export function getArrayItemValue(
   const fieldInfo = parseArrayField(arrayFieldName);
   const baseFieldName = fieldInfo.baseFieldName;
   const arrayValue = userData[baseFieldName];
+  // console.log("Array value", arrayValue);
 
   if (Array.isArray(arrayValue) && arrayValue[index]) {
     return arrayValue[index] as Record<string, unknown>;
@@ -87,6 +94,19 @@ export function createArrayEditUrl(
   const fieldInfo = parseArrayField(arrayFieldName);
 
   if (fieldInfo.isArrayField) {
+    // For array fields, we need to insert the array index in the correct position
+    // Example: "/finanzielle-angaben/kinder/kinder/name" -> "/finanzielle-angaben/kinder/kinder/0/name"
+
+    const pathParts = representativeStepId.split("/");
+
+    if (pathParts.length >= 4) {
+      // Insert array index before the last part (field name)
+      const lastIndex = pathParts.length - 1;
+      pathParts.splice(lastIndex, 0, fieldInfo.arrayIndex.toString());
+      return `..${pathParts.join("/")}`;
+    }
+
+    // Fallback for simpler paths
     return `..${representativeStepId}/${fieldInfo.arrayIndex}`;
   }
 

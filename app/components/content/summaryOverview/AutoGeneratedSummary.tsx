@@ -16,10 +16,17 @@ export type FieldItem = {
   }>;
 };
 
+export type ArrayGroup = {
+  id?: string | number;
+  title: string;
+  items: FieldItem[];
+};
+
 export type SummaryItem = {
   id?: string | number;
   title: string;
   fields: FieldItem[];
+  arrayGroups?: ArrayGroup[];
 };
 
 export type CollapsibleProps = {
@@ -41,7 +48,7 @@ function SummarySection({
   readonly onGlobalToggle?: (itemId: string | number, isOpen: boolean) => void;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
-  console.log(item);
+  // console.log(item);
 
   const handleToggle = () => {
     if (onGlobalToggle && detailsRef.current) {
@@ -70,13 +77,12 @@ function SummarySection({
         </span>
       </summary>
 
+      {/* Render regular fields */}
       {item.fields.map((field, index) => (
         <div
-          key={`${field.question}-${index}`}
-          className={`bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ${index === 0 ? "mt-16" : ""}`}
+          key={`field-${field.question}-${index}`}
+          className={`bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ${index === 0 && !item.arrayGroups ? "mt-16" : ""}`}
         >
-          {/* <div className="ds-subhead mb-8">{field.question}</div> */}
-
           {/* Render multiple questions if they exist, otherwise single question */}
           {field.multipleQuestions ? (
             field.multipleQuestions.map((qa, qaIndex) => (
@@ -103,6 +109,59 @@ function SummarySection({
               />
             </div>
           )}
+        </div>
+      ))}
+
+      {/* Render array groups */}
+      {item.arrayGroups?.map((arrayGroup, groupIndex) => (
+        <div
+          key={`array-group-${arrayGroup.id}`}
+          className={`${groupIndex === 0 && item.fields.length === 0 ? "mt-16" : ""}`}
+        >
+          {/* Array group title */}
+          <div className="p-12 mb-8">
+            <h4 className="ds-body-01 text-blue-900">{arrayGroup.title}</h4>
+          </div>
+
+          {/* Array group items */}
+          {arrayGroup.items.map((arrayItem, itemIndex) => (
+            <div
+              key={`array-item-${arrayGroup.id}-${itemIndex}`}
+              className="bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ml-0"
+            >
+              {/* Render multiple questions for array item */}
+              {arrayItem.multipleQuestions ? (
+                arrayItem.multipleQuestions.map((qa, qaIndex) => (
+                  <div
+                    key={`array-qa-${qaIndex}`}
+                    className="flex items-start gap-32"
+                  >
+                    <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
+                    <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-start gap-32">
+                  <dt className="ds-body-01-bold flex-1">
+                    {arrayItem.question}
+                  </dt>
+                  <dd className="ds-body-01-reg flex-1">{arrayItem.answer}</dd>
+                </div>
+              )}
+
+              {/* Edit button for array item */}
+              {arrayItem.editUrl && (
+                <div>
+                  <StandaloneLink
+                    url={arrayItem.editUrl}
+                    className="flex gap-2 ds-link-01-bold items-start"
+                    icon={<EditIcon className="shrink-0 inline" />}
+                    text="Bearbeiten"
+                  />
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       ))}
     </details>

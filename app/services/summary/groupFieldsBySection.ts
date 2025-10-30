@@ -5,11 +5,8 @@ import {
   getSectionFromStepId,
   addFieldToGroup,
 } from "./sectionMapping";
-import {
-  parseArrayField,
-  createArrayFieldKey,
-  createArrayBoxKey,
-} from "./fieldParsingUtils";
+import { createArrayBoxKey } from "./fieldParsingUtils";
+import { findStepIdForField } from "./getFormQuestions";
 
 // Sections to exclude from auto-generated summaries
 const EXCLUDED_SECTIONS = new Set([
@@ -39,43 +36,8 @@ export function groupFieldsByFlowNavigation(
   const sectionTitles: Record<string, string> = {};
 
   for (const field of fields) {
-    let stepId = fieldToStepMapping[field];
-
-    if (!stepId) {
-      // Look for nested field patterns like "berufart.selbststaendig" -> "/finanzielle-angaben/einkommen/art"
-      const nestedFieldMapping = Object.entries(fieldToStepMapping).find(
-        ([mappedField]) => mappedField.startsWith(`${field}.`),
-      );
-
-      if (nestedFieldMapping) {
-        stepId = nestedFieldMapping[1];
-        fieldToStepMapping[field] = stepId;
-      }
-    }
-
-    // Handle array fields like "kinder[0]" -> look for "kinder#" mappings
-    const fieldInfo = parseArrayField(field);
-    if (!stepId && fieldInfo.isArrayField && !fieldInfo.isArraySubField) {
-      const arrayFieldMapping = Object.entries(fieldToStepMapping).find(
-        ([mappedField]) =>
-          mappedField.includes("#") &&
-          mappedField.startsWith(`${fieldInfo.baseFieldName}#`),
-      );
-
-      if (arrayFieldMapping) {
-        stepId = arrayFieldMapping[1];
-        fieldToStepMapping[field] = stepId;
-      }
-    }
-
-    // Handle array sub-fields like "bankkonten[0].kontoEigentuemer" or "kinder[0].vorname" -> look for "bankkonten#kontoEigentuemer" mappings
-    if (!stepId && fieldInfo.isArraySubField) {
-      const arrayFieldKey = createArrayFieldKey(field);
-      stepId = fieldToStepMapping[arrayFieldKey];
-      if (stepId) {
-        fieldToStepMapping[field] = stepId;
-      }
-    }
+    // Use the existing field resolution logic from getFormQuestions
+    const stepId = findStepIdForField(field, fieldToStepMapping);
 
     if (!stepId) {
       // Field not found in any step, put it in "other" section

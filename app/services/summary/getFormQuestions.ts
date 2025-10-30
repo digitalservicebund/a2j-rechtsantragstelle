@@ -7,7 +7,11 @@ import {
   fetchAllFormFields,
   type FormFieldsMap,
 } from "~/services/cms/fetchAllFormFields";
-import { createArrayFieldKey, isArraySubField } from "./fieldParsingUtils";
+import {
+  createArrayFieldKey,
+  isArraySubField,
+  parseArrayField,
+} from "./fieldParsingUtils";
 
 export type FieldOption = {
   text: string;
@@ -34,11 +38,10 @@ export function createFieldToStepMapping(
     }
   }
 
-  // console.log("Mapping: ", mapping);
   return mapping;
 }
 
-function findStepIdForField(
+export function findStepIdForField(
   fieldName: string,
   fieldToStepMapping: Record<string, string>,
 ): string | undefined {
@@ -55,8 +58,21 @@ function findStepIdForField(
     }
   }
 
+  // Handle array fields like "kinder[0]" -> look for "kinder#" mappings
+  const fieldInfo = parseArrayField(fieldName);
+  if (!stepId && fieldInfo.isArrayField && !fieldInfo.isArraySubField) {
+    const arrayFieldMapping = Object.entries(fieldToStepMapping).find(
+      ([mappedField]) =>
+        mappedField.includes("#") &&
+        mappedField.startsWith(`${fieldInfo.baseFieldName}#`),
+    );
+    if (arrayFieldMapping) {
+      stepId = arrayFieldMapping[1];
+    }
+  }
+
   // Handle array sub-fields like "kinder[0].vorname" -> look for "kinder#vorname" mappings
-  if (!stepId && isArraySubField(fieldName)) {
+  if (!stepId && fieldInfo.isArraySubField) {
     const arrayFieldKey = createArrayFieldKey(fieldName);
     stepId = fieldToStepMapping[arrayFieldKey];
   }
