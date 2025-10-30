@@ -34,42 +34,6 @@ export const bankkontenArraySchema = z
   )
   .min(1);
 
-export type GeldanlagenArraySchema = z.infer<typeof geldanlagenArraySchema>;
-
-export const geldanlagenArraySchema = z.array(
-  z
-    .object({
-      art: z.enum([
-        "bargeld",
-        "wertpapiere",
-        "guthabenkontoKrypto",
-        "giroTagesgeldSparkonto",
-        "befristet",
-        "forderung",
-        "sonstiges",
-      ]),
-      eigentuemer: eigentuemerInputSchema,
-      wert: buildMoneyValidationSchema(),
-
-      kontoBankName: stringOptionalSchema,
-      kontoIban: stringOptionalSchema,
-      kontoBezeichnung: stringOptionalSchema,
-
-      befristetArt: z
-        .enum([
-          "lifeInsurance",
-          "buildingSavingsContract",
-          "fixedDepositAccount",
-        ])
-        .optional(),
-
-      forderung: stringOptionalSchema,
-      verwendungszweck: stringOptionalSchema,
-      auszahlungdatum: stringOptionalSchema,
-    })
-    .partial(),
-);
-
 export const besondereBelastungen = [
   "pregnancy",
   "singleParent",

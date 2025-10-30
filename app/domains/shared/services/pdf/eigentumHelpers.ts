@@ -3,16 +3,17 @@ import type {
   kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema,
   wertsacheSchema as berhWertsacheSchema,
   grundeigentumArraySchema as berhGrundeigentumArraySchema,
+  geldanlagenArraySchema as berhGeldanlagenArraySchema,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   wertsacheSchema as pkhWertsacheSchema,
   kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
   grundeigentumArraySchema as pkhGrundeigentumArraySchema,
+  geldanlagenArraySchema as pkhGeldanlagenArraySchema,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   BankkontenArraySchema,
   Eigentumer,
-  GeldanlagenArraySchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
@@ -32,6 +33,10 @@ export const eigentuemerMapping: Record<Eigentumer, string> = {
 type GrundeigentumArraySchema =
   | z.infer<typeof pkhGrundeigentumArraySchema>
   | z.infer<typeof berhGrundeigentumArraySchema>;
+
+type GeldanlagenArraySchema = z.infer<
+  typeof berhGeldanlagenArraySchema | typeof pkhGeldanlagenArraySchema
+>;
 
 export const grundeigentumArtMapping: Record<
   NonNullable<GrundeigentumArraySchema[0]["art"]>,
@@ -216,34 +221,36 @@ export const attachGeldanlagenToAnhang = (
         text: geldanlageEigentumer,
       },
     );
-    if (geldanlage.auszahlungdatum)
-      attachment.push({
-        title: "Auszahlungsdatum",
-        text: geldanlage.auszahlungdatum,
-      });
-    if (geldanlage.befristetArt)
-      attachment.push({
-        title: "Art der Befristung",
-        text: befristungMapping[geldanlage.befristetArt],
-      });
-    if (geldanlage.forderung)
+    if ("auszahlungdatum" in geldanlage)
+      attachment.push(
+        {
+          title: "Auszahlungsdatum",
+          text: geldanlage.auszahlungdatum,
+        },
+        {
+          title: "Art der Befristung",
+          text: befristungMapping[geldanlage.befristetArt],
+        },
+      );
+
+    if ("forderung" in geldanlage)
       attachment.push({ title: "Forderung", text: geldanlage.forderung });
-    if (geldanlage.verwendungszweck)
+    if ("verwendungszweck" in geldanlage)
       attachment.push({
         title: "Verwendungszweck",
         text: geldanlage.verwendungszweck,
       });
-    if (geldanlage.kontoBankName)
+    if ("kontoBankName" in geldanlage)
       attachment.push({
         title: "Name der Bank",
         text: geldanlage.kontoBankName,
       });
-    if (geldanlage.kontoBezeichnung)
+    if ("kontoBezeichnung" in geldanlage)
       attachment.push({
         title: "Bezeichnung",
         text: geldanlage.kontoBezeichnung,
       });
-    if (geldanlage.kontoIban)
+    if ("kontoIban" in geldanlage)
       attachment.push({
         title: "IBAN",
         text: geldanlage.kontoIban,
@@ -276,19 +283,20 @@ export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
   if (geldanlage.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`;
 
-  if (geldanlage.auszahlungdatum)
+  if ("auszahlungdatum" in geldanlage)
     description += `, Auszahlungsdatum: ${geldanlage.auszahlungdatum}`;
-  if (geldanlage.befristetArt)
+  if ("befristetArt" in geldanlage)
     description += `, Art der Befristung: ${befristungMapping[geldanlage.befristetArt]}`;
-  if (geldanlage.verwendungszweck)
+  if ("verwendungszweck" in geldanlage)
     description += `, Verwendungszweck: ${geldanlage.verwendungszweck}`;
-  if (geldanlage.forderung)
+  if ("forderung" in geldanlage)
     description += `, Forderung: ${geldanlage.forderung}`;
-  if (geldanlage.kontoBezeichnung)
+  if ("kontoBezeichnung" in geldanlage)
     description += `, Bezeichnung: ${geldanlage.kontoBezeichnung}`;
-  if (geldanlage.kontoBankName)
+  if ("kontoBankName" in geldanlage)
     description += `, Name der Bank: ${geldanlage.kontoBankName}`;
-  if (geldanlage.kontoIban) description += `, IBAN: ${geldanlage.kontoIban}`;
+  if ("kontoIban" in geldanlage)
+    description += `, IBAN: ${geldanlage.kontoIban}`;
   return description;
 }
 

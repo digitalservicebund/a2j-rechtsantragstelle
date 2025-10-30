@@ -16,12 +16,6 @@ const eigentuemerSchema = z.enum([
   "myselfAndSomeoneElse",
 ]);
 
-const befristetArtSchema = z.enum([
-  "lifeInsurance",
-  "buildingSavingsContract",
-  "fixedDepositAccount",
-]);
-
 export const bankkontenArraySchema = z
   .object({
     bankName: stringRequiredSchema,
@@ -72,50 +66,67 @@ export const kraftfahrzeugeArraySchema = z
   .array()
   .min(1);
 
+const geldanlagenArtSchema = z.enum([
+  "bargeld",
+  "wertpapiere",
+  "guthabenkontoKrypto",
+  "giroTagesgeldSparkonto",
+  "befristet",
+  "forderung",
+  "sonstiges",
+]);
+
 const sharedGeldanlagenFields = {
-  art: z.enum([
-    "bargeld",
-    "wertpapiere",
-    "guthabenkontoKrypto",
-    "giroTagesgeldSparkonto",
-    "befristet",
-    "forderung",
-    "sonstiges",
-  ]),
   eigentuemer: eigentuemerSchema,
   wert: buildMoneyValidationSchema(),
 };
+
+const sparkontoSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal(geldanlagenArtSchema.enum.giroTagesgeldSparkonto),
+  kontoBankName: stringRequiredSchema,
+  kontoIban: stringOptionalSchema,
+  kontoBezeichnung: stringOptionalSchema,
+});
+
+const befristetSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal(geldanlagenArtSchema.enum.befristet),
+  befristetArt: z.enum([
+    "lifeInsurance",
+    "buildingSavingsContract",
+    "fixedDepositAccount",
+  ]),
+  verwendungszweck: stringOptionalSchema,
+  auszahlungdatum: stringOptionalSchema,
+});
+
+const forderungSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal(geldanlagenArtSchema.enum.forderung),
+  forderung: stringOptionalSchema,
+});
+
+const sonstigesSchema = z.object({
+  ...sharedGeldanlagenFields,
+  art: z.literal(geldanlagenArtSchema.enum.sonstiges),
+  verwendungszweck: stringOptionalSchema,
+});
 
 export const geldanlagenArraySchema = z
   .union([
     z.object({
       ...sharedGeldanlagenFields,
-      art: z.enum(["bargeld", "wertpapiere", "guthabenkontoKrypto"]),
+      art: z.enum([
+        geldanlagenArtSchema.enum.bargeld,
+        geldanlagenArtSchema.enum.wertpapiere,
+        geldanlagenArtSchema.enum.guthabenkontoKrypto,
+      ]),
     }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("giroTagesgeldSparkonto"),
-      kontoBankName: stringOptionalSchema,
-      kontoIban: stringOptionalSchema,
-      kontoBezeichnung: stringOptionalSchema,
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("befristet"),
-      befristetArt: befristetArtSchema,
-      verwendungszweck: stringOptionalSchema,
-      auszahlungdatum: stringOptionalSchema,
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("forderung"),
-      forderung: stringOptionalSchema,
-    }),
-    z.object({
-      ...sharedGeldanlagenFields,
-      art: z.literal("sonstiges"),
-      verwendungszweck: stringOptionalSchema,
-    }),
+    sparkontoSchema,
+    befristetSchema,
+    forderungSchema,
+    sonstigesSchema,
   ])
   .array()
   .min(1);
@@ -257,58 +268,60 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
       geldanlagen: {
         arrayPages: {
           art: {
-            pageSchema: {
-              "geldanlagen#art": sharedGeldanlagenFields.art,
-            },
+            pageSchema: { "geldanlagen#art": geldanlagenArtSchema },
           },
           bargeld: {
             pageSchema: {
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
           wertpapiere: {
             pageSchema: {
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
           "guthabenkonto-krypto": {
             pageSchema: {
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
           "giro-tagesgeld-sparkonto": {
             pageSchema: {
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
-              "geldanlagen#kontoBankName": stringOptionalSchema,
-              "geldanlagen#kontoIban": stringOptionalSchema,
-              "geldanlagen#kontoBezeichnung": stringOptionalSchema,
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
+              "geldanlagen#kontoBankName": sparkontoSchema.shape.kontoBankName,
+              "geldanlagen#kontoIban": sparkontoSchema.shape.kontoIban,
+              "geldanlagen#kontoBezeichnung":
+                sparkontoSchema.shape.kontoBezeichnung,
             },
           },
           befristet: {
             pageSchema: {
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
-              "geldanlagen#befristetArt": befristetArtSchema,
-              "geldanlagen#verwendungszweck": stringOptionalSchema,
-              "geldanlagen#auszahlungdatum": stringOptionalSchema,
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
+              "geldanlagen#befristetArt": befristetSchema.shape.befristetArt,
+              "geldanlagen#verwendungszweck":
+                befristetSchema.shape.verwendungszweck,
+              "geldanlagen#auszahlungdatum":
+                befristetSchema.shape.auszahlungdatum,
             },
           },
           forderung: {
             pageSchema: {
-              "geldanlagen#forderung": stringOptionalSchema,
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#forderung": forderungSchema.shape.forderung,
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
           sonstiges: {
             pageSchema: {
-              "geldanlagen#verwendungszweck": stringOptionalSchema,
-              "geldanlagen#eigentuemer": eigentuemerSchema,
-              "geldanlagen#wert": buildMoneyValidationSchema(),
+              "geldanlagen#verwendungszweck":
+                sonstigesSchema.shape.verwendungszweck,
+              "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+              "geldanlagen#wert": sharedGeldanlagenFields.wert,
             },
           },
         },
