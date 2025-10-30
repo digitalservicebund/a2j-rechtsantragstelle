@@ -1,5 +1,5 @@
-import { GenericGuard } from "~/domains/guards.server";
-import { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
+import { type GenericGuard } from "~/domains/guards.server";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
   bankkontenArraySchema,
   geldanlagenArraySchema,
