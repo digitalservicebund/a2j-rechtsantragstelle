@@ -7,14 +7,6 @@ export const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
   context.staatlicheLeistungen === "buergergeld" ||
   context.staatlicheLeistungen === "grundsicherung";
 
-export const hasNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => {
-    return (
-      context.staatlicheLeistungen !== undefined &&
-      !hasStaatlicheLeistungen({ context })
-    );
-  };
-
 export const einkommenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) =>

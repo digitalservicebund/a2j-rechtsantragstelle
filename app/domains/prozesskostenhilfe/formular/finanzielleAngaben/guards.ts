@@ -1,97 +1,181 @@
 import {
-  grundeigentumIsBewohnt,
-  hasGrundeigentumYes,
-  hasKraftfahrzeugYes,
-  hasPartnerschaftYesAndZusammenlebenNo,
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
-  hasPartnerschaftYes,
-  hasWeitereUnterhaltszahlungenYes,
-  hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-  hasWertsacheYes,
-  isGeldanlageBargeld,
-  isGeldanlageBefristet,
-  isGeldanlageForderung,
-  isGeldanlageGiroTagesgeldSparkonto,
-  isGeldanlageGuthabenkontoKrypto,
-  isGeldanlageSonstiges,
-  isGeldanlageWertpapiere,
-  isKraftfahrzeugWertAbove10000OrUnsure,
-  isValidKinderArrayIndex,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltNo,
-  kindUnterhaltYes,
-  kindWohnortBeiAntragstellerNo,
-  kindWohnortBeiAntragstellerYes,
-} from "~/domains/shared/formular/finanzielleAngaben/guards";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+  firstArrayIndex,
+  isValidArrayIndex,
+} from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { ausgabenDone } from "./doneFunctions";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
-import { yesNoGuards, type Guards } from "../../../guards.server";
-import { kinderArraySchema } from "./kinder/pages";
-import { eigentumDone } from "./eigentum/doneFunctions";
+import { yesNoGuards, type GenericGuard } from "../../../guards.server";
 
-export const finanzielleAngabeGuards = {
-  eigentumDone,
-  hasPartnerschaftYes,
-  hasPartnerschaftNo: ({ context }) => context.partnerschaft !== "yes",
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
-  hasPartnerschaftYesAndZusammenlebenNo,
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
-  ...yesNoGuards("erwerbstaetig"),
-  ...yesNoGuards("zusammenleben"),
-  ...yesNoGuards("unterhalt"),
-  ...yesNoGuards("partnerEinkommen"),
-  ...yesNoGuards("partnerHasBesondersAusgaben"),
-  hasKraftfahrzeugYes,
-  hasGrundeigentumYes,
-  hasWertsacheYes,
-  hasWeitereUnterhaltszahlungenYes,
-  kindWohnortBeiAntragstellerYes,
-  kindWohnortBeiAntragstellerNo,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltYes,
-  kindUnterhaltNo,
-  isValidKinderArrayIndex,
-  isGeldanlageBargeld,
-  isGeldanlageWertpapiere,
-  isGeldanlageGuthabenkontoKrypto,
-  isGeldanlageGiroTagesgeldSparkonto,
-  isGeldanlageBefristet,
-  isGeldanlageForderung,
-  isGeldanlageSonstiges,
-  isKraftfahrzeugWertAbove10000OrUnsure,
-  grundeigentumIsBewohnt,
+type FinanzielleAngabenGuard =
+  GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
 
-  eigentumYesAndEmptyArray: ({ context }) =>
-    (context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten)) ||
-    (context.hasGeldanlage === "yes" &&
-      !arrayIsNonEmpty(context.geldanlagen)) ||
-    (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
-    (hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
-    (hasGrundeigentumYes({ context }) &&
-      !arrayIsNonEmpty(context.grundeigentum)),
+export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
+  context,
+}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
 
-  hasKinderYesAndEmptyArray: ({ context }) =>
-    context.hasKinder === "yes" &&
-    !kinderArraySchema.safeParse(context.kinder).success,
-  hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-  isSonstigeVersicherung: ({ context: { pageData, versicherungen } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return versicherungen?.at(arrayIndex)?.art === "sonstige";
-  },
-  sonstigeAusgabeAnteiligYes: ({ context: { pageData, sonstigeAusgaben } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return sonstigeAusgaben?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
-  },
-  ratenzahlungAnteiligYes: ({ context: { pageData, ratenzahlungen } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
-  },
-  ausgabenDone,
-} satisfies Guards<ProzesskostenhilfeFinanzielleAngabenUserData>;
+export const isSonstigeVersicherung: FinanzielleAngabenGuard = ({
+  context: { pageData, versicherungen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return versicherungen?.at(arrayIndex)?.art === "sonstige";
+};
+export const sonstigeAusgabeAnteiligYes: FinanzielleAngabenGuard = ({
+  context: { pageData, sonstigeAusgaben },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return sonstigeAusgaben?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
+};
+export const ratenzahlungAnteiligYes: FinanzielleAngabenGuard = ({
+  context: { pageData, ratenzahlungen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
+};
+
+export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
+  "hasWeitereUnterhaltszahlungen",
+);
+export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
+export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
+export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
+
+export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
+  ({ context }) =>
+    context.partnerschaft === "yes" &&
+    context.zusammenleben == "no" &&
+    context.unterhalt === "yes";
+export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: FinanzielleAngabenGuard =
+  ({ context }) =>
+    context.partnerschaft === "yes" &&
+    context.zusammenleben == "no" &&
+    context.unterhalt == "no";
+export const kindWohnortBeiAntragstellerYes: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kinderWohnortBeiAntragsteller =
+    kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
+  return (
+    kinderWohnortBeiAntragsteller === "yes" ||
+    kinderWohnortBeiAntragsteller === "partially"
+  );
+};
+export const kindWohnortBeiAntragstellerNo: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return kinder?.at(arrayIndex)?.wohnortBeiAntragsteller === "no";
+};
+export const kindEigeneEinnahmenYes: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "eigeneEinnahmen" in kind) return kind.eigeneEinnahmen === "yes";
+  return false;
+};
+export const kindUnterhaltYes: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "yes";
+  return false;
+};
+export const kindUnterhaltNo: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kind = kinder?.at(arrayIndex);
+  if (kind && "unterhalt" in kind) return kind.unterhalt === "no";
+  return false;
+};
+export const isValidKinderArrayIndex: FinanzielleAngabenGuard = ({
+  context: { pageData, kinder },
+}) => isValidArrayIndex(kinder, pageData);
+export const isGeldanlageBargeld: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "bargeld";
+};
+export const isGeldanlageWertpapiere: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "wertpapiere";
+};
+export const isGeldanlageGuthabenkontoKrypto: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "guthabenkontoKrypto";
+};
+export const isGeldanlageGiroTagesgeldSparkonto: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "giroTagesgeldSparkonto";
+};
+export const isGeldanlageBefristet: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "befristet";
+};
+export const isGeldanlageForderung: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "forderung";
+};
+export const isGeldanlageSonstiges: FinanzielleAngabenGuard = ({
+  context: { pageData, geldanlagen },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return geldanlagen?.at(arrayIndex)?.art === "sonstiges";
+};
+export const isKraftfahrzeugWertAbove10000OrUnsure: FinanzielleAngabenGuard = ({
+  context: { pageData, kraftfahrzeuge },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const wert = kraftfahrzeuge?.at(arrayIndex)?.wert;
+  return wert === "over10000" || wert === "unsure";
+};
+export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
+  context: { pageData, grundeigentum },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return grundeigentum?.at(arrayIndex)?.isBewohnt === "yes";
+};
+export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
+  ({ context }) =>
+    hasWeitereUnterhaltszahlungenYes({ context }) &&
+    !arrayIsNonEmpty(context.unterhaltszahlungen);
+
+export const eigentumYesAndEmptyArray: FinanzielleAngabenGuard = ({
+  context,
+}) =>
+  (context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten)) ||
+  (context.hasGeldanlage === "yes" && !arrayIsNonEmpty(context.geldanlagen)) ||
+  (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
+  (hasKraftfahrzeugYes({ context }) &&
+    !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
+  (hasGrundeigentumYes({ context }) && !arrayIsNonEmpty(context.grundeigentum));
