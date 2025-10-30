@@ -1,12 +1,13 @@
-import { type Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
-// import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "../einkuenfte/guards";
+import type { PartnerEinkuenfteUserData } from "./userData";
+import type { Config } from "~/services/flow/server/types";
+import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "../abzuege/userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
@@ -49,7 +50,7 @@ export const partnerXstateConfig = {
         ],
         SUBMIT: [
           {
-            guard: "hasPartnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
             target: steps.partnerZusammenleben.relative,
           },
           "#kinder",
@@ -656,4 +657,7 @@ export const partnerXstateConfig = {
       },
     },
   },
-} as Flow["config"];
+} satisfies Config<
+  PartnerEinkuenfteUserData &
+    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData
+>;
