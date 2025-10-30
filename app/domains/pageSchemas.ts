@@ -27,7 +27,7 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
     .map(({ pageSchema }) => pageSchema!);
 
   return Object.assign({}, ...schemaObjects) as SchemaObject;
-}
+};
 
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId] ?? {};
