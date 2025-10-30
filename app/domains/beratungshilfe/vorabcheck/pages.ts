@@ -1,6 +1,5 @@
 import { z } from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
-import { staatlicheLeistungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -83,7 +82,14 @@ export const beratungshilfeVorabcheckPages = {
   },
   staatlicheLeistungen: {
     stepId: "staatliche-leistungen",
-    pageSchema: { staatlicheLeistungen: staatlicheLeistungenInputSchema },
+    pageSchema: {
+      staatlicheLeistungen: z.enum([
+        "grundsicherung",
+        "asylbewerberleistungen",
+        "buergergeld",
+        "keine",
+      ]),
+    },
   },
   staatlicheLeistungenAbschlussVielleicht: {
     stepId: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
