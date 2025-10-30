@@ -1,10 +1,8 @@
 import { z } from "zod";
 import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
-import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { addYears, today } from "~/util/date";
 
 export const eigentuemerInputSchema = z.enum([
   "myself",
@@ -14,30 +12,6 @@ export const eigentuemerInputSchema = z.enum([
 ]);
 
 export type Eigentumer = z.infer<typeof eigentuemerInputSchema>;
-
-const MINUS_150_YEARS = -150;
-
-export const familyRelationshipInputSchema = z.enum([
-  "mother",
-  "father",
-  "grandmother",
-  "grandfather",
-  "kid",
-  "ex-spouse",
-  "ex-partner",
-  "grandchild",
-]);
-
-export const unterhaltszahlungInputSchema = z.object({
-  firstName: stringRequiredSchema,
-  surname: stringRequiredSchema,
-  familyRelationship: familyRelationshipInputSchema,
-  birthday: createDateSchema({
-    earliest: () => addYears(today(), MINUS_150_YEARS),
-    latest: () => today(),
-  }),
-  monthlyPayment: buildMoneyValidationSchema(),
-});
 
 export const staatlicheLeistungenInputSchema = z.enum([
   "grundsicherung",
