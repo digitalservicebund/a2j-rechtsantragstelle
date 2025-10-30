@@ -152,14 +152,13 @@ export const grundeigentumArraySchema = z
   .array()
   .min(1);
 
-export const wertsachenArraySchema = z
-  .object({
-    art: stringRequiredSchema,
-    eigentuemer: eigentuemerSchema,
-    wert: buildMoneyValidationSchema(),
-  })
-  .array()
-  .min(1);
+export const wertsacheSchema = z.object({
+  art: stringRequiredSchema,
+  eigentuemer: eigentuemerSchema,
+  wert: buildMoneyValidationSchema(),
+});
+
+export const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
@@ -341,9 +340,9 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
         arrayPages: {
           daten: {
             pageSchema: {
-              "wertsachen#art": stringRequiredSchema,
-              "wertsachen#eigentuemer": eigentuemerSchema,
-              "wertsachen#wert": buildMoneyValidationSchema(),
+              "wertsachen#art": wertsacheSchema.shape.art,
+              "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
+              "wertsachen#wert": wertsacheSchema.shape.wert,
             },
           },
         },

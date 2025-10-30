@@ -123,16 +123,6 @@ export const grundeigentumArraySchema = z.array(
     .partial(),
 );
 
-export type WertsachenArraySchema = z.infer<typeof wertsachenArraySchema>;
-
-export const wertsachenArraySchema = z.array(
-  z.object({
-    art: stringRequiredSchema,
-    eigentuemer: eigentuemerInputSchema,
-    wert: buildMoneyValidationSchema(),
-  }),
-);
-
 export const besondereBelastungen = [
   "pregnancy",
   "singleParent",

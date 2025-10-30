@@ -1,12 +1,17 @@
 import type z from "zod";
-import { type kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
-import { type kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
+import {
+  type kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema,
+  type wertsacheSchema as berhWertsacheSchema,
+} from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
+import {
+  type wertsacheSchema as pkhWertsacheSchema,
+  type kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type {
   BankkontenArraySchema,
   Eigentumer,
   GeldanlagenArraySchema,
   GrundeigentumArraySchema,
-  WertsachenArraySchema,
 } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
@@ -282,7 +287,9 @@ export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
   return description;
 }
 
-export function fillSingleWertsache(wertsache: WertsachenArraySchema[0]) {
+export function fillSingleWertsache(
+  wertsache: z.infer<typeof pkhWertsacheSchema | typeof berhWertsacheSchema>,
+) {
   let description = `Art: ${wertsache.art}`;
   if (wertsache.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[wertsache.eigentuemer]}`;

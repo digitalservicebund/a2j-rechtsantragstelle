@@ -4,7 +4,7 @@ import {
   geldanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
-  wertgegenstandArraySchema,
+  wertsachenArraySchema,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
 
 export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
@@ -26,7 +26,7 @@ export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" &&
-    wertgegenstandArraySchema.safeParse(context.wertsachen).success);
+    wertsachenArraySchema.safeParse(context.wertsachen).success);
 
 export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

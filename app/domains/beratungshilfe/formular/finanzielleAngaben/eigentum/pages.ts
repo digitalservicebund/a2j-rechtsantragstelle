@@ -111,20 +111,18 @@ export const kraftfahrzeugeArraySchema = z
   .array()
   .min(1);
 
-export const wertgegenstandArraySchema = z
-  .array(
-    z.object({
-      art: stringRequiredSchema,
-      eigentuemer: z.enum([
-        "myself",
-        "partner",
-        "myselfAndPartner",
-        "myselfAndSomeoneElse",
-      ]),
-      wert: buildMoneyValidationSchema(),
-    }),
-  )
-  .min(1);
+export const wertsacheSchema = z.object({
+  art: stringRequiredSchema,
+  eigentuemer: z.enum([
+    "myself",
+    "partner",
+    "myselfAndPartner",
+    "myselfAndSomeoneElse",
+  ]),
+  wert: buildMoneyValidationSchema(),
+});
+
+export const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 
 const sharedEigentumFields = {
   isBewohnt: z.enum(["yes", "family", "no"]),
@@ -353,15 +351,14 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumWertgegenstand: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
     pageSchema: {
-      wertsachen: wertgegenstandArraySchema,
+      wertsachen: wertsachenArraySchema,
     },
     arrayPages: {
       daten: {
         pageSchema: {
-          "wertsachen#art": wertgegenstandArraySchema.element.shape.art,
-          "wertsachen#eigentuemer":
-            wertgegenstandArraySchema.element.shape.eigentuemer,
-          "wertsachen#wert": wertgegenstandArraySchema.element.shape.wert,
+          "wertsachen#art": wertsacheSchema.shape.art,
+          "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
+          "wertsachen#wert": wertsacheSchema.shape.wert,
         },
       },
     },
