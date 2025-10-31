@@ -1,7 +1,6 @@
 import type { z } from "zod";
 import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
 import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { fluggastrechteVorabcheckInputSchema } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
@@ -33,7 +32,7 @@ export type AllUserDataKeys = KeysOfUnion<
 const contexts = {
   "/beratungshilfe/antrag": {},
   "/beratungshilfe/vorabcheck": {}, // BH vorabcheck is using page-based config. The schemas are accessible via getPageSchema(pathname)
-  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckInputSchema,
+  "/fluggastrechte/vorabcheck": {},
   "/fluggastrechte/formular": fluggastrechteInputSchema,
   "/prozesskostenhilfe/formular": {},
   "/kontopfaendung/wegweiser": {},
