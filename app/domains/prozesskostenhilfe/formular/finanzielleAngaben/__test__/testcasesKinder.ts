@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = {
   doesntHaveChildren: [
@@ -194,4 +196,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenKinderPages>
+>;

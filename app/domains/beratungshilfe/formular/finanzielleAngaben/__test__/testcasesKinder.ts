@@ -1,5 +1,5 @@
 // oxlint-disable-next-line no-unused-vars
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 
 const defaultInputKinder = {
   wohnortBeiAntragsteller: "yes",
@@ -165,4 +165,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestConfig["testcases"];

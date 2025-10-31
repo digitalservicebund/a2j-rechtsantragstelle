@@ -1,4 +1,4 @@
-import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { type FlowTestConfig } from "~/domains/__test__/TestCases";
 
 const finanzielleAngabenWohnungWohnsituation =
   "/finanzielle-angaben/wohnung/wohnsituation";
@@ -78,4 +78,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
       stepId: finanzielleAngabenEigentumEigentumInfo,
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestConfig["testcases"];

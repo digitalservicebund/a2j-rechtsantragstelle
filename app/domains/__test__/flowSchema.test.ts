@@ -5,7 +5,7 @@ import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import type { ExpectedStep, FlowTestCases } from "./TestCases";
+import type { ExpectedStep, FlowTestConfig } from "./TestCases";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
@@ -16,8 +16,20 @@ import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { type BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 
-const flowSchemaTests: Record<string, FlowTestCases> = {
+const flowSchemaTests: Record<
+  string,
+  FlowTestConfig<
+    | BeratungshilfeFormularUserData
+    | BeratungshilfeVorabcheckUserData
+    | ProzesskostenhilfeFormularUserData
+    | KontopfaendungWegweiserUserData
+  >
+> = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
@@ -30,8 +42,8 @@ type VisitedSteps = Record<
 >;
 
 // Build full user input from all previous expectedSteps
-const buildFullUserInput = (
-  expectedSteps: FlowTestCases["testcases"][string],
+const buildFullUserInput = <T extends UserData>(
+  expectedSteps: Array<ExpectedStep<T>>,
   idx: number,
 ) =>
   expectedSteps
@@ -86,7 +98,6 @@ function runTestcases<T extends UserData>(
   xstateConfig: Config,
   expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
-  guards?: FlowTestCases["guards"],
 ) {
   test(testName, () => {
     let [isAddingArrayItem, summaryPageStepId]: [boolean, string?] = [
@@ -128,7 +139,6 @@ function runTestcases<T extends UserData>(
           const flowController = buildFlowController({
             config: xstateConfig,
             data: buildFullUserInput(expectedSteps, idx),
-            guards,
           });
 
           // Given the current data and url we expect the next and previous url
@@ -161,7 +171,7 @@ describe.sequential("flowSchemas", () => {
   const allVisitedSteps: VisitedSteps = {};
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { xstateConfig, testcases, guards }]) => {
+    ([testConfigName, { xstateConfig, testcases }]) => {
       const flowId = xstateConfig.id!;
 
       if (!allVisitedSteps[flowId]) {
@@ -169,19 +179,14 @@ describe.sequential("flowSchemas", () => {
       }
 
       describe(testConfigName, () => {
-        Object.entries(testcases).forEach(
-          ([testName, expectedSteps]: [
-            string,
-            FlowTestCases["testcases"][string],
-          ]) =>
-            runTestcases(
-              testName,
-              flowId,
-              xstateConfig,
-              expectedSteps,
-              allVisitedSteps,
-              guards,
-            ),
+        Object.entries(testcases).forEach(([testName, expectedSteps]) =>
+          runTestcases(
+            testName,
+            flowId,
+            xstateConfig,
+            expectedSteps,
+            allVisitedSteps,
+          ),
         );
       });
     },

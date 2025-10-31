@@ -1,7 +1,6 @@
-import type { Config } from "~/services/flow/server/types";
-import type { AllUserDataKeys, UserData } from "../userData";
+import { type Config } from "~/services/flow/server/types";
+import type { UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { type Guards } from "~/domains/guards.server";
 
 // Old flow tests: forward & backward using full user data
 export type TestCases<T extends UserData> = Readonly<
@@ -17,18 +16,23 @@ export type ExpectedStep<T extends UserData> = {
    * E.g. Array Summary pages
    */
   skipPageSchemaValidation?: boolean;
-  userInput?: T;
+  // Deep partial needed to ensure partial array pages are handled correctly
+  userInput?: DeepPartial<T> & { pageData?: { arrayIndexes?: number[] } };
 };
 
+type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
+    }
+  : T;
+
+export type FlowTestCases<T extends UserData> = Record<
+  string,
+  Array<ExpectedStep<T>>
+>;
+
 // New flow tests: testing data submission with page schemas
-export type FlowTestCases<
-  T extends UserData = { [K in AllUserDataKeys]?: UserData[K] },
-> = {
+export type FlowTestConfig<T extends UserData> = {
   xstateConfig: Config;
-  testcases: Record<string, Array<ExpectedStep<T>>>;
-  /**
-   * Legacy guard injection, used in cases where legacy guards are referenced
-   * via string instead of inline logic
-   */
-  guards?: Guards;
+  testcases: FlowTestCases<T>;
 };

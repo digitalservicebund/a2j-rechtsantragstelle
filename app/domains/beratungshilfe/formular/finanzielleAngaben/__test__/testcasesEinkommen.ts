@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 
 const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
@@ -158,4 +158,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
       stepId: "/finanzielle-angaben/einkommen/situation",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestConfig["testcases"];

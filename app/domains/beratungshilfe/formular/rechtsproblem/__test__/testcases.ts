@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 
 export const testCasesBeratungshilfeRechtsproblem = {
   rechtsProblem: [
@@ -24,4 +24,4 @@ export const testCasesBeratungshilfeRechtsproblem = {
       stepId: "/finanzielle-angaben/einkommen/start",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestConfig["testcases"];

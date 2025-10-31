@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/regelmaessigeAusgaben/userData";
 
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
@@ -96,4 +97,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData>;

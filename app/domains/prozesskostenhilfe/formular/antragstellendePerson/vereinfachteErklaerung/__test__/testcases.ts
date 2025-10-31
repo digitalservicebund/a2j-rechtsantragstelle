@@ -1,4 +1,6 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
 
 const frageVermoegenFulfilled = {
   frageVermoegenFulfilledUnterhalt: [
@@ -187,7 +189,7 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData>;
 
 const frageVermoegenNotFulfilled = {
   frageVermoegenNotFulfilledAdultChild: [
@@ -373,9 +375,9 @@ const frageVermoegenNotFulfilled = {
         "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData>;
 
-export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases["testcases"] =
+export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData> =
   {
     veChildData: [
       {
@@ -570,4 +572,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       { stepId: "/antragstellende-person/unterhaltsanspruch" },
     ],
-  } satisfies FlowTestCases["testcases"];
+  } satisfies FlowTestCases<
+    ProzesskostenhilfeVereinfachteErklaerungUserData &
+      ProzesskostenhilfeAntragstellendePersonUserData
+  >;

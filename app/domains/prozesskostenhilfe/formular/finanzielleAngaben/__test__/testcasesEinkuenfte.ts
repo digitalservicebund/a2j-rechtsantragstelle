@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 
 export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
   staatlicheLeistungenKeine: [
@@ -275,4 +276,4 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     },
     { stepId: "/finanzielle-angaben/partner/partnerschaft" },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>;

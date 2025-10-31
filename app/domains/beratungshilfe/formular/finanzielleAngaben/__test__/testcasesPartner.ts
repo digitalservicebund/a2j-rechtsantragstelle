@@ -1,4 +1,5 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/partner/userData";
 const finanzielleAngabenPartnerPartnerschaft =
   "/finanzielle-angaben/partner/partnerschaft";
 const finanzielleAngabenKinderKinderFrage =
@@ -147,4 +148,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
       stepId: finanzielleAngabenKinderKinderFrage,
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenPartnerUserData>;

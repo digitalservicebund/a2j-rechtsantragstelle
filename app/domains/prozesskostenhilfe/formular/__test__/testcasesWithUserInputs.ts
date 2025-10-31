@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
@@ -134,4 +134,4 @@ export const prozesskostenhilfeFormularTestCases = {
       },
     ],
   },
-} satisfies FlowTestCases;
+} satisfies FlowTestConfig;

@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { kontopfaendungWegweiserXstateConfig } from "../xStateConfig";
 
 export const kontopfaendungWegweiserTestCases = {
@@ -165,4 +165,4 @@ export const kontopfaendungWegweiserTestCases = {
     ],
     ergebnisNaechsteSchritte: [{ stepId: "/ergebnis/naechste-schritte" }],
   },
-} satisfies FlowTestCases;
+} satisfies FlowTestConfig;

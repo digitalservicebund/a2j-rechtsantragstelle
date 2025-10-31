@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenEigentum = {
   rentsApartment: [
@@ -441,4 +443,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenEigentumPages>
+>;
