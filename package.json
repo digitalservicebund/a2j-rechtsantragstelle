@@ -12,7 +12,7 @@
   "type": "module",
   "scripts": {
     "build:airports-data": "node ./scripts/airports.ts",
-    "build:airlines-data": "tsx ./scripts/airlines.ts",
+    "build:airlines-data": "node ./scripts/airlines.ts",
     "build:app": "react-router build",
     "build:licenses": "node ./scripts/generateLicenseFile.ts",
     "build:localContent": "tsx ./scripts/dumpCmsToFile.ts",
