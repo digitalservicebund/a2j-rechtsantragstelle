@@ -153,7 +153,7 @@ describe("getContentData", () => {
   });
 
   describe("getNavItems", () => {
-    it("should return correctly the nav items", () => {
+    it("should return correctly the nav items", async () => {
       const mockNavItems = [
         {
           destination: "/",
@@ -168,7 +168,7 @@ describe("getContentData", () => {
         "navItemsFromStepStates",
       ).mockReturnValue(mockNavItems);
 
-      const actual = callContentData.getNavProps(
+      const actual = await callContentData.getNavProps(
         mockBuildFlowController,
         "/",
         false,
@@ -181,13 +181,13 @@ describe("getContentData", () => {
       });
     });
 
-    it("should return empty array when nav items returns undefined", () => {
+    it("should return empty array when nav items returns undefined", async () => {
       vi.spyOn(
         navItemsFromStepStates,
         "navItemsFromStepStates",
       ).mockReturnValue(undefined);
 
-      const actual = callContentData.getNavProps(
+      const actual = await callContentData.getNavProps(
         mockBuildFlowController,
         "/",
         false,
@@ -200,8 +200,8 @@ describe("getContentData", () => {
       });
     });
 
-    it("should return the stepsStepper and the navItems if the parameter useStepper is true", () => {
-      vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
+    it("should return the stepsStepper and the navItems if the parameter useStepper is true", async () => {
+      vi.mocked(mockBuildFlowController.stepStates).mockResolvedValue([
         {
           stepId: "/somePath/menu",
           url: "/somePath/menu",
@@ -242,7 +242,7 @@ describe("getContentData", () => {
         "/somePath/menu/page1",
       );
 
-      const actual = callContentData.getNavProps(
+      const actual = await callContentData.getNavProps(
         mockBuildFlowController,
         "/somePath/menu/page1",
         true,
