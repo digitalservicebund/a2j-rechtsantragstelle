@@ -1,0 +1,258 @@
+import { useState, useRef } from "react";
+import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
+import EditIcon from "@digitalservicebund/icons/EditOutlined";
+import Button from "~/components/common/Button";
+import { StandaloneLink } from "~/components/common/StandaloneLink";
+import { useShouldPrint } from "~/components/hooks/useShouldPrint";
+
+export type FieldItem = {
+  question: string;
+  answer: string;
+  editUrl?: string;
+  multipleQuestions?: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
+export type ArrayGroup = {
+  id?: string | number;
+  title: string;
+  items: FieldItem[];
+};
+
+export type SummaryItem = {
+  id?: string | number;
+  title: string;
+  fields: FieldItem[];
+  arrayGroups?: ArrayGroup[];
+};
+
+export type CollapsibleProps = {
+  items: SummaryItem[];
+  showGlobalControls?: boolean;
+  expandAllText?: string;
+  collapseAllText?: string;
+};
+
+function SummarySection({
+  item,
+  itemId,
+  startOpened,
+  onGlobalToggle,
+}: {
+  readonly item: SummaryItem;
+  readonly itemId: string | number;
+  readonly startOpened?: boolean;
+  readonly onGlobalToggle?: (itemId: string | number, isOpen: boolean) => void;
+}) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  // console.log(item);
+
+  const handleToggle = () => {
+    if (onGlobalToggle && detailsRef.current) {
+      onGlobalToggle(itemId, detailsRef.current.open);
+    }
+  };
+
+  return (
+    <details
+      ref={detailsRef}
+      className="p-16 group bg-blue-200 mb-16"
+      open={startOpened}
+      onToggle={handleToggle}
+    >
+      <summary className="w-full flex justify-between items-center cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <span className="ds-subheading-01-reg text-left">{item.title}</span>
+        <span className="flex items-center text-blue-800 ds-label-03-bold">
+          <span className="group-open:hidden flex items-center">
+            <KeyboardArrowDownIcon />
+            <span className="ml-1">Einblenden</span>
+          </span>
+          <span className="hidden group-open:flex items-center">
+            <KeyboardArrowUpIcon />
+            <span className="ml-1">Ausblenden</span>
+          </span>
+        </span>
+      </summary>
+
+      {/* Render regular fields */}
+      {item.fields.map((field, index) => (
+        <div
+          key={`field-${field.question}-${index}`}
+          className={`bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ${index === 0 && !item.arrayGroups ? "mt-16" : ""}`}
+        >
+          {/* Render multiple questions if they exist, otherwise single question */}
+          {field.multipleQuestions ? (
+            field.multipleQuestions.map((qa, qaIndex) => (
+              <div key={`qa-${qaIndex}`} className="flex items-start gap-32">
+                <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
+                <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
+              </div>
+            ))
+          ) : (
+            <div className="flex items-start gap-32">
+              <dt className="ds-body-01-bold flex-1">{field.question}</dt>
+              <dd className="ds-body-01-reg flex-1">{field.answer}</dd>
+            </div>
+          )}
+
+          {/* Edit button */}
+          {field.editUrl && (
+            <div>
+              <StandaloneLink
+                url={field.editUrl}
+                className="flex gap-2 ds-link-01-bold items-start"
+                icon={<EditIcon className="shrink-0 inline" />}
+                text="Bearbeiten"
+              />
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Render array groups */}
+      {item.arrayGroups?.map((arrayGroup, groupIndex) => (
+        <div
+          key={`array-group-${arrayGroup.id}`}
+          className={`${groupIndex === 0 && item.fields.length === 0 ? "mt-16" : ""}`}
+        >
+          {/* Array group title */}
+          <div className="p-12 mb-8">
+            <h4 className="ds-body-01 text-blue-900">{arrayGroup.title}</h4>
+          </div>
+
+          {/* Array group items */}
+          {arrayGroup.items.map((arrayItem, itemIndex) => (
+            <div
+              key={`array-item-${arrayGroup.id}-${itemIndex}`}
+              className="bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ml-0"
+            >
+              {/* Render multiple questions for array item */}
+              {arrayItem.multipleQuestions ? (
+                arrayItem.multipleQuestions.map((qa, qaIndex) => (
+                  <div
+                    key={`array-qa-${qaIndex}`}
+                    className="flex items-start gap-32"
+                  >
+                    <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
+                    <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-start gap-32">
+                  <dt className="ds-body-01-bold flex-1">
+                    {arrayItem.question}
+                  </dt>
+                  <dd className="ds-body-01-reg flex-1">{arrayItem.answer}</dd>
+                </div>
+              )}
+
+              {/* Edit button for array item */}
+              {arrayItem.editUrl && (
+                <div>
+                  <StandaloneLink
+                    url={arrayItem.editUrl}
+                    className="flex gap-2 ds-link-01-bold items-start"
+                    icon={<EditIcon className="shrink-0 inline" />}
+                    text="Bearbeiten"
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+    </details>
+  );
+}
+
+export default function AutoGeneratedSummary({
+  items,
+  showGlobalControls = true,
+  expandAllText = "Alle einblenden",
+  collapseAllText = "Alle ausblenden",
+}: Readonly<CollapsibleProps>) {
+  const shouldPrint = useShouldPrint();
+  const itemsRef = useRef<HTMLDetailsElement[]>([]);
+
+  const [openSections, setOpenSections] = useState<Set<string | number>>(() => {
+    // Open first section by default
+    if (items.length > 0) {
+      return new Set([items[0].id ?? 0]);
+    }
+    return new Set();
+  });
+
+  const allOpen = openSections.size === items.length;
+  const noneOpen = openSections.size === 0;
+
+  const expandAll = () => {
+    itemsRef.current.forEach((item) => {
+      if (item) item.open = true;
+    });
+    setOpenSections(new Set(items.map((item, index) => item.id ?? index)));
+  };
+
+  const collapseAll = () => {
+    itemsRef.current.forEach((item) => {
+      if (item) item.open = false;
+    });
+    setOpenSections(new Set());
+  };
+
+  const handleSectionToggle = (itemId: string | number, isOpen: boolean) => {
+    const newOpenSections = new Set(openSections);
+    if (isOpen) {
+      newOpenSections.add(itemId);
+    } else {
+      newOpenSections.delete(itemId);
+    }
+    setOpenSections(newOpenSections);
+  };
+
+  if (items.length === 0) {
+    return null;
+  }
+
+  return (
+    <section>
+      {showGlobalControls && (
+        <div className="flex gap-8 mb-16">
+          <Button
+            look="tertiary"
+            size="small"
+            onClick={expandAll}
+            disabled={allOpen}
+            text={expandAllText}
+          />
+          <Button
+            look="tertiary"
+            size="small"
+            onClick={collapseAll}
+            disabled={noneOpen}
+            text={collapseAllText}
+          />
+        </div>
+      )}
+
+      <div>
+        {items.map((item, index) => {
+          const itemId = item.id ?? index;
+          const startOpened = shouldPrint || openSections.has(itemId);
+
+          return (
+            <SummarySection
+              key={itemId}
+              item={item}
+              itemId={itemId}
+              startOpened={startOpened}
+              onGlobalToggle={handleSectionToggle}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}

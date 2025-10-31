@@ -18,6 +18,7 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import { useFormFlow } from "~/components/formFlowContext";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -102,10 +103,18 @@ function ContentComponents({
   managedByParent,
   className,
 }: PageContentProps) {
+  const { flowId } = useFormFlow();
+
   if (content.length === 0) return [];
 
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
+    .filter((el) => {
+      // Filter out old summary for PKH and BerH - they use the new auto-generated summary
+      return !(el.__component === "page.summary-overview-section" &&
+               (flowId === "/prozesskostenhilfe/formular" ||
+                flowId === "/beratungshilfe/antrag"));
+    })
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
       const hasLayout = hasLayoutProperties(el);
