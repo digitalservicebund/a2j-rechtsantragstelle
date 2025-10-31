@@ -16,7 +16,7 @@
     "build:app": "react-router build",
     "build:licenses": "node ./scripts/generateLicenseFile.ts",
     "build:localContent": "tsx ./scripts/dumpCmsToFile.ts",
-    "build:pdf": "tsx ./app/services/pdf/pdf.generator.ts",
+    "build:pdf": "tsx ./scripts/pdf.generator.ts",
     "build:storybook": "storybook build --output-dir ./build/client/storybook",
     "build:typesFromXSD": "npx @wikipathways/cxsd ./data/xml/schemas/xjustiz_3400_rast_0_1.xsd -t data/xml/generated",
     "build": "npm run build:app && npm run build:storybook",
