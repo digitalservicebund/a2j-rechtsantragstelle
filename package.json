@@ -11,7 +11,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build:airports-data": "tsx ./scripts/airports.ts",
+    "build:airports-data": "node ./scripts/airports.ts",
     "build:airlines-data": "tsx ./scripts/airlines.ts",
     "build:app": "react-router build",
     "build:licenses": "tsx ./scripts/generateLicenseFile.ts",
