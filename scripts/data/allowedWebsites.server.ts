@@ -1,5 +1,6 @@
 // used by scripts/verifyExternalLinks
-import { bucketUrl } from "~/services/cms/bucketUrl";
+
+import { bucketUrl } from "../../app/services/cms/bucketUrl.ts";
 
 export const allowedWebsites = [
   bucketUrl,

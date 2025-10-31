@@ -1,4 +1,4 @@
-import { lowercaseFirstLetter } from "~/util/strings";
+import { lowercaseFirstLetter } from "../../util/strings.ts";
 
 const umlautMap = {
   ä: "ae",

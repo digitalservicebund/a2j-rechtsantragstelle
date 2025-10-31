@@ -11,6 +11,7 @@
   "compilerOptions": {
     "preserveSymlinks": true,
     "incremental": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
