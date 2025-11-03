@@ -12,6 +12,20 @@ describe("isStepDone", () => {
     expect(await isStepDone({}, {}, [])).toBe(true);
   });
 
+  it("should return true for a pageSchema without a zod schema", async () => {
+    expect(
+      await isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+          },
+        },
+        {},
+        ["/testPage"],
+      ),
+    ).toBe(true);
+  });
+
   it("should return false if the given context doesn't conform to the pageSchema", async () => {
     expect(
       await isStepDone(
