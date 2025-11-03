@@ -28,12 +28,15 @@ export type FieldQuestion = {
  */
 export function createFieldToStepMapping(
   formFieldsMap: FormFieldsMap,
+  flowId?: FlowId,
 ): Record<string, string> {
   const mapping: Record<string, string> = {};
 
   for (const [stepId, fieldNames] of Object.entries(formFieldsMap)) {
+    // Prepend flowId to create full absolute path
+    const fullStepId = flowId ? `${flowId}${stepId}` : stepId;
     for (const fieldName of fieldNames) {
-      mapping[fieldName] = stepId;
+      mapping[fieldName] = fullStepId;
     }
   }
 

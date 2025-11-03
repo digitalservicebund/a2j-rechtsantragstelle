@@ -97,17 +97,18 @@ export function createArrayEditUrl(
     // Example: "/finanzielle-angaben/kinder/kinder/name" -> "/finanzielle-angaben/kinder/kinder/0/name"
 
     const pathParts = representativeStepId.split("/");
+    console.log(pathParts);
 
     if (pathParts.length >= 4) {
       // Insert array index before the last part (field name)
       const lastIndex = pathParts.length - 1;
       pathParts.splice(lastIndex, 0, fieldInfo.arrayIndex.toString());
-      return `..${pathParts.join("/")}`;
+      return pathParts.join("/");
     }
 
     // Fallback for simpler paths
-    return `..${representativeStepId}/${fieldInfo.arrayIndex}`;
+    return `${representativeStepId}/${fieldInfo.arrayIndex}`;
   }
 
-  return `..${representativeStepId}`;
+  return representativeStepId;
 }

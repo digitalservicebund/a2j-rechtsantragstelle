@@ -69,7 +69,7 @@ export function createFieldEntry(
   const editUrl = representativeStepId
     ? isArrayItem
       ? createArrayEditUrl(fieldName, representativeStepId)
-      : `..${representativeStepId}`
+      : representativeStepId
     : undefined;
 
   return {

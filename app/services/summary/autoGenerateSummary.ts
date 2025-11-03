@@ -133,7 +133,7 @@ export async function generateSummaryFromUserData(
   }
 
   const formFieldsMap = await fetchAllFormFields(flowId);
-  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
+  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap, flowId);
 
   // Expand array fields into individual items
   const expandedFields = expandArrayFields(
@@ -169,6 +169,7 @@ export async function generateSummaryFromUserData(
         flowController,
         fieldToStepMapping,
         translations,
+        flowId,
       )
     : { groups: {}, sectionTitles: {} };
 

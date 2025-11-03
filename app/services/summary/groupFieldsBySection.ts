@@ -23,6 +23,7 @@ export function groupFieldsByFlowNavigation(
   flowController: FlowController,
   fieldToStepMapping: Record<string, string>,
   translations?: Translations,
+  flowId?: string,
 ): {
   groups: Record<string, Record<string, string[]>>;
   sectionTitles: Record<string, string>;
@@ -37,12 +38,19 @@ export function groupFieldsByFlowNavigation(
 
   for (const field of fields) {
     // Use the existing field resolution logic from getFormQuestions
-    const stepId = findStepIdForField(field, fieldToStepMapping);
+    let stepId = findStepIdForField(field, fieldToStepMapping);
 
     if (!stepId) {
       // Field not found in any step, put it in "other" section
       addFieldToGroup(groups, "other", "zusaetzliche_angaben", field);
       continue;
+    }
+
+    // Strip flow path from stepId for section matching
+    // stepId might be "/beratungshilfe/antrag/grundvoraussetzungen/..."
+    // but we need "/grundvoraussetzungen/..." for section mapping
+    if (flowId && stepId.startsWith(flowId)) {
+      stepId = stepId.substring(flowId.length);
     }
 
     // Get the top-level section for this step
