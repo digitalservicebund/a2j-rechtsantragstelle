@@ -3,9 +3,45 @@ import {
   isStepDone,
   getRelevantPageSchemasForStepId,
 } from "~/domains/isStepDone";
+import { type PagesConfig } from "~/domains/pageSchemas";
+import { type ArrayConfigServer } from "~/services/array";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+
+const testArrayPageSchema: PagesConfig = {
+  testArrayPage: {
+    stepId: "testArrayPage",
+    pageSchema: {
+      kinder: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      hasKinder: z.enum(["yes", "no"]),
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinder#vorname": stringRequiredSchema,
+          "kinder#nachname": stringRequiredSchema,
+          "kinder#geburtsdatum": createDateSchema(),
+        },
+      },
+    },
+  },
+};
+
+const testArrayConfig: Record<string, ArrayConfigServer> = {
+  testArrayPage: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+};
 
 describe("isStepDone", () => {
   it("should return true when no relevant pageSchemas are found", async () => {
@@ -143,30 +179,7 @@ describe("isStepDone", () => {
   it("should correctly validate against arrays", async () => {
     expect(
       await isStepDone(
-        {
-          testArrayPage: {
-            stepId: "testArrayPage",
-            pageSchema: {
-              kinder: z.array(
-                z.object({
-                  vorname: stringRequiredSchema,
-                  nachname: stringRequiredSchema,
-                  geburtsdatum: createDateSchema(),
-                }),
-              ),
-              hasKinder: z.enum(["yes", "no"]),
-            },
-            arrayPages: {
-              name: {
-                pageSchema: {
-                  "kinder#vorname": stringRequiredSchema,
-                  "kinder#nachname": stringRequiredSchema,
-                  "kinder#geburtsdatum": createDateSchema(),
-                },
-              },
-            },
-          },
-        },
+        testArrayPageSchema,
         {
           hasKinder: "yes",
           kinder: [
@@ -178,44 +191,14 @@ describe("isStepDone", () => {
           ],
         },
         ["/testArrayPage"],
-        {
-          testArrayPage: {
-            event: "add-kinder",
-            url: "/testArrayPage",
-            initialInputUrl: "",
-            statementKey: "hasKinder",
-          },
-        },
+        testArrayConfig,
       ),
     ).toBe(true);
 
     // Step is done -- array irrelevant because hasKinder === 'no'
     expect(
       await isStepDone(
-        {
-          testArrayPage: {
-            stepId: "testArrayPage",
-            pageSchema: {
-              kinder: z.array(
-                z.object({
-                  vorname: stringRequiredSchema,
-                  nachname: stringRequiredSchema,
-                  geburtsdatum: createDateSchema(),
-                }),
-              ),
-              hasKinder: z.enum(["yes", "no"]),
-            },
-            arrayPages: {
-              name: {
-                pageSchema: {
-                  "kinder#vorname": stringRequiredSchema,
-                  "kinder#nachname": stringRequiredSchema,
-                  "kinder#geburtsdatum": createDateSchema(),
-                },
-              },
-            },
-          },
-        },
+        testArrayPageSchema,
         {
           hasKinder: "no",
           kinder: [
@@ -227,42 +210,12 @@ describe("isStepDone", () => {
           ],
         },
         ["/testArrayPage"],
-        {
-          testArrayPage: {
-            event: "add-kinder",
-            url: "/testArrayPage",
-            initialInputUrl: "",
-            statementKey: "hasKinder",
-          },
-        },
+        testArrayConfig,
       ),
     ).toBe(true);
     expect(
       await isStepDone(
-        {
-          testArrayPage: {
-            stepId: "testArrayPage",
-            pageSchema: {
-              kinder: z.array(
-                z.object({
-                  vorname: stringRequiredSchema,
-                  nachname: stringRequiredSchema,
-                  geburtsdatum: createDateSchema(),
-                }),
-              ),
-              hasKinder: z.enum(["yes", "no"]),
-            },
-            arrayPages: {
-              name: {
-                pageSchema: {
-                  "kinder#vorname": stringRequiredSchema,
-                  "kinder#nachname": stringRequiredSchema,
-                  "kinder#geburtsdatum": createDateSchema(),
-                },
-              },
-            },
-          },
-        },
+        testArrayPageSchema,
         {
           hasKinder: "yes",
           kinder: [
@@ -274,14 +227,7 @@ describe("isStepDone", () => {
           ],
         },
         ["/testArrayPage"],
-        {
-          testArrayPage: {
-            event: "add-kinder",
-            url: "/testArrayPage",
-            initialInputUrl: "",
-            statementKey: "hasKinder",
-          },
-        },
+        testArrayConfig,
       ),
     ).toBe(false);
   });
