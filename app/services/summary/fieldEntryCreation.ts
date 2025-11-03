@@ -106,7 +106,6 @@ export function processBoxFields(
   if (!representativeStepId) {
     return [];
   }
-  console.log(representativeField, representativeStepId);
 
   return fields.map((fieldName) =>
     createFieldEntry(fieldName, userData, fieldQuestions, representativeStepId),

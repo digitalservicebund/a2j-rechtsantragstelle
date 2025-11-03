@@ -23,14 +23,12 @@ function getArraySubFields(
   fieldToStepMapping: Record<string, string>,
 ): string[] {
   // Find all form fields that start with "baseFieldName#"
-  const s = Object.keys(fieldToStepMapping)
+  return Object.keys(fieldToStepMapping)
     .filter(
       (field) => fieldIsArray(field) && field.startsWith(`${baseFieldName}#`),
     )
     .map((field) => field.split("#")[1]) // Extract the sub-field name after #
     .filter(Boolean);
-  console.log(baseFieldName, s);
-  return s;
 }
 
 export function expandArrayFields(
@@ -85,6 +83,26 @@ export function getArrayItemValue(
   return null;
 }
 
+// Field name to URL path mappings for cases where they don't match exactly
+const FIELD_TO_PATH_MAPPING: Record<string, string> = {
+  wertsachen: "wertgegenstaende",
+  weitereEinkuenfte: "weitere-einkuenfte",
+  // Add more mappings here if needed in the future
+};
+
+// PKH (Prozesskostenhilfe) uses a different structure - all arrays go to their respective overview pages
+const PKH_ARRAY_FIELDS = [
+  "bankkonten",
+  "geldanlagen",
+  "bargeld",
+  "guthaben",
+  "wertsachen",
+  "wertgegenstaende",
+  "kraftfahrzeuge",
+  "grundeigentum",
+  "weitereEinkuenfte",
+];
+
 export function createArrayEditUrl(
   arrayFieldName: string,
   representativeStepId: string,
@@ -93,21 +111,55 @@ export function createArrayEditUrl(
   const fieldInfo = parseArrayField(arrayFieldName);
 
   if (fieldInfo.isArrayField) {
-    // For array fields, we need to insert the array index in the correct position
-    // Example: "/finanzielle-angaben/kinder/kinder/name" -> "/finanzielle-angaben/kinder/kinder/0/name"
-
     const pathParts = representativeStepId.split("/");
-    console.log(pathParts);
+    const baseFieldName = fieldInfo.baseFieldName;
 
-    if (pathParts.length >= 4) {
-      // Insert array index before the last part (field name)
-      const lastIndex = pathParts.length - 1;
-      pathParts.splice(lastIndex, 0, fieldInfo.arrayIndex.toString());
-      return pathParts.join("/");
+    // Special handling for PKH (Prozesskostenhilfe) flows
+    const isPKH = representativeStepId.includes("/prozesskostenhilfe/");
+    if (isPKH && PKH_ARRAY_FIELDS.includes(baseFieldName)) {
+      // For PKH, all array fields go to eigentum-zusammenfassung/zusammenfassung
+      const eigentumIndex = pathParts.findIndex(
+        (part) => part === "eigentum-zusammenfassung",
+      );
+      if (eigentumIndex !== -1) {
+        return (
+          pathParts.slice(0, eigentumIndex + 1).join("/") + "/zusammenfassung"
+        );
+      }
     }
 
-    // Fallback for simpler paths
-    return `${representativeStepId}/${fieldInfo.arrayIndex}`;
+    // Regular handling for Beratungshilfe and other flows
+    let mappedFieldName = baseFieldName;
+
+    // Apply field name mapping if needed
+    if (FIELD_TO_PATH_MAPPING[baseFieldName]) {
+      mappedFieldName = FIELD_TO_PATH_MAPPING[baseFieldName];
+    }
+
+    // Look for exact match first
+    let basePathIndex = pathParts.findIndex((part) => part === mappedFieldName);
+
+    // Then try parts that contain the base field name
+    if (basePathIndex === -1) {
+      basePathIndex = pathParts.findIndex((part) =>
+        part.includes(mappedFieldName),
+      );
+    }
+
+    // Build the correct overview URL
+    if (basePathIndex !== -1) {
+      // Special case: PKH partner flows use "partner-uebersicht" instead of "uebersicht"
+      const isPartnerFlow = isPKH && representativeStepId.includes("/partner/");
+      const overviewSuffix = isPartnerFlow
+        ? "/partner-uebersicht"
+        : "/uebersicht";
+
+      return pathParts.slice(0, basePathIndex + 1).join("/") + overviewSuffix;
+    }
+
+    // If no match found, return the original step (better than broken URL)
+    // This means the mapping needs to be added to FIELD_TO_PATH_MAPPING
+    return representativeStepId;
   }
 
   return representativeStepId;
