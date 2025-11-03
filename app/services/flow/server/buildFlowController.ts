@@ -17,9 +17,9 @@ import type {
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
 import {
-  doneFunction,
   getRelevantPageSchemasForStepId,
-} from "~/domains/pageSchemas";
+  isStepDone,
+} from "~/domains/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
@@ -166,7 +166,7 @@ async function stepStates(
 
         return {
           url: `${state.machine.id}${targetStepId}`,
-          isDone: await doneFunction(
+          isDone: await isStepDone(
             getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
             context,
             reachableSteps,
