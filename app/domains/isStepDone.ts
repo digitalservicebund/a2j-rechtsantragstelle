@@ -29,7 +29,7 @@ export const isStepDone = async <T extends PagesConfig>(
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
     );
   });
-  if (relevantPageSchemas.length === 0) return false;
+  if (relevantPageSchemas.length === 0) return true;
   const reducedPageSchemas = relevantPageSchemas.reduce<SchemaObject>(
     (acc, v) => ({ ...acc, ...v.pageSchema }),
     {},

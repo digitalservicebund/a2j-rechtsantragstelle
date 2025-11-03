@@ -8,8 +8,8 @@ import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 describe("isStepDone", () => {
-  it("should return false when no relevant pageSchemas are found", async () => {
-    expect(await isStepDone({}, {}, [])).toBe(false);
+  it("should return true when no relevant pageSchemas are found", async () => {
+    expect(await isStepDone({}, {}, [])).toBe(true);
   });
 
   it("should return false if the given context doesn't conform to the pageSchema", async () => {
@@ -24,7 +24,7 @@ describe("isStepDone", () => {
           },
         },
         {},
-        [],
+        ["/testPage"],
       ),
     ).toBe(false);
     expect(
@@ -38,7 +38,7 @@ describe("isStepDone", () => {
           },
         },
         { testField: undefined },
-        [],
+        ["/testPage"],
       ),
     ).toBe(false);
     expect(
@@ -52,7 +52,7 @@ describe("isStepDone", () => {
           },
         },
         { testField: 12345 as unknown as string },
-        [],
+        ["/testPage"],
       ),
     ).toBe(false);
     expect(
@@ -174,6 +174,8 @@ describe("isStepDone", () => {
         },
       ),
     ).toBe(true);
+
+    // Step is done -- array irrelevant because hasKinder === 'no'
     expect(
       await isStepDone(
         {
@@ -220,7 +222,7 @@ describe("isStepDone", () => {
           },
         },
       ),
-    ).toBe(false);
+    ).toBe(true);
     expect(
       await isStepDone(
         {
