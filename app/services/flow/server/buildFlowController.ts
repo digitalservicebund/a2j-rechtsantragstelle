@@ -21,6 +21,7 @@ import {
   isStepDone,
 } from "~/domains/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
+import { pages } from "~/domains/pageSchemas";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -115,7 +116,7 @@ async function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
-  flowId?: FlowId,
+  flowId: FlowId,
 ): Promise<StepState[]> {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
@@ -164,14 +165,19 @@ async function stepStates(
             ? eventlessStepId
             : initialStepId;
 
+        const isDone = meta?.done ? meta.done({ context }) : false;
+
         return {
           url: `${state.machine.id}${targetStepId}`,
-          isDone: await isStepDone(
-            getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
-            context,
-            reachableSteps,
-            state.machine.config.meta?.arrays,
-          ),
+          isDone:
+            flowId in pages
+              ? await isStepDone(
+                  getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
+                  context,
+                  reachableSteps,
+                  state.machine.config.meta?.arrays,
+                )
+              : isDone,
           stepId,
           isReachable: reachableSteps.includes(targetStepId),
           excludedFromValidation,

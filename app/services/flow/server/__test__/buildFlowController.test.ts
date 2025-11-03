@@ -4,6 +4,7 @@ import {
   nextStepId,
 } from "~/services/flow/server/buildFlowController";
 import { type Config } from "../types";
+import * as isStepDone from "~/domains/isStepDone";
 
 const config: Config = {
   id: "/test/flow",
@@ -291,6 +292,26 @@ describe("buildFlowController", () => {
       ).toEqual([]);
     });
 
+    it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", async () => {
+      const isStepDoneSpy = vi.spyOn(isStepDone, "isStepDone");
+      await buildFlowController({
+        config: {
+          id: "/fluggastrechte/formular",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).not.toHaveBeenCalled();
+      await buildFlowController({
+        config: {
+          id: "/beratungshilfe/antrag",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).toHaveBeenCalled();
+    });
+
     it("builds single step state", async () => {
       expect(
         await buildFlowController({
@@ -304,7 +325,7 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/start",
           url: "/test/start",
@@ -443,13 +464,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/child1",
           url: "/test/child1",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/child2",
           url: "/test/child2",
