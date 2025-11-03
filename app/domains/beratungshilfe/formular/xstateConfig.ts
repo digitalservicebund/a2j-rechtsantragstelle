@@ -26,7 +26,6 @@ export const beratungshilfeXstateConfig = {
     start: {
       id: "antragStart",
       initial: "start",
-      meta: { excludedFromValidation: true },
       states: {
         [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
       },
