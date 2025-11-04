@@ -1,4 +1,5 @@
-import type { FlowTestConfig } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeGrundvoraussetzungenUserData } from "~/domains/beratungshilfe/formular/grundvoraussetzung/userData";
 
 const rechtsschutzversicherung =
   "/grundvoraussetzungen/rechtsschutzversicherung";
@@ -131,4 +132,4 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = {
         "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung-hinweis",
     },
   ],
-} satisfies FlowTestConfig["testcases"];
+} satisfies FlowTestCases<BeratungshilfeGrundvoraussetzungenUserData>;

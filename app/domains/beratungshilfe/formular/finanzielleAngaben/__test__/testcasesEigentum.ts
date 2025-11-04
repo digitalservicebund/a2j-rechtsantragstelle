@@ -1,4 +1,6 @@
-import type { FlowTestConfig } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/userData";
+import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/partner/userData";
 
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
@@ -577,4 +579,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
-} satisfies FlowTestConfig["testcases"];
+} satisfies FlowTestCases<
+  BeratungshilfeFinanzielleAngabenEigentumUserData &
+    BeratungshilfeFinanzielleAngabenPartnerUserData
+>;

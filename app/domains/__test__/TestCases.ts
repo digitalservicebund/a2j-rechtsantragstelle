@@ -1,11 +1,17 @@
 import { type Config } from "~/services/flow/server/types";
-import type { UserData } from "../userData";
+import type { AllUserDataKeys, AllowedUserTypes, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 // Old flow tests: forward & backward using full user data
 export type TestCases<T extends UserData> = Readonly<
   Array<Readonly<[T, readonly string[]]>>
 >;
+
+type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
+
+export type ExpectedStepUserInput<T extends UserData> = DeepPartial<T> & {
+  pageData?: { arrayIndexes?: number[] };
+} & { [K in ArrayItemProperties]: AllowedUserTypes };
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
@@ -17,7 +23,7 @@ export type ExpectedStep<T extends UserData> = {
    */
   skipPageSchemaValidation?: boolean;
   // Deep partial needed to ensure partial array pages are handled correctly
-  userInput?: DeepPartial<T> & { pageData?: { arrayIndexes?: number[] } };
+  userInput?: ExpectedStepUserInput<T>;
 };
 
 type DeepPartial<T> = T extends object

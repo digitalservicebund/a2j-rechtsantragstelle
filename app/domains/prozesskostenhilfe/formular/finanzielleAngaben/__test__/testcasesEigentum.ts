@@ -1,6 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
+import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
+import { type pkhFormularFinanzielleAngabenWohnungPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/wohnung/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenEigentum = {
   rentsApartment: [
@@ -92,9 +94,9 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "bankkonten#kontoEigentuemer": "myself",
         "bankkonten#bankName": "N26",
         "bankkonten#kontostand": "1000000",
-        bankkonto: [
+        bankkonten: [
           {
-            eigentuemer: "myself",
+            kontoEigentuemer: "myself",
           },
         ],
         pageData: { arrayIndexes: [0] },
@@ -444,5 +446,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
   ],
 } satisfies FlowTestCases<
-  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenEigentumPages>
+  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenEigentumPages> &
+    UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenWohnungPages> &
+    PartnerEinkuenfteUserData
 >;

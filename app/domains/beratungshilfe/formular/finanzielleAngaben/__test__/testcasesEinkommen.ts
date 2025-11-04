@@ -1,4 +1,7 @@
-import type { FlowTestConfig } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/userData";
+import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/einkommen/userData";
+import { type BeratungshilfeRechtsproblemUserData } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
 
 const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
@@ -158,4 +161,8 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
       stepId: "/finanzielle-angaben/einkommen/situation",
     },
   ],
-} satisfies FlowTestConfig["testcases"];
+} satisfies FlowTestCases<
+  BeratungshilfeFinanzielleAngabenEinkommenUserData &
+    BeratungshilfeFinanzielleAngabenEigentumUserData &
+    BeratungshilfeRechtsproblemUserData
+>;

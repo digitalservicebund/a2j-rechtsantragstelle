@@ -5,7 +5,11 @@ import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import type { ExpectedStep, FlowTestConfig } from "./TestCases";
+import type {
+  ExpectedStep,
+  ExpectedStepUserInput,
+  FlowTestConfig,
+} from "./TestCases";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
@@ -50,8 +54,8 @@ const buildFullUserInput = <T extends UserData>(
     .slice(0, idx + 1)
     .reduce((acc, step) => ({ ...acc, ...step.userInput }), {});
 
-function testPageSchema(
-  userInput: UserData | undefined,
+function testPageSchema<T extends UserData>(
+  userInput: ExpectedStepUserInput<T>,
   pageSchema: SchemaObject | undefined,
   addArrayItemEvent?: ArrayConfigServer["event"],
 ) {
@@ -132,7 +136,7 @@ function runTestcases<T extends UserData>(
             summaryPageStepId = stepId;
           }
 
-          if (!skipPageSchemaValidation) {
+          if (!skipPageSchemaValidation && userInput) {
             testPageSchema(userInput, pageSchema, addArrayItemEvent);
           }
 
