@@ -1,5 +1,5 @@
 import { type Config } from "~/services/flow/server/types";
-import type { AllUserDataKeys, AllowedUserTypes, UserData } from "../userData";
+import type { AllowedUserTypes, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 // Old flow tests: forward & backward using full user data
@@ -7,11 +7,22 @@ export type TestCases<T extends UserData> = Readonly<
   Array<Readonly<[T, readonly string[]]>>
 >;
 
-type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
+/**
+ * Retrieves template literal union of all possible array item property paths
+ * in the format arrayname#itemname
+ */
+type ArrayPropertyPaths<T> = {
+  [K in keyof T]: NonNullable<T[K]> extends ReadonlyArray<infer U>
+    ? U extends object
+      ? `${K & string}#${Extract<keyof U, string>}`
+      : never
+    : never;
+}[keyof T];
 
+// Deep partial needed to ensure partial array pages are handled correctly
 export type ExpectedStepUserInput<T extends UserData> = DeepPartial<T> & {
   pageData?: { arrayIndexes?: number[] };
-} & { [K in ArrayItemProperties]: AllowedUserTypes };
+} & { [K in ArrayPropertyPaths<T>]?: AllowedUserTypes };
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
@@ -22,7 +33,6 @@ export type ExpectedStep<T extends UserData> = {
    * E.g. Array Summary pages
    */
   skipPageSchemaValidation?: boolean;
-  // Deep partial needed to ensure partial array pages are handled correctly
   userInput?: ExpectedStepUserInput<T>;
 };
 
