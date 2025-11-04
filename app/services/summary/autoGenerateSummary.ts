@@ -80,13 +80,9 @@ function createSummarySection(
     for (const [, groupFields] of Object.entries(itemGroups)) {
       if (groupFields.length > 0) {
         const firstField = groupFields[0];
-        const arrayIndex = firstField.arrayIndex || 0;
-
-        // Simple array item numbering (e.g., "Item 1", "Item 2")
-        const arrayTitle = `${arrayIndex + 1}`;
 
         groupItems.push({
-          question: arrayTitle,
+          question: "", // Empty for array items
           answer: "", // Empty for array items
           editUrl: firstField.editUrl,
           multipleQuestions: groupFields.map((field) => ({
@@ -98,9 +94,9 @@ function createSummarySection(
     }
 
     if (groupItems.length > 0) {
-      // Get a human-readable title for the array base field
+      // Get a title for the array base field
       const arrayGroupTitle =
-        translations?.[baseFieldName] ||
+        translations?.[baseFieldName] ??
         baseFieldName.charAt(0).toUpperCase() + baseFieldName.slice(1);
 
       arrayGroups.push({
@@ -158,8 +154,11 @@ export async function generateSummaryFromUserData(
     return true;
   });
 
+  // For field questions, we need ALL fields (including filtered nested ones) to get translation options
+  const fieldsForQuestions = expandedFields;
+
   const fieldQuestions = await getFormQuestionsForFields(
-    filteredFields,
+    fieldsForQuestions,
     flowId,
   );
 
@@ -219,7 +218,6 @@ export async function generateSummaryFromUserData(
 
       allFields.push(...processedFields);
     }
-
     if (allFields.length === 0) {
       continue;
     }

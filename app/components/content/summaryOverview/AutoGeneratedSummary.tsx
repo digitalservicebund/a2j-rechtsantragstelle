@@ -48,7 +48,6 @@ function SummarySection({
   readonly onGlobalToggle?: (itemId: string | number, isOpen: boolean) => void;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
-  // console.log(item);
 
   const handleToggle = () => {
     if (onGlobalToggle && detailsRef.current) {
