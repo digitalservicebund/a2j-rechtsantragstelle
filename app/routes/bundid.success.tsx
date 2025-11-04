@@ -1,10 +1,6 @@
 import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
-import * as samlify from "samlify";
-import {
-  getBundIdIdentityProvider,
-  getBundIdServiceProvider,
-} from "~/services/bundid/index.server";
+import { getBundIdServiceProvider } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 export const loader = async () => {
@@ -22,27 +18,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     throw new Error("Invalid SAML Response");
   }
 
-  const samlHttpRequest = {
-    body: {
-      SAMLResponse: samlResponse,
-    },
-  };
-
-  const identityProvider = getBundIdIdentityProvider();
   const serviceProvider = getBundIdServiceProvider();
 
-  samlify.setSchemaValidator({
-    validate: (_: string) => {
-      return Promise.resolve("skipped");
-    },
+  const parsedResponse = await serviceProvider.validatePostResponseAsync({
+    SAMLResponse: samlResponse,
   });
 
-  const response = await serviceProvider.parseLoginResponse(
-    identityProvider,
-    "post",
-    samlHttpRequest,
-  );
-  const responseAttributes = response.extract.attributes;
+  const responseAttributes = (parsedResponse.profile ?? {}) as Record<
+    string,
+    string
+  >;
 
   const BUNDID_PRENAME_KEY = "urn:oid:2.5.4.42";
   const BUNDID_SURNAME_KEY = "urn:oid:2.5.4.4";
