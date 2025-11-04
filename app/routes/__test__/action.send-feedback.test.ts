@@ -2,6 +2,7 @@ import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 vi.mock("~/services/session.server");
 vi.stubEnv("PUBLIC_POSTHOG_API_KEY", "-");
@@ -26,11 +27,9 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=http://external.com&js=false`,
       options,
     );
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     expect(response.init?.status).toBe(400);
   });
@@ -43,11 +42,9 @@ describe("/action/send-feedback route", () => {
       optionsWithoutBody,
     );
 
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
 
     expect(response.init?.status).toBe(422);
   });
@@ -58,11 +55,9 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
       options,
     );
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as Response;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as Response;
 
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(feedbackPath);
@@ -75,11 +70,9 @@ describe("/action/send-feedback route", () => {
       options,
     );
 
-    const response = (await action({
-      request,
-      params: {},
-      context: {},
-    })) as Response;
+    const response = (await action(
+      mockRouteArgsFromRequest(request),
+    )) as Response;
 
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(

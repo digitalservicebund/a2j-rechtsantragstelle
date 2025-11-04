@@ -1,6 +1,5 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
-import { z } from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
@@ -12,6 +11,7 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -54,7 +54,7 @@ function ValidatedFlowForm({
     <FormComponents components={formElements} />
   );
   const formSchema = pageSchema
-    ? z.object(pageSchema)
+    ? buildStepSchemaWithPageSchema(pathname, pageSchema)
     : schemaForFieldNames(fieldNames, pathname);
 
   // if (!persistedData || Object.keys(persistedData).length === 0) return null;

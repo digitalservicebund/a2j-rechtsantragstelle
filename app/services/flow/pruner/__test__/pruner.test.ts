@@ -2,6 +2,7 @@ import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/fo
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";
+import * as getAllFieldsFromFlowId from "~/domains/pageSchemas";
 
 vi.mock("~/services/cms/getStrapiEntry");
 
@@ -51,93 +52,7 @@ describe("pruner", () => {
 
   describe("pruneIrrelevantData", () => {
     it("prunes irrelevant data", async () => {
-      const strapiEntries = [
-        {
-          stepId: "/start",
-          form: [],
-        },
-        {
-          stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
-          form: [{ name: "rechtsschutzversicherung" }],
-        },
-        {
-          stepId: "/grundvoraussetzungen/wurde-verklagt",
-          form: [{ name: "wurdeVerklagt" }],
-        },
-        {
-          stepId: "/grundvoraussetzungen/klage-eingereicht",
-          form: [{ name: "klageEingereicht" }],
-        },
-        {
-          stepId: "/grundvoraussetzungen/beratungshilfe-beantragt",
-          form: [{ name: "beratungshilfeBeantragt" }],
-        },
-        {
-          stepId: "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
-          form: [{ name: "eigeninitiativeGrundvorraussetzung" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
-          form: [{ name: "staatlicheLeistungen" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
-          form: [{ name: "hasBankkonto" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
-          form: [{ name: "hasGeldanlage" }],
-        },
-        {
-          stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/art",
-          form: [{ name: "geldanlagen#art" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/forderung",
-          form: [
-            { name: "geldanlagen#forderung" },
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#wert" },
-          ],
-        },
-
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/befristet",
-          form: [
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#befristetArt" },
-            { name: "geldanlagen#verwendungszweck" },
-            { name: "geldanlagen#wert" },
-            { name: "geldanlagen#auszahlungdatum" },
-          ],
-        },
-
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/bargeld",
-          form: [
-            { name: "geldanlagen#eigentuemer" },
-            { name: "geldanlagen#wert" },
-          ],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
-          form: [{ name: "hasWertsache" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
-          form: [{ name: "hasGrundeigentum" }],
-        },
-        {
-          stepId:
-            "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
-          form: [{ name: "hasKraftfahrzeug" }],
-        },
-      ];
+      const strapiEntries = [{ stepId: "", form: [{ name: "" }] }];
 
       vi.mocked(getStrapiEntry).mockReturnValue(
         Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
@@ -196,6 +111,7 @@ describe("pruner", () => {
         eigeninitiativeGrundvorraussetzung: "no",
         staatlicheLeistungen: "keine",
         hasBankkonto: "no",
+        hasKinder: "no",
         hasGeldanlage: "yes",
         hasWertsache: "no",
         hasGrundeigentum: "no",
@@ -220,44 +136,30 @@ describe("pruner", () => {
   });
 
   it("should return the paths and if the path is an array page given a context and flowId", async () => {
-    const strapiEntries = [
-      {
-        stepId: "/grundvoraussetzungen/rechtsschutzversicherung",
-        form: [{ name: "rechtsschutzversicherung" }],
-      },
-      {
-        stepId: "/grundvoraussetzungen/wurde-verklagt",
-        form: [{ name: "wurdeVerklagt" }],
-      },
-      {
-        stepId: "/grundvoraussetzungen/klage-eingereicht",
-        form: [{ name: "klageEingereicht" }],
-      },
-      {
-        stepId: "/grundvoraussetzungen/beratungshilfe-beantragt",
-        form: [{ name: "beratungshilfeBeantragt" }],
-      },
-      {
-        stepId: "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
-        form: [{ name: "eigeninitiativeGrundvorraussetzung" }],
-      },
-      {
-        stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
-        form: [{ name: "staatlicheLeistungen" }],
-      },
-      {
-        stepId: "/finanzielle-angaben/kinder/kinder-frage",
-        form: [{ name: "hasKinder" }],
-      },
-      {
-        stepId: "/finanzielle-angaben/kinder/kinder/name",
-        form: [
-          { name: "kinder#vorname" },
-          { name: "kinder#nachname" },
-          { name: "kinder#geburtsdatum" },
-        ],
-      },
-    ];
+    const strapiEntries = [{ stepId: "", form: [{ name: "" }] }];
+
+    vi.spyOn(getAllFieldsFromFlowId, "getAllFieldsFromFlowId").mockReturnValue({
+      "/grundvoraussetzungen/rechtsschutzversicherung": [
+        "rechtsschutzversicherung",
+      ],
+      "/grundvoraussetzungen/wurde-verklagt": ["wurdeVerklagt"],
+      "/grundvoraussetzungen/klage-eingereicht": ["klageEingereicht"],
+      "/grundvoraussetzungen/beratungshilfe-beantragt": [
+        "beratungshilfeBeantragt",
+      ],
+      "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung": [
+        "eigeninitiativeGrundvorraussetzung",
+      ],
+      "/finanzielle-angaben/einkommen/staatliche-leistungen": [
+        "staatlicheLeistungen",
+      ],
+      "/finanzielle-angaben/kinder/kinder-frage": ["hasKinder"],
+      "/finanzielle-angaben/kinder/kinder/name": [
+        "kinder#vorname",
+        "kinder#nachname",
+        "kinder#geburtsdatum",
+      ],
+    });
 
     vi.mocked(getStrapiEntry).mockReturnValue(
       Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),

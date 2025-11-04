@@ -6,9 +6,6 @@ const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
     {
-      stepId: "/abgabe/zusammenfassung",
-    },
-    {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
     },
@@ -22,9 +19,6 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       : [{ stepId: "/abgabe/online" }]),
   ],
   printedAbgabe: [
-    {
-      stepId: "/abgabe/zusammenfassung",
-    },
     {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "ausdrucken" },

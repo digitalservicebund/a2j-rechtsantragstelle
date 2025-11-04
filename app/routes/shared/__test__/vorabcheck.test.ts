@@ -11,6 +11,7 @@ import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { action } from "../vorabcheck";
+import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -79,11 +80,9 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      const response = (await action({
-        request: mockDefaultRequest,
-        params: {},
-        context: {},
-      })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+      const response = (await action(
+        mockRouteArgsFromRequest(mockDefaultRequest),
+      )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
 
       expect(response.init?.status).toBe(422);
       expect(response.data.fieldErrors).toEqual({
@@ -105,11 +104,7 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      await action({
-        request: mockDefaultRequest,
-        params: {},
-        context: {},
-      });
+      await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
       expect(updateSession).toHaveBeenCalledTimes(1);
       expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
@@ -137,11 +132,7 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      await action({
-        request: mockDefaultRequest,
-        params: {},
-        context: {},
-      });
+      await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
       expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
       expect(postValidationFlowAction).toHaveBeenCalledWith(
@@ -163,11 +154,9 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      const response = (await action({
-        request: mockDefaultRequest,
-        params: {},
-        context: {},
-      })) as Response;
+      const response = (await action(
+        mockRouteArgsFromRequest(mockDefaultRequest),
+      )) as Response;
 
       expect(response.status).toEqual(302);
       expect(response.headers.get("location")).toEqual("/next-step");

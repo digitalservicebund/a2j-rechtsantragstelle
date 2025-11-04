@@ -1,5 +1,6 @@
 import { redirect } from "react-router";
 import { action } from "~/routes/action.send-email";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 vi.mock("react-router");
 vi.mock("~/services/analytics/gdprCookie.server", () => ({
@@ -36,7 +37,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action({ request, params: {}, context: {} });
+    await action(mockRouteArgsFromRequest(request));
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?invalid`);
   });
 
@@ -49,7 +50,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action({ request, params: {}, context: {} });
+    await action(mockRouteArgsFromRequest(request));
     expect(fetchMock).toHaveBeenCalled();
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?success`, {
       headers: {},
@@ -65,7 +66,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action({ request, params: {}, context: {} });
+    await action(mockRouteArgsFromRequest(request));
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?error`);
   });
 });

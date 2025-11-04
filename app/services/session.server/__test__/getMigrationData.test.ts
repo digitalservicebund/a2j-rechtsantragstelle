@@ -1,12 +1,12 @@
 import type { Flow } from "~/domains/flows.server";
-import { pruneIrrelevantData } from "~/services/flow/pruner";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../getMigrationData";
 
 vi.mock("~/services/session.server");
 const getSessionDataMock = vi.mocked(getSessionData);
 
-vi.mock("~/services/flow/pruner");
+vi.mock("~/services/flow/pruner/pruner");
 const pruneIrrelevantDataMock = vi.mocked(pruneIrrelevantData);
 
 const mockMigrationFlowDestination: Flow = {

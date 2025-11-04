@@ -20,6 +20,7 @@ export const beratungshilfeXstateConfig = {
     arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
       "/beratungshilfe/antrag/finanzielle-angaben",
     ),
+    pruneDataFromPageSchema: true,
   },
   states: {
     start: {

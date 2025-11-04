@@ -37,7 +37,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             target: "#einkuenfte.einkommen",
           },
           {
-            guard: "hasFurtherIncome",
+            guard: ({ context }) => context.hasFurtherIncome === "yes",
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
           },
           "#einkuenfte.weitere-einkuenfte.frage",

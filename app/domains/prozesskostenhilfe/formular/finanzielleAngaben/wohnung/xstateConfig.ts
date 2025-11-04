@@ -24,7 +24,8 @@ export const wohnungXstateConfig = {
         ],
         BACK: [
           {
-            guard: "hasWeitereUnterhaltszahlungenYes",
+            guard: ({ context }) =>
+              context.hasWeitereUnterhaltszahlungen === "yes",
             target: "#andere-unterhaltszahlungen.uebersicht",
           },
           "#andere-unterhaltszahlungen.frage",

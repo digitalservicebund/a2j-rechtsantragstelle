@@ -12,6 +12,7 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { uploadUserFile } from "~/services/upload/fileUploadHelpers.server";
 import { action } from "../formular";
+import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromRequest";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -81,11 +82,9 @@ describe("formular.server", () => {
 
         const request = new Request(mockRequestUrl, options);
 
-        const response = (await action({
-          request,
-          params: {},
-          context: {},
-        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+        const response = (await action(
+          mockRouteArgsFromRequest(request),
+        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
 
         expect(response.init?.status).toBe(422);
         expect(response.data.fieldErrors).toEqual({
@@ -107,11 +106,9 @@ describe("formular.server", () => {
           body: formData,
         });
 
-        const response = (await action({
-          request,
-          params: {},
-          context: {},
-        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+        const response = (await action(
+          mockRouteArgsFromRequest(request),
+        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
 
         expect(response.init?.status).toBe(200);
         expect(updateSession).toHaveBeenCalledTimes(1);
@@ -130,11 +127,9 @@ describe("formular.server", () => {
           }),
         );
 
-        const response = (await action({
-          request: mockDefaultRequest,
-          params: {},
-          context: {},
-        })) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
+        const response = (await action(
+          mockRouteArgsFromRequest(mockDefaultRequest),
+        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
 
         expect(response.init?.status).toBe(422);
         expect(response.data.fieldErrors).toEqual({
@@ -151,11 +146,7 @@ describe("formular.server", () => {
           }),
         );
 
-        await action({
-          request: mockDefaultRequest,
-          params: {},
-          context: {},
-        });
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(updateSession).toHaveBeenCalledTimes(2);
         expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
@@ -182,11 +173,7 @@ describe("formular.server", () => {
           }),
         );
 
-        await action({
-          request: mockDefaultRequest,
-          params: {},
-          context: {},
-        });
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
         expect(postValidationFlowAction).toHaveBeenCalledWith(
@@ -204,11 +191,9 @@ describe("formular.server", () => {
         );
         vi.mocked(flowDestination).mockReturnValue("/next-step");
 
-        const response = (await action({
-          request: mockDefaultRequest,
-          params: {},
-          context: {},
-        })) as Response;
+        const response = (await action(
+          mockRouteArgsFromRequest(mockDefaultRequest),
+        )) as Response;
 
         expect(response.status).toEqual(302);
         expect(response.headers.get("location")).toEqual("/next-step");

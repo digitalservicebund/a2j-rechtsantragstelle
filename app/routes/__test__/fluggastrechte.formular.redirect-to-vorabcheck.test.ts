@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { loader } from "~/routes/fluggastrechte.formular.redirect-to-vorabcheck";
 import { getSessionManager } from "~/services/session.server";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 vi.mock("~/services/session.server");
 
@@ -20,7 +21,7 @@ describe("fluggastrechte/formular/redirect-to-vorabcheck route", () => {
     const request = new Request(
       "http://localhost:3000/fluggastrechte/formular/redirect-to-vorabcheck",
     );
-    const mockArgs: LoaderFunctionArgs = { request, params: {}, context: {} };
+    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(request);
     await loader(mockArgs);
     expect(mockGetSession).toHaveBeenCalled();
     expect(mockDestroySession).toHaveBeenCalled();
@@ -31,7 +32,7 @@ describe("fluggastrechte/formular/redirect-to-vorabcheck route", () => {
     const request = new Request(
       "http://localhost:3000/fluggastrechte/formular/redirect-to-vorabcheck",
     );
-    const mockArgs: LoaderFunctionArgs = { request, params: {}, context: {} };
+    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(request);
     const response = await loader(mockArgs);
 
     expect(response).toBeInstanceOf(Response);

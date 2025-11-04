@@ -1,11 +1,18 @@
-import { bankKontoDone } from "~/domains/shared/formular/finanzielleAngaben/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "../BeratungshilfeFinanzielleAngabenGuardType";
 import {
+  bankkontenArraySchema,
   geldanlagenArraySchema,
   grundeigentumArraySchema,
   kraftfahrzeugeArraySchema,
-  wertgegenstandArraySchema,
+  wertsachenArraySchema,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
+
+export const bankKontoDone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.hasBankkonto === "no" ||
+  (context.hasBankkonto === "yes" &&
+    bankkontenArraySchema.safeParse(context.bankkonten).success);
 
 export const geldanlagenDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
@@ -26,7 +33,7 @@ export const wertsachenDone: BeratungshilfeFinanzielleAngabenGuard = ({
 }) =>
   context.hasWertsache === "no" ||
   (context.hasWertsache === "yes" &&
-    wertgegenstandArraySchema.safeParse(context.wertsachen).success);
+    wertsachenArraySchema.safeParse(context.wertsachen).success);
 
 export const grundeigentumDone: BeratungshilfeFinanzielleAngabenGuard = ({
   context,

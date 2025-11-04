@@ -1,10 +1,10 @@
-import type { LoaderFunctionArgs } from "react-router";
 import { loader } from "~/routes/hilfe";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 describe("/hilfe route", () => {
   it("should redirect to /kontakt page", async () => {
     const request = new Request("http://localhost:3000/hilfe");
-    const mockArgs: LoaderFunctionArgs = { request, params: {}, context: {} };
+    const mockArgs = mockRouteArgsFromRequest(request);
     const response = (await loader(mockArgs)) as Response;
 
     expect(response).toBeInstanceOf(Response);

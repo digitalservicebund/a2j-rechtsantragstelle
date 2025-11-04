@@ -28,7 +28,6 @@ import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
 } from "./antragstellendePerson/guards";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import {
@@ -43,9 +42,6 @@ import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-const showPKHZusammenfassung = await isFeatureFlagEnabled(
-  "showPKHZusammenfassung",
-);
 
 const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
@@ -171,12 +167,6 @@ export const prozesskostenhilfeFormular = {
               {
                 guard: ({ context }) =>
                   readyForAbgabe({ context }) &&
-                  Boolean(showPKHZusammenfassung),
-                target: steps.zusammenfassung.relative,
-              },
-              {
-                guard: ({ context }) =>
-                  readyForAbgabe({ context }) &&
                   fileUploadRelevant({ context }) &&
                   Boolean(showFileUpload),
                 target: steps.dokumente.relative,
@@ -187,24 +177,9 @@ export const prozesskostenhilfeFormular = {
               },
             ],
           },
-          zusammenfassung: {
-            on: {
-              BACK: steps.weitereAngaben.absolute,
-              SUBMIT: [
-                {
-                  guard: ({ context }) =>
-                    fileUploadRelevant({ context }) && Boolean(showFileUpload),
-                  target: steps.dokumente.relative,
-                },
-                steps.ende.relative,
-              ],
-            },
-          },
           [steps.dokumente.relative]: {
             on: {
-              BACK: showPKHZusammenfassung
-                ? steps.zusammenfassung.relative
-                : steps.weitereAngaben.absolute,
+              BACK: steps.weitereAngaben.absolute,
               SUBMIT: steps.ende.relative,
             },
           },
@@ -216,10 +191,6 @@ export const prozesskostenhilfeFormular = {
                     Boolean(showFileUpload) && fileUploadRelevant({ context }),
                   target: steps.dokumente.relative,
                 },
-                {
-                  guard: () => Boolean(showPKHZusammenfassung),
-                  target: steps.zusammenfassung.relative,
-                },
                 steps.weitereAngaben.absolute,
               ],
             },
@@ -228,10 +199,7 @@ export const prozesskostenhilfeFormular = {
       },
     },
   },
-  guards: {
-    ...finanzielleAngabeGuards,
-    ...finanzielleAngabeEinkuenfteGuards,
-  },
+  guards: {},
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),

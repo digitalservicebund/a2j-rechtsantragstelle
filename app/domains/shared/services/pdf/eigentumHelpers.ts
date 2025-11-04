@@ -1,11 +1,19 @@
+import type z from "zod";
 import type {
-  BankkontenArraySchema,
-  Eigentumer,
-  GeldanlagenArraySchema,
-  GrundeigentumArraySchema,
-  KraftfahrzeugeArraySchema,
-  WertsachenArraySchema,
-} from "~/domains/shared/formular/finanzielleAngaben/userData";
+  kraftfahrzeugeArraySchema as berhKraftfahrzeugeArraySchema,
+  wertsacheSchema as berhWertsacheSchema,
+  grundeigentumArraySchema as berhGrundeigentumArraySchema,
+  geldanlagenArraySchema as berhGeldanlagenArraySchema,
+  bankkontenArraySchema as berhBankkontenArraySchema,
+} from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/pages";
+import type {
+  wertsacheSchema as pkhWertsacheSchema,
+  kraftfahrzeugeArraySchema as pkhKraftfahrzeugeArraySchema,
+  grundeigentumArraySchema as pkhGrundeigentumArraySchema,
+  geldanlagenArraySchema as pkhGeldanlagenArraySchema,
+  bankkontenArraySchema as pkhBankkontenArraySchema,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
+import type { Eigentumer } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 
 const befristungMapping = {
@@ -20,6 +28,18 @@ export const eigentuemerMapping: Record<Eigentumer, string> = {
   myselfAndPartner: "Mein:e Ehe-Partner:in und ich gemeinsam",
   myselfAndSomeoneElse: "Ich gemeinsam mit jemand anderem",
 };
+
+type GrundeigentumArraySchema =
+  | z.infer<typeof pkhGrundeigentumArraySchema>
+  | z.infer<typeof berhGrundeigentumArraySchema>;
+
+type GeldanlagenArraySchema = z.infer<
+  typeof berhGeldanlagenArraySchema | typeof pkhGeldanlagenArraySchema
+>;
+
+export type BankkontenArray = z.infer<
+  typeof berhBankkontenArraySchema | typeof pkhBankkontenArraySchema
+>;
 
 export const grundeigentumArtMapping: Record<
   NonNullable<GrundeigentumArraySchema[0]["art"]>,
@@ -51,7 +71,7 @@ export const verkaufswertMappingDescription = {
 
 export const attachBankkontenToAnhang = (
   attachment: AttachmentEntries,
-  bankkonten: BankkontenArraySchema,
+  bankkonten: BankkontenArray,
 ) => {
   attachment.push({
     title: "Bankkonten",
@@ -118,14 +138,16 @@ export const attachGrundeigentumToAnhang = (
   return { attachment };
 };
 
+type KraftfahrzeugeArraySchema =
+  | z.infer<typeof berhKraftfahrzeugeArraySchema>
+  | z.infer<typeof pkhKraftfahrzeugeArraySchema>;
+
 export const attachKraftfahrzeugeToAnhang = (
   kraftfahrzeuge: KraftfahrzeugeArraySchema,
 ) => {
   const attachment: AttachmentEntries = [];
-  attachment.push({
-    title: "Kraftfahrzeuge",
-    level: "h3",
-  });
+  attachment.push({ title: "Kraftfahrzeuge", level: "h3" });
+
   kraftfahrzeuge.forEach((kraftfahrzeug, index) => {
     const kfzWert = kraftfahrzeug.wert
       ? verkaufswertMappingDescription[kraftfahrzeug.wert]
@@ -137,9 +159,10 @@ export const attachKraftfahrzeugeToAnhang = (
       },
       {
         title: "Verkaufswert",
-        text: kraftfahrzeug.verkaufswert
-          ? kraftfahrzeug.verkaufswert + " €"
-          : kfzWert,
+        text:
+          "verkaufswert" in kraftfahrzeug
+            ? kraftfahrzeug.verkaufswert + " €"
+            : kfzWert,
       },
       {
         title: "Wird für Arbeitsweg benutzt",
@@ -147,30 +170,31 @@ export const attachKraftfahrzeugeToAnhang = (
       },
     );
 
-    if (kraftfahrzeug.eigentuemer)
-      attachment.push({
-        title: "Eigentümer:in",
-        text: eigentuemerMapping[kraftfahrzeug.eigentuemer],
-      });
-    if (kraftfahrzeug.art)
-      attachment.push({ title: "Art", text: kraftfahrzeug.art });
-    if (kraftfahrzeug.marke)
-      attachment.push({ title: "Marke", text: kraftfahrzeug.marke });
-    if (kraftfahrzeug.anschaffungsjahr)
-      attachment.push({
-        title: "Anschaffungsjahr",
-        text: String(kraftfahrzeug.anschaffungsjahr),
-      });
-    if (kraftfahrzeug.baujahr)
-      attachment.push({
-        title: "Baujahr",
-        text: String(kraftfahrzeug.baujahr),
-      });
-    if (kraftfahrzeug.kilometerstand)
-      attachment.push({
-        title: "Kilometerstand",
-        text: String(kraftfahrzeug.kilometerstand) + " km",
-      });
+    if (kraftfahrzeug.wert !== "under10000") {
+      attachment.push(
+        {
+          title: "Eigentümer:in",
+          text: eigentuemerMapping[kraftfahrzeug.eigentuemer],
+        },
+        { title: "Art", text: kraftfahrzeug.art },
+        { title: "Marke", text: kraftfahrzeug.marke },
+        {
+          title: "Kilometerstand",
+          text: String(kraftfahrzeug.kilometerstand) + " km",
+        },
+      );
+
+      if (kraftfahrzeug.anschaffungsjahr)
+        attachment.push({
+          title: "Anschaffungsjahr",
+          text: String(kraftfahrzeug.anschaffungsjahr),
+        });
+      if (kraftfahrzeug.baujahr)
+        attachment.push({
+          title: "Baujahr",
+          text: String(kraftfahrzeug.baujahr),
+        });
+    }
   });
   return { attachment };
 };
@@ -200,34 +224,36 @@ export const attachGeldanlagenToAnhang = (
         text: geldanlageEigentumer,
       },
     );
-    if (geldanlage.auszahlungdatum)
-      attachment.push({
-        title: "Auszahlungsdatum",
-        text: geldanlage.auszahlungdatum,
-      });
-    if (geldanlage.befristetArt)
-      attachment.push({
-        title: "Art der Befristung",
-        text: befristungMapping[geldanlage.befristetArt],
-      });
-    if (geldanlage.forderung)
+    if ("auszahlungdatum" in geldanlage)
+      attachment.push(
+        {
+          title: "Auszahlungsdatum",
+          text: geldanlage.auszahlungdatum,
+        },
+        {
+          title: "Art der Befristung",
+          text: befristungMapping[geldanlage.befristetArt],
+        },
+      );
+
+    if ("forderung" in geldanlage)
       attachment.push({ title: "Forderung", text: geldanlage.forderung });
-    if (geldanlage.verwendungszweck)
+    if ("verwendungszweck" in geldanlage)
       attachment.push({
         title: "Verwendungszweck",
         text: geldanlage.verwendungszweck,
       });
-    if (geldanlage.kontoBankName)
+    if ("kontoBankName" in geldanlage)
       attachment.push({
         title: "Name der Bank",
         text: geldanlage.kontoBankName,
       });
-    if (geldanlage.kontoBezeichnung)
+    if ("kontoBezeichnung" in geldanlage)
       attachment.push({
         title: "Bezeichnung",
         text: geldanlage.kontoBezeichnung,
       });
-    if (geldanlage.kontoIban)
+    if ("kontoIban" in geldanlage)
       attachment.push({
         title: "IBAN",
         text: geldanlage.kontoIban,
@@ -240,14 +266,15 @@ export function fillSingleKraftfahrzeug(
   kraftfahrzeug: KraftfahrzeugeArraySchema[0],
 ) {
   let description = `Wird ${kraftfahrzeug.hasArbeitsweg === "no" ? "nicht " : ""}für Arbeitsweg gebraucht`;
-  if (kraftfahrzeug.art) description += `, Art: ${kraftfahrzeug.art}`;
-  if (kraftfahrzeug.marke) description += `, Marke: ${kraftfahrzeug.marke}`;
-  if (kraftfahrzeug.baujahr)
-    description += `, Baujahr: ${kraftfahrzeug.baujahr}`;
-  if (kraftfahrzeug.anschaffungsjahr)
-    description += `, Anschaffungsjahr: ${kraftfahrzeug.anschaffungsjahr}`;
-  if (kraftfahrzeug.kilometerstand)
+  if (kraftfahrzeug.wert !== "under10000") {
+    description += `, Art: ${kraftfahrzeug.art}`;
+    description += `, Marke: ${kraftfahrzeug.marke}`;
     description += `, Kilometerstand: ${kraftfahrzeug.kilometerstand}`;
+    if (kraftfahrzeug.baujahr)
+      description += `, Baujahr: ${kraftfahrzeug.baujahr}`;
+    if (kraftfahrzeug.anschaffungsjahr)
+      description += `, Anschaffungsjahr: ${kraftfahrzeug.anschaffungsjahr}`;
+  }
   return description;
 }
 
@@ -259,23 +286,26 @@ export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
   if (geldanlage.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`;
 
-  if (geldanlage.auszahlungdatum)
+  if ("auszahlungdatum" in geldanlage)
     description += `, Auszahlungsdatum: ${geldanlage.auszahlungdatum}`;
-  if (geldanlage.befristetArt)
+  if ("befristetArt" in geldanlage)
     description += `, Art der Befristung: ${befristungMapping[geldanlage.befristetArt]}`;
-  if (geldanlage.verwendungszweck)
+  if ("verwendungszweck" in geldanlage)
     description += `, Verwendungszweck: ${geldanlage.verwendungszweck}`;
-  if (geldanlage.forderung)
+  if ("forderung" in geldanlage)
     description += `, Forderung: ${geldanlage.forderung}`;
-  if (geldanlage.kontoBezeichnung)
+  if ("kontoBezeichnung" in geldanlage)
     description += `, Bezeichnung: ${geldanlage.kontoBezeichnung}`;
-  if (geldanlage.kontoBankName)
+  if ("kontoBankName" in geldanlage)
     description += `, Name der Bank: ${geldanlage.kontoBankName}`;
-  if (geldanlage.kontoIban) description += `, IBAN: ${geldanlage.kontoIban}`;
+  if ("kontoIban" in geldanlage)
+    description += `, IBAN: ${geldanlage.kontoIban}`;
   return description;
 }
 
-export function fillSingleWertsache(wertsache: WertsachenArraySchema[0]) {
+export function fillSingleWertsache(
+  wertsache: z.infer<typeof pkhWertsacheSchema | typeof berhWertsacheSchema>,
+) {
   let description = `Art: ${wertsache.art}`;
   if (wertsache.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[wertsache.eigentuemer]}`;

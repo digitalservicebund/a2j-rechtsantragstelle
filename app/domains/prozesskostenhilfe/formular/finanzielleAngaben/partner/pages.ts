@@ -20,7 +20,7 @@ const partnerArbeitsausgabenArraySchema = z
   .array()
   .min(1);
 
-export const partnerWeitereEinkuenfteArraySchema = z
+const partnerWeitereEinkuenfteArraySchema = z
   .object({
     ...sharedPaymentFields,
   })

@@ -121,7 +121,7 @@ describe("getContentData", () => {
 
   describe("getStepData", () => {
     it("should return correctly the step data", () => {
-      const actual = callContentData.getStepData();
+      const actual = callContentData.getStepData("");
 
       expect(actual).toEqual({ name: "testName" });
     });

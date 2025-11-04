@@ -3,15 +3,10 @@ import {
   isValidArrayIndex,
 } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import {
-  hasStaatlicheLeistungen,
-  hasNoStaatlicheLeistungen,
-} from "./einkommen/doneFunctions";
-import { type BeratungshilfeFinanzielleAngabenUserData } from "./userData";
-import { eigentumDone } from "./eigentum/doneFunctions";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
-import { yesNoGuards, type Guards } from "~/domains/guards.server";
+import { yesNoGuards } from "~/domains/guards.server";
 import { kinderArraySchema } from "./kinder/pages";
+import { hasStaatlicheLeistungen } from "./einkommen/doneFunctions";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
@@ -55,8 +50,7 @@ export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: Beratungshilfe
 
 export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
-    hasPartnerschaftYes({ context }) &&
-    context.zusammenleben == "no" &&
+    hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
     context.unterhalt === "yes";
 
 export const hasPartnerschaftYesAndZusammenlebenYes: BeratungshilfeFinanzielleAngabenGuard =
@@ -188,64 +182,32 @@ export const kindWohnortBeiAntragstellerYes: BeratungshilfeFinanzielleAngabenGua
     );
   };
 
-export const finanzielleAngabeGuards = {
-  eigentumDone,
-  staatlicheLeistungenIsKeine,
-  staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
-  staatlicheLeistungenIsBuergergeldAndHasEigentum: ({ context }) =>
-    (staatlicheLeistungenIsBuergergeld({ context }) &&
-      context.hasGeldanlage == "yes") ||
-    context.hasWertsache == "yes" ||
-    context.hasGrundeigentum == "yes" ||
-    context.hasKraftfahrzeug == "yes",
-  hasStaatlicheLeistungen,
-  hasNoStaatlicheLeistungen,
-  hasPartnerschaftYesAndNoStaatlicheLeistungen: ({ context }) =>
-    context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context }),
-  hasPartnerschaftYes,
-  hasPartnerschaftYesAndPartnerEinkommenYes,
-  hasPartnerschaftYesAndZusammenlebenYes,
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes,
-  hasPartnerschaftYesAndZusammenlebenNo,
-  hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo,
-  ...yesNoGuards("erwerbstaetig"),
-  ...yesNoGuards("zusammenleben"),
-  ...yesNoGuards("unterhalt"),
-  ...yesNoGuards("partnerEinkommen"),
-  hasKraftfahrzeugYes,
-  hasGrundeigentumYes,
-  hasWertsacheYes,
-  hasWeitereUnterhaltszahlungenYes,
-  hasZahlungsfristYes: ({ context: { pageData, ausgaben } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
-  },
-  kindWohnortBeiAntragstellerYes,
-  kindWohnortBeiAntragstellerNo,
-  kindEigeneEinnahmenYes,
-  kindUnterhaltYes,
-  kindUnterhaltNo,
-  isValidKinderArrayIndex,
-  isValidAusgabenArrayIndex: ({ context: { pageData, ausgaben } }) =>
-    isValidArrayIndex(ausgaben, pageData),
-  livesAlone: ({ context }) => context.livingSituation === "alone",
-  livesNotAlone: ({ context }) =>
-    context.livingSituation === "withRelatives" ||
-    context.livingSituation === "withOthers",
-  isGeldanlageBargeld,
-  isGeldanlageWertpapiere,
-  isGeldanlageGuthabenkontoKrypto,
-  isGeldanlageGiroTagesgeldSparkonto,
-  isGeldanlageBefristet,
-  isGeldanlageForderung,
-  isGeldanlageSonstiges,
-  isKraftfahrzeugWertAbove10000OrUnsure,
-  grundeigentumIsBewohnt,
-  hasAusgabenYesAndEmptyArray: ({ context }) =>
-    context.hasAusgaben === "yes" && !arrayIsNonEmpty(context.ausgaben),
-  hasKinderYesAndEmptyArray,
-  hasWeitereUnterhaltszahlungenYesAndEmptyArray,
-} satisfies Guards<BeratungshilfeFinanzielleAngabenUserData>;
+export const hasPartnerschaftYesAndNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context });
+
+export const livesAlone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) => context.livingSituation === "alone";
+
+export const livesNotAlone: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.livingSituation === "withRelatives" ||
+  context.livingSituation === "withOthers";
+
+export const isValidAusgabenArrayIndex: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context: { pageData, ausgaben } }) =>
+    isValidArrayIndex(ausgaben, pageData);
+
+export const hasAusgabenYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
+  ({ context }) =>
+    context.hasAusgaben === "yes" && !arrayIsNonEmpty(context.ausgaben);
+
+export const hasZahlungsfristYes: BeratungshilfeFinanzielleAngabenGuard = ({
+  context: { pageData, ausgaben },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  return ausgaben?.at(arrayIndex)?.hasZahlungsfrist === "yes";
+};

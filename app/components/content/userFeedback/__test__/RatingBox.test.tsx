@@ -5,14 +5,14 @@ import { RatingBox } from "../RatingBox";
 const YES_RATING = "yes";
 const NO_RATING = "no";
 
-vi.mock("~/components/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
   useFeedbackTranslations: () => ({
     ["yes-rating"]: YES_RATING,
     ["no-rating"]: NO_RATING,
   }),
 }));
 
-describe.skip("RatingBox", () => {
+describe("RatingBox", () => {
   it("should render the component with the given translations", () => {
     const RatingBoxWithRouteStub = createRoutesStub([
       {

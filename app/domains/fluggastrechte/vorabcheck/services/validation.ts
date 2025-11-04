@@ -1,15 +1,11 @@
 import type { MultiFieldsValidationBaseSchema } from "~/domains/types";
-import type { fluggastrechteVorabcheckInputSchema } from "../userData";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
 
 const fieldsToValidate = ["startAirport", "endAirport"] as const;
+const _schema = getAllPageSchemaByFlowId("/fluggastrechte/vorabcheck");
 
 export function validateSameDepartureAndArrivalAirports(
-  baseSchema: MultiFieldsValidationBaseSchema<
-    Pick<
-      typeof fluggastrechteVorabcheckInputSchema,
-      (typeof fieldsToValidate)[number]
-    >
-  >,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     if (ctx.value.startAirport === ctx.value.endAirport) {

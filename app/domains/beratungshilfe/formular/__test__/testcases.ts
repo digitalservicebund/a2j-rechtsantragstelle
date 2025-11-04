@@ -89,9 +89,6 @@ export const testCasesBeratungshilfeFormularDefault = {
         weitereAngaben: "",
       },
     },
-    {
-      stepId: "/abgabe/zusammenfassung",
-    },
   ],
   basicFlow: [
     {
@@ -276,9 +273,6 @@ export const testCasesBeratungshilfeFormularDefault = {
       userInput: {
         weitereAngaben: "",
       },
-    },
-    {
-      stepId: "/abgabe/zusammenfassung",
     },
   ],
 } satisfies FlowTestCases["testcases"];

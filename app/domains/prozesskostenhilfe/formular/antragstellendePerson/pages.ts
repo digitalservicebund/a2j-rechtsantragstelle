@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
-import { familyRelationshipInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { familyRelationshipSchema } from "../finanzielleAngaben/andere-unterhaltszahlungen/pages";
 
 export const pkhFormularAntragstellendePersonPages = {
   empfaenger: {
@@ -46,7 +46,7 @@ export const pkhFormularAntragstellendePersonPages = {
   unterhaltspflichtigePersonBeziehung: {
     stepId: "antragstellende-person/unterhaltspflichtige-person-beziehung",
     pageSchema: {
-      personWhoCouldPayUnterhaltBeziehung: familyRelationshipInputSchema,
+      personWhoCouldPayUnterhaltBeziehung: familyRelationshipSchema,
     },
   },
   warumKeinerUnterhalt: {
@@ -66,7 +66,7 @@ export const pkhFormularAntragstellendePersonPages = {
     pageSchema: {
       unterhaltspflichtigePerson: z
         .object({
-          beziehung: familyRelationshipInputSchema,
+          beziehung: familyRelationshipSchema,
           vorname: stringRequiredSchema,
           nachname: stringRequiredSchema,
         })

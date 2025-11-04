@@ -1,12 +1,13 @@
-import { type Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
-// import { partnerEinkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
 import {
   finanzielleAngabeEinkuenfteGuards,
   partnerEinkuenfteGuards,
 } from "../einkuenfte/guards";
+import type { PartnerEinkuenfteUserData } from "./userData";
+import type { Config } from "~/services/flow/server/types";
+import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "../abzuege/userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
@@ -38,7 +39,7 @@ export const partnerXstateConfig = {
             target: "#finanzielle-angaben.abzuege.arbeitsausgaben",
           },
           {
-            guard: "hasFurtherIncome",
+            guard: finanzielleAngabeEinkuenfteGuards.hasFurtherIncome,
             target: "#einkuenfte.weitere-einkuenfte.uebersicht",
           },
           {
@@ -49,7 +50,7 @@ export const partnerXstateConfig = {
         ],
         SUBMIT: [
           {
-            guard: "hasPartnerschaftYes",
+            guard: ({ context }) => context.partnerschaft === "yes",
             target: steps.partnerZusammenleben.relative,
           },
           "#kinder",
@@ -61,7 +62,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerschaft.relative,
         SUBMIT: [
           {
-            guard: "zusammenlebenYes",
+            guard: ({ context }) => context.zusammenleben === "yes",
             target: steps.partnerEinkommen.relative,
           },
           steps.partnerUnterhalt.relative,
@@ -73,7 +74,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerZusammenleben.relative,
         SUBMIT: [
           {
-            guard: "unterhaltYes",
+            guard: ({ context }) => context.unterhalt === "yes",
             target: steps.partnerUnterhaltsSumme.relative,
           },
           steps.partnerKeineRolle.relative,
@@ -91,7 +92,7 @@ export const partnerXstateConfig = {
         BACK: steps.partnerZusammenleben.relative,
         SUBMIT: [
           {
-            guard: "partnerEinkommenYes",
+            guard: ({ context }) => context.partnerEinkommen == "yes",
             target: "#partner-einkuenfte",
           },
           "#kinder",
@@ -640,7 +641,8 @@ export const partnerXstateConfig = {
             ],
             SUBMIT: [
               {
-                guard: "partnerHasBesondersAusgabenYes",
+                guard: ({ context }) =>
+                  context.partnerHasBesondersAusgaben === "yes",
                 target: "add-partner-besonders-ausgaben",
               },
               "#kinder",
@@ -656,4 +658,7 @@ export const partnerXstateConfig = {
       },
     },
   },
-} as Flow["config"];
+} satisfies Config<
+  PartnerEinkuenfteUserData &
+    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData
+>;

@@ -1,10 +1,6 @@
 import type { Guards } from "~/domains/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
-import {
-  staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsKeine,
-} from "~/domains/shared/formular/finanzielleAngaben/guards";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
 import { eigentumDone } from "../eigentum/doneFunctions";
@@ -23,10 +19,10 @@ export const finanzielleAngabeEinkuenfteGuards = {
   hasGrundsicherungOrAsylbewerberleistungen: ({ context }) =>
     context.staatlicheLeistungen === "asylbewerberleistungen" ||
     context.staatlicheLeistungen === "grundsicherung",
-  staatlicheLeistungenIsBuergergeld,
-  staatlicheLeistungenIsKeine,
+  staatlicheLeistungenIsKeine: ({ context }) =>
+    context.staatlicheLeistungen === "keine",
   staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
-    staatlicheLeistungenIsBuergergeld({ context }) && eigentumDone({ context }),
+    context.staatlicheLeistungen === "buergergeld" && eigentumDone({ context }),
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",

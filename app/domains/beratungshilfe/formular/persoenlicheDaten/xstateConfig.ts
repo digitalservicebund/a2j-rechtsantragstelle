@@ -4,7 +4,7 @@ import { beratungshilfePersoenlicheDatenDone } from "./doneFunctions";
 import { berHAntragPersoenlicheDatenPages } from "./pages";
 import { type BeratungshilfePersoenlicheDatenUserData } from "./userData";
 import {
-  finanzielleAngabeGuards,
+  hasGrundeigentumYes,
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
 } from "../finanzielleAngaben/guards";
@@ -28,7 +28,7 @@ export const persoenlicheDatenXstateConfig = {
           {
             guard: ({ context }) =>
               staatlicheLeistungenIsBuergergeld({ context }) &&
-              finanzielleAngabeGuards.hasGrundeigentumYes({ context }),
+              hasGrundeigentumYes({ context }),
             target: "#eigentum.grundeigentum.uebersicht",
           },
           {

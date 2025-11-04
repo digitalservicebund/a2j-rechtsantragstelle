@@ -34,7 +34,7 @@ describe("fillKraftfahrzeug", () => {
     expect(pdfValues.f10KraftfahrzeugB.value).toBe(true);
     expect(pdfValues.f10KraftfahrzeugC.value).toBe(false);
     expect(pdfValues.f11Fahrzeugart.value).toBe(
-      "Wird für Arbeitsweg gebraucht, Art: P 50, Marke: Trabant, Baujahr: 1990, Kilometerstand: 999999",
+      "Wird für Arbeitsweg gebraucht, Art: P 50, Marke: Trabant, Kilometerstand: 999999, Baujahr: 1990",
     );
     expect(pdfValues.f12Verkehrswert.value).toBe("100000 €");
   });
