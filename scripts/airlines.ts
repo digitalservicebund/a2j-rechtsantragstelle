@@ -2,8 +2,8 @@
 /* oxlint-disable no-console */
 import fs from "node:fs";
 import countries from "i18n-iso-countries";
-import uniqBy from "lodash/uniqBy";
-import { type Airline } from "~/domains/fluggastrechte/services/airlines/types";
+import uniqBy from "lodash/uniqBy.js";
+import { type Airline } from "../app/domains/fluggastrechte/services/airlines/types.ts";
 
 const GERMAN_LOCALE = "de";
 const ENGLISH_LOCALE = "en";

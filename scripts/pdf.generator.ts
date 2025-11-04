@@ -9,9 +9,9 @@ import {
   PDFArray,
   PDFString,
 } from "pdf-lib";
-import { pdfs } from "~/services/pdf/pdfs";
-import { uppercaseFirstLetter } from "~/util/strings";
-import { normalizePropertyName } from "./normalizePropertyName";
+import { pdfs } from "../app/services/pdf/pdfs.ts";
+import { uppercaseFirstLetter } from "../app/util/strings.ts";
+import { normalizePropertyName } from "../app/services/pdf/normalizePropertyName.ts";
 
 const dataDirectory = "data/pdf/";
 // For most fonts, the average character width is around 0.5 to 0.6 times the font size.
