@@ -1,7 +1,3 @@
-/**
- * Utility functions for parsing array field names consistently across the summary system
- */
-
 export type ArrayFieldInfo = {
   baseFieldName: string;
   arrayIndex: number;
@@ -38,7 +34,7 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
   if (isArraySubField) {
     const [arrayPart, subFieldName] = fieldName.split(".");
     const [baseFieldName, indexPart] = arrayPart.split("[");
-    const indexStr = indexPart.replace("]", "");
+    const indexStr = indexPart.replaceAll("]", "");
     const arrayIndex = parseInt(indexStr, 10);
 
     return {
@@ -52,7 +48,7 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
 
   // Handle simple array fields like "kinder[0]"
   const [baseFieldName, indexPart] = fieldName.split("[");
-  const indexStr = indexPart.replace("]", "");
+  const indexStr = indexPart.replaceAll("]", "");
   const arrayIndex = parseInt(indexStr, 10);
 
   return {

@@ -90,7 +90,7 @@ const FIELD_TO_PATH_MAPPING: Record<string, string> = {
   // Add more mappings here if needed in the future
 };
 
-// PKH (Prozesskostenhilfe) uses a different structure - all arrays go to their respective overview pages
+// PKH uses a different structure. all arrays go to their respective overview pages
 const PKH_ARRAY_FIELDS = [
   "bankkonten",
   "geldanlagen",

@@ -67,7 +67,7 @@ export function groupFieldsByFlowNavigation(
         translations?.[sectionInfo.sectionTitle] ?? sectionInfo.sectionTitle;
     }
 
-    // Special grouping for array fields - group by base field and index
+    // Group Arrays by base field and index
     const arrayBoxKey = createArrayBoxKey(field);
     const boxKey = arrayBoxKey ?? sectionInfo.boxKey ?? "default";
 

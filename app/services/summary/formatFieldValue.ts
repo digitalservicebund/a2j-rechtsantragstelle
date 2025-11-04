@@ -16,7 +16,6 @@ function formatBooleanObject(
     )
     .map(([key, _]) => key);
 
-
   if (activeKeys.length === 0) {
     return "";
   }
@@ -99,7 +98,7 @@ function formatObjectValue(
   fieldOptions?: Array<{ text: string; value: string }>,
 ): string {
   if (Array.isArray(value)) {
-    return value.length === 0 ? "" : value.join(", ");
+    return "";
   }
 
   const valueObj = value as Record<string, unknown>;
@@ -114,9 +113,16 @@ function formatObjectValue(
   const values = Object.values(valueObj);
 
   // If all values are boolean-like ("on"/"off", true/false, "yes"/"no"), treat as checkbox group
-  const isBooleanGroup = values.every(val =>
-    val === "on" || val === "off" || val === true || val === false ||
-    val === "yes" || val === "no" || val === "ja" || val === "nein"
+  const isBooleanGroup = values.every(
+    (val) =>
+      val === "on" ||
+      val === "off" ||
+      val === true ||
+      val === false ||
+      val === "yes" ||
+      val === "no" ||
+      val === "ja" ||
+      val === "nein",
   );
 
   if (isBooleanGroup) {
@@ -133,21 +139,50 @@ function formatObjectValue(
     for (const [key, val] of Object.entries(valueObj)) {
       if (val != null && val !== "") {
         // Look up component question/label and options for this specific field
-        // Try both the direct key and the full path (baseFieldName.key)
+        // Try multiple lookup patterns: direct key, full path, and array field key
         const fullFieldPath = baseFieldName ? `${baseFieldName}.${key}` : key;
-        const fieldQuestion = allFieldQuestions[key] || allFieldQuestions[fullFieldPath];
-        const fieldLabel = fieldQuestion?.question || key;
-        const fieldOptions = fieldQuestion?.options;
+        const arrayFieldKey = baseFieldName
+          ? `${baseFieldName}#${key}`
+          : undefined;
+
+        const fieldQuestion =
+          allFieldQuestions[key] ||
+          allFieldQuestions[fullFieldPath] ||
+          (arrayFieldKey ? allFieldQuestions[arrayFieldKey] : undefined);
+
+        let fieldLabel = fieldQuestion?.question || key;
+        let fieldOptions = fieldQuestion?.options;
+
+        // If no specific field question found, try to get options from the parent object
+        if (
+          !fieldOptions &&
+          baseFieldName &&
+          allFieldQuestions[baseFieldName]
+        ) {
+          const parentFieldQuestion = allFieldQuestions[baseFieldName];
+          fieldOptions = parentFieldQuestion.options;
+          // Only override fieldLabel if we didn't find a specific question
+          if (!fieldQuestion) {
+            fieldLabel = key;
+          }
+        }
 
         if (typeof val === "object" && val != null) {
           // Handle nested objects recursively
-          const nestedFormatted = formatObjectValue(val, key, allFieldQuestions);
+          const nestedFormatted = formatObjectValue(
+            val,
+            key,
+            allFieldQuestions,
+          );
           if (nestedFormatted) {
             formattedParts.push(`${fieldLabel}: ${nestedFormatted}`);
           }
         } else {
           // Apply options translation to value if available
-          const translatedValue = translateWithOptions(String(val), fieldOptions);
+          const translatedValue = translateWithOptions(
+            String(val),
+            fieldOptions,
+          );
           formattedParts.push(`${fieldLabel}: ${translatedValue}`);
         }
       }

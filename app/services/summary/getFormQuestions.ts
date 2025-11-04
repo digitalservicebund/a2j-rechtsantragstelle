@@ -82,7 +82,7 @@ export function findStepIdForField(
   return stepId;
 }
 
-function extractOptionsFromComponent(
+export function extractOptionsFromComponent(
   formComponent: StrapiFormComponent,
 ): FieldOption[] | undefined {
   if (!("options" in formComponent) || !Array.isArray(formComponent.options)) {
@@ -101,7 +101,7 @@ function extractOptionsFromComponent(
   }
 }
 
-function createFieldQuestionFromComponent(
+export function createFieldQuestionFromComponent(
   formComponent: StrapiFormComponent,
   formPage: StrapiFormFlowPage,
 ): FieldQuestion {
@@ -131,7 +131,7 @@ function createFieldQuestionFromComponent(
   return result;
 }
 
-function processNestedComponents(
+export function processNestedComponents(
   fieldName: string,
   formPage: StrapiFormFlowPage,
 ): FieldQuestion | null {
@@ -171,7 +171,7 @@ function processNestedComponents(
   return result;
 }
 
-function findParentFieldset(
+export function findParentFieldset(
   fieldName: string,
   formPage: StrapiFormFlowPage,
 ): StrapiFormComponent | null {
@@ -195,7 +195,7 @@ function findParentFieldset(
   );
 }
 
-async function processFieldForQuestions(
+export async function processFieldForQuestions(
   fieldName: string,
   fieldToStepMapping: Record<string, string>,
   stepPagesCache: Record<string, StrapiFormFlowPage>,
@@ -231,7 +231,7 @@ async function processFieldForQuestions(
         "name" in component && component.name === componentLookupName,
     );
 
-  // If direct match not found, look for a parent fieldset or component with nested fields
+  // If direct match not found, look for a parent component with nested fields
   if (!formComponent) {
     formComponent = findParentFieldset(fieldName, formPage);
 
