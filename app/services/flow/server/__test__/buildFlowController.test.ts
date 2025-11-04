@@ -280,9 +280,9 @@ describe("buildFlowController", () => {
   });
 
   describe(".stepStates()", () => {
-    it("ignores states without substates or done function", async () => {
+    it("ignores states without substates or done function", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "start",
@@ -292,9 +292,9 @@ describe("buildFlowController", () => {
       ).toEqual([]);
     });
 
-    it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", async () => {
+    it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", () => {
       const isStepDoneSpy = vi.spyOn(isStepDone, "isStepDone");
-      await buildFlowController({
+      buildFlowController({
         config: {
           id: "/fluggastrechte/formular",
           initial: "start",
@@ -302,7 +302,7 @@ describe("buildFlowController", () => {
         },
       }).stepStates();
       expect(isStepDoneSpy).not.toHaveBeenCalled();
-      await buildFlowController({
+      buildFlowController({
         config: {
           id: "/beratungshilfe/antrag",
           initial: "start",
@@ -312,9 +312,9 @@ describe("buildFlowController", () => {
       expect(isStepDoneSpy).toHaveBeenCalled();
     });
 
-    it("builds single step state", async () => {
+    it("builds single step state", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "start",
@@ -333,9 +333,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("builds nested step states", async () => {
+    it("builds nested step states", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "parent1",
@@ -379,9 +379,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("deals with eventless initial state", async () => {
+    it("deals with eventless initial state", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "parent1",
@@ -414,9 +414,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("deals with eventless initial state when there are multiple transitions", async () => {
+    it("deals with eventless initial state when there are multiple transitions", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "current",
@@ -448,9 +448,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("handles unreachable nested steps", async () => {
+    it("handles unreachable nested steps", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "child1",
@@ -490,9 +490,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("remove unreachable child states", async () => {
+    it("remove unreachable child states", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "parent1",
@@ -537,9 +537,9 @@ describe("buildFlowController", () => {
       ]);
     });
 
-    it("keep unreachable child states if parameter addUnreachableSubSteps is true", async () => {
+    it("keep unreachable child states if parameter addUnreachableSubSteps is true", () => {
       expect(
-        await buildFlowController({
+        buildFlowController({
           config: {
             id: "/test",
             initial: "parent1",
@@ -591,8 +591,8 @@ describe("buildFlowController", () => {
     });
   });
 
-  it("any child must be reachable for parent to be reachable", async () => {
-    const stepStates = await buildFlowController({
+  it("any child must be reachable for parent to be reachable", () => {
+    const stepStates = buildFlowController({
       config: {
         id: "/test",
         initial: "parent1",

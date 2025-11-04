@@ -44,13 +44,13 @@ const testArrayConfig: Record<string, ArrayConfigServer> = {
 };
 
 describe("isStepDone", () => {
-  it("should return true when no relevant pageSchemas are found", async () => {
-    expect(await isStepDone({}, {}, [])).toBe(true);
+  it("should return true when no relevant pageSchemas are found", () => {
+    expect(isStepDone({}, {}, [])).toBe(true);
   });
 
-  it("should return true for a pageSchema without a zod schema", async () => {
+  it("should return true for a pageSchema without a zod schema", () => {
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -62,9 +62,9 @@ describe("isStepDone", () => {
     ).toBe(true);
   });
 
-  it("should return false if the given context doesn't conform to the pageSchema", async () => {
+  it("should return false if the given context doesn't conform to the pageSchema", () => {
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -78,7 +78,7 @@ describe("isStepDone", () => {
       ),
     ).toBe(false);
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -92,7 +92,7 @@ describe("isStepDone", () => {
       ),
     ).toBe(false);
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -106,7 +106,7 @@ describe("isStepDone", () => {
       ),
     ).toBe(false);
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -129,9 +129,9 @@ describe("isStepDone", () => {
     ).toBe(false);
   });
 
-  it("should filter out unreachable pageSchemas", async () => {
+  it("should filter out unreachable pageSchemas", () => {
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -154,9 +154,9 @@ describe("isStepDone", () => {
     ).toBe(true);
   });
 
-  it("should filter out pageSchemas without actual schemas", async () => {
+  it("should filter out pageSchemas without actual schemas", () => {
     expect(
-      await isStepDone(
+      isStepDone(
         {
           testPage: {
             stepId: "testPage",
@@ -176,9 +176,9 @@ describe("isStepDone", () => {
     ).toBe(true);
   });
 
-  it("should correctly validate against arrays", async () => {
+  it("should correctly validate against arrays", () => {
     expect(
-      await isStepDone(
+      isStepDone(
         testArrayPageSchema,
         {
           hasKinder: "yes",
@@ -197,7 +197,7 @@ describe("isStepDone", () => {
 
     // Step is done -- array irrelevant because hasKinder === 'no'
     expect(
-      await isStepDone(
+      isStepDone(
         testArrayPageSchema,
         {
           hasKinder: "no",
@@ -214,7 +214,7 @@ describe("isStepDone", () => {
       ),
     ).toBe(true);
     expect(
-      await isStepDone(
+      isStepDone(
         testArrayPageSchema,
         {
           hasKinder: "yes",

@@ -112,12 +112,12 @@ export type StepState = {
   subStates?: StepState[];
 };
 
-async function stepStates(
+function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
   flowId: FlowId,
-): Promise<StepState[]> {
+): StepState[] {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
   const context = (stateNode.machine.config.context ?? {}) as UserData;
@@ -127,73 +127,74 @@ async function stepStates(
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
 
-  return Promise.all(
-    statesWithDoneFunctionOrSubstates.map(async (state) => {
-      const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
-      const meta = state.meta as Meta | undefined;
-      const parent = state.parent;
-      const hasDoneFunction = meta?.done !== undefined;
-      const reachableSubStates = (
-        await stepStates(state, reachableSteps, addUnreachableSubSteps, flowId)
-      ).filter((state) => state.isReachable || addUnreachableSubSteps);
-      const excludedFromValidation =
-        meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
+  return statesWithDoneFunctionOrSubstates.map((state) => {
+    const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
+    const meta = state.meta as Meta | undefined;
+    const parent = state.parent;
+    const hasDoneFunction = meta?.done !== undefined;
+    const reachableSubStates = stepStates(
+      state,
+      reachableSteps,
+      addUnreachableSubSteps,
+      flowId,
+    ).filter((state) => state.isReachable || addUnreachableSubSteps);
+    const excludedFromValidation =
+      meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
-      // Ignore subflows if empty or parent state has done function
-      if (hasDoneFunction || reachableSubStates.length === 0) {
-        const initial = state.config.initial as string | undefined;
-        const initialStepId = initial ? `${stepId}/${initial}` : stepId;
+    // Ignore subflows if empty or parent state has done function
+    if (hasDoneFunction || reachableSubStates.length === 0) {
+      const initial = state.config.initial as string | undefined;
+      const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 
-        // If there is an eventless transition and the target is reachable, use it instead of the initial state
-        const eventlessTargetPath = state.initial.target
-          .at(0)
-          ?.always?.find((val) => {
-            // an "always" transition can also be an array, so we need to find the first reachable transition and use it
-            const targetPaths = val.target?.at(0)?.path ?? [];
-            return reachableSteps.includes(
-              stateValueToStepIds(pathToStateValue(targetPaths))[0],
-            );
-          })
-          ?.target?.at(0)?.path;
+      // If there is an eventless transition and the target is reachable, use it instead of the initial state
+      const eventlessTargetPath = state.initial.target
+        .at(0)
+        ?.always?.find((val) => {
+          // an "always" transition can also be an array, so we need to find the first reachable transition and use it
+          const targetPaths = val.target?.at(0)?.path ?? [];
+          return reachableSteps.includes(
+            stateValueToStepIds(pathToStateValue(targetPaths))[0],
+          );
+        })
+        ?.target?.at(0)?.path;
 
-        const eventlessStepId = eventlessTargetPath
-          ? stateValueToStepIds(pathToStateValue(eventlessTargetPath))[0]
-          : undefined;
+      const eventlessStepId = eventlessTargetPath
+        ? stateValueToStepIds(pathToStateValue(eventlessTargetPath))[0]
+        : undefined;
 
-        const targetStepId =
-          eventlessStepId && reachableSteps.includes(eventlessStepId)
-            ? eventlessStepId
-            : initialStepId;
+      const targetStepId =
+        eventlessStepId && reachableSteps.includes(eventlessStepId)
+          ? eventlessStepId
+          : initialStepId;
 
-        const isDone = meta?.done ? meta.done({ context }) : false;
-
-        return {
-          url: `${state.machine.id}${targetStepId}`,
-          isDone:
-            flowId in pages
-              ? await isStepDone(
-                  getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
-                  context,
-                  reachableSteps,
-                  state.machine.config.meta?.arrays,
-                )
-              : isDone,
-          stepId,
-          isReachable: reachableSteps.includes(targetStepId),
-          excludedFromValidation,
-        };
-      }
+      const isDone = meta?.done ? meta.done({ context }) : false;
 
       return {
-        url: `${state.machine.id}${stepId}`,
-        isDone: reachableSubStates.every((state) => state.isDone),
+        url: `${state.machine.id}${targetStepId}`,
+        isDone:
+          flowId in pages
+            ? isStepDone(
+                getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
+                context,
+                reachableSteps,
+                state.machine.config.meta?.arrays,
+              )
+            : isDone,
         stepId,
-        isReachable: reachableSubStates.length > 0,
-        subStates: reachableSubStates,
+        isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
       };
-    }),
-  );
+    }
+
+    return {
+      url: `${state.machine.id}${stepId}`,
+      isDone: reachableSubStates.every((state) => state.isDone),
+      stepId,
+      isReachable: reachableSubStates.length > 0,
+      subStates: reachableSubStates,
+      excludedFromValidation,
+    };
+  });
 }
 
 export type FlowController = ReturnType<typeof buildFlowController>;
@@ -217,8 +218,8 @@ export const buildFlowController = ({
   return {
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
-    stepStates: async (addUnreachableSubSteps = false) =>
-      await stepStates(
+    stepStates: (addUnreachableSubSteps = false) =>
+      stepStates(
         machine.root,
         reachableSteps,
         addUnreachableSubSteps,

@@ -8,7 +8,7 @@ import {
 import type { SchemaObject } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
 
-export const isStepDone = async <T extends PagesConfig>(
+export const isStepDone = <T extends PagesConfig>(
   pageSchema: T,
   context: UserDataFromPagesSchema<T>,
   reachableSteps: string[],
@@ -34,7 +34,7 @@ export const isStepDone = async <T extends PagesConfig>(
     (acc, v) => ({ ...acc, ...v.pageSchema }),
     {},
   );
-  return (await z.object(reducedPageSchemas).safeParseAsync(context)).success;
+  return z.object(reducedPageSchemas).safeParse(context).success;
 };
 
 export function getRelevantPageSchemasForStepId(

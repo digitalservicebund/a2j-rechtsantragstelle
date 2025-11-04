@@ -109,13 +109,13 @@ export const getContentData = (
         ),
       });
     },
-    getNavProps: async (
+    getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
       useStepper: boolean,
       userVisitedValidationPage?: boolean,
     ) => {
-      const stepStates = await flowController.stepStates(useStepper);
+      const stepStates = flowController.stepStates(useStepper);
       const expandAll = flowController.getMeta(stepId)?.triggerValidation;
 
       if (!useStepper) {
