@@ -7,6 +7,8 @@ import { type BeratungshilfeAbgabeUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+// const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
+const showAutoSummary = true;
 
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
@@ -24,36 +26,71 @@ export const abgabeXstateConfig = {
     [steps.art.relative]: {
       on: {
         BACK: steps.art.relative,
-        SUBMIT: [
-          {
-            target: showFileUpload
-              ? steps.dokumente.relative
-              : steps.online.relative,
-            guard: beratungshilfeAbgabeGuards.abgabeOnline,
-          },
-          {
-            target: steps.ausdrucken.relative,
-            guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
-          },
-        ],
+        SUBMIT: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : [
+              {
+                target: showFileUpload
+                  ? steps.dokumente.relative
+                  : steps.online.relative,
+                guard: beratungshilfeAbgabeGuards.abgabeOnline,
+              },
+              {
+                target: steps.ausdrucken.relative,
+                guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
+              },
+            ],
       },
     },
 
+    ...(showAutoSummary && {
+      [steps.zusammenfassung.relative]: {
+        on: {
+          BACK: steps.art.relative,
+          SUBMIT: [
+            {
+              target: showFileUpload
+                ? steps.dokumente.relative
+                : steps.online.relative,
+              guard: beratungshilfeAbgabeGuards.abgabeOnline,
+            },
+            {
+              target: steps.ausdrucken.relative,
+              guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
+            },
+          ],
+        },
+      },
+    }),
+
     ...(showFileUpload && {
       [steps.dokumente.relative]: {
-        on: { BACK: steps.art.relative, SUBMIT: steps.online.relative },
+        on: {
+          BACK: showAutoSummary
+            ? steps.zusammenfassung.relative
+            : steps.art.relative,
+          SUBMIT: steps.online.relative,
+        },
       },
     }),
 
     [steps.ausdrucken.relative]: {
-      on: { BACK: { target: steps.art.relative } },
+      on: {
+        BACK: {
+          target: showAutoSummary
+            ? steps.zusammenfassung.relative
+            : steps.art.relative,
+        },
+      },
     },
     [steps.online.relative]: {
       on: {
         BACK: {
           target: showFileUpload
             ? steps.dokumente.relative
-            : steps.art.relative,
+            : showAutoSummary
+              ? steps.zusammenfassung.relative
+              : steps.art.relative,
         },
       },
     },

@@ -90,19 +90,6 @@ const FIELD_TO_PATH_MAPPING: Record<string, string> = {
   // Add more mappings here if needed in the future
 };
 
-// PKH uses a different structure. all arrays go to their respective overview pages
-const PKH_ARRAY_FIELDS = [
-  "bankkonten",
-  "geldanlagen",
-  "bargeld",
-  "guthaben",
-  "wertsachen",
-  "wertgegenstaende",
-  "kraftfahrzeuge",
-  "grundeigentum",
-  "weitereEinkuenfte",
-];
-
 export function createArrayEditUrl(
   arrayFieldName: string,
   representativeStepId: string,
@@ -114,21 +101,6 @@ export function createArrayEditUrl(
     const pathParts = representativeStepId.split("/");
     const baseFieldName = fieldInfo.baseFieldName;
 
-    // Special handling for PKH (Prozesskostenhilfe) flows
-    const isPKH = representativeStepId.includes("/prozesskostenhilfe/");
-    if (isPKH && PKH_ARRAY_FIELDS.includes(baseFieldName)) {
-      // For PKH, all array fields go to eigentum-zusammenfassung/zusammenfassung
-      const eigentumIndex = pathParts.findIndex(
-        (part) => part === "eigentum-zusammenfassung",
-      );
-      if (eigentumIndex !== -1) {
-        return (
-          pathParts.slice(0, eigentumIndex + 1).join("/") + "/zusammenfassung"
-        );
-      }
-    }
-
-    // Regular handling for Beratungshilfe and other flows
     let mappedFieldName = baseFieldName;
 
     // Apply field name mapping if needed
@@ -148,13 +120,7 @@ export function createArrayEditUrl(
 
     // Build the correct overview URL
     if (basePathIndex !== -1) {
-      // Special case: PKH partner flows use "partner-uebersicht" instead of "uebersicht"
-      const isPartnerFlow = isPKH && representativeStepId.includes("/partner/");
-      const overviewSuffix = isPartnerFlow
-        ? "/partner-uebersicht"
-        : "/uebersicht";
-
-      return pathParts.slice(0, basePathIndex + 1).join("/") + overviewSuffix;
+      return pathParts.slice(0, basePathIndex + 1).join("/") + "/uebersicht";
     }
 
     // If no match found, return the original step (better than broken URL)
