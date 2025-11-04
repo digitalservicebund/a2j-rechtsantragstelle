@@ -38,14 +38,12 @@ export const isStepDone = <T extends PagesConfig>(
 };
 
 export function getRelevantPageSchemasForStepId(
-  flowId: FlowId | undefined,
+  flowId: FlowId,
   stepId: string,
 ): PagesConfig {
-  const flowPages = flowId ? pages[flowId] : {};
-  const relevantPageSchemas = Object.fromEntries(
-    Object.entries(flowPages ?? {}).filter(([, pageConfig]) =>
+  return Object.fromEntries(
+    Object.entries(pages[flowId] ?? {}).filter(([, pageConfig]) =>
       pageConfig.stepId.startsWith(stepId.substring(1)),
     ),
   );
-  return relevantPageSchemas;
 }

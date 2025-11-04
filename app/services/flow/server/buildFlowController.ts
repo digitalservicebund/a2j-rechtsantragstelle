@@ -174,7 +174,7 @@ function stepStates(
         isDone:
           flowId in pages
             ? isStepDone(
-                getRelevantPageSchemasForStepId(flowId, stepId) ?? {},
+                getRelevantPageSchemasForStepId(flowId, stepId),
                 context,
                 reachableSteps,
                 state.machine.config.meta?.arrays,

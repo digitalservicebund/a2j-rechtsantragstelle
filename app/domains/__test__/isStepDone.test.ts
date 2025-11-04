@@ -261,4 +261,10 @@ describe("getRelevantPageSchemasForStepId", () => {
     );
     expect(situationBeschreibung.pageSchema).toHaveProperty("gegenseite");
   });
+
+  it("returns an empty object when the given flowId has no pageSchemas", () => {
+    expect(
+      getRelevantPageSchemasForStepId("/fluggastrechte/formular", "/start"),
+    ).toEqual({});
+  });
 });
