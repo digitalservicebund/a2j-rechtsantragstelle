@@ -103,18 +103,10 @@ function ContentComponents({
   managedByParent,
   className,
 }: PageContentProps) {
-  const { flowId } = useFormFlow();
-
   if (content.length === 0) return [];
 
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
-    .filter((el) => {
-      // Filter out old summary for PKH and BerH - they use the new auto-generated summary
-      return !(el.__component === "page.summary-overview-section" &&
-               (flowId === "/prozesskostenhilfe/formular" ||
-                flowId === "/beratungshilfe/antrag"));
-    })
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
       const hasLayout = hasLayoutProperties(el);
