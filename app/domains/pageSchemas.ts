@@ -142,7 +142,7 @@ type ArrayParentPage = {
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject

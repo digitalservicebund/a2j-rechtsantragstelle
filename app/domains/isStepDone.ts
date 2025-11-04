@@ -1,6 +1,7 @@
 import z from "zod";
 import type { FlowId } from "~/domains/flowIds";
 import {
+  type PageConfig,
   pages,
   type PagesConfig,
   type UserDataFromPagesSchema,
@@ -8,14 +9,13 @@ import {
 import type { SchemaObject } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
 
-export const isStepDone = <T extends PagesConfig>(
-  pageSchema: T,
-  context: UserDataFromPagesSchema<T>,
-  reachableSteps: string[],
-  arrayConfigurations?: Record<string, ArrayConfigServer>,
-) => {
-  // Retrieve only the pageSchemas that are reachable, unless we're on an array page
-  const relevantPageSchemas = Object.values(pageSchema).filter((config) => {
+const filterPageSchemas =
+  <T extends PagesConfig>(
+    context: UserDataFromPagesSchema<T>,
+    reachableSteps: string[],
+    arrayConfigurations?: Record<string, ArrayConfigServer>,
+  ) =>
+  (config: PageConfig) => {
     if ("arrayPages" in config) {
       const matchingArrayConfig = Object.values(arrayConfigurations ?? {}).find(
         (arrayConfig) => arrayConfig.url.endsWith(config.stepId),
@@ -28,13 +28,20 @@ export const isStepDone = <T extends PagesConfig>(
     return (
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
     );
-  });
-  if (relevantPageSchemas.length === 0) return true;
-  const reducedPageSchemas = relevantPageSchemas.reduce<SchemaObject>(
-    (acc, v) => ({ ...acc, ...v.pageSchema }),
-    {},
-  );
-  return z.object(reducedPageSchemas).safeParse(context).success;
+  };
+
+export const isStepDone = <T extends PagesConfig>(
+  pageSchema: T,
+  context: UserDataFromPagesSchema<T>,
+  reachableSteps: string[],
+  arrayConfigurations?: Record<string, ArrayConfigServer>,
+) => {
+  // Retrieve only the pageSchemas that are reachable, unless we're on an array page
+  const relevantPageSchemas = Object.values(pageSchema)
+    .filter(filterPageSchemas(context, reachableSteps, arrayConfigurations))
+    .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {});
+  if (Object.keys(relevantPageSchemas).length === 0) return true;
+  return z.object(relevantPageSchemas).safeParse(context).success;
 };
 
 export function getRelevantPageSchemasForStepId(
