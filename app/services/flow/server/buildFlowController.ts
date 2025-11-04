@@ -167,19 +167,22 @@ function stepStates(
           ? eventlessStepId
           : initialStepId;
 
-      const isDone = meta?.done ? meta.done({ context }) : false;
+      let isDone = false;
+      if (flowId in pages) {
+        isDone = isStepDone(
+          getRelevantPageSchemasForStepId(flowId, stepId),
+          context,
+          reachableSteps,
+          state.machine.config.meta?.arrays,
+        );
+      } else if (meta?.done) {
+        // legacy doneFunction handling -- to be removed after FGR is migrated to pageSchemas
+        isDone = meta.done({ context });
+      }
 
       return {
         url: `${state.machine.id}${targetStepId}`,
-        isDone:
-          flowId in pages
-            ? isStepDone(
-                getRelevantPageSchemasForStepId(flowId, stepId),
-                context,
-                reachableSteps,
-                state.machine.config.meta?.arrays,
-              )
-            : isDone,
+        isDone,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
