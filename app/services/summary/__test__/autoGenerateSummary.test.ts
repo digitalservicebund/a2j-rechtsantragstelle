@@ -108,101 +108,118 @@ describe("generateSummaryFromUserData", () => {
     });
 
     // Mock CMS flow page responses for getFormQuestions
-    mockFetchFlowPage.mockImplementation(
-      async (_collection, _flowId, stepId) => {
-        const mockFormPages: Record<string, any> = {
-          "/beratungshilfe/antrag/persoenliche-daten/name": {
-            pageTitle: "Name",
+    mockFetchFlowPage.mockImplementation((_collection, _flowId, stepId) => {
+      const mockFormPages: Record<string, any> = {
+        "/beratungshilfe/antrag/persoenliche-daten/name": {
+          pageTitle: "Name",
+          locale: "de" as const,
+          heading: "Name",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [
+            {
+              __component: "form-elements.input",
+              name: "vorname",
+              label: "Wie ist Ihr Vorname?",
+            },
+            {
+              __component: "form-elements.input",
+              name: "nachname",
+              label: "Wie ist Ihr Nachname?",
+            },
+          ],
+        },
+        "/beratungshilfe/antrag/persoenliche-daten/geburtsdatum": {
+          pageTitle: "Geburtsdatum",
+          locale: "de" as const,
+          heading: "Geburtsdatum",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [
+            {
+              __component: "form-elements.input",
+              name: "geburtsdatum",
+              label: "Wann wurden Sie geboren?",
+            },
+          ],
+        },
+        "/beratungshilfe/antrag/finanzielle-angaben/einkommen/art": {
+          pageTitle: "Berufliche Situation",
+          locale: "de" as const,
+          heading: "Berufliche Situation",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [
+            {
+              __component: "form-elements.checkbox",
+              name: "berufart.selbststaendig",
+              label: "Sind Sie selbstständig?",
+            },
+            {
+              __component: "form-elements.checkbox",
+              name: "berufart.festangestellt",
+              label: "Sind Sie festangestellt?",
+            },
+          ],
+        },
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name": {
+          pageTitle: "Kinder Name",
+          locale: "de" as const,
+          heading: "Kinder Name",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [
+            {
+              __component: "form-elements.input",
+              name: "kinder#vorname",
+              label: "Wie heißt {{kind#vorname}} {{kind#nachname}}?",
+            },
+            {
+              __component: "form-elements.input",
+              name: "kinder#nachname",
+              label: "Wie lautet der Nachname?",
+            },
+            {
+              __component: "form-elements.input",
+              name: "kinder#geburtsdatum",
+              label: "Wann wurde {{kind#vorname}} geboren?",
+            },
+          ],
+        },
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/wohnort": {
+          pageTitle: "Wohnort",
+          locale: "de" as const,
+          heading: "Wohnort",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [
+            {
+              __component: "form-elements.radio",
+              name: "kinder#wohnortBeiAntragsteller",
+              label: "Lebt {{kind#vorname}} bei Ihnen?",
+            },
+          ],
+        },
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage":
+          {
+            pageTitle: "Eigene Einnahmen",
             locale: "de" as const,
-            heading: "Name",
-            stepId: stepId,
-            flow_ids: [],
-            preHeading: null,
-            pre_form: [],
-            post_form: [],
-            form: [
-              {
-                __component: "form-elements.input",
-                name: "vorname",
-                label: "Wie ist Ihr Vorname?",
-              },
-              {
-                __component: "form-elements.input",
-                name: "nachname",
-                label: "Wie ist Ihr Nachname?",
-              },
-            ],
-          },
-          "/beratungshilfe/antrag/persoenliche-daten/geburtsdatum": {
-            pageTitle: "Geburtsdatum",
-            locale: "de" as const,
-            heading: "Geburtsdatum",
-            stepId: stepId,
-            flow_ids: [],
-            preHeading: null,
-            pre_form: [],
-            post_form: [],
-            form: [
-              {
-                __component: "form-elements.input",
-                name: "geburtsdatum",
-                label: "Wann wurden Sie geboren?",
-              },
-            ],
-          },
-          "/beratungshilfe/antrag/finanzielle-angaben/einkommen/art": {
-            pageTitle: "Berufliche Situation",
-            locale: "de" as const,
-            heading: "Berufliche Situation",
-            stepId: stepId,
-            flow_ids: [],
-            preHeading: null,
-            pre_form: [],
-            post_form: [],
-            form: [
-              {
-                __component: "form-elements.checkbox",
-                name: "berufart.selbststaendig",
-                label: "Sind Sie selbstständig?",
-              },
-              {
-                __component: "form-elements.checkbox",
-                name: "berufart.festangestellt",
-                label: "Sind Sie festangestellt?",
-              },
-            ],
-          },
-          "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name": {
-            pageTitle: "Kinder Name",
-            locale: "de" as const,
-            heading: "Kinder Name",
-            stepId: stepId,
-            flow_ids: [],
-            preHeading: null,
-            pre_form: [],
-            post_form: [],
-            form: [
-              {
-                __component: "form-elements.input",
-                name: "kinder#vorname",
-                label: "Wie heißt {{kind#vorname}} {{kind#nachname}}?",
-              },
-              {
-                __component: "form-elements.input",
-                name: "kinder#nachname",
-                label: "Wie lautet der Nachname?",
-              },
-              {
-                __component: "form-elements.input",
-                name: "kinder#geburtsdatum",
-                label: "Wann wurde {{kind#vorname}} geboren?",
-              },
-            ],
-          },
-          "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/wohnort": {
-            pageTitle: "Wohnort",
-            locale: "de" as const,
-            heading: "Wohnort",
+            heading: "Eigene Einnahmen",
             stepId: stepId,
             flow_ids: [],
             preHeading: null,
@@ -211,47 +228,28 @@ describe("generateSummaryFromUserData", () => {
             form: [
               {
                 __component: "form-elements.radio",
-                name: "kinder#wohnortBeiAntragsteller",
-                label: "Lebt {{kind#vorname}} bei Ihnen?",
+                name: "kinder#eigeneEinnahmen",
+                label:
+                  "Hat {{kind#vorname}} {{kind#nachname}} eigene Einnahmen?",
               },
             ],
           },
-          "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage":
-            {
-              pageTitle: "Eigene Einnahmen",
-              locale: "de" as const,
-              heading: "Eigene Einnahmen",
-              stepId: stepId,
-              flow_ids: [],
-              preHeading: null,
-              pre_form: [],
-              post_form: [],
-              form: [
-                {
-                  __component: "form-elements.radio",
-                  name: "kinder#eigeneEinnahmen",
-                  label:
-                    "Hat {{kind#vorname}} {{kind#nachname}} eigene Einnahmen?",
-                },
-              ],
-            },
-        };
+      };
 
-        return (
-          mockFormPages[stepId] || {
-            pageTitle: "Unknown",
-            locale: "de" as const,
-            heading: "Unknown",
-            stepId: stepId,
-            flow_ids: [],
-            preHeading: null,
-            pre_form: [],
-            post_form: [],
-            form: [],
-          }
-        );
-      },
-    );
+      return (
+        mockFormPages[stepId] || {
+          pageTitle: "Unknown",
+          locale: "de" as const,
+          heading: "Unknown",
+          stepId: stepId,
+          flow_ids: [],
+          preHeading: null,
+          pre_form: [],
+          post_form: [],
+          form: [],
+        }
+      );
+    });
   });
 
   describe("basic functionality", () => {

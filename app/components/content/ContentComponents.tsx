@@ -18,7 +18,6 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
-import { useFormFlow } from "~/components/formFlowContext";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,

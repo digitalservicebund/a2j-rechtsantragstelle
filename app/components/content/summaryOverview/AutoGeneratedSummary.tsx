@@ -119,7 +119,7 @@ function SummarySection({
         >
           {/* Array group title */}
           <div className="p-12 mb-8">
-            <h4 className="ds-body-01 text-blue-900">{arrayGroup.title}</h4>
+            <h4 className="ds-body-01">{arrayGroup.title}</h4>
           </div>
 
           {/* Array group items */}
