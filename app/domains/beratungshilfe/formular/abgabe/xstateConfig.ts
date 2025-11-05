@@ -7,8 +7,14 @@ import { type BeratungshilfeAbgabeUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-// const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
-const showAutoSummary = true;
+const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
+
+const getOnlineBackTarget = () => {
+  if (showFileUpload) {
+    return steps.dokumente.relative;
+  }
+  return showAutoSummary ? steps.zusammenfassung.relative : steps.art.relative;
+};
 
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
@@ -86,11 +92,7 @@ export const abgabeXstateConfig = {
     [steps.online.relative]: {
       on: {
         BACK: {
-          target: showFileUpload
-            ? steps.dokumente.relative
-            : showAutoSummary
-              ? steps.zusammenfassung.relative
-              : steps.art.relative,
+          target: getOnlineBackTarget(),
         },
       },
     },

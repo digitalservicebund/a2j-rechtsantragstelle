@@ -10,13 +10,12 @@ import {
 } from "../getFormQuestions";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { fetchFlowPage } from "~/services/cms/index.server";
-import { StrapiInputComponentSchema } from "~/services/cms/models/formElements/StrapiInput";
-import { StrapiSelectComponentSchema } from "~/services/cms/models/formElements/StrapiSelect";
-import { StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
+import { type StrapiInputComponentSchema } from "~/services/cms/models/formElements/StrapiInput";
+import { type StrapiSelectComponentSchema } from "~/services/cms/models/formElements/StrapiSelect";
+import { type StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
-import { z } from "zod";
+import type { z } from "zod";
 
-// Test-specific output types - only used in tests, not in main component files
 type StrapiInputComponentOutput = z.output<typeof StrapiInputComponentSchema>;
 type StrapiSelectComponentOutput = z.output<typeof StrapiSelectComponentSchema>;
 type StrapiTileGroupComponentOutput = z.output<
