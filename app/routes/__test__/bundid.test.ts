@@ -1,15 +1,15 @@
 import { vi, describe, it, expect } from "vitest";
 import { action } from "../bundid.success";
-import { ActionFunctionArgs } from "react-router";
+import { type ActionFunctionArgs } from "react-router";
 import { loader } from "../bundid";
 
 vi.mock("~/services/bundid/index.server", () => ({
   getBundIdServiceProvider: vi.fn(() => ({
     options: { entryPoint: "https://fake.idp.example.com/sso" },
-    getAuthorizeFormAsync: vi.fn(async () => ({
+    getAuthorizeFormAsync: vi.fn(() => ({
       context: "FAKE_SAML_REQUEST",
     })),
-    validatePostResponseAsync: vi.fn(async () => ({
+    validatePostResponseAsync: vi.fn(() => ({
       profile: {
         "urn:oid:2.5.4.42": "Erika",
         "urn:oid:2.5.4.4": "Mustermann",
@@ -63,11 +63,11 @@ describe("BundID action", () => {
     ).rejects.toThrow("Invalid SAML Response");
   });
   it("should handle missing attributes", async () => {
-    const { getBundIdServiceProvider: getBundIdServiceProvider } = await import(
+    const { getBundIdServiceProvider } = await import(
       "~/services/bundid/index.server"
     );
     (getBundIdServiceProvider as any).mockImplementationOnce(() => ({
-      validatePostResponseAsync: async () => ({ profile: {} }),
+      validatePostResponseAsync: () => ({ profile: {} }),
     }));
 
     const form = new FormData();
