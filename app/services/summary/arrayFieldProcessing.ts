@@ -31,6 +31,29 @@ function getArraySubFields(
     .filter(Boolean);
 }
 
+function expandArrayFieldItems(
+  fieldName: string,
+  userData: UserData,
+  fieldToStepMapping: Record<string, string>,
+): string[] {
+  const arrayValue = userData[fieldName] as Array<Record<string, unknown>>;
+  const subFields = getArraySubFields(fieldName, fieldToStepMapping);
+  const expandedFields: string[] = [];
+
+  for (let index = 0; index < arrayValue.length; index++) {
+    const arrayItem = arrayValue[index];
+    for (const subField of subFields) {
+      // Only add fields that actually exist in the userData
+      if (arrayItem && subField in arrayItem) {
+        const expandedField = `${fieldName}[${index}].${subField}`;
+        expandedFields.push(expandedField);
+      }
+    }
+  }
+
+  return expandedFields;
+}
+
 export function expandArrayFields(
   fields: string[],
   userData: UserData,
@@ -43,21 +66,12 @@ export function expandArrayFields(
     const hasArrayFields = hasArrayFormFields(fieldName, fieldToStepMapping);
 
     if (isArray && hasArrayFields) {
-      // Expand array fields into sub-fields
-      const arrayValue = userData[fieldName] as Array<Record<string, unknown>>;
-      const subFields = getArraySubFields(fieldName, fieldToStepMapping);
-
-      // Add each array item's sub-fields as separate fields
-      for (let index = 0; index < arrayValue.length; index++) {
-        const arrayItem = arrayValue[index] as Record<string, unknown>;
-        for (const subField of subFields) {
-          // Only add fields that actually exist in the userData
-          if (arrayItem && subField in arrayItem) {
-            const expandedField = `${fieldName}[${index}].${subField}`;
-            expandedFields.push(expandedField);
-          }
-        }
-      }
+      const arrayExpandedFields = expandArrayFieldItems(
+        fieldName,
+        userData,
+        fieldToStepMapping,
+      );
+      expandedFields.push(...arrayExpandedFields);
     } else {
       // Regular field or array without form mappings
       expandedFields.push(fieldName);
@@ -83,11 +97,9 @@ export function getArrayItemValue(
   return null;
 }
 
-// Field name to URL path mappings for cases where they don't match exactly
 const FIELD_TO_PATH_MAPPING: Record<string, string> = {
   wertsachen: "wertgegenstaende",
   weitereEinkuenfte: "weitere-einkuenfte",
-  // Add more mappings here if needed in the future
 };
 
 export function createArrayEditUrl(
@@ -123,8 +135,6 @@ export function createArrayEditUrl(
       return pathParts.slice(0, basePathIndex + 1).join("/") + "/uebersicht";
     }
 
-    // If no match found, return the original step (better than broken URL)
-    // This means the mapping needs to be added to FIELD_TO_PATH_MAPPING
     return representativeStepId;
   }
 

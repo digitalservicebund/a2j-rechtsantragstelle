@@ -14,29 +14,22 @@ import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
 import { parseArrayField } from "./fieldParsingUtils";
 
-function createSummarySection(
-  sectionName: string,
-  allFields: Array<{
+type FieldItem = {
+  question: string;
+  answer: string;
+  editUrl?: string;
+  isArrayItem?: boolean;
+  arrayIndex?: number;
+  arrayBaseField?: string;
+  multipleQuestions?: Array<{
     question: string;
     answer: string;
-    editUrl?: string;
-    isArrayItem?: boolean;
-    arrayIndex?: number;
-    arrayBaseField?: string;
-    multipleQuestions?: Array<{
-      question: string;
-      answer: string;
-    }>;
-  }>,
-  sectionTitles: Record<string, string>,
-  translations?: Translations,
-): SummaryItem {
-  // Group array fields by arrayBaseField first, then by arrayIndex
-  const arrayFieldsByBase: Record<
-    string,
-    Record<string, typeof allFields>
-  > = {};
-  const nonArrayFields: typeof allFields = [];
+  }>;
+};
+
+function groupFieldsByArrayType(allFields: FieldItem[]) {
+  const arrayFieldsByBase: Record<string, Record<string, FieldItem[]>> = {};
+  const nonArrayFields: FieldItem[] = [];
 
   for (const field of allFields) {
     if (
@@ -59,42 +52,41 @@ function createSummarySection(
     }
   }
 
-  // Create array groups for each base field
-  const arrayGroups: Array<{
-    id: string;
-    title: string;
-    items: Array<{
-      question: string;
-      answer: string;
-      editUrl?: string;
-      multipleQuestions?: Array<{
-        question: string;
-        answer: string;
-      }>;
-    }>;
-  }> = [];
+  return { arrayFieldsByBase, nonArrayFields };
+}
+
+function createArrayGroupItems(groupFields: FieldItem[]) {
+  if (groupFields.length === 0) return null;
+
+  const firstField = groupFields[0];
+  return {
+    question: "", // Empty for array items
+    answer: "", // Empty for array items
+    editUrl: firstField.editUrl,
+    multipleQuestions: groupFields.map((field) => ({
+      question: field.question,
+      answer: field.answer,
+    })),
+  };
+}
+
+function buildArrayGroups(
+  arrayFieldsByBase: Record<string, Record<string, FieldItem[]>>,
+  translations?: Translations,
+) {
+  const arrayGroups = [];
 
   for (const [baseFieldName, itemGroups] of Object.entries(arrayFieldsByBase)) {
     const groupItems = [];
 
     for (const [, groupFields] of Object.entries(itemGroups)) {
-      if (groupFields.length > 0) {
-        const firstField = groupFields[0];
-
-        groupItems.push({
-          question: "", // Empty for array items
-          answer: "", // Empty for array items
-          editUrl: firstField.editUrl,
-          multipleQuestions: groupFields.map((field) => ({
-            question: field.question,
-            answer: field.answer,
-          })),
-        });
+      const groupItem = createArrayGroupItems(groupFields);
+      if (groupItem) {
+        groupItems.push(groupItem);
       }
     }
 
     if (groupItems.length > 0) {
-      // Get a title for the array base field
       const arrayGroupTitle =
         translations?.[baseFieldName] ??
         baseFieldName.charAt(0).toUpperCase() + baseFieldName.slice(1);
@@ -106,6 +98,19 @@ function createSummarySection(
       });
     }
   }
+
+  return arrayGroups;
+}
+
+function createSummarySection(
+  sectionName: string,
+  allFields: FieldItem[],
+  sectionTitles: Record<string, string>,
+  translations?: Translations,
+): SummaryItem {
+  const { arrayFieldsByBase, nonArrayFields } =
+    groupFieldsByArrayType(allFields);
+  const arrayGroups = buildArrayGroups(arrayFieldsByBase, translations);
 
   return {
     id: sectionName,

@@ -13,17 +13,11 @@ function replaceTemplateVariables(
     const arrayIndex = fieldInfo.arrayIndex;
     const arrayData = userData[baseFieldName];
 
-    // Replace {{array#index}} with actual array index (1-based)
-    let result = questionText.replace(
-      /\{\{array#index\}\}/g,
-      String(arrayIndex + 1),
-    );
-
     if (Array.isArray(arrayData) && arrayData[arrayIndex]) {
       const arrayItem = arrayData[arrayIndex] as Record<string, unknown>;
 
       // Replace template variables like {{kinder#vorname}} and {{bankkonten#inhaber}}
-      result = result.replace(
+      return questionText.replace(
         /\{\{(\w+)#(\w+)\}\}/g,
         (match, arrayType, fieldKey) => {
           if (
@@ -31,14 +25,16 @@ function replaceTemplateVariables(
             (arrayType === "kind" && baseFieldName === "kinder")
           ) {
             const value = arrayItem[fieldKey];
-            return value ? String(value) : match; // Keep original if no value found
+            if (value != null && typeof value !== "object") {
+              const primitiveValue = value as string | number | boolean;
+              return String(primitiveValue);
+            }
+            return match; // Keep original if no value found or value is object
           }
           return match;
         },
       );
     }
-
-    return result;
   }
 
   return questionText;

@@ -59,18 +59,18 @@ export function createFieldEntry(
 
   const answer = isEmpty
     ? "Keine Angabe" // need to get this from CMS for translations
-    : formatFieldValue(
-        value,
-        fieldQuestion?.options,
-        arrayBaseField || fieldName,
-        fieldQuestions,
-      );
+    : formatFieldValue(value, fieldQuestion?.options);
 
-  const editUrl = representativeStepId
-    ? isArrayItem
-      ? createArrayEditUrl(fieldName, representativeStepId)
-      : representativeStepId
-    : undefined;
+  let editUrl: string | undefined;
+  if (representativeStepId) {
+    if (isArrayItem) {
+      editUrl = createArrayEditUrl(fieldName, representativeStepId);
+    } else {
+      editUrl = representativeStepId;
+    }
+  } else {
+    editUrl = undefined;
+  }
 
   return {
     question,
@@ -96,8 +96,8 @@ export function processBoxFields(
   }
   // Find representative stepId for edit URLs
   // For array fields, try to find the first step in the array flow
-  let representativeField = fields[0];
-  let representativeStepId = findStepIdForField(
+  const representativeField = fields[0];
+  const representativeStepId = findStepIdForField(
     representativeField,
     fieldToStepMapping,
   );
