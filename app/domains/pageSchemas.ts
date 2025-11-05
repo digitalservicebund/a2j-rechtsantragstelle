@@ -7,6 +7,7 @@ import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
+import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 
 const pages: Partial<Record<FlowId, PagesConfig>> = {
@@ -15,7 +16,18 @@ const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
   "/beratungshilfe/antrag": beratungshilfeAntragPages,
   "/geld-einklagen/formular": geldEinklagenFormularPages,
+  "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
 } as const;
+
+export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
+  const pagesConfig = pages[flowId] ?? {};
+
+  const schemaObjects = Object.values(pagesConfig)
+    .filter(({ pageSchema }) => pageSchema !== undefined)
+    .map(({ pageSchema }) => pageSchema!);
+
+  return Object.assign({}, ...schemaObjects) as SchemaObject;
+};
 
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId] ?? {};

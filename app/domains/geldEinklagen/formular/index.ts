@@ -1,11 +1,12 @@
 import type { Flow } from "~/domains/flows.server";
 import { gerichtPruefenXstateConfig } from "./gericht-pruefen/xstateConfig";
 import { isBeklagtePerson } from "./stringReplacements";
+import { type GeldEinklagenFormularUserData } from "./userData";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
-  stringReplacements: () => ({
-    ...isBeklagtePerson,
+  stringReplacements: (context: GeldEinklagenFormularUserData) => ({
+    ...isBeklagtePerson(context),
   }),
   config: {
     id: "/geld-einklagen/formular",

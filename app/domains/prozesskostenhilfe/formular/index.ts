@@ -28,7 +28,6 @@ import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
 } from "./antragstellendePerson/guards";
-import { finanzielleAngabeGuards } from "./finanzielleAngaben/guards";
 import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
 import { gesetzlicheVertretungXstateConfig } from "./gesetzlicheVertretung/xStateConfig";
 import {
@@ -200,10 +199,7 @@ export const prozesskostenhilfeFormular = {
       },
     },
   },
-  guards: {
-    ...finanzielleAngabeGuards,
-    ...finanzielleAngabeEinkuenfteGuards,
-  },
+  guards: {},
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),

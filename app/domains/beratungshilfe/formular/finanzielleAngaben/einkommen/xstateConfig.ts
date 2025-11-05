@@ -2,7 +2,10 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenEinkommenPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./userData";
-import { finanzielleAngabeGuards } from "../guards";
+import {
+  staatlicheLeistungenIsBuergergeld,
+  staatlicheLeistungenIsKeine,
+} from "../guards";
 import { einkommenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -23,11 +26,11 @@ export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: finanzielleAngabeGuards.staatlicheLeistungenIsBuergergeld,
+            guard: staatlicheLeistungenIsBuergergeld,
             target: "#eigentum.eigentum-info",
           },
           {
-            guard: finanzielleAngabeGuards.staatlicheLeistungenIsKeine,
+            guard: staatlicheLeistungenIsKeine,
             target: steps.erwerbstaetig.relative,
           },
           "#persoenliche-daten.start",
@@ -40,7 +43,7 @@ export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
         BACK: steps.staatlicheLeistungen.relative,
         SUBMIT: [
           {
-            guard: finanzielleAngabeGuards.erwerbstaetigYes,
+            guard: ({ context }) => context.erwerbstaetig === "yes",
             target: steps.berufart.relative,
           },
           steps.situation.relative,
@@ -57,7 +60,7 @@ export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
       on: {
         BACK: [
           {
-            guard: finanzielleAngabeGuards.erwerbstaetigYes,
+            guard: ({ context }) => context.erwerbstaetig === "yes",
             target: steps.berufart.relative,
           },
           steps.erwerbstaetig.relative,

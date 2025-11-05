@@ -20,7 +20,8 @@ function checkKaufmann(context: GeldEinklagenFormularGerichtPruefenUserData) {
 }
 
 function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
-  const { sachgebiet, gegenWenBeklagen, mietePachtRaum } = context;
+  const { sachgebiet, gegenWenBeklagen, mietePachtRaum, mietePachtVertrag } =
+    context;
   switch (sachgebiet) {
     case "urheberrecht": {
       return (
@@ -31,7 +32,11 @@ function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
       );
     }
     case "miete": {
-      return mietePachtRaum === "yes" || checkKaufmann(context);
+      return (
+        mietePachtRaum === "yes" ||
+        mietePachtVertrag === "no" ||
+        checkKaufmann(context)
+      );
     }
     case "versicherung":
     case "reisen":

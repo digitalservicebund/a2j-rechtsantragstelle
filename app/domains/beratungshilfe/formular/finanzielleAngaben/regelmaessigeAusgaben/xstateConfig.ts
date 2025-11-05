@@ -1,6 +1,8 @@
 import {
-  finanzielleAngabeGuards,
+  hasAusgabenYesAndEmptyArray,
   hasGrundeigentumYes,
+  hasZahlungsfristYes,
+  isValidAusgabenArrayIndex,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
@@ -40,7 +42,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
         on: {
           BACK: [
             {
-              guard: finanzielleAngabeGuards.hasAusgabenYesAndEmptyArray,
+              guard: hasAusgabenYesAndEmptyArray,
               target: steps.ausgabenWarnung.relative,
             },
             {
@@ -57,13 +59,13 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
           BACK: steps.ausgabenFrage.relative,
           SUBMIT: [
             {
-              guard: finanzielleAngabeGuards.hasAusgabenYesAndEmptyArray,
+              guard: hasAusgabenYesAndEmptyArray,
               target: steps.ausgabenWarnung.relative,
             },
             steps.ausgabenSituation.relative,
           ],
           "add-ausgaben": {
-            guard: finanzielleAngabeGuards.isValidAusgabenArrayIndex,
+            guard: isValidAusgabenArrayIndex,
             target: steps.ausgaben.relative,
           },
         },
@@ -94,7 +96,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
               BACK: "zahlungsinformation",
               SUBMIT: [
                 {
-                  guard: finanzielleAngabeGuards.hasZahlungsfristYes,
+                  guard: hasZahlungsfristYes,
                   target: "zahlungsfrist",
                 },
                 "#ausgaben.uebersicht",
