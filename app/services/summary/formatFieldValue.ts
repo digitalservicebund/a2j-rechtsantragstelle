@@ -20,7 +20,7 @@ function formatBooleanObject(
     return "";
   }
 
-  // Special case: if "none" is active, only show that (ignore other options)
+  // if "none" is active, only show that (ignore other options)
   if (activeKeys.includes("none")) {
     const noneOption = options?.find((opt) => opt.value === "none");
     return noneOption ? noneOption.text : "none";
@@ -38,82 +38,8 @@ function formatBooleanObject(
   return activeKeys.join(", ");
 }
 
-function formatArrayItemObject(
-  valueObj: Record<string, unknown>,
-  baseFieldName?: string,
-  allFieldQuestions?: Record<
-    string,
-    { question?: string; options?: Array<{ text: string; value: string }> }
-  >,
-): string {
-  // For array items, create a summary of non-empty fields
-  const summaryParts: string[] = [];
-
-  for (const [key, val] of Object.entries(valueObj)) {
-    if (val != null && val !== "") {
-      // Look up options for this specific array sub-field
-      const arrayFieldKey = baseFieldName
-        ? `${baseFieldName}#${key}`
-        : undefined;
-      const fieldOptions =
-        arrayFieldKey && allFieldQuestions
-          ? allFieldQuestions[arrayFieldKey]?.options
-          : undefined;
-
-      if (typeof val === "object" && val != null) {
-        // Handle nested objects
-        if (Array.isArray(val)) {
-          if (val.length > 0) {
-            summaryParts.push(`${key}: ${val.join(", ")}`);
-          }
-        } else {
-          const nestedObj = val as Record<string, unknown>;
-          if (nestedObj.day && nestedObj.month && nestedObj.year) {
-            summaryParts.push(`${key}: ${formatDateObject(nestedObj)}`);
-          } else {
-            const boolResult = formatBooleanObject(nestedObj);
-            if (boolResult) {
-              summaryParts.push(`${key}: ${boolResult}`);
-            }
-          }
-        }
-      } else {
-        // Apply options translation if available
-        const translatedValue = translateWithOptions(String(val), fieldOptions);
-        summaryParts.push(`${key}: ${translatedValue}`);
-      }
-    }
-  }
-
-  return summaryParts.join(", ");
-}
-
-function formatObjectValue(
-  value: object,
-  baseFieldName?: string,
-  allFieldQuestions?: Record<
-    string,
-    { question?: string; options?: Array<{ text: string; value: string }> }
-  >,
-  fieldOptions?: Array<{ text: string; value: string }>,
-): string {
-  if (Array.isArray(value)) {
-    return "";
-  }
-
-  const valueObj = value as Record<string, unknown>;
-
-  // Check if this is a date object
-  if (valueObj.day && valueObj.month && valueObj.year) {
-    return formatDateObject(valueObj);
-  }
-
-  // Check if this looks like an array item object vs checkbox group
-  const keys = Object.keys(valueObj);
-  const values = Object.values(valueObj);
-
-  // If all values are boolean-like ("on"/"off", true/false, "yes"/"no"), treat as checkbox group
-  const isBooleanGroup = values.every(
+function isBooleanGroup(values: unknown[]): boolean {
+  return values.every(
     (val) =>
       val === "on" ||
       val === "off" ||
@@ -124,82 +50,31 @@ function formatObjectValue(
       val === "ja" ||
       val === "nein",
   );
+}
 
-  if (isBooleanGroup) {
-    // Handle boolean-like objects - use field options if available, otherwise try to get from allFieldQuestions
-    const optionsToUse =
-      fieldOptions || allFieldQuestions?.[baseFieldName || ""]?.options;
-    return formatBooleanObject(valueObj, optionsToUse);
+function formatObjectValue(
+  value: object,
+  options?: Array<{ text: string; value: string }>,
+): string {
+  if (Array.isArray(value)) {
+    return "";
   }
 
-  // For multi-property objects, format each property using its component options and labels
-  if (keys.length > 1 && allFieldQuestions) {
-    const formattedParts: string[] = [];
+  const valueObj = value as Record<string, unknown>;
 
-    for (const [key, val] of Object.entries(valueObj)) {
-      if (val != null && val !== "") {
-        // Look up component question/label and options for this specific field
-        // Try multiple lookup patterns: direct key, full path, and array field key
-        const fullFieldPath = baseFieldName ? `${baseFieldName}.${key}` : key;
-        const arrayFieldKey = baseFieldName
-          ? `${baseFieldName}#${key}`
-          : undefined;
-
-        const fieldQuestion =
-          allFieldQuestions[key] ||
-          allFieldQuestions[fullFieldPath] ||
-          (arrayFieldKey ? allFieldQuestions[arrayFieldKey] : undefined);
-
-        let fieldLabel = fieldQuestion?.question || key;
-        let fieldOptions = fieldQuestion?.options;
-
-        // If no specific field question found, try to get options from the parent object
-        if (
-          !fieldOptions &&
-          baseFieldName &&
-          allFieldQuestions[baseFieldName]
-        ) {
-          const parentFieldQuestion = allFieldQuestions[baseFieldName];
-          fieldOptions = parentFieldQuestion.options;
-          // Only override fieldLabel if we didn't find a specific question
-          if (!fieldQuestion) {
-            fieldLabel = key;
-          }
-        }
-
-        if (typeof val === "object" && val != null) {
-          // Handle nested objects recursively
-          const nestedFormatted = formatObjectValue(
-            val,
-            key,
-            allFieldQuestions,
-          );
-          if (nestedFormatted) {
-            formattedParts.push(`${fieldLabel}: ${nestedFormatted}`);
-          }
-        } else {
-          // Apply options translation to value if available
-          const translatedValue = translateWithOptions(
-            String(val),
-            fieldOptions,
-          );
-          formattedParts.push(`${fieldLabel}: ${translatedValue}`);
-        }
-      }
-    }
-
-    return formattedParts.join(", ");
+  // Check if this is a date object: {day: '11', month: '11', year: '1991'}
+  if (valueObj.day && valueObj.month && valueObj.year) {
+    return formatDateObject(valueObj);
   }
 
-  // Fallback to array item formatting for objects without allFieldQuestions
-  if (keys.length > 1) {
-    return formatArrayItemObject(valueObj, baseFieldName, allFieldQuestions);
+  // Handle boolean group objects: {selbststaendig: 'on', festangestellt: 'off'}
+  const values = Object.values(valueObj);
+  if (isBooleanGroup(values)) {
+    return formatBooleanObject(valueObj, options);
   }
 
-  // Handle single-property boolean-like objects
-  const optionsToUse =
-    fieldOptions || allFieldQuestions?.[baseFieldName || ""]?.options;
-  return formatBooleanObject(valueObj, optionsToUse);
+  // Fallback for unknown object types
+  return "";
 }
 
 function translateWithOptions(
@@ -217,11 +92,6 @@ function translateWithOptions(
 export function formatFieldValue(
   value: unknown,
   options?: Array<{ text: string; value: string }>,
-  baseFieldName?: string,
-  allFieldQuestions?: Record<
-    string,
-    { question?: string; options?: Array<{ text: string; value: string }> }
-  >,
 ): string {
   if (value == null) {
     return "";
@@ -230,18 +100,14 @@ export function formatFieldValue(
   let formattedValue: string;
 
   if (typeof value === "object" && value != null) {
-    formattedValue = formatObjectValue(
-      value,
-      baseFieldName,
-      allFieldQuestions,
-      options,
-    );
+    formattedValue = formatObjectValue(value, options);
   } else {
-    // Handle empty strings first
+    // Handle empty strings
     if (typeof value === "string" && value.trim() === "") {
       return "";
     }
 
+    // Convert primitives to string
     if (typeof value === "string") {
       formattedValue = value;
     } else if (typeof value === "number" || typeof value === "boolean") {
