@@ -168,7 +168,8 @@ function stepStates(
           : initialStepId;
 
       let isDone = false;
-      if (flowId in pages) {
+      // FGR formular will only be partially migrated to pageSchemas, so exclude it for now
+      if (flowId in pages && flowId !== "/fluggastrechte/formular") {
         isDone = isStepDone(
           getRelevantPageSchemasForStepId(flowId, stepId),
           context,

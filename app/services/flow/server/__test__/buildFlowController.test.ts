@@ -304,6 +304,14 @@ describe("buildFlowController", () => {
       expect(isStepDoneSpy).not.toHaveBeenCalled();
       buildFlowController({
         config: {
+          id: "doesntExist",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).not.toHaveBeenCalled();
+      buildFlowController({
+        config: {
           id: "/beratungshilfe/antrag",
           initial: "start",
           states: { start: { meta: { done: () => true } } },
