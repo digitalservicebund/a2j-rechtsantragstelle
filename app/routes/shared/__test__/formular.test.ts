@@ -189,7 +189,7 @@ describe("formular.server", () => {
             migrationData: { name: "Migration Name" },
           }),
         );
-        vi.mocked(flowDestination).mockReturnValue("/next-step");
+        vi.mocked(flowDestination).mockResolvedValue("/next-step");
 
         const response = (await action(
           mockRouteArgsFromRequest(mockDefaultRequest),

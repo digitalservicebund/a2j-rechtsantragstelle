@@ -148,7 +148,7 @@ describe("vorabcheck.server", () => {
           migrationData: undefined,
         }),
       );
-      vi.mocked(flowDestination).mockReturnValue("/next-step");
+      vi.mocked(flowDestination).mockResolvedValue("/next-step");
       const mockDefaultRequest = new Request(
         mockRequestUrl,
         mockDefaultOptions,
