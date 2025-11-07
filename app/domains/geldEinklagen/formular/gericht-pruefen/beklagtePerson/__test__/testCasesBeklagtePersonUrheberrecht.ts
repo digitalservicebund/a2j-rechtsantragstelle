@@ -26,6 +26,36 @@ export const testCasesBeklagtePersonUrheberrecht = [
     {
       ...baseContext,
       gegenWenBeklagen: "person",
+      beklagtePersonGeldVerdienen: "no",
+      klagendeVerbraucher: "yes",
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
+    },
+    [
+      "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/geld-verdienen",
+      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "person",
+      beklagtePersonGeldVerdienen: "yes",
+      klagendeVerbraucher: "yes",
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
+    },
+    [
+      "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/geld-verdienen",
+      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "person",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
