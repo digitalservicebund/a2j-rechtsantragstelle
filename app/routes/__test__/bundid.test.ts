@@ -3,6 +3,10 @@ import { action } from "../bundid.success";
 import { type ActionFunctionArgs } from "react-router";
 import { loader } from "../bundid";
 
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
+  isFeatureFlagEnabled: vi.fn(() => true),
+}));
+
 vi.mock("~/services/bundid/index.server", () => ({
   getBundIdServiceProvider: vi.fn(() => ({
     options: { entryPoint: "https://fake.idp.example.com/sso" },
