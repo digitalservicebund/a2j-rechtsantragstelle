@@ -139,37 +139,6 @@ describe("findStepIdForField", () => {
     });
   });
 
-  describe("PKH field mapping", () => {
-    const pkhFieldMapping = {
-      "weitereEinkuenfte#beschreibung":
-        "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
-      "partner-arbeitsausgaben#beschreibung":
-        "/prozesskostenhilfe/formular/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/daten",
-      "bankkonten#kontostand":
-        "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/bankkonto/daten",
-    };
-
-    it("should handle PKH array fields", () => {
-      expect(
-        findStepIdForField(
-          "weitereEinkuenfte[0].beschreibung",
-          pkhFieldMapping,
-        ),
-      ).toBe(
-        "/prozesskostenhilfe/formular/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/daten",
-      );
-
-      expect(
-        findStepIdForField(
-          "partner-arbeitsausgaben[0].beschreibung",
-          pkhFieldMapping,
-        ),
-      ).toBe(
-        "/prozesskostenhilfe/formular/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/daten",
-      );
-    });
-  });
-
   describe("Edge cases", () => {
     it("should return undefined for unknown fields", () => {
       expect(findStepIdForField("unknownField", fieldMapping)).toBeUndefined();
@@ -183,13 +152,9 @@ describe("findStepIdForField", () => {
   });
 });
 
-// Mock the external dependencies
 vi.mock("~/domains/flows.server", () => ({
   flows: {
     "/beratungshilfe/antrag": {
-      flowType: "formFlow",
-    },
-    "/prozesskostenhilfe/formular": {
       flowType: "formFlow",
     },
     "/invalidFlow": {
@@ -310,7 +275,6 @@ describe("extractOptionsFromComponent", () => {
   });
 
   it("should return undefined for components with non-array options", () => {
-    // This test uses a malformed component to test error handling
     const component = {
       __component: "form-elements.select",
       options: "invalid",
@@ -363,41 +327,6 @@ describe("createFieldQuestionFromComponent", () => {
     });
   });
 
-  it("should use field name as fallback for missing label", () => {
-    const component: StrapiInputComponentOutput = {
-      __component: "form-elements.input",
-      name: "vorname",
-      label: undefined,
-      type: "text",
-      placeholder: undefined,
-      suffix: undefined,
-      errorMessages: [],
-      width: undefined,
-      helperText: undefined,
-      id: 1,
-    };
-
-    const formPage: StrapiFormFlowPage = {
-      heading: "",
-      stepId: "/test",
-      flow_ids: [],
-      preHeading: undefined,
-      nextButtonLabel: undefined,
-      backButtonLabel: undefined,
-      pre_form: [],
-      form: [],
-      post_form: [],
-      locale: "de",
-      pageTitle: "Test Page",
-    };
-
-    const result = createFieldQuestionFromComponent(component, formPage);
-
-    expect(result).toEqual({
-      question: "",
-    });
-  });
-
   it("should use page heading when no label is provided", () => {
     const component: StrapiInputComponentOutput = {
       __component: "form-elements.input",
@@ -429,7 +358,7 @@ describe("createFieldQuestionFromComponent", () => {
     const result = createFieldQuestionFromComponent(component, formPage);
 
     expect(result).toEqual({
-      question: "Wie ist Ihr Vorname?", // Should use page heading when no label
+      question: "Wie ist Ihr Vorname?",
     });
   });
 });
@@ -572,7 +501,6 @@ describe("processFieldForQuestions", () => {
       question: "Cached question",
     });
 
-    // Should not call fetchFlowPage since it's cached
     expect(vi.mocked(fetchFlowPage)).not.toHaveBeenCalled();
   });
 

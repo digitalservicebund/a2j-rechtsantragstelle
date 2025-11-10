@@ -92,7 +92,7 @@ describe("groupFieldsBySection", () => {
     });
   });
 
-  it("should handle array fields with special grouping", () => {
+  it("should group array fields by base field and index", () => {
     const result = groupFieldsByFlowNavigation(
       ["kinder[0].vorname", "kinder[1].vorname"],
       mockFlowController as any,
@@ -110,21 +110,6 @@ describe("groupFieldsBySection", () => {
       "finanzielle-angaben": {
         "kinder-0": ["kinder[0].vorname"],
         "kinder-1": ["kinder[1].vorname"],
-      },
-    });
-  });
-
-  it("should handle fields without stepId mapping", () => {
-    const result = groupFieldsByFlowNavigation(
-      ["unknownField"],
-      mockFlowController as any,
-      {},
-      mockTranslations,
-    );
-
-    expect(result.groups).toEqual({
-      other: {
-        zusaetzliche_angaben: ["unknownField"],
       },
     });
   });

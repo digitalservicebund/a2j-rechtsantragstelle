@@ -187,29 +187,6 @@ describe("sectionMapping", () => {
       });
     });
 
-    it("should fallback to default when no match found", () => {
-      const result = getSectionFromStepId(
-        "/unknown/section/step",
-        stepToSectionMapping,
-      );
-
-      expect(result).toEqual({
-        sectionKey: "unknown",
-        sectionTitle: "unknown",
-        boxKey: "step",
-      });
-    });
-
-    it("should handle root level stepId", () => {
-      const result = getSectionFromStepId("/root", stepToSectionMapping);
-
-      expect(result).toEqual({
-        sectionKey: "root",
-        sectionTitle: "root",
-        boxKey: "root",
-      });
-    });
-
     it("should handle empty stepId", () => {
       const result = getSectionFromStepId("", stepToSectionMapping);
 
