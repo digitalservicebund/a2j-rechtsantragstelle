@@ -1,25 +1,12 @@
 import { useState } from "react";
 import RichText from "../common/RichText";
+import IconExpandLess from "@digitalservicebund/icons/ExpandLess";
+import IconExpandMore from "@digitalservicebund/icons/ExpandMore";
 
 export type DetailsProps = {
   title?: string;
   content?: string;
 };
-
-const ArrowIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="group-open:rotate-180"
-    aria-hidden="true"
-  >
-    <path
-      d="M16.59 8.29501L12 12.875L7.41 8.29501L6 9.70501L12 15.705L18 9.70501L16.59 8.29501Z"
-      fill="currentColor"
-    />
-  </svg>
-);
 
 export const Details = ({ title, content }: DetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +19,10 @@ export const Details = ({ title, content }: DetailsProps) => {
     >
       <summary
         aria-expanded={isOpen}
-        className="summary-content flex items-center focus:outline-hidden cursor-pointer list-none p-0"
+        className="summary-content flex items-center focus:outline-hidden cursor-pointer list-none"
       >
-        <span className="w-[24px] mr-[8px]">
-          <ArrowIcon />
+        <span className="mr-[8px]">
+          {isOpen ? <IconExpandLess /> : <IconExpandMore />}
         </span>
         {title}
       </summary>
