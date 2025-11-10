@@ -8,7 +8,7 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 }));
 
 vi.mock("~/services/bundid/index.server", () => ({
-  getBundIdServiceProvider: vi.fn(() => ({
+  getBundIdSamlConfig: vi.fn(() => ({
     options: { entryPoint: "https://fake.idp.example.com/sso" },
     getAuthorizeFormAsync: vi.fn(() => ({
       context: "FAKE_SAML_REQUEST",
@@ -23,7 +23,7 @@ vi.mock("~/services/bundid/index.server", () => ({
 }));
 
 describe("BundID loader", () => {
-  it("should return url, samlRequest, and relayState", async () => {
+  it("should return url and samlRequest", async () => {
     const request = new Request("https://app.example.com/test");
 
     const result = await loader({ request } as unknown as ActionFunctionArgs);
@@ -33,6 +33,14 @@ describe("BundID loader", () => {
       samlRequest: { context: "FAKE_SAML_REQUEST" },
       relayState: "https://app.example.com/test",
     });
+  });
+
+  it("should return a relayState containing the request URL", async () => {
+    const request = new Request("https://app.example.com/another-test");
+
+    const result = await loader({ request } as unknown as ActionFunctionArgs);
+
+    expect(result.relayState).toBe("https://app.example.com/another-test");
   });
 });
 
@@ -67,10 +75,10 @@ describe("BundID action", () => {
     ).rejects.toThrow("Invalid SAML Response");
   });
   it("should handle missing attributes", async () => {
-    const { getBundIdServiceProvider } = await import(
+    const { getBundIdSamlConfig: getBundIdSamlConfig } = await import(
       "~/services/bundid/index.server"
     );
-    (getBundIdServiceProvider as any).mockImplementationOnce(() => ({
+    (getBundIdSamlConfig as any).mockImplementationOnce(() => ({
       validatePostResponseAsync: () => ({ profile: {} }),
     }));
 

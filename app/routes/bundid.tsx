@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData } from "react-router";
 import type { LoaderFunctionArgs } from "react-router";
 import Button from "~/components/common/Button";
-import { getBundIdServiceProvider } from "~/services/bundid/index.server";
+import { getBundIdSamlConfig } from "~/services/bundid/index.server";
 
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
@@ -9,7 +9,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagDisabled("showBundID");
 
   const backURL = request.url;
-  const serviceProvider = getBundIdServiceProvider();
+  const serviceProvider = getBundIdSamlConfig();
 
   const samlRequest = await serviceProvider.getAuthorizeFormAsync(backURL);
 
@@ -28,7 +28,6 @@ export default function View() {
       <h1>BundID Test</h1>
       <form action={url} method="post">
         <input type="hidden" name="SAMLRequest" value={samlRequest} />
-        {/* RelayState is here so we can know some context during the Authentication process */}
         <input type="hidden" name="RelayState" value={relayState} />
         <Button type={"submit"}>Identifizieren</Button>
       </form>

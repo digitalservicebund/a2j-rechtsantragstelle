@@ -1,6 +1,6 @@
 import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
-export function getBundIdServiceProvider() {
+export function getBundIdSamlConfig() {
   const saml = new SAML({
     entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
     issuer: config().BUNDID_AUTH_BMI_ID ?? "",
