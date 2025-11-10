@@ -13,6 +13,7 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 import { uploadUserFile } from "~/services/upload/fileUploadHelpers.server";
 import { action } from "../formular";
 import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromRequest";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -28,6 +29,7 @@ vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
 vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
 vi.mock("~/services/flow/userFlowAction/flowDestination");
+vi.mock("~/services/flow/pruner/pruner");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
@@ -43,9 +45,17 @@ const mockDefaultOptions = {
 
 const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
 
+const mockPrunerData = (userDataMock?: Record<string, string>) => {
+  vi.mocked(pruneIrrelevantData).mockResolvedValue({
+    prunedData: userDataMock ?? {},
+    validFlowPaths: {},
+  });
+};
+
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(validatedSession).mockResolvedValue(Result.ok());
+  mockPrunerData();
 });
 
 describe("formular.server", () => {
@@ -173,6 +183,8 @@ describe("formular.server", () => {
           }),
         );
 
+        mockPrunerData({ name: "Valid Name" });
+
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
@@ -189,7 +201,7 @@ describe("formular.server", () => {
             migrationData: { name: "Migration Name" },
           }),
         );
-        vi.mocked(flowDestination).mockResolvedValue("/next-step");
+        vi.mocked(flowDestination).mockReturnValue("/next-step");
 
         const response = (await action(
           mockRouteArgsFromRequest(mockDefaultRequest),
@@ -197,6 +209,32 @@ describe("formular.server", () => {
 
         expect(response.status).toEqual(302);
         expect(response.headers.get("location")).toEqual("/next-step");
+      });
+
+      it("should return call pruneIrrelevantData and use the pruned data the function flowDestination", async () => {
+        const userDataMock = { someData: "someValue" };
+        mockPrunerData(userDataMock);
+
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({
+            userData: { name: "Valid Name" },
+            migrationData: { name: "Migration Name" },
+          }),
+        );
+
+        const flowDestinationMock = vi
+          .mocked(flowDestination)
+          .mockResolvedValue("/next-step");
+
+        (await action(
+          mockRouteArgsFromRequest(mockDefaultRequest),
+        )) as Response;
+
+        expect(pruneIrrelevantData).toBeCalledTimes(1);
+        expect(flowDestinationMock).toHaveBeenCalledWith(
+          "/fluggastrechte/formular/abgabe/start",
+          userDataMock,
+        );
       });
     });
   });

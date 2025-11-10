@@ -4,17 +4,14 @@ import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathnam
 import { addPageDataToUserData } from "../pageData";
 import { buildFlowController } from "../server/buildFlowController";
 import { insertIndexesIntoPath } from "../stepIdConverter";
-import { pruneIrrelevantData } from "../pruner/pruner";
 
-export const flowDestination = async (pathname: string, userData: UserData) => {
-  const { arrayIndexes, stepId, currentFlow, flowId } =
+export const flowDestination = (pathname: string, userData: UserData) => {
+  const { arrayIndexes, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
-
-  const { prunedData } = await pruneIrrelevantData(userData, flowId);
 
   const flowController = buildFlowController({
     config: currentFlow.config,
-    data: addPageDataToUserData(prunedData, { arrayIndexes }),
+    data: addPageDataToUserData(userData, { arrayIndexes }),
     guards: currentFlow.guards,
   });
 
