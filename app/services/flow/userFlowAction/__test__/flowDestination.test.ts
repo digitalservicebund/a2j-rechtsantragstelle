@@ -3,23 +3,13 @@ import {
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
 import { flowDestination } from "../flowDestination";
-import { pruneIrrelevantData } from "../../pruner/pruner";
 
 const mockPathname =
   "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht";
 vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("../../pruner/pruner");
-
-const mockPrunerData = (userDataMock?: Record<string, string>) => {
-  vi.mocked(pruneIrrelevantData).mockResolvedValue({
-    prunedData: userDataMock ?? {},
-    validFlowPaths: {},
-  });
-};
 
 beforeEach(() => {
   vi.resetAllMocks();
-  mockPrunerData();
 });
 
 describe("getDestinationFlowAction", () => {
