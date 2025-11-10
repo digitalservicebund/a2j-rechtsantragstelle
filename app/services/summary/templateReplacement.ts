@@ -17,9 +17,9 @@ function replaceTemplateVariables(
       const arrayItem = arrayData[arrayIndex] as Record<string, unknown>;
 
       // Replace template variables like {{kinder#vorname}} and {{bankkonten#inhaber}}
-      return questionText.replace(
+      return questionText.replaceAll(
         /\{\{(\w+)#(\w+)\}\}/g,
-        (match, arrayType, fieldKey) => {
+        (match: string, arrayType: string, fieldKey: string) => {
           if (
             arrayType === baseFieldName ||
             (arrayType === "kind" && baseFieldName === "kinder")

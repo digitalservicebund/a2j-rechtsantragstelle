@@ -121,7 +121,7 @@ export function createArrayEditUrl(
     }
 
     // Look for exact match first
-    let basePathIndex = pathParts.findIndex((part) => part === mappedFieldName);
+    let basePathIndex = pathParts.indexOf(mappedFieldName);
 
     // Then try parts that contain the base field name
     if (basePathIndex === -1) {

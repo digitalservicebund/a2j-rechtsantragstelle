@@ -1,4 +1,5 @@
 import type { UserData } from "~/domains/userData";
+import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { isUserDataFieldEmpty } from "./fieldValidation";
 import { getUserDataFieldLabel } from "./templateReplacement";
@@ -14,14 +15,7 @@ export function createFieldEntry(
     { question?: string; options?: Array<{ text: string; value: string }> }
   >,
   representativeStepId: string,
-): {
-  question: string;
-  answer: string;
-  editUrl?: string;
-  isArrayItem?: boolean;
-  arrayIndex?: number;
-  arrayBaseField?: string;
-} {
+): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
   const isArraySubFieldFlag = fieldInfo.isArraySubField;
@@ -73,6 +67,7 @@ export function createFieldEntry(
   }
 
   return {
+    id: crypto.randomUUID().split("-")[0],
     question,
     answer,
     editUrl,
@@ -90,7 +85,7 @@ export function processBoxFields(
     { question?: string; options?: Array<{ text: string; value: string }> }
   >,
   fieldToStepMapping: Record<string, string>,
-): Array<{ question: string; answer: string; editUrl?: string }> {
+): FieldItem[] {
   if (fields.length === 0) {
     return [];
   }

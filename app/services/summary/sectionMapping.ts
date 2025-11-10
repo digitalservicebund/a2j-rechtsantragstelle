@@ -63,17 +63,16 @@ export function getSectionFromStepId(
     }
   }
 
-  // Default fallback
   return {
-    sectionKey: stepId.split("/")[1] || "other",
-    sectionTitle: stepId.split("/")[1] || "Zusätzliche Angaben",
+    sectionKey: stepId.split("/")[1] ?? "other",
+    sectionTitle: stepId.split("/")[1] ?? "Zusätzliche Angaben",
     boxKey: extractBoxKeyFromStepId(stepId),
   };
 }
 
-export function extractBoxKeyFromStepId(stepId: string): string {
+function extractBoxKeyFromStepId(stepId: string): string {
   const segments = stepId.split("/").filter(Boolean);
-  return segments[segments.length - 1] || "default";
+  return segments.at(-1) ?? "default";
 }
 
 export function addFieldToGroup(

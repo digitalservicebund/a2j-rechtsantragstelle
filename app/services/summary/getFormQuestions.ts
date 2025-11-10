@@ -12,16 +12,7 @@ import {
   isArraySubField,
   parseArrayField,
 } from "./fieldParsingUtils";
-
-export type FieldOption = {
-  text: string;
-  value: string;
-};
-
-export type FieldQuestion = {
-  question: string; // The actual question text
-  options?: FieldOption[]; // Available answer options (for select/dropdown/tile-group)
-};
+import type { FieldOption, FieldQuestion } from "./types";
 
 /**
  * Creates a mapping of field names to their step IDs from the form fields map
@@ -91,10 +82,12 @@ export function extractOptionsFromComponent(
 
   if (formComponent.__component === "form-elements.tile-group") {
     // Tile group uses {title, value} - convert to {text, value}
-    return formComponent.options.map((opt) => ({
-      text: (opt as { title: string; value: string }).title ?? opt.value,
-      value: opt.value,
-    }));
+    return formComponent.options.map(
+      (opt: { title: string; value: string }) => ({
+        text: (opt as { title: string; value: string }).title ?? opt.value,
+        value: opt.value,
+      }),
+    );
   } else {
     // Select/dropdown use {text, value} - use directly
     return formComponent.options as FieldOption[];
@@ -136,7 +129,7 @@ export function processNestedComponents(
   formPage: StrapiFormFlowPage,
 ): FieldQuestion | null {
   const hasDirectNestedComponents = formPage.form.some(
-    (component) =>
+    (component: StrapiFormComponent) =>
       "name" in component && component.name?.startsWith(`${fieldName}.`),
   );
 
@@ -146,12 +139,12 @@ export function processNestedComponents(
 
   // Extract options from the nested components
   const nestedComponents = formPage.form.filter(
-    (component) =>
+    (component: StrapiFormComponent) =>
       "name" in component && component.name?.startsWith(`${fieldName}.`),
   );
 
   const options: FieldOption[] = [];
-  nestedComponents.forEach((comp) => {
+  for (const comp of nestedComponents) {
     if ("name" in comp && "label" in comp && comp.name && comp.label) {
       // Extract the suffix after the dot (e.g., "pregnancy" from "besondereBelastungen.pregnancy")
       const optionValue = comp.name.split(".").pop();
@@ -162,7 +155,7 @@ export function processNestedComponents(
         });
       }
     }
-  });
+  }
 
   const result = {
     question: formPage.heading,
@@ -171,12 +164,12 @@ export function processNestedComponents(
   return result;
 }
 
-export function findParentFieldset(
+function findParentFieldset(
   fieldName: string,
   formPage: StrapiFormFlowPage,
 ): StrapiFormComponent | null {
   return (
-    formPage.form.find((component) => {
+    formPage.form.find((component: StrapiFormComponent) => {
       if (
         "components" in component &&
         component.components &&
@@ -184,7 +177,7 @@ export function findParentFieldset(
       ) {
         // Check if any nested component has our fieldName as a prefix
         return component.components.some(
-          (nestedComp) =>
+          (nestedComp: StrapiFormComponent) =>
             nestedComp &&
             "name" in nestedComp &&
             nestedComp.name?.startsWith(`${fieldName}.`),
@@ -227,7 +220,7 @@ export async function processFieldForQuestions(
 
   let formComponent: StrapiFormComponent | undefined | null =
     formPage.form.find(
-      (component) =>
+      (component: StrapiFormComponent) =>
         "name" in component && component.name === componentLookupName,
     );
 

@@ -26,14 +26,16 @@ describe("fieldEntryCreation", () => {
         "/step",
       );
 
-      expect(result).toEqual({
-        question: "Wie ist Ihr Vorname?",
-        answer: "Max",
-        editUrl: "/step",
-        isArrayItem: false,
-        arrayIndex: undefined,
-        arrayBaseField: undefined,
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          question: "Wie ist Ihr Vorname?",
+          answer: "Max",
+          editUrl: "/step",
+          isArrayItem: false,
+          arrayIndex: undefined,
+          arrayBaseField: undefined,
+        }),
+      );
     });
 
     it("should create field entry for empty field", () => {
@@ -46,14 +48,16 @@ describe("fieldEntryCreation", () => {
         "/step",
       );
 
-      expect(result).toEqual({
-        question: "Wie ist Ihr Vorname?",
-        answer: "Keine Angabe",
-        editUrl: "/step",
-        isArrayItem: false,
-        arrayIndex: undefined,
-        arrayBaseField: undefined,
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          question: "Wie ist Ihr Vorname?",
+          answer: "Keine Angabe",
+          editUrl: "/step",
+          isArrayItem: false,
+          arrayIndex: undefined,
+          arrayBaseField: undefined,
+        }),
+      );
     });
 
     it("should create field entry for array sub-field", () => {
@@ -68,14 +72,16 @@ describe("fieldEntryCreation", () => {
         "/kinder/step",
       );
 
-      expect(result).toEqual({
-        question: "Wie heißt das Kind?",
-        answer: "Anna",
-        editUrl: "/kinder/uebersicht",
-        isArrayItem: true,
-        arrayIndex: 0,
-        arrayBaseField: "kinder",
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          question: "Wie heißt das Kind?",
+          answer: "Anna",
+          editUrl: "/kinder/uebersicht",
+          isArrayItem: true,
+          arrayIndex: 0,
+          arrayBaseField: "kinder",
+        }),
+      );
     });
 
     it("should handle field with options", () => {
@@ -131,22 +137,26 @@ describe("fieldEntryCreation", () => {
       );
 
       expect(result).toHaveLength(2);
-      expect(result[0]).toEqual({
-        question: "Vorname?",
-        answer: "Max",
-        editUrl: "/persoenliche-daten/name",
-        isArrayItem: false,
-        arrayIndex: undefined,
-        arrayBaseField: undefined,
-      });
-      expect(result[1]).toEqual({
-        question: "Nachname?",
-        answer: "Mustermann",
-        editUrl: "/persoenliche-daten/name",
-        isArrayItem: false,
-        arrayIndex: undefined,
-        arrayBaseField: undefined,
-      });
+      expect(result[0]).toEqual(
+        expect.objectContaining({
+          question: "Vorname?",
+          answer: "Max",
+          editUrl: "/persoenliche-daten/name",
+          isArrayItem: false,
+          arrayIndex: undefined,
+          arrayBaseField: undefined,
+        }),
+      );
+      expect(result[1]).toEqual(
+        expect.objectContaining({
+          question: "Nachname?",
+          answer: "Mustermann",
+          editUrl: "/persoenliche-daten/name",
+          isArrayItem: false,
+          arrayIndex: undefined,
+          arrayBaseField: undefined,
+        }),
+      );
     });
 
     it("should handle array fields", () => {

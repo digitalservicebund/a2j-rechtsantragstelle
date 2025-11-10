@@ -1,10 +1,4 @@
-export type ArrayFieldInfo = {
-  baseFieldName: string;
-  arrayIndex: number;
-  subFieldName?: string;
-  isArrayField: boolean;
-  isArraySubField: boolean;
-};
+import type { ArrayFieldInfo } from "./types";
 
 /**
  * Parses array field names like "kinder[0]", "kinder[0].vorname", or regular fields like "vorname"
@@ -35,7 +29,7 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
     const [arrayPart, subFieldName] = fieldName.split(".");
     const [baseFieldName, indexPart] = arrayPart.split("[");
     const indexStr = indexPart.replaceAll("]", "");
-    const arrayIndex = parseInt(indexStr, 10);
+    const arrayIndex = Number.parseInt(indexStr, 10);
 
     return {
       baseFieldName,
@@ -49,7 +43,7 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
   // Handle simple array fields like "kinder[0]"
   const [baseFieldName, indexPart] = fieldName.split("[");
   const indexStr = indexPart.replaceAll("]", "");
-  const arrayIndex = parseInt(indexStr, 10);
+  const arrayIndex = Number.parseInt(indexStr, 10);
 
   return {
     baseFieldName,

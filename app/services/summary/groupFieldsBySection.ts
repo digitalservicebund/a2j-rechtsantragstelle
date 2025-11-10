@@ -53,7 +53,6 @@ export function groupFieldsByFlowNavigation(
       stepId = stepId.substring(flowId.length);
     }
 
-    // Get the top-level section for this step
     const sectionInfo = getSectionFromStepId(stepId, stepToSectionMapping);
     const sectionKey = sectionInfo.sectionKey.replace(/^\//, "");
 
