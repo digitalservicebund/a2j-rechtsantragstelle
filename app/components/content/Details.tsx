@@ -8,18 +8,14 @@ export type DetailsProps = {
 
 const ArrowIcon = () => (
   <svg
-    width="16"
-    height="10"
-    viewBox="0 0 16 10"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="group-open:rotate-180"
     aria-hidden="true"
   >
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M0 0L16 0L8 10L0 0Z"
+      d="M16.59 8.29501L12 12.875L7.41 8.29501L6 9.70501L12 15.705L18 9.70501L16.59 8.29501Z"
       fill="currentColor"
     />
   </svg>
@@ -36,15 +32,15 @@ export const Details = ({ title, content }: DetailsProps) => {
     >
       <summary
         aria-expanded={isOpen}
-        className="summary-content flex items-baseline focus:outline-hidden cursor-pointer list-none"
+        className="summary-content flex items-center focus:outline-hidden cursor-pointer list-none p-0"
       >
-        <span className="mr-[8px]">
+        <span className="w-[24px] mr-[8px]">
           <ArrowIcon />
         </span>
         {title}
       </summary>
-      <div className="pl-[24px] pt-4 text-black ds-label-01-reg">
-        {content && <RichText html={content} />}
+      <div className="pl-[32px] pt-4 text-black ds-label-01-reg">
+        {content && <RichText className="leading-[1.5]" html={content} />}
       </div>
     </details>
   );
