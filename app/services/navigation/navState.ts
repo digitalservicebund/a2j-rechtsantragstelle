@@ -29,9 +29,9 @@ export function navState({
     return isCurrent ? "WarningCurrent" : "Warning";
   }
 
-  if (isCurrent && isDone) return "DoneCurrent";
+  if (isCurrent && isDone && !excludedFromValidation) return "DoneCurrent";
   if (isCurrent) return "Current";
-  if (isReachable && isDone) return "Done";
+  if (isReachable && isDone && !excludedFromValidation) return "Done";
   if (isReachable) return "Open";
 
   return "Disabled";
