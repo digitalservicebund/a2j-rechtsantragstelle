@@ -1,5 +1,5 @@
 import mapValues from "lodash/mapValues";
-import type { z } from "zod";
+import { type z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
@@ -10,7 +10,7 @@ import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 
-const pages: Partial<Record<FlowId, PagesConfig>> = {
+export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
@@ -142,7 +142,7 @@ type ArrayParentPage = {
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
