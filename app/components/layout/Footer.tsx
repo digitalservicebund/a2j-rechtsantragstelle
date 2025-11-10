@@ -52,6 +52,7 @@ export default function Footer({
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 1, span: 3 }}
           xlColumn={{ start: 1, span: 3 }}
+          as="aside"
         >
           {image?.url && (
             <div className="forced-colors:bg-black">

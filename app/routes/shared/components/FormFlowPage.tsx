@@ -79,6 +79,7 @@ export function FormFlowPage() {
             lgColumn={{ start: 5, span: 7 }}
             xlColumn={{ start: 5, span: 7 }}
             row={3}
+            as="section"
           >
             <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between">
               <div className="ds-stack ds-stack-40">
