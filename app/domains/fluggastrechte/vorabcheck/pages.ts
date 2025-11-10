@@ -5,9 +5,9 @@ import { airportSchema } from "~/services/validation/airport";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastBereichSchema = z.enum([
-  "nichtbefoerderung",
   "verspaetet",
   "annullierung",
+  "nichtbefoerderung",
   "anderes",
 ]);
 
