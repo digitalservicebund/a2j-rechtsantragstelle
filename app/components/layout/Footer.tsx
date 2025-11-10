@@ -46,13 +46,12 @@ export default function Footer({
   ariaLabel,
 }: FooterProps) {
   return (
-    <>
+    <footer>
       <Grid className="py-40 print:pb-0">
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 1, span: 3 }}
           xlColumn={{ start: 1, span: 3 }}
-          as="aside"
         >
           {image?.url && (
             <div className="forced-colors:bg-black">
@@ -126,6 +125,6 @@ export default function Footer({
           </GridItem>
         </Grid>
       )}
-    </>
+    </footer>
   );
 }
