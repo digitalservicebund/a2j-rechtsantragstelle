@@ -27,11 +27,33 @@ describe("navState", () => {
     expect(actual).toBe("Current");
   });
 
+  it("should return state Current in case isCurrent is true and isDone is false and excludedFromValidation is true", () => {
+    const actual = navState({
+      isCurrent: true,
+      isDone: false,
+      isReachable: true,
+      excludedFromValidation: true,
+    });
+
+    expect(actual).toBe("Current");
+  });
+
   it("should return state Open in case isCurrent and isDone are false, but isReachable is true", () => {
     const actual = navState({
       isCurrent: false,
       isDone: false,
       isReachable: true,
+    });
+
+    expect(actual).toBe("Open");
+  });
+
+  it("should return state Open in case isCurrent and isDone are false, but isReachable and excludedFromValidation is true", () => {
+    const actual = navState({
+      isCurrent: false,
+      isDone: false,
+      isReachable: true,
+      excludedFromValidation: true,
     });
 
     expect(actual).toBe("Open");
