@@ -8,10 +8,6 @@ const mockPathname =
   "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht";
 vi.mock("~/services/flow/server/buildFlowController");
 
-beforeEach(() => {
-  vi.resetAllMocks();
-});
-
 describe("getDestinationFlowAction", () => {
   it("should return the next step in case it does not have an array", () => {
     vi.mocked(buildFlowController).mockReturnValueOnce({
