@@ -46,7 +46,7 @@ export default function Footer({
   ariaLabel,
 }: FooterProps) {
   return (
-    <footer>
+    <>
       <Grid className="py-40 print:pb-0">
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -125,6 +125,6 @@ export default function Footer({
           </GridItem>
         </Grid>
       )}
-    </footer>
+    </>
   );
 }
