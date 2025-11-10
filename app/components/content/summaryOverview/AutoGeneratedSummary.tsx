@@ -61,16 +61,16 @@ function SummarySection({
         >
           {field.multipleQuestions ? (
             field.multipleQuestions.map((qa) => (
-              <div key={qa.id} className="flex items-start gap-32">
+              <dl key={qa.id} className="flex items-start gap-32">
                 <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
                 <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
-              </div>
+              </dl>
             ))
           ) : (
-            <div className="flex items-start gap-32">
+            <dl className="flex items-start gap-32">
               <dt className="ds-body-01-bold flex-1">{field.question}</dt>
               <dd className="ds-body-01-reg flex-1">{field.answer}</dd>
-            </div>
+            </dl>
           )}
 
           {field.editUrl && (
@@ -102,18 +102,18 @@ function SummarySection({
             >
               {arrayItem.multipleQuestions ? (
                 arrayItem.multipleQuestions.map((qa) => (
-                  <div key={qa.id} className="flex items-start gap-32">
+                  <dl key={qa.id} className="flex items-start gap-32">
                     <dt className="ds-body-01-bold flex-1">{qa.question}</dt>
                     <dd className="ds-body-01-reg flex-1">{qa.answer}</dd>
-                  </div>
+                  </dl>
                 ))
               ) : (
-                <div className="flex items-start gap-32">
+                <dl className="flex items-start gap-32">
                   <dt className="ds-body-01-bold flex-1">
                     {arrayItem.question}
                   </dt>
                   <dd className="ds-body-01-reg flex-1">{arrayItem.answer}</dd>
-                </div>
+                </dl>
               )}
 
               {arrayItem.editUrl && (
