@@ -24,6 +24,7 @@ export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -184,9 +185,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (resultFormUserData.value.migrationData) {
     updateSession(flowSession, resultFormUserData.value.migrationData);
   }
-  await postValidationFlowAction(request, flowSession.data);
+
+  const { prunedData } = await pruneIrrelevantData(flowSession.data, flowId);
+
+  await postValidationFlowAction(request, prunedData);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  const destination = flowDestination(pathname, flowSession.data);
+  const destination = flowDestination(pathname, prunedData);
   return redirectDocument(destination, { headers });
 };

@@ -16,6 +16,12 @@ import type {
   StateMachineTypes,
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
+import {
+  getRelevantPageSchemasForStepId,
+  isStepDone,
+} from "~/domains/isStepDone";
+import { type FlowId } from "~/domains/flowIds";
+import { pages } from "~/domains/pageSchemas";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -110,6 +116,7 @@ function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
+  flowId: FlowId,
 ): StepState[] {
   // Recurse a statenode until encountering a done function or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
@@ -129,6 +136,7 @@ function stepStates(
       state,
       reachableSteps,
       addUnreachableSubSteps,
+      flowId,
     ).filter((state) => state.isReachable || addUnreachableSubSteps);
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
@@ -159,9 +167,23 @@ function stepStates(
           ? eventlessStepId
           : initialStepId;
 
+      let isDone = false;
+      // FGR formular will only be partially migrated to pageSchemas, so exclude it for now
+      if (flowId in pages && flowId !== "/fluggastrechte/formular") {
+        isDone = isStepDone(
+          getRelevantPageSchemasForStepId(flowId, stepId),
+          context,
+          reachableSteps,
+          state.machine.config.meta?.arrays,
+        );
+      } else if (meta?.done) {
+        // legacy doneFunction handling -- to be removed after FGR is migrated to pageSchemas
+        isDone = meta.done({ context });
+      }
+
       return {
         url: `${state.machine.id}${targetStepId}`,
-        isDone: hasDoneFunction ? meta.done!({ context }) : false,
+        isDone,
         stepId,
         isReachable: reachableSteps.includes(targetStepId),
         excludedFromValidation,
@@ -201,7 +223,12 @@ export const buildFlowController = ({
     getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
     getRootMeta: () => rootMeta(machine),
     stepStates: (addUnreachableSubSteps = false) =>
-      stepStates(machine.root, reachableSteps, addUnreachableSubSteps),
+      stepStates(
+        machine.root,
+        reachableSteps,
+        addUnreachableSubSteps,
+        flowId as FlowId,
+      ),
     getReachableSteps: () => reachableSteps,
     getUserdata: () => context,
     getConfig: () => config,

@@ -30,6 +30,7 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 import { composePageTitle } from "~/services/meta/composePageTitle";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -148,9 +149,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
-  await postValidationFlowAction(request, flowSession.data);
+  const { prunedData } = await pruneIrrelevantData(flowSession.data, flowId);
 
-  const destination = flowDestination(pathname, flowSession.data);
+  await postValidationFlowAction(request, prunedData);
+
+  const destination = flowDestination(pathname, prunedData);
   const headers = { "Set-Cookie": await commitSession(flowSession) };
   return redirectDocument(destination, { headers });
 };

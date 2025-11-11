@@ -1034,18 +1034,9 @@
     "iata": "EW",
     "isInEU": true,
     "arbitrationBoard": "RV",
-    "streetAndNumber": "\"Terminal-Ring 1, Zentralgebäude Ost (3. OG), ",
-    "postalCode": "",
-    "city": "",
-    "country": "Deutschland"
-  },
-  {
-    "name": "Flughafen Düsseldorf\"",
-    "iata": "Düsseldorf\r",
-    "isInEU": false,
-    "arbitrationBoard": "40474",
-    "postalCode": "",
-    "city": "",
+    "streetAndNumber": "Terminal-Ring 1, Zentralgebäude Ost (3. OG) Flughafen Düsseldorf",
+    "postalCode": "40474",
+    "city": "Düsseldorf",
     "country": "Deutschland"
   },
   {
@@ -2327,6 +2318,26 @@
     "postalCode": "",
     "city": "",
     "country": "Deutschland"
+  },
+  {
+    "name": "American Airlines",
+    "iata": "AA",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Vereinigte Staaten von Amerika"
+  },
+  {
+    "name": "AJet",
+    "iata": "VF",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Türkei"
   },
   {
     "name": "Sonstiges",
