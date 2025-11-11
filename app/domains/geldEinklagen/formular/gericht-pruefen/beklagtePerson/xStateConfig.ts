@@ -3,6 +3,7 @@ import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import { beklagtePersonDone } from "./doneFunctions";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -41,6 +42,14 @@ export const beklagtePersonXstateConfig = {
               context.sachgebiet !== "urheberrecht" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
+          },
+          {
+            guard: ({ context }) =>
+              objectKeysNonEmpty(context, ["gegenWenBeklagen"]) &&
+              context.sachgebiet === "miete" &&
+              context.mietePachtVertrag === "yes" &&
+              context.mietePachtRaum === "yes",
+            target: steps.gerichtSuchePostleitzahlWohnraum.absolute,
           },
           {
             guard: beklagtePersonDone,
@@ -128,7 +137,7 @@ export const beklagtePersonXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              context.beklagtePersonGeldVerdienen !== undefined,
+              objectKeysNonEmpty(context, ["beklagtePersonGeldVerdienen"]),
             target: steps.beklagtePersonGeldVerdienen.relative,
           },
           steps.beklagtePersonGegenWen.relative,
@@ -137,10 +146,18 @@ export const beklagtePersonXstateConfig = {
     },
     [steps.beklagtePersonGerichtsstandsvereinbarung.relative]: {
       on: {
-        SUBMIT: {
-          guard: beklagtePersonDone,
-          target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
-        },
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              context.gerichtsstandsvereinbarung === "yes",
+            target:
+              steps.gerichtSuchePostleitzahlGerichtsstandsvereinbarung.absolute,
+          },
+          {
+            guard: beklagtePersonDone,
+            target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
+          },
+        ],
         BACK: steps.beklagtePersonKaufmann.relative,
       },
     },

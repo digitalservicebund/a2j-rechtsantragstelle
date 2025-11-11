@@ -18,7 +18,7 @@ export const testCasesBeklagtePersonMiete = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suche/postleitzahl-wohnraum",
     ],
   ],
   [
@@ -30,6 +30,23 @@ export const testCasesBeklagtePersonMiete = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
+    },
+    [
+      "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
+      "/gericht-pruefen/gericht-suche/postleitzahl-gerichtsstandsvereinbarung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "no",
+      klagendeVerbraucher: "no",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "no",
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",

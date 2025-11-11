@@ -1,5 +1,7 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const geldEinklagenGerichtPruefenPages = {
@@ -102,5 +104,42 @@ export const geldEinklagenGerichtPruefenPages = {
   },
   gerichtSuchePostleitzahlBeklagtePerson: {
     stepId: "gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+    pageSchema: {
+      postleitzahlBeklagtePerson: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchePostleitzahlWohnraum: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-wohnraum",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchePostleitzahlKlagendePerson: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-klagende-person",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchePostleitzahlUnerlaubtePerson: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-unerlaubte-person",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchePostleitzahlVerkehrsunfall: {
+    stepId: "gericht-pruefen/gericht-suche/postleitzahl-verkehrsunfall",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchePostleitzahlGerichtsstandsvereinbarung: {
+    stepId:
+      "gericht-pruefen/gericht-suche/postleitzahl-gerichtsstandsvereinbarung",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  zustaendigesGerichtPilotGericht: {
+    stepId: "gericht-pruefen/zustaendiges-gericht/pilot-gericht",
   },
 } as const satisfies PagesConfig;

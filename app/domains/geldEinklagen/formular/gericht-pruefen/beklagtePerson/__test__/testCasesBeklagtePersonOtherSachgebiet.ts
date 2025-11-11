@@ -21,7 +21,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suche/postleitzahl-gerichtsstandsvereinbarung",
     ],
   ],
   [

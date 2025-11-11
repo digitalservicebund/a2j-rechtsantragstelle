@@ -7,6 +7,7 @@ import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -54,5 +55,41 @@ export const gerichtPruefenXstateConfig = {
     "klagende-person": klagendePersonXstateConfig,
     "beklagte-person": beklagtePersonXstateConfig,
     "gericht-suche": gerichtSuchenXstateConfig,
+    "zustaendiges-gericht": {
+      id: "zustaendiges-gericht",
+      initial: "pilot-gericht",
+      states: {
+        [steps.zustaendigesGerichtPilotGericht.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) =>
+                  context.sachgebiet === "miete" &&
+                  context.mietePachtVertrag === "yes" &&
+                  context.mietePachtRaum === "yes",
+                target: steps.gerichtSuchePostleitzahlWohnraum.absolute,
+              },
+              {
+                guard: ({ context }) =>
+                  context.gerichtsstandsvereinbarung === "yes",
+                target:
+                  steps.gerichtSuchePostleitzahlGerichtsstandsvereinbarung
+                    .absolute,
+              },
+              {
+                guard: ({ context }) => context.sachgebiet === "schaden",
+              },
+              {
+                guard: ({ context }) =>
+                  context.sachgebiet === "verkehrsunfall" &&
+                  context.verkehrsunfallStrassenverkehr === "yes" &&
+                  objectKeysNonEmpty(context, ["postleitzahlSecondary"]),
+              },
+              { target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute },
+            ],
+          },
+        },
+      },
+    },
   },
 } satisfies Config<GeldEinklagenFormularGerichtPruefenUserData>;
