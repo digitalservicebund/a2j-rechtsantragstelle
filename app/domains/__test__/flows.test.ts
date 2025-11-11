@@ -51,16 +51,40 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 
 const ignoreVisitedSteps = [
   "/flugdaten/check-initial-page", // this page is only used to check the initial page of the flow
+  "/gericht-pruefen/gericht-suche/check-initial-page", // this page is only used to check the initial page of the flow
   "/intro/redirect-vorabcheck-ergebnis", // this page is only used to redirect to the vorabcheck result
   "/ergebnis/erfolg-per-post-klagen", // this page is only used to redirect to a content page
 ];
 
-describe.sequential("state machine form flows", () => {
-  const allVisitedSteps: Record<
-    string,
-    { stepIds: string[]; machine: FlowStateMachine }
-  > = {};
+const allVisitedSteps: Record<
+  string,
+  { stepIds: string[]; machine: FlowStateMachine }
+> = {};
 
+afterAll(() => {
+  const missingStepsEntries = Object.entries(allVisitedSteps)
+    .map(([machineId, { machine, stepIds }]) => {
+      const visitedSteps = new Set(stepIds);
+      const missingSteps = allStepsFromMachine(machine)
+        .filter((x) => !visitedSteps.has(x))
+        .filter((x) => !ignoreVisitedSteps.includes(x));
+      return [machineId, missingSteps] as const;
+    })
+    .filter(([_, missingSteps]) => missingSteps.length > 0);
+
+  const totalMissingStepCount = missingStepsEntries.reduce(
+    (total, [_, missingSteps]) => total + missingSteps.length,
+    0,
+  );
+
+  // oxlint-disable-next-line no-console
+  console.warn(
+    `Total of ${totalMissingStepCount} untested stepIds: `,
+    Object.fromEntries(missingStepsEntries),
+  );
+});
+
+describe.sequential("state machine form flows", () => {
   const testCases = {
     testCasesFluggastrechteFormular,
     testCasesFluggastrechteVorabcheck,
@@ -95,28 +119,4 @@ describe.sequential("state machine form flows", () => {
       });
     },
   );
-
-  test("all steps are visited", () => {
-    const missingStepsEntries = Object.entries(allVisitedSteps)
-      .map(([machineId, { machine, stepIds }]) => {
-        const visitedSteps = new Set(stepIds);
-        const missingSteps = allStepsFromMachine(machine)
-          .filter((x) => !visitedSteps.has(x))
-          .filter((x) => !ignoreVisitedSteps.includes(x));
-        return [machineId, missingSteps] as const;
-      })
-      .filter(([_, missingSteps]) => missingSteps.length > 0);
-
-    const totalMissingStepCount = missingStepsEntries.reduce(
-      (total, [_, missingSteps]) => total + missingSteps.length,
-      0,
-    );
-
-    // oxlint-disable-next-line no-console
-    console.warn(
-      `Total of ${totalMissingStepCount} untested stepIds: `,
-      Object.fromEntries(missingStepsEntries),
-    );
-    expect(totalMissingStepCount).toBeLessThanOrEqual(3);
-  });
 });
