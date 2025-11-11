@@ -36,12 +36,24 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(false);
       });
 
-      it("should return true when klagendeKaufmann is no", () => {
+      it("should return true when beklagtePersonGeldVerdienen is no", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "person",
             beklagtePersonGeldVerdienen: "no",
+          },
+        });
+
+        expect(actual).toBe(true);
+      });
+
+      it("should return true when beklagtePersonGeldVerdienen is yes and klagendeKaufmann is no", () => {
+        const actual = beklagtePersonDone({
+          context: {
+            sachgebiet: "urheberrecht",
+            gegenWenBeklagen: "person",
+            beklagtePersonGeldVerdienen: "yes",
             klagendeKaufmann: "no",
           },
         });
@@ -49,24 +61,24 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
-      it("should return true when klagendeKaufmann is undefined", () => {
+      it("should return true when beklagtePersonGeldVerdienen is yes and klagendeKaufmann is undefined", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "person",
-            beklagtePersonGeldVerdienen: "no",
+            beklagtePersonGeldVerdienen: "yes",
           },
         });
 
         expect(actual).toBe(true);
       });
 
-      it("should return true when klagendeKaufmann is yes and beklagtePersonKaufmann is no ", () => {
+      it("should return true when beklagtePersonGeldVerdienen and klagendeKaufmann are yes and beklagtePersonKaufmann is no", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "person",
-            beklagtePersonGeldVerdienen: "no",
+            beklagtePersonGeldVerdienen: "yes",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
           },
@@ -75,39 +87,26 @@ describe("beklagtePersonDone", () => {
         expect(actual).toBe(true);
       });
 
-      it("should return true when klagendeKaufmann is yes and beklagtePersonKaufmann is unknown ", () => {
+      it("should return false when beklagtePersonGeldVerdienen, klagendeKaufmann and beklagtePersonKaufmann are yes and missing gerichtsstandsvereinbarung", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "person",
-            beklagtePersonGeldVerdienen: "no",
+            beklagtePersonGeldVerdienen: "yes",
             klagendeKaufmann: "yes",
-            beklagtePersonKaufmann: "unknown",
-          },
-        });
-
-        expect(actual).toBe(true);
-      });
-
-      it("should return false when klagendeKaufmann is yes and beklagtePersonKaufmann is undefined", () => {
-        const actual = beklagtePersonDone({
-          context: {
-            sachgebiet: "urheberrecht",
-            gegenWenBeklagen: "person",
-            klagendeKaufmann: "yes",
-            beklagtePersonKaufmann: undefined,
+            beklagtePersonKaufmann: "yes",
           },
         });
 
         expect(actual).toBe(false);
       });
 
-      it("should return true when klagendeKaufmann is yes, beklagtePersonKaufmann yes and has value for gerichtsstandsvereinbarung", () => {
+      it("should return true when beklagtePersonGeldVerdienen, klagendeKaufmann and beklagtePersonKaufmann are yes and contains gerichtsstandsvereinbarung", () => {
         const actual = beklagtePersonDone({
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "person",
-            beklagtePersonGeldVerdienen: "no",
+            beklagtePersonGeldVerdienen: "yes",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "yes",
             gerichtsstandsvereinbarung: "no",
@@ -115,20 +114,6 @@ describe("beklagtePersonDone", () => {
         });
 
         expect(actual).toBe(true);
-      });
-
-      it("should return false when klagendeKaufmann is yes, beklagtePersonKaufmann yes and missing gerichtsstandsvereinbarung", () => {
-        const actual = beklagtePersonDone({
-          context: {
-            sachgebiet: "urheberrecht",
-            gegenWenBeklagen: "person",
-            beklagtePersonGeldVerdienen: "no",
-            klagendeKaufmann: "yes",
-            beklagtePersonKaufmann: "yes",
-          },
-        });
-
-        expect(actual).toBe(false);
       });
     });
 
@@ -163,7 +148,6 @@ describe("beklagtePersonDone", () => {
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "organisation",
-            beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "no",
           },
@@ -177,7 +161,6 @@ describe("beklagtePersonDone", () => {
           context: {
             sachgebiet: "urheberrecht",
             gegenWenBeklagen: "organisation",
-            beklagtePersonGeldVerdienen: "no",
             klagendeKaufmann: "yes",
             beklagtePersonKaufmann: "unknown",
           },

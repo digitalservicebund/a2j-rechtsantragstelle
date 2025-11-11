@@ -72,7 +72,7 @@ export const gerichtPruefenXstateConfig = {
                   context.gegenWenBeklagen === "person" &&
                   context.sachgebiet === "urheberrecht" &&
                   context.beklagtePersonGeldVerdienen === "yes" &&
-                  context.klagendeKaufmann === "no",
+                  context.klagendeKaufmann !== "yes",
                 target: steps.beklagtePersonGeldVerdienen.absolute,
               },
               {
