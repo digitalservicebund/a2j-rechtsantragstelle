@@ -6,7 +6,7 @@ const localFeatureFlags = {
   showGeldEinklagenFlow: true,
   showFileUpload: false,
   showPKHZusammenfassung: false,
-  showAutoSummary: true,
+  showAutoSummary: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
