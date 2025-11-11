@@ -37,9 +37,11 @@ function processAirlineRow(row: string): Airline {
     iata: iataCode,
     isInEU: region === "EU",
     arbitrationBoard: arbitrationBoardValue,
-    streetAndNumber,
-    postalCode: postalCode ? postalCode.replace(/[\r\n]/g, "") : "",
-    city: city ? city.replace(/[\r\n]/g, "") : "",
+    streetAndNumber: streetAndNumber
+      ? streetAndNumber.replaceAll(/[\r\n]/g, "")
+      : "",
+    postalCode: postalCode ? postalCode.replaceAll(/[\r\n]/g, "") : "",
+    city: city ? city.replaceAll(/[\r\n]/g, "") : "",
     country: countries.getName(countryCode, GERMAN_LOCALE) ?? "Deutschland",
   };
 }
