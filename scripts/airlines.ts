@@ -2,8 +2,8 @@
 /* oxlint-disable no-console */
 import fs from "node:fs";
 import countries from "i18n-iso-countries";
-import uniqBy from "lodash/uniqBy";
-import { type Airline } from "~/domains/fluggastrechte/services/airlines/types";
+import uniqBy from "lodash/uniqBy.js";
+import { type Airline } from "../app/domains/fluggastrechte/services/airlines/types.ts";
 
 const GERMAN_LOCALE = "de";
 const ENGLISH_LOCALE = "en";
@@ -37,9 +37,11 @@ function processAirlineRow(row: string): Airline {
     iata: iataCode,
     isInEU: region === "EU",
     arbitrationBoard: arbitrationBoardValue,
-    streetAndNumber,
-    postalCode: postalCode ? postalCode.replace(/[\r\n]/g, "") : "",
-    city: city ? city.replace(/[\r\n]/g, "") : "",
+    streetAndNumber: streetAndNumber
+      ? streetAndNumber.replaceAll(/[\r\n]/g, "")
+      : "",
+    postalCode: postalCode ? postalCode.replaceAll(/[\r\n]/g, "") : "",
+    city: city ? city.replaceAll(/[\r\n]/g, "") : "",
     country: countries.getName(countryCode, GERMAN_LOCALE) ?? "Deutschland",
   };
 }
