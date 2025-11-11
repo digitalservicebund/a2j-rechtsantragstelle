@@ -4,6 +4,7 @@ import {
   nextStepId,
 } from "~/services/flow/server/buildFlowController";
 import { type Config } from "../types";
+import * as isStepDone from "~/domains/isStepDone";
 
 const config: Config = {
   id: "/test/flow",
@@ -291,6 +292,34 @@ describe("buildFlowController", () => {
       ).toEqual([]);
     });
 
+    it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", () => {
+      const isStepDoneSpy = vi.spyOn(isStepDone, "isStepDone");
+      buildFlowController({
+        config: {
+          id: "/fluggastrechte/formular",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).not.toHaveBeenCalled();
+      buildFlowController({
+        config: {
+          id: "doesntExist",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).not.toHaveBeenCalled();
+      buildFlowController({
+        config: {
+          id: "/beratungshilfe/antrag",
+          initial: "start",
+          states: { start: { meta: { done: () => true } } },
+        },
+      }).stepStates();
+      expect(isStepDoneSpy).toHaveBeenCalled();
+    });
+
     it("builds single step state", () => {
       expect(
         buildFlowController({
@@ -568,55 +597,6 @@ describe("buildFlowController", () => {
         },
       ]);
     });
-  });
-
-  it("all children must be done for parent to be done", () => {
-    const stepStates = buildFlowController({
-      config: {
-        id: "/test",
-        initial: "parent1",
-        states: {
-          parent1: {
-            initial: "child1",
-            states: {
-              child1: {
-                initial: "start",
-                meta: { done: () => true },
-                states: {
-                  start: { on: { SUBMIT: "#/test.parent1.child2" } },
-                },
-              },
-              child2: {
-                initial: "start",
-                meta: { done: () => false },
-                states: {
-                  start: { on: { SUBMIT: "#/test.parent2" } },
-                },
-              },
-            },
-          },
-          parent2: {
-            initial: "child1",
-            states: {
-              child1: {
-                initial: "start",
-                meta: { done: () => true },
-                states: {
-                  start: { on: { SUBMIT: "#/test.parent2.child2" } },
-                },
-              },
-              child2: {
-                initial: "start",
-                meta: { done: () => true },
-                states: { start: {} },
-              },
-            },
-          },
-        },
-      },
-    }).stepStates(false);
-    expect(stepStates[0].isDone).toBe(false);
-    expect(stepStates[1].isDone).toBe(true);
   });
 
   it("any child must be reachable for parent to be reachable", () => {

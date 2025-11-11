@@ -19,19 +19,33 @@ function checkKaufmann(context: GeldEinklagenFormularGerichtPruefenUserData) {
   return true;
 }
 
+function checkUrheberrechtPerson(
+  context: GeldEinklagenFormularGerichtPruefenUserData,
+) {
+  const { beklagtePersonGeldVerdienen } = context;
+
+  return (
+    (beklagtePersonGeldVerdienen === "yes" && checkKaufmann(context)) ||
+    beklagtePersonGeldVerdienen === "no"
+  );
+}
+
 function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
-  const { sachgebiet, gegenWenBeklagen, mietePachtRaum } = context;
+  const { sachgebiet, gegenWenBeklagen, mietePachtRaum, mietePachtVertrag } =
+    context;
   switch (sachgebiet) {
     case "urheberrecht": {
       return (
-        ((gegenWenBeklagen === "person" &&
-          objectKeysNonEmpty(context, ["beklagtePersonGeldVerdienen"])) ||
-          gegenWenBeklagen === "organisation") &&
-        checkKaufmann(context)
+        (gegenWenBeklagen === "person" && checkUrheberrechtPerson(context)) ||
+        (gegenWenBeklagen === "organisation" && checkKaufmann(context))
       );
     }
     case "miete": {
-      return mietePachtRaum === "yes" || checkKaufmann(context);
+      return (
+        mietePachtRaum === "yes" ||
+        mietePachtVertrag === "no" ||
+        checkKaufmann(context)
+      );
     }
     case "versicherung":
     case "reisen":
