@@ -8,6 +8,7 @@ import { insertIndexesIntoPath } from "../stepIdConverter";
 export const flowDestination = (pathname: string, userData: UserData) => {
   const { arrayIndexes, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
+
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: addPageDataToUserData(userData, { arrayIndexes }),
