@@ -6,6 +6,7 @@ import { forderungDone } from "./doneFunctions";
 import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
+import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -52,45 +53,6 @@ export const gerichtPruefenXstateConfig = {
     sachgebiet: sachgebietXstateConfig,
     "klagende-person": klagendePersonXstateConfig,
     "beklagte-person": beklagtePersonXstateConfig,
-    "gericht-suche": {
-      id: "gericht-suche",
-      initial: "postleitzahl-beklagte-person",
-      meta: { done: () => false },
-      states: {
-        [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
-          on: {
-            BACK: [
-              {
-                guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
-                  context.sachgebiet === "urheberrecht" &&
-                  context.beklagtePersonGeldVerdienen === "no",
-                target: steps.beklagtePersonGeldVerdienen.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
-                  context.sachgebiet === "urheberrecht" &&
-                  context.beklagtePersonGeldVerdienen === "yes" &&
-                  context.klagendeKaufmann !== "yes",
-                target: steps.beklagtePersonGeldVerdienen.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.beklagtePersonKaufmann === "yes",
-                target: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
-              },
-              {
-                guard: ({ context }) =>
-                  context.beklagtePersonKaufmann === "no" ||
-                  context.beklagtePersonKaufmann === "unknown",
-                target: steps.beklagtePersonKaufmann.absolute,
-              },
-              { target: steps.beklagtePersonGegenWen.absolute },
-            ],
-          },
-        },
-      },
-    },
+    "gericht-suche": gerichtSuchenXstateConfig,
   },
 } satisfies Config<GeldEinklagenFormularGerichtPruefenUserData>;
