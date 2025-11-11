@@ -7,7 +7,11 @@ import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import {
+  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchePostleitzahlWohnraum,
+} from "./gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -63,10 +67,7 @@ export const gerichtPruefenXstateConfig = {
           on: {
             BACK: [
               {
-                guard: ({ context }) =>
-                  context.sachgebiet === "miete" &&
-                  context.mietePachtVertrag === "yes" &&
-                  context.mietePachtRaum === "yes",
+                guard: shouldVisitGerichtSuchePostleitzahlWohnraum,
                 target: steps.gerichtSuchePostleitzahlWohnraum.absolute,
               },
               {
@@ -77,13 +78,16 @@ export const gerichtPruefenXstateConfig = {
                     .absolute,
               },
               {
-                guard: ({ context }) => context.sachgebiet === "schaden",
+                guard: shouldVisitGerichtSuchePostleitzahlKlagendePerson,
+                target: steps.gerichtSuchePostleitzahlKlagendePerson.absolute,
               },
               {
-                guard: ({ context }) =>
-                  context.sachgebiet === "verkehrsunfall" &&
-                  context.verkehrsunfallStrassenverkehr === "yes" &&
-                  objectKeysNonEmpty(context, ["postleitzahlSecondary"]),
+                guard: shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
+                target: steps.gerichtSuchePostleitzahlVerkehrsunfall.absolute,
+              },
+              {
+                guard: ({ context }) => context.sachgebiet === "schaden",
+                target: steps.gerichtSuchePostleitzahlUnerlaubtePerson.absolute,
               },
               { target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute },
             ],

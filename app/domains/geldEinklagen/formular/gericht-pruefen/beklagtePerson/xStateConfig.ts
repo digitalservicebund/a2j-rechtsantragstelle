@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import { beklagtePersonDone } from "./doneFunctions";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { shouldVisitGerichtSuchePostleitzahlWohnraum } from "../gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -46,9 +47,7 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               objectKeysNonEmpty(context, ["gegenWenBeklagen"]) &&
-              context.sachgebiet === "miete" &&
-              context.mietePachtVertrag === "yes" &&
-              context.mietePachtRaum === "yes",
+              shouldVisitGerichtSuchePostleitzahlWohnraum({ context }),
             target: steps.gerichtSuchePostleitzahlWohnraum.absolute,
           },
           {
