@@ -1,10 +1,15 @@
 # 27. Use managed PostgreSQL for message / mailbox mapping
 
-Date: 2025-11-03
+Date: 2025-11-01
 
 ## Status
 
-Proposed
+Accepted
+
+## Timeline
+
+- 2025-11-03: Drafted
+- 2025-11-11: Accepted
 
 ## Context
 
