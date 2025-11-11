@@ -1,10 +1,15 @@
 # 26. Use RabbitMQ as Message Broker
 
-Date: 2025-11-03
+Date: 2025-11-01
 
 ## Status
 
-Proposed
+Accepted
+
+## Timeline
+
+- 2025-11-03: Drafted
+- 2025-11-11: Accepted
 
 ## Context
 
@@ -44,6 +49,8 @@ Key features that meet our requirements:
 - Faster Onboarding: The team can focus on writing business logic inside the consumer, not on the complex, error-prone plumbing of failure handling. The Management UI will significantly shorten debugging and learning cycles.
 
 - Mature Ecosystem: RabbitMQ is well-established with stable client libraries for all major programming languages.
+
+- Managed Service Availability: RabbitMQ is offered as managed service by relevant cloud providers.
 
 ### Negative
 
