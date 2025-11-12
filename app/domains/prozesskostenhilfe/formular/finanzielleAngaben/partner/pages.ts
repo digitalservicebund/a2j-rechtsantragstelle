@@ -62,7 +62,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     },
   },
   partnerEinkuenfte: {
-    stepId: "finanzielle-angaben/partner-einkuenfte",
+    stepId: "finanzielle-angaben/partner/partner-einkuenfte",
   },
   partnerStaatlicheLeistungen: {
     stepId:
@@ -234,6 +234,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerArbeitsausgaben: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
+  },
+  partnerArbeitsausgabe: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe",
     pageSchema: {
       "partner-arbeitsausgaben": partnerArbeitsausgabenArraySchema,
     },
@@ -259,12 +263,12 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerArbeitsausgabenUebersicht: {
     stepId:
-      "finanzielle-angaben/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-uebersicht",
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
   },
 
   partnerArbeitsausgabenWarnung: {
     stepId:
-      "finanzielle-angaben/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-warnung",
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-warnung",
   },
   partnerEinkuenfteLeistungen: {
     stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen",
@@ -311,13 +315,13 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-kindergeldAmount": buildMoneyValidationSchema(),
     },
   },
-  partnerWeitereEinkuenfteUebersicht: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
-  },
   partnerWeitereEinkuenfte: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
+  },
+  partnerWeitereEinkunft: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft",
     pageSchema: {
       "partner-weitereEinkuenfte": partnerWeitereEinkuenfteArraySchema,
     },
@@ -340,6 +344,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     pageSchema: {
       "partner-hasFurtherIncome": YesNoAnswer,
     },
+  },
+  partnerWeitereEinkuenfteUebersicht: {
+    stepId:
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
   },
   partnerWeitereEinkuenfteWarnung: {
     stepId:

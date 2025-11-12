@@ -29,7 +29,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             guard: abzuegeGuards.commuteMethodPlaysNoRole,
             target: steps.arbeitswegKeineRolle.relative,
           },
-          "#arbeitsausgaben",
+          steps.arbeitsausgaben.absolute,
         ],
         BACK: [
           {
@@ -52,7 +52,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
     },
     [steps.arbeitsplatzEntfernung.relative]: {
       on: {
-        SUBMIT: "#arbeitsausgaben",
+        SUBMIT: steps.arbeitsausgaben.relative,
         BACK: [
           {
             guard: abzuegeGuards.usesPublicTransit,
@@ -64,12 +64,11 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
     },
     [steps.arbeitswegKeineRolle.relative]: {
       on: {
-        SUBMIT: "#arbeitsausgaben",
+        SUBMIT: steps.arbeitsausgaben.relative,
         BACK: steps.arbeitsweg.relative,
       },
     },
-    arbeitsausgaben: {
-      id: "arbeitsausgaben",
+    [steps.arbeitsausgaben.relative]: {
       initial: steps.arbeitsausgabenFrage.relative,
       states: {
         [steps.arbeitsausgabenFrage.relative]: {
@@ -108,7 +107,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             BACK: steps.arbeitsausgabenFrage.relative,
             "add-arbeitsausgaben": {
               guard: abzuegeGuards.isValidArbeitsausgabenArrayIndex,
-              target: "arbeitsausgabe",
+              target: steps.arbeitsausgabe.relative,
             },
           },
         },
@@ -118,7 +117,7 @@ export const finanzielleAngabenAbzuegeXstateConfig = {
             SUBMIT: "#finanzielle-angaben.partner",
           },
         },
-        arbeitsausgabe: {
+        [steps.arbeitsausgabe.relative]: {
           initial: "daten",
           states: {
             daten: {
