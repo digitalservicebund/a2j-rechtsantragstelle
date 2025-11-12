@@ -6,7 +6,6 @@ function replaceTemplateVariables(
   fieldName: string,
   userData: UserData,
 ): string {
-  // Handle array field template replacement like {{kind#vorname}} in "kinder[0].unterhalt"
   const fieldInfo = parseArrayField(fieldName);
   if (fieldInfo.isArraySubField) {
     const baseFieldName = fieldInfo.baseFieldName;
@@ -16,7 +15,7 @@ function replaceTemplateVariables(
     if (Array.isArray(arrayData) && arrayData[arrayIndex]) {
       const arrayItem = arrayData[arrayIndex] as Record<string, unknown>;
 
-      // Replace template variables like {{kinder#vorname}} and {{bankkonten#inhaber}}
+      // Replace template variables like {{kind#vorname}}, {{kind#nachname}}
       return questionText.replaceAll(
         /\{\{(\w+)#(\w+)\}\}/g,
         (match: string, arrayType: string, fieldKey: string) => {
