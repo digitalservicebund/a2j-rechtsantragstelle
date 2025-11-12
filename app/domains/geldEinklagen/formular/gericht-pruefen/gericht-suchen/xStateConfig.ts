@@ -3,9 +3,9 @@ import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import {
-  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-  shouldVisitGerichtSuchePostleitzahlWohnraum,
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
 import { doneGerichtSuchen } from "./doneFunctions";
 
@@ -15,34 +15,34 @@ export const gerichtSuchenXstateConfig = {
   id: "gericht-suchen",
   initial: "postleitzahl-beklagte-person",
   states: {
-    [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
+    [steps.gerichtSuchenPostleitzahlBeklagtePerson.relative]: {
       always: [
         {
           guard: ({ context }) => context.gerichtsstandsvereinbarung === "yes",
           target:
-            steps.gerichtSuchePostleitzahlGerichtsstandsvereinbarung.relative,
+            steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung.relative,
         },
         {
-          guard: shouldVisitGerichtSuchePostleitzahlWohnraum,
-          target: steps.gerichtSuchePostleitzahlWohnraum.relative,
+          guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
+          target: steps.gerichtSuchenPostleitzahlWohnraum.relative,
         },
         {
-          target: steps.gerichtSuchePostleitzahlBeklagtePerson.relative,
+          target: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
         },
       ],
       on: {
         SUBMIT: [
           {
-            guard: shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-            target: steps.gerichtSuchePostleitzahlKlagendePerson.relative,
+            guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+            target: steps.gerichtSuchenPostleitzahlKlagendePerson.relative,
           },
           {
-            guard: shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-            target: steps.gerichtSuchePostleitzahlVerkehrsunfall.relative,
+            guard: shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+            target: steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative,
           },
           {
             guard: ({ context }) => context.sachgebiet === "schaden",
-            target: steps.gerichtSuchePostleitzahlUnerlaubtePerson.relative,
+            target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -79,34 +79,34 @@ export const gerichtSuchenXstateConfig = {
         ],
       },
     },
-    [steps.gerichtSuchePostleitzahlKlagendePerson.relative]: {
+    [steps.gerichtSuchenPostleitzahlKlagendePerson.relative]: {
       on: {
-        BACK: steps.gerichtSuchePostleitzahlBeklagtePerson.relative,
+        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
         SUBMIT: {
           guard: doneGerichtSuchen,
           target: steps.zustaendigesGerichtPilotGericht.absolute,
         },
       },
     },
-    [steps.gerichtSuchePostleitzahlVerkehrsunfall.relative]: {
+    [steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative]: {
       on: {
-        BACK: steps.gerichtSuchePostleitzahlBeklagtePerson.relative,
+        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
         SUBMIT: {
           guard: doneGerichtSuchen,
           target: steps.zustaendigesGerichtPilotGericht.absolute,
         },
       },
     },
-    [steps.gerichtSuchePostleitzahlUnerlaubtePerson.relative]: {
+    [steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative]: {
       on: {
-        BACK: steps.gerichtSuchePostleitzahlBeklagtePerson.relative,
+        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
         SUBMIT: {
           guard: doneGerichtSuchen,
           target: steps.zustaendigesGerichtPilotGericht.absolute,
         },
       },
     },
-    [steps.gerichtSuchePostleitzahlWohnraum.relative]: {
+    [steps.gerichtSuchenPostleitzahlWohnraum.relative]: {
       on: {
         BACK: steps.beklagtePersonGegenWen.absolute,
         SUBMIT: {
@@ -115,7 +115,7 @@ export const gerichtSuchenXstateConfig = {
         },
       },
     },
-    [steps.gerichtSuchePostleitzahlGerichtsstandsvereinbarung.relative]: {
+    [steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung.relative]: {
       on: {
         BACK: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
         SUBMIT: {

@@ -1,41 +1,41 @@
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../../userData";
 import { doneGerichtSuchen } from "../doneFunctions";
 import {
-  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-  shouldVisitGerichtSuchePostleitzahlWohnraum,
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../guards";
 
 vi.mock("../guards");
 
-const mockShouldVisitGerichtSuchePostleitzahlWohnraum = (
+const mockShouldVisitGerichtSuchenPostleitzahlWohnraum = (
   returnValue = false,
 ) => {
-  vi.mocked(shouldVisitGerichtSuchePostleitzahlWohnraum).mockReturnValue(
+  vi.mocked(shouldVisitGerichtSuchenPostleitzahlWohnraum).mockReturnValue(
     returnValue,
   );
 };
 
-const mockShouldVisitGerichtSuchePostleitzahlKlagendePerson = (
+const mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson = (
   returnValue = false,
 ) => {
-  vi.mocked(shouldVisitGerichtSuchePostleitzahlKlagendePerson).mockReturnValue(
+  vi.mocked(shouldVisitGerichtSuchenPostleitzahlKlagendePerson).mockReturnValue(
     returnValue,
   );
 };
 
-const mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall = (
+const mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall = (
   returnValue = false,
 ) => {
-  vi.mocked(shouldVisitGerichtSuchePostleitzahlVerkehrsunfall).mockReturnValue(
+  vi.mocked(shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall).mockReturnValue(
     returnValue,
   );
 };
 
 beforeEach(() => {
-  mockShouldVisitGerichtSuchePostleitzahlWohnraum();
-  mockShouldVisitGerichtSuchePostleitzahlKlagendePerson();
-  mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall();
+  mockShouldVisitGerichtSuchenPostleitzahlWohnraum();
+  mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson();
+  mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall();
 });
 
 describe("doneGerichtSuchen", () => {
@@ -45,42 +45,42 @@ describe("doneGerichtSuchen", () => {
       postleitzahlSecondary: "someValue",
     } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
-    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchePostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
+    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
       const context = {
         ...baseContext,
         postleitzahlSecondary: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlWohnraum(false);
+      mockShouldVisitGerichtSuchenPostleitzahlWohnraum(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchePostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
-      mockShouldVisitGerichtSuchePostleitzahlWohnraum(false);
+    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
+      mockShouldVisitGerichtSuchenPostleitzahlWohnraum(false);
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
     });
 
-    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchePostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
+    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
       const context = {
         ...baseContext,
         gerichtsstandsvereinbarung: "no" as const,
         postleitzahlSecondary: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlWohnraum(true);
+      mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchePostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
+    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
       const context = {
         ...baseContext,
         gerichtsstandsvereinbarung: "no" as const,
       };
-      mockShouldVisitGerichtSuchePostleitzahlWohnraum(true);
+      mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(true);
@@ -98,16 +98,16 @@ describe("doneGerichtSuchen", () => {
         ...baseContext,
         postleitzahlBeklagtePerson: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
     it("should return true in case postleitzahlBeklagtePerson has value", () => {
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
@@ -121,65 +121,65 @@ describe("doneGerichtSuchen", () => {
       postleitzahlSecondary: "someValue",
     } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
-    it("should return false in case postleitzahlBeklagtePerson is undefined and mockShouldVisitGerichtSuchePostleitzahlKlagendePerson is true", () => {
+    it("should return false in case postleitzahlBeklagtePerson is undefined and mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson is true", () => {
       const context = {
         ...baseContext,
         postleitzahlBeklagtePerson: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(true);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(true);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return false in case postleitzahlSecondary is undefined and mockShouldVisitGerichtSuchePostleitzahlKlagendePerson is true", () => {
+    it("should return false in case postleitzahlSecondary is undefined and mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson is true", () => {
       const context = {
         ...baseContext,
         postleitzahlSecondary: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(true);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(true);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case postleitzahlBeklagtePerson and postleitzahlSecondary contains value and mockShouldVisitGerichtSuchePostleitzahlKlagendePerson is true", () => {
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(true);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+    it("should return true in case postleitzahlBeklagtePerson and postleitzahlSecondary contains value and mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson is true", () => {
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(true);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
     });
 
-    it("should return false in case postleitzahlBeklagtePerson is undefined and mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall is true", () => {
+    it("should return false in case postleitzahlBeklagtePerson is undefined and mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall is true", () => {
       const context = {
         ...baseContext,
         postleitzahlBeklagtePerson: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(true);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(true);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return false in case postleitzahlSecondary is undefined and mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall is true", () => {
+    it("should return false in case postleitzahlSecondary is undefined and mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall is true", () => {
       const context = {
         ...baseContext,
         postleitzahlSecondary: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(true);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(true);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case postleitzahlBeklagtePerson and postleitzahlSecondary contains value and mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall is true", () => {
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(true);
+    it("should return true in case postleitzahlBeklagtePerson and postleitzahlSecondary contains value and mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall is true", () => {
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(true);
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
@@ -191,8 +191,8 @@ describe("doneGerichtSuchen", () => {
         sachgebiet: "schaden" as const,
         postleitzahlBeklagtePerson: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
@@ -204,8 +204,8 @@ describe("doneGerichtSuchen", () => {
         sachgebiet: "schaden" as const,
         postleitzahlSecondary: undefined,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
@@ -216,8 +216,8 @@ describe("doneGerichtSuchen", () => {
         ...baseContext,
         sachgebiet: "schaden" as const,
       };
-      mockShouldVisitGerichtSuchePostleitzahlKlagendePerson(false);
-      mockShouldVisitGerichtSuchePostleitzahlVerkehrsunfall(false);
+      mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+      mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(true);

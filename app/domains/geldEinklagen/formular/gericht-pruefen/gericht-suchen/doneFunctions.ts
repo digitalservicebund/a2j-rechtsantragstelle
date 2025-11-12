@@ -2,9 +2,9 @@ import { type GenericGuard } from "~/domains/guards.server";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
-  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-  shouldVisitGerichtSuchePostleitzahlWohnraum,
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
 
 type GeldEinklagenGerichtPruefenDaten =
@@ -22,15 +22,15 @@ export const doneGerichtSuchen: GeldEinklagenGerichtPruefenDaten = ({
 
   const onlyPostleitzahlSecondaryRelevant =
     context.gerichtsstandsvereinbarung === "yes" ||
-    shouldVisitGerichtSuchePostleitzahlWohnraum({ context });
+    shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
   if (onlyPostleitzahlSecondaryRelevant) {
     return hasPostleitzahlSecondary;
   }
 
   const shouldHavePostleitzahlSecondaryRelevant =
-    shouldVisitGerichtSuchePostleitzahlKlagendePerson({ context }) ||
-    shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({ context }) ||
+    shouldVisitGerichtSuchenPostleitzahlKlagendePerson({ context }) ||
+    shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({ context }) ||
     context.sachgebiet === "schaden";
 
   return (

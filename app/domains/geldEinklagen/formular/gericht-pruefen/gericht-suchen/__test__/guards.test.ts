@@ -1,12 +1,12 @@
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../../userData";
 import {
-  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-  shouldVisitGerichtSuchePostleitzahlWohnraum,
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../guards";
 
 describe("guards", () => {
-  describe("shouldVisitGerichtSuchePostleitzahlKlagendePerson", () => {
+  describe("shouldVisitGerichtSuchenPostleitzahlKlagendePerson", () => {
     describe("check klagendeHaustuergeschaeft", () => {
       const baseContext = {
         klagendeHaustuergeschaeft: "yes",
@@ -19,7 +19,7 @@ describe("guards", () => {
           klagendeHaustuergeschaeft: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -32,7 +32,7 @@ describe("guards", () => {
           sachgebiet: "schaden" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -45,7 +45,7 @@ describe("guards", () => {
           sachgebiet: "verkehrsunfall" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -58,7 +58,7 @@ describe("guards", () => {
           sachgebiet: "miete" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -71,7 +71,7 @@ describe("guards", () => {
           sachgebiet: "reisen" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -84,7 +84,7 @@ describe("guards", () => {
           sachgebiet: "anderesRechtsproblem" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -98,7 +98,7 @@ describe("guards", () => {
           gegenWenBeklagen: "organisation" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -113,7 +113,7 @@ describe("guards", () => {
           beklagtePersonGeldVerdienen: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -128,7 +128,7 @@ describe("guards", () => {
           beklagtePersonGeldVerdienen: "yes" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -152,7 +152,7 @@ describe("guards", () => {
           klagendeKaufmann: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -165,7 +165,7 @@ describe("guards", () => {
           klagendeKaufmann: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -178,7 +178,7 @@ describe("guards", () => {
           beklagtePersonKaufmann: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -191,7 +191,7 @@ describe("guards", () => {
           gerichtsstandsvereinbarung: "no" as const,
         };
 
-        const actual = shouldVisitGerichtSuchePostleitzahlKlagendePerson({
+        const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
           context,
         });
 
@@ -200,7 +200,7 @@ describe("guards", () => {
     });
   });
 
-  describe("shouldVisitGerichtSuchePostleitzahlVerkehrsunfall", () => {
+  describe("shouldVisitGerichtSuchenPostleitzahlVerkehnrsunfall", () => {
     const baseContext = {
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "yes",
@@ -216,7 +216,7 @@ describe("guards", () => {
         klagendeKaufmann: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({
+      const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
         context,
       });
 
@@ -230,7 +230,7 @@ describe("guards", () => {
         klagendeKaufmann: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({
+      const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
         context,
       });
 
@@ -243,7 +243,7 @@ describe("guards", () => {
         klagendeKaufmann: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({
+      const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
         context,
       });
 
@@ -256,7 +256,7 @@ describe("guards", () => {
         beklagtePersonKaufmann: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({
+      const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
         context,
       });
 
@@ -269,7 +269,7 @@ describe("guards", () => {
         gerichtsstandsvereinbarung: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlVerkehrsunfall({
+      const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
         context,
       });
 
@@ -277,7 +277,7 @@ describe("guards", () => {
     });
   });
 
-  describe("shouldVisitGerichtSuchePostleitzahlWohnraum", () => {
+  describe("shouldVisitGerichtSuchenPostleitzahlWohnraum", () => {
     const baseContext = {
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
@@ -290,7 +290,7 @@ describe("guards", () => {
         sachgebiet: "versicherung" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlWohnraum({ context });
+      const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
       expect(actual).toBe(false);
     });
@@ -301,7 +301,7 @@ describe("guards", () => {
         mietePachtVertrag: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlWohnraum({ context });
+      const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
       expect(actual).toBe(false);
     });
@@ -312,13 +312,13 @@ describe("guards", () => {
         mietePachtRaum: "no" as const,
       };
 
-      const actual = shouldVisitGerichtSuchePostleitzahlWohnraum({ context });
+      const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
       expect(actual).toBe(false);
     });
 
     it("should return true is sachgebiet is miete and mietePachtVertrag and mietePachtRaum are yes", () => {
-      const actual = shouldVisitGerichtSuchePostleitzahlWohnraum({
+      const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({
         context: baseContext,
       });
 

@@ -21,7 +21,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-gerichtsstandsvereinbarung",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     ],
   ],
   [
@@ -36,7 +36,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -49,7 +49,7 @@ export const testCasesBeklagteOtherSachgebiet = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -62,7 +62,7 @@ export const testCasesBeklagteOtherSachgebiet = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -73,7 +73,7 @@ export const testCasesBeklagteOtherSachgebiet = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

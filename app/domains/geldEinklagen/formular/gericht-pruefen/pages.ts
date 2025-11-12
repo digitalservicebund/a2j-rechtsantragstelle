@@ -102,39 +102,39 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
     pageSchema: { gerichtsstandsvereinbarung: YesNoAnswer },
   },
-  gerichtSuchePostleitzahlBeklagtePerson: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+  gerichtSuchenPostleitzahlBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     pageSchema: {
       postleitzahlBeklagtePerson: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchePostleitzahlWohnraum: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-wohnraum",
+  gerichtSuchenPostleitzahlWohnraum: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchePostleitzahlKlagendePerson: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-klagende-person",
+  gerichtSuchenPostleitzahlKlagendePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchePostleitzahlUnerlaubtePerson: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-unerlaubte-person",
+  gerichtSuchenPostleitzahlUnerlaubtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-unerlaubte-person",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchePostleitzahlVerkehrsunfall: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-verkehrsunfall",
+  gerichtSuchenPostleitzahlVerkehrsunfall: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchePostleitzahlGerichtsstandsvereinbarung: {
+  gerichtSuchenPostleitzahlGerichtsstandsvereinbarung: {
     stepId:
-      "gericht-pruefen/gericht-suche/postleitzahl-gerichtsstandsvereinbarung",
+      "gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },

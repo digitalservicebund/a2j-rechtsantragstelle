@@ -4,7 +4,7 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 type GeldEinklagenGerichtPruefenDaten =
   GenericGuard<GeldEinklagenFormularGerichtPruefenUserData>;
 
-export const shouldVisitGerichtSuchePostleitzahlKlagendePerson: GeldEinklagenGerichtPruefenDaten =
+export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGerichtPruefenDaten =
   ({ context }) => {
     const {
       klagendeHaustuergeschaeft,
@@ -44,7 +44,7 @@ export const shouldVisitGerichtSuchePostleitzahlKlagendePerson: GeldEinklagenGer
     return isVersicherungCase;
   };
 
-export const shouldVisitGerichtSuchePostleitzahlVerkehrsunfall: GeldEinklagenGerichtPruefenDaten =
+export const shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall: GeldEinklagenGerichtPruefenDaten =
   ({ context }) => {
     return (
       context.sachgebiet === "verkehrsunfall" &&
@@ -55,7 +55,7 @@ export const shouldVisitGerichtSuchePostleitzahlVerkehrsunfall: GeldEinklagenGer
     );
   };
 
-export const shouldVisitGerichtSuchePostleitzahlWohnraum: GeldEinklagenGerichtPruefenDaten =
+export const shouldVisitGerichtSuchenPostleitzahlWohnraum: GeldEinklagenGerichtPruefenDaten =
   ({ context }) => {
     return (
       context.sachgebiet === "miete" &&

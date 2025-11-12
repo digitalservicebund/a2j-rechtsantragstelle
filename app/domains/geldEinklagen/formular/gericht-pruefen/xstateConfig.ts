@@ -8,9 +8,9 @@ import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
 import {
-  shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-  shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-  shouldVisitGerichtSuchePostleitzahlWohnraum,
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
@@ -58,7 +58,7 @@ export const gerichtPruefenXstateConfig = {
     sachgebiet: sachgebietXstateConfig,
     "klagende-person": klagendePersonXstateConfig,
     "beklagte-person": beklagtePersonXstateConfig,
-    "gericht-suche": gerichtSuchenXstateConfig,
+    "gericht-suchen": gerichtSuchenXstateConfig,
     "zustaendiges-gericht": {
       id: "zustaendiges-gericht",
       initial: "pilot-gericht",
@@ -67,29 +67,32 @@ export const gerichtPruefenXstateConfig = {
           on: {
             BACK: [
               {
-                guard: shouldVisitGerichtSuchePostleitzahlWohnraum,
-                target: steps.gerichtSuchePostleitzahlWohnraum.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
+                target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
               },
               {
                 guard: ({ context }) =>
                   context.gerichtsstandsvereinbarung === "yes",
                 target:
-                  steps.gerichtSuchePostleitzahlGerichtsstandsvereinbarung
+                  steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
                     .absolute,
               },
               {
-                guard: shouldVisitGerichtSuchePostleitzahlKlagendePerson,
-                target: steps.gerichtSuchePostleitzahlKlagendePerson.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+                target: steps.gerichtSuchenPostleitzahlKlagendePerson.absolute,
               },
               {
-                guard: shouldVisitGerichtSuchePostleitzahlVerkehrsunfall,
-                target: steps.gerichtSuchePostleitzahlVerkehrsunfall.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+                target: steps.gerichtSuchenPostleitzahlVerkehrsunfall.absolute,
               },
               {
                 guard: ({ context }) => context.sachgebiet === "schaden",
-                target: steps.gerichtSuchePostleitzahlUnerlaubtePerson.absolute,
+                target:
+                  steps.gerichtSuchenPostleitzahlUnerlaubtePerson.absolute,
               },
-              { target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute },
+              {
+                target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
+              },
             ],
           },
         },
