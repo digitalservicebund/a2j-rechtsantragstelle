@@ -9,7 +9,7 @@ describe("guards", () => {
   describe("shouldVisitGerichtSuchePostleitzahlKlagendePerson", () => {
     describe("check klagendeHaustuergeschaeft", () => {
       const baseContext = {
-        klagendeHaustuergeschaeft: "yes" as const,
+        klagendeHaustuergeschaeft: "yes",
       } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
       it("should return false in case klagendeHaustuergeschaeft is no", () => {
@@ -202,11 +202,11 @@ describe("guards", () => {
 
   describe("shouldVisitGerichtSuchePostleitzahlVerkehrsunfall", () => {
     const baseContext = {
-      sachgebiet: "verkehrsunfall" as const,
-      verkehrsunfallStrassenverkehr: "yes" as const,
-      klagendeKaufmann: "yes" as const,
-      beklagtePersonKaufmann: "yes" as const,
-      gerichtsstandsvereinbarung: "yes" as const,
+      sachgebiet: "verkehrsunfall",
+      verkehrsunfallStrassenverkehr: "yes",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "yes",
     } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
     it("should return false in case sachgebiet is not verkehrsunfall", () => {
@@ -279,9 +279,9 @@ describe("guards", () => {
 
   describe("shouldVisitGerichtSuchePostleitzahlWohnraum", () => {
     const baseContext = {
-      sachgebiet: "miete" as const,
-      mietePachtVertrag: "yes" as const,
-      mietePachtRaum: "yes" as const,
+      sachgebiet: "miete",
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "yes",
     } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
     it("should return false if sachgebiet is not miete", () => {
