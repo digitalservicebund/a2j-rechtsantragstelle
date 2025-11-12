@@ -51,7 +51,6 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 
 const ignoreVisitedSteps = [
   "/flugdaten/check-initial-page", // this page is only used to check the initial page of the flow
-  "/gericht-pruefen/gericht-suche/check-initial-page", // this page is only used to check the initial page of the flow
   "/intro/redirect-vorabcheck-ergebnis", // this page is only used to redirect to the vorabcheck result
   "/ergebnis/erfolg-per-post-klagen", // this page is only used to redirect to a content page
 ];

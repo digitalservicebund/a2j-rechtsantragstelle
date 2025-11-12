@@ -13,9 +13,9 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
 export const gerichtSuchenXstateConfig = {
   id: "gericht-suchen",
-  initial: "check-initial-page",
+  initial: "postleitzahl-beklagte-person",
   states: {
-    "check-initial-page": {
+    [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
       always: [
         {
           guard: ({ context }) => context.gerichtsstandsvereinbarung === "yes",
@@ -30,8 +30,6 @@ export const gerichtSuchenXstateConfig = {
           target: steps.gerichtSuchePostleitzahlBeklagtePerson.relative,
         },
       ],
-    },
-    [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
       on: {
         SUBMIT: [
           {
