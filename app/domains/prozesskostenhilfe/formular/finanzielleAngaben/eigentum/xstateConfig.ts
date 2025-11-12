@@ -2,10 +2,12 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-import { eigentumDone, eigentumZusammenfassungDone } from "./doneFunctions";
+import { eigentumDone } from "./doneFunctions";
 import {
-  eigentumYesAndEmptyArray,
   grundeigentumIsBewohnt,
+  hasGrundeigentumYes,
+  hasKraftfahrzeugYes,
+  hasWertsacheYes,
   isGeldanlageBargeld,
   isGeldanlageBefristet,
   isGeldanlageForderung,
@@ -15,6 +17,7 @@ import {
   isGeldanlageWertpapiere,
   isKraftfahrzeugWertAbove10000OrUnsure,
 } from "../guards";
+import { arrayIsNonEmpty } from "~/util/array";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenEigentumPages,
@@ -32,7 +35,7 @@ export const eigentumXstateConfig = {
             guard: ({ context }) => context.partnerschaft === "yes",
             target: steps.eigentumHeiratInfo.relative,
           },
-          steps.eigentumBankkontenFrage.relative,
+          steps.eigentumBankkonten.relative,
         ],
         BACK: [
           {
@@ -58,241 +61,387 @@ export const eigentumXstateConfig = {
     [steps.eigentumHeiratInfo.relative]: {
       on: {
         BACK: steps.eigentumInfo.relative,
-        SUBMIT: steps.eigentumBankkontenFrage.relative,
+        SUBMIT: steps.eigentumBankkonten.relative,
       },
     },
-    [steps.eigentumBankkontenFrage.relative]: {
-      on: {
-        BACK: [
-          {
-            guard: ({ context }) => context.partnerschaft === "yes",
-            target: steps.eigentumHeiratInfo.relative,
-          },
-          steps.eigentumInfo.relative,
-        ],
-        SUBMIT: steps.eigentumGeldanlagenFrage.relative,
-      },
-    },
-    [steps.eigentumGeldanlagenFrage.relative]: {
-      on: {
-        SUBMIT: steps.eigentumWertgegenstaendeFrage.relative,
-        BACK: steps.eigentumBankkontenFrage.relative,
-      },
-    },
-    [steps.eigentumWertgegenstaendeFrage.relative]: {
-      on: {
-        SUBMIT: steps.eigentumGrundeigentumFrage.relative,
-        BACK: steps.eigentumGeldanlagenFrage.relative,
-      },
-    },
-    [steps.eigentumGrundeigentumFrage.relative]: {
-      on: {
-        SUBMIT: steps.eigentumKraftfahrzeugeFrage.relative,
-        BACK: steps.eigentumWertgegenstaendeFrage.relative,
-      },
-    },
-    [steps.eigentumKraftfahrzeugeFrage.relative]: {
-      on: {
-        SUBMIT: [
-          {
-            guard: eigentumDone,
-            target: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-          "#ausgaben",
-        ],
-        BACK: steps.eigentumGrundeigentumFrage.relative,
-      },
-    },
-  },
-} satisfies Config<ProzesskostenhilfeFinanzielleAngabenUserData>;
-
-export const eigentumZusammenfassungXstateConfig = {
-  id: "eigentum-zusammenfassung",
-  initial: "zusammenfassung",
-  meta: { done: eigentumZusammenfassungDone },
-  states: {
-    zusammenfassung: {
-      on: {
-        BACK: "#eigentum.kraftfahrzeuge-frage",
-        SUBMIT: [
-          {
-            guard: eigentumYesAndEmptyArray,
-            target: "warnung",
-          },
-          "#ausgaben",
-        ],
-        "add-bankkonten": "bankkonten",
-        "add-wertsachen": "wertgegenstaende",
-        "add-geldanlagen": "geldanlagen",
-        "add-kraftfahrzeuge": "kraftfahrzeuge",
-        "add-grundeigentum": "grundeigentum",
-      },
-    },
-    warnung: {
-      on: {
-        BACK: steps.eigentumZusammenfassung.absolute,
-        SUBMIT: "#ausgaben",
-      },
-    },
-    bankkonten: {
-      initial: "daten",
+    [steps.eigentumBankkonten.relative]: {
+      initial: steps.eigentumBankkontenFrage.relative,
       states: {
-        daten: {
+        [steps.eigentumBankkontenFrage.relative]: {
           on: {
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-            BACK: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-      },
-    },
-    kraftfahrzeuge: {
-      initial: "arbeitsweg",
-      states: {
-        arbeitsweg: {
-          on: {
-            BACK: "#eigentum-zusammenfassung.zusammenfassung",
-            SUBMIT: "wert",
-          },
-        },
-        wert: {
-          on: {
-            BACK: "arbeitsweg",
+            BACK: [
+              {
+                guard: ({ context }) => context.partnerschaft === "yes",
+                target: steps.eigentumHeiratInfo.absolute,
+              },
+              steps.eigentumInfo.absolute,
+            ],
             SUBMIT: [
               {
-                guard: isKraftfahrzeugWertAbove10000OrUnsure,
-                target: "fahrzeuge",
+                guard: ({ context }) => context.hasBankkonto === "yes",
+                target: steps.eigentumBankkontenUebersicht.relative,
               },
-              "#eigentum-zusammenfassung.zusammenfassung",
+              steps.eigentumGeldanlagen.absolute,
             ],
           },
         },
-        fahrzeuge: {
+        [steps.eigentumBankkontenUebersicht.relative]: {
           on: {
-            BACK: "wert",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
+            BACK: steps.eigentumBankkontenFrage.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.hasBankkonto === "yes" &&
+                  !arrayIsNonEmpty(context.bankkonten),
+                target: steps.eigentumBankkontoWarnung.relative,
+              },
+              steps.eigentumGeldanlagen.absolute,
+            ],
+            "add-bankkonten": "bankkonto.daten",
+          },
+        },
+        [steps.eigentumBankkontoWarnung.relative]: {
+          on: {
+            BACK: steps.eigentumBankkontenUebersicht.relative,
+            SUBMIT: steps.eigentumGeldanlagen.absolute,
+          },
+        },
+        [steps.eigentumBankkonto.relative]: {
+          initial: "daten",
+          states: {
+            daten: {
+              on: {
+                BACK: steps.eigentumBankkontenUebersicht.absolute,
+                SUBMIT: steps.eigentumBankkontenUebersicht.absolute,
+              },
+            },
           },
         },
       },
     },
-    geldanlagen: {
-      id: "geldanlagen",
-      initial: "art",
+    [steps.eigentumGeldanlagen.relative]: {
+      initial: steps.eigentumGeldanlagenFrage.relative,
       states: {
-        art: {
+        [steps.eigentumGeldanlagenFrage.relative]: {
           on: {
             SUBMIT: [
               {
-                target: "bargeld",
-                guard: isGeldanlageBargeld,
+                guard: ({ context }) => context.hasGeldanlage === "yes",
+                target: steps.eigentumGeldanlagenUebersicht.relative,
               },
-              {
-                target: "wertpapiere",
-                guard: isGeldanlageWertpapiere,
-              },
-              {
-                target: "guthabenkonto-krypto",
-                guard: isGeldanlageGuthabenkontoKrypto,
-              },
-              {
-                target: "giro-tagesgeld-sparkonto",
-                guard: isGeldanlageGiroTagesgeldSparkonto,
-              },
-              {
-                target: "befristet",
-                guard: isGeldanlageBefristet,
-              },
-              {
-                target: "forderung",
-                guard: isGeldanlageForderung,
-              },
-              {
-                target: "sonstiges",
-                guard: isGeldanlageSonstiges,
-              },
+              steps.eigentumKraftfahrzeugeFrage.absolute,
             ],
-            BACK: "#eigentum-zusammenfassung.zusammenfassung",
+            BACK: [
+              {
+                guard: ({ context }) => context.hasBankkonto === "yes",
+                target: steps.eigentumBankkontenUebersicht.absolute,
+              },
+              steps.eigentumBankkontenFrage.absolute,
+            ],
           },
         },
-        bargeld: {
+        [steps.eigentumGeldanlagenUebersicht.relative]: {
           on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        wertpapiere: {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        "guthabenkonto-krypto": {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        "giro-tagesgeld-sparkonto": {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        befristet: {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        forderung: {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-        sonstiges: {
-          on: {
-            BACK: "art",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-          },
-        },
-      },
-    },
-    grundeigentum: {
-      initial: "bewohnt-frage",
-      states: {
-        "bewohnt-frage": {
-          on: {
-            BACK: "#eigentum-zusammenfassung.zusammenfassung",
+            BACK: steps.eigentumGeldanlagenFrage.relative,
             SUBMIT: [
               {
-                guard: grundeigentumIsBewohnt,
-                target: "bewohnt-daten",
+                guard: ({ context }) =>
+                  context.hasGeldanlage === "yes" &&
+                  !arrayIsNonEmpty(context.geldanlagen),
+                target: steps.eigentumGeldanlagenWarnung.relative,
               },
-              "daten",
+              steps.eigentumKraftfahrzeugeFrage.absolute,
             ],
+            "add-geldanlagen": "geldanlage.art",
           },
         },
-        daten: {
+        [steps.eigentumGeldanlagenWarnung.relative]: {
           on: {
-            BACK: "bewohnt-frage",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
+            BACK: steps.eigentumGeldanlagenUebersicht.relative,
+            SUBMIT: steps.eigentumKraftfahrzeugeFrage.absolute,
           },
         },
-        "bewohnt-daten": {
-          on: {
-            BACK: "bewohnt-frage",
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
+        [steps.eigentumGeldanlage.relative]: {
+          initial: "art",
+          states: {
+            art: {
+              on: {
+                SUBMIT: [
+                  {
+                    target: "bargeld",
+                    guard: isGeldanlageBargeld,
+                  },
+                  {
+                    target: "wertpapiere",
+                    guard: isGeldanlageWertpapiere,
+                  },
+                  {
+                    target: "guthabenkonto-krypto",
+                    guard: isGeldanlageGuthabenkontoKrypto,
+                  },
+                  {
+                    target: "giro-tagesgeld-sparkonto",
+                    guard: isGeldanlageGiroTagesgeldSparkonto,
+                  },
+                  {
+                    target: "befristet",
+                    guard: isGeldanlageBefristet,
+                  },
+                  {
+                    target: "forderung",
+                    guard: isGeldanlageForderung,
+                  },
+                  {
+                    target: "sonstiges",
+                    guard: isGeldanlageSonstiges,
+                  },
+                ],
+                BACK: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            bargeld: {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            wertpapiere: {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            "guthabenkonto-krypto": {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            "giro-tagesgeld-sparkonto": {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            befristet: {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            forderung: {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
+            sonstiges: {
+              on: {
+                BACK: "art",
+                SUBMIT: "#eigentum.geldanlagen.uebersicht",
+              },
+            },
           },
         },
       },
     },
-    wertgegenstaende: {
-      initial: "daten",
+    [steps.eigentumKraftfahrzeuge.relative]: {
+      initial: steps.eigentumKraftfahrzeugeFrage.relative,
       states: {
-        daten: {
+        [steps.eigentumKraftfahrzeugeFrage.relative]: {
           on: {
-            SUBMIT: "#eigentum-zusammenfassung.zusammenfassung",
-            BACK: "#eigentum-zusammenfassung.zusammenfassung",
+            SUBMIT: [
+              {
+                guard: hasKraftfahrzeugYes,
+                target: steps.eigentumKraftfahrzeugeUebersicht.relative,
+              },
+              steps.eigentumWertgegenstaende.absolute,
+            ],
+            BACK: [
+              {
+                guard: ({ context }) => context.hasGeldanlage === "yes",
+                target: steps.eigentumGeldanlagenUebersicht.absolute,
+              },
+              steps.eigentumGeldanlagenFrage.absolute,
+            ],
+          },
+        },
+        [steps.eigentumKraftfahrzeugeUebersicht.relative]: {
+          on: {
+            BACK: steps.eigentumKraftfahrzeugeFrage.absolute,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  hasKraftfahrzeugYes({ context }) &&
+                  !arrayIsNonEmpty(context.kraftfahrzeuge),
+                target: steps.eigentumKraftfahrzeugeWarnung.relative,
+              },
+              steps.eigentumWertgegenstaende.absolute,
+            ],
+            "add-kraftfahrzeuge": "kraftfahrzeug",
+          },
+        },
+        [steps.eigentumKraftfahrzeugeWarnung.relative]: {
+          on: {
+            BACK: steps.eigentumKraftfahrzeugeUebersicht.relative,
+            SUBMIT: steps.eigentumWertgegenstaende.absolute,
+          },
+        },
+        [steps.eigentumKraftfahrzeug.relative]: {
+          initial: "arbeitsweg",
+          states: {
+            arbeitsweg: {
+              on: {
+                BACK: steps.eigentumKraftfahrzeugeUebersicht.absolute,
+                SUBMIT: "wert",
+              },
+            },
+            wert: {
+              on: {
+                BACK: "arbeitsweg",
+                SUBMIT: [
+                  {
+                    guard: isKraftfahrzeugWertAbove10000OrUnsure,
+                    target: "fahrzeuge",
+                  },
+                  steps.eigentumKraftfahrzeugeUebersicht.absolute,
+                ],
+              },
+            },
+            fahrzeuge: {
+              on: {
+                BACK: "wert",
+                SUBMIT: steps.eigentumKraftfahrzeugeUebersicht.absolute,
+              },
+            },
+          },
+        },
+      },
+    },
+    [steps.eigentumWertgegenstaende.relative]: {
+      initial: steps.eigentumWertgegenstaendeFrage.relative,
+      states: {
+        [steps.eigentumWertgegenstaendeFrage.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: hasWertsacheYes,
+                target: steps.eigentumWertgegenstaendeUebersicht.relative,
+              },
+              steps.eigentumGrundeigentum.absolute,
+            ],
+            BACK: [
+              {
+                guard: hasKraftfahrzeugYes,
+                target: steps.eigentumKraftfahrzeugeUebersicht.absolute,
+              },
+              steps.eigentumKraftfahrzeuge.absolute,
+            ],
+          },
+        },
+        [steps.eigentumWertgegenstaendeUebersicht.relative]: {
+          on: {
+            BACK: steps.eigentumWertgegenstaendeFrage.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  hasWertsacheYes({ context }) &&
+                  !arrayIsNonEmpty(context.wertsachen),
+                target: steps.eigentumWertgegenstaendeWarnung.relative,
+              },
+              steps.eigentumGrundeigentum.absolute,
+            ],
+            "add-wertsachen": "wertgegenstand",
+          },
+        },
+        [steps.eigentumWertgegenstaendeWarnung.relative]: {
+          on: {
+            BACK: steps.eigentumWertgegenstaendeUebersicht.relative,
+            SUBMIT: steps.eigentumGrundeigentum.absolute,
+          },
+        },
+        [steps.eigentumWertgegenstand.relative]: {
+          initial: "daten",
+          states: {
+            daten: {
+              on: {
+                SUBMIT: steps.eigentumWertgegenstaendeUebersicht.absolute,
+                BACK: steps.eigentumWertgegenstaendeUebersicht.absolute,
+              },
+            },
+          },
+        },
+      },
+    },
+    [steps.eigentumGrundeigentum.relative]: {
+      initial: steps.eigentumGrundeigentumFrage.relative,
+      states: {
+        [steps.eigentumGrundeigentumFrage.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: hasGrundeigentumYes,
+                target: steps.eigentumGrundeigentumUebersicht.relative,
+              },
+              "#ausgaben",
+            ],
+            BACK: [
+              {
+                guard: hasWertsacheYes,
+                target: steps.eigentumWertgegenstaendeUebersicht.absolute,
+              },
+              steps.eigentumWertgegenstaende.absolute,
+            ],
+          },
+        },
+        [steps.eigentumGrundeigentumUebersicht.relative]: {
+          on: {
+            BACK: steps.eigentumGrundeigentumFrage.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  hasGrundeigentumYes({ context }) &&
+                  !arrayIsNonEmpty(context.grundeigentum),
+                target: steps.eigentumGrundeigentumWarnung.relative,
+              },
+              "#ausgaben",
+            ],
+            "add-grundeigentum": "grundeigentum",
+          },
+        },
+        [steps.eigentumGrundeigentumGrundeigentum.relative]: {
+          initial: "bewohnt-frage",
+          states: {
+            "bewohnt-frage": {
+              on: {
+                BACK: steps.eigentumGrundeigentumUebersicht.absolute,
+                SUBMIT: [
+                  {
+                    guard: grundeigentumIsBewohnt,
+                    target: "bewohnt-daten",
+                  },
+                  "daten",
+                ],
+              },
+            },
+            "bewohnt-daten": {
+              on: {
+                BACK: "bewohnt-frage",
+                SUBMIT: steps.eigentumGrundeigentumUebersicht.absolute,
+              },
+            },
+            daten: {
+              on: {
+                BACK: "bewohnt-frage",
+                SUBMIT: steps.eigentumGrundeigentumUebersicht.absolute,
+              },
+            },
+          },
+        },
+        [steps.eigentumGrundeigentumWarnung.relative]: {
+          on: {
+            BACK: steps.eigentumGrundeigentumUebersicht.relative,
+            SUBMIT: "#ausgaben",
           },
         },
       },
