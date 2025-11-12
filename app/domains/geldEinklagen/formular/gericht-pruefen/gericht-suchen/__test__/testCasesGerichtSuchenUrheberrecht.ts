@@ -1,0 +1,139 @@
+import { type TestCases } from "~/domains/__test__/TestCases";
+import { type GeldEinklagenFormularUserData } from "../../../userData";
+
+const baseContext = {
+  forderung: "maximal5000" as const,
+  ausgeschlossen: "yes" as const,
+  fuerWenKlagen: "selbst" as const,
+  sachgebiet: "urheberrecht" as const,
+  gegenWenBeklagen: "person" as const,
+  postleitzahlBeklagtePerson: "000800",
+  postleitzahlSecondary: "000800",
+};
+
+export const testCasesGerichtSuchenUrheberrecht = [
+  [
+    {
+      ...baseContext,
+      klagendeKaufmann: "yes",
+      beklagtePersonGeldVerdienen: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "yes",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeKaufmann: "yes",
+      beklagtePersonGeldVerdienen: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeKaufmann: "yes",
+      beklagtePersonGeldVerdienen: "yes",
+      beklagtePersonKaufmann: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeKaufmann: "yes",
+      beklagtePersonGeldVerdienen: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
+      beklagtePersonGeldVerdienen: "yes",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
+      beklagtePersonGeldVerdienen: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "organisation",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "organisation",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "organisation",
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "organisation",
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "no",
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+    ],
+  ],
+] as const satisfies TestCases<GeldEinklagenFormularUserData>;
