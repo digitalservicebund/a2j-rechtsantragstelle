@@ -61,7 +61,7 @@ describe("OpenPLZ helpers", () => {
         { name: "Straße 3" },
       ];
       fetchSpy.mockImplementation((url) => {
-        const pageNum = parseInt(
+        const pageNum = Number.parseInt(
           (url as string).match(/(?<=page=)\d/g)?.[0] ?? "",
         );
         return Promise.resolve({
