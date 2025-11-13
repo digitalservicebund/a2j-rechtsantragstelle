@@ -3,7 +3,7 @@ import { z } from "zod";
 import { validPostcodes } from "data/validPostcodes.server";
 
 function isValidPostcode(postcode: string) {
-  const postcodeNum = parseInt(postcode, 10);
+  const postcodeNum = Number.parseInt(postcode, 10);
   return postcodeNum >= 1067 && postcodeNum <= 99998 && /\d{5}/.test(postcode);
 }
 

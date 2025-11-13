@@ -79,7 +79,8 @@
     "require-yield": "error",
     "use-isnan": "error",
     "valid-typeof": "error",
-    "unicorn/throw-new-error": "error"
+    "unicorn/throw-new-error": "error",
+    "unicorn/prefer-number-properties": "error"
   },
   "ignorePatterns": ["data/xml/**"],
   "overrides": [
