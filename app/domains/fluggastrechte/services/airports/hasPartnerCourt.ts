@@ -3,9 +3,7 @@ import { getAirportByIataCode } from "./getAirportByIataCode";
 export const hasAirportPartnerCourt = (
   airportCode: string | undefined,
 ): boolean => {
-  if (typeof airportCode === "undefined") {
-    return false;
-  }
+  if (!airportCode) return false;
 
   const zipCodePilotCourt =
     getAirportByIataCode(airportCode)?.zipCodePilotCourt ?? "";

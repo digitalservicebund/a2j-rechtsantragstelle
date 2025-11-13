@@ -6,7 +6,7 @@ export const getKinderStrings = (
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
-    typeof arrayIndex === "undefined" ||
+    arrayIndex === undefined ||
     !context.kinder ||
     arrayIndex > context.kinder.length + 1
   )
@@ -22,7 +22,7 @@ export const getArrayIndexStrings = (
   context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
-  return typeof arrayIndex !== "undefined"
+  return arrayIndex !== undefined
     ? { "array#index": String(arrayIndex + 1) }
     : {};
 };

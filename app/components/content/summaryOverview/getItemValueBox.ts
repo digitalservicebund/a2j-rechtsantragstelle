@@ -34,18 +34,10 @@ export const getItemValueBox = (
 
     // Check if a direct translation exists
     const directTranslation = translations[`${fieldName}.${itemValue}`];
-    if (typeof directTranslation !== "undefined") {
-      return directTranslation;
-    }
+    if (directTranslation) return directTranslation;
 
     // Handle empty value
-    if (
-      !itemValue &&
-      typeof emptyValuePlaceholder !== "undefined" &&
-      emptyValuePlaceholder.length > 0
-    ) {
-      return emptyValuePlaceholder;
-    }
+    if (!itemValue && emptyValuePlaceholder) return emptyValuePlaceholder;
 
     // Fallback to string replacement translation or the original item value
     return translations[`${fieldName}.value`] ?? itemValue;

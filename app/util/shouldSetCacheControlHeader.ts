@@ -4,5 +4,5 @@ export const shouldSetCacheControlHeader = (
   pathname: string,
   trackingConsent: "true" | "false" | undefined,
 ): boolean => {
-  return typeof trackingConsent === "undefined" || isFlowIdInPathname(pathname);
+  return !trackingConsent || isFlowIdInPathname(pathname);
 };

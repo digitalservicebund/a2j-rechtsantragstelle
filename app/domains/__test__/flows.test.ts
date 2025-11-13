@@ -24,7 +24,7 @@ function getEnabledSteps({
   const reachableSteps = steps.slice(0, -1).map((step) => {
     const destination = nextStepId(machine, step, transitionType, context);
     if (!destination) {
-      throw Error(
+      throw new Error(
         `transition destination missing for step: ${step}, transitionType: ${transitionType}`,
       );
     }
