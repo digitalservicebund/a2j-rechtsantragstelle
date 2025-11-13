@@ -8,7 +8,6 @@ import {
 import { createArrayBoxKey } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
 
-// Sections to exclude from auto-generated summaries
 const EXCLUDED_SECTIONS = new Set([
   "start",
   "abgabe",
@@ -65,7 +64,6 @@ export function groupFieldsByFlowNavigation(
       sectionTitles[sectionKey] =
         translations?.[sectionInfo.sectionTitle] ?? sectionInfo.sectionTitle;
     }
-
     // Group Arrays by base field and index
     const arrayBoxKey = createArrayBoxKey(field);
     const boxKey = arrayBoxKey ?? sectionInfo.boxKey ?? "default";

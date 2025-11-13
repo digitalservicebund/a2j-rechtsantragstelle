@@ -40,9 +40,13 @@ describe("createArrayEditUrl", () => {
     expect(result).toBe(originalUrl);
   });
 
-  it("should fallback when no mapping found", () => {
-    const originalUrl = "/unknown/path/structure";
-    const result = createArrayEditUrl("unknownArray[0].field", originalUrl);
-    expect(result).toBe(originalUrl);
+  it("should handle any properly structured array URL", () => {
+    const result = createArrayEditUrl(
+      "someArray[0].field",
+      "/beratungshilfe/antrag/some-section/collection-name/item-type/action",
+    );
+    expect(result).toBe(
+      "/beratungshilfe/antrag/some-section/collection-name/uebersicht",
+    );
   });
 });

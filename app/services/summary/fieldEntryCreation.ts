@@ -3,7 +3,7 @@ import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { isUserDataFieldEmpty } from "./fieldValidation";
 import { getUserDataFieldLabel } from "./templateReplacement";
-import { getArrayItemValue, createArrayEditUrl } from "./arrayFieldProcessing";
+import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
 
@@ -29,11 +29,12 @@ export function createFieldEntry(
     arrayIndex = fieldInfo.arrayIndex;
     arrayBaseField = fieldInfo.baseFieldName;
 
-    const arrayItem = getArrayItemValue(
-      `${fieldInfo.baseFieldName}[${fieldInfo.arrayIndex}]`,
-      fieldInfo.arrayIndex,
-      userData,
-    );
+    const arrayValue = userData[fieldInfo.baseFieldName];
+    const arrayItem =
+      Array.isArray(arrayValue) && arrayValue[fieldInfo.arrayIndex]
+        ? arrayValue[fieldInfo.arrayIndex]
+        : null;
+
     value =
       arrayItem && fieldInfo.subFieldName
         ? arrayItem[fieldInfo.subFieldName]

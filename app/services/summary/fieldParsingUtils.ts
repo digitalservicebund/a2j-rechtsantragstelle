@@ -54,19 +54,6 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
 }
 
 /**
- * Creates array field key for mapping lookups (e.g., "kinder[0].vorname" → "kinder#vorname")
- */
-export function createArrayFieldKey(fieldName: string): string {
-  const info = parseArrayField(fieldName);
-
-  if (info.isArraySubField && info.subFieldName) {
-    return `${info.baseFieldName}#${info.subFieldName}`;
-  }
-
-  return fieldName;
-}
-
-/**
  * Creates box key for grouping array fields (e.g., "kinder[0].vorname" → "kinder-0")
  */
 export function createArrayBoxKey(fieldName: string): string | null {
@@ -77,18 +64,4 @@ export function createArrayBoxKey(fieldName: string): string | null {
   }
 
   return null;
-}
-
-/**
- * Checks if a field is an array field
- */
-export function isArrayField(fieldName: string): boolean {
-  return parseArrayField(fieldName).isArrayField;
-}
-
-/**
- * Checks if a field is an array sub-field
- */
-export function isArraySubField(fieldName: string): boolean {
-  return parseArrayField(fieldName).isArraySubField;
 }

@@ -81,62 +81,18 @@ export function expandArrayFields(
   return expandedFields;
 }
 
-export function getArrayItemValue(
-  arrayFieldName: string,
-  index: number,
-  userData: UserData,
-): Record<string, unknown> | null {
-  const fieldInfo = parseArrayField(arrayFieldName);
-  const baseFieldName = fieldInfo.baseFieldName;
-  const arrayValue = userData[baseFieldName];
-
-  if (Array.isArray(arrayValue) && arrayValue[index]) {
-    return arrayValue[index] as Record<string, unknown>;
-  }
-
-  return null;
-}
-
-const FIELD_TO_PATH_MAPPING: Record<string, string> = {
-  wertsachen: "wertgegenstaende",
-  weitereEinkuenfte: "weitere-einkuenfte",
-};
-
 export function createArrayEditUrl(
   arrayFieldName: string,
   representativeStepId: string,
 ): string {
-  // Handle both "name[index]" and "name[index].subfield" patterns
   const fieldInfo = parseArrayField(arrayFieldName);
 
-  if (fieldInfo.isArrayField) {
-    const pathParts = representativeStepId.split("/");
-    const baseFieldName = fieldInfo.baseFieldName;
-
-    let mappedFieldName = baseFieldName;
-
-    // Apply field name mapping if needed
-    if (FIELD_TO_PATH_MAPPING[baseFieldName]) {
-      mappedFieldName = FIELD_TO_PATH_MAPPING[baseFieldName];
-    }
-
-    // Look for exact match first
-    let basePathIndex = pathParts.indexOf(mappedFieldName);
-
-    // Then try parts that contain the base field name
-    if (basePathIndex === -1) {
-      basePathIndex = pathParts.findIndex((part) =>
-        part.includes(mappedFieldName),
-      );
-    }
-
-    // Build the correct overview URL
-    if (basePathIndex !== -1) {
-      return pathParts.slice(0, basePathIndex + 1).join("/") + "/uebersicht";
-    }
-
+  if (!fieldInfo.isArrayField) {
     return representativeStepId;
   }
 
-  return representativeStepId;
+  // Array edit URLs: remove last 2 segments and add "uebersicht"
+  // "/path/to/collection/item/details" → "/path/to/collection/uebersicht"
+  const pathParts = representativeStepId.split("/");
+  return pathParts.slice(0, -2).join("/") + "/uebersicht";
 }

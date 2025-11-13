@@ -7,11 +7,11 @@ export function createStepToSectionMapping(
     {};
 
   function processStepState(stepState: StepState, parentSectionKey?: string) {
-    // If this step has sub-states, it's likely a section header
+    // If this step has substates, it's likely a section header
     if (stepState.subStates && stepState.subStates.length > 0) {
       const sectionKey = stepState.stepId;
 
-      // Map all sub-steps to this section
+      // Map all substeps to this section
       for (const subState of stepState.subStates) {
         processStepState(subState, sectionKey);
       }

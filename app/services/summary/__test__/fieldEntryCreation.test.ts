@@ -23,14 +23,14 @@ describe("fieldEntryCreation", () => {
         "vorname",
         userData,
         mockFieldQuestions,
-        "/step",
+        "/beratungshilfe/antrag/persoenliche-daten/name",
       );
 
       expect(result).toEqual(
         expect.objectContaining({
           question: "Wie ist Ihr Vorname?",
           answer: "Max",
-          editUrl: "/step",
+          editUrl: "/beratungshilfe/antrag/persoenliche-daten/name",
           isArrayItem: false,
           arrayIndex: undefined,
           arrayBaseField: undefined,
@@ -45,14 +45,14 @@ describe("fieldEntryCreation", () => {
         "vorname",
         userData,
         mockFieldQuestions,
-        "/step",
+        "/beratungshilfe/antrag/persoenliche-daten/name",
       );
 
       expect(result).toEqual(
         expect.objectContaining({
           question: "Wie ist Ihr Vorname?",
           answer: "Keine Angabe",
-          editUrl: "/step",
+          editUrl: "/beratungshilfe/antrag/persoenliche-daten/name",
           isArrayItem: false,
           arrayIndex: undefined,
           arrayBaseField: undefined,
@@ -69,14 +69,15 @@ describe("fieldEntryCreation", () => {
         "kinder[0].vorname",
         userData,
         mockFieldQuestions,
-        "/kinder/step",
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
       );
 
       expect(result).toEqual(
         expect.objectContaining({
           question: "Wie heißt das Kind?",
           answer: "Anna",
-          editUrl: "/kinder/uebersicht",
+          editUrl:
+            "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
           isArrayItem: true,
           arrayIndex: 0,
           arrayBaseField: "kinder",
@@ -93,21 +94,14 @@ describe("fieldEntryCreation", () => {
         "berufart",
         userData,
         mockFieldQuestions,
-        "/step",
+        "/beratungshilfe/antrag/finanzielle-angaben/einkommen/einkommen",
       );
 
       expect(result.question).toBe("Welche Berufsart haben Sie?");
       expect(result.answer).toBe("Angestellt");
-      expect(result.editUrl).toBe("/step");
-    });
-
-    it("should fallback to field name when no question found", () => {
-      const userData: UserData = { unknownField: "value" };
-
-      const result = createFieldEntry("unknownField", userData, {}, "/step");
-
-      expect(result.question).toBe("unknownField");
-      expect(result.answer).toBe("value");
+      expect(result.editUrl).toBe(
+        "/beratungshilfe/antrag/finanzielle-angaben/einkommen/einkommen",
+      );
     });
   });
 
@@ -166,7 +160,7 @@ describe("fieldEntryCreation", () => {
       };
 
       const arrayFieldToStepMapping = {
-        "kinder[0].vorname": "/kinder/name",
+        "kinder#vorname": "/finanzielle-angaben/kinder/kinder/name",
       };
 
       const arrayFieldQuestions = {

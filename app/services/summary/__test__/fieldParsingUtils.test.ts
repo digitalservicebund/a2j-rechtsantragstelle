@@ -1,11 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  parseArrayField,
-  createArrayFieldKey,
-  createArrayBoxKey,
-  isArrayField,
-  isArraySubField,
-} from "../fieldParsingUtils";
+import { parseArrayField, createArrayBoxKey } from "../fieldParsingUtils";
 
 describe("fieldParsingUtils", () => {
   describe("parseArrayField", () => {
@@ -52,20 +46,6 @@ describe("fieldParsingUtils", () => {
     });
   });
 
-  describe("createArrayFieldKey", () => {
-    it("should convert array sub-fields to hash notation", () => {
-      expect(createArrayFieldKey("kinder[0].vorname")).toBe("kinder#vorname");
-      expect(createArrayFieldKey("bankkonten[1].inhaber")).toBe(
-        "bankkonten#inhaber",
-      );
-    });
-
-    it("should return original field name for non-array-sub-fields", () => {
-      expect(createArrayFieldKey("vorname")).toBe("vorname");
-      expect(createArrayFieldKey("kinder[0]")).toBe("kinder[0]");
-    });
-  });
-
   describe("createArrayBoxKey", () => {
     it("should create box keys for array fields", () => {
       expect(createArrayBoxKey("kinder[0]")).toBe("kinder-0");
@@ -76,22 +56,6 @@ describe("fieldParsingUtils", () => {
     it("should return null for non-array fields", () => {
       expect(createArrayBoxKey("vorname")).toBeNull();
       expect(createArrayBoxKey("arbeitsplatz.strasse")).toBeNull();
-    });
-  });
-
-  describe("isArrayField", () => {
-    it("should detect array fields", () => {
-      expect(isArrayField("kinder[0]")).toBe(true);
-      expect(isArrayField("kinder[0].vorname")).toBe(true);
-      expect(isArrayField("vorname")).toBe(false);
-    });
-  });
-
-  describe("isArraySubField", () => {
-    it("should detect array sub-fields", () => {
-      expect(isArraySubField("kinder[0].vorname")).toBe(true);
-      expect(isArraySubField("kinder[0]")).toBe(false);
-      expect(isArraySubField("vorname")).toBe(false);
     });
   });
 });

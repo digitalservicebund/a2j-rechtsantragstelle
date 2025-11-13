@@ -106,8 +106,7 @@ function createSummarySection(
 
   return {
     id: sectionName,
-    title:
-      sectionTitles[sectionName] ?? translations?.[sectionName] ?? sectionName,
+    title: sectionTitles[sectionName] ?? sectionName,
     fields: nonArrayFields,
     arrayGroups: arrayGroups.length > 0 ? arrayGroups : undefined,
   };

@@ -4,11 +4,7 @@ import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
-import {
-  createArrayFieldKey,
-  isArraySubField,
-  parseArrayField,
-} from "./fieldParsingUtils";
+import { parseArrayField } from "./fieldParsingUtils";
 import type { FieldOption, FieldQuestion } from "./types";
 
 /**
@@ -62,8 +58,8 @@ export function findStepIdForField(
   }
 
   // Handle array sub-fields like "kinder[0].vorname" -> look for "kinder#vorname" mappings
-  if (!stepId && fieldInfo.isArraySubField) {
-    const arrayFieldKey = createArrayFieldKey(fieldName);
+  if (!stepId && fieldInfo.isArraySubField && fieldInfo.subFieldName) {
+    const arrayFieldKey = `${fieldInfo.baseFieldName}#${fieldInfo.subFieldName}`;
     stepId = fieldToStepMapping[arrayFieldKey];
   }
 
@@ -211,8 +207,9 @@ export async function processFieldForQuestions(
   // For array fields, convert "kinder[0].wohnortBeiAntragsteller" to "kinder#wohnortBeiAntragsteller"
   let componentLookupName = fieldName;
 
-  if (isArraySubField(fieldName)) {
-    componentLookupName = createArrayFieldKey(fieldName);
+  const fieldInfo = parseArrayField(fieldName);
+  if (fieldInfo.isArraySubField && fieldInfo.subFieldName) {
+    componentLookupName = `${fieldInfo.baseFieldName}#${fieldInfo.subFieldName}`;
   }
 
   let formComponent: StrapiFormComponent | undefined | null =

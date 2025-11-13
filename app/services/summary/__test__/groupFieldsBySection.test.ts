@@ -1,44 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { groupFieldsByFlowNavigation } from "../groupFieldsBySection";
-
-vi.mock("./sectionMapping", () => ({
-  createStepToSectionMapping: vi.fn(() => ({
-    "/persoenliche-daten/name": {
-      sectionKey: "/persoenliche-daten",
-      sectionTitle: "Persönliche Daten",
-    },
-    "/finanzielle-angaben/einkommen": {
-      sectionKey: "/finanzielle-angaben",
-      sectionTitle: "Finanzielle Angaben",
-    },
-  })),
-  getSectionFromStepId: vi.fn((stepId) => ({
-    sectionKey: stepId.includes("persoenliche")
-      ? "/persoenliche-daten"
-      : "/finanzielle-angaben",
-    sectionTitle: stepId.includes("persoenliche")
-      ? "/persoenliche-daten"
-      : "/finanzielle-angaben",
-    boxKey: stepId.split("/").pop(),
-  })),
-  addFieldToGroup: vi.fn((groups, sectionKey, boxKey, field) => {
-    if (!groups[sectionKey]) {
-      groups[sectionKey] = {};
-    }
-    if (!groups[sectionKey][boxKey]) {
-      groups[sectionKey][boxKey] = [];
-    }
-    groups[sectionKey][boxKey].push(field);
-  }),
-}));
-
-vi.mock("./getFormQuestions", () => ({
-  findStepIdForField: vi.fn((field, mapping) => mapping[field]),
-}));
 
 describe("groupFieldsBySection", () => {
   const mockFlowController = {
-    stepStates: vi.fn(() => [
+    stepStates: () => [
       {
         stepId: "/persoenliche-daten",
         subStates: [
@@ -50,22 +15,23 @@ describe("groupFieldsBySection", () => {
         stepId: "/finanzielle-angaben",
         subStates: [
           { stepId: "/finanzielle-angaben/einkommen", subStates: [] },
+          { stepId: "/finanzielle-angaben/kinder", subStates: [] },
         ],
       },
-    ]),
+    ],
   };
 
   const mockFieldToStepMapping = {
     vorname: "/beratungshilfe/antrag/persoenliche-daten/name",
     nachname: "/beratungshilfe/antrag/persoenliche-daten/name",
-    einkommen: "/beratungshilfe/antrag/finanzielle-angaben/einkommen",
-    "kinder[0].vorname":
-      "/beratungshilfe/antrag/finanzielle-angaben/kinder/name",
+    einkommen: "/beratungshilfe/antrag/finanzielle-angaben/einkommen/einkommen",
+    "kinder#vorname":
+      "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
   };
 
   const mockTranslations = {
-    "persoenliche-daten": "Persönliche Daten",
-    "finanzielle-angaben": "Finanzielle Angaben",
+    "/persoenliche-daten": "Persönliche Daten",
+    "/finanzielle-angaben": "Finanzielle Angaben",
   };
 
   it("should group fields by flow navigation", () => {
@@ -87,8 +53,8 @@ describe("groupFieldsBySection", () => {
     });
 
     expect(result.sectionTitles).toEqual({
-      "persoenliche-daten": "/persoenliche-daten",
-      "finanzielle-angaben": "/finanzielle-angaben",
+      "persoenliche-daten": "Persönliche Daten",
+      "finanzielle-angaben": "Finanzielle Angaben",
     });
   });
 
@@ -97,10 +63,8 @@ describe("groupFieldsBySection", () => {
       ["kinder[0].vorname", "kinder[1].vorname"],
       mockFlowController as any,
       {
-        "kinder[0].vorname":
-          "/beratungshilfe/antrag/finanzielle-angaben/kinder/name",
-        "kinder[1].vorname":
-          "/beratungshilfe/antrag/finanzielle-angaben/kinder/name",
+        "kinder#vorname":
+          "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
       },
       mockTranslations,
       "/beratungshilfe/antrag",
@@ -115,17 +79,25 @@ describe("groupFieldsBySection", () => {
   });
 
   it("should exclude certain sections", () => {
+    const excludedFlowController = {
+      stepStates: () => [
+        {
+          stepId: "/zusammenfassung",
+          subStates: [{ stepId: "/zusammenfassung/step", subStates: [] }],
+        },
+      ],
+    };
+
     const result = groupFieldsByFlowNavigation(
-      ["field1"],
-      mockFlowController as any,
+      ["vorname"],
+      excludedFlowController as any,
       {
-        field1: "/beratungshilfe/antrag/zusammenfassung/step",
+        vorname: "/beratungshilfe/antrag/zusammenfassung/step",
       },
       mockTranslations,
       "/beratungshilfe/antrag",
     );
 
-    // zusammenfassung should be excluded
     expect(result.groups).toEqual({});
   });
 });
