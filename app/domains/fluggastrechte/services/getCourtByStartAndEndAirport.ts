@@ -15,12 +15,7 @@ export const getCourtByStartAndEndAirport = (
   const startAirport = getAirportByIataCode(startIataCodeAirport);
   const endAirport = getAirportByIataCode(endIataCodeAirport);
 
-  if (
-    typeof startAirport === "undefined" ||
-    typeof endAirport === "undefined"
-  ) {
-    return undefined;
-  }
+  if (!startAirport || !endAirport) return undefined;
 
   if (
     startAirport.zipCodePilotCourt.length === 0 &&
