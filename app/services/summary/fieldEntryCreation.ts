@@ -85,24 +85,12 @@ export function processBoxFields(
     { question?: string; options?: Array<{ text: string; value: string }> }
   >,
   fieldToStepMapping: Record<string, string>,
+  flowId: string,
 ): FieldItem[] {
-  if (fields.length === 0) {
-    return [];
-  }
-  // Find representative stepId for edit URLs
-  // For array fields, try to find the first step in the array flow
-  const representativeField = fields[0];
-  const representativeStepId = findStepIdForField(
-    representativeField,
-    fieldToStepMapping,
-  );
+  return fields.map((fieldName) => {
+    const stepId = findStepIdForField(fieldName, fieldToStepMapping);
+    const fullStepId = stepId ? `${flowId}${stepId}` : "";
 
-  // Skip boxes that don't have a real stepId
-  if (!representativeStepId) {
-    return [];
-  }
-
-  return fields.map((fieldName) =>
-    createFieldEntry(fieldName, userData, fieldQuestions, representativeStepId),
-  );
+    return createFieldEntry(fieldName, userData, fieldQuestions, fullStepId);
+  });
 }

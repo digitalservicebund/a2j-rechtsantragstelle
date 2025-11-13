@@ -134,6 +134,7 @@ describe("fieldEntryCreation", () => {
         userData,
         mockFieldQuestions,
         mockFieldToStepMapping,
+        "/beratungshilfe/antrag",
       );
 
       expect(result).toHaveLength(2);
@@ -141,7 +142,7 @@ describe("fieldEntryCreation", () => {
         expect.objectContaining({
           question: "Vorname?",
           answer: "Max",
-          editUrl: "/persoenliche-daten/name",
+          editUrl: "/beratungshilfe/antrag/persoenliche-daten/name",
           isArrayItem: false,
           arrayIndex: undefined,
           arrayBaseField: undefined,
@@ -151,7 +152,7 @@ describe("fieldEntryCreation", () => {
         expect.objectContaining({
           question: "Nachname?",
           answer: "Mustermann",
-          editUrl: "/persoenliche-daten/name",
+          editUrl: "/beratungshilfe/antrag/persoenliche-daten/name",
           isArrayItem: false,
           arrayIndex: undefined,
           arrayBaseField: undefined,
@@ -177,6 +178,7 @@ describe("fieldEntryCreation", () => {
         userData,
         arrayFieldQuestions,
         arrayFieldToStepMapping,
+        "/beratungshilfe/antrag",
       );
 
       expect(result).toHaveLength(1);

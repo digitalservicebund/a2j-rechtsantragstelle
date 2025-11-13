@@ -460,22 +460,5 @@ describe("generateSummaryFromUserData", () => {
       // Should use fallback section titles
       expect(result[0].title).toBe("persoenliche-daten"); // Fallback to ID
     });
-
-    it("should skip sections with no fields", async () => {
-      // Mock a form field mapping that would result in no matching fields
-      mockFetchAllFormFields.mockResolvedValue({
-        "/some-other-section": ["nonexistent-field"],
-      });
-
-      const result = await generateSummaryFromUserData(
-        { vorname: "Max" },
-        mockFlowId,
-        mockFlowController,
-        mockTranslations,
-      );
-
-      // Should not create sections for fields that don't exist in userData
-      expect(result).toHaveLength(0);
-    });
   });
 });

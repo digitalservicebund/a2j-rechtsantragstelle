@@ -8,7 +8,6 @@ import {
   processNestedComponents,
   processFieldForQuestions,
 } from "../getFormQuestions";
-import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import { type StrapiInputComponentSchema } from "~/services/cms/models/formElements/StrapiInput";
 import { type StrapiSelectComponentSchema } from "~/services/cms/models/formElements/StrapiSelect";
@@ -22,6 +21,24 @@ type StrapiTileGroupComponentOutput = z.output<
   typeof StrapiTileGroupComponentSchema
 >;
 
+vi.mock("~/domains/flows.server", () => ({
+  flows: {
+    "/beratungshilfe/antrag": {
+      flowType: "formFlow",
+    },
+    "/invalidFlow": {
+      flowType: "other",
+    },
+  },
+}));
+
+vi.mock("~/services/cms/fetchAllFormFields", () => ({
+  fetchAllFormFields: vi.fn(),
+}));
+
+vi.mock("~/services/cms/index.server", () => ({
+  fetchFlowPage: vi.fn(),
+}));
 describe("createFieldToStepMapping", () => {
   it("should create mapping from form fields", () => {
     const formFieldsMap = {
@@ -152,48 +169,91 @@ describe("findStepIdForField", () => {
   });
 });
 
-vi.mock("~/domains/flows.server", () => ({
-  flows: {
-    "/beratungshilfe/antrag": {
-      flowType: "formFlow",
-    },
-    "/invalidFlow": {
-      flowType: "other",
-    },
-  },
-}));
-
-vi.mock("~/services/cms/fetchAllFormFields", () => ({
-  fetchAllFormFields: vi.fn(),
-}));
-
-vi.mock("~/services/cms/index.server", () => ({
-  fetchFlowPage: vi.fn(),
-}));
-
 describe("getFormQuestionsForFields", () => {
-  it("should return empty object for non-formFlow", async () => {
-    const result = await getFormQuestionsForFields(
-      ["field1"],
-      "/invalidFlow" as any,
-    );
-    expect(result).toEqual({});
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("should throw error for unknown flowId", async () => {
-    await expect(
-      getFormQuestionsForFields(["field1"], "/unknown" as any),
-    ).rejects.toThrow("Unknown flowId: /unknown");
-  });
+  it("should get questions for regular fields", async () => {
+    const mockFormPage: StrapiFormFlowPage = {
+      pageTitle: "Rechtsschutzversicherung",
+      locale: "de",
+      stepId: "/grundvoraussetzungen/rechtsschutz",
+      heading: "Rechtsschutzversicherung",
+      pre_form: [],
+      form: [
+        {
+          __component: "form-elements.input",
+          id: 1,
+          name: "rechtsschutzversicherung",
+          label: "Haben Sie eine Rechtsschutzversicherung?",
+          altLabel: undefined,
+          type: "text",
+          width: undefined,
+          errorMessages: [],
+        } as StrapiInputComponentOutput,
+      ],
+      post_form: [],
+      flow_ids: [],
+    };
 
-  it("should handle empty field list", async () => {
-    vi.mocked(fetchAllFormFields).mockResolvedValue({});
+    vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPage);
 
     const result = await getFormQuestionsForFields(
-      [],
+      ["rechtsschutzversicherung"],
+      { rechtsschutzversicherung: "/grundvoraussetzungen/rechtsschutz" },
       "/beratungshilfe/antrag",
     );
-    expect(result).toEqual({});
+
+    expect(result).toEqual({
+      rechtsschutzversicherung: {
+        question: "Haben Sie eine Rechtsschutzversicherung?",
+      },
+    });
+  });
+
+  it("should get questions for array sub-fields", async () => {
+    const mockFormPage: StrapiFormFlowPage = {
+      pageTitle: "Kind Angaben",
+      locale: "de",
+      stepId: "/kinder/name",
+      heading: "Angaben zum Kind",
+      pre_form: [],
+      form: [
+        {
+          __component: "form-elements.input",
+          id: 1,
+          name: "kinder#vorname",
+          label: "Vorname des Kindes",
+          altLabel: undefined,
+          type: "text",
+          width: undefined,
+          errorMessages: [],
+        } as StrapiInputComponentOutput,
+      ],
+      post_form: [],
+      flow_ids: [],
+    };
+
+    vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPage);
+
+    const result = await getFormQuestionsForFields(
+      ["kinder[0].vorname"],
+      { "kinder#vorname": "/kinder/name" },
+      "/beratungshilfe/antrag",
+    );
+
+    expect(result).toEqual({
+      "kinder[0].vorname": {
+        question: "Vorname des Kindes",
+      },
+    });
+  });
+
+  it("should return empty object for unknown flowId", async () => {
+    await expect(
+      getFormQuestionsForFields(["field1"], {}, "/unknown" as any),
+    ).rejects.toThrow("Unknown flowId: /unknown");
   });
 });
 

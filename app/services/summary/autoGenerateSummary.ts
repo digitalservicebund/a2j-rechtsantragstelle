@@ -126,7 +126,7 @@ export async function generateSummaryFromUserData(
   }
 
   const formFieldsMap = await fetchAllFormFields(flowId);
-  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap, flowId);
+  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
   // Expand array fields into individual items
   const expandedFields = expandArrayFields(
@@ -151,14 +151,11 @@ export async function generateSummaryFromUserData(
     return true;
   });
 
-  // For field questions, we need ALL fields (including filtered nested ones) to get translation options
-  const fieldsForQuestions = expandedFields;
-
   const fieldQuestions = await getFormQuestionsForFields(
-    fieldsForQuestions,
+    filteredFields,
+    fieldToStepMapping,
     flowId,
   );
-
   const groupingResult = flowController
     ? groupFieldsByFlowNavigation(
         filteredFields,
@@ -180,12 +177,13 @@ export async function generateSummaryFromUserData(
         userData,
         fieldQuestions,
         fieldToStepMapping,
+        flowId,
       );
 
       // Check if these are array fields and add array metadata
       const processedFields = boxFields.map((field, index) => {
         const fieldName = fields[index];
-        // Handle both "name[index]" and "name[index].subfield" patterns
+        // Handle both "name[index].subfield" patterns
         const fieldInfo = parseArrayField(fieldName || "");
 
         if (fieldInfo.isArrayField) {

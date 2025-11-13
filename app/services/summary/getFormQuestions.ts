@@ -3,10 +3,7 @@ import { flows } from "~/domains/flows.server";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import {
-  fetchAllFormFields,
-  type FormFieldsMap,
-} from "~/services/cms/fetchAllFormFields";
+import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import {
   createArrayFieldKey,
   isArraySubField,
@@ -238,16 +235,7 @@ export async function processFieldForQuestions(
   }
 
   if (formComponent) {
-    const result = createFieldQuestionFromComponent(formComponent, formPage);
-    return result;
-  }
-
-  // Only fall back to page heading if no component was found
-  if (formPage.heading) {
-    const fallbackResult = {
-      question: formPage.heading,
-    };
-    return fallbackResult;
+    return createFieldQuestionFromComponent(formComponent, formPage);
   }
 
   return null;
@@ -258,6 +246,7 @@ export async function processFieldForQuestions(
  */
 export async function getFormQuestionsForFields(
   fieldNames: string[],
+  fieldToStepMapping: Record<string, string>,
   flowId: FlowId,
 ): Promise<Record<string, FieldQuestion>> {
   const fieldQuestions: Record<string, FieldQuestion> = {};
@@ -271,9 +260,6 @@ export async function getFormQuestionsForFields(
   if (flow.flowType !== "formFlow") {
     return {};
   }
-
-  const formFieldsMap = await fetchAllFormFields(flowId);
-  const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
   for (const fieldName of fieldNames) {
     const fieldQuestion = await processFieldForQuestions(
