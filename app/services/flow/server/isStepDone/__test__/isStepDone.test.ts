@@ -2,7 +2,7 @@ import z from "zod";
 import {
   isStepDone,
   getRelevantPageSchemasForStepId,
-} from "~/domains/isStepDone";
+} from "~/services/flow/server/isStepDone/isStepDone";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { type ArrayConfigServer } from "~/services/array";
 import { createDateSchema } from "~/services/validation/date";
@@ -34,8 +34,55 @@ const testArrayPageSchema: PagesConfig = {
   },
 };
 
+const testMultipleArraysSchema: PagesConfig = {
+  testArrayPage: {
+    stepId: "testArrayPage",
+    pageSchema: {
+      kinder: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      test: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      hasKinder: z.enum(["yes", "no"]),
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinder#vorname": stringRequiredSchema,
+          "kinder#nachname": stringRequiredSchema,
+          "kinder#geburtsdatum": createDateSchema(),
+        },
+      },
+    },
+  },
+};
+
 const testArrayConfig: Record<string, ArrayConfigServer> = {
   testArrayPage: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+};
+
+const testMultipleArrayConfig: Record<string, ArrayConfigServer> = {
+  arrayPage1: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+  arrayPage2: {
     event: "add-kinder",
     url: "/testArrayPage",
     initialInputUrl: "",
@@ -228,6 +275,53 @@ describe("isStepDone", () => {
         },
         ["/testArrayPage"],
         testArrayConfig,
+      ),
+    ).toBe(false);
+  });
+
+  it("should return false when a page has multiple optional arrays and none are filled out", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
+      ),
+    ).toBe(false);
+  });
+  it("should return false when a page has multiple optional arrays and at least one is filled out, but other data is missing", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
+      ),
+    ).toBe(false);
+  });
+
+  it("should return true when a page has multiple optional arrays and at least one is filled out", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
       ),
     ).toBe(false);
   });

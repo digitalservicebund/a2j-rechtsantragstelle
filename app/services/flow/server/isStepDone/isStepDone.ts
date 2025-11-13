@@ -9,8 +9,9 @@ import {
 import type { SchemaObject } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import partition from "lodash/partition";
+import { findArraysWithCommonCondition } from "~/util/array";
 
-type ArrayConfigurations = Record<string, ArrayConfigServer>;
+export type ArrayConfigurations = Record<string, ArrayConfigServer>;
 
 const filterPageSchemas =
   <T extends PagesConfig>(
@@ -33,25 +34,36 @@ const filterPageSchemas =
     );
   };
 
-function findArraysWithCommonCondition(
+/**
+ * Multiple arrays on the same page, need to check if any of them share the same statementKey/conditional relevance
+ */
+function handlePageWithMultipleArrays(
   relevantPageSchemas: SchemaObject,
+  context: UserDataFromPagesSchema<PagesConfig>,
   arrayConfigurations?: ArrayConfigurations,
-): string[] {
-  const uniqueStatementKeys = new Set();
-  const duplicateStatementKeys = new Set();
-  return Object.entries(arrayConfigurations ?? {})
-    .filter(([arrayName]) => arrayName in relevantPageSchemas)
-    .map(([arrayName, arrayConfig]) => {
-      const { statementKey } = arrayConfig;
-      if (uniqueStatementKeys.has(statementKey)) {
-        duplicateStatementKeys.add(statementKey);
-      } else {
-        uniqueStatementKeys.add(statementKey);
-      }
-      return [arrayName, arrayConfig] as const;
-    })
-    .filter(([, config]) => duplicateStatementKeys.has(config.statementKey))
-    .map(([arrayName]) => arrayName);
+) {
+  const arraysWithCommonCondition = findArraysWithCommonCondition(
+    Object.entries(arrayConfigurations ?? {}).filter(
+      ([arrayName]) => arrayName in relevantPageSchemas,
+    ),
+  );
+  if (arraysWithCommonCondition.length > 1) {
+    const [arrayORSchemas, otherPageSchemas] = partition(
+      Object.entries(relevantPageSchemas),
+      ([schemaName]) => arraysWithCommonCondition.includes(schemaName),
+    ).map((entries) => Object.fromEntries(entries) as SchemaObject);
+    return z
+      .intersection(
+        z.object(otherPageSchemas),
+        z.union(
+          Object.entries(arrayORSchemas).map(([arrayName, arraySchema]) => {
+            return z.object({ [arrayName]: arraySchema });
+          }),
+        ),
+      )
+      .safeParse(context).success;
+  }
+  return z.object(relevantPageSchemas).safeParse(context).success;
 }
 
 export const isStepDone = <T extends PagesConfig>(
@@ -70,26 +82,11 @@ export const isStepDone = <T extends PagesConfig>(
       (schema) => schema.type === "array",
     ).length > 1
   ) {
-    // Multiple arrays on the same page, need to check if any of them share the same statementKey/conditional relevance
-    const arraysWithCommonCondition = findArraysWithCommonCondition(
+    return handlePageWithMultipleArrays(
       relevantPageSchemas,
+      context,
       arrayConfigurations,
     );
-    if (arraysWithCommonCondition.length > 1) {
-      const [arrayORSchemas, otherPageSchemas] = partition(
-        Object.entries(relevantPageSchemas),
-        ([schemaName]) => arraysWithCommonCondition.includes(schemaName),
-      ).map((entries) => Object.fromEntries(entries) as SchemaObject);
-      const orSchema = z.union(
-        Object.entries(arrayORSchemas).map(([arrayName, arraySchema]) => {
-          return z.object({ [arrayName]: arraySchema });
-        }),
-      );
-      return (
-        z.object(otherPageSchemas).safeParse(context).success &&
-        orSchema.safeParse(context).success
-      );
-    }
   }
   return z.object(relevantPageSchemas).safeParse(context).success;
 };

@@ -19,7 +19,7 @@ import { type ArrayConfigServer } from "~/services/array";
 import {
   getRelevantPageSchemasForStepId,
   isStepDone,
-} from "~/domains/isStepDone";
+} from "~/services/flow/server/isStepDone/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 import { pages } from "~/domains/pageSchemas";
 

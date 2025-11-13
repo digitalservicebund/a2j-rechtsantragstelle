@@ -4,7 +4,7 @@ import {
   nextStepId,
 } from "~/services/flow/server/buildFlowController";
 import { type Config } from "../types";
-import * as isStepDone from "~/domains/isStepDone";
+import * as isStepDone from "~/services/flow/server/isStepDone/isStepDone";
 
 const config: Config = {
   id: "/test/flow",
