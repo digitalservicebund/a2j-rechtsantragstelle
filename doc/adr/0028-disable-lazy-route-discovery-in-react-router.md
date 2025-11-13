@@ -19,6 +19,8 @@ Only relevant changes to the current visited route result in the internal versio
 
 The bug is also present on other pages, but above mentioned page is particularly affected. This is due to the textareas that require the user to type significant content which potentially needs a long time in which a new deployment is more likely.
 
+Related Github issue: https://github.com/remix-run/react-router/issues/13332
+
 ## Considererd Solutions
 
 | Solution                                       | Pros                                      | Cons                                                      |
@@ -34,6 +36,8 @@ The bug is also present on other pages, but above mentioned page is particularly
 
 We decided to disable lazy route discovery globally across the application.
 
+This feature was introduced as FutureFlag in Remix 2.10.0 and was enabled in our app on 2024-11-11 ([link to commit](https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/c47aeeb538f8637d125292671fc011e41591336b)).
+
 Disabling lazy route discovery avoids the bug because the full route manifest is loaded upfront. See https://reactrouter.com/explanation/lazy-route-discovery
 
 While this change increases the initial payload size, the impact is acceptable given the significant improvement in UX reliability and stability. The trade-off favors predictable behavior over performance gains.
@@ -41,7 +45,9 @@ While this change increases the initial payload size, the impact is acceptable g
 ## Consequences
 
 Implementation:
-Lazy route discovery will be disabled globally in the React Router configuration.
+
+- Lazy route discovery will be disabled globally in the React Router configuration.
+- "Detected manifest version mismatch, reloading..." error will be removed from Sentry ignore list. This was added on 2025-04-28 ([link to commit](https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2016/commits/c23d9099508499b4b2c9be9cfa4aa0c98892e58d))
 
 Performance monitoring:
 We will track initial page load times and Sentry performance metrics to verify that the increased payload size remains within acceptable limits.
