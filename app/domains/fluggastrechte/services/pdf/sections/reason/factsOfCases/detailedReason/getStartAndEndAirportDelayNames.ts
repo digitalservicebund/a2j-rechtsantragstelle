@@ -9,12 +9,7 @@ export const getStartAndEndAirportDelayNames = ({
   zweiterZwischenstopp,
   dritterZwischenstopp,
 }: FluggastrechteUserData) => {
-  if (typeof verspaeteterFlug === "undefined") {
-    return {
-      startAirportName: "",
-      endAirportName: "",
-    };
-  }
+  if (!verspaeteterFlug) return { startAirportName: "", endAirportName: "" };
 
   const airportMapping: Record<
     Exclude<FluggastrechteUserData["verspaeteterFlug"], undefined>,

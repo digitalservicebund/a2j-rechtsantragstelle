@@ -4,7 +4,7 @@ import { config } from "~/services/env/env.server";
 let instance: S3Client | undefined = undefined;
 
 export const createClientS3DataStorage = () => {
-  if (typeof instance === "undefined") {
+  if (!instance) {
     const credentials = {
       accessKeyId: config().S3_DATA_STORAGE_ACCESS_KEY,
       secretAccessKey: config().S3_DATA_STORAGE_SECRET_KEY,

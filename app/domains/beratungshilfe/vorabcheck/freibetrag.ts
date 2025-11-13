@@ -152,7 +152,9 @@ export function calculateFreibetragBerHFormular({
   if (kinder.length > 0) {
     const childrenFreibetrag = kinder.reduce((acc, kind) => {
       const birthday = dateUTCFromGermanDateString(kind.geburtsdatum);
-      const einnahmen = parseInt("einnahmen" in kind ? kind.einnahmen : "0");
+      const einnahmen = Number.parseInt(
+        "einnahmen" in kind ? kind.einnahmen : "0",
+      );
       if (birthday >= addYears(today(), -6)) {
         return acc + Math.max(childrenBelow6Allowance - einnahmen, 0);
       }
@@ -197,7 +199,7 @@ export const getVerfuegbaresEinkommenFreibetrag = (
   const isInPartnership = context.partnerschaft === "yes";
   const kidsCountTotal =
     context.kinderKurz === "yes"
-      ? parseFloat(context.kinderAnzahlKurz ?? "0")
+      ? Number.parseFloat(context.kinderAnzahlKurz ?? "0")
       : 0;
   return freibetragShort(isWorking, isInPartnership, kidsCountTotal);
 };

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [],
+  "plugins": ["unicorn"],
   "categories": {
     "correctness": "off"
   },
@@ -78,7 +78,10 @@
     "prefer-spread": "error",
     "require-yield": "error",
     "use-isnan": "error",
-    "valid-typeof": "error"
+    "valid-typeof": "error",
+    "unicorn/no-typeof-undefined": "error",
+    "unicorn/throw-new-error": "error",
+    "unicorn/prefer-number-properties": "error"
   },
   "ignorePatterns": ["data/xml/**"],
   "overrides": [

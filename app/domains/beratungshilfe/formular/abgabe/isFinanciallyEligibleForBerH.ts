@@ -32,16 +32,16 @@ function calculateEigentumTotalWorth(
 ) {
   const totalBankkontenWorth =
     userData.bankkonten?.reduce(
-      (acc, bankkonto) => acc + parseInt(bankkonto.kontostand),
+      (acc, bankkonto) => acc + Number.parseInt(bankkonto.kontostand),
       0,
     ) ?? 0;
 
   const totalGeldanlagenWorth =
     userData.geldanlagen?.reduce((acc, geldanlage) => {
       if ("forderung" in geldanlage) {
-        return acc + parseInt(geldanlage.forderung ?? "0");
+        return acc + Number.parseInt(geldanlage.forderung ?? "0");
       }
-      return acc + parseInt(geldanlage.wert ?? "0");
+      return acc + Number.parseInt(geldanlage.wert ?? "0");
     }, 0) ?? 0;
 
   const totalKraftfahrzeugeWorth =
@@ -51,18 +51,19 @@ function calculateEigentumTotalWorth(
       // Kraftfahrzeuge that are used for commuting are not counted
       return kraftfahrzeug.hasArbeitsweg === "yes"
         ? acc
-        : acc + parseInt(verkaufswert);
+        : acc + Number.parseInt(verkaufswert);
     }, 0) ?? 0;
 
   const totalWertgegendstaendeWorth =
     userData.wertsachen?.reduce(
-      (acc, wertsache) => acc + parseInt(wertsache.wert ?? "0"),
+      (acc, wertsache) => acc + Number.parseInt(wertsache.wert ?? "0"),
       0,
     ) ?? 0;
 
   const totalGrundeigentumWorth =
     userData.grundeigentum?.reduce(
-      (acc, grundeigentum) => acc + parseInt(grundeigentum.verkaufswert ?? "0"),
+      (acc, grundeigentum) =>
+        acc + Number.parseInt(grundeigentum.verkaufswert ?? "0"),
       0,
     ) ?? 0;
 
@@ -86,14 +87,18 @@ function hasEinzusetzendesEinkommen(
   const ausgaben =
     moneyToCents(
       userData.ausgaben
-        ?.reduce((acc, ausgabe) => acc + parseInt(ausgabe.beitrag ?? "0"), 0)
+        ?.reduce(
+          (acc, ausgabe) => acc + Number.parseInt(ausgabe.beitrag ?? "0"),
+          0,
+        )
         .toString(),
     ) ?? 0;
   const unterhalt =
     moneyToCents(
       (
         userData.unterhaltszahlungen?.reduce(
-          (acc, zahlung) => acc + parseInt(zahlung.monthlyPayment ?? "0"),
+          (acc, zahlung) =>
+            acc + Number.parseInt(zahlung.monthlyPayment ?? "0"),
           0,
         ) ?? 0
       ).toString(),

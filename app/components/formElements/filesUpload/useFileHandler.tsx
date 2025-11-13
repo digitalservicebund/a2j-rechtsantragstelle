@@ -12,7 +12,7 @@ export function useFileHandler() {
   const submit = useSubmit();
   return {
     onFileUpload: (fieldName: string, file: File | undefined) => {
-      if (typeof file === "undefined") return;
+      if (!file) return;
 
       const formData = new FormData();
       formData.append("_action", `fileUpload.${fieldName}`);
