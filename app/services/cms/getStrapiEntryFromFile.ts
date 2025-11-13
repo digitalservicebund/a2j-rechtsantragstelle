@@ -21,12 +21,14 @@ export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
       const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
       content = JSON.parse(fileContent);
     } catch (error) {
-      throw Error(NO_VALID_FILE, { cause: error });
+      throw new Error(NO_VALID_FILE, { cause: error });
     }
   }
 
   if (!content?.[opts.apiId]) {
-    throw Error(NO_VALID_FILE, { cause: `content[opts.apiId] is not defined` });
+    throw new Error(NO_VALID_FILE, {
+      cause: `content[opts.apiId] is not defined`,
+    });
   }
 
   const contentItems = [...content[opts.apiId]].filter(

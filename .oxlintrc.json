@@ -80,6 +80,7 @@
     "use-isnan": "error",
     "valid-typeof": "error",
     "unicorn/no-typeof-undefined": "error",
+    "unicorn/throw-new-error": "error",
     "unicorn/prefer-number-properties": "error"
   },
   "ignorePatterns": ["data/xml/**"],
