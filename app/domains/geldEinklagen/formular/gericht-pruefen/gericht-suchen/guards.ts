@@ -22,7 +22,7 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
         "miete",
         "reisen",
         "anderesRechtsproblem",
-      ].includes(sachgebiet as string);
+      ].includes(sachgebiet ?? "");
       const isRelevantUrheberrecht =
         sachgebiet === "urheberrecht" &&
         (gegenWenBeklagen === "organisation" ||

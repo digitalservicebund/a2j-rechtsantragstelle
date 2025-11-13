@@ -1,12 +1,12 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const baseContext = {
-  forderung: "maximal5000" as const,
-  ausgeschlossen: "yes" as const,
-  fuerWenKlagen: "selbst" as const,
-  sachgebiet: "versicherung" as const,
-  gegenWenBeklagen: "person" as const,
+const baseContext: GeldEinklagenFormularUserData = {
+  forderung: "maximal5000",
+  ausgeschlossen: "yes",
+  fuerWenKlagen: "selbst",
+  sachgebiet: "versicherung",
+  gegenWenBeklagen: "person",
   postleitzahlBeklagtePerson: "000800",
   postleitzahlSecondary: "000800",
 };
