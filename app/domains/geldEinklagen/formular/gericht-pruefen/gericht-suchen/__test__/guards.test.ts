@@ -8,15 +8,15 @@ import {
 describe("guards", () => {
   describe("shouldVisitGerichtSuchenPostleitzahlKlagendePerson", () => {
     describe("check klagendeHaustuergeschaeft", () => {
-      const baseContext = {
+      const baseContext: GeldEinklagenFormularGerichtPruefenUserData = {
         klagendeHaustuergeschaeft: "yes",
-      } satisfies GeldEinklagenFormularGerichtPruefenUserData;
+      };
 
       it("should return false in case klagendeHaustuergeschaeft is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "miete" as const,
-          klagendeHaustuergeschaeft: "no" as const,
+          sachgebiet: "miete",
+          klagendeHaustuergeschaeft: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -27,9 +27,9 @@ describe("guards", () => {
       });
 
       it("should return false in case sachgebiet is schaden", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "schaden" as const,
+          sachgebiet: "schaden",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -40,9 +40,9 @@ describe("guards", () => {
       });
 
       it("should return false in case sachgebiet is verkehrsunfall", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "verkehrsunfall" as const,
+          sachgebiet: "verkehrsunfall",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -53,9 +53,9 @@ describe("guards", () => {
       });
 
       it("should return true in case sachgebiet is miete", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "miete" as const,
+          sachgebiet: "miete",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -66,9 +66,9 @@ describe("guards", () => {
       });
 
       it("should return true in case sachgebiet is reisen", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "reisen" as const,
+          sachgebiet: "reisen",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -79,9 +79,9 @@ describe("guards", () => {
       });
 
       it("should return true in case sachgebiet is anderesRechtsproblem", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "anderesRechtsproblem" as const,
+          sachgebiet: "anderesRechtsproblem",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -92,10 +92,10 @@ describe("guards", () => {
       });
 
       it("should return true in case sachgebiet is urheberrecht and gegenWenBeklagen is organisation", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "urheberrecht" as const,
-          gegenWenBeklagen: "organisation" as const,
+          sachgebiet: "urheberrecht",
+          gegenWenBeklagen: "organisation",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -106,11 +106,11 @@ describe("guards", () => {
       });
 
       it("should return false in case sachgebiet is urheberrecht, gegenWenBeklagen is person and beklagtePersonGeldVerdienen is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "urheberrecht" as const,
-          gegenWenBeklagen: "person" as const,
-          beklagtePersonGeldVerdienen: "no" as const,
+          sachgebiet: "urheberrecht",
+          gegenWenBeklagen: "person",
+          beklagtePersonGeldVerdienen: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -121,11 +121,11 @@ describe("guards", () => {
       });
 
       it("should return true in case sachgebiet is urheberrecht, gegenWenBeklagen is person and beklagtePersonGeldVerdienen is yes", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          sachgebiet: "urheberrecht" as const,
-          gegenWenBeklagen: "person" as const,
-          beklagtePersonGeldVerdienen: "yes" as const,
+          sachgebiet: "urheberrecht",
+          gegenWenBeklagen: "person",
+          beklagtePersonGeldVerdienen: "yes",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -138,18 +138,18 @@ describe("guards", () => {
 
     describe("check versicherung", () => {
       const baseContext = {
-        sachgebiet: "versicherung" as const,
-        versicherungsnummer: "yes" as const,
-        klagendeKaufmann: "yes" as const,
-        beklagtePersonKaufmann: "yes" as const,
-        gerichtsstandsvereinbarung: "yes" as const,
+        sachgebiet: "versicherung",
+        versicherungsnummer: "yes",
+        klagendeKaufmann: "yes",
+        beklagtePersonKaufmann: "yes",
+        gerichtsstandsvereinbarung: "yes",
       } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
       it("should return false in case versicherungsnummer is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          versicherungsnummer: "no" as const,
-          klagendeKaufmann: "no" as const,
+          versicherungsnummer: "no",
+          klagendeKaufmann: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -160,9 +160,9 @@ describe("guards", () => {
       });
 
       it("should return true in case klagendeKaufmann is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          klagendeKaufmann: "no" as const,
+          klagendeKaufmann: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -173,9 +173,9 @@ describe("guards", () => {
       });
 
       it("should return true in case beklagtePersonKaufmann is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          beklagtePersonKaufmann: "no" as const,
+          beklagtePersonKaufmann: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -186,9 +186,9 @@ describe("guards", () => {
       });
 
       it("should return true in case gerichtsstandsvereinbarung is no", () => {
-        const context = {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          gerichtsstandsvereinbarung: "no" as const,
+          gerichtsstandsvereinbarung: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -200,20 +200,20 @@ describe("guards", () => {
     });
   });
 
-  describe("shouldVisitGerichtSuchenPostleitzahlVerkehnrsunfall", () => {
-    const baseContext = {
+  describe("shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall", () => {
+    const baseContext: GeldEinklagenFormularGerichtPruefenUserData = {
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
-    } satisfies GeldEinklagenFormularGerichtPruefenUserData;
+    };
 
     it("should return false in case sachgebiet is not verkehrsunfall", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        sachgebiet: "versicherung" as const,
-        klagendeKaufmann: "no" as const,
+        sachgebiet: "versicherung",
+        klagendeKaufmann: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
@@ -224,10 +224,10 @@ describe("guards", () => {
     });
 
     it("should return false in case verkehrsunfallStrassenverkehr is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        verkehrsunfallStrassenverkehr: "no" as const,
-        klagendeKaufmann: "no" as const,
+        verkehrsunfallStrassenverkehr: "no",
+        klagendeKaufmann: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
@@ -238,9 +238,9 @@ describe("guards", () => {
     });
 
     it("should return true in case klagendeKaufmann is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        klagendeKaufmann: "no" as const,
+        klagendeKaufmann: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
@@ -251,9 +251,9 @@ describe("guards", () => {
     });
 
     it("should return true in case beklagtePersonKaufmann is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        beklagtePersonKaufmann: "no" as const,
+        beklagtePersonKaufmann: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
@@ -264,9 +264,9 @@ describe("guards", () => {
     });
 
     it("should return true in case gerichtsstandsvereinbarung is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        gerichtsstandsvereinbarung: "no" as const,
+        gerichtsstandsvereinbarung: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({
@@ -278,16 +278,16 @@ describe("guards", () => {
   });
 
   describe("shouldVisitGerichtSuchenPostleitzahlWohnraum", () => {
-    const baseContext = {
+    const baseContext: GeldEinklagenFormularGerichtPruefenUserData = {
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
-    } satisfies GeldEinklagenFormularGerichtPruefenUserData;
+    };
 
     it("should return false if sachgebiet is not miete", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        sachgebiet: "versicherung" as const,
+        sachgebiet: "versicherung",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
@@ -296,9 +296,9 @@ describe("guards", () => {
     });
 
     it("should return false if mietePachtVertrag is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        mietePachtVertrag: "no" as const,
+        mietePachtVertrag: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
@@ -307,9 +307,9 @@ describe("guards", () => {
     });
 
     it("should return false if mietePachtRaum is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        mietePachtRaum: "no" as const,
+        mietePachtRaum: "no",
       };
 
       const actual = shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });

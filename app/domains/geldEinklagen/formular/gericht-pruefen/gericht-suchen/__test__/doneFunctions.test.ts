@@ -40,10 +40,10 @@ beforeEach(() => {
 
 describe("doneGerichtSuchen", () => {
   describe("check cases only need for postleitzahlSecondary", () => {
-    const baseContext = {
+    const baseContext: GeldEinklagenFormularGerichtPruefenUserData = {
       gerichtsstandsvereinbarung: "yes",
       postleitzahlSecondary: "someValue",
-    } satisfies GeldEinklagenFormularGerichtPruefenUserData;
+    };
 
     it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
       const context = {
@@ -64,9 +64,9 @@ describe("doneGerichtSuchen", () => {
     });
 
     it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        gerichtsstandsvereinbarung: "no" as const,
+        gerichtsstandsvereinbarung: "no",
         postleitzahlSecondary: undefined,
       };
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
@@ -76,9 +76,9 @@ describe("doneGerichtSuchen", () => {
     });
 
     it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        gerichtsstandsvereinbarung: "no" as const,
+        gerichtsstandsvereinbarung: "no",
       };
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
 
@@ -186,9 +186,9 @@ describe("doneGerichtSuchen", () => {
     });
 
     it("should return false in case postleitzahlBeklagtePerson is undefined and sachgebiete is schaden", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        sachgebiet: "schaden" as const,
+        sachgebiet: "schaden",
         postleitzahlBeklagtePerson: undefined,
       };
       mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
@@ -199,9 +199,9 @@ describe("doneGerichtSuchen", () => {
     });
 
     it("should return false in case postleitzahlSecondary is undefined and sachgebiete is schaden", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        sachgebiet: "schaden" as const,
+        sachgebiet: "schaden",
         postleitzahlSecondary: undefined,
       };
       mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
@@ -212,9 +212,9 @@ describe("doneGerichtSuchen", () => {
     });
 
     it("should return true in case postleitzahlBeklagtePerson and postleitzahlSecondary contains value and sachgebiete is schaden", () => {
-      const context = {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        sachgebiet: "schaden" as const,
+        sachgebiet: "schaden",
       };
       mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
       mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
