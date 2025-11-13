@@ -24,55 +24,41 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/heirat-info",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
     },
   ],
   noEigentum: [
     {
-      stepId: "/finanzielle-angaben/eigentum/bankkonten-frage",
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
       userInput: {
         hasBankkonto: "no",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum/geldanlagen-frage",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
         hasGeldanlage: "no",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende-frage",
-      userInput: {
-        hasWertsache: "no",
-      },
-    },
-    {
-      stepId: "/finanzielle-angaben/eigentum/grundeigentum-frage",
-      userInput: {
-        hasGrundeigentum: "no",
-      },
-    },
-    {
-      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge-frage",
+      stepId:
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
       userInput: {
         hasKraftfahrzeug: "no",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId:
+        "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
+      userInput: {
+        hasWertsache: "no",
+      },
     },
     {
-      stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
-    },
-  ],
-  eigentumZusammenfassungWarning: [
-    {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
-      skipPageSchemaValidation: true,
-      userInput: { hasBankkonto: "yes" },
-    },
-    {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/warnung",
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
+      userInput: {
+        hasGrundeigentum: "no",
+      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
@@ -80,12 +66,11 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
   ],
   bankkonten: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
       addArrayItemEvent: "add-bankkonten",
     },
     {
-      stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/bankkonten/0/daten",
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonto/0/daten",
       userInput: {
         "bankkonten#kontoEigentuemer": "myself",
         "bankkonten#bankName": "N26",
@@ -99,16 +84,26 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
     },
+  ],
+  bankkontenWarnung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasBankkonto: "yes",
+      },
+    },
+    { stepId: "/finanzielle-angaben/eigentum/bankkonten/warnung" },
   ],
   geldanlagenBargeld: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "bargeld",
         geldanlagen: [
@@ -120,24 +115,23 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/bargeld",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/bargeld",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenWertpapiere: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "wertpapiere",
         geldanlagen: [
@@ -150,23 +144,23 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/wertpapiere",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/wertpapiere",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenGuthabenKrypto: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "guthabenkontoKrypto",
         geldanlagen: [
@@ -179,23 +173,23 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/guthabenkonto-krypto",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/guthabenkonto-krypto",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenGiroTagesgeldSparkonto: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "giroTagesgeldSparkonto",
         geldanlagen: [
@@ -208,7 +202,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/giro-tagesgeld-sparkonto",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/giro-tagesgeld-sparkonto",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
@@ -218,16 +212,16 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenBefristet: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "befristet",
         geldanlagen: [
@@ -240,7 +234,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/befristet",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/befristet",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
@@ -250,16 +244,16 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenForderung: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "forderung",
         geldanlagen: [
@@ -272,7 +266,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/forderung",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/forderung",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
@@ -280,16 +274,16 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
   geldanlagenSonstiges: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       addArrayItemEvent: "add-geldanlagen",
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/art",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "sonstiges",
         geldanlagen: [
@@ -302,7 +296,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/geldanlagen/0/sonstiges",
+        "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/sonstiges",
       userInput: {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
@@ -310,17 +304,29 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    },
+  ],
+  geldanlagenWarnung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasGeldanlage: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/geldanlagen/warnung",
     },
   ],
   wertgegenstand: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
       addArrayItemEvent: "add-wertsachen",
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/wertgegenstaende/0/daten",
+        "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand/0/daten",
       userInput: {
         "wertsachen#eigentuemer": "myself",
         "wertsachen#art": "Kandelaber",
@@ -328,24 +334,36 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+    },
+  ],
+  wertgegenstandWarnung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasWertsache: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
     },
   ],
   kraftfahrzeugOver10000: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
       addArrayItemEvent: "add-kraftfahrzeuge",
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/arbeitsweg",
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/arbeitsweg",
       userInput: {
         "kraftfahrzeuge#hasArbeitsweg": "no",
       },
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/wert",
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/wert",
       userInput: {
         "kraftfahrzeuge#wert": "over10000",
         kraftfahrzeuge: [
@@ -358,7 +376,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge/0/fahrzeuge",
+        "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/fahrzeuge",
       userInput: {
         "kraftfahrzeuge#art": "auto",
         "kraftfahrzeuge#marke": "Audi",
@@ -370,17 +388,29 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+    },
+  ],
+  kraftfahrzeugWarnung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasKraftfahrzeug: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
     },
   ],
   bewohntGrundeigentum: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
       addArrayItemEvent: "add-grundeigentum",
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage",
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
         "grundeigentum#isBewohnt": "yes",
         grundeigentum: [
@@ -393,7 +423,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-daten",
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-daten",
       userInput: {
         "grundeigentum#art": "eigentumswohnung",
         "grundeigentum#eigentuemer": "myself",
@@ -402,17 +432,17 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
     },
   ],
   grundeigentumNotBewohnt: [
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
       addArrayItemEvent: "add-grundeigentum",
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/bewohnt-frage",
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
         "grundeigentum#isBewohnt": "no",
         grundeigentum: [
@@ -425,7 +455,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     },
     {
       stepId:
-        "/finanzielle-angaben/eigentum-zusammenfassung/grundeigentum/0/daten",
+        "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/daten",
       userInput: {
         "grundeigentum#art": "eigentumswohnung",
         "grundeigentum#eigentuemer": "myself",
@@ -438,7 +468,19 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/eigentum-zusammenfassung/zusammenfassung",
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+    },
+  ],
+  grundeigentumWarnung: [
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasGrundeigentum: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/eigentum/grundeigentum/warnung",
     },
   ],
 } satisfies FlowTestCases["testcases"];

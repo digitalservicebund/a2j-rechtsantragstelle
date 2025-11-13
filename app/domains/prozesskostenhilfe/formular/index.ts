@@ -12,12 +12,11 @@ import { antragstellendePersonArrayConfig } from "~/domains/prozesskostenhilfe/f
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
 import { getProzesskostenhilfeAntragstellendePersonConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/xStateConfig";
-import { finanzielleAngabenArrayConfig as pkhFormularFinanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
+import { finanzielleAngabenArrayConfig } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/arrayConfiguration";
 import { finanzielleAngabeEinkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { grundvoraussetzungenXstateConfig } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/xStateConfig";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { getProzesskostenhilfeRsvXstateConfig } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/xstateConfig";
-import { finanzielleAngabenArrayConfig } from "~/domains/shared/formular/finanzielleAngaben/arrayConfiguration";
 import {
   getKinderStrings,
   getArrayIndexStrings,
@@ -52,12 +51,7 @@ export const prozesskostenhilfeFormular = {
     initial: "start",
     meta: {
       arrays: {
-        ...finanzielleAngabenArrayConfig(
-          "/prozesskostenhilfe/formular/finanzielle-angaben",
-        ),
-        ...pkhFormularFinanzielleAngabenArrayConfig(
-          "/prozesskostenhilfe/formular/finanzielle-angaben",
-        ),
+        ...finanzielleAngabenArrayConfig,
         ...antragstellendePersonArrayConfig(
           "/prozesskostenhilfe/formular/antragstellende-person",
         ),

@@ -2,7 +2,7 @@ const bytesPerMegabyte = 1024 * 1024;
 const bytesPerKilobyte = 1024;
 
 export function formatFileSizeToString(bytes: number) {
-  if (isNaN(bytes) || bytes < 0) {
+  if (Number.isNaN(bytes) || bytes < 0) {
     return "0 B";
   }
   if (bytes < bytesPerKilobyte) {
