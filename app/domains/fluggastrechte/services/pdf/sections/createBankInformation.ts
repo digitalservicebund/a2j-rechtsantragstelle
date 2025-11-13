@@ -20,7 +20,7 @@ export const createBankInformation = (
   isLastPage: boolean,
 ) => {
   const bankAccountHolder =
-    typeof kontoinhaber !== "undefined" && kontoinhaber.trim().length > 0
+    kontoinhaber && kontoinhaber.trim().length > 0
       ? kontoinhaber
       : `${vorname} ${nachname}`;
 
