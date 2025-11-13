@@ -12,34 +12,37 @@ import { groupFieldsByFlowNavigation } from "./groupFieldsBySection";
 import { getValidUserDataFields } from "./fieldValidation";
 import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
-import { parseArrayField } from "./fieldParsingUtils";
 
 function groupFieldsByArrayType(allFields: FieldItem[]): {
   arrayFieldsByBase: Record<string, Record<string, FieldItem[]>>;
   nonArrayFields: FieldItem[];
 } {
-  const arrayFieldsByBase: Record<string, Record<string, FieldItem[]>> = {};
-  const nonArrayFields: FieldItem[] = [];
-
-  for (const field of allFields) {
-    if (
+  const arrayFields = allFields.filter(
+    (field) =>
       field.isArrayItem &&
       field.arrayBaseField !== undefined &&
-      field.arrayIndex !== undefined
-    ) {
-      const baseFieldName = field.arrayBaseField;
-      const groupKey = `${baseFieldName}-${field.arrayIndex}`;
+      field.arrayIndex !== undefined,
+  );
+  const nonArrayFields = allFields.filter(
+    (field) =>
+      !field.isArrayItem ||
+      field.arrayBaseField === undefined ||
+      field.arrayIndex === undefined,
+  );
 
-      if (!arrayFieldsByBase[baseFieldName]) {
-        arrayFieldsByBase[baseFieldName] = {};
-      }
-      if (!arrayFieldsByBase[baseFieldName][groupKey]) {
-        arrayFieldsByBase[baseFieldName][groupKey] = [];
-      }
-      arrayFieldsByBase[baseFieldName][groupKey].push(field);
-    } else {
-      nonArrayFields.push(field);
+  const arrayFieldsByBase: Record<string, Record<string, FieldItem[]>> = {};
+
+  for (const field of arrayFields) {
+    const baseFieldName = field.arrayBaseField!;
+    const groupKey = `${baseFieldName}-${field.arrayIndex}`;
+
+    if (!arrayFieldsByBase[baseFieldName]) {
+      arrayFieldsByBase[baseFieldName] = {};
     }
+    if (!arrayFieldsByBase[baseFieldName][groupKey]) {
+      arrayFieldsByBase[baseFieldName][groupKey] = [];
+    }
+    arrayFieldsByBase[baseFieldName][groupKey].push(field);
   }
 
   return { arrayFieldsByBase, nonArrayFields };
@@ -66,32 +69,25 @@ function buildArrayGroups(
   arrayFieldsByBase: Record<string, Record<string, FieldItem[]>>,
   translations?: Translations,
 ): ArrayGroup[] {
-  const arrayGroups: ArrayGroup[] = [];
+  return Object.entries(arrayFieldsByBase)
+    .map(([baseFieldName, itemGroups]) => {
+      const groupItems = Object.values(itemGroups)
+        .map(createArrayGroupItems)
+        .filter((item): item is FieldItem => item !== null);
 
-  for (const [baseFieldName, itemGroups] of Object.entries(arrayFieldsByBase)) {
-    const groupItems: FieldItem[] = [];
+      if (groupItems.length === 0) return null;
 
-    for (const [, groupFields] of Object.entries(itemGroups)) {
-      const groupItem = createArrayGroupItems(groupFields);
-      if (groupItem) {
-        groupItems.push(groupItem);
-      }
-    }
-
-    if (groupItems.length > 0) {
       const arrayGroupTitle =
         translations?.[baseFieldName] ??
         baseFieldName.charAt(0).toUpperCase() + baseFieldName.slice(1);
 
-      arrayGroups.push({
+      return {
         id: baseFieldName,
         title: arrayGroupTitle,
         items: groupItems,
-      });
-    }
-  }
-
-  return arrayGroups;
+      } as ArrayGroup;
+    })
+    .filter((group): group is ArrayGroup => group !== null);
 }
 
 function createSummarySection(
@@ -179,27 +175,7 @@ export async function generateSummaryFromUserData(
         flowId,
       );
 
-      // Check if these are array fields and add array metadata
-      const processedFields = boxFields.map((field, index) => {
-        const fieldName = fields[index];
-        // Handle both "name[index].subfield" patterns
-        const fieldInfo = parseArrayField(fieldName || "");
-
-        if (fieldInfo.isArrayField) {
-          const { baseFieldName, arrayIndex } = fieldInfo;
-
-          return {
-            ...field,
-            isArrayItem: true,
-            arrayIndex,
-            arrayBaseField: baseFieldName,
-          };
-        }
-
-        return field;
-      });
-
-      allFields.push(...processedFields);
+      allFields.push(...boxFields);
     }
     if (allFields.length === 0) {
       continue;
