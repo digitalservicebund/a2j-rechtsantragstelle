@@ -7,11 +7,7 @@ import { sentrySharedConfig } from "./services/logging/sentrySettings";
 
 const { SENTRY_DSN } = config();
 // Ignore a few common errors that are not useful to track
-const SENTRY_IGNORE_ERRORS = [
-  "Error in input stream",
-  "Load failed",
-  "Detected manifest version mismatch, reloading...",
-];
+const SENTRY_IGNORE_ERRORS = ["Error in input stream", "Load failed"];
 
 if (SENTRY_DSN !== undefined) {
   Sentry.init({
