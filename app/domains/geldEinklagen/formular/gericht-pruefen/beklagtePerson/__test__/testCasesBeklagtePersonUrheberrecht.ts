@@ -19,7 +19,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -32,7 +32,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -47,7 +47,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -62,7 +62,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -79,7 +79,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/geld-verdienen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     ],
   ],
   [
@@ -96,7 +96,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/geld-verdienen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -111,7 +111,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -126,7 +126,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -139,7 +139,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/geld-verdienen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -150,7 +150,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -165,7 +165,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     ],
   ],
   [
@@ -180,7 +180,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -193,7 +193,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -206,7 +206,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

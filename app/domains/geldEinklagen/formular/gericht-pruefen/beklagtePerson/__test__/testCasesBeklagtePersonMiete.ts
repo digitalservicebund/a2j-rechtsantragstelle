@@ -18,7 +18,7 @@ export const testCasesBeklagtePersonMiete = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
     ],
   ],
   [
@@ -35,7 +35,24 @@ export const testCasesBeklagtePersonMiete = [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      mietePachtVertrag: "yes",
+      mietePachtRaum: "no",
+      klagendeVerbraucher: "no",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "no",
+    },
+    [
+      "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -50,7 +67,7 @@ export const testCasesBeklagtePersonMiete = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -65,7 +82,7 @@ export const testCasesBeklagtePersonMiete = [
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -77,7 +94,7 @@ export const testCasesBeklagtePersonMiete = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
@@ -87,7 +104,7 @@ export const testCasesBeklagtePersonMiete = [
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
-      "/gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

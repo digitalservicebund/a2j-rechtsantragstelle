@@ -40,5 +40,8 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await formular.fillRadioPage("beklagtePersonKaufmann", "yes");
 
   // /geld-einklagen/formular/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung
-  await formular.fillRadioPage("gerichtsstandsvereinbarung", "yes");
+  await formular.fillRadioPage("gerichtsstandsvereinbarung", "no");
+
+  // /geld-einklagen/formular/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person
+  await formular.fillInputPage("postleitzahlBeklagtePerson", "13055");
 }
