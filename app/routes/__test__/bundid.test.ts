@@ -26,7 +26,7 @@ describe("BundID loader", () => {
   it("should return url and samlRequest", async () => {
     const request = new Request("https://app.example.com/test");
 
-    const result = await loader({ request } as unknown as ActionFunctionArgs);
+    const result = await loader();
 
     expect(result).toEqual({
       url: "https://fake.idp.example.com/sso",
@@ -38,7 +38,7 @@ describe("BundID loader", () => {
   it("should return a relayState containing the request URL", async () => {
     const request = new Request("https://app.example.com/another-test");
 
-    const result = await loader({ request } as unknown as ActionFunctionArgs);
+    const result = await loader();
 
     expect(result.relayState).toBe("https://app.example.com/another-test");
   });

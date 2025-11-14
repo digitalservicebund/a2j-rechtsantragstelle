@@ -1,21 +1,7 @@
-<saml2p:AuthnRequest
-  xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"
-  AssertionConsumerServiceURL="{AssertionConsumerServiceURL}"
-  Destination="https://int.id.bund.de/idp/profile/SAML2/POST/SSO"
-  ForceAuthn="true"
-  ID="{ID}"
-  IsPassive="false"
-  IssueInstant="{IssueInstant}"
-  ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
-  Version="2.0">
-  <saml2:Issuer
-    xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-    https://service.justiz.de/sp
-  </saml2:Issuer>
-  <saml2p:Extensions>
+  <saml2p:Extensions xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol">
     <akdb:AuthenticationRequest
-       xmlns:akdb="https://www.akdb.de/request/2018/09"
-       EnableStatusDetail="true"
+      xmlns:akdb="https://www.akdb.de/request/2018/09"
+      EnableStatusDetail="true"
       Version="2">
       <akdb:AuthnMethods>
         <akdb:eID>
@@ -94,33 +80,15 @@
           RequiredAttribute="false"
         />
       </akdb:RequestedAttributes>
-      <akdb:DisplayInformation>
-        <classic-ui:Version
-          xmlns:classic-ui="https://www.akdb.de/request/2018/09/classic-ui/v1">
+      <akdb:DisplayInformation xmlns:classic-ui="https://www.akdb.de/request/2018/09/classic-ui/v1">
+        <classic-ui:Version />
           <classic-ui:Purpose>
             <![CDATA[Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.]]>
           </classic-ui:Purpose>
-          <classic-ui:OrganizationDisplayName>
-            Onlinedienste der Justiz
-          </classic-ui:OrganizationDisplayName>
-          <classic-ui:Lang>
-            de
-          </classic-ui:Lang>
-          <classic-ui:BackURL>
-            {BackURL}
-          </classic-ui:BackURL>
-          <classic-ui:OnlineServiceId>
-            {OnlineServiceID}
-          </classic-ui:OnlineServiceId>
-        </classic-ui:Version>
+          <classic-ui:OrganisationDisplayName>Onlinedienste der Justiz</classic-ui:OrganisationDisplayName>
+          <classic-ui:Lang>de</classic-ui:Lang>
+          <classic-ui:BackURL>{BackURL}</classic-ui:BackURL>
+          <classic-ui:OnlineServiceId>{OnlineServiceID}</classic-ui:OnlineServiceId>
       </akdb:DisplayInformation>
     </akdb:AuthenticationRequest>
   </saml2p:Extensions>
-  <saml2p:RequestedAuthnContext
-    Comparison="minimum">
-    <saml2:AuthnContextClassRef
-      xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-      STORK-QAA-Level-4
-    </saml2:AuthnContextClassRef>
-  </saml2p:RequestedAuthnContext>
-</saml2p:AuthnRequest>
