@@ -12,6 +12,7 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { action } from "../vorabcheck";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
+import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -26,6 +27,7 @@ vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
 vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
 vi.mock("~/services/flow/userFlowAction/flowDestination");
+vi.mock("~/services/flow/pruner/pruner");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
@@ -39,9 +41,17 @@ const mockDefaultOptions = {
   body: new FormData(),
 };
 
+const mockPrunerData = (userDataMock?: Record<string, string>) => {
+  vi.mocked(pruneIrrelevantData).mockResolvedValue({
+    prunedData: userDataMock ?? {},
+    validFlowPaths: {},
+  });
+};
+
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(validatedSession).mockResolvedValue(Result.ok());
+  mockPrunerData();
 });
 
 describe("vorabcheck.server", () => {
@@ -126,6 +136,7 @@ describe("vorabcheck.server", () => {
           migrationData: undefined,
         }),
       );
+      mockPrunerData({ name: "Valid Name" });
 
       const mockDefaultRequest = new Request(
         mockRequestUrl,
@@ -160,6 +171,35 @@ describe("vorabcheck.server", () => {
 
       expect(response.status).toEqual(302);
       expect(response.headers.get("location")).toEqual("/next-step");
+    });
+
+    it("should return call pruneIrrelevantData and use the pruned data the function flowDestination", async () => {
+      const userDataMock = { someData: "someValue" };
+      mockPrunerData(userDataMock);
+
+      vi.mocked(validateFormUserData).mockResolvedValue(
+        Result.ok({
+          userData: { name: "Valid Name" },
+          migrationData: { name: "Migration Name" },
+        }),
+      );
+
+      const mockDefaultRequest = new Request(
+        mockRequestUrl,
+        mockDefaultOptions,
+      );
+
+      const flowDestinationMock = vi
+        .mocked(flowDestination)
+        .mockResolvedValue("/next-step");
+
+      (await action(mockRouteArgsFromRequest(mockDefaultRequest))) as Response;
+
+      expect(pruneIrrelevantData).toBeCalledTimes(1);
+      expect(flowDestinationMock).toHaveBeenCalledWith(
+        "/fluggastrechte/formular/abgabe/start",
+        userDataMock,
+      );
     });
   });
 });

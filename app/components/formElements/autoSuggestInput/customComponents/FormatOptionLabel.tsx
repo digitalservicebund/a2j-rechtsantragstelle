@@ -6,10 +6,7 @@ function splitHighlightWord(
   text: string | undefined,
   matchWord: string,
 ): string[] {
-  if (typeof text === "undefined") {
-    return [];
-  }
-
+  if (!text) return [];
   return text.split(new RegExp(`(${escapeRegExp(matchWord)})`, "gi"));
 }
 

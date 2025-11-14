@@ -9,6 +9,12 @@ import { testCasesBeklagteOtherSachgebiet } from "../gericht-pruefen/beklagtePer
 import { testCasesKlagendePersonVerkehrsunfallSchadenVersicherung } from "../gericht-pruefen/klagendePerson/__test__/testCasesKlagendePersonVerkehrsunfallSchadenVersicherung";
 import { testCasesKlagendePersonReisenAnderesRechtsproblemUrheberrecht } from "../gericht-pruefen/klagendePerson/__test__/testCasesKlagendePersonReisenAnderesRechtsproblemUrheberrecht";
 import { testCasesKlagendePersonMiete } from "../gericht-pruefen/klagendePerson/__test__/testCasesKlagendePersonMiete";
+import { testCasesGerichtSuchenMiete } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenMiete";
+import { testCasesGerichtSuchenVersicherung } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenVersicherung";
+import { testCasesGerichtSuchenReisenAnderesRechtsproblem } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenReisenAnderesRechtsproblem";
+import { testCasesGerichtSuchenVerkehrsunfall } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenVerkehrsunfall";
+import { testCasesGerichtSuchenSchaden } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenSchaden";
+import { testCasesGerichtSuchenUrheberrecht } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenUrheberrecht";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFormular.config, context: {} },
@@ -24,6 +30,12 @@ const testsCases = [
   ...testCasesBeklagtePersonUrheberrecht,
   ...testCasesBeklagtePersonMiete,
   ...testCasesBeklagteOtherSachgebiet,
+  ...testCasesGerichtSuchenMiete,
+  ...testCasesGerichtSuchenVersicherung,
+  ...testCasesGerichtSuchenReisenAnderesRechtsproblem,
+  ...testCasesGerichtSuchenVerkehrsunfall,
+  ...testCasesGerichtSuchenSchaden,
+  ...testCasesGerichtSuchenUrheberrecht,
 ];
 
 export const testCasesGeldEinklagenFormular = {

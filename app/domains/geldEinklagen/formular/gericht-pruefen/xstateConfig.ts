@@ -6,6 +6,12 @@ import { forderungDone } from "./doneFunctions";
 import { sachgebietXstateConfig } from "./sachgebiet/xstateConfig";
 import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
+import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
+import {
+  shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
+} from "./gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -52,41 +58,41 @@ export const gerichtPruefenXstateConfig = {
     sachgebiet: sachgebietXstateConfig,
     "klagende-person": klagendePersonXstateConfig,
     "beklagte-person": beklagtePersonXstateConfig,
-    "gericht-suche": {
-      id: "gericht-suche",
-      initial: "postleitzahl-beklagte-person",
-      meta: { done: () => false },
+    "gericht-suchen": gerichtSuchenXstateConfig,
+    "zustaendiges-gericht": {
+      id: "zustaendiges-gericht",
+      initial: "pilot-gericht",
       states: {
-        [steps.gerichtSuchePostleitzahlBeklagtePerson.relative]: {
+        [steps.zustaendigesGerichtPilotGericht.relative]: {
           on: {
             BACK: [
               {
-                guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
-                  context.sachgebiet === "urheberrecht" &&
-                  context.beklagtePersonGeldVerdienen === "no",
-                target: steps.beklagtePersonGeldVerdienen.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
+                target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
               },
               {
                 guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
-                  context.sachgebiet === "urheberrecht" &&
-                  context.beklagtePersonGeldVerdienen === "yes" &&
-                  context.klagendeKaufmann === "no",
-                target: steps.beklagtePersonGeldVerdienen.absolute,
+                  context.gerichtsstandsvereinbarung === "yes",
+                target:
+                  steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
+                    .absolute,
               },
               {
-                guard: ({ context }) =>
-                  context.beklagtePersonKaufmann === "yes",
-                target: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+                target: steps.gerichtSuchenPostleitzahlKlagendePerson.absolute,
               },
               {
-                guard: ({ context }) =>
-                  context.beklagtePersonKaufmann === "no" ||
-                  context.beklagtePersonKaufmann === "unknown",
-                target: steps.beklagtePersonKaufmann.absolute,
+                guard: shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+                target: steps.gerichtSuchenPostleitzahlVerkehrsunfall.absolute,
               },
-              { target: steps.beklagtePersonGegenWen.absolute },
+              {
+                guard: ({ context }) => context.sachgebiet === "schaden",
+                target:
+                  steps.gerichtSuchenPostleitzahlUnerlaubtePerson.absolute,
+              },
+              {
+                target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
+              },
             ],
           },
         },

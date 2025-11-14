@@ -15,10 +15,7 @@ export const addOtherDetailsItinerary = (
   documentStruct: PDFKit.PDFStructureElement,
   zusaetzlicheAngaben?: string,
 ) => {
-  if (
-    typeof zusaetzlicheAngaben !== "undefined" &&
-    zusaetzlicheAngaben.length > 0
-  ) {
+  if (zusaetzlicheAngaben) {
     const totalHeightOfStrings = getHeightOfString(
       [OTHER_DETAILS_ITINERARY, zusaetzlicheAngaben],
       doc,

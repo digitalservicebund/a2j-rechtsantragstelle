@@ -111,11 +111,9 @@ export const partnerXstateConfig = {
         SUBMIT: "#kinder",
       },
     },
-
     [steps.partnerEinkuenfte.relative]: {
       id: "partner-einkuenfte",
-      initial: "partner-staatliche-leistungen",
-      // meta: { done: partnerEinkuenfteDone },
+      initial: steps.partnerStaatlicheLeistungen.relative,
       states: {
         [steps.partnerStaatlicheLeistungen.relative]: {
           on: {
@@ -123,12 +121,12 @@ export const partnerXstateConfig = {
               {
                 guard:
                   partnerEinkuenfteGuards.staatlicheLeistungenIsBuergergeld,
-                target: "partner-buergergeld",
+                target: steps.partnerBuergergeld.relative,
               },
               {
                 guard:
                   partnerEinkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
-                target: "partner-arbeitslosengeld",
+                target: steps.partnerArbeitslosengeld.relative,
               },
               {
                 guard: partnerEinkuenfteGuards.staatlicheLeistungenIsKeine,
@@ -139,16 +137,16 @@ export const partnerXstateConfig = {
             BACK: steps.partnerEinkommen.absolute,
           },
         },
-        "partner-buergergeld": {
+        [steps.partnerBuergergeld.relative]: {
           on: {
-            SUBMIT: "partner-einkommen",
-            BACK: "partner-staatliche-leistungen",
+            SUBMIT: steps.partnerEinkommen.relative,
+            BACK: steps.partnerStaatlicheLeistungen.relative,
           },
         },
-        "partner-arbeitslosengeld": {
+        [steps.partnerArbeitslosengeld.relative]: {
           on: {
-            SUBMIT: "partner-einkommen",
-            BACK: "partner-staatliche-leistungen",
+            SUBMIT: steps.partnerEinkommen.relative,
+            BACK: steps.partnerStaatlicheLeistungen.relative,
           },
         },
         [steps.partnerEinkuenfteEinkommen.relative]: {
@@ -174,7 +172,7 @@ export const partnerXstateConfig = {
                       partnerEinkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
                     target: steps.partnerArbeitslosengeld.absolute,
                   },
-                  "#partner-einkuenfte.partner-staatliche-leistungen",
+                  steps.partnerStaatlicheLeistungen.absolute,
                 ],
               },
             },
@@ -230,9 +228,9 @@ export const partnerXstateConfig = {
                       !partnerEinkuenfteGuards.incomeWithBuergergeld({
                         context,
                       }),
-                    target: "#partner-einkuenfte.partner-abzuege",
+                    target: steps.partnerAbzuege.absolute,
                   },
-                  "#partner-einkuenfte.partner-rente-frage",
+                  steps.partnerRenteFrage.absolute,
                 ],
               },
             },
@@ -256,28 +254,26 @@ export const partnerXstateConfig = {
                     guard: partnerEinkuenfteGuards.commuteMethodPlaysNoRole,
                     target: steps.partnerArbeitswegKeineRolle.absolute,
                   },
-                  "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben",
+                  steps.partnerArbeitsausgaben.absolute,
                 ],
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.isSelfEmployed,
-                    target:
-                      "#partner-einkuenfte.partner-einkommen.partner-selbststaendig-abzuege",
+                    target: steps.partnerSelbststaendigAbzuege.absolute,
                   },
-                  "#partner-einkuenfte.partner-einkommen.partner-netto-einkommen",
+                  steps.partnerNettoEinkommen.absolute,
                 ],
               },
             },
-            "partner-opnv-kosten": {
+            [steps.partnerOpnvKosten.relative]: {
               on: {
-                SUBMIT: "partner-arbeitsplatz-entfernung",
-                BACK: "partner-arbeitsweg",
+                SUBMIT: steps.partnerArbeitsplatzEntfernung.relative,
+                BACK: steps.partnerArbeitsweg.relative,
               },
             },
-            "partner-arbeitsplatz-entfernung": {
+            [steps.partnerArbeitsplatzEntfernung.relative]: {
               on: {
-                SUBMIT:
-                  "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben",
+                SUBMIT: steps.partnerArbeitsausgaben.absolute,
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.usesPublicTransit,
@@ -287,11 +283,10 @@ export const partnerXstateConfig = {
                 ],
               },
             },
-            "partner-keine-rolle": {
+            [steps.partnerArbeitswegKeineRolle.relative]: {
               on: {
-                SUBMIT:
-                  "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben",
-                BACK: "partner-arbeitsweg",
+                SUBMIT: steps.partnerArbeitsausgaben.absolute,
+                BACK: steps.partnerArbeitsweg.relative,
               },
             },
             [steps.partnerArbeitsausgaben.relative]: {
@@ -302,62 +297,58 @@ export const partnerXstateConfig = {
                     SUBMIT: [
                       {
                         guard: partnerEinkuenfteGuards.hasAndereArbeitsausgaben,
-                        target: "partner-uebersicht",
+                        target: steps.partnerArbeitsausgabenUebersicht.relative,
                       },
-                      "#partner-einkuenfte.partner-rente-frage",
+                      steps.partnerRenteFrage.absolute,
                     ],
                     BACK: [
                       {
                         guard: partnerEinkuenfteGuards.usesPublicTransit,
-                        target:
-                          "#partner-einkuenfte.partner-abzuege.partner-arbeitsplatz-entfernung",
+                        target: steps.partnerArbeitsplatzEntfernung.absolute,
                       },
                       {
                         guard: partnerEinkuenfteGuards.usesPrivateVehicle,
-                        target:
-                          "#partner-einkuenfte.partner-abzuege.partner-arbeitsplatz-entfernung",
+                        target: steps.partnerArbeitsplatzEntfernung.absolute,
                       },
                       {
                         guard: partnerEinkuenfteGuards.commuteMethodPlaysNoRole,
-                        target:
-                          "#partner-einkuenfte.partner-abzuege.partner-keine-rolle",
+                        target: steps.partnerArbeitswegKeineRolle.absolute,
                       },
-                      "#partner-einkuenfte.partner-abzuege.partner-arbeitsweg",
+                      steps.partnerArbeitsweg.absolute,
                     ],
                   },
                 },
-                "partner-uebersicht": {
+                [steps.partnerArbeitsausgabenUebersicht.relative]: {
                   on: {
                     SUBMIT: [
                       {
                         guard:
                           partnerEinkuenfteGuards.hasAndereArbeitsausgabenAndEmptyArray,
-                        target: "partner-warnung",
+                        target: steps.partnerArbeitsausgabenWarnung.relative,
                       },
-                      "#partner-einkuenfte.partner-rente-frage",
+                      steps.partnerRenteFrage.absolute,
                     ],
-                    BACK: "partner-arbeitsausgaben-frage",
+                    BACK: steps.partnerArbeitsausgabenFrage.relative,
                     "add-partner-arbeitsausgaben": {
                       guard:
                         partnerEinkuenfteGuards.isValidArbeitsausgabenArrayIndex,
-                      target: "partner-arbeitsausgabe",
+                      target: steps.partnerArbeitsausgabe.relative,
                     },
                   },
                 },
-                "partner-warnung": {
+                [steps.partnerArbeitsausgabenWarnung.relative]: {
                   on: {
-                    BACK: "partner-uebersicht",
-                    SUBMIT: "#partner-einkuenfte.partner-rente-frage",
+                    BACK: steps.partnerArbeitsausgabenUebersicht.relative,
+                    SUBMIT: steps.partnerRenteFrage.absolute,
                   },
                 },
-                "partner-arbeitsausgabe": {
+                [steps.partnerArbeitsausgabe.relative]: {
                   initial: "partner-daten",
                   states: {
                     "partner-daten": {
                       on: {
-                        BACK: "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben.partner-uebersicht",
-                        SUBMIT:
-                          "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben.partner-uebersicht",
+                        BACK: steps.partnerArbeitsausgabenUebersicht.absolute,
+                        SUBMIT: steps.partnerArbeitsausgabenUebersicht.absolute,
                       },
                     },
                   },
@@ -378,28 +369,25 @@ export const partnerXstateConfig = {
             BACK: [
               {
                 guard: partnerEinkuenfteGuards.notEmployed,
-                target: "partner-einkommen",
+                target: steps.partnerEinkommen.relative,
               },
               {
                 guard: ({ context }) =>
                   partnerEinkuenfteGuards.incomeWithBuergergeld({ context }) &&
                   partnerEinkuenfteGuards.isSelfEmployed({ context }),
-                target:
-                  "#partner-einkuenfte.partner-einkommen.partner-selbststaendig-abzuege",
+                target: steps.partnerSelbststaendigAbzuege.absolute,
               },
               {
                 guard: ({ context }) =>
                   partnerEinkuenfteGuards.incomeWithBuergergeld({ context }) &&
                   !partnerEinkuenfteGuards.isSelfEmployed({ context }),
-                target:
-                  "#partner-einkuenfte.partner-einkommen.partner-netto-einkommen",
+                target: steps.partnerNettoEinkommen.absolute,
               },
               {
                 guard: partnerEinkuenfteGuards.hasAndereArbeitsausgaben,
-                target:
-                  "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben.partner-uebersicht",
+                target: steps.partnerArbeitsausgabenUebersicht.absolute,
               },
-              "#partner-einkuenfte.partner-abzuege.partner-arbeitsausgaben",
+              steps.partnerArbeitsausgaben.absolute,
             ],
           },
         },
@@ -455,14 +443,14 @@ export const partnerXstateConfig = {
                     guard: partnerEinkuenfteGuards.hasKindergeld,
                     target: steps.partnerKindergeld.relative,
                   },
-                  "#partner-einkuenfte.partner-weitere-einkuenfte",
+                  steps.partnerWeitereEinkuenfte.absolute,
                 ],
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.receivesSupport,
-                    target: "#partner-einkuenfte.partner-unterhalt",
+                    target: steps.partnerEinkuenfteUnterhalt.absolute,
                   },
-                  "#partner-einkuenfte.partner-unterhalt-frage",
+                  steps.partnerEinkuenfteUnterhaltFrage.absolute,
                 ],
               },
             },
@@ -479,10 +467,9 @@ export const partnerXstateConfig = {
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasKindergeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-kindergeld",
+                    target: steps.partnerKindergeld.absolute,
                   },
-                  "#partner-einkuenfte.partner-weitere-einkuenfte",
+                  steps.partnerWeitereEinkuenfte.absolute,
                 ],
                 BACK: steps.partnerLeistungFrage.relative,
               },
@@ -496,10 +483,9 @@ export const partnerXstateConfig = {
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasKindergeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-kindergeld",
+                    target: steps.partnerKindergeld.absolute,
                   },
-                  "#partner-einkuenfte.partner-weitere-einkuenfte",
+                  steps.partnerWeitereEinkuenfte.absolute,
                 ],
                 BACK: [
                   {
@@ -515,19 +501,18 @@ export const partnerXstateConfig = {
                 SUBMIT: [
                   {
                     guard: partnerEinkuenfteGuards.hasKindergeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-kindergeld",
+                    target: steps.partnerKindergeld.absolute,
                   },
-                  "#partner-einkuenfte.partner-weitere-einkuenfte",
+                  steps.partnerWeitereEinkuenfte.absolute,
                 ],
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.hasKrankengeld,
-                    target: "partner-krankengeld",
+                    target: steps.partnerKrankengeld.relative,
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasWohngeld,
-                    target: "partner-wohngeld",
+                    target: steps.partnerWohngeld.relative,
                   },
                   steps.partnerLeistungFrage.relative,
                 ],
@@ -535,7 +520,7 @@ export const partnerXstateConfig = {
             },
             [steps.partnerKindergeld.relative]: {
               on: {
-                SUBMIT: "#partner-einkuenfte.partner-weitere-einkuenfte",
+                SUBMIT: steps.partnerWeitereEinkuenfte.absolute,
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.hasElterngeld,
@@ -566,30 +551,26 @@ export const partnerXstateConfig = {
                     guard: partnerEinkuenfteGuards.hasFurtherIncome,
                     target: steps.partnerWeitereEinkuenfteUebersicht.relative,
                   },
-                  "#partner-einkuenfte.partner-besonders-ausgaben",
+                  steps.partnerBesondersAusgaben.absolute,
                 ],
                 BACK: [
                   {
                     guard: partnerEinkuenfteGuards.hasKindergeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-kindergeld",
+                    target: steps.partnerKindergeld.absolute,
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasElterngeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-elterngeld",
+                    target: steps.partnerElterngeld.absolute,
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasKrankengeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-krankengeld",
+                    target: steps.partnerKrankengeld.absolute,
                   },
                   {
                     guard: partnerEinkuenfteGuards.hasWohngeld,
-                    target:
-                      "#partner-einkuenfte.partner-leistungen.partner-wohngeld",
+                    target: steps.partnerWohngeld.absolute,
                   },
-                  "#partner-einkuenfte.partner-leistungen",
+                  steps.partnerEinkuenfteLeistungen.absolute,
                 ],
               },
             },
@@ -599,31 +580,30 @@ export const partnerXstateConfig = {
                   {
                     guard:
                       partnerEinkuenfteGuards.hasFurtherIncomeAndEmptyArray,
-                    target: "partner-warnung",
+                    target: steps.partnerWeitereEinkuenfteWarnung.relative,
                   },
-                  "#partner-einkuenfte.partner-besonders-ausgaben",
+                  steps.partnerBesondersAusgaben.absolute,
                 ],
                 BACK: steps.partnerWeitereEinkuenfteFrage.relative,
                 "add-partner-weitereEinkuenfte": {
                   guard: partnerEinkuenfteGuards.isValidEinkuenfteArrayIndex,
-                  target: "partner-einkunft",
+                  target: steps.partnerWeitereEinkunft.relative,
                 },
               },
             },
             [steps.partnerWeitereEinkuenfteWarnung.relative]: {
               on: {
-                BACK: "partner-uebersicht",
-                SUBMIT: "#partner-einkuenfte.partner-besonders-ausgaben",
+                BACK: steps.partnerWeitereEinkuenfteUebersicht.relative,
+                SUBMIT: steps.partnerBesondersAusgaben.absolute,
               },
             },
-            "partner-einkunft": {
+            [steps.partnerWeitereEinkunft.relative]: {
               initial: "partner-daten",
               states: {
                 "partner-daten": {
                   on: {
-                    BACK: "#partner-einkuenfte.partner-weitere-einkuenfte.partner-uebersicht",
-                    SUBMIT:
-                      "#partner-einkuenfte.partner-weitere-einkuenfte.partner-uebersicht",
+                    BACK: steps.partnerWeitereEinkuenfteUebersicht.absolute,
+                    SUBMIT: steps.partnerWeitereEinkuenfteUebersicht.absolute,
                   },
                 },
               },
@@ -635,15 +615,15 @@ export const partnerXstateConfig = {
             BACK: [
               {
                 guard: partnerEinkuenfteGuards.hasFurtherIncome,
-                target: "#partner-weitere-einkuenfte.partner-uebersicht",
+                target: steps.partnerWeitereEinkuenfteUebersicht.absolute,
               },
-              "#partner-weitere-einkuenfte",
+              steps.partnerWeitereEinkuenfte.absolute,
             ],
             SUBMIT: [
               {
                 guard: ({ context }) =>
                   context.partnerHasBesondersAusgaben === "yes",
-                target: "add-partner-besonders-ausgaben",
+                target: steps.partnerAddBesondersAusgaben.relative,
               },
               "#kinder",
             ],
@@ -652,7 +632,7 @@ export const partnerXstateConfig = {
         [steps.partnerAddBesondersAusgaben.relative]: {
           on: {
             SUBMIT: "#kinder",
-            BACK: "partner-besonders-ausgaben",
+            BACK: steps.partnerBesondersAusgaben.relative,
           },
         },
       },

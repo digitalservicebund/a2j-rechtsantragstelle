@@ -18,7 +18,5 @@ export function getYoutubeVideoId(url: string): string | undefined {
   return undefined;
 }
 
-export const isFlowIdInPathname = (pathname: string): boolean => {
-  const flowId = flowIdFromPathname(pathname);
-  return typeof flowId !== "undefined";
-};
+export const isFlowIdInPathname = (pathname: string): boolean =>
+  flowIdFromPathname(pathname) !== undefined;

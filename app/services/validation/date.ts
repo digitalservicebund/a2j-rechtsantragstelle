@@ -16,7 +16,7 @@ export const createDateSchema = (args?: {
   latest?: () => Date;
 }) => {
   if (args?.earliest && args?.latest && args.latest() <= args.earliest())
-    throw Error(
+    throw new Error(
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
 
@@ -59,7 +59,7 @@ export const createSplitDateSchema = (args?: {
   latest?: () => Date;
 }) => {
   if (args?.earliest && args?.latest && args.latest() <= args.earliest()) {
-    throw Error(
+    throw new Error(
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
   }

@@ -1,5 +1,7 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const geldEinklagenGerichtPruefenPages = {
@@ -100,7 +102,44 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
     pageSchema: { gerichtsstandsvereinbarung: YesNoAnswer },
   },
-  gerichtSuchePostleitzahlBeklagtePerson: {
-    stepId: "gericht-pruefen/gericht-suche/postleitzahl-beklagte-person",
+  gerichtSuchenPostleitzahlBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+    pageSchema: {
+      postleitzahlBeklagtePerson: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenPostleitzahlWohnraum: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenPostleitzahlKlagendePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenPostleitzahlUnerlaubtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-unerlaubte-person",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenPostleitzahlVerkehrsunfall: {
+    stepId: "gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenPostleitzahlGerichtsstandsvereinbarung: {
+    stepId:
+      "gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
+    pageSchema: {
+      postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  zustaendigesGerichtPilotGericht: {
+    stepId: "gericht-pruefen/zustaendiges-gericht/pilot-gericht",
   },
 } as const satisfies PagesConfig;

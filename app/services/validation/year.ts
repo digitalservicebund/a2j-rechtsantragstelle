@@ -18,8 +18,8 @@ export const createYearSchema = (args?: {
     .string()
     .min(1, { message: "required" })
     .transform((value, ctx) => {
-      const parsed = parseInt(value);
-      if (isNaN(parsed) || parsed < earliest || parsed > latest) {
+      const parsed = Number.parseInt(value);
+      if (Number.isNaN(parsed) || parsed < earliest || parsed > latest) {
         ctx.issues.push({
           code: "custom",
           message: "invalidYear",

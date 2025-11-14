@@ -162,11 +162,11 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-warnung",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-warnung",
     },
   ],
   addPartnerArbeitsausgabe: [
@@ -179,7 +179,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-partner-arbeitsausgaben",
       userInput: {
         pageData: {
@@ -199,7 +199,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
     },
   ],
   partnerArbeitswegPlaysNoRole: [
@@ -265,7 +265,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
     },
     {
       stepId:
@@ -282,7 +282,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
       addArrayItemEvent: "add-partner-weitereEinkuenfte",
       userInput: {
         pageData: {
@@ -302,7 +302,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-uebersicht",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
     },
   ],
   partnerBesondersHoheAusgaben: [

@@ -268,7 +268,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasKindergeld,
                 target: steps.kindergeld.relative,
               },
-              "#weitere-einkuenfte",
+              steps.weitereEinkuenfte.absolute,
             ],
             BACK: [
               {
@@ -294,7 +294,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasKindergeld,
                 target: steps.kindergeld.absolute,
               },
-              "#weitere-einkuenfte",
+              steps.weitereEinkuenfte.absolute,
             ],
             BACK: steps.leistungenFrage.relative,
           },
@@ -310,7 +310,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasKindergeld,
                 target: steps.kindergeld.absolute,
               },
-              "#weitere-einkuenfte",
+              steps.weitereEinkuenfte.absolute,
             ],
             BACK: [
               {
@@ -328,7 +328,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
                 guard: einkuenfteGuards.hasKindergeld,
                 target: steps.kindergeld.absolute,
               },
-              "#weitere-einkuenfte",
+              steps.weitereEinkuenfte.absolute,
             ],
             BACK: [
               {
@@ -345,7 +345,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
         },
         [steps.kindergeld.relative]: {
           on: {
-            SUBMIT: "#weitere-einkuenfte",
+            SUBMIT: steps.weitereEinkuenfte.absolute,
             BACK: [
               {
                 guard: einkuenfteGuards.hasElterngeld,
@@ -365,7 +365,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
         },
       },
     },
-    "weitere-einkuenfte": {
+    [steps.weitereEinkuenfte.relative]: {
       id: "weitere-einkuenfte",
       initial: steps.weitereEinkuenfteFrage.relative,
       states: {
@@ -419,7 +419,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             BACK: steps.weitereEinkuenfteFrage.relative,
             "add-weitereEinkuenfte": {
               guard: einkuenfteGuards.isValidEinkuenfteArrayIndex,
-              target: "einkunft",
+              target: steps.weitereEinkunft.relative,
             },
           },
         },
@@ -435,7 +435,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
             ],
           },
         },
-        einkunft: {
+        [steps.weitereEinkunft.relative]: {
           initial: "daten",
           states: {
             daten: {
