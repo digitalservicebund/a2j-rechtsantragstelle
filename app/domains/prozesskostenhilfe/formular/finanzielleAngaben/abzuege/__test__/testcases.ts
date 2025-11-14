@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/userData";
+import { type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 
 export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   noArbeitsweg: [
@@ -42,7 +44,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
           ort: "Berlin",
           land: "Deutschland",
         },
-        arbeitsplatzEntfernung: "7",
+        arbeitsplatzEntfernung: 7,
       },
     },
     {
@@ -64,7 +66,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
           ort: "Berlin",
           land: "Deutschland",
         },
-        arbeitsplatzEntfernung: "7",
+        arbeitsplatzEntfernung: 7,
       },
     },
     {
@@ -105,12 +107,6 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-arbeitsausgaben",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        arbeitsausgaben: [],
-      },
     },
     {
       stepId:
@@ -125,4 +121,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData &
+    ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData
+>;

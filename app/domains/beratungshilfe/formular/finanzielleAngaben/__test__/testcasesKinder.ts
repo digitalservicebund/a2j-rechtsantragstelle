@@ -1,16 +1,5 @@
-// oxlint-disable-next-line no-unused-vars
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-
-const defaultInputKinder = {
-  wohnortBeiAntragsteller: "yes",
-  vorname: "",
-  nachname: "",
-  geburtsdatum: "",
-  eigeneEinnahmen: "yes",
-  einnahmen: "",
-  unterhalt: "yes",
-  unterhaltsSumme: "",
-} as const;
+import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/kinder/userData";
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
   hasUnenteredChildren: [
@@ -64,10 +53,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -81,7 +66,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "yes",
-        kinder: [defaultInputKinder],
       },
     },
     {
@@ -99,10 +83,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -116,14 +96,12 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "no",
-        kinder: [{ ...defaultInputKinder, wohnortBeiAntragsteller: "no" }],
       },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
       userInput: {
         "kinder#unterhalt": "no",
-        kinder: [{ ...defaultInputKinder, unterhalt: "no" }],
       },
     },
     {
@@ -134,10 +112,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -151,18 +125,16 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "no",
-        kinder: [{ ...defaultInputKinder, wohnortBeiAntragsteller: "no" }],
       },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
       userInput: {
         "kinder#unterhalt": "yes",
-        kinder: [defaultInputKinder],
       },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenKinderUserData>;

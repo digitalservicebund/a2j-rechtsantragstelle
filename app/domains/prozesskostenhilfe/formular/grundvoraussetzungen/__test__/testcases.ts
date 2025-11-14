@@ -1,4 +1,5 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/userData";
 
 export const testCasesPKHFormularGrundvoraussetzungen = {
   analogNachueberpruefung: [
@@ -108,4 +109,4 @@ export const testCasesPKHFormularGrundvoraussetzungen = {
       stepId: "/antragstellende-person/empfaenger",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeGrundvoraussetzungenUserData>;

@@ -21,18 +21,24 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
     empfaengerIsChild({ context: userData }) &&
     userData.child !== undefined
   ) {
+    const { vorname, nachname, geburtsdatum, unterhaltsSumme } = userData.child;
     const childEntry: KinderArraySchema =
       userData.livesTogether === "yes" && userData.einnahmen
         ? {
-            ...userData.child,
+            vorname: vorname ?? "",
+            nachname: nachname ?? "",
+            geburtsdatum: geburtsdatum ?? "",
             wohnortBeiAntragsteller: "yes",
             eigeneEinnahmen: "yes",
             einnahmen: getTotalMonthlyFinancialEntries(userData.einnahmen),
           }
         : {
-            ...userData.child,
+            vorname: vorname ?? "",
+            nachname: nachname ?? "",
+            geburtsdatum: geburtsdatum ?? "",
             wohnortBeiAntragsteller: "no",
             unterhalt: "yes",
+            unterhaltsSumme: unterhaltsSumme ?? "",
           };
     kinder.unshift(childEntry);
   }

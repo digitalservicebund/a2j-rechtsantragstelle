@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
 
 export const testCasesPKHFormularFinanzielleAngabenPartner = {
   widowed: [
@@ -149,7 +150,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
           ort: "Berlin",
           land: "Deutschland",
         },
-        "partner-arbeitsplatzEntfernung": "7",
+        "partner-arbeitsplatzEntfernung": 7,
       },
     },
     {
@@ -180,12 +181,6 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-partner-arbeitsausgaben",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        "partner-arbeitsausgaben": [],
-      },
     },
     {
       stepId:
@@ -283,12 +278,6 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
       addArrayItemEvent: "add-partner-weitereEinkuenfte",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        "partner-weitereEinkuenfte": [],
-      },
     },
     {
       stepId:
@@ -506,4 +495,4 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-frage",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<PartnerEinkuenfteUserData>;

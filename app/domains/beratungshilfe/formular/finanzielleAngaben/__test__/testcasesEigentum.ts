@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/userData";
+import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/partner/userData";
 
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
@@ -184,14 +186,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        grundeigentum: [
-          {
-            isBewohnt: "yes",
-          },
-        ],
         "grundeigentum#isBewohnt": "yes",
       },
     },
@@ -224,14 +218,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        grundeigentum: [
-          {
-            isBewohnt: "no",
-          },
-        ],
         "grundeigentum#isBewohnt": "no",
       },
     },
@@ -290,14 +276,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
         "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/wert",
       userInput: {
         "kraftfahrzeuge#wert": "over10000",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        kraftfahrzeuge: [
-          {
-            wert: "over10000",
-          },
-        ],
       },
     },
     {
@@ -307,7 +285,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
         "kraftfahrzeuge#art": "auto",
         "kraftfahrzeuge#marke": "BMW",
         "kraftfahrzeuge#eigentuemer": "myself",
-        "kraftfahrzeuge#kilometerstand": "100000",
+        "kraftfahrzeuge#kilometerstand": 100000,
         "kraftfahrzeuge#anschaffungsjahr": "2000",
         "kraftfahrzeuge#baujahr": "1987",
         "kraftfahrzeuge#verkaufswert": "12000",
@@ -332,14 +310,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "bargeld",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "bargeld",
-          },
-        ],
       },
     },
     {
@@ -368,14 +338,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "wertpapiere",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "wertpapiere",
-          },
-        ],
       },
     },
     {
@@ -405,14 +367,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "guthabenkontoKrypto",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "guthabenkontoKrypto",
-          },
-        ],
       },
     },
     {
@@ -442,14 +396,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "giroTagesgeldSparkonto",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "giroTagesgeldSparkonto",
-          },
-        ],
       },
     },
     {
@@ -480,14 +426,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "befristet",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "befristet",
-          },
-        ],
       },
     },
     {
@@ -518,14 +456,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "forderung",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "forderung",
-          },
-        ],
       },
     },
     {
@@ -555,14 +485,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "sonstiges",
-        pageData: {
-          arrayIndexes: [0],
-        },
-        geldanlagen: [
-          {
-            art: "sonstiges",
-          },
-        ],
       },
     },
     {
@@ -577,4 +499,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  BeratungshilfeFinanzielleAngabenEigentumUserData &
+    BeratungshilfeFinanzielleAngabenPartnerUserData
+>;

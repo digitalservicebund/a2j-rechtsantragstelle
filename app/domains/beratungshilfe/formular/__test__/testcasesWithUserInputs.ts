@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { beratungshilfeXstateConfig } from "../xstateConfig";
 import { testCasesBeratungshilfeFormularDefault } from "~/domains/beratungshilfe/formular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
@@ -12,6 +12,7 @@ import { testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen } 
 import { testCasesBeratungshilfeFormularFinanzielleAngabenWohnung } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesWohnung";
 import { testCasesBeratungshilfeFormularFinanzielleAngabenEigentum } from "~/domains/beratungshilfe/formular/finanzielleAngaben/__test__/testcasesEigentum";
 import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/formular/abgabe/__test__/testcases";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 export const beratungshilfeAntragTestCases = {
   xstateConfig: beratungshilfeXstateConfig,
@@ -29,4 +30,4 @@ export const beratungshilfeAntragTestCases = {
     ...testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe,
     ...testCasesBeratungshilfeFormularAbgabe,
   },
-} satisfies FlowTestCases;
+} satisfies FlowTestConfig<BeratungshilfeFormularUserData>;

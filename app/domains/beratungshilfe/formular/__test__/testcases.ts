@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 export const testCasesBeratungshilfeFormularDefault = {
   receivesStaatlicheLeistung: [
@@ -194,7 +195,7 @@ export const testCasesBeratungshilfeFormularDefault = {
     },
     {
       stepId: "/finanzielle-angaben/wohnung/groesse",
-      userInput: { apartmentSizeSqm: "55" },
+      userInput: { apartmentSizeSqm: 55 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/wohnkosten-allein",
@@ -275,4 +276,4 @@ export const testCasesBeratungshilfeFormularDefault = {
       },
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;
