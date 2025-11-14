@@ -17,7 +17,6 @@ if (SENTRY_DSN !== undefined) {
   Sentry.init({
     ...sentrySharedConfig,
     ignoreErrors: SENTRY_IGNORE_ERRORS,
-    integrations: [Sentry.redisIntegration()],
   });
   sentryHasBeenInitialized = true;
 }
