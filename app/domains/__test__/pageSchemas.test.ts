@@ -20,7 +20,7 @@ describe("getPageSchema", () => {
   describe("array pages", () => {
     it("should handle simple array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -29,7 +29,7 @@ describe("getPageSchema", () => {
 
     it("should handle different array indexes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/5/daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/5/daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -38,7 +38,7 @@ describe("getPageSchema", () => {
 
     it("should return undefined for non-existent array pages", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/non-existent",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/non-existent",
       );
       expect(result).toBeUndefined();
     });
@@ -59,7 +59,7 @@ describe("getPageSchema", () => {
 
     it("should handle multiple array indexes in the path", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/1/subfield",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/daten/1/subfield",
       );
       expect(result).toBeUndefined(); // This should return undefined as it's not a valid path structure
     });
@@ -82,7 +82,7 @@ describe("getPageSchema", () => {
 
     it("should handle pathname with multiple consecutive slashes", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme//0//daten",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme//0//daten",
       );
       expect(result).toBeDefined();
       expect(result).toHaveProperty("einnahmen#beschreibung");
@@ -95,7 +95,7 @@ describe("getPageSchema", () => {
 
     it("should handle pathname with mixed valid and invalid parts", () => {
       const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten/invalid",
+        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/daten/invalid",
       );
       expect(result).toBeUndefined();
     });
