@@ -1,8 +1,5 @@
 import z from "zod";
-import {
-  isStepDone,
-  getRelevantPageSchemasForStepId,
-} from "~/services/flow/server/isStepDone/isStepDone";
+import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { type ArrayConfigServer } from "~/services/array";
 import { createDateSchema } from "~/services/validation/date";
@@ -279,6 +276,47 @@ describe("isStepDone", () => {
     ).toBe(false);
   });
 
+  it("should correctly validate against multiple arrays, none of which share the same statementKey", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          hasAusgaben: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+          test: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/testArrayPage"],
+        {
+          arrayPage1: {
+            event: "add-kinder",
+            url: "/testArrayPage",
+            initialInputUrl: "",
+            statementKey: "hasKinder",
+          },
+          arrayPage2: {
+            event: "add-ausgaben",
+            url: "/testArrayPage",
+            initialInputUrl: "",
+            statementKey: "hasAusgaben",
+          },
+        },
+      ),
+    ).toBe(true);
+  });
+
   it("should return false when a page has multiple optional arrays and none are filled out", () => {
     expect(
       isStepDone(
@@ -324,41 +362,5 @@ describe("isStepDone", () => {
         testMultipleArrayConfig,
       ),
     ).toBe(false);
-  });
-});
-
-describe("getRelevantPageSchemasForStepId", () => {
-  it("retrieves relevant pageSchemas given a flowId and stepId", () => {
-    expect(
-      getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
-    ).toEqual({
-      start: {
-        stepId: "start",
-      },
-    });
-
-    const { weitereAngaben } = getRelevantPageSchemasForStepId(
-      "/beratungshilfe/antrag",
-      "/weitere-angaben",
-    );
-    expect(weitereAngaben).toHaveProperty("stepId", "weitere-angaben");
-    expect(weitereAngaben.pageSchema).toHaveProperty("weitereAngaben");
-    const { bereich, situationBeschreibung } = getRelevantPageSchemasForStepId(
-      "/beratungshilfe/antrag",
-      "/rechtsproblem",
-    );
-    expect(bereich).toHaveProperty("stepId", "rechtsproblem/bereich");
-    expect(bereich.pageSchema).toHaveProperty("bereich");
-    expect(situationBeschreibung).toHaveProperty(
-      "stepId",
-      "rechtsproblem/situation-beschreibung",
-    );
-    expect(situationBeschreibung.pageSchema).toHaveProperty("gegenseite");
-  });
-
-  it("returns an empty object when the given flowId has no pageSchemas", () => {
-    expect(
-      getRelevantPageSchemasForStepId("/fluggastrechte/formular", "/start"),
-    ).toEqual({});
   });
 });
