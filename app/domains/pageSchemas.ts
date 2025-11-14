@@ -9,6 +9,7 @@ import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
+import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 
 export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -159,3 +160,34 @@ type UnionToIntersection<U> = (
 export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
   UnionToIntersection<ExtractSchemas<T>>
 >;
+export function getRelevantPageSchemasForStepId(
+  flowId: FlowId,
+  stepId: string,
+): PagesConfig {
+  return Object.fromEntries(
+    Object.entries(pages[flowId] ?? {}).filter(([, pageConfig]) =>
+      pageConfig.stepId.startsWith(stepId.substring(1)),
+    ),
+  );
+}
+
+export const filterPageSchemasByReachableSteps =
+  <T extends PagesConfig>(
+    userData: UserDataFromPagesSchema<T>,
+    reachableSteps: string[],
+    arrayConfigurations?: ArrayConfigurations,
+  ) =>
+  (config: PageConfig) => {
+    if ("arrayPages" in config) {
+      const matchingArrayConfig = Object.values(arrayConfigurations ?? {}).find(
+        (arrayConfig) => arrayConfig.url.endsWith(config.stepId),
+      );
+      const statementKey =
+        matchingArrayConfig?.statementKey as keyof typeof userData;
+      // eslint-disable-next-line sonarjs/different-types-comparison
+      return userData[statementKey] === "yes";
+    }
+    return (
+      "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
+    );
+  };

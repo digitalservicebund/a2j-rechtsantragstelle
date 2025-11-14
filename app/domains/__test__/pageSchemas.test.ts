@@ -4,6 +4,9 @@ import {
   getPageSchema,
   getAllFieldsFromFlowId,
   xStateTargetsFromPagesConfig,
+  getRelevantPageSchemasForStepId,
+  filterPageSchemasByReachableSteps,
+  type PageConfig,
 } from "../pageSchemas";
 
 describe("getPageSchema", () => {
@@ -146,5 +149,137 @@ describe("getAllFieldsFromFlowId", () => {
     expect(fields).not.toHaveProperty(
       "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
     );
+  });
+});
+
+describe("getRelevantPageSchemasForStepId", () => {
+  it("retrieves relevant pageSchemas given a flowId and stepId", () => {
+    expect(
+      getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
+    ).toEqual({
+      start: {
+        stepId: "start",
+      },
+    });
+
+    const { weitereAngaben } = getRelevantPageSchemasForStepId(
+      "/beratungshilfe/antrag",
+      "/weitere-angaben",
+    );
+    expect(weitereAngaben).toHaveProperty("stepId", "weitere-angaben");
+    expect(weitereAngaben.pageSchema).toHaveProperty("weitereAngaben");
+    const { bereich, situationBeschreibung } = getRelevantPageSchemasForStepId(
+      "/beratungshilfe/antrag",
+      "/rechtsproblem",
+    );
+    expect(bereich).toHaveProperty("stepId", "rechtsproblem/bereich");
+    expect(bereich.pageSchema).toHaveProperty("bereich");
+    expect(situationBeschreibung).toHaveProperty(
+      "stepId",
+      "rechtsproblem/situation-beschreibung",
+    );
+    expect(situationBeschreibung.pageSchema).toHaveProperty("gegenseite");
+  });
+
+  it("returns an empty object when the given flowId has no pageSchemas", () => {
+    expect(
+      getRelevantPageSchemasForStepId("/fluggastrechte/formular", "/start"),
+    ).toEqual({});
+  });
+});
+
+describe("filterPageSchemasByReachableSteps", () => {
+  it("should return false if the given config lacks a pageSchema property", () => {
+    expect(
+      filterPageSchemasByReachableSteps(
+        {},
+        [],
+      )({
+        stepId: "test",
+      } as PageConfig),
+    ).toBe(false);
+  });
+
+  it("should return false if the config isn't included in the reachable steps", () => {
+    expect(
+      filterPageSchemasByReachableSteps({}, ["/other"])({
+        stepId: "test",
+        pageSchema: {
+          test: stringRequiredSchema,
+        },
+      } as PageConfig),
+    ).toBe(false);
+  });
+
+  it("should return true if the config has a pageSchema and can be found in reachableSteps", () => {
+    expect(
+      filterPageSchemasByReachableSteps({}, ["/test"])({
+        stepId: "test",
+        pageSchema: {
+          test: stringRequiredSchema,
+        },
+      } as PageConfig),
+    ).toBe(true);
+  });
+
+  describe("arrayPages handling", () => {
+    it("should return false if no matching arrayConfig is found", () => {
+      expect(
+        filterPageSchemasByReachableSteps({}, ["/test"])({
+          stepId: "test",
+          arrayPages: {
+            test: {
+              pageSchema: {},
+            },
+          },
+        } as PageConfig),
+      ).toBe(false);
+    });
+
+    it("should return false if the conditional relevance check fails (statementKey)", () => {
+      expect(
+        filterPageSchemasByReachableSteps({}, ["/test"], {
+          arrayConfig: {
+            statementKey: "hasKinder",
+            event: "add-kinder",
+            url: "/test",
+            initialInputUrl: "",
+          },
+        })({
+          stepId: "test",
+          arrayPages: {
+            test: {
+              pageSchema: {},
+            },
+          },
+        } as PageConfig),
+      ).toBe(false);
+    });
+
+    it("should return true if a matching array config is found and it satisfies the conditional relevance check (statementKey)", () => {
+      expect(
+        filterPageSchemasByReachableSteps(
+          {
+            hasKinder: "yes",
+          },
+          ["/test"],
+          {
+            arrayConfig: {
+              statementKey: "hasKinder",
+              event: "add-kinder",
+              url: "/test",
+              initialInputUrl: "",
+            },
+          },
+        )({
+          stepId: "test",
+          arrayPages: {
+            test: {
+              pageSchema: {},
+            },
+          },
+        } as PageConfig),
+      ).toBe(true);
+    });
   });
 });

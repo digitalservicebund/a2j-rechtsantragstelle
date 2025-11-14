@@ -1,8 +1,5 @@
 import z from "zod";
-import {
-  isStepDone,
-  getRelevantPageSchemasForStepId,
-} from "~/domains/isStepDone";
+import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { type ArrayConfigServer } from "~/services/array";
 import { createDateSchema } from "~/services/validation/date";
@@ -34,8 +31,55 @@ const testArrayPageSchema: PagesConfig = {
   },
 };
 
+const testMultipleArraysSchema: PagesConfig = {
+  testArrayPage: {
+    stepId: "testArrayPage",
+    pageSchema: {
+      kinder: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      test: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      hasKinder: z.enum(["yes", "no"]),
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinder#vorname": stringRequiredSchema,
+          "kinder#nachname": stringRequiredSchema,
+          "kinder#geburtsdatum": createDateSchema(),
+        },
+      },
+    },
+  },
+};
+
 const testArrayConfig: Record<string, ArrayConfigServer> = {
   testArrayPage: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+};
+
+const testMultipleArrayConfig: Record<string, ArrayConfigServer> = {
+  arrayPage1: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+  arrayPage2: {
     event: "add-kinder",
     url: "/testArrayPage",
     initialInputUrl: "",
@@ -231,40 +275,92 @@ describe("isStepDone", () => {
       ),
     ).toBe(false);
   });
-});
 
-describe("getRelevantPageSchemasForStepId", () => {
-  it("retrieves relevant pageSchemas given a flowId and stepId", () => {
+  it("should correctly validate against multiple arrays, none of which share the same statementKey", () => {
     expect(
-      getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
-    ).toEqual({
-      start: {
-        stepId: "start",
-      },
-    });
-
-    const { weitereAngaben } = getRelevantPageSchemasForStepId(
-      "/beratungshilfe/antrag",
-      "/weitere-angaben",
-    );
-    expect(weitereAngaben).toHaveProperty("stepId", "weitere-angaben");
-    expect(weitereAngaben.pageSchema).toHaveProperty("weitereAngaben");
-    const { bereich, situationBeschreibung } = getRelevantPageSchemasForStepId(
-      "/beratungshilfe/antrag",
-      "/rechtsproblem",
-    );
-    expect(bereich).toHaveProperty("stepId", "rechtsproblem/bereich");
-    expect(bereich.pageSchema).toHaveProperty("bereich");
-    expect(situationBeschreibung).toHaveProperty(
-      "stepId",
-      "rechtsproblem/situation-beschreibung",
-    );
-    expect(situationBeschreibung.pageSchema).toHaveProperty("gegenseite");
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          hasAusgaben: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+          test: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/testArrayPage"],
+        {
+          arrayPage1: {
+            event: "add-kinder",
+            url: "/testArrayPage",
+            initialInputUrl: "",
+            statementKey: "hasKinder",
+          },
+          arrayPage2: {
+            event: "add-ausgaben",
+            url: "/testArrayPage",
+            initialInputUrl: "",
+            statementKey: "hasAusgaben",
+          },
+        },
+      ),
+    ).toBe(true);
   });
 
-  it("returns an empty object when the given flowId has no pageSchemas", () => {
+  it("should return false when a page has multiple optional arrays and none are filled out", () => {
     expect(
-      getRelevantPageSchemasForStepId("/fluggastrechte/formular", "/start"),
-    ).toEqual({});
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
+      ),
+    ).toBe(false);
+  });
+  it("should return false when a page has multiple optional arrays and at least one is filled out, but other data is missing", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
+      ),
+    ).toBe(false);
+  });
+
+  it("should return true when a page has multiple optional arrays and at least one is filled out", () => {
+    expect(
+      isStepDone(
+        testMultipleArraysSchema,
+        {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/arrayPage1", "/arrayPage2"],
+        testMultipleArrayConfig,
+      ),
+    ).toBe(false);
   });
 });
