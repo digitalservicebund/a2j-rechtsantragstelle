@@ -22,14 +22,20 @@ const vermoegenArraySchema = z
   .array()
   .min(1);
 
+const childSchema = z
+  .object({
+    vorname: stringRequiredSchema,
+    nachname: stringRequiredSchema,
+    geburtsdatum: childBirthdaySchema,
+    unterhaltsSumme: buildMoneyValidationSchema(),
+  })
+  .partial();
+
 export const pkhFormularVereinfachteErklaerungPages = {
   kind: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/kind",
     pageSchema: {
-      child: z.object({
-        vorname: stringRequiredSchema,
-        nachname: stringRequiredSchema,
-      }),
+      child: childSchema.pick({ vorname: true, nachname: true }),
     },
   },
   zusammenleben: {
@@ -41,7 +47,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   veUnterhalt: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/unterhalt",
     pageSchema: {
-      child: z.object({ unterhaltsSumme: buildMoneyValidationSchema() }),
+      child: childSchema.pick({ unterhaltsSumme: true }),
     },
   },
   minderjaehrig: {
@@ -53,7 +59,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   veGeburtsdatum: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
     pageSchema: {
-      child: z.object({ geburtsdatum: childBirthdaySchema }),
+      child: childSchema.pick({ geburtsdatum: true }),
     },
   },
   worumGehts: {

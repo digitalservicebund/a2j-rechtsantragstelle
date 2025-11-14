@@ -45,10 +45,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -62,12 +58,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "yes",
-        kinder: [
-          {
-            wohnortBeiAntragsteller: "yes",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -75,12 +65,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
         "/finanzielle-angaben/kinder/kinder/0/kind-eigene-einnahmen-frage",
       userInput: {
         "kinder#eigeneEinnahmen": "yes",
-        kinder: [
-          {
-            eigeneEinnahmen: "yes",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -99,10 +83,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -116,24 +96,12 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "no",
-        kinder: [
-          {
-            wohnortBeiAntragsteller: "no",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
       userInput: {
         "kinder#unterhalt": "yes",
-        kinder: [
-          {
-            unterhalt: "yes",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -152,10 +120,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
-      userInput: {
-        kinder: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -169,24 +133,12 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/wohnort",
       userInput: {
         "kinder#wohnortBeiAntragsteller": "no",
-        kinder: [
-          {
-            wohnortBeiAntragsteller: "no",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-frage",
       userInput: {
         "kinder#unterhalt": "no",
-        kinder: [
-          {
-            unterhalt: "no",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {

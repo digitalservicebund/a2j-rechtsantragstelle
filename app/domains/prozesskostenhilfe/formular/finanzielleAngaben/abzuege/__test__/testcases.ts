@@ -107,12 +107,6 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-arbeitsausgaben",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        arbeitsausgaben: [],
-      },
     },
     {
       stepId:

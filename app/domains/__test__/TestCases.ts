@@ -1,5 +1,5 @@
 import { type Config } from "~/services/flow/server/types";
-import type { AllowedUserTypes, UserData } from "../userData";
+import type { UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 // Old flow tests: forward & backward using full user data
@@ -11,18 +11,18 @@ export type TestCases<T extends UserData> = Readonly<
  * Retrieves template literal union of all possible array item property paths
  * in the format arrayname#itemname
  */
-type ArrayPropertyPaths<T> = {
+type ArrayItemPropertyTypes<T> = {
   [K in keyof T]: NonNullable<T[K]> extends ReadonlyArray<infer U>
     ? U extends object
-      ? `${K & string}#${Extract<keyof U, string>}`
-      : never
-    : never;
+      ? { [P in Extract<keyof U, string> as `${K & string}#${P}`]: U[P] }
+      : // eslint-disable @typescript-eslint/no-empty-object-type
+        {}
+    : {};
 }[keyof T];
 
-// Deep partial needed to ensure partial array pages are handled correctly
-export type ExpectedStepUserInput<T extends UserData> = DeepPartial<T> & {
+export type ExpectedStepUserInput<T extends UserData> = T & {
   pageData?: { arrayIndexes?: number[] };
-} & { [K in ArrayPropertyPaths<T>]?: AllowedUserTypes };
+} & Partial<ArrayItemPropertyTypes<T>>;
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
@@ -35,12 +35,6 @@ export type ExpectedStep<T extends UserData> = {
   skipPageSchemaValidation?: boolean;
   userInput?: ExpectedStepUserInput<T>;
 };
-
-type DeepPartial<T> = T extends object
-  ? {
-      [P in keyof T]?: DeepPartial<T[P]>;
-    }
-  : T;
 
 export type FlowTestCases<T extends UserData> = Record<
   string,

@@ -181,12 +181,6 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-partner-arbeitsausgaben",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        "partner-arbeitsausgaben": [],
-      },
     },
     {
       stepId:
@@ -284,12 +278,6 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
       addArrayItemEvent: "add-partner-weitereEinkuenfte",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        "partner-weitereEinkuenfte": [],
-      },
     },
     {
       stepId:

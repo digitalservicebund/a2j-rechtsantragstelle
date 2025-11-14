@@ -245,12 +245,6 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
       addArrayItemEvent: "add-weitereEinkuenfte",
-      userInput: {
-        pageData: {
-          arrayIndexes: [0],
-        },
-        weitereEinkuenfte: [],
-      },
     },
     {
       stepId:

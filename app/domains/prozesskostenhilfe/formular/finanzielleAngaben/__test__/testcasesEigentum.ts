@@ -79,12 +79,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "bankkonten#kontoEigentuemer": "myself",
         "bankkonten#bankName": "N26",
         "bankkonten#kontostand": "1000000",
-        bankkonten: [
-          {
-            kontoEigentuemer: "myself",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -110,12 +104,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "bargeld",
-        geldanlagen: [
-          {
-            art: "bargeld",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -138,12 +126,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "wertpapiere",
-        geldanlagen: [
-          {
-            art: "wertpapiere",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -167,12 +149,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "guthabenkontoKrypto",
-        geldanlagen: [
-          {
-            art: "guthabenkontoKrypto",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -196,12 +172,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "giroTagesgeldSparkonto",
-        geldanlagen: [
-          {
-            art: "giroTagesgeldSparkonto",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -228,12 +198,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "befristet",
-        geldanlagen: [
-          {
-            art: "befristet",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -260,12 +224,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "forderung",
-        geldanlagen: [
-          {
-            art: "forderung",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -290,12 +248,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/0/art",
       userInput: {
         "geldanlagen#art": "sonstiges",
-        geldanlagen: [
-          {
-            art: "sonstiges",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -370,12 +322,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/0/wert",
       userInput: {
         "kraftfahrzeuge#wert": "over10000",
-        kraftfahrzeuge: [
-          {
-            wert: "over10000",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -386,7 +332,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "kraftfahrzeuge#marke": "Audi",
         "kraftfahrzeuge#eigentuemer": "myself",
         "kraftfahrzeuge#verkaufswert": "100000",
-        "kraftfahrzeuge#kilometerstand": "1000",
+        "kraftfahrzeuge#kilometerstand": 1000,
         "kraftfahrzeuge#anschaffungsjahr": "2023",
         "kraftfahrzeuge#baujahr": "1995",
       },
@@ -417,12 +363,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
         "grundeigentum#isBewohnt": "yes",
-        grundeigentum: [
-          {
-            isBewohnt: "yes",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -449,12 +389,6 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/0/bewohnt-frage",
       userInput: {
         "grundeigentum#isBewohnt": "no",
-        grundeigentum: [
-          {
-            isBewohnt: "no",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {

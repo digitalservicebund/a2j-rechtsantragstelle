@@ -1,15 +1,12 @@
 import { createMachine } from "xstate";
 import z from "zod";
+import merge from "lodash/merge";
 import { getPageSchema } from "../pageSchemas";
 import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import type {
-  ExpectedStep,
-  ExpectedStepUserInput,
-  FlowTestConfig,
-} from "./TestCases";
+import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
@@ -20,20 +17,9 @@ import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
-import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { type BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
-import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 
-const flowSchemaTests: Record<
-  string,
-  FlowTestConfig<
-    | BeratungshilfeFormularUserData
-    | BeratungshilfeVorabcheckUserData
-    | ProzesskostenhilfeFormularUserData
-    | KontopfaendungWegweiserUserData
-  >
-> = {
+const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
@@ -49,10 +35,38 @@ type VisitedSteps = Record<
 const buildFullUserInput = <T extends UserData>(
   expectedSteps: Array<ExpectedStep<T>>,
   idx: number,
-) =>
-  expectedSteps
-    .slice(0, idx + 1)
-    .reduce((acc, step) => ({ ...acc, ...step.userInput }), {});
+) => {
+  return expectedSteps.slice(0, idx + 1).reduce((acc, step) => {
+    let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
+
+    if (step.addArrayItemEvent) {
+      merged.pageData = {
+        arrayIndexes: merged.pageData?.arrayIndexes
+          ? [merged.pageData?.arrayIndexes.at(-1)! + 1]
+          : [0],
+      };
+      return merged;
+    }
+
+    const arrayIndexes =
+      step.stepId
+        .match(/(\/\d+)/g)
+        ?.map((index) => Number(index.replace("/", ""))) ?? [];
+
+    if (arrayIndexes.length > 0) {
+      merged.pageData = { arrayIndexes: arrayIndexes };
+
+      const lastIndex = arrayIndexes.at(-1);
+      if (lastIndex === undefined) return merged;
+      const resolvedArraysFromKeys = resolveArraysFromKeys(
+        { ...step.userInput },
+        [lastIndex],
+      );
+      merged = merge(merged, resolvedArraysFromKeys);
+    }
+    return merged;
+  }, {});
+};
 
 function testPageSchema<T extends UserData>(
   userInput: ExpectedStepUserInput<T>,
