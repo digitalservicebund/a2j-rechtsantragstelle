@@ -18,14 +18,13 @@ export function createFieldEntry(
 ): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
-  const isArraySubFieldFlag = fieldInfo.isArraySubField;
 
   let value: unknown;
   let actualFieldName = fieldName;
   let arrayIndex: number | undefined;
   let arrayBaseField: string | undefined;
 
-  if (isArraySubFieldFlag) {
+  if (fieldInfo.isArraySubField) {
     arrayIndex = fieldInfo.arrayIndex;
     arrayBaseField = fieldInfo.baseFieldName;
 
@@ -56,15 +55,11 @@ export function createFieldEntry(
     ? "Keine Angabe" // need to get this from CMS for translations
     : formatFieldValue(value, fieldQuestion?.options);
 
-  let editUrl: string | undefined;
+  let editUrl: string | undefined = undefined;
   if (representativeStepId) {
-    if (isArrayItem) {
-      editUrl = createArrayEditUrl(fieldName, representativeStepId);
-    } else {
-      editUrl = representativeStepId;
-    }
-  } else {
-    editUrl = undefined;
+    editUrl = isArrayItem
+      ? createArrayEditUrl(fieldName, representativeStepId)
+      : representativeStepId;
   }
 
   return {

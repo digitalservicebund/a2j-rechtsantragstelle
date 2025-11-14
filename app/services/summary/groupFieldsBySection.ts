@@ -1,10 +1,5 @@
 import type { FlowController } from "~/services/flow/server/buildFlowController";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import {
-  createStepToSectionMapping,
-  getSectionFromStepId,
-  addFieldToGroup,
-} from "./sectionMapping";
 import { createArrayBoxKey } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
 
@@ -17,6 +12,11 @@ const EXCLUDED_SECTIONS = new Set([
   "result",
 ]);
 
+function extractBoxKeyFromPath(stepId: string): string {
+  const segments = stepId.split("/").filter(Boolean);
+  return segments.at(-1) ?? "default";
+}
+
 export function groupFieldsByFlowNavigation(
   fields: string[],
   flowController: FlowController,
@@ -27,48 +27,46 @@ export function groupFieldsByFlowNavigation(
   groups: Record<string, Record<string, string[]>>;
   sectionTitles: Record<string, string>;
 } {
-  // Get all the steps for the flow
   const stepStates = flowController.stepStates();
-
-  const stepToSectionMapping = createStepToSectionMapping(stepStates);
+  const validSections = new Set(
+    stepStates.map((state) => state.stepId.replace(/^\//, "")),
+  );
 
   const groups: Record<string, Record<string, string[]>> = {};
   const sectionTitles: Record<string, string> = {};
 
   for (const field of fields) {
-    // Use the existing field resolution logic from getFormQuestions
-    let stepId = findStepIdForField(field, fieldToStepMapping);
+    const stepId = findStepIdForField(field, fieldToStepMapping);
 
     if (!stepId) {
-      // Field not found in any step, put it in "other" section
-      addFieldToGroup(groups, "other", "zusaetzliche_angaben", field);
       continue;
     }
 
-    // Strip flow path from stepId for section matching
-    // stepId might be "/beratungshilfe/antrag/grundvoraussetzungen/..."
-    // but we need "/grundvoraussetzungen/..." for section mapping
+    // Remove flow prefix and get first segment
+    let normalizedStepId = stepId;
     if (flowId && stepId.startsWith(flowId)) {
-      stepId = stepId.substring(flowId.length);
+      normalizedStepId = stepId.substring(flowId.length);
     }
 
-    const sectionInfo = getSectionFromStepId(stepId, stepToSectionMapping);
-    const sectionKey = sectionInfo.sectionKey.replace(/^\//, "");
+    const sectionKey = normalizedStepId.replace(/^\//, "").split("/")[0];
 
-    if (EXCLUDED_SECTIONS.has(sectionKey)) {
+    if (EXCLUDED_SECTIONS.has(sectionKey) || !validSections.has(sectionKey)) {
       continue;
     }
 
-    // Collect the section title from flow controller using translations like navigation does
-    if (sectionInfo.sectionTitle && !sectionTitles[sectionKey]) {
+    // Set section title using translation. Translations has a slash in them
+    if (!sectionTitles[sectionKey]) {
       sectionTitles[sectionKey] =
-        translations?.[sectionInfo.sectionTitle] ?? sectionInfo.sectionTitle;
+        translations?.[`/${sectionKey}`] ?? sectionKey;
     }
-    // Group Arrays by base field and index
-    const arrayBoxKey = createArrayBoxKey(field);
-    const boxKey = arrayBoxKey ?? sectionInfo.boxKey ?? "default";
 
-    addFieldToGroup(groups, sectionKey, boxKey, field);
+    // Group by array key or extract box key from step path
+    const boxKey = createArrayBoxKey(field) ?? extractBoxKeyFromPath(stepId);
+
+    // Add field to group
+    if (!groups[sectionKey]) groups[sectionKey] = {};
+    if (!groups[sectionKey][boxKey]) groups[sectionKey][boxKey] = [];
+    groups[sectionKey][boxKey].push(field);
   }
 
   return { groups, sectionTitles };

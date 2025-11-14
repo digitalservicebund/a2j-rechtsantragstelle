@@ -54,8 +54,8 @@ describe("generateSummaryFromUserData", () => {
   const mockFlowId: FlowId = "/beratungshilfe/antrag";
 
   const mockTranslations: Translations = {
-    "persoenliche-daten": "Persönliche Daten",
-    "finanzielle-angaben": "Finanzielle Angaben",
+    "/persoenliche-daten": "Persönliche Daten",
+    "/finanzielle-angaben": "Finanzielle Angaben",
     kinder: "Kinder",
     "fields.vorname": "Vorname",
     "fields.nachname": "Nachname",
