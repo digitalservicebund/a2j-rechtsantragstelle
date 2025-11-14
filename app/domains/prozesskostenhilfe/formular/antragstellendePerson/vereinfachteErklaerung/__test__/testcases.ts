@@ -30,13 +30,14 @@ const frageVermoegenFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     },
   ],
   frageVermoegenFulfilledVollstreckung: [
@@ -68,13 +69,14 @@ const frageVermoegenFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     },
   ],
   frageVermoegenFulfilledAbstammung: [
@@ -106,13 +108,14 @@ const frageVermoegenFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     },
   ],
   frageVermoegenFulfilledEinkommen: [
@@ -144,25 +147,27 @@ const frageVermoegenFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "yes",
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
       userInput: {
         hohesEinkommen: "no",
       },
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
       addArrayItemEvent: "add-einnahmen",
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/daten",
       userInput: {
         "einnahmen#beschreibung": "Einnahme",
         "einnahmen#betrag": "100",
@@ -171,7 +176,7 @@ const frageVermoegenFulfilled = {
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         einnahmen: [
@@ -184,7 +189,7 @@ const frageVermoegenFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     },
   ],
 } satisfies FlowTestCases["testcases"];
@@ -219,7 +224,8 @@ const frageVermoegenNotFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
@@ -251,7 +257,8 @@ const frageVermoegenNotFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
@@ -290,7 +297,8 @@ const frageVermoegenNotFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "no",
       },
@@ -329,25 +337,27 @@ const frageVermoegenNotFulfilled = {
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
       userInput: {
         hasEinnahmen: "yes",
       },
     },
     {
-      stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
       userInput: {
         hohesEinkommen: "yes",
       },
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
       addArrayItemEvent: "add-einnahmen",
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahme/0/daten",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/0/daten",
       userInput: {
         "einnahmen#beschreibung": "Einnahme",
         "einnahmen#betrag": "100",
@@ -356,7 +366,7 @@ const frageVermoegenNotFulfilled = {
     },
     {
       stepId:
-        "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         einnahmen: [
@@ -409,30 +419,32 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
     ...frageVermoegenNotFulfilled,
     veEinnahmenNotEntered: [
       {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
         userInput: {
           hasEinnahmen: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
         userInput: {
           hohesEinkommen: "no",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen-warnung",
+          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/warnung",
       },
     ],
     veNoVermoegen: [
       {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
           hasVermoegen: "no",
         },
@@ -444,14 +456,15 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
     ],
     veVermoegenOver10000: [
       {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
           hasVermoegen: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
         userInput: {
           vermoegenUnder10000: "no",
         },
@@ -463,49 +476,51 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
     ],
     veVermoegenNotEntered: [
       {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
           hasVermoegen: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
         userInput: {
           vermoegenUnder10000: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-warnung",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
       },
     ],
     veVrmoegenUnder10000: [
       {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+        stepId:
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
           hasVermoegen: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
         userInput: {
           vermoegenUnder10000: "yes",
         },
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
         addArrayItemEvent: "add-vermoegen",
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag/0/daten",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag/0/daten",
         userInput: {
           "vermoegen#beschreibung": "Test",
           "vermoegen#wert": "1000",
@@ -513,7 +528,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
       },
       {
         stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
         skipPageSchemaValidation: true,
         userInput: {
           hasVermoegen: "yes",

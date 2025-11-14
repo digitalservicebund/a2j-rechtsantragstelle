@@ -20,21 +20,11 @@ const bereichMappingText = {
   anderes: "",
 } as const;
 
-const getTextBookingNumber = (buchungsnummer?: string) => {
-  if (typeof buchungsnummer === "undefined" || buchungsnummer.length === 0) {
-    return "";
-  }
+const getTextBookingNumber = (buchungsnummer?: string) =>
+  buchungsnummer ? `, abweichende Buchungsnummer: ${buchungsnummer}` : "";
 
-  return `, abweichende Buchungsnummer: ${buchungsnummer}`;
-};
-
-const getTextTelefonNumber = (telefonnummer?: string) => {
-  if (typeof telefonnummer === "undefined" || telefonnummer.length === 0) {
-    return "";
-  }
-
-  return `, Telefonnummer ${telefonnummer}`;
-};
+const getTextTelefonNumber = (telefonnummer?: string) =>
+  telefonnummer ? `, Telefonnummer ${telefonnummer}` : "";
 
 export const addMultiplePersonsText = (
   doc: typeof PDFDocument,

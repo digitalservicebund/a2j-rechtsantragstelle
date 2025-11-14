@@ -3,6 +3,8 @@ import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import { beklagtePersonDone } from "./doneFunctions";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { shouldVisitGerichtSuchenPostleitzahlWohnraum } from "../gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -43,8 +45,14 @@ export const beklagtePersonXstateConfig = {
             target: steps.beklagtePersonKaufmann.relative,
           },
           {
+            guard: ({ context }) =>
+              objectKeysNonEmpty(context, ["gegenWenBeklagen"]) &&
+              shouldVisitGerichtSuchenPostleitzahlWohnraum({ context }),
+            target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
+          },
+          {
             guard: beklagtePersonDone,
-            target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
+            target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
         BACK: [
@@ -107,7 +115,7 @@ export const beklagtePersonXstateConfig = {
           },
           {
             guard: beklagtePersonDone,
-            target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
+            target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
         BACK: steps.beklagtePersonGegenWen.relative,
@@ -122,13 +130,13 @@ export const beklagtePersonXstateConfig = {
           },
           {
             guard: beklagtePersonDone,
-            target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
+            target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
         BACK: [
           {
             guard: ({ context }) =>
-              context.beklagtePersonGeldVerdienen !== undefined,
+              objectKeysNonEmpty(context, ["beklagtePersonGeldVerdienen"]),
             target: steps.beklagtePersonGeldVerdienen.relative,
           },
           steps.beklagtePersonGegenWen.relative,
@@ -137,10 +145,19 @@ export const beklagtePersonXstateConfig = {
     },
     [steps.beklagtePersonGerichtsstandsvereinbarung.relative]: {
       on: {
-        SUBMIT: {
-          guard: beklagtePersonDone,
-          target: steps.gerichtSuchePostleitzahlBeklagtePerson.absolute,
-        },
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              context.gerichtsstandsvereinbarung === "yes",
+            target:
+              steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
+                .absolute,
+          },
+          {
+            guard: beklagtePersonDone,
+            target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
+          },
+        ],
         BACK: steps.beklagtePersonKaufmann.relative,
       },
     },

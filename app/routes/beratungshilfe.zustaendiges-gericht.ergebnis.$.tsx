@@ -17,7 +17,7 @@ import {
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
-  invariant(typeof splat !== "undefined");
+  invariant(splat !== undefined);
 
   const [zipCode, streetSlug, houseNumber] = splat.split("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
