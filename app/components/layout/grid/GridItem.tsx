@@ -11,6 +11,7 @@ type GridItemProps = PropsWithChildren<{
   className?: string;
   id?: string;
   row?: number;
+  as?: "div" | "main" | "section" | "article" | "aside" | "nav" | "footer";
 }>;
 
 export function GridItem({
@@ -22,6 +23,7 @@ export function GridItem({
   className,
   id,
   row = 1,
+  as: Component = "div",
 }: GridItemProps) {
   const cls = classNames(
     getGridClass("col-start", smColumn.start as Span),
@@ -37,8 +39,8 @@ export function GridItem({
   );
 
   return (
-    <div className={cls} id={id}>
+    <Component className={cls} id={id}>
       {children}
-    </div>
+    </Component>
   );
 }
