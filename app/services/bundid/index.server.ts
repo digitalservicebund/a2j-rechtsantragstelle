@@ -1,63 +1,97 @@
-import fs from "node:fs";
-import path from "node:path";
-import saml from "samlify";
-import type { IdentityProvider } from "samlify/types/src/entity-idp";
-import type { ServiceProvider } from "samlify/types/src/entity-sp";
-import invariant from "tiny-invariant";
 import { config } from "~/services/env/env.server";
+import { SAML } from "@node-saml/node-saml";
+import fs from "fs";
+export function getBundIdSamlConfig() {
+  const samlAuthnRequestExtensions = {
+    "akdb:AuthenticationRequest": {
+      "@xmlns:akdb": "https://www.akdb.de/request/2018/09",
+      xmlns: "https://www.akdb.de/request/2018/09",
+      EnableStatusDetail: "true",
+      Version: "2",
 
-let bundIdServiceProvider: ServiceProvider;
-let bundIdIdentityProvider: IdentityProvider;
-
-export const getBundIdServiceProvider = () => {
-  if (!bundIdServiceProvider) {
-    const pathToSpMetadata = path.resolve(config().SAML_SP_METADATA_PATH);
-    const spMetadata = fs.readFileSync(pathToSpMetadata);
-
-    const pathToPrivateKey = path.resolve(config().SAML_SP_SECRET_KEY_PATH);
-    const privateKey = fs.readFileSync(pathToPrivateKey);
-
-    const pathToPrivateKeyEncryption = path.resolve(
-      config().SAML_SP_SECRET_KEY_ENCRYPTION_PATH,
-    );
-    const privateKeyEncryption = fs.readFileSync(pathToPrivateKeyEncryption);
-
-    const pathToLoginRequestTemplate = path.resolve(
-      config().SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH,
-    );
-    const loginRequestTemplate = fs
-      .readFileSync(pathToLoginRequestTemplate)
-      .toString("utf8");
-
-    bundIdServiceProvider = saml.ServiceProvider({
-      metadata: spMetadata,
-      encPrivateKey: privateKeyEncryption,
-      privateKey,
-      wantAssertionsSigned: true,
-      loginRequestTemplate: { context: loginRequestTemplate },
-    });
-  }
-  return bundIdServiceProvider;
-};
-
-export const getBundIdIdentityProvider = () => {
-  if (!bundIdIdentityProvider) {
-    invariant(config().SAML_IDP_CERT, "SAML_IDP_CERT has to be set");
-    bundIdIdentityProvider = saml.IdentityProvider({
-      // Reading the data from file does not work because wantAuthnRequestsSigned is not set
-      // and even setting it (WantAuthnRequestsSigned="true") doesn't solve the issue.
-      wantAuthnRequestsSigned: true,
-      entityID: "https://int.id.bund.de/idp",
-      singleSignOnService: [
-        {
-          Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
-          Location: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
+      "akdb:AuthnMethods": {
+        "akdb:eID": {
+          "akdb:Enabled": true,
         },
-      ],
-      signingCert: config().SAML_IDP_CERT,
-      isAssertionEncrypted: true,
-      messageSigningOrder: "encrypt-then-sign",
-    });
-  }
-  return bundIdIdentityProvider;
-};
+      },
+
+      "akdb:RequestedAttributes": {
+        "akdb:RequestedAttribute": [
+          {
+            Name: "urn:oid:1.3.6.1.4.1.33592.1.3.5",
+            RequiredAttribute: "false",
+          },
+          {
+            Name: "urn:oid:1.3.6.1.4.1.25484.494450.3",
+            RequiredAttribute: "true",
+          },
+          { Name: "urn:oid:1.3.6.1.5.5.7.9.2", RequiredAttribute: "false" },
+          { Name: "urn:oid:2.5.4.16", RequiredAttribute: "false" },
+          { Name: "urn:oid:1.2.40.0.10.2.1.1.149", RequiredAttribute: "false" },
+          { Name: "urn:oid:2.5.4.17", RequiredAttribute: "false" },
+          {
+            Name: "urn:oid:1.2.40.0.10.2.1.1.225599",
+            RequiredAttribute: "false",
+          },
+          {
+            Name: "urn:oid:1.2.40.0.10.2.1.1.225566",
+            RequiredAttribute: "false",
+          },
+          {
+            Name: "urn:oid:1.2.40.0.10.2.1.1.225577",
+            RequiredAttribute: "false",
+          },
+          { Name: "urn:oid:2.5.4.18", RequiredAttribute: "true" },
+          {
+            Name: "urn:oid:0.9.2342.19200300.100.1.40",
+            RequiredAttribute: "false",
+          },
+          { Name: "urn:oid:2.5.4.7", RequiredAttribute: "false" },
+          {
+            Name: "urn:oid:1.2.40.0.10.2.1.1.261.94",
+            RequiredAttribute: "false",
+          },
+          { Name: "urn:oid:2.5.4.42", RequiredAttribute: "true" },
+          { Name: "urn:oid:2.5.4.4", RequiredAttribute: "true" },
+          { Name: "urn:oid:1.2.40.0.10.2.1.1.55", RequiredAttribute: "false" },
+          {
+            Name: "urn:oid:0.9.2342.19200300.100.1.3",
+            RequiredAttribute: "false",
+          },
+        ],
+      },
+      "akdb:DisplayInformation": {
+        "@xmlns:classic-ui":
+          "https://www.akdb.de/request/2018/09/classic-ui/v1",
+        "classic-ui:Version": "",
+        "classic-ui:Purpose":
+          "Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.",
+        "classic-ui:OrganisationDisplayName": "Onlinedienste der Justiz",
+        "classic-ui:Lang": "de",
+        "classic-ui:BackURL": "{BackURL}",
+        "classic-ui:OnlineServiceId": "{OnlineServiceID}",
+      },
+    },
+  };
+
+  const saml = new SAML({
+    entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
+    issuer: "https://service.justiz.de/sp",
+    callbackUrl: config().SAML_ASSERTION_CONSUMER_SERVICE_URL ?? "",
+    idpCert: config().SAML_IDP_CERT ?? "",
+    privateKey: fs.readFileSync("data/saml/sp_privateKey.pem", "utf-8"),
+    decryptionPvk: fs.readFileSync(
+      "data/saml/sp_privateKeyEncryption.pem",
+      "utf-8",
+    ),
+    authnRequestBinding: "HTTP-POST",
+    skipRequestCompression: true,
+    wantAssertionsSigned: true,
+    signatureAlgorithm: "sha256-mgf1",
+    samlAuthnRequestExtensions: samlAuthnRequestExtensions,
+    acceptedClockSkewMs: 5000,
+    disableRequestedAuthnContext: false,
+    forceAuthn: false,
+  });
+  return saml;
+}
