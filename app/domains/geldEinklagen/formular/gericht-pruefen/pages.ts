@@ -8,7 +8,7 @@ export const geldEinklagenGerichtPruefenPages = {
   introStart: {
     stepId: "gericht-pruefen/intro/start",
   },
-  forderungFragen: {
+  forderungWas: {
     stepId: "gericht-pruefen/forderung/was",
     pageSchema: { forderung: z.enum(["maximal5000", "etwasAnderes"]) },
   },

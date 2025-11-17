@@ -14,7 +14,7 @@ export const sachgebietXstateConfig = {
     [steps.sachgebietInfo.relative]: {
       on: {
         SUBMIT: steps.sachgebietAusgeschlossen.relative,
-        BACK: steps.forderungFragen.absolute,
+        BACK: steps.forderungWas.absolute,
       },
     },
     [steps.sachgebietAusgeschlossen.relative]: {
