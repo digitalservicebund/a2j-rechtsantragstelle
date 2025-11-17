@@ -48,9 +48,9 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/versicherung-vertrag",
     pageSchema: { versicherungVertrag: YesNoAnswer },
   },
-  sachgebietVersicherungVersicherungsnummer: {
+  sachgebietVersicherungVersicherungsnehmer: {
     stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnehmer",
-    pageSchema: { versicherungsnummer: YesNoAnswer },
+    pageSchema: { versicherungsnehmer: YesNoAnswer },
   },
   sachgebietReiseArt: {
     stepId: "gericht-pruefen/sachgebiet/reise-art",

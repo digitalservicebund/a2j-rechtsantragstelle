@@ -128,7 +128,7 @@ describe("sachgebietDone", () => {
       expect(actual).toBe(true);
     });
 
-    it("should return false if versicherungVertrag is yes but versicherungsnummer is missing", () => {
+    it("should return false if versicherungVertrag is yes but versicherungsnehmer is missing", () => {
       const actual = sachgebietDone({
         context: {
           ausgeschlossen: "no",
@@ -140,13 +140,13 @@ describe("sachgebietDone", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return true if versicherungVertrag is yes but versicherungsnummer is present", () => {
+    it("should return true if versicherungVertrag is yes but versicherungsnehmer is present", () => {
       const actual = sachgebietDone({
         context: {
           ausgeschlossen: "no",
           sachgebiet: "versicherung",
           versicherungVertrag: "yes",
-          versicherungsnummer: "no",
+          versicherungsnehmer: "no",
         },
       });
 

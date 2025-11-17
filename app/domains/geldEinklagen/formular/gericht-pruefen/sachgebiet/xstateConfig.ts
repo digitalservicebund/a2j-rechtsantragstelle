@@ -91,7 +91,7 @@ export const sachgebietXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.versicherungVertrag === "yes",
-            target: steps.sachgebietVersicherungVersicherungsnummer.relative,
+            target: steps.sachgebietVersicherungVersicherungsnehmer.relative,
           },
           {
             guard: sachgebietDone,
@@ -101,7 +101,7 @@ export const sachgebietXstateConfig = {
         BACK: steps.sachgebietBesondere.relative,
       },
     },
-    [steps.sachgebietVersicherungVersicherungsnummer.relative]: {
+    [steps.sachgebietVersicherungVersicherungsnehmer.relative]: {
       on: {
         SUBMIT: {
           guard: sachgebietDone,

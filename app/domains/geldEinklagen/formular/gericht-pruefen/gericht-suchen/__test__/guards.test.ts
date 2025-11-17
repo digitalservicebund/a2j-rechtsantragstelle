@@ -139,16 +139,16 @@ describe("guards", () => {
     describe("check versicherung", () => {
       const baseContext = {
         sachgebiet: "versicherung",
-        versicherungsnummer: "yes",
+        versicherungsnehmer: "yes",
         klagendeKaufmann: "yes",
         beklagtePersonKaufmann: "yes",
         gerichtsstandsvereinbarung: "yes",
       } satisfies GeldEinklagenFormularGerichtPruefenUserData;
 
-      it("should return false in case versicherungsnummer is no", () => {
+      it("should return false in case versicherungsnehmer is no", () => {
         const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
-          versicherungsnummer: "no",
+          versicherungsnehmer: "no",
           klagendeKaufmann: "no",
         };
 

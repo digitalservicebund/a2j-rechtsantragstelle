@@ -107,7 +107,7 @@ export const testCasesSachgebiet = [
       ausgeschlossen: "no",
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      versicherungsnehmer: "yes",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
@@ -124,7 +124,7 @@ export const testCasesSachgebiet = [
       ausgeschlossen: "no",
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
-      versicherungsnummer: "no",
+      versicherungsnehmer: "no",
     },
     [
       "/gericht-pruefen/sachgebiet/info",
