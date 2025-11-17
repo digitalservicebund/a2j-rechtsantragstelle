@@ -3,9 +3,8 @@ import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskos
 import type { Config } from "~/services/flow/server/types";
 import { ausgabenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-import { eigentumDone } from "../eigentum/doneFunctions";
 import {
-  eigentumYesAndEmptyArray,
+  hasGrundeigentumYes,
   isSonstigeVersicherung,
   ratenzahlungAnteiligYes,
   sonstigeAusgabeAnteiligYes,
@@ -26,14 +25,10 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
         on: {
           BACK: [
             {
-              guard: eigentumYesAndEmptyArray,
-              target: "#eigentum-zusammenfassung.warnung",
+              guard: hasGrundeigentumYes,
+              target: "#eigentum.grundeigentum.uebersicht",
             },
-            {
-              guard: eigentumDone,
-              target: "#eigentum-zusammenfassung.zusammenfassung",
-            },
-            "#eigentum.kraftfahrzeuge-frage",
+            "#eigentum.grundeigentum.grundeigentum-frage",
           ],
           SUBMIT: [
             {

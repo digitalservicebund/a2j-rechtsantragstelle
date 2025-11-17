@@ -94,7 +94,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenZusammenfassung: {
-    stepId: "finanzielle-angaben/ausgaben/zusammenfassung",
+    stepId: "finanzielle-angaben/ausgaben/uebersicht",
   },
   ausgabenVersicherungen: {
     stepId: "finanzielle-angaben/ausgaben/versicherungen",

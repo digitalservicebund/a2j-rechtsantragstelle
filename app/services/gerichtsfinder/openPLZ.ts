@@ -40,7 +40,9 @@ export async function fetchStreetnamesForZipcode(zipCode?: string) {
     );
   }
   const results: OpenPLZResult[] = await openPlzResponse.json();
-  const numPages = parseInt(openPlzResponse.headers.get("x-total-pages") ?? "");
+  const numPages = Number.parseInt(
+    openPlzResponse.headers.get("x-total-pages") ?? "",
+  );
   if (numPages > 1) {
     const requests: Array<Promise<Response>> = [];
     for (let page = 2; page <= numPages; page++) {

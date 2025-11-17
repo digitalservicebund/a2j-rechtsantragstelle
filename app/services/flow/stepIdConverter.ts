@@ -41,7 +41,7 @@ export function insertIndexesIntoPath(
   const numberPositions: number[] = [];
 
   currentPathParts.forEach((part, index) => {
-    if (!isNaN(Number(part)) && part !== "") {
+    if (!Number.isNaN(Number(part)) && part !== "") {
       numberPositions.push(index);
     }
   });

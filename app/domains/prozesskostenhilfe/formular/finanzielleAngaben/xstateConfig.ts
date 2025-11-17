@@ -2,10 +2,7 @@ import type { Config } from "~/services/flow/server/types";
 import { finanzielleAngabenAbzuegeXstateConfig } from "./abzuege/xstateConfig";
 import { andereUnterhaltszahlungenXstateConfig } from "./andere-unterhaltszahlungen/xstateConfig";
 import { ausgabenXstateConfig } from "./ausgaben/xstateConfig";
-import {
-  eigentumXstateConfig,
-  eigentumZusammenfassungXstateConfig,
-} from "./eigentum/xstateConfig";
+import { eigentumXstateConfig } from "./eigentum/xstateConfig";
 import { finanzielleAngabenEinkuenfteXstateConfig } from "./einkuenfte/xStateConfig";
 import { kinderXstateConfig } from "./kinder/xstateConfig";
 import { partnerXstateConfig } from "./partner/xstateConfig";
@@ -23,7 +20,6 @@ export const finanzielleAngabenXstateConfig = {
     "andere-unterhaltszahlungen": andereUnterhaltszahlungenXstateConfig,
     wohnung: wohnungXstateConfig,
     eigentum: eigentumXstateConfig,
-    "eigentum-zusammenfassung": eigentumZusammenfassungXstateConfig,
     ausgaben: ausgabenXstateConfig,
   },
 } satisfies Config<ProzesskostenhilfeFinanzielleAngabenUserData>;

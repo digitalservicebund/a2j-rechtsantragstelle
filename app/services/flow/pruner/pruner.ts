@@ -54,7 +54,7 @@ const getValidFlowPaths = (formFields: FormFieldsMap, validPaths: Path[]) => {
         .filter((stepId) => formFields[stepId])
         .map((stepId) => ({
           path: stepId,
-          isArrayPage: typeof arrayIndex !== "undefined",
+          isArrayPage: arrayIndex !== undefined,
         })),
     )
     .reduce((acc, { path, isArrayPage }) => {

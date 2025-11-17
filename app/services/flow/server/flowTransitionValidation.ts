@@ -28,7 +28,7 @@ export async function validateFlowTransition(
   const { sourceFlowId, eligibleSourcePages } = config;
 
   if (isEmpty(eligibleSourcePages)) {
-    throw Error("This property should not be empty");
+    throw new Error("This property should not be empty");
   }
 
   const { userData } = await getSessionData(sourceFlowId, cookieHeader);

@@ -169,13 +169,3 @@ export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGu
   ({ context }) =>
     hasWeitereUnterhaltszahlungenYes({ context }) &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
-
-export const eigentumYesAndEmptyArray: FinanzielleAngabenGuard = ({
-  context,
-}) =>
-  (context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten)) ||
-  (context.hasGeldanlage === "yes" && !arrayIsNonEmpty(context.geldanlagen)) ||
-  (hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen)) ||
-  (hasKraftfahrzeugYes({ context }) &&
-    !arrayIsNonEmpty(context.kraftfahrzeuge)) ||
-  (hasGrundeigentumYes({ context }) && !arrayIsNonEmpty(context.grundeigentum));

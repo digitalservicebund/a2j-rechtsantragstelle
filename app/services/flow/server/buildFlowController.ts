@@ -16,10 +16,8 @@ import type {
   StateMachineTypes,
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
-import {
-  getRelevantPageSchemasForStepId,
-  isStepDone,
-} from "~/domains/isStepDone";
+import { isStepDone } from "~/services/flow/server/isStepDone";
+import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 import { type FlowId } from "~/domains/flowIds";
 import { pages } from "~/domains/pageSchemas";
 

@@ -133,6 +133,9 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   weitereEinkuenfte: {
     stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte",
+  },
+  weitereEinkunft: {
+    stepId: "finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft",
     pageSchema: {
       weitereEinkuenfte: weitereEinkuenfteArraySchema,
     },

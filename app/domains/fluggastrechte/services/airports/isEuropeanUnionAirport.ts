@@ -48,15 +48,8 @@ const EU_COUNTRIES = [
 export function isEuropeanUnionAirport(
   airportCode: string | undefined,
 ): boolean {
-  if (typeof airportCode === "undefined") {
-    return false;
-  }
-
+  if (!airportCode) return false;
   const airportCountry = getAirportByIataCode(airportCode)?.country_code;
-
-  if (typeof airportCountry === "undefined") {
-    return false;
-  }
-
+  if (!airportCountry) return false;
   return EU_COUNTRIES.includes(airportCountry);
 }

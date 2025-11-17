@@ -17,7 +17,7 @@ export function buildStepSchema(
       const arraySchema = schemas[arrayName] as z.ZodArray<z.ZodObject>;
       const objectSchemas = arraySchema.element.shape as SchemaObject;
       if (!isKeyOfObject(arrayFieldName, objectSchemas)) {
-        throw Error(`No schema found for ${arrayFieldName as string}`);
+        throw new Error(`No schema found for ${arrayFieldName as string}`);
       }
       fieldValidators[fieldName] = objectSchemas[arrayFieldName];
     } else if (new RegExp(/\[\d+\]/).test(fieldName)) {
@@ -26,7 +26,7 @@ export function buildStepSchema(
     } else {
       const stepOrFieldName = fieldName.split(".")[0];
       if (!isKeyOfObject(stepOrFieldName, schemas)) {
-        throw Error(`No schema found for ${stepOrFieldName as string}`);
+        throw new Error(`No schema found for ${stepOrFieldName as string}`);
       }
       fieldValidators[stepOrFieldName] = schemas[stepOrFieldName];
     }

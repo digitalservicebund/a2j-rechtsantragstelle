@@ -25,21 +25,21 @@ const addZwischenstoppToFlightDetails = (
   flightDetails: FlightDetail[],
   userData: FluggastrechteUserData,
 ) => {
-  if (typeof userData.ersterZwischenstopp !== "undefined") {
+  if (userData.ersterZwischenstopp) {
     flightDetails.push({
       text: FIRST_AIRPORT_STOP_TEXT,
       value: getAirportNameByIataCode(userData.ersterZwischenstopp),
     });
   }
 
-  if (typeof userData.zweiterZwischenstopp !== "undefined") {
+  if (userData.zweiterZwischenstopp) {
     flightDetails.push({
       text: SECOND_AIRPORT_STOP_TEXT,
       value: getAirportNameByIataCode(userData.zweiterZwischenstopp),
     });
   }
 
-  if (typeof userData.dritterZwischenstopp !== "undefined") {
+  if (userData.dritterZwischenstopp) {
     flightDetails.push({
       text: THIRD_AIRPORT_STOP_TEXT,
       value: getAirportNameByIataCode(userData.dritterZwischenstopp),

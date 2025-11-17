@@ -19,10 +19,7 @@ export function getAirlineAddressFromDB({
   fluggesellschaft = "",
 }: FluggastrechteUserData) {
   const airline = getAirlineByIataCode(fluggesellschaft);
-
-  if (typeof airline === "undefined") {
-    return {};
-  }
+  if (!airline) return {};
 
   return {
     airlineStreetAndNumberDB: airline.streetAndNumber,

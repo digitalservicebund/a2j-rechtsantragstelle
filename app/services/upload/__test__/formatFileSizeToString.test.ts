@@ -24,7 +24,7 @@ describe("formatFileSizeToString", () => {
     expect(formatFileSizeToString(bytesCount)).toBe("0 B");
   });
   it("should convert NaN values correctly", () => {
-    const bytesCount = NaN;
+    const bytesCount = Number.NaN;
     expect(formatFileSizeToString(bytesCount)).toBe("0 B");
   });
 });

@@ -122,10 +122,7 @@ export function hasCompensationShortDistance({
 }
 
 function getAirlineByIataCode(iataCode?: string) {
-  if (typeof iataCode === "undefined" || iataCode.length === 0) {
-    return undefined;
-  }
-
+  if (!iataCode) return undefined;
   return airlines.find((airline) => airline.iata === iataCode);
 }
 
@@ -136,9 +133,9 @@ export function hasArbitrationBoardBfJ({
 
   return {
     hasArbitrationBoardBfJ:
-      typeof airline === "undefined" ||
-      airline?.arbitrationBoard === ARBITRATION_BOARD_BFJ ||
-      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
+      !airline ||
+      airline.arbitrationBoard === ARBITRATION_BOARD_BFJ ||
+      airline.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
 
@@ -149,9 +146,9 @@ export function hasArbitrationBoardRV({
 
   return {
     hasArbitrationBoardRV:
-      typeof airline === "undefined" ||
-      airline?.arbitrationBoard === ARBITRATION_BOARD_RV ||
-      airline?.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
+      !airline ||
+      airline.arbitrationBoard === ARBITRATION_BOARD_RV ||
+      airline.arbitrationBoard === null, // a few airlines has not specified the arbitrationBoard
   };
 }
 

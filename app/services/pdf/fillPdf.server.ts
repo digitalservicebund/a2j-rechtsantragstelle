@@ -44,7 +44,7 @@ export async function fillPdf({
   xPositionsDruckvermerk,
 }: FillPdfProps) {
   if (!(flowId in global.__pdfFileBuffers))
-    throw Error("No pdf file found for " + flowId);
+    throw new Error("No pdf file found for " + flowId);
 
   const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
   resizeToA4(pdfDoc);
