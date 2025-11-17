@@ -16,7 +16,7 @@ export function flowIdFromPathname(pathname: string) {
 
 export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
-  if (!flowId) throw Error(`Unknown flow ID for path ${pathname}`);
+  if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
   const arrayIndexes =
     pathname
       .match(/(\/\d+)/g)

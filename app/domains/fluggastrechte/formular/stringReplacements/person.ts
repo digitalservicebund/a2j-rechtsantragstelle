@@ -22,7 +22,7 @@ export const getArrayWeiterePersonenIndexStrings = (
   context: FluggastrechteUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
-  return typeof arrayIndex !== "undefined"
+  return arrayIndex !== undefined
     ? {
         "arrayWeiterePersonen#index": String(
           arrayIndex + WEITERE_PERSONEN_START_INDEX,
@@ -36,7 +36,7 @@ export const getWeiterePersonenNameStrings = (
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
-    typeof arrayIndex === "undefined" ||
+    arrayIndex === undefined ||
     !context.weiterePersonen ||
     arrayIndex > context.weiterePersonen.length + 1
   )

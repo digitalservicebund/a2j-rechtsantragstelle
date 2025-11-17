@@ -75,22 +75,27 @@ export const pkhFormularVereinfachteErklaerungPages = {
   },
   einnahmen: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen",
+  },
+  einnahmenFrage: {
+    stepId:
+      "antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
     pageSchema: {
       hasEinnahmen: YesNoAnswer,
     },
   },
   einnahmenValue: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen-value",
+    stepId:
+      "antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
     pageSchema: {
       hohesEinkommen: YesNoAnswer,
     },
   },
   einnahmenUebersicht: {
     stepId:
-      "antragstellende-person/vereinfachte-erklaerung/einnahmen-uebersicht",
+      "antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
   },
   einnahme: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme",
+    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme",
     pageSchema: {
       einnahmen: einnahmenArraySchema,
     },
@@ -105,33 +110,30 @@ export const pkhFormularVereinfachteErklaerungPages = {
       },
     },
   },
-  einnahmeDaten: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahme/daten",
-    pageSchema: {
-      einnahmen: einnahmenArraySchema,
-    },
-  },
   einnahmenWarnung: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen-warnung",
+    stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen/warnung",
   },
   vermoegen: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen",
+  },
+  vermoegenFrage: {
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     pageSchema: {
       hasVermoegen: YesNoAnswer,
     },
   },
   vermoegenValue: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-value",
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
     pageSchema: {
       vermoegenUnder10000: YesNoAnswer,
     },
   },
   vermoegenUebersicht: {
     stepId:
-      "antragstellende-person/vereinfachte-erklaerung/vermoegen-uebersicht",
+      "antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
   },
   vermoegenEintrag: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-eintrag",
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag",
     pageSchema: {
       vermoegen: vermoegenArraySchema,
     },
@@ -145,7 +147,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
     },
   },
   vermoegenWarnung: {
-    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen-warnung",
+    stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
   },
   hinweisWeiteresFormular: {
     stepId:

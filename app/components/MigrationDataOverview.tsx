@@ -4,6 +4,7 @@ import {
   type Translations,
 } from "~/services/translations/getTranslationByKey";
 import { StandaloneLink } from "./common/StandaloneLink";
+import { arrayIsNonEmpty } from "~/util/array";
 
 type MigrationDataProps = {
   readonly userData?: UserData;
@@ -18,9 +19,7 @@ const getSortedFieldsUserData = (
   userData: UserData,
   sortedFields?: string[],
 ) => {
-  if (typeof sortedFields === "undefined" || sortedFields.length === 0) {
-    return userData;
-  }
+  if (!arrayIsNonEmpty(sortedFields)) return userData;
 
   return sortedFields.reduce((sortedUserData, key) => {
     if (key in userData) {

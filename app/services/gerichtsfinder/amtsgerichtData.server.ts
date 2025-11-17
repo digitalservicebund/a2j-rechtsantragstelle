@@ -127,14 +127,14 @@ export const findCourt = ({
     );
     const rangedMatches = matchingEdgeCases.filter((e) => {
       const houseNumberInRange =
-        parseInt(e.HNR_VON) <= parseInt(houseNumber!) &&
-        parseInt(e.HNR_BIS) >= parseInt(houseNumber!);
+        Number.parseInt(e.HNR_VON) <= Number.parseInt(houseNumber!) &&
+        Number.parseInt(e.HNR_BIS) >= Number.parseInt(houseNumber!);
       return houseNumberInRange;
     });
     if (rangedMatches.length === 1) return courtAddress(rangedMatches[0]);
     if (rangedMatches.length > 1) {
       const finalMatch = rangedMatches.find((e) => {
-        const houseNumberEven = parseInt(houseNumber!) % 2 === 0;
+        const houseNumberEven = Number.parseInt(houseNumber!) % 2 === 0;
         return houseNumberEven
           ? e.HNR_MERKMAL_INFO === "gerade Hausnummern"
           : e.HNR_MERKMAL_INFO === "ungerade Hausnummern";

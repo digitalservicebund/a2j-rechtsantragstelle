@@ -10,12 +10,5 @@ export const persoenlichDatenGuards = {
   ...yesNoGuards("isWeiterePersonen"),
   personDone,
   weiterePersonenDone,
-  isMissingAddWeiterePersonen: ({
-    context: { isWeiterePersonen, weiterePersonen },
-  }) => {
-    return (
-      isWeiterePersonen === "yes" &&
-      (typeof weiterePersonen === "undefined" || weiterePersonen.length === 0)
-    );
-  },
+  isMissingAddWeiterePersonen: (context) => !weiterePersonenDone(context),
 } satisfies Guards<FluggastrechtePersoenlichDaten>;

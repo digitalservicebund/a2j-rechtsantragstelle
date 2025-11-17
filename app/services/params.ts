@@ -4,7 +4,7 @@ import { config } from "./env/public";
 
 export function splatFromParams(params: Params) {
   const splat = params["*"];
-  invariant(typeof splat !== "undefined");
+  invariant(splat !== undefined);
   return splat;
 }
 

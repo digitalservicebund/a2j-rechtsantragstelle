@@ -20,7 +20,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-versicherungen",
       userInput: {
         pageData: { arrayIndexes: [0] },
@@ -41,11 +41,11 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "versicherungen#sonstigeArt": "sonstige",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/zusammenfassung" },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
   addRatenzahlungen: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
       userInput: {
         pageData: { arrayIndexes: [0] },
@@ -80,7 +80,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ],
   addRatenzahlungenSplit: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
       userInput: {
         pageData: { arrayIndexes: [0] },
@@ -117,7 +117,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ],
   addSonstigeAusgaben: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
       userInput: {
         pageData: { arrayIndexes: [0] },
@@ -145,11 +145,11 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "sonstigeAusgaben#betragGesamt": "10",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/zusammenfassung" },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
   addSonstigeAusgabenPartner: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/zusammenfassung",
+      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
       userInput: {
         pageData: { arrayIndexes: [0] },
@@ -183,7 +183,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "sonstigeAusgaben#betragEigenerAnteil": "10",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/zusammenfassung" },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
   besondereBelastungen: [
     {
