@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { groupFieldsByFlowNavigation } from "../groupFieldsBySection";
-import { StepState } from "~/services/flow/server/buildFlowController";
+import type { StepState } from "~/services/flow/server/buildFlowController";
 
 describe("groupFieldsBySection", () => {
   const mockStepStates: StepState[] = [
