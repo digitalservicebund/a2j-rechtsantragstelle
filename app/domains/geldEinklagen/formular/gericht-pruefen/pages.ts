@@ -49,7 +49,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { versicherungVertrag: YesNoAnswer },
   },
   sachgebietVersicherungVersicherungsnummer: {
-    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnummer",
+    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnehmer",
     pageSchema: { versicherungsnummer: YesNoAnswer },
   },
   sachgebietReiseArt: {
