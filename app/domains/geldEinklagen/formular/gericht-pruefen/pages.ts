@@ -68,7 +68,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { fuerWenKlagen: z.enum(["selbst", "organisation"]) },
   },
   klagendePersonErrorAbbruch: {
-    stepId: "gericht-pruefen/klagende-person/ergebnis/abbruch",
+    stepId: "gericht-pruefen/klagende-person/ergebnis/organisation-abbruch",
   },
   klagendePersonVerbraucher: {
     stepId: "gericht-pruefen/klagende-person/verbraucher",
