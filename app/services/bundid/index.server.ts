@@ -99,7 +99,7 @@ export function getBundIdSamlConfig() {
     signatureAlgorithm: "sha256-mgf1",
     samlAuthnRequestExtensions: samlAuthnRequestExtensions,
     acceptedClockSkewMs: 5000,
-    disableRequestedAuthnContext: false,
+    disableRequestedAuthnContext: true,
     forceAuthn: false,
   });
   return saml;
