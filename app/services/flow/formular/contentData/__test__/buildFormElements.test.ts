@@ -19,6 +19,11 @@ const mockCmsElement = {
   pageTitle: "page title",
 };
 
+const mockUserData = {
+  name: "name",
+  pageData: { arrayIndexes: [] },
+};
+
 describe("buildFormElements", () => {
   it("should overwrite the altLabel for the heading in case the component is select", () => {
     const mockCmsElementWithRadio = {
@@ -35,7 +40,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio);
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
@@ -82,7 +87,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio);
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
@@ -103,7 +108,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementCheckbox);
+    const actual = buildFormElements(mockCmsElementCheckbox, mockUserData);
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });
