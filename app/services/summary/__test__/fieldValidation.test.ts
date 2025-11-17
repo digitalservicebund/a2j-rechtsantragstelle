@@ -1,63 +1,8 @@
 import { describe, it, expect } from "vitest";
-import {
-  isUserDataFieldEmpty,
-  getValidUserDataFields,
-} from "../fieldValidation";
+import { getValidUserDataFields } from "../fieldValidation";
 import type { UserData } from "~/domains/userData";
 
 describe("fieldValidation", () => {
-  describe("isUserDataFieldEmpty", () => {
-    it("should return true for null values", () => {
-      expect(isUserDataFieldEmpty(null)).toBe(true);
-    });
-
-    it("should return true for undefined values", () => {
-      expect(isUserDataFieldEmpty(undefined)).toBe(true);
-    });
-
-    it("should return true for empty strings", () => {
-      expect(isUserDataFieldEmpty("")).toBe(true);
-    });
-
-    it("should return false for non-empty strings", () => {
-      expect(isUserDataFieldEmpty("test")).toBe(false);
-      expect(isUserDataFieldEmpty("0")).toBe(false);
-      expect(isUserDataFieldEmpty(" ")).toBe(false); // Space is not empty
-    });
-
-    it("should return false for boolean values", () => {
-      expect(isUserDataFieldEmpty(true)).toBe(false);
-      expect(isUserDataFieldEmpty(false)).toBe(false);
-    });
-
-    it("should return false for number values including zero", () => {
-      expect(isUserDataFieldEmpty(0)).toBe(false);
-      expect(isUserDataFieldEmpty(1)).toBe(false);
-      expect(isUserDataFieldEmpty(-1)).toBe(false);
-      expect(isUserDataFieldEmpty(0.5)).toBe(false);
-    });
-
-    it("should return false for objects", () => {
-      expect(isUserDataFieldEmpty({})).toBe(false);
-      expect(isUserDataFieldEmpty({ key: "value" })).toBe(false);
-    });
-
-    it("should return false for arrays", () => {
-      expect(isUserDataFieldEmpty([])).toBe(false);
-      expect(isUserDataFieldEmpty(["item"])).toBe(false);
-    });
-
-    it("should return false for date objects", () => {
-      expect(isUserDataFieldEmpty(new Date())).toBe(false);
-    });
-
-    it("should return false for answers that might seem empty but are valid", () => {
-      expect(isUserDataFieldEmpty("no")).toBe(false);
-      expect(isUserDataFieldEmpty("nein")).toBe(false);
-      expect(isUserDataFieldEmpty("off")).toBe(false);
-    });
-  });
-
   describe("getValidUserDataFields", () => {
     it("should exclude pageData field", () => {
       const userData: UserData = {

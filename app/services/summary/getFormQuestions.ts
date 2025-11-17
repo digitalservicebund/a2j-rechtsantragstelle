@@ -1,5 +1,4 @@
 import type { FlowId } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
@@ -114,6 +113,7 @@ export function createFieldQuestionFromComponent(
   const result = {
     question: formPage.heading,
   };
+
   return result;
 }
 
@@ -246,30 +246,21 @@ export async function getFormQuestionsForFields(
   fieldToStepMapping: Record<string, string>,
   flowId: FlowId,
 ): Promise<Record<string, FieldQuestion>> {
-  const fieldQuestions: Record<string, FieldQuestion> = {};
   const stepPagesCache: Record<string, StrapiFormFlowPage> = {};
 
-  const flow = flows[flowId];
-  if (!flow) {
-    throw new Error(`Unknown flowId: ${flowId}`);
-  }
-
-  if (flow.flowType !== "formFlow") {
-    return {};
-  }
-
-  for (const fieldName of fieldNames) {
-    const fieldQuestion = await processFieldForQuestions(
-      fieldName,
-      fieldToStepMapping,
-      stepPagesCache,
-      flowId,
-    );
-
-    if (fieldQuestion) {
-      fieldQuestions[fieldName] = fieldQuestion;
-    }
-  }
+  const fieldQuestions = await Promise.all(
+    fieldNames.map(async (fieldName) => {
+      const fieldQuestion = await processFieldForQuestions(
+        fieldName,
+        fieldToStepMapping,
+        stepPagesCache,
+        flowId,
+      );
+      return fieldQuestion ? [fieldName, fieldQuestion] : null;
+    }),
+  ).then((results) =>
+    Object.fromEntries(results.filter((result) => result !== null)),
+  );
 
   return fieldQuestions;
 }

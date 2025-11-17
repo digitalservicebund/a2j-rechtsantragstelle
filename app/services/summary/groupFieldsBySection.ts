@@ -1,4 +1,4 @@
-import type { FlowController } from "~/services/flow/server/buildFlowController";
+import type { StepState } from "~/services/flow/server/buildFlowController";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { createArrayBoxKey } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
@@ -19,7 +19,7 @@ function extractBoxKeyFromPath(stepId: string): string {
 
 export function groupFieldsByFlowNavigation(
   fields: string[],
-  flowController: FlowController,
+  stepStates: StepState[],
   fieldToStepMapping: Record<string, string>,
   translations?: Translations,
   flowId?: string,
@@ -27,7 +27,6 @@ export function groupFieldsByFlowNavigation(
   groups: Record<string, Record<string, string[]>>;
   sectionTitles: Record<string, string>;
 } {
-  const stepStates = flowController.stepStates();
   const validSections = new Set(
     stepStates.map((state) => state.stepId.replace(/^\//, "")),
   );

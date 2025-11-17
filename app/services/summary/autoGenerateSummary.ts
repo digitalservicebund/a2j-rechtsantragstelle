@@ -1,7 +1,8 @@
 import type { UserData } from "~/domains/userData";
-import type { FlowController } from "~/services/flow/server/buildFlowController";
+import type { StepState } from "~/services/flow/server/buildFlowController";
 import type { FieldItem, SummaryItem, ArrayGroup } from "./types";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import partition from "lodash/partition";
 import {
   getFormQuestionsForFields,
   createFieldToStepMapping,
@@ -17,17 +18,12 @@ function groupFieldsByArrayType(allFields: FieldItem[]): {
   arrayFieldsByBase: Record<string, Record<string, FieldItem[]>>;
   nonArrayFields: FieldItem[];
 } {
-  const arrayFields = allFields.filter(
+  const [arrayFields, nonArrayFields] = partition(
+    allFields,
     (field) =>
       field.isArrayItem &&
       field.arrayBaseField !== undefined &&
       field.arrayIndex !== undefined,
-  );
-  const nonArrayFields = allFields.filter(
-    (field) =>
-      !field.isArrayItem ||
-      field.arrayBaseField === undefined ||
-      field.arrayIndex === undefined,
   );
 
   const arrayFieldsByBase: Record<string, Record<string, FieldItem[]>> = {};
@@ -111,8 +107,8 @@ function createSummarySection(
 export async function generateSummaryFromUserData(
   userData: UserData,
   flowId: FlowId,
-  flowController?: FlowController,
-  translations?: Translations,
+  stepStates: StepState[],
+  translations: Translations,
 ): Promise<SummaryItem[]> {
   const userDataFields = getValidUserDataFields(userData);
 
@@ -151,15 +147,13 @@ export async function generateSummaryFromUserData(
     fieldToStepMapping,
     flowId,
   );
-  const groupingResult = flowController
-    ? groupFieldsByFlowNavigation(
-        filteredFields,
-        flowController,
-        fieldToStepMapping,
-        translations,
-        flowId,
-      )
-    : { groups: {}, sectionTitles: {} };
+  const groupingResult = groupFieldsByFlowNavigation(
+    filteredFields,
+    stepStates,
+    fieldToStepMapping,
+    translations,
+    flowId,
+  );
 
   const sections: SummaryItem[] = [];
 

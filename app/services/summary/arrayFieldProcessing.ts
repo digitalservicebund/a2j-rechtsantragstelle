@@ -1,11 +1,7 @@
-import type { UserData } from "~/domains/userData";
+import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import { parseArrayField } from "./fieldParsingUtils";
 import { fieldIsArray } from "~/services/array";
-
-function isArrayField(fieldName: string, userData: UserData): boolean {
-  const value = userData[fieldName];
-  return Array.isArray(value) && value.length > 0;
-}
+import { arrayIsNonEmpty } from "~/util/array";
 
 function hasArrayFormFields(
   fieldName: string,
@@ -36,7 +32,9 @@ function expandArrayFieldItems(
   userData: UserData,
   fieldToStepMapping: Record<string, string>,
 ): string[] {
-  const arrayValue = userData[fieldName] as Array<Record<string, unknown>>;
+  const arrayValue = userData[fieldName] as Array<
+    Record<string, AllowedUserTypes>
+  >;
   const subFields = getArraySubFields(fieldName, fieldToStepMapping);
   const expandedFields: string[] = [];
 
@@ -62,7 +60,8 @@ export function expandArrayFields(
   const expandedFields: string[] = [];
 
   for (const fieldName of fields) {
-    const isArray = isArrayField(fieldName, userData);
+    const fieldValue = userData[fieldName];
+    const isArray = Array.isArray(fieldValue) && arrayIsNonEmpty(fieldValue);
     const hasArrayFields = hasArrayFormFields(fieldName, fieldToStepMapping);
 
     if (isArray && hasArrayFields) {

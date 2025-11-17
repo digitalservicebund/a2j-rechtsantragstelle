@@ -1,7 +1,7 @@
 import type { UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
-import { isUserDataFieldEmpty } from "./fieldValidation";
+// import { isUserDataFieldEmpty } from "./fieldValidation";
 import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
@@ -43,7 +43,6 @@ export function createFieldEntry(
     value = userData[fieldName];
   }
 
-  const isEmpty = isUserDataFieldEmpty(value);
   const question = getUserDataFieldLabel(
     actualFieldName,
     fieldQuestions,
@@ -51,9 +50,10 @@ export function createFieldEntry(
   );
   const fieldQuestion = fieldQuestions[actualFieldName];
 
-  const answer = isEmpty
-    ? "Keine Angabe" // need to get this from CMS for translations
-    : formatFieldValue(value, fieldQuestion?.options);
+  const answer =
+    value == null || value === ""
+      ? "Keine Angabe" // need to get this from CMS for translations
+      : formatFieldValue(value, fieldQuestion?.options);
 
   let editUrl: string | undefined = undefined;
   if (representativeStepId) {

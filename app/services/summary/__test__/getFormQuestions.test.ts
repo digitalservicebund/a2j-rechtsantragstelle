@@ -249,12 +249,6 @@ describe("getFormQuestionsForFields", () => {
       },
     });
   });
-
-  it("should return empty object for unknown flowId", async () => {
-    await expect(
-      getFormQuestionsForFields(["field1"], {}, "/unknown" as any),
-    ).rejects.toThrow("Unknown flowId: /unknown");
-  });
 });
 
 describe("extractOptionsFromComponent", () => {

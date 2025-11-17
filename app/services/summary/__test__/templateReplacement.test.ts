@@ -63,7 +63,7 @@ describe("templateReplacement", () => {
       it("should handle different array indices correctly", () => {
         const fieldQuestions = {
           "kinder[1].wohnortBeiAntragsteller": {
-            question: "Lebt {{kinder#vorname}} bei Ihnen?",
+            question: "Lebt {{kind#vorname}} bei Ihnen?",
           },
         };
 
@@ -118,38 +118,39 @@ describe("templateReplacement", () => {
         };
 
         const fieldQuestions = {
-          "kinder[5].vorname": {
-            question: "Wie heißt {{kind#vorname}}?",
+          "kinder[1].wohnortBeiAntragsteller": {
+            question: "Lebt {{kind#vorname}} bei Ihnen?",
           },
         };
 
         const result = getUserDataFieldLabel(
-          "kinder[5].vorname",
+          "kinder[1].wohnortBeiAntragsteller",
           fieldQuestions,
           userData,
         );
 
-        expect(result).toBe("Wie heißt {{kind#vorname}}?");
+        expect(result).toBe("Lebt {{kind#vorname}} bei Ihnen?");
       });
 
-      it("should keep original template when field doesn't exist in child data", () => {
+      it("should remove missing fields from template", () => {
         const userData: UserData = {
           kinder: [{ vorname: "Max" }], // Missing nachname
         };
 
         const fieldQuestions = {
-          "kinder[0].test": {
-            question: "Test {{kind#nachname}} question",
+          "kinder[0].eigeneEinnahmen": {
+            question:
+              "Hat {{kind#vorname}} {{kind#nachname}} eigene Einnahmen?",
           },
         };
 
         const result = getUserDataFieldLabel(
-          "kinder[0].test",
+          "kinder[0].eigeneEinnahmen",
           fieldQuestions,
           userData,
         );
 
-        expect(result).toBe("Test {{kind#nachname}} question");
+        expect(result).toBe("Hat Max  eigene Einnahmen?");
       });
     });
   });

@@ -2,13 +2,7 @@ import type { UserData } from "~/domains/userData";
 
 const EXCLUDED_FIELDS_USERDATA = new Set(["pageData"]);
 
-export function isUserDataFieldEmpty(value: unknown): boolean {
-  // Only consider null, undefined, or empty strings as empty
-  // All other values (including "no", false, 0) are considered answered
-  return value == null || value === "";
-}
-
-function expandObjectFields(userData: UserData): string[] {
+export function getValidUserDataFields(userData: UserData): string[] {
   const expandedFields: string[] = [];
 
   for (const [fieldName, value] of Object.entries(userData)) {
@@ -34,8 +28,4 @@ function expandObjectFields(userData: UserData): string[] {
   }
 
   return expandedFields;
-}
-
-export function getValidUserDataFields(userData: UserData): string[] {
-  return expandObjectFields(userData);
 }

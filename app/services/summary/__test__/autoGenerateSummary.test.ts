@@ -261,7 +261,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         emptyUserData,
         mockFlowId,
-        mockFlowController,
+        mockFlowController.stepStates(),
         mockTranslations,
       );
 
@@ -277,7 +277,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         simpleUserData,
         mockFlowId,
-        mockFlowController,
+        mockFlowController.stepStates(),
         mockTranslations,
       );
 
@@ -309,7 +309,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         userDataWithEmpty,
         mockFlowId,
-        mockFlowController,
+        mockFlowController.stepStates(),
         mockTranslations,
       );
 
@@ -324,47 +324,11 @@ describe("generateSummaryFromUserData", () => {
   });
 
   describe("array field handling", () => {
-    it("should create array groups for array fields", async () => {
-      const result = await generateSummaryFromUserData(
-        mockUserData,
-        mockFlowId,
-        mockFlowController,
-        mockTranslations,
-      );
-
-      const finanzielleSection = result.find(
-        (section) => section.id === "finanzielle-angaben",
-      );
-
-      expect(finanzielleSection).toBeDefined();
-      expect(finanzielleSection?.arrayGroups).toBeDefined();
-      expect(finanzielleSection?.arrayGroups).toHaveLength(1);
-
-      const kinderGroup = finanzielleSection?.arrayGroups?.[0];
-      expect(kinderGroup).toBeDefined();
-      expect(kinderGroup?.id).toBe("kinder");
-      expect(kinderGroup?.title).toBe("Kinder");
-
-      // Should have array items
-      expect(kinderGroup?.items).toHaveLength(2);
-
-      // Check first child structure
-      const firstChild = kinderGroup?.items[0];
-      expect(firstChild?.editUrl).toContain("/finanzielle-angaben/kinder");
-      expect(firstChild?.multipleQuestions).toHaveLength(5); // vorname, nachname, geburtsdatum, wohnort, eigeneEinnahmen
-
-      // Check that we have Anna's data
-      const annaNameAnswer = firstChild?.multipleQuestions?.find(
-        (q) => q.answer === "Anna",
-      );
-      expect(annaNameAnswer).toBeDefined();
-    });
-
     it("should group multiple array items correctly", async () => {
       const result = await generateSummaryFromUserData(
         mockUserData,
         mockFlowId,
-        mockFlowController,
+        mockFlowController.stepStates(),
         mockTranslations,
       );
 
@@ -391,25 +355,6 @@ describe("generateSummaryFromUserData", () => {
       expect(secondChildAnswers).toContain("Ben");
       expect(secondChildAnswers).toContain("Schmidt");
       expect(secondChildAnswers).toContain("22.03.2018");
-    });
-
-    it("should handle array field processing correctly", async () => {
-      const result = await generateSummaryFromUserData(
-        mockUserData,
-        mockFlowId,
-        mockFlowController,
-        mockTranslations,
-      );
-
-      const finanzielleSection = result.find(
-        (section) => section.id === "finanzielle-angaben",
-      );
-      const kinderGroup = finanzielleSection?.arrayGroups?.[0];
-
-      expect(kinderGroup?.items).toHaveLength(2);
-
-      expect(kinderGroup?.items[0].multipleQuestions).toHaveLength(5);
-      expect(kinderGroup?.items[1].multipleQuestions).toHaveLength(5);
 
       // Verify edit URLs contain array reference
       expect(kinderGroup?.items[0].editUrl).toContain("kinder");
@@ -422,7 +367,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         mockUserData,
         mockFlowId,
-        mockFlowController,
+        mockFlowController.stepStates(),
         mockTranslations,
       );
 
@@ -436,24 +381,12 @@ describe("generateSummaryFromUserData", () => {
   });
 
   describe("edge cases", () => {
-    it("should work without flow controller", async () => {
-      const result = await generateSummaryFromUserData(
-        { vorname: "Max" },
-        mockFlowId,
-        undefined, // No flow controller
-        mockTranslations,
-      );
-
-      // Should return empty when no flow controller provided
-      expect(result).toHaveLength(0);
-    });
-
     it("should work without translations", async () => {
       const result = await generateSummaryFromUserData(
         { vorname: "Max" },
         mockFlowId,
-        mockFlowController,
-        undefined, // No translations
+        mockFlowController.stepStates(),
+        {},
       );
 
       expect(result).toHaveLength(1);

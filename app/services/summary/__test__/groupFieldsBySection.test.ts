@@ -1,25 +1,54 @@
 import { describe, it, expect } from "vitest";
 import { groupFieldsByFlowNavigation } from "../groupFieldsBySection";
+import { StepState } from "~/services/flow/server/buildFlowController";
 
 describe("groupFieldsBySection", () => {
-  const mockFlowController = {
-    stepStates: () => [
-      {
-        stepId: "/persoenliche-daten",
-        subStates: [
-          { stepId: "/persoenliche-daten/name", subStates: [] },
-          { stepId: "/persoenliche-daten/geburtsdatum", subStates: [] },
-        ],
-      },
-      {
-        stepId: "/finanzielle-angaben",
-        subStates: [
-          { stepId: "/finanzielle-angaben/einkommen", subStates: [] },
-          { stepId: "/finanzielle-angaben/kinder", subStates: [] },
-        ],
-      },
-    ],
-  };
+  const mockStepStates: StepState[] = [
+    {
+      stepId: "/persoenliche-daten",
+      isDone: false,
+      isReachable: true,
+      url: "/persoenliche-daten",
+      subStates: [
+        {
+          stepId: "name",
+          url: "/persoenliche-daten/name",
+          subStates: [],
+          isDone: false,
+          isReachable: true,
+        },
+        {
+          stepId: "geburtsdatum",
+          url: "/persoenliche-daten/geburtsdatum",
+          subStates: [],
+          isDone: false,
+          isReachable: true,
+        },
+      ],
+    },
+    {
+      stepId: "/finanzielle-angaben",
+      isDone: false,
+      isReachable: true,
+      url: "/finanzielle-angaben",
+      subStates: [
+        {
+          stepId: "einkommen",
+          url: "/finanzielle-angaben/einkommen",
+          subStates: [],
+          isDone: true,
+          isReachable: true,
+        },
+        {
+          stepId: "kinder",
+          url: "/finanzielle-angaben/kinder",
+          subStates: [],
+          isDone: true,
+          isReachable: true,
+        },
+      ],
+    },
+  ];
 
   const mockFieldToStepMapping = {
     vorname: "/beratungshilfe/antrag/persoenliche-daten/name",
@@ -37,7 +66,7 @@ describe("groupFieldsBySection", () => {
   it("should group fields by flow navigation", () => {
     const result = groupFieldsByFlowNavigation(
       ["vorname", "nachname", "einkommen"],
-      mockFlowController as any,
+      mockStepStates,
       mockFieldToStepMapping,
       mockTranslations,
       "/beratungshilfe/antrag",
@@ -61,7 +90,7 @@ describe("groupFieldsBySection", () => {
   it("should group array fields by base field and index", () => {
     const result = groupFieldsByFlowNavigation(
       ["kinder[0].vorname", "kinder[1].vorname"],
-      mockFlowController as any,
+      mockStepStates,
       {
         "kinder#vorname":
           "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
@@ -79,18 +108,9 @@ describe("groupFieldsBySection", () => {
   });
 
   it("should exclude certain sections", () => {
-    const excludedFlowController = {
-      stepStates: () => [
-        {
-          stepId: "/zusammenfassung",
-          subStates: [{ stepId: "/zusammenfassung/step", subStates: [] }],
-        },
-      ],
-    };
-
     const result = groupFieldsByFlowNavigation(
       ["vorname"],
-      excludedFlowController as any,
+      mockStepStates,
       {
         vorname: "/beratungshilfe/antrag/zusammenfassung/step",
       },
