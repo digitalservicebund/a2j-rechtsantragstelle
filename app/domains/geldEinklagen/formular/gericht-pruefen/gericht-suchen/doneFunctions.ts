@@ -6,9 +6,35 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
+import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 type GeldEinklagenGerichtPruefenDaten =
   GenericGuard<GeldEinklagenFormularGerichtPruefenUserData>;
+
+const hasEdgeCasesDataForSecondary: GeldEinklagenGerichtPruefenDaten = ({
+  context,
+}) => {
+  const hasEdgeCase =
+    edgeCaseStreets({ zipCode: context.postleitzahlSecondary }).length > 0;
+
+  return hasEdgeCase
+    ? objectKeysNonEmpty(context, [
+        "strasseSekundaer",
+        "strasseNummerSekundaer",
+      ])
+    : true;
+};
+
+const hasEdgeCasesDataForBeklagtePerson: GeldEinklagenGerichtPruefenDaten = ({
+  context,
+}) => {
+  const hasEdgeCase =
+    edgeCaseStreets({ zipCode: context.postleitzahlBeklagtePerson }).length > 0;
+
+  return hasEdgeCase
+    ? objectKeysNonEmpty(context, ["strasseBeklagte", "strasseNummerBeklagte"])
+    : true;
+};
 
 export const doneGerichtSuchen: GeldEinklagenGerichtPruefenDaten = ({
   context,
@@ -16,16 +42,25 @@ export const doneGerichtSuchen: GeldEinklagenGerichtPruefenDaten = ({
   const hasPostleitzahlBeklagtePerson = objectKeysNonEmpty(context, [
     "postleitzahlBeklagtePerson",
   ]);
+
+  const hasEdgeCaseBeklagtePerson = hasEdgeCasesDataForBeklagtePerson({
+    context,
+  });
+
   const hasPostleitzahlSecondary = objectKeysNonEmpty(context, [
     "postleitzahlSecondary",
   ]);
+
+  const hasEdgeCaseSecondary = hasEdgeCasesDataForSecondary({
+    context,
+  });
 
   const onlyPostleitzahlSecondaryRelevant =
     context.gerichtsstandsvereinbarung === "yes" ||
     shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
   if (onlyPostleitzahlSecondaryRelevant) {
-    return hasPostleitzahlSecondary;
+    return hasPostleitzahlSecondary && hasEdgeCaseSecondary;
   }
 
   const shouldHavePostleitzahlSecondaryRelevant =
@@ -35,7 +70,10 @@ export const doneGerichtSuchen: GeldEinklagenGerichtPruefenDaten = ({
 
   return (
     hasPostleitzahlBeklagtePerson &&
-    ((shouldHavePostleitzahlSecondaryRelevant && hasPostleitzahlSecondary) ||
+    hasEdgeCaseBeklagtePerson &&
+    ((shouldHavePostleitzahlSecondaryRelevant &&
+      hasPostleitzahlSecondary &&
+      hasEdgeCaseSecondary) ||
       !shouldHavePostleitzahlSecondaryRelevant)
   );
 };
