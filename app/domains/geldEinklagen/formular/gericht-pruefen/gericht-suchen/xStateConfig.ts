@@ -111,7 +111,15 @@ export const gerichtSuchenXstateConfig = {
     },
     [steps.gerichtSuchenPostleitzahlKlagendePerson.relative]: {
       on: {
-        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
+              0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
@@ -127,7 +135,15 @@ export const gerichtSuchenXstateConfig = {
     },
     [steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative]: {
       on: {
-        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
+              0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
@@ -143,7 +159,15 @@ export const gerichtSuchenXstateConfig = {
     },
     [steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative]: {
       on: {
-        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
+              0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
