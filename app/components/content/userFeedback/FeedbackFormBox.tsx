@@ -81,33 +81,36 @@ export const FeedbackFormBox = ({
       preventScrollReset={true}
       onSubmit={onSubmit}
     >
-      <div className="ds-stack ds-stack-16">
-        <Textarea
-          name={FEEDBACK_FIELD_NAME}
-          label={
-            <>
-              <span className="ds-label-01-bold">
-                {feedbackTranslations["success-message"]}
-              </span>{" "}
-              {feedbackText}
-            </>
-          }
-          description={textAreaDescription}
-          placeholder={feedbackTranslations["placeholder-feedback"]}
-          innerRef={textAreaReference}
-          ariaDescribedby={headingPersonalFeedbackId}
-        />
-        <ButtonContainer>
-          <Button
-            look="primary"
-            name={FEEDBACK_BUTTON_FIELD_NAME}
-            value={"submit"}
-            type="submit"
-          >
-            {feedbackTranslations["submit-button-feedback"]}
-          </Button>
-        </ButtonContainer>
-      </div>
+      {(form) => (
+        <div className="ds-stack ds-stack-16">
+          <Textarea
+            name={FEEDBACK_FIELD_NAME}
+            label={
+              <>
+                <span className="ds-label-01-bold">
+                  {feedbackTranslations["success-message"]}
+                </span>{" "}
+                {feedbackText}
+              </>
+            }
+            description={textAreaDescription}
+            placeholder={feedbackTranslations["placeholder-feedback"]}
+            innerRef={textAreaReference}
+            ariaDescribedby={headingPersonalFeedbackId}
+          />
+          <ButtonContainer>
+            <Button
+              look="primary"
+              name={FEEDBACK_BUTTON_FIELD_NAME}
+              value={"submit"}
+              type="submit"
+              disabled={form.formState.isSubmitting}
+            >
+              {feedbackTranslations["submit-button-feedback"]}
+            </Button>
+          </ButtonContainer>
+        </div>
+      )}
     </ValidatedForm>
   );
 };
