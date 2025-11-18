@@ -69,7 +69,10 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               helperText && helperId,
             ].join(" ")}
             onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+              e.currentTarget.value = e.currentTarget.value.replaceAll(
+                /\D/g,
+                "",
+              );
             }}
           />
         </InputLabel>
@@ -97,7 +100,10 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               helperText && helperId,
             ].join(" ")}
             onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+              e.currentTarget.value = e.currentTarget.value.replaceAll(
+                /\D/g,
+                "",
+              );
             }}
           />
         </InputLabel>
@@ -125,7 +131,10 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
               helperText && helperId,
             ].join(" ")}
             onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+              e.currentTarget.value = e.currentTarget.value.replaceAll(
+                /\D/g,
+                "",
+              );
             }}
           />
         </InputLabel>

@@ -71,10 +71,10 @@ type StreetData = Pick<
 const buildStreetSlug = (streetData: StreetData) => {
   return `${streetData.STRN} ${streetData.HNR_MERKMAL_INFO} ${streetData.HNR_VON} ${streetData.HNR_BIS}`
     .toLowerCase()
-    .replace(/ä/g, "ae")
-    .replace(/ö/g, "oe")
-    .replace(/ü/g, "ue")
-    .replace(/[^0-9a-z]/g, "-")
+    .replaceAll("ä", "ae")
+    .replaceAll("ö", "oe")
+    .replaceAll("ü", "ue")
+    .replaceAll(/[^0-9a-z]/g, "-")
     .replace("-fortlaufende-hausnummern-001-999", "");
 };
 
@@ -108,16 +108,16 @@ export const findCourt = ({
   houseNumber?: string;
 }) => {
   if (streetSlug && streetSlug !== "default") {
-    const decodedStreetName = streetSlug.toLowerCase().replaceAll(/_/g, " ");
+    const decodedStreetName = streetSlug.toLowerCase().replaceAll("_", " ");
     const decodedStreetnameFull = decodedStreetName
       .toLowerCase()
       .replaceAll(/([Ss]tr\.)/g, "strasse");
     const edgeCases = edgeCasesForPlz(zipCode).map((e) => ({
       ...e,
       STRN_NORMALIZED: e.STRN.toLowerCase()
-        .replace(/ä/g, "ae")
-        .replace(/ö/g, "oe")
-        .replace(/ü/g, "ue"),
+        .replaceAll("ä", "ae")
+        .replaceAll("ö", "oe")
+        .replaceAll("ü", "ue"),
     }));
 
     const matchingEdgeCases = edgeCases.filter(

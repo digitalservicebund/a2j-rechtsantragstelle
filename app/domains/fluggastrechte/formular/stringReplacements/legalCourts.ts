@@ -46,7 +46,7 @@ export const getResponsibleCourt = (context: FluggastrechteUserData) => {
       courtCity: court.ORT,
       courtWebsite: court.URL1 ?? "",
       courtTelephone: court.TEL ?? "",
-      courtTelephoneNoSpace: court.TEL?.replace(/\s/g, "") ?? "",
+      courtTelephoneNoSpace: court.TEL?.replaceAll(/\s/g, "") ?? "",
     };
   return {};
 };
