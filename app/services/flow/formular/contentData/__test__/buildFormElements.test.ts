@@ -45,7 +45,7 @@ describe("buildFormElements", () => {
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
 
-  it("should enrich streetNames auto-suggest-input with postcode", () => {
+  it("should enrich streetNames auto-suggest-input with plz", () => {
     const mockCmsElementWithAutoComplete = {
       ...mockCmsElement,
       formContent: [
@@ -65,6 +65,58 @@ describe("buildFormElements", () => {
 
     const actual = buildFormElements(mockCmsElementWithAutoComplete, {
       plz: "12345",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
+  });
+
+  it("should enrich streetNames auto-suggest-input with postleitzahlBeklagtePerson", () => {
+    const mockCmsElementWithAutoComplete = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.auto-suggest-input",
+          name: "streetname",
+          dataList: "streetNames",
+          width: "10",
+          isDisabled: false,
+          supportsFreeText: false,
+          errorMessages: [],
+          id: 10,
+          dataListArgument: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlBeklagtePerson: "12345",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
+  });
+
+  it("should enrich streetNames auto-suggest-input with postleitzahlSecondary", () => {
+    const mockCmsElementWithAutoComplete = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.auto-suggest-input",
+          name: "streetname",
+          dataList: "streetNames",
+          width: "10",
+          isDisabled: false,
+          supportsFreeText: false,
+          errorMessages: [],
+          id: 10,
+          dataListArgument: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlSecondary: "12345",
       pageData: { arrayIndexes: [] },
     });
 
