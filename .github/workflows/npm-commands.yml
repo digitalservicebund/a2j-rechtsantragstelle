@@ -4,6 +4,8 @@ on:
     secrets:
       SENTRY_AUTH_TOKEN:
         required: false
+      GERICHTSFINDER_ENCRYPTION_KEY:
+        required: false
 
 jobs:
   code-quality:
