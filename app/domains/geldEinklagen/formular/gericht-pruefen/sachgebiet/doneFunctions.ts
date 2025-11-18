@@ -23,7 +23,7 @@ function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
     case "versicherung": {
       return (
         versicherungVertrag === "no" ||
-        objectKeysNonEmpty(context, ["versicherungsnummer"])
+        objectKeysNonEmpty(context, ["versicherungsnehmer"])
       );
     }
     case "reisen": {

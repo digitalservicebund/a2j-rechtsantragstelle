@@ -16,7 +16,7 @@ export const klagendePersonXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.fuerWenKlagen === "organisation",
-            target: "ergebnis/abbruch",
+            target: "ergebnis/organisation-abbruch",
           },
           {
             guard: ({ context }) =>
@@ -66,7 +66,7 @@ export const klagendePersonXstateConfig = {
             guard: ({ context }) =>
               context.sachgebiet === "versicherung" &&
               context.versicherungVertrag === "yes",
-            target: steps.sachgebietVersicherungVersicherungsnummer.absolute,
+            target: steps.sachgebietVersicherungVersicherungsnehmer.absolute,
           },
           {
             guard: ({ context }) =>
@@ -81,7 +81,7 @@ export const klagendePersonXstateConfig = {
         ],
       },
     },
-    "ergebnis/abbruch": {
+    "ergebnis/organisation-abbruch": {
       on: {
         BACK: steps.klagendePersonFuerWen.relative,
       },
