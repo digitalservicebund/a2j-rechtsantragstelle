@@ -14,5 +14,5 @@ export const integerSchema = z.coerce
     },
   )
   .transform((numString) =>
-    Math.round(Number(numString.replace(/\./g, "").replace(",", "."))),
+    Math.round(Number(numString.replaceAll(".", "").replace(",", "."))),
   );

@@ -12,10 +12,10 @@ const umlautMap = {
 
 export function normalizePropertyName(propertyName: string) {
   const normalizedString = propertyName
-    .replace(
+    .replaceAll(
       /[äöüÄÖÜß]/g,
       (match) => umlautMap[match as keyof typeof umlautMap],
     )
-    .replace(/[^\w]/g, "");
+    .replaceAll(/[^\w]/g, "");
   return lowercaseFirstLetter(normalizedString);
 }

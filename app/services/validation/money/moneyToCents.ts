@@ -11,7 +11,7 @@ const moneyToCents = (validatedMoney: string | undefined) => {
     v = `${v},00`;
   }
 
-  v = v.replace(/[.,]/g, "");
+  v = v.replaceAll(/[.,]/g, "");
 
   const num = Number(v);
 

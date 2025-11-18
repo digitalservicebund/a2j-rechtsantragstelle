@@ -11,7 +11,7 @@ export const createWeitereAngabenAnhang = (
 ) => {
   createHeading(doc, documentStruct, "Weitere Angaben (Freitext)", "H2");
   const originalText = userData.weitereAngaben ?? "";
-  const cleanText = originalText.replace(/\r\n/g, "\n");
+  const cleanText = originalText.replaceAll("\r\n", "\n");
 
   documentStruct.add(
     doc.struct("P", {}, () => {
