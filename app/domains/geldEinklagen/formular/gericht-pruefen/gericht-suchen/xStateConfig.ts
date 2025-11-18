@@ -8,7 +8,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
 import { doneGerichtSuchen } from "./doneFunctions";
-import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -35,8 +35,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
-              0,
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           {
@@ -114,8 +113,7 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
-              0,
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -123,7 +121,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlSecondary }).length > 0,
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
           },
           {
@@ -138,8 +136,7 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
-              0,
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -147,7 +144,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlSecondary }).length > 0,
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
           },
           {
@@ -162,8 +159,7 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlBeklagtePerson }).length >
-              0,
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -171,7 +167,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlSecondary }).length > 0,
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
           },
           {
@@ -187,7 +183,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlSecondary }).length > 0,
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
           },
           {
@@ -203,7 +199,7 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCaseStreets({ zipCode: postleitzahlSecondary }).length > 0,
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
           },
           {

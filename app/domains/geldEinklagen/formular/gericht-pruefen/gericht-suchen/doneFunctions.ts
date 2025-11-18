@@ -6,7 +6,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
-import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 type GeldEinklagenGerichtPruefenDaten =
   GenericGuard<GeldEinklagenFormularGerichtPruefenUserData>;
@@ -14,8 +14,7 @@ type GeldEinklagenGerichtPruefenDaten =
 const hasEdgeCasesDataForSecondary: GeldEinklagenGerichtPruefenDaten = ({
   context,
 }) => {
-  const hasEdgeCase =
-    edgeCaseStreets({ zipCode: context.postleitzahlSecondary }).length > 0;
+  const hasEdgeCase = edgeCasesForPlz(context.postleitzahlSecondary).length > 0;
 
   return hasEdgeCase
     ? objectKeysNonEmpty(context, [
@@ -29,7 +28,7 @@ const hasEdgeCasesDataForBeklagtePerson: GeldEinklagenGerichtPruefenDaten = ({
   context,
 }) => {
   const hasEdgeCase =
-    edgeCaseStreets({ zipCode: context.postleitzahlBeklagtePerson }).length > 0;
+    edgeCasesForPlz(context.postleitzahlBeklagtePerson).length > 0;
 
   return hasEdgeCase
     ? objectKeysNonEmpty(context, ["strasseBeklagte", "strasseNummerBeklagte"])

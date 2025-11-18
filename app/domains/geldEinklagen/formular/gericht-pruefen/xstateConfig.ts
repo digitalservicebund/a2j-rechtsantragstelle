@@ -12,7 +12,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./gericht-suchen/guards";
-import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -67,15 +67,12 @@ export const gerichtPruefenXstateConfig = {
             BACK: [
               {
                 guard: ({ context: { postleitzahlSecondary } }) =>
-                  edgeCaseStreets({ zipCode: postleitzahlSecondary }).length >
-                  0,
+                  edgeCasesForPlz(postleitzahlSecondary).length > 0,
                 target: steps.gerichtSuchenStrasseNummerSekundaer.absolute,
               },
               {
                 guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-                  edgeCaseStreets({
-                    zipCode: postleitzahlBeklagtePerson,
-                  }).length > 0,
+                  edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
                 target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
               },
               {
