@@ -36,7 +36,7 @@ const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
 };
 
 const dashifyLowercase = (text: string) =>
-  text.toLowerCase().replace(/\s+/g, "-");
+  text.toLowerCase().replaceAll(/\s+/g, "-");
 
 export default function Footer({
   image,

@@ -60,7 +60,7 @@ ${statesToGraph(digraph.children, showBacklinks)}`;
 
 // https://github.com/dankogai/js-base64/blob/main/base64.ts
 const safeUri = (src: string) =>
-  src.replace(/=/g, "").replace(/[+/]/g, (m0) => (m0 == "+" ? "-" : "_"));
+  src.replaceAll("=", "").replaceAll(/[+/]/g, (m0) => (m0 == "+" ? "-" : "_"));
 
 function compressBase64(flowChartString: string) {
   const graphObjString = JSON.stringify({ code: flowChartString });
@@ -68,8 +68,8 @@ function compressBase64(flowChartString: string) {
   return safeUri(
     Buffer.from(compressed)
       .toString("base64")
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_"),
+      .replaceAll("+", "-")
+      .replaceAll("/", "_"),
   );
 }
 

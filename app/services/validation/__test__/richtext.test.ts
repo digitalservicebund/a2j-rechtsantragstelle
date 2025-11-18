@@ -18,7 +18,7 @@ describe("richtext validation", () => {
       ({ input, expected }) => {
         const actual = buildRichTextValidation().safeParse(input);
         // Marked adds newline characters automatically after parsing -- we need to strip these for best results
-        actual.data = actual.data?.replaceAll(/\n/g, "");
+        actual.data = actual.data?.replaceAll("\n", "");
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
