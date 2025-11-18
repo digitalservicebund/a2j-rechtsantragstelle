@@ -85,6 +85,35 @@ describe("doneGerichtSuchen", () => {
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(true);
     });
+
+    describe("check edge cases", () => {
+      it("should return false in case missing strasseNummerBeklagte", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlSecondary: "14197",
+          strasseSekundaer: "street",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(false);
+      });
+
+      it("should return true in case all the data are present", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlSecondary: "14197",
+          strasseSekundaer: "street",
+          strasseNummerSekundaer: "number",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(true);
+      });
+    });
   });
 
   describe("check cases only need for postleitzahlBeklagtePerson", () => {
@@ -111,6 +140,37 @@ describe("doneGerichtSuchen", () => {
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
+    });
+
+    describe("check edge cases", () => {
+      it("should return false in case missing strasseNummerBeklagte", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlBeklagtePerson: "14197",
+          strasseBeklagte: "street",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+        mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(false);
+      });
+
+      it("should return true in case all the data are present", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlBeklagtePerson: "14197",
+          strasseBeklagte: "street",
+          strasseNummerBeklagte: "number",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+        mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(true);
+      });
     });
   });
 
@@ -221,6 +281,63 @@ describe("doneGerichtSuchen", () => {
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(true);
+    });
+
+    describe("check edge cases", () => {
+      it("should return false in case missing strasseNummerBeklagte", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          sachgebiet: "schaden",
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlBeklagtePerson: "14197",
+          strasseBeklagte: "street",
+          postleitzahlSecondary: "14197",
+          strasseSekundaer: "street",
+          strasseNummerSekundaer: "number",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+        mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(false);
+      });
+
+      it("should return false in case missing strasseNummerSekundaer", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          sachgebiet: "schaden",
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlBeklagtePerson: "14197",
+          strasseBeklagte: "street",
+          strasseNummerBeklagte: "number",
+          postleitzahlSecondary: "14197",
+          strasseSekundaer: "street",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+        mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(false);
+      });
+
+      it("should return true in case all the data are present", () => {
+        const context: GeldEinklagenFormularGerichtPruefenUserData = {
+          ...baseContext,
+          sachgebiet: "schaden",
+          gerichtsstandsvereinbarung: "no",
+          postleitzahlBeklagtePerson: "14197",
+          strasseBeklagte: "street",
+          strasseNummerBeklagte: "number",
+          postleitzahlSecondary: "14197",
+          strasseSekundaer: "street",
+          strasseNummerSekundaer: "number",
+        };
+        mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson(false);
+        mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall(false);
+
+        const actual = doneGerichtSuchen({ context });
+        expect(actual).toBe(true);
+      });
     });
   });
 });
