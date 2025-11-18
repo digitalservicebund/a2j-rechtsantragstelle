@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getValidUserDataFields } from "../fieldValidation";
+import { getValidUserDataFields } from "../getValidUserData";
 import type { UserData } from "~/domains/userData";
 
 describe("fieldValidation", () => {

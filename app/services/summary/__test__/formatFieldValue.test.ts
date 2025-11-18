@@ -68,17 +68,17 @@ describe("formatFieldValue", () => {
 
   describe("Boolean object formatting", () => {
     it("should format boolean objects with active keys", () => {
-      const boolObj = { option1: true, option2: false, option3: "on" };
+      const boolObj = { option1: "on", option2: "off", option3: "on" };
       expect(formatFieldValue(boolObj)).toBe("option1, option3");
     });
 
     it("should handle 'none' option", () => {
-      const boolObj = { option1: true, none: true };
+      const boolObj = { option1: "off", none: "on" };
       expect(formatFieldValue(boolObj)).toBe("none");
     });
 
     it("should translate boolean objects using options", () => {
-      const boolObj = { pregnancy: true, disability: false };
+      const boolObj = { pregnancy: "on", disability: "off" };
       const options = [
         { text: "Schwangerschaft", value: "pregnancy" },
         { text: "Behinderung", value: "disability" },
@@ -88,7 +88,7 @@ describe("formatFieldValue", () => {
     });
 
     it("should handle 'none' with proper translation", () => {
-      const boolObj = { pregnancy: false, none: true };
+      const boolObj = { pregnancy: "off", none: "on" };
       const options = [
         { text: "Schwangerschaft", value: "pregnancy" },
         { text: "Nein, trifft nicht zu", value: "none" },

@@ -10,7 +10,7 @@ import {
 import type { FlowId } from "~/domains/flowIds";
 import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { groupFieldsByFlowNavigation } from "./groupFieldsBySection";
-import { getValidUserDataFields } from "./fieldValidation";
+import { getValidUserDataFields } from "./getValidUserData";
 import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
 

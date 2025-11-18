@@ -10,20 +10,11 @@ function formatBooleanObject(
   options?: Array<{ text: string; value: string }>,
 ): string {
   const activeKeys = Object.entries(value)
-    .filter(
-      ([_, val]) =>
-        val === true || val === "yes" || val === "ja" || val === "on",
-    )
+    .filter(([_, val]) => val === "on")
     .map(([key, _]) => key);
 
   if (activeKeys.length === 0) {
     return "";
-  }
-
-  // if "none" is active, only show that (ignore other options)
-  if (activeKeys.includes("none")) {
-    const noneOption = options?.find((opt) => opt.value === "none");
-    return noneOption ? noneOption.text : "none";
   }
 
   // Translate active keys using options if available
@@ -39,17 +30,7 @@ function formatBooleanObject(
 }
 
 function isBooleanGroup(values: unknown[]): boolean {
-  return values.every(
-    (val) =>
-      val === "on" ||
-      val === "off" ||
-      val === true ||
-      val === false ||
-      val === "yes" ||
-      val === "no" ||
-      val === "ja" ||
-      val === "nein",
-  );
+  return values.every((val) => val === "on" || val === "off");
 }
 
 function formatObjectValue(
