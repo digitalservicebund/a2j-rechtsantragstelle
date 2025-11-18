@@ -87,6 +87,8 @@ export function getBundIdSamlConfig() {
     entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
     issuer: "https://service.justiz.de/sp",
     callbackUrl: config().SAML_ASSERTION_CONSUMER_SERVICE_URL ?? "",
+    identifierFormat: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+    allowCreate: true,
     idpCert: config().SAML_IDP_CERT ?? "",
     privateKey: fs.readFileSync("data/saml/sp_privateKey.pem", "utf-8"),
     decryptionPvk: fs.readFileSync(
