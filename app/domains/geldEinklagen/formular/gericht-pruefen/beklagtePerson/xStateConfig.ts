@@ -11,7 +11,6 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 export const beklagtePersonXstateConfig = {
   id: "beklagte-person",
   initial: "gegen-wen",
-  meta: { done: beklagtePersonDone },
   states: {
     [steps.beklagtePersonGegenWen.relative]: {
       on: {

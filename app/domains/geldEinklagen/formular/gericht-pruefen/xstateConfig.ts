@@ -23,7 +23,6 @@ export const gerichtPruefenXstateConfig = {
     intro: {
       id: "intro",
       initial: "start",
-      meta: { done: () => true },
       states: {
         [steps.introStart.relative]: {
           on: {
@@ -35,7 +34,6 @@ export const gerichtPruefenXstateConfig = {
     forderung: {
       id: "forderung",
       initial: "fragen",
-      meta: { done: forderungDone },
       states: {
         [steps.forderungFragen.relative]: {
           on: {

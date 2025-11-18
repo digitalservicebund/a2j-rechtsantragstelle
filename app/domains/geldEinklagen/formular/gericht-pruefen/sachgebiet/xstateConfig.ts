@@ -9,7 +9,6 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 export const sachgebietXstateConfig = {
   id: "sachgebiet",
   initial: "info",
-  meta: { done: sachgebietDone },
   states: {
     [steps.sachgebietInfo.relative]: {
       on: {
