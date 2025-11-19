@@ -17,8 +17,8 @@ import type {
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
-import { getRelevantPageSchemasForStepId, pages } from "~/domains/pageSchemas";
 import { type FlowId } from "~/domains/flowIds";
+import { pages, getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);

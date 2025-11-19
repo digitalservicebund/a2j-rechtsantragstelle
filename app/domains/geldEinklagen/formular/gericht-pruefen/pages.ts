@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -8,8 +9,8 @@ export const geldEinklagenGerichtPruefenPages = {
   introStart: {
     stepId: "gericht-pruefen/intro/start",
   },
-  forderungFragen: {
-    stepId: "gericht-pruefen/forderung/fragen",
+  forderungWas: {
+    stepId: "gericht-pruefen/forderung/was",
     pageSchema: { forderung: z.enum(["maximal5000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
@@ -48,9 +49,9 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/versicherung-vertrag",
     pageSchema: { versicherungVertrag: YesNoAnswer },
   },
-  sachgebietVersicherungVersicherungsnummer: {
-    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnummer",
-    pageSchema: { versicherungsnummer: YesNoAnswer },
+  sachgebietVersicherungVersicherungsnehmer: {
+    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnehmer",
+    pageSchema: { versicherungsnehmer: YesNoAnswer },
   },
   sachgebietReiseArt: {
     stepId: "gericht-pruefen/sachgebiet/reise-art",
@@ -68,7 +69,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { fuerWenKlagen: z.enum(["selbst", "organisation"]) },
   },
   klagendePersonErrorAbbruch: {
-    stepId: "gericht-pruefen/klagende-person/ergebnis/abbruch",
+    stepId: "gericht-pruefen/klagende-person/ergebnis/organisation-abbruch",
   },
   klagendePersonVerbraucher: {
     stepId: "gericht-pruefen/klagende-person/verbraucher",
@@ -108,6 +109,13 @@ export const geldEinklagenGerichtPruefenPages = {
       postleitzahlBeklagtePerson: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
+  gerichtSuchenStrasseNummerBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
+    pageSchema: {
+      strasseBeklagte: stringRequiredSchema,
+      strasseNummerBeklagte: germanHouseNumberSchema,
+    },
+  },
   gerichtSuchenPostleitzahlWohnraum: {
     stepId: "gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
     pageSchema: {
@@ -137,6 +145,13 @@ export const geldEinklagenGerichtPruefenPages = {
       "gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenStrasseNummerSekundaer: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-sekundaer",
+    pageSchema: {
+      strasseSekundaer: stringRequiredSchema,
+      strasseNummerSekundaer: germanHouseNumberSchema,
     },
   },
   zustaendigesGerichtPilotGericht: {
