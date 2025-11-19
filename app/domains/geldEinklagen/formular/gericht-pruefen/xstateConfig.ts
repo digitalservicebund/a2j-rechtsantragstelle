@@ -12,6 +12,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./gericht-suchen/guards";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -22,21 +23,19 @@ export const gerichtPruefenXstateConfig = {
     intro: {
       id: "intro",
       initial: "start",
-      meta: { done: () => true },
       states: {
         [steps.introStart.relative]: {
           on: {
-            SUBMIT: steps.forderungFragen.absolute,
+            SUBMIT: steps.forderungWas.absolute,
           },
         },
       },
     },
     forderung: {
       id: "forderung",
-      initial: "fragen",
-      meta: { done: forderungDone },
+      initial: "was",
       states: {
-        [steps.forderungFragen.relative]: {
+        [steps.forderungWas.relative]: {
           on: {
             SUBMIT: [
               {
@@ -50,7 +49,7 @@ export const gerichtPruefenXstateConfig = {
         },
         "ergebnis/forderung-etwas-anderes": {
           on: {
-            BACK: steps.forderungFragen.relative,
+            BACK: steps.forderungWas.relative,
           },
         },
       },
@@ -66,6 +65,16 @@ export const gerichtPruefenXstateConfig = {
         [steps.zustaendigesGerichtPilotGericht.relative]: {
           on: {
             BACK: [
+              {
+                guard: ({ context: { postleitzahlSecondary } }) =>
+                  edgeCasesForPlz(postleitzahlSecondary).length > 0,
+                target: steps.gerichtSuchenStrasseNummerSekundaer.absolute,
+              },
+              {
+                guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+                  edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+                target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
+              },
               {
                 guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
                 target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
