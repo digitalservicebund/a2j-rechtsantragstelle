@@ -1,6 +1,4 @@
-import mapKeys from "lodash/mapKeys";
 import type { ZodType, z } from "zod";
-import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   isZodString,
@@ -12,8 +10,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
-import { isZodObject } from "./schemaToForm/renderZodObject";
-import SplitDateInput from "./SplitDateInput";
+import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import HiddenInput from "./HiddenInput";
 
@@ -75,38 +72,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
       }
 
       if (isZodObject(nestedSchema)) {
-        if (nestedSchema.meta()?.description === "exclusive_checkbox") {
-          const labels = Object.fromEntries(
-            (formComponents ?? [])
-              ?.filter((el) => el.__component === "form-elements.checkbox")
-              .filter((el) => el.name.split(".")[0] === fieldName)
-              .map((el) => [el.name.split(".").at(-1)!, el.label]),
-          );
-
-          return (
-            <ExclusiveCheckboxes
-              key={fieldName}
-              name={fieldName}
-              options={Object.keys(nestedSchema.shape)}
-              labels={labels}
-            />
-          );
-        }
-        if (nestedSchema.meta()?.description === "split_date") {
-          return <SplitDateInput key={fieldName} name={fieldName} />;
-        }
-        // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
-        const innerSchema = mapKeys(
-          nestedSchema.shape,
-          (_, key) => `${fieldName}.${key}`,
-        );
-        return (
-          <SchemaComponents
-            key={fieldName}
-            pageSchema={innerSchema}
-            formComponents={formComponents}
-          />
-        );
+        return renderZodObject(nestedSchema, fieldName, formComponents);
       }
 
       if (isZodEnum(nestedSchema))
