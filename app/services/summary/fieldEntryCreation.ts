@@ -1,7 +1,6 @@
 import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
-// import { isUserDataFieldEmpty } from "./fieldValidation";
 import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
