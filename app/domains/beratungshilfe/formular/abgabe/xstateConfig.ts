@@ -13,7 +13,7 @@ const getOnlineBackTarget = () => {
   if (showFileUpload) {
     return steps.dokumente.relative;
   }
-  return showAutoSummary ? steps.zusammenfassung.relative : steps.art.relative;
+  return steps.art.relative;
 };
 
 export const abgabeXstateConfig = {
@@ -26,55 +26,45 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-        target: steps.art.relative,
-      },
-    },
-    [steps.art.relative]: {
-      on: {
-        BACK: steps.art.relative,
-        SUBMIT: showAutoSummary
+        target: showAutoSummary
           ? steps.zusammenfassung.relative
-          : [
-              {
-                target: showFileUpload
-                  ? steps.dokumente.relative
-                  : steps.online.relative,
-                guard: beratungshilfeAbgabeGuards.abgabeOnline,
-              },
-              {
-                target: steps.ausdrucken.relative,
-                guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
-              },
-            ],
+          : steps.art.relative,
       },
     },
 
     ...(showAutoSummary && {
       [steps.zusammenfassung.relative]: {
         on: {
-          BACK: steps.art.relative,
-          SUBMIT: [
-            {
-              target: showFileUpload
-                ? steps.dokumente.relative
-                : steps.online.relative,
-              guard: beratungshilfeAbgabeGuards.abgabeOnline,
-            },
-            {
-              target: steps.ausdrucken.relative,
-              guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
-            },
-          ],
+          BACK: "#weitere-angaben",
+          SUBMIT: steps.art.relative,
         },
       },
     }),
 
+    [steps.art.relative]: {
+      on: {
+        BACK: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : steps.art.relative,
+        SUBMIT: [
+          {
+            target: showFileUpload
+              ? steps.dokumente.relative
+              : steps.online.relative,
+            guard: beratungshilfeAbgabeGuards.abgabeOnline,
+          },
+          {
+            target: steps.ausdrucken.relative,
+            guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
+          },
+        ],
+      },
+    },
+
     ...(showFileUpload && {
       [steps.dokumente.relative]: {
         on: {
-          BACK: showAutoSummary
-            ? steps.zusammenfassung.relative
-            : steps.art.relative,
+          BACK: steps.art.relative,
           SUBMIT: steps.online.relative,
         },
       },
@@ -83,9 +73,7 @@ export const abgabeXstateConfig = {
     [steps.ausdrucken.relative]: {
       on: {
         BACK: {
-          target: showAutoSummary
-            ? steps.zusammenfassung.relative
-            : steps.art.relative,
+          target: steps.art.relative,
         },
       },
     },
