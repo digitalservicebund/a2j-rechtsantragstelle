@@ -4,6 +4,9 @@ import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
+import KernBox from "~/components/kern/KernBox";
+import KernHeading from "~/components/kern/KernHeading";
+import KernRichText from "~/components/kern/KernRichText";
 import BoxWithImage from "~/components/content/BoxWithImage";
 import { Details } from "~/components/content/Details";
 import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
@@ -54,8 +57,44 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
-  opts?: { inFlow?: boolean },
+  opts?: { inFlow?: boolean; useKernUX?: boolean },
 ) {
+  if (opts?.useKernUX) {
+    switch (componentProps.__component) {
+      case "basic.heading":
+        return <KernHeading {...componentProps} />;
+      case "basic.paragraph":
+        return <KernRichText {...componentProps} />;
+      case "page.box":
+        return <KernBox {...componentProps} />;
+      case "page.hero":
+        return <Hero {...componentProps} />;
+      case "page.info-box":
+        return <InfoBox {...componentProps} />;
+      case "page.table-of-contents":
+        return <TableOfContents {...componentProps} />;
+      case "page.box-with-image":
+        return <BoxWithImage {...componentProps} />;
+      case "page.list":
+        return <List {...componentProps} wrap={opts?.inFlow} />;
+      case "page.video":
+        return <Video {...componentProps} />;
+      case "page.inline-notice":
+        return <InlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      case "page.details-summary":
+        return <Details {...componentProps} />;
+      case "page.user-feedback":
+        return <UserFeedback {...componentProps} />;
+      case "page.summary-overview-section":
+        return <SummaryOverviewSection {...componentProps} />;
+      case "page.email-capture":
+        return <EmailCapture {...componentProps} />;
+      case "page.array-summary":
+      default:
+        return <></>;
+    }
+  }
+
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;
@@ -95,12 +134,14 @@ type PageContentProps = {
   readonly content: StrapiContentComponent[];
   readonly className?: string;
   readonly managedByParent?: boolean;
+  readonly useKernUX?: boolean;
 };
 
 function ContentComponents({
   content = [],
   managedByParent,
   className,
+  useKernUX = false,
 }: PageContentProps) {
   if (content.length === 0) return [];
 
@@ -113,7 +154,7 @@ function ContentComponents({
       if (managedByParent) {
         return (
           <div key={`${el.__component}_${el.id}`} className={className}>
-            {cmsToReact(el, { inFlow: true })}
+            {cmsToReact(el, { inFlow: true, useKernUX })}
           </div>
         );
       }
@@ -146,7 +187,7 @@ function ContentComponents({
               ),
             }}
           >
-            {cmsToReact(el)}
+            {cmsToReact(el, { useKernUX: true })}
           </Grid>
         </GridSection>
       );

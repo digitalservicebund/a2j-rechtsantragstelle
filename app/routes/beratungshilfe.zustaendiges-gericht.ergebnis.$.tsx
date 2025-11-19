@@ -14,6 +14,7 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
@@ -33,12 +34,15 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
-  const [{ content, pageMeta }] = await Promise.all([fetchPage(slug)]);
-  return { court, content, meta: pageMeta };
+  const [{ content, pageMeta }, useKernUX] = await Promise.all([
+    fetchPage(slug),
+    isFeatureFlagEnabled("showKernUX"),
+  ]);
+  return { court, content, meta: pageMeta, useKernUX };
 };
 
 export const Component = () => {
-  const { court, content } = useLoaderData<typeof loader>();
+  const { court, content, useKernUX } = useLoaderData<typeof loader>();
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue} pt="48" pb="40">
@@ -95,7 +99,7 @@ export const Component = () => {
           />
         </GridItem>
       </Grid>
-      <ContentComponents content={content} />
+      <ContentComponents content={content} useKernUX={useKernUX} />
     </GridSection>
   );
 };

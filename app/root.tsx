@@ -48,6 +48,7 @@ import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import { mainSessionFromCookieHeader } from "./services/session.server";
+import { isFeatureFlagEnabled } from "./services/isFeatureFlagEnabled.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
@@ -107,6 +108,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     hasAnyUserData,
     mainSession,
     breadcrumbs,
+    useKernUX,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -117,6 +119,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
     buildBreadcrumbPromises(pathname),
+    isFeatureFlagEnabled("showKernUX"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -142,6 +145,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
+      useKernUX,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -176,7 +180,7 @@ function App() {
   }, [shouldPrint]);
 
   return (
-    <html lang="de">
+    <html lang="de" data-kern-theme="light">
       <head>
         <title>
           {shouldPrint ? generatePrintTitle(title, pathname) : title}
