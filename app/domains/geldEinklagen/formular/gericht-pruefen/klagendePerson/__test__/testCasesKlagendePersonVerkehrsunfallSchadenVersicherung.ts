@@ -15,7 +15,7 @@ export const testCasesKlagendePersonVerkehrsunfallSchadenVersicherung = [
     },
     [
       "/gericht-pruefen/klagende-person/fuer-wen",
-      "/gericht-pruefen/klagende-person/ergebnis/abbruch",
+      "/gericht-pruefen/klagende-person/ergebnis/organisation-abbruch",
     ],
   ],
   [

@@ -9,8 +9,8 @@ export const geldEinklagenGerichtPruefenPages = {
   introStart: {
     stepId: "gericht-pruefen/intro/start",
   },
-  forderungFragen: {
-    stepId: "gericht-pruefen/forderung/fragen",
+  forderungWas: {
+    stepId: "gericht-pruefen/forderung/was",
     pageSchema: { forderung: z.enum(["maximal5000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
@@ -49,9 +49,9 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/versicherung-vertrag",
     pageSchema: { versicherungVertrag: YesNoAnswer },
   },
-  sachgebietVersicherungVersicherungsnummer: {
-    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnummer",
-    pageSchema: { versicherungsnummer: YesNoAnswer },
+  sachgebietVersicherungVersicherungsnehmer: {
+    stepId: "gericht-pruefen/sachgebiet/versicherung-versicherungsnehmer",
+    pageSchema: { versicherungsnehmer: YesNoAnswer },
   },
   sachgebietReiseArt: {
     stepId: "gericht-pruefen/sachgebiet/reise-art",
@@ -69,7 +69,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { fuerWenKlagen: z.enum(["selbst", "organisation"]) },
   },
   klagendePersonErrorAbbruch: {
-    stepId: "gericht-pruefen/klagende-person/ergebnis/abbruch",
+    stepId: "gericht-pruefen/klagende-person/ergebnis/organisation-abbruch",
   },
   klagendePersonVerbraucher: {
     stepId: "gericht-pruefen/klagende-person/verbraucher",

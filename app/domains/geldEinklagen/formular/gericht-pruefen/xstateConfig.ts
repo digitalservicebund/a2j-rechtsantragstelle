@@ -26,16 +26,16 @@ export const gerichtPruefenXstateConfig = {
       states: {
         [steps.introStart.relative]: {
           on: {
-            SUBMIT: steps.forderungFragen.absolute,
+            SUBMIT: steps.forderungWas.absolute,
           },
         },
       },
     },
     forderung: {
       id: "forderung",
-      initial: "fragen",
+      initial: "was",
       states: {
-        [steps.forderungFragen.relative]: {
+        [steps.forderungWas.relative]: {
           on: {
             SUBMIT: [
               {
@@ -49,7 +49,7 @@ export const gerichtPruefenXstateConfig = {
         },
         "ergebnis/forderung-etwas-anderes": {
           on: {
-            BACK: steps.forderungFragen.relative,
+            BACK: steps.forderungWas.relative,
           },
         },
       },

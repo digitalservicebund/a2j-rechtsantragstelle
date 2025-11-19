@@ -13,7 +13,7 @@ export const sachgebietXstateConfig = {
     [steps.sachgebietInfo.relative]: {
       on: {
         SUBMIT: steps.sachgebietAusgeschlossen.relative,
-        BACK: steps.forderungFragen.absolute,
+        BACK: steps.forderungWas.absolute,
       },
     },
     [steps.sachgebietAusgeschlossen.relative]: {
@@ -90,7 +90,7 @@ export const sachgebietXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.versicherungVertrag === "yes",
-            target: steps.sachgebietVersicherungVersicherungsnummer.relative,
+            target: steps.sachgebietVersicherungVersicherungsnehmer.relative,
           },
           {
             guard: sachgebietDone,
@@ -100,7 +100,7 @@ export const sachgebietXstateConfig = {
         BACK: steps.sachgebietBesondere.relative,
       },
     },
-    [steps.sachgebietVersicherungVersicherungsnummer.relative]: {
+    [steps.sachgebietVersicherungVersicherungsnehmer.relative]: {
       on: {
         SUBMIT: {
           guard: sachgebietDone,
