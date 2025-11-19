@@ -1,0 +1,67 @@
+import type { ArrayFieldInfo } from "./types";
+
+/**
+ * Parses array field names like "kinder[0]", "kinder[0].vorname", or regular fields like "vorname"
+ *
+ * @param fieldName - Field name to parse
+ * @returns Parsed field information
+ *
+ * @example
+ * parseArrayField("vorname") → { baseFieldName: "vorname", arrayIndex: -1, isArrayField: false, isArraySubField: false }
+ * parseArrayField("kinder[0]") → { baseFieldName: "kinder", arrayIndex: 0, isArrayField: true, isArraySubField: false }
+ * parseArrayField("kinder[0].vorname") → { baseFieldName: "kinder", arrayIndex: 0, subFieldName: "vorname", isArrayField: true, isArraySubField: true }
+ */
+export function parseArrayField(fieldName: string): ArrayFieldInfo {
+  const isArrayField = fieldName.includes("[") && fieldName.includes("]");
+  const isArraySubField = isArrayField && fieldName.includes(".");
+
+  if (!isArrayField) {
+    return {
+      baseFieldName: fieldName,
+      arrayIndex: -1,
+      isArrayField: false,
+      isArraySubField: false,
+    };
+  }
+
+  // Handle array sub-fields like "kinder[0].vorname"
+  if (isArraySubField) {
+    const [arrayPart, subFieldName] = fieldName.split(".");
+    const [baseFieldName, indexPart] = arrayPart.split("[");
+    const indexStr = indexPart.replaceAll("]", "");
+    const arrayIndex = Number.parseInt(indexStr, 10);
+
+    return {
+      baseFieldName,
+      arrayIndex,
+      subFieldName,
+      isArrayField: true,
+      isArraySubField: true,
+    };
+  }
+
+  // Handle simple array fields like "kinder[0]"
+  const [baseFieldName, indexPart] = fieldName.split("[");
+  const indexStr = indexPart.replaceAll("]", "");
+  const arrayIndex = Number.parseInt(indexStr, 10);
+
+  return {
+    baseFieldName,
+    arrayIndex,
+    isArrayField: true,
+    isArraySubField: false,
+  };
+}
+
+/**
+ * Creates box key for grouping array fields (e.g., "kinder[0].vorname" → "kinder-0")
+ */
+export function createArrayBoxKey(fieldName: string): string | null {
+  const info = parseArrayField(fieldName);
+
+  if (info.isArrayField) {
+    return `${info.baseFieldName}-${info.arrayIndex}`;
+  }
+
+  return null;
+}
