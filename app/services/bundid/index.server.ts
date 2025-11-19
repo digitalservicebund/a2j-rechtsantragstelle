@@ -92,8 +92,8 @@ export function getBundIdSamlConfig() {
         "classic-ui:Version": {
           "@xmlns:classic-ui":
             "https://www.akdb.de/request/2018/09/classic-ui/v1",
-          //        "classic-ui:Purpose":
-          //            "Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.",
+          "classic-ui:Purpose":
+            "Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.",
           "classic-ui:OrganizationDisplayName": "Onlinedienste der Justiz",
           "classic-ui:Lang": "de",
           "classic-ui:BackURL": "https://a2j-staging.dev.ds4g.net/bundid",
@@ -113,10 +113,12 @@ export function getBundIdSamlConfig() {
     authnRequestBinding: "HTTP-POST",
     skipRequestCompression: true,
     wantAssertionsSigned: true,
+    racComparison: "minimum",
+    authnContext: ["STORK-QAA-Level-1"],
     signatureAlgorithm: "sha256-mgf1",
     samlAuthnRequestExtensions: samlAuthnRequestExtensions,
     acceptedClockSkewMs: 5000,
-    disableRequestedAuthnContext: true,
+    disableRequestedAuthnContext: false,
     forceAuthn: false,
   });
   return saml;
