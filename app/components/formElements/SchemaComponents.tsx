@@ -1,5 +1,5 @@
 import mapKeys from "lodash/mapKeys";
-import { type z } from "zod";
+import type { ZodType, z } from "zod";
 import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
@@ -14,10 +14,44 @@ import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject } from "./schemaToForm/renderZodObject";
 import SplitDateInput from "./SplitDateInput";
+import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
+import HiddenInput from "./HiddenInput";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
+};
+
+const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
+  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
+    fieldSchema.meta()?.description ?? "",
+  );
+};
+
+const renderSpecialMetaDescriptions = (
+  fieldName: string,
+  fieldSchema: ZodType,
+  matchingElement?: StrapiFormComponent,
+) => {
+  if (fieldSchema.meta()?.description === filesUploadZodDescription) {
+    const filesUploadElement = matchingElement as z.infer<
+      typeof StrapiFilesUploadComponentSchema
+    >;
+    return (
+      <FilesUpload
+        key={fieldName}
+        name={fieldName}
+        title={filesUploadElement.title}
+        description={filesUploadElement.description}
+        inlineNotices={filesUploadElement.inlineNotices}
+        errorMessages={filesUploadElement.errorMessages}
+      />
+    );
+  }
+
+  if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
+    return <HiddenInput key={fieldName} name={fieldName} />;
+  }
 };
 
 export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
@@ -32,19 +66,11 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
         )
         .find(({ name }) => name === fieldName);
 
-      if (fieldSchema.meta()?.description === filesUploadZodDescription) {
-        const filesUploadElement = matchingElement as z.infer<
-          typeof StrapiFilesUploadComponentSchema
-        >;
-        return (
-          <FilesUpload
-            key={fieldName}
-            name={fieldName}
-            title={filesUploadElement.title}
-            description={filesUploadElement.description}
-            inlineNotices={filesUploadElement.inlineNotices}
-            errorMessages={filesUploadElement.errorMessages}
-          />
+      if (isZodSpecialMetaDescription(fieldSchema)) {
+        return renderSpecialMetaDescriptions(
+          fieldName,
+          fieldSchema,
+          matchingElement,
         );
       }
 
