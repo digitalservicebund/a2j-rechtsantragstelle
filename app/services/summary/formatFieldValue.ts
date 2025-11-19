@@ -1,3 +1,5 @@
+import type { AllowedUserTypes, ObjectType } from "~/domains/userData";
+
 function formatDateObject(valueObj: Record<string, unknown>): string {
   const day = String(valueObj.day).padStart(2, "0");
   const month = String(valueObj.month).padStart(2, "0");
@@ -34,24 +36,22 @@ function isBooleanGroup(values: unknown[]): boolean {
 }
 
 function formatObjectValue(
-  value: object,
+  value: ObjectType,
   options?: Array<{ text: string; value: string }>,
 ): string {
   if (Array.isArray(value)) {
     return "";
   }
 
-  const valueObj = value as Record<string, unknown>;
-
   // Check if this is a date object: {day: '11', month: '11', year: '1991'}
-  if (valueObj.day && valueObj.month && valueObj.year) {
-    return formatDateObject(valueObj);
+  if (value.day && value.month && value.year) {
+    return formatDateObject(value);
   }
 
   // Handle boolean group objects: {selbststaendig: 'on', festangestellt: 'off'}
-  const values = Object.values(valueObj);
+  const values = Object.values(value);
   if (isBooleanGroup(values)) {
-    return formatBooleanObject(valueObj, options);
+    return formatBooleanObject(value, options);
   }
 
   // Fallback for unknown object types
@@ -71,10 +71,10 @@ function translateWithOptions(
 }
 
 export function formatFieldValue(
-  value: unknown,
+  value: AllowedUserTypes,
   options?: Array<{ text: string; value: string }>,
 ): string {
-  if (value == null) {
+  if (value == null || Array.isArray(value)) {
     return "";
   }
 

@@ -3,7 +3,6 @@ import { generateSummaryFromUserData } from "../autoGenerateSummary";
 import type { UserData } from "~/domains/userData";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { FlowId } from "~/domains/flowIds";
-import type { FlowController } from "~/services/flow/server/buildFlowController";
 
 // Only mock the external CMS dependency
 vi.mock("~/services/cms/fetchAllFormFields", () => ({
@@ -61,28 +60,38 @@ describe("generateSummaryFromUserData", () => {
     "fields.nachname": "Nachname",
   };
 
-  const mockFlowController: FlowController = {
-    stepStates: () => [
-      {
-        stepId: "/persoenliche-daten",
-        subStates: [
-          {
-            stepId: "/persoenliche-daten/grunddaten",
-            subStates: [],
-          },
-        ],
-      },
-      {
-        stepId: "/finanzielle-angaben",
-        subStates: [
-          {
-            stepId: "/finanzielle-angaben/kinder",
-            subStates: [],
-          },
-        ],
-      },
-    ],
-  } as any;
+  const mockStepStates = [
+    {
+      stepId: "/persoenliche-daten",
+      isDone: true,
+      isReachable: true,
+      url: "/beratungshilfe/antrag/persoenliche-daten",
+      subStates: [
+        {
+          stepId: "/persoenliche-daten/grunddaten",
+          isDone: true,
+          isReachable: true,
+          url: "/beratungshilfe/antrag/persoenliche-daten/grunddaten",
+          subStates: [],
+        },
+      ],
+    },
+    {
+      stepId: "/finanzielle-angaben",
+      isDone: true,
+      isReachable: true,
+      url: "/beratungshilfe/antrag/finanzielle-angaben",
+      subStates: [
+        {
+          stepId: "/finanzielle-angaben/kinder",
+          isDone: true,
+          isReachable: true,
+          url: "/beratungshilfe/antrag/finanzielle-angaben/kinder",
+          subStates: [],
+        },
+      ],
+    },
+  ];
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -261,7 +270,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         emptyUserData,
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         mockTranslations,
       );
 
@@ -277,7 +286,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         simpleUserData,
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         mockTranslations,
       );
 
@@ -309,7 +318,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         userDataWithEmpty,
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         mockTranslations,
       );
 
@@ -328,7 +337,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         mockUserData,
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         mockTranslations,
       );
 
@@ -367,7 +376,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         mockUserData,
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         mockTranslations,
       );
 
@@ -385,7 +394,7 @@ describe("generateSummaryFromUserData", () => {
       const result = await generateSummaryFromUserData(
         { vorname: "Max" },
         mockFlowId,
-        mockFlowController.stepStates(),
+        mockStepStates,
         {},
       );
 

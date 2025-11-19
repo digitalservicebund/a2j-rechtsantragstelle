@@ -20,8 +20,7 @@ export function getValidUserDataFields(userData: UserData): string[] {
       !Array.isArray(value) &&
       !(value.day && value.month && value.year) // Not a date object
     ) {
-      const obj = value as Record<string, unknown>;
-      for (const key of Object.keys(obj)) {
+      for (const key of Object.keys(value)) {
         expandedFields.push(`${fieldName}.${key}`);
       }
     }

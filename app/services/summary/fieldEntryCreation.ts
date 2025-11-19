@@ -1,4 +1,4 @@
-import type { UserData } from "~/domains/userData";
+import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 // import { isUserDataFieldEmpty } from "./fieldValidation";
@@ -19,7 +19,7 @@ export function createFieldEntry(
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
 
-  let value: unknown;
+  let value: AllowedUserTypes;
   let actualFieldName = fieldName;
   let arrayIndex: number | undefined;
   let arrayBaseField: string | undefined;
@@ -32,12 +32,12 @@ export function createFieldEntry(
     const arrayItem =
       Array.isArray(arrayValue) && arrayValue[fieldInfo.arrayIndex]
         ? arrayValue[fieldInfo.arrayIndex]
-        : null;
+        : undefined;
 
     value =
       arrayItem && fieldInfo.subFieldName
         ? arrayItem[fieldInfo.subFieldName]
-        : null;
+        : undefined;
     actualFieldName = fieldName;
   } else {
     value = userData[fieldName];
@@ -51,7 +51,7 @@ export function createFieldEntry(
   const fieldQuestion = fieldQuestions[actualFieldName];
 
   const answer =
-    value == null || value === ""
+    value == undefined || value === ""
       ? "Keine Angabe" // need to get this from CMS for translations
       : formatFieldValue(value, fieldQuestion?.options);
 

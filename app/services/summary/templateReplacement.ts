@@ -5,7 +5,7 @@ import mustache from "mustache";
 function createArrayReplacements(
   fieldName: string,
   userData: UserData,
-): Record<string, unknown> | undefined {
+): UserData | undefined {
   const fieldInfo = parseArrayField(fieldName);
   if (!fieldInfo.isArraySubField) {
     return undefined;
@@ -19,11 +19,11 @@ function createArrayReplacements(
     return undefined;
   }
 
-  const arrayItem = arrayData[arrayIndex] as Record<string, unknown>;
+  const arrayItem = arrayData[arrayIndex];
 
   // Change "kinder" to "kind", because the string replacement coming from strapi has kind
   // And userdata has kinder, so inorder for mustache to work we need to unify the data
-  const replacements: Record<string, unknown> = {};
+  const replacements: UserData = {};
   const kindKey = baseFieldName === "kinder" ? "kind" : baseFieldName;
   replacements[kindKey] = arrayItem;
 

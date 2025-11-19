@@ -19,7 +19,7 @@ describe("formatFieldValue", () => {
     });
 
     it("should handle null and undefined", () => {
-      expect(formatFieldValue(null)).toBe("");
+      expect(formatFieldValue(undefined)).toBe("");
       expect(formatFieldValue(undefined)).toBe("");
     });
   });
