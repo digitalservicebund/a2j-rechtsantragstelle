@@ -72,40 +72,39 @@ export default function SideNavMobile({
     : navItems.some(({ state }) => state === "WarningCurrent");
 
   return (
-    <details className="group flex flex-col lg:hidden bg-white border border-blue-400">
-      {/* {menuOpen && (
-        <button
-          onClick={toggleMenu}
-          data-testid="close-overlay"
-          aria-label={translations.navigationMobile.closeMenu.de}
-          className="bg-black h-screen opacity-70"
-        />
-      )} */}
+    <details className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent">
       {/* col-reverse needed to preserve correct tab order 
        (top close button at the end of the tab order)*/}
       <summary
         className={classNames(
-          "flex flex-row items-center not-group-open:not-bg-yellow-200 justify-between py-8 px-16 cursor-pointer w-full outline-none not-group-open:active:bg-blue-400 not-group-open:focus-within:shadow-[inset_0_0_0_4px_#004b76]",
-          {
-            "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
-              isStateCurrentWarning,
-          },
+          "flex flex-col cursor-pointer w-full outline-none group/summary",
         )}
       >
-        <div className="flex flex-row gap-8">
-          <div className="flex flex-col items-start">
-            <span className="ds-label-02-bold truncate text-left w-[70vw]">
-              {currentAreaTitle}
-            </span>
-            <span className="ds-body-03-reg text-gray-900">
-              {currentNavTitle}
-            </span>
+        <div className="not-group-open:hidden min-h-screen flex bg-black opacity-70"></div>
+        <div
+          className={classNames(
+            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between not-group-open:border not-group-open:border-blue-400 not-group-open:active:bg-blue-400 not-group-open:group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",
+            {
+              "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
+                isStateCurrentWarning,
+            },
+          )}
+        >
+          <div className="flex flex-row gap-8">
+            <div className="flex flex-col items-start">
+              <span className="ds-label-02-bold truncate text-left w-[70vw]">
+                {currentAreaTitle}
+              </span>
+              <span className="ds-body-03-reg text-gray-900">
+                {currentNavTitle}
+              </span>
+            </div>
           </div>
+          <KeyboardArrowUp className="hidden group-open:block h-[24px] text-blue-800 forced-colors:text-white" />
+          <KeyboardArrowDown className="block group-open:hidden h-[24px] text-blue-800 forced-colors:text-white" />
         </div>
-        <KeyboardArrowUp className="hidden group-open:block h-[24px] text-blue-800 forced-colors:text-white" />
-        <KeyboardArrowDown className="block group-open:hidden h-[24px] text-blue-800 forced-colors:text-white" />
       </summary>
-      <div className="max-h-[80vh] overflow-auto">
+      <div className="max-h-[80vh] overflow-auto bg-white">
         <StepStepperLinks stepsStepper={stepsStepper} />
         <div className="pb-10 flex flex-col">
           <NavigationList
