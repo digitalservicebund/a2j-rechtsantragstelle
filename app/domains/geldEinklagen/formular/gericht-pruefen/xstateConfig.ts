@@ -12,6 +12,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./gericht-suchen/guards";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -22,7 +23,6 @@ export const gerichtPruefenXstateConfig = {
     intro: {
       id: "intro",
       initial: "start",
-      meta: { done: () => true },
       states: {
         [steps.introStart.relative]: {
           on: {
@@ -34,7 +34,6 @@ export const gerichtPruefenXstateConfig = {
     forderung: {
       id: "forderung",
       initial: "was",
-      meta: { done: forderungDone },
       states: {
         [steps.forderungWas.relative]: {
           on: {
@@ -66,6 +65,16 @@ export const gerichtPruefenXstateConfig = {
         [steps.zustaendigesGerichtPilotGericht.relative]: {
           on: {
             BACK: [
+              {
+                guard: ({ context: { postleitzahlSecondary } }) =>
+                  edgeCasesForPlz(postleitzahlSecondary).length > 0,
+                target: steps.gerichtSuchenStrasseNummerSekundaer.absolute,
+              },
+              {
+                guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+                  edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+                target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
+              },
               {
                 guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
                 target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,

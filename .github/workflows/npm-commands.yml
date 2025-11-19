@@ -4,6 +4,8 @@ on:
     secrets:
       SENTRY_AUTH_TOKEN:
         required: false
+      GERICHTSFINDER_ENCRYPTION_KEY:
+        required: false
 
 jobs:
   code-quality:
@@ -22,6 +24,7 @@ jobs:
       - run: npm run ${{ matrix.npmCMD }}
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
+          GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
       - name: Upload coverage
         if: ${{ matrix.npmCMD == 'test:coverage' }}
         uses: actions/upload-artifact@v5

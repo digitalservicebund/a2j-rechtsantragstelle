@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -108,6 +109,13 @@ export const geldEinklagenGerichtPruefenPages = {
       postleitzahlBeklagtePerson: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
+  gerichtSuchenStrasseNummerBeklagtePerson: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
+    pageSchema: {
+      strasseBeklagte: stringRequiredSchema,
+      strasseNummerBeklagte: germanHouseNumberSchema,
+    },
+  },
   gerichtSuchenPostleitzahlWohnraum: {
     stepId: "gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
     pageSchema: {
@@ -137,6 +145,13 @@ export const geldEinklagenGerichtPruefenPages = {
       "gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
     pageSchema: {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
+    },
+  },
+  gerichtSuchenStrasseNummerSekundaer: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-sekundaer",
+    pageSchema: {
+      strasseSekundaer: stringRequiredSchema,
+      strasseNummerSekundaer: germanHouseNumberSchema,
     },
   },
   zustaendigesGerichtPilotGericht: {
