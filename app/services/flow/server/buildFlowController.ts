@@ -121,14 +121,19 @@ function stepStates(
 
   const statesWithDoneFunctionOrSubstates = Object.values(
     stateNode.states ?? {},
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
+  ).filter(
+    (state) =>
+      (flowId === "/fluggastrechte/formular" && state.meta?.done) ||
+      state.meta?.hideSubflowsFromNavigationMenu ||
+      Object.keys(state.states).length > 0,
+  );
 
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
-    const hasDoneFunction = meta?.done !== undefined;
+    const shouldHideSubstates =
+      meta?.hideSubflowsFromNavigationMenu !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
@@ -138,8 +143,12 @@ function stepStates(
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
-    // Ignore subflows if empty or parent state has done function
-    if (hasDoneFunction || reachableSubStates.length === 0) {
+    // Ignore subflows if empty, if parent state has hideSubstates flag, or if FGR parent state has doneFunction
+    if (
+      shouldHideSubstates ||
+      (flowId === "/fluggastrechte/formular" && meta?.done !== undefined) ||
+      reachableSubStates.length === 0
+    ) {
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 

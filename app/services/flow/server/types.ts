@@ -60,6 +60,7 @@ export type FlowConfigTransitions = {
 export type Meta<TUserData extends MachineContext = UserData> = {
   excludedFromValidation?: boolean;
   triggerValidation?: boolean;
+  hideSubflowsFromNavigationMenu?: boolean;
   done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
   pruneDataFromPageSchema?: boolean; // temporary flag until migrate all the flows with page schemas
