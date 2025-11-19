@@ -72,15 +72,22 @@ export default function SideNavMobile({
     : navItems.some(({ state }) => state === "WarningCurrent");
 
   return (
-    <details className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent">
+    <details
+      className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent"
+      data-testid="side-nav-details"
+    >
       {/* col-reverse needed to preserve correct tab order 
        (top close button at the end of the tab order)*/}
       <summary
         className={classNames(
           "flex flex-col cursor-pointer w-full outline-none group/summary",
         )}
+        data-testid="side-nav-summary"
       >
-        <div className="not-group-open:hidden min-h-screen flex bg-black opacity-70"></div>
+        <div
+          className="not-group-open:hidden min-h-screen flex bg-black opacity-70"
+          data-testid="close-overlay"
+        ></div>
         <div
           className={classNames(
             "flex bg-white items-center py-8 px-16 flex-row w-full justify-between not-group-open:border not-group-open:border-blue-400 not-group-open:active:bg-blue-400 not-group-open:group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",

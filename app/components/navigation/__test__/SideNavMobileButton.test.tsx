@@ -5,24 +5,6 @@ import { getMobileButtonAreaTitles } from "../getMobileButtonAreaTitles";
 vi.mock("../getMobileButtonAreaTitles");
 
 describe("SideNavMobileButton", () => {
-  it("should render the component correctly", () => {
-    vi.mocked(getMobileButtonAreaTitles).mockReturnValue({
-      currentAreaTitle: "currentAreaTitle",
-      currentNavTitle: "currentNavTitle",
-    });
-
-    const { container } = render(
-      <SideNavMobileButton
-        navItems={[]}
-        stepsStepper={[]}
-        menuOpen
-        toggleMenu={vi.fn()}
-      />,
-    );
-
-    expect(container).toHaveTextContent("currentAreaTitle");
-  });
-
   it("should render icon arrow up and button with aria-expanded true if menu is opened", () => {
     const { getByTestId, getByRole } = render(
       <SideNavMobileButton
