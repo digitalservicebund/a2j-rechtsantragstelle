@@ -6,7 +6,7 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await expectPageToBeAccessible(formular);
   await formular.clickNext();
 
-  // /geld-einklagen/formular/gericht-pruefen/forderung/fragen
+  // /geld-einklagen/formular/gericht-pruefen/forderung/was
   await formular.fillRadioPage("forderung", "maximal5000");
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/info

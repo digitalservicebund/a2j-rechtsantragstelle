@@ -16,7 +16,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      versicherungsnehmer: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
@@ -30,7 +30,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      versicherungsnehmer: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
@@ -45,7 +45,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      versicherungsnehmer: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
@@ -59,7 +59,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "yes",
+      versicherungsnehmer: "yes",
       klagendeKaufmann: "no",
     },
     [
@@ -72,7 +72,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "no",
+      versicherungsnehmer: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
@@ -86,7 +86,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "no",
+      versicherungsnehmer: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
     },
@@ -99,7 +99,7 @@ export const testCasesGerichtSuchenVersicherung = [
     {
       ...baseContext,
       versicherungVertrag: "yes",
-      versicherungsnummer: "no",
+      versicherungsnehmer: "no",
       klagendeKaufmann: "no",
     },
     [

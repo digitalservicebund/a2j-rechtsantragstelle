@@ -27,7 +27,7 @@ const pilotCourt = {
 
 function removeDoubleQuotes(value: unknown): string {
   if (typeof value === "string") {
-    return value.replace(/["']/g, "");
+    return value.replaceAll(/["']/g, "");
   }
 
   return "";

@@ -19,6 +19,11 @@ const mockCmsElement = {
   pageTitle: "page title",
 };
 
+const mockUserData = {
+  name: "name",
+  pageData: { arrayIndexes: [] },
+};
+
 describe("buildFormElements", () => {
   it("should overwrite the altLabel for the heading in case the component is select", () => {
     const mockCmsElementWithRadio = {
@@ -35,12 +40,12 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio);
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
 
-  it("should enrich streetNames auto-suggest-input with postcode", () => {
+  it("should enrich streetNames auto-suggest-input with plz", () => {
     const mockCmsElementWithAutoComplete = {
       ...mockCmsElement,
       formContent: [
@@ -66,6 +71,58 @@ describe("buildFormElements", () => {
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
 
+  it("should enrich streetNames auto-suggest-input with postleitzahlBeklagtePerson", () => {
+    const mockCmsElementWithAutoComplete = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.auto-suggest-input",
+          name: "streetname",
+          dataList: "streetNames",
+          width: "10",
+          isDisabled: false,
+          supportsFreeText: false,
+          errorMessages: [],
+          id: 10,
+          dataListArgument: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlBeklagtePerson: "12345",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
+  });
+
+  it("should enrich streetNames auto-suggest-input with postleitzahlSecondary", () => {
+    const mockCmsElementWithAutoComplete = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.auto-suggest-input",
+          name: "streetname",
+          dataList: "streetNames",
+          width: "10",
+          isDisabled: false,
+          supportsFreeText: false,
+          errorMessages: [],
+          id: 10,
+          dataListArgument: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlSecondary: "12345",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
+  });
+
   it("should not overwrite the altLabel for the heading in case the heading is undefined", () => {
     const mockCmsElementWithRadio = {
       ...mockCmsElement,
@@ -82,7 +139,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio);
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
@@ -103,7 +160,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementCheckbox);
+    const actual = buildFormElements(mockCmsElementCheckbox, mockUserData);
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });

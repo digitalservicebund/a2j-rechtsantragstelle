@@ -37,7 +37,7 @@ export function normalizeURL(url: string, protocol: Protocol = "https") {
 export function stripTrailingSlashFromURL(url: string) {
   const { pathname, search } = new URL(url);
   if (pathname.endsWith("/") && pathname.length > 1) {
-    const safepath = pathname.slice(0, -1).replace(/\/+/g, "/");
+    const safepath = pathname.slice(0, -1).replaceAll(/\/+/g, "/");
     return safepath + search;
   }
   return undefined;
@@ -47,9 +47,9 @@ export function removeDecimalsFromCurrencyString(
   currencyString: string | undefined,
 ) {
   if (currencyString === undefined) return;
-  return currencyString.replace(/,\d{2}/g, "");
+  return currencyString.replaceAll(/,\d{2}/g, "");
 }
 
 export function removeMarkupTags(str: string) {
-  return str.replace(/(<\w+>|<\/\w+>)/gi, "").trim();
+  return str.replaceAll(/(<\w+>|<\/\w+>)/gi, "").trim();
 }
