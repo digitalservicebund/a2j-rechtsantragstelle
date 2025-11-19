@@ -41,7 +41,7 @@ export function getUserDataFieldLabel(
     const arrayReplacements = createArrayReplacements(fieldName, userData);
     if (arrayReplacements) {
       // Convert {{kind#field}} pattern to {{kind.field}} for mustache
-      const mustacheQuestion = question.replaceAll(/#/g, ".");
+      const mustacheQuestion = question.replaceAll("#", ".");
       return mustache.render(mustacheQuestion, arrayReplacements);
     }
   }
