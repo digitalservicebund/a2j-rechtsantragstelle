@@ -79,7 +79,7 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
         return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
       if (isZodString(nestedSchema))
-        return renderZodString(nestedSchema, fieldName, matchingElement);
+        return renderZodString(fieldName, matchingElement);
     })}
   </div>
 );
