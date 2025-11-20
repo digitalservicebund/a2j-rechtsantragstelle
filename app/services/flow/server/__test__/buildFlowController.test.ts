@@ -313,7 +313,7 @@ describe("buildFlowController", () => {
             id: "/test",
             initial: "start",
             states: {
-              start: { meta: { hideSubflowsFromNavigationMenu: true } },
+              start: { meta: { topLevelNavigationItem: true } },
             },
           },
         }).stepStates(),
@@ -450,10 +450,10 @@ describe("buildFlowController", () => {
             initial: "child1",
             states: {
               child1: {
-                meta: { hideSubflowsFromNavigationMenu: true },
+                meta: { topLevelNavigationItem: true },
                 on: { SUBMIT: "child3" },
               },
-              child2: { meta: { hideSubflowsFromNavigationMenu: true } },
+              child2: { meta: { topLevelNavigationItem: true } },
               child3: { initial: "start", states: { start: {} } },
               child4: { initial: "start", states: { start: {} } },
             },

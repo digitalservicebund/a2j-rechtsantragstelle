@@ -38,7 +38,6 @@ import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzunge
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
-import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
@@ -142,7 +141,7 @@ export const prozesskostenhilfeFormular = {
 
       [steps.weitereAngaben.relative]: {
         id: "weitere-angaben",
-        meta: { done: weitereAngabenDone },
+        meta: { topLevelNavigationItem: true },
         on: {
           BACK: "#persoenliche-daten.beruf",
           SUBMIT: steps.abgabe.absolute,

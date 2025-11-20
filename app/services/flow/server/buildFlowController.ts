@@ -124,7 +124,7 @@ function stepStates(
   ).filter(
     (state) =>
       (flowId === "/fluggastrechte/formular" && state.meta?.done) ||
-      state.meta?.hideSubflowsFromNavigationMenu ||
+      state.meta?.topLevelNavigationItem ||
       Object.keys(state.states).length > 0,
   );
 
@@ -132,8 +132,7 @@ function stepStates(
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
-    const shouldHideSubstates =
-      meta?.hideSubflowsFromNavigationMenu !== undefined;
+    const shouldHideSubstates = meta?.topLevelNavigationItem !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
