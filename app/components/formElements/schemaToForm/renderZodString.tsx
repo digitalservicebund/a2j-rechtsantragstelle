@@ -12,7 +12,6 @@ export const isZodString = (
 ): fieldSchema is z.ZodString => fieldSchema.def.type === "string";
 
 export const renderZodString = (
-  schema: z.ZodString,
   fieldName: string,
   matchingElement?: StrapiFormComponent,
 ) => {
