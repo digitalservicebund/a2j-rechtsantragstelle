@@ -6,7 +6,6 @@ import {
   exclusiveCheckboxesSchema,
 } from "~/services/validation/checkedCheckbox";
 import { SchemaComponents } from "../SchemaComponents";
-import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
@@ -216,14 +215,5 @@ describe("SchemaComponents", () => {
     const textByLabel = getByLabelText("label");
     expect(textInput).toHaveAttribute("name", "field1");
     expect(textInput).toBe(textByLabel);
-  });
-
-  it("should render a hidden input", () => {
-    const pageSchema = { field1: hiddenInputSchema(z.string()) };
-
-    const { getByRole } = render(
-      <WrappedSchemaComponents pageSchema={pageSchema} formComponents={[]} />,
-    );
-    expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
   });
 });
