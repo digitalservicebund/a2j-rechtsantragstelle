@@ -153,7 +153,7 @@
   },
   "overrides": {
     "@sentry/react-router": {
-      "glob": "^11.0.0"
+      "glob": "^11.1.0"
     }
   },
   "prettier": {
