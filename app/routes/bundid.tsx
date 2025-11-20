@@ -1,15 +1,14 @@
-import { LoaderFunctionArgs, Outlet, useLoaderData } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import Button from "~/components/common/Button";
 import { getBundIdSamlConfig } from "~/services/bundid/index.server";
 
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+const backURL = "https://a2j-staging.dev.ds4g.net/bundid/success";
+
+export const loader = async () => {
   await throw404IfFeatureFlagDisabled("showBundID");
-
-  const backURL = "https://a2j-staging.dev.ds4g.net/bundid/success";
   const serviceProvider = getBundIdSamlConfig();
-
   const samlRequest = await serviceProvider.getAuthorizeMessageAsync(backURL);
 
   return {

@@ -2,6 +2,7 @@ import { vi, describe, it, expect } from "vitest";
 import { action } from "../bundid.success";
 import { type ActionFunctionArgs } from "react-router";
 import { loader } from "../bundid";
+import { bundIdSamlAttributes } from "~/services/bundid/attributes";
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn(() => true),
@@ -15,8 +16,8 @@ vi.mock("~/services/bundid/index.server", () => ({
     })),
     validatePostResponseAsync: vi.fn(() => ({
       profile: {
-        "urn:oid:2.5.4.42": "Erika",
-        "urn:oid:2.5.4.4": "Mustermann",
+        [bundIdSamlAttributes.givenName]: "Erika",
+        [bundIdSamlAttributes.surname]: "Mustermann",
       },
     })),
   })),
@@ -24,25 +25,12 @@ vi.mock("~/services/bundid/index.server", () => ({
 
 describe("BundID loader", () => {
   it("should return url and samlRequest", async () => {
-    const request = new Request("https://app.example.com/test");
-
-    const result = await loader({ request } as unknown as ActionFunctionArgs);
-
+    const result = await loader();
     expect(result).toEqual({
       url: "https://fake.idp.example.com/sso",
       samlRequest: "FAKE_SAML_REQUEST",
       relayState: "https://a2j-staging.dev.ds4g.net/bundid/success",
     });
-  });
-
-  it("should return a relayState containing the request URL", async () => {
-    const request = new Request("https://app.example.com/another-test");
-
-    const result = await loader({ request } as unknown as ActionFunctionArgs);
-
-    expect(result.relayState).toBe(
-      "https://a2j-staging.dev.ds4g.net/bundid/success",
-    );
   });
 });
 
