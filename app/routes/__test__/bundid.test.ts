@@ -48,7 +48,7 @@ describe("BundID action", () => {
     const result = await action({ request } as unknown as ActionFunctionArgs);
 
     expect(result).toEqual({
-      prename: "Erika",
+      givenName: "Erika",
       surname: "Mustermann",
     });
   });
@@ -82,7 +82,7 @@ describe("BundID action", () => {
     const result = await action({ request } as unknown as ActionFunctionArgs);
 
     expect(result).toEqual({
-      prename: undefined,
+      givenName: undefined,
       surname: undefined,
     });
   });

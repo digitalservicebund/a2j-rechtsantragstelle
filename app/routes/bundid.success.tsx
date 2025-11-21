@@ -12,8 +12,8 @@ export const loader = async () => {
 
 const attributeSchema = z
   .object({
-    [bundIdSamlAttributes.givenName]: z.string(),
-    [bundIdSamlAttributes.surname]: z.string(),
+    [bundIdSamlAttributes.givenName]: z.string().optional(),
+    [bundIdSamlAttributes.surname]: z.string().optional(),
   })
   .transform((data) => ({
     givenName: data[bundIdSamlAttributes.givenName],
@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     throw new Error("Invalid SAML Response");
   }
 
-  return attributeSchema.parse(bundIdSamlAttributes);
+  return attributeSchema.parse(profile);
 };
 
 export default function View() {
