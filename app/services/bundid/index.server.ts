@@ -1,21 +1,12 @@
 import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
 import { readFileSync } from "node:fs";
-import {
-  bundIdSamlAttributes,
-  bundIdSamlTechnicalAttributes,
-} from "./attributes";
-
-const requiredAttribute = (attribute: string) => ({
-  "@Name": attribute,
-  "@RequiredAttribute": "true",
-});
+import { samlAuthnRequestExtensions } from "./attributes";
 
 export function getBundIdSamlConfig() {
   const {
     SAML_ASSERTION_CONSUMER_SERVICE_URL,
     SAML_IDP_CERT,
-    BUNDID_AUTH_BMI_ID,
     SAML_SP_SECRET_KEY_ENCRYPTION_PATH,
     SAML_SP_SECRET_KEY_PATH,
   } = config();
@@ -31,82 +22,10 @@ export function getBundIdSamlConfig() {
     console.error(err);
   }
 
-  const samlAuthnRequestExtensions = {
-    "akdb:AuthenticationRequest": {
-      "@xmlns:akdb": "https://www.akdb.de/request/2018/09",
-      "@EnableStatusDetail": "true",
-      "@Version": "2",
-      "akdb:AuthnMethods": { "akdb:eID": { "akdb:Enabled": true } },
-      "akdb:RequestedAttributes": {
-        "akdb:RequestedAttribute": [
-          requiredAttribute(bundIdSamlTechnicalAttributes.bPK2),
-          requiredAttribute(bundIdSamlTechnicalAttributes.legacyPostfachHandle),
-          requiredAttribute(bundIdSamlAttributes.givenName),
-          requiredAttribute(bundIdSamlAttributes.surname),
-          {
-            "@Name": "urn:oid:1.3.6.1.4.1.33592.1.3.5",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:1.3.6.1.5.5.7.9.2",
-            "@RequiredAttribute": "false",
-          },
-          { "@Name": "urn:oid:2.5.4.16", "@RequiredAttribute": "false" },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.149",
-            "@RequiredAttribute": "false",
-          },
-          { "@Name": "urn:oid:2.5.4.17", "@RequiredAttribute": "false" },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.225599",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.225566",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.225577",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:0.9.2342.19200300.100.1.40",
-            "@RequiredAttribute": "false",
-          },
-          { "@Name": "urn:oid:2.5.4.7", "@RequiredAttribute": "false" },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.261.94",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:1.2.40.0.10.2.1.1.55",
-            "@RequiredAttribute": "false",
-          },
-          {
-            "@Name": "urn:oid:0.9.2342.19200300.100.1.3",
-            "@RequiredAttribute": "false",
-          },
-        ],
-      },
-      "akdb:DisplayInformation": {
-        "classic-ui:Version": {
-          "@xmlns:classic-ui":
-            "https://www.akdb.de/request/2018/09/classic-ui/v1",
-          "classic-ui:Purpose":
-            "Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.",
-          "classic-ui:OrganizationDisplayName": "Onlinedienste der Justiz",
-          "classic-ui:Lang": "de",
-          "classic-ui:BackURL": "https://a2j-staging.dev.ds4g.net/bundid",
-          "classic-ui:OnlineServiceId": BUNDID_AUTH_BMI_ID,
-        },
-      },
-    },
-  };
-
-  const saml = new SAML({
+  return new SAML({
     entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
     issuer: "https://service.justiz.de/sp",
-    callbackUrl: SAML_ASSERTION_CONSUMER_SERVICE_URL ?? "",
+    callbackUrl: SAML_ASSERTION_CONSUMER_SERVICE_URL,
     idpCert: SAML_IDP_CERT ?? "",
     privateKey,
     decryptionPvk,
@@ -116,10 +35,9 @@ export function getBundIdSamlConfig() {
     racComparison: "minimum",
     authnContext: ["STORK-QAA-Level-1"],
     signatureAlgorithm: "sha256-mgf1",
-    samlAuthnRequestExtensions: samlAuthnRequestExtensions,
+    samlAuthnRequestExtensions,
     acceptedClockSkewMs: 5000,
     disableRequestedAuthnContext: false,
     forceAuthn: false,
   });
-  return saml;
 }
