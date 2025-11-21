@@ -10,7 +10,7 @@ const steps = xStateTargetsFromPagesConfig(
 
 export const andereUnterhaltszahlungenXstateConfig = {
   id: "andere-unterhaltszahlungen",
-  meta: { topLevelNavigationItem: true },
+  meta: { shouldAppearAsMenuNavigation: true },
   initial: steps.andereUnterhaltszahlungenFrage.relative,
   states: {
     [steps.andereUnterhaltszahlungenFrage.relative]: {

@@ -25,7 +25,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const eigentumXstateConfig = {
   id: "eigentum",
   initial: steps.eigentumInfo.relative,
-  meta: { topLevelNavigationItem: true },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.eigentumInfo.relative]: {
       on: {

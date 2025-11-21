@@ -16,7 +16,7 @@ export const partnerXstateConfig = {
   id: "partner",
   initial: steps.partnerschaft.relative,
   meta: {
-    topLevelNavigationItem: true,
+    shouldAppearAsMenuNavigation: true,
   },
   states: {
     [steps.partnerschaft.relative]: {

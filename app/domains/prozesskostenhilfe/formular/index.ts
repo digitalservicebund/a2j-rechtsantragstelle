@@ -140,7 +140,7 @@ export const prozesskostenhilfeFormular = {
 
       [steps.weitereAngaben.relative]: {
         id: "weitere-angaben",
-        meta: { topLevelNavigationItem: true },
+        meta: { shouldAppearAsMenuNavigation: true },
         on: {
           BACK: "#persoenliche-daten.beruf",
           SUBMIT: steps.abgabe.absolute,
