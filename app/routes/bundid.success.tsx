@@ -1,16 +1,24 @@
 import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
-import * as samlify from "samlify";
-import {
-  getBundIdIdentityProvider,
-  getBundIdServiceProvider,
-} from "~/services/bundid/index.server";
+import z from "zod";
+import { bundIdSamlAttributes } from "~/services/bundid/attributes";
+import { getBundIdSaml } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 export const loader = async () => {
   await throw404IfFeatureFlagDisabled("showBundID");
   return null;
 };
+
+const attributeSchema = z
+  .object({
+    [bundIdSamlAttributes.givenName]: z.string().optional(),
+    [bundIdSamlAttributes.surname]: z.string().optional(),
+  })
+  .transform((data) => ({
+    givenName: data[bundIdSamlAttributes.givenName],
+    surname: data[bundIdSamlAttributes.surname],
+  }));
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await throw404IfFeatureFlagDisabled("showBundID");
@@ -22,34 +30,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     throw new Error("Invalid SAML Response");
   }
 
-  const samlHttpRequest = {
-    body: {
-      SAMLResponse: samlResponse,
-    },
-  };
+  const serviceProvider = getBundIdSaml();
 
-  const identityProvider = getBundIdIdentityProvider();
-  const serviceProvider = getBundIdServiceProvider();
-
-  samlify.setSchemaValidator({
-    validate: (_: string) => {
-      return Promise.resolve("skipped");
-    },
+  const { profile } = await serviceProvider.validatePostResponseAsync({
+    SAMLResponse: samlResponse,
   });
 
-  const response = await serviceProvider.parseLoginResponse(
-    identityProvider,
-    "post",
-    samlHttpRequest,
-  );
-  const responseAttributes = response.extract.attributes;
+  if (!profile) {
+    throw new Error("Invalid SAML Response");
+  }
 
-  const BUNDID_PRENAME_KEY = "urn:oid:2.5.4.42";
-  const BUNDID_SURNAME_KEY = "urn:oid:2.5.4.4";
-  return {
-    prename: responseAttributes[BUNDID_PRENAME_KEY],
-    surname: responseAttributes[BUNDID_SURNAME_KEY],
-  };
+  return attributeSchema.parse(profile);
 };
 
 export default function View() {
@@ -57,7 +48,7 @@ export default function View() {
   return (
     <div>
       <div>
-        <span>Vorname: {actionData?.prename}</span>
+        <span>Vorname: {actionData?.givenName}</span>
       </div>
       <div>
         <span>Nachname: {actionData?.surname}</span>
