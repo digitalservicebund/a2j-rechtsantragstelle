@@ -114,7 +114,7 @@ export const sachgebietXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.reiseArt === "flug",
-            target: steps.sachgebietReiseStopp.relative,
+            target: "ergebnis/reise-flug",
           },
           {
             guard: sachgebietDone,
@@ -122,11 +122,6 @@ export const sachgebietXstateConfig = {
           },
         ],
         BACK: steps.sachgebietBesondere.relative,
-      },
-    },
-    [steps.sachgebietReiseStopp.relative]: {
-      on: {
-        BACK: steps.sachgebietReiseArt.relative,
       },
     },
     [steps.sachgebietVerkehrsunfallStrassenverkehr.relative]: {
@@ -141,6 +136,12 @@ export const sachgebietXstateConfig = {
     "ergebnis/sachgebiet-abbruch": {
       on: {
         BACK: steps.sachgebietAusgeschlossen.relative,
+      },
+    },
+    "ergebnis/reise-flug": {
+      on: {
+        BACK: steps.sachgebietReiseArt.relative,
+        SUBMIT: steps.klagendePersonFuerWen.absolute,
       },
     },
   },

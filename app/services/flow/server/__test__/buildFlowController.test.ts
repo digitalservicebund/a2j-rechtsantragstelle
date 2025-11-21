@@ -294,30 +294,24 @@ describe("buildFlowController", () => {
 
     it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", () => {
       const isStepDoneSpy = vi.spyOn(isStepDone, "isStepDone");
+      const mockDoneFunction = vi.fn();
       buildFlowController({
         config: {
           id: "/fluggastrechte/formular",
           initial: "start",
-          states: { start: { meta: { done: () => true } } },
+          states: {
+            start: {
+              meta: { done: mockDoneFunction },
+              initial: "subState",
+              states: {
+                subState: {},
+              },
+            },
+          },
         },
       }).stepStates();
       expect(isStepDoneSpy).not.toHaveBeenCalled();
-      buildFlowController({
-        config: {
-          id: "doesntExist",
-          initial: "start",
-          states: { start: { meta: { done: () => true } } },
-        },
-      }).stepStates();
-      expect(isStepDoneSpy).not.toHaveBeenCalled();
-      buildFlowController({
-        config: {
-          id: "/beratungshilfe/antrag",
-          initial: "start",
-          states: { start: { meta: { done: () => true } } },
-        },
-      }).stepStates();
-      expect(isStepDoneSpy).toHaveBeenCalled();
+      expect(mockDoneFunction).toHaveBeenCalled();
     });
 
     it("builds single step state", () => {
@@ -327,13 +321,13 @@ describe("buildFlowController", () => {
             id: "/test",
             initial: "start",
             states: {
-              start: { meta: { done: () => true } },
+              start: { meta: { shouldAppearAsMenuNavigation: true } },
             },
           },
         }).stepStates(),
       ).toEqual([
         {
-          isDone: true,
+          isDone: false,
           isReachable: true,
           stepId: "/start",
           url: "/test/start",
@@ -463,8 +457,11 @@ describe("buildFlowController", () => {
             id: "/test",
             initial: "child1",
             states: {
-              child1: { meta: { done: () => true }, on: { SUBMIT: "child3" } },
-              child2: { meta: { done: () => true } },
+              child1: {
+                meta: { shouldAppearAsMenuNavigation: true },
+                on: { SUBMIT: "child3" },
+              },
+              child2: { meta: { shouldAppearAsMenuNavigation: true } },
               child3: { initial: "start", states: { start: {} } },
               child4: { initial: "start", states: { start: {} } },
             },
@@ -472,13 +469,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: true,
+          isDone: false,
           isReachable: true,
           stepId: "/child1",
           url: "/test/child1",
         },
         {
-          isDone: true,
+          isDone: false,
           isReachable: false,
           stepId: "/child2",
           url: "/test/child2",

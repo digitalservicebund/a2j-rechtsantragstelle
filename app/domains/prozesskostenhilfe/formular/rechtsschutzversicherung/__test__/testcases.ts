@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
 
 export const testCasesPKHFormularRsv = {
   noRsv: [
@@ -154,4 +155,4 @@ export const testCasesPKHFormularRsv = {
       stepId: "/rechtsschutzversicherung/org-deckung-teilweise",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeRechtsschutzversicherungUserData>;

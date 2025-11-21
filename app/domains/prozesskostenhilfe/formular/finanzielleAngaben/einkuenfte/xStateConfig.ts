@@ -1,6 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { qualifiesForVereinfachteErklaerung } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/guards";
-import { einkuenfteDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/doneFunctions";
 import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
 import { pkhFormularFinanzielleAngabenEinkuenftePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/pages";
 import { isNachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/guards";
@@ -26,7 +25,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const finanzielleAngabenEinkuenfteXstateConfig = {
   id: "einkuenfte",
   initial: steps.einkuenfteStart.relative,
-  meta: { done: einkuenfteDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.einkuenfteStart.relative]: {
       id: steps.einkuenfteStart.relative,
