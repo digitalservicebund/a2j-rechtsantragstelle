@@ -69,7 +69,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/laufzeitende",
       userInput: { "ratenzahlungen#laufzeitende": "01.01.2026" },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/zusammenfassung" },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
   addRatenzahlungenSplit: [
     {
