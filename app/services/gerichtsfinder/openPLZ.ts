@@ -25,9 +25,9 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
   const trimmedHouseNumber = new RegExp(/\d+/).exec(houseNumber)?.[0];
   return `${streetName
     .toLowerCase()
-    .replace(/ä/g, "ae")
-    .replace(/ö/g, "oe")
-    .replace(/ü/g, "ue")
+    .replaceAll("ä", "ae")
+    .replaceAll("ö", "oe")
+    .replaceAll("ü", "ue")
     .replaceAll(/\s+/g, "_")}/${trimmedHouseNumber}`;
 }
 export async function fetchStreetnamesForZipcode(zipCode?: string) {

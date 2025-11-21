@@ -8,6 +8,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
 import { doneGerichtSuchen } from "./doneFunctions";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -32,6 +33,11 @@ export const gerichtSuchenXstateConfig = {
       ],
       on: {
         SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
           {
             guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
             target: steps.gerichtSuchenPostleitzahlKlagendePerson.relative,
@@ -79,45 +85,157 @@ export const gerichtSuchenXstateConfig = {
         ],
       },
     },
-    [steps.gerichtSuchenPostleitzahlKlagendePerson.relative]: {
+    [steps.gerichtSuchenStrasseNummerBeklagtePerson.relative]: {
       on: {
         BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
-        SUBMIT: {
-          guard: doneGerichtSuchen,
-          target: steps.zustaendigesGerichtPilotGericht.absolute,
-        },
+        SUBMIT: [
+          {
+            guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+            target: steps.gerichtSuchenPostleitzahlKlagendePerson.relative,
+          },
+          {
+            guard: shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+            target: steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative,
+          },
+          {
+            guard: ({ context }) => context.sachgebiet === "schaden",
+            target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
+      },
+    },
+    [steps.gerichtSuchenPostleitzahlKlagendePerson.relative]: {
+      on: {
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
+        SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlSecondary } }) =>
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
       },
     },
     [steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative]: {
       on: {
-        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
-        SUBMIT: {
-          guard: doneGerichtSuchen,
-          target: steps.zustaendigesGerichtPilotGericht.absolute,
-        },
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
+        SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlSecondary } }) =>
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
       },
     },
     [steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative]: {
       on: {
-        BACK: steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
-        SUBMIT: {
-          guard: doneGerichtSuchen,
-          target: steps.zustaendigesGerichtPilotGericht.absolute,
-        },
+        BACK: [
+          {
+            guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+            target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
+          },
+          steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
+        ],
+        SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlSecondary } }) =>
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
       },
     },
     [steps.gerichtSuchenPostleitzahlWohnraum.relative]: {
       on: {
         BACK: steps.beklagtePersonGegenWen.absolute,
-        SUBMIT: {
-          guard: doneGerichtSuchen,
-          target: steps.zustaendigesGerichtPilotGericht.absolute,
-        },
+        SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlSecondary } }) =>
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
       },
     },
     [steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung.relative]: {
       on: {
         BACK: steps.beklagtePersonGerichtsstandsvereinbarung.absolute,
+        SUBMIT: [
+          {
+            guard: ({ context: { postleitzahlSecondary } }) =>
+              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+          },
+          {
+            guard: doneGerichtSuchen,
+            target: steps.zustaendigesGerichtPilotGericht.absolute,
+          },
+        ],
+      },
+    },
+    [steps.gerichtSuchenStrasseNummerSekundaer.relative]: {
+      on: {
+        BACK: [
+          {
+            guard: shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+            target: steps.gerichtSuchenPostleitzahlKlagendePerson.relative,
+          },
+          {
+            guard: shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
+            target: steps.gerichtSuchenPostleitzahlVerkehrsunfall.relative,
+          },
+          {
+            guard: ({ context }) => context.sachgebiet === "schaden",
+            target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative,
+          },
+          {
+            guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
+            target: steps.gerichtSuchenPostleitzahlWohnraum.relative,
+          },
+          {
+            guard: ({ context }) =>
+              context.gerichtsstandsvereinbarung === "yes",
+            target:
+              steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
+                .relative,
+          },
+        ],
         SUBMIT: {
           guard: doneGerichtSuchen,
           target: steps.zustaendigesGerichtPilotGericht.absolute,
