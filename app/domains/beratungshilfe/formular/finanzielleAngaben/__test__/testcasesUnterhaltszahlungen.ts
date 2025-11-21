@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/andereUnterhaltszahlungen/userData";
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen =
   {
@@ -67,4 +68,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
       },
     ],
-  } satisfies FlowTestCases["testcases"];
+  } satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData>;
