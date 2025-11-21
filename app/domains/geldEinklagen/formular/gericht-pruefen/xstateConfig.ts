@@ -68,7 +68,7 @@ export const gerichtPruefenXstateConfig = {
               {
                 guard: ({ context: { postleitzahlSecondary } }) =>
                   edgeCasesForPlz(postleitzahlSecondary).length > 0,
-                target: steps.gerichtSuchenStrasseNummerSekundaer.absolute,
+                target: steps.gerichtSuchenStrasseNummer.absolute,
               },
               {
                 guard: ({ context: { postleitzahlBeklagtePerson } }) =>

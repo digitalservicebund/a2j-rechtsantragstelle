@@ -17,7 +17,7 @@ const addDataListArgumentToAutoSuggestionInput = (
       dataListArgument = userDataWithPageData.plz;
     }
 
-    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-sekundaer
+    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
     if (typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string") {
       dataListArgument = userDataWithPageData.postleitzahlBeklagtePerson;
     }
