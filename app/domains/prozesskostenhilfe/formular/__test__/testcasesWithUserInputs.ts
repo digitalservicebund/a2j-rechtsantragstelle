@@ -1,4 +1,4 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
@@ -17,10 +17,10 @@ import { testCasesPKHFormularPersoenlicheDaten } from "~/domains/prozesskostenhi
 import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 
 export const prozesskostenhilfeFormularTestCases = {
   xstateConfig: prozesskostenhilfeFormular.config,
-  guards: prozesskostenhilfeFormular.guards,
   testcases: {
     shortHappyPath: [
       {
@@ -134,4 +134,4 @@ export const prozesskostenhilfeFormularTestCases = {
       },
     ],
   },
-} satisfies FlowTestCases;
+} satisfies FlowTestConfig<ProzesskostenhilfeFormularUserData>;

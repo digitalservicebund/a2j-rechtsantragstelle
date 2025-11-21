@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
 import { toGermanDateFormat, addDays, today } from "~/util/date";
 
 const rechtsproblemStart = "/rechtsproblem/start";
@@ -94,4 +95,4 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     },
     { stepId: "/anwaltliche-vertretung/anwalt-ende" },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeAnwaltlicheVertretungUserData>;

@@ -1,5 +1,9 @@
-import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import type {
+  FlowTestCases,
+  FlowTestConfig,
+} from "~/domains/__test__/TestCases";
 import { beratungshilfeVorabcheckXstateConfig } from "../xstateConfig";
+import { type BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 
 const rsvTestCases = {
   rsvYes: [
@@ -45,7 +49,7 @@ const rsvTestCases = {
       stepId: "/rechtsschutzversicherung-hinweis-kostenuebernahme",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeVorabcheckUserData>;
 
 const staatlicheLeistungenTestCases = {
   asylbewerberleistungen: [
@@ -93,7 +97,7 @@ const staatlicheLeistungenTestCases = {
     },
     { stepId: "/ergebnis/vermoegen-abschluss-vielleicht" },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeVorabcheckUserData>;
 
 export const beratungshilfeVorabcheckTestCases = {
   xstateConfig: beratungshilfeVorabcheckXstateConfig,
@@ -338,4 +342,4 @@ export const beratungshilfeVorabcheckTestCases = {
       },
     ],
   },
-} satisfies FlowTestCases;
+} satisfies FlowTestConfig<BeratungshilfeVorabcheckUserData>;
