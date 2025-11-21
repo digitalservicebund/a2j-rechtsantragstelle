@@ -7,7 +7,6 @@ import {
 } from "../guards";
 import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./pages";
 import type { BeratungshilfeFinanzielleAngabenUserData } from "../userData";
-import { andereUnterhaltszahlungenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,
@@ -17,7 +16,7 @@ export const beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConf
   {
     id: "andere-unterhaltszahlungen",
     initial: steps.andereUnterhaltszahlungenFrage.relative,
-    meta: { done: andereUnterhaltszahlungenDone },
+    meta: { topLevelNavigationItem: true },
     states: {
       [steps.andereUnterhaltszahlungenFrage.relative]: {
         on: {

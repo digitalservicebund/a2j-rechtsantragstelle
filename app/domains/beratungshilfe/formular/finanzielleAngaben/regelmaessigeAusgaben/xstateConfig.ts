@@ -8,7 +8,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { berhAntragFinanzielleAngabenRegelmassigeAusgabenPages } from "./pages";
 import { type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData } from "./userData";
-import { ausgabenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenRegelmassigeAusgabenPages,
@@ -18,7 +17,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
   {
     id: steps.ausgaben.relative,
     initial: steps.ausgabenFrage.relative,
-    meta: { done: ausgabenDone },
+    meta: { topLevelNavigationItem: true },
     states: {
       [steps.ausgabenFrage.relative]: {
         on: {

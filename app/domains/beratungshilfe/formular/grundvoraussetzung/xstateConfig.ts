@@ -9,7 +9,6 @@ const steps = xStateTargetsFromPagesConfig(berHAntragGrundvoraussetzungenPages);
 export const grundvorraussetzungXstateConfig = {
   initial: "rechtsschutzversicherung",
   id: "grundvoraussetzungen",
-  meta: { done: grundvoraussetzungDone },
   states: {
     [steps.rechtsschutzversicherung.relative]: {
       on: {

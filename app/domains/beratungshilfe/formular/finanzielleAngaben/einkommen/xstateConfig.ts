@@ -6,7 +6,6 @@ import {
   staatlicheLeistungenIsBuergergeld,
   staatlicheLeistungenIsKeine,
 } from "../guards";
-import { einkommenDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenEinkommenPages,
@@ -15,7 +14,6 @@ const steps = xStateTargetsFromPagesConfig(
 export const beratungshilfeFinanzielleAngabenEinkommenXstateConfig = {
   id: "einkommen",
   initial: steps.einkommenStart.relative,
-  meta: { done: einkommenDone },
   states: {
     [steps.einkommenStart.relative]: {
       on: {

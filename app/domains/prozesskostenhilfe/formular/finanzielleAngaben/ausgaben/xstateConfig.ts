@@ -1,7 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 import type { Config } from "~/services/flow/server/types";
-import { ausgabenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
   hasGrundeigentumYes,
@@ -19,7 +18,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
   {
     id: "ausgaben",
     initial: steps.ausgabenFrage.relative,
-    meta: { done: ausgabenDone },
+    meta: { topLevelNavigationItem: true },
     states: {
       [steps.ausgabenFrage.relative]: {
         on: {
