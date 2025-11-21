@@ -122,7 +122,7 @@ export const gerichtSuchenXstateConfig = {
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
-            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+            target: steps.gerichtSuchenStrasseNummer.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -145,7 +145,7 @@ export const gerichtSuchenXstateConfig = {
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
-            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+            target: steps.gerichtSuchenStrasseNummer.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -168,7 +168,7 @@ export const gerichtSuchenXstateConfig = {
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
-            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+            target: steps.gerichtSuchenStrasseNummer.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -184,7 +184,7 @@ export const gerichtSuchenXstateConfig = {
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
-            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+            target: steps.gerichtSuchenStrasseNummer.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -200,7 +200,7 @@ export const gerichtSuchenXstateConfig = {
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
-            target: steps.gerichtSuchenStrasseNummerSekundaer.relative,
+            target: steps.gerichtSuchenStrasseNummer.relative,
           },
           {
             guard: doneGerichtSuchen,
@@ -209,7 +209,7 @@ export const gerichtSuchenXstateConfig = {
         ],
       },
     },
-    [steps.gerichtSuchenStrasseNummerSekundaer.relative]: {
+    [steps.gerichtSuchenStrasseNummer.relative]: {
       on: {
         BACK: [
           {

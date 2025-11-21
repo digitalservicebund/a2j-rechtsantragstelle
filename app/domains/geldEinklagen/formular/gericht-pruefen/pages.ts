@@ -147,8 +147,8 @@ export const geldEinklagenGerichtPruefenPages = {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchenStrasseNummerSekundaer: {
-    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-sekundaer",
+  gerichtSuchenStrasseNummer: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer",
     pageSchema: {
       strasseSekundaer: stringRequiredSchema,
       strasseNummerSekundaer: germanHouseNumberSchema,
