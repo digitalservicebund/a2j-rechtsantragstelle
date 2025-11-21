@@ -16,12 +16,9 @@ import type {
   StateMachineTypes,
 } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
-import {
-  getRelevantPageSchemasForStepId,
-  isStepDone,
-} from "~/domains/isStepDone";
+import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
-import { pages } from "~/domains/pageSchemas";
+import { pages, getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -124,14 +121,17 @@ function stepStates(
 
   const statesWithDoneFunctionOrSubstates = Object.values(
     stateNode.states ?? {},
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
+  ).filter(
+    (state) =>
+      state.meta?.topLevelNavigationItem ||
+      Object.keys(state.states).length > 0,
+  );
 
   return statesWithDoneFunctionOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
-    const hasDoneFunction = meta?.done !== undefined;
+    const shouldHideSubstates = meta?.topLevelNavigationItem !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
@@ -141,8 +141,8 @@ function stepStates(
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
-    // Ignore subflows if empty or parent state has done function
-    if (hasDoneFunction || reachableSubStates.length === 0) {
+    // Ignore subflows if empty, if parent state has hideSubstates flag, or if FGR parent state has doneFunction
+    if (shouldHideSubstates || reachableSubStates.length === 0) {
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 

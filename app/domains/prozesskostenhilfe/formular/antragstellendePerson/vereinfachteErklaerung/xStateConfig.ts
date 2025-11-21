@@ -87,133 +87,143 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
           SUBMIT: steps.einnahmen.relative,
         },
       },
-      einnahmen: {
-        on: {
-          BACK: [
-            {
-              guard: unterhaltsOrAbstammungssachen,
-              target: steps.rechtlichesThema.relative,
-            },
-            steps.worumGehts.relative,
-          ],
-          SUBMIT: [
-            {
-              guard: hasEinnahmen,
-              target: steps.einnahmenValue.relative,
-            },
-            {
-              guard: frageVermoegen,
-              target: steps.vermoegen.relative,
-            },
-            steps.hinweisWeiteresFormular.relative,
-          ],
-        },
-      },
-      [steps.einnahmenValue.relative]: {
-        on: {
-          SUBMIT: steps.einnahmenUebersicht.relative,
-          BACK: steps.einnahmen.relative,
-        },
-      },
-      [steps.einnahmenUebersicht.relative]: {
-        id: steps.einnahmenUebersicht.relative,
-        on: {
-          BACK: steps.einnahmenValue.relative,
-          SUBMIT: [
-            {
-              guard: hasEinnahmenAndEmptyArray,
-              target: steps.einnahmenWarnung.relative,
-            },
-            {
-              guard: frageVermoegen,
-              target: steps.vermoegen.relative,
-            },
-            steps.hinweisWeiteresFormular.relative,
-          ],
-          "add-einnahmen": "#einnahme",
-        },
-      },
-      einnahme: {
-        id: "einnahme",
-        initial: "daten",
+      [steps.einnahmen.relative]: {
+        initial: steps.einnahmenFrage.relative,
         states: {
-          daten: {
+          [steps.einnahmenFrage.relative]: {
             on: {
-              SUBMIT: steps.einnahmenUebersicht.absolute,
-              BACK: steps.einnahmenUebersicht.absolute,
+              BACK: [
+                {
+                  guard: unterhaltsOrAbstammungssachen,
+                  target: steps.rechtlichesThema.absolute,
+                },
+                steps.worumGehts.absolute,
+              ],
+              SUBMIT: [
+                {
+                  guard: hasEinnahmen,
+                  target: steps.einnahmenValue.absolute,
+                },
+                {
+                  guard: frageVermoegen,
+                  target: steps.vermoegen.absolute,
+                },
+                steps.hinweisWeiteresFormular.absolute,
+              ],
             },
           },
-        },
-      },
-      [steps.einnahmenWarnung.relative]: {
-        on: {
-          BACK: steps.einnahmenUebersicht.relative,
-          SUBMIT: [
-            {
-              guard: frageVermoegen,
-              target: steps.vermoegen.relative,
+          [steps.einnahmenValue.relative]: {
+            on: {
+              SUBMIT: steps.einnahmenUebersicht.relative,
+              BACK: steps.einnahmenFrage.relative,
             },
-            steps.hinweisWeiteresFormular.relative,
-          ],
+          },
+          [steps.einnahmenUebersicht.relative]: {
+            id: steps.einnahmenUebersicht.relative,
+            on: {
+              BACK: steps.einnahmenValue.relative,
+              SUBMIT: [
+                {
+                  guard: hasEinnahmenAndEmptyArray,
+                  target: steps.einnahmenWarnung.relative,
+                },
+                {
+                  guard: frageVermoegen,
+                  target: steps.vermoegen.absolute,
+                },
+                steps.hinweisWeiteresFormular.absolute,
+              ],
+              "add-einnahmen": "#einnahme",
+            },
+          },
+          [steps.einnahme.relative]: {
+            id: "einnahme",
+            initial: "daten",
+            states: {
+              daten: {
+                on: {
+                  SUBMIT: steps.einnahmenUebersicht.absolute,
+                  BACK: steps.einnahmenUebersicht.absolute,
+                },
+              },
+            },
+          },
+          [steps.einnahmenWarnung.relative]: {
+            on: {
+              BACK: steps.einnahmenUebersicht.relative,
+              SUBMIT: [
+                {
+                  guard: frageVermoegen,
+                  target: steps.vermoegen.absolute,
+                },
+                steps.hinweisWeiteresFormular.absolute,
+              ],
+            },
+          },
         },
       },
       [steps.vermoegen.relative]: {
-        on: {
-          BACK: [
-            {
-              guard: ({ context }) => !hasEinnahmen({ context }),
-              target: steps.einnahmen.relative,
-            },
-            steps.einnahmenUebersicht.relative,
-          ],
-          SUBMIT: [
-            { guard: hasVermoegen, target: steps.vermoegenValue.relative },
-            steps.hinweisVereinfachteErklaerung.relative,
-          ],
-        },
-      },
-      [steps.vermoegenValue.relative]: {
-        on: {
-          BACK: steps.vermoegen.relative,
-          SUBMIT: [
-            {
-              guard: vermoegenUnder10000,
-              target: steps.vermoegenUebersicht.relative,
-            },
-            steps.hinweisWeiteresFormular.relative,
-          ],
-        },
-      },
-      [steps.vermoegenUebersicht.relative]: {
-        id: steps.vermoegenUebersicht.relative,
-        on: {
-          BACK: steps.vermoegenValue.relative,
-          SUBMIT: [
-            {
-              guard: hasVermoegenAndEmptyArray,
-              target: steps.vermoegenWarnung.relative,
-            },
-            steps.hinweisVereinfachteErklaerung.relative,
-          ],
-          "add-vermoegen": steps.vermoegenEintrag.absolute,
-        },
-      },
-      [steps.vermoegenEintrag.relative]: {
-        id: "vermoegen-eintrag",
-        initial: "daten",
+        initial: steps.vermoegenFrage.relative,
         states: {
-          daten: {
+          [steps.vermoegenFrage.relative]: {
             on: {
-              SUBMIT: steps.vermoegenUebersicht.absolute,
-              BACK: steps.vermoegenUebersicht.absolute,
+              BACK: [
+                {
+                  guard: ({ context }) => !hasEinnahmen({ context }),
+                  target: steps.einnahmen.absolute,
+                },
+                steps.einnahmenUebersicht.absolute,
+              ],
+              SUBMIT: [
+                { guard: hasVermoegen, target: steps.vermoegenValue.relative },
+                steps.hinweisVereinfachteErklaerung.absolute,
+              ],
             },
           },
-        },
-      },
-      [steps.vermoegenWarnung.relative]: {
-        on: {
-          BACK: steps.vermoegenUebersicht.relative,
-          SUBMIT: steps.hinweisVereinfachteErklaerung.relative,
+          [steps.vermoegenValue.relative]: {
+            on: {
+              BACK: steps.vermoegenFrage.relative,
+              SUBMIT: [
+                {
+                  guard: vermoegenUnder10000,
+                  target: steps.vermoegenUebersicht.relative,
+                },
+                steps.hinweisWeiteresFormular.absolute,
+              ],
+            },
+          },
+          [steps.vermoegenUebersicht.relative]: {
+            id: steps.vermoegenUebersicht.relative,
+            on: {
+              BACK: steps.vermoegenValue.relative,
+              SUBMIT: [
+                {
+                  guard: hasVermoegenAndEmptyArray,
+                  target: steps.vermoegenWarnung.relative,
+                },
+                steps.hinweisVereinfachteErklaerung.absolute,
+              ],
+              "add-vermoegen": steps.vermoegenEintrag.absolute,
+            },
+          },
+          [steps.vermoegenEintrag.relative]: {
+            id: "vermoegen-eintrag",
+            initial: "daten",
+            states: {
+              daten: {
+                on: {
+                  SUBMIT: steps.vermoegenUebersicht.absolute,
+                  BACK: steps.vermoegenUebersicht.absolute,
+                },
+              },
+            },
+          },
+          [steps.vermoegenWarnung.relative]: {
+            on: {
+              BACK: steps.vermoegenUebersicht.relative,
+              SUBMIT: steps.hinweisVereinfachteErklaerung.absolute,
+            },
+          },
         },
       },
       [steps.hinweisWeiteresFormular.relative]: {
@@ -222,11 +232,11 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
             {
               guard: ({ context }) =>
                 hasVermoegen({ context }) && !vermoegenUnder10000({ context }),
-              target: steps.vermoegenValue.relative,
+              target: steps.vermoegenValue.absolute,
             },
             {
               guard: hasEinnahmen,
-              target: steps.einnahmenUebersicht.relative,
+              target: steps.einnahmenUebersicht.absolute,
             },
             steps.einnahmen.relative,
           ],
@@ -239,11 +249,11 @@ export const getProzesskostenhilfeVereinfachteErklaerungConfig = (
             {
               guard: ({ context }) =>
                 hasVermoegen({ context }) && vermoegenUnder10000({ context }),
-              target: steps.vermoegenUebersicht.relative,
+              target: steps.vermoegenUebersicht.absolute,
             },
             {
               guard: ({ context }) => !hasVermoegen({ context }),
-              target: steps.vermoegen.relative,
+              target: steps.vermoegen.absolute,
             },
           ],
           SUBMIT: nextFlowEntrypoint,

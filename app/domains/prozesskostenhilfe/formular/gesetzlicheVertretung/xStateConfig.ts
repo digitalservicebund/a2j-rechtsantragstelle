@@ -5,7 +5,6 @@ import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/types";
-import { prozesskostenhilfeGesetzlicheVertretungDone } from "./doneFunctions";
 import type { ProzesskostenhilfeGesetzlicheVertretungUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(
@@ -18,7 +17,6 @@ export function gesetzlicheVertretungXstateConfig(
   return {
     id: "gesetzliche-vertretung",
     initial: steps.gesetzlicheVertretungFrage.relative,
-    meta: { done: prozesskostenhilfeGesetzlicheVertretungDone },
     states: {
       [steps.gesetzlicheVertretungFrage.relative]: {
         on: {

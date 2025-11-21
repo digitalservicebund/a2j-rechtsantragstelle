@@ -5,7 +5,6 @@ import type {
   Config,
   FlowConfigTransitions,
 } from "~/services/flow/server/types";
-import { rechtsschutzversicherungDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularRechtsschutzversicherungPages,
@@ -20,7 +19,6 @@ export function getProzesskostenhilfeRsvXstateConfig(
   return {
     id: "rechtsschutzversicherung",
     initial: steps.rsvFrage.relative,
-    meta: { done: rechtsschutzversicherungDone },
     states: {
       [steps.rsvFrage.relative]: {
         on: {

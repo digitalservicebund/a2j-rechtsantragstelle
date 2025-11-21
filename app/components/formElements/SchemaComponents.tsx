@@ -1,6 +1,4 @@
-import mapKeys from "lodash/mapKeys";
-import { type z } from "zod";
-import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
+import type { ZodType, z } from "zod";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   isZodString,
@@ -12,12 +10,45 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
-import { isZodObject } from "./schemaToForm/renderZodObject";
-import SplitDateInput from "./SplitDateInput";
+import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
+import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
+import HiddenInput from "./HiddenInput";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
+};
+
+const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
+  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
+    fieldSchema.meta()?.description ?? "",
+  );
+};
+
+const renderSpecialMetaDescriptions = (
+  fieldName: string,
+  fieldSchema: ZodType,
+  matchingElement?: StrapiFormComponent,
+) => {
+  if (fieldSchema.meta()?.description === filesUploadZodDescription) {
+    const filesUploadElement = matchingElement as z.infer<
+      typeof StrapiFilesUploadComponentSchema
+    >;
+    return (
+      <FilesUpload
+        key={fieldName}
+        name={fieldName}
+        title={filesUploadElement.title}
+        description={filesUploadElement.description}
+        inlineNotices={filesUploadElement.inlineNotices}
+        errorMessages={filesUploadElement.errorMessages}
+      />
+    );
+  }
+
+  if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
+    return <HiddenInput key={fieldName} name={fieldName} />;
+  }
 };
 
 export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
@@ -32,62 +63,23 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
         )
         .find(({ name }) => name === fieldName);
 
-      if (fieldSchema.meta()?.description === filesUploadZodDescription) {
-        const filesUploadElement = matchingElement as z.infer<
-          typeof StrapiFilesUploadComponentSchema
-        >;
-        return (
-          <FilesUpload
-            key={fieldName}
-            name={fieldName}
-            title={filesUploadElement.title}
-            description={filesUploadElement.description}
-            inlineNotices={filesUploadElement.inlineNotices}
-            errorMessages={filesUploadElement.errorMessages}
-          />
+      if (isZodSpecialMetaDescription(fieldSchema)) {
+        return renderSpecialMetaDescriptions(
+          fieldName,
+          fieldSchema,
+          matchingElement,
         );
       }
 
       if (isZodObject(nestedSchema)) {
-        if (nestedSchema.meta()?.description === "exclusive_checkbox") {
-          const labels = Object.fromEntries(
-            (formComponents ?? [])
-              ?.filter((el) => el.__component === "form-elements.checkbox")
-              .filter((el) => el.name.split(".")[0] === fieldName)
-              .map((el) => [el.name.split(".").at(-1)!, el.label]),
-          );
-
-          return (
-            <ExclusiveCheckboxes
-              key={fieldName}
-              name={fieldName}
-              options={Object.keys(nestedSchema.shape)}
-              labels={labels}
-            />
-          );
-        }
-        if (nestedSchema.meta()?.description === "split_date") {
-          return <SplitDateInput key={fieldName} name={fieldName} />;
-        }
-        // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
-        const innerSchema = mapKeys(
-          nestedSchema.shape,
-          (_, key) => `${fieldName}.${key}`,
-        );
-        return (
-          <SchemaComponents
-            key={fieldName}
-            pageSchema={innerSchema}
-            formComponents={formComponents}
-          />
-        );
+        return renderZodObject(nestedSchema, fieldName, formComponents);
       }
 
       if (isZodEnum(nestedSchema))
         return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
       if (isZodString(nestedSchema))
-        return renderZodString(nestedSchema, fieldName, matchingElement);
+        return renderZodString(fieldName, matchingElement);
     })}
   </div>
 );

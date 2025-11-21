@@ -18,6 +18,9 @@ export const berHAntragAbgabePages = {
       abgabeArt: z.enum(["online", "ausdrucken"]),
     },
   },
+  zusammenfassung: {
+    stepId: "abgabe/zusammenfassung",
+  },
   dokumente: {
     stepId: "abgabe/dokumente",
     pageSchema: {

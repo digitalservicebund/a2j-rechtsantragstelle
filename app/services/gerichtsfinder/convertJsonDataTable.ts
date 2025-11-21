@@ -19,7 +19,7 @@ export type GerbehIndex = {
 };
 
 export function gerbehIndex(info: GerbehIndex) {
-  const typInfo = info.typInfo.replace(/ /g, "").toLowerCase();
+  const typInfo = info.typInfo.replaceAll(" ", "").toLowerCase();
   return `${info.LKZ}_${info.OLG}_${info.LG}_${info.AG}_${typInfo}`;
 }
 type ConversionInput = Record<string, unknown[]>;

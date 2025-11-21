@@ -2,7 +2,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenEigentumPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
-import { eigentumDone } from "./doneFunctions";
 import {
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
@@ -26,7 +25,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const eigentumXstateConfig = {
   id: "eigentum",
   initial: steps.eigentumInfo.relative,
-  meta: { done: eigentumDone },
+  meta: { topLevelNavigationItem: true },
   states: {
     [steps.eigentumInfo.relative]: {
       on: {

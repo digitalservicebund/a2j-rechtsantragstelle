@@ -8,7 +8,7 @@ export const testCasesForderung = [
     },
     [
       "/gericht-pruefen/intro/start",
-      "/gericht-pruefen/forderung/fragen",
+      "/gericht-pruefen/forderung/was",
       "/gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
     ],
   ],
@@ -18,7 +18,7 @@ export const testCasesForderung = [
     },
     [
       "/gericht-pruefen/intro/start",
-      "/gericht-pruefen/forderung/fragen",
+      "/gericht-pruefen/forderung/was",
       "/gericht-pruefen/sachgebiet/info",
     ],
   ],

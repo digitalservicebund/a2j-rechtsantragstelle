@@ -7,6 +7,8 @@ export const geldEinklagenFormular = {
   flowType: "formFlow",
   stringReplacements: (context: GeldEinklagenFormularUserData) => ({
     ...isBeklagtePerson(context),
+    postleitzahlBeklagtePerson: context.postleitzahlBeklagtePerson,
+    postleitzahlSecondary: context.postleitzahlSecondary,
   }),
   config: {
     id: "/geld-einklagen/formular",

@@ -1,12 +1,11 @@
 import classNames from "classnames";
-import type { PropsWithChildren, CSSProperties } from "react";
+import type { PropsWithChildren } from "react";
 import { getGridClass } from "./util";
 import type { Background, Span } from "./types";
 
 type GridProps = PropsWithChildren<{
   background?: Background;
   className?: string;
-  style?: CSSProperties;
   id?: string;
   rows?: number;
 }>;

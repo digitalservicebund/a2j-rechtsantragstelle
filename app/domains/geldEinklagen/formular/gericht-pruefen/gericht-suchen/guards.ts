@@ -11,7 +11,7 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
       sachgebiet,
       gegenWenBeklagen,
       beklagtePersonGeldVerdienen,
-      versicherungsnummer,
+      versicherungsnehmer,
       gerichtsstandsvereinbarung,
       beklagtePersonKaufmann,
       klagendeKaufmann,
@@ -36,7 +36,7 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
 
     const isVersicherungCase =
       sachgebiet === "versicherung" &&
-      versicherungsnummer === "yes" &&
+      versicherungsnehmer === "yes" &&
       (gerichtsstandsvereinbarung === "no" ||
         beklagtePersonKaufmann === "no" ||
         klagendeKaufmann === "no");
