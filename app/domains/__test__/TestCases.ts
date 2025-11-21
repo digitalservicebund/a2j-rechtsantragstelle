@@ -1,5 +1,5 @@
 import { type Config } from "~/services/flow/server/types";
-import type { UserData } from "../userData";
+import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 
 // Old flow tests: forward & backward using full user data
@@ -7,22 +7,11 @@ export type TestCases<T extends UserData> = Readonly<
   Array<Readonly<[T, readonly string[]]>>
 >;
 
-/**
- * Retrieves template literal union of all possible array item property paths
- * in the format arrayname#itemname
- */
-type ArrayItemPropertyTypes<T> = {
-  [K in keyof T]: NonNullable<T[K]> extends ReadonlyArray<infer U>
-    ? U extends object
-      ? { [P in Extract<keyof U, string> as `${K & string}#${P}`]: U[P] }
-      : // eslint-disable @typescript-eslint/no-empty-object-type
-        {}
-    : {};
-}[keyof T];
+type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
 export type ExpectedStepUserInput<T extends UserData> = T & {
   pageData?: { arrayIndexes?: number[] };
-} & Partial<ArrayItemPropertyTypes<T>>;
+} & { [K in ArrayItemProperties]: AllowedUserTypes };
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
