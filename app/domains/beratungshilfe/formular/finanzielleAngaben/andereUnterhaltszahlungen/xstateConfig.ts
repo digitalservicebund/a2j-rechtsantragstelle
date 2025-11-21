@@ -16,7 +16,7 @@ export const beratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenXStateConf
   {
     id: "andere-unterhaltszahlungen",
     initial: steps.andereUnterhaltszahlungenFrage.relative,
-    meta: { topLevelNavigationItem: true },
+    meta: { shouldAppearAsMenuNavigation: true },
     states: {
       [steps.andereUnterhaltszahlungenFrage.relative]: {
         on: {

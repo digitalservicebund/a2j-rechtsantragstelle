@@ -36,7 +36,7 @@ export const beratungshilfeXstateConfig = {
     "persoenliche-daten": persoenlicheDatenXstateConfig,
     "weitere-angaben": {
       id: "weitere-angaben",
-      meta: { topLevelNavigationItem: true },
+      meta: { shouldAppearAsMenuNavigation: true },
       on: {
         BACK: "#persoenliche-daten.telefonnummer",
         SUBMIT: "#abgabe",

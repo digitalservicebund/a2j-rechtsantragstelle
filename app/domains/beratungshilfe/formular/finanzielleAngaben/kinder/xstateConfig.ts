@@ -25,7 +25,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const beratungshilfeFinanzielleAngabenKinderXstateConfig = {
   id: "kinder",
   initial: steps.kinderFrage.relative,
-  meta: { topLevelNavigationItem: true },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.kinderFrage.relative]: {
       on: {

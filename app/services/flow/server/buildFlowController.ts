@@ -115,23 +115,25 @@ function stepStates(
   addUnreachableSubSteps: boolean,
   flowId: FlowId,
 ): StepState[] {
-  // Recurse a statenode until encountering a done function or no more substates are left
+  // Recurse a statenode until encountering a state with no meta shouldAppearAsMenuNavigation value as true or no more substates are left
   // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
   const context = (stateNode.machine.config.context ?? {}) as UserData;
 
-  const statesWithDoneFunctionOrSubstates = Object.values(
+  const statesWithMenuNavigationOrSubstates = Object.values(
     stateNode.states ?? {},
-  ).filter(
-    (state) =>
-      state.meta?.topLevelNavigationItem ||
-      Object.keys(state.states).length > 0,
-  );
+  ).filter((state) => {
+    return (
+      state.meta?.shouldAppearAsMenuNavigation ??
+      Object.keys(state.states).length > 0
+    );
+  });
 
-  return statesWithDoneFunctionOrSubstates.map((state) => {
+  return statesWithMenuNavigationOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
-    const shouldHideSubstates = meta?.topLevelNavigationItem !== undefined;
+    const shouldHideSubstates =
+      meta?.shouldAppearAsMenuNavigation !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
