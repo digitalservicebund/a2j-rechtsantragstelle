@@ -177,7 +177,8 @@ export const testCasesSachgebiet = [
       "/gericht-pruefen/sachgebiet/ausgeschlossen",
       "/gericht-pruefen/sachgebiet/besondere",
       "/gericht-pruefen/sachgebiet/reise-art",
-      "/gericht-pruefen/sachgebiet/reise-stopp",
+      "/gericht-pruefen/sachgebiet/ergebnis/reise-flug",
+      "/gericht-pruefen/klagende-person/fuer-wen",
     ],
   ],
   [

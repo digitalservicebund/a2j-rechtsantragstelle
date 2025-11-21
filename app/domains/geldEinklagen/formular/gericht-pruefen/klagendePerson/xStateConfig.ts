@@ -69,8 +69,11 @@ export const klagendePersonXstateConfig = {
           },
           {
             guard: ({ context }) =>
-              context.sachgebiet === "reisen" &&
-              context.reiseArt === "andereReise",
+              context.sachgebiet === "reisen" && context.reiseArt === "flug",
+            target: "#sachgebiet.ergebnis/reise-flug",
+          },
+          {
+            guard: ({ context }) => context.sachgebiet === "reisen",
             target: steps.sachgebietReiseArt.absolute,
           },
           {

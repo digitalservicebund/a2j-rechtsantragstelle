@@ -57,8 +57,8 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/reise-art",
     pageSchema: { reiseArt: z.enum(["flug", "andereReise"]) },
   },
-  sachgebietReiseStopp: {
-    stepId: "gericht-pruefen/sachgebiet/reise-stopp",
+  sachgebietReiseInfoFlug: {
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/reise-flug",
   },
   sachgebietVerkehrsunfallStrassenverkehr: {
     stepId: "gericht-pruefen/sachgebiet/verkehrsunfall-strassenverkehr",

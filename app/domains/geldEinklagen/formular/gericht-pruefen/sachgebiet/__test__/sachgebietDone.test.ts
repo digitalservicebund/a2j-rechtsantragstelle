@@ -178,7 +178,7 @@ describe("sachgebietDone", () => {
       expect(actual).toBe(true);
     });
 
-    it("should return false if reiseArt is flug", () => {
+    it("should return true if reiseArt is flug", () => {
       const actual = sachgebietDone({
         context: {
           ausgeschlossen: "no",
@@ -187,7 +187,7 @@ describe("sachgebietDone", () => {
         },
       });
 
-      expect(actual).toBe(false);
+      expect(actual).toBe(true);
     });
 
     describe("sachgebiet is verkehrsunfall", () => {
