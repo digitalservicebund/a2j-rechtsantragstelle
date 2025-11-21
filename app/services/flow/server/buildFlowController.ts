@@ -109,14 +109,21 @@ export type StepState = {
   subStates?: StepState[];
 };
 
+/**
+ * Recurse a statenode until encountering a state with no meta shouldAppearAsMenuNavigation value as true or no more substates are left
+  For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
+
+ @param stateNode state nodes 
+ @param reachableSteps array of the reachable substates
+ @param addUnreachableSubSteps workaround for stepper component, to always add values to reachableSteps
+ @param flowId flow id value 
+ * */
 function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
   flowId: FlowId,
 ): StepState[] {
-  // Recurse a statenode until encountering a state with no meta shouldAppearAsMenuNavigation value as true or no more substates are left
-  // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
   const context = (stateNode.machine.config.context ?? {}) as UserData;
 
   const statesWithMenuNavigationOrSubstates = Object.values(
@@ -143,7 +150,7 @@ function stepStates(
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
-    // Ignore subflows if empty, if parent state has hideSubstates flag, or if FGR parent state has doneFunction
+    // Ignore subflows if empty, if parent state has hideSubstates flag
     if (shouldHideSubstates || reachableSubStates.length === 0) {
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
