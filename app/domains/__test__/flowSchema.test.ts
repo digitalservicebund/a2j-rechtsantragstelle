@@ -39,6 +39,7 @@ const buildFullUserInput = <T extends UserData>(
   return expectedSteps.slice(0, idx + 1).reduce((acc, step) => {
     let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
 
+    // When adding an array item, increment the last array index or start with 0
     if (step.addArrayItemEvent) {
       merged.pageData = {
         arrayIndexes: merged.pageData?.arrayIndexes
@@ -48,16 +49,21 @@ const buildFullUserInput = <T extends UserData>(
       return merged;
     }
 
+    // Extract array indexes from stepId (e.g., "/step/0/nested/1" -> [0, 1])
     const arrayIndexes =
       step.stepId
         .match(/(\/\d+)/g)
         ?.map((index) => Number(index.replace("/", ""))) ?? [];
 
+    // If step contains array indexes, add them to pageData and resolve array-indexed fields
     if (arrayIndexes.length > 0) {
       merged.pageData = { arrayIndexes: arrayIndexes };
 
+      // Get the last array index
       const lastIndex = arrayIndexes.at(-1);
       if (lastIndex === undefined) return merged;
+
+      // Transform array fields like `field[index]` into nested structure `field: [index: value]`
       const resolvedArraysFromKeys = resolveArraysFromKeys(
         { ...step.userInput },
         [lastIndex],
