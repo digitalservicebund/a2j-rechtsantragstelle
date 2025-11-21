@@ -65,7 +65,7 @@ describe("BundID action", () => {
     ).rejects.toThrow("Invalid SAML Response");
   });
   it("should handle missing attributes", async () => {
-    const { getBundIdSamlConfig: getBundIdSamlConfig } = await import(
+    const { getBundIdSamlConfig } = await import(
       "~/services/bundid/index.server"
     );
     (getBundIdSamlConfig as any).mockImplementationOnce(() => ({
