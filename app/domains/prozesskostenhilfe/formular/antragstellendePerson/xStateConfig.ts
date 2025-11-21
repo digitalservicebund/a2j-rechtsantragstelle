@@ -27,7 +27,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
   return {
     id: "antragstellende-person",
     initial: steps.empfaenger.relative,
-    meta: { topLevelNavigationItem: true },
+    meta: { shouldAppearAsMenuNavigation: true },
     states: {
       [steps.empfaenger.relative]: {
         on: {

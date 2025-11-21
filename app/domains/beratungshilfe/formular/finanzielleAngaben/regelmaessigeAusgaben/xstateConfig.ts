@@ -17,7 +17,7 @@ export const beratungshilfeFinanzielleAngabenRegelmassigeAusgabenXstateConfig =
   {
     id: steps.ausgaben.relative,
     initial: steps.ausgabenFrage.relative,
-    meta: { topLevelNavigationItem: true },
+    meta: { shouldAppearAsMenuNavigation: true },
     states: {
       [steps.ausgabenFrage.relative]: {
         on: {
