@@ -86,11 +86,11 @@ export function ResultPage() {
                 {cmsContent.hintText && (
                   <RichText html={cmsContent.hintText.html} />
                 )}
-                <div className="flex flex-wrap mt-16">
-                  {cmsContent.hintButton && (
+                {cmsContent.hintButton && (
+                  <div className="flex flex-wrap mt-16">
                     <Button {...cmsContent.hintButton} />
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </GridItem>
