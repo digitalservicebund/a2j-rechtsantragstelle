@@ -64,7 +64,7 @@ export const kinderDone: ProzesskostenhilfeFinanzielleAngabenGuard = ({
   (context.hasKinder === "yes" &&
     kinderArraySchema.safeParse(context.kinder).success);
 
-export const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
+const andereUnterhaltszahlungenDone: ProzesskostenhilfeFinanzielleAngabenGuard =
   ({ context }) =>
     (context.staatlicheLeistungen != undefined &&
       einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({

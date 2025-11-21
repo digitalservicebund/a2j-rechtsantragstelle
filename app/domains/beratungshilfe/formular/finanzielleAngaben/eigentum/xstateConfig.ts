@@ -22,7 +22,6 @@ import {
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
 import {
   bankKontoDone,
-  eigentumDone,
   geldanlagenDone,
   grundeigentumDone,
   kraftfahrzeugeDone,
@@ -36,7 +35,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
   id: "eigentum",
   initial: steps.eigentumInfo.relative,
-  meta: { done: eigentumDone },
+  meta: { topLevelNavigationItem: true },
   states: {
     [steps.eigentumInfo.relative]: {
       on: {

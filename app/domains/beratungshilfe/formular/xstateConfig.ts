@@ -9,7 +9,6 @@ import { beratungshilfeAntragPages } from "./pages";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
-import { weitereAngabenDone } from "./weitereAngaben/doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
 
@@ -37,7 +36,7 @@ export const beratungshilfeXstateConfig = {
     "persoenliche-daten": persoenlicheDatenXstateConfig,
     "weitere-angaben": {
       id: "weitere-angaben",
-      meta: { done: weitereAngabenDone },
+      meta: { topLevelNavigationItem: true },
       on: {
         BACK: "#persoenliche-daten.telefonnummer",
         SUBMIT: "#abgabe",
