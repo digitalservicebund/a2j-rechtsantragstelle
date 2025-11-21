@@ -1,26 +1,11 @@
 import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
-import { readFileSync } from "node:fs";
+import { samlKeys } from "./keys";
 import { samlAuthnRequestExtensions } from "./attributes";
 
-export function getBundIdSamlConfig() {
-  const {
-    SAML_ASSERTION_CONSUMER_SERVICE_URL,
-    SAML_IDP_CERT,
-    SAML_SP_SECRET_KEY_ENCRYPTION_PATH,
-    SAML_SP_SECRET_KEY_PATH,
-  } = config();
-
-  let privateKey: string | undefined;
-  let decryptionPvk: string | undefined;
-
-  try {
-    privateKey = readFileSync(SAML_SP_SECRET_KEY_PATH, "utf-8");
-    decryptionPvk = readFileSync(SAML_SP_SECRET_KEY_ENCRYPTION_PATH, "utf-8");
-  } catch (err) {
-    // oxlint-disable-next-line no-console
-    console.error(err);
-  }
+export function getBundIdSaml() {
+  const { SAML_ASSERTION_CONSUMER_SERVICE_URL, SAML_IDP_CERT } = config();
+  const { privateKey, decryptionPvk } = samlKeys();
 
   return new SAML({
     entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",

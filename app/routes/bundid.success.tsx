@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
 import z from "zod";
 import { bundIdSamlAttributes } from "~/services/bundid/attributes";
-import { getBundIdSamlConfig } from "~/services/bundid/index.server";
+import { getBundIdSaml } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 export const loader = async () => {
@@ -30,7 +30,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     throw new Error("Invalid SAML Response");
   }
 
-  const serviceProvider = getBundIdSamlConfig();
+  const serviceProvider = getBundIdSaml();
 
   const { profile } = await serviceProvider.validatePostResponseAsync({
     SAMLResponse: samlResponse,

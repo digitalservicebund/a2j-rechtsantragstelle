@@ -9,7 +9,7 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 }));
 
 vi.mock("~/services/bundid/index.server", () => ({
-  getBundIdSamlConfig: vi.fn(() => ({
+  getBundIdSaml: vi.fn(() => ({
     options: { entryPoint: "https://fake.idp.example.com/sso" },
     getAuthorizeMessageAsync: vi.fn(() => ({
       SAMLRequest: "FAKE_SAML_REQUEST",
@@ -65,10 +65,8 @@ describe("BundID action", () => {
     ).rejects.toThrow("Invalid SAML Response");
   });
   it("should handle missing attributes", async () => {
-    const { getBundIdSamlConfig } = await import(
-      "~/services/bundid/index.server"
-    );
-    (getBundIdSamlConfig as any).mockImplementationOnce(() => ({
+    const { getBundIdSaml } = await import("~/services/bundid/index.server");
+    (getBundIdSaml as any).mockImplementationOnce(() => ({
       validatePostResponseAsync: () => ({ profile: {} }),
     }));
 
