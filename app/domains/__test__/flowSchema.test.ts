@@ -1,11 +1,12 @@
 import { createMachine } from "xstate";
 import z from "zod";
+import merge from "lodash/merge";
 import { getPageSchema } from "../pageSchemas";
 import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import type { ExpectedStep, FlowTestCases } from "./TestCases";
+import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
@@ -16,8 +17,9 @@ import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 
-const flowSchemaTests: Record<string, FlowTestCases> = {
+const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
@@ -30,16 +32,50 @@ type VisitedSteps = Record<
 >;
 
 // Build full user input from all previous expectedSteps
-const buildFullUserInput = (
-  expectedSteps: FlowTestCases["testcases"][string],
+const buildFullUserInput = <T extends UserData>(
+  expectedSteps: Array<ExpectedStep<T>>,
   idx: number,
-) =>
-  expectedSteps
-    .slice(0, idx + 1)
-    .reduce((acc, step) => ({ ...acc, ...step.userInput }), {});
+) => {
+  return expectedSteps.slice(0, idx + 1).reduce((acc, step) => {
+    let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
 
-function testPageSchema(
-  userInput: UserData | undefined,
+    // When adding an array item, increment the last array index or start with 0
+    if (step.addArrayItemEvent) {
+      merged.pageData = {
+        arrayIndexes: merged.pageData?.arrayIndexes
+          ? [merged.pageData?.arrayIndexes.at(-1)! + 1]
+          : [0],
+      };
+      return merged;
+    }
+
+    // Extract array indexes from stepId (e.g., "/step/0/nested/1" -> [0, 1])
+    const arrayIndexes =
+      step.stepId
+        .match(/(\/\d+)/g)
+        ?.map((index) => Number(index.replace("/", ""))) ?? [];
+
+    // If step contains array indexes, add them to pageData and resolve array-indexed fields
+    if (arrayIndexes.length > 0) {
+      merged.pageData = { arrayIndexes: arrayIndexes };
+
+      // Get the last array index
+      const lastIndex = arrayIndexes.at(-1);
+      if (lastIndex === undefined) return merged;
+
+      // Transform array fields like `field[index]` into nested structure `field: [index: value]`
+      const resolvedArraysFromKeys = resolveArraysFromKeys(
+        { ...step.userInput },
+        [lastIndex],
+      );
+      merged = merge(merged, resolvedArraysFromKeys);
+    }
+    return merged;
+  }, {});
+};
+
+function testPageSchema<T extends UserData>(
+  userInput: ExpectedStepUserInput<T>,
   pageSchema: SchemaObject | undefined,
   addArrayItemEvent?: ArrayConfigServer["event"],
 ) {
@@ -80,13 +116,12 @@ function testXstateArrayLinkages(
   }
 }
 
-function runTestcases(
+function runTestcases<T extends UserData>(
   testName: string,
   flowId: string,
   xstateConfig: Config,
-  expectedSteps: ExpectedStep[],
+  expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
-  guards?: FlowTestCases["guards"],
 ) {
   test(testName, () => {
     let [isAddingArrayItem, summaryPageStepId]: [boolean, string?] = [
@@ -121,14 +156,13 @@ function runTestcases(
             summaryPageStepId = stepId;
           }
 
-          if (!skipPageSchemaValidation) {
+          if (!skipPageSchemaValidation && userInput) {
             testPageSchema(userInput, pageSchema, addArrayItemEvent);
           }
 
           const flowController = buildFlowController({
             config: xstateConfig,
             data: buildFullUserInput(expectedSteps, idx),
-            guards,
           });
 
           // Given the current data and url we expect the next and previous url
@@ -161,7 +195,7 @@ describe.sequential("flowSchemas", () => {
   const allVisitedSteps: VisitedSteps = {};
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { xstateConfig, testcases, guards }]) => {
+    ([testConfigName, { xstateConfig, testcases }]) => {
       const flowId = xstateConfig.id!;
 
       if (!allVisitedSteps[flowId]) {
@@ -169,19 +203,14 @@ describe.sequential("flowSchemas", () => {
       }
 
       describe(testConfigName, () => {
-        Object.entries(testcases).forEach(
-          ([testName, expectedSteps]: [
-            string,
-            FlowTestCases["testcases"][string],
-          ]) =>
-            runTestcases(
-              testName,
-              flowId,
-              xstateConfig,
-              expectedSteps,
-              allVisitedSteps,
-              guards,
-            ),
+        Object.entries(testcases).forEach(([testName, expectedSteps]) =>
+          runTestcases(
+            testName,
+            flowId,
+            xstateConfig,
+            expectedSteps,
+            allVisitedSteps,
+          ),
         );
       });
     },
