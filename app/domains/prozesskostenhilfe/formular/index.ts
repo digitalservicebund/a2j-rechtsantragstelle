@@ -60,7 +60,6 @@ export const prozesskostenhilfeFormular = {
     states: {
       start: {
         id: "antragStart",
-        meta: { done: () => true },
         initial: steps.start.relative,
         states: {
           [steps.start.relative]: {

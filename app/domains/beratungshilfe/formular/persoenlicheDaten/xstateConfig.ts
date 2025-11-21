@@ -1,6 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { beratungshilfePersoenlicheDatenDone } from "./doneFunctions";
 import { berHAntragPersoenlicheDatenPages } from "./pages";
 import { type BeratungshilfePersoenlicheDatenUserData } from "./userData";
 import {
@@ -15,7 +14,6 @@ const steps = xStateTargetsFromPagesConfig(berHAntragPersoenlicheDatenPages);
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
   initial: steps.persoenlicheDatenStart.relative,
-  meta: { done: beratungshilfePersoenlicheDatenDone },
   states: {
     [steps.persoenlicheDatenStart.relative]: {
       on: {
