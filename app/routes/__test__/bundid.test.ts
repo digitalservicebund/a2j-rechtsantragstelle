@@ -3,6 +3,7 @@ import { action } from "../bundid.success";
 import { type ActionFunctionArgs } from "react-router";
 import { loader } from "../bundid";
 import { bundIdSamlAttributes } from "~/services/bundid/attributes";
+import { config } from "~/services/env/env.server";
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
   isFeatureFlagEnabled: vi.fn(() => true),
@@ -26,10 +27,11 @@ vi.mock("~/services/bundid/index.server", () => ({
 describe("BundID loader", () => {
   it("should return url and samlRequest", async () => {
     const result = await loader();
+    const { SAML_ASSERTION_CONSUMER_SERVICE_URL } = config();
     expect(result).toEqual({
       url: "https://fake.idp.example.com/sso",
       samlRequest: "FAKE_SAML_REQUEST",
-      relayState: "https://a2j-staging.dev.ds4g.net/bundid/success",
+      relayState: SAML_ASSERTION_CONSUMER_SERVICE_URL,
     });
   });
 });
