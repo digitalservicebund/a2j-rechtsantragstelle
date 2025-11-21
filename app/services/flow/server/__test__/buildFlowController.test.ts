@@ -299,7 +299,15 @@ describe("buildFlowController", () => {
         config: {
           id: "/fluggastrechte/formular",
           initial: "start",
-          states: { start: { meta: { done: mockDoneFunction } } },
+          states: {
+            start: {
+              meta: { done: mockDoneFunction },
+              initial: "subState",
+              states: {
+                subState: {},
+              },
+            },
+          },
         },
       }).stepStates();
       expect(isStepDoneSpy).not.toHaveBeenCalled();

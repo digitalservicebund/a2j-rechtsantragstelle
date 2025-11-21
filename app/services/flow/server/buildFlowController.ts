@@ -123,7 +123,6 @@ function stepStates(
     stateNode.states ?? {},
   ).filter(
     (state) =>
-      (flowId === "/fluggastrechte/formular" && state.meta?.done) ||
       state.meta?.topLevelNavigationItem ||
       Object.keys(state.states).length > 0,
   );
@@ -143,11 +142,7 @@ function stepStates(
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
     // Ignore subflows if empty, if parent state has hideSubstates flag, or if FGR parent state has doneFunction
-    if (
-      shouldHideSubstates ||
-      (flowId === "/fluggastrechte/formular" && meta?.done !== undefined) ||
-      reachableSubStates.length === 0
-    ) {
+    if (shouldHideSubstates || reachableSubStates.length === 0) {
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 
