@@ -1,3 +1,5 @@
+import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
+
 export const flowIds = [
   "/beratungshilfe/antrag",
   "/beratungshilfe/vorabcheck",
@@ -17,10 +19,7 @@ export function flowIdFromPathname(pathname: string) {
 export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
-  const arrayIndexes =
-    pathname
-      .match(/(\/\d+)/g)
-      ?.map((index) => Number(index.replace("/", ""))) ?? [];
+  const arrayIndexes = parseArrayIndexesFromPathname(pathname);
   const stepId = pathname
     .replace(flowId, "")
     .split("/")
