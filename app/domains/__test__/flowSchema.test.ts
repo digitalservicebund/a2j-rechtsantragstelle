@@ -18,6 +18,7 @@ import { type ArrayConfigServer } from "~/services/array";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -50,10 +51,7 @@ const buildFullUserInput = <T extends UserData>(
     }
 
     // Extract array indexes from stepId (e.g., "/step/0/nested/1" -> [0, 1])
-    const arrayIndexes =
-      step.stepId
-        .match(/(\/\d+)/g)
-        ?.map((index) => Number(index.replace("/", ""))) ?? [];
+    const arrayIndexes = parseArrayIndexesFromPathname(step.stepId);
 
     // If step contains array indexes, add them to pageData and resolve array-indexed fields
     if (arrayIndexes.length > 0) {
