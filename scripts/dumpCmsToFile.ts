@@ -4,11 +4,49 @@ import { configDotenv } from "dotenv";
 import { getStrapiEntryFromApi } from "../app/services/cms/getStrapiEntryFromApi";
 import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
 import { config } from "../app/services/env/env.server";
+import axios from "axios";
 
 const imageMatchRegex =
   /https:\/\/a2j-rechtsantragstelle-infra-public-assets-bucket.+?(.svg|.jpg|.png)+/g;
 
-const TIMEOUT_IMAGE_REQUEST_MS = 20000;
+const fetchAndEmbedImages = async (content: Record<string, unknown>) => {
+  const startFetch = Date.now();
+  let stringifiedContent = JSON.stringify(content);
+  const foundImageUrls = Array.from(
+    stringifiedContent.matchAll(imageMatchRegex),
+  ).map((match) => match[0]);
+  const uniqueImageUrls = new Set(foundImageUrls);
+  console.log(
+    `Found ${foundImageUrls.length} image references (${uniqueImageUrls.size} unique), fetching from repository...`,
+  );
+  const responses = await Promise.all(
+    Array.from(uniqueImageUrls).map((url) =>
+      axios.get(url ?? "", { responseType: "arraybuffer", timeout: 20000 }),
+    ),
+  );
+
+  const endFetch = Date.now();
+  console.log(
+    `Fetching ${uniqueImageUrls.size} images took approximately ${(endFetch - startFetch) / 1000}s`,
+  );
+
+  console.log("Embedding images in base64...");
+  const startEmbed = Date.now();
+  for (const response of responses.values()) {
+    const imageData = await response.data;
+    const base64Image = Buffer.from(imageData).toString("base64");
+    stringifiedContent = stringifiedContent.replaceAll(
+      response.config.url!,
+      `data:${response.headers["content-type"]};base64,${base64Image}`,
+    );
+  }
+  const endEmbed = Date.now();
+  console.log(
+    `Replaced ${foundImageUrls.length} instances, Duration: ${(endEmbed - startEmbed) / 1000}s`,
+  );
+
+  return stringifiedContent;
+};
 
 async function dumpCmsToFile() {
   configDotenv();
@@ -37,42 +75,7 @@ async function dumpCmsToFile() {
     console.log();
   }
 
-  // Fetch and embed images in base64
-  const startFetch = Date.now();
-  let stringifiedContent = JSON.stringify(content);
-  const foundImageUrls = Array.from(
-    stringifiedContent.matchAll(imageMatchRegex),
-  ).map((match) => match[0]);
-  const uniqueImageUrls = new Set(foundImageUrls);
-  console.log(
-    `Found ${foundImageUrls.length} image references (${uniqueImageUrls.size} unique), fetching from repository...`,
-  );
-  const responses = await Promise.all(
-    Array.from(uniqueImageUrls).map((url) =>
-      fetch(url ?? "", {
-        signal: AbortSignal.timeout(TIMEOUT_IMAGE_REQUEST_MS),
-      }),
-    ),
-  );
-  const endFetch = Date.now();
-  console.log(
-    `Fetching ${uniqueImageUrls.size} images took approximately ${(endFetch - startFetch) / 1000}s`,
-  );
-
-  console.log("Embedding images in base64...");
-  const startEmbed = Date.now();
-  for (const response of responses.values()) {
-    const imageData = await response.arrayBuffer();
-    const base64Image = Buffer.from(imageData).toString("base64");
-    stringifiedContent = stringifiedContent.replaceAll(
-      response.url,
-      `data:${response.headers.get("content-type")};base64,${base64Image}`,
-    );
-  }
-  const endEmbed = Date.now();
-  console.log(
-    `Replaced ${foundImageUrls.length} instances, Duration: ${(endEmbed - startEmbed) / 1000}s`,
-  );
+  const stringifiedContent = await fetchAndEmbedImages(content);
 
   console.log(`Writing CMS content to ${CONTENT_FILE_PATH}...`);
   fs.writeFileSync(CONTENT_FILE_PATH, stringifiedContent + "\n", "utf8");
