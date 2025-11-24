@@ -8,6 +8,7 @@ import { StrapiFlowIdSchema } from "./StrapiFlowId";
 import { StrapiLinkSchema } from "./StrapiLink";
 import { StrapiStringOptionalSchema } from "./StrapiStringOptional";
 import { omitNull } from "~/util/omitNull";
+import { StrapiButtonSchema } from "./StrapiButton";
 
 export const StrapiResultPageSchema = z.object({
   stepId: z.string(),
@@ -15,6 +16,7 @@ export const StrapiResultPageSchema = z.object({
   pageType: z.enum(["error", "success", "warning", "info"]),
   heading: StrapiHeadingSchema,
   hintText: StrapiParagraphSchema.nullable().transform(omitNull).optional(),
+  hintButton: StrapiButtonSchema.nullable().transform(omitNull).optional(),
   documents: StrapiElementWithIdSchema.nullable()
     .transform(omitNull)
     .optional(),

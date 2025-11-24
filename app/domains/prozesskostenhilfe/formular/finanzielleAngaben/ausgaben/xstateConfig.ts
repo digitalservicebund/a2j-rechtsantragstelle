@@ -18,7 +18,7 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
   {
     id: "ausgaben",
     initial: steps.ausgabenFrage.relative,
-    meta: { topLevelNavigationItem: true },
+    meta: { shouldAppearAsMenuNavigation: true },
     states: {
       [steps.ausgabenFrage.relative]: {
         on: {

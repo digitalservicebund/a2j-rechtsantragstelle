@@ -8,6 +8,8 @@ import { config } from "../app/services/env/env.server";
 const imageMatchRegex =
   /https:\/\/a2j-rechtsantragstelle-infra-public-assets-bucket.+?(.svg|.jpg|.png)+/g;
 
+const TIMEOUT_IMAGE_REQUEST_MS = 20000;
+
 async function dumpCmsToFile() {
   configDotenv();
   const { CONTENT_FILE_PATH, STRAPI_API } = config();
@@ -46,7 +48,11 @@ async function dumpCmsToFile() {
     `Found ${foundImageUrls.length} image references (${uniqueImageUrls.size} unique), fetching from repository...`,
   );
   const responses = await Promise.all(
-    Array.from(uniqueImageUrls).map((url) => fetch(url ?? "")),
+    Array.from(uniqueImageUrls).map((url) =>
+      fetch(url ?? "", {
+        signal: AbortSignal.timeout(TIMEOUT_IMAGE_REQUEST_MS),
+      }),
+    ),
   );
   const endFetch = Date.now();
   console.log(

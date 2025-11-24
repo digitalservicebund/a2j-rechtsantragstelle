@@ -11,7 +11,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const finanzielleAngabenAbzuegeXstateConfig = {
   id: "abzuege",
   initial: steps.arbeitsweg.relative,
-  meta: { topLevelNavigationItem: true },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.arbeitsweg.relative]: {
       on: {
