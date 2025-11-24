@@ -79,7 +79,7 @@ export function config(): Config {
       "/etc/saml/idp_cert",
       "SAML_IDP_CERT",
       "test",
-    ),
+    ).replaceAll(" ", ""),
     S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
     S3_ENDPOINT:
       process.env.S3_ENDPOINT ?? "https://s3.localhost.localstack.cloud:4566",
