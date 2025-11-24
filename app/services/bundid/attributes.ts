@@ -1,7 +1,7 @@
 import z from "zod";
 import { config } from "../env/env.server";
 
-export const bundIdSamlAttributes = {
+const bundIdSamlAttributes = {
   givenName: "urn:oid:2.5.4.42",
   surname: "urn:oid:2.5.4.4",
   mail: "urn:oid:0.9.2342.19200300.100.1.3",
@@ -22,7 +22,7 @@ export const bundIdSamlAttributes = {
   communityId: "urn:oid:1.3.6.1.4.1.25484.494450.5 ",
 } as const;
 
-export const bundIdSamlTechnicalAttributes = {
+const bundIdSamlTechnicalAttributes = {
   bPK2: "urn:oid:1.3.6.1.4.1.25484.494450.3",
   "EID-CITIZEN-QAA-LEVEL": "urn:oid: 1.2.40.0.10.2.1.1.261.94",
   "akdb:TrustLevel": "",
@@ -38,9 +38,9 @@ const requiredAttribute = (attribute: string) => ({
   "@RequiredAttribute": "true",
 });
 
-const { SAML_ASSERTION_CONSUMER_SERVICE_URL, BUNDID_AUTH_BMI_ID } = config();
+const { BUNDID_AUTH_BMI_ID } = config();
 
-export const samlAuthnRequestExtensions = {
+export const samlAuthnRequestExtensions = (backUrl?: string) => ({
   "akdb:AuthenticationRequest": {
     "@xmlns:akdb": "https://www.akdb.de/request/2018/09",
     "@EnableStatusDetail": "true",
@@ -106,12 +106,12 @@ export const samlAuthnRequestExtensions = {
           "https://www.akdb.de/request/2018/09/classic-ui/v1",
         "classic-ui:OrganizationDisplayName": "Onlinedienste der Justiz",
         "classic-ui:Lang": "de",
-        "classic-ui:BackURL": SAML_ASSERTION_CONSUMER_SERVICE_URL, // maybe without /success?
+        "classic-ui:BackURL": backUrl,
         "classic-ui:OnlineServiceId": BUNDID_AUTH_BMI_ID,
       },
     },
   },
-} as const;
+});
 
 export const attributeSchema = z
   .object({

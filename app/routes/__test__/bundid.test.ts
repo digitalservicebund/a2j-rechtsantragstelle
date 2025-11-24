@@ -24,7 +24,8 @@ vi.mock("~/services/bundid/index.server", () => ({
 
 describe("BundID loader", () => {
   it("should return url and samlRequest", async () => {
-    const result = await loader();
+    const request = new Request("https://app.example.com");
+    const result = await loader(mockRouteArgsFromRequest(request));
     expect(result).toEqual({ url: mockUrl, samlRequest: mockSamlRequest });
   });
 });

@@ -1,11 +1,11 @@
-import { Outlet, useLoaderData } from "react-router";
+import { Outlet, useLoaderData, type LoaderFunctionArgs } from "react-router";
 import Button from "~/components/common/Button";
 import { generateSamlRequest } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   await throw404IfFeatureFlagDisabled("showBundID");
-  return generateSamlRequest();
+  return generateSamlRequest(request.url);
 };
 
 export default function View() {

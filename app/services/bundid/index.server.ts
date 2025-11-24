@@ -3,7 +3,7 @@ import { SAML } from "@node-saml/node-saml";
 import { samlKeys } from "./keys";
 import { attributeSchema, samlAuthnRequestExtensions } from "./attributes";
 
-function getBundIdSaml() {
+function getBundIdSaml(backUrl?: string) {
   const { SAML_ASSERTION_CONSUMER_SERVICE_URL, SAML_IDP_CERT } = config();
   const { privateKey, decryptionPvk } = samlKeys();
 
@@ -20,7 +20,7 @@ function getBundIdSaml() {
     racComparison: "minimum",
     authnContext: ["STORK-QAA-Level-1"],
     signatureAlgorithm: "sha256-mgf1",
-    samlAuthnRequestExtensions,
+    samlAuthnRequestExtensions: samlAuthnRequestExtensions(backUrl),
     acceptedClockSkewMs: 5000,
     disableRequestedAuthnContext: false,
     forceAuthn: true,
@@ -28,8 +28,8 @@ function getBundIdSaml() {
   });
 }
 
-export async function generateSamlRequest() {
-  const serviceProvider = getBundIdSaml();
+export async function generateSamlRequest(backUrl: string) {
+  const serviceProvider = getBundIdSaml(backUrl);
   const samlRequest = await serviceProvider.getAuthorizeMessageAsync("");
   return {
     url: serviceProvider.options.entryPoint,
