@@ -24,5 +24,6 @@ export function getBundIdSaml() {
     acceptedClockSkewMs: 5000,
     disableRequestedAuthnContext: false,
     forceAuthn: false,
+    identifierFormat: "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
   });
 }
