@@ -33,7 +33,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const serviceProvider = getBundIdSaml();
   console.log(
     "validatePostResponseAsync using idpCert: ",
-    serviceProvider.options.idpCert,
+    serviceProvider.options?.idpCert,
   );
 
   const { profile } = await serviceProvider.validatePostResponseAsync({
