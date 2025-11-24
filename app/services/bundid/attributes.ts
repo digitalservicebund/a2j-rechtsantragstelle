@@ -1,3 +1,4 @@
+import z from "zod";
 import { config } from "../env/env.server";
 
 export const bundIdSamlAttributes = {
@@ -103,8 +104,6 @@ export const samlAuthnRequestExtensions = {
       "classic-ui:Version": {
         "@xmlns:classic-ui":
           "https://www.akdb.de/request/2018/09/classic-ui/v1",
-        "classic-ui:Purpose":
-          "Dieses Feld wird fachlich in der Schnittstelle akzeptiert, jedoch aktuell nicht verwendet. Das ist aber zu Dokumentationszwecken weiterhin vorhanden. Von einer Verwendung wird aber abgeraten.",
         "classic-ui:OrganizationDisplayName": "Onlinedienste der Justiz",
         "classic-ui:Lang": "de",
         "classic-ui:BackURL": SAML_ASSERTION_CONSUMER_SERVICE_URL, // maybe without /success?
@@ -113,3 +112,13 @@ export const samlAuthnRequestExtensions = {
     },
   },
 } as const;
+
+export const attributeSchema = z
+  .object({
+    [bundIdSamlAttributes.givenName]: z.string().optional(),
+    [bundIdSamlAttributes.surname]: z.string().optional(),
+  })
+  .transform((data) => ({
+    givenName: data[bundIdSamlAttributes.givenName],
+    surname: data[bundIdSamlAttributes.surname],
+  }));

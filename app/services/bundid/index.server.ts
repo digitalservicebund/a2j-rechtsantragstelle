@@ -1,9 +1,9 @@
 import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
 import { samlKeys } from "./keys";
-import { samlAuthnRequestExtensions } from "./attributes";
+import { attributeSchema, samlAuthnRequestExtensions } from "./attributes";
 
-export function getBundIdSaml() {
+function getBundIdSaml() {
   const { SAML_ASSERTION_CONSUMER_SERVICE_URL, SAML_IDP_CERT } = config();
   const { privateKey, decryptionPvk } = samlKeys();
 
@@ -23,7 +23,22 @@ export function getBundIdSaml() {
     samlAuthnRequestExtensions,
     acceptedClockSkewMs: 5000,
     disableRequestedAuthnContext: false,
-    forceAuthn: false,
+    forceAuthn: true,
     identifierFormat: "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
   });
+}
+
+export async function generateSamlRequest() {
+  const serviceProvider = getBundIdSaml();
+  const samlRequest = await serviceProvider.getAuthorizeMessageAsync("");
+  return {
+    url: serviceProvider.options.entryPoint,
+    samlRequest: samlRequest.SAMLRequest as string,
+  };
+}
+
+export async function validateSamlResponse(container: Record<string, string>) {
+  const { profile } =
+    await getBundIdSaml().validatePostResponseAsync(container);
+  return attributeSchema.parse(profile);
 }
