@@ -56,29 +56,35 @@ function KernHeading({
 
   // Map existing look classes to KERN equivalents
   const kernLookMapping: Record<string, string> = {
-    "ds-heading-01-reg": "kern-heading kern-heading--h1",
-    "ds-heading-02-reg": "kern-heading kern-heading--h2",
-    "ds-heading-03-reg": "kern-heading kern-heading--h3",
-    "ds-heading-03-bold": "kern-heading kern-heading--h3-bold",
-    "ds-subhead": "kern-heading kern-heading--subhead",
-    "ds-label-01-reg": "kern-heading kern-heading--label",
-    "ds-label-01-bold": "kern-heading kern-heading--label-bold",
-    "ds-label-02-reg": "kern-heading kern-heading--label-sm",
-    "ds-label-02-bold": "kern-heading kern-heading--label-sm-bold",
-    "ds-label-03-reg": "kern-heading kern-heading--label-xs",
-    "ds-label-03-bold": "kern-heading kern-heading--label-xs-bold",
-    "ds-label-section": "kern-heading kern-heading--section",
-    "ds-body-01-reg": "kern-text kern-text--body",
-    "ds-body-02-reg": "kern-text kern-text--body-sm",
+    "ds-heading-01-reg": "kern-heading-x-large",
+    "ds-heading-02-reg": "kern-heading-large",
+    "ds-heading-03-reg": "kern-heading-medium",
+    "ds-heading-03-bold": "kern-heading-medium kern-body--bold",
+    "ds-subhead": "kern-heading-small",
+    "ds-label-01-reg": "kern-label kern-label--large",
+    "ds-label-01-bold": "kern-label kern-label--large kern-body--bold",
+    "ds-label-02-reg": "kern-label",
+    "ds-label-02-bold": "kern-label kern-body--bold",
+    "ds-label-03-reg": "kern-label kern-label--small",
+    "ds-label-03-bold": "kern-label kern-label--small kern-body--bold",
+    "ds-label-section": "kern-label",
+    "ds-body-01-reg": "kern-body",
+    "ds-body-02-reg": "kern-body kern-body--small",
   };
 
-  const kernLook = look && look !== "default" ? kernLookMapping[look] || "kern-heading" : "kern-heading";
+  const kernLook =
+    look && look !== "default"
+      ? kernLookMapping[look] || "kern-heading-medium"
+      : "kern-heading-medium";
 
   return (
     <Tag
       ref={innerRef}
       tabIndex={tabIndex}
-      className={classNames(look === "default" ? "kern-heading" : kernLook, className)}
+      className={classNames(
+        look === "default" ? "kern-heading-medium" : kernLook,
+        className,
+      )}
       id={elementId}
     >
       {children ?? text}

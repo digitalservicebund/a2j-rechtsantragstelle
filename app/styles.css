@@ -1,7 +1,14 @@
-@import "tailwindcss";
+@layer theme, base, utilities;
 
-@import "@kern-ux/native/dist/kern.min.css";
-@import "@kern-ux/native/dist/fonts/fira-sans.css";
+@import "@kern-ux/native/dist/kern.min.css" layer(base);
+@import "@kern-ux/native/dist/fonts/fira-sans.css" layer(base);
+
+@import "tailwindcss" layer(theme);
+
+@import "@digitalservicebund/kern-ux-tailwind-theme/theme.css" layer(theme);
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 @config "@digitalservice4germany/style-dictionary/tailwind";
 @plugin "@digitalservice4germany/angie";
@@ -364,4 +371,22 @@ h1:focus {
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
     }
   }
+}
+
+/* KERN Stack Utilities - for vertical spacing between stacked elements */
+.kern-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.kern-stack > * + * {
+  margin-top: var(--kern-metric-space-default);
+}
+
+.kern-stack-small > * + * {
+  margin-top: var(--kern-metric-space-small);
+}
+
+.kern-stack-large > * + * {
+  margin-top: var(--kern-metric-space-large);
 }

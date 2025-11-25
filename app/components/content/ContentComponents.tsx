@@ -21,6 +21,7 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernInfoBox from "~/components/kern/KernInfoBox";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -70,7 +71,7 @@ function cmsToReact(
       case "page.hero":
         return <Hero {...componentProps} />;
       case "page.info-box":
-        return <InfoBox {...componentProps} />;
+        return <KernInfoBox {...componentProps} />;
       case "page.table-of-contents":
         return <TableOfContents {...componentProps} />;
       case "page.box-with-image":

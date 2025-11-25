@@ -42,7 +42,6 @@ function KernButton({
       "kern-btn--tertiary": look === "tertiary",
       "kern-btn--block": fullWidth,
     },
-    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black",
     props.className,
   );
 

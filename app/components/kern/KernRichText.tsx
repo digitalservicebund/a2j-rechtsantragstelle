@@ -4,9 +4,10 @@ export type RichTextProps = {
 };
 
 const KernRichText = ({ html, className }: RichTextProps) => {
+  console.log(html);
   return (
     <div
-      className={`kern-rich-text kern-stack-sm kern-body-text ${className ?? ""}`}
+      className="kern-body gap-kern-space-default flex flex-col"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
