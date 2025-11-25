@@ -1,6 +1,5 @@
 import { vi, describe, it, expect } from "vitest";
 import { action } from "../bundid.success";
-import { type ActionFunctionArgs } from "react-router";
 import { loader } from "../bundid";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
