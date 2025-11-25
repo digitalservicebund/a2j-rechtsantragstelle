@@ -44,8 +44,8 @@ jobs:
       - if: steps.fetchLatestImageContent.outcome == 'failure'
         run: npm ci && npm run build:localContent
         env:
-          STRAPI_API: "${{ secrets.STRAPI_API }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
+          STRAPI_API: "${{ vars.STRAPI_API }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
       - name: Calculate content checksum
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
@@ -60,8 +60,8 @@ jobs:
   # integration-tests:
   #   runs-on: ubuntu-latest
   #   env:
-  #     STRAPI_API: "${{ secrets.STRAPI_API }}"
-  #     STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
+  #     STRAPI_API: "${{ vars.STRAPI_API }}"
+  #     STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
   #   steps:
   #     - uses: actions/checkout@v6
   #     - uses: ./.github/actions/cached-checkout-install
