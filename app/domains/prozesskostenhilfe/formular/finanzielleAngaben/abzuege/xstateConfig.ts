@@ -1,5 +1,4 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { abzuegeDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/doneFunctions";
 import { finanzielleAngabeAbzuegeGuards as abzuegeGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/guards";
 import { pkhFormularFinanzielleAngabenAbzuegePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/pages";
 import type { Config } from "~/services/flow/server/types";
@@ -12,7 +11,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const finanzielleAngabenAbzuegeXstateConfig = {
   id: "abzuege",
   initial: steps.arbeitsweg.relative,
-  meta: { done: abzuegeDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.arbeitsweg.relative]: {
       on: {

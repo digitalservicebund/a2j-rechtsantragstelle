@@ -1,6 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { gerichtPruefenXstateConfig } from "./gericht-pruefen/xstateConfig";
-import { isBeklagtePerson } from "./stringReplacements";
+import { hasClaimVertrag, isBeklagtePerson } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 
 export const geldEinklagenFormular = {
@@ -9,6 +9,7 @@ export const geldEinklagenFormular = {
     ...isBeklagtePerson(context),
     postleitzahlBeklagtePerson: context.postleitzahlBeklagtePerson,
     postleitzahlSecondary: context.postleitzahlSecondary,
+    ...hasClaimVertrag(context),
   }),
   config: {
     id: "/geld-einklagen/formular",

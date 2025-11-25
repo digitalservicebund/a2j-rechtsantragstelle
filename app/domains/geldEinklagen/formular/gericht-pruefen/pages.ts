@@ -57,8 +57,8 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/reise-art",
     pageSchema: { reiseArt: z.enum(["flug", "andereReise"]) },
   },
-  sachgebietReiseStopp: {
-    stepId: "gericht-pruefen/sachgebiet/reise-stopp",
+  sachgebietReiseInfoFlug: {
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/reise-flug",
   },
   sachgebietVerkehrsunfallStrassenverkehr: {
     stepId: "gericht-pruefen/sachgebiet/verkehrsunfall-strassenverkehr",
@@ -147,8 +147,8 @@ export const geldEinklagenGerichtPruefenPages = {
       postleitzahlSecondary: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
-  gerichtSuchenStrasseNummerSekundaer: {
-    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-sekundaer",
+  gerichtSuchenStrasseNummer: {
+    stepId: "gericht-pruefen/gericht-suchen/strasse-nummer",
     pageSchema: {
       strasseSekundaer: stringRequiredSchema,
       strasseNummerSekundaer: germanHouseNumberSchema,

@@ -1,5 +1,4 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { partnerDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
 import { pkhFormularFinanzielleAngabenPartnerPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/pages";
 import {
   finanzielleAngabeEinkuenfteGuards,
@@ -17,7 +16,7 @@ export const partnerXstateConfig = {
   id: "partner",
   initial: steps.partnerschaft.relative,
   meta: {
-    done: partnerDone,
+    shouldAppearAsMenuNavigation: true,
   },
   states: {
     [steps.partnerschaft.relative]: {

@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/andere-unterhaltszahlungen/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
   noWeitereUnterhaltszahlungen: [
@@ -45,4 +47,8 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  UserDataFromPagesSchema<
+    typeof pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages
+  >
+>;

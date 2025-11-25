@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/regelmaessigeAusgaben/userData";
 
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
@@ -30,12 +31,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ausgaben",
-      userInput: {
-        ausgaben: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
-    // Inserted array indices are needed to correctly access the nested pageData
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/art",
       userInput: {
@@ -61,12 +57,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ausgaben",
-      userInput: {
-        ausgaben: [],
-        pageData: { arrayIndexes: [0] },
-      },
     },
-    // Inserted array indices are needed to correctly access the nested pageData
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/art",
       userInput: {
@@ -82,12 +73,6 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/laufzeit",
       userInput: {
         "ausgaben#hasZahlungsfrist": "yes",
-        ausgaben: [
-          {
-            hasZahlungsfrist: "yes",
-          },
-        ],
-        pageData: { arrayIndexes: [0] },
       },
     },
     {
@@ -96,4 +81,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData>;

@@ -1,4 +1,5 @@
 import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
+import InfoOutline from "@digitalservicebund/icons/InfoOutline";
 import HighlightOff from "@digitalservicebund/icons/HighlightOff";
 import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { useLoaderData } from "react-router";
@@ -12,6 +13,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
+import Button from "~/components/common/Button";
 
 const iconProps = {
   "aria-hidden": false,
@@ -32,8 +34,8 @@ const boxProps = {
     icon: <WarningAmber aria-label="Warnung" {...iconProps} />,
   },
   info: {
-    backgroundColor: "blue",
-    icon: <CheckCircleOutline aria-label="Information" {...iconProps} />,
+    backgroundColor: "midBlue",
+    icon: <InfoOutline aria-label="Information" {...iconProps} />,
   },
 } as const;
 
@@ -83,6 +85,11 @@ export function ResultPage() {
                 </Heading>
                 {cmsContent.hintText && (
                   <RichText html={cmsContent.hintText.html} />
+                )}
+                {cmsContent.hintButton && (
+                  <div className="flex flex-wrap mt-16">
+                    <Button {...cmsContent.hintButton} />
+                  </div>
                 )}
               </div>
             </div>

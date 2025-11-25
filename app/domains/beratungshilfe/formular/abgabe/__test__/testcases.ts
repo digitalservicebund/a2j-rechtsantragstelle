@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeAbgabeUserData } from "~/domains/beratungshilfe/formular/abgabe/userData";
+import { type BeratungshilfeWeitereAngabenUserData } from "~/domains/beratungshilfe/formular/weitereAngaben/userData";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -52,4 +54,6 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/ueberpruefung",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  BeratungshilfeAbgabeUserData & BeratungshilfeWeitereAngabenUserData
+>;

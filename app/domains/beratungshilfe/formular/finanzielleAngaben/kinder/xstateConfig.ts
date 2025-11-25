@@ -17,7 +17,6 @@ import {
   kindWohnortBeiAntragstellerNo,
   kindWohnortBeiAntragstellerYes,
 } from "../guards";
-import { kinderDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenKinderPages,
@@ -26,7 +25,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const beratungshilfeFinanzielleAngabenKinderXstateConfig = {
   id: "kinder",
   initial: steps.kinderFrage.relative,
-  meta: { done: kinderDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.kinderFrage.relative]: {
       on: {

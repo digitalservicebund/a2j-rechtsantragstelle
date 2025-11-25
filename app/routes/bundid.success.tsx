@@ -1,10 +1,7 @@
 import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
-import * as samlify from "samlify";
-import {
-  getBundIdIdentityProvider,
-  getBundIdServiceProvider,
-} from "~/services/bundid/index.server";
+import z from "zod";
+import { validateSamlResponse } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 export const loader = async () => {
@@ -12,44 +9,14 @@ export const loader = async () => {
   return null;
 };
 
+const samlResponseSchema = z.object({ SAMLResponse: z.string() });
+
 export const action = async ({ request }: ActionFunctionArgs) => {
   await throw404IfFeatureFlagDisabled("showBundID");
 
   const formData = await request.formData();
-  const samlResponse = formData.get("SAMLResponse");
-
-  if (typeof samlResponse !== "string") {
-    throw new Error("Invalid SAML Response");
-  }
-
-  const samlHttpRequest = {
-    body: {
-      SAMLResponse: samlResponse,
-    },
-  };
-
-  const identityProvider = getBundIdIdentityProvider();
-  const serviceProvider = getBundIdServiceProvider();
-
-  samlify.setSchemaValidator({
-    validate: (_: string) => {
-      return Promise.resolve("skipped");
-    },
-  });
-
-  const response = await serviceProvider.parseLoginResponse(
-    identityProvider,
-    "post",
-    samlHttpRequest,
-  );
-  const responseAttributes = response.extract.attributes;
-
-  const BUNDID_PRENAME_KEY = "urn:oid:2.5.4.42";
-  const BUNDID_SURNAME_KEY = "urn:oid:2.5.4.4";
-  return {
-    prename: responseAttributes[BUNDID_PRENAME_KEY],
-    surname: responseAttributes[BUNDID_SURNAME_KEY],
-  };
+  const formEntries = Object.fromEntries(formData.entries());
+  return await validateSamlResponse(samlResponseSchema.parse(formEntries));
 };
 
 export default function View() {
@@ -57,7 +24,7 @@ export default function View() {
   return (
     <div>
       <div>
-        <span>Vorname: {actionData?.prename}</span>
+        <span>Vorname: {actionData?.givenName}</span>
       </div>
       <div>
         <span>Nachname: {actionData?.surname}</span>

@@ -1,7 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/andere-unterhaltszahlungen/pages";
 import type { Config } from "~/services/flow/server/types";
-import { andereUnterhaltszahlungenDone } from "../doneFunctions";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import { hasWeitereUnterhaltszahlungenYesAndEmptyArray } from "../guards";
 
@@ -11,7 +10,7 @@ const steps = xStateTargetsFromPagesConfig(
 
 export const andereUnterhaltszahlungenXstateConfig = {
   id: "andere-unterhaltszahlungen",
-  meta: { done: andereUnterhaltszahlungenDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   initial: steps.andereUnterhaltszahlungenFrage.relative,
   states: {
     [steps.andereUnterhaltszahlungenFrage.relative]: {
