@@ -21,21 +21,20 @@ const KernInfoBox = ({
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      //   className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       className="gap-kern-space-small"
       id={identifier}
     >
       {heading && <Heading {...heading} />}
       {items.length > 0 && (
         <div
-          className={classNames("ps-0 info-box ds-stack py-24", {
-            "ds-stack-48": !separator,
-            "ds-stack-32": separator,
-          })}
+          // className={classNames("ps-0 info-box ds-stack py-24", {
+          //   "ds-stack-48": !separator,
+          //   "ds-stack-32": separator,
+          // })}
           data-testid="info-box-item-container"
         >
           {items.map((item) => (
-            <KernInfoBoxItem separator={separator} key={item.id} {...item} />
+            <KernInfoBoxItem key={item.id} {...item} />
           ))}
         </div>
       )}

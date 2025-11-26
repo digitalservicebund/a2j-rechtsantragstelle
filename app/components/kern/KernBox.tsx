@@ -27,17 +27,16 @@ const KernBox = ({
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      style={{
-        paddingTop: "var(--kern-metric-space-large)",
-        paddingBottom: "var(--kern-metric-space-x-large)",
-        paddingLeft: "var(--kern-metric-space-x-large)",
-        paddingRight: "var(--kern-metric-space-default)",
-      }}
+      className="py-32 px-16"
       id={identifier}
     >
-      <div className="gap-kern-space-x-large flex flex-col">
+      <div className="gap-kern-space-x-large flex flex-col ">
         <div className="kern-stack-sm">
-          {label && <KernHeading {...label} />}
+          {label && (
+            <p className="kern-label text-kern-layout-text-muted!">
+              {label.text}
+            </p>
+          )}
           {heading && <KernHeading {...heading} />}
           {content && (
             <div className="kern-text-container">

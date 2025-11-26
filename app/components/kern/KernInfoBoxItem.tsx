@@ -13,6 +13,7 @@ import {
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernHeading from "./KernHeading";
+import KernButton from "./KernButton";
 
 export type KernInfoBoxItemProps = {
   id: number; // Strapi id
@@ -37,7 +38,6 @@ const KernInfoBoxItem = ({
   details,
   inlineNotices,
   buttons,
-  separator,
   accordion,
 }: KernInfoBoxItemProps) => {
   return (
@@ -45,10 +45,6 @@ const KernInfoBoxItem = ({
       id={identifier}
       className={classNames(
         "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col first:pt-0 scroll-my-40",
-        {
-          "pt-32 border-0 border-solid border-0 border-t-2 border-gray-400 first:border-none":
-            separator,
-        },
       )}
     >
       {image && (
@@ -62,7 +58,7 @@ const KernInfoBoxItem = ({
           image ? "min-[500px]:ml-16" : ""
         }`}
       >
-        {label && <KernHeading {...label} />}
+        {/* {label && <KernHeading {...label} />} */}
         {headline && <KernHeading {...headline} />}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
@@ -74,7 +70,7 @@ const KernInfoBoxItem = ({
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
             {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
+              <KernButton key={button.text ?? button.href} {...button} />
             ))}
           </ButtonContainer>
         )}
