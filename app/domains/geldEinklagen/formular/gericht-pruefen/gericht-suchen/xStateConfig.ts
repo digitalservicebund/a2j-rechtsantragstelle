@@ -19,11 +19,13 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklagenFormularGerichtPruefenUserData> =
   [
     {
-      guard: ({ context }) => getPilotCourts(context).length === 0,
+      guard: ({ context }) =>
+        getPilotCourts(context).length === 0 && doneGerichtSuchen({ context }),
       target: "#zustaendiges-gericht.ergebnis/gericht-abbruch",
     },
     {
-      guard: ({ context }) => getPilotCourts(context).length === 2,
+      guard: ({ context }) =>
+        getPilotCourts(context).length === 2 && doneGerichtSuchen({ context }),
       target: steps.zustaendigesGerichtPilotGerichtAuswahl.absolute,
     },
     {
