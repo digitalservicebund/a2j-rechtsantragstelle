@@ -12,6 +12,7 @@ import {
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../gericht-suchen/guards";
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
+import { zustaendigesGerichtDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -55,9 +56,9 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
 
 export const zustaendigesGerichtXstateConfig = {
   id: "zustaendiges-gericht",
-  initial: "pilot-gericht",
+  initial: "check-initial-page",
   states: {
-    [steps.zustaendigesGerichtPilotGericht.relative]: {
+    "check-initial-page": {
       always: [
         {
           guard: ({ context }) => getPilotCourts(context).length === 0,
@@ -71,15 +72,26 @@ export const zustaendigesGerichtXstateConfig = {
           target: steps.zustaendigesGerichtPilotGericht.relative,
         },
       ],
-      on: {
-        BACK: [...backButtonGerichtSuchenFlow],
-        SUBMIT: "#klage-erstellen.intro.start",
-      },
     },
     [steps.zustaendigesGerichtPilotGerichtAuswahl.relative]: {
       on: {
         BACK: backButtonGerichtSuchenFlow,
-        SUBMIT: steps.zustaendigesGerichtPilotGericht.relative,
+        SUBMIT: steps.zustaendigesGerichtPilotGericht.absolute,
+      },
+    },
+    [steps.zustaendigesGerichtPilotGericht.relative]: {
+      on: {
+        BACK: [
+          {
+            guard: ({ context }) => getPilotCourts(context).length === 2,
+            target: steps.zustaendigesGerichtPilotGerichtAuswahl.relative,
+          },
+          ...backButtonGerichtSuchenFlow,
+        ],
+        SUBMIT: {
+          guard: zustaendigesGerichtDone,
+          target: "#klage-erstellen.intro.start",
+        },
       },
     },
     "ergebnis/gericht-abbruch": {

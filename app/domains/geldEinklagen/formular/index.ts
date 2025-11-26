@@ -28,7 +28,9 @@ export const geldEinklagenFormular = {
             initial: "start",
             states: {
               start: {
-                on: {},
+                on: {
+                  BACK: "#gericht-pruefen.zustaendiges-gericht.pilot-gericht",
+                },
               },
             },
           },
