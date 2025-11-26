@@ -164,6 +164,7 @@ function App() {
   const { title, ogTitle, description } = metaFromMatches(matches);
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
+  const isHomepage = pathname === "/";
 
   // oxlint-disable-next-line no-console
   if (typeof window !== "undefined") console.log(consoleMessage);
@@ -188,6 +189,12 @@ function App() {
           name="darkreader-lock"
           content="1e82dc17-d02f-4566-8487-ae413a504055"
         />
+        {isHomepage && (
+          <meta
+            name="google-site-verification"
+            content="FiIRxI-2p2xlxiXU2sfkQnMJGfFcsrULQr21f-JQxGA"
+          />
+        )}
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
