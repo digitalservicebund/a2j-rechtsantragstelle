@@ -1,14 +1,14 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
+const ZIP_CODE_PILOT_COURT = "10823";
+
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal5000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "urheberrecht",
   gegenWenBeklagen: "person",
-  postleitzahlBeklagtePerson: "000800",
-  postleitzahlSecondary: "000800",
 };
 
 export const testCasesGerichtSuchenUrheberrecht = [
@@ -19,6 +19,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
@@ -32,6 +33,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -44,6 +46,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       klagendeKaufmann: "yes",
       beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -55,6 +58,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       ...baseContext,
       klagendeKaufmann: "yes",
       beklagtePersonGeldVerdienen: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -67,11 +71,13 @@ export const testCasesGerichtSuchenUrheberrecht = [
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       beklagtePersonGeldVerdienen: "yes",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -80,6 +86,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       beklagtePersonGeldVerdienen: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -93,6 +100,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -105,6 +113,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       gegenWenBeklagen: "organisation",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -117,11 +126,13 @@ export const testCasesGerichtSuchenUrheberrecht = [
       gegenWenBeklagen: "organisation",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -130,6 +141,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       gegenWenBeklagen: "organisation",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",

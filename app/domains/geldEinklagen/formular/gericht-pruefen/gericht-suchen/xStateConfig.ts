@@ -20,7 +20,7 @@ const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklage
   [
     {
       guard: ({ context }) => getPilotCourts(context).length === 0,
-      target: "ergebnis/gericht-abbruch",
+      target: "#zustaendiges-gericht.ergebnis/gericht-abbruch",
     },
     {
       guard: ({ context }) => getPilotCourts(context).length === 2,
