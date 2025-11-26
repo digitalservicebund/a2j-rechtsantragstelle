@@ -22,6 +22,9 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 import KernInfoBox from "~/components/kern/KernInfoBox";
+import KernTableOfContents from "../kern/KernTableOfContents";
+import KernHero from "../kern/KernHero";
+import KernHeroWithButton from "../kern/KernHeroWithButton";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -69,11 +72,13 @@ function cmsToReact(
       case "page.box":
         return <KernBox {...componentProps} />;
       case "page.hero":
-        return <Hero {...componentProps} />;
+        return <KernHero {...componentProps} />;
+      case "page.hero-button":
+        return <KernHeroWithButton {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
       case "page.table-of-contents":
-        return <TableOfContents {...componentProps} />;
+        return <KernTableOfContents {...componentProps} />;
       case "page.box-with-image":
         return <BoxWithImage {...componentProps} />;
       case "page.list":
