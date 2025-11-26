@@ -11,6 +11,9 @@ runs:
     - name: Grab node version
       run: echo "NODE_VERSION=$(node --version)" >> $GITHUB_ENV
       shell: bash
+    - name: Disable npm script execution
+      run: npm config set ignore-scripts true
+      shell: bash
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v4
