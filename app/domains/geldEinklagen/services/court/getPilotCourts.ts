@@ -25,16 +25,20 @@ const buildGerbehIndex = (data: Jmtd14VTErwerberGerbeh): GerbehIndex => {
 const getPilotCourt = (
   zipCode: string,
   street: string | undefined,
-  houseNumber: string | undefined,
+  streetNumber: string | undefined,
 ): Result<Jmtd14VTErwerberGerbeh, Unit> => {
   const edgeCases = edgeCasesForPlz(zipCode);
 
   // Check for the zip code edge cases if street or house number is missing
-  if (edgeCases.length > 0 && (!street || !houseNumber)) {
+  if (edgeCases.length > 0 && (!street || !streetNumber)) {
     return Result.err();
   }
 
-  const courtData = findCourt({ zipCode, streetSlug: street, houseNumber });
+  const courtData = findCourt({
+    zipCode,
+    streetSlug: street,
+    houseNumber: streetNumber,
+  });
 
   if (!courtData) {
     return Result.err();
