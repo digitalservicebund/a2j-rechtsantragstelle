@@ -9,6 +9,14 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ### Local development
 
+Disable execution of npm scripts to reduce attack surface for supply chain attacks:
+
+```sh
+npm config set ignore-scripts true
+```
+
+Then, install npm dependencies, start necessary services and run the app:
+
 ```sh
 npm install
 docker compose up -d
