@@ -1,12 +1,16 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";
+import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
+import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiHeadingSchema } from "./StrapiHeading";
 import { StrapiParagraphSchema } from "./StrapiParagraph";
 
-export const StrapiHeroSchema = z.object({
+export const StrapiHeroWithButtonSchema = z.object({
   heading: StrapiHeadingSchema,
   content: StrapiParagraphSchema.nullable().transform(omitNull),
-  __component: z.literal("page.hero"),
+  outerBackground: StrapiBackgroundOptionalSchema,
+  button: StrapiButtonSchema.nullable().transform(omitNull),
+  __component: z.literal("page.hero-button"),
   ...HasStrapiIdSchema.shape,
 });
