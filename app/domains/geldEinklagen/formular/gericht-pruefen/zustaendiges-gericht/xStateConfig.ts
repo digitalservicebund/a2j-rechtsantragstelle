@@ -24,11 +24,6 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
       target: steps.gerichtSuchenStrasseNummer.absolute,
     },
     {
-      guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-        edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
-      target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
-    },
-    {
       guard: shouldVisitGerichtSuchenPostleitzahlWohnraum,
       target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
     },
@@ -48,6 +43,11 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
     {
       guard: ({ context }) => context.sachgebiet === "schaden",
       target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.absolute,
+    },
+    {
+      guard: ({ context: { postleitzahlBeklagtePerson } }) =>
+        edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+      target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
     },
     {
       target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
