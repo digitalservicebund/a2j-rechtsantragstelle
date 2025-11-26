@@ -1,5 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { type Config } from "~/services/flow/server/types";
+import type {
+  TransitionConfigOrTarget,
+  Config,
+} from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import {
@@ -9,8 +12,25 @@ import {
 } from "./guards";
 import { doneGerichtSuchen } from "./doneFunctions";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
+
+const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklagenFormularGerichtPruefenUserData> =
+  [
+    {
+      guard: ({ context }) => getPilotCourts(context).length === 0,
+      target: "ergebnis/gericht-abbruch",
+    },
+    {
+      guard: ({ context }) => getPilotCourts(context).length === 2,
+      target: steps.zustaendigesGerichtPilotGerichtAuswahl.absolute,
+    },
+    {
+      guard: doneGerichtSuchen,
+      target: steps.zustaendigesGerichtPilotGericht.absolute,
+    },
+  ];
 
 export const gerichtSuchenXstateConfig = {
   id: "gericht-suchen",
@@ -50,10 +70,7 @@ export const gerichtSuchenXstateConfig = {
             guard: ({ context }) => context.sachgebiet === "schaden",
             target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
         BACK: [
           {
@@ -101,10 +118,7 @@ export const gerichtSuchenXstateConfig = {
             guard: ({ context }) => context.sachgebiet === "schaden",
             target: steps.gerichtSuchenPostleitzahlUnerlaubtePerson.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -124,10 +138,7 @@ export const gerichtSuchenXstateConfig = {
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -147,10 +158,7 @@ export const gerichtSuchenXstateConfig = {
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -170,10 +178,7 @@ export const gerichtSuchenXstateConfig = {
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -186,10 +191,7 @@ export const gerichtSuchenXstateConfig = {
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -202,10 +204,7 @@ export const gerichtSuchenXstateConfig = {
               edgeCasesForPlz(postleitzahlSecondary).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
-          {
-            guard: doneGerichtSuchen,
-            target: steps.zustaendigesGerichtPilotGericht.absolute,
-          },
+          ...submitButtonZustaendigesGerichtFlow,
         ],
       },
     },
@@ -236,10 +235,7 @@ export const gerichtSuchenXstateConfig = {
                 .relative,
           },
         ],
-        SUBMIT: {
-          guard: doneGerichtSuchen,
-          target: steps.zustaendigesGerichtPilotGericht.absolute,
-        },
+        SUBMIT: submitButtonZustaendigesGerichtFlow,
       },
     },
   },

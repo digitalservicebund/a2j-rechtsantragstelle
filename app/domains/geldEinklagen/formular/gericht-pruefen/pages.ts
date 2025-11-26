@@ -157,4 +157,13 @@ export const geldEinklagenGerichtPruefenPages = {
   zustaendigesGerichtPilotGericht: {
     stepId: "gericht-pruefen/zustaendiges-gericht/pilot-gericht",
   },
+  zustaendigesGerichtPilotGerichtAuswahl: {
+    stepId: "gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
+    pageSchema: {
+      pilotGerichtAuswahl: z.enum(["beklagteCourt", "sekundaerCourt"]),
+    },
+  },
+  zustaendigesGerichtGerichtAbbruch: {
+    stepId: "gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
+  },
 } as const satisfies PagesConfig;
