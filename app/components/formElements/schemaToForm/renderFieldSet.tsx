@@ -1,15 +1,9 @@
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { arrayIsNonEmpty } from "~/util/array";
 import { useLocation } from "react-router";
-import Image from "~/components/common/Image";
-import RichText from "~/components/common/RichText";
-import { SchemaComponents } from "../SchemaComponents";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import classNames from "classnames";
-
-const IMAGE_HEIGHT = 24;
-const IMAGE_WIDTH = 24;
+import { FieldSetSchema } from "../FieldSet";
 
 export const isFieldSetComponent = (
   fieldName: string,
@@ -32,13 +26,13 @@ const getFieldSetPageSchema = (
 ) => {
   const pageSchema = getPageSchema(pathname);
 
-  if (!pageSchema) return null;
-
-  return Object.fromEntries(
-    Object.entries(pageSchema).filter(([key]) =>
-      formComponents.some((fc) => fc.name === key),
-    ),
-  );
+  return pageSchema
+    ? Object.fromEntries(
+        Object.entries(pageSchema).filter(([key]) =>
+          formComponents.some((fc) => fc.name === key),
+        ),
+      )
+    : null;
 };
 
 export const renderFieldSet = (
@@ -66,25 +60,12 @@ export const renderFieldSet = (
   if (!pageSchema) return null;
 
   return (
-    <fieldset key={id}>
-      <legend className="md:flex md:gap-8">
-        {image && (
-          <Image
-            {...image}
-            height={IMAGE_HEIGHT}
-            width={IMAGE_WIDTH}
-            ariaHidden={true}
-          />
-        )}
-        <RichText html={heading} />
-      </legend>
-
-      <SchemaComponents
-        pageSchema={pageSchema}
-        formComponents={fieldSetGroup.formComponents}
-        className={classNames("pt-16 !ds-stack-16", { "md:pl-32": image })}
-        skipFieldSet
-      />
-    </fieldset>
+    <FieldSetSchema
+      key={id}
+      fieldSetGroup={fieldSetGroup}
+      heading={heading}
+      image={image}
+      pageSchema={pageSchema}
+    />
   );
 };
