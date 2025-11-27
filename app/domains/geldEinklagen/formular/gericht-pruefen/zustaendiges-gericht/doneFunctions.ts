@@ -11,10 +11,6 @@ export const zustaendigesGerichtDone: GeldEinklagenGerichtPruefenDaten = ({
 }) => {
   const qtyPilotCourts = getPilotCourts(context).length;
 
-  if (qtyPilotCourts === 0) {
-    return false;
-  }
-
   return (
     qtyPilotCourts == 1 ||
     (qtyPilotCourts === 2 &&
