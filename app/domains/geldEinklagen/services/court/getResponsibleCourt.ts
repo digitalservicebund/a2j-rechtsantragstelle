@@ -12,9 +12,11 @@ export const getResponsibleCourt = (context: GeldEinklagenFormularUserData) => {
     return undefined;
   }
 
-  if (pilotGerichtAuswahl !== undefined && courts.length === 2) {
-    const [primary, secondary] = courts;
-    return pilotGerichtAuswahl === "beklagteCourt" ? primary : secondary;
+  if (courts.length === 2) {
+    const [beklagteCourt, secondaryCourt] = courts;
+    return pilotGerichtAuswahl === "beklagteCourt"
+      ? beklagteCourt
+      : secondaryCourt;
   }
 
   return courts[0];
