@@ -7,6 +7,15 @@ import {
 } from "~/services/validation/checkedCheckbox";
 import { SchemaComponents } from "../SchemaComponents";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import { getPageSchema } from "~/domains/pageSchemas";
+
+vi.mock("~/domains/pageSchemas");
+
+const mockGetPageSchema = (pageSchema: any) => {
+  vi.mocked(getPageSchema).mockReturnValue(pageSchema);
+};
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
@@ -17,11 +26,18 @@ describe("SchemaComponents", () => {
       defaultValues: {},
     });
 
-    return (
-      <FormProvider scope={form.scope()}>
-        <SchemaComponents {...props} />
-      </FormProvider>
-    );
+    const router = createMemoryRouter([
+      {
+        path: "/",
+        element: (
+          <FormProvider scope={form.scope()}>
+            <SchemaComponents {...props} />
+          </FormProvider>
+        ),
+      },
+    ]);
+
+    return <RouterProvider router={router} />;
   }
 
   it("should render correct text inputs ", () => {
@@ -225,5 +241,57 @@ describe("SchemaComponents", () => {
       <WrappedSchemaComponents pageSchema={pageSchema} formComponents={[]} />,
     );
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
+  });
+
+  it("should render a fieldset component with two input components", () => {
+    const mockFormComponentsWithFieldSet = [
+      {
+        heading: "heading fieldset",
+        __component: "form-elements.fieldset",
+        fieldSetGroup: {
+          formComponents: [
+            {
+              name: "field1",
+              label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
+              errorMessages: [],
+              type: "text",
+              width: "10",
+              id: 76,
+              __component: "form-elements.input",
+            },
+            {
+              name: "field2",
+              label: "Zeit geplanter Abflug (z.B. 09:08)",
+              placeholder: undefined,
+              type: "text",
+              width: "10",
+              errorMessages: [],
+              id: 40,
+              __component: "form-elements.input",
+            },
+          ],
+        },
+        id: 1,
+      },
+    ] as StrapiFormComponent[];
+
+    const mockPageSchema = {
+      field1: z.string(),
+      field2: z.string(),
+    };
+
+    mockGetPageSchema(mockPageSchema);
+
+    const { getAllByRole, getByText } = render(
+      <WrappedSchemaComponents
+        pageSchema={mockPageSchema}
+        formComponents={mockFormComponentsWithFieldSet}
+      />,
+    );
+    const inputs = getAllByRole("textbox");
+    expect(getByText("heading fieldset")).toBeInTheDocument();
+    expect(inputs.length).toBe(2);
+    expect(inputs[0]).toHaveAttribute("name", "field1");
+    expect(inputs[1]).toHaveAttribute("name", "field2");
   });
 });
