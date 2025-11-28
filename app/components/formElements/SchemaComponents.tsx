@@ -23,7 +23,6 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-  skipFieldSet?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -62,11 +61,10 @@ export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  skipFieldSet = false,
 }: Props) => (
   <div className={classNames("ds-stack ds-stack-40", className)}>
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-      if (isFieldSetComponent(fieldName, formComponents) && !skipFieldSet) {
+      if (isFieldSetComponent(fieldName, formComponents)) {
         return renderFieldSet(fieldName, formComponents!);
       }
 
