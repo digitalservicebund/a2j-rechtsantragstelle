@@ -10,6 +10,7 @@ type Config = {
   STRAPI_ACCESS_KEY: string;
   CMS: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
+  GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
@@ -46,6 +47,10 @@ export function config(): Config {
     GERICHTSFINDER_ENCRYPTION_KEY: readSecretOrEnvVar(
       "/etc/courtdata-secrets/password",
       "GERICHTSFINDER_ENCRYPTION_KEY",
+    ),
+    GERICHTSFINDER_ENCRYPTION_KEY_OLD: readSecretOrEnvVar(
+      "/etc/courtdata-secrets/password-old",
+      "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
     ),
     REDIS_ENDPOINT: process.env.REDIS_ENDPOINT ?? "localhost:6380",
     REDIS_PASSWORD: readSecretOrEnvVar(

@@ -13,6 +13,7 @@ import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip
 import { env } from "node:process";
 
 const getEncryptionKey = () => config().GERICHTSFINDER_ENCRYPTION_KEY;
+const getEncryptionKeyOld = () => config().GERICHTSFINDER_ENCRYPTION_KEY_OLD;
 const OUTFILE = path.resolve(
   path.join(process.cwd(), "data/courts/courtData.enc"),
 );
@@ -82,8 +83,7 @@ function tryDecrypt(key?: string, showError = true) {
 export function getEncrypted(): Record<string, any> {
   // if global.__encData is undefined, try to decrypt using the current key and fallback to the old key
   global.__encData ??=
-    tryDecrypt(env.GERICHTSFINDER_ENCRYPTION_KEY, false) ??
-    tryDecrypt(env.GERICHTSFINDER_ENCRYPTION_KEY_OLD);
+    tryDecrypt(getEncryptionKey(), false) ?? tryDecrypt(getEncryptionKeyOld());
   return global.__encData ?? {};
 }
 
