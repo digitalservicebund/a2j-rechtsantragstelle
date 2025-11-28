@@ -12,8 +12,9 @@ type FieldSetProps = Readonly<
 >;
 
 type FieldSetSchemaProps = Readonly<
-  Pick<StrapiFieldSet, "fieldSetGroup" | "heading" | "image"> & {
+  Pick<StrapiFieldSet, "heading" | "image"> & {
     pageSchema: SchemaObject;
+    formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
   }
 >;
 
@@ -53,7 +54,7 @@ export const FieldSet = ({
 // TODO - rename after remove the FieldSet component
 export const FieldSetSchema = ({
   heading,
-  fieldSetGroup: { formComponents },
+  formComponents,
   image,
   pageSchema,
 }: FieldSetSchemaProps) => {

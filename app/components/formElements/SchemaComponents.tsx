@@ -14,7 +14,7 @@ import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import HiddenInput from "./HiddenInput";
 import {
-  isFieldSetComponent,
+  getFieldSetByFieldName,
   renderFieldSet,
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
@@ -64,8 +64,13 @@ export const SchemaComponents = ({
 }: Props) => (
   <div className={classNames("ds-stack ds-stack-40", className)}>
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-      if (isFieldSetComponent(fieldName, formComponents)) {
-        return renderFieldSet(fieldName, formComponents!);
+      const fieldSetGroup = getFieldSetByFieldName(
+        fieldName,
+        formComponents ?? [],
+      );
+
+      if (fieldSetGroup !== undefined) {
+        return renderFieldSet(fieldName, fieldSetGroup);
       }
 
       const matchingElement = formComponents

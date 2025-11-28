@@ -72,7 +72,7 @@ describe("FieldSetSchema", () => {
     const { getByRole, getByText } = render(
       <FieldSetSchema
         heading="anyHeading"
-        fieldSetGroup={mockFieldSetGroup}
+        formComponents={mockFieldSetGroup.formComponents}
         pageSchema={mockPageSchema}
       />,
     );
@@ -86,7 +86,7 @@ describe("FieldSetSchema", () => {
     const { container } = render(
       <FieldSetSchema
         heading="anyHeading"
-        fieldSetGroup={mockFieldSetGroup}
+        formComponents={mockFieldSetGroup.formComponents}
         pageSchema={mockPageSchema}
         image={{
           url: "/test.png",
