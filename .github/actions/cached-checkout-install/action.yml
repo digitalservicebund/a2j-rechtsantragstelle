@@ -3,26 +3,18 @@ description: "Checks out repository, downloads node, caches node_modules and ins
 runs:
   using: "composite"
   steps:
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
+      with:
+        run_install: false
     - name: Setup Node
       uses: actions/setup-node@v6
       with:
         node-version: "24.x"
-        cache: "npm"
+        cache: "pnpm"
     - name: Grab node version
       run: echo "NODE_VERSION=$(node --version)" >> $GITHUB_ENV
       shell: bash
-    - name: Disable npm script execution
-      run: npm config set ignore-scripts true
-      shell: bash
-    - name: Cache node modules
-      id: cache-npm
-      uses: actions/cache@v4
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ./node_modules
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: Perform a clean install of node dependencies
-      run: npm ci
+    - name: Perform a clean install of node dependencies
+      run: pnpm i --frozen-lockfile
       shell: bash
