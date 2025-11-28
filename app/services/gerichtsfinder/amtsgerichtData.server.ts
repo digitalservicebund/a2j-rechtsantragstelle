@@ -37,17 +37,17 @@ const courtAddress = (
 };
 
 export const courtForPlz = (PLZ: string | undefined) => {
-  const plzDb = getCourtData()[
-    "JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"
-  ] as PlzOrtkFile;
+  const plzDb = getCourtData()["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"] as
+    | PlzOrtkFile
+    | undefined;
   return PLZ && plzDb && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
 };
 
 export const edgeCasesForPlz = (PLZ: string | undefined) => {
   const edgeCaseDb = getCourtData()[
     "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"
-  ] as PlzStrnFile;
-  return PLZ && PLZ in edgeCaseDb ? edgeCaseDb[PLZ] : [];
+  ] as PlzStrnFile | undefined;
+  return PLZ && edgeCaseDb && PLZ in edgeCaseDb ? edgeCaseDb[PLZ] : [];
 };
 
 const buildGerbehIndex = (
