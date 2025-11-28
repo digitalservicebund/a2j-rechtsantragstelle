@@ -12,7 +12,7 @@ vi.mock("~/services/cms/index.server.ts", () => ({
   fetchTranslations: vi.fn().mockResolvedValue({}),
 }));
 
-describe.skip("pdfDownloadLoader", () => {
+describe("pdfDownloadLoader", () => {
   it("generates correct PDF for Beratungshilfe", async () => {
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));

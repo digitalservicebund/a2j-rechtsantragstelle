@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import { beratungshilfePdfFromUserdata } from "..";
 
 // NOTE: pdf tests are computationally expensive, therefore we have two expect() statements in this test
-describe.skip("beratungshilfePdfFromUserdata", () => {
+describe("beratungshilfePdfFromUserdata", () => {
   const mockSessionId = "mock-session-id";
   it("values are set from context, even for non-ascii and emojis", async () => {
     const pdfDoc = await PDFDocument.load(
