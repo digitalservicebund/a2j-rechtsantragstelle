@@ -13,10 +13,16 @@ import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import HiddenInput from "./HiddenInput";
+import {
+  getFieldSetByFieldName,
+  renderFieldSet,
+} from "./schemaToForm/renderFieldSet";
+import classNames from "classnames";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
+  className?: string;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -51,14 +57,25 @@ const renderSpecialMetaDescriptions = (
   }
 };
 
-export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
-  <div className="ds-stack ds-stack-40">
+export const SchemaComponents = ({
+  pageSchema,
+  formComponents,
+  className,
+}: Props) => (
+  <div className={classNames("ds-stack ds-stack-40", className)}>
     {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-      const nestedSchema = getNestedSchema(fieldSchema);
+      const fieldSetGroup = getFieldSetByFieldName(
+        fieldName,
+        formComponents ?? [],
+      );
+
+      if (fieldSetGroup !== undefined) {
+        return renderFieldSet(fieldName, fieldSetGroup);
+      }
+
       const matchingElement = formComponents
         ?.filter(
           (formComponents) =>
-            // TODO - revisit this code later. For more details check this link https://github.com/digitalservicebund/a2j-rechtsantragstelle/pull/2309#discussion_r2200352159
             formComponents.__component !== "form-elements.fieldset",
         )
         .find(({ name }) => name === fieldName);
@@ -70,6 +87,8 @@ export const SchemaComponents = ({ pageSchema, formComponents }: Props) => (
           matchingElement,
         );
       }
+
+      const nestedSchema = getNestedSchema(fieldSchema);
 
       if (isZodObject(nestedSchema)) {
         return renderZodObject(nestedSchema, fieldName, formComponents);

@@ -4,9 +4,18 @@ import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFi
 import Image from "../common/Image";
 import RichText from "../common/RichText";
 import { FormComponent } from "../FormComponents";
+import { type SchemaObject } from "~/domains/userData";
+import { SchemaComponents } from "./SchemaComponents";
 
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "fieldSetGroup" | "heading" | "image">
+>;
+
+type FieldSetSchemaProps = Readonly<
+  Pick<StrapiFieldSet, "heading" | "image"> & {
+    pageSchema: SchemaObject;
+    formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
+  }
 >;
 
 const IMAGE_HEIGHT = 24;
@@ -38,6 +47,35 @@ export const FieldSet = ({
           <FormComponent componentProps={componentProps} />
         </div>
       ))}
+    </fieldset>
+  );
+};
+
+// TODO - rename after remove the FieldSet component
+export const FieldSetSchema = ({
+  heading,
+  formComponents,
+  image,
+  pageSchema,
+}: FieldSetSchemaProps) => {
+  return (
+    <fieldset>
+      <legend className="md:flex md:gap-8">
+        {image && (
+          <Image
+            {...image}
+            height={IMAGE_HEIGHT}
+            width={IMAGE_WIDTH}
+            ariaHidden={true}
+          />
+        )}
+        <RichText html={heading} />
+      </legend>
+      <SchemaComponents
+        pageSchema={pageSchema}
+        formComponents={formComponents}
+        className={classNames("pt-16 !ds-stack-16", { "md:pl-32": image })}
+      />
     </fieldset>
   );
 };
