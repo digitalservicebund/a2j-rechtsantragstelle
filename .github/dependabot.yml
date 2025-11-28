@@ -10,6 +10,8 @@ updates:
       # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#scheduletime
       time: "08:00"
       timezone: "Europe/Berlin"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10 # Increase the limit to 10 pull requests
     groups:
       storybook:
