@@ -39,18 +39,20 @@ export type Config<TContext extends MachineContext = UserData> = MachineConfig<
   never,
   Meta<TContext>
 >;
-type TransitionConfigOrTarget<TUserData extends MachineContext = UserData> =
-  XStateTransitionConfigOrTarget<
-    TUserData,
-    FlowStateMachineEvents,
-    FlowStateMachineEvents,
-    never,
-    never,
-    { type: string; params: unknown },
-    never,
-    never,
-    Meta
-  >;
+
+export type TransitionConfigOrTarget<
+  TUserData extends MachineContext = UserData,
+> = XStateTransitionConfigOrTarget<
+  TUserData,
+  FlowStateMachineEvents,
+  FlowStateMachineEvents,
+  never,
+  never,
+  { type: string; params: unknown },
+  never,
+  never,
+  Meta
+>;
 
 export type FlowConfigTransitions = {
   backToCallingFlow?: TransitionConfigOrTarget;

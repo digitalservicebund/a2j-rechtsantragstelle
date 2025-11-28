@@ -22,7 +22,7 @@ export const getMobileButtonAreaTitles = (
   const currentAreaStepStepperIndex = stepsStepper.findIndex(({ state }) =>
     stateIsCurrent(state),
   );
-  const qtdStepsStepper = stepsStepper.length;
+  const qtyStepsStepper = stepsStepper.length;
 
   if (currentAreaStepStepperIndex === -1) {
     return {
@@ -34,7 +34,7 @@ export const getMobileButtonAreaTitles = (
   const stepStepperIndex = currentAreaStepStepperIndex + 1;
 
   return {
-    currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtdStepsStepper})`,
+    currentAreaTitle: `${stepsStepper[currentAreaStepStepperIndex].label} (${stepStepperIndex}/${qtyStepsStepper})`,
     currentNavTitle,
   };
 };

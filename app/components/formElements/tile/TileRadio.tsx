@@ -68,7 +68,10 @@ function TileRadio({
           <div>
             <p className="ds-label-01-bold">{title}</p>
             {description && (
-              <p id={descriptionId} className="ds-body-01-reg">
+              <p
+                id={descriptionId}
+                className="ds-body-01-reg whitespace-pre-line"
+              >
                 {description}
               </p>
             )}
