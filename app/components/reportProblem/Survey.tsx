@@ -1,9 +1,7 @@
-import Close from "@digitalservicebund/icons/Close";
 import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
-import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 import {
