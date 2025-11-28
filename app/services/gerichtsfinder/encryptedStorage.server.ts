@@ -10,6 +10,7 @@ import { configDotenv } from "dotenv";
 import { config } from "~/services/env/env.server";
 import { applyDataConversions } from "./convertJsonDataTable";
 import { extractJsonFilesFromZip } from "../../util/file/extractJsonFilesFromZip";
+import { env } from "node:process";
 
 const getEncryptionKey = () => config().GERICHTSFINDER_ENCRYPTION_KEY;
 const OUTFILE = path.resolve(
@@ -25,7 +26,8 @@ function getCipher(password: string, forward: boolean) {
   );
 }
 
-function loadEncrypted(filename: string, password: string) {
+function loadEncrypted(filename: string, password?: string) {
+  if (!password) return undefined;
   const fileBuf = fs.readFileSync(filename);
   const decipher = getCipher(password, false);
   const decrypted = Buffer.concat([decipher.update(fileBuf), decipher.final()]);
@@ -62,21 +64,28 @@ declare global {
   var __encData: Record<string, any> | undefined; // NOSONAR
 }
 
+export function rotateKey() {
+  // Re-encrypt the file using GERICHTSFINDER_ENCRYPTION_KEY. This only changes the file if it has been encrypted with GERICHTSFINDER_ENCRYPTION_KEY_OLD
+  const newKey = env.GERICHTSFINDER_ENCRYPTION_KEY;
+  if (!newKey) throw new Error("Error: no new key provided, aborting...");
+  saveEncrypted(getEncrypted(), OUTFILE, newKey);
+}
+
+function tryDecrypt(key?: string, showError = true) {
+  try {
+    return loadEncrypted(OUTFILE, key);
+  } catch {
+    if (showError) console.error("Decryption failed!");
+  }
+}
+
 export function getEncrypted(): Record<string, any> {
-  const GERICHTSFINDER_ENCRYPTION_KEY = getEncryptionKey();
-  if (!GERICHTSFINDER_ENCRYPTION_KEY) {
-    console.error("GERICHTSFINDER_ENCRYPTION_KEY not set - aborting.");
-    return {};
-  }
-  if (global.__encData === undefined) {
-    try {
-      global.__encData = loadEncrypted(OUTFILE, GERICHTSFINDER_ENCRYPTION_KEY);
-    } catch (error) {
-      console.error(error);
-      return {};
-    }
-  }
+  // if global.__encData is undefined, try to decrypt using the current key and fallback to the old key
+  global.__encData ??=
+    tryDecrypt(env.GERICHTSFINDER_ENCRYPTION_KEY, false) ??
+    tryDecrypt(env.GERICHTSFINDER_ENCRYPTION_KEY_OLD);
   return global.__encData ?? {};
 }
 
 if (process.argv[2] === "updateZip") updateZipfile(process.argv[3]);
+if (process.argv[2] === "rotateKey") rotateKey();
