@@ -1,6 +1,5 @@
 import { type BasicSurveyQuestion } from "posthog-js";
 import { useId, type Dispatch, type SetStateAction } from "react";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
 import { TEXT_AREA_ROWS } from "~/components/formElements/Textarea";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
@@ -13,17 +12,19 @@ type OpenQuestionProps = {
 };
 
 export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
-  const feedbackTranslations = useFeedbackTranslations();
   const id = useId();
   const hasDescription = Boolean(question.description);
   const descriptionId = hasDescription ? id + "Description" : undefined;
   return (
-    <div className="ds-stack ds-stack-8">
-      <label className="ds-body-01-bold" htmlFor={id}>
+    <div className="kern-stack-large">
+      <label className="kern-label py-8" htmlFor={id}>
         {question.question}
       </label>
       {hasDescription && (
-        <p className="ds-body-01-reg text-gray-900" id={descriptionId}>
+        <p
+          className="kern-hint text-kern-18 font-normal py-8 mb-8"
+          id={descriptionId}
+        >
           {question.description}
         </p>
       )}
@@ -31,7 +32,7 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
         id={id}
         name={question.id}
         aria-describedby={descriptionId}
-        className="ds-textarea forced-colors:border-4"
+        className="w-full px-16 py-8 gap-8 kern-form-input__input"
         onChange={(event) =>
           setResponses((surveyResponses) => ({
             ...surveyResponses,
@@ -39,7 +40,6 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
           }))
         }
         maxLength={TEXTAREA_CHAR_LIMIT}
-        placeholder={feedbackTranslations["open-feedback-placeholder"]}
         rows={TEXT_AREA_ROWS}
       />
     </div>

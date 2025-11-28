@@ -38,7 +38,9 @@ export const MultipleChoiceQuestion = ({
 
   return (
     <fieldset>
-      <legend className="ds-body-01-bold mb-16">{question.question}</legend>
+      <legend className="kern-text font-semibold py-8">
+        {question.question}
+      </legend>
       <div className="flex flex-col gap-16">
         {question.choices.map((choice, idx) => {
           const choiceName = choice.replaceAll(" ", "_");
@@ -53,13 +55,9 @@ export const MultipleChoiceQuestion = ({
                 name={choiceName}
                 readOnly
                 onClick={() => onCheckboxClicked(idx, choice)}
-                className={classNames(
-                  "ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]",
-                  {
-                    "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]":
-                      hasError,
-                  },
-                )}
+                className={classNames("kern-form-check__checkbox", {
+                  "has-error kern-form-check__checkbox--error": hasError,
+                })}
               />
               {choice}
             </label>

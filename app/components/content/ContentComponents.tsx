@@ -101,6 +101,7 @@ function cmsToReact(
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;
