@@ -1,12 +1,19 @@
 import { render } from "@testing-library/react";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { FieldSet } from "../FieldSet";
+import { FieldSet, FieldSetSchema } from "../FieldSet";
+import z from "zod";
 
 vi.mock("~/components/FormComponents", () => ({
   FormComponent: () => <div>FormComponent</div>,
 }));
 
+vi.mock("~/components/formElements/SchemaComponents", () => ({
+  SchemaComponents: () => <div>SchemaComponents</div>,
+}));
+
 type FieldSetGroupType = StrapiFieldSet["fieldSetGroup"];
+
+const mockPageSchema = { field1: z.string() };
 
 const mockFieldSetGroup: FieldSetGroupType = {
   formComponents: [
@@ -44,6 +51,43 @@ describe("FieldSet", () => {
       <FieldSet
         heading="anyHeading"
         fieldSetGroup={mockFieldSetGroup}
+        image={{
+          url: "/test.png",
+          height: 24,
+          width: 24,
+        }}
+      />,
+    );
+
+    const img = container.querySelector("img");
+    expect(img).toBeInTheDocument();
+    expect(img).toHaveAttribute("aria-hidden", "true");
+    expect(img).toHaveAttribute("height", "24");
+    expect(img).toHaveAttribute("width", "24");
+  });
+});
+
+describe("FieldSetSchema", () => {
+  it("should render FieldSetSchema component with correct data", () => {
+    const { getByRole, getByText } = render(
+      <FieldSetSchema
+        heading="anyHeading"
+        fieldSetGroup={mockFieldSetGroup}
+        pageSchema={mockPageSchema}
+      />,
+    );
+
+    expect(getByRole("group")).toBeInTheDocument();
+    expect(getByRole("group")).toHaveTextContent("anyHeading");
+    expect(getByText("SchemaComponents")).toBeInTheDocument();
+  });
+
+  it("should render FieldSetSchema component with image and properties when is available", () => {
+    const { container } = render(
+      <FieldSetSchema
+        heading="anyHeading"
+        fieldSetGroup={mockFieldSetGroup}
+        pageSchema={mockPageSchema}
         image={{
           url: "/test.png",
           height: 24,
