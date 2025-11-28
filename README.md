@@ -4,23 +4,24 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ## Requirements
 
-- Node (>= 24) + npm
+- Node (>= 24)
 - Docker (Redis, S3 bucket)
 
 ### Local development
 
-Disable execution of npm scripts to reduce attack surface for supply chain attacks:
+With Node installed, enable `corepack` and install the specified pnpm version:
 
 ```sh
-npm config set ignore-scripts true
+corepack enable
+corepack prepare pnpm@latest --activate
 ```
 
-Then, install npm dependencies, start necessary services and run the app:
+Then, install dependencies, start necessary services and run the app:
 
 ```sh
-npm install
+pnpm install
 docker compose up -d
-npm run dev
+pnpm run dev
 ```
 
 The app will be served on http://localhost:3000, assets are rebuilt on file save.
@@ -35,10 +36,10 @@ There are several options for fetching content: Local CMS, staging CMS, local co
 
 #### Unit tests
 
-- run: `npm run test`
-- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `npm run test:watch`
-- run with coverage: `npm run test:coverage`
-- run subset: `npm run test "STRING_TO_MATCH"`
+- run: `pnpm run test`
+- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `pnpm run test:watch`
+- run with coverage: `pnpm run test:coverage`
+- run subset: `pnpm run test "STRING_TO_MATCH"`
 
 Test cases are defined as follows:
 

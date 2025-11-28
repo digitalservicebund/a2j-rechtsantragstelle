@@ -63,7 +63,7 @@ jobs:
           E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-preview.prod.ds4g.net/' || 'http://localhost:3000/' }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
           CMS: FILE
-        run: npm run test:e2e -- ${{ inputs.e2e-target == 'preview' && '--project=critical' || '' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+        run: pnpm run test:e2e -- ${{ inputs.e2e-target == 'preview' && '--project=critical' || '' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
         if: always()
