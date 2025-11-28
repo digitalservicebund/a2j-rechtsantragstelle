@@ -50,6 +50,7 @@ export const FieldSet = ({
   );
 };
 
+// TODO - rename after remove the FieldSet component
 export const FieldSetSchema = ({
   heading,
   fieldSetGroup: { formComponents },
@@ -73,7 +74,6 @@ export const FieldSetSchema = ({
         pageSchema={pageSchema}
         formComponents={formComponents}
         className={classNames("pt-16 !ds-stack-16", { "md:pl-32": image })}
-        skipFieldSet
       />
     </fieldset>
   );
