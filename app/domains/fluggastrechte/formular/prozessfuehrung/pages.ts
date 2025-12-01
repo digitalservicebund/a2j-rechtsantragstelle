@@ -14,7 +14,7 @@ export const fluggastrechteProzessfuehrungPages = {
       videoverhandlung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
-  prozzessfuehrungVersaeumnisurteil: {
+  prozessfuehrungVersaeumnisurteil: {
     stepId: "prozessfuehrung/versaeumnisurteil",
     pageSchema: {
       versaeumnisurteil: YesNoAnswer,

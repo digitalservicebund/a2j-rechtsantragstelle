@@ -1,11 +1,15 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { prozessfuehrungDone } from "./doneFunctions";
+import { fluggastrechteProzessfuehrungPages } from "~/domains/fluggastrechte/formular/prozessfuehrung/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteProzessfuehrungPages);
 
 export const prozessfuehrungXstateConfig = {
   meta: { done: prozessfuehrungDone },
   id: "prozessfuehrung",
   initial: "zeugen",
   states: {
-    zeugen: {
+    [steps.prozessfuehrungZeugen.relative]: {
       on: {
         BACK: [
           {
@@ -14,19 +18,19 @@ export const prozessfuehrungXstateConfig = {
           },
           "#weitere-personen.frage",
         ],
-        SUBMIT: "videoverhandlung",
+        SUBMIT: steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
-    videoverhandlung: {
+    [steps.prozessfuehrungVideoverhandlung.relative]: {
       on: {
-        SUBMIT: "versaeumnisurteil",
-        BACK: "zeugen",
+        SUBMIT: steps.prozessfuehrungVersaeumnisurteil.relative,
+        BACK: steps.prozessfuehrungZeugen.relative,
       },
     },
-    versaeumnisurteil: {
+    [steps.prozessfuehrungVersaeumnisurteil.relative]: {
       on: {
         SUBMIT: "zahlung-nach-klageeinreichung",
-        BACK: "videoverhandlung",
+        BACK: steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
     "zahlung-nach-klageeinreichung": {
@@ -37,7 +41,7 @@ export const prozessfuehrungXstateConfig = {
             guard: "prozessfuehrungDone",
           },
         ],
-        BACK: "versaeumnisurteil",
+        BACK: steps.prozessfuehrungVersaeumnisurteil.relative,
       },
     },
   },
