@@ -102,7 +102,7 @@
     "@react-router/dev": "^7.9.6",
     "@react-router/fs-routes": "^7.9.6",
     "@size-limit/file": "^11.2.0",
-    "@storybook/addon-a11y": "^10.0.8",
+    "@storybook/addon-a11y": "^10.1.0",
     "@storybook/addon-docs": "^10.0.8",
     "@storybook/react-vite": "^10.0.8",
     "@tailwindcss/vite": "^4.1.17",
