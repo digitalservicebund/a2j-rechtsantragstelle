@@ -98,7 +98,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
     "@faker-js/faker": "^10.1.0",
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.9.6",
     "@react-router/fs-routes": "^7.9.6",
     "@size-limit/file": "^11.2.0",
