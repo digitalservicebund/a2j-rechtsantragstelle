@@ -21,7 +21,8 @@ export const klagendePersonXstateConfig = {
             guard: ({ context }) =>
               context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
-              context.mietePachtRaum === "yes",
+              context.mietePachtRaum === "yes" &&
+              klagendePersonDone({ context }),
             target: steps.beklagtePersonGegenWen.absolute,
           },
           {

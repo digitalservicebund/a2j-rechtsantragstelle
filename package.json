@@ -26,6 +26,7 @@
     "init": "lefthook install",
     "lint:fix": "eslint . --fix && oxlint --fix",
     "lint": "oxlint && eslint --cache . && knip --no-config-hints",
+    "preinstall": "echo 'Please disable script execution: npm config set ignore-scripts true' && exit 1",
     "size": "react-router build --logLevel error && size-limit",
     "start:storybook": "storybook dev -p 6006",
     "start": "NODE_ENV=production node ./server.js",
