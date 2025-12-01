@@ -16,6 +16,7 @@ import { testCasesGerichtSuchenVerkehrsunfall } from "../gericht-pruefen/gericht
 import { testCasesGerichtSuchenSchaden } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenSchaden";
 import { testCasesGerichtSuchenUrheberrecht } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenUrheberrecht";
 import { testCasesGerichtSuchenEdgeCasesZipCode } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenEdgeCasesZipCode";
+import { testCasesZustaendigesGericht } from "../gericht-pruefen/zustaendiges-gericht/__test__/testCasesZustaendigesGericht";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFormular.config, context: {} },
@@ -38,6 +39,7 @@ const testsCases = [
   ...testCasesGerichtSuchenSchaden,
   ...testCasesGerichtSuchenUrheberrecht,
   ...testCasesGerichtSuchenEdgeCasesZipCode,
+  ...testCasesZustaendigesGericht,
 ];
 
 export const testCasesGeldEinklagenFormular = {

@@ -54,6 +54,7 @@ const ignoreVisitedSteps = new Set([
   "/intro/redirect-vorabcheck-ergebnis", // this page is only used to redirect to the vorabcheck result
   "/ergebnis/erfolg-per-post-klagen", // this page is only used to redirect to a content page
   "/persoenliche-daten/weitere-personen/person/daten", // array page
+  "/gericht-pruefen/zustaendiges-gericht/check-initial-page", // this page is only used to check the initial page of the flow
 ]);
 
 const allVisitedSteps: Record<
