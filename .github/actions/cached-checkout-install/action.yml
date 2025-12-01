@@ -16,5 +16,5 @@ runs:
       run: echo "NODE_VERSION=$(node --version)" >> $GITHUB_ENV
       shell: bash
     - name: Perform a clean install of node dependencies
-      run: pnpm i --frozen-lockfile
+      run: pnpm i
       shell: bash

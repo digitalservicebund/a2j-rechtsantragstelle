@@ -9,7 +9,7 @@ WORKDIR /a2j
 COPY package.json package-lock.json ./
 
 RUN apk add openjdk21
-RUN pnpm i --frozen-lockfile --prod --no-optional
+RUN pnpm i --prod --no-optional
 
 FROM scratch AS app
 WORKDIR /a2j-app
