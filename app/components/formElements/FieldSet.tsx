@@ -4,8 +4,9 @@ import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFi
 import Image from "../common/Image";
 import RichText from "../common/RichText";
 import { FormComponent } from "../FormComponents";
-import { type SchemaObject } from "~/domains/userData";
 import { SchemaComponents } from "./SchemaComponents";
+import { useLocation } from "react-router";
+import { getPageSchema } from "~/domains/pageSchemas";
 
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "fieldSetGroup" | "heading" | "image">
@@ -13,7 +14,6 @@ type FieldSetProps = Readonly<
 
 type FieldSetSchemaProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
-    pageSchema: SchemaObject;
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
   }
 >;
@@ -51,13 +51,33 @@ export const FieldSet = ({
   );
 };
 
+const getFieldSetPageSchema = (
+  pathname: string,
+  formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"],
+) => {
+  const pageSchema = getPageSchema(pathname);
+
+  return pageSchema
+    ? Object.fromEntries(
+        Object.entries(pageSchema).filter(([key]) =>
+          formComponents.some((fc) => fc.name === key),
+        ),
+      )
+    : null;
+};
+
 // TODO - rename after remove the FieldSet component
 export const FieldSetSchema = ({
   heading,
   formComponents,
   image,
-  pageSchema,
 }: FieldSetSchemaProps) => {
+  const { pathname } = useLocation();
+
+  const pageSchema = getFieldSetPageSchema(pathname, formComponents);
+
+  if (!pageSchema) return null;
+
   return (
     <fieldset>
       <legend className="md:flex md:gap-8">

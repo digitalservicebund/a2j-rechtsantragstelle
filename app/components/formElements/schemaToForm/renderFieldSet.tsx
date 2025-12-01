@@ -1,23 +1,6 @@
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { useLocation } from "react-router";
-import { getPageSchema } from "~/domains/pageSchemas";
 import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FieldSetSchema } from "../FieldSet";
-
-const getFieldSetPageSchema = (
-  pathname: string,
-  formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"],
-) => {
-  const pageSchema = getPageSchema(pathname);
-
-  return pageSchema
-    ? Object.fromEntries(
-        Object.entries(pageSchema).filter(([key]) =>
-          formComponents.some((fc) => fc.name === key),
-        ),
-      )
-    : null;
-};
 
 export const getFieldSetByFieldName = (
   fieldName: string,
@@ -34,9 +17,6 @@ export const getFieldSetByFieldName = (
 };
 
 export const renderFieldSet = (fieldName: string, fieldSet: StrapiFieldSet) => {
-  // oxlint-disable-next-line rules-of-hooks
-  const { pathname } = useLocation();
-
   const {
     fieldSetGroup: { formComponents },
     image,
@@ -49,17 +29,12 @@ export const renderFieldSet = (fieldName: string, fieldSet: StrapiFieldSet) => {
     return null;
   }
 
-  const pageSchema = getFieldSetPageSchema(pathname, formComponents);
-
-  if (!pageSchema) return null;
-
   return (
     <FieldSetSchema
       key={id}
       formComponents={formComponents}
       heading={heading}
       image={image}
-      pageSchema={pageSchema}
     />
   );
 };

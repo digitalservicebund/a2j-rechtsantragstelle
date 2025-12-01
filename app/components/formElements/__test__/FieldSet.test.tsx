@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { FieldSet, FieldSetSchema } from "../FieldSet";
 import z from "zod";
+import { getPageSchema } from "~/domains/pageSchemas";
 
 vi.mock("~/components/FormComponents", () => ({
   FormComponent: () => <div>FormComponent</div>,
@@ -11,9 +12,21 @@ vi.mock("~/components/formElements/SchemaComponents", () => ({
   SchemaComponents: () => <div>SchemaComponents</div>,
 }));
 
-type FieldSetGroupType = StrapiFieldSet["fieldSetGroup"];
+vi.mock("~/domains/pageSchemas");
+vi.mocked(getPageSchema).mockReturnValue({ field1: z.string() });
 
-const mockPageSchema = { field1: z.string() };
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: "/",
+    }),
+  };
+});
+
+type FieldSetGroupType = StrapiFieldSet["fieldSetGroup"];
 
 const mockFieldSetGroup: FieldSetGroupType = {
   formComponents: [
@@ -73,7 +86,6 @@ describe("FieldSetSchema", () => {
       <FieldSetSchema
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
-        pageSchema={mockPageSchema}
       />,
     );
 
@@ -87,7 +99,6 @@ describe("FieldSetSchema", () => {
       <FieldSetSchema
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
-        pageSchema={mockPageSchema}
         image={{
           url: "/test.png",
           height: 24,
