@@ -1,4 +1,4 @@
-import { parse } from "cookie";
+import { parseCookie } from "cookie";
 import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
 import { config } from "~/services/env/public";
 
@@ -8,7 +8,7 @@ vi.mock("~/services/env/public", () => ({
 }));
 
 vi.mock("cookie", () => ({
-  parse: vi.fn(),
+  parseCookie: vi.fn(),
 }));
 
 describe("posthogIdFromCookie", () => {
@@ -35,7 +35,7 @@ describe("posthogIdFromCookie", () => {
       SENTRY_DSN: undefined,
       ENVIRONMENT: "local",
     });
-    vi.mocked(parse).mockReturnValue({
+    vi.mocked(parseCookie).mockReturnValue({
       [`ph_${mockAPIKey}_posthog`]: "{}",
     });
     expect(posthogIdFromCookie("cookieString")).toBe("client-local");
@@ -47,7 +47,7 @@ describe("posthogIdFromCookie", () => {
       SENTRY_DSN: undefined,
       ENVIRONMENT: "local",
     });
-    vi.mocked(parse).mockReturnValue({
+    vi.mocked(parseCookie).mockReturnValue({
       [`ph_${mockAPIKey}_posthog`]: '{"distinct_id": "mockDistinctId"}',
     });
     expect(posthogIdFromCookie("cookieString")).toBe("mockDistinctId");
