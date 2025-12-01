@@ -10,10 +10,10 @@ import { BACKGROUND_COLORS } from "~/components";
 import { ButtonNavigation } from "~/components/common/ButtonNavigation";
 import Heading from "~/components/common/Heading";
 import Input from "~/components/formElements/Input";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
@@ -124,7 +124,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={2}
         >
-          <ReportProblem />
+          <KernReportProblem />
         </GridItem>
       </Grid>
     </GridSection>

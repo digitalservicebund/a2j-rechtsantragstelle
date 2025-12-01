@@ -10,10 +10,9 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
-import Button from "../common/Button";
-import Close from "@digitalservicebund/icons/Close";
+import KernButton from "./KernButton";
 
-type PosthogSurveyProps = {
+type KernPosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
   wasSubmitted: boolean;
   submitFeedback: (responses: SurveyResponses) => void;
@@ -30,13 +29,13 @@ const questionTypes: Record<string, ElementType> = {
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const PosthogSurvey = ({
+export const KernPosthogSurvey = ({
   survey,
   wasSubmitted,
   submitFeedback,
   closeSurvey,
   dialogRef,
-}: PosthogSurveyProps) => {
+}: KernPosthogSurveyProps) => {
   const [responses, setResponses] = useState<SurveyResponses>();
   const [showValidationError, setShowValidationError] = useState(false);
   const isCompletelyFilled = isCompleted(survey, responses);
@@ -147,42 +146,33 @@ export const PosthogSurvey = ({
           )}
           <ButtonContainer className="flex flex-col sm:flex-row">
             {wasSubmitted ? (
-              <Button
+              <KernButton
                 ref={closeButtonRef}
                 size="large"
-                look={"primary"}
-                className="justify-center"
+                look="secondary"
                 text={translations.feedback.close.de}
                 onClick={closeSurvey}
                 type="button"
               />
             ) : (
-              <>
-                <Button
-                  look={"tertiary"}
-                  size="large"
-                  className="justify-center"
-                  text={translations.feedback.cancel.de}
-                  onClick={closeSurvey}
-                  type="button"
-                />
-                <Button
+              <div className="flex flex-col sm:flex-row gap-16 w-full">
+                <KernButton
                   look="primary"
                   size="large"
-                  className="justify-center"
+                  className="w-full"
                   text={translations.feedback["submit-problem"].de}
                   type="button"
                   onClick={onSubmitClicked}
                 />
-                <Button
+                <KernButton
                   look="secondary"
                   size="large"
-                  className="justify-center"
+                  className="w-full"
                   text={translations.feedback.cancel.de}
                   onClick={closeSurvey}
                   type="button"
                 />
-              </>
+              </div>
             )}
           </ButtonContainer>
         </div>
@@ -192,18 +182,6 @@ export const PosthogSurvey = ({
               ? translations.feedback["problem-gemeldet"].de
               : translations.feedback["report-problem"].de}
           </h2>
-          <Button
-            type="button"
-            size="large"
-            look="ghost"
-            iconLeft={<Close />}
-            aria-label={
-              wasSubmitted
-                ? translations.feedback.close.de
-                : translations.feedback.cancel.de
-            }
-            onClick={closeSurvey}
-          />
         </div>
       </form>
     </dialog>
