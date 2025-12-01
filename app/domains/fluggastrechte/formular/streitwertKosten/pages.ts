@@ -1,7 +1,7 @@
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 export const fluggastrechteStreitwertKostenPages = {
-  streitwertKosten: {
+  streitwertKostenProzesszinsen: {
     stepId: "streitwert-kosten/prozesszinsen",
     pageSchema: {
       prozesszinsen: YesNoAnswer,

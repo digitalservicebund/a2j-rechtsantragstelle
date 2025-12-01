@@ -35,7 +35,7 @@ const weiterePersonenArraySchema = z.array(
 );
 
 export const fluggastrechtePersoenlicheDatenPages = {
-  klagendePersonDaten: {
+  personDaten: {
     stepId: "persoenliche-daten/person/daten",
     pageSchema: {
       ...persoenlicheDatenSchema,
@@ -56,7 +56,7 @@ export const fluggastrechtePersoenlicheDatenPages = {
       weiterePersonen: weiterePersonenArraySchema,
     },
     arrayPages: {
-      name: {
+      daten: {
         pageSchema: {
           "weiterePersonen#buchungsnummer":
             weiterePersonenArraySchema.element.shape.buchungsnummer,
@@ -73,7 +73,7 @@ export const fluggastrechtePersoenlicheDatenPages = {
           "weiterePersonen#plz": weiterePersonenArraySchema.element.shape.plz,
           "weiterePersonen#ort": weiterePersonenArraySchema.element.shape.ort,
           "weiterePersonen#land": weiterePersonenArraySchema.element.shape.land,
-          "weiterePersonen#weiterePersonen#telefonnummer":
+          "weiterePersonen#telefonnummer":
             weiterePersonenArraySchema.element.shape.telefonnummer,
           "weiterePersonen#datenverarbeitungZustimmung":
             weiterePersonenArraySchema.element.shape

@@ -2,7 +2,7 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 export const fluggastrechteProzessfuehrungPages = {
-  prozessfuehrung: {
+  prozessfuehrungZeugen: {
     stepId: "prozessfuehrung/zeugen",
     pageSchema: {
       hasZeugen: YesNoAnswer,
