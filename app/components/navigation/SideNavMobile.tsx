@@ -79,9 +79,7 @@ export default function SideNavMobile({
       {/* col-reverse needed to preserve correct tab order 
        (top close button at the end of the tab order)*/}
       <summary
-        className={classNames(
-          "flex flex-col cursor-pointer w-full outline-none group/summary",
-        )}
+        className="flex flex-col cursor-pointer w-full outline-none group/summary"
         data-testid="side-nav-summary"
       >
         <div
@@ -90,7 +88,7 @@ export default function SideNavMobile({
         ></div>
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between not-group-open:border not-group-open:border-blue-400 not-group-open:active:bg-blue-400 not-group-open:group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",
+            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",
             {
               "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
                 isStateCurrentWarning,
