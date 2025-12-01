@@ -6,10 +6,10 @@ export const beratungshilfePersoenlicheDatenDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.vorname &&
-      context.nachname &&
-      context.geburtsdatum &&
-      context.street &&
-      context.houseNumber &&
-      context.plz &&
-      context.ort,
+    context.nachname &&
+    context.geburtsdatum &&
+    context.street &&
+    context.houseNumber &&
+    context.plz &&
+    context.ort,
   ) && hasOptionalString(context.telefonnummer);

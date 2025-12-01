@@ -6,13 +6,13 @@ export const prozesskostenhilfePersoenlicheDatenDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.vorname &&
-      context.nachname &&
-      context.geburtsdatum?.day &&
-      context.geburtsdatum?.month &&
-      context.geburtsdatum?.year &&
-      context.street &&
-      context.houseNumber &&
-      context.plz &&
-      context.ort &&
-      context.beruf,
+    context.nachname &&
+    context.geburtsdatum?.day &&
+    context.geburtsdatum?.month &&
+    context.geburtsdatum?.year &&
+    context.street &&
+    context.houseNumber &&
+    context.plz &&
+    context.ort &&
+    context.beruf,
   ) && hasOptionalString(context.telefonnummer);

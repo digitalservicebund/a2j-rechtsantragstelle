@@ -68,17 +68,17 @@ export const fluggastrechteFlugdatenGuards = {
   hasDetailedErsatzVerbindungFlug: ({ context }) =>
     Boolean(
       context.ersatzverbindungArt === "flug" &&
-        context.ersatzFlugnummer &&
-        context.ersatzFlugAnkunftsDatum &&
-        context.ersatzFlugAnkunftsZeit,
+      context.ersatzFlugnummer &&
+      context.ersatzFlugAnkunftsDatum &&
+      context.ersatzFlugAnkunftsZeit,
     ),
   hasAndereErsatzVerbindung: ({ context }) =>
     context.ersatzverbindungArt === "etwasAnderes",
   hasDetailedTatsaechlicherFlugAnkunft: ({ context }) =>
     Boolean(
       context.tatsaechlicherFlug === "yes" &&
-        context.tatsaechlicherAnkunftsDatum &&
-        context.tatsaechlicherAnkunftsZeit,
+      context.tatsaechlicherAnkunftsDatum &&
+      context.tatsaechlicherAnkunftsZeit,
     ),
   hasKeineErsatzVerbindung: ({ context }) =>
     context.tatsaechlicherFlug === "no" &&

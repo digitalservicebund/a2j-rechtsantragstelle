@@ -31,9 +31,9 @@ export const anwaltlicheVertretungDone: GenericGuard<
   ) ||
   Boolean(
     context.beratungStattgefunden === "yes" &&
-      context.beratungStattgefundenDatum &&
-      context.anwaltName &&
-      context.anwaltStrasseUndHausnummer &&
-      context.anwaltPlz &&
-      context.anwaltOrt,
+    context.beratungStattgefundenDatum &&
+    context.anwaltName &&
+    context.anwaltStrasseUndHausnummer &&
+    context.anwaltPlz &&
+    context.anwaltOrt,
   );
