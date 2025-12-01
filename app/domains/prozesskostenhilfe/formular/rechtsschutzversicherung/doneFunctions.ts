@@ -6,10 +6,10 @@ export const rechtsschutzversicherungDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.empfaenger === "otherPerson" ||
-      ((context.hasRsv === "no" ||
-        context.hasRsvCoverage === "no" ||
-        context.hasRsvCoverage === "partly") &&
-        (context.hasRsvThroughOrg === "no" ||
-          context.hasOrgCoverage === "no" ||
-          context.hasOrgCoverage === "partly")),
+    ((context.hasRsv === "no" ||
+      context.hasRsvCoverage === "no" ||
+      context.hasRsvCoverage === "partly") &&
+      (context.hasRsvThroughOrg === "no" ||
+        context.hasOrgCoverage === "no" ||
+        context.hasOrgCoverage === "partly")),
   );

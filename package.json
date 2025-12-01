@@ -98,7 +98,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
     "@faker-js/faker": "^10.1.0",
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.9.6",
     "@react-router/fs-routes": "^7.9.6",
     "@size-limit/file": "^11.2.0",
@@ -136,7 +136,7 @@
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.30.0",
     "p-map": "^7.0.4",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.3",
     "react-router-dom": "^7.9.6",
     "size-limit": "^11.2.0",
     "storybook": "^10.1.2",
