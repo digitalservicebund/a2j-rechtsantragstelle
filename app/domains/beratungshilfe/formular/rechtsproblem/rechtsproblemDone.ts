@@ -6,8 +6,8 @@ export const rechtsproblemDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.bereich &&
-      context.gegenseite &&
-      context.beschreibung &&
-      context.ziel &&
-      context.eigeninitiativeBeschreibung,
+    context.gegenseite &&
+    context.beschreibung &&
+    context.ziel &&
+    context.eigeninitiativeBeschreibung,
   );

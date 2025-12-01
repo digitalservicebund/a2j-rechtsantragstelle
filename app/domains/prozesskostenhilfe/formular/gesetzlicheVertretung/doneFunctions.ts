@@ -7,12 +7,12 @@ export const prozesskostenhilfeGesetzlicheVertretungDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.hasGesetzlicheVertretung === "no" ||
-      (context.hasGesetzlicheVertretung === "yes" &&
-        objectKeysNonEmpty(context.gesetzlicheVertretungDaten, [
-          "vorname",
-          "nachname",
-          "strasseHausnummer",
-          "plz",
-          "ort",
-        ])),
+    (context.hasGesetzlicheVertretung === "yes" &&
+      objectKeysNonEmpty(context.gesetzlicheVertretungDaten, [
+        "vorname",
+        "nachname",
+        "strasseHausnummer",
+        "plz",
+        "ort",
+      ])),
   );
