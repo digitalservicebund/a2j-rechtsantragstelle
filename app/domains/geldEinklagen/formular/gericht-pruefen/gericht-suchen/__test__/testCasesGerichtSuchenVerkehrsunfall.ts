@@ -1,14 +1,14 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
+const ZIP_CODE_PILOT_COURT = "10823";
+
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal5000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "verkehrsunfall",
   gegenWenBeklagen: "person",
-  postleitzahlBeklagtePerson: "000800",
-  postleitzahlSecondary: "000800",
 };
 
 export const testCasesGerichtSuchenVerkehrsunfall = [
@@ -19,6 +19,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
@@ -32,11 +33,13 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -45,11 +48,13 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       verkehrsunfallStrassenverkehr: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -57,11 +62,13 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       ...baseContext,
       verkehrsunfallStrassenverkehr: "yes",
       klagendeKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -71,6 +78,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
@@ -84,6 +92,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -96,6 +105,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       verkehrsunfallStrassenverkehr: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -107,6 +117,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
       ...baseContext,
       verkehrsunfallStrassenverkehr: "no",
       klagendeKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",

@@ -1,14 +1,14 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
+const ZIP_CODE_PILOT_COURT = "10823";
+
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal5000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "miete",
   gegenWenBeklagen: "person",
-  postleitzahlBeklagtePerson: "000800",
-  postleitzahlSecondary: "000800",
 };
 
 export const testCasesGerichtSuchenMiete = [
@@ -17,6 +17,7 @@ export const testCasesGerichtSuchenMiete = [
       ...baseContext,
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-wohnraum",
@@ -30,11 +31,13 @@ export const testCasesGerichtSuchenMiete = [
       mietePachtRaum: "no",
       klagendeVerbraucher: "yes",
       klagendeHaustuergeschaeft: "yes",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -44,11 +47,13 @@ export const testCasesGerichtSuchenMiete = [
       mietePachtRaum: "no",
       klagendeVerbraucher: "yes",
       klagendeHaustuergeschaeft: "yes",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
   ],
   [
@@ -58,6 +63,7 @@ export const testCasesGerichtSuchenMiete = [
       mietePachtRaum: "no",
       klagendeVerbraucher: "yes",
       klagendeHaustuergeschaeft: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -71,6 +77,7 @@ export const testCasesGerichtSuchenMiete = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
@@ -84,6 +91,7 @@ export const testCasesGerichtSuchenMiete = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -96,6 +104,7 @@ export const testCasesGerichtSuchenMiete = [
       mietePachtVertrag: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -107,6 +116,7 @@ export const testCasesGerichtSuchenMiete = [
       ...baseContext,
       mietePachtVertrag: "no",
       klagendeKaufmann: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
