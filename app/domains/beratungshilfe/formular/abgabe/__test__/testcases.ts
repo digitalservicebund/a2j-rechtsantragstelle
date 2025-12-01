@@ -1,7 +1,10 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeAbgabeUserData } from "~/domains/beratungshilfe/formular/abgabe/userData";
+import { type BeratungshilfeWeitereAngabenUserData } from "~/domains/beratungshilfe/formular/weitereAngaben/userData";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
@@ -9,11 +12,17 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
     },
+    ...(showAutoSummary
+      ? [
+          {
+            stepId: "/abgabe/zusammenfassung",
+          },
+        ]
+      : []),
     ...(showFileUpload
       ? [
           {
             stepId: "/abgabe/dokumente",
-            userInput: {},
           },
         ]
       : [{ stepId: "/abgabe/online" }]),
@@ -23,6 +32,13 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "ausdrucken" },
     },
+    ...(showAutoSummary
+      ? [
+          {
+            stepId: "/abgabe/zusammenfassung",
+          },
+        ]
+      : []),
     {
       stepId: "/abgabe/ausdrucken",
     },
@@ -38,4 +54,6 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/ueberpruefung",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  BeratungshilfeAbgabeUserData & BeratungshilfeWeitereAngabenUserData
+>;

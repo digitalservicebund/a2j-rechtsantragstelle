@@ -1,4 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenNo: [
@@ -22,17 +24,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-versicherungen",
-      userInput: {
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/versicherungen/0/daten",
       userInput: {
         "versicherungen#art": "sonstige",
         "versicherungen#beitrag": "10",
-        pageData: { arrayIndexes: [0] },
-        versicherungen: [{ art: "sonstige" }],
       },
     },
     {
@@ -47,17 +44,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
-      userInput: {
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
       userInput: {
         "ratenzahlungen#art": "art",
         "ratenzahlungen#zahlungsempfaenger": "empfaenger",
-        pageData: { arrayIndexes: [0] },
-        ratenzahlungen: [{ zahlungspflichtiger: "myself" }],
       },
     },
     {
@@ -77,22 +69,18 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/laufzeitende",
       userInput: { "ratenzahlungen#laufzeitende": "01.01.2026" },
     },
+    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
   addRatenzahlungenSplit: [
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
-      userInput: {
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
       userInput: {
         "ratenzahlungen#art": "art",
         "ratenzahlungen#zahlungsempfaenger": "empfaenger",
-        pageData: { arrayIndexes: [0] },
-        ratenzahlungen: [{ zahlungspflichtiger: "myself" }],
       },
     },
     {
@@ -100,8 +88,6 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "/finanzielle-angaben/ausgaben/ratenzahlungen/0/zahlungspflichtiger",
       userInput: {
         "ratenzahlungen#zahlungspflichtiger": "myselfAndSomeoneElse",
-        pageData: { arrayIndexes: [0] },
-        ratenzahlungen: [{ zahlungspflichtiger: "myselfAndSomeoneElse" }],
       },
     },
     {
@@ -119,17 +105,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
-      userInput: {
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstigeAusgaben/0/daten",
       userInput: {
         "sonstigeAusgaben#art": "art",
         "sonstigeAusgaben#zahlungsempfaenger": "empfaenger",
-        pageData: { arrayIndexes: [0] },
-        sonstigeAusgaben: [{ zahlungspflichtiger: "myself" }],
       },
     },
     {
@@ -151,9 +132,6 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
-      userInput: {
-        pageData: { arrayIndexes: [0] },
-      },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstigeAusgaben/0/daten",
@@ -202,4 +180,6 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/gesetzliche-vertretung/frage",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<
+  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenAusgabenPages>
+>;

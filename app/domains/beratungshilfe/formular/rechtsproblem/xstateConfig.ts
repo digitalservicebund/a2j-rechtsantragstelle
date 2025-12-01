@@ -1,6 +1,5 @@
 import type { Config } from "~/services/flow/server/types";
 import { berHAntragRechtsproblemPages } from "./pages";
-import { rechtsproblemDone } from "./rechtsproblemDone";
 import { beratungshilfeAnwaltlicheVertretungGuards } from "../anwaltlicheVertretung/guards";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "../anwaltlicheVertretung/userData";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
@@ -10,7 +9,6 @@ const steps = xStateTargetsFromPagesConfig(berHAntragRechtsproblemPages);
 export const rechtsproblemXstateConfig = {
   initial: "start",
   id: "rechtsproblem",
-  meta: { done: rechtsproblemDone },
   states: {
     start: {
       on: {

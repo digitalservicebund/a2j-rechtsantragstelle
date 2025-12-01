@@ -109,26 +109,38 @@ export type StepState = {
   subStates?: StepState[];
 };
 
+/**
+ * Recurse a statenode until encountering a state with no meta shouldAppearAsMenuNavigation value as true or no more substates are left
+  For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
+
+ @param stateNode state nodes 
+ @param reachableSteps array of the reachable substates
+ @param addUnreachableSubSteps workaround for stepper component, to always add values to reachableSteps
+ @param flowId flow id value 
+ * */
 function stepStates(
   stateNode: FlowStateMachine["states"][string],
   reachableSteps: string[],
   addUnreachableSubSteps: boolean,
   flowId: FlowId,
 ): StepState[] {
-  // Recurse a statenode until encountering a done function or no more substates are left
-  // For each encountered statenode a StepState object is returned, containing whether the state is reachable, done and its URL
   const context = (stateNode.machine.config.context ?? {}) as UserData;
 
-  const statesWithDoneFunctionOrSubstates = Object.values(
+  const statesWithMenuNavigationOrSubstates = Object.values(
     stateNode.states ?? {},
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  ).filter((state) => state.meta?.done || Object.keys(state.states).length > 0);
+  ).filter((state) => {
+    return (
+      state.meta?.shouldAppearAsMenuNavigation ??
+      Object.keys(state.states).length > 0
+    );
+  });
 
-  return statesWithDoneFunctionOrSubstates.map((state) => {
+  return statesWithMenuNavigationOrSubstates.map((state) => {
     const stepId = stateValueToStepIds(pathToStateValue(state.path))[0];
     const meta = state.meta as Meta | undefined;
     const parent = state.parent;
-    const hasDoneFunction = meta?.done !== undefined;
+    const shouldHideSubstates =
+      meta?.shouldAppearAsMenuNavigation !== undefined;
     const reachableSubStates = stepStates(
       state,
       reachableSteps,
@@ -138,8 +150,8 @@ function stepStates(
     const excludedFromValidation =
       meta?.excludedFromValidation ?? parent?.meta?.excludedFromValidation;
 
-    // Ignore subflows if empty or parent state has done function
-    if (hasDoneFunction || reachableSubStates.length === 0) {
+    // Ignore subflows if empty, if parent state has hideSubstates flag
+    if (shouldHideSubstates || reachableSubStates.length === 0) {
       const initial = state.config.initial as string | undefined;
       const initialStepId = initial ? `${stepId}/${initial}` : stepId;
 

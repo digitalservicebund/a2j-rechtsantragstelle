@@ -1,4 +1,5 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/wohnung/userData";
 
 const finanzielleAngabenWohnungWohnsituation =
   "/finanzielle-angaben/wohnung/wohnsituation";
@@ -16,7 +17,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     },
     {
       stepId: finanzielleAngabenWohnungGroesse,
-      userInput: { apartmentSizeSqm: "42" },
+      userInput: { apartmentSizeSqm: 42 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/wohnkosten-allein",
@@ -35,11 +36,11 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     },
     {
       stepId: finanzielleAngabenWohnungGroesse,
-      userInput: { apartmentSizeSqm: "42" },
+      userInput: { apartmentSizeSqm: 42 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/personen-anzahl",
-      userInput: { apartmentPersonCount: "2" },
+      userInput: { apartmentPersonCount: 2 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
@@ -61,11 +62,11 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     },
     {
       stepId: finanzielleAngabenWohnungGroesse,
-      userInput: { apartmentSizeSqm: "42" },
+      userInput: { apartmentSizeSqm: 42 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/personen-anzahl",
-      userInput: { apartmentPersonCount: "2" },
+      userInput: { apartmentPersonCount: 2 },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/wohnkosten-geteilt",
@@ -78,4 +79,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
       stepId: finanzielleAngabenEigentumEigentumInfo,
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenWohnungUserData>;

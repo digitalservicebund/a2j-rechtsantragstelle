@@ -44,7 +44,7 @@ export default defineConfig((config) => ({
     pool: "threads",
     coverage: {
       provider: "istanbul",
-      include: ["app/**"],
+      include: ["app/**/*.{ts,tsx}"],
       exclude: [
         "app/**/__test__/**",
         "app/routes/**",

@@ -6,8 +6,7 @@ type GeldEinklagenGerichtPruefenDaten =
   GenericGuard<GeldEinklagenFormularGerichtPruefenUserData>;
 
 function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
-  const { sachgebiet, mietePachtVertrag, versicherungVertrag, reiseArt } =
-    context;
+  const { sachgebiet, mietePachtVertrag, versicherungVertrag } = context;
   switch (sachgebiet) {
     case "anderesRechtsproblem":
     case "urheberrecht":
@@ -27,7 +26,7 @@ function checkSachgebiet(context: GeldEinklagenFormularGerichtPruefenUserData) {
       );
     }
     case "reisen": {
-      return reiseArt === "andereReise";
+      return objectKeysNonEmpty(context, ["reiseArt"]);
     }
     case "verkehrsunfall": {
       return objectKeysNonEmpty(context, ["verkehrsunfallStrassenverkehr"]);

@@ -18,7 +18,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const grundvoraussetzungenXstateConfig = {
   id: "grundvoraussetzungen",
   initial: steps.nachueberpruefungFrage.relative,
-  meta: { done: grundvoraussetzungenDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.nachueberpruefungFrage.relative]: {
       on: {

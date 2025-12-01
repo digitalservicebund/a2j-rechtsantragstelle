@@ -10,13 +10,14 @@ type Config = {
   STRAPI_ACCESS_KEY: string;
   CMS: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
+  GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
   REDIS_ENDPOINT: string;
   REDIS_PASSWORD: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
   BUNDID_AUTH_BMI_ID?: string;
-  SAML_ASSERTION_CONSUMER_SERVICE_URL?: string;
+  SAML_ASSERTION_CONSUMER_SERVICE_URL: string;
   SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: string;
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
@@ -47,6 +48,10 @@ export function config(): Config {
       "/etc/courtdata-secrets/password",
       "GERICHTSFINDER_ENCRYPTION_KEY",
     ),
+    GERICHTSFINDER_ENCRYPTION_KEY_OLD: readSecretOrEnvVar(
+      "/etc/courtdata-secrets/password-old",
+      "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
+    ),
     REDIS_ENDPOINT: process.env.REDIS_ENDPOINT ?? "localhost:6380",
     REDIS_PASSWORD: readSecretOrEnvVar(
       "/etc/redis-password-secret/password",
@@ -61,7 +66,7 @@ export function config(): Config {
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
     BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
     SAML_ASSERTION_CONSUMER_SERVICE_URL:
-      process.env.SAML_ASSERTION_CONSUMER_SERVICE_URL?.trim(),
+      process.env.SAML_ASSERTION_CONSUMER_SERVICE_URL?.trim() ?? "",
     SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: path.join(
       process.cwd(),
       "data/saml/sp_login_request_template.xml",
@@ -79,7 +84,7 @@ export function config(): Config {
       "/etc/saml/idp_cert",
       "SAML_IDP_CERT",
       "test",
-    ),
+    ).replaceAll(" ", ""),
     S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
     S3_ENDPOINT:
       process.env.S3_ENDPOINT ?? "https://s3.localhost.localstack.cloud:4566",

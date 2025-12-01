@@ -7,6 +7,14 @@ import { type BeratungshilfeAbgabeUserData } from "./userData";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
+
+const getOnlineBackTarget = () => {
+  if (showFileUpload) {
+    return steps.dokumente.relative;
+  }
+  return steps.art.relative;
+};
 
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
@@ -18,12 +26,26 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: beratungshilfeAbgabeGuards.readyForAbgabe,
-        target: steps.art.relative,
+        target: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : steps.art.relative,
       },
     },
+
+    ...(showAutoSummary && {
+      [steps.zusammenfassung.relative]: {
+        on: {
+          BACK: "#weitere-angaben",
+          SUBMIT: steps.art.relative,
+        },
+      },
+    }),
+
     [steps.art.relative]: {
       on: {
-        BACK: steps.art.relative,
+        BACK: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : steps.art.relative,
         SUBMIT: [
           {
             target: showFileUpload
@@ -41,19 +63,24 @@ export const abgabeXstateConfig = {
 
     ...(showFileUpload && {
       [steps.dokumente.relative]: {
-        on: { BACK: steps.art.relative, SUBMIT: steps.online.relative },
+        on: {
+          BACK: steps.art.relative,
+          SUBMIT: steps.online.relative,
+        },
       },
     }),
 
     [steps.ausdrucken.relative]: {
-      on: { BACK: { target: steps.art.relative } },
+      on: {
+        BACK: {
+          target: steps.art.relative,
+        },
+      },
     },
     [steps.online.relative]: {
       on: {
         BACK: {
-          target: showFileUpload
-            ? steps.dokumente.relative
-            : steps.art.relative,
+          target: getOnlineBackTarget(),
         },
       },
     },

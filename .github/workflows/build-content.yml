@@ -12,12 +12,12 @@ jobs:
   get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/cached-checkout-install
       - run: npm run build:localContent
         env:
-          STRAPI_API: "${{ secrets.STRAPI_API }}"
-          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}" ## this value is related the API Token pipeline-new in Strapi staging
+          STRAPI_API: "${{ vars.STRAPI_API }}"
+          STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
       - run: echo "content_file_size_mb=$(stat -c %s content.json | numfmt --to=iec | grep -Po '\d+')" >> $GITHUB_OUTPUT
         id: contentFileSize
       - name: Alert slack channel upon high content file size
@@ -63,7 +63,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Download Content File
         uses: actions/download-artifact@v6
         with:

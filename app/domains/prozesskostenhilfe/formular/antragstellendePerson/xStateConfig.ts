@@ -6,7 +6,6 @@ import type {
   FlowConfigTransitions,
 } from "~/services/flow/server/types";
 import {
-  antragstellendePersonDone,
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
   empfaengerIsAnderePerson,
@@ -28,7 +27,7 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
   return {
     id: "antragstellende-person",
     initial: steps.empfaenger.relative,
-    meta: { done: antragstellendePersonDone },
+    meta: { shouldAppearAsMenuNavigation: true },
     states: {
       [steps.empfaenger.relative]: {
         on: {

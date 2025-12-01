@@ -7,7 +7,6 @@ import {
   livesNotAlone,
 } from "../guards";
 import { berhAntragFinanzielleAngabenWohnungPages } from "./pages";
-import { wohnungDone } from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenWohnungPages,
@@ -16,7 +15,6 @@ const steps = xStateTargetsFromPagesConfig(
 export const berhAntragFinanzielleAngabenWohnungXstateConfig = {
   id: "wohnung",
   initial: steps.wohnsituation.relative,
-  meta: { done: wohnungDone },
   on: {
     SUBMIT: "#eigentum",
   },

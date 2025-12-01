@@ -1,4 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
 const prefix = "/finanzielle-angaben/wohnung";
 export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   all: [
@@ -11,19 +12,19 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: prefix + "/anzahl-mitbewohner",
       userInput: {
-        apartmentPersonCount: "3",
+        apartmentPersonCount: 3,
       },
     },
     {
       stepId: prefix + "/groesse",
       userInput: {
-        apartmentSizeSqm: "33",
+        apartmentSizeSqm: 33,
       },
     },
     {
       stepId: prefix + "/anzahl-zimmer",
       userInput: {
-        numberOfRooms: "3",
+        numberOfRooms: 3,
       },
     },
     {
@@ -167,4 +168,4 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
       stepId: "/finanzielle-angaben/eigentum/eigentum-info",
     },
   ],
-} satisfies FlowTestCases["testcases"];
+} satisfies FlowTestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;

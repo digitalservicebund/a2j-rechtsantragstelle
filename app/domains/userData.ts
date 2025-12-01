@@ -6,9 +6,10 @@ import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
+import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
-type ObjectType = {
+export type ObjectType = {
   // oxlint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
@@ -25,6 +26,7 @@ export type AllUserDataKeys = KeysOfUnion<
   | FluggastrechtVorabcheckUserData
   | FluggastrechteUserData
   | ProzesskostenhilfeFormularUserData
+  | KontopfaendungWegweiserUserData
 >;
 
 const contexts = {

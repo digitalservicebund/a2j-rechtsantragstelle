@@ -1,7 +1,6 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 import type { Config } from "~/services/flow/server/types";
-import { kinderDone } from "../doneFunctions";
 import { partnerEinkuenfteGuards } from "../einkuenfte/guards";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
@@ -23,7 +22,7 @@ const steps = xStateTargetsFromPagesConfig(
 export const kinderXstateConfig = {
   id: "kinder",
   initial: steps.kinderFrage.relative,
-  meta: { done: kinderDone },
+  meta: { shouldAppearAsMenuNavigation: true },
   states: {
     [steps.kinderFrage.relative]: {
       on: {
