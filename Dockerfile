@@ -9,8 +9,6 @@ WORKDIR /a2j
 COPY package.json package-lock.json ./
 
 RUN apk add openjdk21
-
-RUN npm config set ignore-scripts true
 RUN pnpm i --frozen-lockfile --prod --no-optional
 
 FROM scratch AS app
