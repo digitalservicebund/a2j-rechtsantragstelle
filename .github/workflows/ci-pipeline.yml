@@ -15,7 +15,7 @@ env:
 
 jobs:
   code-quality:
-    uses: ./.github/workflows/npm-commands.yml
+    uses: ./.github/workflows/code-quality.yml
     secrets:
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
