@@ -1,5 +1,9 @@
+import { fluggastrechteIntroPages } from "~/domains/fluggastrechte/formular/intro/pages";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteIntroPages);
 export const introXstateConfig = {
-  id: "intro",
+  id: steps.intro.relative,
   initial: "start",
   meta: { done: () => true },
   states: {
