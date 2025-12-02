@@ -7,7 +7,7 @@ const steps = xStateTargetsFromPagesConfig(fluggastrechteProzessfuehrungPages);
 export const prozessfuehrungXstateConfig = {
   meta: { done: prozessfuehrungDone },
   id: "prozessfuehrung",
-  initial: "zeugen",
+  initial: steps.prozessfuehrungZeugen.relative,
   states: {
     [steps.prozessfuehrungZeugen.relative]: {
       on: {
