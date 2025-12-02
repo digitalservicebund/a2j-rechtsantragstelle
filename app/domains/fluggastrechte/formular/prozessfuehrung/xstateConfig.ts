@@ -1,8 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { prozessfuehrungDone } from "./doneFunctions";
-import { fluggastrechteProzessfuehrungPages } from "~/domains/fluggastrechte/formular/prozessfuehrung/pages";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 
-const steps = xStateTargetsFromPagesConfig(fluggastrechteProzessfuehrungPages);
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const prozessfuehrungXstateConfig = {
   meta: { done: prozessfuehrungDone },
@@ -14,9 +14,9 @@ export const prozessfuehrungXstateConfig = {
         BACK: [
           {
             guard: "isWeiterePersonenYes",
-            target: "#weitere-personen.uebersicht",
+            target: steps.weiterePersonenUebersicht.absolute,
           },
-          "#weitere-personen.frage",
+          steps.weiterePersonenFrage.absolute,
         ],
         SUBMIT: steps.prozessfuehrungVideoverhandlung.relative,
       },
@@ -29,15 +29,15 @@ export const prozessfuehrungXstateConfig = {
     },
     [steps.prozessfuehrungVersaeumnisurteil.relative]: {
       on: {
-        SUBMIT: "zahlung-nach-klageeinreichung",
+        SUBMIT: steps.prozessfuehrungZahlung.relative,
         BACK: steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
-    "zahlung-nach-klageeinreichung": {
+    [steps.prozessfuehrungZahlung.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "#zusammenfassung.start",
+            target: steps.zusammenfassungStart.absolute,
             guard: "prozessfuehrungDone",
           },
         ],

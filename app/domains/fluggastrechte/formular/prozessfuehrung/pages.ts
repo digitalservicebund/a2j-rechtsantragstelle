@@ -20,4 +20,7 @@ export const fluggastrechteProzessfuehrungPages = {
       versaeumnisurteil: YesNoAnswer,
     },
   },
+  prozessfuehrungZahlung: {
+    stepId: "prozessfuehrung/zahlung-nach-klageeinreichung",
+  },
 } satisfies PagesConfig;
