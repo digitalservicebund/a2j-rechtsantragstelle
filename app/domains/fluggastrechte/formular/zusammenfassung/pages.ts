@@ -1,6 +1,6 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
 
-export const fluggastrechteZusammenfassungPages: PagesConfig = {
+export const fluggastrechteZusammenfassungPages = {
   zusammenfassung: {
     stepId: "zusammenfassung",
   },
