@@ -1,4 +1,10 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { personDone, weiterePersonenDone } from "./doneFunctions";
+import { fluggastrechtePersoenlicheDatenPages } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
+
+const steps = xStateTargetsFromPagesConfig(
+  fluggastrechtePersoenlicheDatenPages,
+);
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
@@ -7,13 +13,13 @@ export const persoenlicheDatenXstateConfig = {
     person: {
       meta: { done: personDone },
       id: "person",
-      initial: "daten",
+      initial: steps.personDaten.relative,
       states: {
-        daten: {
+        [steps.personDaten.relative]: {
           on: {
             SUBMIT: {
               guard: "personDone",
-              target: "#weitere-personen.frage",
+              target: steps.weiterePersonenFrage.absolute,
             },
             BACK: "#flugdaten.zusaetzliche-angaben",
           },
@@ -23,26 +29,26 @@ export const persoenlicheDatenXstateConfig = {
     "weitere-personen": {
       meta: { done: weiterePersonenDone, shouldAppearAsMenuNavigation: true },
       id: "weitere-personen",
-      initial: "frage",
+      initial: steps.weiterePersonenFrage.relative,
       states: {
         frage: {
           on: {
             SUBMIT: [
               {
                 guard: "isWeiterePersonenYes",
-                target: "uebersicht",
+                target: steps.weiterePersonenUebersicht.relative,
               },
               {
                 guard: "weiterePersonenDone",
                 target: "#prozessfuehrung.zeugen",
               },
             ],
-            BACK: "#person.daten",
+            BACK: steps.personDaten.absolute,
           },
         },
         uebersicht: {
           on: {
-            BACK: "frage",
+            BACK: steps.weiterePersonenFrage.relative,
             SUBMIT: [
               {
                 guard: "isMissingAddWeiterePersonen",
@@ -60,19 +66,19 @@ export const persoenlicheDatenXstateConfig = {
           },
         },
         person: {
-          initial: "daten",
+          initial: steps.personDaten.relative,
           states: {
             daten: {
               on: {
-                BACK: "#weitere-personen.uebersicht",
-                SUBMIT: "#weitere-personen.uebersicht",
+                BACK: steps.weiterePersonenUebersicht.absolute,
+                SUBMIT: steps.weiterePersonenUebersicht.absolute,
               },
             },
           },
         },
         warnung: {
           on: {
-            BACK: "#weitere-personen.uebersicht",
+            BACK: steps.weiterePersonenUebersicht.absolute,
           },
         },
       },
