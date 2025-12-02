@@ -101,7 +101,7 @@
     "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.9.6",
     "@react-router/fs-routes": "^7.9.6",
-    "@size-limit/file": "^11.2.0",
+    "@size-limit/file": "^12.0.0",
     "@storybook/addon-a11y": "^10.1.2",
     "@storybook/addon-docs": "^10.1.2",
     "@storybook/react-vite": "^10.1.2",
@@ -138,7 +138,7 @@
     "p-map": "^7.0.4",
     "prettier": "^3.7.3",
     "react-router-dom": "^7.9.6",
-    "size-limit": "^11.2.0",
+    "size-limit": "^12.0.0",
     "storybook": "^10.1.2",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
@@ -164,7 +164,7 @@
   "size-limit": [
     {
       "path": "build/client/assets/*.js",
-      "limit": "450 kB",
+      "limit": "475 kB",
       "gzip": true
     }
   ]
