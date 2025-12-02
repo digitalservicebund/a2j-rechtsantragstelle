@@ -2,6 +2,7 @@ import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const ZIP_CODE_EDGE_CASE = "10789";
+const ZIP_CODE_EDGE_CASE_SECONDARY = "45143";
 const STREET_EDGE_CASE = "bayreuther_str.";
 const STREET_HOUSE_NUMBER_EDGE_CASE = "10";
 
@@ -58,7 +59,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
       postleitzahlBeklagtePerson: ZIP_CODE_EDGE_CASE,
       strasseBeklagte: STREET_EDGE_CASE,
       strasseNummerBeklagte: STREET_HOUSE_NUMBER_EDGE_CASE,
-      postleitzahlSecondary: ZIP_CODE_EDGE_CASE,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
       strasseSekundaer: STREET_EDGE_CASE,
       strasseNummerSekundaer: STREET_HOUSE_NUMBER_EDGE_CASE,
     },
@@ -98,7 +99,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
       postleitzahlBeklagtePerson: ZIP_CODE_EDGE_CASE,
       strasseBeklagte: STREET_EDGE_CASE,
       strasseNummerBeklagte: STREET_HOUSE_NUMBER_EDGE_CASE,
-      postleitzahlSecondary: ZIP_CODE_EDGE_CASE,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
       strasseSekundaer: STREET_EDGE_CASE,
       strasseNummerSekundaer: STREET_HOUSE_NUMBER_EDGE_CASE,
     },
@@ -121,7 +122,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
       postleitzahlBeklagtePerson: ZIP_CODE_EDGE_CASE,
       strasseBeklagte: STREET_EDGE_CASE,
       strasseNummerBeklagte: STREET_HOUSE_NUMBER_EDGE_CASE,
-      postleitzahlSecondary: ZIP_CODE_EDGE_CASE,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
       strasseSekundaer: STREET_EDGE_CASE,
       strasseNummerSekundaer: STREET_HOUSE_NUMBER_EDGE_CASE,
     },

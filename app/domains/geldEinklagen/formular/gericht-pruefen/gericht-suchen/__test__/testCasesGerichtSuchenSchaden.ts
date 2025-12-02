@@ -2,6 +2,7 @@ import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const ZIP_CODE_PILOT_COURT = "10823";
+const ZIP_CODE_EDGE_CASE_SECONDARY = "53111";
 
 const baseContext = {
   forderung: "maximal5000" as const,
@@ -32,7 +33,7 @@ export const testCasesGerichtSuchenSchaden = [
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -46,7 +47,7 @@ export const testCasesGerichtSuchenSchaden = [
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -59,7 +60,7 @@ export const testCasesGerichtSuchenSchaden = [
       ...baseContext,
       klagendeKaufmann: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
