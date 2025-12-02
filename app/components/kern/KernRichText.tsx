@@ -6,7 +6,7 @@ export type RichTextProps = {
 const KernRichText = ({ html, className }: RichTextProps) => {
   return (
     <div
-      className="kern-body gap-kern-space-default flex flex-col"
+      className={`kern-body gap-kern-space-default flex flex-col ${className ?? ""}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

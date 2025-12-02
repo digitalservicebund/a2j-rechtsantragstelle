@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Hero from "~/components/content/Hero";
 import KernHero from "~/components/kern/KernHero";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernHero",
+  title: "KERN/KernHero",
   component: KernHero,
   parameters: {
     layout: "fullscreen",
@@ -19,15 +22,25 @@ const defaultArgs = {
   heading: {
     text: "Hero Heading",
     tagName: "h1",
-    look: "default",
+    look: "ds-heading-01-reg",
   } as const,
 };
 
 export const Default: Story = {
+  decorators: [
+    (Story) => (
+      <GridSection className="bg-kern-action-default pt-40 pb-40">
+        <Grid>
+          <Story />
+        </Grid>
+      </GridSection>
+    ),
+  ],
   args: {
     ...defaultArgs,
     content: {
       html: "A complete hero section with heading, content and a call-to-action button.",
+      className: "ds-heading-03-bold"
     },
   },
 };
