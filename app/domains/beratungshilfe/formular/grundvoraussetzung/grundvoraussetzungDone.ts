@@ -6,8 +6,8 @@ export const grundvoraussetzungDone: GenericGuard<
 > = ({ context }) =>
   Boolean(
     context.rechtsschutzversicherung === "no" &&
-      context.wurdeVerklagt === "no" &&
-      context.klageEingereicht === "no" &&
-      context.beratungshilfeBeantragt === "no" &&
-      context.eigeninitiativeGrundvorraussetzung === "no",
+    context.wurdeVerklagt === "no" &&
+    context.klageEingereicht === "no" &&
+    context.beratungshilfeBeantragt === "no" &&
+    context.eigeninitiativeGrundvorraussetzung === "no",
   );

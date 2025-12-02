@@ -14,9 +14,8 @@ vi.mock("~/services/cms/index.server", () => ({
   fetchFlowPage: vi.fn(),
 }));
 
-const { fetchAllFormFields } = await import(
-  "~/services/cms/fetchAllFormFields"
-);
+const { fetchAllFormFields } =
+  await import("~/services/cms/fetchAllFormFields");
 const { fetchFlowPage } = await import("~/services/cms/index.server");
 
 const mockFetchAllFormFields = vi.mocked(fetchAllFormFields);

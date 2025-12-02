@@ -69,6 +69,7 @@ export function renderZodEnum(
           options={options}
           altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
+          width={get(matchingElement, "width")}
         />
       );
     }

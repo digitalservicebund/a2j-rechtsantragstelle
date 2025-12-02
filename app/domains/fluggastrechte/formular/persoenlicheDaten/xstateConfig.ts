@@ -21,7 +21,7 @@ export const persoenlicheDatenXstateConfig = {
       },
     },
     "weitere-personen": {
-      meta: { done: weiterePersonenDone },
+      meta: { done: weiterePersonenDone, shouldAppearAsMenuNavigation: true },
       id: "weitere-personen",
       initial: "frage",
       states: {
