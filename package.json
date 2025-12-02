@@ -64,7 +64,7 @@
     "compression": "^1.8.1",
     "cookie": "^1.1.1",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
     "fflate": "^0.8.2",
     "haversine-distance": "1.2.4",
