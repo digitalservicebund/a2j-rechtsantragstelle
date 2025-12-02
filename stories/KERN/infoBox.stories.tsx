@@ -44,7 +44,7 @@ const defaultArgs = {
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <GridSection className="bg-kern-darkblue-500">
+      <GridSection className="bg-kern-neutral-050">
         <Grid>
           <Story />
         </Grid>
@@ -57,11 +57,9 @@ export const Default: Story = {
 export const WithImage: Story = {
   decorators: [
     (Story) => (
-      <GridSection className="bg-kern-darkblue-500">
+      <GridSection className="bg-kern-neutral-050">
         <Grid>
-          <div>
-            <Story />
-          </div>
+          <Story />
         </Grid>
       </GridSection>
     ),

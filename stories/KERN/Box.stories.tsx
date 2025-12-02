@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <div className="bg-kern-yellow-600">
+      <div className="bg-kern-neutral-050">
         <Story />
       </div>
     ),

@@ -19,6 +19,15 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => {
+      // Set KERN theme to light mode
+      if (typeof document !== "undefined") {
+        document.documentElement.setAttribute("data-kern-theme", "light");
+      }
+      return Story();
+    },
+  ],
 };
 
 export default preview;
