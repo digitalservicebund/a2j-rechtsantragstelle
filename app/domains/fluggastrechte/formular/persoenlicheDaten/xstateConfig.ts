@@ -1,10 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { personDone, weiterePersonenDone } from "./doneFunctions";
-import { fluggastrechtePersoenlicheDatenPages } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 
-const steps = xStateTargetsFromPagesConfig(
-  fluggastrechtePersoenlicheDatenPages,
-);
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
@@ -31,7 +29,7 @@ export const persoenlicheDatenXstateConfig = {
       id: "weitere-personen",
       initial: steps.weiterePersonenFrage.relative,
       states: {
-        frage: {
+        [steps.weiterePersonenFrage.relative]: {
           on: {
             SUBMIT: [
               {
@@ -40,7 +38,7 @@ export const persoenlicheDatenXstateConfig = {
               },
               {
                 guard: "weiterePersonenDone",
-                target: "#prozessfuehrung.zeugen",
+                target: steps.prozessfuehrungZeugen.absolute,
               },
             ],
             BACK: steps.personDaten.absolute,
@@ -52,11 +50,11 @@ export const persoenlicheDatenXstateConfig = {
             SUBMIT: [
               {
                 guard: "isMissingAddWeiterePersonen",
-                target: "#weitere-personen.warnung",
+                target: steps.weiterePersonenWarnung.absolute,
               },
               {
                 guard: "weiterePersonenDone",
-                target: "#prozessfuehrung.zeugen",
+                target: steps.prozessfuehrungZeugen.absolute,
               },
             ],
             "add-weiterePersonen": {
@@ -76,7 +74,7 @@ export const persoenlicheDatenXstateConfig = {
             },
           },
         },
-        warnung: {
+        [steps.weiterePersonenWarnung.relative]: {
           on: {
             BACK: steps.weiterePersonenUebersicht.absolute,
           },

@@ -82,4 +82,7 @@ export const fluggastrechtePersoenlicheDatenPages = {
       },
     },
   },
+  weiterePersonenWarnung: {
+    stepId: "persoenliche-daten/weitere-personen/warnung",
+  },
 } satisfies PagesConfig;
