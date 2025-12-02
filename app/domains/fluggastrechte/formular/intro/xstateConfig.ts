@@ -11,9 +11,9 @@ export const introXstateConfig = {
     [steps.intro.relative]: {
       on: {
         SUBMIT: steps.grundvoraussetzungenDatenverarbeitung.absolute,
-        BACK: "redirect-vorabcheck-ergebnis",
+        BACK: steps.redirectVorabcheckErgebnis.relative,
       },
     },
-    "redirect-vorabcheck-ergebnis": { on: {} },
+    [steps.redirectVorabcheckErgebnis.relative]: { on: {} },
   },
 };
