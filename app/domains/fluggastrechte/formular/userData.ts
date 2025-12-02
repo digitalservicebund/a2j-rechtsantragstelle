@@ -3,7 +3,7 @@ import { airportSchema } from "~/services/validation/airport";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { fluggastrechteFlugdatenInputSchema } from "./flugdaten/userData";
-import { fluggastrechteGrundvoraussetzungenInputSchema } from "./grundvoraussetzungen/userData";
+import type { FluggastrechteGrundvoraussetzungenUserData } from "./grundvoraussetzungen/userData";
 import type { FluggastrechtePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import type { FluggastrechteProzessfuehrungUserData } from "./prozessfuehrung/userData";
 import type { FluggastrechteStreitwertKostenUserData } from "./streitwertKosten/userData";
@@ -12,7 +12,6 @@ export const fluggastrechteInputSchema = {
   startAirport: schemaOrEmptyString(airportSchema),
   endAirport: schemaOrEmptyString(airportSchema),
   ...fluggastrechteFlugdatenInputSchema,
-  ...fluggastrechteGrundvoraussetzungenInputSchema,
   ankuendigung: schemaOrEmptyString(
     z.enum(["no", "until6Days", "between7And13Days", "moreThan13Days"]),
   ),
@@ -25,6 +24,7 @@ export const fluggastrechteInputSchema = {
 
 const _contextObject = z.object(fluggastrechteInputSchema).partial();
 export type FluggastrechteUserData = z.infer<typeof _contextObject> &
+  FluggastrechteGrundvoraussetzungenUserData &
   FluggastrechtePersoenlicheDatenUserData &
   FluggastrechteProzessfuehrungUserData &
   FluggastrechteStreitwertKostenUserData;

@@ -1,32 +1,40 @@
+import type { FluggastrechteGrundvoraussetzungenUserData } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/userData";
+import type { Config } from "~/services/flow/server/types";
 import { grundvoraussetzungenDone } from "./doneFunctions";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteGrundvoraussetzungenPages } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/pages";
+
+const steps = xStateTargetsFromPagesConfig(
+  fluggastrechteGrundvoraussetzungenPages,
+);
 
 export const grundvoraussetzungenXstateConfig = {
   meta: { done: grundvoraussetzungenDone },
   id: "grundvoraussetzungen",
-  initial: "datenverarbeitung",
+  initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
-    datenverarbeitung: {
+    [steps.grundvoraussetzungenDatenverarbeitung.relative]: {
       on: {
-        SUBMIT: "streitbeilegung",
+        SUBMIT: steps.grundvoraussetzungenStreitbeilegung.relative,
         BACK: "#intro.start",
       },
     },
-    streitbeilegung: {
+    [steps.grundvoraussetzungenStreitbeilegung.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "streitbeilegung-gruende",
+            target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
             guard: "hasNoStreitbeilegung",
           },
           "prozessfaehig",
         ],
-        BACK: "datenverarbeitung",
+        BACK: steps.grundvoraussetzungenDatenverarbeitung.relative,
       },
     },
-    "streitbeilegung-gruende": {
+    [steps.grundvoraussetzungenStreitbeilegungGruende.relative]: {
       on: {
         SUBMIT: "prozessfaehig",
-        BACK: "streitbeilegung",
+        BACK: steps.grundvoraussetzungenStreitbeilegung.relative,
       },
     },
     prozessfaehig: {
@@ -34,10 +42,10 @@ export const grundvoraussetzungenXstateConfig = {
         SUBMIT: "ausgleichszahlung",
         BACK: [
           {
-            target: "streitbeilegung-gruende",
+            target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
             guard: "hasNoStreitbeilegung",
           },
-          "streitbeilegung",
+          steps.grundvoraussetzungenStreitbeilegung.relative,
         ],
       },
     },
@@ -65,4 +73,4 @@ export const grundvoraussetzungenXstateConfig = {
       },
     },
   },
-};
+} satisfies Config<FluggastrechteGrundvoraussetzungenUserData>;
