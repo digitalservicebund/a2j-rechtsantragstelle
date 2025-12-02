@@ -71,7 +71,10 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
       userData.strasseNummerSekundaer,
     );
 
-    if (resultPiloTCourtBeklagte.isOk) {
+    if (
+      resultPiloTCourtBeklagte.isOk &&
+      !pilotCourts.includes(resultPiloTCourtBeklagte.value)
+    ) {
       pilotCourts.push(resultPiloTCourtBeklagte.value);
     }
   }

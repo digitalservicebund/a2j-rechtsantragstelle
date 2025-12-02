@@ -3,6 +3,7 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const ZIP_CODE_PILOT_COURT = "10823";
 const ZIP_CODE_NON_PILOT_COURT = "10115";
+const ZIP_CODE_EDGE_CASE_SECONDARY = "53111";
 
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal5000",
@@ -75,7 +76,7 @@ export const testCasesZustaendigesGericht = [
       klagendeVerbraucher: "yes",
       klagendeHaustuergeschaeft: "yes",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
       pilotGerichtAuswahl: "sekundaerCourt",
     },
     [
