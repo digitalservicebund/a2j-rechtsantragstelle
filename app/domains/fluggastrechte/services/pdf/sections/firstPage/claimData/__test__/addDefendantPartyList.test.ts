@@ -32,7 +32,7 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei wird verurteilt, an die klagende Partei 600 € nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
+      "Die beklagte Partei wird verurteilt, an die klagende Partei 600 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
       "2. ",
@@ -61,7 +61,7 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei wird verurteilt, an die klagende Partei 600 € zu zahlen.",
+      "Die beklagte Partei wird verurteilt, an die klagende Partei 600 Euro zu zahlen.",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
       "2. ",

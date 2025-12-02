@@ -21,7 +21,7 @@ const INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT =
 export const INFORMATION_BOOKING_AND_ASSIGNMENTS_TEXT = `Für sämtliche Angaben, insbesondere zu Buchungen, Check-in, Boarding, ${INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT}`;
 export const INFORMATION_BOOKING_AND_ASSIGNMENTS_ANNULLIERUNG_TEXT = `Für sämtliche Angaben, insbesondere zu Buchungen, ${INFORMATION_BOOKING_AND_ASSIGNMENTS_SECOND_PART_TEXT}`;
 export const EVIDENCE_QUESTION_WITNESSES_TEXT =
-  "Beweis angeboten durch Vernehmung der folgenden Personen als Zeugen:";
+  "Beweis angeboten durch Vernehmung der folgenden Personen als Zeugen und/oder Zeuginnen:";
 
 export const addMultiplePersonsInfo = (
   doc: typeof PDFDocument,
