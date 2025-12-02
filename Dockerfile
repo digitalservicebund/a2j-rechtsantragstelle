@@ -8,8 +8,6 @@ WORKDIR /a2j
 
 COPY package.json package-lock.json ./
 
-RUN apk add openjdk21
-
 RUN npm config set ignore-scripts true
 RUN npm ci --omit=dev --omit=optional
 
