@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernHeroWithButton from "~/components/kern/KernHeroWithButton";
 
 const meta = {
-  title: "Content/KernHeroWithButton",
+  title: "kern/KernHeroWithButton",
   component: KernHeroWithButton,
   parameters: {
     layout: "fullscreen",
@@ -18,7 +18,7 @@ const defaultArgs = {
   heading: {
     text: "Hero Heading",
     tagName: "h1",
-    look: "default",
+    look: "ds-heading-01-reg",
   } as const,
 };
 

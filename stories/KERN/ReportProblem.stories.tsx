@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import Container from "~/components/layout/Container";
 import { mocked } from "storybook/test";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
-import { SurveyQuestionType, type PostHog, type Survey,  } from "posthog-js";
+import { SurveyQuestionType, type PostHog, type Survey } from "posthog-js";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 
 const meta = {
-  title: "Component/KernReportProblem",
+  title: "KERN/KernReportProblem",
   component: KernReportProblem,
   beforeEach: async () => {
     mocked(fetchSurvey).mockReturnValue({

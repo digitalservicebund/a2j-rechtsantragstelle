@@ -4,6 +4,7 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
+import KernHeading from "./KernHeading";
 
 type Props = Readonly<{
   heading: HeadingProps;
@@ -24,9 +25,12 @@ export default function KernHeroWithButton({
       xlColumn={{ start: 3, span: 7 }}
       className="flex flex-col bg-kern-neutral-050 gap-kern-space-medium"
     >
-      <Heading {...heading} />
+      <KernHeading {...heading} />
       {content && (
-        <RichText className="kern-heading-medium" html={content.html} />
+        <RichText
+          className="kern-heading-medium text-black!"
+          html={content.html}
+        />
       )}
       {button && (
         <ButtonContainer>

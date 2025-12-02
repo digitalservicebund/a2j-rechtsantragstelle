@@ -11,6 +11,6 @@ export const StrapiHeroWithButtonSchema = z.object({
   content: StrapiParagraphSchema.nullable().transform(omitNull),
   outerBackground: StrapiBackgroundOptionalSchema,
   button: StrapiButtonSchema.nullable().transform(omitNull),
-  __component: z.literal("page.hero-button"),
+  __component: z.literal("page.hero-with-button"),
   ...HasStrapiIdSchema.shape,
 });

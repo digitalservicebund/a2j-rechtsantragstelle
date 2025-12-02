@@ -50,6 +50,7 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 }
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  if (el.__component === "page.hero") return "bg-kern-action-default";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -73,7 +74,7 @@ function cmsToReact(
         return <KernBox {...componentProps} />;
       case "page.hero":
         return <KernHero {...componentProps} />;
-      case "page.hero-button":
+      case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
@@ -156,6 +157,7 @@ function ContentComponents({
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
+      const isHero = el.__component === "page.hero";
       const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {

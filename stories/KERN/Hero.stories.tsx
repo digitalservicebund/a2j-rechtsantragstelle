@@ -3,7 +3,7 @@ import Hero from "~/components/content/Hero";
 import KernHero from "~/components/kern/KernHero";
 
 const meta = {
-  title: "Content/KernHero",
+  title: "kern/KernHero",
   component: KernHero,
   parameters: {
     layout: "fullscreen",

@@ -2,20 +2,15 @@ import classNames from "classnames";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import KernInfoBoxItem, { type KernInfoBoxItemProps } from "./KernInfoBoxItem";
+import KernHeading from "./KernHeading";
 
 export type KernInfoBoxProps = {
   identifier?: string;
   heading?: HeadingProps;
-  separator?: boolean;
   items: KernInfoBoxItemProps[];
 };
 
-const KernInfoBox = ({
-  identifier,
-  heading,
-  separator = true,
-  items,
-}: KernInfoBoxProps) => {
+const KernInfoBox = ({ identifier, heading, items }: KernInfoBoxProps) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
@@ -24,13 +19,10 @@ const KernInfoBox = ({
       className="gap-kern-space-small"
       id={identifier}
     >
-      {heading && <Heading {...heading} />}
+      {heading && <h1 className="kern-heading-x-large">{heading.text}</h1>}
       {items.length > 0 && (
         <div
-          // className={classNames("ps-0 info-box ds-stack py-24", {
-          //   "ds-stack-48": !separator,
-          //   "ds-stack-32": separator,
-          // })}
+          className="flex flex-col justify-start align-start gap-kern-space-x-large"
           data-testid="info-box-item-container"
         >
           {items.map((item) => (

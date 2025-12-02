@@ -14,6 +14,8 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernHeading from "./KernHeading";
 import KernButton from "./KernButton";
+import KernHeadline from "./KernHeadline";
+import KernLabel from "./KernLabel";
 
 export type KernInfoBoxItemProps = {
   id: number; // Strapi id
@@ -40,12 +42,11 @@ const KernInfoBoxItem = ({
   buttons,
   accordion,
 }: KernInfoBoxItemProps) => {
+  console.log(content);
   return (
     <div
       id={identifier}
-      className={classNames(
-        "flex flex-row items-center justify-center max-w-none max-[499px]:flex-col first:pt-0 scroll-my-40",
-      )}
+      className={classNames("flex flex-row items-start justify-start")}
     >
       {image && (
         <Image
@@ -53,13 +54,11 @@ const KernInfoBoxItem = ({
           className="max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline"
         />
       )}
-      <div
-        className={`ds-stack ds-stack-16 break-words w-full ${
-          image ? "min-[500px]:ml-16" : ""
-        }`}
-      >
-        {/* {label && <KernHeading {...label} />} */}
-        {headline && <KernHeading {...headline} />}
+      <div className="flex flex-col">
+        {label && <KernLabel text={label.text} tagName={label.tagName} />}
+        {headline && (
+          <KernHeadline text={headline.text} tagName={headline.tagName} />
+        )}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />
