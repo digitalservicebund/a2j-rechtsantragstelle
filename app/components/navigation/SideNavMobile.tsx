@@ -71,17 +71,20 @@ export default function SideNavMobile({
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
+  const focusFirstItem = (event: React.ToggleEvent<HTMLDetailsElement>) =>
+    event.currentTarget.open && firstItemRef.current?.focus();
+
   return (
     <details
       className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent"
       data-testid="side-nav-details"
+      onToggle={focusFirstItem}
     >
       {/* col-reverse needed to preserve correct tab order 
        (top close button at the end of the tab order)*/}
       <summary
         className="flex flex-col cursor-pointer w-full outline-none group/summary"
         aria-label={translations.navigationMobile.toggleMenu.de}
-        data-testid="side-nav-summary"
       >
         <div
           className="not-group-open:hidden min-h-screen flex bg-black opacity-70"

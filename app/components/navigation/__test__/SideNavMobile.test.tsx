@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
 import { type NavItem } from "../types";
@@ -49,5 +49,22 @@ describe("SideNavMobile", () => {
     );
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Page 1");
+  });
+
+  it("should focus in the first nav item when click in the menu button", async () => {
+    const { getByLabelText, container } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const toggleElement = getByLabelText(
+      translations.navigationMobile.toggleMenu.de,
+    );
+    fireEvent.click(toggleElement);
+    const firstAnchorElement = container.querySelector(
+      `a[href="${dummyNavItems[0].destination}"]`,
+    );
+
+    await waitFor(() => {
+      expect(firstAnchorElement).toHaveFocus();
+    });
   });
 });
