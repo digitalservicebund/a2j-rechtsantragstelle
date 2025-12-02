@@ -2,6 +2,10 @@ import { type Config } from "~/services/flow/server/types";
 import { streitwertKostenDone } from "./doneFunctions";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 import { type FluggastrechteUserData } from "../userData";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteStreitwertKostenPages } from "~/domains/fluggastrechte/formular/streitwertKosten/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteStreitwertKostenPages);
 
 export const streitwertKostenXstateConfig = {
   meta: { done: streitwertKostenDone },
@@ -16,11 +20,11 @@ export const streitwertKostenXstateConfig = {
     },
     "andere-kosten": {
       on: {
-        SUBMIT: "prozesszinsen",
+        SUBMIT: steps.streitwertKostenProzesszinsen.relative,
         BACK: "gerichtskosten",
       },
     },
-    prozesszinsen: {
+    [steps.streitwertKostenProzesszinsen.relative]: {
       on: {
         SUBMIT: [
           {
