@@ -19,7 +19,7 @@ export const CLAIM_FULL_JUSTIFIED_TEXT =
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
 const ADVANCE_COURT_COSTS_SECOND_TEXT =
-  "€ anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
+  "Euro anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
 const getAssumedSettlementSectionText = ({
   streitbeilegung,

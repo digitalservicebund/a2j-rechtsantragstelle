@@ -21,7 +21,7 @@ export const addDefendantPartyList = (
       : "";
 
   const defendantPartyList = {
-    "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} €${interestClause} zu zahlen.`,
+    "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
     "2. ": "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
   };
 
