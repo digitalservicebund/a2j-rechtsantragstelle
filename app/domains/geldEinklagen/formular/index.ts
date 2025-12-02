@@ -4,7 +4,7 @@ import {
   getOptionsCourts,
   getResponsibleCourtString,
   hasClaimVertrag,
-  hasExclusivePlaceJurisdiction,
+  hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
@@ -18,7 +18,7 @@ export const geldEinklagenFormular = {
     ...hasClaimVertrag(context),
     ...getOptionsCourts(context),
     ...getResponsibleCourtString(context),
-    ...hasExclusivePlaceJurisdiction(context),
+    ...hasExclusivePlaceJurisdictionOrSelectCourt(context),
   }),
   config: {
     id: "/geld-einklagen/formular",

@@ -58,19 +58,21 @@ export const getResponsibleCourtString = (
   };
 };
 
-export const hasExclusivePlaceJurisdiction = ({
+export const hasExclusivePlaceJurisdictionOrSelectCourt = ({
   sachgebiet,
   mietePachtRaum,
   mietePachtVertrag,
   gerichtsstandsvereinbarung,
   beklagtePersonGeldVerdienen,
+  pilotGerichtAuswahl,
 }: GeldEinklagenFormularUserData) => {
   return {
-    hasExclusivePlaceJurisdiction:
+    hasExclusivePlaceJurisdictionOrSelectCourt:
       (sachgebiet === "miete" &&
         mietePachtVertrag === "yes" &&
         mietePachtRaum === "yes") ||
       gerichtsstandsvereinbarung === "yes" ||
-      (sachgebiet === "urheberrecht" && beklagtePersonGeldVerdienen === "no"),
+      (sachgebiet === "urheberrecht" && beklagtePersonGeldVerdienen === "no") ||
+      pilotGerichtAuswahl !== undefined,
   };
 };

@@ -1,6 +1,6 @@
 import {
   hasClaimVertrag,
-  hasExclusivePlaceJurisdiction,
+  hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
 } from "../stringReplacements";
 
@@ -80,7 +80,7 @@ describe("stringReplacement", () => {
     });
   });
 
-  describe("hasExclusivePlaceJurisdiction", () => {
+  describe("hasExclusivePlaceJurisdictionOrSelectCourt", () => {
     it("should return true if sachgebiet is miete and mietePachtRaum and mietePachtVertrag are yes", () => {
       const context = {
         sachgebiet: "miete" as const,
@@ -88,8 +88,8 @@ describe("stringReplacement", () => {
         mietePachtVertrag: "yes" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
     });
 
     it("should return false if sachgebiet is versicherung", () => {
@@ -99,8 +99,8 @@ describe("stringReplacement", () => {
         mietePachtVertrag: "yes" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
     });
 
     it("should return false if mietePachtRaum is no", () => {
@@ -110,8 +110,8 @@ describe("stringReplacement", () => {
         mietePachtVertrag: "yes" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
     });
 
     it("should return false if mietePachtVertrag is not yes", () => {
@@ -121,8 +121,8 @@ describe("stringReplacement", () => {
         mietePachtVertrag: "no" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
     });
 
     it("should return true if gerichtsstandsvereinbarung yes", () => {
@@ -130,8 +130,8 @@ describe("stringReplacement", () => {
         gerichtsstandsvereinbarung: "yes" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
     });
 
     it("should return true if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is no", () => {
@@ -140,8 +140,8 @@ describe("stringReplacement", () => {
         beklagtePersonGeldVerdienen: "no" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
     });
 
     it("should return false if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is yes", () => {
@@ -150,8 +150,17 @@ describe("stringReplacement", () => {
         beklagtePersonGeldVerdienen: "yes" as const,
       };
 
-      const actual = hasExclusivePlaceJurisdiction(context);
-      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
+    });
+
+    it("should return true pilotGerichtAuswahl is not undefined", () => {
+      const context = {
+        pilotGerichtAuswahl: "beklagteCourt" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
     });
   });
 });
