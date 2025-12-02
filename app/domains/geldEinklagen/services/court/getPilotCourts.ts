@@ -53,29 +53,29 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
   const pilotCourts: Jmtd14VTErwerberGerbeh[] = [];
 
   if (objectKeysNonEmpty(userData, ["postleitzahlBeklagtePerson"])) {
-    const resultPiloTCourtBeklagte = getPilotCourt(
+    const resultPilotCourtBeklagte = getPilotCourt(
       userData.postleitzahlBeklagtePerson,
       userData.strasseBeklagte,
       userData.strasseNummerBeklagte,
     );
 
-    if (resultPiloTCourtBeklagte.isOk) {
-      pilotCourts.push(resultPiloTCourtBeklagte.value);
+    if (resultPilotCourtBeklagte.isOk) {
+      pilotCourts.push(resultPilotCourtBeklagte.value);
     }
   }
 
   if (objectKeysNonEmpty(userData, ["postleitzahlSecondary"])) {
-    const resultPiloTCourtBeklagte = getPilotCourt(
+    const resultPilotCourtBeklagte = getPilotCourt(
       userData.postleitzahlSecondary,
       userData.strasseSekundaer,
       userData.strasseNummerSekundaer,
     );
 
     if (
-      resultPiloTCourtBeklagte.isOk &&
-      !pilotCourts.includes(resultPiloTCourtBeklagte.value)
+      resultPilotCourtBeklagte.isOk &&
+      !pilotCourts.includes(resultPilotCourtBeklagte.value)
     ) {
-      pilotCourts.push(resultPiloTCourtBeklagte.value);
+      pilotCourts.push(resultPilotCourtBeklagte.value);
     }
   }
 
