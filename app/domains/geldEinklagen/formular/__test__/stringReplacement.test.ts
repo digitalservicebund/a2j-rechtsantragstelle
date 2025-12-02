@@ -1,4 +1,8 @@
-import { hasClaimVertrag, isBeklagtePerson } from "../stringReplacements";
+import {
+  hasClaimVertrag,
+  hasExclusivePlaceJurisdiction,
+  isBeklagtePerson,
+} from "../stringReplacements";
 
 describe("stringReplacement", () => {
   describe("isBeklagtePerson", () => {
@@ -73,6 +77,81 @@ describe("stringReplacement", () => {
 
       const actual = hasClaimVertrag(context);
       expect(actual.hasClaimVertrag).toBe(false);
+    });
+  });
+
+  describe("hasExclusivePlaceJurisdiction", () => {
+    it("should return true if sachgebiet is miete and mietePachtRaum and mietePachtVertrag are yes", () => {
+      const context = {
+        sachgebiet: "miete" as const,
+        mietePachtRaum: "yes" as const,
+        mietePachtVertrag: "yes" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+    });
+
+    it("should return false if sachgebiet is versicherung", () => {
+      const context = {
+        sachgebiet: "versicherung" as const,
+        mietePachtRaum: "yes" as const,
+        mietePachtVertrag: "yes" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+    });
+
+    it("should return false if mietePachtRaum is no", () => {
+      const context = {
+        sachgebiet: "miete" as const,
+        mietePachtRaum: "no" as const,
+        mietePachtVertrag: "yes" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+    });
+
+    it("should return false if mietePachtVertrag is not yes", () => {
+      const context = {
+        sachgebiet: "miete" as const,
+        mietePachtRaum: "yes" as const,
+        mietePachtVertrag: "no" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
+    });
+
+    it("should return true if gerichtsstandsvereinbarung yes", () => {
+      const context = {
+        gerichtsstandsvereinbarung: "yes" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+    });
+
+    it("should return true if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is no", () => {
+      const context = {
+        sachgebiet: "urheberrecht" as const,
+        beklagtePersonGeldVerdienen: "no" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(true);
+    });
+
+    it("should return false if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is yes", () => {
+      const context = {
+        sachgebiet: "urheberrecht" as const,
+        beklagtePersonGeldVerdienen: "yes" as const,
+      };
+
+      const actual = hasExclusivePlaceJurisdiction(context);
+      expect(actual.hasExclusivePlaceJurisdiction).toBe(false);
     });
   });
 });

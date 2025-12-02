@@ -25,6 +25,7 @@ export const getOptionsCourts = (context: GeldEinklagenFormularUserData) => {
   const [primary, secondary] = courts;
 
   return {
+    oneAvailableCourt: courts.length === 1,
     beklagteCourtName: primary.BEZEICHNUNG,
     beklagteCourtStreetAndNumber: primary.STR_HNR,
     beklagteCourtZipCode: primary.PLZ_ZUSTELLBEZIRK,
@@ -53,5 +54,22 @@ export const getResponsibleCourtString = (
     responsibleCourtWebsite: court.URL1 ?? "",
     responsibleCourtTelephone: court.TEL ?? "",
     responsibleCourtTelephoneNoSpace: court.TEL?.replaceAll(/\s/g, "") ?? "",
+  };
+};
+
+export const hasExclusivePlaceJurisdiction = ({
+  sachgebiet,
+  mietePachtRaum,
+  mietePachtVertrag,
+  gerichtsstandsvereinbarung,
+  beklagtePersonGeldVerdienen,
+}: GeldEinklagenFormularUserData) => {
+  return {
+    hasExclusivePlaceJurisdiction:
+      (sachgebiet === "miete" &&
+        mietePachtVertrag === "yes" &&
+        mietePachtRaum === "yes") ||
+      gerichtsstandsvereinbarung === "yes" ||
+      (sachgebiet === "urheberrecht" && beklagtePersonGeldVerdienen === "no"),
   };
 };
