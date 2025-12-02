@@ -19,13 +19,14 @@ export const getOptionsCourts = (context: GeldEinklagenFormularUserData) => {
   const courts = getPilotCourts(context);
 
   if (courts.length <= 1) {
-    return {};
+    return {
+      oneAvailableCourt: courts.length === 1,
+    };
   }
 
   const [primary, secondary] = courts;
 
   return {
-    oneAvailableCourt: courts.length === 1,
     beklagteCourtName: primary.BEZEICHNUNG,
     beklagteCourtStreetAndNumber: primary.STR_HNR,
     beklagteCourtZipCode: primary.PLZ_ZUSTELLBEZIRK,
