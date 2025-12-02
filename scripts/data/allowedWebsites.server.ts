@@ -68,4 +68,5 @@ export const allowedWebsites = [
   "https://www.caritas.de",
   "https://www.drk.de",
   "https://www.der-paritaetische.de",
+  "https://mjp.justiz.de",
 ];
