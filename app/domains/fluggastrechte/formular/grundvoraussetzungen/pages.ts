@@ -21,4 +21,16 @@ export const fluggastrechteGrundvoraussetzungenPages = {
       streitbeilegungGruende: z.enum(["yes", "no", "noSpecification"]),
     },
   },
+  grundvorraussetzungenProzessfaehig: {
+    stepId: "grundvoraussetzungen/prozessfaehig",
+  },
+  grundvoraussetzungenAusgleichszahlung: {
+    stepId: "grundvoraussetzungen/ausgleichszahlung",
+  },
+  grundvoraussetzungenDatenUebernahme: {
+    stepId: "grundvoraussetzungen/daten-uebernahme",
+  },
+  grundvoraussetzungenAmtsgericht: {
+    stepId: "grundvoraussetzungen/amtsgericht",
+  },
 } satisfies PagesConfig;

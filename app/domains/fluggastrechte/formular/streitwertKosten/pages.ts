@@ -7,4 +7,7 @@ export const fluggastrechteStreitwertKostenPages = {
       prozesszinsen: YesNoAnswer,
     },
   },
+  streitwertKostenGerichtskosten: {
+    stepId: "streitwert-kosten/gerichtskosten",
+  },
 } satisfies PagesConfig;
