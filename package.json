@@ -79,8 +79,8 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "pino-http": "^11.0.0",
-    "posthog-node": "5.14.1",
     "posthog-js": "1.298.1",
+    "posthog-node": "5.14.1",
     "rate-limit-redis": "^4.3.0",
     "react": "^19.2.0",
     "react-collapsed": "^4.2.0",
@@ -101,6 +101,7 @@
     "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.9.6",
     "@react-router/fs-routes": "^7.9.6",
+    "@rvf/react": "^8.1.0",
     "@size-limit/file": "^12.0.0",
     "@storybook/addon-a11y": "^10.1.2",
     "@storybook/addon-docs": "^10.1.2",
@@ -148,7 +149,7 @@
     "vite-env-only": "^3.0.3",
     "vite-node": "^5.2.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.13"
+    "vitest": "^4.0.14"
   },
   "engines": {
     "node": ">=24",
