@@ -44,7 +44,7 @@ describe("addPlannedFlightDetails", () => {
 
     expect(getTotalCompensationClaim).toHaveBeenCalled();
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `Streitwert: ${mockCompensation} €`,
+      `Streitwert: ${mockCompensation} Euro`,
     );
   });
 });
