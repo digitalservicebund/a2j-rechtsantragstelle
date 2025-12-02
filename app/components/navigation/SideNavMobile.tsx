@@ -80,6 +80,7 @@ export default function SideNavMobile({
        (top close button at the end of the tab order)*/}
       <summary
         className="flex flex-col cursor-pointer w-full outline-none group/summary"
+        aria-label={translations.navigationMobile.toggleMenu.de}
         data-testid="side-nav-summary"
       >
         <div

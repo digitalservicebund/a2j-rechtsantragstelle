@@ -2,6 +2,7 @@ import { render, fireEvent } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
 import SideNavMobile from "../SideNavMobile";
 import { type NavItem } from "../types";
+import { translations } from "~/services/translations/translations";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: "Current" as NavState },
@@ -37,5 +38,16 @@ describe("SideNavMobile", () => {
     expect(overlay).toHaveClass("bg-black");
     fireEvent.click(overlay);
     expect(detailsElement).not.toHaveProperty("open", true);
+  });
+
+  it("renders the main menu toggle with correct aria-label and text", () => {
+    const { getByLabelText } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const toggleLabel = getByLabelText(
+      translations.navigationMobile.toggleMenu.de,
+    );
+    expect(toggleLabel).toBeInTheDocument();
+    expect(toggleLabel).toHaveTextContent("Page 1");
   });
 });
