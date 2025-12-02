@@ -9,11 +9,10 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ### Local development
 
-With Node installed, enable `corepack` and install the specified pnpm version:
+With Node installed, enable `corepack` (this only needs to happen once):
 
 ```sh
 corepack enable
-corepack prepare pnpm@latest --activate
 ```
 
 Then, install dependencies, start necessary services and run the app:
