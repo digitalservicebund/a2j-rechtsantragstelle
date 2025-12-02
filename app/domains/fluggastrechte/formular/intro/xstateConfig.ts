@@ -1,15 +1,16 @@
-import { fluggastrechteIntroPages } from "~/domains/fluggastrechte/formular/intro/pages";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 
-const steps = xStateTargetsFromPagesConfig(fluggastrechteIntroPages);
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
+
 export const introXstateConfig = {
-  id: steps.intro.relative,
-  initial: "start",
+  id: "intro",
+  initial: steps.intro.relative,
   meta: { done: () => true },
   states: {
-    start: {
+    [steps.intro.relative]: {
       on: {
-        SUBMIT: "#grundvoraussetzungen.datenverarbeitung",
+        SUBMIT: steps.grundvoraussetzungenDatenverarbeitung.absolute,
         BACK: "redirect-vorabcheck-ergebnis",
       },
     },
