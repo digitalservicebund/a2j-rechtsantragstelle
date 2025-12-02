@@ -1,0 +1,13 @@
+ignoredBuiltDependencies:
+  - "@sentry/cli"
+  - core-js
+  - core-js-pure
+
+onlyBuiltDependencies:
+  - esbuild
+  - lefthook
+  - unrs-resolver
+
+preferFrozenLockfile: true
+
+trustPolicy: no-downgrade

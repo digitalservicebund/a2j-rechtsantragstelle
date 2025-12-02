@@ -1,4 +1,4 @@
-name: NPMCommands
+name: CodeQuality
 on:
   workflow_call:
     secrets:
@@ -11,29 +11,29 @@ jobs:
   code-quality:
     strategy:
       matrix:
-        npmCMD: ["format", "lint", "typecheck", "test:coverage", "build"]
+        cmd: ["format", "lint", "typecheck", "test:coverage", "build"]
     permissions:
       contents: read
     runs-on: ubuntu-latest
-    name: npm run ${{ matrix.npmCMD }}
+    name: pnpm run ${{ matrix.cmd }}
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: ./.github/actions/cached-checkout-install
-      - run: npm run ${{ matrix.npmCMD }}
+      - run: pnpm run ${{ matrix.cmd }}
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
       - name: Upload coverage
-        if: ${{ matrix.npmCMD == 'test:coverage' }}
+        if: ${{ matrix.cmd == 'test:coverage' }}
         uses: actions/upload-artifact@v5
         with:
           name: coverage
           path: coverage/
           retention-days: 1
       - name: Upload build
-        if: ${{ matrix.npmCMD == 'build'  && github.ref == 'refs/heads/main' }}
+        if: ${{ matrix.cmd == 'build'  && github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v5
         with:
           name: build

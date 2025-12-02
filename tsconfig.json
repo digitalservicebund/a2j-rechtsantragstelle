@@ -9,7 +9,7 @@
     ".react-router/types/**/*"
   ],
   "compilerOptions": {
-    "preserveSymlinks": true,
+    "preserveSymlinks": false,
     "incremental": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
