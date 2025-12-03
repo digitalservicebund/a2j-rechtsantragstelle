@@ -43,7 +43,6 @@ export default function KernBreadcrumbs({
               aria-label={linkLabel}
               className="focus:outline-solid pt-4"
             >
-              {/* <HomeOutlinedIcon className="h-[1.6rem]! w-[1.6rem]!" /> */}
               <span className="kern-icon kern-icon--home bg-kern-action-default!" />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
