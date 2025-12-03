@@ -55,8 +55,15 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
-  opts?: { inFlow?: boolean },
+  opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
+  // When showKernUX is true, render KERN UX components
+  // For now, we render the old components until KERN UX versions are created
+  if (opts?.showKernUX) {
+    // TODO: Replace with KERN UX components when available
+    // For now, fall through to render old components
+  }
+
   switch (componentProps.__component) {
     case "basic.heading":
       return <Heading {...componentProps} />;
@@ -98,12 +105,14 @@ type PageContentProps = {
   readonly content: StrapiContentComponent[];
   readonly className?: string;
   readonly managedByParent?: boolean;
+  readonly showKernUX?: boolean;
 };
 
 function ContentComponents({
   content = [],
   managedByParent,
   className,
+  showKernUX = false,
 }: PageContentProps) {
   if (content.length === 0) return [];
 
@@ -116,7 +125,7 @@ function ContentComponents({
       if (managedByParent) {
         return (
           <div key={`${el.__component}_${el.id}`} className={className}>
-            {cmsToReact(el, { inFlow: true })}
+            {cmsToReact(el, { inFlow: true, showKernUX })}
           </div>
         );
       }
@@ -149,7 +158,7 @@ function ContentComponents({
               ),
             }}
           >
-            {cmsToReact(el)}
+            {cmsToReact(el, { showKernUX })}
           </Grid>
         </GridSection>
       );
