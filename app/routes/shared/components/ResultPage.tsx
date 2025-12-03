@@ -7,7 +7,6 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import ContentComponents from "~/components/content/ContentComponents";
-import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import { type loader } from "../result";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
@@ -47,8 +46,6 @@ export function ResultPage() {
   const documentsList = cmsContent.documents;
   const nextSteps = cmsContent.nextSteps;
   const content = cmsContent.freeZone;
-
-  useFocusFirstH1();
 
   return (
     <>

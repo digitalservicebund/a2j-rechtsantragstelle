@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { fetchPage } from "~/services/cms/index.server";
 import { throw404OnProduction } from "~/services/errorPages/throw404";
 import { nonProductionRoutes } from "~/services/routing/nonProductionRoutes";
@@ -22,5 +23,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  return <ContentComponents content={useLoaderData<typeof loader>().content} />;
+  const { content } = useLoaderData<typeof loader>();
+  const showKernUX = useShowKernUX();
+  return <ContentComponents content={content} showKernUX={showKernUX} />;
 }
