@@ -1,4 +1,4 @@
-import { allowedHeadingTags } from "./types";
+import type { allowedHeadingTags } from "./types";
 
 export type KernLabelProps = {
   tagName?: (typeof allowedHeadingTags)[number];

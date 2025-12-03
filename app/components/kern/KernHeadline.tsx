@@ -1,13 +1,18 @@
-import { allowedHeadingTags } from "./types";
+import type { allowedHeadingTags } from "./types";
 
-export type KernLabelProps = {
+export type KernHeadlineProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
   id?: string;
 };
 
-const KernLabel = ({ tagName = "h1", text, tabIndex, id }: KernLabelProps) => {
+const KernHeadline = ({
+  tagName = "h1",
+  text,
+  tabIndex,
+  id,
+}: KernHeadlineProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
 
@@ -18,4 +23,4 @@ const KernLabel = ({ tagName = "h1", text, tabIndex, id }: KernLabelProps) => {
   );
 };
 
-export default KernLabel;
+export default KernHeadline;
