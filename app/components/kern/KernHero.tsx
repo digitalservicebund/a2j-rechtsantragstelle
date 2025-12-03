@@ -14,7 +14,7 @@ export default function KernHero({ heading, content }: Props) {
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 9 }}
       xlColumn={{ start: 3, span: 9 }}
-      className="flex flex-col bg-kern-color-action gap-kern-space-default"
+      className="flex flex-col gap-kern-space-default"
     >
       <Heading {...heading} className="text-white! p-0!" />
       {content && (

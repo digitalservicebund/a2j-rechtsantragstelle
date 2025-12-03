@@ -46,6 +46,7 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 }
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  if (el.__component === "page.hero") return "bg-kern-action-default";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -68,7 +69,7 @@ function cmsToReact(
       case "basic.paragraph":
         return <RichText {...componentProps} />;
       case "page.hero":
-        return <Hero {...componentProps} />;
+        return <KernHero {...componentProps} />;
       case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
@@ -76,7 +77,7 @@ function cmsToReact(
       case "page.info-box":
         return <InfoBox {...componentProps} />;
       case "page.table-of-contents":
-        return <TableOfContents {...componentProps} />;
+        return <KernTableOfContents {...componentProps} />;
       case "page.box-with-image":
         return <BoxWithImage {...componentProps} />;
       case "page.list":
@@ -105,7 +106,7 @@ function cmsToReact(
     case "basic.paragraph":
       return <RichText {...componentProps} />;
     case "page.hero":
-      return <KernHero {...componentProps} />;
+      return <Hero {...componentProps} />;
     case "page.hero-with-button":
       return <KernHeroWithButton {...componentProps} />;
     case "page.box":
@@ -113,7 +114,7 @@ function cmsToReact(
     case "page.info-box":
       return <InfoBox {...componentProps} />;
     case "page.table-of-contents":
-      return <KernTableOfContents {...componentProps} />;
+      return <TableOfContents {...componentProps} />;
     case "page.box-with-image":
       return <BoxWithImage {...componentProps} />;
     case "page.list":
