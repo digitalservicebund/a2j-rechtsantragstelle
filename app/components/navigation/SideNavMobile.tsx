@@ -113,7 +113,7 @@ export default function SideNavMobile({
 
   return (
     <details
-      className="group flex flex-col open:min-h-screen justify-end bg-transparent"
+      className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
       onToggle={focusFirstItem}
     >
