@@ -34,6 +34,7 @@ import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import styles from "~/styles.css?url";
+import kernStyles from "~/styles.kern.css?url";
 import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
 import Breadcrumbs from "./components/layout/Breadcrumbs";
@@ -43,6 +44,7 @@ import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
+import { isFeatureFlagEnabled } from "./services/isFeatureFlagEnabled.server";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -73,8 +75,6 @@ export const links: LinksFunction = () => [
     as: "font",
     crossOrigin: "anonymous",
   },
-  { rel: "preload", href: styles, as: "style" },
-  { rel: "stylesheet", href: styles },
   { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
   { rel: "stylesheet", href: fonts },
 ];
@@ -107,6 +107,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     hasAnyUserData,
     mainSession,
     breadcrumbs,
+    showKernUX,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -117,6 +118,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
     buildBreadcrumbPromises(pathname),
+    isFeatureFlagEnabled("showKernUX"),
   ]);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
@@ -142,6 +144,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
+      showKernUX,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
@@ -157,6 +160,7 @@ function App() {
     accessibilityTranslations,
     breadcrumbs,
     skipContentLinkTarget,
+    showKernUX,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const { pathname } = useLocation();
@@ -177,7 +181,7 @@ function App() {
   }, [shouldPrint]);
 
   return (
-    <html lang="de">
+    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
       <head>
         <title>
           {shouldPrint ? generatePrintTitle(title, pathname) : title}
@@ -201,6 +205,7 @@ function App() {
             __html: `window.ENV = ${JSON.stringify(configPublic())}`,
           }}
         />
+        <link rel="stylesheet" href={showKernUX ? kernStyles : styles} />
         <Meta />
         <Links />
       </head>
