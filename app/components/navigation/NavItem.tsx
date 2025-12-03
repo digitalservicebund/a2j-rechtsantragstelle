@@ -134,6 +134,7 @@ export function NavItem({
           aria-current={isCurrent}
           aria-describedby={isDone ? iconId : undefined}
           ref={firstItemRef}
+          data-testid={"nav-item-link"}
         >
           {label}
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
