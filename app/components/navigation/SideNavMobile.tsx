@@ -114,7 +114,6 @@ export default function SideNavMobile({
         </div>
       </summary>
       <div className="max-h-[80vh] overflow-auto bg-white">
-        <StepStepperLinks stepsStepper={stepsStepper} />
         <div className="pb-10 flex flex-col">
           <NavigationList
             navItems={navItems}
@@ -122,6 +121,7 @@ export default function SideNavMobile({
             firstItemRef={firstItemRef}
           />
         </div>
+        <StepStepperLinks stepsStepper={stepsStepper} />
       </div>
     </details>
   );
