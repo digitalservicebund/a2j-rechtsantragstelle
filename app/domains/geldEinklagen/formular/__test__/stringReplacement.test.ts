@@ -1,4 +1,9 @@
-import { hasClaimVertrag, isBeklagtePerson } from "../stringReplacements";
+import {
+  hasClaimVertrag,
+  hasExclusivePlaceJurisdictionOrSelectCourt,
+  isBeklagtePerson,
+} from "../stringReplacements";
+import { type GeldEinklagenFormularUserData } from "../userData";
 
 describe("stringReplacement", () => {
   describe("isBeklagtePerson", () => {
@@ -32,10 +37,10 @@ describe("stringReplacement", () => {
 
   describe("hasClaimVertrag", () => {
     it("should return hasClaimVertrag as true in case is versicherungVertrag yes", () => {
-      const context = {
-        versicherungVertrag: "yes" as const,
-        klagendeVertrag: "no" as const,
-        mietePachtVertrag: "no" as const,
+      const context: GeldEinklagenFormularUserData = {
+        versicherungVertrag: "yes",
+        klagendeVertrag: "no",
+        mietePachtVertrag: "no",
       };
 
       const actual = hasClaimVertrag(context);
@@ -43,10 +48,10 @@ describe("stringReplacement", () => {
     });
 
     it("should return hasClaimVertrag as true in case is klagendeVertrag yes", () => {
-      const context = {
-        versicherungVertrag: "no" as const,
-        klagendeVertrag: "yes" as const,
-        mietePachtVertrag: "no" as const,
+      const context: GeldEinklagenFormularUserData = {
+        versicherungVertrag: "no",
+        klagendeVertrag: "yes",
+        mietePachtVertrag: "no",
       };
 
       const actual = hasClaimVertrag(context);
@@ -54,10 +59,10 @@ describe("stringReplacement", () => {
     });
 
     it("should return hasClaimVertrag as true in case is mietePachtVertrag yes", () => {
-      const context = {
-        versicherungVertrag: "no" as const,
-        klagendeVertrag: "no" as const,
-        mietePachtVertrag: "yes" as const,
+      const context: GeldEinklagenFormularUserData = {
+        versicherungVertrag: "no",
+        klagendeVertrag: "no",
+        mietePachtVertrag: "yes",
       };
 
       const actual = hasClaimVertrag(context);
@@ -65,14 +70,98 @@ describe("stringReplacement", () => {
     });
 
     it("should return hasClaimVertrag as false in case is mietePachtVertrag, versicherungVertrag and klagendeVertrag are no", () => {
-      const context = {
-        mietePachtVertrag: "no" as const,
-        versicherungVertrag: "no" as const,
-        klagendeVertrag: "no" as const,
+      const context: GeldEinklagenFormularUserData = {
+        mietePachtVertrag: "no",
+        versicherungVertrag: "no",
+        klagendeVertrag: "no",
       };
 
       const actual = hasClaimVertrag(context);
       expect(actual.hasClaimVertrag).toBe(false);
+    });
+  });
+
+  describe("hasExclusivePlaceJurisdictionOrSelectCourt", () => {
+    it("should return true if sachgebiet is miete and mietePachtRaum and mietePachtVertrag are yes", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "miete",
+        mietePachtRaum: "yes",
+        mietePachtVertrag: "yes",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
+    });
+
+    it("should return false if sachgebiet is versicherung", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "versicherung",
+        mietePachtRaum: "yes",
+        mietePachtVertrag: "yes",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
+    });
+
+    it("should return false if mietePachtRaum is no", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "miete",
+        mietePachtRaum: "no",
+        mietePachtVertrag: "yes",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
+    });
+
+    it("should return false if mietePachtVertrag is not yes", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "miete",
+        mietePachtRaum: "yes",
+        mietePachtVertrag: "no",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
+    });
+
+    it("should return true if gerichtsstandsvereinbarung yes", () => {
+      const context: GeldEinklagenFormularUserData = {
+        gerichtsstandsvereinbarung: "yes",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
+    });
+
+    it("should return true if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is no", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "urheberrecht",
+        beklagtePersonGeldVerdienen: "no",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
+    });
+
+    it("should return false if sachgebiet is urheberrecht and beklagtePersonGeldVerdienen is yes", () => {
+      const context: GeldEinklagenFormularUserData = {
+        sachgebiet: "urheberrecht",
+        beklagtePersonGeldVerdienen: "yes",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(false);
+    });
+
+    it("should return true pilotGerichtAuswahl is not undefined", () => {
+      const context: GeldEinklagenFormularUserData = {
+        pilotGerichtAuswahl: "beklagteCourt",
+      };
+
+      const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
+      expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
     });
   });
 });

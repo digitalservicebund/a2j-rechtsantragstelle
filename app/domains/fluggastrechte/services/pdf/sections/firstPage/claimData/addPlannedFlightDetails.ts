@@ -62,7 +62,7 @@ export const addPlannedFlightDetails = (
       doc
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(`Streitwert: ${compensationByDistance} €`);
+        .text(`Streitwert: ${compensationByDistance} Euro`);
     }),
   );
 

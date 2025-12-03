@@ -2,6 +2,7 @@ import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const ZIP_CODE_PILOT_COURT = "10823";
+const ZIP_CODE_EDGE_CASE_SECONDARY = "53111";
 
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal5000",
@@ -76,7 +77,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
@@ -163,7 +164,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",

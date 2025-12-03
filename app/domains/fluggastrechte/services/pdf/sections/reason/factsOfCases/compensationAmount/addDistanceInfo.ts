@@ -36,11 +36,11 @@ const getDistanceText = (userData: FluggastrechteUserData): string => {
 
   const compensationTotalAmountValue = getTotalCompensationClaim(userData);
 
-  const distanceText = `Die Distanz zwischen ${startAirportName} und ${endAirportName} beträgt nach Großkreismethode ca. ${distanceKmBetweenAirportValue} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationAmountValue} €`;
+  const distanceText = `Die Distanz zwischen ${startAirportName} und ${endAirportName} beträgt nach Großkreismethode ca. ${distanceKmBetweenAirportValue} km. ${ARTICLE_AIR_PASSENGER_REGULATION_TEXT} ${compensationAmountValue} Euro`;
   if (userData.isWeiterePersonen === "no") {
     return `${distanceText}.`;
   }
-  return `${distanceText} pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationTotalAmountValue} €.`;
+  return `${distanceText} pro Person, insgesamt aus eigenem und abgetretenem Recht damit eine Gesamtsumme von ${compensationTotalAmountValue} Euro.`;
 };
 
 export const addDistanceInfo = (
