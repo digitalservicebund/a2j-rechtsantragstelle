@@ -18,6 +18,7 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import HeroWithButton from "../kern/HeroWithButton";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -63,6 +64,8 @@ function cmsToReact(
       return <RichText {...componentProps} />;
     case "page.hero":
       return <Hero {...componentProps} />;
+    case "page.hero-with-button":
+      return <HeroWithButton {...componentProps} />;
     case "page.box":
       return <Box {...componentProps} />;
     case "page.info-box":
