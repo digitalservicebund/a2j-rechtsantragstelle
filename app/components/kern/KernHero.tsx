@@ -7,7 +7,7 @@ type Props = Readonly<{
   content?: RichTextProps;
 }>;
 
-export default function Hero({ heading, content }: Props) {
+export default function KernHero({ heading, content }: Props) {
   return (
     <GridItem
       smColumn={{ start: 1, span: 12 }}

@@ -14,7 +14,7 @@ type Props = {
   buttons?: ButtonProps[];
 };
 
-const TableOfContents = ({
+const KernTableOfContents = ({
   identifier,
   label,
   heading,
@@ -62,4 +62,4 @@ const TableOfContents = ({
   );
 };
 
-export default TableOfContents;
+export default KernTableOfContents;

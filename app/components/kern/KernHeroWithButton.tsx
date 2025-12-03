@@ -11,7 +11,11 @@ type Props = Readonly<{
   button?: ButtonProps;
 }>;
 
-export default function HeroWithButton({ heading, content, button }: Props) {
+export default function KernHeroWithButton({
+  heading,
+  content,
+  button,
+}: Props) {
   return (
     <GridItem
       smColumn={{ start: 1, span: 12 }}
