@@ -1,7 +1,7 @@
 import { StrapiHeroWithButtonSchema } from "../StrapiHeroWithButton";
 
 describe("StrapiHeroWithButton", () => {
-  it("should handle hero with button", () => {
+  it("should render hero component with button", () => {
     const withButton = {
       heading: {
         text: "someText",
@@ -22,12 +22,12 @@ describe("StrapiHeroWithButton", () => {
         __component: "form-elements.button",
       },
       id: 10,
-      __component: "page.hero",
+      __component: "page.hero-with-button",
     };
 
-    const actualWithButton = StrapiHeroWithButtonSchema.safeParse(withButton);
-    expect(actualWithButton.success).toBe(true);
-    expect(actualWithButton?.data?.button).toEqual({
+    const heroWithButton = StrapiHeroWithButtonSchema.safeParse(withButton);
+    expect(heroWithButton.success).toBe(true);
+    expect(heroWithButton?.data?.button).toEqual({
       text: "Button",
       href: "/link",
       look: "primary",
