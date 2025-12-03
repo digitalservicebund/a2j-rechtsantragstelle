@@ -1,11 +1,5 @@
 import { type NavState } from "~/services/navigation/navState";
 
-export type FlowNavigationProps = Readonly<{
-  navItems: NavItem[];
-  expandAll?: boolean;
-  stepsStepper: StepStepper[];
-}>;
-
 export type NavItem = {
   destination: string;
   label: string;

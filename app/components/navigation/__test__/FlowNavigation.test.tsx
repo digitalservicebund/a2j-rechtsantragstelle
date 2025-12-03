@@ -11,17 +11,23 @@ vi.mock("react-router", () => ({
 
 describe("FlowNavigation", () => {
   it("renders a navigation", () => {
-    const { getByRole } = render(
-      <FlowNavigation navItems={[]} stepsStepper={[]} />,
-    );
+    const { getByRole } = render(<FlowNavigation />);
     const navigation = getByRole("navigation");
     expect(navigation).toBeInTheDocument();
   });
 
   it("renders the correct aria-label", () => {
-    const { getByRole } = render(
-      <FlowNavigation navItems={[]} stepsStepper={[]} />,
-    );
+    const { getByRole } = render(<FlowNavigation />);
     expect(getByRole("navigation")).toHaveAttribute("aria-label", "Main Menu");
+  });
+
+  it("correctly renders child elements", () => {
+    const childText = "child";
+    const { getByText } = render(
+      <FlowNavigation>
+        <div>{childText}</div>
+      </FlowNavigation>,
+    );
+    expect(getByText(childText)).toBeInTheDocument();
   });
 });
