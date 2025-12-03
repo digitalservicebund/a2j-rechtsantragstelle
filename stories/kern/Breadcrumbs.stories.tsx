@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernBreadcrumbs from "~/components/content/kern/KernBreadcrumbs";
+import KernBreadcrumbs from "~/components/kern/KernBreadcrumbs";
 
 const meta = {
   title: "kern/KernBreadcrumbs",

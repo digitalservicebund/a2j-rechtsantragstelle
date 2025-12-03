@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernHeadline from "~/components/content/kern/KernHeadline";
+import KernHeadline from "~/components/kern/KernHeadline";
 
 const meta = {
   title: "kern/KernHeadline",

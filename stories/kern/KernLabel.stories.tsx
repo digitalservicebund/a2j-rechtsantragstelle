@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernLabel from "~/components/content/kern/KernLabel";
+import KernLabel from "~/components/kern/KernLabel";
 
 const meta = {
   title: "kern/KernLabel",

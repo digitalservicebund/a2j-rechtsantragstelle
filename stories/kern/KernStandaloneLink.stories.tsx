@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernStandaloneLink } from "~/components/content/kern/KernStandaloneLink";
+import { KernStandaloneLink } from "~/components/kern/KernStandaloneLink";
 
 const meta = {
   title: "kern/KernStandaloneLink",
