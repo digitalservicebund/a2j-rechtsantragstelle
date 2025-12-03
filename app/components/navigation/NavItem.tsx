@@ -99,7 +99,7 @@ export function NavItem({
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
-            aria-describedby={isDone ? iconId : undefined}
+            aria-describedby={isDone || isWarning ? iconId : undefined}
             // oxlint-disable-next-line aria-role
             role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
@@ -132,7 +132,7 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={isDone ? iconId : undefined}
+          aria-describedby={isDone || isWarning ? iconId : undefined}
           ref={firstItemRef}
           data-testid={"nav-item-link"}
         >
