@@ -113,7 +113,7 @@ export default function SideNavMobile({
 
   return (
     <details
-      className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent"
+      className="group flex flex-col open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
       onToggle={focusFirstItem}
     >
@@ -128,7 +128,7 @@ export default function SideNavMobile({
         ></div>
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",
+            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76] forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
               "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
                 isStateCurrentWarning,
