@@ -66,14 +66,12 @@ const preview: Preview = {
 
           if (showKernUX) {
             // Dynamically import KERN styles
-            // @ts-ignore - CSS module import
             await import("../app/styles.kern.css");
             if (typeof document !== "undefined") {
               document.documentElement.setAttribute("data-kern-theme", "light");
             }
           } else {
             // Dynamically import legacy styles
-            // @ts-ignore - CSS module import
             await import("../app/styles.css");
             if (typeof document !== "undefined") {
               document.documentElement.removeAttribute("data-kern-theme");
