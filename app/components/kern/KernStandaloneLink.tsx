@@ -1,25 +1,23 @@
-import classNames from "classnames";
 import { mustachePlaceholderRegex } from "~/services/security/mustachePlaceholder";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
-import { OpenInNewTabIcon } from "./OpenInNewTabIcon";
+import { OpenInNewTabIcon } from "~/components/common/OpenInNewTabIcon";
+import classNames from "classnames";
 
-type StandaloneLinkProps = Readonly<{
+type KernStandaloneLinkProps = Readonly<{
   url: string;
   text: string;
   icon?: React.ReactNode;
   className?: string;
-  dataTestid?: string;
 }>;
 
 const OPEN_NEW_TAB = "öffnet neues Fenster";
 
-export const StandaloneLink = ({
+export const KernStandaloneLink = ({
   url,
   text,
   icon,
   className,
-  dataTestid,
-}: StandaloneLinkProps) => {
+}: KernStandaloneLinkProps) => {
   const shouldOpenNewTab =
     isExternalUrl(url) ||
     mustachePlaceholderRegex.test(url) ||
@@ -37,7 +35,7 @@ export const StandaloneLink = ({
   };
 
   return (
-    <a {...anchorProps} data-testid={dataTestid}>
+    <a {...anchorProps}>
       {icon}
       {text}
       {shouldOpenNewTab && <OpenInNewTabIcon />}
