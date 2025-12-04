@@ -10,6 +10,24 @@ const dummyNavItems: NavItem[] = [
   { destination: "/page3", label: "Page 3", state: "Open" as NavState },
 ];
 
+const dummyStepsStepper = [
+  {
+    href: ".",
+    label: "Step 1",
+    state: "Done" as NavState,
+  },
+  {
+    href: ".",
+    label: "Step 2",
+    state: "Open" as NavState,
+  },
+  {
+    href: ".",
+    label: "Step 3",
+    state: "Warning" as NavState,
+  },
+];
+
 describe("SideNavMobile", () => {
   it("clicking the summary element opens the menu", () => {
     const { getByText, getByTestId } = render(
@@ -65,6 +83,60 @@ describe("SideNavMobile", () => {
 
     await waitFor(() => {
       expect(firstAnchorElement).toHaveFocus();
+    });
+  });
+
+  it("should render the step stepper links correctly", () => {
+    const { getAllByTestId } = render(
+      <SideNavMobile
+        navItems={dummyNavItems}
+        stepsStepper={dummyStepsStepper}
+      />,
+    );
+
+    expect(getAllByTestId("step-stepper-link").length).toBe(3);
+    expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent("Step 1");
+    expect(getAllByTestId("step-stepper-link")[1]).toHaveTextContent("Step 2");
+    expect(getAllByTestId("step-stepper-link")[2]).toHaveTextContent("Step 3");
+  });
+
+  it("should focus in the summary after leave the last link", async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const summaryElement = getByTestId("side-nav-summary");
+    //Open toggle
+    fireEvent.click(summaryElement);
+
+    const lastAnchorElement = getAllByTestId("nav-item-link")[2];
+
+    fireEvent.keyDown(lastAnchorElement, { key: "Tab", shiftKey: false });
+
+    await waitFor(() => {
+      expect(summaryElement).toHaveFocus();
+    });
+  });
+
+  it("should focus in the summary after leave the last steps stepper link", async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <SideNavMobile
+        navItems={dummyNavItems}
+        stepsStepper={dummyStepsStepper}
+      />,
+    );
+    const summaryElement = getByTestId("side-nav-summary");
+    //Open toggle
+    fireEvent.click(summaryElement);
+
+    const lastStepStepperAnchorElement = getAllByTestId("step-stepper-link")[2];
+
+    fireEvent.keyDown(lastStepStepperAnchorElement, {
+      key: "Tab",
+      shiftKey: false,
+    });
+
+    await waitFor(() => {
+      expect(summaryElement).toHaveFocus();
     });
   });
 });

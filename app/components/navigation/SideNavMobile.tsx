@@ -47,7 +47,7 @@ const StepStepperLinks = ({
                 dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
               />
               {stateIsWarning(step.state) && (
-                <SvgWarningAmber className="pl-2" />
+                <SvgWarningAmber data-testid="icon-warning" className="pl-2" />
               )}
             </div>
           );
@@ -120,6 +120,7 @@ export default function SideNavMobile({
       <summary
         className="flex flex-col cursor-pointer w-full outline-none group/summary"
         aria-label={translations.navigationMobile.toggleMenu.de}
+        data-testid="side-nav-summary"
         ref={summaryRef}
       >
         <div
