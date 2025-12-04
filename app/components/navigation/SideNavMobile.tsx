@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { translations } from "~/services/translations/translations";
 import type { StepStepper, NavItem } from "./types";
@@ -15,6 +15,8 @@ import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButt
 import classNames from "classnames";
 import KeyboardArrowDown from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@digitalservicebund/icons/KeyboardArrowUp";
+
+const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
 const StepStepperLinks = ({
   stepsStepper,
@@ -42,15 +44,42 @@ const StepStepperLinks = ({
                 className="ds-link-02-bold truncate text-left mw-[70vw]"
                 icon={<KeyboardArrowLeft className="inline" />}
                 text={`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
+                dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
               />
               {stateIsWarning(step.state) && (
-                <SvgWarningAmber className="pl-2" />
+                <SvgWarningAmber data-testid="icon-warning" className="pl-2" />
               )}
             </div>
           );
         })}
     </div>
   );
+};
+
+const keyDownOnLastLink = (
+  summaryRef: RefObject<HTMLElement | null>,
+  selector: string,
+) => {
+  const links = document.querySelectorAll<HTMLAnchorElement>(selector);
+
+  if (links.length === 0) {
+    return;
+  }
+
+  const lastLink = links[links.length - 1];
+
+  if (lastLink) {
+    lastLink.addEventListener("keydown", function (event: KeyboardEvent) {
+      // Only tab without shiftKey
+      if (event.key === "Tab" && !event.shiftKey) {
+        setTimeout(function () {
+          if (summaryRef.current !== null) {
+            summaryRef.current.focus();
+          }
+        }, 10);
+      }
+    });
+  }
 };
 
 export default function SideNavMobile({
@@ -61,30 +90,38 @@ export default function SideNavMobile({
   stepsStepper: StepStepper[];
 }>) {
   const firstItemRef = useRef<HTMLAnchorElement | null>(null);
+  const summaryRef = useRef<HTMLElement | null>(null);
 
   const { currentAreaTitle, currentNavTitle } = getMobileButtonAreaTitles(
     navItems,
     stepsStepper,
   );
 
-  const isStateCurrentWarning = arrayIsNonEmpty(stepsStepper)
+  const hasStepsStepper = arrayIsNonEmpty(stepsStepper);
+  const keyDownSelector = `[data-testid=${hasStepsStepper ? DATA_TESTID_STEP_STEPPER_LINK : "nav-item-link"}]`;
+
+  const isStateCurrentWarning = hasStepsStepper
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
   const focusFirstItem = (event: React.ToggleEvent<HTMLDetailsElement>) =>
     event.currentTarget.open && firstItemRef.current?.focus();
 
+  useEffect(() => {
+    keyDownOnLastLink(summaryRef, keyDownSelector);
+  });
+
   return (
     <details
-      className="group flex flex-col open:min-h-screen lg:hidden justify-end bg-transparent"
+      className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
       onToggle={focusFirstItem}
     >
-      {/* col-reverse needed to preserve correct tab order 
-       (top close button at the end of the tab order)*/}
       <summary
         className="flex flex-col cursor-pointer w-full outline-none group/summary"
         aria-label={translations.navigationMobile.toggleMenu.de}
+        data-testid="side-nav-summary"
+        ref={summaryRef}
       >
         <div
           className="not-group-open:hidden min-h-screen flex bg-black opacity-70"
@@ -92,7 +129,7 @@ export default function SideNavMobile({
         ></div>
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76]",
+            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76] forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
               "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
                 isStateCurrentWarning,

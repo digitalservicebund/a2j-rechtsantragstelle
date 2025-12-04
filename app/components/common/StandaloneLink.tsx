@@ -8,6 +8,7 @@ type StandaloneLinkProps = Readonly<{
   text: string;
   icon?: React.ReactNode;
   className?: string;
+  dataTestid?: string;
 }>;
 
 const OPEN_NEW_TAB = "öffnet neues Fenster";
@@ -17,6 +18,7 @@ export const StandaloneLink = ({
   text,
   icon,
   className,
+  dataTestid,
 }: StandaloneLinkProps) => {
   const shouldOpenNewTab =
     isExternalUrl(url) ||
@@ -35,7 +37,7 @@ export const StandaloneLink = ({
   };
 
   return (
-    <a {...anchorProps}>
+    <a {...anchorProps} data-testid={dataTestid}>
       {icon}
       {text}
       {shouldOpenNewTab && <OpenInNewTabIcon />}

@@ -79,7 +79,7 @@ export function NavItem({
   );
 
   const itemClassNames = classNames(
-    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800",
+    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800 forced-colors:focus:border-[4px] forced-colors:focus:border-[CanvasText]",
     {
       "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": isWarning,
       "bg-yellow-300": state === "WarningCurrent",
@@ -99,7 +99,7 @@ export function NavItem({
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
-            aria-describedby={isDone ? iconId : undefined}
+            aria-describedby={isDone || isWarning ? iconId : undefined}
             // oxlint-disable-next-line aria-role
             role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
@@ -132,8 +132,9 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={isDone ? iconId : undefined}
+          aria-describedby={isDone || isWarning ? iconId : undefined}
           ref={firstItemRef}
+          data-testid={"nav-item-link"}
         >
           {label}
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
