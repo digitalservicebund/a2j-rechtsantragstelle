@@ -47,6 +47,7 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
   if (el.__component === "page.hero") return "bg-kern-action-default";
+  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -107,8 +108,6 @@ function cmsToReact(
       return <RichText {...componentProps} />;
     case "page.hero":
       return <Hero {...componentProps} />;
-    case "page.hero-with-button":
-      return <KernHeroWithButton {...componentProps} />;
     case "page.box":
       return <Box {...componentProps} />;
     case "page.info-box":

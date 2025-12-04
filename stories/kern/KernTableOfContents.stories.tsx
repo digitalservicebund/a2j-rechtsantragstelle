@@ -1,16 +1,17 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import TableOfContents from "~/components/content/TableOfContents";
+import KernTableOfContents from "~/components/kern/KernTableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "kern/TableOfContents",
-  component: TableOfContents,
+  component: KernTableOfContents,
   parameters: {
     layout: "fullscreen",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof TableOfContents>;
+} satisfies Meta<typeof KernTableOfContents>;
 
 export default meta;
 
@@ -42,7 +43,9 @@ export const Default: Story = {
     (Story) => (
       <GridSection>
         <Grid>
-          <Story />
+          <GridItem>
+            <Story />
+          </GridItem>
         </Grid>
       </GridSection>
     ),

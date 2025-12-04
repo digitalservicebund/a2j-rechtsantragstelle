@@ -21,8 +21,17 @@ export const cspHeader = (args: {
       "eu-assets.i.posthog.com", // see https://posthog.com/docs/session-replay/troubleshooting#3-content-security-policy
     ],
     "frame-src": ["www.youtube-nocookie.com"],
-    "style-src": ["'self'", "'unsafe-inline'"],
-    "font-src": ["'self'"],
+    "style-src": [
+      "'self'",
+      "'unsafe-inline'",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+    ],
+    "font-src": [
+      "'self'",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+    ],
     "connect-src": [
       "'self'",
       "openplzapi.org",

@@ -1,10 +1,12 @@
-import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { type ButtonProps } from "../common/Button";
+import { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
-import Heading, { type HeadingProps } from "../common/Heading";
-import { StandaloneLink } from "../common/StandaloneLink";
+import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
+import KernHeading from "./KernHeading";
+import { KernStandaloneLink } from "./KernStandaloneLink";
+import KernButton from "./KernButton";
+import KernLabel from "./KernLabel";
 
 type Props = {
   identifier?: string;
@@ -31,19 +33,25 @@ const KernTableOfContents = ({
     >
       <div className="kern-stack-lg">
         <div className="kern-stack-sm">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
+          {label && <KernLabel {...label} />}
+          {heading && <KernHeading {...heading} />}
           {links && links.length > 0 && (
-            <ul className="list-none pl-0 kern-stack-lg">
+            <ul className="list-none pl-0! mt-10 kern-stack-lg">
               {links.map((link) => (
-                <li key={link.text ?? link.url}>
-                  <StandaloneLink
-                    className="visited:text-black text-black! flex"
+                <li
+                  key={link.text ?? link.url}
+                  className="list-none flex mb-10"
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ color: "var(--color-kern-action-default)" }}
+                  >
+                    arrow_downward
+                  </span>
+                  <KernStandaloneLink
+                    className="visited:text-action-visited text-action-default flex"
                     url={link.url}
                     text={link.text ?? ""}
-                    icon={
-                      <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
-                    }
                   />
                 </li>
               ))}
@@ -53,7 +61,7 @@ const KernTableOfContents = ({
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
             {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
+              <KernButton key={button.text ?? button.href} {...button} />
             ))}
           </ButtonContainer>
         )}
