@@ -12,6 +12,7 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
+      klagendeVerbraucher: "no",
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",

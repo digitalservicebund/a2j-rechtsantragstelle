@@ -4,7 +4,10 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import { beklagtePersonDone } from "./doneFunctions";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { shouldVisitGerichtSuchenPostleitzahlWohnraum } from "../gericht-suchen/guards";
+import {
+  shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
+  shouldVisitGerichtSuchenPostleitzahlWohnraum,
+} from "../gericht-suchen/guards";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -146,8 +149,7 @@ export const beklagtePersonXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) =>
-              context.gerichtsstandsvereinbarung === "yes",
+            guard: shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
             target:
               steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
                 .absolute,

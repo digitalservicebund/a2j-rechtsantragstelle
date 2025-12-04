@@ -6,6 +6,7 @@ import type {
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import {
+  shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
@@ -41,7 +42,7 @@ export const gerichtSuchenXstateConfig = {
     [steps.gerichtSuchenPostleitzahlBeklagtePerson.relative]: {
       always: [
         {
-          guard: ({ context }) => context.gerichtsstandsvereinbarung === "yes",
+          guard: shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
           target:
             steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung.relative,
         },
@@ -230,8 +231,7 @@ export const gerichtSuchenXstateConfig = {
             target: steps.gerichtSuchenPostleitzahlWohnraum.relative,
           },
           {
-            guard: ({ context }) =>
-              context.gerichtsstandsvereinbarung === "yes",
+            guard: shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
             target:
               steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung
                 .relative,

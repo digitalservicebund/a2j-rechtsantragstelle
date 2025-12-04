@@ -69,6 +69,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     {
       ...baseContext,
       gegenWenBeklagen: "person",
+      klagendeVerbraucher: "no",
       beklagtePersonGeldVerdienen: "yes",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
@@ -157,6 +158,7 @@ export const testCasesBeklagtePersonUrheberrecht = [
     {
       ...baseContext,
       gegenWenBeklagen: "organisation",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
