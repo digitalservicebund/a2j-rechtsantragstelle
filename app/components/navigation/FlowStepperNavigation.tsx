@@ -106,10 +106,12 @@ function ContentStep({
     >
       <span
         className={classNames(
-          "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3 forced-colors:outline-solid forced-colors:border-0",
+          "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
           {
             "bg-blue-800 text-white": state === "Current" || state === "Open",
             "bg-gray-600 text-white": state === "Disabled",
+            "forced-colors:outline-solid forced-colors:border-0":
+              !isDone && !isWarning,
           },
         )}
       >
