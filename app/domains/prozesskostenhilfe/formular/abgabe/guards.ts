@@ -1,21 +1,30 @@
 import { type GenericGuard } from "~/domains/guards.server";
-import { prozesskostenhilfeFinanzielleAngabeDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
-import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
+import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { isNachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/guards";
-import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
-import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
 
 export const readyForAbgabe: GenericGuard<
   ProzesskostenhilfeFormularUserData
-> = ({ context }) =>
-  prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
-  prozesskostenhilfeGesetzlicheVertretungDone({ context }) &&
-  (rechtsschutzversicherungDone({ context }) ||
-    context.formularArt === "nachueberpruefung") &&
-  prozesskostenhilfePersoenlicheDatenDone({
-    context,
-  });
+> = ({ context }) => {
+  // Need to strip off 'abgabe' lest we infinitely recurse
+  const stepStates = buildFlowController({
+    config: {
+      ...prozesskostenhilfeFormular.config,
+      states: {
+        ...prozesskostenhilfeFormular.config.states,
+        abgabe: {
+          id: "abgabe",
+        },
+      },
+    },
+    data: context,
+    guards: prozesskostenhilfeFormular.guards,
+  }).stepStates();
+  return stepStates
+    .filter((stepState) => stepState.isReachable)
+    .every((stepState) => stepState.isDone);
+};
 
 export const fileUploadRelevant: GenericGuard<
   ProzesskostenhilfeFormularUserData
