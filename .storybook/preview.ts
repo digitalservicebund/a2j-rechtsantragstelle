@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react-vite";
+import { useEffect } from "react";
 import { sb } from "storybook/test";
 
 sb.mock(import("../app/services/analytics/surveys/fetchSurveys.ts"), {
@@ -36,24 +37,50 @@ const preview: Preview = {
     (Story, context) => {
       const showKernUX = context.globals.showKernUX;
 
-      if (typeof document !== "undefined") {
-        const existingLink = document.getElementById("storybook-styles");
-        if (existingLink) {
-          existingLink.remove();
-        }
+      useEffect(() => {
+        const loadStyles = async () => {
+          if (typeof document !== "undefined") {
+            // Remove all existing style tags from dynamic imports
+            const allStyleTags = document.querySelectorAll(
+              "style[data-vite-dev-id]",
+            );
+            allStyleTags.forEach((tag) => {
+              const id = tag.getAttribute("data-vite-dev-id");
+              if (
+                id?.includes("styles.css") ||
+                id?.includes("styles.kern.css")
+              ) {
+                tag.remove();
+              }
+            });
 
-        const link = document.createElement("link");
-        link.id = "storybook-styles";
-        link.rel = "stylesheet";
-        link.href = showKernUX ? "../app/styles.kern.css" : "../app/styles.css";
-        document.head.appendChild(link);
+            const kernLink = document.querySelector(
+              'link[href*="styles.kern.css"]',
+            );
+            const legacyLink = document.querySelector(
+              'link[href*="styles.css"]:not([href*="kern"])',
+            );
+            if (kernLink) kernLink.remove();
+            if (legacyLink) legacyLink.remove();
+          }
 
-        if (showKernUX) {
-          document.documentElement.setAttribute("data-kern-theme", "light");
-        } else {
-          document.documentElement.removeAttribute("data-kern-theme");
-        }
-      }
+          if (showKernUX) {
+            // Dynamically import KERN styles
+            await import("../app/styles.kern.css");
+            if (typeof document !== "undefined") {
+              document.documentElement.setAttribute("data-kern-theme", "light");
+            }
+          } else {
+            // Dynamically import legacy styles
+            await import("../app/styles.css");
+            if (typeof document !== "undefined") {
+              document.documentElement.removeAttribute("data-kern-theme");
+            }
+          }
+        };
+
+        loadStyles();
+      }, [showKernUX]);
 
       return Story();
     },
