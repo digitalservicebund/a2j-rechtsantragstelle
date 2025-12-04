@@ -3,7 +3,6 @@ import { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
 import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
-import KernHeading from "./KernHeading";
 import { KernStandaloneLink } from "./KernStandaloneLink";
 import KernButton from "./KernButton";
 import KernLabel from "./KernLabel";
@@ -11,18 +10,11 @@ import KernLabel from "./KernLabel";
 type Props = {
   identifier?: string;
   label?: HeadingProps;
-  heading?: HeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
 
-const KernTableOfContents = ({
-  identifier,
-  label,
-  heading,
-  links,
-  buttons,
-}: Props) => {
+const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
@@ -34,7 +26,6 @@ const KernTableOfContents = ({
       <div className="kern-stack-lg">
         <div className="kern-stack-sm">
           {label && <KernLabel {...label} />}
-          {heading && <KernHeading {...heading} />}
           {links && links.length > 0 && (
             <ul className="list-none pl-0! mt-10 kern-stack-lg">
               {links.map((link) => (

@@ -18,11 +18,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
-  heading: {
-    text: "Table of Contents Heading",
-    tagName: "h1",
-    look: "ds-heading-01-reg",
-  } as const,
   label: {
     text: "Table of Contents Label",
     tagName: "p",
