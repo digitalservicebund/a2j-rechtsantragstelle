@@ -28,6 +28,7 @@ export const beklagtePersonXstateConfig = {
             guard: ({ context }) =>
               context.gegenWenBeklagen === "organisation" &&
               context.sachgebiet === "urheberrecht" &&
+              context.klagendeVerbraucher === "no" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
@@ -41,8 +42,15 @@ export const beklagtePersonXstateConfig = {
           },
           {
             guard: ({ context }) =>
-              context.sachgebiet !== "miete" &&
-              context.sachgebiet !== "urheberrecht" &&
+              (context.sachgebiet === "verkehrsunfall" ||
+                context.sachgebiet === "versicherung" ||
+                context.sachgebiet === "schaden") &&
+              context.klagendeKaufmann === "yes",
+            target: steps.beklagtePersonKaufmann.relative,
+          },
+          {
+            guard: ({ context }) =>
+              context.klagendeVerbraucher === "no" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
@@ -112,6 +120,7 @@ export const beklagtePersonXstateConfig = {
           {
             guard: ({ context }) =>
               context.beklagtePersonGeldVerdienen === "yes" &&
+              context.klagendeVerbraucher === "no" &&
               context.klagendeKaufmann === "yes",
             target: steps.beklagtePersonKaufmann.relative,
           },
