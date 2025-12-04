@@ -150,7 +150,7 @@ export const translations = {
       de: "Abgeschlossen",
     },
     navigationItemWarning: {
-      de: "Fehlende Angaben",
+      de: "Warnhinweis",
     },
   },
   navigationMobile: {
