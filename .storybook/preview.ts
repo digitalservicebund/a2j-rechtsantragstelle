@@ -39,52 +39,45 @@ const preview: Preview = {
 
       useEffect(() => {
         const loadStyles = async () => {
-          try {
+          if (typeof document !== "undefined") {
+            // Remove all existing style tags from dynamic imports
+            const allStyleTags = document.querySelectorAll(
+              "style[data-vite-dev-id]",
+            );
+            allStyleTags.forEach((tag) => {
+              const id = tag.getAttribute("data-vite-dev-id");
+              if (
+                id?.includes("styles.css") ||
+                id?.includes("styles.kern.css")
+              ) {
+                tag.remove();
+              }
+            });
+
+            const kernLink = document.querySelector(
+              'link[href*="styles.kern.css"]',
+            );
+            const legacyLink = document.querySelector(
+              'link[href*="styles.css"]:not([href*="kern"])',
+            );
+            if (kernLink) kernLink.remove();
+            if (legacyLink) legacyLink.remove();
+          }
+
+          if (showKernUX) {
+            // Dynamically import KERN styles
+            // @ts-ignore - CSS module import
+            await import("../app/styles.kern.css");
             if (typeof document !== "undefined") {
-              // Remove all existing style tags from dynamic imports
-              const allStyleTags = document.querySelectorAll(
-                "style[data-vite-dev-id]",
-              );
-              allStyleTags.forEach((tag) => {
-                const id = tag.getAttribute("data-vite-dev-id");
-                if (
-                  id?.includes("styles.css") ||
-                  id?.includes("styles.kern.css")
-                ) {
-                  tag.remove();
-                }
-              });
-
-              const kernLink = document.querySelector(
-                'link[href*="styles.kern.css"]',
-              );
-              const legacyLink = document.querySelector(
-                'link[href*="styles.css"]:not([href*="kern"])',
-              );
-              if (kernLink) kernLink.remove();
-              if (legacyLink) legacyLink.remove();
+              document.documentElement.setAttribute("data-kern-theme", "light");
             }
-
-            if (showKernUX) {
-              // Dynamically import KERN styles
-              // @ts-ignore - CSS module import
-              await import("../app/styles.kern.css");
-              if (typeof document !== "undefined") {
-                document.documentElement.setAttribute(
-                  "data-kern-theme",
-                  "light",
-                );
-              }
-            } else {
-              // Dynamically import legacy styles
-              // @ts-ignore - CSS module import
-              await import("../app/styles.css");
-              if (typeof document !== "undefined") {
-                document.documentElement.removeAttribute("data-kern-theme");
-              }
+          } else {
+            // Dynamically import legacy styles
+            // @ts-ignore - CSS module import
+            await import("../app/styles.css");
+            if (typeof document !== "undefined") {
+              document.documentElement.removeAttribute("data-kern-theme");
             }
-          } catch (error) {
-            console.error("Failed to load styles:", error);
           }
         };
 
