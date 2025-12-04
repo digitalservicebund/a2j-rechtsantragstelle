@@ -16,7 +16,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "reisen",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
@@ -103,7 +103,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
