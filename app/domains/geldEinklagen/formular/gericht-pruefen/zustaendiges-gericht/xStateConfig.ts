@@ -7,6 +7,7 @@ import {
 } from "~/services/flow/server/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
+  shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
@@ -28,7 +29,7 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
       target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
     },
     {
-      guard: ({ context }) => context.gerichtsstandsvereinbarung === "yes",
+      guard: shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
       target:
         steps.gerichtSuchenPostleitzahlGerichtsstandsvereinbarung.absolute,
     },
