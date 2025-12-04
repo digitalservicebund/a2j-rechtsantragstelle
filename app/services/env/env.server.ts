@@ -8,6 +8,7 @@ type Config = {
   STRAPI_API: string;
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
+  STRAPI_PREVIEW_SECRET: string;
   CMS: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
   GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
@@ -42,6 +43,10 @@ export function config(): Config {
     STRAPI_ACCESS_KEY: readSecretOrEnvVar(
       "/etc/strapi-access-key-secret/password",
       "STRAPI_ACCESS_KEY",
+    ),
+    STRAPI_PREVIEW_SECRET: readSecretOrEnvVar(
+      "/etc/strapi-access-key-secret/preview-secret",
+      "STRAPI_PREVIEW_SECRET",
     ),
     CMS: process.env.CMS ?? "FILE",
     GERICHTSFINDER_ENCRYPTION_KEY: readSecretOrEnvVar(

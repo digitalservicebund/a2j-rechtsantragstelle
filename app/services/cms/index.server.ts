@@ -53,8 +53,15 @@ async function fetchCollectionEntry<T extends CollectionId>(
   pLevel = P_LEVEL_DEFAULT,
   filters?: Filter[],
   locale?: StrapiLocale,
+  status?: string,
 ): Promise<StrapiSchemasOutput[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId, filters, locale, pLevel });
+  const strapiEntry = await getStrapiEntry({
+    apiId,
+    filters,
+    locale,
+    pLevel,
+    status,
+  });
   const strapiEntryParsed =
     await collectionSchemas[apiId].safeParseAsync(strapiEntry);
 
@@ -118,10 +125,14 @@ export async function fetchMultipleTranslations(scopes: string[]) {
   );
 }
 
-export const fetchPage = (slug: string) =>
-  fetchCollectionEntry("pages", P_LEVEL_DEFAULT, [
-    { field: "slug", value: slug },
-  ]);
+export const fetchPage = (slug: string, status?: string) =>
+  fetchCollectionEntry(
+    "pages",
+    P_LEVEL_DEFAULT,
+    [{ field: "slug", value: slug }],
+    defaultLocale,
+    status,
+  );
 
 export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,

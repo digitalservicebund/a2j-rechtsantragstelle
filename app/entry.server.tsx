@@ -107,6 +107,7 @@ function handleBrowserRequest(
         environment: configPublic().ENVIRONMENT,
         additionalConnectSrc: CONNECT_SOURCES,
         reportUri: config().CSP_REPORT_URI,
+        frameAncestor: config().STRAPI_HOST,
       }),
     );
 

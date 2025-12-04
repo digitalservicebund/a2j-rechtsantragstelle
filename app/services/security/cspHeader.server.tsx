@@ -10,6 +10,7 @@ export const cspHeader = (args: {
   additionalConnectSrc?: string[];
   reportUri?: string;
   environment: string;
+  frameAncestor?: string;
 }) => {
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
@@ -43,7 +44,7 @@ export const cspHeader = (args: {
     ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
-    "frame-ancestors": ["'none'"],
+    "frame-ancestors": [args.frameAncestor ?? "'none'"],
     "upgrade-insecure-requests": [],
   };
 
@@ -51,6 +52,7 @@ export const cspHeader = (args: {
     directives["connect-src"].push("ws://localhost:24678"); // vite's HMR server
     directives["connect-src"].push("http://localhost:24678"); // vite's HMR server
     directives["connect-src"].push("http://localhost:1337"); // local strapi
+    directives["frame-ancestors"].push("http://localhost:1337"); // local strapi
     directives["img-src"].push("localhost:*");
     delete directives["upgrade-insecure-requests"]; // https://github.com/github/secure_headers/issues/348
   }
