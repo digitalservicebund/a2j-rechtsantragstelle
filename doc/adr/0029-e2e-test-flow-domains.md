@@ -1,4 +1,4 @@
-# 29. E2E Test strategy for Flow Domains
+# 29. E2E Test Strategy for Flow services
 
 ## Status
 
