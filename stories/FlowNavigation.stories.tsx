@@ -18,8 +18,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Example: Story = {
-  args: {
-    children: (
+  render: () => (
+    <FlowNavigation>
       <NavigationList
         navItems={[
           {
@@ -28,35 +28,35 @@ export const Example: Story = {
             state: "Done",
           },
           {
-            destination: ".",
+            destination: "..",
             label: "Finanzielle Angaben",
             state: "Current",
           },
           {
-            destination: ".",
+            destination: "...",
             label: "Persönliche Daten",
             state: "Open",
           },
           {
-            destination: ".",
+            destination: "....",
             label: "Weitere Angaben",
             state: "Warning",
           },
           {
-            destination: ".",
+            destination: ".....",
             label: "Abgabe",
             state: "Disabled",
           },
         ]}
       />
-    ),
-  },
+    </FlowNavigation>
+  ),
   decorators: [(Story) => reactRouterContext(Story)],
 };
 
 export const NavigationWithCurrentWarning: Story = {
-  args: {
-    children: (
+  render: () => (
+    <FlowNavigation>
       <NavigationList
         navItems={[
           {
@@ -65,35 +65,35 @@ export const NavigationWithCurrentWarning: Story = {
             state: "Done",
           },
           {
-            destination: ".",
+            destination: "..",
             label: "Finanzielle Angaben",
             state: "Done",
           },
           {
-            destination: ".",
+            destination: "...",
             label: "Persönliche Daten",
             state: "Done",
           },
           {
-            destination: ".",
+            destination: "....",
             label: "Weitere Angaben",
             state: "WarningCurrent",
           },
           {
-            destination: ".",
+            destination: ".....",
             label: "Abgabe",
             state: "Disabled",
           },
         ]}
       />
-    ),
-  },
+    </FlowNavigation>
+  ),
   decorators: [(Story) => reactRouterContext(Story)],
 };
 
 export const MobileWithStepper: Story = {
-  args: {
-    children: (
+  render: () => (
+    <FlowNavigation>
       <SideNavMobile
         navItems={[
           {
@@ -145,14 +145,14 @@ export const MobileWithStepper: Story = {
           },
         ]}
       />
-    ),
-  },
+    </FlowNavigation>
+  ),
   decorators: [(Story) => reactRouterContext(Story)],
 };
 
 export const MobileWithStepperCurrentWarning: Story = {
-  args: {
-    children: (
+  render: () => (
+    <FlowNavigation>
       <SideNavMobile
         navItems={[
           {
@@ -204,7 +204,7 @@ export const MobileWithStepperCurrentWarning: Story = {
           },
         ]}
       />
-    ),
-  },
+    </FlowNavigation>
+  ),
   decorators: [(Story) => reactRouterContext(Story)],
 };

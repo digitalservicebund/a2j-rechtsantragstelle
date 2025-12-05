@@ -53,7 +53,7 @@ export default function Footer({
           lgColumn={{ start: 1, span: 3 }}
           xlColumn={{ start: 1, span: 3 }}
         >
-          {image?.url && (
+          {image && (
             <div className="forced-colors:bg-black">
               <Image {...image} width={120} />
             </div>
