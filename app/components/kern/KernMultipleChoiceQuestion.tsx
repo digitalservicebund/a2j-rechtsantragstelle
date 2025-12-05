@@ -2,7 +2,7 @@ import { type MultipleSurveyQuestion } from "posthog-js";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
-import { SurveyResponses } from "../reportProblem/OpenQuestion";
+import { SurveyResponses } from "./KernOpenQuestion";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;

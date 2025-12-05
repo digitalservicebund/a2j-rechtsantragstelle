@@ -1,16 +1,12 @@
-import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
-import {
-  OpenQuestion,
-  type SurveyResponses,
-} from "~/components/reportProblem/OpenQuestion";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
-import Button from "../common/Button";
+import KernButton from "./KernButton";
+import { KernOpenQuestion, SurveyResponses } from "./KernOpenQuestion";
+import { KernMultipleChoiceQuestion } from "./KernMultipleChoiceQuestion";
 
 type KernPosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -22,8 +18,8 @@ type KernPosthogSurveyProps = {
 };
 
 const questionTypes: Record<string, ElementType> = {
-  [SurveyQuestionType.Open]: OpenQuestion,
-  [SurveyQuestionType.MultipleChoice]: MultipleChoiceQuestion,
+  [SurveyQuestionType.Open]: KernOpenQuestion,
+  [SurveyQuestionType.MultipleChoice]: KernMultipleChoiceQuestion,
   [SurveyQuestionType.SingleChoice]: () => <></>,
   [SurveyQuestionType.Rating]: () => <></>,
   [SurveyQuestionType.Link]: () => <></>,
@@ -129,15 +125,18 @@ export const KernPosthogSurvey = ({
                     {isFirstQuestion &&
                       showValidationError &&
                       !wasSubmitted && (
-                        <div
-                          className="flex items-center gap-8 text-red-800 mt-16"
+                        <p
+                          className="kern-error !flex !items-center !gap-8 !mt-16"
                           role="alert"
                         >
-                          <ErrorOutline className="w-20 h-20 shrink-0" />
-                          <span>
+                          <span
+                            className="kern-icon kern-icon--danger kern-icon--md"
+                            aria-hidden="true"
+                          />
+                          <span className="text-kern-feedback-danger">
                             {translations.feedback["validation-error"].de}
                           </span>
-                        </div>
+                        </p>
                       )}
                   </div>
                 );
@@ -146,7 +145,7 @@ export const KernPosthogSurvey = ({
           )}
           <ButtonContainer className="flex flex-col sm:flex-row">
             {wasSubmitted ? (
-              <Button
+              <KernButton
                 ref={closeButtonRef}
                 size="large"
                 look="secondary"
@@ -156,7 +155,7 @@ export const KernPosthogSurvey = ({
               />
             ) : (
               <div className="flex flex-col sm:flex-row gap-16 w-full">
-                <Button
+                <KernButton
                   look="primary"
                   size="large"
                   className="w-full"
@@ -164,7 +163,7 @@ export const KernPosthogSurvey = ({
                   type="button"
                   onClick={onSubmitClicked}
                 />
-                <Button
+                <KernButton
                   look="secondary"
                   size="large"
                   className="w-full"

@@ -1,13 +1,13 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
 import { useCallback, useMemo, useRef, useState } from "react";
 import Button from "~/components/common/Button";
-import { type SurveyResponses } from "~/components/reportProblem/OpenQuestion";
-import { PosthogSurvey } from "~/components/reportProblem/Survey";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
 import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
+import { SurveyResponses } from "./OpenQuestion";
+import { PosthogSurvey } from "./Survey";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",

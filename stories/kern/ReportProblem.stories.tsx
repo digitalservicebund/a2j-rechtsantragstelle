@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import Container from "~/components/layout/Container";
 import { mocked } from "storybook/test";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { SurveyQuestionType, type PostHog, type Survey } from "posthog-js";
@@ -19,20 +18,14 @@ const meta = {
         {
           id: "1",
           type: SurveyQuestionType.MultipleChoice,
-          choices: [
-            "Question is not clear",
-            "Question does not apply to my situation",
-            "Technical Problem",
-            "Other",
-          ],
-          question: "Are there any problems with this page?",
+          choices: ["Choice 1", "Choice 2", "Choice 3", "Other choice"],
+          question: "Question?",
         },
         {
           id: "2",
           type: SurveyQuestionType.Open,
-          question: "Help us understand the problem better - Optional",
-          description:
-            "Please do not enter any personal data. Your feedback will be recorded anonymously.",
+          question: "Open question - Optional",
+          description: "Description.",
         },
       ],
     } as unknown as Survey);
@@ -58,7 +51,7 @@ export const Default: Story = {
     (Story) => (
       <GridSection>
         <Grid>
-          <GridItem className="pb-40 flex">
+          <GridItem className="pb-40 flex justify-end">
             <Story />
           </GridItem>
         </Grid>
