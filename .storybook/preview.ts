@@ -87,4 +87,10 @@ const preview: Preview = {
   ],
 };
 
+const link = document.createElement("link");
+link.rel = "stylesheet";
+link.href =
+  "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined";
+document.head.appendChild(link);
+
 export default preview;

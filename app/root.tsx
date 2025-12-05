@@ -206,6 +206,11 @@ function App() {
           }}
         />
         <link rel="stylesheet" href={showKernUX ? kernStyles : styles} />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet"
+        />
+
         <Meta />
         <Links />
       </head>

@@ -5,6 +5,7 @@ export type KernLabelProps = {
   text?: string;
   tabIndex?: number;
   id?: string;
+  className?: string;
 };
 
 const KernLabel = ({ tagName = "h1", text, tabIndex, id }: KernLabelProps) => {

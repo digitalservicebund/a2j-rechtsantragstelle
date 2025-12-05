@@ -18,6 +18,9 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernHeroWithButton from "../kern/KernHeroWithButton";
+import KernHero from "../kern/KernHero";
+import KernTableOfContents from "../kern/KernTableOfContents";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -43,6 +46,8 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 }
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  if (el.__component === "page.hero") return "bg-kern-action-default";
+  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -59,8 +64,41 @@ function cmsToReact(
   // When showKernUX is true, render KERN UX components
   // For now, we render the old components until KERN UX versions are created
   if (opts?.showKernUX) {
-    // TODO: Replace with KERN UX components when available
-    // For now, fall through to render old components
+    switch (componentProps.__component) {
+      case "basic.heading":
+        return <Heading {...componentProps} />;
+      case "basic.paragraph":
+        return <RichText {...componentProps} />;
+      case "page.hero":
+        return <KernHero {...componentProps} />;
+      case "page.hero-with-button":
+        return <KernHeroWithButton {...componentProps} />;
+      case "page.box":
+        return <Box {...componentProps} />;
+      case "page.info-box":
+        return <InfoBox {...componentProps} />;
+      case "page.table-of-contents":
+        return <KernTableOfContents {...componentProps} />;
+      case "page.box-with-image":
+        return <BoxWithImage {...componentProps} />;
+      case "page.list":
+        return <List {...componentProps} wrap={opts?.inFlow} />;
+      case "page.video":
+        return <Video {...componentProps} />;
+      case "page.inline-notice":
+        return <InlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      case "page.details-summary":
+        return <Details {...componentProps} />;
+      case "page.user-feedback":
+        return <UserFeedback {...componentProps} />;
+      case "page.summary-overview-section":
+        return <SummaryOverviewSection {...componentProps} />;
+      case "page.email-capture":
+        return <EmailCapture {...componentProps} />;
+      case "page.array-summary":
+      default:
+        return <></>;
+    }
   }
 
   switch (componentProps.__component) {
