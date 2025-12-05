@@ -2,7 +2,7 @@ import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import type { fluggastrechteInputSchema } from "../../userData";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -16,8 +16,10 @@ const FIELDS_FOR_VALIDATION = [
   "annullierungErsatzverbindungAnkunftsZeit",
 ] as const;
 
+const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
+
 type SchemaSubset = Pick<
-  typeof fluggastrechteInputSchema,
+  typeof _schema,
   | (typeof FIELDS_FOR_VALIDATION)[number]
   | "ankuendigung"
   | "ersatzflugStartenZweiStunden"
@@ -57,20 +59,20 @@ function isStartTimestampMoreThan(
 
 const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
   originalDepartureDateTime: convertToTimestamp(
-    data.direktAbflugsDatum,
-    data.direktAbflugsZeit,
+    data.direktAbflugsDatum as string,
+    data.direktAbflugsZeit as string,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
-    data.annullierungErsatzverbindungAbflugsZeit,
+    data.annullierungErsatzverbindungAbflugsDatum as string,
+    data.annullierungErsatzverbindungAbflugsZeit as string,
   ),
   originalArrivalDateTime: convertToTimestamp(
-    data.direktAnkunftsDatum,
-    data.direktAnkunftsZeit,
+    data.direktAnkunftsDatum as string,
+    data.direktAnkunftsZeit as string,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
-    data.annullierungErsatzverbindungAnkunftsZeit,
+    data.annullierungErsatzverbindungAnkunftsDatum as string,
+    data.annullierungErsatzverbindungAnkunftsZeit as string,
   ),
 });
 
@@ -213,10 +215,12 @@ const validateFieldsBetween7And13Days = (ctx: SubsetCtx) => {
 };
 
 export function validateCancelFlightReplacementPage(
-  baseSchema: MultiFieldsValidationBaseSchema<SchemaSubset>,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
-    const fields = getFieldsForValidation(ctx.value);
+    const fields = getFieldsForValidation(
+      ctx.value as z.infer<z.ZodObject<SchemaSubset>>,
+    );
 
     const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
     if (!isAnyFieldFilled) return;
@@ -234,14 +238,14 @@ export function validateCancelFlightReplacementPage(
     if (fields.some(({ value }) => !value)) return;
 
     if (ctx.value.ankuendigung === "between7And13Days") {
-      validateFieldsBetween7And13Days(ctx);
+      validateFieldsBetween7And13Days(ctx as SubsetCtx);
     }
 
     if (
       ctx.value.ankuendigung === "no" ||
       ctx.value.ankuendigung === "until6Days"
     ) {
-      validateFieldsNoOrUntil6Days(ctx);
+      validateFieldsNoOrUntil6Days(ctx as SubsetCtx);
     }
   });
 }

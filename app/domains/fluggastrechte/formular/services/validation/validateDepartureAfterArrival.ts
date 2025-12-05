@@ -1,28 +1,22 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import type { fluggastrechteFlugdatenInputSchema } from "../../flugdaten/userData";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+
+const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
 
 export function validateDepartureAfterArrival(
-  baseSchema: MultiFieldsValidationBaseSchema<
-    Pick<
-      typeof fluggastrechteFlugdatenInputSchema,
-      | "direktAbflugsDatum"
-      | "direktAbflugsZeit"
-      | "direktAnkunftsDatum"
-      | "direktAnkunftsZeit"
-    >
-  >,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     const departureDateTime = convertToTimestamp(
-      ctx.value.direktAbflugsDatum,
-      ctx.value.direktAbflugsZeit,
+      ctx.value.direktAbflugsDatum as string,
+      ctx.value.direktAbflugsZeit as string,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
-      ctx.value.direktAnkunftsZeit,
+      ctx.value.direktAnkunftsDatum as string,
+      ctx.value.direktAnkunftsZeit as string,
     );
 
     if (departureDateTime >= arrivalDateTime) {

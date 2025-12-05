@@ -17,6 +17,8 @@ const hasStreitbeilegungGruende = (context: FluggastrechteUserData) => {
 
 export const grundvoraussetzungenDone: FluggastrechteGrundvoraussetzungenDaten =
   ({ context }) => {
+    console.log(context);
+
     return (
       objectKeysNonEmpty(context, [
         "startAirport",

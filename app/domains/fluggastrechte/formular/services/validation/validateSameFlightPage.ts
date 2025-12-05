@@ -2,28 +2,22 @@ import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
-import type { fluggastrechteFlugdatenInputSchema } from "../../flugdaten/userData";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+
+const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
 
 export function validateSameFlightPage(
-  baseSchema: MultiFieldsValidationBaseSchema<
-    Pick<
-      typeof fluggastrechteFlugdatenInputSchema,
-      | "tatsaechlicherAnkunftsDatum"
-      | "tatsaechlicherAnkunftsZeit"
-      | "direktAnkunftsDatum"
-      | "direktAnkunftsZeit"
-    >
-  >,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
-      ctx.value.direktAnkunftsZeit,
+      ctx.value.direktAnkunftsDatum as string,
+      ctx.value.direktAnkunftsZeit as string,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.tatsaechlicherAnkunftsDatum,
-      ctx.value.tatsaechlicherAnkunftsZeit,
+      ctx.value.tatsaechlicherAnkunftsDatum as string,
+      ctx.value.tatsaechlicherAnkunftsZeit as string,
     );
 
     if (originalArrivalDateTime > arrivalDateTime) {

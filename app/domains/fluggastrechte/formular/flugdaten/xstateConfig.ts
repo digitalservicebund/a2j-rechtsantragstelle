@@ -2,6 +2,10 @@ import { type Config } from "~/services/flow/server/types";
 import { type FluggastrechteUserData } from "../userData";
 import { flugdatenDone } from "./doneFunctions";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteFormularPages } from "../pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const flugdatenXstateConfig = {
   meta: { done: flugdatenDone },
@@ -11,373 +15,373 @@ export const flugdatenXstateConfig = {
     "check-initial-page": {
       always: [
         {
-          target: "adresse-fluggesellschaft-auswahl",
+          target: steps.flugdatenAdresseFluggesellschaftAuswahl.relative,
           guard: ({ context }) =>
             hasAirlineAddress(context.fluggesellschaft ?? ""),
         },
         {
-          target: "adresse-fluggesellschaft",
+          target: steps.flugdatenAdresseFluggesellschaft.relative,
         },
       ],
     },
-    "adresse-fluggesellschaft-auswahl": {
+    [steps.flugdatenAdresseFluggesellschaftAuswahl.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "adresse-fluggesellschaft",
+            target: steps.flugdatenAdresseFluggesellschaft.relative,
             guard: ({ context }) =>
               context.fluggesellschaftAuswahlAdresse === "filledByUser",
           },
-          "geplanter-flug",
+          steps.flugdatenGeplanterFlug.relative,
         ],
-        BACK: "#streitwert-kosten.prozesszinsen",
+        BACK: steps.streitwertKostenProzesszinsen.absolute,
       },
     },
-    "adresse-fluggesellschaft": {
+    [steps.flugdatenAdresseFluggesellschaft.relative]: {
       on: {
-        SUBMIT: "geplanter-flug",
+        SUBMIT: steps.flugdatenGeplanterFlug.relative,
         BACK: [
           {
-            target: "#flugdaten.adresse-fluggesellschaft-auswahl",
+            target: steps.flugdatenAdresseFluggesellschaftAuswahl.relative,
             guard: ({ context }) =>
               context.fluggesellschaftAuswahlAdresse === "filledByUser",
           },
-          "#streitwert-kosten.prozesszinsen",
+          steps.streitwertKostenProzesszinsen.absolute,
         ],
       },
     },
-    "geplanter-flug": {
+    [steps.flugdatenGeplanterFlug.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "zwischenstopp-uebersicht-1",
+            target: steps.flugdatenZwischenstoppUebersicht1.relative,
             guard: "hasOneStop",
           },
           {
-            target: "zwischenstopp-uebersicht-2",
+            target: steps.flugdatenZwischenstoppUebersicht2.relative,
             guard: "hasTwoStop",
           },
           {
-            target: "zwischenstopp-uebersicht-3",
+            target: steps.flugdatenZwischenstoppUebersicht3.relative,
             guard: "hasThreeStop",
           },
           {
-            target: "tatsaechlicher-flug",
+            target: steps.flugdatenTatsaechlicherFlug.relative,
             guard: "hasNoZwischenstoppAndVerspaetung",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasNoZwischenstoppAndAnnullierungWithErsatzflugYes",
           },
           {
-            target: "zusaetzliche-angaben",
+            target: steps.flugdatenZusaetzlicheAngaben.relative,
             guard: "hasNoZwischenstoppAndAnnullierungWithErsatzflugNo",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
         BACK: [
           {
-            target: "#flugdaten.adresse-fluggesellschaft-auswahl",
+            target: steps.flugdatenAdresseFluggesellschaftAuswahl.relative,
             guard: ({ context }) =>
               context.fluggesellschaftAuswahlAdresse === "fromAirlineDB",
           },
-          "#flugdaten.adresse-fluggesellschaft",
+          steps.flugdatenAdresseFluggesellschaft.relative,
         ],
       },
     },
-    "zwischenstopp-uebersicht-1": {
+    [steps.flugdatenZwischenstoppUebersicht1.relative]: {
       on: {
-        SUBMIT: "verspaeteter-flug-1",
-        BACK: "geplanter-flug",
+        SUBMIT: steps.flugdatenVerspaeteterFlug1.relative,
+        BACK: steps.flugdatenGeplanterFlug.relative,
       },
     },
-    "verspaeteter-flug-1": {
+    [steps.flugdatenVerspaeteterFlug1.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
           },
           {
-            target: "tatsaechlicher-flug",
+            target: steps.flugdatenTatsaechlicherFlug.relative,
             guard: "hasVerspaetung",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasAnnullierungWithErsatzflugYes",
           },
           {
-            target: "zusaetzliche-angaben",
+            target: steps.flugdatenZusaetzlicheAngaben.relative,
             guard: "hasAnnullierungWithErsatzflugNo",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
-        BACK: "zwischenstopp-uebersicht-1",
+        BACK: steps.flugdatenZwischenstoppUebersicht1.relative,
       },
     },
-    "zwischenstopp-uebersicht-2": {
+    [steps.flugdatenZwischenstoppUebersicht2.relative]: {
       on: {
-        SUBMIT: "verspaeteter-flug-2",
-        BACK: "geplanter-flug",
+        SUBMIT: steps.flugdatenVerspaeteterFlug2.relative,
+        BACK: steps.flugdatenGeplanterFlug.relative,
       },
     },
-    "verspaeteter-flug-2": {
+    [steps.flugdatenVerspaeteterFlug2.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
           },
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
           },
           {
-            target: "tatsaechlicher-flug",
+            target: steps.flugdatenTatsaechlicherFlug.relative,
             guard: "hasVerspaetung",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasAnnullierungWithErsatzflugYes",
           },
           {
-            target: "zusaetzliche-angaben",
+            target: steps.flugdatenZusaetzlicheAngaben.relative,
             guard: "hasAnnullierungWithErsatzflugNo",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
-        BACK: "zwischenstopp-uebersicht-2",
+        BACK: steps.flugdatenZwischenstoppUebersicht2.relative,
       },
     },
-    "zwischenstopp-uebersicht-3": {
+    [steps.flugdatenZwischenstoppUebersicht3.relative]: {
       on: {
-        SUBMIT: "verspaeteter-flug-3",
-        BACK: "geplanter-flug",
+        SUBMIT: steps.flugdatenVerspaeteterFlug3.relative,
+        BACK: steps.flugdatenGeplanterFlug.relative,
       },
     },
-    "verspaeteter-flug-3": {
+    [steps.flugdatenVerspaeteterFlug3.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
           },
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
           },
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugSecondAirportThirdZwischenstopp",
           },
           {
-            target: "tatsaechlicher-flug",
+            target: steps.flugdatenTatsaechlicherFlug.relative,
             guard: "hasVerspaetung",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasAnnullierungWithErsatzflugYes",
           },
           {
-            target: "zusaetzliche-angaben",
+            target: steps.flugdatenZusaetzlicheAngaben.relative,
             guard: "hasAnnullierungWithErsatzflugNo",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
-        BACK: "zwischenstopp-uebersicht-3",
+        BACK: steps.flugdatenZwischenstoppUebersicht3.relative,
       },
     },
-    "anschluss-flug-verpasst": {
+    [steps.flugdatenAnschlussFlugVerpasst.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "tatsaechlicher-flug",
+            target: steps.flugdatenTatsaechlicherFlug.relative,
             guard: "hasVerspaetung",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasAnnullierungWithErsatzflugYes",
           },
           {
-            target: "zusaetzliche-angaben",
+            target: steps.flugdatenZusaetzlicheAngaben.relative,
             guard: "hasAnnullierungWithErsatzflugNo",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
         BACK: [
           {
-            target: "verspaeteter-flug-1",
+            target: steps.flugdatenVerspaeteterFlug1.relative,
             guard: "hasOneStop",
           },
           {
-            target: "verspaeteter-flug-2",
+            target: steps.flugdatenVerspaeteterFlug2.relative,
             guard: "hasTwoStop",
           },
-          "verspaeteter-flug-3",
+          steps.flugdatenVerspaeteterFlug3.relative,
         ],
       },
     },
-    "tatsaechlicher-flug": {
+    [steps.flugdatenTatsaechlicherFlug.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "tatsaechlicher-flug-ankunft",
+            target: steps.flugdatenTatsaechlicherFlugAnkunft.relative,
             guard: "tatsaechlicherFlugYes",
           },
           {
-            target: "ersatzverbindung-art",
+            target: steps.flugdatenErsatzverbindungArt.relative,
             guard: "tatsaechlicherFlugNo",
           },
         ],
         BACK: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugNonEndAirport",
           },
           {
-            target: "verspaeteter-flug-1",
+            target: steps.flugdatenVerspaeteterFlug1.relative,
             guard: "hasOneStop",
           },
           {
-            target: "verspaeteter-flug-2",
+            target: steps.flugdatenVerspaeteterFlug2.relative,
             guard: "hasTwoStop",
           },
           {
-            target: "verspaeteter-flug-3",
+            target: steps.flugdatenVerspaeteterFlug3.relative,
             guard: "hasThreeStop",
           },
-          "geplanter-flug",
+          steps.flugdatenGeplanterFlug.relative,
         ],
       },
     },
-    "tatsaechlicher-flug-ankunft": {
+    [steps.flugdatenTatsaechlicherFlugAnkunft.relative]: {
       on: {
-        SUBMIT: "zusaetzliche-angaben",
-        BACK: "tatsaechlicher-flug",
+        SUBMIT: steps.flugdatenZusaetzlicheAngaben.relative,
+        BACK: steps.flugdatenTatsaechlicherFlug.relative,
       },
     },
-    "ersatzverbindung-daten": {
+    [steps.flugdatenErsatzverbindungDaten.relative]: {
       on: {
-        SUBMIT: "zusaetzliche-angaben",
+        SUBMIT: steps.flugdatenZusaetzlicheAngaben.relative,
         BACK: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard: "hasVerspaeteterFlugNonEndAirport",
           },
           {
-            target: "verspaeteter-flug-1",
+            target: steps.flugdatenVerspaeteterFlug1.relative,
             guard: "hasOneStop",
           },
           {
-            target: "verspaeteter-flug-2",
+            target: steps.flugdatenVerspaeteterFlug2.relative,
             guard: "hasTwoStop",
           },
           {
-            target: "verspaeteter-flug-3",
+            target: steps.flugdatenVerspaeteterFlug3.relative,
             guard: "hasThreeStop",
           },
-          "geplanter-flug",
+          steps.flugdatenGeplanterFlug.relative,
         ],
       },
     },
-    "ersatzverbindung-art": {
+    [steps.flugdatenErsatzverbindungArt.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "anderer-flug-ankunft",
+            target: steps.flugdatenAndererFlugAnkunft.relative,
             guard: "hasErsatzVerbindungFlug",
           },
           {
-            target: "ersatzverbindung-beschreibung",
+            target: steps.flugdatenErsatzverbindungBeschreibung.relative,
             guard: "hasAndereErsatzVerbindung",
           },
-          "zusaetzliche-angaben",
+          steps.flugdatenZusaetzlicheAngaben.relative,
         ],
         BACK: [
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard:
               "hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport",
           },
           {
-            target: "verspaeteter-flug-1",
+            target: steps.flugdatenVerspaeteterFlug1.relative,
             guard: "hasOneStopWithNichtBefoerderung",
           },
           {
-            target: "verspaeteter-flug-2",
+            target: steps.flugdatenVerspaeteterFlug2.relative,
             guard: "hasTwoStopWithNichtBefoerderung",
           },
           {
-            target: "verspaeteter-flug-3",
+            target: steps.flugdatenVerspaeteterFlug3.relative,
             guard: "hasThreeStopWithNichtBefoerderung",
           },
           {
-            target: "geplanter-flug",
+            target: steps.flugdatenGeplanterFlug.relative,
             guard: "hasNoZwischenstoppWithNichtBefoerderung",
           },
-          "tatsaechlicher-flug",
+          steps.flugdatenTatsaechlicherFlug.relative,
         ],
       },
     },
-    "anderer-flug-ankunft": {
+    [steps.flugdatenAndererFlugAnkunft.relative]: {
       on: {
-        SUBMIT: "zusaetzliche-angaben",
-        BACK: "ersatzverbindung-art",
+        SUBMIT: steps.flugdatenZusaetzlicheAngaben.relative,
+        BACK: steps.flugdatenErsatzverbindungArt.relative,
       },
     },
-    "ersatzverbindung-beschreibung": {
+    [steps.flugdatenErsatzverbindungBeschreibung.relative]: {
       on: {
-        SUBMIT: "zusaetzliche-angaben",
-        BACK: "ersatzverbindung-art",
+        SUBMIT: steps.flugdatenZusaetzlicheAngaben.relative,
+        BACK: steps.flugdatenErsatzverbindungArt.relative,
       },
     },
-    "zusaetzliche-angaben": {
+    [steps.flugdatenZusaetzlicheAngaben.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "#persoenliche-daten.person.daten",
+            target: steps.personDaten.absolute,
             guard: "flugdatenDone",
           },
         ],
         BACK: [
           {
-            target: "tatsaechlicher-flug-ankunft",
+            target: steps.flugdatenTatsaechlicherFlugAnkunft.relative,
             guard: "hasDetailedTatsaechlicherFlugAnkunft",
           },
           {
-            target: "ersatzverbindung-daten",
+            target: steps.flugdatenErsatzverbindungDaten.relative,
             guard: "hasAnnullierungWithErsatzflugYes",
           },
           {
-            target: "geplanter-flug",
+            target: steps.flugdatenGeplanterFlug.relative,
             guard: "hasNoZwischenstoppAndAnnullierungWithErsatzflugNo",
           },
           {
-            target: "anschluss-flug-verpasst",
+            target: steps.flugdatenAnschlussFlugVerpasst.relative,
             guard:
               "hasVerspaeteterFlugNonEndAirportAndAnnullierungWithErsatzflugNo",
           },
           {
-            target: "verspaeteter-flug-1",
+            target: steps.flugdatenVerspaeteterFlug1.relative,
             guard: "hasOneStopWithAnnullierungWithErsatzflugNo",
           },
           {
-            target: "verspaeteter-flug-2",
+            target: steps.flugdatenVerspaeteterFlug2.relative,
             guard: "hasTwoStopWithAnnullierungWithErsatzflugNo",
           },
           {
-            target: "verspaeteter-flug-3",
+            target: steps.flugdatenVerspaeteterFlug3.relative,
             guard: "hasThreeStopWithAnnullierungWithErsatzflugNo",
           },
           {
-            target: "anderer-flug-ankunft",
+            target: steps.flugdatenAndererFlugAnkunft.relative,
             guard: "hasDetailedErsatzVerbindungFlug",
           },
           {
-            target: "ersatzverbindung-beschreibung",
+            target: steps.flugdatenErsatzverbindungBeschreibung.relative,
             guard: "hasAndereErsatzVerbindung",
           },
-          "ersatzverbindung-art",
+          steps.flugdatenErsatzverbindungArt.relative,
         ],
       },
     },
