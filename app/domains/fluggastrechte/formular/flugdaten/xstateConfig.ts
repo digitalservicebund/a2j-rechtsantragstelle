@@ -8,7 +8,6 @@ import { fluggastrechteFormularPages } from "../pages";
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const flugdatenXstateConfig = {
-  meta: { done: flugdatenDone },
   id: "flugdaten",
   initial: "check-initial-page",
   states: {
@@ -340,7 +339,7 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.personDaten.absolute,
-            guard: "flugdatenDone",
+            guard: flugdatenDone,
           },
         ],
         BACK: [

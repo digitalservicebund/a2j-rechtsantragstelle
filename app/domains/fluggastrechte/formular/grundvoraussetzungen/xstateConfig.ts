@@ -7,7 +7,6 @@ import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/p
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const grundvoraussetzungenXstateConfig = {
-  meta: { done: grundvoraussetzungenDone },
   id: "grundvoraussetzungen",
   initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
@@ -64,7 +63,7 @@ export const grundvoraussetzungenXstateConfig = {
         SUBMIT: [
           {
             target: steps.streitwertKostenGerichtskosten.absolute,
-            guard: "grundvoraussetzungenDone",
+            guard: grundvoraussetzungenDone,
           },
         ],
         BACK: steps.grundvoraussetzungenDatenUebernahme.relative,
