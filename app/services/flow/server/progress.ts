@@ -56,7 +56,7 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
   };
 }
 
-function computeVorabcheckProgress() {
+export function computeVorabcheckProgress() {
   const vorabcheckEntries = Object.entries(flows).filter(
     ([, flowConfig]) => flowConfig.flowType === "vorabCheck",
   );
@@ -67,5 +67,3 @@ function computeVorabcheckProgress() {
     ]),
   );
 }
-
-export const vorabcheckProgresses = computeVorabcheckProgress();
