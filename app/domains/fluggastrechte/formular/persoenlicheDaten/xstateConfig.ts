@@ -1,4 +1,8 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { personDone, weiterePersonenDone } from "./doneFunctions";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
@@ -7,13 +11,13 @@ export const persoenlicheDatenXstateConfig = {
     person: {
       meta: { done: personDone },
       id: "person",
-      initial: "daten",
+      initial: steps.personDaten.relative,
       states: {
-        daten: {
+        [steps.personDaten.relative]: {
           on: {
             SUBMIT: {
               guard: "personDone",
-              target: "#weitere-personen.frage",
+              target: steps.weiterePersonenFrage.absolute,
             },
             BACK: "#flugdaten.zusaetzliche-angaben",
           },
@@ -23,34 +27,34 @@ export const persoenlicheDatenXstateConfig = {
     "weitere-personen": {
       meta: { done: weiterePersonenDone, shouldAppearAsMenuNavigation: true },
       id: "weitere-personen",
-      initial: "frage",
+      initial: steps.weiterePersonenFrage.relative,
       states: {
-        frage: {
+        [steps.weiterePersonenFrage.relative]: {
           on: {
             SUBMIT: [
               {
                 guard: "isWeiterePersonenYes",
-                target: "uebersicht",
+                target: steps.weiterePersonenUebersicht.relative,
               },
               {
                 guard: "weiterePersonenDone",
-                target: "#prozessfuehrung.zeugen",
+                target: steps.prozessfuehrungZeugen.absolute,
               },
             ],
-            BACK: "#person.daten",
+            BACK: steps.personDaten.absolute,
           },
         },
         uebersicht: {
           on: {
-            BACK: "frage",
+            BACK: steps.weiterePersonenFrage.relative,
             SUBMIT: [
               {
                 guard: "isMissingAddWeiterePersonen",
-                target: "#weitere-personen.warnung",
+                target: steps.weiterePersonenWarnung.absolute,
               },
               {
                 guard: "weiterePersonenDone",
-                target: "#prozessfuehrung.zeugen",
+                target: steps.prozessfuehrungZeugen.absolute,
               },
             ],
             "add-weiterePersonen": {
@@ -60,19 +64,19 @@ export const persoenlicheDatenXstateConfig = {
           },
         },
         person: {
-          initial: "daten",
+          initial: steps.personDaten.relative,
           states: {
             daten: {
               on: {
-                BACK: "#weitere-personen.uebersicht",
-                SUBMIT: "#weitere-personen.uebersicht",
+                BACK: steps.weiterePersonenUebersicht.absolute,
+                SUBMIT: steps.weiterePersonenUebersicht.absolute,
               },
             },
           },
         },
-        warnung: {
+        [steps.weiterePersonenWarnung.relative]: {
           on: {
-            BACK: "#weitere-personen.uebersicht",
+            BACK: steps.weiterePersonenUebersicht.absolute,
           },
         },
       },
