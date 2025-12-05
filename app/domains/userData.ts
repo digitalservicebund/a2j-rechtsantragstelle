@@ -1,6 +1,8 @@
 import type { z } from "zod";
-import { fluggastrechteInputSchema } from "~/domains/fluggastrechte/formular/userData";
-import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
+import {
+  type FluggastrechteUserData,
+  fluggastrechteInputSchema,
+} from "~/domains/fluggastrechte/formular/userData";
 import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
