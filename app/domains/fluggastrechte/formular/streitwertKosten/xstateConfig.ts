@@ -8,7 +8,6 @@ import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/p
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const streitwertKostenXstateConfig = {
-  meta: { done: streitwertKostenDone },
   id: "streitwert-kosten",
   initial: steps.streitwertKostenGerichtskosten.relative,
   states: {

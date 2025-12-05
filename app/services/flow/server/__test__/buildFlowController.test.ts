@@ -292,28 +292,6 @@ describe("buildFlowController", () => {
       ).toEqual([]);
     });
 
-    it("should fallback on the legacy meta.done() function if a flow hasn't been converted to pageSchemas yet", () => {
-      const isStepDoneSpy = vi.spyOn(isStepDone, "isStepDone");
-      const mockDoneFunction = vi.fn();
-      buildFlowController({
-        config: {
-          id: "/fluggastrechte/formular",
-          initial: "start",
-          states: {
-            start: {
-              meta: { done: mockDoneFunction },
-              initial: "subState",
-              states: {
-                subState: {},
-              },
-            },
-          },
-        },
-      }).stepStates();
-      expect(isStepDoneSpy).not.toHaveBeenCalled();
-      expect(mockDoneFunction).toHaveBeenCalled();
-    });
-
     it("builds single step state", () => {
       expect(
         buildFlowController({

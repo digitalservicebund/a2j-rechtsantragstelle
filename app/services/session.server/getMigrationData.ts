@@ -1,9 +1,9 @@
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
-import { getContext } from "~/domains/userData";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from ".";
 import pick from "lodash/pick";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
 
 export const migrationKey = "daten-uebernahme";
 
@@ -19,6 +19,9 @@ export async function getMigrationData(
 
   const { userData } = await getSessionData(migration.source, cookieHeader);
   const { prunedData } = await pruneIrrelevantData(userData, migration.source);
-  const destinationUserSchemas = getContext(migrationFlowIdDestination);
+  const destinationUserSchemas = getAllPageSchemaByFlowId(
+    migrationFlowIdDestination,
+  );
+
   return pick(prunedData, Object.keys(destinationUserSchemas)); // we only cares about attributes that also appear in the destination
 }

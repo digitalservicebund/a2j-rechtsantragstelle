@@ -2,29 +2,22 @@ import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
-import type { fluggastrechteFlugdatenInputSchema } from "../../flugdaten/userData";
+import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+
+const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
 
 export function validateReplacementConnectionPage(
-  baseSchema: MultiFieldsValidationBaseSchema<
-    Pick<
-      typeof fluggastrechteFlugdatenInputSchema,
-      | "bereich"
-      | "direktAnkunftsDatum"
-      | "direktAnkunftsZeit"
-      | "andereErsatzverbindungAnkunftsDatum"
-      | "andereErsatzverbindungAnkunftsZeit"
-    >
-  >,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
-      ctx.value.direktAnkunftsZeit,
+      ctx.value.direktAnkunftsDatum as string,
+      ctx.value.direktAnkunftsZeit as string,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.andereErsatzverbindungAnkunftsDatum,
-      ctx.value.andereErsatzverbindungAnkunftsZeit,
+      ctx.value.andereErsatzverbindungAnkunftsDatum as string,
+      ctx.value.andereErsatzverbindungAnkunftsZeit as string,
     );
 
     if (originalArrivalDateTime > arrivalDateTime) {

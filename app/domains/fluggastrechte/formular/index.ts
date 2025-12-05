@@ -106,6 +106,7 @@ export const fluggastrechtFlow = {
   }),
   config: {
     meta: {
+      pruneDataFromPageSchema: true,
       arrays: {
         weiterePersonen: {
           url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",

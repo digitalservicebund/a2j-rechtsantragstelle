@@ -9,14 +9,13 @@ export const persoenlicheDatenXstateConfig = {
   initial: "person",
   states: {
     person: {
-      meta: { done: personDone },
       id: "person",
       initial: steps.personDaten.relative,
       states: {
         [steps.personDaten.relative]: {
           on: {
             SUBMIT: {
-              guard: "personDone",
+              guard: personDone,
               target: steps.weiterePersonenFrage.absolute,
             },
             BACK: "#flugdaten.zusaetzliche-angaben",
@@ -25,7 +24,7 @@ export const persoenlicheDatenXstateConfig = {
       },
     },
     "weitere-personen": {
-      meta: { done: weiterePersonenDone, shouldAppearAsMenuNavigation: true },
+      meta: { shouldAppearAsMenuNavigation: true },
       id: "weitere-personen",
       initial: steps.weiterePersonenFrage.relative,
       states: {
@@ -37,7 +36,7 @@ export const persoenlicheDatenXstateConfig = {
                 target: steps.weiterePersonenUebersicht.relative,
               },
               {
-                guard: "weiterePersonenDone",
+                guard: weiterePersonenDone,
                 target: steps.prozessfuehrungZeugen.absolute,
               },
             ],

@@ -6,11 +6,13 @@ import { fluggastrechteProzessfuehrungPages } from "~/domains/fluggastrechte/for
 import { fluggastrechteStreitwertKostenPages } from "~/domains/fluggastrechte/formular/streitwertKosten/pages";
 import { fluggastrechteZusammenfassungPages } from "~/domains/fluggastrechte/formular/zusammenfassung/pages";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteFlugdatenPages } from "./flugdaten/pages";
 
 export const fluggastrechteFormularPages = {
   ...fluggastrechteIntroPages,
   ...fluggastrechteGrundvoraussetzungenPages,
   ...fluggastrechteStreitwertKostenPages,
+  ...fluggastrechteFlugdatenPages,
   ...fluggastrechtePersoenlicheDatenPages,
   ...fluggastrechteProzessfuehrungPages,
   ...fluggastrechteZusammenfassungPages,

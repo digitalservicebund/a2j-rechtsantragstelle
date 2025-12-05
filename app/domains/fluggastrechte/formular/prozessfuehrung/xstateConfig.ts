@@ -5,7 +5,6 @@ import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/p
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const prozessfuehrungXstateConfig = {
-  meta: { done: prozessfuehrungDone },
   id: "prozessfuehrung",
   initial: steps.prozessfuehrungZeugen.relative,
   states: {
@@ -38,7 +37,7 @@ export const prozessfuehrungXstateConfig = {
         SUBMIT: [
           {
             target: steps.zusammenfassungStart.absolute,
-            guard: "prozessfuehrungDone",
+            guard: prozessfuehrungDone,
           },
         ],
         BACK: steps.prozessfuehrungVersaeumnisurteil.relative,

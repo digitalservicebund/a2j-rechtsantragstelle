@@ -1,4 +1,4 @@
-import { type FluggastrechteFlugdatenUserData } from "../userData";
+import { type FluggastrechteUserData } from "../../userData";
 
 export const fluggesellschaftAddresse = {
   fluggesellschaft: "SU",
@@ -7,4 +7,4 @@ export const fluggesellschaftAddresse = {
   fluggesellschaftPostleitzahl: "10970",
   fluggesellschaftOrt: "Frankfurt",
   fluggesellschaftLand: "Deutschland",
-} satisfies Partial<FluggastrechteFlugdatenUserData>;
+} satisfies Partial<FluggastrechteUserData>;

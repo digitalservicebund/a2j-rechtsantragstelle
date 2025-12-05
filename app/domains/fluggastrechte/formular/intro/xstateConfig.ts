@@ -6,7 +6,6 @@ const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 export const introXstateConfig = {
   id: "intro",
   initial: steps.intro.relative,
-  meta: { done: () => true },
   states: {
     [steps.intro.relative]: {
       on: {

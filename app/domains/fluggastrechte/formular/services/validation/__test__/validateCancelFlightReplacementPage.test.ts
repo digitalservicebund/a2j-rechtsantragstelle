@@ -1,28 +1,32 @@
-import pick from "lodash/pick";
 import { z } from "zod";
 import { today, toGermanDateFormat } from "~/util/date";
-import { fluggastrechteInputSchema } from "../../../userData";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
+import { fourYearsAgoSchema } from "../../../flugdaten/pages";
+import { timeSchema } from "~/services/validation/time";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 
 describe("validateCancelFlightReplacementPage", () => {
-  const baseSchema = z.object(
-    pick(fluggastrechteInputSchema, [
-      "annullierungErsatzverbindungFlugnummer",
-      "annullierungErsatzverbindungAbflugsDatum",
-      "annullierungErsatzverbindungAbflugsZeit",
-      "annullierungErsatzverbindungAnkunftsDatum",
-      "annullierungErsatzverbindungAnkunftsZeit",
-      "ankuendigung",
-      "ersatzflugStartenZweiStunden",
-      "ersatzflugLandenVierStunden",
-      "ersatzflugStartenEinStunde",
-      "ersatzflugLandenZweiStunden",
-      "direktAbflugsDatum",
-      "direktAbflugsZeit",
-      "direktAnkunftsDatum",
-      "direktAnkunftsZeit",
-    ]),
-  );
+  const baseSchema = z.object({
+    annullierungErsatzverbindungFlugnummer:
+      schemaOrEmptyString(stringOptionalSchema),
+    annullierungErsatzverbindungAbflugsDatum:
+      schemaOrEmptyString(fourYearsAgoSchema),
+    annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
+    annullierungErsatzverbindungAnkunftsDatum:
+      schemaOrEmptyString(fourYearsAgoSchema),
+    annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
+    ankuendigung: stringOptionalSchema,
+    ersatzflugStartenZweiStunden: stringOptionalSchema,
+    ersatzflugLandenVierStunden: stringOptionalSchema,
+    ersatzflugStartenEinStunde: stringOptionalSchema,
+    ersatzflugLandenZweiStunden: stringOptionalSchema,
+    direktAbflugsDatum: fourYearsAgoSchema,
+    direktAbflugsZeit: timeSchema,
+    direktAnkunftsDatum: fourYearsAgoSchema,
+    direktAnkunftsZeit: timeSchema,
+    bereich: stringOptionalSchema,
+  });
 
   const mockData = {
     direktAbflugsDatum: toGermanDateFormat(today()),

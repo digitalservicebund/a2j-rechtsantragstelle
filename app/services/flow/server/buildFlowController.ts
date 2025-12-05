@@ -18,7 +18,7 @@ import type {
 import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
-import { pages, getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
+import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -176,19 +176,12 @@ function stepStates(
           ? eventlessStepId
           : initialStepId;
 
-      let isDone = false;
-      // FGR formular will only be partially migrated to pageSchemas, so exclude it for now
-      if (flowId in pages && flowId !== "/fluggastrechte/formular") {
-        isDone = isStepDone(
-          getRelevantPageSchemasForStepId(flowId, stepId),
-          context,
-          reachableSteps,
-          state.machine.config.meta?.arrays,
-        );
-      } else if (meta?.done) {
-        // legacy doneFunction handling -- to be removed after FGR is migrated to pageSchemas
-        isDone = meta.done({ context });
-      }
+      const isDone = isStepDone(
+        getRelevantPageSchemasForStepId(flowId, stepId),
+        context,
+        reachableSteps,
+        state.machine.config.meta?.arrays,
+      );
 
       return {
         url: `${state.machine.id}${targetStepId}`,
