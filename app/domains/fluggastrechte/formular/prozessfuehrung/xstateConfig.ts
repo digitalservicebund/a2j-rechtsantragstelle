@@ -1,43 +1,47 @@
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { prozessfuehrungDone } from "./doneFunctions";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const prozessfuehrungXstateConfig = {
   meta: { done: prozessfuehrungDone },
   id: "prozessfuehrung",
-  initial: "zeugen",
+  initial: steps.prozessfuehrungZeugen.relative,
   states: {
-    zeugen: {
+    [steps.prozessfuehrungZeugen.relative]: {
       on: {
         BACK: [
           {
             guard: "isWeiterePersonenYes",
-            target: "#weitere-personen.uebersicht",
+            target: steps.weiterePersonenUebersicht.absolute,
           },
-          "#weitere-personen.frage",
+          steps.weiterePersonenFrage.absolute,
         ],
-        SUBMIT: "videoverhandlung",
+        SUBMIT: steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
-    videoverhandlung: {
+    [steps.prozessfuehrungVideoverhandlung.relative]: {
       on: {
-        SUBMIT: "versaeumnisurteil",
-        BACK: "zeugen",
+        SUBMIT: steps.prozessfuehrungVersaeumnisurteil.relative,
+        BACK: steps.prozessfuehrungZeugen.relative,
       },
     },
-    versaeumnisurteil: {
+    [steps.prozessfuehrungVersaeumnisurteil.relative]: {
       on: {
-        SUBMIT: "zahlung-nach-klageeinreichung",
-        BACK: "videoverhandlung",
+        SUBMIT: steps.prozessfuehrungZahlung.relative,
+        BACK: steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
-    "zahlung-nach-klageeinreichung": {
+    [steps.prozessfuehrungZahlung.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "#zusammenfassung.start",
+            target: steps.zusammenfassungStart.absolute,
             guard: "prozessfuehrungDone",
           },
         ],
-        BACK: "versaeumnisurteil",
+        BACK: steps.prozessfuehrungVersaeumnisurteil.relative,
       },
     },
   },

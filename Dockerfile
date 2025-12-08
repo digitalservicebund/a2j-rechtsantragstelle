@@ -7,8 +7,6 @@ FROM node:24-alpine AS app-base
 WORKDIR /a2j
 
 COPY package.json package-lock.json ./
-
-RUN apk add openjdk21
 RUN pnpm i --prod --no-optional
 
 FROM scratch AS app

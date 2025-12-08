@@ -1,15 +1,5 @@
-import { z } from "zod";
-import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import type { fluggastrechteGrundvoraussetzungenPages } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/pages";
+import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
 
-export const fluggastrechteGrundvoraussetzungenInputSchema = {
-  datenverarbeitungZustimmung: checkedRequired,
-  streitbeilegungGruende: z.enum(["yes", "no", "noSpecification"]),
-  streitbeilegung: z.enum(["yes", "no", "noSpecification"]),
-};
-
-const _partialSchema = z
-  .object(fluggastrechteGrundvoraussetzungenInputSchema)
-  .partial();
-export type FluggastrechteGrundvoraussetzungenUserData = z.infer<
-  typeof _partialSchema
->;
+export type FluggastrechteGrundvoraussetzungenUserData =
+  UserDataFromPagesSchema<typeof fluggastrechteGrundvoraussetzungenPages>;

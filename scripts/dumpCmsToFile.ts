@@ -5,9 +5,13 @@ import { getStrapiEntryFromApi } from "../app/services/cms/getStrapiEntryFromApi
 import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
 import { config } from "../app/services/env/env.server";
 import axios from "axios";
+import escapeRegExp from "lodash/escapeRegExp";
+import { bucketUrl } from "~/services/cms/bucketUrl";
 
-const imageMatchRegex =
-  /https:\/\/a2j-rechtsantragstelle-infra-public-assets-bucket.+?(.svg|.jpg|.png)+/g;
+const imageMatchRegex = new RegExp(
+  `${escapeRegExp(bucketUrl)}/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
+  "gi",
+);
 
 const fetchAndEmbedImages = async (content: Record<string, unknown>) => {
   const startFetch = Date.now();
@@ -21,7 +25,7 @@ const fetchAndEmbedImages = async (content: Record<string, unknown>) => {
   );
   const responses = await Promise.all(
     Array.from(uniqueImageUrls).map((url) =>
-      axios.get(url ?? "", { responseType: "arraybuffer", timeout: 20000 }),
+      axios.get(url, { responseType: "arraybuffer", timeout: 20000 }),
     ),
   );
 

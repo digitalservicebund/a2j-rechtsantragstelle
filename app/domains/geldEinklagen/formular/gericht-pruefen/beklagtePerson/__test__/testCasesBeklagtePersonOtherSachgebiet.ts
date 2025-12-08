@@ -12,6 +12,7 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
+      klagendeVerbraucher: "no",
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
@@ -29,6 +30,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       ...baseContext,
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
+      klagendeVerbraucher: "no",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
     },
@@ -44,6 +46,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       ...baseContext,
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
+      klagendeVerbraucher: "no",
       beklagtePersonKaufmann: "no",
     },
     [
@@ -57,6 +60,7 @@ export const testCasesBeklagteOtherSachgebiet = [
       ...baseContext,
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
+      klagendeVerbraucher: "no",
       beklagtePersonKaufmann: "unknown",
     },
     [

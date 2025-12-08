@@ -150,7 +150,7 @@ export const translations = {
       de: "Abgeschlossen",
     },
     navigationItemWarning: {
-      de: "Fehlende Angaben",
+      de: "Warnhinweis",
     },
   },
   navigationMobile: {
@@ -158,7 +158,7 @@ export const translations = {
       de: "Schritt-für-Schritt-Menü schließen",
     },
     toggleMenu: {
-      de: "Schritt-für-Schritt-Menü",
+      de: "Schritt-für-Schritt-Menü umschalten",
     },
     toStep: {
       de: "Zu Schritt:",
