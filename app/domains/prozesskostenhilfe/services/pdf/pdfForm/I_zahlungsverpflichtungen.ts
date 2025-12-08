@@ -1,23 +1,19 @@
 import partition from "lodash/partition";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { finanzielleAngabeEinkuenfteGuards as einkuenfteGuards } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/guards";
-import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { eigentuemerMapping } from "~/domains/shared/services/pdf/eigentumHelpers";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import type { PkhPdfFillFunction } from "../types";
+import type z from "zod";
+import type {
+  sonstigeZahlungArraySchema,
+  ratenZahlungArraySchema,
+  versicherungenArraySchema,
+} from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 
-type Ratenzahlung = NonNullable<
-  ProzesskostenhilfeFormularUserData["ratenzahlungen"]
->[number];
-
-type SonstigeAusgabe = NonNullable<
-  ProzesskostenhilfeFormularUserData["sonstigeAusgaben"]
->[number];
-
-type Versicherung = NonNullable<
-  ProzesskostenhilfeFormularUserData["versicherungen"]
->[number];
+type Ratenzahlung = z.infer<typeof ratenZahlungArraySchema.element>;
+type SonstigeAusgabe = z.infer<typeof sonstigeZahlungArraySchema.element>;
+type Versicherung = z.infer<typeof versicherungenArraySchema.element>;
 
 type ZahlungWithDescription = {
   description: string;
@@ -61,13 +57,6 @@ const mapRatenzahlungAndSonstigeAusgabeToZahlungsverpflichtung = (
       : undefined,
 });
 
-const mapVersicherungToZahlungsverpflichtung = (
-  versicherung: Versicherung,
-) => ({
-  description: mapVersicherungsArt(versicherung),
-  gesamtbelastung: versicherung.beitrag,
-});
-
 const pushVersicherungenToAttachment = (
   attachment: AttachmentEntries,
   versicherungen: Versicherung[],
@@ -95,9 +84,7 @@ const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
       { level: "h3", title: zahlung.art ?? "" },
       {
         title: "Zahlungspflichtiger",
-        text: zahlung.zahlungspflichtiger
-          ? eigentuemerMapping[zahlung.zahlungspflichtiger]
-          : "",
+        text: eigentuemerMapping[zahlung.zahlungspflichtiger],
       },
       { title: "Zahlungsempfänger", text: zahlung.zahlungsempfaenger },
       {
@@ -150,30 +137,20 @@ export const fillZahlungsverpflichtungen: PkhPdfFillFunction = ({
   userData,
   pdfValues,
 }) => {
-  const ratenzahlungen = userData.ratenzahlungen ?? [];
-  const sonstigeAusgaben = userData.sonstigeAusgaben ?? [];
   const versicherungen = userData.versicherungen ?? [];
   const ratenzahlungenAndSonstigeAusgaben = [
-    ...ratenzahlungen,
-    ...sonstigeAusgaben,
+    ...(userData.ratenzahlungen ?? []),
+    ...(userData.sonstigeAusgaben ?? []),
   ];
-  if (
-    (userData.hasAusgaben !== "yes" && versicherungen.length == 0) ||
-    (ratenzahlungen.length == 0 &&
-      sonstigeAusgaben.length == 0 &&
-      versicherungen.length == 0) ||
-    einkuenfteGuards.hasGrundsicherungOrAsylbewerberleistungen({
-      context: userData,
-    })
-  ) {
-    return { pdfValues };
-  }
 
-  const zahlungenWithDescription: ZahlungWithDescription[] = [
+  const zahlungenWithDescription = [
     ...ratenzahlungenAndSonstigeAusgaben.map(
       mapRatenzahlungAndSonstigeAusgabeToZahlungsverpflichtung,
     ),
-    ...versicherungen.map(mapVersicherungToZahlungsverpflichtung),
+    ...versicherungen.map((versicherung) => ({
+      description: mapVersicherungsArt(versicherung),
+      gesamtbelastung: versicherung.beitrag,
+    })),
   ];
 
   const [zahlungLong, zahlungShort] = partition(

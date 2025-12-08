@@ -5,16 +5,15 @@ const baseContext = {
   forderung: "maximal5000" as const,
   ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
-  sachgebiet: "anderesRechtsproblem" as const,
 };
 
-export const testCasesBeklagteOtherSachgebiet = [
+export const testCasesBeklagteSchadenVersicherung = [
   [
     {
       ...baseContext,
-      klagendeVerbraucher: "no",
-      gegenWenBeklagen: "person",
+      sachgebiet: "schaden",
       klagendeKaufmann: "yes",
+      gegenWenBeklagen: "person",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",
     },
@@ -28,9 +27,9 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      gegenWenBeklagen: "person",
+      sachgebiet: "schaden",
       klagendeKaufmann: "yes",
-      klagendeVerbraucher: "no",
+      gegenWenBeklagen: "person",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
     },
@@ -44,9 +43,9 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
+      sachgebiet: "schaden",
       gegenWenBeklagen: "person",
       klagendeKaufmann: "yes",
-      klagendeVerbraucher: "no",
       beklagtePersonKaufmann: "no",
     },
     [
@@ -58,25 +57,46 @@ export const testCasesBeklagteOtherSachgebiet = [
   [
     {
       ...baseContext,
-      gegenWenBeklagen: "person",
+      sachgebiet: "versicherung",
       klagendeKaufmann: "yes",
-      klagendeVerbraucher: "no",
-      beklagtePersonKaufmann: "unknown",
+      gegenWenBeklagen: "person",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "yes",
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
       "/gericht-pruefen/beklagte-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      sachgebiet: "versicherung",
+      klagendeKaufmann: "yes",
+      gegenWenBeklagen: "person",
+      beklagtePersonKaufmann: "yes",
+      gerichtsstandsvereinbarung: "no",
+    },
+    [
+      "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/kaufmann",
+      "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung",
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
   [
     {
       ...baseContext,
+      sachgebiet: "versicherung",
       gegenWenBeklagen: "person",
-      klagendeKaufmann: "no",
+      klagendeKaufmann: "yes",
+      beklagtePersonKaufmann: "no",
     },
     [
       "/gericht-pruefen/beklagte-person/gegen-wen",
+      "/gericht-pruefen/beklagte-person/kaufmann",
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
     ],
   ],
