@@ -280,7 +280,7 @@ describe("buildFlowController", () => {
   });
 
   describe(".stepStates()", () => {
-    it("ignores states without substates or done function", () => {
+    it("ignores states without substates", () => {
       expect(
         buildFlowController({
           config: {
@@ -305,7 +305,7 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/start",
           url: "/test/start",
@@ -337,19 +337,19 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
-              isDone: false,
+              isDone: true,
               isReachable: true,
               stepId: "/parent1/child1",
               url: "/test/parent1/child1/start",
             },
             {
-              isDone: false,
+              isDone: true,
               isReachable: true,
               stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
@@ -378,13 +378,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
-              isDone: false,
+              isDone: true,
               isReachable: true,
               stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
@@ -414,13 +414,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/unreachable",
           url: "/test/unreachable/start",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/reachable",
           url: "/test/reachable/start",
@@ -447,25 +447,25 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/child1",
           url: "/test/child1",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/child2",
           url: "/test/child2",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/child3",
           url: "/test/child3/start",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/child4",
           url: "/test/child4/start",
@@ -504,13 +504,13 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
-              isDone: false,
+              isDone: true,
               isReachable: true,
               stepId: "/parent1/child1",
               url: "/test/parent1/child1/start",
@@ -551,19 +551,19 @@ describe("buildFlowController", () => {
         }).stepStates(true),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/parent1",
           url: "/test/parent1",
           subStates: [
             {
-              isDone: false,
+              isDone: true,
               isReachable: true,
               stepId: "/parent1/child1",
               url: "/test/parent1/child1/start",
             },
             {
-              isDone: false,
+              isDone: true,
               isReachable: false,
               stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
