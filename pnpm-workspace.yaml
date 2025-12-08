@@ -11,3 +11,7 @@ onlyBuiltDependencies:
 preferFrozenLockfile: true
 
 trustPolicy: no-downgrade
+
+trustPolicyExclude:
+  - chokidar@4.0.3 # solved by upgrading to 5.0.0, see https://github.com/paulmillr/chokidar/issues/1440
+  - semver@6.3.1 # solved by upgrading to 7.x
