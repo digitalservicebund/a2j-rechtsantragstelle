@@ -9,8 +9,10 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
-export function VorabcheckPage() {
+export async function VorabcheckPage() {
   const {
     csrf,
     stepData,
@@ -22,6 +24,8 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
+
+  const showKernUX = await isFeatureFlagEnabled("showKernUX");
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue}>
@@ -70,7 +74,7 @@ export function VorabcheckPage() {
             className="pb-40 flex justify-end"
             row={4}
           >
-            <KernReportProblem />
+            {showKernUX ? <KernReportProblem /> : <ReportProblem />}
           </GridItem>
         )}
       </Grid>

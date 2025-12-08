@@ -19,8 +19,10 @@ import { MissingDataList } from "~/components/common/MissingDataList";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
-export function FormFlowPage() {
+export async function FormFlowPage() {
   const {
     arraySummaryData,
     userData,
@@ -49,6 +51,8 @@ export function FormFlowPage() {
   );
 
   useFocusFirstH1();
+
+  const showKernUX = await isFeatureFlagEnabled("showKernUX");
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -165,7 +169,7 @@ export function FormFlowPage() {
               className="pb-40 flex justify-end"
               row={4}
             >
-              <KernReportProblem />
+              {showKernUX ? <KernReportProblem /> : <ReportProblem />}
             </GridItem>
           )}
         </Grid>

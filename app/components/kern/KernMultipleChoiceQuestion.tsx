@@ -56,7 +56,7 @@ export const KernMultipleChoiceQuestion = ({
                 readOnly
                 onClick={() => onCheckboxClicked(idx, choice)}
                 className={classNames("kern-form-check__checkbox", {
-                  "has-error kern-form-check__checkbox--error": hasError,
+                  "kern-form-check__checkbox--error": hasError,
                 })}
               />
               {choice}

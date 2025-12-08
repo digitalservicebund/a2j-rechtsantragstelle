@@ -61,10 +61,7 @@ export const KernReportProblem = () => {
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={translations.feedback["report-problem"].de}
         iconLeft={
-          <span
-            className="kern-icon kern-icon--danger kern-icon--default"
-            aria-hidden="true"
-          />
+          <span className="kern-icon kern-icon--danger" aria-hidden="true" />
         }
       />
       <KernPosthogSurvey

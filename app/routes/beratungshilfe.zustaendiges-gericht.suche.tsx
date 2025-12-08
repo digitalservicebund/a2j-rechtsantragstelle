@@ -14,7 +14,9 @@ import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -56,6 +58,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
   return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);
 }
+const showKernUX = await isFeatureFlagEnabled("showKernUX");
 
 export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
@@ -124,7 +127,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={2}
         >
-          <KernReportProblem />
+          {showKernUX ? <KernReportProblem /> : <ReportProblem />}
         </GridItem>
       </Grid>
     </GridSection>
