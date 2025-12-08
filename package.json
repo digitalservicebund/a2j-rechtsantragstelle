@@ -86,7 +86,7 @@
     "rate-limit-redis": "^4.3.1",
     "react": "^19.2.0",
     "react-collapsed": "^4.2.0",
-    "react-dom": "^19.2.0",
+    "react-dom": "^19.2.1",
     "react-imask": "^7.6.1",
     "react-router": "^7.9.6",
     "react-select": "^5.10.2",
