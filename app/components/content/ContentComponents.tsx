@@ -18,6 +18,11 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 import KernList from "../kern/KernList";
+import KernBox from "../kern/KernBox";
+import KernInfoBox from "../kern/KernInfoBox";
+import KernRichText from "../kern/KernRichText";
+import KernHeading from "../kern/KernHeading";
+import { KernInlineNotice } from "../kern/KernInlineNotice";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -57,12 +62,19 @@ function cmsToReact(
   opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
   if (opts?.showKernUX) {
-    // eslint-disable-next-line sonarjs/no-small-switch, @typescript-eslint/switch-exhaustiveness-check
     switch (componentProps.__component) {
+      case "basic.heading":
+        return <KernHeading {...componentProps} />;
+      case "basic.paragraph":
+        return <KernRichText {...componentProps} />;
+      case "page.box":
+        return <KernBox {...componentProps} />;
+      case "page.info-box":
+        return <KernInfoBox {...componentProps} />;
       case "page.list":
         return <KernList {...componentProps} wrap={opts?.inFlow} />;
-      default:
-        return <></>;
+      case "page.inline-notice":
+        return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
     }
   }
 
