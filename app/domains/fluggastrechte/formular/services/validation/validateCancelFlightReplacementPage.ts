@@ -219,9 +219,7 @@ export function validateCancelFlightReplacementPage(
   baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
-    const fields = getFieldsForValidation(
-      ctx.value as z.infer<z.ZodObject<SchemaSubset>>,
-    );
+    const fields = getFieldsForValidation(ctx.value);
 
     const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
     if (!isAnyFieldFilled) return;
@@ -239,14 +237,14 @@ export function validateCancelFlightReplacementPage(
     if (fields.some(({ value }) => !value)) return;
 
     if (ctx.value.ankuendigung === "between7And13Days") {
-      validateFieldsBetween7And13Days(ctx as SubsetCtx);
+      validateFieldsBetween7And13Days(ctx);
     }
 
     if (
       ctx.value.ankuendigung === "no" ||
       ctx.value.ankuendigung === "until6Days"
     ) {
-      validateFieldsNoOrUntil6Days(ctx as SubsetCtx);
+      validateFieldsNoOrUntil6Days(ctx);
     }
   });
 }

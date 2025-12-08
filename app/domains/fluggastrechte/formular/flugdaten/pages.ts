@@ -11,7 +11,7 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-export const fourYearsAgoSchema = createDateSchema({
+const fourYearsAgoSchema = createDateSchema({
   earliest: () => addYears(today(), -4),
   latest: () => today(),
 });
