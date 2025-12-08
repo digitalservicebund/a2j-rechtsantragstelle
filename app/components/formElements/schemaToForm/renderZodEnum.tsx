@@ -11,14 +11,52 @@ type ZodEnum = z.ZodEnum<Record<string, string>>;
 export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
   fieldSchema.def.type === "enum";
 
+const filterOptions = {
+  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-1"]: [
+    "startAirportFirstZwischenstopp",
+    "firstZwischenstoppEndAirport",
+  ],
+  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-2"]: [
+    "startAirportFirstZwischenstopp",
+    "firstAirportSecondZwischenstopp",
+    "secondZwischenstoppEndAirport",
+  ],
+  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-3"]: [
+    "startAirportFirstZwischenstopp",
+    "firstAirportSecondZwischenstopp",
+    "secondAirportThirdZwischenstopp",
+    "thirdZwischenstoppEndAirport",
+  ],
+};
+
+/**
+ * Workaround to migrate the FGR Formular to Page Schemas.
+ * The field verspaeteterFlug uses different options across multiple pages,
+ * and we cannot remove it from the Page Schemas configuration due to issues with type object creation.
+ * We plan to rename this field in the Flow soon and remove the temporary filter function.
+ * */
+const filterOption = (option: string, fieldName: string, pathname: string) => {
+  if (fieldName !== "verspaeteterFlug" || !(pathname in filterOptions)) {
+    return true;
+  }
+
+  const fieldAvailableOptions =
+    filterOptions[pathname as keyof typeof filterOptions];
+
+  return fieldAvailableOptions.includes(option);
+};
+
 export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
+  pathname: string,
   matchingElement?: StrapiFormComponent,
 ) {
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
-  let options = schema.options.map((value) => ({ value, text: value }));
+  let options = schema.options
+    .map((value) => ({ value, text: value }))
+    .filter(({ value }) => filterOption(value, fieldName, pathname));
   // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
