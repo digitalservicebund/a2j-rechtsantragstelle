@@ -77,6 +77,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
+  const showKernUX = useShowKernUX();
 
   return (
     <div className="flex flex-col grow bg-blue-100">
@@ -143,7 +144,7 @@ export default function Index() {
         </Container>
       </div>
       <div className="flex justify-end w-full p-32 relative">
-        {useShowKernUX() ? <KernReportProblem /> : <ReportProblem />}
+        {showKernUX ? <KernReportProblem /> : <ReportProblem />}
       </div>
     </div>
   );

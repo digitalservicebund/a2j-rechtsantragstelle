@@ -60,6 +60,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
+  const showKernUX = useShowKernUX();
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
@@ -125,7 +126,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={2}
         >
-          {useShowKernUX() ? <KernReportProblem /> : <ReportProblem />}
+          {showKernUX ? <KernReportProblem /> : <ReportProblem />}
         </GridItem>
       </Grid>
     </GridSection>

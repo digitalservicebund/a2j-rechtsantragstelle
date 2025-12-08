@@ -24,6 +24,7 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
+  const showKernUX = useShowKernUX();
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue}>
@@ -72,7 +73,7 @@ export function VorabcheckPage() {
             className="pb-40 flex justify-end"
             row={4}
           >
-            {useShowKernUX() ? <KernReportProblem /> : <ReportProblem />}
+            {showKernUX ? <KernReportProblem /> : <ReportProblem />}
           </GridItem>
         )}
       </Grid>

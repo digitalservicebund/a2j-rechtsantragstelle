@@ -51,6 +51,7 @@ export function FormFlowPage() {
   );
 
   useFocusFirstH1();
+  const showKernUX = useShowKernUX();
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -167,7 +168,7 @@ export function FormFlowPage() {
               className="pb-40 flex justify-end"
               row={4}
             >
-              {useShowKernUX() ? <KernReportProblem /> : <ReportProblem />}
+              {showKernUX ? <KernReportProblem /> : <ReportProblem />}
             </GridItem>
           )}
         </Grid>
