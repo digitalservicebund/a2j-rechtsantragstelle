@@ -12,12 +12,12 @@ import Heading from "~/components/common/Heading";
 import { type ErrorMessageProps } from "~/components/common/types";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
@@ -75,9 +75,8 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   );
 };
 
-export default async function Index() {
+export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
-  const showKernUX = await isFeatureFlagEnabled("showKernUX");
 
   return (
     <div className="flex flex-col grow bg-blue-100">
@@ -144,7 +143,7 @@ export default async function Index() {
         </Container>
       </div>
       <div className="flex justify-end w-full p-32 relative">
-        {showKernUX ? <KernReportProblem /> : <ReportProblem />}
+        {useShowKernUX() ? <KernReportProblem /> : <ReportProblem />}
       </div>
     </div>
   );
