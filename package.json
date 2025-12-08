@@ -55,7 +55,7 @@
     "@mjackson/form-data-parser": "^0.9.1",
     "@node-saml/node-saml": "github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916",
     "@pdf-lib/fontkit": "^1.1.1",
-    "@react-router/express": "^7.9.6",
+    "@react-router/express": "^7.10.1",
     "@react-router/node": "^7.9.6",
     "@rvf/react-router": "^8.1.0",
     "@sentry/react-router": "^10.29.0",
