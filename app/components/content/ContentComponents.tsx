@@ -21,6 +21,11 @@ import { Grid } from "../layout/grid/Grid";
 import KernHeroWithButton from "../kern/KernHeroWithButton";
 import KernHero from "../kern/KernHero";
 import KernTableOfContents from "../kern/KernTableOfContents";
+import KernBox from "../kern/KernBox";
+import KernInfoBox from "../kern/KernInfoBox";
+import KernRichText from "../kern/KernRichText";
+import KernHeading from "../kern/KernHeading";
+import { KernInlineNotice } from "../kern/KernInlineNotice";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -66,36 +71,21 @@ function cmsToReact(
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
-        return <Heading {...componentProps} />;
-      case "basic.paragraph":
-        return <RichText {...componentProps} />;
+        return <KernHeading {...componentProps} />;      
+       case "basic.paragraph":
+        return <KernRichText {...componentProps} />;
       case "page.hero":
         return <KernHero {...componentProps} />;
       case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
-        return <Box {...componentProps} />;
+        return <KernBox {...componentProps} />;
       case "page.info-box":
-        return <InfoBox {...componentProps} />;
+        return <KernInfoBox {...componentProps} />;
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
-      case "page.box-with-image":
-        return <BoxWithImage {...componentProps} />;
-      case "page.list":
-        return <List {...componentProps} wrap={opts?.inFlow} />;
-      case "page.video":
-        return <Video {...componentProps} />;
       case "page.inline-notice":
-        return <InlineNotice {...componentProps} wrap={opts?.inFlow} />;
-      case "page.details-summary":
-        return <Details {...componentProps} />;
-      case "page.user-feedback":
-        return <UserFeedback {...componentProps} />;
-      case "page.summary-overview-section":
-        return <SummaryOverviewSection {...componentProps} />;
-      case "page.email-capture":
-        return <EmailCapture {...componentProps} />;
-      case "page.array-summary":
+        return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
       default:
         return <></>;
     }

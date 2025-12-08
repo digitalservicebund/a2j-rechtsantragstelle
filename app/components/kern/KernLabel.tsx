@@ -8,12 +8,17 @@ export type KernLabelProps = {
   className?: string;
 };
 
-const KernLabel = ({ tagName = "h1", text, tabIndex, id }: KernLabelProps) => {
+const KernLabel = ({
+  tagName = "h1",
+  text,
+  tabIndex,
+  elementId,
+}: KernLabelProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
 
   return (
-    <Tag className="kern-label p-0!" tabIndex={tabIndex} id={id}>
+    <Tag className="kern-label p-0!" tabIndex={tabIndex} id={elementId}>
       {text}
     </Tag>
   );

@@ -4,16 +4,14 @@ export type KernHeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
-  id?: string;
-  className?: string;
+  elementId?: string;
 };
 
 const KernHeading = ({
   tagName = "h1",
   text,
   tabIndex,
-  id,
-  className,
+  elementId,
 }: KernHeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
