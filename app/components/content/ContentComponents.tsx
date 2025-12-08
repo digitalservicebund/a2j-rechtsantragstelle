@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
@@ -18,6 +17,7 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernList from "../kern/KernList";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -56,11 +56,14 @@ function cmsToReact(
   componentProps: StrapiContentComponent,
   opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
-  // When showKernUX is true, render KERN UX components
-  // For now, we render the old components until KERN UX versions are created
   if (opts?.showKernUX) {
-    // TODO: Replace with KERN UX components when available
-    // For now, fall through to render old components
+    // eslint-disable-next-line sonarjs/no-small-switch, @typescript-eslint/switch-exhaustiveness-check
+    switch (componentProps.__component) {
+      case "page.list":
+        return <KernList {...componentProps} wrap={opts?.inFlow} />;
+      default:
+        return <></>;
+    }
   }
 
   switch (componentProps.__component) {
