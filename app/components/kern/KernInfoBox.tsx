@@ -14,7 +14,7 @@ const KernInfoBox = ({ identifier, heading, items }: KernInfoBoxProps) => {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="gap-kern-space-small"
+      className="flex flex-col gap-kern-space-x-large"
       id={identifier}
     >
       {heading && <KernHeading text={heading.text} />}

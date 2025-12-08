@@ -12,6 +12,7 @@ import KernRichText from "./KernRichText";
 import KernButton, { ButtonProps } from "./KernButton";
 import KernHeadline, { KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { KernLabelProps } from "./KernLabel";
+import { KernInlineNotice } from "./KernInlineNotice";
 
 export type KernInfoBoxItemProps = {
   id: number; // Strapi id
@@ -49,15 +50,15 @@ const KernInfoBoxItem = ({
           className="max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline"
         />
       )}
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-kern-space-default">
         {label && <KernLabel {...label} />}
         {headline && <KernHeadline {...headline} />}
-        {content && <KernRichText html={content} />}
+        {content && <KernRichText html={content} className="pt-32!" />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />
         ))}
         {inlineNotices?.map((inlineNotice) => (
-          <InlineNotice key={inlineNotice.title} {...inlineNotice} nested />
+          <KernInlineNotice key={inlineNotice.title} {...inlineNotice} nested />
         ))}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer>
