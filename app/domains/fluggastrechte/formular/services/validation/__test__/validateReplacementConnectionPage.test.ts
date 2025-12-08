@@ -1,16 +1,22 @@
 import { z } from "zod";
 import { validateReplacementConnectionPage } from "../validateReplacementConnectionPage";
-import { fourYearsAgoSchema } from "../../../flugdaten/pages";
-import { timeSchema } from "~/services/validation/time";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { pick } from "lodash";
 
 describe("validateReplacementConnectionPage", () => {
-  const baseSchema = z.object({
-    direktAnkunftsDatum: fourYearsAgoSchema,
-    direktAnkunftsZeit: timeSchema,
-    andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
-    andereErsatzverbindungAnkunftsZeit: timeSchema,
-    bereich: z.string(),
-  });
+  const baseSchema = z.object(
+    pick(
+      fluggastrechteFlugdatenPages.flugdatenErsatzverbindungBeschreibung
+        .pageSchema,
+      [
+        "direktAnkunftsDatum",
+        "direktAnkunftsZeit",
+        "andereErsatzverbindungAnkunftsDatum",
+        "andereErsatzverbindungAnkunftsZeit",
+        "bereich",
+      ],
+    ),
+  );
 
   const validatorReplacementConnectionPage =
     validateReplacementConnectionPage(baseSchema);

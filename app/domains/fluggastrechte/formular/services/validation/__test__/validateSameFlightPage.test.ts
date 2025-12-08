@@ -1,15 +1,21 @@
 import { z } from "zod";
 import { validateSameFlightPage } from "../validateSameFlightPage";
-import { fourYearsAgoSchema } from "../../../flugdaten/pages";
-import { timeSchema } from "~/services/validation/time";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { pick } from "lodash";
 
 describe("validateSameFlightPage", () => {
-  const baseSchema = z.object({
-    direktAnkunftsDatum: fourYearsAgoSchema,
-    direktAnkunftsZeit: timeSchema,
-    tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
-    tatsaechlicherAnkunftsZeit: timeSchema,
-  });
+  const baseSchema = z.object(
+    pick(
+      fluggastrechteFlugdatenPages.flugdatenTatsaechlicherFlugAnkunft
+        .pageSchema,
+      [
+        "direktAnkunftsDatum",
+        "direktAnkunftsZeit",
+        "tatsaechlicherAnkunftsDatum",
+        "tatsaechlicherAnkunftsZeit",
+      ],
+    ),
+  );
 
   const validatorSameFlightPage = validateSameFlightPage(baseSchema);
 

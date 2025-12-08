@@ -1,7 +1,8 @@
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
-const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenZwischenstoppUebersicht3.pageSchema;
 
 const fieldsForValidation = [
   "ersterZwischenstopp",

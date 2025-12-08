@@ -1,31 +1,11 @@
 import { z } from "zod";
 import { today, toGermanDateFormat } from "~/util/date";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
-import { fourYearsAgoSchema } from "../../../flugdaten/pages";
-import { timeSchema } from "~/services/validation/time";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 
 describe("validateCancelFlightReplacementPage", () => {
   const baseSchema = z.object({
-    annullierungErsatzverbindungFlugnummer:
-      schemaOrEmptyString(stringOptionalSchema),
-    annullierungErsatzverbindungAbflugsDatum:
-      schemaOrEmptyString(fourYearsAgoSchema),
-    annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
-    annullierungErsatzverbindungAnkunftsDatum:
-      schemaOrEmptyString(fourYearsAgoSchema),
-    annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
-    ankuendigung: stringOptionalSchema,
-    ersatzflugStartenZweiStunden: stringOptionalSchema,
-    ersatzflugLandenVierStunden: stringOptionalSchema,
-    ersatzflugStartenEinStunde: stringOptionalSchema,
-    ersatzflugLandenZweiStunden: stringOptionalSchema,
-    direktAbflugsDatum: fourYearsAgoSchema,
-    direktAbflugsZeit: timeSchema,
-    direktAnkunftsDatum: fourYearsAgoSchema,
-    direktAnkunftsZeit: timeSchema,
-    bereich: stringOptionalSchema,
+    ...fluggastrechteFlugdatenPages.flugdatenErsatzverbindungDaten.pageSchema,
   });
 
   const mockData = {

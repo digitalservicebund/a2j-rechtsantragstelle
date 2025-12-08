@@ -1,15 +1,11 @@
 import { z } from "zod";
 import { validateStopoverDuplicates } from "../validateStopoverDuplicates";
-import { airportSchema } from "~/services/validation/airport";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 
 describe("validateStopoverDuplicates", () => {
-  const baseSchema = z.object({
-    ersterZwischenstopp: airportSchema.optional(),
-    zweiterZwischenstopp: airportSchema.optional(),
-    dritterZwischenstopp: airportSchema.optional(),
-    startAirport: airportSchema.optional(),
-    endAirport: airportSchema.optional(),
-  });
+  const baseSchema = z.object(
+    fluggastrechteFlugdatenPages.flugdatenZwischenstoppUebersicht3.pageSchema,
+  );
 
   const schema = validateStopoverDuplicates(baseSchema);
 

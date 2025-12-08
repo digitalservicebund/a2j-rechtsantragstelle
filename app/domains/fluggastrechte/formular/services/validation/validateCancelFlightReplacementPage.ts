@@ -2,7 +2,7 @@ import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -16,7 +16,8 @@ const FIELDS_FOR_VALIDATION = [
   "annullierungErsatzverbindungAnkunftsZeit",
 ] as const;
 
-const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenErsatzverbindungDaten.pageSchema;
 
 type SchemaSubset = Pick<
   typeof _schema,
@@ -59,20 +60,20 @@ function isStartTimestampMoreThan(
 
 const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
   originalDepartureDateTime: convertToTimestamp(
-    data.direktAbflugsDatum as string,
-    data.direktAbflugsZeit as string,
+    data.direktAbflugsDatum,
+    data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum as string,
-    data.annullierungErsatzverbindungAbflugsZeit as string,
+    data.annullierungErsatzverbindungAbflugsDatum,
+    data.annullierungErsatzverbindungAbflugsZeit,
   ),
   originalArrivalDateTime: convertToTimestamp(
-    data.direktAnkunftsDatum as string,
-    data.direktAnkunftsZeit as string,
+    data.direktAnkunftsDatum,
+    data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum as string,
-    data.annullierungErsatzverbindungAnkunftsZeit as string,
+    data.annullierungErsatzverbindungAnkunftsDatum,
+    data.annullierungErsatzverbindungAnkunftsZeit,
   ),
 });
 

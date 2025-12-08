@@ -2,22 +2,32 @@ import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
-const _schema = getAllPageSchemaByFlowId("/fluggastrechte/formular");
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenAndererFlugAnkunft.pageSchema;
 
 export function validateAnotherFlightPage(
-  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
+  baseSchema: MultiFieldsValidationBaseSchema<
+    Pick<
+      typeof _schema,
+      | "ersatzFlugAnkunftsDatum"
+      | "ersatzFlugAnkunftsZeit"
+      | "direktAnkunftsDatum"
+      | "direktAnkunftsZeit"
+      | "bereich"
+    >
+  >,
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum as string,
-      ctx.value.direktAnkunftsZeit as string,
+      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.ersatzFlugAnkunftsDatum as string,
-      ctx.value.ersatzFlugAnkunftsZeit as string,
+      ctx.value.ersatzFlugAnkunftsDatum,
+      ctx.value.ersatzFlugAnkunftsZeit,
     );
 
     if (originalArrivalDateTime > arrivalDateTime) {
