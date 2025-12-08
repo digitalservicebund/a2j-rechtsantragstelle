@@ -44,7 +44,7 @@ function saveEncrypted(data: any, filename: string, password: string) {
 }
 
 function updateZipfile(zipFilepath: string) {
-  configDotenv(); // updateZipfile runs as part of an npm command and might need to read from
+  configDotenv(); // updateZipfile runs as part of an pnpm run script and might need to read from
   const GERICHTSFINDER_ENCRYPTION_KEY = getEncryptionKey();
 
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {

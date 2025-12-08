@@ -111,20 +111,20 @@ partnerschaftYes: [
 
 #### E2E tests
 
-- run: `npm run test:e2e`
-- UI: `npm run test:e2e:ui`
+- run: `pnpm run test:e2e`
+- UI: `pnpm run test:e2e:ui`
 
 For more details, check `/doc/e2e-tests.md`
 
 ### Git Hooks
 
-We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `npm run init`.
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `pnpm run init`.
 
 The git hooks check formatting, linting, unit tests, typecheck. You may execute them before committing using `lefthook run pre-commit`. See `lefthook.yaml` for more details.
 
 ### Storybook
 
-Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `npm run start:storybook`.
+Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `pnpm run start:storybook`.
 
 ## Known issues
 
