@@ -1,6 +1,6 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import KernInfoBoxItem, { type KernInfoBoxItemProps } from "./KernInfoBoxItem";
-import KernHeading, { KernHeadingProps } from "./KernHeading";
+import KernHeading, { type KernHeadingProps } from "./KernHeading";
 
 export type KernInfoBoxProps = {
   identifier?: string;

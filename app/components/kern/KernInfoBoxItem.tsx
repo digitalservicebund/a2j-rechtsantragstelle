@@ -3,16 +3,22 @@ import Accordion, { type AccordionProps } from "~/components/common/Accordion";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Image, { type ImageProps } from "~/components/common/Image";
 import { Details, type DetailsProps } from "~/components/content/Details";
-import {
-  InlineNotice,
-  type InlineNoticeProps,
-} from "~/components/content/InlineNotice";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
-import KernButton, { ButtonProps } from "./KernButton";
-import KernHeadline, { KernHeadlineProps } from "./KernHeadline";
-import KernLabel, { KernLabelProps } from "./KernLabel";
+import KernButton, { type ButtonProps } from "./KernButton";
+import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
+import KernLabel, { type KernLabelProps } from "./KernLabel";
 import { KernInlineNotice } from "./KernInlineNotice";
+
+export type KernInlineNoticeProps = {
+  identifier?: string;
+  title: string;
+  tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
+  look: "warning" | "tips" | "success" | "error";
+  content?: string;
+  wrap?: boolean;
+  nested?: boolean;
+};
 
 export type KernInfoBoxItemProps = {
   id: number; // Strapi id
@@ -22,7 +28,7 @@ export type KernInfoBoxItemProps = {
   image?: ImageProps;
   content?: string;
   details?: DetailsProps[];
-  inlineNotices?: InlineNoticeProps[];
+  inlineNotices?: KernInlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
   accordion?: AccordionProps;

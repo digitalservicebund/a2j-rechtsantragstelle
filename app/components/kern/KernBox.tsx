@@ -8,7 +8,7 @@ import KernRichText, {
 } from "~/components/kern/KernRichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import KernLabel, { KernLabelProps } from "./KernLabel";
+import KernLabel, { type KernLabelProps } from "./KernLabel";
 
 type BoxProps = {
   identifier?: string;
