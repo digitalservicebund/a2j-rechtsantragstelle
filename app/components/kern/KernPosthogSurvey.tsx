@@ -125,12 +125,9 @@ export const KernPosthogSurvey = ({
                     {isFirstQuestion &&
                       showValidationError &&
                       !wasSubmitted && (
-                        <p
-                          className="kern-error !flex !items-center !gap-8 !mt-16"
-                          role="alert"
-                        >
+                        <p className="kern-error mt-8!" role="alert">
                           <span
-                            className="kern-icon kern-icon--danger kern-icon--md"
+                            className="kern-icon kern-icon--danger kern-icon--md mt-0!"
                             aria-hidden="true"
                           />
                           <span className="text-kern-feedback-danger">
