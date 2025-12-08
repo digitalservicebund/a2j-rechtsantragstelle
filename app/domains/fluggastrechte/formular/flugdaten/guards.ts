@@ -80,9 +80,6 @@ export const fluggastrechteFlugdatenGuards = {
       context.tatsaechlicherAnkunftsDatum &&
       context.tatsaechlicherAnkunftsZeit,
     ),
-  hasKeineErsatzVerbindung: ({ context }) =>
-    context.tatsaechlicherFlug === "no" &&
-    context.ersatzverbindungArt === "keineAnkunft",
   hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
     context.verspaeteterFlug === "startAirportFirstZwischenstopp",
   hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
