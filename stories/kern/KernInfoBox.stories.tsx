@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernInfoBox from "~/components/kern/KernInfoBox";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { bucketUrl } from "~/services/cms/bucketUrl";
 
 const meta = {
   title: "kern/KernInfoBox",
@@ -105,7 +106,7 @@ export const WithImages: Story = {
       {
         id: 1,
         image: {
-          url: "https://via.placeholder.com/168",
+          url: bucketUrl + "/bmj_logo_3fd953f074.png",
           alternativeText: "Service icon",
         },
         headline: {
@@ -117,7 +118,7 @@ export const WithImages: Story = {
       {
         id: 2,
         image: {
-          url: "https://via.placeholder.com/168",
+          url: bucketUrl + "/bmj_logo_3fd953f074.png",
           alternativeText: "Service icon",
         },
         headline: {
@@ -237,80 +238,6 @@ export const WithInlineNotices: Story = {
   },
 };
 
-export const Complex: Story = {
-  args: {
-    heading: {
-      text: "Complete Guide",
-      tagName: "h2",
-    },
-    items: [
-      {
-        id: 1,
-        image: {
-          url: "https://via.placeholder.com/168",
-          alternativeText: "Guide icon",
-        },
-        label: {
-          text: "Part 1",
-          tagName: "p",
-        },
-        headline: {
-          text: "Before You Start",
-          tagName: "h3",
-        },
-        content:
-          "<p>Important information to review before beginning your application.</p>",
-        details: [
-          {
-            title: "Eligibility",
-            content: "Check if you meet the basic requirements",
-          },
-          {
-            title: "Timeline",
-            content: "Understand the expected processing time",
-          },
-        ],
-        inlineNotices: [
-          {
-            title: "Important",
-            tagName: "p",
-            look: "warning",
-            content: "Make sure you have all documents ready before starting.",
-          },
-        ],
-        buttons: [
-          {
-            text: "Check Eligibility",
-            look: "primary",
-          },
-          {
-            text: "Learn More",
-            look: "secondary",
-          },
-        ],
-      },
-      {
-        id: 2,
-        label: {
-          text: "Part 2",
-          tagName: "p",
-        },
-        headline: {
-          text: "Complete Application",
-          tagName: "h3",
-        },
-        content: "<p>Fill out the application form with your information.</p>",
-        buttons: [
-          {
-            text: "Start Application",
-            look: "primary",
-          },
-        ],
-      },
-    ],
-  },
-};
-
 export const WithoutHeading: Story = {
   args: {
     items: [
@@ -330,6 +257,34 @@ export const WithoutHeading: Story = {
         },
         content:
           "<p>You can have multiple items without a container heading.</p>",
+      },
+    ],
+  },
+};
+
+export const WithContent: Story = {
+  args: {
+    heading: {
+      text: "Schritt für Schritt zur anwaltlichen Beratung",
+      tagName: "h2",
+    },
+    items: [
+      {
+        id: 1,
+        label: {
+          text: "Optional Label",
+          tagName: "p",
+        },
+        headline: {
+          text: "Headline Lorem Ipsum",
+          tagName: "h3",
+        },
+        content: `<p>Bodytext Lorem Ipsum</p>
+<ul>
+  <li>Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus</li>
+  <li>Curabitur tempor quis eros tempus lacinia.</li>
+  <li>Nam pulvinar blandit velit, id condimentum diam faucibus at. Aliquam lacus nisi, sollicitudin at nisi nec, fermentum congue felis.</li>
+</ul>`,
       },
     ],
   },
