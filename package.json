@@ -155,7 +155,7 @@
   },
   "engines": {
     "node": ">=24",
-    "npm": ">=11.0.0"
+    "pnpm": ">=10.24.0"
   },
   "overrides": {
     "@sentry/react-router": {
