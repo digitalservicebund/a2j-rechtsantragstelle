@@ -190,7 +190,7 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZusaetzlicheAngaben: {
     stepId: "flugdaten/zusaetzliche-angaben",
     pageSchema: {
-      zusaetzlicheAngaben: stringOptionalSchema,
+      zusaetzlicheAngaben: schemaOrEmptyString(stringRequiredSchema),
     },
   },
 } satisfies PagesConfig;
