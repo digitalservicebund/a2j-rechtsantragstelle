@@ -1,4 +1,4 @@
-# 29. We use pnpm as package manager
+# 29. Use pnpm as package manager
 
 2024-10-31: proposed
 2024-11-21: postponed to later
@@ -14,7 +14,7 @@ To summarize, we are facing the following problems:
 
 - Supply Chain Vulnerabilities: Recent incidents, such as the September 2025 compromise of `debug`/`chalk` and the November 2025 "Shai-Hulud" worm, have demonstrated how easily malicious code can spread via `npm` lifecycle scripts (`preinstall`/`postinstall`) and phantom dependencies.
 
-- Slow installation times: `npm install` takes significant time in CI pipelines and local setup.
+- Slow installation times: `npm install` takes significant time in CI pipelines and local setup. While partly minimized by caching, fast dependency resolution of `pnpm` allows it to be added inside the `pnpm run dev` command to avoid outdated local dependencies. Non-cached dependency resolution or upgrading is consistently faster using `pnpm`.
 
 - Disk space inefficiency: Duplicated dependencies across projects consume excessive disk space.
 
