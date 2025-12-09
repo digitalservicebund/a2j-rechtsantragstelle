@@ -51,7 +51,7 @@ export const Default: Story = {
     (Story) => (
       <GridSection>
         <Grid>
-          <GridItem className="pb-40 flex justify-end">
+          <GridItem className="pb-40 flex" row={4}>
             <Story />
           </GridItem>
         </Grid>
