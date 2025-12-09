@@ -3,6 +3,7 @@ import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOp
 import { config } from "~/services/env/env.server";
 import { config as publicConfig } from "~/services/env/public";
 import { omitNull } from "~/util/omitNull";
+import { decodeBase64 } from "~/util/strings";
 
 function appendStrapiUrlOnDev(imageUrl: string) {
   // Without S3 bucket, Strapi returns relative URLs
@@ -21,17 +22,20 @@ export const StrapiImageSchema = z
     url: z.string().transform(appendStrapiUrlOnDev),
     width: z.number(),
     height: z.number(),
+    mime: z.string().optional(),
     alternativeText: StrapiStringOptionalSchema,
   })
   .transform(async (cmsImage) => {
-    if (!cmsImage.url.includes("image/svg+xml")) return cmsImage;
+    // Non-svg image: return
+    if (cmsImage.mime !== "image/svg+xml") return cmsImage;
+
+    // SVG Image: Either decode from base64 or fetch from URL
     // Note: this is mixing data validation / transformation with enriching
     // We should find a more idiomatic way for this in the future
-    return {
-      ...cmsImage,
-      svgString: await (await fetch(cmsImage.url)).text(),
-      url: "",
-    };
+    const svgString = cmsImage.url.startsWith("data:image/svg+xml;base64")
+      ? decodeBase64(cmsImage.url.split(",")[1])
+      : await (await fetch(cmsImage.url)).text();
+    return { ...cmsImage, svgString, url: "" };
   });
 
 export const StrapiImageOptionalSchema = StrapiImageSchema.nullable()

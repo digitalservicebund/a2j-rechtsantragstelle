@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/cached-checkout-install
-      - run: npm run build:localContent
+      - run: pnpm run build:localContent
         env:
           STRAPI_API: "${{ vars.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
@@ -28,8 +28,8 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             text: "Content file is too large. Size: ${{ steps.contentFileSize.outputs.content_file_size_mb }}MB"
-      - run: npm run verify:emails
-      - run: npm run verify:websites
+      - run: pnpm run verify:emails
+      - run: pnpm run verify:websites
       - name: Calculate content checksum
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT

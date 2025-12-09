@@ -1,68 +1,74 @@
+import type { FluggastrechteGrundvoraussetzungenUserData } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/userData";
+import type { Config } from "~/services/flow/server/types";
 import { grundvoraussetzungenDone } from "./doneFunctions";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const grundvoraussetzungenXstateConfig = {
   meta: { done: grundvoraussetzungenDone },
   id: "grundvoraussetzungen",
-  initial: "datenverarbeitung",
+  initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
-    datenverarbeitung: {
+    [steps.grundvoraussetzungenDatenverarbeitung.relative]: {
       on: {
-        SUBMIT: "streitbeilegung",
-        BACK: "#intro.start",
+        SUBMIT: steps.grundvoraussetzungenStreitbeilegung.relative,
+        BACK: steps.intro.absolute,
       },
     },
-    streitbeilegung: {
+    [steps.grundvoraussetzungenStreitbeilegung.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "streitbeilegung-gruende",
+            target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
             guard: "hasNoStreitbeilegung",
           },
-          "prozessfaehig",
+          steps.grundvorraussetzungenProzessfaehig.relative,
         ],
-        BACK: "datenverarbeitung",
+        BACK: steps.grundvoraussetzungenDatenverarbeitung.relative,
       },
     },
-    "streitbeilegung-gruende": {
+    [steps.grundvoraussetzungenStreitbeilegungGruende.relative]: {
       on: {
-        SUBMIT: "prozessfaehig",
-        BACK: "streitbeilegung",
+        SUBMIT: steps.grundvorraussetzungenProzessfaehig.relative,
+        BACK: steps.grundvoraussetzungenStreitbeilegung.relative,
       },
     },
-    prozessfaehig: {
+    [steps.grundvorraussetzungenProzessfaehig.relative]: {
       on: {
-        SUBMIT: "ausgleichszahlung",
+        SUBMIT: steps.grundvoraussetzungenAusgleichszahlung.relative,
         BACK: [
           {
-            target: "streitbeilegung-gruende",
+            target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
             guard: "hasNoStreitbeilegung",
           },
-          "streitbeilegung",
+          steps.grundvoraussetzungenStreitbeilegung.relative,
         ],
       },
     },
     ausgleichszahlung: {
       on: {
-        SUBMIT: "daten-uebernahme",
-        BACK: "prozessfaehig",
+        SUBMIT: steps.grundvoraussetzungenDatenUebernahme.relative,
+        BACK: steps.grundvorraussetzungenProzessfaehig.relative,
       },
     },
-    "daten-uebernahme": {
+    [steps.grundvoraussetzungenDatenUebernahme.relative]: {
       on: {
-        SUBMIT: "amtsgericht",
-        BACK: "ausgleichszahlung",
+        SUBMIT: steps.grundvoraussetzungenAmtsgericht.relative,
+        BACK: steps.grundvoraussetzungenAusgleichszahlung.relative,
       },
     },
-    amtsgericht: {
+    [steps.grundvoraussetzungenAmtsgericht.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "#streitwert-kosten.gerichtskosten",
+            target: steps.streitwertKostenGerichtskosten.absolute,
             guard: "grundvoraussetzungenDone",
           },
         ],
-        BACK: "daten-uebernahme",
+        BACK: steps.grundvoraussetzungenDatenUebernahme.relative,
       },
     },
   },
-};
+} satisfies Config<FluggastrechteGrundvoraussetzungenUserData>;

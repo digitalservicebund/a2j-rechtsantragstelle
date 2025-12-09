@@ -17,6 +17,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
     {
       ...baseContext,
       klagendeKaufmann: "yes",
+      klagendeVerbraucher: "no",
       beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "yes",

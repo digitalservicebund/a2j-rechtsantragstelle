@@ -1,6 +1,5 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-
+import type { FluggastrechteProzessfuehrungUserData } from "~/domains/fluggastrechte/formular/prozessfuehrung/userData";
 export const testCasesFluggastrechteFormularProzessfuehrung = [
   [
     {
@@ -17,4 +16,4 @@ export const testCasesFluggastrechteFormularProzessfuehrung = [
       "/abgabe/start",
     ],
   ],
-] as const satisfies TestCases<FluggastrechteUserData>;
+] as const satisfies TestCases<FluggastrechteProzessfuehrungUserData>;

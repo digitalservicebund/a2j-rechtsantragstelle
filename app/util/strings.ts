@@ -53,3 +53,6 @@ export function removeDecimalsFromCurrencyString(
 export function removeMarkupTags(str: string) {
   return str.replaceAll(/(<\w+>|<\/\w+>)/gi, "").trim();
 }
+
+export const decodeBase64 = (str: string): string =>
+  Buffer.from(str, "base64").toString("utf8");

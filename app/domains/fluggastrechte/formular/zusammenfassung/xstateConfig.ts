@@ -1,17 +1,22 @@
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
+
 export const zusammenfassungXstateConfig = {
   meta: { done: () => false },
   id: "zusammenfassung",
-  initial: "start",
+  initial: steps.zusammenfassungStart.relative,
   states: {
-    start: {
+    [steps.zusammenfassungStart.relative]: {
       on: {
         SUBMIT: [
           {
-            target: "#abgabe.start",
+            target: steps.abgabe.absolute,
             guard: "isClaimNotExceedingLimit",
           },
         ],
-        BACK: "#prozessfuehrung.zahlung-nach-klageeinreichung",
+        BACK: steps.prozessfuehrungZahlung.absolute,
       },
     },
   },

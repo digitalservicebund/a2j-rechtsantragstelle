@@ -1,7 +1,7 @@
 import { type Guards, yesNoGuards } from "~/domains/guards.server";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { personDone, weiterePersonenDone } from "./doneFunctions";
-import type { FluggastrechtePersoenlichDaten } from "./userData";
+import type { FluggastrechtePersoenlicheDatenUserData } from "./userData";
 
 export const persoenlichDatenGuards = {
   isValidWeiterePersonenArrayIndex: ({
@@ -11,4 +11,4 @@ export const persoenlichDatenGuards = {
   personDone,
   weiterePersonenDone,
   isMissingAddWeiterePersonen: (context) => !weiterePersonenDone(context),
-} satisfies Guards<FluggastrechtePersoenlichDaten>;
+} satisfies Guards<FluggastrechtePersoenlicheDatenUserData>;

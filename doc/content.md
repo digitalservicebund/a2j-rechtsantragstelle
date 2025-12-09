@@ -11,7 +11,7 @@
 3. Use a local content file:
    - Set `STRAPI_API` and `STRAPI_ACCESS_KEY` to point to staging like in option 2.
    - Set `CMS=FILE`
-   - Run `npm run build:localContent` (should have generated a `content.json` file)
+   - Run `pnpm run build:localContent` (should have generated a `content.json` file)
 
 </details>
 

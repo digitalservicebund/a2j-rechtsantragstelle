@@ -1,6 +1,7 @@
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../../userData";
 import { doneGerichtSuchen } from "../doneFunctions";
 import {
+  shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
@@ -32,55 +33,66 @@ const mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall = (
   );
 };
 
+const mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung = (
+  returnValue = false,
+) => {
+  vi.mocked(shouldVisitGerichtSuchenGerichtsstandsvereinbarung).mockReturnValue(
+    returnValue,
+  );
+};
+
 beforeEach(() => {
   mockShouldVisitGerichtSuchenPostleitzahlWohnraum();
   mockShouldVisitGerichtSuchenPostleitzahlKlagendePerson();
   mockShouldVisitGerichtSuchenPostleitzahlVerkehrsunfall();
+  mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung();
 });
 
 describe("doneGerichtSuchen", () => {
   describe("check cases only need for postleitzahlSecondary", () => {
     const baseContext: GeldEinklagenFormularGerichtPruefenUserData = {
-      gerichtsstandsvereinbarung: "yes",
       postleitzahlSecondary: "someValue",
     };
 
-    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
+    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and shouldVisitGerichtSuchenGerichtsstandsvereinbarung is true", () => {
       const context = {
         ...baseContext,
         postleitzahlSecondary: undefined,
       };
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(false);
+      mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung(true);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and gerichtsstandsvereinbarung is yes", () => {
+    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is false and shouldVisitGerichtSuchenGerichtsstandsvereinbarung is true", () => {
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(false);
+      mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung(true);
 
       const actual = doneGerichtSuchen({ context: baseContext });
       expect(actual).toBe(true);
     });
 
-    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
+    it("should return false in case need postleitzahlSecondary is undefined, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and shouldVisitGerichtSuchenGerichtsstandsvereinbarung is false", () => {
       const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
-        gerichtsstandsvereinbarung: "no",
         postleitzahlSecondary: undefined,
       };
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
+      mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(false);
     });
 
-    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and gerichtsstandsvereinbarung is no", () => {
+    it("should return true in case need postleitzahlSecondary has value, shouldVisitGerichtSuchenPostleitzahlWohnraum is true and shouldVisitGerichtSuchenGerichtsstandsvereinbarung is false", () => {
       const context: GeldEinklagenFormularGerichtPruefenUserData = {
         ...baseContext,
         gerichtsstandsvereinbarung: "no",
       };
       mockShouldVisitGerichtSuchenPostleitzahlWohnraum(true);
+      mockShouldVisitGerichtSuchenGerichtsstandsvereinbarung(false);
 
       const actual = doneGerichtSuchen({ context });
       expect(actual).toBe(true);

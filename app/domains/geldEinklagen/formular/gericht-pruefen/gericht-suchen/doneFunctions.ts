@@ -2,6 +2,7 @@ import { type GenericGuard } from "~/domains/guards.server";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
+  shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
@@ -55,7 +56,7 @@ export const doneGerichtSuchen: GeldEinklagenGerichtPruefenDaten = ({
   });
 
   const onlyPostleitzahlSecondaryRelevant =
-    context.gerichtsstandsvereinbarung === "yes" ||
+    shouldVisitGerichtSuchenGerichtsstandsvereinbarung({ context }) ||
     shouldVisitGerichtSuchenPostleitzahlWohnraum({ context });
 
   if (onlyPostleitzahlSecondaryRelevant) {

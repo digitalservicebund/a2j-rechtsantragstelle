@@ -1,15 +1,6 @@
-import { z } from "zod";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { type fluggastrechteProzessfuehrungPages } from "~/domains/fluggastrechte/formular/prozessfuehrung/pages";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 
-export const fluggastrechteProzessfuehrungInputSchema = {
-  hasZeugen: YesNoAnswer,
-  versaeumnisurteil: YesNoAnswer,
-  videoverhandlung: z.enum(["yes", "no", "noSpecification"]),
-};
-
-const _partialSchema = z
-  .object(fluggastrechteProzessfuehrungInputSchema)
-  .partial();
-export type FluggastrechteProzessfuehrungContext = z.infer<
-  typeof _partialSchema
+export type FluggastrechteProzessfuehrungUserData = UserDataFromPagesSchema<
+  typeof fluggastrechteProzessfuehrungPages
 >;

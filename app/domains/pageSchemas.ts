@@ -7,6 +7,7 @@ import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
+import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
@@ -17,6 +18,7 @@ export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
   "/beratungshilfe/antrag": beratungshilfeAntragPages,
   "/geld-einklagen/formular": geldEinklagenFormularPages,
+  "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
 } as const;
 

@@ -1,9 +1,7 @@
 import type { Page } from "@playwright/test";
 import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
-
-const decode = (str: string): string =>
-  Buffer.from(str, "base64").toString("utf8");
+import { decodeBase64 } from "~/util/strings";
 
 export class CookieSettings {
   readonly page: Page;
@@ -76,7 +74,7 @@ export class CookieSettings {
     )?.value;
 
     if (stringifiedValue) {
-      return JSON.parse(decode(decodeURIComponent(stringifiedValue)))[
+      return JSON.parse(decodeBase64(decodeURIComponent(stringifiedValue)))[
         acceptCookiesFieldName
       ];
     }

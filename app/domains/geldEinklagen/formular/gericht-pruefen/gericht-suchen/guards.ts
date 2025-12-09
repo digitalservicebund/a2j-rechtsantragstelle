@@ -63,3 +63,25 @@ export const shouldVisitGerichtSuchenPostleitzahlWohnraum: GeldEinklagenGerichtP
       context.mietePachtRaum === "yes"
     );
   };
+
+export const shouldVisitGerichtSuchenGerichtsstandsvereinbarung: GeldEinklagenGerichtPruefenDaten =
+  ({ context }) => {
+    const isRelevantGerichtsstandsvereinbarung =
+      context.klagendeKaufmann === "yes" &&
+      context.beklagtePersonKaufmann === "yes" &&
+      context.gerichtsstandsvereinbarung === "yes";
+
+    if (isRelevantGerichtsstandsvereinbarung) {
+      const isRelevantNotHaveVerbraucher =
+        context.sachgebiet === "schaden" ||
+        context.sachgebiet === "verkehrsunfall" ||
+        context.sachgebiet === "versicherung" ||
+        (context.sachgebiet === "miete" && context.mietePachtVertrag === "no");
+
+      return (
+        isRelevantNotHaveVerbraucher || context.klagendeVerbraucher === "no"
+      );
+    }
+
+    return false;
+  };

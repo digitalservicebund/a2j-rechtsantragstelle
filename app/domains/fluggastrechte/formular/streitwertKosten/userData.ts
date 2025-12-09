@@ -1,5 +1,6 @@
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { type fluggastrechteStreitwertKostenPages } from "~/domains/fluggastrechte/formular/streitwertKosten/pages";
+import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 
-export const fluggastrechteStreitKostenInputSchema = {
-  prozesszinsen: YesNoAnswer,
-};
+export type FluggastrechteStreitwertKostenUserData = UserDataFromPagesSchema<
+  typeof fluggastrechteStreitwertKostenPages
+>;

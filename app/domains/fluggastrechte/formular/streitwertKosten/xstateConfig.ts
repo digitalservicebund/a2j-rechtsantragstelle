@@ -2,25 +2,29 @@ import { type Config } from "~/services/flow/server/types";
 import { streitwertKostenDone } from "./doneFunctions";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 import { type FluggastrechteUserData } from "../userData";
+import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+
+const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const streitwertKostenXstateConfig = {
   meta: { done: streitwertKostenDone },
   id: "streitwert-kosten",
-  initial: "gerichtskosten",
+  initial: steps.streitwertKostenGerichtskosten.relative,
   states: {
-    gerichtskosten: {
+    [steps.streitwertKostenGerichtskosten.relative]: {
       on: {
-        SUBMIT: "andere-kosten",
-        BACK: "#grundvoraussetzungen.amtsgericht",
+        SUBMIT: steps.streitwertKostenAndereKosten.relative,
+        BACK: steps.grundvoraussetzungenAmtsgericht.absolute,
       },
     },
-    "andere-kosten": {
+    [steps.streitwertKostenAndereKosten.relative]: {
       on: {
-        SUBMIT: "prozesszinsen",
-        BACK: "gerichtskosten",
+        SUBMIT: steps.streitwertKostenProzesszinsen.relative,
+        BACK: steps.streitwertKostenGerichtskosten.relative,
       },
     },
-    prozesszinsen: {
+    [steps.streitwertKostenProzesszinsen.relative]: {
       on: {
         SUBMIT: [
           {
@@ -34,7 +38,7 @@ export const streitwertKostenXstateConfig = {
             guard: streitwertKostenDone,
           },
         ],
-        BACK: "andere-kosten",
+        BACK: steps.streitwertKostenAndereKosten.relative,
       },
     },
   },

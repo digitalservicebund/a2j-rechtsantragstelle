@@ -1,6 +1,6 @@
 /* oxlint-disable no-console */
 /* eslint no-var: 0, @typescript-eslint/no-explicit-any: 0*/
-// Update zip file using npm run update:courtData -- /path/to/file.zip
+// Update zip file using pnpm run update:courtData /path/to/file.zip
 
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -44,7 +44,7 @@ function saveEncrypted(data: any, filename: string, password: string) {
 }
 
 function updateZipfile(zipFilepath: string) {
-  configDotenv(); // updateZipfile runs as part of an npm command and might need to read from
+  configDotenv(); // updateZipfile runs as part of an pnpm run script and might need to read from
   const GERICHTSFINDER_ENCRYPTION_KEY = getEncryptionKey();
 
   if (!GERICHTSFINDER_ENCRYPTION_KEY) {

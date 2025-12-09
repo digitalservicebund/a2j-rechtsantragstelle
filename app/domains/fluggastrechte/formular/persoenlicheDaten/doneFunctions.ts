@@ -1,12 +1,12 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { FluggastrechtePersoenlichDaten } from "./userData";
+import type { FluggastrechtePersoenlicheDatenUserData } from "./userData";
 import { arrayIsNonEmpty } from "~/util/array";
 
-type FluggastrechtePersoenlichDatenGuard =
-  GenericGuard<FluggastrechtePersoenlichDaten>;
+type FluggastrechtePersoenlicheDatenGuard =
+  GenericGuard<FluggastrechtePersoenlicheDatenUserData>;
 
-export const personDone: FluggastrechtePersoenlichDatenGuard = ({ context }) =>
+export const personDone: FluggastrechtePersoenlicheDatenGuard = ({ context }) =>
   objectKeysNonEmpty(context, [
     "vorname",
     "nachname",
@@ -15,6 +15,6 @@ export const personDone: FluggastrechtePersoenlichDatenGuard = ({ context }) =>
     "ort",
   ]);
 
-export const weiterePersonenDone: FluggastrechtePersoenlichDatenGuard = ({
+export const weiterePersonenDone: FluggastrechtePersoenlicheDatenGuard = ({
   context: { weiterePersonen, isWeiterePersonen },
 }) => isWeiterePersonen === "no" || arrayIsNonEmpty(weiterePersonen);
