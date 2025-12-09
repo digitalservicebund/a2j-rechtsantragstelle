@@ -19,7 +19,6 @@ export const readyForAbgabe: GenericGuard<
       },
     },
     data: context,
-    guards: prozesskostenhilfeFormular.guards,
   }).stepStates();
   return stepStates
     .filter((stepState) => stepState.isReachable)
