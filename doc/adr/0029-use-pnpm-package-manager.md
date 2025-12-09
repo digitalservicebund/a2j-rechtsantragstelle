@@ -12,7 +12,7 @@ We initially proposed a move to [pnpm](https://pnpm.io/) due to ongoing challeng
 
 To summarize, we are facing the following problems:
 
-- Supply Chain Vulnerabilities: Recent incidents, such as the September 2025 compromise of `debug`/`chalk` and the November 2025 "Shai-Hulud" worm, have demonstrated how easily malicious code can spread via `npm` lifecycle scripts (`preinstall`/`postinstall`) and phantom dependencies.
+- Supply Chain Vulnerabilities: Recent incidents, such as the [September 2025](https://cybersierra.co/blog/npm-chalk-debug-compromised/) compromise of `debug`/`chalk` and the November 2025 "Shai-Hulud 2" worm, have demonstrated how easily malicious code can spread via `npm` lifecycle scripts (`preinstall`/`postinstall`) and phantom dependencies.
 
 - Slow installation times: `npm install` takes significant time in CI pipelines and local setup. While partly minimized by caching, fast dependency resolution of `pnpm` allows it to be added inside the `pnpm run dev` command to avoid outdated local dependencies. Non-cached dependency resolution or upgrading is consistently faster using `pnpm`.
 
