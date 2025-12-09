@@ -1,15 +1,13 @@
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
-import RichText from "~/components/common/RichText";
 import { GridItem } from "../layout/grid/GridItem";
-import KernHeading from "./KernHeading";
+import KernHeading, { type KernHeadingProps } from "./KernHeading";
 import KernRichText from "./KernRichText";
 
 type BoxWithImageProps = {
   image: ImageProps;
   variant?: Variant;
   identifier?: string;
-  heading?: HeadingProps;
+  heading?: KernHeadingProps;
   content?: string;
   container?: {
     backgroundColor?: string;

@@ -1,25 +1,20 @@
-import { useRef } from "react";
-import {
-  AccordionItem,
-  type AccordionItemProps,
-} from "~/components/common/AccordionItem";
-import { translations } from "~/services/translations/translations";
-import { useShouldPrint } from "../hooks/useShouldPrint";
 import KernRichText from "./KernRichText";
 
-export type AccordionProps = Readonly<{
-  items: AccordionItemProps[];
+export type KernAccordionItemProps = Readonly<{
+  title: string;
+  description: string;
+}>;
+export type KernAccordionProps = Readonly<{
+  items: KernAccordionItemProps[];
 }>;
 
-export default function Accordion({ items }: AccordionProps) {
-  //   const shouldPrint = useShouldPrint(); doesnt work neither for KERN nor for the old accordion
-
+export default function KernAccordion({ items }: KernAccordionProps) {
   return (
     <div className="kern-accordion-group">
       {items
         .filter((item) => item.title || item.description)
-        .map((item, index) => (
-          <details className="kern-accordion">
+        .map((item) => (
+          <details key={item.title} className="kern-accordion">
             <summary className="kern-accordion__header">
               <span className="kern-title">{item.title}</span>
             </summary>
