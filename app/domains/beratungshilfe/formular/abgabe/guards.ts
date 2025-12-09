@@ -17,7 +17,6 @@ export const beratungshilfeAbgabeGuards = {
         },
       },
       data: context,
-      guards: beratungshilfeFormular.guards,
     }).stepStates();
     return stepStates
       .filter((stepState) => stepState.isReachable)
