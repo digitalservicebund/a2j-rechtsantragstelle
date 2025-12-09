@@ -4,23 +4,23 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ## Requirements
 
-- Node (>= 24) + npm
+- Node (>= 24)
 - Docker (Redis, S3 bucket)
 
 ### Local development
 
-Disable execution of npm scripts to reduce attack surface for supply chain attacks:
+With Node installed, enable `corepack` (this only needs to happen once):
 
 ```sh
-npm config set ignore-scripts true
+corepack enable
 ```
 
-Then, install npm dependencies, start necessary services and run the app:
+Then, install dependencies, start necessary services and run the app:
 
 ```sh
-npm install
+pnpm install
 docker compose up -d
-npm run dev
+pnpm run dev
 ```
 
 The app will be served on http://localhost:3000, assets are rebuilt on file save.
@@ -35,10 +35,10 @@ There are several options for fetching content: Local CMS, staging CMS, local co
 
 #### Unit tests
 
-- run: `npm run test`
-- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `npm run test:watch`
-- run with coverage: `npm run test:coverage`
-- run subset: `npm run test "STRING_TO_MATCH"`
+- run: `pnpm run test`
+- run in [watch mode](https://vitest.dev/guide/features.html#watch-mode): `pnpm run test:watch`
+- run with coverage: `pnpm run test:coverage`
+- run subset: `pnpm run test "STRING_TO_MATCH"`
 
 Test cases are defined as follows:
 
@@ -111,20 +111,20 @@ partnerschaftYes: [
 
 #### E2E tests
 
-- run: `npm run test:e2e`
-- UI: `npm run test:e2e:ui`
+- run: `pnpm run test:e2e`
+- UI: `pnpm run test:e2e:ui`
 
 For more details, check `/doc/e2e-tests.md`
 
 ### Git Hooks
 
-We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `npm run init`.
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `pnpm run init`.
 
 The git hooks check formatting, linting, unit tests, typecheck. You may execute them before committing using `lefthook run pre-commit`. See `lefthook.yaml` for more details.
 
 ### Storybook
 
-Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `npm run start:storybook`.
+Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `pnpm run start:storybook`.
 
 ## Known issues
 
