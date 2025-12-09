@@ -6,12 +6,10 @@ FROM node:24-alpine AS app-base
 
 WORKDIR /a2j
 
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN corepack enable pnpm
 
-# pnpm fetch does require only lockfile
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm fetch --prod
-
+RUN pnpm fetch --prod --ignore-scripts
 RUN pnpm install -r --offline --prod
 
 FROM scratch AS app
