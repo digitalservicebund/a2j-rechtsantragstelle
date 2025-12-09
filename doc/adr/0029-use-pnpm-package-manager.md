@@ -3,6 +3,7 @@
 2024-10-31: proposed
 2024-11-21: postponed to later
 2025-12-08: re-opened & updated (supply chain, rework structure)
+2025-12-09: Accepted
 
 ## Context
 
