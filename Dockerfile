@@ -6,8 +6,6 @@ FROM node:24-alpine AS app-base
 
 WORKDIR /a2j
 
-# Update Corepack to latest first due to outdated signatures https://pnpm.io/installation#using-corepack
-RUN npm install --global corepack@latest
 RUN corepack enable pnpm
 
 # pnpm fetch does require only lockfile
