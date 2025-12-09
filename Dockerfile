@@ -6,8 +6,11 @@ FROM node:24-alpine AS app-base
 
 WORKDIR /a2j
 
-COPY package.json package-lock.json ./
-RUN pnpm i --prod --no-optional
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN corepack enable pnpm
+
+RUN pnpm fetch --prod --ignore-scripts
+RUN pnpm install -r --offline --prod
 
 FROM scratch AS app
 WORKDIR /a2j-app
