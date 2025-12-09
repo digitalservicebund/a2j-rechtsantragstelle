@@ -71,8 +71,8 @@ function cmsToReact(
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
-        return <KernHeading {...componentProps} />;      
-       case "basic.paragraph":
+        return <KernHeading {...componentProps} />;
+      case "basic.paragraph":
         return <KernRichText {...componentProps} />;
       case "page.hero":
         return <KernHero {...componentProps} />;
