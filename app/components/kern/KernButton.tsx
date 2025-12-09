@@ -6,7 +6,7 @@ type ReactElementWithClassname = ReactElement<{ className: string }>;
 
 export type ButtonProps = {
   text?: string;
-  look?: "primary" | "secondary" | "tertiary";
+  look?: "primary" | "secondary" | "tertiary" | "ghost";
   href?: string;
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
