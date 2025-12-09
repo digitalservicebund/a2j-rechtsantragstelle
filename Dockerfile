@@ -6,8 +6,15 @@ FROM node:24-alpine AS app-base
 
 WORKDIR /a2j
 
-COPY package.json package-lock.json ./
-RUN pnpm i --prod --no-optional
+# Update Corepack to latest first due to outdated signatures https://pnpm.io/installation#using-corepack
+RUN npm install --global corepack@latest
+RUN corepack enable pnpm
+
+# pnpm fetch does require only lockfile
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm fetch --prod
+
+RUN pnpm install -r --offline --prod
 
 FROM scratch AS app
 WORKDIR /a2j-app
