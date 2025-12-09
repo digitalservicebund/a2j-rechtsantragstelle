@@ -1,4 +1,4 @@
-# 29. E2E Test Strategy for Flow services
+# 30. E2E Test Strategy for Flow services
 
 ## Status
 
@@ -54,3 +54,7 @@ Remove all existing Flow-domain E2E tests and replace them with a single, generi
 - Loss of accessibility checks on real Flow service pages that contain large amounts of content.
 - Potential need for a new script to verify that required Flow pages exist in Strapi, since page existence is still mandatory.
 - We need to restrict access the `fake Flow` in production as this service it is only required for test purposes.
+
+## Future consideration
+
+We can re-enable the E2E tests for the `Flow services` after deployment to the production environment to ensure the services are running as expected. However, this will require ongoing maintenance from a `QA engineer`, as these tests may fail whenever changes are made to the Flow services or their components.
