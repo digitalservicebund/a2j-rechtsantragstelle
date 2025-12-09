@@ -113,8 +113,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.299.0
-        version: 1.299.0
+        specifier: 1.302.2
+        version: 1.302.2
       posthog-node:
         specifier: 5.17.2
         version: 5.17.2
@@ -2109,12 +2109,6 @@ packages:
       }
     engines: { node: ">=18" }
     hasBin: true
-
-  "@posthog/core@1.6.0":
-    resolution:
-      {
-        integrity: sha512-Tbh8UACwbb7jFdDC7wwXHtfNzO+4wKh3VbyMHmp2UBe6w1jliJixexTJNfkqdGZm+ht3M10mcKvGGPnoZ2zLBg==,
-      }
 
   "@posthog/core@1.7.1":
     resolution:
@@ -7243,10 +7237,10 @@ packages:
       }
     engines: { node: ">=0.10.0" }
 
-  posthog-js@1.299.0:
+  posthog-js@1.302.2:
     resolution:
       {
-        integrity: sha512-euHXKcEqQpRJNWitudVl4/doTJsftgaBDRLNGczt/v3S9N6ppLMzEOmeoqvNhNDIlpxGVlTvSawfw9HeW1r5nA==,
+        integrity: sha512-4voih22zQe7yHA7DynlQ3B7kgzJOaKIjzV7K3jJ2Qf+UDXd1ZgO7xYmLWYVtuKEvD1OXHbKk/fPhUTZeHEWpBw==,
       }
 
   posthog-node@5.17.2:
@@ -10365,10 +10359,6 @@ snapshots:
   "@playwright/test@1.57.0":
     dependencies:
       playwright: 1.57.0
-
-  "@posthog/core@1.6.0":
-    dependencies:
-      cross-spawn: 7.0.6
 
   "@posthog/core@1.7.1":
     dependencies:
@@ -13785,9 +13775,9 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.299.0:
+  posthog-js@1.302.2:
     dependencies:
-      "@posthog/core": 1.6.0
+      "@posthog/core": 1.7.1
       core-js: 3.47.0
       fflate: 0.4.8
       preact: 10.27.2
