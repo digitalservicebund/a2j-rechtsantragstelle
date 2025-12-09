@@ -9,6 +9,7 @@ import KernButton, { type ButtonProps } from "./KernButton";
 import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import { KernInlineNotice } from "./KernInlineNotice";
+import KernAccordion from "./KernAccordion";
 
 export type KernInlineNoticeProps = {
   identifier?: string;
@@ -46,10 +47,7 @@ const KernInfoBoxItem = ({
   accordion,
 }: KernInfoBoxItemProps) => {
   return (
-    <div
-      id={identifier}
-      className={classNames("flex flex-row items-start justify-start")}
-    >
+    <div id={identifier} className="flex flex-row gap-kern-space-large">
       {image && (
         <Image
           {...image}
@@ -73,11 +71,7 @@ const KernInfoBoxItem = ({
             ))}
           </ButtonContainer>
         )}
-        {accordion && (
-          <div className="max-w-[630px]">
-            <Accordion {...accordion} />
-          </div>
-        )}
+        {accordion && <KernAccordion {...accordion} />}
       </div>
     </div>
   );
