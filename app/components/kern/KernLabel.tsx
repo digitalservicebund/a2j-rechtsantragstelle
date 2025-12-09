@@ -4,8 +4,7 @@ export type KernLabelProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
-  id?: string;
-  className?: string;
+  elementId?: string;
 };
 
 const KernLabel = ({

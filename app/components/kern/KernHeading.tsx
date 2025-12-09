@@ -5,6 +5,7 @@ export type KernHeadingProps = {
   text?: string;
   tabIndex?: number;
   elementId?: string;
+  className?: string;
 };
 
 const KernHeading = ({
@@ -12,6 +13,7 @@ const KernHeading = ({
   text,
   tabIndex,
   elementId,
+  className,
 }: KernHeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
@@ -20,7 +22,7 @@ const KernHeading = ({
     <Tag
       className={`kern-heading-x-large p-0! ${className ?? ""}`}
       tabIndex={tabIndex}
-      id={id}
+      id={elementId}
     >
       {text}
     </Tag>
