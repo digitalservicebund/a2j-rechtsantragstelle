@@ -4,7 +4,7 @@ import { fluggesellschaftAddresse } from "./flugdatenMock";
 
 const baseContext = {
   ...fluggesellschaftAddresse,
-  ersatzflug: "no" as const,
+  ersatzflug: "no",
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
