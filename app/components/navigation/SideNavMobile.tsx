@@ -37,6 +37,7 @@ const StepStepperLinks = ({
           (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
         )
         .map((step) => {
+          const isWarningStep = stateIsWarning(step.state);
           return (
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <StandaloneLink
@@ -45,9 +46,15 @@ const StepStepperLinks = ({
                 icon={<KeyboardArrowLeft className="inline" />}
                 text={`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
                 dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
+                aria-describedby={isWarningStep ? step.href : undefined}
               />
-              {stateIsWarning(step.state) && (
-                <SvgWarningAmber data-testid="icon-warning" className="pl-2" />
+              {isWarningStep && (
+                <SvgWarningAmber
+                  data-testid="icon-warning"
+                  className="pl-2"
+                  id={step.href}
+                  aria-label={translations.navigation.navigationItemWarning.de}
+                />
               )}
             </div>
           );
