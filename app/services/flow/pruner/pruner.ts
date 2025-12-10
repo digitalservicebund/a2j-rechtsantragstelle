@@ -5,23 +5,15 @@ import { flows } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
 import { buildFlowController } from "../server/buildFlowController";
 import { resolveArrayCharacter } from "../../array/resolveArrayCharacter";
-import {
-  fetchAllFormFields,
-  type FormFieldsMap,
-} from "../../cms/fetchAllFormFields";
+import { type FormFieldsMap } from "../../cms/fetchAllFormFields";
 import { validFormPaths, type Path } from "./validFormPaths";
 import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
 
-export async function pruneIrrelevantData(data: UserData, flowId: FlowId) {
+export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
   const { guards, config } = flows[flowId];
   const flowController = buildFlowController({ guards, config, data });
 
-  const pruneDataFromPageSchema =
-    flowController.getRootMeta()?.pruneDataFromPageSchema ?? false;
-
-  const formFields = pruneDataFromPageSchema
-    ? getAllFieldsFromFlowId(flowId)
-    : await fetchAllFormFields(flowId);
+  const formFields = getAllFieldsFromFlowId(flowId);
 
   const formPaths = validFormPaths(flowController);
   const validFormFields = filterFormFields(formFields, formPaths);
