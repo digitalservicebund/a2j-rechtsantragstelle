@@ -24,9 +24,6 @@ export const geldEinklagenFormular = {
   config: {
     id: "/geld-einklagen/formular",
     initial: "gericht-pruefen",
-    meta: {
-      pruneDataFromPageSchema: true,
-    },
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,

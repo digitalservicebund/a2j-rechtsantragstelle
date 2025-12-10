@@ -60,7 +60,7 @@ describe("getMigrationData", () => {
 
     getSessionDataMock.mockResolvedValue({ userData: userDataMock });
 
-    pruneIrrelevantDataMock.mockResolvedValueOnce({
+    pruneIrrelevantDataMock.mockReturnValueOnce({
       prunedData: userDataMock,
       validFlowPaths: {},
     });
@@ -78,7 +78,7 @@ describe("getMigrationData", () => {
   it("should filter migrated data", async () => {
     const userDataMock = { startAirport: "BER", nonRelevant: "nonRelevant" };
     getSessionDataMock.mockResolvedValue({ userData: userDataMock });
-    pruneIrrelevantDataMock.mockResolvedValueOnce({
+    pruneIrrelevantDataMock.mockReturnValueOnce({
       prunedData: userDataMock,
       validFlowPaths: {},
     });

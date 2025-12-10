@@ -1,12 +1,8 @@
 import { render } from "@testing-library/react";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { FieldSet, FieldSetSchema } from "../FieldSet";
+import { FieldSet } from "../FieldSet";
 import z from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
-
-vi.mock("~/components/FormComponents", () => ({
-  FormComponent: () => <div>FormComponent</div>,
-}));
 
 vi.mock("~/components/formElements/SchemaComponents", () => ({
   SchemaComponents: () => <div>SchemaComponents</div>,
@@ -49,41 +45,9 @@ const mockFieldSetGroup: FieldSetGroupType = {
 };
 
 describe("FieldSet", () => {
-  it("should render Fieldset component with correct data", () => {
-    const { getByRole, getAllByText } = render(
-      <FieldSet heading="anyHeading" fieldSetGroup={mockFieldSetGroup} />,
-    );
-
-    expect(getByRole("group")).toBeInTheDocument();
-    expect(getByRole("group")).toHaveTextContent("anyHeading");
-    expect(getAllByText("FormComponent").length).toBe(2);
-  });
-
-  it("should render Fieldset component with image and properties when is available", () => {
-    const { container } = render(
-      <FieldSet
-        heading="anyHeading"
-        fieldSetGroup={mockFieldSetGroup}
-        image={{
-          url: "/test.png",
-          height: 24,
-          width: 24,
-        }}
-      />,
-    );
-
-    const img = container.querySelector("img");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("aria-hidden", "true");
-    expect(img).toHaveAttribute("height", "24");
-    expect(img).toHaveAttribute("width", "24");
-  });
-});
-
-describe("FieldSetSchema", () => {
   it("should render FieldSetSchema component with correct data", () => {
     const { getByRole, getByText } = render(
-      <FieldSetSchema
+      <FieldSet
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
       />,
@@ -96,7 +60,7 @@ describe("FieldSetSchema", () => {
 
   it("should render FieldSetSchema component with image and properties when is available", () => {
     const { container } = render(
-      <FieldSetSchema
+      <FieldSet
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
         image={{

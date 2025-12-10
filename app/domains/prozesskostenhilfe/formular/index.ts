@@ -55,7 +55,6 @@ export const prozesskostenhilfeFormular = {
           "/prozesskostenhilfe/formular/antragstellende-person",
         ),
       },
-      pruneDataFromPageSchema: true,
     },
     states: {
       start: {

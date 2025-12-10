@@ -4,21 +4,13 @@ import type { UserData } from "~/domains/userData";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { FlowId } from "~/domains/flowIds";
 
-// Only mock the external CMS dependency
-vi.mock("~/services/cms/fetchAllFormFields", () => ({
-  fetchAllFormFields: vi.fn(),
-}));
-
 // Mock the CMS flow page fetching for getFormQuestions
 vi.mock("~/services/cms/index.server", () => ({
   fetchFlowPage: vi.fn(),
 }));
 
-const { fetchAllFormFields } =
-  await import("~/services/cms/fetchAllFormFields");
 const { fetchFlowPage } = await import("~/services/cms/index.server");
 
-const mockFetchAllFormFields = vi.mocked(fetchAllFormFields);
 const mockFetchFlowPage = vi.mocked(fetchFlowPage);
 
 describe("generateSummaryFromUserData", () => {
@@ -94,26 +86,6 @@ describe("generateSummaryFromUserData", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-
-    mockFetchAllFormFields.mockResolvedValue({
-      "/persoenliche-daten/name": ["vorname", "nachname"],
-      "/persoenliche-daten/geburtsdatum": ["geburtsdatum"],
-      "/finanzielle-angaben/einkommen/art": [
-        "berufart.selbststaendig",
-        "berufart.festangestellt",
-      ],
-      "/finanzielle-angaben/kinder/kinder/name": [
-        "kinder#vorname",
-        "kinder#nachname",
-        "kinder#geburtsdatum",
-      ],
-      "/finanzielle-angaben/kinder/kinder/wohnort": [
-        "kinder#wohnortBeiAntragsteller",
-      ],
-      "/finanzielle-angaben/kinder/kinder/kind-eigene-einnahmen-frage": [
-        "kinder#eigeneEinnahmen",
-      ],
-    });
 
     // Mock CMS flow page responses for getFormQuestions
     mockFetchFlowPage.mockImplementation((_collection, _flowId, stepId) => {

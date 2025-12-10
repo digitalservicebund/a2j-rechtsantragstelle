@@ -7,12 +7,12 @@ import {
   createFieldToStepMapping,
 } from "./getFormQuestions";
 import type { FlowId } from "~/domains/flowIds";
-import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { groupFieldsByFlowNavigation } from "./groupFieldsBySection";
 import { getValidUserDataFields } from "./getValidUserData";
 import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
 import { groupFieldsByArrayType, buildArrayGroups } from "./arrayGrouping";
+import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
 
 function createSummarySection(
   sectionName: string,
@@ -44,7 +44,7 @@ export async function generateSummaryFromUserData(
     return [];
   }
 
-  const formFieldsMap = await fetchAllFormFields(flowId);
+  const formFieldsMap = getAllFieldsFromFlowId(flowId);
   const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
   // Expand array fields into individual items

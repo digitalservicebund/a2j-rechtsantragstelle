@@ -32,10 +32,6 @@ vi.mock("~/domains/flows.server", () => ({
   },
 }));
 
-vi.mock("~/services/cms/fetchAllFormFields", () => ({
-  fetchAllFormFields: vi.fn(),
-}));
-
 vi.mock("~/services/cms/index.server", () => ({
   fetchFlowPage: vi.fn(),
 }));

@@ -4,7 +4,6 @@ import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import {
   fetchFlowPage,
   fetchContentPageMeta,
@@ -81,9 +80,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   // filter user data for current step
   const pageSchema = getPageSchema(pathname);
-  const fieldNames = pageSchema
-    ? Object.keys(pageSchema)
-    : getFieldsByFormElements(formElements);
+  const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
   const stepData = fieldsFromContext(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
@@ -149,7 +146,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
-  const { prunedData } = await pruneIrrelevantData(flowSession.data, flowId);
+  const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
 
   await postValidationFlowAction(request, prunedData);
 

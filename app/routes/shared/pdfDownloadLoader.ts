@@ -72,7 +72,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, name } = pdfConfigs[flowId as keyof typeof pdfConfigs];
   const cookieHeader = request.headers.get("Cookie");
 
-  const { prunedData: userData } = await pruneIrrelevantData(
+  const { prunedData: userData } = pruneIrrelevantData(
     (await getSessionData(flowId, cookieHeader)).userData,
     flowId,
   );

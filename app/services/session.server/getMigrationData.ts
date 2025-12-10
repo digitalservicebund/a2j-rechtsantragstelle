@@ -18,7 +18,7 @@ export async function getMigrationData(
     return undefined;
 
   const { userData } = await getSessionData(migration.source, cookieHeader);
-  const { prunedData } = await pruneIrrelevantData(userData, migration.source);
+  const { prunedData } = pruneIrrelevantData(userData, migration.source);
   const destinationUserSchemas = getAllPageSchemaByFlowId(
     migrationFlowIdDestination,
   );

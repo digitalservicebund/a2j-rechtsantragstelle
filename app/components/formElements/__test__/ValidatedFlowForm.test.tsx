@@ -13,10 +13,12 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
-import * as schemaForFieldNames from "~/services/validation/stepValidator/schemaForFieldNames";
+import { getPageSchema } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { type SchemaObject } from "~/domains/userData";
+import * as parsePathname from "~/domains/flowIds";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -33,10 +35,17 @@ vi.mock("~/services/params", () => ({
   splatFromParams: vi.fn(),
 }));
 
-const fieldNameValidatorSpy = vi.spyOn(
-  schemaForFieldNames,
-  "schemaForFieldNames",
-);
+vi.mock("~/domains/pageSchemas");
+
+const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
+  vi.mocked(getPageSchema).mockReturnValue(pageSchema);
+};
+
+vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
+  flowId: "/beratungshilfe/antrag",
+  stepId: "/",
+  arrayIndexes: [],
+});
 
 describe("ValidatedFlowForm", () => {
   beforeAll(() => {
@@ -44,16 +53,14 @@ describe("ValidatedFlowForm", () => {
   });
 
   it("should render", () => {
-    fieldNameValidatorSpy.mockImplementationOnce(vi.fn());
+    mockGetPageSchema(undefined);
     const { getByText } = renderValidatedFlowForm([]);
     expect(getByText("NEXT")).toBeInTheDocument();
   });
 
   describe("Input Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({ inputName: integerSchema }),
-      );
+      mockGetPageSchema({ inputName: integerSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
       code: "invalidInteger",
@@ -100,9 +107,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Date Input Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({ inputName: createDateSchema() }),
-      );
+      mockGetPageSchema({ inputName: createDateSchema() });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -152,9 +157,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Time Input Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({ inputName: timeSchema }),
-      );
+      mockGetPageSchema({ inputName: timeSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -204,9 +207,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Textarea Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({ myTextarea: stringRequiredSchema }),
-      );
+      mockGetPageSchema({ myTextarea: stringRequiredSchema });
     });
     const { component, expectTextareaErrorToExist } =
       getStrapiTextareaComponent({
@@ -251,9 +252,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Select Component (Radio)", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({ mySelect: YesNoAnswer }),
-      );
+      mockGetPageSchema({ mySelect: YesNoAnswer });
     });
     const { component, expectSelectErrorToExist } = getStrapiSelectComponent({
       code: "required",
@@ -298,11 +297,9 @@ describe("ValidatedFlowForm", () => {
 
   describe("Dropdown Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({
-          myDropdown: z.enum(["option1", "option2", "option3"]),
-        }),
-      );
+      mockGetPageSchema({
+        myDropdown: z.enum(["option1", "option2", "option3"]),
+      });
     });
     const { component, expectDropdownErrorToExist } =
       getStrapiDropdownComponent({
@@ -333,12 +330,10 @@ describe("ValidatedFlowForm", () => {
 
   describe("Checkbox Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({
-          checkbox1: checkedRequired,
-          checkbox2: checkedRequired,
-        }),
-      );
+      mockGetPageSchema({
+        checkbox1: checkedRequired,
+        checkbox2: checkedRequired,
+      });
     });
 
     const errorCode = {
@@ -373,14 +368,14 @@ describe("ValidatedFlowForm", () => {
     });
 
     it("should display an error if the user doesn't select the checkbox", async () => {
-      const { getByText, getByLabelText, getByTestId } =
+      const { getByText, getByLabelText, getAllByTestId } =
         renderValidatedFlowForm([checkbox1.component]);
 
       const nextButton = getByText("NEXT");
       expect(nextButton).toBeInTheDocument();
       fireEvent.click(nextButton);
       await waitFor(() => {
-        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getAllByTestId("inputError")[0]).toBeInTheDocument();
         expect(getByLabelText("Checkbox 1")).toHaveFocus();
       });
     });
@@ -399,11 +394,9 @@ describe("ValidatedFlowForm", () => {
 
   describe("TileGroup Component", () => {
     beforeAll(() => {
-      fieldNameValidatorSpy.mockImplementation(() =>
-        z.object({
-          myTileGroup: z.enum(["tileGroup"]),
-        }),
-      );
+      mockGetPageSchema({
+        myTileGroup: z.enum(["firstTile", "secondTile"]),
+      });
     });
     const { component, expectTileGroupErrorToExist } =
       getStrapiTileGroupComponent(
@@ -411,7 +404,7 @@ describe("ValidatedFlowForm", () => {
           code: "required",
           text: "Selection required.",
         },
-        ["First Tile", "Second Tile"],
+        ["firstTile", "secondTile"],
       );
 
     it("should display an error if the user doesn't select a tile", async () => {
@@ -425,7 +418,7 @@ describe("ValidatedFlowForm", () => {
 
     it("should not display an error if the user has selected a tile", async () => {
       const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
-      fireEvent.click(getByText("First Tile"));
+      fireEvent.click(getByText("firstTile"));
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();

@@ -8,9 +8,6 @@ const stepIds = mapValues(fluggastrechteVorabcheckPages, (v) => v.stepId);
 export const fluggastrechteVorabcheckXstateConfig = {
   id: "/fluggastrechte/vorabcheck",
   initial: stepIds.start,
-  meta: {
-    pruneDataFromPageSchema: true,
-  },
   states: {
     [stepIds.start]: {
       on: {
