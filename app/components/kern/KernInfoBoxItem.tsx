@@ -1,5 +1,3 @@
-import classNames from "classnames";
-import Accordion, { type AccordionProps } from "~/components/common/Accordion";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Image, { type ImageProps } from "~/components/common/Image";
 import { Details, type DetailsProps } from "~/components/content/Details";
@@ -9,6 +7,7 @@ import KernButton, { type ButtonProps } from "./KernButton";
 import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import { KernInlineNotice } from "./KernInlineNotice";
+import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
 
 export type KernInlineNoticeProps = {
   identifier?: string;
@@ -31,7 +30,7 @@ export type KernInfoBoxItemProps = {
   inlineNotices?: KernInlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
-  accordion?: AccordionProps;
+  accordion?: KernAccordionProps;
 };
 
 const KernInfoBoxItem = ({
@@ -46,10 +45,7 @@ const KernInfoBoxItem = ({
   accordion,
 }: KernInfoBoxItemProps) => {
   return (
-    <div
-      id={identifier}
-      className={classNames("flex flex-row items-start justify-start")}
-    >
+    <div id={identifier} className="flex flex-row gap-kern-space-large">
       {image && (
         <Image
           {...image}
@@ -73,11 +69,7 @@ const KernInfoBoxItem = ({
             ))}
           </ButtonContainer>
         )}
-        {accordion && (
-          <div className="max-w-[630px]">
-            <Accordion {...accordion} />
-          </div>
-        )}
+        {accordion && <KernAccordion {...accordion} />}
       </div>
     </div>
   );
