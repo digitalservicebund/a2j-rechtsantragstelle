@@ -33,7 +33,7 @@ const filterOptions = {
  * Workaround to migrate the FGR Formular to Page Schemas.
  * The field verspaeteterFlug uses different options across multiple pages,
  * and we cannot remove it from the Page Schemas configuration due to issues with type object creation.
- * We plan to rename this field in the Flow soon and remove the temporary filter function.
+ * TODO: We plan to rename this field in the Flow soon and remove the temporary filter function.
  * */
 const filterOption = (option: string, fieldName: string, pathname: string) => {
   if (fieldName !== "verspaeteterFlug" || !(pathname in filterOptions)) {
