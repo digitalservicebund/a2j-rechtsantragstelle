@@ -8,6 +8,9 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
 import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepStates";
+import { type SchemaObject } from "~/domains/userData";
+import { getPageSchema } from "~/domains/pageSchemas";
+import z from "zod";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -70,6 +73,12 @@ beforeEach(() => {
   vi.resetAllMocks();
 });
 
+vi.mock("~/domains/pageSchemas");
+
+const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
+  vi.mocked(getPageSchema).mockReturnValue(pageSchema);
+};
+
 describe("getContentData", () => {
   describe("arraySummaryData", () => {
     it("should return correctly the array summary data", () => {
@@ -121,9 +130,17 @@ describe("getContentData", () => {
 
   describe("getStepData", () => {
     it("should return correctly the step data", () => {
+      mockGetPageSchema({ name: z.string() });
       const actual = callContentData.getStepData("");
 
       expect(actual).toEqual({ name: "testName" });
+    });
+
+    it("should return empty in case page schema is empty", () => {
+      mockGetPageSchema(undefined);
+      const actual = callContentData.getStepData("");
+
+      expect(actual).toEqual({});
     });
   });
 
