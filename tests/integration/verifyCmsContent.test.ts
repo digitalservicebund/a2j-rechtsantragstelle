@@ -10,9 +10,9 @@ import type { FlowId } from "~/domains/flowIds";
 import { flowIds } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import { getContext } from "~/domains/userData";
-import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemasOutput } from "~/services/cms/schemas";
+import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
 
 const allStrapiData: AllStrapiData = {} as AllStrapiData;
 
@@ -43,31 +43,25 @@ expect.extend({
 
 beforeAll(async () => {
   for (const flowId of flowIds) {
-    const [vorabCheckPages, resultPages, formFlowPages, formFields] =
-      await Promise.all([
-        getStrapiEntry({
-          apiId: "vorab-check-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        getStrapiEntry({
-          apiId: "result-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        getStrapiEntry({
-          apiId: "form-flow-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        fetchAllFormFields(flowId),
-      ]);
+    const formFields = getAllFieldsFromFlowId(flowId);
+
+    const [vorabCheckPages, resultPages, formFlowPages] = await Promise.all([
+      getStrapiEntry({
+        apiId: "vorab-check-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+      getStrapiEntry({
+        apiId: "result-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+      getStrapiEntry({
+        apiId: "form-flow-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+    ]);
 
     allStrapiData[flowId] = {
       "vorab-check-pages":
