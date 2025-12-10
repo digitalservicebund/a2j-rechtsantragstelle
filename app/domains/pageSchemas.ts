@@ -12,7 +12,7 @@ import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 
-export const pages: Partial<Record<FlowId, PagesConfig>> = {
+export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
@@ -23,7 +23,7 @@ export const pages: Partial<Record<FlowId, PagesConfig>> = {
 } as const;
 
 export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
 
   const schemaObjects = Object.values(pagesConfig)
     .filter(({ pageSchema }) => pageSchema !== undefined)
@@ -33,7 +33,7 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 };
 
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
 
   for (const page of Object.values(pagesConfig)) {
@@ -62,11 +62,11 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
 
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
-  if (!flowId || !(flowId in pages)) return undefined;
+  if (!flowId) return undefined;
 
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array
@@ -167,7 +167,7 @@ export function getRelevantPageSchemasForStepId(
   stepId: string,
 ): PagesConfig {
   return Object.fromEntries(
-    Object.entries(pages[flowId] ?? {}).filter(([, pageConfig]) =>
+    Object.entries(pages[flowId]).filter(([, pageConfig]) =>
       pageConfig.stepId.startsWith(stepId.substring(1)),
     ),
   );
