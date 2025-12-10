@@ -1,6 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { type StrapiFormComponentInput } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { type StrapiInputComponent } from "~/services/cms/models/formElements/StrapiInput";
 import { type StrapiFormFlowPageInput } from "~/services/cms/models/StrapiFormFlowPage";
 
 export function getStrapiFlowPage(
@@ -19,22 +17,5 @@ export function getStrapiFlowPage(
     post_form: [],
     locale: params.locale ?? "de",
     pageTitle: "page title",
-  };
-}
-
-export function getStrapiFormComponent(
-  params: Partial<Pick<StrapiInputComponent, "name">>,
-): StrapiFormComponentInput {
-  return {
-    type: faker.helpers.arrayElement(["number", "text"]),
-    __component: "form-elements.input",
-    label: faker.lorem.word(),
-    name: params.name! ?? faker.lorem.word(),
-    width: "characters3",
-    errors: [],
-    placeholder: null,
-    suffix: null,
-    helperText: null,
-    id: 10,
   };
 }

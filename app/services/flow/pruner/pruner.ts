@@ -5,9 +5,11 @@ import { flows } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
 import { buildFlowController } from "../server/buildFlowController";
 import { resolveArrayCharacter } from "../../array/resolveArrayCharacter";
-import { type FormFieldsMap } from "../../cms/fetchAllFormFields";
 import { validFormPaths, type Path } from "./validFormPaths";
-import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
+import {
+  type FormFieldsMap,
+  getAllFieldsFromFlowId,
+} from "~/domains/pageSchemas";
 
 export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
   const { guards, config } = flows[flowId];
