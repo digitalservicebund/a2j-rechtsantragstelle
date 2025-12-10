@@ -4,9 +4,9 @@ import {
   yesNoGuards,
 } from "~/domains/guards.server";
 import { flugdatenDone } from "./doneFunctions";
-import type { FluggastrechteFlugdatenUserData } from "./userData";
+import { type FluggastrechteUserData } from "../userData";
 
-type Guard = GenericGuard<FluggastrechteFlugdatenUserData>;
+type Guard = GenericGuard<FluggastrechteUserData>;
 
 const hasOneStop: Guard = ({ context }) =>
   context.zwischenstoppAnzahl === "oneStop";
@@ -80,9 +80,6 @@ export const fluggastrechteFlugdatenGuards = {
       context.tatsaechlicherAnkunftsDatum &&
       context.tatsaechlicherAnkunftsZeit,
     ),
-  hasKeineErsatzVerbindung: ({ context }) =>
-    context.tatsaechlicherFlug === "no" &&
-    context.ersatzverbindungArt === "keineAnkunft",
   hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
     context.verspaeteterFlug === "startAirportFirstZwischenstopp",
   hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
@@ -96,4 +93,4 @@ export const fluggastrechteFlugdatenGuards = {
     _hasVerspaeteterFlugNonEndAirport({ context }),
   ...yesNoGuards("tatsaechlicherFlug"),
   flugdatenDone,
-} satisfies Guards<FluggastrechteFlugdatenUserData>;
+} satisfies Guards<FluggastrechteUserData>;

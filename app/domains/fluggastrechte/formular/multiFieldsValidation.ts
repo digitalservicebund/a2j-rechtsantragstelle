@@ -5,10 +5,17 @@ import { validateDepartureAfterArrival } from "./services/validation/validateDep
 import { validateReplacementConnectionPage } from "./services/validation/validateReplacementConnectionPage";
 import { validateSameFlightPage } from "./services/validation/validateSameFlightPage";
 import { validateStopoverDuplicates } from "./services/validation/validateStopoverDuplicates";
-import type { fluggastrechteInputSchema } from "./userData";
+import { fluggastrechteFlugdatenPages } from "./flugdaten/pages";
+
+const _schema = Object.assign(
+  {},
+  ...Object.values(fluggastrechteFlugdatenPages)
+    .filter(({ pageSchema }) => pageSchema != undefined)
+    .map(({ pageSchema }) => pageSchema),
+);
 
 export const fluggastrechtMultiFieldsValidation: MultiFieldsStepIdValidation<
-  typeof fluggastrechteInputSchema
+  typeof _schema
 > = {
   "/flugdaten/geplanter-flug": validateDepartureAfterArrival,
   "/flugdaten/tatsaechlicher-flug-ankunft": validateSameFlightPage,
