@@ -1,3 +1,4 @@
+import type { HeadingProps } from "~/components/common/Heading";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import { useFetcher, useLocation } from "react-router";
@@ -12,6 +13,7 @@ type Props = {
   readonly category: string;
   readonly editUrl: string;
   readonly csrf: string;
+  readonly heading?: HeadingProps;
 };
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
@@ -21,14 +23,19 @@ const ArraySummaryItemButton = ({
   category,
   editUrl,
   csrf,
+  heading,
 }: Props) => {
   const { pathname } = useLocation();
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
+  const srHeadingText = heading ? (
+    <span className="sr-only">{heading.text}&nbsp;</span>
+  ) : null;
 
   return (
     <ButtonContainer className="pt-8">
       <Button iconLeft={<EditButton />} look="tertiary" href={editUrl}>
+        {srHeadingText}
         {translations.arraySummary.arrayEditButtonLabel.de}
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
@@ -43,6 +50,7 @@ const ArraySummaryItemButton = ({
           value={itemIndex}
           type="submit"
         >
+          {srHeadingText}
           {translations.arraySummary.arrayDeleteButtonLabel.de}
         </Button>
       </fetcher.Form>

@@ -57,6 +57,7 @@ const ArraySummaryDataItems = ({
         </div>
       ))}
       <ArraySummaryItemButton
+        {...(heading ? { heading } : null)}
         category={category}
         csrf={csrf}
         itemIndex={itemIndex}
