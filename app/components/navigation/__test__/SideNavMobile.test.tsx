@@ -26,6 +26,11 @@ const dummyStepsStepper = [
     label: "Step 3",
     state: "Warning" as NavState,
   },
+  {
+    href: "....",
+    label: "Step 4",
+    state: "Current" as NavState,
+  },
 ];
 
 describe("SideNavMobile", () => {
