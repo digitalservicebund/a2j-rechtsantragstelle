@@ -26,6 +26,7 @@ import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
+import KernBoxWithImage from "../kern/KernBoxWithImage";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -80,6 +81,8 @@ function cmsToReact(
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
         return <KernBox {...componentProps} />;
+      case "page.box-with-image":
+        return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
       case "page.table-of-contents":

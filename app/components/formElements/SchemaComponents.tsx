@@ -18,6 +18,7 @@ import {
   renderFieldSet,
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
+import { useLocation } from "react-router";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -61,44 +62,52 @@ export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-}: Props) => (
-  <div className={classNames("ds-stack ds-stack-40", className)}>
-    {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
-      const fieldSetGroup = getFieldSetByFieldName(
-        fieldName,
-        formComponents ?? [],
-      );
-
-      if (fieldSetGroup !== undefined) {
-        return renderFieldSet(fieldName, fieldSetGroup);
-      }
-
-      const matchingElement = formComponents
-        ?.filter(
-          (formComponents) =>
-            formComponents.__component !== "form-elements.fieldset",
-        )
-        .find(({ name }) => name === fieldName);
-
-      if (isZodSpecialMetaDescription(fieldSchema)) {
-        return renderSpecialMetaDescriptions(
+}: Props) => {
+  const { pathname } = useLocation();
+  return (
+    <div className={classNames("ds-stack ds-stack-40", className)}>
+      {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
+        const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
-          fieldSchema,
-          matchingElement,
+          formComponents ?? [],
         );
-      }
 
-      const nestedSchema = getNestedSchema(fieldSchema);
+        if (fieldSetGroup !== undefined) {
+          return renderFieldSet(fieldName, fieldSetGroup);
+        }
 
-      if (isZodObject(nestedSchema)) {
-        return renderZodObject(nestedSchema, fieldName, formComponents);
-      }
+        const matchingElement = formComponents
+          ?.filter(
+            (formComponents) =>
+              formComponents.__component !== "form-elements.fieldset",
+          )
+          .find(({ name }) => name === fieldName);
 
-      if (isZodEnum(nestedSchema))
-        return renderZodEnum(nestedSchema, fieldName, matchingElement);
+        if (isZodSpecialMetaDescription(fieldSchema)) {
+          return renderSpecialMetaDescriptions(
+            fieldName,
+            fieldSchema,
+            matchingElement,
+          );
+        }
 
-      if (isZodString(nestedSchema))
-        return renderZodString(fieldName, matchingElement);
-    })}
-  </div>
-);
+        const nestedSchema = getNestedSchema(fieldSchema);
+
+        if (isZodObject(nestedSchema)) {
+          return renderZodObject(nestedSchema, fieldName, formComponents);
+        }
+
+        if (isZodEnum(nestedSchema))
+          return renderZodEnum(
+            nestedSchema,
+            fieldName,
+            pathname,
+            matchingElement,
+          );
+
+        if (isZodString(nestedSchema))
+          return renderZodString(fieldName, matchingElement);
+      })}
+    </div>
+  );
+};

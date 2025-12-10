@@ -17,11 +17,17 @@ export const gerichtPruefenXstateConfig = {
   states: {
     intro: {
       id: "intro",
-      initial: "start",
+      initial: "voraussetzungen",
       states: {
+        [steps.introVoraussetzungen.relative]: {
+          on: {
+            SUBMIT: steps.introStart.relative,
+          },
+        },
         [steps.introStart.relative]: {
           on: {
             SUBMIT: steps.forderungWas.absolute,
+            BACK: steps.introVoraussetzungen.relative,
           },
         },
       },

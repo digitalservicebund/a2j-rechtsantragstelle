@@ -51,7 +51,7 @@ export const fluggastrechtePersoenlicheDatenPages = {
     stepId: "persoenliche-daten/weitere-personen/uebersicht",
   },
   weiterePersonenDaten: {
-    stepId: "persoenliche-daten/weitere-personen/person/daten",
+    stepId: "persoenliche-daten/weitere-personen/person",
     pageSchema: {
       weiterePersonen: weiterePersonenArraySchema,
     },

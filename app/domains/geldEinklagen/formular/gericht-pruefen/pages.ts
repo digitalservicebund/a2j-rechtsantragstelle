@@ -6,6 +6,9 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const geldEinklagenGerichtPruefenPages = {
+  introVoraussetzungen: {
+    stepId: "gericht-pruefen/intro/voraussetzungen",
+  },
   introStart: {
     stepId: "gericht-pruefen/intro/start",
   },
