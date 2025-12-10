@@ -1,11 +1,11 @@
-import pick from "lodash/pick";
 import { z } from "zod";
-import { fluggastrechteFlugdatenInputSchema } from "../../../flugdaten/userData";
 import { validateDepartureAfterArrival } from "../validateDepartureAfterArrival";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { pick } from "lodash";
 
 describe("validateDepartureAfterArrival", () => {
   const baseSchema = z.object(
-    pick(fluggastrechteFlugdatenInputSchema, [
+    pick(fluggastrechteFlugdatenPages.flugdatenGeplanterFlug.pageSchema, [
       "direktAbflugsDatum",
       "direktAbflugsZeit",
       "direktAnkunftsDatum",
