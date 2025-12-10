@@ -7,6 +7,7 @@ export const testCasesForderung = [
       forderung: "etwasAnderes",
     },
     [
+      "/gericht-pruefen/intro/voraussetzungen",
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/was",
       "/gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
@@ -17,6 +18,7 @@ export const testCasesForderung = [
       forderung: "maximal5000",
     },
     [
+      "/gericht-pruefen/intro/voraussetzungen",
       "/gericht-pruefen/intro/start",
       "/gericht-pruefen/forderung/was",
       "/gericht-pruefen/sachgebiet/info",

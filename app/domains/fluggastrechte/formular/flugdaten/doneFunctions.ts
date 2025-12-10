@@ -1,11 +1,10 @@
 import type { GenericGuard } from "~/domains/guards.server";
 import { hasOptionalString } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import type { FluggastrechteFlugdatenUserData } from "./userData";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
+import { type FluggastrechteUserData } from "../userData";
 
-type FluggastrechteFlugdatenGuard =
-  GenericGuard<FluggastrechteFlugdatenUserData>;
+type FluggastrechteFlugdatenGuard = GenericGuard<FluggastrechteUserData>;
 
 const hasAirlineAddressDone: FluggastrechteFlugdatenGuard = ({ context }) => {
   const isArlineWithAddress = hasAirlineAddress(context.fluggesellschaft ?? "");
