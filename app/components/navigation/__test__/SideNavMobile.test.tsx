@@ -17,12 +17,12 @@ const dummyStepsStepper = [
     state: "Done" as NavState,
   },
   {
-    href: ".",
+    href: "..",
     label: "Step 2",
     state: "Open" as NavState,
   },
   {
-    href: ".",
+    href: "...",
     label: "Step 3",
     state: "Warning" as NavState,
   },
@@ -98,6 +98,23 @@ describe("SideNavMobile", () => {
     expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent("Step 1");
     expect(getAllByTestId("step-stepper-link")[1]).toHaveTextContent("Step 2");
     expect(getAllByTestId("step-stepper-link")[2]).toHaveTextContent("Step 3");
+  });
+
+  it("should add warning icon for step stepper with warning state and the a11y info", () => {
+    const stepStepperWithWarning = [{ ...dummyStepsStepper[2] }];
+
+    const { getByTestId } = render(
+      <SideNavMobile
+        navItems={dummyNavItems}
+        stepsStepper={stepStepperWithWarning}
+      />,
+    );
+
+    expect(getByTestId("icon-warning")).toBeInTheDocument();
+    expect(getByTestId("icon-warning")).toHaveAttribute(
+      "aria-label",
+      "Warnhinweis",
+    );
   });
 
   it("should focus in the summary after leave the last link", async () => {
