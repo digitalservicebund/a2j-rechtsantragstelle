@@ -2,13 +2,10 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
-import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { schemaForFieldNames } from "~/services/validation/stepValidator/schemaForFieldNames";
 import { ButtonNavigation } from "../common/ButtonNavigation";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
-import { FormComponents } from "../FormComponents";
 import { SchemaComponents } from "./SchemaComponents";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 
@@ -26,17 +23,9 @@ function ValidatedFlowForm({
   csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
-  const fieldNames = getFieldsByFormElements(formElements);
 
   const pageSchema = getPageSchema(pathname);
-  const inputFormElements = pageSchema ? (
-    <SchemaComponents pageSchema={pageSchema} formComponents={formElements} />
-  ) : (
-    <FormComponents components={formElements} />
-  );
-  const formSchema = pageSchema
-    ? buildStepSchemaWithPageSchema(pathname, pageSchema)
-    : schemaForFieldNames(fieldNames, pathname);
+  const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
 
   return (
     <ValidatedForm
@@ -51,7 +40,12 @@ function ValidatedFlowForm({
         <>
           <input type="hidden" name={CSRFKey} value={csrf} />
           <div className="ds-stack ds-stack-40">
-            {inputFormElements}
+            {pageSchema && (
+              <SchemaComponents
+                pageSchema={pageSchema}
+                formComponents={formElements}
+              />
+            )}
             <ButtonNavigation
               back={back}
               next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
