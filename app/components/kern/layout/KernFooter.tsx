@@ -1,10 +1,9 @@
 import { translations as staticTranslations } from "~/services/translations/translations";
-import KernRichText, { RichTextProps } from "../KernRichText";
+import KernRichText, { type RichTextProps } from "../KernRichText";
 import Image, { type ImageProps } from "~/components/common/Image";
 import { KernStandaloneLink } from "../KernStandaloneLink";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
-import KernHeading from "../KernHeading";
 import KernButton from "../KernButton";
 import { GridSection } from "~/components/layout/grid/GridSection";
 

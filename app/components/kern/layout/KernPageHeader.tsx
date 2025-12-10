@@ -1,6 +1,3 @@
-import LocalLibrary from "@digitalservicebund/icons/LocalLibrary";
-import SignLanguage from "@digitalservicebund/icons/SignLanguage";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { useShouldPrint } from "~/components/hooks/useShouldPrint";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
