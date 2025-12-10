@@ -6,7 +6,6 @@ import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
 import BoxWithImage from "~/components/content/BoxWithImage";
 import { Details } from "~/components/content/Details";
-import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
 import Hero from "~/components/content/Hero";
 import InfoBox from "~/components/content/InfoBox";
 import { InlineNotice } from "~/components/content/InlineNotice";
@@ -108,8 +107,6 @@ function cmsToReact(
       return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...componentProps} />;
-    case "page.email-capture":
-      return <EmailCapture {...componentProps} />;
     case "page.array-summary":
     default:
       return <></>;
