@@ -167,7 +167,7 @@ export function getRelevantPageSchemasForStepId(
   stepId: string,
 ): PagesConfig {
   return Object.fromEntries(
-    Object.entries(pages[flowId]).filter(([, pageConfig]) =>
+    Object.entries(pages[flowId] ?? {}).filter(([, pageConfig]) =>
       pageConfig.stepId.startsWith(stepId.substring(1)),
     ),
   );
