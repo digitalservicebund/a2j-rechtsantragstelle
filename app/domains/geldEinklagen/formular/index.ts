@@ -8,6 +8,7 @@ import {
   isBeklagtePerson,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
+import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -28,23 +29,7 @@ export const geldEinklagenFormular = {
     },
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
-      "klage-erstellen": {
-        id: "klage-erstellen",
-        initial: "intro",
-        states: {
-          intro: {
-            id: "intro",
-            initial: "start",
-            states: {
-              start: {
-                on: {
-                  BACK: "#gericht-pruefen.zustaendiges-gericht.pilot-gericht",
-                },
-              },
-            },
-          },
-        },
-      },
+      "klage-erstellen": klageErstellenXstateConfig,
       "klage-herunterladen": {
         id: "klage-herunterladen",
         initial: "intro",
