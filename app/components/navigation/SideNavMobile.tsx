@@ -33,9 +33,6 @@ const StepStepperLinks = ({
         .map((step, index) => {
           return { ...step, stepIndex: index + 1 };
         })
-        .filter(
-          (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
-        )
         .map((step) => {
           const isWarningStep = stateIsWarning(step.state);
           return (
@@ -104,10 +101,12 @@ export default function SideNavMobile({
     stepsStepper,
   );
 
-  const hasStepsStepper = arrayIsNonEmpty(stepsStepper);
-  const keyDownSelector = `[data-testid=${hasStepsStepper ? DATA_TESTID_STEP_STEPPER_LINK : "nav-item-link"}]`;
+  const stepStepperLinks = stepsStepper.filter(
+    (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
+  );
+  const keyDownSelector = `[data-testid=${stepStepperLinks.length > 0 ? DATA_TESTID_STEP_STEPPER_LINK : "nav-item-link"}]`;
 
-  const isStateCurrentWarning = hasStepsStepper
+  const isStateCurrentWarning = arrayIsNonEmpty(stepsStepper)
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
@@ -165,7 +164,7 @@ export default function SideNavMobile({
             firstItemRef={firstItemRef}
           />
         </div>
-        <StepStepperLinks stepsStepper={stepsStepper} />
+        <StepStepperLinks stepsStepper={stepStepperLinks} />
       </div>
     </details>
   );
