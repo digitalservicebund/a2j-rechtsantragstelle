@@ -74,7 +74,6 @@ describe("getUserDataAndFlow", () => {
         controller: mockBuildFlowController,
         validFlowPaths: mockPrunerData.validFlowPaths,
       },
-      emailCaptureConsent: mockEmailCaptureConsent,
       page: {
         stepId: "/finanzielle-angaben/kinder/uebersicht",
         arrayIndexes: [],
