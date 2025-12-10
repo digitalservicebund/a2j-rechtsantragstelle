@@ -2,7 +2,7 @@ import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
-import type { fluggastrechteInputSchema } from "../../userData";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -16,8 +16,11 @@ const FIELDS_FOR_VALIDATION = [
   "annullierungErsatzverbindungAnkunftsZeit",
 ] as const;
 
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenErsatzverbindungDaten.pageSchema;
+
 type SchemaSubset = Pick<
-  typeof fluggastrechteInputSchema,
+  typeof _schema,
   | (typeof FIELDS_FOR_VALIDATION)[number]
   | "ankuendigung"
   | "ersatzflugStartenZweiStunden"
@@ -213,7 +216,7 @@ const validateFieldsBetween7And13Days = (ctx: SubsetCtx) => {
 };
 
 export function validateCancelFlightReplacementPage(
-  baseSchema: MultiFieldsValidationBaseSchema<SchemaSubset>,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     const fields = getFieldsForValidation(ctx.value);

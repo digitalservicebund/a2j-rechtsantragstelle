@@ -1,28 +1,12 @@
-import pick from "lodash/pick";
 import { z } from "zod";
 import { today, toGermanDateFormat } from "~/util/date";
-import { fluggastrechteInputSchema } from "../../../userData";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 
 describe("validateCancelFlightReplacementPage", () => {
-  const baseSchema = z.object(
-    pick(fluggastrechteInputSchema, [
-      "annullierungErsatzverbindungFlugnummer",
-      "annullierungErsatzverbindungAbflugsDatum",
-      "annullierungErsatzverbindungAbflugsZeit",
-      "annullierungErsatzverbindungAnkunftsDatum",
-      "annullierungErsatzverbindungAnkunftsZeit",
-      "ankuendigung",
-      "ersatzflugStartenZweiStunden",
-      "ersatzflugLandenVierStunden",
-      "ersatzflugStartenEinStunde",
-      "ersatzflugLandenZweiStunden",
-      "direktAbflugsDatum",
-      "direktAbflugsZeit",
-      "direktAnkunftsDatum",
-      "direktAnkunftsZeit",
-    ]),
-  );
+  const baseSchema = z.object({
+    ...fluggastrechteFlugdatenPages.flugdatenErsatzverbindungDaten.pageSchema,
+  });
 
   const mockData = {
     direktAbflugsDatum: toGermanDateFormat(today()),
