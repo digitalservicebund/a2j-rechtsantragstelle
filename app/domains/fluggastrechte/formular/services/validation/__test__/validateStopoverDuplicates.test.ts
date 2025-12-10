@@ -1,17 +1,10 @@
-import pick from "lodash/pick";
 import { z } from "zod";
-import { fluggastrechteInputSchema } from "../../../userData";
 import { validateStopoverDuplicates } from "../validateStopoverDuplicates";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 
 describe("validateStopoverDuplicates", () => {
   const baseSchema = z.object(
-    pick(fluggastrechteInputSchema, [
-      "ersterZwischenstopp",
-      "zweiterZwischenstopp",
-      "dritterZwischenstopp",
-      "startAirport",
-      "endAirport",
-    ]),
+    fluggastrechteFlugdatenPages.flugdatenZwischenstoppUebersicht3.pageSchema,
   );
 
   const schema = validateStopoverDuplicates(baseSchema);

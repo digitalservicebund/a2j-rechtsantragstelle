@@ -4,7 +4,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
 export const zusammenfassungXstateConfig = {
-  meta: { done: () => false },
   id: "zusammenfassung",
   initial: steps.zusammenfassungStart.relative,
   states: {

@@ -2,12 +2,15 @@ import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
-import type { fluggastrechteFlugdatenInputSchema } from "../../flugdaten/userData";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
+
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenAndererFlugAnkunft.pageSchema;
 
 export function validateAnotherFlightPage(
   baseSchema: MultiFieldsValidationBaseSchema<
     Pick<
-      typeof fluggastrechteFlugdatenInputSchema,
+      typeof _schema,
       | "ersatzFlugAnkunftsDatum"
       | "ersatzFlugAnkunftsZeit"
       | "direktAnkunftsDatum"
