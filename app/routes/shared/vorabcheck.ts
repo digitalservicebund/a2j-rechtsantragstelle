@@ -146,7 +146,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
-  const { prunedData } = await pruneIrrelevantData(flowSession.data, flowId);
+  const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
 
   await postValidationFlowAction(request, prunedData);
 

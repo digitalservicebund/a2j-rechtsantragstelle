@@ -12,7 +12,7 @@ const mockPrunerData = {
 
 vi.mock("~/services/flow/pruner/pruner");
 
-vi.mocked(pruneIrrelevantData).mockResolvedValue(mockPrunerData);
+vi.mocked(pruneIrrelevantData).mockReturnValue(mockPrunerData);
 
 describe("getPrunedUserDataFromPathname", () => {
   it("should return user data with page data and valid flow paths", async () => {
