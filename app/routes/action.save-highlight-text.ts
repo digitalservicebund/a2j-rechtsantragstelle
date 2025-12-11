@@ -34,13 +34,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const session = await getSession(request.headers.get("Cookie"));
 
-  const highlightKey = `${highlightTextData.arrayCategory}_${highlightTextData.field}_${highlightTextData.arrayIndex}`;
+  const highlightKey = `${highlightTextData.arrayCategory}_${highlightTextData.arrayIndex}`;
 
-  const userHighlightData = (session.get(highlightKey) as HighlightData) ?? {
-    highlightTexts: [],
+  const userHighlightData = (session.get(highlightKey) as Record<
+    string,
+    HighlightData
+  >) ?? {
+    [highlightTextData.field]: { highlightTexts: [] },
   };
 
-  userHighlightData.highlightTexts.push({
+  userHighlightData[highlightTextData.field].highlightTexts.push({
     startOffset: highlightTextData.startOffset,
     endOffset: highlightTextData.endOffset,
   });
