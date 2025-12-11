@@ -33,10 +33,8 @@ const StepStepperLinks = ({
         .map((step, index) => {
           return { ...step, stepIndex: index + 1 };
         })
-        .filter(
-          (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
-        )
         .map((step) => {
+          const isWarningStep = stateIsWarning(step.state);
           return (
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <StandaloneLink
@@ -45,9 +43,15 @@ const StepStepperLinks = ({
                 icon={<KeyboardArrowLeft className="inline" />}
                 text={`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
                 dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
+                aria-describedby={isWarningStep ? step.href : undefined}
               />
-              {stateIsWarning(step.state) && (
-                <SvgWarningAmber data-testid="icon-warning" className="pl-2" />
+              {isWarningStep && (
+                <SvgWarningAmber
+                  data-testid="icon-warning"
+                  className="pl-2"
+                  id={step.href}
+                  aria-label={translations.navigation.navigationItemWarning.de}
+                />
               )}
             </div>
           );
@@ -97,10 +101,12 @@ export default function SideNavMobile({
     stepsStepper,
   );
 
-  const hasStepsStepper = arrayIsNonEmpty(stepsStepper);
-  const keyDownSelector = `[data-testid=${hasStepsStepper ? DATA_TESTID_STEP_STEPPER_LINK : "nav-item-link"}]`;
+  const stepStepperLinks = stepsStepper.filter(
+    (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
+  );
+  const keyDownSelector = `[data-testid=${stepStepperLinks.length > 0 ? DATA_TESTID_STEP_STEPPER_LINK : "nav-item-link"}]`;
 
-  const isStateCurrentWarning = hasStepsStepper
+  const isStateCurrentWarning = arrayIsNonEmpty(stepsStepper)
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
@@ -158,7 +164,7 @@ export default function SideNavMobile({
             firstItemRef={firstItemRef}
           />
         </div>
-        <StepStepperLinks stepsStepper={stepsStepper} />
+        <StepStepperLinks stepsStepper={stepStepperLinks} />
       </div>
     </details>
   );

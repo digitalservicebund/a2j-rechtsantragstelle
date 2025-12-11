@@ -9,6 +9,7 @@ type StandaloneLinkProps = Readonly<{
   icon?: React.ReactNode;
   className?: string;
   dataTestid?: string;
+  ["aria-describedby"]?: string;
 }>;
 
 const OPEN_NEW_TAB = "öffnet neues Fenster";
@@ -19,6 +20,7 @@ export const StandaloneLink = ({
   icon,
   className,
   dataTestid,
+  ["aria-describedby"]: ariaDescribedBy,
 }: StandaloneLinkProps) => {
   const shouldOpenNewTab =
     isExternalUrl(url) ||
@@ -27,6 +29,7 @@ export const StandaloneLink = ({
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
     className: classNames("text-link min-h-[24px]", className),
+    "aria-describedby": ariaDescribedBy,
     ...(shouldOpenNewTab
       ? {
           "aria-label": `${text}, ${OPEN_NEW_TAB}`,
