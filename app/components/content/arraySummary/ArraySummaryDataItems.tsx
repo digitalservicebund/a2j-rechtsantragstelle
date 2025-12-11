@@ -4,6 +4,8 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import ArraySummaryItemButton from "./ArraySummaryItemButton";
+import { ArraySummaryDataItem } from "./ArraySummaryDataItem";
+import { type HighlightData } from "~/routes/action.save-highlight-text";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
@@ -13,6 +15,10 @@ type ArraySummaryItemProps = {
   readonly csrf: string;
   readonly subtitle?: HeadingProps;
   readonly itemLabels: ItemLabels;
+  readonly highlightText?: Record<
+    string,
+    Record<number, Record<string, HighlightData>>
+  >;
 };
 
 const ArraySummaryDataItems = ({
@@ -23,6 +29,7 @@ const ArraySummaryDataItems = ({
   csrf,
   subtitle,
   itemLabels,
+  highlightText,
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
     configuration;
@@ -53,7 +60,14 @@ const ArraySummaryDataItems = ({
             tagName="p"
             look="ds-label-02-bold"
           />
-          {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
+          <ArraySummaryDataItem
+            itemKey={itemKey}
+            itemLabels={itemLabels}
+            itemValue={itemValue}
+            category={category}
+            itemIndex={itemIndex}
+            highlightText={highlightText}
+          />
         </div>
       ))}
       <ArraySummaryItemButton

@@ -7,6 +7,7 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
+import { type HighlightData } from "~/routes/action.save-highlight-text";
 
 type ArraySummaryProps = Readonly<{
   category: string;
@@ -22,6 +23,7 @@ type ArraySummaryProps = Readonly<{
     itemLabels: ItemLabels;
   };
   csrf: string;
+  highlightText?: Record<string, Record<number, Record<string, HighlightData>>>;
 }>;
 
 const ArraySummary = ({
@@ -29,6 +31,7 @@ const ArraySummary = ({
   arrayData,
   csrf,
   content,
+  highlightText,
 }: ArraySummaryProps) => {
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
@@ -49,6 +52,7 @@ const ArraySummary = ({
               csrf={csrf}
               subtitle={content.subtitle}
               itemLabels={content.itemLabels}
+              highlightText={highlightText}
             />
           ))}
           <Button
