@@ -14,7 +14,11 @@ import {
   updateDataForSession,
 } from "./redis";
 
-export const allSessionUserData = [...flowIds, "main"] as const;
+export const allSessionUserData = [
+  ...flowIds,
+  "main",
+  "highlight-texts",
+] as const;
 type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
 
