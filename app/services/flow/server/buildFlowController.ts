@@ -7,7 +7,10 @@ import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
-import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
+import {
+  progressLookupForMachine,
+  computeVorabcheckProgress,
+} from "./progress";
 import type {
   Config,
   FlowStateMachine,
@@ -265,6 +268,7 @@ export const buildFlowController = ({
     },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
+      const vorabcheckProgresses = computeVorabcheckProgress();
       const { total, progressLookup } =
         flowId && flowId in vorabcheckProgresses
           ? vorabcheckProgresses[flowId]
