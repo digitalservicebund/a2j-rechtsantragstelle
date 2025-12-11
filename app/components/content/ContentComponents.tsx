@@ -135,6 +135,7 @@ function ContentComponents({
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
+      const isKernBox = el.__component === "page.box" && showKernUX;
       const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {
@@ -169,6 +170,7 @@ function ContentComponents({
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
                   : getGridBackgroundColor(el),
+                isKernBox ? "bg-kern-neutral-050" : "",
                 "rounded-lg",
               ),
             }}

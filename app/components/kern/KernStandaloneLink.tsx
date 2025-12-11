@@ -24,7 +24,7 @@ export const KernStandaloneLink = ({
     isFileDownloadUrl(url);
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
-    className: classNames("text-link min-h-[24px]", className),
+    className: classNames("kern-link min-h-[24px]", className),
     ...(shouldOpenNewTab
       ? {
           "aria-label": `${text}, ${OPEN_NEW_TAB}`,
