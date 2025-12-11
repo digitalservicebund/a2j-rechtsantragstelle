@@ -1,4 +1,7 @@
-import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import {
+  type ArraySummaryData,
+  getArraySummaryData,
+} from "~/services/array/getArraySummaryData";
 import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import {
@@ -19,6 +22,8 @@ import {
 } from "~/services/navigation/navState";
 import { type StepStepper } from "~/components/navigation/types";
 import { getPageSchema } from "~/domains/pageSchemas";
+import type { Session, SessionData } from "react-router";
+import type { HighlightData } from "~/routes/action.save-highlight-text";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -108,6 +113,39 @@ export const getContentData = (
           arrayIndexes,
         ),
       });
+    },
+    getHighlightText: (
+      arraySummaryData: ArraySummaryData,
+      highlightTextSession: Session<SessionData, SessionData>,
+    ) => {
+      if (
+        arraySummaryData === undefined ||
+        Object.keys(arraySummaryData).length === 0
+      ) {
+        return undefined;
+      }
+
+      const allHighlightTexts: Record<
+        string,
+        Record<number, Record<string, HighlightData>>
+      > = {};
+
+      Object.entries(arraySummaryData).forEach(([category, array]) => {
+        array.data.forEach((_data, itemIndex) => {
+          const highlightKey = `${category}_${itemIndex}`;
+
+          const highlightText = highlightTextSession.get(
+            highlightKey,
+          ) as Record<string, HighlightData>;
+
+          if (highlightText) {
+            allHighlightTexts[category] = {};
+            allHighlightTexts[category][itemIndex] = highlightText;
+          }
+        });
+      });
+
+      return allHighlightTexts;
     },
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,

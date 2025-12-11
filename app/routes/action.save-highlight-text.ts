@@ -14,7 +14,7 @@ const actionHighlightText = z.object({
   endOffset: z.coerce.number(),
 });
 
-type HighlightData = {
+export type HighlightData = {
   highlightTexts: [{ startOffset: number; endOffset: number }];
 };
 
