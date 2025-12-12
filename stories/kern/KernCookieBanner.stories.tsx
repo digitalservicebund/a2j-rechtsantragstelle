@@ -1,7 +1,7 @@
 import { KernCookieBanner } from "~/components/kern/KernCookieBanner";
-import type { Meta, StoryObj } from "@storybook/react";
 import { reactRouterContext } from ".storybook/reactRouterContext";
 import { Grid } from "~/components/layout/grid/Grid";
+import { Meta, StoryObj } from "@storybook/react-vite";
 
 const meta: Meta<typeof KernCookieBanner> = {
   title: "kern/KernCookieBanner",
