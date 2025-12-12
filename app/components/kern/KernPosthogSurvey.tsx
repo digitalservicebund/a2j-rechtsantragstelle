@@ -181,6 +181,7 @@ export const KernPosthogSurvey = ({
           <KernButton
             type="button"
             look="ghost"
+            className="pr-0!"
             iconLeft={
               <span
                 className="kern-icon kern-icon--close bg-kern-action-default!"
