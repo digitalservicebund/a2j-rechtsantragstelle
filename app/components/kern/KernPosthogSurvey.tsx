@@ -84,7 +84,7 @@ export const KernPosthogSurvey = ({
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
       className={classNames(
-        "self-center m-auto justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
+        "kern-dialog self-center m-auto justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
         {
           "gap-40": !wasSubmitted,
           "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
@@ -173,11 +173,27 @@ export const KernPosthogSurvey = ({
           </ButtonContainer>
         </div>
         <div className="flex justify-between items-center">
-          <h2 id={dialogLabelId} className="ds-heading-02-reg">
+          <h2 id={dialogLabelId} className="kern-title">
             {wasSubmitted
               ? translations.feedback["problem-gemeldet"].de
               : translations.feedback["report-problem"].de}
           </h2>
+          <KernButton
+            type="button"
+            look="ghost"
+            iconLeft={
+              <span
+                className="kern-icon kern-icon--close bg-kern-action-default!"
+                aria-hidden="true"
+              />
+            }
+            aria-label={
+              wasSubmitted
+                ? translations.feedback.close.de
+                : translations.feedback.cancel.de
+            }
+            onClick={closeSurvey}
+          />
         </div>
       </form>
     </dialog>

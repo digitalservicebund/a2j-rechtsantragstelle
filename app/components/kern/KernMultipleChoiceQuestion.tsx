@@ -37,7 +37,9 @@ export const KernMultipleChoiceQuestion = ({
   };
 
   return (
-    <fieldset>
+    <fieldset className={classNames("kern-fieldset", {
+      "kern-fieldset--error": hasError,
+    })}>
       <legend className="kern-text font-semibold py-8">
         {question.question}
       </legend>
