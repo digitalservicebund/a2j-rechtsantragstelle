@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { StrapiEmailCaptureSchema } from "~/services/cms/models/content/StrapiEmailCapture";
 import { StrapiVideoSchema } from "~/services/cms/models/content/StrapiVideo";
 import { StrapiArraySummaryComponentSchema } from "../content/StrapiArraySummary";
 import { StrapiBoxSchema } from "../content/StrapiBox";
@@ -14,6 +13,7 @@ import { StrapiParagraphSchema } from "../content/StrapiParagraph";
 import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOverviewSection";
 import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "../content/StrapiUserFeedback";
+import { StrapiEmailCaptureSchema } from "../content/StrapiEmailCapture";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxSchema,

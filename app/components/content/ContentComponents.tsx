@@ -6,7 +6,6 @@ import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
 import BoxWithImage from "~/components/content/BoxWithImage";
 import { Details } from "~/components/content/Details";
-import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
 import Hero from "~/components/content/Hero";
 import InfoBox from "~/components/content/InfoBox";
 import { InlineNotice } from "~/components/content/InlineNotice";
@@ -24,6 +23,8 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
+import KernVideo from "../kern/KernVideo";
+import { EmailCapture } from "./emailCapture/EmailCapture";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -76,6 +77,8 @@ function cmsToReact(
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.video":
+        return <KernVideo {...componentProps} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
     }

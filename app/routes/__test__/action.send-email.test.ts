@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
-import { action } from "~/routes/action.send-email";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
+import { action } from "../action.send-email";
 
 vi.mock("react-router");
 vi.mock("~/services/analytics/gdprCookie.server", () => ({

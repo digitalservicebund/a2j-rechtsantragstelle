@@ -5,10 +5,6 @@ import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import RichText from "~/components/common/RichText";
 import {
-  emailCaptureSchema,
-  invalidEmailError,
-} from "~/components/content/emailCapture/emailCaptureHelpers";
-import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
@@ -17,6 +13,7 @@ import InputLabel from "~/components/formElements/InputLabel";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
+import { emailCaptureSchema, invalidEmailError } from "./emailCaptureHelpers";
 
 export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
