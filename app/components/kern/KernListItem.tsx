@@ -65,7 +65,7 @@ const KernListItem = ({
           <div className="w-2 h-full group-last:hidden"></div>
         )}
       </div>
-      <div className="pb-48 w-full">
+      <div className="pb-48 pt-2 w-full">
         <div>
           {headline && <KernHeading {...headline} className="text-2xl!" />}
           {content && <KernRichText html={content} />}
