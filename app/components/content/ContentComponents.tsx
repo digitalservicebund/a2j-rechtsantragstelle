@@ -24,6 +24,7 @@ import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
 import KernVideo from "../kern/KernVideo";
+import { EmailCapture } from "./emailCapture/EmailCapture";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -110,6 +111,8 @@ function cmsToReact(
       return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...componentProps} />;
+        case "page.email-capture":
+      return <EmailCapture {...componentProps} />;
     case "page.array-summary":
     default:
       return <></>;

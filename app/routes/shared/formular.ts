@@ -44,6 +44,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     },
     page: { stepId, arrayIndexes },
     migration,
+    emailCaptureConsent,
   } = resultUserAndFlow.value;
 
   const { pathname } = new URL(request.url);
@@ -101,6 +102,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       buttonNavigationProps,
       cmsContent,
       csrf,
+      emailCaptureConsent,
       formElements,
       migration,
       stepData,

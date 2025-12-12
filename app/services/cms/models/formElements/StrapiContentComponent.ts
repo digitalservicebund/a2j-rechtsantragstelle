@@ -13,6 +13,7 @@ import { StrapiParagraphSchema } from "../content/StrapiParagraph";
 import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOverviewSection";
 import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "../content/StrapiUserFeedback";
+import { StrapiEmailCaptureSchema } from "../content/StrapiEmailCapture";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxSchema,
@@ -29,6 +30,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiDetailsSchema,
   StrapiUserFeedbackSchema,
   StrapiSummaryOverviewSectionSchema,
+  StrapiEmailCaptureSchema,
 ]);
 
 export type StrapiContentComponent = z.infer<

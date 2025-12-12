@@ -1,4 +1,5 @@
 import { Result } from "true-myth";
+import { emailCaptureConsentName } from "~/components/content/emailCapture/emailCaptureHelpers";
 import { type ValidFlowPagesType } from "~/components/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
@@ -27,6 +28,7 @@ type OkResult = {
     stepId: string;
     arrayIndexes?: number[];
   };
+  emailCaptureConsent: boolean | undefined;
   migration: {
     userData: UserData | undefined;
     sortedFields?: string[];
@@ -99,6 +101,7 @@ export const getUserDataAndFlow = async (
       stepId,
       arrayIndexes,
     },
+    emailCaptureConsent: flowSession.get(emailCaptureConsentName),
     migration: {
       userData: migrationData,
       sortedFields:
