@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
@@ -18,6 +17,7 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernList from "../kern/KernList";
 import KernBox from "../kern/KernBox";
 import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
@@ -62,8 +62,6 @@ function cmsToReact(
   componentProps: StrapiContentComponent,
   opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
-  // When showKernUX is true, render KERN UX components
-  // For now, we render the old components until KERN UX versions are created
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
@@ -76,6 +74,8 @@ function cmsToReact(
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.list":
+        return <KernList {...componentProps} wrap={opts?.inFlow} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
     }

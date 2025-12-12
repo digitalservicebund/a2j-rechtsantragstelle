@@ -4,6 +4,7 @@ export type KernHeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
+  className?: string;
   elementId?: string;
 };
 
@@ -11,6 +12,7 @@ const KernHeading = ({
   tagName = "h1",
   text,
   tabIndex,
+  className,
   elementId,
 }: KernHeadingProps) => {
   if (!text || text?.trim() === "") return null;
@@ -18,7 +20,7 @@ const KernHeading = ({
 
   return (
     <Tag
-      className="kern-heading-x-large p-0!"
+      className={`kern-heading-x-large p-0! ${className ?? ""}`}
       tabIndex={tabIndex}
       id={elementId}
     >
