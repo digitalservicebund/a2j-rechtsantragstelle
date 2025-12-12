@@ -111,7 +111,7 @@ function cmsToReact(
       return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
       return <SummaryOverviewSection {...componentProps} />;
-        case "page.email-capture":
+    case "page.email-capture":
       return <EmailCapture {...componentProps} />;
     case "page.array-summary":
     default:
