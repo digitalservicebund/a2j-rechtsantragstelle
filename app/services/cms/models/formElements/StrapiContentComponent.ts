@@ -14,11 +14,13 @@ import { StrapiParagraphSchema } from "../content/StrapiParagraph";
 import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOverviewSection";
 import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "../content/StrapiUserFeedback";
+import { StrapiHeroWithButtonSchema } from "../content/StrapiHeroWithButton";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxSchema,
   StrapiBoxWithImageSchema,
   StrapiHeroSchema,
+  StrapiHeroWithButtonSchema,
   StrapiHeadingSchema,
   StrapiInfoBoxSchema,
   StrapiParagraphSchema,

@@ -18,6 +18,9 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernHeroWithButton from "../kern/KernHeroWithButton";
+import KernHero from "../kern/KernHero";
+import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
 import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
@@ -49,6 +52,8 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 }
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  if (el.__component === "page.hero") return "bg-kern-action-default";
+  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -70,14 +75,22 @@ function cmsToReact(
         return <KernHeading {...componentProps} />;
       case "basic.paragraph":
         return <KernRichText {...componentProps} />;
+      case "page.hero":
+        return <KernHero {...componentProps} />;
+      case "page.hero-with-button":
+        return <KernHeroWithButton {...componentProps} />;
       case "page.box":
         return <KernBox {...componentProps} />;
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.table-of-contents":
+        return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      default:
+        return <></>;
     }
   }
 
