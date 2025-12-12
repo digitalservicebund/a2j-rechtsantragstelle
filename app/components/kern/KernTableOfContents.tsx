@@ -3,7 +3,6 @@ import { type ButtonProps } from "../common/Button";
 import ButtonContainer from "../common/ButtonContainer";
 import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
-import { KernStandaloneLink } from "./KernStandaloneLink";
 import KernButton from "./KernButton";
 import KernLabel from "./KernLabel";
 
@@ -33,17 +32,13 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                   key={link.text ?? link.url}
                   className="list-none flex mb-10"
                 >
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ color: "var(--color-kern-action-default)" }}
-                  >
-                    arrow_downward
-                  </span>
-                  <KernStandaloneLink
-                    className="visited:text-action-visited text-action-default flex"
-                    url={link.url}
-                    text={link.text ?? ""}
-                  />
+                  <a href={link.url} className="kern-link">
+                    <span
+                      className="kern-icon kern-icon--arrow-forward"
+                      aria-hidden="true"
+                    ></span>
+                    {link.text ?? ""}
+                  </a>
                 </li>
               ))}
             </ul>

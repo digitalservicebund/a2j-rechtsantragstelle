@@ -1,9 +1,9 @@
 import type { ButtonProps } from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { RichTextProps } from "../common/RichText";
+import { type RichTextProps } from "../common/RichText";
 import KernHeading from "./KernHeading";
-import { HeadingProps } from "../common/Heading";
+import { type HeadingProps } from "../common/Heading";
 import KernButton from "./KernButton";
 import KernRichText from "./KernRichText";
 

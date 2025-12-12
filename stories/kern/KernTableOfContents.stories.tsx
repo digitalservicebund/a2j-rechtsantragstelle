@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react-vite";
+import {type Meta, StoryObj } from "@storybook/react-vite";
 import KernTableOfContents from "~/components/kern/KernTableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
