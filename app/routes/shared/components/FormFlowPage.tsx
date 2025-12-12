@@ -8,7 +8,6 @@ import { FormFlowContext } from "~/components/formFlowContext";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
 import FlowNavigation from "~/components/navigation/FlowNavigation";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../formular";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
@@ -19,6 +18,9 @@ import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNaviga
 import { MissingDataList } from "~/components/common/MissingDataList";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export function FormFlowPage() {
   const {
@@ -49,6 +51,7 @@ export function FormFlowPage() {
   );
 
   useFocusFirstH1();
+  const showKernUX = useShowKernUX();
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -165,7 +168,7 @@ export function FormFlowPage() {
               className="pb-40 flex justify-end"
               row={4}
             >
-              <ReportProblem />
+              {showKernUX ? <KernReportProblem /> : <ReportProblem />}
             </GridItem>
           )}
         </Grid>

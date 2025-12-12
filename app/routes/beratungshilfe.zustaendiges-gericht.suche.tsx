@@ -10,6 +10,8 @@ import { BACKGROUND_COLORS } from "~/components";
 import { ButtonNavigation } from "~/components/common/ButtonNavigation";
 import Heading from "~/components/common/Heading";
 import Input from "~/components/formElements/Input";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -56,9 +58,9 @@ export async function action({ request }: ActionFunctionArgs) {
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
   return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);
 }
-
 export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
+  const showKernUX = useShowKernUX();
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
@@ -124,7 +126,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={2}
         >
-          <ReportProblem />
+          {showKernUX ? <KernReportProblem /> : <ReportProblem />}
         </GridItem>
       </Grid>
     </GridSection>

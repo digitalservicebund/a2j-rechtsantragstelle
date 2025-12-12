@@ -12,6 +12,8 @@ import Heading from "~/components/common/Heading";
 import { type ErrorMessageProps } from "~/components/common/types";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -75,6 +77,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
+  const showKernUX = useShowKernUX();
 
   return (
     <div className="flex flex-col grow bg-blue-100">
@@ -141,7 +144,7 @@ export default function Index() {
         </Container>
       </div>
       <div className="flex justify-end w-full p-32 relative">
-        <ReportProblem />
+        {showKernUX ? <KernReportProblem /> : <ReportProblem />}
       </div>
     </div>
   );
