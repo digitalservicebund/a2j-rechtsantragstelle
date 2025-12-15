@@ -1,21 +1,16 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { Guards } from "../../../guards.server";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
+import { beratungshilfeXstateConfig } from "../xstateConfig";
+import { reduceExcludedStatesToId } from "~/services/flow/reduceExcludedStatesToId";
 
 export const beratungshilfeAbgabeGuards = {
   readyForAbgabe: ({ context }): boolean => {
-    // Need to strip off 'abgabe' lest we infinitely recurse
+    const configWithoutAbgabe = reduceExcludedStatesToId(
+      beratungshilfeXstateConfig,
+    );
     const stepStates = buildFlowController({
-      config: {
-        ...beratungshilfeFormular.config,
-        states: {
-          ...beratungshilfeFormular.config.states,
-          abgabe: {
-            id: "abgabe",
-          },
-        },
-      },
+      config: configWithoutAbgabe,
       data: context,
     }).stepStates();
     return stepStates
