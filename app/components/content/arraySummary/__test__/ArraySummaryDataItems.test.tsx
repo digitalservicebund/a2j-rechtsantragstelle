@@ -1,6 +1,20 @@
 import { render } from "@testing-library/react";
 import type { ArrayConfigClient } from "~/services/array";
 import ArraySummaryDataItems from "../ArraySummaryDataItems";
+import { vi } from "vitest";
+
+// Mock useFetcher from react-router
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+  return {
+    ...actual,
+    useFetcher: () => ({
+      state: "idle",
+      data: undefined,
+      submit: vi.fn(),
+    }),
+  };
+});
 
 const mockArrayConfiguration: ArrayConfigClient = {
   event: "add-unterhaltszahlungen",
