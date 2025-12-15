@@ -54,7 +54,7 @@ export function KernCookieBanner({
 
   return (
     <div
-      className="kern-dialog fixed bottom-4 right-4 z-50 w-auto"
+      className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2  md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -62,7 +62,7 @@ export function KernCookieBanner({
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
-        <header className="kern-dialog__header">
+        <header className="kern-dialog__header flex! justify-between! items-center!">
           <h2 className="kern-title">{content.heading.text}</h2>
           <KernButton
             type="button"
@@ -85,7 +85,7 @@ export function KernCookieBanner({
               <span
                 className="kern-icon kern-icon--arrow-forward"
                 aria-hidden="true"
-              ></span>
+              />
               {content.cookieSettingLinkText}
             </a>
           )}
