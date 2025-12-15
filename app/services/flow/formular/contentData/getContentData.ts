@@ -124,28 +124,12 @@ export const getContentData = (
       ) {
         return undefined;
       }
-
-      const allHighlightTexts: Record<
+      const allHighlights: Record<
         string,
         Record<number, Record<string, HighlightData>>
-      > = {};
+      > = highlightTextSession.get("highlights") ?? {};
 
-      Object.entries(arraySummaryData).forEach(([category, array]) => {
-        array.data.forEach((_data, itemIndex) => {
-          const highlightKey = `${category}_${itemIndex}`;
-
-          const highlightText = highlightTextSession.get(
-            highlightKey,
-          ) as Record<string, HighlightData>;
-
-          if (highlightText) {
-            allHighlightTexts[category] = {};
-            allHighlightTexts[category][itemIndex] = highlightText;
-          }
-        });
-      });
-
-      return allHighlightTexts;
+      return allHighlights;
     },
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
