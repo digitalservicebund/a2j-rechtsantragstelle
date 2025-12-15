@@ -1,8 +1,13 @@
-import { type UNSAFE_DataWithResponseInit } from "react-router";
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 import { getSessionManager } from "~/services/session.server";
 import { action } from "../action.send-feedback";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
+import {
+  assertResponse,
+  assertValidationError,
+  isResponse,
+} from "./isResponse";
+import invariant from "tiny-invariant";
 
 vi.mock("~/services/session.server");
 vi.stubEnv("PUBLIC_POSTHOG_API_KEY", "-");
@@ -16,10 +21,7 @@ vi.mocked(getSessionManager).mockReturnValue({
 const formData = new FormData();
 formData.append("feedback", "feedback");
 
-const options = {
-  method: "POST",
-  body: formData,
-};
+const options = { method: "POST", body: formData };
 
 describe("/action/send-feedback route", () => {
   it("should fail for non-relative URLs", async () => {
@@ -27,10 +29,8 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=http://external.com&js=false`,
       options,
     );
-    const response = (await action(
-      mockRouteArgsFromRequest(request),
-    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
-
+    const response = await action(mockRouteArgsFromRequest(request));
+    invariant(!isResponse(response), "Shouldn't be response");
     expect(response.init?.status).toBe(400);
   });
 
@@ -42,10 +42,8 @@ describe("/action/send-feedback route", () => {
       optionsWithoutBody,
     );
 
-    const response = (await action(
-      mockRouteArgsFromRequest(request),
-    )) as UNSAFE_DataWithResponseInit<{ success: boolean }>;
-
+    const response = await action(mockRouteArgsFromRequest(request));
+    assertValidationError(response);
     expect(response.init?.status).toBe(422);
   });
 
@@ -55,10 +53,8 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
       options,
     );
-    const response = (await action(
-      mockRouteArgsFromRequest(request),
-    )) as Response;
-
+    const response = await action(mockRouteArgsFromRequest(request));
+    assertResponse(response);
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(feedbackPath);
   });
@@ -70,10 +66,8 @@ describe("/action/send-feedback route", () => {
       options,
     );
 
-    const response = (await action(
-      mockRouteArgsFromRequest(request),
-    )) as Response;
-
+    const response = await action(mockRouteArgsFromRequest(request));
+    assertResponse(response);
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(
       `${feedbackPath}#${USER_FEEDBACK_ID}`,
