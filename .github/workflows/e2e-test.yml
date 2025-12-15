@@ -67,7 +67,7 @@ jobs:
 
       - name: Upload Playwright blob report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-blob-report-${{ inputs.e2e-target }}-${{ matrix.shard }}
           path: blob-report/*.zip
@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload Failed Test results
         if: ${{ always() && env.files_exist_subfolder_test_results == 'true' }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: video-test-results-${{ inputs.e2e-target }}-${{ matrix.shard }}
           path: test-results/*
@@ -111,7 +111,7 @@ jobs:
         run: pnpm playwright merge-reports --reporter html ./playwright-blob-reports
 
       - name: Upload Playwright test results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-report-${{ inputs.e2e-target }}-${{ github.run_attempt }}
           path: playwright-report
