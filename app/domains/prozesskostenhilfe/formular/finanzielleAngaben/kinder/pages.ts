@@ -12,7 +12,7 @@ const sharedKinderFields = {
   wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),
 };
 
-export const kinderArraySchema = z
+const kinderArraySchema = z
   .union([
     z.object({
       ...sharedKinderFields,
