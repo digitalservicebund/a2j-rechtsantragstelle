@@ -5,7 +5,7 @@ import {
 } from "~/services/flow/server/buildFlowController";
 import { type Config } from "../types";
 
-const config: Config = {
+export const xstateMockConfig: Config = {
   id: "/test/flow",
   initial: "step1",
   states: {
@@ -68,23 +68,31 @@ const nestedInitialStateConfig: Config = {
 describe("buildFlowController", () => {
   describe("isFinal", () => {
     it("returns true if final step", () => {
-      expect(buildFlowController({ config }).isFinal("/step1Exit")).toBe(true);
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isFinal("/step1Exit"),
+      ).toBe(true);
     });
 
     it("returns false if not final step", () => {
-      expect(buildFlowController({ config }).isFinal("/step1")).toBe(false);
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isFinal("/step1"),
+      ).toBe(false);
     });
 
     it("returns false if nested step is not final step", () => {
-      expect(buildFlowController({ config }).isFinal("/step4/step1")).toBe(
-        false,
-      );
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isFinal(
+          "/step4/step1",
+        ),
+      ).toBe(false);
     });
 
     it("returns true if nested step is final step", () => {
-      expect(buildFlowController({ config }).isFinal("/step4/step2")).toBe(
-        true,
-      );
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isFinal(
+          "/step4/step2",
+        ),
+      ).toBe(true);
     });
   });
 
@@ -92,26 +100,30 @@ describe("buildFlowController", () => {
     it("returns true if step is reachable with given data", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).isReachable("/step3"),
       ).toBe(true);
     });
 
     it("returns false if step is not reachable", () => {
-      expect(buildFlowController({ config }).isReachable("/step3")).toBe(false);
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isReachable("/step3"),
+      ).toBe(false);
     });
 
     it("returns false if nested step is not reachable", () => {
-      expect(buildFlowController({ config }).isReachable("/step4/step1")).toBe(
-        false,
-      );
+      expect(
+        buildFlowController({ config: xstateMockConfig }).isReachable(
+          "/step4/step1",
+        ),
+      ).toBe(false);
     });
 
     it("returns true if nested step is reachable with given data", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).isReachable("/step4/step2"),
       ).toBe(true);
@@ -122,7 +134,7 @@ describe("buildFlowController", () => {
     it("returns previous step (step2) if data is correct", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getPrevious("/step3"),
       ).toEqual("/test/flow/step2");
@@ -131,7 +143,7 @@ describe("buildFlowController", () => {
     it("returns previous nested step if data is correct", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getPrevious("/step4/step2"),
       ).toEqual("/test/flow/step4/step1");
@@ -140,7 +152,7 @@ describe("buildFlowController", () => {
     it("returns previous step from nested step if data is correct", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getPrevious("/step4/step1"),
       ).toEqual("/test/flow/step3");
@@ -149,7 +161,7 @@ describe("buildFlowController", () => {
     it("returns previous nested step from step if data is correct", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getPrevious("/step5"),
       ).toEqual("/test/flow/step4/step1");
@@ -157,7 +169,7 @@ describe("buildFlowController", () => {
 
     it("returns undefined if already first step", () => {
       expect(
-        buildFlowController({ config }).getPrevious("/step1"),
+        buildFlowController({ config: xstateMockConfig }).getPrevious("/step1"),
       ).toBeUndefined();
     });
 
@@ -174,7 +186,7 @@ describe("buildFlowController", () => {
     it("returns step2", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getNext("/step1"),
       ).toEqual("/test/flow/step2");
@@ -183,7 +195,7 @@ describe("buildFlowController", () => {
     it("returns the next nested step from a step with valid data", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getNext("/step3"),
       ).toEqual("/test/flow/step4/step1");
@@ -192,7 +204,7 @@ describe("buildFlowController", () => {
     it("returns the next nested step from a nested step with valid data", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getNext("/step4/step1"),
       ).toEqual("/test/flow/step4/step2");
@@ -201,7 +213,7 @@ describe("buildFlowController", () => {
     it("returns undefined if already last step", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: {},
         }).getNext("/step5"),
       ).toBeUndefined();
@@ -210,7 +222,7 @@ describe("buildFlowController", () => {
     it("returns undefined if already last nested step", () => {
       expect(
         buildFlowController({
-          config,
+          config: xstateMockConfig,
           data: { step1: true },
         }).getNext("/step4/step2"),
       ).toBeUndefined();
@@ -219,9 +231,9 @@ describe("buildFlowController", () => {
 
   describe("getInitial", () => {
     it("returns correct simple step", () => {
-      expect(buildFlowController({ config }).getInitial()).toEqual(
-        "/test/flow/step1",
-      );
+      expect(
+        buildFlowController({ config: xstateMockConfig }).getInitial(),
+      ).toEqual("/test/flow/step1");
     });
 
     it("returns correct step if nested initial step", () => {
@@ -232,49 +244,11 @@ describe("buildFlowController", () => {
   });
 
   describe("getProgress", () => {
-    it("returns 5/5", () => {
+    // The actual progress implementation is tested in progress.test.ts
+    it("returns undefined if config isn't precomputed vorabcheck", () => {
       expect(
-        buildFlowController({
-          config,
-          data: { step1: true },
-        }).getProgress("/step4/step2"),
-      ).toStrictEqual({
-        progress: 5,
-        max: 5,
-      });
-    });
-
-    it("returns 3/5", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: true },
-        }).getProgress("/step3"),
-      ).toStrictEqual({
-        progress: 3,
-        max: 5,
-      });
-    });
-
-    it("returns 1/5", () => {
-      expect(
-        buildFlowController({ config }).getProgress("/step1"),
-      ).toStrictEqual({
-        progress: 1,
-        max: 5,
-      });
-    });
-
-    it("returns 2/5 even if data doesn't fit", () => {
-      expect(
-        buildFlowController({
-          config,
-          data: { step1: false },
-        }).getProgress("/step2"),
-      ).toStrictEqual({
-        progress: 2,
-        max: 5,
-      });
+        buildFlowController({ config: xstateMockConfig }).getProgress("/step1"),
+      ).toBeUndefined();
     });
   });
 
@@ -600,7 +574,7 @@ describe("buildFlowController", () => {
 });
 
 describe("nextStepId", () => {
-  const machine = createMachine(config);
+  const machine = createMachine(xstateMockConfig);
   it("should provide correct SUBMIT destination", () => {
     const destination = nextStepId(machine, "/step1", "SUBMIT", {
       step1: false,

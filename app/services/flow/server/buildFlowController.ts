@@ -7,10 +7,7 @@ import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
-import {
-  progressLookupForMachine,
-  computeVorabcheckProgress,
-} from "./progress";
+import { progressLookup, vorabcheckProgresses } from "./progress";
 import type {
   Config,
   FlowStateMachine,
@@ -22,6 +19,7 @@ import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
+import { isKeyOfObject } from "~/util/objects";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -268,12 +266,9 @@ export const buildFlowController = ({
     },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
-      const vorabcheckProgresses = computeVorabcheckProgress();
-      const { total, progressLookup } =
-        flowId && flowId in vorabcheckProgresses
-          ? vorabcheckProgresses[flowId]
-          : progressLookupForMachine(machine);
-      return { max: total, progress: progressLookup[currentStepId] };
+      if (isKeyOfObject(flowId, vorabcheckProgresses)) {
+        return progressLookup(vorabcheckProgresses[flowId], currentStepId);
+      }
     },
     getInitialSubState: (stepId: string) => {
       return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;
