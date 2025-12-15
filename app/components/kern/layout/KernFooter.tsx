@@ -4,7 +4,6 @@ import Image, { type ImageProps } from "~/components/common/Image";
 import { KernStandaloneLink } from "../KernStandaloneLink";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
-import KernButton from "../KernButton";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 type LinkProps = {
@@ -110,18 +109,14 @@ export default function KernFooter({
               className="text-white print:hidden text-center pt-16 pb-16"
             >
               <div className="text-center print:hidden">
-                <KernButton look="secondary">
-                  {/* <KernStandaloneLink
-                    className="ds-label-03-reg"
-                    text={
-                      staticTranslations["delete-data"].footerLinkLabel.de ??
-                      "Persönliche Daten löschen"
-                    }
-                    url="/persoenliche-daten-loeschen"
-                  /> */}
-                  {staticTranslations["delete-data"].footerLinkLabel.de ??
-                    "Persönliche Daten löschen"}
-                </KernButton>
+                <KernStandaloneLink
+                  className="ds-label-03-reg"
+                  text={
+                    staticTranslations["delete-data"].footerLinkLabel.de ??
+                    "Persönliche Daten löschen"
+                  }
+                  url="/persoenliche-daten-loeschen"
+                />
               </div>
             </GridItem>
           </Grid>
