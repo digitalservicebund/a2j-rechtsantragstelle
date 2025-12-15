@@ -7,6 +7,7 @@ import { getSessionManager } from "~/services/session.server";
 export const loader = () => redirect("/");
 
 const actionHighlightText = z.object({
+  action: z.enum(["save", "delete"]),
   arrayCategory: z.string(),
   field: z.string(),
   arrayIndex: z.coerce.number(),
@@ -15,7 +16,7 @@ const actionHighlightText = z.object({
 });
 
 export type HighlightData = {
-  highlightTexts: [{ startOffset: number; endOffset: number }];
+  highlightTexts: Array<{ startOffset: number; endOffset: number }>;
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -31,24 +32,48 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { getSession, commitSession } = getSessionManager("highlight-texts");
-
   const session = await getSession(request.headers.get("Cookie"));
 
-  const highlightKey = `${highlightTextData.arrayCategory}_${highlightTextData.arrayIndex}`;
-
-  const userHighlightData = (session.get(highlightKey) as Record<
+  // Store all highlights in a single session key with nested structure
+  const allHighlights: Record<
     string,
-    HighlightData
-  >) ?? {
-    [highlightTextData.field]: { highlightTexts: [] },
-  };
+    Record<number, Record<string, HighlightData>>
+  > = session.get("highlights") ?? {};
 
-  userHighlightData[highlightTextData.field].highlightTexts.push({
-    startOffset: highlightTextData.startOffset,
-    endOffset: highlightTextData.endOffset,
-  });
+  const { arrayCategory, arrayIndex, field, action, startOffset, endOffset } =
+    highlightTextData;
 
-  session.set(highlightKey, userHighlightData);
+  // Initialize nested structure if needed
+  if (!allHighlights[arrayCategory]) {
+    allHighlights[arrayCategory] = {};
+  }
+  if (!allHighlights[arrayCategory][arrayIndex]) {
+    allHighlights[arrayCategory][arrayIndex] = {};
+  }
+  if (!allHighlights[arrayCategory][arrayIndex][field]) {
+    allHighlights[arrayCategory][arrayIndex][field] = {
+      highlightTexts: [],
+    };
+  }
+
+  // Perform action
+  if (action === "save") {
+    allHighlights[arrayCategory][arrayIndex][field].highlightTexts.push({
+      startOffset,
+      endOffset,
+    });
+  } else if (action === "delete") {
+    allHighlights[arrayCategory][arrayIndex][field].highlightTexts =
+      allHighlights[arrayCategory][arrayIndex][field].highlightTexts.filter(
+        (highlightText) =>
+          highlightText.startOffset !== startOffset ||
+          highlightText.endOffset !== endOffset,
+      );
+  }
+
+  // Store back to session
+  session.set("highlights", allHighlights);
+
   const headers = { "Set-Cookie": await commitSession(session) };
 
   return new Response("success", { status: 200, headers });
