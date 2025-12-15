@@ -145,7 +145,7 @@ jobs:
     environment: preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: preview
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -180,7 +180,7 @@ jobs:
     environment: staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: staging
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -207,7 +207,7 @@ jobs:
     environment: production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: production
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
