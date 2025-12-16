@@ -6,9 +6,6 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 const meta = {
   title: "kern/KernHero",
   component: KernHero,
-  parameters: {
-    layout: "fullscreen",
-  },
   tags: ["autodocs"],
 } satisfies Meta<typeof KernHero>;
 
@@ -20,7 +17,6 @@ const defaultArgs = {
   heading: {
     text: "Hero Heading",
     tagName: "h1",
-    look: "ds-heading-01-reg",
   } as const,
 };
 
@@ -37,8 +33,7 @@ export const Default: Story = {
   args: {
     ...defaultArgs,
     content: {
-      html: "A complete hero section with heading, content and a call-to-action button.",
-      className: "ds-heading-03-bold",
+      html: "Hero Content",
     },
   },
 };

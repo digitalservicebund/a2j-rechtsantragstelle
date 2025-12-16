@@ -5,11 +5,8 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/TableOfContents",
+  title: "kern/KernTableOfContents",
   component: KernTableOfContents,
-  parameters: {
-    layout: "fullscreen",
-  },
   tags: ["autodocs"],
 } satisfies Meta<typeof KernTableOfContents>;
 
@@ -21,12 +18,11 @@ const defaultArgs = {
   label: {
     text: "Table of Contents Label",
     tagName: "p",
-    look: "ds-label-02-reg",
   } as const,
   links: [
-    { text: "First Link", url: "#first-link" },
-    { text: "Second Link", url: "#second-link" },
-    { text: "Third Link", url: "#third-link" },
+    { text: "Table of Contents Link 1", url: "#first-link" },
+    { text: "Table of Contents Link 2", url: "#second-link" },
+    { text: "Table of Contents Link 3", url: "#third-link" },
   ],
 };
 

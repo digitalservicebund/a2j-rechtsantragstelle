@@ -4,11 +4,8 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/HeroWithButton",
+  title: "kern/KernHeroWithButton",
   component: KernHeroWithButton,
-  parameters: {
-    layout: "fullscreen",
-  },
   tags: ["autodocs"],
 } satisfies Meta<typeof KernHeroWithButton>;
 
@@ -20,7 +17,6 @@ const defaultArgs = {
   heading: {
     text: "Hero Heading",
     tagName: "h1",
-    look: "ds-heading-01-reg",
     className: "!text-black",
   } as const,
 };
@@ -38,11 +34,11 @@ export const Default: Story = {
   args: {
     ...defaultArgs,
     content: {
-      html: "<p>A complete hero section with heading, content and a call-to-action button.</p>",
+      html: "<p>Hero Content</p>",
       className: "!text-black text-lg font-medium",
     },
     button: {
-      text: "Get Started",
+      text: "Hero Button",
       href: "#",
       look: "primary",
       size: "medium",
