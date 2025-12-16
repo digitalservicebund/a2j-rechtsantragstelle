@@ -54,6 +54,9 @@ import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 import { KernCookieBanner } from "./components/kern/KernCookieBanner";
+import KernFooter from "./components/kern/layout/KernFooter";
+import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
+import KernPageHeader from "./components/kern/layout/KernPageHeader";
 
 export { headers } from "./rootHeaders";
 
@@ -224,27 +227,54 @@ function App() {
             )}
             target={skipContentLinkTarget}
           />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            linkLabel={pageHeaderProps.linkLabel}
-            ariaLabel={getTranslationByKey(
-              "header-breadcrumb",
-              accessibilityTranslations,
-            )}
-          />
+          {showKernUX ? (
+            <KernPageHeader {...pageHeaderProps} />
+          ) : (
+            <PageHeader {...pageHeaderProps} />
+          )}
+
+          {showKernUX ? (
+            <KernBreadcrumbs
+              breadcrumbs={breadcrumbs}
+              linkLabel={pageHeaderProps.linkLabel}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
+            />
+          ) : (
+            <Breadcrumbs
+              breadcrumbs={breadcrumbs}
+              linkLabel={pageHeaderProps.linkLabel}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
+            />
+          )}
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
           <footer>
-            <Footer
-              {...footer}
-              showDeletionBanner={hasAnyUserData}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                accessibilityTranslations,
-              )}
-            />
+            {showKernUX ? (
+              <KernFooter
+                {...footer}
+                showDeletionBanner={hasAnyUserData}
+                ariaLabel={getTranslationByKey(
+                  "footer-navigation",
+                  accessibilityTranslations,
+                )}
+              />
+            ) : (
+              <Footer
+                {...footer}
+                showDeletionBanner={hasAnyUserData}
+                ariaLabel={getTranslationByKey(
+                  "footer-navigation",
+                  accessibilityTranslations,
+                )}
+              />
+            )}
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
