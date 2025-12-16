@@ -5,6 +5,7 @@ import {
   throw404OnProduction,
   throw404IfFeatureFlagDisabled,
 } from "../throw404";
+import { assertResponse } from "~/routes/__test__/isResponse";
 
 vi.mock("~/services/env/public", () => ({
   config: vi.fn(),
@@ -33,8 +34,8 @@ describe("throw404OnProduction", () => {
     try {
       throw404OnProduction();
     } catch (error) {
-      expect(error).toBeInstanceOf(Response);
-      expect((error as Response).status).toBe(404);
+      assertResponse(error);
+      expect(error.status).toBe(404);
     }
   });
 
@@ -64,8 +65,8 @@ describe("throw404IfFeatureFlagDisabled", () => {
     try {
       await throw404IfFeatureFlagDisabled("showGeldEinklagenFlow");
     } catch (error) {
-      expect(error).toBeInstanceOf(Response);
-      expect((error as Response).status).toBe(404);
+      assertResponse(error);
+      expect(error.status).toBe(404);
     }
   });
 
