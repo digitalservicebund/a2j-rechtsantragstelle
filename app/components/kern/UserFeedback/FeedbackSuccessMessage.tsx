@@ -1,4 +1,3 @@
-import CheckCircleIcon from "@digitalservicebund/icons/CheckCircle";
 import { translations } from "~/services/translations/translations";
 
 export const FeedbackSuccessMessage = ({

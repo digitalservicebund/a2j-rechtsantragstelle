@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
-import { BACKGROUND_COLORS } from "~/components";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import type { RootLoader } from "~/root";
 import { type BannerState } from "./BannerState";
