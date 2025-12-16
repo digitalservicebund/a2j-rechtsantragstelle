@@ -54,7 +54,7 @@ export function KernCookieBanner({
 
   return (
     <div
-      className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2  md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
+      className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
