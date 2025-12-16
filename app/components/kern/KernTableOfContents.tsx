@@ -34,7 +34,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                   className="list-none flex mb-10"
                 >
                   <a href={link.url} className="kern-link">
-                    <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em] fill-current"/>
+                    <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em] fill-current" />
                     {link.text ?? ""}
                   </a>
                 </li>
