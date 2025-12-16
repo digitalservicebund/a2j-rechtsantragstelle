@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
@@ -18,6 +17,10 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernList from "../kern/KernList";
+import KernHeroWithButton from "../kern/KernHeroWithButton";
+import KernHero from "../kern/KernHero";
+import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
 import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
@@ -49,6 +52,8 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
 }
 
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  if (el.__component === "page.hero") return "bg-kern-action-default";
+  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -62,22 +67,30 @@ function cmsToReact(
   componentProps: StrapiContentComponent,
   opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
-  // When showKernUX is true, render KERN UX components
-  // For now, we render the old components until KERN UX versions are created
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
         return <KernHeading {...componentProps} />;
       case "basic.paragraph":
         return <KernRichText {...componentProps} />;
+      case "page.hero":
+        return <KernHero {...componentProps} />;
+      case "page.hero-with-button":
+        return <KernHeroWithButton {...componentProps} />;
       case "page.box":
         return <KernBox {...componentProps} />;
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.list":
+        return <KernList {...componentProps} wrap={opts?.inFlow} />;
+      case "page.table-of-contents":
+        return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      default:
+        return <></>;
     }
   }
 
