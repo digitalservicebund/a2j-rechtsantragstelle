@@ -1,17 +1,21 @@
-import pick from "lodash/pick";
 import { z } from "zod";
-import { fluggastrechteInputSchema } from "../../../userData";
 import { validateReplacementConnectionPage } from "../validateReplacementConnectionPage";
+import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { pick } from "lodash";
 
 describe("validateReplacementConnectionPage", () => {
   const baseSchema = z.object(
-    pick(fluggastrechteInputSchema, [
-      "direktAnkunftsDatum",
-      "direktAnkunftsZeit",
-      "andereErsatzverbindungAnkunftsDatum",
-      "andereErsatzverbindungAnkunftsZeit",
-      "bereich",
-    ]),
+    pick(
+      fluggastrechteFlugdatenPages.flugdatenErsatzverbindungBeschreibung
+        .pageSchema,
+      [
+        "direktAnkunftsDatum",
+        "direktAnkunftsZeit",
+        "andereErsatzverbindungAnkunftsDatum",
+        "andereErsatzverbindungAnkunftsZeit",
+        "bereich",
+      ],
+    ),
   );
 
   const validatorReplacementConnectionPage =

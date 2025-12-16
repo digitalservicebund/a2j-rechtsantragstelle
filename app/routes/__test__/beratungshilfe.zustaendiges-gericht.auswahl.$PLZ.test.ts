@@ -1,5 +1,6 @@
 import { action } from "~/routes/beratungshilfe.zustaendiges-gericht.auswahl.$PLZ";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
+import { assertResponse, assertValidationError } from "./isResponse";
 
 describe("Zuständiges Gericht Auswahl action", () => {
   it("should return a validationResult if the formData fails validation", async () => {
@@ -10,11 +11,10 @@ describe("Zuständiges Gericht Auswahl action", () => {
       method: "post",
       body: formData,
     });
-    const response = (await action(
-      mockRouteArgsFromRequest(request),
-    )) as Response;
-    expect(response).toHaveProperty("init.status", 422);
-    expect(response).toHaveProperty("data.fieldErrors");
+    const response = await action(mockRouteArgsFromRequest(request));
+    assertValidationError(response);
+    expect(response.init?.status).toBe(422);
+    expect(response.data.fieldErrors).toEqual({ street: "required" });
   });
 
   it("should redirect to the ergebnisseite in the case of a valid form", async () => {
@@ -25,9 +25,10 @@ describe("Zuständiges Gericht Auswahl action", () => {
       method: "post",
       body: formData,
     });
-    const response = (await action(
+    const response = await action(
       mockRouteArgsFromRequest(request, { PLZ: "12345" }),
-    )) as Response;
+    );
+    assertResponse(response);
     expect(response.headers.get("Location")).toEqual(
       "/beratungshilfe/zustaendiges-gericht/ergebnis/12345/strasse/12",
     );

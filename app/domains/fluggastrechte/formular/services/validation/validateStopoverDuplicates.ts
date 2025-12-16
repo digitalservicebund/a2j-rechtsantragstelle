@@ -1,5 +1,8 @@
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import type { fluggastrechteInputSchema } from "../../userData";
+import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
+
+const _schema =
+  fluggastrechteFlugdatenPages.flugdatenZwischenstoppUebersicht3.pageSchema;
 
 const fieldsForValidation = [
   "ersterZwischenstopp",
@@ -8,12 +11,7 @@ const fieldsForValidation = [
 ] as const;
 
 export function validateStopoverDuplicates(
-  baseSchema: MultiFieldsValidationBaseSchema<
-    Pick<
-      typeof fluggastrechteInputSchema,
-      (typeof fieldsForValidation)[number] | "startAirport" | "endAirport"
-    >
-  >,
+  baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,
 ) {
   return baseSchema.check((ctx) => {
     const filledFields = fieldsForValidation

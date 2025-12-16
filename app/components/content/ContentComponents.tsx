@@ -23,6 +23,7 @@ import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
+import KernBoxWithImage from "../kern/KernBoxWithImage";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -71,6 +72,8 @@ function cmsToReact(
         return <KernRichText {...componentProps} />;
       case "page.box":
         return <KernBox {...componentProps} />;
+      case "page.box-with-image":
+        return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
       case "page.inline-notice":
@@ -132,6 +135,7 @@ function ContentComponents({
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
       const isUserFeedback = el.__component === "page.user-feedback";
+      const isKernBox = el.__component === "page.box" && showKernUX;
       const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {
@@ -166,6 +170,7 @@ function ContentComponents({
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
                   : getGridBackgroundColor(el),
+                isKernBox ? "bg-kern-neutral-050" : "",
                 "rounded-lg",
               ),
             }}
