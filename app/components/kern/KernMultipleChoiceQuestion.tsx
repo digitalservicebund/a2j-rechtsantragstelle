@@ -3,6 +3,7 @@ import { useState, type Dispatch, type SetStateAction } from "react";
 import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 import { SurveyResponses } from "./KernOpenQuestion";
+import { translations } from "~/services/translations/translations";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -67,6 +68,17 @@ export const KernMultipleChoiceQuestion = ({
             </label>
           );
         })}
+        {hasError && (
+          <p className="kern-error flex gap-8 self-center mt-8!" role="alert">
+            <span
+              className="kern-icon kern-icon--danger kern-icon--md m-0!"
+              aria-hidden="true"
+            />
+            <span className="text-kern-feedback-danger">
+              {translations.feedback["validation-error"].de}
+            </span>
+          </p>
+        )}
       </div>
     </fieldset>
   );

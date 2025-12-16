@@ -1,7 +1,5 @@
-import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
 import KernButton from "./KernButton";
@@ -83,120 +81,92 @@ export const KernPosthogSurvey = ({
       // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
       open={!dialogRef}
       aria-labelledby={dialogLabelId}
-      className={classNames(
-        "kern-dialog self-center m-auto justify-self-center backdrop:bg-black/40 max-sm:min-w-full max-sm:min-h-full",
-        {
-          "gap-40": !wasSubmitted,
-          "self-auto! md:top-56 max-sm:min-h-auto! max-sm:top-auto!":
-            wasSubmitted,
-        },
-      )}
+      className="kern-dialog m-auto max-w-l grounded-2xl bg-white p-0"
     >
-      <form
-        method="dialog"
-        aria-labelledby={dialogLabelId}
-        // col-reverse needed to preserve correct tab order (top-right cancel button at the end of the tab order)
-        className={classNames("flex gap-16 flex-col-reverse survey-modal", {
-          "max-sm:min-h-auto! gap-0!": wasSubmitted,
-        })}
-      >
-        <div className="flex flex-col gap-40">
-          {wasSubmitted ? (
-            <output>
-              {translations.feedback["success-message"].de}{" "}
-              {translations.feedback["feedback-helps"].de}
-            </output>
-          ) : (
-            <div className="flex flex-col gap-40">
-              {survey.questions.map((question, index) => {
-                const Component = questionTypes[question.type];
-                const isFirstQuestion = index === 0;
-                return (
-                  <div key={question.id}>
-                    <Component
-                      setResponses={setResponses}
-                      question={question}
-                      hasError={
-                        showValidationError &&
-                        !question.optional &&
-                        !isCompleted({ questions: [question] }, responses)
-                      }
-                    />
-                    {isFirstQuestion &&
+      <header className="kern-dialog__header">
+        <h2 id={dialogLabelId} className="kern-title kern-title--large">
+          {wasSubmitted
+            ? translations.feedback["problem-gemeldet"].de
+            : translations.feedback["report-problem"].de}
+        </h2>
+        <KernButton
+          type="button"
+          look="ghost"
+          iconLeft={
+            <span
+              className="kern-icon kern-icon--close bg-kern-action-default!"
+              aria-hidden="true"
+            />
+          }
+          aria-label={
+            wasSubmitted
+              ? translations.feedback.close.de
+              : translations.feedback.cancel.de
+          }
+          onClick={closeSurvey}
+        />
+      </header>
+      <section className="kern-dialog__body">
+        {wasSubmitted ? (
+          <output className="kern-body">
+            {translations.feedback["success-message"].de}{" "}
+            {translations.feedback["feedback-helps"].de}
+          </output>
+        ) : (
+          <div className="flex flex-col gap-40">
+            {survey.questions.map((question) => {
+              const Component = questionTypes[question.type];
+              return (
+                <div key={question.id}>
+                  <Component
+                    question={question}
+                    setResponses={setResponses}
+                    hasError={
                       showValidationError &&
-                      !wasSubmitted && (
-                        <p className="kern-error mt-8!" role="alert">
-                          <span
-                            className="kern-icon kern-icon--danger kern-icon--md mt-0!"
-                            aria-hidden="true"
-                          />
-                          <span className="text-kern-feedback-danger">
-                            {translations.feedback["validation-error"].de}
-                          </span>
-                        </p>
-                      )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          <ButtonContainer className="flex flex-col sm:flex-row">
-            {wasSubmitted ? (
-              <KernButton
-                ref={closeButtonRef}
-                size="large"
-                look="secondary"
-                text={translations.feedback.close.de}
-                onClick={closeSurvey}
-                type="button"
-              />
-            ) : (
-              <div className="flex flex-col sm:flex-row gap-16 w-full">
-                <KernButton
-                  look="primary"
-                  size="large"
-                  className="w-full"
-                  text={translations.feedback["submit-problem"].de}
-                  type="button"
-                  onClick={onSubmitClicked}
-                />
-                <KernButton
-                  look="secondary"
-                  size="large"
-                  className="w-full"
-                  text={translations.feedback.cancel.de}
-                  onClick={closeSurvey}
-                  type="button"
-                />
-              </div>
-            )}
-          </ButtonContainer>
-        </div>
-        <div className="flex justify-between items-center">
-          <h2 id={dialogLabelId} className="kern-title">
-            {wasSubmitted
-              ? translations.feedback["problem-gemeldet"].de
-              : translations.feedback["report-problem"].de}
-          </h2>
+                      !question.optional &&
+                      !isCompleted({ questions: [question] }, responses)
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+      <footer className="kern-dialog__footer">
+        {wasSubmitted ? (
           <KernButton
-            type="button"
-            look="ghost"
-            className="pr-0!"
-            iconLeft={
-              <span
-                className="kern-icon kern-icon--close bg-kern-action-default!"
-                aria-hidden="true"
-              />
-            }
-            aria-label={
-              wasSubmitted
-                ? translations.feedback.close.de
-                : translations.feedback.cancel.de
-            }
+            ref={closeButtonRef}
+            className="kern-btn kern-btn--secondary kern-btn--large"
             onClick={closeSurvey}
-          />
-        </div>
-      </form>
+            type="button"
+          >
+            <span className="kern-label">{translations.feedback.close.de}</span>
+          </KernButton>
+        ) : (
+          <>
+            <KernButton
+              className="kern-btn kern-btn--secondary kern-btn--large"
+              type="button"
+              onClick={closeSurvey}
+            >
+              <span className="kern-label">
+                {translations.feedback.cancel.de}
+              </span>
+            </KernButton>
+
+            <KernButton
+              className="kern-btn kern-btn--primary kern-btn--large"
+              type="button"
+              onClick={onSubmitClicked}
+            >
+              <span className="kern-label">
+                {translations.feedback["submit-problem"].de}
+              </span>
+            </KernButton>
+          </>
+        )}
+      </footer>
     </dialog>
   );
 };
