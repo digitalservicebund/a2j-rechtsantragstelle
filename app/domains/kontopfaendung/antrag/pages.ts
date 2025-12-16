@@ -24,12 +24,6 @@ export const kontopfaendungPkontoAntragPages = {
   neuesPkontoEroeffnen: {
     stepId: "grundvoraussetzungen/neues-pkonto-eroeffnen",
   },
-  alleinigKontofuehrend: {
-    stepId: "grundvoraussetzungen/alleinig-kontofuehrend",
-    pageSchema: {
-      alleinigKontofuehrend: YesNoAnswer,
-    },
-  },
   negativerKontostand: {
     stepId: "grundvoraussetzungen/negativer-kontostand",
     pageSchema: {
@@ -42,21 +36,39 @@ export const kontopfaendungPkontoAntragPages = {
   bankdatenKontodaten: {
     stepId: "bankdaten/kontodaten",
     pageSchema: {
-      kontoinhaber: stringRequiredSchema,
+      kontoinhaberVorname: stringRequiredSchema,
+      kontoinhaberNachname: stringRequiredSchema,
       iban: ibanSchema,
       bankName: stringRequiredSchema,
     },
   },
-  persoenlicheDatenNameAnschrift: {
-    stepId: "persoenliche-daten/name-anschrift",
+  kontoinhaberAntragsteller: {
+    stepId: "persoenliche-daten/kontoinhaber-antragsteller",
     pageSchema: {
-      vornameNachname: stringRequiredSchema,
-      strasseHausnummer: stringRequiredSchema,
-      plz: postcodeSchema,
-      ort: stringRequiredSchema,
+      kontoinhaberAntragsteller: YesNoAnswer,
     },
   },
-  persoenlicheDatenKontakt: {
+  antragstellerNameAnschrift: {
+    stepId: "persoenliche-daten/antragsteller-name-anschrift",
+    pageSchema: {
+      antragstellerVorname: stringRequiredSchema,
+      antragstellerNachname: stringRequiredSchema,
+      antragstellerStrasse: stringRequiredSchema,
+      antragstellerHausnummer: stringRequiredSchema,
+      antragstellerPlz: postcodeSchema,
+      antragstellerOrt: stringRequiredSchema,
+    },
+  },
+  kontoinhaberAnschrift: {
+    stepId: "persoenliche-daten/kontoinhaber-anschrift",
+    pageSchema: {
+      kontoinhaberStrasse: stringRequiredSchema,
+      kontoinhaberHausnummer: stringRequiredSchema,
+      kontoinhaberPlz: postcodeSchema,
+      kontoinhaberOrt: stringRequiredSchema,
+    },
+  },
+  kontakt: {
     stepId: "persoenliche-daten/kontakt",
     pageSchema: {
       telefonnummer: stringOptionalSchema,

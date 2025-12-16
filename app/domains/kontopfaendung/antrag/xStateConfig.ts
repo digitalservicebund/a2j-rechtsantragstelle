@@ -49,7 +49,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) => context.girokontoUmwandeln === "yes",
-                target: stepIds.alleinigKontofuehrend.relative,
+                target: stepIds.negativerKontostand.relative,
               },
               {
                 target: stepIds.neuesPkontoEroeffnen.relative,
@@ -62,21 +62,9 @@ export const kontopfaendungPkontoAntragXStateConfig = {
             BACK: stepIds.girokontoUmwandeln.relative,
           },
         },
-        [stepIds.alleinigKontofuehrend.relative]: {
-          on: {
-            BACK: stepIds.girokontoUmwandeln.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  context.alleinigKontofuehrend !== undefined,
-                target: stepIds.negativerKontostand.relative,
-              },
-            ],
-          },
-        },
         [stepIds.negativerKontostand.relative]: {
           on: {
-            BACK: stepIds.alleinigKontofuehrend.relative,
+            BACK: stepIds.girokontoUmwandeln.relative,
             SUBMIT: [
               {
                 guard: ({ context }) =>
@@ -105,7 +93,8 @@ export const kontopfaendungPkontoAntragXStateConfig = {
               {
                 guard: ({ context }) =>
                   objectKeysNonEmpty(context, [
-                    "kontoinhaber",
+                    "kontoinhaberVorname",
+                    "kontoinhaberNachname",
                     "iban",
                     "bankName",
                   ]),
@@ -118,28 +107,71 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     "persoenliche-daten": {
       id: "persoenliche-daten",
-      initial: stepIds.persoenlicheDatenNameAnschrift.relative,
+      initial: stepIds.kontoinhaberAntragsteller.relative,
       states: {
-        [stepIds.persoenlicheDatenNameAnschrift.relative]: {
+        [stepIds.kontoinhaberAntragsteller.relative]: {
           on: {
             BACK: stepIds.bankdatenKontodaten.absolute,
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  objectKeysNonEmpty(context, [
-                    "vornameNachname",
-                    "strasseHausnummer",
-                    "plz",
-                    "ort",
-                  ]),
-                target: stepIds.persoenlicheDatenKontakt.relative,
+                  context.kontoinhaberAntragsteller === "yes",
+                target: stepIds.kontoinhaberAnschrift.relative,
+              },
+              {
+                target: stepIds.antragstellerNameAnschrift.relative,
               },
             ],
           },
         },
-        [stepIds.persoenlicheDatenKontakt.relative]: {
+        [stepIds.antragstellerNameAnschrift.relative]: {
           on: {
-            BACK: stepIds.persoenlicheDatenNameAnschrift.relative,
+            BACK: stepIds.kontoinhaberAntragsteller.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  objectKeysNonEmpty(context, [
+                    "antragstellerVorname",
+                    "antragstellerNachname",
+                    "antragstellerStrasse",
+                    "antragstellerHausnummer",
+                    "antragstellerPlz",
+                    "antragstellerOrt",
+                  ]),
+                target: stepIds.kontakt.relative,
+              },
+            ],
+          },
+        },
+        [stepIds.kontoinhaberAnschrift.relative]: {
+          on: {
+            BACK: stepIds.kontoinhaberAntragsteller.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  objectKeysNonEmpty(context, [
+                    "kontoinhaberStrasse",
+                    "kontoinhaberHausnummer",
+                    "kontoinhaberPlz",
+                    "kontoinhaberOrt",
+                  ]),
+                target: stepIds.kontakt.relative,
+              },
+            ],
+          },
+        },
+        [stepIds.kontakt.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) =>
+                  context.kontoinhaberAntragsteller === "yes",
+                target: stepIds.kontoinhaberAnschrift.relative,
+              },
+              {
+                target: stepIds.antragstellerNameAnschrift.relative,
+              },
+            ],
             SUBMIT: "#abgabe",
           },
         },
@@ -152,7 +184,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
         excludedFromValidation: true,
       },
       on: {
-        BACK: stepIds.persoenlicheDatenKontakt.absolute,
+        BACK: stepIds.kontakt.absolute,
       },
     },
   },
