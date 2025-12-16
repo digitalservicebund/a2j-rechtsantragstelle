@@ -6,7 +6,7 @@ import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
 import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
-import { SurveyResponses } from "./OpenQuestion";
+import { type SurveyResponses } from "./OpenQuestion";
 import { PosthogSurvey } from "./Survey";
 
 const surveyIds = {

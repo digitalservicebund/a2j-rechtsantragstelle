@@ -3,7 +3,7 @@ import { type ElementType, useEffect, useRef, useState } from "react";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
 import KernButton from "./KernButton";
-import { KernOpenQuestion, SurveyResponses } from "./KernOpenQuestion";
+import { KernOpenQuestion, type SurveyResponses } from "./KernOpenQuestion";
 import { KernMultipleChoiceQuestion } from "./KernMultipleChoiceQuestion";
 
 type KernPosthogSurveyProps = {

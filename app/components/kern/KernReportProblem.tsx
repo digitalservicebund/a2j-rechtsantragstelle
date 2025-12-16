@@ -6,7 +6,7 @@ import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 import { KernPosthogSurvey } from "./KernPosthogSurvey";
 import KernButton from "./KernButton";
-import { SurveyResponses } from "./KernOpenQuestion";
+import { type SurveyResponses } from "./KernOpenQuestion";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
