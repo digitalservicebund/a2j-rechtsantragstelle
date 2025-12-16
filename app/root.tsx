@@ -53,6 +53,7 @@ import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+import { KernCookieBanner } from "./components/kern/KernCookieBanner";
 import KernFooter from "./components/kern/layout/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
@@ -214,7 +215,11 @@ function App() {
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          <CookieBanner content={cookieBannerContent} />
+          {showKernUX ? (
+            <KernCookieBanner content={cookieBannerContent} />
+          ) : (
+            <CookieBanner content={cookieBannerContent} />
+          )}
           <SkipToContentLink
             label={getTranslationByKey(
               SKIP_TO_CONTENT_TRANSLATION_KEY,
