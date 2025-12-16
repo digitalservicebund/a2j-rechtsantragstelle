@@ -8,10 +8,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 const meta: Meta<typeof KernCookieBanner> = {
   title: "kern/KernCookieBanner",
   component: KernCookieBanner,
-  tags: ["autodocs"],
-  parameters: {
-    layout: "fullscreen",
-  },
+  tags: ["autodocs"]
 } satisfies Meta<typeof KernCookieBanner>;
 
 export default meta;
