@@ -4,9 +4,9 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 import Image, { type ImageProps } from "~/components/common/Image";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
-  ListItemProps,
-  ListMarkerProps,
-  ListVariant,
+  type ListItemProps,
+  type ListMarkerProps,
+  type ListVariant,
 } from "../content/list/types";
 import KernButton from "./KernButton";
 import KernHeading from "./KernHeading";

@@ -1,10 +1,10 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernListItem from "./KernListItem";
-import { ListItemProps, ListVariant } from "../content/list/types";
+import { type ListItemProps, type ListVariant } from "../content/list/types";
 import KernRichText from "./KernRichText";
 import KernHeading from "./KernHeading";
-import { HeadingProps } from "../common/Heading";
+import { type HeadingProps } from "../common/Heading";
 
 type ListProps = {
   items: ListItemProps[];
