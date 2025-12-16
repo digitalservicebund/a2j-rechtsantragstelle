@@ -1,10 +1,9 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { beratungshilfeAbgabeGuards } from "./guards";
 import { berHAntragAbgabePages } from "./pages";
 import { type BeratungshilfeAbgabeUserData } from "./userData";
-import { beratungshilfeXstateConfig } from "../xstateConfig";
-import { allValidatedStatesDone } from "~/services/flow/reduceExcludedStatesToId";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -26,8 +25,7 @@ export const abgabeXstateConfig = {
       on: { BACK: "#weitere-angaben" },
       meta: { triggerValidation: true },
       always: {
-        guard: ({ context }): boolean =>
-          allValidatedStatesDone(beratungshilfeXstateConfig, context),
+        guard: beratungshilfeAbgabeGuards.readyForAbgabe,
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,
@@ -53,11 +51,11 @@ export const abgabeXstateConfig = {
             target: showFileUpload
               ? steps.dokumente.relative
               : steps.online.relative,
-            guard: ({ context }) => context.abgabeArt == "online",
+            guard: beratungshilfeAbgabeGuards.abgabeOnline,
           },
           {
             target: steps.ausdrucken.relative,
-            guard: ({ context }) => context.abgabeArt == "ausdrucken",
+            guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
           },
         ],
       },
