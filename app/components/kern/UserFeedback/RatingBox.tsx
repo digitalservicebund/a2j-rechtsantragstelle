@@ -1,9 +1,5 @@
-import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
-import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
-import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading from "~/components/common/Heading";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
@@ -23,8 +19,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const feedbackTranslations = useFeedbackTranslations();
   return (
     <>
-      {/* <Heading look="ds-label-01-bold" tagName="h2" text={heading} /> */}
-      <h2 className="kern-title">{heading}</h2>
+      <h2 className="kern-title kern-title--small">{heading}</h2>
       <footer className="kern-card__footer">
         <ratingFetcher.Form
           method="post"

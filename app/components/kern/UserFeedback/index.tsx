@@ -34,7 +34,7 @@ export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="rounded-lg py-24 px-16 print:hidden"
+      className="rounded-lg print:hidden"
     >
       <article
         className="kern-card kern-card--interactive kern-card--small"

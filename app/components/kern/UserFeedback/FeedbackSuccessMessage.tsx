@@ -9,11 +9,16 @@ export const FeedbackSuccessMessage = ({
   innerRef?: React.Ref<HTMLParagraphElement>;
 }) => {
   return (
-    <output className="flex max-sm:flex-col sm:items-center text-base mb-[1em]">
-      <CheckCircleIcon className="w-[2em] h-[1.5em] mr-[0.25em] text-green-600 " />
-      <p className="font-bold mr-4" ref={innerRef} tabIndex={-1}>
-        {translations.feedback["success-message"].de}
-      </p>
+    <output className="flex flex-col gap-kern-space-small">
+      <div className="flex items-center">
+        <span
+          className="kern-icon kern-icon--success kern-icon--default mr-kern-space-x-small"
+          aria-hidden="true"
+        ></span>
+        <p className="font-bold mr-4" ref={innerRef} tabIndex={-1}>
+          {translations.feedback["success-message"].de}
+        </p>
+      </div>
       <p>{subtitle}</p>
     </output>
   );
