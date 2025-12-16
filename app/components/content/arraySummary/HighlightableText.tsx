@@ -1,12 +1,12 @@
 import { useFetcher } from "react-router";
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import { SelectionTooltip } from "./SelectionTooltip";
 import {
   getTextSelection,
   hasOverlap,
   isExactMatch,
   type TextSelection,
 } from "~/components/content/arraySummary/textSelection";
+import { SelectionTooltip } from "~/components/content/arraySummary/SelectionTooltip";
 
 type Highlight = {
   startOffset: number;
@@ -106,6 +106,41 @@ export const HighlightableText = ({
     });
   };
 
+  // Handle keyboard activation: show tooltip for full text when Enter is pressed
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+
+    const el = containerRef.current as HTMLElement | null;
+    if (!el) return;
+
+    const fullSelection = {
+      text,
+      startOffset: 0,
+      endOffset: text.length,
+      rect: el.getBoundingClientRect(),
+    } as TextSelection;
+
+    // determine tooltip mode using existing helpers
+    if (
+      isExactMatch(
+        fullSelection.startOffset,
+        fullSelection.endOffset,
+        highlights,
+      )
+    ) {
+      setTooltipMode("delete");
+    } else if (
+      hasOverlap(fullSelection.startOffset, fullSelection.endOffset, highlights)
+    ) {
+      setTooltipMode("disabled");
+    } else {
+      setTooltipMode("save");
+    }
+
+    setSelection(fullSelection);
+  };
+
   const renderContent = (): ReactNode => {
     // Filter out placeholder highlights
     const validHighlights = highlights.filter(
@@ -152,7 +187,14 @@ export const HighlightableText = ({
 
   return (
     <>
-      <span ref={containerRef} style={{ userSelect: "text", cursor: "text" }}>
+      <span
+        ref={containerRef}
+        style={{ userSelect: "text", cursor: "text" }}
+        tabIndex={0}
+        role="textbox"
+        aria-readonly="true"
+        onKeyDown={handleKeyDown}
+      >
         {renderContent()}
       </span>
 
