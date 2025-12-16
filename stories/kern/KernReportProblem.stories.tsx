@@ -36,9 +36,6 @@ const meta = {
       } as unknown as PostHog,
     });
   },
-  parameters: {
-    layout: "fullscreen",
-  },
   tags: ["autodocs"],
 } satisfies Meta<typeof KernReportProblem>;
 
