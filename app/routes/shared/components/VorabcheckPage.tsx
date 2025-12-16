@@ -3,12 +3,14 @@ import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import type { loader } from "../vorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export function VorabcheckPage() {
   const {
@@ -22,6 +24,7 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
+  const showKernUX = useShowKernUX();
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue}>
@@ -70,7 +73,7 @@ export function VorabcheckPage() {
             className="pb-40 flex justify-end"
             row={4}
           >
-            <ReportProblem />
+            {showKernUX ? <KernReportProblem /> : <ReportProblem />}
           </GridItem>
         )}
       </Grid>
