@@ -295,6 +295,10 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
     <html lang="de">
       <head>
         <title>Justiz Services - Fehler aufgetreten</title>
+        <link
+          rel="stylesheet"
+          href={loaderData?.showKernUX ? kernStyles : styles}
+        />
         <Meta />
         <Links />
         <meta name="darkreader-lock" />
