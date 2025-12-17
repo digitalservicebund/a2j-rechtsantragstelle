@@ -53,9 +53,19 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
   return "";
 }
 
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
-  if (el.__component === "page.hero") return "bg-kern-action-default";
-  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
+function getContainerBackgroundColor(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if (el.__component === "page.hero") {
+      return "bg-kern-action-default";
+    }
+    if (el.__component === "page.hero-with-button") {
+      return "bg-kern-neutral-050";
+    }
+  }
+
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -178,8 +188,8 @@ function ContentComponents({
               ? el.container.paddingBottom
               : "default"
           }
+          className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
-          className={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{
