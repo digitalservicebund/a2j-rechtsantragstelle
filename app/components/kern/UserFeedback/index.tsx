@@ -2,10 +2,10 @@ import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import type { RootLoader } from "~/root";
-import { type BannerState } from "./BannerState";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import { type BannerState } from "./types";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
