@@ -27,6 +27,7 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
+import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -83,6 +84,8 @@ function cmsToReact(
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.video":
+        return <KernVideo {...componentProps} />;
       case "page.list":
         return <KernList {...componentProps} wrap={opts?.inFlow} />;
       case "page.table-of-contents":
