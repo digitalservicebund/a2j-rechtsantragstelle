@@ -56,7 +56,6 @@ function getContainerBackgroundColor(
   el: StrapiContentComponent,
   showKernUX: boolean,
 ): string {
-  console.log(showKernUX);
   if (showKernUX) {
     if (el.__component === "page.hero") {
       return "bg-kern-action-default";
