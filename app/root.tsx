@@ -174,8 +174,10 @@ function App() {
   const posthogClient = useInitPosthog(hasTrackingConsent);
   const isHomepage = pathname === "/";
 
-  // oxlint-disable-next-line no-console
-  if (typeof window !== "undefined") console.log(consoleMessage);
+  useEffect(() => {
+    // oxlint-disable-next-line no-console
+    console.log(consoleMessage);
+  }, []);
 
   useEffect(() => {
     if (shouldPrint) {
