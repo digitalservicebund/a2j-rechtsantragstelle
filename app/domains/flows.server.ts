@@ -11,6 +11,7 @@ import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
+import { kontopfaendungPkontoAntrag } from "./kontopfaendung/antrag";
 
 type FlowMigration = {
   source: FlowId;
@@ -42,4 +43,5 @@ export const flows = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
+  "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
 } satisfies Record<FlowId, Flow>;

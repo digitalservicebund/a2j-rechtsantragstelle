@@ -13,6 +13,7 @@ const multiFieldsFlowValidation = {
   "/prozesskostenhilfe/formular": undefined,
   "/kontopfaendung/wegweiser": undefined,
   "/geld-einklagen/formular": undefined,
+  "/kontopfaendung/pkonto/antrag": undefined,
 } as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>
