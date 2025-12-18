@@ -107,45 +107,11 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     "persoenliche-daten": {
       id: "persoenliche-daten",
-      initial: stepIds.kontoinhaberAntragsteller.relative,
+      initial: stepIds.kontoinhaberAnschrift.relative,
       states: {
-        [stepIds.kontoinhaberAntragsteller.relative]: {
-          on: {
-            BACK: stepIds.bankdatenKontodaten.absolute,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  context.kontoinhaberAntragsteller === "yes",
-                target: stepIds.kontoinhaberAnschrift.relative,
-              },
-              {
-                target: stepIds.antragstellerNameAnschrift.relative,
-              },
-            ],
-          },
-        },
-        [stepIds.antragstellerNameAnschrift.relative]: {
-          on: {
-            BACK: stepIds.kontoinhaberAntragsteller.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  objectKeysNonEmpty(context, [
-                    "antragstellerVorname",
-                    "antragstellerNachname",
-                    "antragstellerStrasse",
-                    "antragstellerHausnummer",
-                    "antragstellerPlz",
-                    "antragstellerOrt",
-                  ]),
-                target: stepIds.kontakt.relative,
-              },
-            ],
-          },
-        },
         [stepIds.kontoinhaberAnschrift.relative]: {
           on: {
-            BACK: stepIds.kontoinhaberAntragsteller.relative,
+            BACK: stepIds.bankdatenKontodaten.absolute,
             SUBMIT: [
               {
                 guard: ({ context }) =>
@@ -162,16 +128,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
         },
         [stepIds.kontakt.relative]: {
           on: {
-            BACK: [
-              {
-                guard: ({ context }) =>
-                  context.kontoinhaberAntragsteller === "yes",
-                target: stepIds.kontoinhaberAnschrift.relative,
-              },
-              {
-                target: stepIds.antragstellerNameAnschrift.relative,
-              },
-            ],
+            BACK: stepIds.kontoinhaberAnschrift.relative,
             SUBMIT: "#abgabe",
           },
         },

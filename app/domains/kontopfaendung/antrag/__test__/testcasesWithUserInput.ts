@@ -2,7 +2,7 @@ import type {
   FlowTestCases,
   FlowTestConfig,
 } from "~/domains/__test__/TestCases";
-import { KontopfaendungPkontoAntragUserData } from "../userData";
+import type { KontopfaendungPkontoAntragUserData } from "../userData";
 import { kontopfaendungPkontoAntragXStateConfig } from "../xStateConfig";
 
 export const kontopfaendungPkontoAntragTestCases = {
@@ -65,74 +65,12 @@ export const kontopfaendungPkontoAntragTestCases = {
         },
       },
       {
-        stepId: "/persoenliche-daten/kontoinhaber-antragsteller",
-        userInput: {
-          kontoinhaberAntragsteller: "yes",
-        },
-      },
-      {
         stepId: "/persoenliche-daten/kontoinhaber-anschrift",
         userInput: {
           kontoinhaberStrasse: "Musterstrasse 1",
           kontoinhaberHausnummer: "1",
           kontoinhaberPlz: "99084",
           kontoinhaberOrt: "Musterstadt",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/kontakt",
-        userInput: {
-          telefonnummer: "0123456789",
-          emailadresse: "email@adresse.de",
-        },
-      },
-      {
-        stepId: "/abgabe",
-      },
-    ],
-    pkontoAntragKontoinhaberIsNotAntragsteller: [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/grundvoraussetzungen/bestehendes-pkonto",
-        userInput: { bestehendesPkonto: "no" },
-      },
-      {
-        stepId: "/grundvoraussetzungen/girokonto-umwandeln",
-        userInput: { girokontoUmwandeln: "yes" },
-      },
-      {
-        stepId: "/grundvoraussetzungen/negativer-kontostand",
-        userInput: { negativerKontostand: "yes" },
-      },
-      {
-        stepId: "/bankdaten/einleitung",
-      },
-      {
-        stepId: "/bankdaten/kontodaten",
-        userInput: {
-          kontoinhaberVorname: "Maximiliane",
-          kontoinhaberNachname: "Mustermensch",
-          iban: "DE89370400440532013000",
-          bankName: "Musterbank",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/kontoinhaber-antragsteller",
-        userInput: {
-          kontoinhaberAntragsteller: "no",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/antragsteller-name-anschrift",
-        userInput: {
-          antragstellerVorname: "Maximiliane",
-          antragstellerNachname: "Mustermensch",
-          antragstellerStrasse: "Musterstrasse 1",
-          antragstellerHausnummer: "1",
-          antragstellerPlz: "99084",
-          antragstellerOrt: "Musterstadt",
         },
       },
       {

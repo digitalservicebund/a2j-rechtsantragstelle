@@ -42,23 +42,6 @@ export const kontopfaendungPkontoAntragPages = {
       bankName: stringRequiredSchema,
     },
   },
-  kontoinhaberAntragsteller: {
-    stepId: "persoenliche-daten/kontoinhaber-antragsteller",
-    pageSchema: {
-      kontoinhaberAntragsteller: YesNoAnswer,
-    },
-  },
-  antragstellerNameAnschrift: {
-    stepId: "persoenliche-daten/antragsteller-name-anschrift",
-    pageSchema: {
-      antragstellerVorname: stringRequiredSchema,
-      antragstellerNachname: stringRequiredSchema,
-      antragstellerStrasse: stringRequiredSchema,
-      antragstellerHausnummer: stringRequiredSchema,
-      antragstellerPlz: postcodeSchema,
-      antragstellerOrt: stringRequiredSchema,
-    },
-  },
   kontoinhaberAnschrift: {
     stepId: "persoenliche-daten/kontoinhaber-anschrift",
     pageSchema: {
