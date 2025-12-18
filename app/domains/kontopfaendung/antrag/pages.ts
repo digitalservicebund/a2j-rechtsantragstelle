@@ -1,7 +1,9 @@
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { emailSchema } from "~/services/validation/email";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { ibanSchema } from "~/services/validation/iban";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -46,7 +48,7 @@ export const kontopfaendungPkontoAntragPages = {
     stepId: "persoenliche-daten/kontoinhaber-anschrift",
     pageSchema: {
       kontoinhaberStrasse: stringRequiredSchema,
-      kontoinhaberHausnummer: stringRequiredSchema,
+      kontoinhaberHausnummer: germanHouseNumberSchema,
       kontoinhaberPlz: postcodeSchema,
       kontoinhaberOrt: stringRequiredSchema,
     },
@@ -54,8 +56,8 @@ export const kontopfaendungPkontoAntragPages = {
   kontakt: {
     stepId: "persoenliche-daten/kontakt",
     pageSchema: {
-      telefonnummer: stringOptionalSchema,
-      emailadresse: stringOptionalSchema,
+      telefonnummer: phoneNumberSchema,
+      emailadresse: emailSchema,
     },
   },
 } as const satisfies PagesConfig;
