@@ -6,6 +6,7 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
+import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/antrag/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
@@ -26,6 +27,7 @@ export type AllUserDataKeys = KeysOfUnion<
   | FluggastrechteUserData
   | ProzesskostenhilfeFormularUserData
   | KontopfaendungWegweiserUserData
+  | KontopfaendungPkontoAntragUserData
 >;
 
 const contexts = {
@@ -36,6 +38,7 @@ const contexts = {
   "/prozesskostenhilfe/formular": {},
   "/kontopfaendung/wegweiser": {},
   "/geld-einklagen/formular": {},
+  "/kontopfaendung/pkonto/antrag": {},
 } as const satisfies Record<FlowId, SchemaObject>;
 
 export const getContext = (flowId: FlowId) => contexts[flowId];
