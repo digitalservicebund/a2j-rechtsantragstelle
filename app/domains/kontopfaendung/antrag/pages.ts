@@ -4,6 +4,7 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -56,8 +57,8 @@ export const kontopfaendungPkontoAntragPages = {
   kontakt: {
     stepId: "persoenliche-daten/kontakt",
     pageSchema: {
-      telefonnummer: phoneNumberSchema,
-      emailadresse: emailSchema,
+      telefonnummer: schemaOrEmptyString(phoneNumberSchema),
+      emailadresse: schemaOrEmptyString(emailSchema),
     },
   },
 } as const satisfies PagesConfig;
