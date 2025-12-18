@@ -27,6 +27,7 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
+import KernUserFeedback from "../kern/UserFeedback";
 import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
@@ -102,6 +103,8 @@ function cmsToReact(
         return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      case "page.user-feedback":
+        return <KernUserFeedback {...componentProps} />;
       default:
         return <></>;
     }
@@ -160,7 +163,8 @@ function ContentComponents({
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
-      const isUserFeedback = el.__component === "page.user-feedback";
+      const isUserFeedback =
+        el.__component === "page.user-feedback" && !showKernUX;
       const isKernBox = el.__component === "page.box" && showKernUX;
       const hasLayout = hasLayoutProperties(el);
 
