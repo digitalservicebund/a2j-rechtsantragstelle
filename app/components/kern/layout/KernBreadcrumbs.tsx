@@ -2,6 +2,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { KernStandaloneLink } from "../KernStandaloneLink";
+import { Icon } from "~/components/common/Icon";
 
 export type KernBreadcrumb = {
   url: string;
@@ -41,13 +42,13 @@ export default function KernBreadcrumbs({
             <a
               href="/"
               aria-label={linkLabel}
-              className="focus:outline-solid pt-4"
+              className="focus:outline-solid"
             >
-              <span className="kern-icon kern-icon--home bg-kern-action-default!" />
+              <Icon name="home" className="fill-kern-action-default!" />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
               <div key={breadcrumb.title} className="kern-body-small flex ">
-                <span className="kern-icon kern-icon--chevron-right kern-icon--default bg-kern-neutral-300!" />
+                <Icon name="chevron_right" className="fill-kern-neutral-300!" />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">
                     {breadcrumb.title}

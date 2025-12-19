@@ -5,7 +5,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
-import { KernStandaloneLink } from "../KernStandaloneLink";
+import { Icon } from "~/components/common/Icon";
 
 type PageHeaderProps = {
   title: string;
@@ -61,30 +61,21 @@ export default function KernPageHeader({
             </a>
             {!hideLinks && (
               <div className="flex gap-kern-space-x-large max-[447px]:pt-16">
-                <KernStandaloneLink
-                  url={"/leichtesprache"}
-                  text={translations.pageHeader.leichtesprache.de}
-                  className="kern-link--small"
-                  icon={
-                    <span
-                      className="kern-icon kern-icon--easy-language kern-icon--default mt-2"
-                      aria-hidden="true"
-                    ></span>
-                  }
-                />
-                <KernStandaloneLink
-                  url={"/gebaerdensprache"}
-                  text={
-                    "Gebärdensprache" /* translations.pageHeader.gebaerdensprache.de */
-                  }
-                  className="kern-link--small"
-                  icon={
-                    <span
-                      className="kern-icon kern-icon--sign-language kern-icon--default mt-2"
-                      aria-hidden="true"
-                    ></span>
-                  }
-                />
+                <a
+                  href={"/leichtesprache"}
+                  className="kern-link kern-link--small"
+                >
+                  <Icon name="local_library" />
+                  {translations.pageHeader.leichtesprache.de}
+                </a>
+
+                <a
+                  href={"/gebaerdensprache"}
+                  className="kern-link kern-link--small"
+                >
+                  <Icon name="sign_language" />
+                  {"Gebärdensprache"} {/*translations.pageHeader.gebaerdensprache.de */}
+                </a>
               </div>
             )}
           </GridItem>
