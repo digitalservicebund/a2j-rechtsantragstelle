@@ -11,7 +11,7 @@ import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
-import { kontopfaendungPkontoAntrag } from "./kontopfaendung/antrag";
+import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 
 type FlowMigration = {
   source: FlowId;

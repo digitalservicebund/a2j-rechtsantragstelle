@@ -6,7 +6,7 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { FlowId } from "./flowIds";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
-import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/antrag/userData";
+import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
