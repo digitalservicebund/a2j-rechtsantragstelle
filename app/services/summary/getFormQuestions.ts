@@ -2,9 +2,9 @@ import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { parseArrayField } from "./fieldParsingUtils";
 import type { FieldOption, FieldQuestion } from "./types";
+import { type FormFieldsMap } from "~/domains/pageSchemas";
 
 /**
  * Creates a mapping of field names to their step IDs from the form fields map

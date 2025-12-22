@@ -9,11 +9,10 @@ import type { SchemaObject } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
-import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 
-export const pages: Partial<Record<FlowId, PagesConfig>> = {
+export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiserPages,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
@@ -24,8 +23,10 @@ export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
 } as const;
 
+export type FormFieldsMap = Record<string, string[]>;
+
 export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
 
   const schemaObjects = Object.values(pagesConfig)
     .filter(({ pageSchema }) => pageSchema !== undefined)
@@ -35,7 +36,7 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 };
 
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
 
   for (const page of Object.values(pagesConfig)) {
@@ -64,11 +65,11 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
 
 export function getPageSchema(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
-  if (!flowId || !(flowId in pages)) return undefined;
+  if (!flowId) return undefined;
 
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
-  const pagesConfig = pages[flowId] ?? {};
+  const pagesConfig = pages[flowId];
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array

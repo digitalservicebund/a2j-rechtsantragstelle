@@ -48,7 +48,7 @@ const mockDefaultOptions = {
 const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
 
 const mockPrunerData = (userDataMock?: Record<string, string>) => {
-  vi.mocked(pruneIrrelevantData).mockResolvedValue({
+  vi.mocked(pruneIrrelevantData).mockReturnValue({
     prunedData: userDataMock ?? {},
     validFlowPaths: {},
   });
