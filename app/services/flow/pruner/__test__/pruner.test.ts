@@ -1,10 +1,6 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
-import type { StrapiSchemas } from "~/services/cms/schemas";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";
 import * as getAllFieldsFromFlowId from "~/domains/pageSchemas";
-
-vi.mock("~/services/cms/getStrapiEntry");
 
 describe("pruner", () => {
   describe("filterFormFields", () => {
@@ -51,13 +47,7 @@ describe("pruner", () => {
   });
 
   describe("pruneIrrelevantData", () => {
-    it("prunes irrelevant data", async () => {
-      const strapiEntries = [{ stepId: "", form: [{ name: "" }] }];
-
-      vi.mocked(getStrapiEntry).mockReturnValue(
-        Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
-      );
-
+    it("prunes irrelevant data", () => {
       const userData: BeratungshilfeFormularUserData = {
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
@@ -102,7 +92,7 @@ describe("pruner", () => {
       };
       const flowId = "/beratungshilfe/antrag";
 
-      const { prunedData } = await pruneIrrelevantData(userData, flowId);
+      const { prunedData } = pruneIrrelevantData(userData, flowId);
       expect(prunedData).toStrictEqual({
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
@@ -135,9 +125,7 @@ describe("pruner", () => {
     });
   });
 
-  it("should return the paths and if the path is an array page given a context and flowId", async () => {
-    const strapiEntries = [{ stepId: "", form: [{ name: "" }] }];
-
+  it("should return the paths and if the path is an array page given a context and flowId", () => {
     vi.spyOn(getAllFieldsFromFlowId, "getAllFieldsFromFlowId").mockReturnValue({
       "/grundvoraussetzungen/rechtsschutzversicherung": [
         "rechtsschutzversicherung",
@@ -161,10 +149,6 @@ describe("pruner", () => {
       ],
     });
 
-    vi.mocked(getStrapiEntry).mockReturnValue(
-      Promise.resolve(strapiEntries as StrapiSchemas["form-flow-pages"]),
-    );
-
     const userData = {
       rechtsschutzversicherung: "no",
       wurdeVerklagt: "no",
@@ -186,7 +170,7 @@ describe("pruner", () => {
     } satisfies BeratungshilfeFormularUserData;
     const flowId = "/beratungshilfe/antrag";
 
-    const { validFlowPaths } = await pruneIrrelevantData(userData, flowId);
+    const { validFlowPaths } = pruneIrrelevantData(userData, flowId);
 
     expect(validFlowPaths).toEqual({
       "/grundvoraussetzungen/klage-eingereicht": {

@@ -8,9 +8,6 @@ const stepIds = mapValues(kontopfaendungWegweiserPages, (v) => v.stepId);
 export const kontopfaendungWegweiserXstateConfig = {
   id: "/kontopfaendung/wegweiser",
   initial: stepIds.start,
-  meta: {
-    pruneDataFromPageSchema: true,
-  },
   states: {
     [stepIds.start]: { on: { SUBMIT: stepIds.kontopfaendung } },
     [stepIds.kontopfaendung]: {

@@ -1,5 +1,4 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import { getFieldsByFormElements } from "~/services/cms/getFieldsByFormElements";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import {
   type StepState,
@@ -80,9 +79,7 @@ export const getContentData = (
     },
     getStepData: (pathname: string) => {
       const pageSchema = getPageSchema(pathname);
-      const fieldNames = pageSchema
-        ? Object.keys(pageSchema)
-        : getFieldsByFormElements(cmsContent.formContent);
+      const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
 
       return fieldsFromContext(userDataWithPageData, fieldNames);
     },
