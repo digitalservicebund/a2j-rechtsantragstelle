@@ -1,7 +1,6 @@
 import type { AllUserDataKeys, UserData } from "~/domains/userData";
 
 export const arrayChar = "#";
-export const splitArrayName = (key: string) => key.split(arrayChar);
 export const fieldIsArray = (fieldName: string) =>
   fieldName.includes(arrayChar);
 
