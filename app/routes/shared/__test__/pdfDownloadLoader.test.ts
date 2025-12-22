@@ -3,7 +3,7 @@ import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 
 vi.mock("~/services/flow/pruner/pruner", () => ({
-  pruneIrrelevantData: vi.fn().mockResolvedValue({
+  pruneIrrelevantData: vi.fn().mockReturnValue({
     prunedData: { vorname: "Zoe", nachname: "Müller" },
   }),
 }));

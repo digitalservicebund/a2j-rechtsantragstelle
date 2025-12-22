@@ -1,8 +1,7 @@
 import { type ValidationErrorResponseData } from "@rvf/react-router";
-import { type z } from "zod";
 import { type FlowId } from "~/domains/flowIds";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { type ArrayData, type UserData, getContext } from "~/domains/userData";
+import { type ArrayData, type UserData } from "~/domains/userData";
 import {
   uploadUserFileToS3,
   deleteUserFileFromS3,
@@ -21,11 +20,7 @@ export async function uploadUserFile(
 ): Promise<{ userData: UserData } | ValidationErrorResponseData> {
   const { fieldName, inputIndex } = splitFieldName(inputName);
   const arrayUserData = [...((userData[fieldName] ?? []) as ArrayData)];
-  const fieldSchema =
-    getPageSchema(pathname)?.[fieldName] ??
-    (getContext(flowId)[fieldName as keyof typeof getContext] as
-      | z.ZodType
-      | undefined);
+  const fieldSchema = getPageSchema(pathname)?.[fieldName];
   if (!fieldSchema) return { fieldErrors: {} };
   const file = formData.get(inputName) as File | undefined;
 
