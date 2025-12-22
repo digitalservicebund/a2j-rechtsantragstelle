@@ -17,7 +17,10 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
-  ...prefix("kontopfaendung/wegweiser", vorabcheckRoutes("KPW")),
+  ...prefix("kontopfaendung", [
+    ...prefix("wegweiser", vorabcheckRoutes("KPW")),
+    ...prefix("pkonto/antrag", flowRoutes("KPPA")),
+  ]),
   ...prefix("geld-einklagen", [
     ...prefix("formular", flowAndResultRoutes("GEF")),
   ]),

@@ -1,0 +1,73 @@
+import { useCallback, useState } from "react";
+import { useLocation, useRouteLoaderData } from "react-router";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import type { RootLoader } from "~/root";
+import { FeedbackFormBox } from "./FeedbackFormBox";
+import { PostSubmissionBox } from "./PostSubmissionBox";
+import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import { type BannerState } from "./types";
+
+type UserFeedbackProps = {
+  rating: Pick<RatingBoxProps, "heading">;
+};
+
+export const USER_FEEDBACK_ID = "user-feedback-banner";
+
+export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
+  const { pathname } = useLocation();
+  const [shouldFocus, setShouldFocus] = useState(false);
+  const rootLoaderData = useRouteLoaderData<RootLoader>("root");
+  const bannerState =
+    rootLoaderData?.feedback.state ?? ("showRating" as BannerState);
+  const feedbackResult = rootLoaderData?.feedback.result
+    ? "positive"
+    : "negative";
+
+  const applyFocus = useCallback(() => {
+    setShouldFocus(true);
+  }, []);
+
+  return (
+    <GridItem
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 8 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
+      className="rounded-lg print:hidden"
+    >
+      <article
+        className="kern-card kern-card--interactive kern-card--small"
+        data-testid={USER_FEEDBACK_ID}
+        id={USER_FEEDBACK_ID}
+      >
+        <div className="kern-card__container">
+          {
+            {
+              ["showRating"]: (
+                <RatingBox
+                  url={pathname}
+                  heading={props.rating.heading}
+                  onSubmit={applyFocus}
+                />
+              ),
+              ["showFeedback"]: (
+                <FeedbackFormBox
+                  destination={pathname}
+                  shouldFocus={shouldFocus}
+                  feedback={feedbackResult}
+                  onSubmit={applyFocus}
+                />
+              ),
+              ["feedbackGiven"]: (
+                <PostSubmissionBox
+                  shouldFocus={shouldFocus}
+                  postSubmissionText={rootLoaderData?.postSubmissionText}
+                />
+              ),
+            }[bannerState]
+          }
+        </div>
+      </article>
+    </GridItem>
+  );
+}

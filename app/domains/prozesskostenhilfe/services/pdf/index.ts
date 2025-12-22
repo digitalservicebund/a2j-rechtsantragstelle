@@ -21,7 +21,7 @@ import {
   pdfFromUserData,
   type PDFDocumentBuilder,
 } from "~/services/pdf/pdfFromUserData";
-import { createVereinfachteErklaerungAnhang } from "~/services/pdf/vereinfachteErklaerung/createVereinfachteErklaerungAnhang";
+import { createVereinfachteErklaerungAnhang } from "./createVereinfachteErklaerungAnhang";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import loadHinweisblatt from "./loadHinweisblatt";
 import { fillPerson } from "./pdfForm/A_person";

@@ -27,6 +27,8 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
+import KernUserFeedback from "../kern/UserFeedback";
+import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -51,9 +53,19 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
   return "";
 }
 
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
-  if (el.__component === "page.hero") return "bg-kern-action-default";
-  if (el.__component === "page.hero-with-button") return "bg-kern-neutral-050";
+function getContainerBackgroundColor(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if (el.__component === "page.hero") {
+      return "bg-kern-action-default";
+    }
+    if (el.__component === "page.hero-with-button") {
+      return "bg-kern-neutral-050";
+    }
+  }
+
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -83,12 +95,16 @@ function cmsToReact(
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
         return <KernInfoBox {...componentProps} />;
+      case "page.video":
+        return <KernVideo {...componentProps} />;
       case "page.list":
         return <KernList {...componentProps} wrap={opts?.inFlow} />;
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
         return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+      case "page.user-feedback":
+        return <KernUserFeedback {...componentProps} />;
       default:
         return <></>;
     }
@@ -147,7 +163,8 @@ function ContentComponents({
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
-      const isUserFeedback = el.__component === "page.user-feedback";
+      const isUserFeedback =
+        el.__component === "page.user-feedback" && !showKernUX;
       const isKernBox = el.__component === "page.box" && showKernUX;
       const hasLayout = hasLayoutProperties(el);
 
@@ -171,8 +188,8 @@ function ContentComponents({
               ? el.container.paddingBottom
               : "default"
           }
+          className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
-          className={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{

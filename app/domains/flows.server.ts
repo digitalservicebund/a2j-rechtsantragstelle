@@ -9,6 +9,7 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { vorabcheckFlows } from "./vorabcheckFlows.server";
+import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 
 type FlowMigration = {
   source: FlowId;
@@ -38,4 +39,5 @@ export const flows = {
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/geld-einklagen/formular": geldEinklagenFormular,
+  "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
 } satisfies Record<FlowId, Flow>;

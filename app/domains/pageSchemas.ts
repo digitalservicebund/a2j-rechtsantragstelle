@@ -11,6 +11,7 @@ import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type FormFieldsMap } from "~/services/cms/fetchAllFormFields";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
+import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 
 export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -20,6 +21,7 @@ export const pages: Partial<Record<FlowId, PagesConfig>> = {
   "/geld-einklagen/formular": geldEinklagenFormularPages,
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
+  "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
 } as const;
 
 export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
