@@ -35,6 +35,7 @@ describe("flowTransitionValidation", () => {
     "/prozesskostenhilfe/formular": createMockFlow("formFlow"),
     "/kontopfaendung/wegweiser": createMockFlow("vorabCheck"),
     "/geld-einklagen/formular": createMockFlow("formFlow"),
+    "/kontopfaendung/pkonto/antrag": createMockFlow("formFlow"),
   };
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),

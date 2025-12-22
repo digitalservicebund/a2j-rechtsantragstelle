@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         name: coverage
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 # v7.0.0
@@ -50,7 +50,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: content-file
           path: content.json
@@ -96,7 +96,7 @@ jobs:
         uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         name: build
       - run: ./docker.sh --build app
         env:
@@ -145,7 +145,7 @@ jobs:
     environment: preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: preview
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -180,7 +180,7 @@ jobs:
     environment: staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: staging
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
@@ -207,7 +207,7 @@ jobs:
     environment: production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: production
           version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}

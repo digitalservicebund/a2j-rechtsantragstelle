@@ -10,6 +10,7 @@ import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
+import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -19,6 +20,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/geld-einklagen/formular": geldEinklagenFormularPages,
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
+  "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;

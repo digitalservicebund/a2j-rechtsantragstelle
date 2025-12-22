@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { loader } from "~/routes/link.$";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
+import { assertResponse } from "./isResponse";
 
 vi.mock("~/services/analytics/customEvent");
 const mockSendCustomAnalyticsEvent = vi.fn();
@@ -17,8 +18,6 @@ describe("link loader", () => {
     );
 
     const response = loader(mockArgs);
-
-    expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(302);
     expect(response.headers.get("Location")).toBe(
       "/prozesskostenhilfe/direktlink",
@@ -33,8 +32,8 @@ describe("link loader", () => {
     try {
       loader(mockArgs);
     } catch (error) {
-      expect(error).toBeInstanceOf(Response);
-      expect((error as Response).status).toBe(404);
+      assertResponse(error);
+      expect(error.status).toBe(404);
     }
   });
 
@@ -49,8 +48,8 @@ describe("link loader", () => {
     try {
       loader(mockArgs);
     } catch (error) {
-      expect(error).toBeInstanceOf(Response);
-      expect((error as Response).status).toBe(404);
+      assertResponse(error);
+      expect(error.status).toBe(404);
     }
   });
 
