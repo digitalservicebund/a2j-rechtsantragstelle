@@ -58,10 +58,10 @@ export const navStateStepper = (states: NavState[]): NavState => {
   const anyWarningCurrent = states.includes("WarningCurrent");
 
   const allDisabled = states.every(stateIsDisabled);
-  const allOpen = states.every((s) => s === "Open");
+  const anyCurrent = states.some(stateIsCurrent);
 
   if (allDone) return anyDoneCurrent ? "DoneCurrent" : "Done";
   if (anyWarning) return anyWarningCurrent ? "WarningCurrent" : "Warning";
   if (allDisabled) return "Disabled";
-  return allOpen ? "Open" : "Current";
+  return anyCurrent ? "Current" : "Open";
 };
