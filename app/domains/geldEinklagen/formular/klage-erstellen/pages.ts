@@ -2,6 +2,7 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -33,6 +34,7 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonStrasseHausnummer: stringRequiredSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
       klagendePersonOrt: stringRequiredSchema,
+      klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
     },
