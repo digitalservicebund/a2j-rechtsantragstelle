@@ -9,9 +9,6 @@ const stepIds = xStateTargetsFromPagesConfig(kontopfaendungPkontoAntragPages);
 export const kontopfaendungPkontoAntragXStateConfig = {
   id: "/kontopfaendung/pkonto/antrag",
   initial: "start",
-  meta: {
-    pruneDataFromPageSchema: true,
-  },
   states: {
     start: {
       id: "start",
