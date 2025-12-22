@@ -94,12 +94,32 @@ export const klageErstellenXstateConfig = {
           ],
           on: {
             BACK: steps.klagendePersonKontaktdaten.absolute,
-            SUBMIT: steps.rechtsproblemIntoStart.absolute,
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, [
+                  "beklagteNachname",
+                  "beklagteVorname",
+                  "beklagteStrasseHausnummer",
+                  "beklagtePlz",
+                  "beklagteOrt",
+                ]),
+              target: steps.rechtsproblemIntoStart.absolute,
+            },
           },
         },
         [steps.beklagtePersonOrganisation.relative]: {
           on: {
-            SUBMIT: steps.rechtsproblemIntoStart.absolute,
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, [
+                  "beklagteNameOrganisation",
+                  "beklagteGesetzlichenVertretung",
+                  "beklagteStrasseHausnummer",
+                  "beklagtePlz",
+                  "beklagteOrt",
+                ]),
+              target: steps.rechtsproblemIntoStart.absolute,
+            },
             BACK: steps.klagendePersonKontaktdaten.absolute,
           },
         },
@@ -112,6 +132,7 @@ export const klageErstellenXstateConfig = {
         intro: {
           id: "intro",
           initial: "start",
+          meta: { shouldAppearAsMenuNavigation: true },
           states: {
             [steps.rechtsproblemIntoStart.relative]: {
               on: {
