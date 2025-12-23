@@ -1,22 +1,24 @@
 import { getShortestPaths } from "@xstate/graph";
-import {
-  type Actor,
-  type AnyActorLogic,
-  createActor,
-  initialTransition,
-  pathToStateValue,
-  transition,
-} from "xstate";
+import isEqual from "lodash/isEqual";
+import { initialTransition, pathToStateValue, setup, transition } from "xstate";
 import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
-import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
+import {
+  stateValueToStepIds,
+  stepIdToPath,
+} from "~/services/flow/stepIdConverter";
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
-import type { Config, FlowStateMachine, Meta, NavigationEvent } from "./types";
+import type {
+  Config,
+  FlowStateMachine,
+  Meta,
+  NavigationEvent,
+  StateMachineTypes,
+} from "./types";
 import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
-import { machines } from "~/domains/flows.server";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
@@ -31,44 +33,65 @@ function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   return "/" + leaf.path.join("/");
 }
 
-const getSteps = (_machine: ReturnType<typeof createActor>, config: Config) => {
+const getSteps = (machine: FlowStateMachine) => {
   // The machine passed here relies on the context it was initialized with.
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
 
   // Technically, arrayEvents are never triggered. They are only added here to make the subflows reachable to xstate
-  const arrayConfig = config.meta?.arrays ?? {};
+  const arrayConfig = rootMeta(machine)?.arrays ?? {};
   const arrayEvents = Object.values(arrayConfig).map(({ event }) => ({
     type: event as NavigationEvent,
   }));
 
-  const possiblePaths = getShortestPaths(
-    machines[config.id as keyof typeof machines],
-    {
-      events: [{ type: "SUBMIT" }, ...arrayEvents],
-    },
-  );
+  const possiblePaths = getShortestPaths(machine, {
+    events: [{ type: "SUBMIT" }, ...arrayEvents],
+  });
 
   return possiblePaths.flatMap(({ state }) => stateValueToStepIds(state.value));
 };
 
 export const nextStepId = (
-  actor: Actor<AnyActorLogic>,
+  machine: FlowStateMachine,
   stepId: string,
   type: NavigationEvent,
+  context: UserData,
 ) => {
+  // First, resolve the state with the given step and context
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(stepIdToPath(stepId)),
+    context,
+  });
   // Get snapshot of next machine state using the given event
-  const [destinationState] = transition(
-    actor.getSnapshot().machine,
-    actor.getSnapshot(),
-    { type },
-  );
+  const [destinationState] = transition(machine, resolvedState, { type });
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
   // Return undefined if the stepId in the new state matches the previous one
   if (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)
     return undefined;
   return destinationStepIds.at(0);
+};
+
+const findNode = (machine: FlowStateMachine, stepId: string) => {
+  const statepath = stepIdToPath(stepId);
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(statepath),
+    context: {},
+  });
+  return resolvedState._nodes.find((node) => isEqual(node.path, statepath));
+};
+
+const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
+  const transitions = findNode(machine, stepId)?.transitions;
+  return !transitions?.has("SUBMIT");
+};
+
+const rootMeta = (machine: FlowStateMachine) => {
+  return machine.config?.meta as Meta | undefined;
+};
+
+const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
+  return findNode(machine, currentStepId)?.meta as Meta | undefined;
 };
 
 function getInitial(machine: FlowStateMachine) {
@@ -191,20 +214,19 @@ export const buildFlowController = ({
   data?: UserData;
   guards?: Guards;
 }) => {
+  const machine = setup({
+    types: {} as StateMachineTypes,
+    guards,
+  }).createMachine({ ...config, context });
   const flowId = config.id ?? "";
-  const machine = machines[flowId as keyof typeof machines];
-  const actor = createActor<any>(machine, {
-    input: context,
-  }).start(); // should we start the machine right away?
-  const reachableSteps = getSteps(actor, config); // depends on context
+  const reachableSteps = getSteps(machine); // depends on context
 
   return {
-    getMeta: (_stepId: string) =>
-      actor.getSnapshot().getMeta() as Meta | undefined,
-    getRootMeta: () => config.meta,
+    getMeta: (currentStepId: string) => metaFromStepId(machine, currentStepId),
+    getRootMeta: () => rootMeta(machine),
     stepStates: (addUnreachableSubSteps = false) =>
       stepStates(
-        actor.getSnapshot().machine.root,
+        machine.root,
         reachableSteps,
         addUnreachableSubSteps,
         flowId as FlowId,
@@ -213,26 +235,25 @@ export const buildFlowController = ({
     getUserdata: () => context,
     getConfig: () => config,
     getGuards: () => guards,
-    isFinal: (_currentStepId: string) =>
-      !actor.getSnapshot().can({ type: "SUBMIT" }),
+    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       return reachableSteps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
-      const destination = nextStepId(actor, stepId, "BACK");
-      if (destination) return `${flowId}${destination}`;
+      const destination = nextStepId(machine, stepId, "BACK", context);
+      if (destination) return `${machine.id}${destination}`;
     },
     getNext: (stepId: string) => {
-      const destination = nextStepId(actor, stepId, "SUBMIT");
-      if (destination) return `${flowId}${destination}`;
+      const destination = nextStepId(machine, stepId, "SUBMIT", context);
+      if (destination) return `${machine.id}${destination}`;
     },
     getArrayItemStep: (
       stepId: string,
       arrayStep: ArrayConfigServer["event"],
     ) => {
-      const destination = nextStepId(actor, stepId, arrayStep);
+      const destination = nextStepId(machine, stepId, arrayStep, context);
       if (destination)
-        return `${flowId}${destination
+        return `${machine.id}${destination
           .split("/")
           .slice(1)
           .reduce((prev, curr, idx, arr) => {
