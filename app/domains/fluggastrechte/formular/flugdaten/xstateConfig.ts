@@ -99,7 +99,9 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugOneStop ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
@@ -129,11 +131,15 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugTwoStops ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugTwoStops ===
+              "firstAirportSecondZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
@@ -163,15 +169,21 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "firstAirportSecondZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugSecondAirportThirdZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "secondAirportThirdZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,

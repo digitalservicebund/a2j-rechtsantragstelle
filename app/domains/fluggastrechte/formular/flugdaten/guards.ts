@@ -83,15 +83,6 @@ export const fluggastrechteFlugdatenGuards = {
       context.tatsaechlicherAnkunftsDatum &&
       context.tatsaechlicherAnkunftsZeit,
     ),
-  hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
-    context.verspaeteterFlugOneStop === "startAirportFirstZwischenstopp" ||
-    context.verspaeteterFlugTwoStops === "startAirportFirstZwischenstopp" ||
-    context.verspaeteterFlugThreeStops === "startAirportFirstZwischenstopp",
-  hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
-    context.verspaeteterFlugThreeStops === "firstAirportSecondZwischenstopp" ||
-    context.verspaeteterFlugTwoStops === "firstAirportSecondZwischenstopp",
-  hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
-    context.verspaeteterFlugThreeStops === "secondAirportThirdZwischenstopp",
   hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({ context }) =>
     hasNichtbefoerderung({ context }) &&
     _hasVerspaeteterFlugNonEndAirport({ context }),
