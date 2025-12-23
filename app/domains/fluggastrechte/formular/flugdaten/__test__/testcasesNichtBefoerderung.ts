@@ -113,7 +113,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlugTwoStop: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugTwoStops: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "JFK",
@@ -138,7 +138,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlugTwoStop: "secondZwischenstoppEndAirport",
+      verspaeteterFlugTwoStops: "secondZwischenstoppEndAirport",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "JFK",
       ersatzverbindungArt: "flug",

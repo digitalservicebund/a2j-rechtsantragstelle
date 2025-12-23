@@ -41,10 +41,10 @@ beforeEach(() => {
 });
 
 describe("getStartAndEndAirportDelayNames", () => {
-  it("should return empty start and end airport given undefined verspaeteterFlugOneStop, undefined verspaeteterFlugTwoStop, and undefined verspaeteterFlugThreeStop", () => {
+  it("should return empty start and end airport given undefined verspaeteterFlugOneStop, undefined verspaeteterFlugTwoStops, and undefined verspaeteterFlugThreeStop", () => {
     const actual = getStartAndEndAirportDelayNames({
       verspaeteterFlugOneStop: undefined,
-      verspaeteterFlugTwoStop: undefined,
+      verspaeteterFlugTwoStops: undefined,
       verspaeteterFlugThreeStop: undefined,
     });
 
@@ -64,10 +64,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(ersterZwischenstoppMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlugTwoStop as firstAirportSecondZwischenstopp", () => {
+  it("should return correct the start and end airports given verspaeteterFlugTwoStops as firstAirportSecondZwischenstopp", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlugTwoStop: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugTwoStops: "firstAirportSecondZwischenstopp",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -100,10 +100,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(dritterZwischenstoppMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlugTwoStop as secondZwischenstoppEndAirport", () => {
+  it("should return correct the start and end airports given verspaeteterFlugTwoStops as secondZwischenstoppEndAirport", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlugTwoStop: "secondZwischenstoppEndAirport",
+      verspaeteterFlugTwoStops: "secondZwischenstoppEndAirport",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);

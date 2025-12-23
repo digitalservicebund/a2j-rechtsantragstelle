@@ -122,7 +122,7 @@ describe("flugdatenDone", () => {
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'verspaetet' without the verspaeteterFlugTwoStop for the zwischenstopp", () => {
+    test("returns false when required fields are missing for 'verspaetet' without the verspaeteterFlugTwoStops for the zwischenstopp", () => {
       const context = {
         ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
@@ -375,7 +375,7 @@ describe("flugdatenDone", () => {
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'nichtbefoerderung' without the verspaeteterFlugTwoStop for the zwischenstopp", () => {
+    test("returns false when required fields are missing for 'nichtbefoerderung' without the verspaeteterFlugTwoStops for the zwischenstopp", () => {
       const context = {
         ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",

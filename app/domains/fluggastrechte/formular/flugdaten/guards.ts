@@ -20,9 +20,9 @@ const hasNichtbefoerderung: Guard = ({ context }) =>
   context.bereich === "nichtbefoerderung";
 const _hasVerspaeteterFlugNonEndAirport: Guard = ({ context }) =>
   context.verspaeteterFlugOneStop === "startAirportFirstZwischenstopp" ||
-  context.verspaeteterFlugTwoStop === "startAirportFirstZwischenstopp" ||
+  context.verspaeteterFlugTwoStops === "startAirportFirstZwischenstopp" ||
   context.verspaeteterFlugThreeStop === "startAirportFirstZwischenstopp" ||
-  context.verspaeteterFlugTwoStop === "firstAirportSecondZwischenstopp" ||
+  context.verspaeteterFlugTwoStops === "firstAirportSecondZwischenstopp" ||
   context.verspaeteterFlugThreeStop === "firstAirportSecondZwischenstopp" ||
   context.verspaeteterFlugThreeStop === "secondAirportThirdZwischenstopp";
 
@@ -85,11 +85,11 @@ export const fluggastrechteFlugdatenGuards = {
     ),
   hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
     context.verspaeteterFlugOneStop === "startAirportFirstZwischenstopp" ||
-    context.verspaeteterFlugTwoStop === "startAirportFirstZwischenstopp" ||
+    context.verspaeteterFlugTwoStops === "startAirportFirstZwischenstopp" ||
     context.verspaeteterFlugThreeStop === "startAirportFirstZwischenstopp",
   hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
     context.verspaeteterFlugThreeStop === "firstAirportSecondZwischenstopp" ||
-    context.verspaeteterFlugTwoStop === "firstAirportSecondZwischenstopp",
+    context.verspaeteterFlugTwoStops === "firstAirportSecondZwischenstopp",
   hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
     context.verspaeteterFlugThreeStop === "secondAirportThirdZwischenstopp",
   hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({ context }) =>
