@@ -94,7 +94,7 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenVerspaeteterFlug3: {
     stepId: "flugdaten/verspaeteter-flug-3",
     pageSchema: {
-      verspaeteterFlugThreeStop: z.enum([
+      verspaeteterFlugThreeStops: z.enum([
         "startAirportFirstZwischenstopp",
         "firstAirportSecondZwischenstopp",
         "secondAirportThirdZwischenstopp",

@@ -161,7 +161,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlugThreeStop: "startAirportFirstZwischenstopp",
+      verspaeteterFlugThreeStops: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "BER",
@@ -187,7 +187,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlugThreeStop: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugThreeStops: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "BER",
@@ -213,7 +213,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlugThreeStop: "secondAirportThirdZwischenstopp",
+      verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
       anschlussFlugVerpasst: "no",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "BER",
@@ -239,7 +239,7 @@ export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlugThreeStop: "thirdZwischenstoppEndAirport",
+      verspaeteterFlugThreeStops: "thirdZwischenstoppEndAirport",
       ersterZwischenstopp: "HAM",
       zweiterZwischenstopp: "BER",
       dritterZwischenstopp: "MUC",

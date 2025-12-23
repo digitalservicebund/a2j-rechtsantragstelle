@@ -49,7 +49,7 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
         "ersterZwischenstopp",
         "zweiterZwischenstopp",
         "dritterZwischenstopp",
-        "verspaeteterFlugThreeStop",
+        "verspaeteterFlugThreeStops",
       ]);
     }
 

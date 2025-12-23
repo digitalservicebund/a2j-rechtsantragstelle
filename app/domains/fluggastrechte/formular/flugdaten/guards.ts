@@ -21,10 +21,10 @@ const hasNichtbefoerderung: Guard = ({ context }) =>
 const _hasVerspaeteterFlugNonEndAirport: Guard = ({ context }) =>
   context.verspaeteterFlugOneStop === "startAirportFirstZwischenstopp" ||
   context.verspaeteterFlugTwoStops === "startAirportFirstZwischenstopp" ||
-  context.verspaeteterFlugThreeStop === "startAirportFirstZwischenstopp" ||
+  context.verspaeteterFlugThreeStops === "startAirportFirstZwischenstopp" ||
   context.verspaeteterFlugTwoStops === "firstAirportSecondZwischenstopp" ||
-  context.verspaeteterFlugThreeStop === "firstAirportSecondZwischenstopp" ||
-  context.verspaeteterFlugThreeStop === "secondAirportThirdZwischenstopp";
+  context.verspaeteterFlugThreeStops === "firstAirportSecondZwischenstopp" ||
+  context.verspaeteterFlugThreeStops === "secondAirportThirdZwischenstopp";
 
 const _hasAnnullierungWithErsatzflugNo: Guard = ({ context }) =>
   _hasAnnullierung({ context }) && context.ersatzflug === "no";
@@ -86,12 +86,12 @@ export const fluggastrechteFlugdatenGuards = {
   hasVerspaeteterFlugStartAirportFirstZwischenstopp: ({ context }) =>
     context.verspaeteterFlugOneStop === "startAirportFirstZwischenstopp" ||
     context.verspaeteterFlugTwoStops === "startAirportFirstZwischenstopp" ||
-    context.verspaeteterFlugThreeStop === "startAirportFirstZwischenstopp",
+    context.verspaeteterFlugThreeStops === "startAirportFirstZwischenstopp",
   hasVerspaeteterFlugFirstAirportSecondZwischenstopp: ({ context }) =>
-    context.verspaeteterFlugThreeStop === "firstAirportSecondZwischenstopp" ||
+    context.verspaeteterFlugThreeStops === "firstAirportSecondZwischenstopp" ||
     context.verspaeteterFlugTwoStops === "firstAirportSecondZwischenstopp",
   hasVerspaeteterFlugSecondAirportThirdZwischenstopp: ({ context }) =>
-    context.verspaeteterFlugThreeStop === "secondAirportThirdZwischenstopp",
+    context.verspaeteterFlugThreeStops === "secondAirportThirdZwischenstopp",
   hasBereichNichtBefoerderungAndVerspaeteterFlugNonEndAirport: ({ context }) =>
     hasNichtbefoerderung({ context }) &&
     _hasVerspaeteterFlugNonEndAirport({ context }),

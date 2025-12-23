@@ -41,11 +41,11 @@ beforeEach(() => {
 });
 
 describe("getStartAndEndAirportDelayNames", () => {
-  it("should return empty start and end airport given undefined verspaeteterFlugOneStop, undefined verspaeteterFlugTwoStops, and undefined verspaeteterFlugThreeStop", () => {
+  it("should return empty start and end airport given undefined verspaeteterFlugOneStop, undefined verspaeteterFlugTwoStops, and undefined verspaeteterFlugThreeStops", () => {
     const actual = getStartAndEndAirportDelayNames({
       verspaeteterFlugOneStop: undefined,
       verspaeteterFlugTwoStops: undefined,
-      verspaeteterFlugThreeStop: undefined,
+      verspaeteterFlugThreeStops: undefined,
     });
 
     expect(actual.startAirportName).toBe("");
@@ -88,10 +88,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(endAirportMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlugThreeStop as secondAirportThirdZwischenstopp", () => {
+  it("should return correct the start and end airports given verspaeteterFlugThreeStops as secondAirportThirdZwischenstopp", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlugThreeStop: "secondAirportThirdZwischenstopp",
+      verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -112,10 +112,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(endAirportMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlugThreeStop as thirdZwischenstoppEndAirport", () => {
+  it("should return correct the start and end airports given verspaeteterFlugThreeStops as thirdZwischenstoppEndAirport", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlugThreeStop: "thirdZwischenstoppEndAirport",
+      verspaeteterFlugThreeStops: "thirdZwischenstoppEndAirport",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);

@@ -15,7 +15,7 @@ const getPairFrom = (
 export const getStartAndEndAirportDelayNames = ({
   verspaeteterFlugOneStop,
   verspaeteterFlugTwoStops,
-  verspaeteterFlugThreeStop,
+  verspaeteterFlugThreeStops,
   startAirport,
   endAirport,
   ersterZwischenstopp,
@@ -70,7 +70,7 @@ export const getStartAndEndAirportDelayNames = ({
   const pair =
     getPairFrom(verspaeteterFlugOneStop, oneStop) ??
     getPairFrom(verspaeteterFlugTwoStops, twoStop) ??
-    getPairFrom(verspaeteterFlugThreeStop, threeStop);
+    getPairFrom(verspaeteterFlugThreeStops, threeStop);
 
   if (!pair) return { startAirportName: "", endAirportName: "" };
 
