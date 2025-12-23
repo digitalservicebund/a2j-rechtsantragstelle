@@ -1,38 +1,85 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 
+type AirportPair = [string | undefined, string | undefined];
+
+const getPairFrom = (
+  key: string | undefined,
+  mapping: Record<string, AirportPair>,
+): AirportPair | undefined => {
+  if (!key) return undefined;
+  const pair = mapping[key] as AirportPair | undefined;
+  return pair;
+};
+
 export const getStartAndEndAirportDelayNames = ({
-  verspaeteterFlug,
+  verspaeteterFlugOneStop,
+  verspaeteterFlugTwoStop,
+  verspaeteterFlugThreeStop,
   startAirport,
   endAirport,
   ersterZwischenstopp,
   zweiterZwischenstopp,
   dritterZwischenstopp,
 }: FluggastrechteUserData) => {
-  if (!verspaeteterFlug) return { startAirportName: "", endAirportName: "" };
+  const oneStop = {
+    startAirportFirstZwischenstopp: [
+      startAirport,
+      ersterZwischenstopp,
+    ] as AirportPair,
+    firstZwischenstoppEndAirport: [
+      ersterZwischenstopp,
+      endAirport,
+    ] as AirportPair,
+  } as const;
 
-  const airportMapping: Record<
-    Exclude<FluggastrechteUserData["verspaeteterFlug"], undefined>,
-    [string | undefined, string | undefined]
-  > = {
-    startAirportFirstZwischenstopp: [startAirport, ersterZwischenstopp],
+  const twoStop = {
+    startAirportFirstZwischenstopp: [
+      startAirport,
+      ersterZwischenstopp,
+    ] as AirportPair,
     firstAirportSecondZwischenstopp: [
       ersterZwischenstopp,
       zweiterZwischenstopp,
-    ],
-    firstZwischenstoppEndAirport: [ersterZwischenstopp, endAirport],
+    ] as AirportPair,
+    secondZwischenstoppEndAirport: [
+      zweiterZwischenstopp,
+      endAirport,
+    ] as AirportPair,
+  } as const;
+
+  const threeStop = {
+    startAirportFirstZwischenstopp: [
+      startAirport,
+      ersterZwischenstopp,
+    ] as AirportPair,
+    firstAirportSecondZwischenstopp: [
+      ersterZwischenstopp,
+      zweiterZwischenstopp,
+    ] as AirportPair,
     secondAirportThirdZwischenstopp: [
       zweiterZwischenstopp,
       dritterZwischenstopp,
-    ],
-    secondZwischenstoppEndAirport: [zweiterZwischenstopp, endAirport],
-    thirdZwischenstoppEndAirport: [dritterZwischenstopp, endAirport],
-  };
+    ] as AirportPair,
+    thirdZwischenstoppEndAirport: [
+      dritterZwischenstopp,
+      endAirport,
+    ] as AirportPair,
+  } as const;
 
-  const [start, end] = airportMapping[verspaeteterFlug];
+  const pair =
+    getPairFrom(verspaeteterFlugOneStop, oneStop) ??
+    getPairFrom(verspaeteterFlugTwoStop, twoStop) ??
+    getPairFrom(verspaeteterFlugThreeStop, threeStop);
 
-  return {
-    startAirportName: getAirportNameByIataCode(start ?? ""),
-    endAirportName: getAirportNameByIataCode(end ?? ""),
-  };
+  if (!pair) return { startAirportName: "", endAirportName: "" };
+
+  const [startCode, endCode] = pair;
+
+  const startName = startCode
+    ? (getAirportNameByIataCode(startCode) ?? "")
+    : "";
+  const endName = endCode ? (getAirportNameByIataCode(endCode) ?? "") : "";
+
+  return { startAirportName: startName, endAirportName: endName };
 };
