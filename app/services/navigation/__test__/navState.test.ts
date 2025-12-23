@@ -219,6 +219,13 @@ describe("navStateStepper", () => {
     expect(actual).toBe("Open");
   });
 
+  it("should return Open in case a few states are open, but it does not contain any current", () => {
+    const states = ["Open" as const, "Disabled" as const, "Done" as const];
+
+    const actual = navStateStepper(states);
+    expect(actual).toBe("Open");
+  });
+
   it("should return Current if at least one state is current", () => {
     const statesDone = ["Open" as const, "Open" as const, "Current" as const];
 
