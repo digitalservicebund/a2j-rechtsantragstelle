@@ -81,7 +81,7 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "pino-http": "^11.0.0",
-    "posthog-js": "1.302.2",
+    "posthog-js": "1.309.1",
     "posthog-node": "5.17.4",
     "rate-limit-redis": "^4.3.1",
     "react": "^19.2.3",
@@ -95,7 +95,7 @@
     "validator": "^13.15.26",
     "xss": "^1.0.15",
     "xstate": "^5.25.0",
-    "zod": "^4.1.13"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
@@ -146,7 +146,7 @@
     "storybook": "^10.1.10",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.47.0",
+    "typescript-eslint": "^8.50.0",
     "vite": "^7.2.7",
     "vite-env-only": "^3.0.3",
     "vite-node": "^5.2.0",
