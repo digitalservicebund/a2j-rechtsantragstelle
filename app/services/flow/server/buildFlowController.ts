@@ -197,7 +197,7 @@ function stepStates(
       url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
-      isReachable: reachableSubStates.length > 0,
+      isReachable: reachableSubStates.some((state) => state.isReachable), // need this condition due the parameter addUnreachableSubSteps
       subStates: reachableSubStates,
       excludedFromValidation,
     };
