@@ -113,8 +113,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.302.2
-        version: 1.302.2
+        specifier: 1.309.1
+        version: 1.309.1
       posthog-node:
         specifier: 5.17.4
         version: 5.17.4
@@ -2116,12 +2116,6 @@ packages:
       }
     engines: { node: ">=18" }
     hasBin: true
-
-  "@posthog/core@1.7.1":
-    resolution:
-      {
-        integrity: sha512-kjK0eFMIpKo9GXIbts8VtAknsoZ18oZorANdtuTj1CbgS28t4ZVq//HAWhnxEuXRTrtkd+SUJ6Ux3j2Af8NCuA==,
-      }
 
   "@posthog/core@1.8.1":
     resolution:
@@ -7391,10 +7385,10 @@ packages:
       }
     engines: { node: ">=0.10.0" }
 
-  posthog-js@1.302.2:
+  posthog-js@1.309.1:
     resolution:
       {
-        integrity: sha512-4voih22zQe7yHA7DynlQ3B7kgzJOaKIjzV7K3jJ2Qf+UDXd1ZgO7xYmLWYVtuKEvD1OXHbKk/fPhUTZeHEWpBw==,
+        integrity: sha512-JUJcQhYzNNKO0cgnSbowCsVi2RTu75XGZ2EmnTQti4tMGRCTOv/HCnZasdFniBGZ0rLugQkaScYca/84Ta2u5Q==,
       }
 
   posthog-node@5.17.4:
@@ -7404,10 +7398,10 @@ packages:
       }
     engines: { node: ">=20" }
 
-  preact@10.27.2:
+  preact@10.28.0:
     resolution:
       {
-        integrity: sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg==,
+        integrity: sha512-rytDAoiXr3+t6OIP3WGlDd0ouCUG1iCWzkcY3++Nreuoi17y6T5i/zRhe6uYfoVcxq6YU+sBtJouuRDsq8vvqA==,
       }
 
   prelude-ls@1.2.1:
@@ -10532,10 +10526,6 @@ snapshots:
   "@playwright/test@1.57.0":
     dependencies:
       playwright: 1.57.0
-
-  "@posthog/core@1.7.1":
-    dependencies:
-      cross-spawn: 7.0.6
 
   "@posthog/core@1.8.1":
     dependencies:
@@ -14024,19 +14014,19 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.302.2:
+  posthog-js@1.309.1:
     dependencies:
-      "@posthog/core": 1.7.1
+      "@posthog/core": 1.8.1
       core-js: 3.47.0
       fflate: 0.4.8
-      preact: 10.27.2
+      preact: 10.28.0
       web-vitals: 4.2.4
 
   posthog-node@5.17.4:
     dependencies:
       "@posthog/core": 1.8.1
 
-  preact@10.27.2: {}
+  preact@10.28.0: {}
 
   prelude-ls@1.2.1: {}
 
