@@ -4,7 +4,7 @@ import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import type { Config } from "~/services/flow/server/types";
+import type { Config, StateMachineTypes } from "~/services/flow/server/types";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
@@ -12,6 +12,8 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
+import { createMachine } from "xstate";
+import { beratungshilfeXstateConfig } from "~/domains/beratungshilfe/formular/xstateConfig";
 
 type FlowMigration = {
   source: FlowId;
@@ -45,3 +47,10 @@ export const flows = {
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
 } satisfies Record<FlowId, Flow>;
+
+export const machines = {
+  "/beratungshilfe/antrag": createMachine({
+    types: {} as StateMachineTypes,
+    ...(beratungshilfeXstateConfig as Config),
+  }),
+};
