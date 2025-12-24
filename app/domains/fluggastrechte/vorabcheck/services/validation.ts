@@ -1,8 +1,8 @@
 import type { MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { fluggastrechteVorabcheckPages } from "../pages";
 
 const fieldsToValidate = ["startAirport", "endAirport"] as const;
-const _schema = getAllPageSchemaByFlowId("/fluggastrechte/vorabcheck");
+const _schema = fluggastrechteVorabcheckPages.flughaefen.pageSchema;
 
 export function validateSameDepartureAndArrivalAirports(
   baseSchema: MultiFieldsValidationBaseSchema<typeof _schema>,

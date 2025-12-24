@@ -4,7 +4,6 @@ import {
   nextStepId,
 } from "~/services/flow/server/buildFlowController";
 import { type Config } from "../types";
-import * as isStepDone from "~/services/flow/server/isStepDone";
 
 const config: Config = {
   id: "/test/flow",
@@ -571,6 +570,52 @@ describe("buildFlowController", () => {
           ],
         },
       ]);
+    });
+
+    it("should return the parent non reachable if parameter addUnreachableSubSteps is true and the child states are not reachable at all", () => {
+      const actual = buildFlowController({
+        config: {
+          id: "/test",
+          initial: "parent1",
+          states: {
+            parent1: {
+              initial: "child1",
+              states: {
+                child1: { initial: "start", states: { start: {} } },
+                child2: { initial: "start", states: { start: {} } },
+              },
+            },
+            parent2: {
+              initial: "child1",
+              states: {
+                child1: { initial: "start", states: { start: {} } },
+                child2: { initial: "start", states: { start: {} } },
+              },
+            },
+          },
+        },
+      }).stepStates(true);
+
+      expect(actual[1]).toEqual({
+        isDone: true,
+        isReachable: false,
+        stepId: "/parent2",
+        url: "/test/parent2",
+        subStates: [
+          {
+            isDone: true,
+            isReachable: false,
+            stepId: "/parent2/child1",
+            url: "/test/parent2/child1/start",
+          },
+          {
+            isDone: true,
+            isReachable: false,
+            stepId: "/parent2/child2",
+            url: "/test/parent2/child2/start",
+          },
+        ],
+      });
     });
   });
 

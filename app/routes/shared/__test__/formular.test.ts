@@ -1,8 +1,4 @@
-import { type ValidationErrorResponseData } from "@rvf/react-router";
-import {
-  type UNSAFE_DataWithResponseInit,
-  type ActionFunctionArgs,
-} from "react-router";
+import { type ActionFunctionArgs } from "react-router";
 import { Result } from "true-myth";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -14,6 +10,12 @@ import { uploadUserFile } from "~/services/upload/fileUploadHelpers.server";
 import { action } from "../formular";
 import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromRequest";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import {
+  assertResponse,
+  assertValidationError,
+  isResponse,
+} from "~/routes/__test__/isResponse";
+import invariant from "tiny-invariant";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -46,7 +48,7 @@ const mockDefaultOptions = {
 const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
 
 const mockPrunerData = (userDataMock?: Record<string, string>) => {
-  vi.mocked(pruneIrrelevantData).mockResolvedValue({
+  vi.mocked(pruneIrrelevantData).mockReturnValue({
     prunedData: userDataMock ?? {},
     validFlowPaths: {},
   });
@@ -92,10 +94,8 @@ describe("formular.server", () => {
 
         const request = new Request(mockRequestUrl, options);
 
-        const response = (await action(
-          mockRouteArgsFromRequest(request),
-        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-
+        const response = await action(mockRouteArgsFromRequest(request));
+        invariant(!isResponse(response), "Expected success field in data");
         expect(response.init?.status).toBe(422);
         expect(response.data.fieldErrors).toEqual({
           file: "File upload failed",
@@ -116,10 +116,8 @@ describe("formular.server", () => {
           body: formData,
         });
 
-        const response = (await action(
-          mockRouteArgsFromRequest(request),
-        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-
+        const response = await action(mockRouteArgsFromRequest(request));
+        invariant(!isResponse(response), "Expected success field in data");
         expect(response.init?.status).toBe(200);
         expect(updateSession).toHaveBeenCalledTimes(1);
         expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
@@ -137,10 +135,10 @@ describe("formular.server", () => {
           }),
         );
 
-        const response = (await action(
+        const response = await action(
           mockRouteArgsFromRequest(mockDefaultRequest),
-        )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-
+        );
+        assertValidationError(response);
         expect(response.init?.status).toBe(422);
         expect(response.data.fieldErrors).toEqual({
           name: "Name is required",
@@ -203,10 +201,10 @@ describe("formular.server", () => {
         );
         vi.mocked(flowDestination).mockReturnValue("/next-step");
 
-        const response = (await action(
+        const response = await action(
           mockRouteArgsFromRequest(mockDefaultRequest),
-        )) as Response;
-
+        );
+        assertResponse(response);
         expect(response.status).toEqual(302);
         expect(response.headers.get("location")).toEqual("/next-step");
       });
@@ -226,10 +224,7 @@ describe("formular.server", () => {
           .mocked(flowDestination)
           .mockResolvedValue("/next-step");
 
-        (await action(
-          mockRouteArgsFromRequest(mockDefaultRequest),
-        )) as Response;
-
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
         expect(pruneIrrelevantData).toBeCalledTimes(1);
         expect(flowDestinationMock).toHaveBeenCalledWith(
           "/fluggastrechte/formular/abgabe/start",

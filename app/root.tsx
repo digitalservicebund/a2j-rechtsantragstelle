@@ -53,6 +53,10 @@ import { mainSessionFromCookieHeader } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
+import { KernCookieBanner } from "./components/kern/KernCookieBanner";
+import KernFooter from "./components/kern/layout/KernFooter";
+import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
+import KernPageHeader from "./components/kern/layout/KernPageHeader";
 
 export { headers } from "./rootHeaders";
 
@@ -75,6 +79,7 @@ export const links: LinksFunction = () => [
     as: "font",
     crossOrigin: "anonymous",
   },
+  { rel: "help", href: "%PUBLIC_URL%/.well-known/security.txt" },
   { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
   { rel: "stylesheet", href: fonts },
 ];
@@ -211,7 +216,11 @@ function App() {
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          <CookieBanner content={cookieBannerContent} />
+          {showKernUX ? (
+            <KernCookieBanner content={cookieBannerContent} />
+          ) : (
+            <CookieBanner content={cookieBannerContent} />
+          )}
           <SkipToContentLink
             label={getTranslationByKey(
               SKIP_TO_CONTENT_TRANSLATION_KEY,
@@ -219,27 +228,54 @@ function App() {
             )}
             target={skipContentLinkTarget}
           />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            linkLabel={pageHeaderProps.linkLabel}
-            ariaLabel={getTranslationByKey(
-              "header-breadcrumb",
-              accessibilityTranslations,
-            )}
-          />
+          {showKernUX ? (
+            <KernPageHeader {...pageHeaderProps} />
+          ) : (
+            <PageHeader {...pageHeaderProps} />
+          )}
+
+          {showKernUX ? (
+            <KernBreadcrumbs
+              breadcrumbs={breadcrumbs}
+              linkLabel={pageHeaderProps.linkLabel}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
+            />
+          ) : (
+            <Breadcrumbs
+              breadcrumbs={breadcrumbs}
+              linkLabel={pageHeaderProps.linkLabel}
+              ariaLabel={getTranslationByKey(
+                "header-breadcrumb",
+                accessibilityTranslations,
+              )}
+            />
+          )}
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
           <footer>
-            <Footer
-              {...footer}
-              showDeletionBanner={hasAnyUserData}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                accessibilityTranslations,
-              )}
-            />
+            {showKernUX ? (
+              <KernFooter
+                {...footer}
+                showDeletionBanner={hasAnyUserData}
+                ariaLabel={getTranslationByKey(
+                  "footer-navigation",
+                  accessibilityTranslations,
+                )}
+              />
+            ) : (
+              <Footer
+                {...footer}
+                showDeletionBanner={hasAnyUserData}
+                ariaLabel={getTranslationByKey(
+                  "footer-navigation",
+                  accessibilityTranslations,
+                )}
+              />
+            )}
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
@@ -260,6 +296,10 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
     <html lang="de">
       <head>
         <title>Justiz Services - Fehler aufgetreten</title>
+        <link
+          rel="stylesheet"
+          href={loaderData?.showKernUX ? kernStyles : styles}
+        />
         <Meta />
         <Links />
         <meta name="darkreader-lock" />

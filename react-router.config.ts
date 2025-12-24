@@ -2,6 +2,10 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
   ssr: true,
-  // Disable lazy route discovery (see ADR 28)
-  routeDiscovery: { mode: "initial" },
+  routeDiscovery: { mode: "initial" }, // Disable lazy route discovery (see ADR 28)
+  future: {
+    v8_splitRouteModules: true,
+    v8_viteEnvironmentApi: true,
+    v8_middleware: true,
+  },
 } satisfies Config;

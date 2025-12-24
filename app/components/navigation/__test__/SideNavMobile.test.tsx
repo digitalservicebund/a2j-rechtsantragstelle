@@ -105,6 +105,46 @@ describe("SideNavMobile", () => {
     expect(getAllByTestId("step-stepper-link")[2]).toHaveTextContent("Step 3");
   });
 
+  it("should render the step stepper links with the correct index", () => {
+    const dummyStepsStepper = [
+      {
+        href: ".",
+        label: "Step disabled",
+        state: "Disabled" as NavState,
+      },
+      {
+        href: "..",
+        label: "Step Current",
+        state: "Current" as NavState,
+      },
+      {
+        href: "...",
+        label: "Step Open",
+        state: "Open" as NavState,
+      },
+      {
+        href: "....",
+        label: "Step Warning",
+        state: "Warning" as NavState,
+      },
+    ];
+
+    const { getAllByTestId } = render(
+      <SideNavMobile
+        navItems={dummyNavItems}
+        stepsStepper={dummyStepsStepper}
+      />,
+    );
+
+    expect(getAllByTestId("step-stepper-link").length).toBe(2);
+    expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent(
+      "Step Open (3/4)",
+    );
+    expect(getAllByTestId("step-stepper-link")[1]).toHaveTextContent(
+      "Step Warning (4/4)",
+    );
+  });
+
   it("should add warning icon for step stepper with warning state and the a11y info", () => {
     const stepStepperWithWarning = [{ ...dummyStepsStepper[2] }];
 

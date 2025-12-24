@@ -1,8 +1,4 @@
-import { type ValidationErrorResponseData } from "@rvf/react-router";
-import {
-  type UNSAFE_DataWithResponseInit,
-  type ActionFunctionArgs,
-} from "react-router";
+import { type ActionFunctionArgs } from "react-router";
 import { Result } from "true-myth";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -13,6 +9,10 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 import { action } from "../vorabcheck";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import {
+  assertResponse,
+  assertValidationError,
+} from "~/routes/__test__/isResponse";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -42,7 +42,7 @@ const mockDefaultOptions = {
 };
 
 const mockPrunerData = (userDataMock?: Record<string, string>) => {
-  vi.mocked(pruneIrrelevantData).mockResolvedValue({
+  vi.mocked(pruneIrrelevantData).mockReturnValue({
     prunedData: userDataMock ?? {},
     validFlowPaths: {},
   });
@@ -89,11 +89,9 @@ describe("vorabcheck.server", () => {
         mockRequestUrl,
         mockDefaultOptions,
       );
-
-      const response = (await action(
-        mockRouteArgsFromRequest(mockDefaultRequest),
-      )) as UNSAFE_DataWithResponseInit<ValidationErrorResponseData>;
-
+      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
+      const response = await action(routeArgs);
+      assertValidationError(response);
       expect(response.init?.status).toBe(422);
       expect(response.data.fieldErrors).toEqual({
         name: "Name is required",
@@ -164,11 +162,9 @@ describe("vorabcheck.server", () => {
         mockRequestUrl,
         mockDefaultOptions,
       );
-
-      const response = (await action(
-        mockRouteArgsFromRequest(mockDefaultRequest),
-      )) as Response;
-
+      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
+      const response = await action(routeArgs);
+      assertResponse(response);
       expect(response.status).toEqual(302);
       expect(response.headers.get("location")).toEqual("/next-step");
     });
@@ -193,7 +189,7 @@ describe("vorabcheck.server", () => {
         .mocked(flowDestination)
         .mockResolvedValue("/next-step");
 
-      (await action(mockRouteArgsFromRequest(mockDefaultRequest))) as Response;
+      await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
       expect(pruneIrrelevantData).toBeCalledTimes(1);
       expect(flowDestinationMock).toHaveBeenCalledWith(

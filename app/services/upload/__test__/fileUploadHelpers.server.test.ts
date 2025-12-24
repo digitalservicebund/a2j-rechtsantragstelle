@@ -1,9 +1,9 @@
-import { getContext } from "~/domains/userData";
 import { uploadUserFileToS3 } from "~/services/externalDataStorage/userFileS3Helpers";
 import { pdfFileUploadArrayRequiredSchema } from "~/services/validation/pdfFileSchema";
 import { deleteUserFile, uploadUserFile } from "../fileUploadHelpers.server";
+import { getPageSchema } from "~/domains/pageSchemas";
 
-vi.mock("~/domains/userData");
+vi.mock("~/domains/pageSchemas");
 vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
   deleteUserFileFromS3: vi.fn(),
   uploadUserFileToS3: vi.fn(),
@@ -12,9 +12,10 @@ vi.mock("~/services/externalDataStorage/userFileS3Helpers", () => ({
 describe("fileUploadHelpers.server", () => {
   const savedFileKey = "a-b-c-d-e";
   vi.mocked(uploadUserFileToS3).mockResolvedValue(savedFileKey);
-  vi.mocked(getContext).mockReturnValue({
+  vi.mocked(getPageSchema).mockReturnValue({
     test: pdfFileUploadArrayRequiredSchema,
   });
+
   const filename = "file.pdf";
   const fileType = "application/pdf";
   const fileBlob = new Blob(["fileContent"], { type: fileType });

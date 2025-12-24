@@ -8,6 +8,7 @@ const localFeatureFlags = {
   showPKHZusammenfassung: false,
   showKernUX: false,
   showAutoSummary: false,
+  showPkontoAntragFlow: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
