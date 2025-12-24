@@ -8,6 +8,7 @@
 - 2025-01-22: Edited (Renumbered from `0014`)
 - 2025-04-04: Edited (Added chronological status)
 - 2025-07-02: Edited (Updated file ci yml)
+- 2025-12-24: Edited (Updated integration tests)
 
 ## Context
 
@@ -31,23 +32,30 @@ Examples:
   - React components (e.g. `/app/components/__test__/Button.test.tsx` validate the rendering and behavior of the 'Button' React component).
   - Utility functions (e.g. `/app/util/__test__/objects.test.ts` tests functions like `dropEachProperty`, `isKeyOfObject`, `objectMap`).
 
+- Flow logic (e.g. `/app/flows/__test__/flows.test.ts` validate state machine flow logic using various test cases).
+
 #### Integration Tests
 
 Integration tests validate the interaction between different parts of the application.
-Like unit tests, integration tests are located in directories named `/__test__` within the lowest-level app folders.<br>
+These tests are located in `/tests/integration` directory.<br>
+
 Examples:
 
-- Flow logic (e.g. `/app/flows/__test__/flows.test.ts` validate state machine flow logic using various test cases).
+- Test a `fake Flow` test where is included:
+  - Form components (Input, Radio, AutoSuggestionInput, etc.) across multiple test pages.
+  - Follow a specification defined by the A2J engineering team.
+  - Exercise the FlowNavigation component, validating navigation behavior and state handling.
+
+For more details about it, please check the [ADR-30 - E2E vs Integration Test Strategy for Flow services](/doc/adr/0030-e2e-test-flow-domains.md).
 
 #### End-to-End Tests
 
 End-to-end tests validate the application's functionality from the user's perspective. These tests are located in the `/tests/e2e` directory.<br>
 Examples:
 
-- Navigation for content pages (e.g. `/tests/e2e/pages/beratungshilfe.spec.ts` ensures the `/beratungshilfe` page is can be accessed and navigated).
-- Interactive forms (e.g. `/tests/e2e/domains/beratungshilfe/vorabcheck/beratungshilfe.vorabcheck.spec.ts` tests the complete traversal of the Beratungshilfe Vorabcheck flow).
 - Accessibility (e.g. `tests/e2e/pages/accessibilityScans.spec.ts` tests most of the content pages).
 - Application security (e.g. `/tests/e2e/common/csrf.spec.ts`, which validates CSRF token behavior across multiple tabs).
+- Cookie consent (e.g. `tests/e2e/pages/cookie-consent.spec.ts`, which validates the behavior of cookie component)
 
 ### Test Coverage
 
@@ -57,7 +65,6 @@ is captured using `vitest` and therefore analyzed for all tests that are execute
 
 #### Coverage Gaps
 
-- Not all possible paths through the different flows are covered by our `flows.test.ts` integration tests.
 - We do not test different browser and device types with our e2e tests.
 - We sparsely test failing form validations.
 - Page accessibility is checked inconsistently across the e2e tests of the flows (missing "sub"-content-pages and missing flow pages).
@@ -70,8 +77,8 @@ is captured using `vitest` and therefore analyzed for all tests that are execute
 
 #### Frameworks
 
-- Vitest: Framework for unit and integration testing.
-- Playwright: Framework for end-to-end testing.
+- Vitest: Framework for unit.
+- Playwright: Framework for end-to-end testing and integration testing.
 - React Testing Library: Used for testing React components.
 - axe-core: Accessibility testing engine.
 
@@ -89,7 +96,7 @@ See above under Test Types.
 
 #### Colocation
 
-Unit and integration tests are colocated with the implementation. End-to-end tests are located in the `/tests/e2e` directory.
+Unit tests are colocated with the implementation. End-to-end tests are located in the `/tests/e2e` directory. Integration tests are located in the `/tests/integration` directory.
 
 ### Test Quality
 
@@ -117,14 +124,15 @@ In case of a failing test in this suite, the test output only shows the context 
 `/.github/workflows/ci-pipeline.yml` is the main CI pipeline that triggers on pushes and pull requests to the main branch and can also be manually dispatched. Is perfoms automated test runs via 3 different actions:
 
 1. Via the `code-quality` job (which is located in `code-quality.yml`), `vitest run --coverage` which executes the `vitest` runner, including coverage reports. This job triggers all unit, integration and components tests.
-2. In the `verify-local-e2e`job (described in `e2e-test.yml`), `pnpm playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application (using the content that was last deployed successfully!), where 'local' refers to the CI respectively the pipeline environment.
-3. The `verify-preview-e2e` job (also in `e2e-test.yml`) runs the end-to-end tests against a preview deployment of the application. This job is triggered after a successful deployment to the preview environment.
+2. Via the `integration-tests` job, `pnpm test:integration` is executed to run the integration against a locally built and served instance of the application, where 'local' refers to the CI respectively the pipeline environment.
+3. In the `verify-local-e2e`job (described in `e2e-test.yml`), `pnpm playwright test` is executed to run the end-to-end tests against a locally built and served instance of the application (using the content that was last deployed successfully!), where 'local' refers to the CI respectively the pipeline environment.
+4. The `verify-preview-e2e` job (also in `e2e-test.yml`) runs the end-to-end tests against a preview deployment of the application. This job is triggered after a successful deployment to the preview environment.
 
 The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution. At the time of writing, the slowest shard (we currently use 4 shards) of each test run (`verify-local-e2e` and `verify-preview-e2e`) in the CI pipeline takes about 6 to 8 minutes to finish.
 
 #### Automated Testing Pre Commit
 
-Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit, integration or component tests will prevent the commit from being created.
+Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit or component tests will prevent the commit from being created.
 
 ### Test Data Management
 
@@ -150,13 +158,14 @@ The current testing strategy is documented as described above. This ADR serves a
 #### Unit tests
 
 - Intentionalize accessibility tests (e.g add accessibility tests for individual React components).
+- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
+- Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
 
 #### Integration tests
 
-- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
-- Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
-- Improve test coverage between app and cms interface (e.g. test if all pages are available in the CMS, test if field names from strapi match app schema).
-- Add tests for failing form validations.
+- Add tests for every form component in a browser with user action.
+- Only test the shortest path.
+- Check edge cases, like PDF generations, Multi-field validation and array page scenarios.
 
 #### End-to-End tests
 
