@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const rsvCoverageSchema = z.enum(["yes", "no", "partly", "unknown"]);

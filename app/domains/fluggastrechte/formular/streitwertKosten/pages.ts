@@ -1,5 +1,6 @@
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/domains/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
 export const fluggastrechteStreitwertKostenPages = {
   streitwertKostenGerichtskosten: {
     stepId: "streitwert-kosten/gerichtskosten",

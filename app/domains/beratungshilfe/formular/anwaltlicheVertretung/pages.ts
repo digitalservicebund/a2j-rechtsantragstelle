@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { createDateSchema } from "~/services/validation/date";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";

@@ -1,5 +1,5 @@
 import { type z } from "zod";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type UserDataFromPagesSchema } from "~/domains/types";
 import type {
   ankuendigungSchema,
   fluggastBereichSchema,

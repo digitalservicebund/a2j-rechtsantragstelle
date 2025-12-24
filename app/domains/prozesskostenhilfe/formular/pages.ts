@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { pkhFormularAbgabePages } from "~/domains/prozesskostenhilfe/formular/abgabe/pages";
 import { pkhFormularGesetzlicheVertretungPages } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/pages";
 import { pkhFormularPersoenlicheDatenPages } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/pages";

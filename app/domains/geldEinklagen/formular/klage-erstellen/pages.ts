@@ -1,5 +1,5 @@
 import z from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";

@@ -1,4 +1,4 @@
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type UserDataFromPagesSchema } from "~/domains/types";
 import { type berhAntragFinanzielleAngabenKinderPages } from "./pages";
 
 export type BeratungshilfeFinanzielleAngabenKinderUserData =

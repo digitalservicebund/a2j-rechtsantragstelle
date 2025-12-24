@@ -1,4 +1,4 @@
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/domains/types";
 import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { ibanSchema } from "~/services/validation/iban";

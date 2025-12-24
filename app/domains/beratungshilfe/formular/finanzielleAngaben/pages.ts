@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./andereUnterhaltszahlungen/pages";
 import { berhAntragFinanzielleAngabenEigentumPages } from "./eigentum/pages";
 import { berhAntragFinanzielleAngabenEinkommenPages } from "./einkommen/pages";

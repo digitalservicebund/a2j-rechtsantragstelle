@@ -1,6 +1,6 @@
 import z from "zod";
 import { isStepDone } from "~/services/flow/server/isStepDone";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { type ArrayConfigServer } from "~/services/array";
 import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";

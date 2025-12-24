@@ -1,5 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type UserDataFromPagesSchema } from "~/domains/types";
 import { type pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = {

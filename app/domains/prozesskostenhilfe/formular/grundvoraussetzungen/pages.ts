@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const pkhFormularGrundvoraussetzungenPages = {

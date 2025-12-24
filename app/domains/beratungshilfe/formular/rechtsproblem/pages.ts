@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const berHAntragRechtsproblemPages = {

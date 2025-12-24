@@ -6,8 +6,8 @@ import {
   xStateTargetsFromPagesConfig,
   getRelevantPageSchemasForStepId,
   filterPageSchemasByReachableSteps,
-  type PageConfig,
 } from "../pageSchemas";
+import { type PageConfig } from "../types";
 
 describe("getPageSchema", () => {
   it("should return the page schema for the current step", () => {

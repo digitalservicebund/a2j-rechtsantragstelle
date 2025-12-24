@@ -1,5 +1,4 @@
 import mapValues from "lodash/mapValues";
-import { type z } from "zod";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
@@ -11,6 +10,13 @@ import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
+import type {
+  ArrayPage,
+  ArrayParentPage,
+  PageConfig,
+  PagesConfig,
+  UserDataFromPagesSchema,
+} from "./types";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -132,39 +138,6 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
   }));
 }
 
-export type PagesConfig = Record<string, PageConfig>;
-
-type FlowPage = { stepId: string; pageSchema?: SchemaObject };
-type ArrayPage = {
-  pageSchema?: SchemaObject;
-  arrayPages?: Record<string, ArrayPage>;
-};
-type ArrayParentPage = {
-  stepId: string;
-  pageSchema: SchemaObject;
-  arrayPages: Record<string, ArrayPage>;
-};
-
-const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
-  page && "arrayPages" in page;
-
-export type PageConfig = FlowPage | ArrayParentPage;
-
-type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
-    ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
-    : never;
-}[keyof T];
-
-type UnionToIntersection<U> = (
-  U extends unknown ? (x: U) => void : never
-) extends (x: infer R) => void
-  ? R
-  : never;
-
-export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
-  UnionToIntersection<ExtractSchemas<T>>
->;
 export function getRelevantPageSchemasForStepId(
   flowId: FlowId,
   stepId: string,
@@ -175,6 +148,9 @@ export function getRelevantPageSchemasForStepId(
     ),
   );
 }
+
+const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
+  page && "arrayPages" in page;
 
 export const filterPageSchemasByReachableSteps =
   <T extends PagesConfig>(

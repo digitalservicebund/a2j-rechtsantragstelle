@@ -1,9 +1,9 @@
 import z from "zod";
+import { filterPageSchemasByReachableSteps } from "~/domains/pageSchemas";
 import {
-  filterPageSchemasByReachableSteps,
   type PagesConfig,
   type UserDataFromPagesSchema,
-} from "~/domains/pageSchemas";
+} from "~/domains/types";
 import type { SchemaObject } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import partition from "lodash/partition";

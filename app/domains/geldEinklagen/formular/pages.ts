@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { geldEinklagenGerichtPruefenPages } from "./gericht-pruefen/pages";
 import { geldEinklagenKlageErstellenPages } from "./klage-erstellen/pages";
 

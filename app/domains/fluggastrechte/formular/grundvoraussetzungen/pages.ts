@@ -1,5 +1,5 @@
 import z from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/domains/types";
 import { airportSchema } from "~/services/validation/airport";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";

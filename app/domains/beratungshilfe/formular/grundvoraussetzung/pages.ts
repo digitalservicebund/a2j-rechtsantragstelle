@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const berHAntragGrundvoraussetzungenPages = {

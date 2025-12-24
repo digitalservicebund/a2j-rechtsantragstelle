@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/domains/types";
 import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/buildKidsCountValidationSchema";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";

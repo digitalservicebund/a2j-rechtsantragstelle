@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { createSplitDateSchema } from "~/services/validation/date";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";

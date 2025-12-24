@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/domains/types";
 import { berHAntragAbgabePages } from "./abgabe/pages";
 import { berHAntragAnwaltlicheVertretungPages } from "./anwaltlicheVertretung/pages";
 import { berhAntragFinanzielleAngabenPages } from "./finanzielleAngaben/pages";
