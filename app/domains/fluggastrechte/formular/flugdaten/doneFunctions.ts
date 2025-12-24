@@ -32,7 +32,7 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
     case "oneStop": {
       return objectKeysNonEmpty(context, [
         "ersterZwischenstopp",
-        "verspaeteterFlug",
+        "verspaeteterFlugOneStop",
       ]);
     }
 
@@ -40,7 +40,7 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
       return objectKeysNonEmpty(context, [
         "ersterZwischenstopp",
         "zweiterZwischenstopp",
-        "verspaeteterFlug",
+        "verspaeteterFlugTwoStops",
       ]);
     }
 
@@ -49,7 +49,7 @@ const hasZwischenStoppData: FluggastrechteFlugdatenGuard = ({ context }) => {
         "ersterZwischenstopp",
         "zweiterZwischenstopp",
         "dritterZwischenstopp",
-        "verspaeteterFlug",
+        "verspaeteterFlugThreeStops",
       ]);
     }
 

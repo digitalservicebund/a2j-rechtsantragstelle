@@ -210,6 +210,7 @@ function App() {
           }}
         />
         <link rel="stylesheet" href={showKernUX ? kernStyles : styles} />
+        <link rel="help" href="%PUBLIC_URL%/.well-known/security.txt" />
         <Meta />
         <Links />
       </head>
