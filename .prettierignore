@@ -28,4 +28,3 @@ scripts/data/cities_airports_de.csv
 .react-router/
 .npmrc
 pnpm-lock.yaml
-content.json
