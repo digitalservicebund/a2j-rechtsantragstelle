@@ -33,10 +33,10 @@ jobs:
           path: coverage/
           retention-days: 1
       - name: Upload build
-        if: ${{ matrix.cmd == 'build'  && github.ref == 'refs/heads/main' }}
+        if: ${{ matrix.cmd == 'build' }}
         uses: actions/upload-artifact@v6
         with:
-          name: build
+          name: build-${{ github.ref_name }}
           path: build/
           retention-days: 1
           include-hidden-files: true

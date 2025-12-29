@@ -96,7 +96,7 @@ jobs:
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - uses: actions/download-artifact@v7
-        name: build
+        name: build-${{ github.ref_name }}
       - run: ./docker.sh --build app
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
