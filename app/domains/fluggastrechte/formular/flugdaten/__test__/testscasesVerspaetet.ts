@@ -90,7 +90,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "oneStop",
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
+      verspaeteterFlugOneStop: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "yes",
       ersterZwischenstopp: "HAM",
       tatsaechlicherFlug: "no",
@@ -116,7 +116,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "oneStop",
-      verspaeteterFlug: "firstZwischenstoppEndAirport",
+      verspaeteterFlugOneStop: "firstZwischenstoppEndAirport",
       ersterZwischenstopp: "HAM",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -140,7 +140,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
+      verspaeteterFlugTwoStops: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -158,7 +158,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlug: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugTwoStops: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -176,7 +176,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "twoStop",
-      verspaeteterFlug: "secondZwischenstoppEndAirport",
+      verspaeteterFlugTwoStops: "secondZwischenstoppEndAirport",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -193,7 +193,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
+      verspaeteterFlugThreeStops: "startAirportFirstZwischenstopp",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -211,7 +211,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugThreeStops: "firstAirportSecondZwischenstopp",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -229,7 +229,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "secondAirportThirdZwischenstopp",
+      verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
       anschlussFlugVerpasst: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
@@ -247,7 +247,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
     {
       ...baseContext,
       zwischenstoppAnzahl: "threeStop",
-      verspaeteterFlug: "thirdZwischenstoppEndAirport",
+      verspaeteterFlugThreeStops: "thirdZwischenstoppEndAirport",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
     },

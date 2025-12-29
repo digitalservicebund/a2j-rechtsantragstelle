@@ -79,7 +79,6 @@ export const links: LinksFunction = () => [
     as: "font",
     crossOrigin: "anonymous",
   },
-  { rel: "help", href: "%PUBLIC_URL%/.well-known/security.txt" },
   { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
   { rel: "stylesheet", href: fonts },
 ];
