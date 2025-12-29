@@ -53,6 +53,10 @@ function hashFromImage() {
     docker image inspect "$1" --format '{{ json .Config.Labels.hash }}' | tr -d '"'
 }
 
+function appImageTag() {
+    APP_HASH=$(hashFromImage $APP_IMAGE)
+    echo "$APP_HASH"
+}
 function prodImageTag() {
     CONTENT_HASH=$(hashFromImage $CONTENT_IMAGE)
     APP_HASH=$(hashFromImage $APP_IMAGE)
@@ -78,6 +82,10 @@ case $1 in
     ;;
 --contentHash)
     hashFromContentFile content.json
+    exit 0
+    ;;
+--appImageTag)
+    appImageTag
     exit 0
     ;;
 --prodImageTag)
