@@ -3,7 +3,6 @@ import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/d
 import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
 import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
 import { arrayIsNonEmpty } from "~/util/array";
-import { eigentumDone } from "../eigentum/doneFunctions";
 
 const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteUserData>[string] =
   ({ context }) => context["partner-hasArbeitsausgaben"] === "yes";
@@ -21,8 +20,6 @@ export const finanzielleAngabeEinkuenfteGuards = {
     context.staatlicheLeistungen === "grundsicherung",
   staatlicheLeistungenIsKeine: ({ context }) =>
     context.staatlicheLeistungen === "keine",
-  staatlicheLeistungenIsBuergergeldAndEigentumDone: ({ context }) =>
-    context.staatlicheLeistungen === "buergergeld" && eigentumDone({ context }),
   staatlicheLeistungenIsArbeitslosengeld: ({ context }) =>
     context.staatlicheLeistungen === "arbeitslosengeld",
   notEmployed: ({ context }) => context.currentlyEmployed === "no",
