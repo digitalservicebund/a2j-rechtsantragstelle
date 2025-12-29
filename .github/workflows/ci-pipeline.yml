@@ -94,7 +94,7 @@ jobs:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - run: echo "APP_IMAGE_TAG=$(./docker.sh --appImageTag)" >> $GITHUB_ENV
       - name: Save Docker image to file
-        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.APP_IMAGE_TAG }} | gzip image.tar.gz
+        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.APP_IMAGE_TAG }} | gzip > image.tar.gz
       - uses: actions/upload-artifact@v6
         with:
           name: docker-build
