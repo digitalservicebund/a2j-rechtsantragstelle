@@ -14,6 +14,7 @@ export const sortSchemaByFormComponents = (
   pageSchema: SchemaObject,
   formComponents?: StrapiFormComponent[],
 ) => {
+  // if the page only has one field or there are no form components, return the schema as is
   if (Object.entries(pageSchema).length < 2 || !formComponents) {
     return pageSchema;
   }
