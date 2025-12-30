@@ -1,7 +1,7 @@
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
-export const getFieldsByFormElements = (
+const getFieldsByFormElements = (
   formElements: StrapiFormComponent[],
 ): string[] =>
   formElements.flatMap((element) =>
