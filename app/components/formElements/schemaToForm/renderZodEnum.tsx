@@ -14,7 +14,6 @@ export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
 export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
-  pathname: string,
   matchingElement?: StrapiFormComponent,
 ) {
   const label = get(matchingElement, "label");

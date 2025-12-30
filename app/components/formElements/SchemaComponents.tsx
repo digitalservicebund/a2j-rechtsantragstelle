@@ -18,7 +18,6 @@ import {
   renderFieldSet,
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
-import { useLocation } from "react-router";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
 
 type Props = {
@@ -64,8 +63,6 @@ export const SchemaComponents = ({
   formComponents,
   className,
 }: Props) => {
-  const { pathname } = useLocation();
-
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
     formComponents,
@@ -105,12 +102,7 @@ export const SchemaComponents = ({
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(
-            nestedSchema,
-            fieldName,
-            pathname,
-            matchingElement,
-          );
+          return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
           return renderZodString(fieldName, matchingElement);
