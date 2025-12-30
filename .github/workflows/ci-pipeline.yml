@@ -123,8 +123,8 @@ jobs:
       - uses: actions/download-artifact@v7
         with:
           name: docker-build
-      - name: Load Docker image
-        run: docker load --input image.tar.gz
+      - name: Import Docker image
+        run: docker import image.tar.gz
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
