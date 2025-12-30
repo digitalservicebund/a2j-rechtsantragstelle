@@ -82,9 +82,9 @@ function tryDecrypt(key?: string, showError = true) {
 
 export function getEncrypted(): Record<string, any> {
   // if global.__encData is undefined, try to decrypt using the current key and fallback to the old key
-  global.__encData ??=
+  globalThis.__encData ??=
     tryDecrypt(getEncryptionKey(), false) ?? tryDecrypt(getEncryptionKeyOld());
-  return global.__encData ?? {};
+  return globalThis.__encData ?? {};
 }
 
 if (process.argv[2] === "updateZip") updateZipfile(process.argv[3]);
