@@ -53,6 +53,10 @@ function hashFromImage() {
     docker image inspect "$1" --format '{{ json .Config.Labels.hash }}' | tr -d '"'
 }
 
+function appImageTag() {
+    APP_HASH=$(hashFromImage $APP_IMAGE)
+    echo "$APP_HASH"
+}
 function prodImageTag() {
     CONTENT_HASH=$(hashFromImage $CONTENT_IMAGE)
     APP_HASH=$(hashFromImage $APP_IMAGE)
@@ -80,6 +84,10 @@ case $1 in
     hashFromContentFile content.json
     exit 0
     ;;
+--appImageTag)
+    appImageTag
+    exit 0
+    ;;
 --prodImageTag)
     prodImageTag
     exit 0
@@ -92,6 +100,7 @@ case $1 in
         LATEST_GIT_TAG=$(git rev-parse HEAD)
         APP_IMAGE_TAG=$APP_IMAGE
         
+        pnpm run build
         echo "Building $APP_IMAGE..."
         docker build -t $APP_IMAGE --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 

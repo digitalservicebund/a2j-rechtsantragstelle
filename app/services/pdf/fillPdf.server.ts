@@ -16,7 +16,7 @@ declare global {
   var __pdfFileBuffers: Partial<Record<FlowId, Buffer>>; // NOSONAR
 }
 
-global.__pdfFileBuffers = Object.fromEntries(
+globalThis.__pdfFileBuffers = Object.fromEntries(
   await Promise.all(
     pdfs.map(({ service, pdfFilename, flowId }) =>
       readRelativeFileToBuffer(
@@ -43,10 +43,10 @@ export async function fillPdf({
   yPositionsDruckvermerk,
   xPositionsDruckvermerk,
 }: FillPdfProps) {
-  if (!(flowId in global.__pdfFileBuffers))
+  if (!(flowId in globalThis.__pdfFileBuffers))
     throw new Error("No pdf file found for " + flowId);
 
-  const pdfDoc = await PDFDocument.load(global.__pdfFileBuffers[flowId]!);
+  const pdfDoc = await PDFDocument.load(globalThis.__pdfFileBuffers[flowId]!);
   resizeToA4(pdfDoc);
   pdfDoc.registerFontkit(fontkit);
   addDruckvermerk(pdfDoc, yPositionsDruckvermerk, xPositionsDruckvermerk);
