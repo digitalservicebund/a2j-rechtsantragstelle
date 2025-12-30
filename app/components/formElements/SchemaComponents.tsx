@@ -19,6 +19,7 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { useLocation } from "react-router";
+import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -64,9 +65,15 @@ export const SchemaComponents = ({
   className,
 }: Props) => {
   const { pathname } = useLocation();
+
+  const sortedFieldsSchema = sortSchemaByFormComponents(
+    pageSchema,
+    formComponents,
+  );
+
   return (
     <div className={classNames("ds-stack ds-stack-40", className)}>
-      {Object.entries(pageSchema).map(([fieldName, fieldSchema]) => {
+      {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
           formComponents ?? [],
