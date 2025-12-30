@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 import { type MergeWithCustomizer } from "lodash";
 import mergeWith from "lodash/mergeWith";
 import type { Cookie, Session } from "react-router";
