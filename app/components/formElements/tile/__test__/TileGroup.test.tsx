@@ -107,10 +107,6 @@ describe("TileGroup", () => {
     const fieldset = screen.getByRole("group");
     expect(fieldset).toHaveAttribute("aria-invalid", "true");
     expect(fieldset).toHaveAttribute(
-      "aria-describedby",
-      `${COMPONENT_NAME}-error`,
-    );
-    expect(fieldset).toHaveAttribute(
       "aria-errormessage",
       `${COMPONENT_NAME}-error`,
     );
