@@ -121,7 +121,8 @@ jobs:
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - uses: actions/download-artifact@v7
-        name: docker-build
+        with:
+          name: docker-build
       - name: Load Docker image
         run: docker load --input image.tar.gz
       - run: ./docker.sh --build prod
