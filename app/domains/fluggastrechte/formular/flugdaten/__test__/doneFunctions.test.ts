@@ -122,7 +122,7 @@ describe("flugdatenDone", () => {
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'verspaetet' without the verspaeteterFlug for the zwischenstopp", () => {
+    test("returns false when required fields are missing for 'verspaetet' without the verspaeteterFlugTwoStops for the zwischenstopp", () => {
       const context = {
         ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
@@ -143,7 +143,7 @@ describe("flugdatenDone", () => {
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
         dritterZwischenstopp: "BER",
-        verspaeteterFlug: "secondAirportThirdZwischenstopp",
+        verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "keineAnkunft",
@@ -273,7 +273,7 @@ describe("flugdatenDone", () => {
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
         dritterZwischenstopp: "BER",
-        verspaeteterFlug: "secondAirportThirdZwischenstopp",
+        verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
         annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
@@ -375,7 +375,7 @@ describe("flugdatenDone", () => {
       expect(flugdatenDone({ context })).toBe(false);
     });
 
-    test("returns false when required fields are missing for 'nichtbefoerderung' without the verspaeteterFlug for the zwischenstopp", () => {
+    test("returns false when required fields are missing for 'nichtbefoerderung' without the verspaeteterFlugTwoStops for the zwischenstopp", () => {
       const context = {
         ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "twoStop",
@@ -398,7 +398,7 @@ describe("flugdatenDone", () => {
         ersterZwischenstopp: "BER",
         zweiterZwischenstopp: "BER",
         dritterZwischenstopp: "BER",
-        verspaeteterFlug: "secondAirportThirdZwischenstopp",
+        verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",

@@ -41,19 +41,21 @@ beforeEach(() => {
 });
 
 describe("getStartAndEndAirportDelayNames", () => {
-  it("should return empty start and end airport given undefined verspaeteterFlug", () => {
+  it("should return empty start and end airport given undefined verspaeteterFlugOneStop, undefined verspaeteterFlugTwoStops, and undefined verspaeteterFlugThreeStops", () => {
     const actual = getStartAndEndAirportDelayNames({
-      verspaeteterFlug: undefined,
+      verspaeteterFlugOneStop: undefined,
+      verspaeteterFlugTwoStops: undefined,
+      verspaeteterFlugThreeStops: undefined,
     });
 
     expect(actual.startAirportName).toBe("");
     expect(actual.endAirportName).toBe("");
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as startAirportFirstZwischenstopp", () => {
+  it("should return correct the start and end airports given verspaeteterFlugOneStop as startAirportFirstZwischenstopp", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "startAirportFirstZwischenstopp",
+      verspaeteterFlugOneStop: "startAirportFirstZwischenstopp",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -62,10 +64,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(ersterZwischenstoppMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as firstAirportSecondZwischenstopp", () => {
+  it("should return correct the start and end airports given verspaeteterFlugTwoStops as firstAirportSecondZwischenstopp", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "firstAirportSecondZwischenstopp",
+      verspaeteterFlugTwoStops: "firstAirportSecondZwischenstopp",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -74,10 +76,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(zweiterZwischenstoppMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as firstZwischenstoppEndAirport", () => {
+  it("should return correct the start and end airports given verspaeteterFlugOneStop as firstZwischenstoppEndAirport", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "firstZwischenstoppEndAirport",
+      verspaeteterFlugOneStop: "firstZwischenstoppEndAirport",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -86,10 +88,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(endAirportMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as secondAirportThirdZwischenstopp", () => {
+  it("should return correct the start and end airports given verspaeteterFlugThreeStops as secondAirportThirdZwischenstopp", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "secondAirportThirdZwischenstopp",
+      verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -98,10 +100,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(dritterZwischenstoppMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as secondZwischenstoppEndAirport", () => {
+  it("should return correct the start and end airports given verspaeteterFlugTwoStops as secondZwischenstoppEndAirport", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "secondZwischenstoppEndAirport",
+      verspaeteterFlugTwoStops: "secondZwischenstoppEndAirport",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);
@@ -110,10 +112,10 @@ describe("getStartAndEndAirportDelayNames", () => {
     expect(actual.endAirportName).toBe(endAirportMock);
   });
 
-  it("should return correct the start and end airports given verspaeteterFlug as thirdZwischenstoppEndAirport", () => {
+  it("should return correct the start and end airports given verspaeteterFlugThreeStops as thirdZwischenstoppEndAirport", () => {
     const userDataMock = {
       ...userDataBaseMock,
-      verspaeteterFlug: "thirdZwischenstoppEndAirport",
+      verspaeteterFlugThreeStops: "thirdZwischenstoppEndAirport",
     } satisfies FluggastrechteUserData;
 
     const actual = getStartAndEndAirportDelayNames(userDataMock);

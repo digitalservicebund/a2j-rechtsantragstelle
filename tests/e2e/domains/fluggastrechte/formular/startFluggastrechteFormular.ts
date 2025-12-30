@@ -79,7 +79,7 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/flugdaten/verspaeteter-flug-1
   await formular.fillRadioPage(
-    "verspaeteterFlug",
+    "verspaeteterFlugOneStop",
     "startAirportFirstZwischenstopp",
   );
 
