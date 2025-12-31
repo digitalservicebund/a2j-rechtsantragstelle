@@ -20,20 +20,14 @@
     // We are currently failing the following rules. Examine one-by-one and fix or more above this line
     "import/no-named-as-default": "off",
     "jest/no-conditional-expect": "off",
-    "jest/no-export": "off",
     "jest/require-to-throw-message": "off",
     "jest/valid-title": "off",
     "no-await-in-loop": "off",
     "react/iframe-missing-sandbox": "off",
-    "unicorn/consistent-function-scoping": "off",
     "unicorn/no-array-reverse": "off",
     "unicorn/no-array-sort": "off",
-    "unicorn/no-useless-fallback-in-spread": "off",
     "unicorn/no-useless-spread": "off",
-    "unicorn/prefer-array-flat-map": "off",
-    "unicorn/prefer-set-has": "off",
-    "vitest/expect-expect": "off",
-    "vitest/valid-expect": "off"
+    "vitest/expect-expect": "off"
   },
   "ignorePatterns": ["data/xml/**"]
 }
