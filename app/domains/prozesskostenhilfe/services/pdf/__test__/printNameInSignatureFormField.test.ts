@@ -1,10 +1,10 @@
-import fs from "fs";
+import fs from "node:fs";
 import fontkit from "@pdf-lib/fontkit";
 import type { PDFDocument } from "pdf-lib";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { printNameInSignatureFormField } from "../printNameInSignatureFormField";
 
-vi.mock("fs");
+vi.mock("node:fs");
 vi.mock("@pdf-lib/fontkit");
 vi.mock("pdf-lib", async () => {
   const original = await vi.importActual("pdf-lib");
