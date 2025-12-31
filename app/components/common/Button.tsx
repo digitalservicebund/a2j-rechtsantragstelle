@@ -47,7 +47,7 @@ function Button({
       "ds-button-full-width": fullWidth,
       "is-disabled": props.disabled,
     },
-    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black", // TODO: move into angie?
+    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black",
     props.className,
   );
 

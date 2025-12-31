@@ -53,7 +53,7 @@ export const freibetraegePerYear: Record<number, Freibetraege> = {
   },
 };
 export const latestFreibetraegeYear = Math.max(
-  ...Object.keys(freibetraegePerYear).map((year) => Number(year)),
+  ...Object.keys(freibetraegePerYear).map(Number),
 );
 
 export function getFreibetraege(year: number) {
