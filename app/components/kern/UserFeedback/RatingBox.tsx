@@ -17,6 +17,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const jsAvailable = useJsAvailable();
   const feedbackTranslations = useFeedbackTranslations();
+  const yesButtonAriaLabel = `${heading}, ${feedbackTranslations["yes-rating"]}`;
+  const noButtonAriaLabel = `${heading}, ${feedbackTranslations["no-rating"]}`;
   return (
     <>
       <h2 className="kern-title kern-title--small">{heading}</h2>
@@ -36,7 +38,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
                 onSubmit("positive");
               }}
               className="w-[152px]"
-              aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
+              aria-label={yesButtonAriaLabel}
             >
               {feedbackTranslations["yes-rating"]}
             </KernButton>
@@ -49,7 +51,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
               onClick={() => {
                 onSubmit("negative");
               }}
-              aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
+              aria-label={noButtonAriaLabel}
             >
               {feedbackTranslations["no-rating"]}
             </KernButton>
