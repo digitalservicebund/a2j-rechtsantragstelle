@@ -157,11 +157,6 @@
     "node": ">=24",
     "pnpm": ">=10.25.0"
   },
-  "overrides": {
-    "@sentry/react-router": {
-      "glob": "^11.1.0"
-    }
-  },
   "prettier": {
     "trailingComma": "all"
   },
