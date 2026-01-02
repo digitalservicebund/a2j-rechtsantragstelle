@@ -4,20 +4,24 @@ import type { FlowId } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
 import { buildFlowController } from "../server/buildFlowController";
-import { resolveArrayCharacter } from "../../array/resolveArrayCharacter";
-import { validFormPaths, type Path } from "./validFormPaths";
 import {
   type FormFieldsMap,
   getAllFieldsFromFlowId,
 } from "~/domains/pageSchemas";
+import { fieldIsArray } from "~/services/array";
 
-export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
+export function pruneIrrelevantData(
+  data: UserData,
+  flowId: FlowId,
+  path?: string,
+) {
   const { guards, config } = flows[flowId];
+  console.log(path);
   const flowController = buildFlowController({ guards, config, data });
 
   const formFields = getAllFieldsFromFlowId(flowId);
 
-  const formPaths = validFormPaths(flowController);
+  const formPaths = flowController.getReachableSteps();
   const validFormFields = filterFormFields(formFields, formPaths);
 
   const validFlowPaths = getValidFlowPaths(formFields, formPaths);
@@ -27,30 +31,21 @@ export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
 
 export function filterFormFields(
   formFields: FormFieldsMap,
-  validPaths: Path[],
+  validPaths: string[],
 ) {
-  return validPaths.flatMap(({ stepIds, arrayIndex }) =>
-    stepIds.flatMap((stepId) =>
-      (formFields[stepId] ?? []).map((fieldname) =>
-        resolveArrayCharacter(fieldname, arrayIndex ?? []),
-      ),
-    ),
-  );
+  return validPaths.flatMap((stepId) => formFields[stepId] ?? []);
 }
 
 /* Return all the valid pages for current status of the flow and if the page is an array page. 
  Use `formFields` to filter only for pages with fields
 */
-const getValidFlowPaths = (formFields: FormFieldsMap, validPaths: Path[]) => {
+const getValidFlowPaths = (formFields: FormFieldsMap, validPaths: string[]) => {
   return validPaths
-    .flatMap(({ stepIds, arrayIndex }) =>
-      stepIds
-        .filter((stepId) => formFields[stepId])
-        .map((stepId) => ({
-          path: stepId,
-          isArrayPage: arrayIndex !== undefined,
-        })),
-    )
+    .filter((stepId) => formFields[stepId])
+    .map((stepId) => ({
+      path: stepId,
+      isArrayPage: fieldIsArray(stepId),
+    }))
     .reduce((acc, { path, isArrayPage }) => {
       acc[path] = {
         isArrayPage,

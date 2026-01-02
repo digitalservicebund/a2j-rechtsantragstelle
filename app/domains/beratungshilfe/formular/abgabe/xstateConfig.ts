@@ -25,7 +25,10 @@ export const abgabeXstateConfig = {
       on: { BACK: "#weitere-angaben" },
       meta: { triggerValidation: true },
       always: {
-        guard: beratungshilfeAbgabeGuards.readyForAbgabe,
+        guard: ({ context }) => {
+          // console.log(`readyForAbgabe: ${context.readyForAbgabe}`);
+          return context.readyForAbgabe === true;
+        },
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,

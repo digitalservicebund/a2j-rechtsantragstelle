@@ -1,15 +1,17 @@
 import { getShortestPaths } from "@xstate/graph";
 import {
   type Actor,
-  type AnyActorLogic,
   createActor,
   initialTransition,
   pathToStateValue,
-  transition,
 } from "xstate";
+import isEqual from "lodash/isEqual";
 import type { Guards } from "~/domains/guards.server";
 import type { UserData } from "~/domains/userData";
-import { stateValueToStepIds } from "~/services/flow/stepIdConverter";
+import {
+  stateValueToStepIds,
+  stepIdToPath,
+} from "~/services/flow/stepIdConverter";
 import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 import type { Config, FlowStateMachine, Meta, NavigationEvent } from "./types";
 import { type ArrayConfigServer } from "~/services/array";
@@ -31,7 +33,7 @@ function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   return "/" + leaf.path.join("/");
 }
 
-const getSteps = (_machine: ReturnType<typeof createActor>, config: Config) => {
+const getSteps = (machine: FlowStateMachine, config: Config) => {
   // The machine passed here relies on the context it was initialized with.
   // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
   // idea: machine.provide() with action that assigns the new context
@@ -42,33 +44,45 @@ const getSteps = (_machine: ReturnType<typeof createActor>, config: Config) => {
     type: event as NavigationEvent,
   }));
 
-  const possiblePaths = getShortestPaths(
-    machines[config.id as keyof typeof machines],
-    {
-      events: [{ type: "SUBMIT" }, ...arrayEvents],
-    },
-  );
+  const possiblePaths = getShortestPaths(machine, {
+    events: [{ type: "SUBMIT" }, ...arrayEvents],
+  });
 
   return possiblePaths.flatMap(({ state }) => stateValueToStepIds(state.value));
 };
 
 export const nextStepId = (
-  actor: Actor<AnyActorLogic>,
+  actor: Actor<FlowStateMachine>,
   stepId: string,
   type: NavigationEvent,
 ) => {
-  // Get snapshot of next machine state using the given event
-  const [destinationState] = transition(
-    actor.getSnapshot().machine,
-    actor.getSnapshot(),
-    { type },
-  );
+  // Get snapshot of next actor state using the given event
+  actor.send({ type });
+  const destinationState = actor.getSnapshot();
   const destinationStepIds = stateValueToStepIds(destinationState.value);
 
   // Return undefined if the stepId in the new state matches the previous one
   if (destinationStepIds.length === 1 && destinationStepIds[0] === stepId)
     return undefined;
   return destinationStepIds.at(0);
+};
+
+const findNode = (machine: FlowStateMachine, stepId: string) => {
+  const statepath = stepIdToPath(stepId);
+  const resolvedState = machine.resolveState({
+    value: pathToStateValue(statepath),
+    context: {},
+  });
+  return resolvedState._nodes.find((node) => isEqual(node.path, statepath));
+};
+
+const isFinalStep = (machine: FlowStateMachine, stepId: string) => {
+  const transitions = findNode(machine, stepId)?.transitions;
+  return !transitions?.has("SUBMIT");
+};
+
+const metaFromStepId = (machine: FlowStateMachine, currentStepId: string) => {
+  return findNode(machine, currentStepId)?.meta as Meta | undefined;
 };
 
 function getInitial(machine: FlowStateMachine) {
@@ -192,19 +206,15 @@ export const buildFlowController = ({
   guards?: Guards;
 }) => {
   const flowId = config.id ?? "";
-  const machine = machines[flowId as keyof typeof machines];
-  const actor = createActor<any>(machine, {
-    input: context,
-  }).start(); // should we start the machine right away?
-  const reachableSteps = getSteps(actor, config); // depends on context
+  const machine = machines(context)[flowId];
+  const reachableSteps = getSteps(machine, config); // depends on context
 
   return {
-    getMeta: (_stepId: string) =>
-      actor.getSnapshot().getMeta() as Meta | undefined,
+    getMeta: (stepId: string) => metaFromStepId(machine, stepId),
     getRootMeta: () => config.meta,
     stepStates: (addUnreachableSubSteps = false) =>
       stepStates(
-        actor.getSnapshot().machine.root,
+        machine.root,
         reachableSteps,
         addUnreachableSubSteps,
         flowId as FlowId,
@@ -213,23 +223,52 @@ export const buildFlowController = ({
     getUserdata: () => context,
     getConfig: () => config,
     getGuards: () => guards,
-    isFinal: (_currentStepId: string) =>
-      !actor.getSnapshot().can({ type: "SUBMIT" }),
+    isFinal: (currentStepId: string) => isFinalStep(machine, currentStepId),
     isReachable: (currentStepId: string) => {
       return reachableSteps.includes(currentStepId);
     },
     getPrevious: (stepId: string) => {
+      const actor = createActor<any>(machine, {
+        snapshot: machine.resolveState({
+          value: pathToStateValue(stepIdToPath(stepId)),
+          context,
+        }),
+      });
+      actor.start();
       const destination = nextStepId(actor, stepId, "BACK");
+      actor.stop();
       if (destination) return `${flowId}${destination}`;
     },
     getNext: (stepId: string) => {
+      const isFinal = isFinalStep(machine, stepId);
+      const actor = createActor<any>(machine, {
+        snapshot: machine.resolveState({
+          value: pathToStateValue(stepIdToPath(stepId)),
+          context: {
+            ...context,
+            readyForAbgabe: isFinal
+              ? stepStates(
+                  machine.root,
+                  reachableSteps,
+                  false,
+                  flowId as FlowId,
+                ).every((state) => state.isDone)
+              : false,
+          },
+        }),
+      });
+      actor.start();
       const destination = nextStepId(actor, stepId, "SUBMIT");
+      actor.stop();
       if (destination) return `${flowId}${destination}`;
     },
     getArrayItemStep: (
       stepId: string,
       arrayStep: ArrayConfigServer["event"],
     ) => {
+      const actor = createActor<any>(machine, {
+        input: context,
+      }).start();
       const destination = nextStepId(actor, stepId, arrayStep);
       if (destination)
         return `${flowId}${destination

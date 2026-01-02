@@ -3,4 +3,6 @@ import { type berHAntragAbgabePages } from "./pages";
 
 export type BeratungshilfeAbgabeUserData = UserDataFromPagesSchema<
   typeof berHAntragAbgabePages
->;
+> & {
+  readyForAbgabe?: boolean;
+};
