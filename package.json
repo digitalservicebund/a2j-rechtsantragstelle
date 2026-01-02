@@ -135,7 +135,7 @@
     "globals": "^16.5.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^27.4.0",
-    "knip": "^5.77.4",
+    "knip": "^5.78.0",
     "lefthook": "^2.0.13",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.35.0",
@@ -156,11 +156,6 @@
   "engines": {
     "node": ">=24",
     "pnpm": ">=10.25.0"
-  },
-  "overrides": {
-    "@sentry/react-router": {
-      "glob": "^11.1.0"
-    }
   },
   "prettier": {
     "trailingComma": "all"

@@ -33,7 +33,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const slug = "/beratungshilfe/zustaendiges-gericht/ergebnis";
-  const [{ content, pageMeta }] = await Promise.all([fetchPage(slug)]);
+  const { content, pageMeta } = await Promise.resolve(fetchPage(slug));
   return { court, content, meta: pageMeta };
 };
 
