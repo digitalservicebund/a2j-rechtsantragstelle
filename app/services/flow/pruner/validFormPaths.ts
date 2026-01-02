@@ -45,7 +45,7 @@ function getSubflowPaths(flowController: FlowController): Path[] {
       const previousStepId = stepIdBeforeArray(flowController, arrayConfig);
       return flowController.getReachableSteps().includes(previousStepId);
     })
-    .map(([key, arrayConfig]) =>
+    .flatMap(([key, arrayConfig]) =>
       // For each entry in an array, build a flow controller starting at the initial step of the array
       (userData[key] as ArrayData).map((_data, index) => ({
         arrayIndex: index,
@@ -58,8 +58,7 @@ function getSubflowPaths(flowController: FlowController): Path[] {
           getSubFlowInitialStep(arrayConfig),
         ).filter(stepBelongsToArray(arrayConfig)),
       })),
-    )
-    .flat();
+    );
 }
 
 function getSubFlowInitialStep(arrayConfig: ArrayConfigServer): string {
