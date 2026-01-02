@@ -8,6 +8,7 @@ import {
   wohnungDone,
 } from "../doneFunctions";
 import { kraftfahrzeugeDone } from "../eigentum/doneFunctions";
+import { toGermanDateFormat, addYears, today } from "~/util/date";
 
 describe("Finanzielle Angaben doneFunctions", () => {
   describe("partnerDone", () => {
@@ -381,7 +382,7 @@ describe("ausgabenDone", () => {
       ratenzahlungen: {
         ...zahlung,
         restschuld: "100",
-        laufzeitende: "01.01.2026",
+        laufzeitende: toGermanDateFormat(addYears(today(), 1)),
       },
       versicherungen: {
         beitrag: "100",
