@@ -103,14 +103,14 @@ test.describe("edge cases results", () => {
   });
 });
 
+function cleanBaseUrl(baseURL?: string) {
+  const url = new URL(baseURL ?? "");
+  return `${url.origin}${url.pathname}`;
+}
+
 test.describe("back button", () => {
   // Warning - this is quite brittle due to potential username:pw in the baseURL
   // Make sure to test against staging!
-
-  function cleanBaseUrl(baseURL?: string) {
-    const url = new URL(baseURL ?? "");
-    return `${url.origin}${url.pathname}`;
-  }
 
   test("works with searching", async ({ page, baseURL }) => {
     const cleanBaseURL = cleanBaseUrl(baseURL);

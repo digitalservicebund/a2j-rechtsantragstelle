@@ -2,16 +2,16 @@ import { createCookie } from "react-router";
 import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName, trackingCookieValue } from "../gdprCookie.server";
 
+const mockRequestWithCookie = (cookieValue: string) => {
+  return new Request("http://localhost", {
+    headers: {
+      Cookie: cookieValue,
+    },
+  });
+};
+
 describe("gdprCookie", () => {
   const gdprCookie = createCookie(consentCookieName);
-
-  const mockRequestWithCookie = (cookieValue: string) => {
-    return new Request("http://localhost", {
-      headers: {
-        Cookie: cookieValue,
-      },
-    });
-  };
 
   describe("trackingCookieValue", () => {
     it("should return 'true' when the consent is accepted", async () => {

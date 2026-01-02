@@ -1,8 +1,9 @@
 import { singleton } from "../singleton.server";
 
+const createFunc = () => ({ a: 1 });
+
 describe("singleton", () => {
   test("refers to the same object after repeated calls", () => {
-    const createFunc = () => ({ a: 1 });
     const firstObj = singleton("test", createFunc);
     const secondObj = singleton("test", createFunc);
     expect(firstObj).toBe(secondObj);

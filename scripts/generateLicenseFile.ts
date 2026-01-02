@@ -9,7 +9,7 @@ const filepath = path.resolve(
   path.join(process.cwd(), "data", "opensource-licenses.json"),
 );
 const packageName = "a2j-rechtsantragstelle";
-const notMentionableLicenses = [
+const notMentionableLicenses = new Set([
   "MIT",
   "MIT*",
   "Apache-2.0",
@@ -25,7 +25,7 @@ const notMentionableLicenses = [
   "CC0-1.0",
   "0BSD",
   "(MIT OR CC0-1.0)",
-];
+]);
 
 async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
   const opts = {
@@ -47,7 +47,7 @@ const licenseMentionable = (dependency: Dependency) =>
   dependency.direct ??
   !(
     typeof dependency.licenses === "string" &&
-    notMentionableLicenses.includes(dependency.licenses)
+    notMentionableLicenses.has(dependency.licenses)
   );
 
 const stripLocalPath = (path: string) =>

@@ -22,6 +22,11 @@ export type InputProps = Readonly<{
   charLimit?: number;
 }>;
 
+const getInputType = (name: string): string => {
+  if (name === "telefonnummer") return "tel";
+  return "text";
+};
+
 const Input = function InputComponent({
   name,
   label,
@@ -39,11 +44,6 @@ const Input = function InputComponent({
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
-
-  const getInputType = (name: string): string => {
-    if (name === "telefonnummer") return "tel";
-    return "text";
-  };
 
   return (
     <div className="w-full">

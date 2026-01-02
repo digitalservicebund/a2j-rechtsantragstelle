@@ -85,7 +85,7 @@ export function getAllPossibleStates(flow: Flow) {
 }
 
 export function invertStrapiFormFields(formFields: FormFieldsMap) {
-  return Object.entries(formFields)
-    .map(([key, values]) => values.map((value) => [value, key]))
-    .flat();
+  return Object.entries(formFields).flatMap(([key, values]) =>
+    values.map((value) => [value, key]),
+  );
 }

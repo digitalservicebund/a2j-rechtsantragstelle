@@ -52,7 +52,7 @@ describe("createLocalCourtAndDate", () => {
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     expect(mockDoc.text).toHaveBeenCalledWith(
-      CREATION_PDF_TEXT + " " + "14.10.2024",
+      CREATION_PDF_TEXT + " 14.10.2024",
       70,
       200,
       {

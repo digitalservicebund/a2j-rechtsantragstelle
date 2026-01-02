@@ -28,7 +28,6 @@ lefthook-local.yml
 /certs
 
 /.vscode/
-.eslintcache
 
 # SAML secrets
 /data/saml/sp_metadata.xml
