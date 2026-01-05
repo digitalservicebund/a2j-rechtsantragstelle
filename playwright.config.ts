@@ -74,11 +74,6 @@ export default defineConfig({
       : [
           {
             command: "docker compose up",
-            port: 6380,
-            reuseExistingServer: !process.env.CI,
-          },
-          {
-            command: "pnpm run build:app && pnpm run start",
             url: "http://localhost:3000/",
             reuseExistingServer: !process.env.CI,
           },
