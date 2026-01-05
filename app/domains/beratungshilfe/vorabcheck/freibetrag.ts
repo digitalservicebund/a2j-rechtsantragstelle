@@ -2,7 +2,7 @@ import mapValues from "lodash/mapValues";
 import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
-import { sendSentryMessage } from "~/services/logging";
+import { logWarning, sendSentryMessage } from "~/services/logging";
 
 type Freibetraege = {
   selfAllowance: number;
@@ -75,8 +75,7 @@ export function getFreibetraege(year: number) {
     if (!hasSentFreibetraegeWarning) {
       hasSentFreibetraegeWarning = true;
       const message = `No Freibeträge for year ${year}, using last valid Freibeträge from ${latestFreibetraegeYear}`;
-      // oxlint-disable-next-line no-console
-      console.warn(message);
+      logWarning(message);
       sendSentryMessage(message, "warning");
     }
     return freibetraegePerYear[latestFreibetraegeYear];
