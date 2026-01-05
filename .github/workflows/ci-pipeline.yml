@@ -93,10 +93,13 @@ jobs:
       - run: echo "APP_IMAGE_TAG=$(./docker.sh --appImageTag)" >> $GITHUB_ENV
       - name: Save Docker image to file
         run: docker save ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.APP_IMAGE_TAG }} | gzip > image.tar.gz
-      - uses: actions/upload-artifact@v6
+      - name: Upload docker image to artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v6
         with:
           name: docker-build
           path: image.tar.gz
+          retention-days: 1
 
   push-app-image:
     if: github.ref == 'refs/heads/main'
