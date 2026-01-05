@@ -49,3 +49,15 @@ services:
       - "./init-s3-bucket.py:/etc/localstack/init/ready.d/init-s3-bucket.py"
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+  app:
+    build: .
+    container_name: local-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - s3-bucket
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - REDIS_ENDPOINT=redis:6379
