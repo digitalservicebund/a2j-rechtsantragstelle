@@ -51,12 +51,23 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
   app:
     build: .
+    container_name: local-app
     ports:
       - "3000:3000"
     depends_on:
       - redis
       - s3-bucket
-    env_file: .env
     environment:
       - NODE_ENV=production
+      - PORT=3000
       - REDIS_ENDPOINT=redis:6379
+      - REDIS_PASSWORD=
+      - S3_ENDPOINT=http://s3-bucket:4566
+      - S3_DATA_STORAGE_ACCESS_KEY=test
+      - S3_DATA_STORAGE_SECRET_KEY=test
+      - COOKIE_SESSION_SECRET=test
+      - GERICHTSFINDER_ENCRYPTION_KEY=test
+      - GERICHTSFINDER_ENCRYPTION_KEY_OLD=test
+      - SAML_IDP_CERT=test
+      - STRAPI_API=http://localhost:1337/api/
+      - STRAPI_ACCESS_KEY=test
