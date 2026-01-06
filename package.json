@@ -132,7 +132,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-sonarjs": "^3.0.5",
     "follow-redirects": "^1.15.11",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^27.4.0",
     "knip": "^5.79.0",
