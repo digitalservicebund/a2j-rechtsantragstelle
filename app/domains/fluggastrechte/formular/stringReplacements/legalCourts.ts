@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { getAirportByIataCode } from "../../services/airports/getAirportByIataCode";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
