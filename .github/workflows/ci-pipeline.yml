@@ -78,7 +78,7 @@ jobs:
 
   build-app-image:
     runs-on: ubuntu-latest
-    needs: [get-content-file]
+    needs: [code-quality, verify-local-e2e]
     permissions:
       packages: write # for pushing to GitHub Container Registry
     steps:
