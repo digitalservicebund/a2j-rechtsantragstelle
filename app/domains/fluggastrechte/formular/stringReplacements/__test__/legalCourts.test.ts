@@ -1,6 +1,6 @@
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getCompensationPayment } from "../../../services/airports/getCompensationPayment";
 import { getTotalClaimingPeople } from "../../services/getTotalClaimingPeople";
@@ -15,7 +15,7 @@ import {
 
 vi.mock("~/domains/fluggastrechte/services/airports/getAirportByIataCode");
 vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
-vi.mock("~/domains/geldEinklagen/shared/gerichtskosten");
+vi.mock("~/domains/fluggastrechte/services/gerichtskosten");
 vi.mock("../../../services/airports/getCompensationPayment");
 vi.mock("../../services/getTotalClaimingPeople");
 vi.mock("../../services/getTotalCompensationClaim");
