@@ -73,6 +73,16 @@ function getContainerBackgroundColor(
   }
   return "";
 }
+// Map temporarily Strapi look values to Kern look values
+function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
+  const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
+    error: "danger",
+    success: "success",
+    warning: "warning",
+    tips: "info",
+  };
+  return lookMap[look] || "info";
+}
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
@@ -93,7 +103,18 @@ function cmsToReact(
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
-        return <KernInfoBox {...componentProps} />;
+        return (
+          <KernInfoBox
+            {...componentProps}
+            items={componentProps.items?.map((item) => ({
+              ...item,
+              inlineNotices: item.inlineNotices?.map((notice) => ({
+                ...notice,
+                look: mapLookValue(notice.look),
+              })),
+            }))}
+          />
+        );
       case "page.video":
         return <KernVideo {...componentProps} />;
       case "page.list":
@@ -101,7 +122,13 @@ function cmsToReact(
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
-        return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+        return (
+          <KernInlineNotice
+            {...componentProps}
+            look={mapLookValue(componentProps.look)}
+            wrap={opts?.inFlow}
+          />
+        );
       default:
         return <></>;
     }
@@ -153,7 +180,7 @@ function ContentComponents({
   content = [],
   managedByParent,
   className,
-  showKernUX = false,
+  showKernUX = true,
 }: PageContentProps) {
   if (content.length === 0) return [];
 

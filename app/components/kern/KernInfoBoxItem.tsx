@@ -13,7 +13,7 @@ export type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "warning" | "tips" | "success" | "error";
+  look: "info" | "warning" | "danger" | "success";
   content?: string;
   wrap?: boolean;
   nested?: boolean;

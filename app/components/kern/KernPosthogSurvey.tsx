@@ -93,9 +93,7 @@ export const KernPosthogSurvey = ({
         <KernButton
           type="button"
           look="ghost"
-          iconLeft={
-           <Icon name="close" className="fill-kern-action-default!" />
-          }
+          iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
           aria-label={
             wasSubmitted
               ? translations.feedback.close.de

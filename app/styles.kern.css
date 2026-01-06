@@ -11,6 +11,22 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @layer utilities {
+  .app-icon--info {
+    color: var(--color-kern-feedback-info);
+  }
+
+  .app-icon--warning {
+    color: var(--color-kern-feedback-warning);
+  }
+
+  .app-icon--success {
+    color: var(--color-kern-feedback-success);
+  }
+
+  .app-icon--danger {
+    color: var(--color-kern-feedback-danger);
+  }
+
   .grid-fluid {
     display: grid;
     /* defaults (S) */

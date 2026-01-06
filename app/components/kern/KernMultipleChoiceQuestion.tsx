@@ -71,7 +71,10 @@ export const KernMultipleChoiceQuestion = ({
         })}
         {hasError && (
           <p className="kern-error flex gap-8 self-center mt-8!" role="alert">
-            <Icon name="emergency_home" className="fill-kern-feedback-danger!"/>
+            <Icon
+              name="emergency-home"
+              className="fill-kern-feedback-danger!"
+            />
             <span className="text-kern-feedback-danger">
               {translations.feedback["validation-error"].de}
             </span>

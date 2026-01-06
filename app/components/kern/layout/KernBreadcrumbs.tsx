@@ -39,16 +39,12 @@ export default function KernBreadcrumbs({
             aria-label={ariaLabel}
           >
             {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-            <a
-              href="/"
-              aria-label={linkLabel}
-              className="focus:outline-solid"
-            >
+            <a href="/" aria-label={linkLabel} className="focus:outline-solid">
               <Icon name="home" className="fill-kern-action-default!" />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
               <div key={breadcrumb.title} className="kern-body-small flex ">
-                <Icon name="chevron_right" className="fill-kern-neutral-300!" />
+                <Icon name="chevron-right" className="fill-kern-neutral-300!" />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">
                     {breadcrumb.title}

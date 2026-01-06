@@ -68,7 +68,9 @@ export function KernCookieBanner({
           <KernButton
             type="button"
             look="ghost"
-            iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
+            iconLeft={
+              <Icon name="close" className="fill-kern-action-default!" />
+            }
             onClick={closeModal}
           />
         </header>
@@ -78,7 +80,7 @@ export function KernCookieBanner({
           ))}
           {content.cookieSettingLinkUrl && (
             <a href={content.cookieSettingLinkUrl} className="kern-link">
-              <Icon name="arrow_forward" />
+              <Icon name="arrow-forward" />
               {content.cookieSettingLinkText}
             </a>
           )}

@@ -1,13 +1,13 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernRichText from "./KernRichText";
-import { Icon, IconName } from "../common/Icon";
+import { Icon, type IconName } from "../common/Icon";
 
 export type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "warning" | "tips" | "success" | "error";
+  look: "info" | "warning" | "danger" | "success";
   content?: string;
   wrap?: boolean;
   nested?: boolean;
@@ -19,21 +19,21 @@ const lookConfig: Record<
   KernInlineNoticeProps["look"],
   { className: string; icon: IconName }
 > = {
+  info: {
+    className: "kern-alert--info",
+    icon: "info",
+  },
   warning: {
     className: "kern-alert--warning",
     icon: "warning",
   },
-  tips: {
-    className: "kern-alert--info",
-    icon: "info",
+  danger: {
+    className: "kern-alert--danger",
+    icon: "emergency-home",
   },
   success: {
     className: "kern-alert--success",
-    icon: "check_circle",
-  },
-  error: {
-    className: "kern-alert--danger",
-    icon: "emergency_home",
+    icon: "check-circle",
   },
 };
 
@@ -53,7 +53,7 @@ export const KernInlineNotice = ({
   const base = (
     <div className={`kern-alert ${className}`} id={identifier} role="note">
       <div className="flex flex-row items-center pl-kern-space-large h-[48px]">
-        <Icon name={icon} className={`kern-icon ${className} mr-8`} aria-hidden="true" />
+        <Icon name={icon} state={look} className="mr-8" aria-hidden="true" />
         <Tag className="kern-body kern-body--bold p-0!"> {title}</Tag>
       </div>
       <div className="kern-alert__body">
