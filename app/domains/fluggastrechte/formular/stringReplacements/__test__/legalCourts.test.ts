@@ -1,6 +1,6 @@
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getCompensationPayment } from "../../../services/airports/getCompensationPayment";
 import { getTotalClaimingPeople } from "../../services/getTotalClaimingPeople";
@@ -15,7 +15,7 @@ import {
 
 vi.mock("~/domains/fluggastrechte/services/airports/getAirportByIataCode");
 vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
-vi.mock("~/domains/geldEinklagen/shared/gerichtskosten");
+vi.mock("~/domains/fluggastrechte/services/gerichtskosten");
 vi.mock("../../../services/airports/getCompensationPayment");
 vi.mock("../../services/getTotalClaimingPeople");
 vi.mock("../../services/getTotalCompensationClaim");
@@ -148,7 +148,7 @@ describe("legalCourts", () => {
     });
 
     it("should return the correct streitwert values", () => {
-      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(174);
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(120);
       vi.mocked(getCompensationPayment).mockReturnValue("250");
       vi.mocked(getTotalClaimingPeople).mockReturnValue(3);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(750);
@@ -161,7 +161,7 @@ describe("legalCourts", () => {
       };
 
       const expected = {
-        courtCost: "174",
+        courtCost: "120",
         singleCompensation: "250",
         totalClaimingPeople: "3",
         totalCompensation: "750",
@@ -172,7 +172,7 @@ describe("legalCourts", () => {
     });
 
     it("should return empty values when context is missing data", () => {
-      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(114);
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(120);
       vi.mocked(getCompensationPayment).mockReturnValue("");
       vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(0);
@@ -180,7 +180,7 @@ describe("legalCourts", () => {
       const context: FluggastrechteUserData = {};
 
       const expected = {
-        courtCost: "114",
+        courtCost: "120",
         singleCompensation: "",
         totalClaimingPeople: "1",
         totalCompensation: "0",
@@ -191,7 +191,7 @@ describe("legalCourts", () => {
     });
 
     it("should handle empty weiterePersonen array", () => {
-      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(114);
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValue(120);
       vi.mocked(getCompensationPayment).mockReturnValue("250");
       vi.mocked(getTotalClaimingPeople).mockReturnValue(1);
       vi.mocked(getTotalCompensationClaim).mockReturnValue(250);
@@ -201,7 +201,7 @@ describe("legalCourts", () => {
       };
 
       const expected = {
-        courtCost: "114",
+        courtCost: "120",
         singleCompensation: "250",
         totalClaimingPeople: "1",
         totalCompensation: "250",
