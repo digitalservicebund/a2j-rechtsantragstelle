@@ -19,7 +19,7 @@ describe("isTotalClaimWillSucceddedAboveLimit", () => {
 
   it("should return true, given a claim and plus next person above 5000", () => {
     vi.mocked(getCompensationPayment).mockReturnValue("600");
-    vi.mocked(getTotalCompensationClaim).mockReturnValue(5000);
+    vi.mocked(getTotalCompensationClaim).mockReturnValue(10000);
 
     expect(isTotalClaimWillSucceddedAboveLimit({})).toBe(true);
   });
