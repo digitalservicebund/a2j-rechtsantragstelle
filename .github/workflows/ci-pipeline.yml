@@ -91,15 +91,9 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - run: echo "APP_IMAGE_TAG=$(./docker.sh --appImageTag)" >> $GITHUB_ENV
-      - name: Save Docker image to file
-        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.APP_IMAGE_TAG }} | gzip > image.tar.gz
-      - name: Upload docker image to artifact
+      - name: Push the app image
         if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v6
-        with:
-          name: docker-build
-          path: image.tar.gz
-          retention-days: 1
+        run: ./docker.sh --push app
 
   push-app-image:
     if: github.ref == 'refs/heads/main'
@@ -124,8 +118,6 @@ jobs:
       - uses: actions/download-artifact@v7
         with:
           name: docker-build
-      - name: Import Docker image
-        run: docker import image.tar.gz
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
@@ -151,7 +143,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: "trivy-results.sarif"
-      - run: ./docker.sh --push app
       - run: ./docker.sh --push prod
       - run: ./docker.sh --sign
       - id: prod_image_tag
