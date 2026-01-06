@@ -1,8 +1,8 @@
 import type { MultiFieldsStepIdValidation } from "~/domains/types";
 import { validateSameDepartureAndArrivalAirports } from "./services/validation";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { fluggastrechteVorabcheckPages } from "./pages";
 
-const _schema = getAllPageSchemaByFlowId("/fluggastrechte/vorabcheck");
+const _schema = fluggastrechteVorabcheckPages.flughaefen.pageSchema;
 
 export const fluggastrechtVorabcheckMultiFieldsValidation: MultiFieldsStepIdValidation<
   typeof _schema

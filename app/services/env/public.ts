@@ -1,7 +1,7 @@
 // Note: To make this work on the client, window.ENV is set in root.tsx
 const envFromBrowser = () =>
-  typeof window === "object" && "ENV" in window
-    ? (window?.ENV as Record<string, string | undefined>)
+  typeof globalThis.window === "object" && "ENV" in globalThis.window
+    ? (globalThis.window?.ENV as Record<string, string | undefined>)
     : undefined;
 
 const envFromNode = () =>

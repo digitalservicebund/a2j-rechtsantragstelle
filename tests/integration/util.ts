@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
-import type { FormFieldsMap } from "~/services/cms/fetchAllFormFields";
+import { type FormFieldsMap } from "~/domains/pageSchemas";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { flowPageSchemas } from "~/services/cms/schemas";
 

@@ -75,37 +75,28 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenVerspaeteterFlug1: {
     stepId: "flugdaten/verspaeteter-flug-1",
     pageSchema: {
-      verspaeteterFlug: z.enum([
+      verspaeteterFlugOneStop: z.enum([
         "startAirportFirstZwischenstopp",
         "firstZwischenstoppEndAirport",
-        "firstAirportSecondZwischenstopp",
-        "secondZwischenstoppEndAirport",
-        "secondAirportThirdZwischenstopp",
-        "thirdZwischenstoppEndAirport",
       ]),
     },
   },
   flugdatenVerspaeteterFlug2: {
     stepId: "flugdaten/verspaeteter-flug-2",
     pageSchema: {
-      verspaeteterFlug: z.enum([
+      verspaeteterFlugTwoStops: z.enum([
         "startAirportFirstZwischenstopp",
-        "firstZwischenstoppEndAirport",
         "firstAirportSecondZwischenstopp",
         "secondZwischenstoppEndAirport",
-        "secondAirportThirdZwischenstopp",
-        "thirdZwischenstoppEndAirport",
       ]),
     },
   },
   flugdatenVerspaeteterFlug3: {
     stepId: "flugdaten/verspaeteter-flug-3",
     pageSchema: {
-      verspaeteterFlug: z.enum([
+      verspaeteterFlugThreeStops: z.enum([
         "startAirportFirstZwischenstopp",
-        "firstZwischenstoppEndAirport",
         "firstAirportSecondZwischenstopp",
-        "secondZwischenstoppEndAirport",
         "secondAirportThirdZwischenstopp",
         "thirdZwischenstoppEndAirport",
       ]),

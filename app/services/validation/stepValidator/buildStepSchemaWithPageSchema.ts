@@ -5,7 +5,7 @@ import type { SchemaObject } from "~/domains/userData";
 
 export const buildStepSchemaWithPageSchema = (
   pathname: string,
-  pageSchema: SchemaObject,
+  pageSchema: SchemaObject | undefined,
 ) => {
   const { flowId, stepId } = parsePathname(pathname);
 

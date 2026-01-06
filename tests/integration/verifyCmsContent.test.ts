@@ -8,11 +8,13 @@ import {
 } from "tests/integration/util";
 import type { FlowId } from "~/domains/flowIds";
 import { flowIds } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
-import { getContext } from "~/domains/userData";
-import { fetchAllFormFields } from "~/services/cms/fetchAllFormFields";
+import { type Flow, flows } from "~/domains/flows.server";
 import { getStrapiEntry } from "~/services/cms/getStrapiEntry";
 import type { StrapiSchemasOutput } from "~/services/cms/schemas";
+import {
+  getAllFieldsFromFlowId,
+  getAllPageSchemaByFlowId,
+} from "~/domains/pageSchemas";
 
 const allStrapiData: AllStrapiData = {} as AllStrapiData;
 
@@ -43,31 +45,25 @@ expect.extend({
 
 beforeAll(async () => {
   for (const flowId of flowIds) {
-    const [vorabCheckPages, resultPages, formFlowPages, formFields] =
-      await Promise.all([
-        getStrapiEntry({
-          apiId: "vorab-check-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        getStrapiEntry({
-          apiId: "result-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        getStrapiEntry({
-          apiId: "form-flow-pages",
-          locale: "de",
-          filters: [
-            { value: flowId, field: "flow_ids", nestedField: "flowId" },
-          ],
-        }),
-        fetchAllFormFields(flowId),
-      ]);
+    const formFields = getAllFieldsFromFlowId(flowId);
+
+    const [vorabCheckPages, resultPages, formFlowPages] = await Promise.all([
+      getStrapiEntry({
+        apiId: "vorab-check-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+      getStrapiEntry({
+        apiId: "result-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+      getStrapiEntry({
+        apiId: "form-flow-pages",
+        locale: "de",
+        filters: [{ value: flowId, field: "flow_ids", nestedField: "flowId" }],
+      }),
+    ]);
 
     allStrapiData[flowId] = {
       "vorab-check-pages":
@@ -92,7 +88,7 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
     test(`all states that are referenced in the ${flowId} xState config are available in Strapi`, () => {
       const pages = compileAllStrapiPages(flowId, allStrapiData);
 
-      const flow = flows[flowId];
+      const flow = flows[flowId] as Flow;
       const allPossibleStates = getAllPossibleStates(flow);
       allPossibleStates.forEach((stateName) => {
         assert(
@@ -104,7 +100,7 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
 
     test(`all pages in strapi related to ${flowId} also appear in the xState config`, () => {
       const pages = compileAllStrapiPages(flowId, allStrapiData);
-      const flow = flows[flowId];
+      const flow = flows[flowId] as Flow;
       const allPossibleStates = getAllPossibleStates(flow);
       pages.forEach((strapiPage) => {
         expect({ flowId, allPossibleStates }).toContainStrapiPage(strapiPage);
@@ -114,10 +110,10 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
 
   describe("field names", () => {
     test(`all field names appearing in strapi related to ${flowId} appear in the context`, () => {
-      const context = getContext(flowId);
+      const context = getAllPageSchemaByFlowId(flowId);
       const { formFields: strapiFormFields } = allStrapiData[flowId];
       const strapiFormFieldsInverted = invertStrapiFormFields(strapiFormFields);
-      const allPossibleStates = getAllPossibleStates(flows[flowId]);
+      const allPossibleStates = getAllPossibleStates(flows[flowId] as Flow);
 
       const allContextFields = zodKeys(z.object(context));
 
@@ -133,7 +129,7 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
     });
 
     test(`all field names appearing in the ${flowId} context also appear in Strapi`, () => {
-      const context = getContext(flowId);
+      const context = getAllPageSchemaByFlowId(flowId);
       const { formFields: strapiFormFields } = allStrapiData[flowId];
       const strapiFormFieldsInverted = invertStrapiFormFields(strapiFormFields);
       const allContextFields = zodKeys(z.object(context));
