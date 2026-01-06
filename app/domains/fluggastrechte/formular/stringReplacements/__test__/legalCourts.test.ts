@@ -161,7 +161,7 @@ describe("legalCourts", () => {
       };
 
       const expected = {
-        courtCost: "120",
+        courtCost: "120,00",
         singleCompensation: "250",
         totalClaimingPeople: "3",
         totalCompensation: "750",
@@ -180,7 +180,7 @@ describe("legalCourts", () => {
       const context: FluggastrechteUserData = {};
 
       const expected = {
-        courtCost: "120",
+        courtCost: "120,00",
         singleCompensation: "",
         totalClaimingPeople: "1",
         totalCompensation: "0",
@@ -201,7 +201,7 @@ describe("legalCourts", () => {
       };
 
       const expected = {
-        courtCost: "120",
+        courtCost: "120,00",
         singleCompensation: "250",
         totalClaimingPeople: "1",
         totalCompensation: "250",
