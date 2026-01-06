@@ -74,7 +74,8 @@ export default function KernPageHeader({
                   className="kern-link kern-link--small"
                 >
                   <Icon name="sign-language" />
-                  {"Gebärdensprache"} {/*translations.pageHeader.gebaerdensprache.de */}
+                  {"Gebärdensprache"}{" "}
+                  {/*translations.pageHeader.gebaerdensprache.de */}
                 </a>
               </div>
             )}
