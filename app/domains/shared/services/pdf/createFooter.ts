@@ -1,13 +1,13 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
 import { createStamp } from "~/services/pdf/footer/createStamp";
-import { createBankInformation } from "./createBankInformation";
+import { type UserData } from "~/domains/userData";
 
 export const createFooter = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: FluggastrechteUserData,
+  userData: UserData,
+  customFooterSection?: (...args: any) => void,
 ) => {
   const pages = doc.bufferedPageRange();
   const totalPages = pages.count;
@@ -22,7 +22,8 @@ export const createFooter = (
 
     createPageNumber(doc, footerSect, pageIndex + 1, totalPages);
 
-    createBankInformation(doc, footerSect, userData, isLastPage);
+    customFooterSection?.(doc, footerSect, userData, isLastPage);
+    // createBankInformation(doc, footerSect, userData, isLastPage);
     documentStruct.add(footerSect);
   }
 };

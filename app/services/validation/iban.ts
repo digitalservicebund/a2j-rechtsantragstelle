@@ -1,10 +1,10 @@
 import isIBAN from "validator/lib/isIBAN";
-import { z } from "zod";
+import { z, type ZodString } from "zod";
 
 // @ts-expect-error 'validator' is using non-standard ESM exports, which forces us to unpack one nested "default" property in Node
 const isIbanCheck = isIBAN.default ?? isIBAN;
 
-export const ibanSchema = z
+export const ibanSchema: ZodString = z
   .string()
   .toUpperCase()
   .transform((ibanInput) => ibanInput.replaceAll(" ", ""))

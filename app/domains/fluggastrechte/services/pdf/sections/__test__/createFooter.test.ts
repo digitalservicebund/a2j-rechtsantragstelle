@@ -6,7 +6,7 @@ import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/use
 import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
 import { createStamp } from "~/services/pdf/footer/createStamp";
 import { createBankInformation } from "../createBankInformation";
-import { createFooter } from "../createFooter";
+import { createFooter } from "../../../../../shared/services/pdf/createFooter";
 
 vi.mock("../createBankInformation");
 vi.mock("~/services/pdf/footer/createPageNumber", () => ({

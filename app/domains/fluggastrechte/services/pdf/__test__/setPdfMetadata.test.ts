@@ -2,18 +2,22 @@ import PDFDocument from "pdfkit";
 import {
   AUTHOR,
   CREATOR,
-  KEYWORDS,
   setPdfMetadata,
-  SUBJECT,
-  TITLE,
   VERSION,
-} from "../setPdfMetadata";
+} from "../../../../shared/services/pdf/setPdfMetadata";
+import { KEYWORDS } from "../fluggastrechtePdfFromUserdata";
+import { SUBJECT } from "../fluggastrechtePdfFromUserdata";
+import { TITLE } from "../fluggastrechtePdfFromUserdata";
 
 describe("setPdfMetadata", () => {
   it("should create the PDF with the correct metadata", () => {
     const document = new PDFDocument();
 
-    setPdfMetadata(document);
+    setPdfMetadata(document, {
+      keywords: KEYWORDS,
+      title: TITLE,
+      subject: SUBJECT,
+    });
 
     expect(document.version).toBe(VERSION);
     expect(document.info.Title).toBe(TITLE);
