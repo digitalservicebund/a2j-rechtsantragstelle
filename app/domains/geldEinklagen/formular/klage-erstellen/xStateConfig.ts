@@ -136,6 +136,7 @@ export const klageErstellenXstateConfig = {
           states: {
             [steps.rechtsproblemIntoStart.relative]: {
               on: {
+                SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
                 BACK: [
                   {
                     guard: ({ context }) =>
@@ -146,6 +147,17 @@ export const klageErstellenXstateConfig = {
                 ],
               },
             },
+          },
+        },
+      },
+    },
+    prozessfuehrung: {
+      id: "prozessfuehrung",
+      initial: "prozesszinsen",
+      states: {
+        [steps.prozessfuehrungProzesszinsen.relative]: {
+          on: {
+            BACK: steps.rechtsproblemIntoStart.absolute,
           },
         },
       },
