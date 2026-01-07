@@ -29,9 +29,7 @@ Although these tests provide strong coverage, we still need E2E tests to ensure 
 
 ## Proposal
 
-Remove all existing Flow-domain E2E tests and replace them with a single, generic `fake Flow` Integration test suite. We will keep using playwright, but we
-
-This fake Flow service should:
+Remove all existing Flow-domain E2E tests and replace them with a single, generic `fake Flow` Integration test suite. We will keep using playwright, but we will create a new project. This fake Flow service should:
 
 - Include all currently used form components (Input, Radio, AutoSuggestionInput, etc.) across multiple test pages.
 - Follow a specification defined by the A2J engineering team.
