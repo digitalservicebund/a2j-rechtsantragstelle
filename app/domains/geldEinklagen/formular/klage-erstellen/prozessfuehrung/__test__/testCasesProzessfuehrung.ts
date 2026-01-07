@@ -33,7 +33,7 @@ export const testCasesKlageErstellenProzessfuehrung = [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltKosten: "10",
+      anwaltsKosten: "10",
       streitbeilegung: "yes",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
@@ -48,14 +48,14 @@ export const testCasesKlageErstellenProzessfuehrung = [
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
       "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
       "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
-      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+      "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     ],
   ],
   [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltKosten: "10",
+      anwaltsKosten: "10",
       streitbeilegung: "no",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
@@ -71,14 +71,14 @@ export const testCasesKlageErstellenProzessfuehrung = [
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
       "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
       "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
-      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+      "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     ],
   ],
   [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltKosten: "10",
+      anwaltsKosten: "10",
       streitbeilegung: "noSpecification",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
@@ -94,7 +94,7 @@ export const testCasesKlageErstellenProzessfuehrung = [
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
       "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
       "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
-      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+      "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

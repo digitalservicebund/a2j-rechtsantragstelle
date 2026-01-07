@@ -157,7 +157,7 @@ export const klageErstellenXstateConfig = {
       id: "rechtlicher-zusatz",
       initial: "weitere-antraege",
       states: {
-        [steps.rechtlicherZusatzWeitererAntraege.relative]: {
+        [steps.rechtlicherZusatzWeitereAntraege.relative]: {
           on: {
             BACK: steps.prozessfuehrungZahlungNachKlageeinreichung.absolute,
           },

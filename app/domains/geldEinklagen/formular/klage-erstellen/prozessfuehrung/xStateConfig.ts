@@ -11,11 +11,11 @@ export const prozessfuehrungXstateConfig = {
   states: {
     [steps.prozessfuehrungProzesszinsen.relative]: {
       on: {
-        SUBMIT: steps.prozessfuehrungAnwaltkosten.relative,
+        SUBMIT: steps.prozessfuehrungAnwaltskosten.relative,
         BACK: steps.rechtsproblemIntoStart.absolute,
       },
     },
-    [steps.prozessfuehrungAnwaltkosten.relative]: {
+    [steps.prozessfuehrungAnwaltskosten.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungStreitbeilegung.relative,
         BACK: steps.prozessfuehrungProzesszinsen.relative,
@@ -30,7 +30,7 @@ export const prozessfuehrungXstateConfig = {
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
         ],
-        BACK: steps.prozessfuehrungAnwaltkosten.relative,
+        BACK: steps.prozessfuehrungAnwaltskosten.relative,
       },
     },
     [steps.prozessfuehrungStreitbeilegungGruende.relative]: {
@@ -65,7 +65,7 @@ export const prozessfuehrungXstateConfig = {
     },
     [steps.prozessfuehrungZahlungNachKlageeinreichung.relative]: {
       on: {
-        SUBMIT: steps.rechtlicherZusatzWeitererAntraege.absolute,
+        SUBMIT: steps.rechtlicherZusatzWeitereAntraege.absolute,
         BACK: steps.prozessfuehrungVersaeumnisurteil.relative,
       },
     },

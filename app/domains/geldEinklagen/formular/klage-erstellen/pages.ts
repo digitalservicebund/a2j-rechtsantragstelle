@@ -70,10 +70,10 @@ export const geldEinklagenKlageErstellenPages = {
       prozesszinsen: YesNoAnswer,
     },
   },
-  prozessfuehrungAnwaltkosten: {
+  prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
-      anwaltKosten: buildMoneyValidationSchema().or(z.literal("")),
+      anwaltsKosten: buildMoneyValidationSchema().or(z.literal("")),
     },
   },
   prozessfuehrungStreitbeilegung: {
@@ -103,7 +103,7 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungZahlungNachKlageeinreichung: {
     stepId: "klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
   },
-  rechtlicherZusatzWeitererAntraege: {
-    stepId: "klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+  rechtlicherZusatzWeitereAntraege: {
+    stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
   },
 } as const satisfies PagesConfig;
