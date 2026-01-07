@@ -62,4 +62,10 @@ export const geldEinklagenKlageErstellenPages = {
   rechtsproblemIntoStart: {
     stepId: "klage-erstellen/rechtsproblem/intro/start",
   },
+  prozessfuehrungProzesszinsen: {
+    stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
+    pageSchema: {
+      prozesszinsen: z.enum(["ja", "nein"]),
+    },
+  },
 } as const satisfies PagesConfig;
