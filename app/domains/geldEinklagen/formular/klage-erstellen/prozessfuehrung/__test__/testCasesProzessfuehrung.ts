@@ -1,0 +1,100 @@
+import { type TestCases } from "~/domains/__test__/TestCases";
+import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+
+const ZIP_CODE_PILOT_COURT = "10823";
+
+const baseContext: GeldEinklagenFormularUserData = {
+  forderung: "maximal5000",
+  ausgeschlossen: "yes",
+  fuerWenKlagen: "selbst",
+  sachgebiet: "miete",
+  gegenWenBeklagen: "person",
+  mietePachtVertrag: "yes",
+  mietePachtRaum: "yes",
+  postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+  beklagteStrasseHausnummer: "beklagteStrasseHausnummer",
+  beklagtePlz: ZIP_CODE_PILOT_COURT,
+  beklagteOrt: "beklagteOrt",
+  klagendePersonAnrede: "none",
+  klagendePersonTitle: "",
+  klagendePersonVorname: "klagendePersonVorname",
+  klagendePersonNachname: "klagendePersonNachname",
+  klagendePersonStrasseHausnummer: "klagendePersonStrasseHausnummer",
+  klagendePersonPlz: ZIP_CODE_PILOT_COURT,
+  klagendePersonOrt: "klagendePersonOrt",
+  beklagteAnrede: "none",
+  beklagteTitle: "",
+  beklagteVorname: "beklagteVorname",
+  beklagteNachname: "beklagteNachname",
+};
+
+export const testCasesKlageErstellenProzessfuehrung = [
+  [
+    {
+      ...baseContext,
+      prozesszinsen: "yes",
+      anwaltKosten: "10",
+      streitbeilegung: "yes",
+      streitbeilegungGruende: "yes",
+      muendlicheVerhandlung: "yes",
+      videoVerhandlung: "no",
+      versaeumnisurteil: "yes",
+    },
+    [
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
+      "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/streitbeilegung",
+      "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
+      "/klage-erstellen/prozessfuehrung/videoverhandlung",
+      "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
+      "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
+      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      prozesszinsen: "yes",
+      anwaltKosten: "10",
+      streitbeilegung: "no",
+      streitbeilegungGruende: "yes",
+      muendlicheVerhandlung: "yes",
+      videoVerhandlung: "no",
+      versaeumnisurteil: "yes",
+    },
+    [
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
+      "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/streitbeilegung",
+      "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
+      "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
+      "/klage-erstellen/prozessfuehrung/videoverhandlung",
+      "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
+      "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
+      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      prozesszinsen: "yes",
+      anwaltKosten: "10",
+      streitbeilegung: "noSpecification",
+      streitbeilegungGruende: "yes",
+      muendlicheVerhandlung: "yes",
+      videoVerhandlung: "no",
+      versaeumnisurteil: "yes",
+    },
+    [
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
+      "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/streitbeilegung",
+      "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
+      "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
+      "/klage-erstellen/prozessfuehrung/videoverhandlung",
+      "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
+      "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
+      "/klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
+    ],
+  ],
+] as const satisfies TestCases<GeldEinklagenFormularUserData>;

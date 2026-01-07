@@ -2,11 +2,13 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
@@ -65,7 +67,43 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
     pageSchema: {
-      prozesszinsen: z.enum(["ja", "nein"]),
+      prozesszinsen: YesNoAnswer,
     },
+  },
+  prozessfuehrungAnwaltkosten: {
+    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
+    pageSchema: {
+      anwaltKosten: buildMoneyValidationSchema().or(z.literal("")),
+    },
+  },
+  prozessfuehrungStreitbeilegung: {
+    stepId: "klage-erstellen/prozessfuehrung/streitbeilegung",
+    pageSchema: {
+      streitbeilegung: z.enum(["yes", "no", "noSpecification"]),
+    },
+  },
+  prozessfuehrungStreitbeilegungGruende: {
+    stepId: "klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
+    pageSchema: {
+      streitbeilegungGruende: z.enum(["yes", "no", "noSpecification"]),
+    },
+  },
+  prozessfuehrungMuendlicheVerhandlung: {
+    stepId: "klage-erstellen/prozessfuehrung/muendliche-verhandlung",
+    pageSchema: { muendlicheVerhandlung: YesNoAnswer },
+  },
+  prozessfuehrungVideoVerhandlung: {
+    stepId: "klage-erstellen/prozessfuehrung/videoverhandlung",
+    pageSchema: { videoVerhandlung: YesNoAnswer },
+  },
+  prozessfuehrungVersaeumnisurteil: {
+    stepId: "klage-erstellen/prozessfuehrung/versaeumnisurteil",
+    pageSchema: { versaeumnisurteil: YesNoAnswer },
+  },
+  prozessfuehrungZahlungNachKlageeinreichung: {
+    stepId: "klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
+  },
+  rechtlicherZusatzWeitererAntraege: {
+    stepId: "klage-erstellen/rechtlicher-zusatz/weiterer-antraege",
   },
 } as const satisfies PagesConfig;
