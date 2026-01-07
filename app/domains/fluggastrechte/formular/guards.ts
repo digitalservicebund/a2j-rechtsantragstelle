@@ -7,8 +7,7 @@ import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
 import { prozessfuehrungDone } from "./prozessfuehrung/doneFunctions";
 import { getTotalCompensationClaim } from "./services/getTotalCompensationClaim";
 import { streitwertKostenDone } from "./streitwertKosten/doneFunctions";
-
-const TOTAL_COMPENSATION_CLAIM_LIMIT = 5000;
+import { MAX_TOTAL_COMPENSATION } from "./services/isTotalClaimAboveLimit";
 
 export const fluggastrechteGuards = {
   ...fluggastrechteFlugdatenGuards,
@@ -18,5 +17,5 @@ export const fluggastrechteGuards = {
   streitwertKostenDone,
   prozessfuehrungDone,
   isClaimNotExceedingLimit: ({ context }) =>
-    getTotalCompensationClaim(context) < TOTAL_COMPENSATION_CLAIM_LIMIT,
+    getTotalCompensationClaim(context) < MAX_TOTAL_COMPENSATION,
 } satisfies Guards<FluggastrechteUserData>;

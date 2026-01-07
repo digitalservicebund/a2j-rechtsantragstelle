@@ -46,7 +46,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.958.0",
+    "@aws-sdk/client-s3": "^3.962.0",
     "@digitalservice4germany/angie": "2.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
@@ -132,7 +132,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-sonarjs": "^3.0.5",
     "follow-redirects": "^1.15.11",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^27.4.0",
     "knip": "^5.79.0",
