@@ -44,6 +44,7 @@ function createDatabaseSessionStorage({
   });
 }
 
+// FIXME: SessionUserData should be FlowId | "main"
 export function getSessionManager(context: SessionUserData) {
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({

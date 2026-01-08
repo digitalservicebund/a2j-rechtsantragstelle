@@ -51,5 +51,6 @@ export const retrieveContentData = async (
     parentMeta: parentContentPageMeta,
   });
 
+  // FIXME: remove this redundand Facade pattern
   return getContentData({ cmsContent, translations }, userDataWithPageData);
 };
