@@ -2,12 +2,16 @@ import type PDFDocument from "pdfkit";
 import { createPageNumber } from "~/services/pdf/footer/createPageNumber";
 import { createStamp } from "~/services/pdf/footer/createStamp";
 import { type UserData } from "~/domains/userData";
+import { type PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 
 export const createFooter = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: UserData,
-  customFooterSection?: (...args: any) => void,
+  customFooterSection?: (
+    isLastPage: boolean,
+    ...args: Parameters<PDFDocumentBuilder<UserData>>
+  ) => void,
 ) => {
   const pages = doc.bufferedPageRange();
   const totalPages = pages.count;
@@ -22,8 +26,7 @@ export const createFooter = (
 
     createPageNumber(doc, footerSect, pageIndex + 1, totalPages);
 
-    customFooterSection?.(doc, footerSect, userData, isLastPage);
-    // createBankInformation(doc, footerSect, userData, isLastPage);
+    customFooterSection?.(isLastPage, doc, footerSect, userData);
     documentStruct.add(footerSect);
   }
 };

@@ -134,7 +134,7 @@ const buildKontopfaendungPDFDocument: PDFDocumentBuilder<
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc, {
     title: "Antrag nach Pfändung",
-    subject: "Kontopfändung",
+    subject: "Kontopfändung",
     keywords: "Kontopfändung",
   });
   createHeader(doc, documentStruct, userData);

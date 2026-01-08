@@ -27,7 +27,7 @@ describe("createFooter", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
 
-    createFooter(mockDoc, mockStruct, userDataMock);
+    createFooter(mockDoc, mockStruct, userDataMock, createBankInformation);
 
     expect(createBankInformation).toBeCalledTimes(1);
   });
