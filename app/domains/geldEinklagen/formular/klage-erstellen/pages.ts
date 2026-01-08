@@ -2,7 +2,7 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
-import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { buildOptionalMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -73,7 +73,7 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
-      anwaltsKosten: buildMoneyValidationSchema().or(z.literal("")),
+      anwaltskosten: buildOptionalMoneyValidationSchema(),
     },
   },
   prozessfuehrungStreitbeilegung: {

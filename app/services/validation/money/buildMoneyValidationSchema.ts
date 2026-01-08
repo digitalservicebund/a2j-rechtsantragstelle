@@ -9,8 +9,12 @@ type BuildMoneyValidationSchemaOptions = {
   max?: number;
 };
 
+const DEFAULT_MONEY_VALIDATION_OPTIONS: BuildMoneyValidationSchemaOptions = {
+  min: 0,
+};
+
 export const buildMoneyValidationSchema = (
-  opts: BuildMoneyValidationSchemaOptions = { min: 0 },
+  opts: BuildMoneyValidationSchemaOptions = DEFAULT_MONEY_VALIDATION_OPTIONS,
 ) => {
   return z
     .string()
@@ -26,4 +30,37 @@ export const buildMoneyValidationSchema = (
       message: "too_much",
     })
     .transform((v) => formatCents(v));
+};
+
+export const buildOptionalMoneyValidationSchema = (
+  opts: BuildMoneyValidationSchemaOptions = DEFAULT_MONEY_VALIDATION_OPTIONS,
+) => {
+  const baseSchema = buildMoneyValidationSchema(opts);
+
+  return z
+    .string()
+    .trim()
+    .transform((v) => {
+      if (v === "") return { type: "empty" as const, value: "" };
+
+      const result = baseSchema.safeParse(v);
+      if (!result.success) {
+        return { type: "error" as const, error: result.error };
+      }
+      return { type: "success" as const, value: result.data };
+    })
+    .superRefine((parsed, ctx) => {
+      if (parsed.type === "error") {
+        parsed.error.issues.forEach((issue) => {
+          ctx.addIssue({
+            code: "custom",
+            message: issue.message,
+            path: issue.path,
+          });
+        });
+      }
+    })
+    .transform((parsed) => {
+      return parsed.type === "empty" ? "" : parsed.value;
+    });
 };

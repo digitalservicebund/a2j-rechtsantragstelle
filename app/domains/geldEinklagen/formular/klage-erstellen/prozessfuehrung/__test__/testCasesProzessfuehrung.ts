@@ -33,7 +33,7 @@ export const testCasesKlageErstellenProzessfuehrung = [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltsKosten: "10",
+      anwaltskosten: "10",
       streitbeilegung: "yes",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
@@ -55,7 +55,7 @@ export const testCasesKlageErstellenProzessfuehrung = [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltsKosten: "10",
+      anwaltskosten: "10",
       streitbeilegung: "no",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
@@ -78,7 +78,7 @@ export const testCasesKlageErstellenProzessfuehrung = [
     {
       ...baseContext,
       prozesszinsen: "yes",
-      anwaltsKosten: "10",
+      anwaltskosten: "10",
       streitbeilegung: "noSpecification",
       streitbeilegungGruende: "yes",
       muendlicheVerhandlung: "yes",
