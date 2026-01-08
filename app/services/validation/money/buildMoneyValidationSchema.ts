@@ -40,18 +40,12 @@ export const buildOptionalMoneyValidationSchema = (
   return z
     .string()
     .trim()
-    .transform((v) => {
-      if (v === "") return { type: "empty" as const, value: "" };
+    .superRefine((val, ctx) => {
+      if (val === "") return;
 
-      const result = baseSchema.safeParse(v);
+      const result = baseSchema.safeParse(val);
       if (!result.success) {
-        return { type: "error" as const, error: result.error };
-      }
-      return { type: "success" as const, value: result.data };
-    })
-    .superRefine((parsed, ctx) => {
-      if (parsed.type === "error") {
-        parsed.error.issues.forEach((issue) => {
+        result.error.issues.forEach((issue) => {
           ctx.addIssue({
             code: "custom",
             message: issue.message,
@@ -60,7 +54,5 @@ export const buildOptionalMoneyValidationSchema = (
         });
       }
     })
-    .transform((parsed) => {
-      return parsed.type === "empty" ? "" : parsed.value;
-    });
+    .transform((val) => (val === "" ? "" : baseSchema.parse(val)));
 };
