@@ -12,8 +12,8 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { toGermanDateFormat, today } from "~/util/date";
 
-const BODY_TITLE =
-  "Umwandlung meines Girokontos in ein Pfändungsschutzkonto (P-Konto) gemäß § 850k Absatz 1 Satz 1 ZPO";
+const SUBJECT_TITLE =
+  "Umwandlung meines Girokontos in ein Pfändungsschutzkonto (P-Konto) gemäß § 850k Absatz 1 Satz 1 ZPO ";
 
 const createHeader: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
   doc,
@@ -27,18 +27,24 @@ const createHeader: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
-          `${userData.kontoinhaberVorname} ${userData.kontoinhaberNachname}`,
+          `${userData.kontoinhaberVorname} ${userData.kontoinhaberNachname} `,
           PDF_MARGIN_HORIZONTAL,
         )
         .text(
-          `${userData.kontoinhaberStrasse} ${userData.kontoinhaberHausnummer}`,
+          `${userData.kontoinhaberStrasse} ${userData.kontoinhaberHausnummer} `,
         )
-        .text(`${userData.kontoinhaberPlz} ${userData.kontoinhaberOrt}`)
-        .text(userData.telefonnummer ?? "")
-        .text(userData.emailadresse ?? "");
+        .text(`${userData.kontoinhaberPlz} ${userData.kontoinhaberOrt} `)
+        .text(userData.telefonnummer ? `${userData.telefonnummer} ` : "");
     }),
   );
   documentStruct.add(headerSect);
+  if (userData.emailadresse) {
+    headerSect.add(
+      doc.struct("Link", {}, () => {
+        doc.text(`${userData.emailadresse} `);
+      }),
+    );
+  }
 
   doc.moveDown(2);
 };
@@ -50,13 +56,12 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
 ) => {
   const anredeSect = doc.struct("Sect");
   anredeSect.add(
-    doc.struct("H1", {}, () => {
-      doc.font(FONTS_BUNDESSANS_BOLD).text("An");
-    }),
-  );
-  anredeSect.add(
     doc.struct("P", {}, () => {
-      doc.font(FONTS_BUNDESSANS_REGULAR).text(userData.bankName ?? "");
+      doc
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("An ")
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(userData.bankName ? `${userData.bankName} ` : "");
     }),
   );
   documentStruct.add(anredeSect);
@@ -68,45 +73,41 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(`${userData.kontoinhaberOrt}, ${toGermanDateFormat(today())}`);
-      doc.moveDown(1);
-    }),
-  );
-  bodySect.add(
-    doc.struct("H1", {}, () => {
-      doc.font(FONTS_BUNDESSANS_BOLD).text(BODY_TITLE);
+        .text(`${userData.kontoinhaberOrt}, ${toGermanDateFormat(today())} `);
       doc.moveDown(1);
     }),
   );
   bodySect.add(
     doc.struct("P", {}, () => {
+      doc.font(FONTS_BUNDESSANS_BOLD).text(`${SUBJECT_TITLE} `);
       doc
+        .moveDown(1)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
-          `Kontoinhaber: ${userData.kontoinhaberVorname} ${userData.kontoinhaberNachname}`,
+          `Kontoinhaber: ${userData.kontoinhaberVorname} ${userData.kontoinhaberNachname} `,
         );
       doc.moveDown(1);
-      doc.text(`IBAN: ${userData.iban}`);
+      doc.text(`IBAN: ${userData.iban} `);
       doc.moveDown(1);
-      doc.text("Sehr geehrte Damen und Herren,");
+      doc.text("Sehr geehrte Damen und Herren, ");
       doc.moveDown(1);
       doc.text(
-        "Bitte wandeln Sie mein oben genanntes Girokonto schnellstmöglich, jedoch nicht später als innerhalb der in § 850k Absatz 2 Satz 1 genannten Frist, in ein Pfändungsschutzkonto (P-Konto) um.",
+        "Bitte wandeln Sie mein oben genanntes Girokonto schnellstmöglich, jedoch nicht später als innerhalb der in § 850k Absatz 2 Satz 1 genannten Frist, in ein Pfändungsschutzkonto (P-Konto) um. ",
       );
       doc.moveDown(1);
       doc.text(
-        "Ich versichere, dass ich kein weiteres Pfändungsschutzkonto unterhalte.",
+        "Ich versichere, dass ich kein weiteres Pfändungsschutzkonto unterhalte. ",
       );
       doc.moveDown(1);
       doc.text(
-        "Ich bitte Sie, mir die Umwandlung des Kontos schriftlich zu bestätigen.",
+        "Ich bitte Sie, mir die Umwandlung des Kontos schriftlich zu bestätigen. ",
       );
       doc.moveDown(1);
       doc.text(
-        "Bei Bedarf werde ich Erhöhungsbeträge (zum Beispiel für den Eingang von Sozialleistungen) mit einer entsprechenden Bescheinigung nachweisen.",
+        "Bei Bedarf werde ich Erhöhungsbeträge (zum Beispiel für den Eingang von Sozialleistungen) mit einer entsprechenden Bescheinigung nachweisen. ",
       );
       doc.moveDown(1);
-      doc.text("Mit freundlichen Grüßen");
+      doc.text("Mit freundlichen Grüßen ");
     }),
   );
 
@@ -114,16 +115,21 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
 
   doc.moveDown(3);
 
+  const [docX, docY] = [doc.x, doc.y];
+  doc.dash(1, { space: 1 });
+  doc.markContent("Artifact", { type: "Layout" });
+  doc
+    .moveTo(docX, docY)
+    .lineTo(docX + 105, docY)
+    // .dash(1, { space: 1 })
+    .stroke();
+  doc.endMarkedContent();
+  doc.undash();
+
   const signatureSect = doc.struct("Sect");
   signatureSect.add(
     doc.struct("P", {}, () => {
-      const [docX, docY] = [doc.x, doc.y];
-      doc
-        .moveTo(docX, docY)
-        .lineTo(docX + 105, docY)
-        .dash(1, { space: 1 })
-        .stroke();
-      doc.text("[Unterschrift]");
+      doc.text("[Unterschrift] ");
     }),
   );
   documentStruct.add(signatureSect);
