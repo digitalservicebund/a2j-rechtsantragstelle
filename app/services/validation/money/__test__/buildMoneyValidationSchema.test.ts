@@ -81,8 +81,6 @@ describe("buildOptionalMoneyValidationSchema", () => {
 
   describe("failing cases", () => {
     const cases = [
-      { input: "", errorMessage: "required" },
-      { input: "  ", errorMessage: "required" },
       { input: "foobar", errorMessage: "wrong_format" },
       { input: "3 thousand", errorMessage: "wrong_format" },
       { input: "123,123,", errorMessage: "wrong_format" },
@@ -93,7 +91,7 @@ describe("buildOptionalMoneyValidationSchema", () => {
     test.each(cases)(
       "given $input, returns $errorMessage",
       ({ input, errorMessage }) => {
-        const actual = buildMoneyValidationSchema({
+        const actual = buildOptionalMoneyValidationSchema({
           min: -1000000,
           max: 1000000,
         }).safeParse(input);
