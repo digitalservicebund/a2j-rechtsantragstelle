@@ -5,9 +5,7 @@ import {
   setPdfMetadata,
   VERSION,
 } from "../../../../shared/services/pdf/setPdfMetadata";
-import { KEYWORDS } from "../fluggastrechtePdfFromUserdata";
-import { SUBJECT } from "../fluggastrechtePdfFromUserdata";
-import { TITLE } from "../fluggastrechtePdfFromUserdata";
+import { KEYWORDS, SUBJECT, TITLE } from "../fluggastrechtePdfFromUserdata";
 
 describe("setPdfMetadata", () => {
   it("should create the PDF with the correct metadata", () => {

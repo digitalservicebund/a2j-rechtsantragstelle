@@ -121,7 +121,6 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
   doc
     .moveTo(docX, docY)
     .lineTo(docX + 105, docY)
-    // .dash(1, { space: 1 })
     .stroke();
   doc.endMarkedContent();
   doc.undash();
