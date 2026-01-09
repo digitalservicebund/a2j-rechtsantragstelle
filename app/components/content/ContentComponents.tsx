@@ -27,7 +27,6 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
-import KernUserFeedback from "../kern/UserFeedback";
 import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
@@ -181,7 +180,7 @@ function ContentComponents({
   content = [],
   managedByParent,
   className,
-  showKernUX = true,
+  showKernUX = false,
 }: PageContentProps) {
   if (content.length === 0) return [];
 

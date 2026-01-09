@@ -5,7 +5,7 @@ import { translations } from "~/services/translations/translations";
 import KernButton from "./KernButton";
 import { KernOpenQuestion, type SurveyResponses } from "./KernOpenQuestion";
 import { KernMultipleChoiceQuestion } from "./KernMultipleChoiceQuestion";
-import { Icon } from "../common/Icon";
+import { KernIcon } from "./commom/KernIcon";
 
 type KernPosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -93,7 +93,9 @@ export const KernPosthogSurvey = ({
         <KernButton
           type="button"
           look="ghost"
-          iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
+          iconLeft={
+            <KernIcon name="close" className="fill-kern-action-default!" />
+          }
           aria-label={
             wasSubmitted
               ? translations.feedback.close.de

@@ -2,9 +2,9 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { KernStandaloneLink } from "../KernStandaloneLink";
-import { Icon } from "~/components/common/Icon";
+import { KernIcon } from "~/components/kern/commom/KernIcon";
 
-export type KernBreadcrumb = {
+type KernBreadcrumb = {
   url: string;
   title?: string;
 };
@@ -40,11 +40,14 @@ export default function KernBreadcrumbs({
           >
             {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
             <a href="/" aria-label={linkLabel} className="focus:outline-solid">
-              <Icon name="home" className="fill-kern-action-default!" />
+              <KernIcon name="home" className="fill-kern-action-default!" />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
               <div key={breadcrumb.title} className="kern-body-small flex ">
-                <Icon name="chevron-right" className="fill-kern-neutral-300!" />
+                <KernIcon
+                  name="chevron-right"
+                  className="fill-kern-neutral-300!"
+                />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">
                     {breadcrumb.title}

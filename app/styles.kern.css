@@ -11,18 +11,16 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @layer utilities {
+  /* icons styling at the inline notice */
   .app-icon--info {
     color: var(--color-kern-feedback-info);
   }
-
   .app-icon--warning {
     color: var(--color-kern-feedback-warning);
   }
-
   .app-icon--success {
     color: var(--color-kern-feedback-success);
   }
-
   .app-icon--danger {
     color: var(--color-kern-feedback-danger);
   }
@@ -48,6 +46,7 @@
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
     }
   }
+
   @media (min-width: 1024px) {
     .grid-fluid {
       /* @apply px-12; */
@@ -57,6 +56,7 @@
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
     }
   }
+
   @media (min-width: 1280px) {
     .grid-fluid {
       /* @apply px-32; */

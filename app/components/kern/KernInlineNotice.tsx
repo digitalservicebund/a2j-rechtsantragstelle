@@ -1,9 +1,10 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernRichText from "./KernRichText";
-import { Icon, type IconName } from "../common/Icon";
+import { KernIcon } from "./commom/KernIcon";
+import { type IconName } from "./commom/utils";
 
-export type KernInlineNoticeProps = {
+type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
@@ -17,23 +18,27 @@ export type KernInlineNoticeProps = {
 // Therefore, it's set in the config.
 const lookConfig: Record<
   KernInlineNoticeProps["look"],
-  { className: string; icon: IconName }
+  { iconName: IconName; iconClassName: string; containerClassName: string }
 > = {
   info: {
-    className: "kern-alert--info",
-    icon: "info",
+    iconName: "info",
+    iconClassName: "app-icon--info",
+    containerClassName: "kern-alert--info",
   },
   warning: {
-    className: "kern-alert--warning",
-    icon: "warning",
+    iconName: "warning",
+    iconClassName: "app-icon--warning",
+    containerClassName: "kern-alert--warning",
   },
   danger: {
-    className: "kern-alert--danger",
-    icon: "emergency-home",
+    iconName: "emergency-home",
+    iconClassName: "app-icon--danger",
+    containerClassName: "kern-alert--danger",
   },
   success: {
-    className: "kern-alert--success",
-    icon: "check-circle",
+    iconName: "check-circle",
+    iconClassName: "app-icon--success",
+    containerClassName: "kern-alert--success",
   },
 };
 
@@ -47,13 +52,21 @@ export const KernInlineNotice = ({
   nested,
 }: KernInlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
-  const { className, icon } = lookConfig[look];
+  const { iconName, iconClassName, containerClassName } = lookConfig[look];
   const Tag = tagName;
 
   const base = (
-    <div className={`kern-alert ${className}`} id={identifier} role="note">
+    <div
+      className={`kern-alert ${containerClassName}`}
+      id={identifier}
+      role="note"
+    >
       <div className="flex flex-row items-center pl-kern-space-large h-[48px]">
-        <Icon name={icon} state={look} className="mr-8" aria-hidden="true" />
+        <KernIcon
+          name={iconName}
+          className={`${iconClassName} mr-8`}
+          aria-hidden="true"
+        />
         <Tag className="kern-body kern-body--bold p-0!"> {title}</Tag>
       </div>
       <div className="kern-alert__body">

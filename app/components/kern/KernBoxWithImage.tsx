@@ -14,9 +14,9 @@ type BoxWithImageProps = {
   };
 };
 
-export type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
-export const variantWidths: Record<Variant, string> = {
+const variantWidths: Record<Variant, string> = {
   XS: "max-w-[80px]",
   S: "max-w-[120px]",
   M: "max-w-[280px]",

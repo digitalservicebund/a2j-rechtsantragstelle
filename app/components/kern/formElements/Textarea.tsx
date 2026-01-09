@@ -21,7 +21,7 @@ type TextareaProps = Readonly<{
   ariaDescribedby?: string;
 }>;
 
-export const TEXT_AREA_ROWS = 3;
+const TEXT_AREA_ROWS = 3;
 
 const KernTextarea = ({
   name,

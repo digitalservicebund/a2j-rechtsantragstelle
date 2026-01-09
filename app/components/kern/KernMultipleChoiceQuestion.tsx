@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./KernOpenQuestion";
 import { translations } from "~/services/translations/translations";
-import { Icon } from "../common/Icon";
+import { KernIcon } from "./commom/KernIcon";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -71,7 +71,7 @@ export const KernMultipleChoiceQuestion = ({
         })}
         {hasError && (
           <p className="kern-error flex gap-8 self-center mt-8!" role="alert">
-            <Icon
+            <KernIcon
               name="emergency-home"
               className="fill-kern-feedback-danger!"
             />

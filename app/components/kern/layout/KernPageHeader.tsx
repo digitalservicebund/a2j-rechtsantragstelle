@@ -5,7 +5,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
-import { Icon } from "~/components/common/Icon";
+import { KernIcon } from "~/components/kern/commom/KernIcon";
 
 type PageHeaderProps = {
   title: string;
@@ -65,7 +65,7 @@ export default function KernPageHeader({
                   href={"/leichtesprache"}
                   className="kern-link kern-link--small"
                 >
-                  <Icon name="local-library" />
+                  <KernIcon name="local-library" />
                   {translations.pageHeader.leichtesprache.de}
                 </a>
 
@@ -73,7 +73,7 @@ export default function KernPageHeader({
                   href={"/gebaerdensprache"}
                   className="kern-link kern-link--small"
                 >
-                  <Icon name="sign-language" />
+                  <KernIcon name="sign-language" />
                   {"Gebärdensprache"}{" "}
                   {/*translations.pageHeader.gebaerdensprache.de */}
                 </a>

@@ -5,9 +5,9 @@ import { useAnalytics } from "~/services/analytics/useAnalytics";
 import KernButton from "./KernButton";
 import KernRichText, { type RichTextProps } from "./KernRichText";
 import { type HeadingProps } from "../common/Heading";
-import { Icon } from "../common/Icon";
+import { KernIcon } from "./commom/KernIcon";
 
-export const acceptCookiesFieldName = "accept-cookies";
+const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
   heading: HeadingProps;
@@ -69,7 +69,7 @@ export function KernCookieBanner({
             type="button"
             look="ghost"
             iconLeft={
-              <Icon name="close" className="fill-kern-action-default!" />
+              <KernIcon name="close" className="fill-kern-action-default!" />
             }
             onClick={closeModal}
           />
@@ -80,7 +80,7 @@ export function KernCookieBanner({
           ))}
           {content.cookieSettingLinkUrl && (
             <a href={content.cookieSettingLinkUrl} className="kern-link">
-              <Icon name="arrow-forward" />
+              <KernIcon name="arrow-forward" />
               {content.cookieSettingLinkText}
             </a>
           )}
