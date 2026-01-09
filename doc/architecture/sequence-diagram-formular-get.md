@@ -137,18 +137,17 @@ sequenceDiagram
                 deactivate flowController
             flowTransitionValidation ->> validateStepIdFlow: return eligibilityResult
                 deactivate flowTransitionValidation
+            opt if eligibilityResult is false
+                validateStepIdFlow ->> getUserDataAndFlow: return Result.err(redirectTo)
+                getUserDataAndFlow ->> loader: return Result.err(redirectTo)
+                loader ->> client: end request with redirect
+            end
         end
+        validateStepIdFlow ->> getUserDataAndFlow: return Result.ok()
+            deactivate validateStepIdFlow
+        getUserDataAndFlow ->> loader: return Result.ok({ <br/>userData, flow, page, emailCaptureConsent, migration })
+        deactivate getUserDataAndFlow
 
-        alt if eligibilityResult is false
-            validateStepIdFlow ->> getUserDataAndFlow: return Result.err(redirectTo)
-            getUserDataAndFlow ->> loader: return Result.err(redirectTo)
-            loader ->> client: end request with redirect
-        else if flowTransitionConfig absent || eligibilityResult is true
-            validateStepIdFlow ->> getUserDataAndFlow: return Result.ok()
-                deactivate validateStepIdFlow
-            getUserDataAndFlow ->> loader: return Result.ok({ <br/>userData, flow, page, emailCaptureConsent, migration })
-        end
-            deactivate getUserDataAndFlow
     end
 
     %% Phase 5: Fetch CMS Content
