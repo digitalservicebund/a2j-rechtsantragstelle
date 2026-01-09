@@ -91,7 +91,7 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - name: Save Docker image to file
-        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}:latest | gzip > image.tar.gz
+        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}-app:latest | gzip > image.tar.gz
       - name: Upload docker image to artifact
         # if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v6
