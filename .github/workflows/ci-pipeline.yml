@@ -126,6 +126,8 @@ jobs:
           name: docker-build
       - name: Import Docker image
         run: docker import image.tar.gz
+      - name: Push the app image
+        run: ./docker.sh --push app
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
