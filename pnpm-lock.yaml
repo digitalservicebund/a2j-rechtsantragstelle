@@ -120,8 +120,8 @@ importers:
         specifier: 1.313.0
         version: 1.313.0
       posthog-node:
-        specifier: 5.18.1
-        version: 5.18.1
+        specifier: 5.19.0
+        version: 5.19.0
       rate-limit-redis:
         specifier: ^4.3.1
         version: 4.3.1(express-rate-limit@8.2.1(express@5.2.1))
@@ -4706,8 +4706,8 @@ packages:
   posthog-js@1.313.0:
     resolution: {integrity: sha512-CL8RkC7m9BTZrix86w0fdnSCVqC/gxrfs6c4Wfkz/CldFD7f2912S2KqnWFmwRVDGIwm9IR82YhublQ88gdDKw==}
 
-  posthog-node@5.18.1:
-    resolution: {integrity: sha512-Hi7cRqAlvuEitdiurXJFdMip+BxcwYoX66at5RErMVP91V+Ph9BspGiawC3mJx/4znjwUjF29kAhf8oZQ2uJ5Q==}
+  posthog-node@5.19.0:
+    resolution: {integrity: sha512-5Nx+/b1JbAy6TaCENuO+mLFfZIXyYavae+D6FABd52gzkGryRkRTsKi+WLlILI5shSCAMWs5gxzGAZ3nOC0gFA==}
     engines: {node: '>=20'}
 
   preact@10.28.1:
@@ -10755,7 +10755,7 @@ snapshots:
       preact: 10.28.1
       web-vitals: 4.2.4
 
-  posthog-node@5.18.1:
+  posthog-node@5.19.0:
     dependencies:
       '@posthog/core': 1.9.0
 
