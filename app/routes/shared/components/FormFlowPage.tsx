@@ -21,6 +21,7 @@ import SideNavMobile from "~/components/navigation/SideNavMobile";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
 
 export function FormFlowPage() {
   const {
@@ -146,13 +147,21 @@ export function FormFlowPage() {
                       csrf={csrf}
                     />
                   ))}
-
-                <ValidatedFlowForm
-                  stepData={stepData}
-                  csrf={csrf}
-                  formElements={formElements}
-                  buttonNavigationProps={buttonNavigationProps}
-                />
+                {showKernUX ? (
+                  <KernValidatedFlowForm
+                    stepData={stepData}
+                    csrf={csrf}
+                    formElements={formElements}
+                    buttonNavigationProps={buttonNavigationProps}
+                  />
+                ) : (
+                  <ValidatedFlowForm
+                    stepData={stepData}
+                    csrf={csrf}
+                    formElements={formElements}
+                    buttonNavigationProps={buttonNavigationProps}
+                  />
+                )}
                 <ContentComponents
                   content={cmsContent.postFormContent}
                   managedByParent
