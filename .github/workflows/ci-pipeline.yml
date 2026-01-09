@@ -101,7 +101,7 @@ jobs:
           retention-days: 1
 
   push-app-image:
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [code-quality, verify-local-e2e, build-app-image]
     permissions:
