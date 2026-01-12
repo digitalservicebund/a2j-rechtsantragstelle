@@ -120,8 +120,8 @@ importers:
         specifier: 1.314.0
         version: 1.314.0
       posthog-node:
-        specifier: 5.19.0
-        version: 5.19.0
+        specifier: 5.20.0
+        version: 5.20.0
       rate-limit-redis:
         specifier: ^4.3.1
         version: 4.3.1(express-rate-limit@8.2.1(express@5.2.1))
@@ -1593,6 +1593,9 @@ packages:
 
   '@posthog/core@1.9.0':
     resolution: {integrity: sha512-j7KSWxJTUtNyKynLt/p0hfip/3I46dWU2dk+pt7dKRoz2l5CYueHuHK4EO7Wlgno5yo1HO4sc4s30MXMTICHJw==}
+
+  '@posthog/core@1.9.1':
+    resolution: {integrity: sha512-kRb1ch2dhQjsAapZmu6V66551IF2LnCbc1rnrQqnR7ArooVyJN9KOPXre16AJ3ObJz2eTfuP7x25BMyS2Y5Exw==}
 
   '@prisma/instrumentation@6.19.0':
     resolution: {integrity: sha512-QcuYy25pkXM8BJ37wVFBO7Zh34nyRV1GOb2n3lPkkbRYfl4hWl3PTcImP41P0KrzVXfa/45p6eVCos27x3exIg==}
@@ -4706,8 +4709,8 @@ packages:
   posthog-js@1.314.0:
     resolution: {integrity: sha512-qW1T73UAFpA0g2Ln0blsOUJxRhv0Tn4DrPdhGyTpw+MupW+qvVjzEg/i9jWQ4Al+8AkrNcmZFafJcSWXxWsWqg==}
 
-  posthog-node@5.19.0:
-    resolution: {integrity: sha512-5Nx+/b1JbAy6TaCENuO+mLFfZIXyYavae+D6FABd52gzkGryRkRTsKi+WLlILI5shSCAMWs5gxzGAZ3nOC0gFA==}
+  posthog-node@5.20.0:
+    resolution: {integrity: sha512-LkR5KfrvEQTnUtNKN97VxFB00KcYG1Iz8iKg8r0e/i7f1eQhg1WSZO+Jp1B4bvtHCmdpIE4HwYbvCCzFoCyjVg==}
     engines: {node: '>=20'}
 
   preact@10.28.2:
@@ -7235,6 +7238,10 @@ snapshots:
       playwright: 1.57.0
 
   '@posthog/core@1.9.0':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/core@1.9.1':
     dependencies:
       cross-spawn: 7.0.6
 
@@ -10756,9 +10763,9 @@ snapshots:
       preact: 10.28.2
       web-vitals: 4.2.4
 
-  posthog-node@5.19.0:
+  posthog-node@5.20.0:
     dependencies:
-      '@posthog/core': 1.9.0
+      '@posthog/core': 1.9.1
 
   preact@10.28.2: {}
 
