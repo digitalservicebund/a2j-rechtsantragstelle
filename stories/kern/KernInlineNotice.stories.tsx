@@ -22,6 +22,16 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+export const Info: Story = {
+  args: {
+    title: "Hinweis",
+    tagName: "h3",
+    look: "info",
+    content:
+      "<p>Die Beschreibung einer inline notice liefert mehr Kontext und sollte darüber hinaus auch Handlungsoptionen aufzeigen, falls nötig.</p>",
+  },
+};
+
 export const Warning: Story = {
   args: {
     title: "Warnung",
@@ -32,11 +42,11 @@ export const Warning: Story = {
   },
 };
 
-export const Tips: Story = {
+export const Danger: Story = {
   args: {
-    title: "Hinweis",
+    title: "Fehler",
     tagName: "h3",
-    look: "tips",
+    look: "danger",
     content:
       "<p>Die Beschreibung einer inline notice liefert mehr Kontext und sollte darüber hinaus auch Handlungsoptionen aufzeigen, falls nötig.</p>",
   },
@@ -47,16 +57,6 @@ export const Success: Story = {
     title: "Erfolg",
     tagName: "h3",
     look: "success",
-    content:
-      "<p>Die Beschreibung einer inline notice liefert mehr Kontext und sollte darüber hinaus auch Handlungsoptionen aufzeigen, falls nötig.</p>",
-  },
-};
-
-export const Error: Story = {
-  args: {
-    title: "Fehler",
-    tagName: "h3",
-    look: "error",
     content:
       "<p>Die Beschreibung einer inline notice liefert mehr Kontext und sollte darüber hinaus auch Handlungsoptionen aufzeigen, falls nötig.</p>",
   },
