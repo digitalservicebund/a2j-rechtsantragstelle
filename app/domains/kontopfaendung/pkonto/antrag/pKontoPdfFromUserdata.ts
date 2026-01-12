@@ -147,7 +147,7 @@ const buildKontopfaendungPDFDocument: PDFDocumentBuilder<
   createFooter(doc, documentStruct, userData);
 };
 
-export function kontopfaendungPdfFromUserdata(
+export function pKontoPdfFromUserdata(
   userData: KontopfaendungPkontoAntragUserData,
 ) {
   return pdfFromUserData(userData, buildKontopfaendungPDFDocument);

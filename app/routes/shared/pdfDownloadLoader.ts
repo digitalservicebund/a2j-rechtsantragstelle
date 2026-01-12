@@ -5,7 +5,7 @@ import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
-import { kontopfaendungPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/kontopfaendungPdfFromUserdata";
+import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
@@ -65,7 +65,7 @@ const pdfConfigs = {
   },
   "/kontopfaendung/pkonto/antrag": {
     pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
-      await kontopfaendungPdfFromUserdata(userData),
+      await pKontoPdfFromUserdata(userData),
     name: "Antrag_Umwandlung_nach_Pfaendung",
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
