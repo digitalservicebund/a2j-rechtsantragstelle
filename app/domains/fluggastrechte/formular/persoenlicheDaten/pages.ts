@@ -2,6 +2,7 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -54,6 +55,9 @@ export const fluggastrechtePersoenlicheDatenPages = {
   },
   weiterePersonenUebersicht: {
     stepId: "persoenliche-daten/weitere-personen/uebersicht",
+    pageSchema: {
+      weiterePersonenAdresse: hiddenInputSchema(stringOptionalSchema),
+    },
   },
   weiterePersonenDaten: {
     stepId: "persoenliche-daten/weitere-personen/person",
