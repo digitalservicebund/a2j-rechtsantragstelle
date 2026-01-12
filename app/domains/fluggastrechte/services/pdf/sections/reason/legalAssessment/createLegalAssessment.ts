@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -95,7 +95,10 @@ export const createLegalAssessment = (
 
   const courtCostValue = gerichtskostenFromBetrag(
     Number(compensationByDistance),
-  );
+  ).toLocaleString("de-DE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${courtCostValue} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
   const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
     width: PDF_WIDTH_SEIZE,

@@ -5,7 +5,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import KernButton from "../KernButton";
 
-export const userRatingFieldname = "wasHelpful";
+const userRatingFieldname = "wasHelpful";
 
 export type RatingBoxProps = {
   readonly heading: string;

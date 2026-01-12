@@ -41,7 +41,6 @@ const RadioGroup = ({
     <fieldset
       className="border-0 p-0 m-0"
       aria-invalid={hasError}
-      aria-describedby={hasError ? errorId : undefined}
       aria-errormessage={hasError ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}

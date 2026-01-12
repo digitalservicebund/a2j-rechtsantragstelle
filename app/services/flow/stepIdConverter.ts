@@ -19,13 +19,11 @@ export const stateValueToStepIds = (stateValue: StateValue): string[] => {
   if (Object.keys(stateValue).length == 0) {
     return [""];
   }
-  return Object.entries(stateValue)
-    .map(([key, value]) =>
-      stateValueToStepIds(value!).map(
-        (substate) => "/" + (substate ? key + substate : key),
-      ),
-    )
-    .flat();
+  return Object.entries(stateValue).flatMap(([key, value]) =>
+    stateValueToStepIds(value!).map(
+      (substate) => "/" + (substate ? key + substate : key),
+    ),
+  );
 };
 
 export const stateIdToStepId = (stateId: string, machineId: string) =>

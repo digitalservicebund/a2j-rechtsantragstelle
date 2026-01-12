@@ -223,7 +223,7 @@ export const WithInlineNotices: Story = {
           {
             title: "Processing Time",
             tagName: "p",
-            look: "tips",
+            look: "info",
             content: "Applications typically take 2-4 weeks to process.",
           },
           {

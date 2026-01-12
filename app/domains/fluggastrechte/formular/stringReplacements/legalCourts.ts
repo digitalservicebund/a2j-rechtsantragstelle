@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/shared/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { getAirportByIataCode } from "../../services/airports/getAirportByIataCode";
 import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
@@ -54,7 +54,10 @@ export const getResponsibleCourt = (context: FluggastrechteUserData) => {
 export const getStreitwert = (context: FluggastrechteUserData) => {
   const totalCompensation = getTotalCompensationClaim(context);
   return {
-    courtCost: gerichtskostenFromBetrag(totalCompensation).toString(),
+    courtCost: gerichtskostenFromBetrag(totalCompensation).toLocaleString(
+      "de-DE",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 },
+    ),
     singleCompensation: getCompensationPayment({
       startAirport: context.startAirport,
       endAirport: context.endAirport,

@@ -142,5 +142,5 @@ const getOccupationDetails = (
     description.push(otherIncomes);
   }
 
-  return description.filter((value) => value).join(", ");
+  return description.filter(Boolean).join(", ");
 };

@@ -7,7 +7,7 @@ export const getFullPlaintiffName = (
   nachname?: string,
 ) => {
   const mappedTitle = title === "dr" ? "Dr." : title;
-  const salutation = anrede !== "none" ? capitalize(anrede) : "";
+  const salutation = anrede === "none" ? "" : capitalize(anrede);
   const capitalizedVorname = capitalize(vorname);
 
   return [salutation, mappedTitle, capitalizedVorname, nachname]

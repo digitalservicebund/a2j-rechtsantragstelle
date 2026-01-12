@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { configDotenv } from "dotenv";
 import { readSecretOrEnvVar } from "~/services/env/readSecretOrEnvVar.server";
 

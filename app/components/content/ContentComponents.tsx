@@ -27,7 +27,6 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
-import KernUserFeedback from "../kern/UserFeedback";
 import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
@@ -74,6 +73,16 @@ function getContainerBackgroundColor(
   }
   return "";
 }
+// Map temporarily Strapi look values to Kern look values
+function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
+  const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
+    error: "danger",
+    success: "success",
+    warning: "warning",
+    tips: "info",
+  };
+  return lookMap[look] || "info";
+}
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
@@ -94,7 +103,18 @@ function cmsToReact(
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
-        return <KernInfoBox {...componentProps} />;
+        return (
+          <KernInfoBox
+            {...componentProps}
+            items={componentProps.items?.map((item) => ({
+              ...item,
+              inlineNotices: item.inlineNotices?.map((notice) => ({
+                ...notice,
+                look: mapLookValue(notice.look),
+              })),
+            }))}
+          />
+        );
       case "page.video":
         return <KernVideo {...componentProps} />;
       case "page.list":
@@ -102,9 +122,13 @@ function cmsToReact(
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
-        return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
-      case "page.user-feedback":
-        return <KernUserFeedback {...componentProps} />;
+        return (
+          <KernInlineNotice
+            {...componentProps}
+            look={mapLookValue(componentProps.look)}
+            wrap={opts?.inFlow}
+          />
+        );
       default:
         return <></>;
     }

@@ -18,7 +18,7 @@ type LinkProps = React.ComponentPropsWithoutRef<"a">;
 
 function formatIcon(icon?: ReactElementWithClassname) {
   if (!icon) return undefined;
-  const className = `kern-icon ${icon.props.className ?? ""}`;
+  const className = `${icon.props.className ?? ""}`;
   return cloneElement(icon, { className });
 }
 

@@ -21,15 +21,13 @@ export async function attachUserUploadedFilesToPdf(
         .filter(([condition, files]) => condition && files && files.length > 0)
         .map(([, files]) =>
           Promise.all(
-            files!
-              .map((file) =>
-                downloadUserFileFromS3(
-                  sessionId,
-                  flowId,
-                  file.savedFileKey ?? "",
-                ),
-              )
-              .flat(),
+            files!.flatMap((file) =>
+              downloadUserFileFromS3(
+                sessionId,
+                flowId,
+                file.savedFileKey ?? "",
+              ),
+            ),
           ),
         ),
     )

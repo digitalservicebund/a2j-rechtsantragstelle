@@ -1,19 +1,25 @@
 import PDFDocument from "pdfkit";
 import {
-  AUTHOR,
-  CREATOR,
   KEYWORDS,
-  setPdfMetadata,
   SUBJECT,
   TITLE,
+} from "../../../domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import {
+  AUTHOR,
+  CREATOR,
+  setPdfMetadata,
   VERSION,
-} from "../setPdfMetadata";
+} from "~/services/pdf/setPdfMetadata";
 
 describe("setPdfMetadata", () => {
   it("should create the PDF with the correct metadata", () => {
     const document = new PDFDocument();
 
-    setPdfMetadata(document);
+    setPdfMetadata(document, {
+      keywords: KEYWORDS,
+      title: TITLE,
+      subject: SUBJECT,
+    });
 
     expect(document.version).toBe(VERSION);
     expect(document.info.Title).toBe(TITLE);

@@ -64,7 +64,7 @@ const KernList = ({
   );
 };
 
-export function listItemNotEmpty(item: ListItemProps): boolean {
+function listItemNotEmpty(item: ListItemProps): boolean {
   return (
     removeMarkupTags(item.headline?.text ?? "").length > 0 ||
     removeMarkupTags(item.content ?? "").length > 0

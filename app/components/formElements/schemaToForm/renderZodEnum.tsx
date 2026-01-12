@@ -5,6 +5,7 @@ import RadioGroup from "~/components/formElements/RadioGroup";
 import Select from "~/components/formElements/Select";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -14,12 +15,17 @@ export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
 export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
-  pathname: string,
   matchingElement?: StrapiFormComponent,
 ) {
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
-  let options = schema.options.map((value) => ({ value, text: value }));
+
+  const sortedOptions = sortSchemaOptionsByFormComponents(
+    schema,
+    matchingElement,
+  );
+
+  let options = sortedOptions.map((value) => ({ value, text: value }));
   // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":

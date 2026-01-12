@@ -22,9 +22,9 @@ export const getArrayIndexStrings = (
   context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
   const arrayIndex = context.pageData?.arrayIndexes.at(0);
-  return arrayIndex !== undefined
-    ? { "array#index": String(arrayIndex + 1) }
-    : {};
+  return arrayIndex === undefined
+    ? {}
+    : { "array#index": String(arrayIndex + 1) };
 };
 
 export const geldAnlagenStrings = (

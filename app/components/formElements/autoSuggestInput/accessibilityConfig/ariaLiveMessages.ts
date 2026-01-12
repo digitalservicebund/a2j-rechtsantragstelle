@@ -188,7 +188,7 @@ export const screenReaderStatus =
   (translations?: Translations) =>
   ({ count }: { count: number }) => {
     const message = getTranslationByKey(SCREEN_READER_STATUS, translations);
-    const optionsText = count !== 1 ? "en" : "";
+    const optionsText = count === 1 ? "" : "en";
     return message
       .replace("{{count}}", count.toString())
       .replace("{{options}}", optionsText);

@@ -18,7 +18,7 @@ export function KernButtonNavigation({ back, next }: ButtonNavigationProps) {
       {back?.destination && (
         <KernButton
           href={back.destination}
-          look="tertiary"
+          look="secondary"
           className="w-fit print:hidden"
           disabled={back.disabled}
         >

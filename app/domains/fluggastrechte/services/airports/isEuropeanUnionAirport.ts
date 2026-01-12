@@ -1,6 +1,6 @@
 import { getAirportByIataCode } from "./getAirportByIataCode";
 
-const EU_COUNTRIES = [
+const EU_COUNTRIES = new Set([
   "AT",
   "BE",
   "BG",
@@ -43,7 +43,7 @@ const EU_COUNTRIES = [
   "IS",
   "NO",
   "SX",
-];
+]);
 
 export function isEuropeanUnionAirport(
   airportCode: string | undefined,
@@ -51,5 +51,5 @@ export function isEuropeanUnionAirport(
   if (!airportCode) return false;
   const airportCountry = getAirportByIataCode(airportCode)?.country_code;
   if (!airportCountry) return false;
-  return EU_COUNTRIES.includes(airportCountry);
+  return EU_COUNTRIES.has(airportCountry);
 }

@@ -11,17 +11,18 @@
 
 ## Data Exploration
 
-`UpdateR2305.zip`:
+`UpdateR2510.zip`:
 
 ```
-- Information zu Version2.pdf
-- TD14-Erwerber-Dokumentation-V2.pdf
-- TD14-Erwerber-Technik-V2.pdf
-- JMTD14.20230427-200002.Create_All.log
-- Ordner: DDL
-- Ordner: INSERT-Format
-- Ordner: JSON-Format
-- Ordner: SQL-LOADER-Format
+.
+├── TD14-Erwerber-Dokumentation-V2.pdf
+├── TD14-Erwerber-Technik-V2.pdf
+├── Thumbs.db
+└── Version2
+    ├── DDL
+    ├── INSERT-Format
+    ├── JSON-Format
+    └── SQL-LOADER-Format
 ```
 
 ### Formate
@@ -35,7 +36,7 @@
 ### PLZORTK
 
 - Beschreibung: Mapping aller PLZ -> zuständigen Justizbehörden
-- Items: 943380
+- Items: 982406
 
 <details>
 <summary>Data example JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json (241.4 mb):</summary>
@@ -49,23 +50,23 @@
       "GERBEH_LG": "03",
       "PLZM_INFO": "Zustellbezirk",
       "GERBEH_OLG": "1",
-      "GERBEH_TYP_INFO": "Staatsanwaltschaft",
-      "ANGELEGENHEIT_INFO": "Angelegenheiten der Staatsanwaltschaften",
+      "GERBEH_TYP_INFO": "Zivilgericht - Amtsgericht",
+      "ANGELEGENHEIT_INFO": "Anweisung des Standesamts zur Vornahme einer Amtshandlung",
       "GERBEH_STAMM": "00",
-      "GERBEH_AG": "00",
+      "GERBEH_AG": "02",
       "PLZ": "01067",
       "ORTK": "DRESDEN"
     },
     {
       "ORT": "Dresden",
-      "GERBEH_LKZ": "23",
+      "GERBEH_LKZ": "22",
       "GERBEH_LG": "03",
       "PLZM_INFO": "Zustellbezirk",
       "GERBEH_OLG": "1",
-      "GERBEH_TYP_INFO": "Mahngericht",
-      "ANGELEGENHEIT_INFO": "Mahnverfahren",
+      "GERBEH_TYP_INFO": "Zivilgericht - Amtsgericht",
+      "ANGELEGENHEIT_INFO": "Änderung des Vornamens und Feststellung der Geschlechtszugehörigkeit nach dem Transsexuellengesetz",
       "GERBEH_STAMM": "00",
-      "GERBEH_AG": "90",
+      "GERBEH_AG": "02",
       "PLZ": "01067",
       "ORTK": "DRESDEN"
     }
@@ -78,7 +79,7 @@
 ### GERBEH
 
 - Beschreibung: Postalische Infos zu Justizbehörden (inkl ob sie am elektronischem Rechtsverkehr teilnehmen)
-- Items: 2896
+- Items: 3002
 
 <details>
 <summary>Data Example JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json (1.4 mb):</summary>
@@ -105,6 +106,27 @@
       "FAX": "0361 2636-2000",
       "ORTK": "ERFURT",
       "ERV_MAHN": "J"
+    },
+    {
+      "XJUSTIZID": "D6263",
+      "URL1": "www.bundesfinanzhof.de",
+      "AG": "00",
+      "PLZ_ZUSTELLBEZIRK": "81675",
+      "OLG": "0",
+      "TYP_INFO": "Finanzgericht",
+      "PLZ_POSTFACH": "81629",
+      "POSTFACH": "86 02 40",
+      "EMAIL1": "bundesfinanzhof@bfh.bund.de",
+      "ORT": "München",
+      "STR_HNR": "Ismaninger Straße 109",
+      "XML_SUPPORT": "NEIN",
+      "BEZEICHNUNG": "Bundesfinanzhof",
+      "LKZ": "00",
+      "TEL": "089 9231-0",
+      "LG": "00",
+      "FAX": "089 9231-201",
+      "ORTK": "MUENCHEN",
+      "ERV_MAHN": "J"
     }
   ]
 }
@@ -115,27 +137,27 @@
 ### PLZ_NEU
 
 - Beschreibung: Liste von Orten deren PLZ sich geändert hat
-- Items: 3063
+- Items: 2646
 
 <details>
 <summary>Data example JMTD14_VT_ERWERBER_PLZNEU_DATA_TABLE.json (458 kb):</summary>
 
 ```json
 {
-  "JMTD14_VT_ERWERBER_PLZSTRN": [
+  "JMTD14_VT_ERWERBER_PLZNEU": [
     {
-      "HNR_BIS": "001",
-      "HNR_MERKMAL_INFO": "fortlaufende Hausnummern",
-      "AG": "07",
-      "HNR_VON": "001",
-      "ANGELEGENHEIT_INFO": "Beweisaufnahme ersuchtes Gericht",
-      "STRN": "LICHTENBERGER STR.",
-      "LKZ": "11",
-      "OLG": "1",
-      "LG": "01",
-      "TYP_INFO": "Zivilgericht - Amtsgericht",
-      "PLZ": "10178",
-      "ORTK": "BERLIN"
+      "GRUND_INFO": "PLZ/ORTK hat eine neue PLZ oder eine neue Ortsbezeichnung",
+      "PLZ_ALT": "01465",
+      "ORTK_ALT": "LANGEBRUECK",
+      "PLZ": "01465",
+      "ORTK": "DRESDEN"
+    },
+    {
+      "GRUND_INFO": "PLZ/ORTK hat eine neue PLZ oder eine neue Ortsbezeichnung",
+      "PLZ_ALT": "01465",
+      "ORTK_ALT": "SCHOENBORN",
+      "PLZ": "01465",
+      "ORTK": "DRESDEN"
     }
   ]
 }
@@ -146,8 +168,7 @@
 ### PLZSTRN
 
 - Beschreibung: Spezialzuordnung für Straßen, bei denen unterschiedliche Zuständigkeiten gelten (zB Hausnummern oder Straßenseiten)
-- Items: 78738
-- Unique PLZs: 93
+- Items: 83284
 
 <details>
 <summary>Data example JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json (20.7 mb):</summary>
@@ -158,9 +179,23 @@
     {
       "HNR_BIS": "001",
       "HNR_MERKMAL_INFO": "fortlaufende Hausnummern",
-      "AG": "07",
+      "AG": "09",
       "HNR_VON": "001",
-      "ANGELEGENHEIT_INFO": "Beweisaufnahme ersuchtes Gericht",
+      "ANGELEGENHEIT_INFO": "SMALL-CLAIMS Allgemein",
+      "STRN": "LICHTENBERGER STR.",
+      "LKZ": "11",
+      "OLG": "1",
+      "LG": "01",
+      "TYP_INFO": "Zivilgericht - Amtsgericht",
+      "PLZ": "10178",
+      "ORTK": "BERLIN"
+    },
+    {
+      "HNR_BIS": "001",
+      "HNR_MERKMAL_INFO": "fortlaufende Hausnummern",
+      "AG": "09",
+      "HNR_VON": "001",
+      "ANGELEGENHEIT_INFO": "Zustellersuchen eingehend",
       "STRN": "LICHTENBERGER STR.",
       "LKZ": "11",
       "OLG": "1",

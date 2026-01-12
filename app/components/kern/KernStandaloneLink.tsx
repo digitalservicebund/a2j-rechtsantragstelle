@@ -35,7 +35,7 @@ export const KernStandaloneLink = ({
   };
 
   return (
-    <a {...anchorProps}>
+    <a {...anchorProps} className={className}>
       {icon}
       {text}
       {shouldOpenNewTab && <OpenInNewTabIcon />}

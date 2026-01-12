@@ -5,7 +5,9 @@ export const addArrayIndexToPathUrl = (path: string, index: number): string => {
     return path;
   }
 
-  segments.splice(segments.length - 1, 0, index.toString());
+  const startSegment = segments.length - 1;
+
+  segments.splice(startSegment, 0, index.toString());
 
   return segments.join("/");
 };

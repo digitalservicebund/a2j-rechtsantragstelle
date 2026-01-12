@@ -21,6 +21,7 @@ import SideNavMobile from "~/components/navigation/SideNavMobile";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernFormFlowPage } from "./kern/KernFormFlowPage";
 
 export function FormFlowPage() {
   const {
@@ -52,6 +53,10 @@ export function FormFlowPage() {
 
   useFocusFirstH1();
   const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return <KernFormFlowPage />;
+  }
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>

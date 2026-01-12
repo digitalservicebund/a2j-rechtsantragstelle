@@ -76,10 +76,34 @@ jobs:
     secrets:
       GERICHTSFINDER_ENCRYPTION_KEY: ${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}
 
-  build-push-app-image:
+  build-app-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/cached-checkout-install
+      - run: ./docker.sh --build app
+        env:
+          SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
+      - name: Save Docker image to file
+        if: github.ref == 'refs/heads/main'
+        run: docker save ${{ env.REGISTRY }}/${{ github.repository }}-app:latest | gzip > image.tar.gz
+      - name: Upload docker image to artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v6
+        with:
+          name: docker-build
+          path: image.tar.gz
+          retention-days: 1
+
+  push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [code-quality, verify-local-e2e]
+    needs: [code-quality, verify-local-e2e, build-app-image]
     permissions:
       id-token: write # for cosign w/ keyless signing
       packages: write # for updating cosign attestation
@@ -97,11 +121,12 @@ jobs:
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - uses: actions/download-artifact@v7
-        name: build
-      - run: ./docker.sh --build app
-        env:
-          SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
-      - run: ./docker.sh --push app
+        with:
+          name: docker-build
+      - name: Load Docker image
+        run: docker load --input image.tar.gz
+      - name: Push the app image
+        run: ./docker.sh --push app
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
@@ -140,7 +165,7 @@ jobs:
 
   deploy-preview:
     if: github.ref == 'refs/heads/main'
-    needs: [build-push-app-image]
+    needs: [push-app-image]
     runs-on: ubuntu-latest
     environment: preview
     steps:
@@ -148,7 +173,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: preview
-          version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
@@ -175,7 +200,7 @@ jobs:
 
   deploy-staging:
     if: github.ref == 'refs/heads/main'
-    needs: [build-push-app-image, deploy-preview]
+    needs: [push-app-image, deploy-preview]
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -183,7 +208,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: staging
-          version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
@@ -201,7 +226,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-app-image]
+    needs: [verify-preview-e2e, push-app-image]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
@@ -210,7 +235,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
         with:
           environment: production
-          version: ${{ needs.build-push-app-image.outputs.prod_image_tag }}
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
@@ -240,7 +265,8 @@ jobs:
         code-quality,
         get-content-file,
         verify-local-e2e,
-        build-push-app-image,
+        build-app-image,
+        push-app-image,
         deploy-staging,
         deploy-preview,
         verify-preview-e2e,

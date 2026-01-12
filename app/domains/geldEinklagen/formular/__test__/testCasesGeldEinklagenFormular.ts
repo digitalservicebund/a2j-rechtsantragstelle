@@ -19,6 +19,7 @@ import { testCasesGerichtSuchenEdgeCasesZipCode } from "../gericht-pruefen/geric
 import { testCasesZustaendigesGericht } from "../gericht-pruefen/zustaendiges-gericht/__test__/testCasesZustaendigesGericht";
 import { testCasesBeklagteSchadenVersicherung } from "../gericht-pruefen/beklagtePerson/__test__/testCasesBeklagtePersonSchadenVersicherung";
 import { testCasesKlagenErstellenInitial } from "../klage-erstellen/__test__/testCasesKlagenErstellenInitial";
+import { testCasesKlageErstellenProzessfuehrung } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/__test__/testCasesProzessfuehrung";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFormular.config, context: {} },
@@ -44,6 +45,7 @@ const testsCases = [
   ...testCasesGerichtSuchenEdgeCasesZipCode,
   ...testCasesZustaendigesGericht,
   ...testCasesKlagenErstellenInitial,
+  ...testCasesKlageErstellenProzessfuehrung,
 ];
 
 export const testCasesGeldEinklagenFormular = {

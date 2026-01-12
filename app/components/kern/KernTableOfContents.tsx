@@ -5,7 +5,7 @@ import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
 import KernButton from "./KernButton";
 import KernLabel from "./KernLabel";
-import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
+import { KernIcon } from "./commom/KernIcon";
 
 type Props = {
   identifier?: string;
@@ -34,7 +34,10 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                   className="list-none flex mb-10"
                 >
                   <a href={link.url} className="kern-link">
-                    <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em] fill-current" />
+                    <KernIcon
+                      name="arrow-downward"
+                      className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
+                    />
                     {link.text ?? ""}
                   </a>
                 </li>

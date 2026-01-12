@@ -14,10 +14,10 @@ function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
 }
 
 export const createBankInformation = (
+  isLastPage: boolean,
   doc: typeof PDFDocument,
   footerSect: PDFKit.PDFStructureElement,
   { kontoinhaber, vorname, nachname, iban }: FluggastrechteUserData,
-  isLastPage: boolean,
 ) => {
   const bankAccountHolder =
     kontoinhaber && kontoinhaber.trim().length > 0

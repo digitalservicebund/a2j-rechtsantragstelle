@@ -10,9 +10,9 @@ import KernTextarea from "../formElements/Textarea";
 import KernButton from "../KernButton";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
-export const FEEDBACK_FIELD_NAME = "feedback";
+const FEEDBACK_FIELD_NAME = "feedback";
 
-export const feedbackSchema = z.object({
+const feedbackSchema = z.object({
   feedback: z
     .string()
     .max(TEXTAREA_CHAR_LIMIT, { message: "max" })
