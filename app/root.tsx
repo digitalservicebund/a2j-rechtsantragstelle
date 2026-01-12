@@ -184,6 +184,13 @@ function App() {
     }
   }, [shouldPrint]);
 
+  useEffect(() => {
+    if (configPublic().ENVIRONMENT !== "production") {
+      // oxlint-disable-next-line no-console
+      console.log("Testing changes");
+    }
+  }, []);
+
   return (
     <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
       <head>
