@@ -201,7 +201,7 @@ jobs:
       e2e-target: preview
 
   deploy-staging:
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     needs: [push-app-image, deploy-preview]
     runs-on: ubuntu-latest
     environment: staging
