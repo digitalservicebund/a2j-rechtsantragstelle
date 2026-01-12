@@ -91,9 +91,10 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
       - name: Save Docker image to file
+        if: github.ref == 'refs/heads/main'
         run: docker save ${{ env.REGISTRY }}/${{ github.repository }}-app:latest | gzip > image.tar.gz
       - name: Upload docker image to artifact
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v6
         with:
           name: docker-build
@@ -101,7 +102,7 @@ jobs:
           retention-days: 1
 
   push-app-image:
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [code-quality, verify-local-e2e, build-app-image]
     permissions:
@@ -125,8 +126,6 @@ jobs:
           name: docker-build
       - name: Load Docker image
         run: docker load --input image.tar.gz
-      - name: (TEST) Print all docker images
-        run: docker image list
       - name: Push the app image
         run: ./docker.sh --push app
       - run: ./docker.sh --build prod
@@ -201,7 +200,7 @@ jobs:
       e2e-target: preview
 
   deploy-staging:
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: [push-app-image, deploy-preview]
     runs-on: ubuntu-latest
     environment: staging
