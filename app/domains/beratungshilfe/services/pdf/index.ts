@@ -20,7 +20,6 @@ import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
-import { createFooter } from "~/services/pdf/footer/createFooter";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createWeitereAngabenAnhang } from "~/services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
@@ -34,6 +33,7 @@ import { fillBesitz } from "./pdfForm/F_besitz/F_besitz";
 import { fillFooter } from "./pdfForm/footer";
 import { fillAusgaben } from "./pdfForm/G_ausgaben";
 import { fillHeader } from "./pdfForm/header";
+import { createFooter } from "~/services/pdf/footer/createFooter";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -67,7 +67,7 @@ const buildBeratungshilfePDFDocument: PDFDocumentBuilder<
 
   // Checklist will always be output
   createChecklistPage(doc, documentStruct, userData);
-  createFooter(doc, documentStruct, "Anhang");
+  createFooter(doc, documentStruct, {}, undefined, "Anhang");
 };
 
 export async function beratungshilfePdfFromUserdata(
