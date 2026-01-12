@@ -60,6 +60,9 @@ export const persoenlicheDatenXstateConfig = {
               guard: "isValidWeiterePersonenArrayIndex",
               target: "person",
             },
+            "add-weiterePersonenAdresse": {
+              target: "person.adresse",
+            },
           },
         },
         person: {
@@ -69,6 +72,17 @@ export const persoenlicheDatenXstateConfig = {
               on: {
                 BACK: steps.weiterePersonenUebersicht.absolute,
                 SUBMIT: steps.weiterePersonenUebersicht.absolute,
+              },
+            },
+            adresse: {
+              initial: "daten",
+              states: {
+                daten: {
+                  on: {
+                    BACK: steps.weiterePersonenUebersicht.absolute,
+                    SUBMIT: steps.weiterePersonenUebersicht.absolute,
+                  },
+                },
               },
             },
           },

@@ -30,6 +30,11 @@ const weiterePersonenArraySchema = z.array(
       buchungsnummer: schemaOrEmptyString(bookingNumberFlightSchema),
       ...persoenlicheDatenSchema,
       datenverarbeitungZustimmung: checkedRequired,
+      weiterePersonenAdresse: z.array(
+        z.object({
+          something: stringRequiredSchema,
+        }),
+      ),
     })
     .partial(),
 );
@@ -78,6 +83,16 @@ export const fluggastrechtePersoenlicheDatenPages = {
           "weiterePersonen#datenverarbeitungZustimmung":
             weiterePersonenArraySchema.element.shape
               .datenverarbeitungZustimmung,
+        },
+      },
+      adresse: {
+        arrayPages: {
+          daten: {
+            pageSchema: {
+              "weiterePersonen#weiterePersonenAdresse#something":
+                stringRequiredSchema,
+            },
+          },
         },
       },
     },

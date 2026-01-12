@@ -35,6 +35,34 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
   return Object.assign({}, ...schemaObjects) as SchemaObject;
 };
 
+const parseArrayPages = (
+  arrayPages: Record<string, ArrayPage>,
+  stepId: string,
+) => {
+  const result: FormFieldsMap = {};
+
+  for (const [arrayPageKey, arrayPage] of Object.entries(arrayPages)) {
+    if ("arrayPages" in arrayPage && arrayPage.arrayPages) {
+      const nestedResult = parseArrayPages(arrayPage.arrayPages, stepId);
+      for (const [nestedKey, nestedFields] of Object.entries(nestedResult)) {
+        result[`${nestedKey}/${arrayPageKey}`] = nestedFields;
+      }
+    }
+
+    if (
+      !arrayPage.pageSchema ||
+      Object.keys(arrayPage.pageSchema).length === 0
+    ) {
+      continue;
+    }
+
+    const fullStepId = `/${stepId}/${arrayPageKey}`;
+    result[fullStepId] = Object.keys(arrayPage.pageSchema);
+  }
+
+  return result;
+};
+
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
@@ -46,16 +74,11 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
     }
 
     if (isArrayParentPage(page)) {
-      for (const [arrayPageKey, arrayPage] of Object.entries(page.arrayPages)) {
-        if (
-          !arrayPage.pageSchema ||
-          Object.keys(arrayPage.pageSchema).length === 0
-        ) {
-          continue;
-        }
-
-        const stepId = `/${page.stepId}/${arrayPageKey}`;
-        fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
+      const arrayPagesFields = parseArrayPages(page.arrayPages, page.stepId);
+      for (const [arrayPageStepId, fields] of Object.entries(
+        arrayPagesFields,
+      )) {
+        fieldsMap[arrayPageStepId] = fields;
       }
     }
   }
