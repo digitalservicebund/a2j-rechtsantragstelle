@@ -1,11 +1,15 @@
 import PDFDocument from "pdfkit";
 import {
+  KEYWORDS,
+  SUBJECT,
+  TITLE,
+} from "../../../domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import {
   AUTHOR,
   CREATOR,
   setPdfMetadata,
   VERSION,
-} from "../../../../shared/services/pdf/setPdfMetadata";
-import { KEYWORDS, SUBJECT, TITLE } from "../fluggastrechtePdfFromUserdata";
+} from "~/services/pdf/setPdfMetadata";
 
 describe("setPdfMetadata", () => {
   it("should create the PDF with the correct metadata", () => {

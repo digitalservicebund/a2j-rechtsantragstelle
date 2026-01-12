@@ -1,5 +1,4 @@
-import { createFooter } from "~/domains/shared/services/pdf/createFooter";
-import { setPdfMetadata } from "~/domains/shared/services/pdf/setPdfMetadata";
+import { createFooter } from "~/services/pdf/footer/createFooter";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import {
   type PDFDocumentBuilder,
@@ -11,6 +10,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { toGermanDateFormat, today } from "~/util/date";
+import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 
 const SUBJECT_TITLE =
   "Umwandlung meines Girokontos in ein Pfändungsschutzkonto (P-Konto) gemäß § 850k Absatz 1 Satz 1 ZPO ";

@@ -1,11 +1,11 @@
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
-import { createFooter } from "../../../shared/services/pdf/createFooter";
+import { createFooter } from "../../../../services/pdf/footer/createFooter";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import { createReasonPage } from "./sections/reason/createReasonPage";
-import { setPdfMetadata } from "../../../shared/services/pdf/setPdfMetadata";
 import { createBankInformation } from "~/domains/fluggastrechte/services/pdf/sections/createBankInformation";
+import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 
 export const TITLE = "Klage Neueingang";
 export const SUBJECT = "Klageschrift";

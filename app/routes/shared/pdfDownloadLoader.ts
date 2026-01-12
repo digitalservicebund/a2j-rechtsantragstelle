@@ -6,7 +6,7 @@ import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
 import { kontopfaendungPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/kontopfaendungPdfFromUserdata";
-import { KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
+import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
@@ -66,7 +66,7 @@ const pdfConfigs = {
   "/kontopfaendung/pkonto/antrag": {
     pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
       await kontopfaendungPdfFromUserdata(userData),
-    name: "Antrag_NACH_Pfändung",
+    name: "Antrag_Umwandlung_nach_Pfaendung",
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
