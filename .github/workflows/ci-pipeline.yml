@@ -123,8 +123,10 @@ jobs:
       - uses: actions/download-artifact@v7
         with:
           name: docker-build
-      - name: Import Docker image
-        run: docker import image.tar.gz
+      - name: Load Docker image
+        run: docker load --input image.tar.gz
+      - name: (TEST) Print all docker images
+        run: docker image list
       - name: Push the app image
         run: ./docker.sh --push app
       - run: ./docker.sh --build prod
