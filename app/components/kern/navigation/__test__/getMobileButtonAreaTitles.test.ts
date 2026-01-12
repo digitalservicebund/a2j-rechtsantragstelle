@@ -1,0 +1,111 @@
+import { type NavState } from "~/services/navigation/navState";
+import { type NavItem } from "../types";
+import { getMobileButtonAreaTitles } from "../getMobileButtonAreaTitles";
+
+describe("getMobileButtonAreaTitles", () => {
+  describe("when stepsStepper is not provided", () => {
+    it("should return the navigation items title", () => {
+      const dummyNavItems: NavItem[] = [
+        {
+          destination: "/page1",
+          label: "Page 1",
+          state: "Current" as NavState,
+        },
+        { destination: "/page2", label: "Page 2", state: "Open" as NavState },
+        { destination: "/page3", label: "Page 3", state: "Open" as NavState },
+      ];
+
+      const actual = getMobileButtonAreaTitles(dummyNavItems, []);
+      expect(actual.currentAreaTitle).toEqual("Page 1");
+      expect(actual.currentNavTitle).toEqual("");
+    });
+
+    it("should return all empty if it does not have current state", () => {
+      const dummyNavItems: NavItem[] = [
+        { destination: "/page1", label: "Page 1", state: "Done" as NavState },
+        { destination: "/page2", label: "Page 2", state: "Done" as NavState },
+        { destination: "/page3", label: "Page 3", state: "Done" as NavState },
+      ];
+
+      const actual = getMobileButtonAreaTitles(dummyNavItems, []);
+      expect(actual.currentAreaTitle).toEqual("");
+      expect(actual.currentNavTitle).toEqual("");
+    });
+  });
+
+  describe("when stepsStepper is provided", () => {
+    it("should return the titles and stepStepperIndex for the steps stepper", () => {
+      const dummyNavItems: NavItem[] = [
+        {
+          destination: "/page1",
+          label: "Page 1",
+          state: "Current" as NavState,
+        },
+        { destination: "/page2", label: "Page 2", state: "Open" as NavState },
+        { destination: "/page3", label: "Page 3", state: "Open" as NavState },
+      ];
+
+      const dummyStepsStepper = [
+        {
+          href: ".",
+          label: "Step 1",
+          state: "Current" as NavState,
+        },
+        {
+          href: ".",
+          label: "Step 2",
+          state: "Open" as NavState,
+        },
+        {
+          href: ".",
+          label: "Step 3",
+          state: "Disabled" as NavState,
+        },
+      ];
+
+      const actual = getMobileButtonAreaTitles(
+        dummyNavItems,
+        dummyStepsStepper,
+      );
+      expect(actual.currentAreaTitle).toEqual("Step 1 (1/3)");
+      expect(actual.currentNavTitle).toEqual("Page 1");
+    });
+
+    it("should return all empty in case does not have any current step stepper", () => {
+      const dummyNavItems: NavItem[] = [
+        {
+          destination: "/page1",
+          label: "Page 1",
+          state: "Current" as NavState,
+        },
+        { destination: "/page2", label: "Page 2", state: "Open" as NavState },
+        { destination: "/page3", label: "Page 3", state: "Open" as NavState },
+      ];
+
+      const dummyStepsStepper = [
+        {
+          href: ".",
+          label: "Step 1",
+          state: "Done" as NavState,
+        },
+        {
+          href: ".",
+          label: "Step 2",
+          state: "Done" as NavState,
+        },
+        {
+          href: ".",
+          label: "Step 3",
+          state: "Done" as NavState,
+        },
+      ];
+
+      const actual = getMobileButtonAreaTitles(
+        dummyNavItems,
+        dummyStepsStepper,
+      );
+      expect(actual.currentAreaTitle).toEqual("");
+      expect(actual.currentNavTitle).toEqual("");
+    });
+  });
+});

@@ -1,0 +1,146 @@
+import CheckCircle from "@digitalservicebund/icons/CheckCircle";
+import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
+import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
+import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
+import classNames from "classnames";
+import { useId, type FC } from "react";
+import { useCollapse } from "react-collapsed";
+import {
+  stateIsCurrent,
+  stateIsActive,
+  stateIsDisabled,
+  stateIsDone,
+  stateIsWarning,
+} from "~/services/navigation/navState";
+import { translations } from "~/services/translations/translations";
+import { NavigationList } from "./NavigationList";
+import { type NavItem } from "./types";
+
+type StateIconProps = {
+  id: string;
+  isDone: boolean;
+  showWarningIcon?: boolean;
+};
+
+const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
+  if (isDone) {
+    return (
+      <CheckCircle
+        id={id}
+        className="shrink-0 fill-green-700"
+        aria-label={translations.navigation.navigationItemFinished.de}
+      />
+    );
+  } else if (showWarningIcon) {
+    return (
+      <SvgWarningAmber
+        id={id}
+        aria-label={translations.navigation.navigationItemWarning.de}
+      />
+    );
+  }
+  return undefined;
+};
+
+export function NavItem({
+  destination,
+  label,
+  state,
+  subflows = [],
+  forceExpanded,
+  isChild = false,
+  firstItemRef,
+}: Readonly<
+  NavItem & {
+    isChild?: boolean;
+    firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
+  }
+>) {
+  const visibleChildItems = subflows.filter((subItem) =>
+    stateIsActive(subItem.state),
+  );
+  const hasSubflows = visibleChildItems.length > 0;
+  const isDisabled = stateIsDisabled(state);
+  const isCurrent = stateIsCurrent(state);
+  const isDone = stateIsDone(state);
+  const isWarning = stateIsWarning(state);
+  const collapse = useCollapse({
+    defaultExpanded: forceExpanded ?? isCurrent,
+  });
+
+  // Transparent last: borders to avoid layout shifts
+  const liClassNames = classNames(
+    "list-none border-b border-kern-layout-border last:border-0 min-w-full",
+    {
+      "text-kern-layout-text-muted curser-not-allowed hover:font-normal pointer-events-none":
+        isDisabled,
+      "border-transparent last:border-transparent": isChild,
+    },
+  );
+
+  const itemClassNames = classNames(
+    "w-full p-16 flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-kern-layout-border forced-colors:focus:border-[4px] forced-colors:focus:border-[CanvasText]",
+    {
+      "bg-kern-warning-200 hover:bg-kern-warning-300 active:bg-kern-warning-300":
+        isWarning,
+      "bg-kern-warning-300": state === "WarningCurrent",
+      "ds-label-02-bold bg-kern-primary-500": isCurrent && !hasSubflows,
+      "ds-label-02-reg": !isCurrent || hasSubflows,
+      "pl-24": isChild,
+    },
+  );
+  const iconId = useId();
+
+  return (
+    <li className={liClassNames}>
+      {hasSubflows ? (
+        <>
+          <button
+            className={itemClassNames}
+            aria-disabled={isDisabled}
+            aria-expanded={collapse.isExpanded}
+            {...collapse.getToggleProps()}
+            aria-describedby={isDone || isWarning ? iconId : undefined}
+            // oxlint-disable-next-line aria-role
+            role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
+          >
+            {label}
+            {collapse.isExpanded ? (
+              <ExpandLessIcon className="ml-auto" />
+            ) : (
+              <ExpandMoreIcon className="ml-auto" />
+            )}
+            <StateIcon
+              id={iconId}
+              isDone={isDone}
+              showWarningIcon={isWarning}
+            />
+          </button>
+          {
+            // due the rest operator, the role is assigned to the section in the server side rendering
+          }
+          <section
+            {...collapse.getCollapseProps()}
+            // oxlint-disable-next-line jsx-a11y/aria-role
+            role={undefined}
+          >
+            <NavigationList navItems={visibleChildItems} isChild={true} />
+          </section>
+        </>
+      ) : (
+        <a
+          href={destination}
+          className={itemClassNames}
+          aria-disabled={isDisabled}
+          aria-current={isCurrent}
+          aria-describedby={isDone || isWarning ? iconId : undefined}
+          ref={firstItemRef}
+          data-testid={"nav-item-link"}
+        >
+          {label}
+          <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
+        </a>
+      )}
+    </li>
+  );
+}
