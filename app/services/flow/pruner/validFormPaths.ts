@@ -1,5 +1,5 @@
 import { parsePathname } from "~/domains/flowIds";
-import type { ArrayData } from "~/domains/userData";
+import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer } from "~/services/array";
 import { addPageDataToUserData } from "../pageData";
 import {
@@ -7,12 +7,16 @@ import {
   buildFlowController,
 } from "../server/buildFlowController";
 
-export type Path = { stepIds: string[]; arrayIndex?: number };
+export type Path = { stepIds: string[]; arrayIndex?: number[] };
 
-export const validFormPaths = (flowController: FlowController) => [
-  { stepIds: getSteps(flowController) },
-  ...getSubflowPaths(flowController),
-];
+export const validFormPaths = (flowController: FlowController): Path[] => {
+  const arrays = flowController.getRootMeta()?.arrays ?? {};
+  const userData = flowController.getUserdata();
+  const subFlowsPaths = getSubflowPaths(flowController, arrays, userData, []);
+  const stepsIds = [{ stepIds: getSteps(flowController) }, ...subFlowsPaths];
+
+  return stepsIds;
+};
 
 function getSteps(
   flowController: FlowController,
@@ -32,32 +36,51 @@ function getSteps(
   return stepIds;
 }
 
-function getSubflowPaths(flowController: FlowController): Path[] {
-  const userData = flowController.getUserdata();
+function getSubflowPaths(
+  flowController: FlowController,
+  arrays: Record<string, ArrayConfigServer> | undefined,
+  userData: UserData,
+  arrayIndex: number[],
+): Path[] {
+  if (!arrays) return [];
 
-  return Object.entries(flowController.getRootMeta()?.arrays ?? {})
-    .filter(
-      ([key, arrayConfig]) =>
-        userData[key] && userData[arrayConfig.statementKey] === "yes",
-    )
+  return Object.entries(arrays)
+    .filter(([key, _arrayConfig]) => userData[key])
     .filter(([_key, arrayConfig]) => {
       // Filter arrays who's first step is not reachable from the main flow
       const previousStepId = stepIdBeforeArray(flowController, arrayConfig);
       return flowController.getReachableSteps().includes(previousStepId);
     })
-    .flatMap(([key, arrayConfig]) =>
+    .flatMap(
+      ([key, arrayConfig]) => {
+        return (userData[key] as ArrayData).flatMap((data, index) => {
+          const nestedPaths = getSubflowPaths(
+            flowController,
+            arrayConfig.nestedArrays,
+            data as UserData,
+            [index],
+          );
+
+          return [
+            {
+              arrayIndex:
+                arrayIndex.length === 0 ? [index] : [...arrayIndex, index],
+              stepIds: getSteps(
+                buildFlowController({
+                  config: flowController.getConfig(),
+                  guards: flowController.getGuards(),
+                  data: addPageDataToUserData(userData, {
+                    arrayIndexes: [index],
+                  }),
+                }),
+                getSubFlowInitialStep(arrayConfig),
+              ).filter(stepBelongsToArray(arrayConfig)),
+            },
+            ...nestedPaths,
+          ];
+        });
+      },
       // For each entry in an array, build a flow controller starting at the initial step of the array
-      (userData[key] as ArrayData).map((_data, index) => ({
-        arrayIndex: index,
-        stepIds: getSteps(
-          buildFlowController({
-            config: flowController.getConfig(),
-            guards: flowController.getGuards(),
-            data: addPageDataToUserData(userData, { arrayIndexes: [index] }),
-          }),
-          getSubFlowInitialStep(arrayConfig),
-        ).filter(stepBelongsToArray(arrayConfig)),
-      })),
     );
 }
 
