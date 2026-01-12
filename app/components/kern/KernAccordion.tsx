@@ -1,6 +1,6 @@
 import KernRichText from "./KernRichText";
 
-export type KernAccordionItemProps = Readonly<{
+type KernAccordionItemProps = Readonly<{
   title: string;
   description: string;
 }>;

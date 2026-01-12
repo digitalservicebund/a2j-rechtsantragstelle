@@ -18,7 +18,8 @@ import { testCasesGerichtSuchenUrheberrecht } from "../gericht-pruefen/gericht-s
 import { testCasesGerichtSuchenEdgeCasesZipCode } from "../gericht-pruefen/gericht-suchen/__test__/testCasesGerichtSuchenEdgeCasesZipCode";
 import { testCasesZustaendigesGericht } from "../gericht-pruefen/zustaendiges-gericht/__test__/testCasesZustaendigesGericht";
 import { testCasesBeklagteSchadenVersicherung } from "../gericht-pruefen/beklagtePerson/__test__/testCasesBeklagtePersonSchadenVersicherung";
-import { testCasesStreitwertKosten } from "../klage-erstellen/__test__/testCasesStreitwertKosten";
+import { testCasesKlagenErstellenInitial } from "../klage-erstellen/__test__/testCasesKlagenErstellenInitial";
+import { testCasesKlageErstellenProzessfuehrung } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/__test__/testCasesProzessfuehrung";
 
 const machine: FlowStateMachine = createMachine(
   { ...geldEinklagenFormular.config, context: {} },
@@ -43,7 +44,8 @@ const testsCases = [
   ...testCasesGerichtSuchenUrheberrecht,
   ...testCasesGerichtSuchenEdgeCasesZipCode,
   ...testCasesZustaendigesGericht,
-  ...testCasesStreitwertKosten,
+  ...testCasesKlagenErstellenInitial,
+  ...testCasesKlageErstellenProzessfuehrung,
 ];
 
 export const testCasesGeldEinklagenFormular = {

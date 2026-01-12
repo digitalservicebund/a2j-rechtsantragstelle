@@ -175,12 +175,12 @@ function App() {
   const isHomepage = pathname === "/";
 
   // oxlint-disable-next-line no-console
-  if (typeof window !== "undefined") console.log(consoleMessage);
+  if (globalThis.window != undefined) console.log(consoleMessage);
 
   useEffect(() => {
     if (shouldPrint) {
-      window.print();
-      window.close();
+      globalThis.window.print();
+      globalThis.window.close();
     }
   }, [shouldPrint]);
 
