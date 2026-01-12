@@ -15,7 +15,6 @@ import { MissingDataList } from "~/components/common/MissingDataList";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import SideNavMobile from "~/components/navigation/SideNavMobile";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
 import { type loader } from "../../formular";
@@ -181,7 +180,7 @@ export function KernFormFlowPage() {
               className="pb-40 flex justify-end"
               row={4}
             >
-              {showKernUX ? <KernReportProblem /> : <ReportProblem />}
+              <KernReportProblem />
             </GridItem>
           )}
         </Grid>
