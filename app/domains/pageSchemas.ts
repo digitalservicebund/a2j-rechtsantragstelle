@@ -43,9 +43,12 @@ const parseArrayPages = (
 
   for (const [arrayPageKey, arrayPage] of Object.entries(arrayPages)) {
     if ("arrayPages" in arrayPage && arrayPage.arrayPages) {
-      const nestedResult = parseArrayPages(arrayPage.arrayPages, stepId);
+      const nestedResult = parseArrayPages(
+        arrayPage.arrayPages,
+        `${stepId}/${arrayPageKey}`,
+      );
       for (const [nestedKey, nestedFields] of Object.entries(nestedResult)) {
-        result[`${nestedKey}/${arrayPageKey}`] = nestedFields;
+        result[nestedKey] = nestedFields;
       }
     }
 
