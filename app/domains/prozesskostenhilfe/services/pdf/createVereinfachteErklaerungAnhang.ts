@@ -103,7 +103,7 @@ export const createVereinfachteErklaerungAnhang = (
             : "",
         );
 
-      const [dateX, dateY] = [doc.x, doc.y, doc.currentLineHeight()];
+      const [dateX, dateY] = [doc.x, doc.y];
 
       doc
         .moveUp()
