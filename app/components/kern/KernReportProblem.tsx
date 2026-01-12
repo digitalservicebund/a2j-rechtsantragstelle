@@ -7,6 +7,7 @@ import { isKeyOfObject } from "~/util/objects";
 import { KernPosthogSurvey } from "./KernPosthogSurvey";
 import KernButton from "./KernButton";
 import { type SurveyResponses } from "./KernOpenQuestion";
+import { KernIcon } from "./commom/KernIcon";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
@@ -61,7 +62,10 @@ export const KernReportProblem = () => {
         className="min-w-full justify-center sm:min-w-fit mt-80"
         text={translations.feedback["report-problem"].de}
         iconLeft={
-          <span className="kern-icon kern-icon--danger" aria-hidden="true" />
+          <KernIcon
+            name="emergency-home"
+            className="fill-kern-action-default!"
+          />
         }
       />
       <KernPosthogSurvey

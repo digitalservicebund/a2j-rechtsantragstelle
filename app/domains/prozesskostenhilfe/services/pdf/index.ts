@@ -16,7 +16,6 @@ import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
 import { createAttachmentPages } from "~/services/pdf/attachment/createAttachmentPages";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillPdf } from "~/services/pdf/fillPdf.server";
-import { createFooter } from "~/services/pdf/footer/createFooter";
 import {
   pdfFromUserData,
   type PDFDocumentBuilder,
@@ -38,6 +37,7 @@ import { fillBelastungen } from "./pdfForm/J_belastungen";
 import { fillFooter } from "./pdfForm/K_footer";
 import { printNameInSignatureFormField } from "./printNameInSignatureFormField";
 import { createWeitereAngabenAnhang } from "../../../../services/pdf/weitereAngabenAnhang/createWeitereAngabenAnhang";
+import { createFooter } from "~/services/pdf/footer/createFooter";
 
 const METADATA: Metadata = {
   AUTHOR: "Bundesministerium der Justiz",
@@ -75,7 +75,7 @@ const buildProzesskostenhilfePDFDocument: PDFDocumentBuilder<
   ) {
     createVereinfachteErklaerungAnhang(doc, documentStruct, userData);
   }
-  createFooter(doc, documentStruct, "Anhang");
+  createFooter(doc, documentStruct, {}, undefined, "Anhang");
 };
 
 const requiresBelege = (userData: ProzesskostenhilfeFormularUserData) =>
