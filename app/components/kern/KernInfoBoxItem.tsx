@@ -9,11 +9,11 @@ import KernLabel, { type KernLabelProps } from "./KernLabel";
 import { KernInlineNotice } from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
 
-export type KernInlineNoticeProps = {
+type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "warning" | "tips" | "success" | "error";
+  look: "info" | "warning" | "danger" | "success";
   content?: string;
   wrap?: boolean;
   nested?: boolean;
