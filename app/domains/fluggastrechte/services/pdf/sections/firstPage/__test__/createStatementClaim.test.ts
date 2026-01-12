@@ -18,12 +18,12 @@ const STATEMENT_VIDEO_TRIAL_REQUEST =
   "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.";
 const STATEMENT_VIDEO_TRIAL_CONCERNS =
   "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.";
+
+vi.mock("~/domains/fluggastrechte/formular/services/getTotalCompensationClaim");
+vi.mock("../claimData/addDefendantPartyList");
+
 describe("createStatementClaim", () => {
   beforeEach(() => {
-    vi.mock(
-      "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim",
-    );
-    vi.mock("../claimData/addDefendantPartyList");
     vi.mocked(getTotalCompensationClaim).mockReturnValue(600);
   });
 
