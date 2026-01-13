@@ -36,7 +36,7 @@ Remove all existing Flow-domain E2E tests and replace them with a single, generi
 - Exercise the FlowNavigation component, validating navigation behavior and state handling.
 - Include edge-case coverage, such as:
   - Saving data to S3.
-  - Generating PDFs.
+  - Generating PDFs with `pdfkit` tool, which would allow us to generate and validate PDFs with accessibility (a11y) support.
   - Multi-field validation scenarios.
   - Verifying that string replacements are correctly applied.
   - Verifying Array pages scenarios.
