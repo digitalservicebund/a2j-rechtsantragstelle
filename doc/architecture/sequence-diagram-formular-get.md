@@ -18,7 +18,9 @@ sequenceDiagram
         participant validateStepIdFlow@{"type": "collections"}
         participant flowTransitionValidation@{"type": "collections"}
         participant retrieveContentData@{"type": "collections"}
+        participant cmsService as CMS Service
         participant cms@{"type": "database", "label": "Strapi CMS"}
+        participant validation as Validation (Zod)
         participant setUserVisitedValidationPage@{"type": "collections"}
     end
 
@@ -152,7 +154,7 @@ sequenceDiagram
 
     %% Phase 5: Fetch CMS Content
     rect rgb(240, 255, 240)
-        Note over loader,cms: Phase 5: Fetch CMS Content
+        Note over loader,validation: Phase 5: Fetch CMS Content
         loader ->> retrieveContentData: retrieveContentData(pathname, params, userData, migration.userData)
             activate retrieveContentData
         retrieveContentData ->> getPageAndFlowDataFromPathname: getPageAndFlowDataFromPathname(pathname)
@@ -162,16 +164,40 @@ sequenceDiagram
             deactivate getPageAndFlowDataFromPathname
 
         par Fetch Flow Page
-            retrieveContentData ->> cms: fetchFlowPage("form-flow-pages", flowId, stepId)
+            retrieveContentData ->> cmsService: fetchFlowPage("form-flow-pages", flowId, stepId)
+                activate cmsService
+            cmsService ->> cms: getStrapiEntry({ apiId, filters, ... })
                 activate cms
-            cms ->> retrieveContentData: formPageContent
-        and Fetch Meta Page
-            retrieveContentData ->> cms: fetchContentMetaPage({ filterValue })
-            cms ->> retrieveContentData: parentContentMetaPage
-        and Fetch Translations
-            retrieveContentData ->> cms: fetchMultipleTranslations()
-            cms ->> retrieveContentData: cmsTranslations
+            cms ->> cmsService: return raw strapiEntry
                 deactivate cms
+            cmsService ->> validation: collectionSchemas["form-flow-pages"].parseAsync(strapiEntry)
+                activate validation
+            validation ->> cmsService: return validated formPageContent
+                deactivate validation
+            cmsService ->> retrieveContentData: formPageContent
+        and Fetch Meta Page
+            retrieveContentData ->> cmsService: fetchContentMetaPage({ filterValue })
+            cmsService ->> cms: getStrapiEntry({ apiId, filters, ... })
+                activate cms
+            cms ->> cmsService: return raw pageEntry
+                deactivate cms
+            cmsService ->> validation: StrapiPageMetaSchema.safeParse(pageEntry)
+                activate validation
+            validation ->> cmsService: return validated pageMeta
+                deactivate validation
+            cmsService ->> retrieveContentData: parentContentMetaPage
+        and Fetch Translations
+            retrieveContentData ->> cmsService: fetchMultipleTranslations()
+            cmsService ->> cms: getStrapiEntry({ apiId: "translations", ... })
+                activate cms
+            cms ->> cmsService: return raw translations
+                deactivate cms
+            cmsService ->> validation: strapiSchemas.translations.safeParse(strapiEntry)
+                activate validation
+            validation ->> cmsService: return validated translations
+                deactivate validation
+            cmsService ->> retrieveContentData: cmsTranslations
+                deactivate cmsService
         end
 
         note over retrieveContentData: apply string replacements
