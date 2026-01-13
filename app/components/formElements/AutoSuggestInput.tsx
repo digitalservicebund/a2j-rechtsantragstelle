@@ -214,10 +214,7 @@ const AutoSuggestInput = ({
           // call the validation only if an option was selected
           if (optionWasSelected) {
             setOptionWasSelected(false);
-
-            if (hasError) {
-              field.validate();
-            }
+            field.validate();
           }
         }}
         onChange={(newValue, { action }) => {
@@ -225,10 +222,7 @@ const AutoSuggestInput = ({
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
-            // TODO: check later why the field.validate() is validating all the fields in the form
-            if (hasError) {
-              field.validate();
-            }
+            field.validate();
           }
           setCurrentItemValue(newValue);
         }}
