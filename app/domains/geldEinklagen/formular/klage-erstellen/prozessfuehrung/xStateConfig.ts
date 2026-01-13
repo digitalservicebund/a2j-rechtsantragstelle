@@ -14,16 +14,15 @@ const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
   context,
 }) => {
   return (
-    (objectKeysNonEmpty(context, [
+    objectKeysNonEmpty(context, [
       "prozesszinsen",
-      "anwaltskosten",
       "streitbeilegung",
       "muendlicheVerhandlung",
       "videoVerhandlung",
       "versaeumnisurteil",
     ]) &&
-      context.streitbeilegung !== "yes") ||
-    objectKeysNonEmpty(context, ["streitbeilegungGruende"])
+    (context.streitbeilegung !== "yes" ||
+      objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
   );
 };
 export const prozessfuehrungXstateConfig = {
