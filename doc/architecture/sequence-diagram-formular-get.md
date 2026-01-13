@@ -5,21 +5,21 @@ sequenceDiagram
     autonumber
     box rgb(240, 248, 255)
         actor client
-        participant loader as formular loader
-        participant getUserDataAndFlow
-        participant getPageAndFlowDataFromPathname
-        participant getPrunedUserDataFromPathname
-        participant sessionManager
-        participant Redis@{"type": "database"}
-        participant pruner
-        participant flowController
-        participant pageSchemas
-        participant getMigrationData
-        participant validateStepIdFlow
-        participant flowTransitionValidation
-        participant retrieveContentData
-        participant cms@{"type": "database"}
-        participant setUserVisitedValidationPage
+        participant loader as Formular Loader (Server)
+        participant getUserDataAndFlow@{"type": "collections"}
+        participant getPageAndFlowDataFromPathname@{"type": "collections"}
+        participant getPrunedUserDataFromPathname@{"type": "collections"}
+        participant sessionManager as Session Manager
+        participant UserDataStorage@{"type": "database", "label": "UserDataStorage (Redis)"}
+        participant pruner as Pruner
+        participant flowController as Flow Controller (XState)
+        participant pageSchemas as Page Schemas
+        participant getMigrationData@{"type": "collections"}
+        participant validateStepIdFlow@{"type": "collections"}
+        participant flowTransitionValidation@{"type": "collections"}
+        participant retrieveContentData@{"type": "collections"}
+        participant cms@{"type": "database", "label": "Strapi CMS"}
+        participant setUserVisitedValidationPage@{"type": "collections"}
     end
 
     client ->> loader: GET /flowId/stepId
@@ -48,10 +48,10 @@ sequenceDiagram
             note over getPrunedUserDataFromPathname: parsePathname
             getPrunedUserDataFromPathname ->> sessionManager: getSessionData(flowId, cookieHeader)
                 activate sessionManager
-            sessionManager ->> Redis: getDataForSession(context, id)
-                activate Redis
-            Redis ->> sessionManager: return { userData }
-                deactivate Redis
+            sessionManager ->> UserDataStorage: getDataForSession(context, id)
+                activate UserDataStorage
+            UserDataStorage ->> sessionManager: return { userData }
+                deactivate UserDataStorage
             sessionManager ->> getPrunedUserDataFromPathname: return { userData }
                 deactivate sessionManager
             getPrunedUserDataFromPathname ->> pruner: pruneIrrelevantData(userData, flowId)
@@ -74,10 +74,10 @@ sequenceDiagram
                 activate getMigrationData
             getMigrationData ->> sessionManager: getSessionData(migration.source, cookieHeader)
                 activate sessionManager
-            sessionManager ->> Redis: getDataForSession(context, id)
-                activate Redis
-            Redis ->> sessionManager: return { userData }
-                deactivate Redis
+            sessionManager ->> UserDataStorage: getDataForSession(context, id)
+                activate UserDataStorage
+            UserDataStorage ->> sessionManager: return { userData }
+                deactivate UserDataStorage
             sessionManager ->> getMigrationData: return { userData }
                 deactivate sessionManager
             getMigrationData ->> pruner: pruneIrrelevantData(userData, migration.source)
@@ -94,10 +94,10 @@ sequenceDiagram
         and Get Flow Session
             getUserDataAndFlow ->> sessionManager: getSessionManager(flowId).getSession(cookieHeader)
                 activate sessionManager
-            sessionManager ->> Redis: getDataForSession(context, id)
-                activate Redis
-            Redis ->> sessionManager: return { userData }
-                deactivate Redis
+            sessionManager ->> UserDataStorage: getDataForSession(context, id)
+                activate UserDataStorage
+            UserDataStorage ->> sessionManager: return { userData }
+                deactivate UserDataStorage
             sessionManager ->> getUserDataAndFlow: flowSession
                 deactivate sessionManager
         end
@@ -114,7 +114,7 @@ sequenceDiagram
 
     %% Phase 4: Validate Step & Flow Transition
     rect rgb(255, 230, 230)
-        Note over getUserDataAndFlow,flowTransitionValidation: Phase 4: Validate Step & Flow Transition
+        Note over client,flowTransitionValidation: Phase 4: Validate Step & Flow Transition
         getUserDataAndFlow ->> validateStepIdFlow: validateStepIdFlow(stepId, request, flowController, currentFlow)
             activate validateStepIdFlow
         validateStepIdFlow ->> flowTransitionValidation: getFlowTransitionConfig(currentFlow)
@@ -125,10 +125,10 @@ sequenceDiagram
             validateStepIdFlow ->> flowTransitionValidation: validateFlowTransition(<br/>flows, cookieHeader, flowTransitionConfig)
             flowTransitionValidation ->> sessionManager: getSessionData(sourceFlowId, cookieHeader)
                 activate sessionManager
-            sessionManager ->> Redis: getDataForSession(context, id)
-                activate Redis
-            Redis ->> sessionManager: return { userData }
-                deactivate Redis
+            sessionManager ->> UserDataStorage: getDataForSession(context, id)
+                activate UserDataStorage
+            UserDataStorage ->> sessionManager: return { userData }
+                deactivate UserDataStorage
             sessionManager ->> flowTransitionValidation: return { userData }
                 deactivate sessionManager
             flowTransitionValidation ->> flowController: buildFlowController({ config, data, guards })
@@ -184,13 +184,13 @@ sequenceDiagram
         Note over loader,setUserVisitedValidationPage: Phase 6: Update Main Session
         loader ->> sessionManager: updateMainSession({ cookieHeader, flowId, stepId })
             activate sessionManager
-        sessionManager ->> Redis: getDataForSession(context, id)
-            activate Redis
-        Redis ->> sessionManager: return session
+        sessionManager ->> UserDataStorage: getDataForSession(context, id)
+            activate UserDataStorage
+        UserDataStorage ->> sessionManager: return session
         note over sessionManager: set session with new csrf token and lastStepKey
-        sessionManager ->> Redis: commit session with lastStepKey
-        Redis ->> sessionManager: return { headers }
-            deactivate Redis
+        sessionManager ->> UserDataStorage: commit session with lastStepKey
+        UserDataStorage ->> sessionManager: return { headers }
+            deactivate UserDataStorage
         sessionManager ->> loader: return { headers, csrf }
             deactivate sessionManager
 
@@ -199,18 +199,18 @@ sequenceDiagram
         setUserVisitedValidationPage ->> sessionManager: getSessionManager(flowId)
             deactivate setUserVisitedValidationPage
             activate sessionManager
-        sessionManager ->> Redis: getDataForSession(context, id)
-            activate Redis
-        Redis ->> sessionManager: return { userData }
+        sessionManager ->> UserDataStorage: getDataForSession(context, id)
+            activate UserDataStorage
+        UserDataStorage ->> sessionManager: return { userData }
         note over sessionManager: set session with userVisitedValidationPageKey
-        sessionManager ->> Redis: commit session with userVisitedValidationPageKey
-            deactivate Redis
+        sessionManager ->> UserDataStorage: commit session with userVisitedValidationPageKey
+            deactivate UserDataStorage
             deactivate sessionManager
     end
 
     %% Phase 7: Build Response
     rect rgb(245, 245, 245)
-        Note over loader: Phase 7: Build Response
+        Note over client,loader: Phase 7: Build Response
         opt if final summary page
             note over loader: generate auto summary
         end
