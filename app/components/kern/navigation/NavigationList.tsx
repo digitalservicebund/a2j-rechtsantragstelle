@@ -10,7 +10,7 @@ type NavigationListProps = Readonly<{
 }>;
 
 export const NavigationList = ({ navItems, ...props }: NavigationListProps) => (
-  <ul className={`pl-0 bg-white ${props.className ?? ""}`}>
+  <ul className={`pl-0 bg-white ${props.className ?? ""} rounded-sm`}>
     {navItems.map((navItem, index) => (
       <NavItem
         key={navItem.destination}

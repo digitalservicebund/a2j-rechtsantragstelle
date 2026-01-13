@@ -1,7 +1,3 @@
-import CheckCircle from "@digitalservicebund/icons/CheckCircle";
-import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
-import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
@@ -15,6 +11,7 @@ import {
 import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
+import { KernIcon } from "../commom/KernIcon";
 
 type StateIconProps = {
   id: string;
@@ -25,17 +22,20 @@ type StateIconProps = {
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
-      <CheckCircle
-        id={id}
-        className="shrink-0 fill-green-700"
+      <KernIcon
+        name="check-circle"
+        className="fill-kern-feedback-success"
         aria-label={translations.navigation.navigationItemFinished.de}
+        size={20}
       />
     );
   } else if (showWarningIcon) {
     return (
-      <SvgWarningAmber
-        id={id}
+      <KernIcon
+        name="warning"
         aria-label={translations.navigation.navigationItemWarning.de}
+        className="fill-kern-feedback-warning"
+        size={20}
       />
     );
   }
@@ -70,23 +70,24 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none border-b border-kern-layout-border last:border-0 min-w-full",
+    "list-none border-b border-kern-neutral-200 last:border-0 min-w-full",
     {
-      "text-kern-layout-text-muted curser-not-allowed hover:font-normal pointer-events-none":
+      "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
       "border-transparent last:border-transparent": isChild,
     },
   );
 
   const itemClassNames = classNames(
-    "w-full p-16 flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-kern-layout-border forced-colors:focus:border-[4px] forced-colors:focus:border-[CanvasText]",
+    "w-full p-16! flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 kern-body kern-body--small ",
     {
-      "bg-kern-warning-200 hover:bg-kern-warning-300 active:bg-kern-warning-300":
-        isWarning,
-      "bg-kern-warning-300": state === "WarningCurrent",
-      "ds-label-02-bold bg-kern-primary-500": isCurrent && !hasSubflows,
-      "ds-label-02-reg": !isCurrent || hasSubflows,
-      "pl-24": isChild,
+      "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
+      "kern-body--bold": state === "WarningCurrent",
+      "kern-body--bold bg-kern-neutral-100 underline":
+        isCurrent && !hasSubflows,
+      "pl-24!": isChild,
+      "text-kern-grey-400! curser-not-allowed hover:font-normal pointer-events-none":
+        isDisabled,
     },
   );
   const iconId = useId();
@@ -106,9 +107,9 @@ export function NavItem({
           >
             {label}
             {collapse.isExpanded ? (
-              <ExpandLessIcon className="ml-auto" />
+              <KernIcon name="keyboard-arrow-up" className="ml-auto" />
             ) : (
-              <ExpandMoreIcon className="ml-auto" />
+              <KernIcon name="keyboard-arrow-down" className="ml-auto" />
             )}
             <StateIcon
               id={iconId}
