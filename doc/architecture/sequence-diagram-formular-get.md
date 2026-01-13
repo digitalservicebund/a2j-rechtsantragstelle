@@ -36,7 +36,7 @@ sequenceDiagram
         getUserDataAndFlow ->> getPageAndFlowDataFromPathname: getPageAndFlowDataFromPathname(pathname)
             activate getPageAndFlowDataFromPathname
         note over getPageAndFlowDataFromPathname: parsePathname
-        getPageAndFlowDataFromPathname ->> getUserDataAndFlow: return {flowId, stepId, arrayIndexes, currentFlow}
+        getPageAndFlowDataFromPathname -->> getUserDataAndFlow: return {flowId, stepId, arrayIndexes, currentFlow}
             deactivate getPageAndFlowDataFromPathname
     end
 
@@ -52,23 +52,23 @@ sequenceDiagram
                 activate sessionManager
             sessionManager ->> UserDataStorage: getDataForSession(context, id)
                 activate UserDataStorage
-            UserDataStorage ->> sessionManager: return { userData }
+            UserDataStorage -->> sessionManager: return { userData }
                 deactivate UserDataStorage
-            sessionManager ->> getPrunedUserDataFromPathname: return { userData }
+            sessionManager -->> getPrunedUserDataFromPathname: return { userData }
                 deactivate sessionManager
             getPrunedUserDataFromPathname ->> pruner: pruneIrrelevantData(userData, flowId)
                 activate pruner
             pruner ->> flowController: buildFlowController({ guards, config, data })
                 activate flowController
-            flowController ->> pruner: return flowController
+            flowController -->> pruner: return flowController
                 deactivate flowController
             pruner ->> pageSchemas: getAllFieldsFromFlowId(flowId)
                 activate pageSchemas
-            pageSchemas ->> pruner: return formFieldsMap
+            pageSchemas -->> pruner: return formFieldsMap
                 deactivate pageSchemas
-            pruner ->> getPrunedUserDataFromPathname: return prunedOut
+            pruner -->> getPrunedUserDataFromPathname: return prunedOut
                 deactivate pruner
-            getPrunedUserDataFromPathname ->> getUserDataAndFlow: return { userDataWithPageData, validFlowPaths }
+            getPrunedUserDataFromPathname -->> getUserDataAndFlow: return { userDataWithPageData, validFlowPaths }
                 deactivate getPrunedUserDataFromPathname
 
         and Get Migration Data
@@ -78,19 +78,19 @@ sequenceDiagram
                 activate sessionManager
             sessionManager ->> UserDataStorage: getDataForSession(context, id)
                 activate UserDataStorage
-            UserDataStorage ->> sessionManager: return { userData }
+            UserDataStorage -->> sessionManager: return { userData }
                 deactivate UserDataStorage
-            sessionManager ->> getMigrationData: return { userData }
+            sessionManager -->> getMigrationData: return { userData }
                 deactivate sessionManager
             getMigrationData ->> pruner: pruneIrrelevantData(userData, migration.source)
                 activate pruner
-            pruner ->> getMigrationData: return { prunedData }
+            pruner -->> getMigrationData: return { prunedData }
                 deactivate pruner
             getMigrationData ->> pageSchemas: getAllPageSchemaByFlowId(migrationFlowIdDestination)
                 activate pageSchemas
-            pageSchemas ->> getMigrationData: return destinationUserSchemas
+            pageSchemas -->> getMigrationData: return destinationUserSchemas
                 deactivate pageSchemas
-            getMigrationData ->> getUserDataAndFlow: return { migrationData }
+            getMigrationData -->> getUserDataAndFlow: return { migrationData }
                 deactivate getMigrationData
 
         and Get Flow Session
@@ -98,9 +98,9 @@ sequenceDiagram
                 activate sessionManager
             sessionManager ->> UserDataStorage: getDataForSession(context, id)
                 activate UserDataStorage
-            UserDataStorage ->> sessionManager: return { userData }
+            UserDataStorage -->> sessionManager: return { userData }
                 deactivate UserDataStorage
-            sessionManager ->> getUserDataAndFlow: flowSession
+            sessionManager -->> getUserDataAndFlow: flowSession
                 deactivate sessionManager
         end
     end
@@ -110,7 +110,7 @@ sequenceDiagram
         Note over getUserDataAndFlow,flowController: Phase 3: Build Flow Controller
         getUserDataAndFlow ->> flowController: buildFlowController({ config, data, guards })
             activate flowController
-        flowController ->> getUserDataAndFlow: return flowController
+        flowController -->> getUserDataAndFlow: return flowController
             deactivate flowController
     end
 
@@ -121,7 +121,7 @@ sequenceDiagram
             activate validateStepIdFlow
         validateStepIdFlow ->> flowTransitionValidation: getFlowTransitionConfig(currentFlow)
             activate flowTransitionValidation
-        flowTransitionValidation ->> validateStepIdFlow: return flowTransitionConfig
+        flowTransitionValidation -->> validateStepIdFlow: return flowTransitionConfig
 
         opt if flowTransitionConfig present
             validateStepIdFlow ->> flowTransitionValidation: validateFlowTransition(<br/>flows, cookieHeader, flowTransitionConfig)
@@ -129,25 +129,25 @@ sequenceDiagram
                 activate sessionManager
             sessionManager ->> UserDataStorage: getDataForSession(context, id)
                 activate UserDataStorage
-            UserDataStorage ->> sessionManager: return { userData }
+            UserDataStorage -->> sessionManager: return { userData }
                 deactivate UserDataStorage
-            sessionManager ->> flowTransitionValidation: return { userData }
+            sessionManager -->> flowTransitionValidation: return { userData }
                 deactivate sessionManager
             flowTransitionValidation ->> flowController: buildFlowController({ config, data, guards })
                 activate flowController
-            flowController ->> flowTransitionValidation: return flowController
+            flowController -->> flowTransitionValidation: return flowController
                 deactivate flowController
-            flowTransitionValidation ->> validateStepIdFlow: return eligibilityResult
+            flowTransitionValidation -->> validateStepIdFlow: return eligibilityResult
                 deactivate flowTransitionValidation
             opt if eligibilityResult is false
-                validateStepIdFlow ->> getUserDataAndFlow: return Result.err(redirectTo)
-                getUserDataAndFlow ->> loader: return Result.err(redirectTo)
-                loader ->> client: end request with redirect
+                validateStepIdFlow -->> getUserDataAndFlow: return Result.err(redirectTo)
+                getUserDataAndFlow -->> loader: return Result.err(redirectTo)
+                loader -->> client: end request with redirect
             end
         end
-        validateStepIdFlow ->> getUserDataAndFlow: return Result.ok()
+        validateStepIdFlow -->> getUserDataAndFlow: return Result.ok()
             deactivate validateStepIdFlow
-        getUserDataAndFlow ->> loader: return Result.ok({ <br/>userData, flow, page, emailCaptureConsent, migration })
+        getUserDataAndFlow -->> loader: return Result.ok({ <br/>userData, flow, page, emailCaptureConsent, migration })
         deactivate getUserDataAndFlow
 
     end
@@ -160,7 +160,7 @@ sequenceDiagram
         retrieveContentData ->> getPageAndFlowDataFromPathname: getPageAndFlowDataFromPathname(pathname)
             activate getPageAndFlowDataFromPathname
         note over getPageAndFlowDataFromPathname: parsePathname
-        getPageAndFlowDataFromPathname ->> retrieveContentData: return {flowId, stepId, currentFlow}
+        getPageAndFlowDataFromPathname -->> retrieveContentData: return {flowId, stepId, currentFlow}
             deactivate getPageAndFlowDataFromPathname
 
         par Fetch Flow Page
@@ -168,40 +168,40 @@ sequenceDiagram
                 activate cmsService
             cmsService ->> cms: getStrapiEntry({ apiId, filters, ... })
                 activate cms
-            cms ->> cmsService: return raw strapiEntry
+            cms -->> cmsService: return raw strapiEntry
                 deactivate cms
             cmsService ->> validation: collectionSchemas["form-flow-pages"].parseAsync(strapiEntry)
                 activate validation
-            validation ->> cmsService: return validated formPageContent
+            validation -->> cmsService: return validated formPageContent
                 deactivate validation
-            cmsService ->> retrieveContentData: formPageContent
+            cmsService -->> retrieveContentData: formPageContent
         and Fetch Meta Page
             retrieveContentData ->> cmsService: fetchContentMetaPage({ filterValue })
             cmsService ->> cms: getStrapiEntry({ apiId, filters, ... })
                 activate cms
-            cms ->> cmsService: return raw pageEntry
+            cms -->> cmsService: return raw pageEntry
                 deactivate cms
             cmsService ->> validation: StrapiPageMetaSchema.safeParse(pageEntry)
                 activate validation
-            validation ->> cmsService: return validated pageMeta
+            validation -->> cmsService: return validated pageMeta
                 deactivate validation
-            cmsService ->> retrieveContentData: parentContentMetaPage
+            cmsService -->> retrieveContentData: parentContentMetaPage
         and Fetch Translations
             retrieveContentData ->> cmsService: fetchMultipleTranslations()
             cmsService ->> cms: getStrapiEntry({ apiId: "translations", ... })
                 activate cms
-            cms ->> cmsService: return raw translations
+            cms -->> cmsService: return raw translations
                 deactivate cms
             cmsService ->> validation: strapiSchemas.translations.safeParse(strapiEntry)
                 activate validation
-            validation ->> cmsService: return validated translations
+            validation -->> cmsService: return validated translations
                 deactivate validation
-            cmsService ->> retrieveContentData: cmsTranslations
+            cmsService -->> retrieveContentData: cmsTranslations
                 deactivate cmsService
         end
 
         note over retrieveContentData: apply string replacements
-        retrieveContentData ->> loader: return contentData as methods
+        retrieveContentData -->> loader: return contentData as methods
             deactivate retrieveContentData
     end
 
@@ -212,12 +212,12 @@ sequenceDiagram
             activate sessionManager
         sessionManager ->> UserDataStorage: getDataForSession(context, id)
             activate UserDataStorage
-        UserDataStorage ->> sessionManager: return session
+        UserDataStorage -->> sessionManager: return session
         note over sessionManager: set session with new csrf token and lastStepKey
         sessionManager ->> UserDataStorage: commit session with lastStepKey
-        UserDataStorage ->> sessionManager: return { headers }
+        UserDataStorage -->> sessionManager: return { headers }
             deactivate UserDataStorage
-        sessionManager ->> loader: return { headers, csrf }
+        sessionManager -->> loader: return { headers, csrf }
             deactivate sessionManager
 
         loader ->> setUserVisitedValidationPage: setUserVisitedValidationPage(triggerValidation, flowId, cookieHeader)
@@ -227,7 +227,7 @@ sequenceDiagram
             activate sessionManager
         sessionManager ->> UserDataStorage: getDataForSession(context, id)
             activate UserDataStorage
-        UserDataStorage ->> sessionManager: return { userData }
+        UserDataStorage -->> sessionManager: return { userData }
         note over sessionManager: set session with userVisitedValidationPageKey
         sessionManager ->> UserDataStorage: commit session with userVisitedValidationPageKey
             deactivate UserDataStorage
@@ -240,7 +240,7 @@ sequenceDiagram
         opt if final summary page
             note over loader: generate auto summary
         end
-        loader ->> client: return data({ <br/>userData, cmsContent, csrf, translations }, <br/>{ headers })
+        loader -->> client: return data({ <br/>userData, cmsContent, csrf, translations }, <br/>{ headers })
     end
 
     deactivate loader
