@@ -1,6 +1,6 @@
-import SvgArrowDownward from "@digitalservicebund/icons/ArrowDownward.js";
+import { KernIcon } from "../commom/KernIcon";
 
-export function SkipToContentLink({
+export function KernSkipToContentLink({
   label,
   target,
 }: Readonly<{
@@ -10,10 +10,10 @@ export function SkipToContentLink({
   return (
     <a
       href={target}
-      className="bg-yellow-300 px-8 flex py-6 text-blue-800 ds-label-01-reg absolute transform -translate-y-full focus:translate-y-0 focus:relative"
+      className="bg-kern-yellow-100 px-8 flex py-6 text-kern-action-default outline-none absolute transform -translate-y-full focus:translate-y-0 focus:relative"
       id="skip-to-content-link"
     >
-      <SvgArrowDownward />
+      <KernIcon name="arrow-downward" />
       {label}
     </a>
   );
