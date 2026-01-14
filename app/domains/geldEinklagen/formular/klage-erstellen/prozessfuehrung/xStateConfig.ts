@@ -21,7 +21,7 @@ const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
       "videoVerhandlung",
       "versaeumnisurteil",
     ]) &&
-    (context.streitbeilegung !== "yes" ||
+    (context.streitbeilegung === "yes" ||
       objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
   );
 };
