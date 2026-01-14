@@ -54,7 +54,7 @@ export function KernFormFlowPage() {
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
-      <GridSection pt="40" pb="40">
+      <GridSection pt="40" pb="40" className="bg-kern-neutral-025">
         <Grid>
           <GridItem
             mdColumn={{ start: 1, span: 11 }}
