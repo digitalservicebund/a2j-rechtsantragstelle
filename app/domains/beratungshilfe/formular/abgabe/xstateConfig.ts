@@ -28,7 +28,9 @@ export const abgabeXstateConfig = {
       always: {
         guard: ({ context }): boolean =>
           !!context.stepDoneStates &&
-          Object.entries(context.stepDoneStates).every(([, isDone]) => isDone),
+          Object.entries(context.stepDoneStates).every(
+            ([, isDone]) => isDone === "true",
+          ),
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,

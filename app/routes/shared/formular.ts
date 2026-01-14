@@ -181,7 +181,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  const stepDoneStates = buildFlowController({
+  const stepDoneStates: Record<string, string> = buildFlowController({
     config: currentFlow.config,
     data: merge(flowSession.data, resultFormUserData.value.userData),
     guards: currentFlow.guards,
@@ -191,7 +191,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     .reduce(
       (prev, stepState) => ({
         ...prev,
-        [stepState.stepId]: stepState.isDone && stepState.isReachable,
+        [stepState.stepId.substring(1)]: String(
+          stepState.isDone && stepState.isReachable,
+        ),
       }),
       {},
     );
@@ -201,6 +203,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     merge(resultFormUserData.value.userData, { stepDoneStates }),
   );
 
+  // TODO: add migrationData to stepDoneStates data
   if (resultFormUserData.value.migrationData) {
     updateSession(flowSession, resultFormUserData.value.migrationData);
   }
@@ -210,11 +213,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   await postValidationFlowAction(request, prunedData);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  const destination = flowDestination(
-    pathname,
-    merge(prunedData, {
-      stepDoneStates,
-    }),
-  );
+  const destination = flowDestination(pathname, prunedData);
   return redirectDocument(destination, { headers });
 };

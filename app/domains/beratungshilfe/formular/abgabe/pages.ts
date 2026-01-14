@@ -17,7 +17,7 @@ export const berHAntragAbgabePages = {
     stepId: "abgabe/art",
     pageSchema: {
       abgabeArt: z.enum(["online", "ausdrucken"]),
-      stepDoneStates: z.record(z.string(), hiddenInputSchema(z.boolean())),
+      stepDoneStates: z.record(z.string(), hiddenInputSchema(z.string())),
     },
   },
   zusammenfassung: {
