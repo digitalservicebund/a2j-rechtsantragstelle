@@ -3,8 +3,6 @@ import type { Config } from "~/services/flow/server/types";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { berHAntragAbgabePages } from "./pages";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { allValidatedStatesDone } from "~/services/flow/reduceExcludedStatesToId";
-import { beratungshilfeXstateConfig } from "~/domains/beratungshilfe/formular/xstateConfig";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -29,7 +27,8 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: ({ context }): boolean =>
-          allValidatedStatesDone(beratungshilfeXstateConfig, context),
+          !!context.stepDoneStates &&
+          Object.entries(context.stepDoneStates).every(([, isDone]) => isDone),
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,
@@ -49,7 +48,7 @@ export const abgabeXstateConfig = {
       on: {
         BACK: showAutoSummary
           ? steps.zusammenfassung.relative
-          : steps.art.relative,
+          : "#weitere-angaben",
         SUBMIT: [
           {
             target: showFileUpload

@@ -2,7 +2,6 @@ import { parseFormData } from "@remix-run/form-data-parser";
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
-import { parsePathname } from "~/domains/flowIds";
 import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
 import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
@@ -15,6 +14,7 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import type { SummaryItem } from "~/services/summary/types";
+import merge from "lodash/merge";
 import {
   deleteUserFile,
   uploadUserFile,
@@ -25,6 +25,8 @@ import { shouldShowReportProblem } from "../../components/reportProblem/showRepo
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { buildFlowController } from "~/services/flow/server/buildFlowController";
+import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -124,7 +126,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId } = parsePathname(pathname);
+  const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -179,7 +181,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  updateSession(flowSession, resultFormUserData.value.userData);
+  const stepDoneStates = buildFlowController({
+    config: currentFlow.config,
+    data: merge(flowSession.data, resultFormUserData.value.userData),
+    guards: currentFlow.guards,
+  })
+    .stepStates()
+    .filter((stepState) => !stepState.excludedFromValidation)
+    .reduce(
+      (prev, stepState) => ({
+        ...prev,
+        [stepState.stepId]: stepState.isDone && stepState.isReachable,
+      }),
+      {},
+    );
+
+  updateSession(
+    flowSession,
+    merge(resultFormUserData.value.userData, { stepDoneStates }),
+  );
 
   if (resultFormUserData.value.migrationData) {
     updateSession(flowSession, resultFormUserData.value.migrationData);
@@ -190,6 +210,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   await postValidationFlowAction(request, prunedData);
 
   const headers = { "Set-Cookie": await commitSession(flowSession) };
-  const destination = flowDestination(pathname, prunedData);
+  const destination = flowDestination(
+    pathname,
+    merge(prunedData, {
+      stepDoneStates,
+    }),
+  );
   return redirectDocument(destination, { headers });
 };
