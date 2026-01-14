@@ -70,16 +70,16 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none border-b border-kern-neutral-200 last:border-0 min-w-full",
+    "list-none border-b border-kern-neutral-200 last:border-0 flex w-full flex-col w-fit",
     {
       "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
-      "border-transparent last:border-transparent": isChild,
+      "border-transparent last:border-transparent flex flex-col": isChild,
     },
   );
 
   const itemClassNames = classNames(
-    "w-full p-16! flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 kern-body kern-body--small ",
+    "w-initial p-16! flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 kern-body kern-body--small ",
     {
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold": state === "WarningCurrent",
@@ -101,21 +101,22 @@ export function NavItem({
             aria-disabled={isDisabled}
             aria-expanded={collapse.isExpanded}
             {...collapse.getToggleProps()}
-            aria-describedby={isDone || isWarning ? iconId : undefined}
             // oxlint-disable-next-line aria-role
             role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
-            {label}
-            {collapse.isExpanded ? (
-              <KernIcon name="keyboard-arrow-up" className="ml-auto" />
-            ) : (
-              <KernIcon name="keyboard-arrow-down" className="ml-auto" />
-            )}
-            <StateIcon
-              id={iconId}
-              isDone={isDone}
-              showWarningIcon={isWarning}
-            />
+            <span>{label}</span>
+            <div className="flex items-center gap-8 justify-end align-end self-end">
+              {collapse.isExpanded ? (
+                <KernIcon name="keyboard-arrow-up" className="ml-auto" />
+              ) : (
+                <KernIcon name="keyboard-arrow-down" className="ml-auto" />
+              )}
+              <StateIcon
+                id={iconId}
+                isDone={isDone}
+                showWarningIcon={isWarning}
+              />
+            </div>
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
@@ -134,11 +135,10 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={isDone || isWarning ? iconId : undefined}
           ref={firstItemRef}
           data-testid={"nav-item-link"}
         >
-          {label}
+          <span>{label}</span>
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
         </a>
       )}
