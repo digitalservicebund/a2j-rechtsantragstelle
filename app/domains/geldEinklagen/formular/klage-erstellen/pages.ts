@@ -10,8 +10,6 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const RECHTLICHER_ZUSATZ_TEXTAREA_CHAR_LIMIT = 10000;
-
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
@@ -108,21 +106,13 @@ export const geldEinklagenKlageErstellenPages = {
   rechtlicherZusatzWeitereAntraege: {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
-      weitereAntraege: schemaOrEmptyString(
-        stringRequiredSchema.max(RECHTLICHER_ZUSATZ_TEXTAREA_CHAR_LIMIT, {
-          message: "max",
-        }),
-      ),
+      weitereAntraege: schemaOrEmptyString(stringRequiredSchema),
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
     stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
     pageSchema: {
-      rechtlicheWuerdigung: schemaOrEmptyString(
-        stringRequiredSchema.max(RECHTLICHER_ZUSATZ_TEXTAREA_CHAR_LIMIT, {
-          message: "max",
-        }),
-      ),
+      rechtlicheWuerdigung: schemaOrEmptyString(stringRequiredSchema),
     },
   },
 } as const satisfies PagesConfig;
