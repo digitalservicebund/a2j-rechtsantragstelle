@@ -105,5 +105,14 @@ export const geldEinklagenKlageErstellenPages = {
   },
   rechtlicherZusatzWeitereAntraege: {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
+    pageSchema: {
+      weitereAntraege: schemaOrEmptyString(stringRequiredSchema),
+    },
+  },
+  rechtlicherZusatzRechtlicheWuerdigung: {
+    stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
+    pageSchema: {
+      rechtlicheWuerdigung: schemaOrEmptyString(stringRequiredSchema),
+    },
   },
 } as const satisfies PagesConfig;
