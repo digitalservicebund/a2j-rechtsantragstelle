@@ -31,7 +31,7 @@ export const OpenQuestion = ({ question, setResponses }: OpenQuestionProps) => {
         id={id}
         name={question.id}
         aria-describedby={descriptionId}
-        className="ds-textarea forced-colors:border-4"
+        className="ds-textarea forced-colors:border-4 ph-no-capture"
         onChange={(event) =>
           setResponses((surveyResponses) => ({
             ...surveyResponses,

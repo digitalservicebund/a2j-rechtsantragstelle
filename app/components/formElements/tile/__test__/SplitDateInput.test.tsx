@@ -37,9 +37,15 @@ describe("SplitDateInput", () => {
   it("renders day, month and yearinput fields with correct labels", () => {
     render(<SplitDateInput name="birthdate" />);
 
-    expect(screen.getByLabelText("Tag")).toBeInTheDocument();
-    expect(screen.getByLabelText("Monat")).toBeInTheDocument();
-    expect(screen.getByLabelText("Jahr")).toBeInTheDocument();
+    const dayInput = screen.getByLabelText("Tag");
+    expect(dayInput).toBeInTheDocument();
+    expect(dayInput).toHaveClass("ph-no-capture");
+    const monthInput = screen.getByLabelText("Monat");
+    expect(monthInput).toBeInTheDocument();
+    expect(monthInput).toHaveClass("ph-no-capture");
+    const yearInput = screen.getByLabelText("Jahr");
+    expect(yearInput).toBeInTheDocument();
+    expect(yearInput).toHaveClass("ph-no-capture");
   });
 
   it("renders legend", () => {
