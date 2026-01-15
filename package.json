@@ -10,7 +10,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "packageManager": "pnpm@10.26.1",
+  "packageManager": "pnpm@10.28.0",
   "scripts": {
     "build:airports-data": "node ./scripts/airports.ts",
     "build:airlines-data": "node ./scripts/airlines.ts",
