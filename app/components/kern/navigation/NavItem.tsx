@@ -74,6 +74,7 @@ export function NavItem({
     {
       "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
+      "border-none": isChild,
       "border-transparent last:border-transparent flex flex-col": isChild,
     },
   );
@@ -82,9 +83,7 @@ export function NavItem({
     "w-initial p-16! flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 kern-body kern-body--small ",
     {
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
-      "kern-body--bold": state === "WarningCurrent",
-      "kern-body--bold bg-kern-neutral-100 underline":
-        isCurrent && !hasSubflows,
+      "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
       "text-kern-grey-400! curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
