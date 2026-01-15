@@ -5,6 +5,7 @@ import { geldEinklagenKlageErstellenPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GenericGuard } from "~/domains/guards.server";
 import { prozessfuehrungXstateConfig } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/xStateConfig";
+import { rechtlicherZusatzXstateConfig } from "./rechtlicher-zusatz/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
@@ -153,16 +154,6 @@ export const klageErstellenXstateConfig = {
       },
     },
     prozessfuehrung: prozessfuehrungXstateConfig,
-    "rechtlicher-zusatz": {
-      id: "rechtlicher-zusatz",
-      initial: "weitere-antraege",
-      states: {
-        [steps.rechtlicherZusatzWeitereAntraege.relative]: {
-          on: {
-            BACK: steps.prozessfuehrungZahlungNachKlageeinreichung.absolute,
-          },
-        },
-      },
-    },
+    "rechtlicher-zusatz": rechtlicherZusatzXstateConfig,
   },
 } satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
