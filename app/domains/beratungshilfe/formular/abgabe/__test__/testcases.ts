@@ -10,7 +10,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
     {
       stepId: "/abgabe/art",
-      userInput: { abgabeArt: "online" },
+      userInput: { abgabeArt: "online", stepDoneStates: {} },
     },
     ...(showAutoSummary
       ? [
@@ -30,7 +30,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
   printedAbgabe: [
     {
       stepId: "/abgabe/art",
-      userInput: { abgabeArt: "ausdrucken" },
+      userInput: { abgabeArt: "ausdrucken", stepDoneStates: {} },
     },
     ...(showAutoSummary
       ? [
