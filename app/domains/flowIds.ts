@@ -6,6 +6,7 @@ export const flowIds = [
   "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
+  "/erbschein/wegweiser",
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",
