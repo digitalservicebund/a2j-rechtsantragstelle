@@ -18,10 +18,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "target": "ES2022",
+    "target": "es2022",
     "types": [
       "@testing-library/jest-dom",
       "node",
