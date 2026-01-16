@@ -6,108 +6,111 @@ sequenceDiagram
     actor User
     participant Browser
     participant ReactComponents as React Components
-    participant Loader as Formular Loader (Server)
-    participant Action as Formular Action (Server)
+    participant FormFlowPage as FormFlowPage (Server)
     participant UserDataStorage@{"type": "database", "label": "UserDataStorage (Redis)"}
     participant Pruner
-    participant FlowController as FlowController (XState)
+    participant FlowController
     participant PageSchemas
-    participant Validation as Validation (Zod)
-    participant CMS@{"type": "database", "label": "Strapi CMS"}
+    participant CMS@{"type": "database", "label": "Content Service"}
 
     rect rgb(230, 245, 255)
         Note over User,CMS: GET Request - Loading a Form Page
         User ->> Browser: Navigate to /flowId/stepId
-        Browser ->> Loader: GET /flowId/stepId
-        activate Loader
+        Browser ->> FormFlowPage: GET /flowId/stepId
+        activate FormFlowPage
 
-        Loader ->> UserDataStorage: getSessionData(flowId, cookieHeader)
+        FormFlowPage ->> UserDataStorage: getSessionData(flowId, cookieHeader)
         activate UserDataStorage
-        UserDataStorage -->> Loader: userData
+        UserDataStorage -->> FormFlowPage: userData
         deactivate UserDataStorage
 
-        Loader ->> Pruner: pruneIrrelevantData(userData, flowId)
+        FormFlowPage ->> Pruner: pruneIrrelevantData(userData, flowId)
         activate Pruner
-        Pruner ->> FlowController: buildFlowController(config, userData, guards)
+        Pruner ->> FlowController: buildFlowController(userData)
         activate FlowController
-        FlowController -->> Pruner: flowController
+        FlowController -->> Pruner: validFlowPaths
         deactivate FlowController
         Pruner ->> PageSchemas: getAllFieldsFromFlowId(flowId)
         activate PageSchemas
-        PageSchemas -->> Pruner: formFieldsMap
+        PageSchemas -->> Pruner: validFormFields
         deactivate PageSchemas
-        Pruner -->> Loader: prunedData, validFlowPaths
+        Pruner ->> Pruner: prune data
+        Pruner -->> FormFlowPage: prunedData
         deactivate Pruner
 
-        Loader ->> FlowController: buildFlowController(config, prunedData, guards)
+        FormFlowPage ->> FlowController: buildFlowController(prunedData)
         activate FlowController
-        FlowController -->> Loader: flowController (validate stepId reachable)
+        FlowController -->> FormFlowPage: validate stepId
         deactivate FlowController
 
-        Loader ->> CMS: fetchFlowPage(flowId, stepId)
-        activate CMS
-        CMS -->> Loader: strapiEntry (raw)
-        deactivate CMS
-        Loader ->> Validation: StrapiFormFlowPageSchema.parseAsync(strapiEntry)
-        activate Validation
-        Validation -->> Loader: cmsContent, formElements (validated)
-        deactivate Validation
+        alt step is not reachable
+            FormFlowPage -->> Browser: redirectTo: flowController.getInitial()
+            Browser -->> User: Navigate to initial step
+        else step is reachable
+            FormFlowPage ->> CMS: fetchFlowPage(flowId, stepId)
+            activate CMS
+            CMS ->> CMS: fetch contentEntry
+            CMS ->> CMS: parse contentEntry
+            CMS -->> FormFlowPage: cmsContent, formElements (validated)
+            deactivate CMS
 
-        Loader -->> ReactComponents: loaderData (userData, cmsContent, formElements, navigation)
-        deactivate Loader
-
-        ReactComponents -->> Browser: Render FormFlowPage
-        Browser -->> User: Display page
+            FormFlowPage -->> ReactComponents: loaderData (userData, cmsContent, formElements, navigation)
+            deactivate FormFlowPage
+            ReactComponents -->> Browser: Render FormFlowPage
+            Browser -->> User: Display page
+        end
     end
 
     rect rgb(255, 243, 224)
         Note over User,CMS: POST Request - Submitting Form Data
         User ->> Browser: Submit form
         Browser ->> ReactComponents: Form submission event
-        ReactComponents ->> Action: POST /flowId/stepId (formData)
-        activate Action
+        ReactComponents ->> FormFlowPage: POST /flowId/stepId (formData)
+        activate FormFlowPage
 
-        Action ->> Validation: validateFormUserData(formData, pathname)
-        activate Validation
-        Validation ->> PageSchemas: getPageSchema(pathname)
+        FormFlowPage ->> PageSchemas: getPageSchema(pathname)
         activate PageSchemas
-        PageSchemas -->> Validation: pageSchema (Zod schema)
+        PageSchemas -->> FormFlowPage: pageSchema (Zod schema)
         deactivate PageSchemas
-        Validation -->> Action: validationResult (ok/error)
-        deactivate Validation
+        FormFlowPage ->> FormFlowPage: validate formData
 
         alt Validation Error
-            Action -->> ReactComponents: validationError (show errors)
+            FormFlowPage -->> ReactComponents: validationError
             ReactComponents -->> Browser: Render errors
-            Browser -->> User: Display field errors
+            Browser -->> User: Display form field errors
         else Validation Success
-            Action ->> UserDataStorage: getSession(cookieHeader)
+            FormFlowPage ->> UserDataStorage: getSession(cookieHeader)
             activate UserDataStorage
-            UserDataStorage -->> Action: flowSession
-            Action ->> UserDataStorage: updateSession(flowSession, userData)
+            UserDataStorage -->> FormFlowPage: flowSession
             deactivate UserDataStorage
+            FormFlowPage ->> FormFlowPage: updateSession(flowSession, validFormData)
 
-            Action ->> Pruner: pruneIrrelevantData(sessionData, flowId)
+            FormFlowPage ->> Pruner: pruneIrrelevantData(updatedSessionData, flowId)
             activate Pruner
-            Pruner ->> FlowController: buildFlowController(config, data, guards)
+            Pruner ->> FlowController: buildFlowController(updatedSessionData)
             activate FlowController
-            FlowController -->> Pruner: flowController
+            FlowController -->> Pruner: validFlowPaths
             deactivate FlowController
-            Pruner -->> Action: prunedData
+            Pruner ->> PageSchemas: getAllFieldsFromFlowId(flowId)
+            activate PageSchemas
+            PageSchemas -->> Pruner: validFormFields
+            deactivate PageSchemas
+            Pruner ->> Pruner: prune data
+            Pruner -->> FormFlowPage: prunedData
             deactivate Pruner
 
-            Action ->> FlowController: flowDestination(pathname, prunedData)
+            FormFlowPage ->> FlowController: flowDestination(pathname, prunedData)
             activate FlowController
-            FlowController -->> Action: nextStepId
+            FlowController -->> FormFlowPage: nextStepId
             deactivate FlowController
 
-            Action ->> UserDataStorage: commitSession(flowSession)
+            FormFlowPage ->> UserDataStorage: commitSession(flowSession)
             activate UserDataStorage
-            UserDataStorage -->> Action: Set-Cookie header
+            UserDataStorage -->> FormFlowPage: Set-Cookie header
             deactivate UserDataStorage
 
-            Action -->> Browser: redirectDocument(nextStepId)
-            deactivate Action
+            FormFlowPage -->> Browser: redirectDocument(nextStepId)
+            deactivate FormFlowPage
             Browser -->> User: Navigate to next step
         end
     end
