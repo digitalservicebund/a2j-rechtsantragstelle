@@ -12,7 +12,7 @@ export type ObjectType = {
   // oxlint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
-export type ArrayData = Array<Record<string, BasicTypes>>;
+export type ArrayData = Array<Record<string, BasicTypes | ArrayData>>;
 export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
 
 export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;

@@ -89,7 +89,6 @@ describe("getContentData", () => {
           configuration: {
             url: "/bankkontenUrl",
             initialInputUrl: "daten",
-            event: addBankkonten,
             disableAddButton: false,
           },
           itemLabels: {},
