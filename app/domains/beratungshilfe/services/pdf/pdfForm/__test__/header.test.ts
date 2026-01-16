@@ -6,6 +6,9 @@ import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { fillHeader } from "../header";
 
+vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
+vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
+
 describe("fillHeader", () => {
   describe("Adds weiteres einkommen", () => {
     const userData: BeratungshilfeFormularUserData = {
@@ -48,7 +51,6 @@ describe("fillHeader", () => {
   });
 
   it("should add amtsgericht if available", () => {
-    vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
     vi.mocked(findCourt).mockReturnValue({
       ...gerbehAmtsgericht,
       BEZEICHNUNG: "Amtsgericht Dessau-Roßlau",
@@ -64,7 +66,6 @@ describe("fillHeader", () => {
   });
 
   it("shouldn't add amtsgericht if edge case PLZ", () => {
-    vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
     vi.mocked(findCourt).mockReturnValue(undefined);
 
     const { pdfValues } = pdfFillReducer({

@@ -19,6 +19,7 @@ vi.mock("~/domains/fluggastrechte/services/gerichtskosten");
 vi.mock("../../../services/airports/getCompensationPayment");
 vi.mock("../../services/getTotalClaimingPeople");
 vi.mock("../../services/getTotalCompensationClaim");
+vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
 
 describe("legalCourts", () => {
   describe("hasBothAirportsPartnerCourts", () => {
@@ -106,7 +107,6 @@ describe("legalCourts", () => {
   });
 
   describe("getResponsibleCourt", () => {
-    vi.mock("~/domains/fluggastrechte/services/getCourtByStartAndEndAirport");
     it("should return court data ", () => {
       vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
         BEZEICHNUNG: "Amtsgericht",

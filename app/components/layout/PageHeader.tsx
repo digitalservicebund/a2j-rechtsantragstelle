@@ -21,6 +21,7 @@ export default function PageHeader({
   hideLinks,
 }: Readonly<PageHeaderProps>) {
   const shouldPrint = useShouldPrint();
+  const ariaTitle = `${title} - ${linkLabel}`;
 
   return (
     <header>
@@ -58,7 +59,7 @@ export default function PageHeader({
               <a
                 href="/"
                 className="ds-label-01-bold no-underline hover:underline mr-8 text-black focus:outline-solid active:underline active:decoration-4 leading-normal"
-                aria-label={`${title} - ${linkLabel}`}
+                aria-label={ariaTitle}
               >
                 {title}
               </a>
