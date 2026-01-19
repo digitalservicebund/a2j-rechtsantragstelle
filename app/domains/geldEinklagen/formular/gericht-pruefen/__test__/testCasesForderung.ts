@@ -15,7 +15,7 @@ export const testCasesForderung = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
     },
     [
       "/gericht-pruefen/intro/voraussetzungen",

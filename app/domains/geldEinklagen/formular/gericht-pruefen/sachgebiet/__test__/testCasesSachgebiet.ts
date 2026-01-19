@@ -4,7 +4,7 @@ import { type GeldEinklagenFormularUserData } from "../../../userData";
 export const testCasesSachgebiet = [
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "yes",
     },
     [
@@ -15,7 +15,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "anderesRechtsproblem",
     },
@@ -28,7 +28,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "urheberrecht",
     },
@@ -41,7 +41,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "schaden",
     },
@@ -54,7 +54,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
@@ -71,7 +71,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
@@ -88,7 +88,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "miete",
       mietePachtVertrag: "no",
@@ -103,7 +103,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
@@ -120,7 +120,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
@@ -137,7 +137,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "versicherung",
       versicherungVertrag: "no",
@@ -152,7 +152,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "reisen",
       reiseArt: "andereReise",
@@ -167,7 +167,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "reisen",
       reiseArt: "flug",
@@ -183,7 +183,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "yes",
@@ -198,7 +198,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      forderung: "maximal5000",
+      forderung: "maximal10000",
       ausgeschlossen: "no",
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "no",
