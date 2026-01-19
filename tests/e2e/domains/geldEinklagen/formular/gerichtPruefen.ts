@@ -11,7 +11,7 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await formular.clickNext();
 
   // /geld-einklagen/formular/gericht-pruefen/forderung/was
-  await formular.fillRadioPage("forderung", "maximal5000");
+  await formular.fillRadioPage("forderung", "maximal10000");
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/info
   await formular.clickNext();
