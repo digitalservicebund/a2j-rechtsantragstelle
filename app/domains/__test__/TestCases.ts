@@ -11,6 +11,7 @@ type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
 export type ExpectedStepUserInput<T extends UserData> = T & {
   pageData?: { arrayIndexes?: number[] };
+  // oxlint-disable-next-line typescript/consistent-indexed-object-style
 } & { [K in ArrayItemProperties]: AllowedUserTypes };
 
 export type ExpectedStep<T extends UserData> = {
