@@ -5,6 +5,8 @@ allowBuilds: # https://pnpm.io/settings#allowbuilds
   "@sentry/cli": false
   core-js: false
   core-js-pure: false
+  "@node-saml/node-saml": true
+  xml-crypto: true
 
 overrides:
   qs@<6.14.1: ">=6.14.1"
