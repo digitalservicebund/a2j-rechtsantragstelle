@@ -2,14 +2,15 @@ import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
 import { samlKeys } from "./keys";
 import { attributeSchema, samlAuthnRequestExtensions } from "./attributes";
+import { getBundIdEntityId, getBundIdEntryPoint } from "./getBundidVars";
 
 function getBundIdSaml(backUrl?: string) {
   const { SAML_ASSERTION_CONSUMER_SERVICE_URL, SAML_IDP_CERT } = config();
   const { privateKey, decryptionPvk } = samlKeys();
 
   return new SAML({
-    entryPoint: "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
-    issuer: "https://service.justiz.de/sp",
+    entryPoint: getBundIdEntryPoint(),
+    issuer: getBundIdEntityId(),
     callbackUrl: SAML_ASSERTION_CONSUMER_SERVICE_URL,
     idpCert: SAML_IDP_CERT ?? "",
     privateKey,

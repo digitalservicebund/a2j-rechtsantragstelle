@@ -3,6 +3,7 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
+import { getBundIdEntryPoint } from "../bundid/getBundidVars";
 import { bucketUrl } from "../cms/bucketUrl";
 
 export const cspHeader = (args: {
@@ -37,10 +38,7 @@ export const cspHeader = (args: {
       "https://img.youtube.com",
       "data:",
     ],
-    "form-action": [
-      "'self'",
-      "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
-    ],
+    "form-action": ["'self'", getBundIdEntryPoint()],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],
