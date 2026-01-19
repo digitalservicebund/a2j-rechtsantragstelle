@@ -18,7 +18,6 @@ const getMockFlowController = (isReachable: boolean) => {
 
 const currentFlow = {
   config: {},
-  guards: {},
   flowType: "formFlow",
 } as unknown as Flow;
 
@@ -42,7 +41,6 @@ describe("validateStepIdFlow", () => {
 
     const currentFlowNotEligible = {
       config: {},
-      guards: {},
       flowType: "formFlow",
       flowTransitionConfig: {
         sourceFlowId: "ergebnis/erfolg/source",
