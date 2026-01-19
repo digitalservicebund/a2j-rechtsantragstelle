@@ -1,12 +1,10 @@
 import { useField } from "@rvf/react-router";
-import classNames from "classnames";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import Input from "react-imask/esm/input";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import Creatable from "react-select/creatable";
-import { widthClassname } from "~/components/common/width";
 import {
   ariaLiveMessages,
   screenReaderStatus,
@@ -14,7 +12,6 @@ import {
 import { type AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
 import useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
 import useLiveMessage from "~/components/formElements/autoSuggestInput/useLiveMessage";
-import InputLabel from "~/components/formElements/InputLabel";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -107,8 +104,6 @@ const KernAutoSuggestInput = ({
   const { liveMessage, liveMessageKey, announceLiveMessage } = useLiveMessage();
   const [options, setOptions] = useState<DataListOptions[]>([]);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
-
-  const isRequired = !!errorMessages?.find((err) => err.code === "required");
 
   const onInputChange = (value: string, { action }: InputActionMeta) => {
     if (action === "input-change") {
@@ -238,7 +233,7 @@ const KernAutoSuggestInput = ({
           screenReaderStatus={screenReaderStatus(
             rootLoaderData?.accessibilityTranslations,
           )}
-          styles={kernCustomStyles(hasError)}
+          styles={kernCustomStyles()}
           tabIndex={0}
           value={currentItemValue}
           menuPortalTarget={document.body}

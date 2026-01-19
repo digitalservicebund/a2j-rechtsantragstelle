@@ -6,58 +6,65 @@ const getOptionBackgroundColor = (
   isSelected: boolean,
 ): string | undefined => {
   if (isFocused) {
-    return "#ECF1F4";
+    return "#EFF0F4";
   }
 
   if (isSelected) {
-    return "#DCE8EF";
+    return "#DFE1EA";
   }
 
   return undefined;
 };
 
-const kernCustomStyles = (
-  hasError: boolean,
-): StylesConfig<DataListOptions, false> => {
-  const hoverActiveStyle = !hasError && {
-    "&:hover": {
-      backgroundColor: "#F2F6F8",
-    },
-    "&:focus": {
-      backgroundColor: "#F2F6F8",
-    },
-  };
-
+const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
   return {
     menuPortal: (base) => ({
       ...base,
       zIndex: 999,
     }),
-    control: (base, { menuIsOpen }) => ({
+    control: (base, { menuIsOpen, isFocused }) => ({
       ...base,
-      backgroundColor: "transparent",
+      minHeight: "100%",
+      height: "100%",
+      padding: "0",
       border: "none",
-      boxShadow: "",
-      outline: "none",
-      ...hoverActiveStyle,
+      borderRadius: 0,
+      boxShadow: "none",
+      backgroundColor: "transparent",
+      display: "flex",
+      alignItems: "center",
+      outline: menuIsOpen || isFocused ? "solid 4px #1A3DA5" : "none",
+      outlineOffset: menuIsOpen || isFocused ? "-4px" : "0",
+      "&:hover": {
+        border: "none",
+      },
     }),
     option: (base, { isFocused, isSelected }) => {
       return {
         ...base,
         backgroundColor: getOptionBackgroundColor(isFocused, isSelected),
-        borderLeft: isFocused ? "4px solid var(--kern-action-default)" : "none",
+        borderLeft: isFocused ? "4px solid #1A3DA5" : "",
+        color: "inherit",
       };
     },
     clearIndicator: (base) => ({
       ...base,
-      transition: "none",
+      padding: 0,
     }),
     valueContainer: (base) => ({
       ...base,
+      padding: 0,
       height: "100%",
+      display: "flex",
+      alignItems: "center",
     }),
     input: (base) => ({
       ...base,
+      margin: 0,
+      padding: 0,
+      border: "none",
+      boxShadow: "none",
+      outline: "none",
       height: "100%",
       gridTemplateColumns: "auto",
       input: {

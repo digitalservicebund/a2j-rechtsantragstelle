@@ -25,6 +25,28 @@
     color: var(--color-kern-feedback-danger);
   }
 
+  /* prevents Kern to style the inner input */
+
+  .kern-select input:focus,
+  .kern-select input:focus-visible {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* remove Kern focus visible from the inner input*/
+  
+  .kern-form-input__select input:focus-visible,
+  .kern-form-input__select input:focus {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* this forces the select to fill the Kern field */
+
+  .kern-form-input__select {
+    height: 100%;
+  }
+
   .grid-fluid {
     display: grid;
     /* defaults (S) */
