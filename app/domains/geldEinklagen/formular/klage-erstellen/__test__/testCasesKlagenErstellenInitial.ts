@@ -4,7 +4,7 @@ import { type GeldEinklagenFormularUserData } from "../../userData";
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
-  forderung: "maximal5000",
+  forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "miete",
@@ -16,7 +16,7 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagtePlz: ZIP_CODE_PILOT_COURT,
   beklagteOrt: "beklagteOrt",
   klagendePersonAnrede: "none",
-  klagendePersonTitle: "",
+  klagendePersonTitle: "none",
   klagendePersonVorname: "klagendePersonVorname",
   klagendePersonNachname: "klagendePersonNachname",
   klagendePersonStrasseHausnummer: "klagendePersonStrasseHausnummer",
@@ -29,7 +29,7 @@ export const testCasesKlagenErstellenInitial = [
     {
       ...baseContext,
       beklagteAnrede: "none",
-      beklagteTitle: "",
+      beklagteTitle: "none",
       beklagteVorname: "beklagteVorname",
       beklagteNachname: "beklagteNachname",
     },
