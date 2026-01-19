@@ -25,7 +25,7 @@ export type FlowType = "vorabCheck" | "formFlow";
 export type Flow = {
   flowType: FlowType;
   config: Config;
-  guards: Guards;
+  guards?: Guards;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;

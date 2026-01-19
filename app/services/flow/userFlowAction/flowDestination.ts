@@ -12,7 +12,7 @@ export const flowDestination = (pathname: string, userData: UserData) => {
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: addPageDataToUserData(userData, { arrayIndexes }),
-    guards: currentFlow.guards,
+    guards: "guards" in currentFlow ? currentFlow.guards : {},
   });
 
   const destination =
