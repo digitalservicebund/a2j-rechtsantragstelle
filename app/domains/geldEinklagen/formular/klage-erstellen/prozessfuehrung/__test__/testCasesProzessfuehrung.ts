@@ -4,7 +4,7 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
-  forderung: "maximal5000",
+  forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "miete",
