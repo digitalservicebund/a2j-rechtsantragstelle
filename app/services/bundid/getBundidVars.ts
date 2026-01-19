@@ -8,7 +8,7 @@ const BUNDID_IDP_ENTRY_POINT = {
 } as const;
 
 const BUNDID_ENTITY_ID = {
-  integration: "https://service-int.justiz.de/sp", // TODO: rename to https://service-int.justiz.de/stag and upload new Metadaten
+  integration: "https://service.justiz.de/sp", // TODO: rename to https://service.justiz.de/stag and upload new Metadaten
   production: "https://service.justiz.de/prod",
 } as const;
 
