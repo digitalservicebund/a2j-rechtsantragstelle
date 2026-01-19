@@ -43,6 +43,7 @@ describe("Textarea component", () => {
     const elementByLabel = screen.getByLabelText("Test Label");
     expect(element).toBeInTheDocument();
     expect(element).not.toHaveClass("has-error");
+    expect(element).toHaveClass("ph-no-capture");
 
     expect(elementByLabel).toBeInTheDocument();
 

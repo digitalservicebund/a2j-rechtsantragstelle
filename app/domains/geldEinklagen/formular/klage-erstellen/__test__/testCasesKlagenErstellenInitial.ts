@@ -16,7 +16,7 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagtePlz: ZIP_CODE_PILOT_COURT,
   beklagteOrt: "beklagteOrt",
   klagendePersonAnrede: "none",
-  klagendePersonTitle: "",
+  klagendePersonTitle: "none",
   klagendePersonVorname: "klagendePersonVorname",
   klagendePersonNachname: "klagendePersonNachname",
   klagendePersonStrasseHausnummer: "klagendePersonStrasseHausnummer",
@@ -29,7 +29,7 @@ export const testCasesKlagenErstellenInitial = [
     {
       ...baseContext,
       beklagteAnrede: "none",
-      beklagteTitle: "",
+      beklagteTitle: "none",
       beklagteVorname: "beklagteVorname",
       beklagteNachname: "beklagteNachname",
     },

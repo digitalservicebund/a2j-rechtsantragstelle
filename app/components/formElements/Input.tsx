@@ -63,7 +63,7 @@ const Input = function InputComponent({
           ref={innerRef}
           name={name}
           className={classNames(
-            "ds-input forced-colors:border-4",
+            "ds-input forced-colors:border-4 ph-no-capture",
             {
               "has-error": field.error(),
             },

@@ -182,7 +182,7 @@ const AutoSuggestInput = ({
           rootLoaderData?.accessibilityTranslations,
         )}
         className={classNames(
-          "w-full forced-colors:border-2",
+          "w-full forced-colors:border-2 ph-no-capture",
           { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
