@@ -22,10 +22,10 @@ import { testCasesKlagenErstellenInitial } from "../klage-erstellen/__test__/tes
 import { testCasesKlageErstellenProzessfuehrung } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/__test__/testCasesProzessfuehrung";
 import { testCasesKlageErstellenRechtlicherZusatz } from "../klage-erstellen/rechtlicher-zusatz/__test__/testCasesKlageErstellenRechtlicherZusatz";
 
-const machine: FlowStateMachine = createMachine(
-  { ...geldEinklagenFormular.config, context: {} },
-  { guards: {} },
-);
+const machine: FlowStateMachine = createMachine({
+  ...geldEinklagenFormular.config,
+  context: {},
+});
 
 const testsCases = [
   ...testCasesForderung,
