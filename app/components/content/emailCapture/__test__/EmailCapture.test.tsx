@@ -68,7 +68,9 @@ describe("EmailCapture", () => {
 
     const emailField = getByLabelText(fieldLabel);
     expect(emailField).toBeInTheDocument();
-    expect(emailField).toHaveClass("ds-input forced-colors:border-4");
+    expect(emailField).toHaveClass(
+      "ds-input forced-colors:border-4 ph-no-capture",
+    );
     expect(getByText(fieldDescription)).toBeInTheDocument();
   });
 
