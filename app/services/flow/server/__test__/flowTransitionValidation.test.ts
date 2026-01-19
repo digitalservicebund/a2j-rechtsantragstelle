@@ -20,7 +20,6 @@ vi.mock("~/services/flow/server/buildFlowController", () => ({
 
 const createMockFlow = (flowType: FlowType): Flow => ({
   config: {},
-  guards: {},
   flowType,
 });
 

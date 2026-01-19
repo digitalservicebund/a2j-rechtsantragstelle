@@ -18,13 +18,16 @@ async function lastStepFromRequest(cookieHeader: CookieHeader) {
 export async function loader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url);
   const { flowId } = parsePathname(pathname);
-  const { config, guards } = flows[flowId];
+  const flow = flows[flowId];
   const cookieHeader = request.headers.get("Cookie");
 
   const lastStep = await lastStepFromRequest(cookieHeader);
   const destination =
     lastStep && flowId in lastStep
       ? flowId + lastStep[flowId]
-      : buildFlowController({ config, guards }).getInitial();
+      : buildFlowController({
+          config: flow.config,
+          guards: "guards" in flow ? flow.guards : {},
+        }).getInitial();
   return redirect(destination);
 }
