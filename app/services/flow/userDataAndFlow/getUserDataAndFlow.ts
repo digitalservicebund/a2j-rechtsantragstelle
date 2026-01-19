@@ -70,7 +70,7 @@ export const getUserDataAndFlow = async (
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: userDataWithPageData,
-    guards: currentFlow.guards,
+    guards: "guards" in currentFlow ? currentFlow.guards : {},
   });
 
   const validationFlowResult = await validateStepIdFlow(

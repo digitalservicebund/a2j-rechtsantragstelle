@@ -4,6 +4,5 @@ import { kontopfaendungPkontoAntragXStateConfig } from "./xStateConfig";
 export const kontopfaendungPkontoAntrag = {
   flowType: "formFlow",
   config: kontopfaendungPkontoAntragXStateConfig,
-  guards: {},
   stringReplacements: () => ({}),
 } satisfies Flow;

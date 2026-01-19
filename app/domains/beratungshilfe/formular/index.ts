@@ -21,7 +21,6 @@ import {
 export const beratungshilfeFormular = {
   flowType: "formFlow",
   config: beratungshilfeXstateConfig,
-  guards: {},
   stringReplacements: (context: BeratungshilfeFormularUserData) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),
