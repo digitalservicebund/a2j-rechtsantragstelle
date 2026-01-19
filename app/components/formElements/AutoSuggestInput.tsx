@@ -243,7 +243,7 @@ const AutoSuggestInput = ({
       </div>
 
       {helperText && (
-        <div className="label-text mt-6" id={helperId}>
+        <div className="ds-label-03-reg mt-6" id={helperId}>
           {helperText}
         </div>
       )}
