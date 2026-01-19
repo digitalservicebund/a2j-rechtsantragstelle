@@ -22,7 +22,7 @@ type Config = {
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_SP_SECRET_KEY_ENCRYPTION_PATH: string;
-  SAML_IDP_CERT?: string;
+  SAML_IDP_CERT: string;
   S3_REGION: string;
   S3_ENDPOINT: string;
   S3_DATA_STORAGE_ACCESS_KEY: string;

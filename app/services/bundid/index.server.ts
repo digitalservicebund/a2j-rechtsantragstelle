@@ -12,7 +12,7 @@ function getBundIdSaml(backUrl?: string) {
     entryPoint: getBundIdEntryPoint(),
     issuer: getBundIdEntityId(),
     callbackUrl: SAML_ASSERTION_CONSUMER_SERVICE_URL,
-    idpCert: SAML_IDP_CERT ?? "",
+    idpCert: SAML_IDP_CERT,
     privateKey,
     decryptionPvk,
     authnRequestBinding: "HTTP-POST",
