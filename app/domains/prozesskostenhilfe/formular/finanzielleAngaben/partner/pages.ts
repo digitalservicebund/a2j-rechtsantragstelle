@@ -94,13 +94,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-keine-rolle",
   },
-  partnerEinkuenfteUnterhaltsSumme: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt/partner-unterhalts-summe",
-    pageSchema: {
-      "partner-unterhaltsSumme": buildMoneyValidationSchema(),
-    },
-  },
   partnerEinkuenfteEinkommen: {
     stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen",
   },
@@ -123,13 +116,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "finanzielle-angaben/partner/partner-einkuenfte/partner-arbeitslosengeld",
     pageSchema: {
       "partner-arbeitslosengeld": buildMoneyValidationSchema(),
-    },
-  },
-  partnerErwerbstaetig: {
-    stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-erwerbstaetig",
-    pageSchema: {
-      currentlyEmployed: YesNoAnswer,
     },
   },
   partnerRenteFrage: {

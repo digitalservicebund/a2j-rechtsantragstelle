@@ -7,6 +7,7 @@ import {
 import type { PartnerEinkuenfteUserData } from "./userData";
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "../abzuege/userData";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "../einkuenfte/userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
@@ -639,5 +640,6 @@ export const partnerXstateConfig = {
   },
 } satisfies Config<
   PartnerEinkuenfteUserData &
-    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData
+    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData &
+    ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData
 >;
