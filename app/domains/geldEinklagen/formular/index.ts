@@ -36,7 +36,9 @@ export const geldEinklagenFormular = {
             initial: "start",
             states: {
               start: {
-                on: {},
+                on: {
+                  BACK: "#klage-erstellen.rechtlicher-zusatz.rechtliche-wuerdigung",
+                },
               },
             },
           },
@@ -44,6 +46,5 @@ export const geldEinklagenFormular = {
       },
     },
   },
-  guards: {},
   useStepper: true,
 } satisfies Flow;

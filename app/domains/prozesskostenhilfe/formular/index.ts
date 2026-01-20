@@ -191,7 +191,6 @@ export const prozesskostenhilfeFormular = {
       },
     },
   },
-  guards: {},
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),

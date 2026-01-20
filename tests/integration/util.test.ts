@@ -111,7 +111,6 @@ describe("integration testing helper functions", () => {
           },
         },
         flowType: "formFlow",
-        guards: {},
       });
       expect(allPossibleStates).toEqual([
         "/state1",
@@ -128,7 +127,6 @@ describe("integration testing helper functions", () => {
           },
         },
         flowType: "formFlow",
-        guards: {},
       });
       expect(allPossibleStates).toEqual([]);
     });
@@ -147,7 +145,6 @@ describe("integration testing helper functions", () => {
           },
         },
         flowType: "formFlow",
-        guards: {},
       });
       expect(allPossibleStates).toEqual(["/state1", "/state2/state3"]);
     });

@@ -35,7 +35,7 @@ export const KernOpenQuestion = ({
         id={id}
         name={question.id}
         aria-describedby={descriptionId}
-        className="w-full px-16 py-8 gap-8 kern-form-input__input"
+        className="w-full px-16 py-8 gap-8 kern-form-input__input ph-no-capture"
         onChange={(event) =>
           setResponses((surveyResponses) => ({
             ...surveyResponses,
