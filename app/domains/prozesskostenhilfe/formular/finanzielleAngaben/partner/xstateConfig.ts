@@ -150,9 +150,9 @@ export const partnerXstateConfig = {
           },
         },
         [steps.partnerEinkuenfteEinkommen.relative]: {
-          initial: steps.partnarErwerbstaetig.relative,
+          initial: steps.partnerErwerbstaetig.relative,
           states: {
-            [steps.partnarErwerbstaetig.relative]: {
+            [steps.partnerErwerbstaetig.relative]: {
               on: {
                 SUBMIT: [
                   {
@@ -185,7 +185,7 @@ export const partnerXstateConfig = {
                   },
                   steps.partnerSelbststaendig.relative,
                 ],
-                BACK: steps.partnarErwerbstaetig.relative,
+                BACK: steps.partnerErwerbstaetig.relative,
               },
             },
             [steps.partnerNettoEinkommen.relative]: {

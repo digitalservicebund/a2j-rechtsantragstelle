@@ -97,7 +97,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerEinkuenfteEinkommen: {
     stepId: "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen",
   },
-  partnarErwerbstaetig: {
+  partnerErwerbstaetig: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-erwerbstaetig",
     pageSchema: {
