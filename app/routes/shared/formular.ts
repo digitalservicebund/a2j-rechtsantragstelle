@@ -184,7 +184,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const stepDoneStates: Record<string, string> = buildFlowController({
     config: currentFlow.config,
     data: merge(flowSession.data, resultFormUserData.value.userData),
-    guards: currentFlow.guards,
+    guards: "guards" in currentFlow ? currentFlow.guards : {},
   })
     .stepStates()
     .filter((stepState) => !stepState.excludedFromValidation)
