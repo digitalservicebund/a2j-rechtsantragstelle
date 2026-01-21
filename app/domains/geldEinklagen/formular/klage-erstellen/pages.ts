@@ -30,7 +30,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/klagende-person/kontaktdaten",
     pageSchema: {
       klagendePersonAnrede: z.enum(["herr", "frau", "none"]),
-      klagendePersonTitle: z.enum(["", "dr"]),
+      klagendePersonTitle: z.enum(["none", "dr"]),
       klagendePersonVorname: stringRequiredSchema,
       klagendePersonNachname: stringRequiredSchema,
       klagendePersonStrasseHausnummer: stringRequiredSchema,
@@ -46,7 +46,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteAnrede: z.enum(["herr", "frau", "none"]),
-      beklagteTitle: z.enum(["", "dr"]),
+      beklagteTitle: z.enum(["none", "dr"]),
       beklagteVorname: stringRequiredSchema,
       beklagteNachname: stringRequiredSchema,
       ...sharedBeklagteAddress,

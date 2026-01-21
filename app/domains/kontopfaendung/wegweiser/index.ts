@@ -32,7 +32,6 @@ import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
   config: kontopfaendungWegweiserXstateConfig,
-  guards: {},
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getArbeitStrings(userData),
     ...getPKontoStrings(userData),

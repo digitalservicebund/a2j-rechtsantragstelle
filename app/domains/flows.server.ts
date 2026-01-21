@@ -12,6 +12,7 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
+import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
 
 type FlowMigration = {
   source: FlowId;
@@ -24,7 +25,7 @@ export type FlowType = "vorabCheck" | "formFlow";
 export type Flow = {
   flowType: FlowType;
   config: Config;
-  guards: Guards;
+  guards?: Guards;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
@@ -41,6 +42,7 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
+  "/erbschein/wegweiser": erbscheinWegweiser,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,

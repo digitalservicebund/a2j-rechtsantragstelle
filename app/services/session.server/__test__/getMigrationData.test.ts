@@ -16,7 +16,6 @@ const mockMigrationFlowDestination: Flow = {
     sortedFields: [],
   },
   config: {},
-  guards: {},
 };
 
 const mockMigrationFlowIdDestination = "/fluggastrechte/formular";
@@ -26,7 +25,7 @@ describe("getMigrationData", () => {
     const actual = await getMigrationData(
       migrationKey,
       mockMigrationFlowIdDestination,
-      { flowType: "formFlow", config: {}, guards: {} },
+      { flowType: "formFlow", config: {} },
       "any cookie",
     );
 
