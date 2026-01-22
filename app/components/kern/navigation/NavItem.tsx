@@ -19,7 +19,7 @@ type StateIconProps = {
   showWarningIcon?: boolean;
 };
 
-const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
+const StateIcon: FC<StateIconProps> = ({ isDone, showWarningIcon }) => {
   if (isDone) {
     return (
       <KernIcon
