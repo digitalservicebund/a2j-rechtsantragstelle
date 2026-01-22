@@ -2,7 +2,6 @@ import { type RefObject, useEffect, useRef } from "react";
 import { NavigationList } from "~/components/kern/navigation/NavigationList";
 import { translations } from "~/services/translations/translations";
 import type { StepStepper, NavItem } from "./types";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
   stateIsCurrent,
@@ -14,6 +13,7 @@ import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButtonAreaTitles";
 import classNames from "classnames";
 import { KernIcon } from "../commom/KernIcon";
+import { KernStandaloneLink } from "../KernStandaloneLink";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
@@ -39,9 +39,9 @@ const StepStepperLinks = ({
           const isWarningStep = stateIsWarning(step.state);
           return (
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
-              <StandaloneLink
+              <KernStandaloneLink
                 url={step.href}
-                className="ds-link-02-bold truncate text-left mw-[70vw]"
+                className="truncate text-left mw-[70vw]"
                 icon={<KeyboardArrowLeft className="inline" />}
                 text={`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
                 dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
