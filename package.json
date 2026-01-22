@@ -74,7 +74,7 @@
     "html-react-parser": "^5.2.11",
     "ioredis": "^5.9.2",
     "isbot": "^5.1.32",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "marked": "^17.0.1",
     "match-sorter": "^8.2.0",
     "mustache": "^4.2.0",

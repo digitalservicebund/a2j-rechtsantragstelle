@@ -1,10 +1,10 @@
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { emailSchema } from "~/services/validation/email";
-import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { ibanSchema } from "~/services/validation/iban";
+import { integerSchema } from "~/services/validation/integer";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
-import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -18,40 +18,29 @@ export const kontopfaendungPkontoAntragPages = {
   ende: {
     stepId: "grundvoraussetzungen/ende",
   },
-  girokontoUmwandeln: {
-    stepId: "grundvoraussetzungen/girokonto-umwandeln",
-    pageSchema: {
-      girokontoUmwandeln: YesNoAnswer,
-    },
-  },
-  neuesPkontoEroeffnen: {
-    stepId: "grundvoraussetzungen/neues-pkonto-eroeffnen",
-  },
-  negativerKontostand: {
-    stepId: "grundvoraussetzungen/negativer-kontostand",
-    pageSchema: {
-      negativerKontostand: YesNoAnswer,
-    },
-  },
   bankdatenEinleitung: {
     stepId: "bankdaten/einleitung",
   },
   bankdatenKontodaten: {
     stepId: "bankdaten/kontodaten",
     pageSchema: {
-      kontoinhaberVorname: stringRequiredSchema,
-      kontoinhaberNachname: stringRequiredSchema,
       iban: ibanSchema,
       bankName: stringRequiredSchema,
+    },
+  },
+  kontoinhaberName: {
+    stepId: "persoenliche-daten/kontoinhaber-name",
+    pageSchema: {
+      vollstaendigerName: stringRequiredSchema,
     },
   },
   kontoinhaberAnschrift: {
     stepId: "persoenliche-daten/kontoinhaber-anschrift",
     pageSchema: {
-      kontoinhaberStrasse: stringRequiredSchema,
-      kontoinhaberHausnummer: germanHouseNumberSchema,
-      kontoinhaberPlz: postcodeSchema,
+      kontoinhaberStrasseHausnummer: stringRequiredSchema,
+      kontoinhaberPlz: integerSchema,
       kontoinhaberOrt: stringRequiredSchema,
+      kontoinhaberLand: stringOptionalSchema,
     },
   },
   kontakt: {
@@ -60,5 +49,11 @@ export const kontopfaendungPkontoAntragPages = {
       telefonnummer: schemaOrEmptyString(phoneNumberSchema),
       emailadresse: schemaOrEmptyString(emailSchema),
     },
+  },
+  zusammenfassung: {
+    stepId: "abgabe/zusammenfassung",
+  },
+  ergebnis: {
+    stepId: "abgabe/p-konto-vorhanden",
   },
 } as const satisfies PagesConfig;

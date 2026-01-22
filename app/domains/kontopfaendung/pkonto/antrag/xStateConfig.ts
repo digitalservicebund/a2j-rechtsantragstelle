@@ -3,8 +3,10 @@ import type { KontopfaendungPkontoAntragUserData } from "./userData";
 import { kontopfaendungPkontoAntragPages } from "./pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const stepIds = xStateTargetsFromPagesConfig(kontopfaendungPkontoAntragPages);
+const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const kontopfaendungPkontoAntragXStateConfig = {
   id: "/kontopfaendung/pkonto/antrag",
@@ -27,48 +29,15 @@ export const kontopfaendungPkontoAntragXStateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) => context.bestehendesPkonto === "no",
-                target: stepIds.girokontoUmwandeln.relative,
+                target: "#bankdaten",
               },
-              {
-                target: stepIds.ende.relative,
-              },
+              stepIds.ende.relative,
             ],
           },
         },
         [stepIds.ende.relative]: {
           on: {
             BACK: stepIds.bestehendesPkonto.relative,
-          },
-        },
-        [stepIds.girokontoUmwandeln.relative]: {
-          on: {
-            BACK: stepIds.bestehendesPkonto.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) => context.girokontoUmwandeln === "yes",
-                target: stepIds.negativerKontostand.relative,
-              },
-              {
-                target: stepIds.neuesPkontoEroeffnen.relative,
-              },
-            ],
-          },
-        },
-        [stepIds.neuesPkontoEroeffnen.relative]: {
-          on: {
-            BACK: stepIds.girokontoUmwandeln.relative,
-          },
-        },
-        [stepIds.negativerKontostand.relative]: {
-          on: {
-            BACK: stepIds.girokontoUmwandeln.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  context.negativerKontostand !== undefined,
-                target: "#bankdaten",
-              },
-            ],
           },
         },
       },
@@ -79,7 +48,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
       states: {
         [stepIds.bankdatenEinleitung.relative]: {
           on: {
-            BACK: stepIds.negativerKontostand.absolute,
+            BACK: "#grundvoraussetzungen",
             SUBMIT: stepIds.bankdatenKontodaten.relative,
           },
         },
@@ -89,12 +58,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  objectKeysNonEmpty(context, [
-                    "kontoinhaberVorname",
-                    "kontoinhaberNachname",
-                    "iban",
-                    "bankName",
-                  ]),
+                  objectKeysNonEmpty(context, ["iban", "bankName"]),
                 target: "#persoenliche-daten",
               },
             ],
@@ -104,17 +68,22 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     "persoenliche-daten": {
       id: "persoenliche-daten",
-      initial: stepIds.kontoinhaberAnschrift.relative,
+      initial: stepIds.kontoinhaberName.relative,
       states: {
-        [stepIds.kontoinhaberAnschrift.relative]: {
+        [stepIds.kontoinhaberName.relative]: {
           on: {
             BACK: stepIds.bankdatenKontodaten.absolute,
+            SUBMIT: stepIds.kontoinhaberAnschrift.relative,
+          },
+        },
+        [stepIds.kontoinhaberAnschrift.relative]: {
+          on: {
+            BACK: stepIds.kontoinhaberName.relative,
             SUBMIT: [
               {
                 guard: ({ context }) =>
                   objectKeysNonEmpty(context, [
-                    "kontoinhaberStrasse",
-                    "kontoinhaberHausnummer",
+                    "kontoinhaberStrasseHausnummer",
                     "kontoinhaberPlz",
                     "kontoinhaberOrt",
                   ]),
@@ -124,6 +93,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
           },
         },
         [stepIds.kontakt.relative]: {
+          id: stepIds.kontakt.relative,
           on: {
             BACK: stepIds.kontoinhaberAnschrift.relative,
             SUBMIT: "#abgabe",
@@ -133,12 +103,29 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     abgabe: {
       id: "abgabe",
+      initial: showAutoSummary
+        ? stepIds.zusammenfassung.relative
+        : stepIds.ergebnis.relative,
       meta: {
         shouldAppearAsMenuNavigation: true,
         excludedFromValidation: true,
       },
-      on: {
-        BACK: stepIds.kontakt.absolute,
+      states: {
+        ...(showAutoSummary && {
+          [stepIds.zusammenfassung.relative]: {
+            on: {
+              BACK: stepIds.kontakt.absolute,
+              SUBMIT: stepIds.ergebnis.relative,
+            },
+          },
+        }),
+        [stepIds.ergebnis.relative]: {
+          on: {
+            BACK: showAutoSummary
+              ? stepIds.zusammenfassung.relative
+              : stepIds.kontakt.absolute,
+          },
+        },
       },
     },
   },
