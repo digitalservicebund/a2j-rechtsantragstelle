@@ -9,3 +9,12 @@ export const ibanSchema = z
   .toUpperCase()
   .transform((ibanInput) => ibanInput.replaceAll(" ", ""))
   .refine(isIbanCheck, { message: "invalid_iban_format" });
+
+export function formatIban(iban: string) {
+  const splitIban = iban
+    .replaceAll(" ", "")
+    .toLocaleUpperCase()
+    .match(/.{1,4}/g);
+  const formattedIban = splitIban?.join(" ") ?? "";
+  return formattedIban;
+}
