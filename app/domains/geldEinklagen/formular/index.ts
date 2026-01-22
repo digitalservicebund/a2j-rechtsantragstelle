@@ -46,6 +46,5 @@ export const geldEinklagenFormular = {
       },
     },
   },
-  guards: {},
   useStepper: true,
 } satisfies Flow;

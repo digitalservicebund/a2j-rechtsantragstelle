@@ -7,7 +7,7 @@ describe("phoneNumber validation", () => {
       { input: "+49123456", expected: "+49123456" },
       { input: " 030111111  ", expected: "030111111" },
       { input: "030 111 222", expected: "030 111 222" },
-      { input: "123", expected: "123" },
+      { input: "123456", expected: "123456" },
     ];
 
     test.each(cases)(
@@ -23,6 +23,7 @@ describe("phoneNumber validation", () => {
     const cases = [
       { input: "abcde", errorMessage: "invalid" },
       { input: "12", errorMessage: "invalid" },
+      { input: "12345", errorMessage: "invalid" },
     ];
 
     test.each(cases)(

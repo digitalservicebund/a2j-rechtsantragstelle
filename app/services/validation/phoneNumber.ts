@@ -3,4 +3,4 @@ import { z } from "zod";
 export const phoneNumberSchema = z
   .string()
   .trim()
-  .regex(/^\+?[\d ]{3,25}$/, { message: "invalid" });
+  .regex(/^\+?[\d ]{6,25}$/, { message: "invalid" });

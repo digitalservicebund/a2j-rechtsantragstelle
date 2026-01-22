@@ -43,7 +43,7 @@ describe("Input", () => {
       );
 
       expect(container.querySelector("#inputId")).toHaveClass(
-        expectedClassWidth,
+        `${expectedClassWidth} ph-no-capture`,
       );
     },
   );

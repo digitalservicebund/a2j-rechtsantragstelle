@@ -182,7 +182,7 @@ const AutoSuggestInput = ({
           rootLoaderData?.accessibilityTranslations,
         )}
         className={classNames(
-          "w-full forced-colors:border-2",
+          "w-full forced-colors:border-2 ph-no-capture",
           { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
@@ -243,7 +243,7 @@ const AutoSuggestInput = ({
       </div>
 
       {helperText && (
-        <div className="label-text mt-6" id={helperId}>
+        <div className="ds-label-03-reg mt-6" id={helperId}>
           {helperText}
         </div>
       )}

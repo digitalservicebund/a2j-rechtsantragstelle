@@ -84,9 +84,11 @@ describe("AutoSuggestInput", () => {
 
     expect(getByText("placeholder")).toBeInTheDocument();
     expect(getByText("label")).toBeInTheDocument();
-    expect(
-      container.querySelector(`input[name='${COMPONENT_NAME}']`),
-    ).toBeInTheDocument();
+    const inputElement = container.querySelector(
+      `input[name='${COMPONENT_NAME}']`,
+    );
+    expect(inputElement).toBeInTheDocument();
+    expect(inputElement?.parentNode).toHaveClass("ph-no-capture");
   });
 
   it("it should render select the first (BER) input after enter Berlin", async () => {
