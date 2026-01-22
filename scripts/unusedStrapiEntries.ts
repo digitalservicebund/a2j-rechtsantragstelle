@@ -20,7 +20,6 @@ type MinimalPage = {
 function allStateNames(xstateConfigStates: Config["states"]): string[] {
   if (!xstateConfigStates) return [];
   return Object.entries(xstateConfigStates).flatMap(
-    // eslint-disable-next-line sonarjs/function-return-type
     ([stateName, stateConfig]) => {
       if (stateConfig.states) {
         // there are nested states -> recursion
@@ -95,7 +94,6 @@ async function unusedStrapiEntry() {
 
     console.log(
       `Found ${unusedUrls.length} unused strapi entries with following stepIds: `,
-      // eslint-disable-next-line sonarjs/no-misleading-array-reverse, sonarjs/no-alphabetical-sort
       unusedUrls.sort(),
     );
   }

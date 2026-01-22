@@ -76,7 +76,6 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
-          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error ?? "Unknown error");
         },
         onError(error: unknown) {
@@ -135,8 +134,6 @@ function handleBrowserRequest(
         },
         onShellError(error: unknown) {
           logError({ error });
-
-          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error ?? "Unknown error");
         },
         onError(error: unknown) {

@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/slow-regex */
 import { z } from "zod";
 import { translations } from "~/services/translations/translations";
 
