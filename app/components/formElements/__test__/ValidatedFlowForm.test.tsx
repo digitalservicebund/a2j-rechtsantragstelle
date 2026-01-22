@@ -28,6 +28,7 @@ vi.mock("react-router", async () => {
     useLocation: () => ({
       pathname: "/",
     }),
+    useRouteLoaderData: vi.fn(() => undefined),
   };
 });
 
