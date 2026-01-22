@@ -19,7 +19,6 @@ export default function KernPageHeader({
   hideLinks,
 }: Readonly<PageHeaderProps>) {
   const shouldPrint = useShouldPrint();
-  const ariaTitle = `${title} - ${linkLabel}`;
 
   return (
     <header>
@@ -53,7 +52,11 @@ export default function KernPageHeader({
             className="flex flex-row justify-between items-center h-[80px]"
             aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
           >
-            <a href="/" className="kern-title" aria-label={ariaTitle}>
+            <a
+              href="/"
+              className="kern-title"
+              aria-label={`${title} - ${linkLabel}`}
+            >
               {title}
             </a>
             {!hideLinks && (

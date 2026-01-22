@@ -20,8 +20,6 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const ratingFetcher = useFetcher();
   const jsAvailable = useJsAvailable();
   const feedbackTranslations = useFeedbackTranslations();
-  const yesButtonAriaLabel = `${heading}, ${feedbackTranslations["yes-rating"]}`;
-  const noButtonAriaLabel = `${heading}, ${feedbackTranslations["no-rating"]}`;
   return (
     <>
       <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
@@ -40,7 +38,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             onClick={() => {
               onSubmit("positive");
             }}
-            aria-label={yesButtonAriaLabel}
+            aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
           >
             {feedbackTranslations["yes-rating"]}
           </Button>
@@ -53,7 +51,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             onClick={() => {
               onSubmit("negative");
             }}
-            aria-label={noButtonAriaLabel}
+            aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
           >
             {feedbackTranslations["no-rating"]}
           </Button>
