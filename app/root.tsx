@@ -57,6 +57,7 @@ import { KernCookieBanner } from "./components/kern/KernCookieBanner";
 import KernFooter from "./components/kern/layout/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
+import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
 
 export { headers } from "./rootHeaders";
 
@@ -220,13 +221,23 @@ function App() {
           ) : (
             <CookieBanner content={cookieBannerContent} />
           )}
-          <SkipToContentLink
-            label={getTranslationByKey(
-              SKIP_TO_CONTENT_TRANSLATION_KEY,
-              accessibilityTranslations,
-            )}
-            target={skipContentLinkTarget}
-          />
+          {showKernUX ? (
+            <KernSkipToContentLink
+              label={getTranslationByKey(
+                SKIP_TO_CONTENT_TRANSLATION_KEY,
+                accessibilityTranslations,
+              )}
+              target={skipContentLinkTarget}
+            />
+          ) : (
+            <SkipToContentLink
+              label={getTranslationByKey(
+                SKIP_TO_CONTENT_TRANSLATION_KEY,
+                accessibilityTranslations,
+              )}
+              target={skipContentLinkTarget}
+            />
+          )}
           {showKernUX ? (
             <KernPageHeader {...pageHeaderProps} />
           ) : (
