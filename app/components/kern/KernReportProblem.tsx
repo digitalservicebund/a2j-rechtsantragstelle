@@ -7,7 +7,7 @@ import { isKeyOfObject } from "~/util/objects";
 import { KernPosthogSurvey } from "./KernPosthogSurvey";
 import KernButton from "./KernButton";
 import { type SurveyResponses } from "./KernOpenQuestion";
-import { KernIcon } from "./commom/KernIcon";
+import { KernIcon } from "./common/KernIcon";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
