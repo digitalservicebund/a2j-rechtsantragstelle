@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-nested-functions */
 import {
   buildOpenPlzResultUrl,
   fetchStreetnamesForZipcode,
