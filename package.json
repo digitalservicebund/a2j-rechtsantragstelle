@@ -131,7 +131,7 @@
     "knip": "^5.82.1",
     "lefthook": "^2.0.15",
     "license-checker-rseidelsohn": "^4.4.2",
-    "oxlint": "^1.39.0",
+    "oxlint": "^1.40.0",
     "p-map": "^7.0.4",
     "prettier": "^3.8.0",
     "react-router-dom": "^7.12.0",
