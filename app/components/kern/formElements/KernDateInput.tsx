@@ -4,12 +4,12 @@ import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import { KernIcon } from "../commom/KernIcon";
 
-type KernSplitDateInputProps = {
+type KernDateInputProps = {
   name: string;
   helperText?: string;
 };
 
-const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
+const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -166,4 +166,4 @@ const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
   );
 };
 
-export default KernSplitDateInput;
+export default KernDateInput;
