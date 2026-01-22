@@ -17,6 +17,8 @@ type Config = {
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
   BUNDID_AUTH_BMI_ID?: string;
+  BUNDID_IDP_ENTRY_POINT?: string;
+  BUNDID_ENTITY_ID: string;
   SAML_ASSERTION_CONSUMER_SERVICE_URL: string;
   SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: string;
   SAML_SP_METADATA_PATH: string;
@@ -65,6 +67,8 @@ export function config(): Config {
     CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
     BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
+    BUNDID_IDP_ENTRY_POINT: process.env.BUNDID_IDP_ENTRY_POINT?.trim(),
+    BUNDID_ENTITY_ID: process.env.BUNDID_ENTITY_ID?.trim() ?? "",
     SAML_ASSERTION_CONSUMER_SERVICE_URL:
       process.env.SAML_ASSERTION_CONSUMER_SERVICE_URL?.trim() ?? "",
     SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: path.join(

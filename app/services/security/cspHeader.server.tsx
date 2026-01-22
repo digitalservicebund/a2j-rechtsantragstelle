@@ -3,8 +3,10 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
-import { getBundIdEntryPoint } from "../bundid/getBundidVars";
 import { bucketUrl } from "../cms/bucketUrl";
+import { config } from "../env/env.server";
+
+const { BUNDID_IDP_ENTRY_POINT } = config();
 
 export const cspHeader = (args: {
   nonce: string;
@@ -38,7 +40,10 @@ export const cspHeader = (args: {
       "https://img.youtube.com",
       "data:",
     ],
-    "form-action": ["'self'", getBundIdEntryPoint()],
+    "form-action": [
+      "'self'",
+      ...(BUNDID_IDP_ENTRY_POINT ? [BUNDID_IDP_ENTRY_POINT] : []),
+    ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],
