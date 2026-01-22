@@ -92,8 +92,6 @@ describe("createStatementClaim", () => {
         STATEMENT_CLAIM_COURT_SENTENCE,
         PDF_MARGIN_HORIZONTAL,
       );
-      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-      expect(mockDoc.text).toBeDefined();
     });
   });
 
@@ -159,8 +157,6 @@ describe("createStatementClaim", () => {
         STATEMENT_VIDEO_TRIAL_CONCERNS,
         PDF_MARGIN_HORIZONTAL,
       );
-      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-      expect(mockDoc.text).toBeDefined();
     });
 
     it("should not include videoverhandlung request if answer is noSpecification", () => {
@@ -182,8 +178,6 @@ describe("createStatementClaim", () => {
         STATEMENT_VIDEO_TRIAL_REQUEST,
         PDF_MARGIN_HORIZONTAL,
       );
-      // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-      expect(mockDoc.text).toBeDefined();
     });
   });
 

@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/require-await: 0 */
 import fs from "node:fs";
 import type {
   ApiId,

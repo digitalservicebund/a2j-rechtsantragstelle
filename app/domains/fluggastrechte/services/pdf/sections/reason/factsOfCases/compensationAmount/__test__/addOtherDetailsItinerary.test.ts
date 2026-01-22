@@ -40,8 +40,6 @@ describe("addOtherDetailsItinerary", () => {
       OTHER_DETAILS_ITINERARY,
       expect.anything(),
     );
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 });
 

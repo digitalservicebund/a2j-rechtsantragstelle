@@ -23,8 +23,6 @@ describe("addMultiplePersonsInfo", () => {
     addMultiplePersonsInfo(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should not call any print text given an user data with empty weitere personen", () => {
@@ -40,8 +38,6 @@ describe("addMultiplePersonsInfo", () => {
     addMultiplePersonsInfo(mockDoc, userDataWeiterePersonen, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT given an user data with weitere personen", () => {
