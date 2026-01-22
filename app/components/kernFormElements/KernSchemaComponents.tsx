@@ -77,7 +77,7 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={classNames("kern-stack", className)}>
+    <div className={`flex flex-col gap-kern-space-x-large ${className}`}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
@@ -118,7 +118,7 @@ export const KernSchemaComponents = ({
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement);
+          return renderZodString(fieldName, matchingElement, showKernUX);
       })}
     </div>
   );
