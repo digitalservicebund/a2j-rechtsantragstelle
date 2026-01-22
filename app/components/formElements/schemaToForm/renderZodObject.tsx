@@ -4,11 +4,13 @@ import { ExclusiveCheckboxes } from "../exclusiveCheckboxes/ExclusiveCheckboxes"
 import SplitDateInput from "../SplitDateInput";
 import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
+import KernDateInput from "~/components/kern/formElements/KernDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
   fieldName: string,
   formComponents?: StrapiFormComponent[],
+  showKernUX?: boolean,
 ) => {
   if (nestedSchema.meta()?.description === "exclusive_checkbox") {
     const labels = Object.fromEntries(
@@ -28,7 +30,11 @@ export const renderZodObject = (
     );
   }
   if (nestedSchema.meta()?.description === "split_date") {
-    return <SplitDateInput key={fieldName} name={fieldName} />;
+    return showKernUX ? (
+      <KernDateInput key={fieldName} name={fieldName} />
+    ) : (
+      <SplitDateInput key={fieldName} name={fieldName} />
+    );
   }
   // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
   const innerSchema = mapKeys(
@@ -40,6 +46,7 @@ export const renderZodObject = (
       key={fieldName}
       pageSchema={innerSchema}
       formComponents={formComponents}
+      showKernUX={showKernUX}
     />
   );
 };
