@@ -1,0 +1,69 @@
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { FieldSet } from "~/components/formElements/FieldSet";
+import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
+
+const meta = {
+  title: "kern/formElements/KernFieldset",
+  component: KernFieldset,
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"],
+} satisfies Meta<typeof KernFieldset>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    heading: "<p><strong>Heading</strong> fieldset value without image</p>",
+    formComponents: [
+      {
+        name: "direktAbflugsDatum",
+        label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
+        errorMessages: [],
+        id: 76,
+        __component: "form-elements.date-input",
+      },
+      {
+        name: "direktAbflugsZeit",
+        label: "Zeit geplanter Abflug (z.B. 09:08)",
+        errorMessages: [],
+        id: 40,
+        __component: "form-elements.time-input",
+      },
+    ],
+  },
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
+};
+
+export const FieldsetWithImage: Story = {
+  args: {
+    heading: "<p><strong>Heading</strong> fieldset value</p>",
+    formComponents: [
+      {
+        name: "direktAbflugsDatum",
+        label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
+        errorMessages: [],
+        id: 76,
+        __component: "form-elements.date-input",
+      },
+      {
+        name: "direktAbflugsZeit",
+        label: "Zeit geplanter Abflug (z.B. 09:08)",
+        errorMessages: [],
+        id: 40,
+        __component: "form-elements.time-input",
+      },
+    ],
+    image: {
+      url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/1_Rechtliche_Unterstuetzung_904342381e.svg",
+      alternativeText: "Example SVG marker",
+      width: 24,
+      height: 24,
+    },
+  },
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
+};

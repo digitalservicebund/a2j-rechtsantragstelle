@@ -85,7 +85,7 @@ export const KernSchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup);
+          return renderFieldSet(fieldName, fieldSetGroup, showKernUX);
         }
 
         const matchingElement = formComponents

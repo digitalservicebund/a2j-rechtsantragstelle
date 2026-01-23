@@ -6,7 +6,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernDateInput",
+  title: "kern/formElements/KernDateInput",
   component: KernDateInput,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernDateInput>;
