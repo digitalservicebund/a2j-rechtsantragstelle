@@ -12,7 +12,7 @@ import { NonceContext } from "./services/security/nonce";
 import { generateNonce } from "./services/security/nonce.server";
 import { originFromUrlString } from "./util/originFromUrlString";
 import { stripTrailingSlashFromURL } from "./util/strings";
-export { expressApp } from "./expressApp"; //re-exported to be called from server.js
+export { expressApp } from "./expressApp"; //re-exported to be called from server.mjs
 
 const ABORT_DELAY = 5000;
 const CONNECT_SOURCES = [originFromUrlString(configPublic().SENTRY_DSN)].filter(
