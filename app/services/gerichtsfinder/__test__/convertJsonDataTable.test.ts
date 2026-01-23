@@ -27,6 +27,7 @@ const plzOrtkEntry: Jmtd14VTErwerberPlzortk = {
   PLZM_INFO: "Zustellbezirk",
 } as const;
 
+// oxlint-disable-next-line no-export
 export const gerbehAmtsgericht: Jmtd14VTErwerberGerbeh = {
   AG: "string",
   BEZEICHNUNG: "string",

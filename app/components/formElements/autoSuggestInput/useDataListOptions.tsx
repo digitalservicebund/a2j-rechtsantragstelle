@@ -42,8 +42,6 @@ const useDataListOptions = (
         setDataListOptions([]);
       }
     };
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
   }, [resourcePath, dataListType]);
 

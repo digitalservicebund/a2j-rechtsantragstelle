@@ -8,6 +8,7 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "./KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
+import { useShowKernUX } from "../hooks/useShowKernUX";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -26,6 +27,7 @@ function KernValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
+  const showKernUX = useShowKernUX();
 
   return (
     <ValidatedForm
@@ -44,6 +46,7 @@ function KernValidatedFlowForm({
               <KernSchemaComponents
                 pageSchema={pageSchema}
                 formComponents={formElements}
+                showKernUX={showKernUX}
               />
             )}
             <KernButtonNavigation

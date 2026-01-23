@@ -1,3 +1,4 @@
+// oxlint-disable-next-line no-self-import
 import type { KnipConfig } from "knip";
 
 const cssCompiler = (code: string): string => {
