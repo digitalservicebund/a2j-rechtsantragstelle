@@ -15,6 +15,24 @@ export const erbscheinWegweiserXstateConfig = {
     [stepIds.verstorbeneName]: {
       on: {
         BACK: stepIds.start,
+        SUBMIT: stepIds.verstorbeneAnzahlKinder,
+      },
+    },
+    [stepIds.verstorbeneAnzahlKinder]: {
+      on: {
+        BACK: stepIds.verstorbeneName,
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.anzahlKinder === 0,
+            target: stepIds.staatsangehoerigkeit,
+          },
+          stepIds.kinderDesVerstorbenes,
+        ],
+      },
+    },
+    [stepIds.kinderDesVerstorbenes]: {
+      on: {
+        BACK: stepIds.verstorbeneAnzahlKinder,
         SUBMIT: stepIds.staatsangehoerigkeit,
       },
     },
@@ -27,7 +45,13 @@ export const erbscheinWegweiserXstateConfig = {
           },
           stepIds.lebensmittelpunkt,
         ],
-        BACK: stepIds.verstorbeneName,
+        BACK: [
+          {
+            guard: ({ context }) => context.anzahlKinder === 0,
+            target: stepIds.verstorbeneAnzahlKinder,
+          },
+          stepIds.kinderDesVerstorbenes,
+        ],
       },
     },
     [stepIds.lebensmittelpunkt]: {

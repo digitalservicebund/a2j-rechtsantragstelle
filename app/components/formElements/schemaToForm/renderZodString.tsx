@@ -6,6 +6,7 @@ import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import AutoSuggestInput from "../AutoSuggestInput";
+import NumberIncrement from "~/components/formElements/NumberIncrement";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -41,5 +42,7 @@ export const renderZodString = (
     return (
       <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
     );
+  if (matchingElement?.__component === "form-elements.number-increment")
+    return <NumberIncrement key={fieldName} {...matchingElement} />;
   return <Input key={fieldName} {...inputProps} />;
 };

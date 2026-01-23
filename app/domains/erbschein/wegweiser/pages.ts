@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { integerSchema } from "~/services/validation/integer";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const erbscheinWegweiserPages = {
@@ -11,6 +12,15 @@ export const erbscheinWegweiserPages = {
     pageSchema: {
       verstorbeneName: z.string(),
     },
+  },
+  verstorbeneAnzahlKinder: {
+    stepId: "verstorbene-anzahl-kinder",
+    pageSchema: {
+      anzahlKinder: integerSchema,
+    },
+  },
+  kinderDesVerstorbenes: {
+    stepId: "kinder-des-verstorbenes",
   },
   staatsangehoerigkeit: {
     stepId: "staatsangehoerigkeit",
