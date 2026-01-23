@@ -33,13 +33,30 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
     "direct": true
   },
-  "@mjackson/form-data-parser": {
+  "@digitalservicebund/kern-ux-tailwind-theme": {
     "licenses": "MIT",
-    "repository": "https://github.com/mjackson/remix-the-web",
-    "publisher": "Michael Jackson",
-    "email": "mjijackson@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/@mjackson/form-data-parser",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@mjackson/form-data-parser/LICENSE",
+    "repository": "https://github.com/digitalservicebund/kern-ux-tailwind-theme",
+    "publisher": "Joschka de Cuveland",
+    "email": "joschka.decuveland@digitalservice.bund.de",
+    "path": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/kern-ux-tailwind-theme",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/kern-ux-tailwind-theme/README.md",
+    "direct": true
+  },
+  "@kern-ux/native": {
+    "licenses": "EUPL-1.2",
+    "repository": "https://gitlab.opencode.de/kern-ux/kern-ux-plain",
+    "publisher": "Kern-UX",
+    "path": "a2j-rechtsantragstelle/node_modules/@kern-ux/native",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@kern-ux/native/LICENSE.md",
+    "direct": true
+  },
+  "@node-saml/node-saml": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-saml/node-saml",
+    "publisher": "Henri Bergius",
+    "email": "henri.bergius@iki.fi",
+    "path": "a2j-rechtsantragstelle/node_modules/@node-saml/node-saml",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@node-saml/node-saml/LICENSE",
     "direct": true
   },
   "@pdf-lib/fontkit": {
@@ -63,6 +80,15 @@
     "repository": "https://github.com/remix-run/react-router",
     "path": "a2j-rechtsantragstelle/node_modules/@react-router/node",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-router/node/LICENSE.md",
+    "direct": true
+  },
+  "@remix-run/form-data-parser": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/remix",
+    "publisher": "Michael Jackson",
+    "email": "mjijackson@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/@remix-run/form-data-parser",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@remix-run/form-data-parser/LICENSE",
     "direct": true
   },
   "@rvf/react-router": {
@@ -105,14 +131,6 @@
     "path": "a2j-rechtsantragstelle/node_modules/axios",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/axios/LICENSE",
     "direct": true
-  },
-  "caniuse-lite": {
-    "licenses": "CC-BY-4.0",
-    "repository": "https://github.com/browserslist/caniuse-lite",
-    "publisher": "Ben Briggs",
-    "email": "beneb.info@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/caniuse-lite",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/caniuse-lite/LICENSE"
   },
   "classnames": {
     "licenses": "MIT",
@@ -248,20 +266,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
-  "node-forge": {
-    "licenses": "(BSD-3-Clause OR GPL-2.0)",
-    "repository": "https://github.com/digitalbazaar/forge",
-    "publisher": "Digital Bazaar, Inc.",
-    "email": "support@digitalbazaar.com",
-    "path": "a2j-rechtsantragstelle/node_modules/node-forge",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/node-forge/LICENSE"
-  },
-  "pako": {
-    "licenses": "(MIT AND Zlib)",
-    "repository": "https://github.com/nodeca/pako",
-    "path": "a2j-rechtsantragstelle/node_modules/pako",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/pako/LICENSE"
-  },
   "pdf-lib": {
     "licenses": "MIT",
     "repository": "https://github.com/Hopding/pdf-lib",
@@ -359,14 +363,6 @@
     "repository": "https://github.com/facebook/react",
     "path": "a2j-rechtsantragstelle/node_modules/react",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react/LICENSE",
-    "direct": true
-  },
-  "samlify": {
-    "licenses": "MIT",
-    "repository": "https://github.com/tngan/samlify",
-    "publisher": "tngan",
-    "path": "a2j-rechtsantragstelle/node_modules/samlify",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/samlify/LICENSE",
     "direct": true
   },
   "tiny-invariant": {

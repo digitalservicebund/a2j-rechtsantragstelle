@@ -117,7 +117,6 @@ function parseAirportDataSource(content: string): AirportDataSource[] {
       scheduled_service,
       ,
       iataData,
-      // eslint-disable-next-line sonarjs/slow-regex
     ] = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
     const airportData = {

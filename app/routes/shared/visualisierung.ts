@@ -6,6 +6,7 @@ import { parsePathname } from "~/domains/flowIds";
 import { flows } from "~/domains/flows.server";
 import type { Config } from "~/services/flow/server/types";
 import { throw404OnProduction } from "../../services/errorPages/throw404";
+import { type Guards } from "~/domains/guards.server";
 export { Visualisierung as default } from "./components/Visualisierung";
 
 function statesToGraph(
@@ -89,9 +90,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const url = new URL(request.url);
   const { flowId } = parsePathname(url.pathname);
-  const { config, guards } = flows[flowId];
+  const flow = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;
-  const machine = createMachine(config as Config, { guards });
+  const machine = createMachine(flow.config as Config, {
+    guards: "guards" in flows[flowId] ? (flows[flowId].guards as Guards) : {},
+  });
   const graph = getVisualizationString(machine, showBacklinks);
   const mermaidUrl = `https://mermaid.ink/svg/pako:${compressBase64(graph)}?bgColor=!white`;
 

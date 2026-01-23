@@ -28,8 +28,10 @@ describe("OpenQuestion", () => {
     expect(getByText(questionText)).toBeInTheDocument();
     expect(getByText(descriptionText)).toBeInTheDocument();
     expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
-    expect(getByRole("textbox")).toBeInTheDocument();
-    fireEvent.change(getByRole("textbox"), { target: { value: "Feedback" } });
+    const textboxElement = getByRole("textbox");
+    expect(textboxElement).toBeInTheDocument();
+    expect(textboxElement).toHaveClass("ph-no-capture");
+    fireEvent.change(textboxElement, { target: { value: "Feedback" } });
     expect(mockSetResponses).toHaveBeenCalled();
   });
 });

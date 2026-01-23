@@ -53,7 +53,7 @@ const KernTextarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames("kern-form-input__input", {
+        className={classNames("kern-form-input__input ph-no-capture", {
           "kern-form-input__input--error": field.error(),
         })}
         ref={innerRef}

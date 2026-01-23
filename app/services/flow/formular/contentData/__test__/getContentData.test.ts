@@ -82,7 +82,7 @@ const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
 describe("getContentData", () => {
   describe("arraySummaryData", () => {
     it("should return correctly the array summary data", () => {
-      const addBankkonten = "add-bankkonten";
+      // const addBankkonten = "add-bankkonten";
       const mockSummaryData = {
         bankkonten: {
           data: [],

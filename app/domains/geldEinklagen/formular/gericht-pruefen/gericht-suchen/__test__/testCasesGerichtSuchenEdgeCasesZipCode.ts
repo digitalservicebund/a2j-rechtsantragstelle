@@ -7,7 +7,7 @@ const STREET_EDGE_CASE = "bayreuther_str.";
 const STREET_HOUSE_NUMBER_EDGE_CASE = "10";
 
 const baseContext: GeldEinklagenFormularUserData = {
-  forderung: "maximal5000",
+  forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   gegenWenBeklagen: "person",

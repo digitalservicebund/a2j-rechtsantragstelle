@@ -14,6 +14,8 @@ export const useInitPosthog = (hasTrackingConsent?: boolean) => {
     // The dynamic import of posthog-js/dist/surveys avoids fetching it from external URL
     // @ts-expect-error dynamic import without types, see https://posthog.com/docs/libraries/js#option-2-install-via-package-manager
     void import("posthog-js/dist/surveys");
+    // @ts-expect-error dynamic import without types, see https://posthog.com/docs/libraries/js#option-2-install-via-package-manager
+    void import("posthog-js/dist/posthog-recorder");
     void import("posthog-js").then(({ default: posthog }) =>
       posthog.init(POSTHOG_API_KEY, {
         api_host: POSTHOG_API_HOST,
