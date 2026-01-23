@@ -1,6 +1,5 @@
 import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { FieldSet } from "~/components/formElements/FieldSet";
 import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
 
 const meta = {

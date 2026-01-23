@@ -1,5 +1,5 @@
 import { useLocation } from "react-router";
-import { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
+import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import KernRichText from "../KernRichText";
 import Image from "../../common/Image";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
@@ -20,7 +20,6 @@ const getFieldSetPageSchema = (
   formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"],
 ) => {
   const pageSchema = getPageSchema(pathname);
-  console.log("KernFieldset", { pathname, formComponents, pageSchema });
 
   return pageSchema
     ? Object.fromEntries(
@@ -29,7 +28,6 @@ const getFieldSetPageSchema = (
         ),
       )
     : null;
-    
 };
 
 export const KernFieldset = ({
