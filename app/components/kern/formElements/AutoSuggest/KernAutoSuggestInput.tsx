@@ -166,8 +166,7 @@ const KernAutoSuggestInput = ({
       {label && (
         <label
           className="kern-label text-kern-layout-text-default!"
-          id={inputId}
-          htmlFor="select"
+          htmlFor="input-street"
         >
           {label}
         </label>
