@@ -39,9 +39,14 @@ const KernTileRadio = ({
   const ariaDescribedBy = field.error() ? errorId : descriptionId;
 
   return (
-    <div className={classNames("flex rounded-lg border-2 border-[#171A2B] bg-[#F7F7F9]", {
-      "border-kern-feedback-danger": field.error() !== null,
-    })}>
+    <div
+      className={classNames(
+        "flex rounded-lg border-2 border-[#171A2B] bg-[#F7F7F9]",
+        {
+          "border-kern-feedback-danger": field.error() !== null,
+        },
+      )}
+    >
       <label
         className="flex flex-row items-center cursor-pointer touch-manipulation p-24 h-full"
         htmlFor={id}
