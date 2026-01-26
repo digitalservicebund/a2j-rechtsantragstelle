@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
-import { ReactNode } from "react";
-import { ErrorMessageProps } from "~/components/common/types";
+import { type ReactNode } from "react";
+import { type ErrorMessageProps } from "~/components/common/types";
 
 export type SelectProps = {
   name: string;
