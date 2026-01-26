@@ -1,15 +1,17 @@
 import { useField } from "@rvf/react-router";
+import classNames from "classnames";
 import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
+import { widthClassname } from "~/components/common/width";
+import InputError from "./InputError";
 
 export type SelectProps = {
   name: string;
   options: Array<{ value: string; text: string }>;
   label?: ReactNode;
-  altLabel?: string;
-  placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
+  placeholder?: string;
 };
 
 const KernSelect = ({
@@ -18,7 +20,6 @@ const KernSelect = ({
   errorMessages,
   options,
   width,
-  altLabel,
   placeholder,
 }: SelectProps) => {
   const field = useField(name);
@@ -31,7 +32,15 @@ const KernSelect = ({
           {label}
         </label>
       )}
-      <div className="kern-form-input__select-wrapper">
+      <div
+        className={classNames(
+          "kern-form-input__select-wrapper",
+          {
+            "kern-form-input__select-wrapper--error": field.error(),
+          },
+          widthClassname(width),
+        )}
+      >
         <select
           className="kern-form-input__select"
           {...field.getInputProps({ id: name })}
@@ -42,6 +51,11 @@ const KernSelect = ({
             !!errorMessages?.find((err) => err.code === "required")
           }
         >
+          {placeholder && (
+            <option disabled value="">
+              {placeholder}
+            </option>
+          )}
           {options.map((option) => {
             return (
               <option value={option.value} key={option.value}>
@@ -51,6 +65,10 @@ const KernSelect = ({
           })}
         </select>
       </div>
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
+      </InputError>
     </div>
   );
 };

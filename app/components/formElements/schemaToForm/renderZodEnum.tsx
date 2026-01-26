@@ -91,7 +91,6 @@ export function renderZodEnum(
           key={fieldName}
           label={label}
           options={options}
-          altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
           placeholder={get(matchingElement, "placeholder")}
