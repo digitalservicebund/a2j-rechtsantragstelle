@@ -4,7 +4,7 @@ import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "~/components/common/types";
 import KernTileRadio, { type KernTileOptions } from "./KernTileRadio";
-import { KernIcon } from "../../commom/KernIcon";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 type KernTileProps = Readonly<{
   name: string;

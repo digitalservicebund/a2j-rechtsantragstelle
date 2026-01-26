@@ -5,7 +5,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
-import { KernIcon } from "~/components/kern/commom/KernIcon";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 type PageHeaderProps = {
   title: string;

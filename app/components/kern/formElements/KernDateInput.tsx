@@ -2,7 +2,7 @@ import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
-import { KernIcon } from "../commom/KernIcon";
+import { KernIcon } from "../common/KernIcon";
 
 type KernDateInputProps = {
   name: string;
