@@ -1,10 +1,10 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
 import classNames from "classnames";
-import { KernIcon } from "../commom/KernIcon";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { KernRadioInput } from "./KernRadioInput";
+import { KernIcon } from "../common/KernIcon";
 
 type KernRadioGroupProps = Readonly<{
   name: string;
