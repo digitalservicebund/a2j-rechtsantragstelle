@@ -1,6 +1,4 @@
-import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import type { PropsWithChildren } from "react";
-import { ErrorMessageProps } from "~/components/common/types";
 
 type InputErrorProps = PropsWithChildren<{
   readonly id: string;
