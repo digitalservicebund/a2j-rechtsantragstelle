@@ -7,6 +7,7 @@ import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
+import KernTile from "~/components/kern/formElements/tile/KernTile";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -44,7 +45,21 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      return (
+      return showKernUX ? (
+        <KernTile
+          key={fieldName}
+          name={fieldName}
+          useTwoColumns={matchingElement.useTwoColumns}
+          label={label}
+          errorMessages={errorMessages}
+          options={options.map(({ value }) => ({
+            value,
+            description: cmsObject[value]?.description,
+            image: cmsObject[value]?.image,
+            title: cmsObject[value]?.title ?? value,
+          }))}
+        />
+      ) : (
         <TileGroup
           key={fieldName}
           name={fieldName}
