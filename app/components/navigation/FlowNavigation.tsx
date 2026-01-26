@@ -8,16 +8,15 @@ export default function FlowNavigation({
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
 
   return (
-    <nav
-      className={
-        "fixed left-0 bottom-0 z-50 w-full lg:border lg:static lg:z-auto lg:border-blue-400 print:hidden"
-      }
-    >
-      <aside
+    <aside>
+      <nav
         aria-label={rootLoaderData?.accessibilityTranslations?.navigationLabel}
+        className={
+          "fixed left-0 bottom-0 z-50 w-full lg:border lg:static lg:z-auto lg:border-blue-400 print:hidden"
+        }
       >
         {children}
-      </aside>
-    </nav>
+      </nav>
+    </aside>
   );
 }
