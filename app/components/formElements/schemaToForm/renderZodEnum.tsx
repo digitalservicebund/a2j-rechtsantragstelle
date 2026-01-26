@@ -6,6 +6,7 @@ import Select from "~/components/formElements/Select";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
+import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -16,6 +17,7 @@ export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
   matchingElement?: StrapiFormComponent,
+  showKernUX?: boolean,
 ) {
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
@@ -91,7 +93,16 @@ export function renderZodEnum(
           text: cmsObject[value]?.text ?? text,
         }));
       }
-      return (
+      return showKernUX ? (
+        <KernRadioGroup
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          altLabel={get(matchingElement, "altLabel")}
+          errorMessages={errorMessages}
+          options={options}
+        />
+      ) : (
         <RadioGroup
           key={fieldName}
           name={fieldName}
@@ -102,7 +113,16 @@ export function renderZodEnum(
         />
       );
     default:
-      return (
+      return showKernUX ? (
+        <KernRadioGroup
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          altLabel={get(matchingElement, "altLabel")}
+          errorMessages={errorMessages}
+          options={options}
+        />
+      ) : (
         <RadioGroup
           key={fieldName}
           name={fieldName}
