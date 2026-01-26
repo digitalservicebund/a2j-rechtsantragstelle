@@ -8,6 +8,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
 import KernTile from "~/components/kern/formElements/tile/KernTile";
+import KernSelect from "~/components/kern/formElements/KernSelect";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -45,7 +46,6 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      console.log("showKernUX", showKernUX);
       return showKernUX ? (
         <KernTile
           key={fieldName}
@@ -85,7 +85,18 @@ export function renderZodEnum(
         value,
         text: cmsObject[value]?.text ?? text,
       }));
-      return (
+      return showKernUX ? (
+        <KernSelect
+          name={fieldName}
+          key={fieldName}
+          label={label}
+          options={options}
+          altLabel={get(matchingElement, "altLabel")}
+          errorMessages={errorMessages}
+          width={get(matchingElement, "width")}
+          placeholder={get(matchingElement, "placeholder")}
+        />
+      ) : (
         <Select
           name={fieldName}
           key={fieldName}

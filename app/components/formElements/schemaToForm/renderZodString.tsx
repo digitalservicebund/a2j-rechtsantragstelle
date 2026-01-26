@@ -11,6 +11,7 @@ import TextInput from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
 import KernAutoSuggestInput from "~/components/kern/formElements/AutoSuggest/KernAutoSuggestInput";
+import KernDateInput from "~/components/kern/formElements/KernDateInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -46,7 +47,11 @@ export const renderZodString = (
       />
     );
   if (matchingElement?.__component === "form-elements.date-input")
-    return <DateInput key={fieldName} {...inputProps} />;
+    return showKernUX ? (
+      <KernDateInput key={fieldName} {...inputProps} />
+    ) : (
+      <DateInput key={fieldName} {...inputProps} />
+    );
   if (matchingElement?.__component === "form-elements.time-input")
     return <TimeInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
