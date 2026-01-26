@@ -12,7 +12,7 @@ import KeyboardArrowLeft from "@digitalservicebund/icons/KeyboardArrowLeft";
 import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButtonAreaTitles";
 import classNames from "classnames";
-import { KernIcon } from "../commom/KernIcon";
+import { KernIcon } from "../common/KernIcon";
 import { KernStandaloneLink } from "../KernStandaloneLink";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
