@@ -1,9 +1,10 @@
 type KernProgressBarProps = {
-  readonly progress?: number;
-  readonly max?: number;
+  readonly progress: number;
+  readonly max: number;
   readonly fallback?: string;
-  readonly label?: string;
+  readonly label: string;
 };
+
 export function KernProgress({
   progress,
   max,
