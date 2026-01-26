@@ -6,6 +6,8 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
+import type { ErbscheinNachlassGerichtUserData } from "./erbschein/nachlassgericht/userData";
+import type { ErbscheinWegweiserUserData } from "./erbschein/wegweiser/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
@@ -26,4 +28,6 @@ export type AllUserDataKeys = KeysOfUnion<
   | ProzesskostenhilfeFormularUserData
   | KontopfaendungWegweiserUserData
   | KontopfaendungPkontoAntragUserData
+  | ErbscheinWegweiserUserData
+  | ErbscheinNachlassGerichtUserData
 >;

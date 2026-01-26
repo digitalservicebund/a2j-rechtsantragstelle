@@ -44,6 +44,7 @@ const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/geld-einklagen/formular": "showGeldEinklagenFlow",
   "/kontopfaendung/pkonto/antrag": "showPkontoAntragFlow",
   "/erbschein/wegweiser": "showErbscheinWegweiser",
+  "/erbschein/nachlassgericht": "showErbscheinNachlassgericht",
 } as const;
 
 export const getUserDataAndFlow = async (
@@ -111,8 +112,10 @@ export const getUserDataAndFlow = async (
           ? currentFlow.migration?.sortedFields
           : undefined,
       buttonUrl:
-        "migration" in currentFlow
-          ? currentFlow.migration?.buttonUrl
+        "migration" in currentFlow &&
+        currentFlow.migration &&
+        "buttonUrl" in currentFlow.migration
+          ? currentFlow.migration.buttonUrl
           : undefined,
     },
   });
