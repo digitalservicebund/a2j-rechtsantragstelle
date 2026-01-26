@@ -22,8 +22,6 @@ describe("addMultiplePersonsText", () => {
     addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should not have any text if given yes weitere personen and empty array", () => {
@@ -40,8 +38,6 @@ describe("addMultiplePersonsText", () => {
     addMultiplePersonsText(mockDoc, userDataNoMultiplePersons, reasonSect);
 
     expect(mockDoc.text).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for following persons given weiter personen and verspaetet bereich", () => {

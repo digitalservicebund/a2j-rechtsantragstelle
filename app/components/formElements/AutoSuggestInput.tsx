@@ -182,7 +182,7 @@ const AutoSuggestInput = ({
           rootLoaderData?.accessibilityTranslations,
         )}
         className={classNames(
-          "w-full forced-colors:border-2",
+          "w-full forced-colors:border-2 ph-no-capture",
           { "has-error": field.error() },
           { "option-was-selected": optionWasSelected },
           { "auto-suggest-input-disabled": isDisabled },
@@ -214,10 +214,7 @@ const AutoSuggestInput = ({
           // call the validation only if an option was selected
           if (optionWasSelected) {
             setOptionWasSelected(false);
-
-            if (hasError) {
-              field.validate();
-            }
+            field.validate();
           }
         }}
         onChange={(newValue, { action }) => {
@@ -225,10 +222,7 @@ const AutoSuggestInput = ({
           setOptionWasSelected(action === "select-option");
           if (action === "clear" || action === "select-option") {
             focusOnInput(inputId);
-            // TODO: check later why the field.validate() is validating all the fields in the form
-            if (hasError) {
-              field.validate();
-            }
+            field.validate();
           }
           setCurrentItemValue(newValue);
         }}
@@ -249,7 +243,7 @@ const AutoSuggestInput = ({
       </div>
 
       {helperText && (
-        <div className="label-text mt-6" id={helperId}>
+        <div className="ds-label-03-reg mt-6" id={helperId}>
           {helperText}
         </div>
       )}

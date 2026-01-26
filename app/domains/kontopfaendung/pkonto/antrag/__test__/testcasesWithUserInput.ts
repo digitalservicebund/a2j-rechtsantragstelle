@@ -4,6 +4,9 @@ import type {
 } from "~/domains/__test__/TestCases";
 import type { KontopfaendungPkontoAntragUserData } from "../userData";
 import { kontopfaendungPkontoAntragXStateConfig } from "../xStateConfig";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+
+const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const kontopfaendungPkontoAntragTestCases = {
   xstateConfig: kontopfaendungPkontoAntragXStateConfig,
@@ -20,22 +23,6 @@ export const kontopfaendungPkontoAntragTestCases = {
         stepId: "/grundvoraussetzungen/ende",
       },
     ],
-    neuesPkontoEroeffnen: [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/grundvoraussetzungen/bestehendes-pkonto",
-        userInput: { bestehendesPkonto: "no" },
-      },
-      {
-        stepId: "/grundvoraussetzungen/girokonto-umwandeln",
-        userInput: { girokontoUmwandeln: "no" },
-      },
-      {
-        stepId: "/grundvoraussetzungen/neues-pkonto-eroeffnen",
-      },
-    ],
     pkontoAntragKontoinhaberIsAntragsteller: [
       {
         stepId: "/start",
@@ -45,31 +32,26 @@ export const kontopfaendungPkontoAntragTestCases = {
         userInput: { bestehendesPkonto: "no" },
       },
       {
-        stepId: "/grundvoraussetzungen/girokonto-umwandeln",
-        userInput: { girokontoUmwandeln: "yes" },
-      },
-      {
-        stepId: "/grundvoraussetzungen/negativer-kontostand",
-        userInput: { negativerKontostand: "yes" },
-      },
-      {
         stepId: "/bankdaten/einleitung",
       },
       {
         stepId: "/bankdaten/kontodaten",
         userInput: {
-          kontoinhaberVorname: "Maximiliane",
-          kontoinhaberNachname: "Mustermensch",
           iban: "DE89370400440532013000",
           bankName: "Musterbank",
         },
       },
       {
+        stepId: "/persoenliche-daten/kontoinhaber-name",
+        userInput: {
+          vollstaendigerName: "Max Mustermann",
+        },
+      },
+      {
         stepId: "/persoenliche-daten/kontoinhaber-anschrift",
         userInput: {
-          kontoinhaberStrasse: "Musterstrasse 1",
-          kontoinhaberHausnummer: "1",
-          kontoinhaberPlz: "99084",
+          kontoinhaberStrasseHausnummer: "Musterstrasse 1",
+          kontoinhaberPlz: 99084,
           kontoinhaberOrt: "Musterstadt",
         },
       },
@@ -80,8 +62,15 @@ export const kontopfaendungPkontoAntragTestCases = {
           emailadresse: "email@adresse.de",
         },
       },
+      ...(showAutoSummary
+        ? [
+            {
+              stepId: "/abgabe/zusammenfassung",
+            },
+          ]
+        : []),
       {
-        stepId: "/abgabe",
+        stepId: "/abgabe/p-konto-vorhanden",
       },
     ],
   } satisfies FlowTestCases<KontopfaendungPkontoAntragUserData>,

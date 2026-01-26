@@ -57,9 +57,12 @@ const Textarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames("ds-textarea forced-colors:border-4", {
-          "has-error": field.error(),
-        })}
+        className={classNames(
+          "ds-textarea forced-colors:border-4 ph-no-capture",
+          {
+            "has-error": field.error(),
+          },
+        )}
         ref={innerRef}
         aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : ariaDescribedby}

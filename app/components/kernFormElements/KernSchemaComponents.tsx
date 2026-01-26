@@ -30,6 +30,7 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
+  showKernUX?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -68,6 +69,7 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
+  showKernUX = false,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -104,7 +106,12 @@ export const KernSchemaComponents = ({
         const nestedSchema = getNestedSchema(fieldSchema);
 
         if (isZodObject(nestedSchema)) {
-          return renderZodObject(nestedSchema, fieldName, formComponents);
+          return renderZodObject(
+            nestedSchema,
+            fieldName,
+            formComponents,
+            showKernUX,
+          );
         }
 
         if (isZodEnum(nestedSchema))

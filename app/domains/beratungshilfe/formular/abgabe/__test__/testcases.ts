@@ -8,10 +8,6 @@ const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
-    {
-      stepId: "/abgabe/art",
-      userInput: { abgabeArt: "online" },
-    },
     ...(showAutoSummary
       ? [
           {
@@ -19,6 +15,10 @@ export const testCasesBeratungshilfeFormularAbgabe = {
           },
         ]
       : []),
+    {
+      stepId: "/abgabe/art",
+      userInput: { abgabeArt: "online" },
+    },
     ...(showFileUpload
       ? [
           {
@@ -28,10 +28,6 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       : [{ stepId: "/abgabe/online" }]),
   ],
   printedAbgabe: [
-    {
-      stepId: "/abgabe/art",
-      userInput: { abgabeArt: "ausdrucken" },
-    },
     ...(showAutoSummary
       ? [
           {
@@ -39,6 +35,10 @@ export const testCasesBeratungshilfeFormularAbgabe = {
           },
         ]
       : []),
+    {
+      stepId: "/abgabe/art",
+      userInput: { abgabeArt: "ausdrucken" },
+    },
     {
       stepId: "/abgabe/ausdrucken",
     },

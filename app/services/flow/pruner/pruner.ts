@@ -12,8 +12,12 @@ import {
 } from "~/domains/pageSchemas";
 
 export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
-  const { guards, config } = flows[flowId];
-  const flowController = buildFlowController({ guards, config, data });
+  const flow = flows[flowId];
+  const flowController = buildFlowController({
+    guards: "guards" in flow ? flow.guards : {},
+    config: flow.config,
+    data,
+  });
 
   const formFields = getAllFieldsFromFlowId(flowId);
 

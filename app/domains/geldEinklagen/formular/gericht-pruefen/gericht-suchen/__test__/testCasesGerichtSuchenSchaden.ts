@@ -5,7 +5,7 @@ const ZIP_CODE_PILOT_COURT = "10823";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "53111";
 
 const baseContext = {
-  forderung: "maximal5000" as const,
+  forderung: "maximal10000" as const,
   ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
   sachgebiet: "schaden" as const,

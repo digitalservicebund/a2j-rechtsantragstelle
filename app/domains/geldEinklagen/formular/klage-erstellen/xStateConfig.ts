@@ -4,6 +4,8 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { geldEinklagenKlageErstellenPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GenericGuard } from "~/domains/guards.server";
+import { prozessfuehrungXstateConfig } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/xStateConfig";
+import { rechtlicherZusatzXstateConfig } from "./rechtlicher-zusatz/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
@@ -136,6 +138,7 @@ export const klageErstellenXstateConfig = {
           states: {
             [steps.rechtsproblemIntoStart.relative]: {
               on: {
+                SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
                 BACK: [
                   {
                     guard: ({ context }) =>
@@ -150,5 +153,7 @@ export const klageErstellenXstateConfig = {
         },
       },
     },
+    prozessfuehrung: prozessfuehrungXstateConfig,
+    "rechtlicher-zusatz": rechtlicherZusatzXstateConfig,
   },
 } satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;

@@ -59,7 +59,7 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[day] ?? "off"}
             name={day}
-            className={classNames("ds-input px-16", {
+            className={classNames("ds-input px-16 ph-no-capture", {
               "has-error": dayError,
             })}
             aria-required="true"
@@ -90,7 +90,7 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[month] ?? "off"}
             name={month}
-            className={classNames("ds-input px-16", {
+            className={classNames("ds-input px-16 ph-no-capture", {
               "has-error": monthError,
             })}
             aria-required="true"
@@ -121,7 +121,7 @@ const SplitDateInput = ({ name, helperText }: SplitDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[year] ?? "off"}
             name={year}
-            className={classNames("ds-input px-16", {
+            className={classNames("ds-input px-16 ph-no-capture", {
               "has-error": yearError,
             })}
             aria-required="true"

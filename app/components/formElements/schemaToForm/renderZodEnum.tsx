@@ -26,7 +26,6 @@ export function renderZodEnum(
   );
 
   let options = sortedOptions.map((value) => ({ value, text: value }));
-  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
       return (
