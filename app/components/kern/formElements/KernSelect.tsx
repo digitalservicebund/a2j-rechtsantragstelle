@@ -4,12 +4,23 @@ import { type ErrorMessageProps } from "~/components/common/types";
 
 export type SelectProps = {
   name: string;
-  label?: ReactNode;
-  errorMessages?: ErrorMessageProps[];
   options: Array<{ value: string; text: string }>;
+  label?: ReactNode;
+  altLabel?: string;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
+  width?: "16" | "24" | "36" | "54";
 };
 
-const KernSelect = ({ label, name, errorMessages, options }: SelectProps) => {
+const KernSelect = ({
+  label,
+  name,
+  errorMessages,
+  options,
+  width,
+  altLabel,
+  placeholder,
+}: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
 
