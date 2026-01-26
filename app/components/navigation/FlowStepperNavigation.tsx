@@ -128,7 +128,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
   }
 
   return (
-    <nav className="w-full">
+    <nav aria-label="Stepper" className="w-full">
       <ol className={"flex max-w-full! pl-0"}>
         {steps.map(({ state, href, label }, stepIndex) => {
           const isCurrent = stateIsCurrent(state);
