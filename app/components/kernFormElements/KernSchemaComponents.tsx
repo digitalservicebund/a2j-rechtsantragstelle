@@ -114,7 +114,12 @@ export const KernSchemaComponents = ({
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(nestedSchema, fieldName, matchingElement);
+          return renderZodEnum(
+            nestedSchema,
+            fieldName,
+            matchingElement,
+            showKernUX,
+          );
 
         if (isZodString(nestedSchema))
           return renderZodString(fieldName, matchingElement, showKernUX);

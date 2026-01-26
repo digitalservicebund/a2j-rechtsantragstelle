@@ -45,6 +45,7 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
+      console.log("showKernUX", showKernUX);
       return showKernUX ? (
         <KernTile
           key={fieldName}
