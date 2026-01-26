@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { type z, type ZodType } from "zod";
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
@@ -77,7 +76,7 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={classNames("kern-stack", className)}>
+    <div className={`flex flex-col gap-kern-space-x-large ${className}`}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
@@ -118,7 +117,7 @@ export const KernSchemaComponents = ({
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement);
+          return renderZodString(fieldName, matchingElement, showKernUX);
       })}
     </div>
   );
