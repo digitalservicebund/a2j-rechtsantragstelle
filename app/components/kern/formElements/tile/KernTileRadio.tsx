@@ -1,6 +1,7 @@
 import { useField } from "@rvf/react-router";
 import KernTileContent, { type KernTileContentProps } from "./KernTileContent";
 import { type ImageProps } from "~/components/common/Image";
+import classNames from "classnames";
 
 export type KernTileOptions = Readonly<{
   value: string;
@@ -47,7 +48,9 @@ const KernTileRadio = ({
         <div className="kern-form-check">
           <input
             {...field.getInputProps({ type: "radio", id, value })}
-            className="kern-form-check__radio"
+            className={classNames("kern-form-check__radio", {
+              "kern-form-check__radio--error": field.error() !== null,
+            })}
             name={name}
             type="radio"
             aria-describedby={ariaDescribedBy}
