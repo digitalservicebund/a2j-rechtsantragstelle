@@ -138,7 +138,6 @@ describe.each(flowIds)("Availability of %s content", (flowId: FlowId) => {
         .filter((fieldName) => !fieldName.includes("pageData"))
         .forEach((fieldName) => {
           const strapiContainsField = strapiFormFieldsInverted.some(
-            // eslint-disable-next-line sonarjs/no-nested-functions
             ([strapiFieldName]) => {
               return strapiFieldName === fieldName;
             },

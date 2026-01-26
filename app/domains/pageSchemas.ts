@@ -191,7 +191,6 @@ export const filterPageSchemasByReachableSteps =
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof userData;
-      // eslint-disable-next-line sonarjs/different-types-comparison
       return userData[statementKey] === "yes";
     }
     return (

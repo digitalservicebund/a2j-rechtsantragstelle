@@ -19,6 +19,7 @@ type StateIconProps = {
   showWarningIcon?: boolean;
 };
 
+// oxlint-disable-next-line no-unused-vars
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
