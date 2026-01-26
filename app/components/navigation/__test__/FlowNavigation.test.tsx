@@ -12,16 +12,13 @@ vi.mock("react-router", () => ({
 describe("FlowNavigation", () => {
   it("renders a navigation", () => {
     const { getByRole } = render(<FlowNavigation />);
-    const navigation = getByRole("complementary");
+    const navigation = getByRole("navigation");
     expect(navigation).toBeInTheDocument();
   });
 
   it("renders the correct aria-label", () => {
     const { getByRole } = render(<FlowNavigation />);
-    expect(getByRole("complementary")).toHaveAttribute(
-      "aria-label",
-      "Main Menu",
-    );
+    expect(getByRole("navigation")).toHaveAttribute("aria-label", "Main Menu");
   });
 
   it("correctly renders child elements", () => {
