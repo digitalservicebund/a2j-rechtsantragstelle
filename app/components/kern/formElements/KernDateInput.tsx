@@ -152,7 +152,7 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
         </div>
       </div>
       {hasError && (
-        <p className="kern-error" id="kern-error" role="alert">
+        <p className="kern-error" id={errorId} role="alert">
           <KernIcon
             name="emergency-home"
             className="fill-kern-feedback-danger!"
