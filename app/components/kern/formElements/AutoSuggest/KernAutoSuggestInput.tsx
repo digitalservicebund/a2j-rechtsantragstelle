@@ -5,6 +5,7 @@ import Input from "react-imask/esm/input";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import Creatable from "react-select/creatable";
+import classNames from "classnames";
 import {
   ariaLiveMessages,
   screenReaderStatus,
@@ -158,7 +159,9 @@ const KernAutoSuggestInput = ({
   return (
     <div
       data-testid={items.length > 0 ? `${inputId}-loaded` : ""}
-      className="w-full kern-form-input"
+      className={classNames("w-full kern-form-input", {
+        "kern-form-input--error": hasError,
+      })}
     >
       {label && (
         <label
@@ -170,7 +173,7 @@ const KernAutoSuggestInput = ({
         </label>
       )}
 
-      <div className="kern-form-input__select-wrapper">
+      <div className="w-full">
         <SelectComponent
           aria-describedby={[
             field.error() && errorId,
@@ -183,7 +186,7 @@ const KernAutoSuggestInput = ({
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
           )}
-          className="w-full kern-form-input__select"
+          className="w-full"
           components={{
             ClearIndicator: (props) =>
               KernAutoSuggestClearInput(props, buttonExclusionRef),
@@ -234,6 +237,12 @@ const KernAutoSuggestInput = ({
             rootLoaderData?.accessibilityTranslations,
           )}
           styles={kernCustomStyles()}
+          classNames={{
+            control: () =>
+              classNames("kern-form-input__input", {
+                "kern-form-input__input--error": hasError,
+              }),
+          }}
           tabIndex={0}
           value={currentItemValue}
           menuPortalTarget={document.body}

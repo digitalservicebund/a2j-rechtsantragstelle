@@ -22,23 +22,28 @@ const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
       ...base,
       zIndex: 999,
     }),
-    control: (base, { menuIsOpen, isFocused }) => ({
-      ...base,
-      minHeight: "100%",
-      height: "100%",
-      padding: "0",
-      border: "none",
-      borderRadius: 0,
-      boxShadow: "none",
-      backgroundColor: "transparent",
-      display: "flex",
-      alignItems: "center",
-      outline: menuIsOpen || isFocused ? "solid 4px #1A3DA5" : "none",
-      outlineOffset: menuIsOpen || isFocused ? "-4px" : "0",
-      "&:hover": {
-        border: "none",
-      },
-    }),
+    control: (base, { menuIsOpen, isFocused }) => {
+      // The control component will have the kern-form-input__input class applied
+      // via the classNames prop. We don't spread base to avoid React Select's
+      // default visual styles. Only include minimal layout properties needed
+      // for functionality, letting KERN CSS handle all visual styling.
+      // Apply KERN focus outline when focused (4px solid border with -4px offset)
+      return {
+        // Only essential layout properties - no visual styling
+        minHeight: "48px",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        cursor: "text",
+        // Apply KERN focus outline when focused using KERN color variable
+        outline: isFocused
+          ? "4px solid var(--kern-color-action-default)"
+          : "none",
+        outlineOffset: isFocused ? "-4px" : "0",
+        // Don't set any border, background, or other visual properties
+        // KERN CSS (.kern-form-input__input) will provide all other visual styling
+      };
+    },
     option: (base, { isFocused, isSelected }) => {
       return {
         ...base,
