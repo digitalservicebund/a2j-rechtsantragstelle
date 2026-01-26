@@ -36,7 +36,7 @@ export const Default: Story = {
   args: {
     name: "number-input",
     label: "Number Input",
-    placeholder: "Enter a number...",
+    placeholder: "Zahl eingeben...",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -45,7 +45,7 @@ export const WithStep: Story = {
   args: {
     name: "number-input-step",
     label: "Number Input with Step",
-    placeholder: "Enter a number...",
+    placeholder: "Zahl eingeben...",
     step: 0.01,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
@@ -55,8 +55,8 @@ export const WithHelperText: Story = {
   args: {
     name: "number-input-helper",
     label: "Number Input with Helper",
-    placeholder: "Enter a number...",
-    helperText: "Enter a decimal number",
+    placeholder: "Zahl eingeben...",
+    helperText: "Geben Sie eine Dezimalzahl ein",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -69,8 +69,8 @@ export const WithError: Story = {
   args: {
     name: "number-input-error",
     label: "Number Input with Error",
-    placeholder: "This field has an error",
-    errorMessages: [{ code: "required", text: "This field is required" }],
+    placeholder: "Dieses Feld hat einen Fehler",
+    errorMessages: [{ code: "required", text: "Dieses Feld ist erforderlich" }],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />, errorSchema)],
 };

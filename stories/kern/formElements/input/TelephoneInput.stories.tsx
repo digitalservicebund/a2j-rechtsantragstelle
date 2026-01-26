@@ -36,7 +36,7 @@ export const Default: Story = {
   args: {
     name: "telephone-input",
     label: "Telephone Input",
-    placeholder: "Enter phone number...",
+    placeholder: "Telefonnummer eingeben...",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -45,8 +45,8 @@ export const WithHelperText: Story = {
   args: {
     name: "telephone-input-helper",
     label: "Telephone Input with Helper",
-    placeholder: "Enter phone number...",
-    helperText: "Please enter your phone number",
+    placeholder: "Telefonnummer eingeben...",
+    helperText: "Bitte geben Sie Ihre Telefonnummer ein",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -59,8 +59,8 @@ export const WithError: Story = {
   args: {
     name: "telephone-input-error",
     label: "Telephone Input with Error",
-    placeholder: "This field has an error",
-    errorMessages: [{ code: "required", text: "This field is required" }],
+    placeholder: "Dieses Feld hat einen Fehler",
+    errorMessages: [{ code: "required", text: "Dieses Feld ist erforderlich" }],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />, errorSchema)],
 };

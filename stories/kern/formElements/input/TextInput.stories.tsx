@@ -36,7 +36,7 @@ export const Default: Story = {
   args: {
     name: "text-input",
     label: "Text Input",
-    placeholder: "Enter text here...",
+    placeholder: "Text hier eingeben...",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -45,8 +45,8 @@ export const WithHelperText: Story = {
   args: {
     name: "text-input-helper",
     label: "Text Input with Helper",
-    placeholder: "Enter text here...",
-    helperText: "This is a helper text",
+    placeholder: "Text hier eingeben...",
+    helperText: "Dies ist ein Hilfstext",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -62,10 +62,10 @@ export const WithError: Story = {
   args: {
     name: "text-input-error",
     label: "Text Input with Error",
-    placeholder: "This field has an error",
+    placeholder: "Dieses Feld hat einen Fehler",
     errorMessages: [
-      { code: "required", text: "This field is required" },
-      { code: "max", text: "Maximum 10 characters allowed" },
+      { code: "required", text: "Dieses Feld ist erforderlich" },
+      { code: "max", text: "Maximal 10 Zeichen erlaubt" },
     ],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />, errorSchema)],

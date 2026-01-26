@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react";
+import { KernIcon } from "../common/KernIcon";
 
 type InputErrorProps = PropsWithChildren<{
   readonly id: string;
@@ -9,10 +10,10 @@ const InputError = ({ id, children }: InputErrorProps) => {
     <div>
       {children && (
         <p className="kern-error" id={id} role="alert">
-          <span
-            className="kern-icon kern-icon--danger kern-icon--md"
-            aria-hidden="true"
-          ></span>
+          <KernIcon
+            name="emergency-home"
+            className="fill-kern-feedback-danger! mt-4"
+          />
           <span className="kern-body">{children}</span>
         </p>
       )}
