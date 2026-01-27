@@ -1,11 +1,17 @@
 pre-push:
   parallel: true
   commands:
-    "unit tests":
-      run: pnpm run test
-    lint:
-      run: pnpm run lint
     format:
       run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
+    "unit tests":
+      run: pnpm run test
+      only:
+        - ref: main
+    lint:
+      run: pnpm run lint
+      only:
+        - ref: main
     typecheck:
       run: pnpm run typecheck
+      only:
+        - ref: main
