@@ -157,7 +157,7 @@ The current testing strategy is documented as described above. This ADR serves a
 #### Unit tests
 
 - Intentionalize accessibility tests (e.g add accessibility tests for individual React components).
-- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts` integration tests.
+- Cover all possible paths of each flow with our `/app/flows/__test__/flows.test.ts`.
 - Improve log output of failing tests in `/app/flows/__test__/flows.test.ts`.
 
 #### Integration tests
