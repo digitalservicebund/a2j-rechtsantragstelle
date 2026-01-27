@@ -63,7 +63,6 @@ export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  showKernUX = false,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -99,12 +98,7 @@ export const SchemaComponents = ({
         const nestedSchema = getNestedSchema(fieldSchema);
 
         if (isZodObject(nestedSchema)) {
-          return renderZodObject(
-            nestedSchema,
-            fieldName,
-            formComponents,
-            showKernUX,
-          );
+          return renderZodObject(nestedSchema, fieldName, formComponents);
         }
 
         if (isZodEnum(nestedSchema))

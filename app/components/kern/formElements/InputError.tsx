@@ -14,7 +14,7 @@ const InputError = ({ id, children }: InputErrorProps) => {
             name="emergency-home"
             className="fill-kern-feedback-danger! mt-4"
           />
-          <span className="kern-body">{children}</span>
+          <span className="text-kern-feedback-danger!">{children}</span>
         </p>
       )}
     </div>
