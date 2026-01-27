@@ -77,20 +77,20 @@ export function FormFlowPage() {
             xlColumn={{ start: 1, span: 4 }}
             row={2}
           >
-            <aside className="md:mb-32 lg:w-[312px]">
+            <div className="md:mb-32 lg:w-[312px]">
               <FlowNavigation>
                 <NavigationList {...navigationProps} />
               </FlowNavigation>
-            </aside>
+            </div>
           </GridItem>
-          <aside className="lg:hidden md:col-span-8 ">
+          <div className="lg:hidden md:col-span-8 ">
             <FlowNavigation>
               <SideNavMobile
                 navItems={navigationProps.navItems}
                 stepsStepper={navigationProps.stepsStepper}
               />
             </FlowNavigation>
-          </aside>
+          </div>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
             lgColumn={{ start: 5, span: 7 }}
