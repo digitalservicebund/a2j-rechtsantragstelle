@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { type z, type ZodType } from "zod";
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
@@ -30,6 +29,7 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
+  showKernUX?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -68,6 +68,7 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
+  showKernUX = false,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -75,7 +76,7 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={classNames("kern-stack", className)}>
+    <div className={`flex flex-col gap-kern-space-x-large ${className}`}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
@@ -104,14 +105,24 @@ export const KernSchemaComponents = ({
         const nestedSchema = getNestedSchema(fieldSchema);
 
         if (isZodObject(nestedSchema)) {
-          return renderZodObject(nestedSchema, fieldName, formComponents);
+          return renderZodObject(
+            nestedSchema,
+            fieldName,
+            formComponents,
+            showKernUX,
+          );
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(nestedSchema, fieldName, matchingElement);
+          return renderZodEnum(
+            nestedSchema,
+            fieldName,
+            matchingElement,
+            showKernUX,
+          );
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement);
+          return renderZodString(fieldName, matchingElement, showKernUX);
       })}
     </div>
   );

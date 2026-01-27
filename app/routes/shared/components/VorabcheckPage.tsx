@@ -11,6 +11,7 @@ import { BACKGROUND_COLORS } from "~/components";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernProgress } from "~/components/kern/KernProgressBar";
 
 export function VorabcheckPage() {
   const {
@@ -36,7 +37,11 @@ export function VorabcheckPage() {
           className="pt-40"
           row={1}
         >
-          <ProgressBar {...progressProps} />
+          {showKernUX ? (
+            <KernProgress {...progressProps} />
+          ) : (
+            <ProgressBar {...progressProps} />
+          )}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
