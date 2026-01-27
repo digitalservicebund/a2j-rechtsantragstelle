@@ -1,6 +1,7 @@
 import { parseCookie } from "cookie";
 import { posthogIdFromCookie } from "~/services/analytics/posthogIdFromCookie";
 import { config } from "~/services/env/public";
+import { mockPublicConfig } from "~/services/env/__test__/publicConfigMock";
 
 const mockAPIKey = "mockAPIKey";
 vi.mock("~/services/env/public", () => ({
@@ -21,20 +22,16 @@ describe("posthogIdFromCookie", () => {
   });
 
   it("should return ENVIRONMENT if POSTHOG_API_KEY is unavailable", () => {
-    vi.mocked(config).mockReturnValue({
-      POSTHOG_API_KEY: undefined,
-      SENTRY_DSN: undefined,
-      ENVIRONMENT: "local",
-    });
+    vi.mocked(config).mockReturnValue(
+      mockPublicConfig({ POSTHOG_API_KEY: undefined, ENVIRONMENT: "local" }),
+    );
     expect(posthogIdFromCookie("cookieString")).toBe("client-local");
   });
 
   it("should return ENVIRONMENT if the posthog cookie's distinct_id is undefined", () => {
-    vi.mocked(config).mockReturnValue({
-      POSTHOG_API_KEY: mockAPIKey,
-      SENTRY_DSN: undefined,
-      ENVIRONMENT: "local",
-    });
+    vi.mocked(config).mockReturnValue(
+      mockPublicConfig({ POSTHOG_API_KEY: mockAPIKey, ENVIRONMENT: "local" }),
+    );
     vi.mocked(parseCookie).mockReturnValue({
       [`ph_${mockAPIKey}_posthog`]: "{}",
     });
@@ -42,11 +39,9 @@ describe("posthogIdFromCookie", () => {
   });
 
   it("should return the posthog cookie's distinct_id", () => {
-    vi.mocked(config).mockReturnValue({
-      POSTHOG_API_KEY: mockAPIKey,
-      SENTRY_DSN: undefined,
-      ENVIRONMENT: "local",
-    });
+    vi.mocked(config).mockReturnValue(
+      mockPublicConfig({ POSTHOG_API_KEY: mockAPIKey }),
+    );
     vi.mocked(parseCookie).mockReturnValue({
       [`ph_${mockAPIKey}_posthog`]: '{"distinct_id": "mockDistinctId"}',
     });
