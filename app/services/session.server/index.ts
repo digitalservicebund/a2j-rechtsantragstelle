@@ -13,36 +13,14 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
-import { flows } from "~/domains/flows.server";
+import {
+  getLifecycleTimeBySessionUserData,
+  getMaxAgeLifecycle,
+} from "./lifecycleSession";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
-type SessionUserData = (typeof allSessionUserData)[number];
+export type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
-
-const DEFAULT_TIME_TO_LIVE_SECONDS = 60 * 60 * 24;
-
-const getMaxAgeLifecycle = () => {
-  let max = DEFAULT_TIME_TO_LIVE_SECONDS;
-  Object.entries(flows).forEach(([flow]) => {
-    const lifecycleTimeInSeconds = getLifecycleTimeBySessionUserData(
-      flow as SessionUserData,
-    );
-    if (lifecycleTimeInSeconds > max) {
-      max = lifecycleTimeInSeconds;
-    }
-  });
-  return max;
-};
-
-export const getLifecycleTimeBySessionUserData = (context: SessionUserData) => {
-  if (context === "main") return DEFAULT_TIME_TO_LIVE_SECONDS; // default for main session
-
-  const flowConfig = flows[context];
-  return "meta" in flowConfig.config &&
-    "lifecycleTimeInHours" in flowConfig.config.meta
-    ? (flowConfig.config.meta?.lifecycleTimeInHours as number) * 60 * 60
-    : DEFAULT_TIME_TO_LIVE_SECONDS;
-};
 
 function createDatabaseSessionStorage({
   cookie,
