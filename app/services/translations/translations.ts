@@ -152,6 +152,9 @@ export const translations = {
     navigationItemWarning: {
       de: "Warnhinweis",
     },
+    navigationStepper: {
+      de: "Prozessübersicht",
+    },
   },
   navigationMobile: {
     closeMenu: {

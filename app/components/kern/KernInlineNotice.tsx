@@ -1,8 +1,8 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernRichText from "./KernRichText";
-import { KernIcon } from "./commom/KernIcon";
-import { type IconName } from "./commom/utils";
+import { KernIcon } from "./common/KernIcon";
+import { type IconName } from "./common/utils";
 
 type KernInlineNoticeProps = {
   identifier?: string;
