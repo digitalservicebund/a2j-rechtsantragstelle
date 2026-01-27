@@ -1,11 +1,3 @@
-pre-commit:
-  parallel: true
-  commands:
-    format:
-      run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
-    typecheck:
-      run: pnpm run typecheck
-
 pre-push:
   parallel: true
   commands:
@@ -13,3 +5,7 @@ pre-push:
       run: pnpm run test
     lint:
       run: pnpm run lint
+    format:
+      run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
+    typecheck:
+      run: pnpm run typecheck
