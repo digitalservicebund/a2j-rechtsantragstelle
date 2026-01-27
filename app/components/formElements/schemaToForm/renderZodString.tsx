@@ -10,7 +10,7 @@ import KernTextarea from "~/components/kern/formElements/Textarea";
 import TextInput from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
-import KernAutoSuggestInput from "~/components/kern/formElements/AutoSuggest/KernAutoSuggestInput";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 import KernDateInput from "~/components/kern/formElements/KernDateInput";
 
 export const isZodString = (
