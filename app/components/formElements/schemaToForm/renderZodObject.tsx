@@ -5,6 +5,7 @@ import SplitDateInput from "../SplitDateInput";
 import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
 import KernDateInput from "~/components/kern/formElements/KernDateInput";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -41,7 +42,14 @@ export const renderZodObject = (
     nestedSchema.shape,
     (_, key) => `${fieldName}.${key}`,
   );
-  return (
+  return showKernUX ? (
+    <KernSchemaComponents
+      key={fieldName}
+      pageSchema={innerSchema}
+      formComponents={formComponents}
+      showKernUX={showKernUX}
+    />
+  ) : (
     <SchemaComponents
       key={fieldName}
       pageSchema={innerSchema}

@@ -9,6 +9,7 @@ import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComp
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
 import KernTile from "~/components/kern/formElements/tile/KernTile";
 import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
+import KernSelect from "~/components/kern/formElements/KernSelect";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -93,7 +94,17 @@ export function renderZodEnum(
         value,
         text: cmsObject[value]?.text ?? text,
       }));
-      return (
+      return showKernUX ? (
+        <KernSelect
+          name={fieldName}
+          key={fieldName}
+          label={label}
+          options={options}
+          errorMessages={errorMessages}
+          width={get(matchingElement, "width")}
+          placeholder={get(matchingElement, "placeholder")}
+        />
+      ) : (
         <Select
           name={fieldName}
           key={fieldName}

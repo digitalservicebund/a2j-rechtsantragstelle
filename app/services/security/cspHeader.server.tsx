@@ -4,6 +4,9 @@
 // https://csp-evaluator.withgoogle.com/
 
 import { bucketUrl } from "../cms/bucketUrl";
+import { config } from "../env/public";
+
+const { BUNDID_IDP_ENTRY_POINT } = config();
 
 export const cspHeader = (args: {
   nonce: string;
@@ -39,7 +42,7 @@ export const cspHeader = (args: {
     ],
     "form-action": [
       "'self'",
-      "https://int.id.bund.de/idp/profile/SAML2/POST/SSO",
+      ...(BUNDID_IDP_ENTRY_POINT ? [BUNDID_IDP_ENTRY_POINT] : []),
     ],
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
