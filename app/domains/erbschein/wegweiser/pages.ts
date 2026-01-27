@@ -1,7 +1,17 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { integerSchema } from "~/services/validation/integer";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const nestedKinderSchema = z.array(
+  z.object({
+    name: stringRequiredSchema,
+    alive: YesNoAnswer,
+    kinder: z.array(z.lazy((): any => nestedKinderSchema)).optional(),
+  }),
+);
 
 export const erbscheinWegweiserPages = {
   start: {
@@ -21,6 +31,10 @@ export const erbscheinWegweiserPages = {
   },
   kinderDesVerstorbenes: {
     stepId: "kinder-des-verstorbenes",
+    pageSchema: {
+      kinder: nestedKinderSchema,
+      anzahlKinder: hiddenInputSchema(integerSchema),
+    },
   },
   staatsangehoerigkeit: {
     stepId: "staatsangehoerigkeit",

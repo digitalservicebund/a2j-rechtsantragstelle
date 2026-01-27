@@ -4,7 +4,7 @@ import {
   isZodString,
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
-import type { SchemaObject } from "~/domains/userData";
+import type { SchemaObject, UserData } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
@@ -19,12 +19,17 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import {
+  getDynamicArrayByFieldName,
+  renderDynamicArray,
+} from "~/components/formElements/schemaToForm/renderDynamicArray";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
   showKernUX?: boolean;
+  stepData?: UserData;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -64,6 +69,7 @@ export const SchemaComponents = ({
   formComponents,
   className,
   showKernUX = false,
+  stepData,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -77,8 +83,19 @@ export const SchemaComponents = ({
           formComponents ?? [],
         );
 
+        const dynamicArray = getDynamicArrayByFieldName(
+          fieldName,
+          formComponents ?? [],
+        );
+
         if (fieldSetGroup !== undefined) {
           return renderFieldSet(fieldName, fieldSetGroup);
+        } else if (dynamicArray !== undefined) {
+          return renderDynamicArray({
+            fieldName,
+            stepData: stepData ?? {},
+            ...dynamicArray,
+          });
         }
 
         const matchingElement = formComponents

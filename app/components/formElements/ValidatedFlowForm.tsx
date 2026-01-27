@@ -46,6 +46,7 @@ function ValidatedFlowForm({
                 pageSchema={pageSchema}
                 formComponents={formElements}
                 showKernUX={showKernUX}
+                stepData={stepData}
               />
             )}
             <ButtonNavigation

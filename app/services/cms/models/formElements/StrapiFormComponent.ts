@@ -12,12 +12,14 @@ import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
 import { StrapiNumberIncrementSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
+import { StrapiDynamicArraySchema } from "~/services/cms/models/formElements/StrapiDynamicArraySchema";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
   StrapiDateInputComponentSchema,
   StrapiTimeInputComponentSchema,
   StrapiFilesUploadComponentSchema,
+  StrapiDynamicArraySchema,
   StrapiTextareaComponentSchema,
   StrapiSelectComponentSchema,
   StrapiNumberIncrementSchema,
