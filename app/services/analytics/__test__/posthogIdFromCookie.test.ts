@@ -40,7 +40,7 @@ describe("posthogIdFromCookie", () => {
 
   it("should return the posthog cookie's distinct_id", () => {
     vi.mocked(config).mockReturnValue(
-      mockPublicConfig({ POSTHOG_API_KEY: mockAPIKey}),
+      mockPublicConfig({ POSTHOG_API_KEY: mockAPIKey }),
     );
     vi.mocked(parseCookie).mockReturnValue({
       [`ph_${mockAPIKey}_posthog`]: '{"distinct_id": "mockDistinctId"}',
