@@ -9,7 +9,7 @@ const getFlows = () => {
   if (!_flows) {
     // Dynamic import with require to load flows only when needed
     try {
-      _flows = require("@/domains/flows.server").flows;
+      _flows = require("~/domains/flows.server").flows;
     } catch {
       // In SSR/test environment, use import
       import("~/domains/flows.server").then((mod) => {
