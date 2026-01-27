@@ -2,9 +2,9 @@ import { useLocation } from "react-router";
 import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import KernRichText from "../KernRichText";
 import Image from "../../common/Image";
-import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import classNames from "classnames";
 import { getPageSchema } from "~/domains/pageSchemas";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 
 type KernFieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
@@ -55,11 +55,11 @@ export const KernFieldset = ({
         <KernRichText html={heading} />
       </legend>
       <div className="kern-fieldset__body">
-        <SchemaComponents
+        <KernSchemaComponents
           pageSchema={pageSchema}
           formComponents={formComponents}
-          className={classNames("pt-16 kern-stack", { "md:pl-32": image })}
-          showKernUX={true}
+          className={classNames("pt-16", { "md:pl-32": image })}
+          showKernUX={false}
         />
       </div>
     </fieldset>
