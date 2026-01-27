@@ -109,9 +109,6 @@ describe("addDetailedReason", () => {
       PLAINTIFF_ON_TIME_TEXT,
       PDF_MARGIN_HORIZONTAL,
     );
-
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for plaintiff on time for nichtbefoerderung bereich", () => {

@@ -7,6 +7,23 @@ import { type SchemaObject } from "~/domains/userData";
 const mockPathname = "/fluggastrechte/vorabcheck/bereich";
 vi.mock("../getMultiFieldsByStepIdValidation");
 
+const multiFieldsValidation: FunctionMultiFieldsValidation<
+  typeof mockPageSchema
+> = (schemas) =>
+  schemas.refine(
+    ({ field1, field2 }) => {
+      if (field1 === undefined || field2 === undefined) {
+        // if either field is missing, skip this multi-field validation
+        return true;
+      }
+      return field1 < field2;
+    },
+    {
+      path: ["field1"],
+      message: "invalid",
+    },
+  );
+
 const mockPageSchema = {
   field1: z.number(),
   field2: z.number(),
@@ -25,23 +42,6 @@ describe("buildStepSchemaWithPageSchema", () => {
   });
 
   it("should apply multi-fields validation if available", () => {
-    const multiFieldsValidation: FunctionMultiFieldsValidation<
-      typeof mockPageSchema
-    > = (schemas) =>
-      schemas.refine(
-        ({ field1, field2 }) => {
-          if (field1 === undefined || field2 === undefined) {
-            // if either field is missing, skip this multi-field validation
-            return true;
-          }
-          return field1 < field2;
-        },
-        {
-          path: ["field1"],
-          message: "invalid",
-        },
-      );
-
     vi.mocked(getMultiFieldsByStepIdValidation).mockReturnValue(
       multiFieldsValidation,
     );

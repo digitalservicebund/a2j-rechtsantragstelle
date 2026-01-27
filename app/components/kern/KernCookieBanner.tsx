@@ -5,7 +5,7 @@ import { useAnalytics } from "~/services/analytics/useAnalytics";
 import KernButton from "./KernButton";
 import KernRichText, { type RichTextProps } from "./KernRichText";
 import { type HeadingProps } from "../common/Heading";
-import { KernIcon } from "./commom/KernIcon";
+import { KernIcon } from "./common/KernIcon";
 
 const acceptCookiesFieldName = "accept-cookies";
 
