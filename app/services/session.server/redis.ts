@@ -1,10 +1,12 @@
 import { getRedisInstance } from "../redis/redisClient";
 
-const timeToLiveSeconds = 60 * 60 * 24;
-
 type RedisData = Record<string, unknown>;
 
-export async function setDataForSession(uuid: string, data: RedisData) {
+export async function setDataForSession(
+  uuid: string,
+  data: RedisData,
+  timeToLiveSeconds: number,
+) {
   return getRedisInstance().set(
     uuid,
     JSON.stringify(data),
@@ -13,9 +15,17 @@ export async function setDataForSession(uuid: string, data: RedisData) {
   );
 }
 
-export async function updateDataForSession(uuid: string, data: RedisData) {
+export async function updateDataForSession(
+  uuid: string,
+  data: RedisData,
+  timeToLiveSeconds: number,
+) {
   const currentData = await getDataForSession(uuid);
-  return setDataForSession(uuid, { ...currentData, ...data });
+  return setDataForSession(
+    uuid,
+    { ...currentData, ...data },
+    timeToLiveSeconds,
+  );
 }
 
 export async function getDataForSession(uuid: string) {
