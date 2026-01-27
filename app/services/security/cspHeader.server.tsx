@@ -4,7 +4,7 @@
 // https://csp-evaluator.withgoogle.com/
 
 import { bucketUrl } from "../cms/bucketUrl";
-import { config } from "../env/env.server";
+import { config } from "../env/public";
 
 const { BUNDID_IDP_ENTRY_POINT } = config();
 

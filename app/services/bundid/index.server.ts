@@ -2,14 +2,16 @@ import { config } from "~/services/env/env.server";
 import { SAML } from "@node-saml/node-saml";
 import { samlKeys } from "./keys";
 import { attributeSchema, samlAuthnRequestExtensions } from "./attributes";
+import { config as publicConfig } from "../env/public";
 
 function getBundIdSaml(backUrl?: string) {
   const {
-    BUNDID_IDP_ENTRY_POINT,
     BUNDID_ENTITY_ID,
     SAML_ASSERTION_CONSUMER_SERVICE_URL,
     SAML_IDP_CERT,
   } = config();
+  const { BUNDID_IDP_ENTRY_POINT } = publicConfig();
+
   const { privateKey, decryptionPvk } = samlKeys();
 
   return new SAML({
