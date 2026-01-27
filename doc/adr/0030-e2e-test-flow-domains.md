@@ -29,7 +29,7 @@ Although these tests provide strong coverage, we still need E2E tests to ensure 
 
 ## Proposal
 
-Remove all existing Flow-domain E2E tests and replace them with a single, generic `fake Flow` Integration test suite. We will keep using playwright, but we will create a new project. This fake Flow service should:
+Remove all existing Flow-domain E2E tests and replace them with a single, generic `Kitchen Sink Test` Integration test suite. We will keep using playwright, but we will create a new project. This Kitchen Sink Test service should:
 
 - Include all currently used form components (Input, Radio, AutoSuggestionInput, etc.) across multiple test pages.
 - Follow a specification defined by the A2J engineering team.
@@ -53,7 +53,7 @@ Remove all existing Flow-domain E2E tests and replace them with a single, generi
 
 - Loss of accessibility checks on real Flow service pages that contain large amounts of content.
 - Potential need for a new script to verify that required Flow pages exist in Strapi, since page existence is still mandatory.
-- We need to restrict access the `fake Flow` in production as this service it is only required for test purposes.
+- We need to restrict access the `Kitchen Sink Test` in production as this service it is only required for test purposes.
 
 ## Future consideration
 

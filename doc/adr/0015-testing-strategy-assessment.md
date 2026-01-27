@@ -40,7 +40,7 @@ These tests are located in `/tests/integration` directory.<br>
 
 Examples:
 
-- Test a `fake Flow` test where is included:
+- Test a `Kitchen Sink Test` test where is included:
   - Form components (Input, Radio, AutoSuggestionInput, etc.) across multiple test pages.
   - Follow a specification defined by the A2J engineering team.
   - Exercise the FlowNavigation component, validating navigation behavior and state handling.
