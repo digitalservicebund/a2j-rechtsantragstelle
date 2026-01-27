@@ -8,6 +8,7 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
 import KernTile from "~/components/kern/formElements/tile/KernTile";
+import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -31,7 +32,15 @@ export function renderZodEnum(
   let options = sortedOptions.map((value) => ({ value, text: value }));
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
-      return (
+      return showKernUX ? (
+        <KernCheckbox
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          required={matchingElement.required}
+          errorMessage={matchingElement.errorMessage}
+        />
+      ) : (
         <Checkbox
           key={fieldName}
           name={fieldName}
