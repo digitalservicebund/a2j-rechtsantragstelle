@@ -1,4 +1,4 @@
-import { KernIcon } from "../commom/KernIcon";
+import { KernIcon } from "../common/KernIcon";
 
 export function KernSkipToContentLink({
   label,

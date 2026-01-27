@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./KernOpenQuestion";
 import { translations } from "~/services/translations/translations";
-import { KernIcon } from "./commom/KernIcon";
+import { KernIcon } from "./common/KernIcon";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
