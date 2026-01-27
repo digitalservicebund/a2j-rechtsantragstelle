@@ -6,6 +6,6 @@ pre-push:
     lint:
       run: pnpm run lint
     format:
-      run: node_modules/.bin/prettier --write '{staged_files}' && git add '{staged_files}'
+      run: pnpm run format
     typecheck:
       run: pnpm run typecheck
