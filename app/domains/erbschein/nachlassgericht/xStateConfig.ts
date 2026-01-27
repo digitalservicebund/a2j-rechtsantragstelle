@@ -1,4 +1,4 @@
-import { mapValues } from "lodash";
+import mapValues from "lodash/mapValues";
 import { erbscheinNachlassgerichtPages } from "./pages";
 import type { Config } from "~/services/flow/server/types";
 import type { ErbscheinNachlassGerichtUserData } from "./userData";
@@ -15,7 +15,18 @@ export const erbscheinNachlassgerichtXstateConfig = {
     [stepIds.lebensmittelpunkt]: {
       on: {
         BACK: stepIds.start,
-        SUBMIT: stepIds.wohnsituation,
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.lebensmittelpunkt === "deutschland",
+            target: stepIds.wohnsituation,
+          },
+          stepIds.auslaendischerErbfall,
+        ],
+      },
+    },
+    [stepIds.auslaendischerErbfall]: {
+      on: {
+        BACK: stepIds.lebensmittelpunkt,
       },
     },
     [stepIds.wohnsituation]: {
@@ -37,22 +48,37 @@ export const erbscheinNachlassgerichtXstateConfig = {
     [stepIds.plzWohnungOderHaus]: {
       on: {
         BACK: stepIds.wohnsituation,
-        SUBMIT: stepIds.strasseHausnummer,
+        SUBMIT: stepIds.nachlassgerichtErgebnis,
       },
     },
     [stepIds.plzPflegeheim]: {
       on: {
         BACK: stepIds.wohnsituation,
-        SUBMIT: stepIds.strasseHausnummer,
+        SUBMIT: stepIds.nachlassgerichtErgebnis,
       },
     },
     [stepIds.plzHospiz]: {
       on: {
         BACK: stepIds.wohnsituation,
-        SUBMIT: stepIds.strasseHausnummer,
+        SUBMIT: stepIds.nachlassgerichtErgebnis,
       },
     },
-    [stepIds.strasseHausnummer]: {
+    // [stepIds.strasseHausnummer]: {
+    //   on: {
+    //     BACK: [
+    //       {
+    //         guard: ({ context }) => context.wohnsituation === "wohnungOderHaus",
+    //         target: stepIds.plzWohnungOderHaus,
+    //       },
+    //       {
+    //         guard: ({ context }) => context.wohnsituation === "pflegeheim",
+    //         target: stepIds.plzPflegeheim,
+    //       },
+    //       stepIds.plzHospiz,
+    //     ],
+    //   },
+    // },
+    [stepIds.nachlassgerichtErgebnis]: {
       on: {
         BACK: [
           {

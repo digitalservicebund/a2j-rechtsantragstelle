@@ -13,6 +13,9 @@ export const erbscheinNachlassgerichtPages = {
       lebensmittelpunkt: z.enum(["deutschland", "ausland"]),
     },
   },
+  auslaendischerErbfall: {
+    stepId: "ergebnis/auslaendische-erbfaelle",
+  },
   wohnsituation: {
     stepId: "wohnsituation",
     pageSchema: {
@@ -43,5 +46,8 @@ export const erbscheinNachlassgerichtPages = {
       strasse: stringRequiredSchema,
       houseNumber: stringRequiredSchema,
     },
+  },
+  nachlassgerichtErgebnis: {
+    stepId: "ergebnis/nachlassgericht",
   },
 } as const satisfies PagesConfig;
