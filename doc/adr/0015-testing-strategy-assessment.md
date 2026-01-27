@@ -8,7 +8,6 @@
 - 2025-01-22: Edited (Renumbered from `0014`)
 - 2025-04-04: Edited (Added chronological status)
 - 2025-07-02: Edited (Updated file ci yml)
-- 2025-12-24: Edited (Updated integration tests)
 
 ## Context
 
@@ -84,7 +83,7 @@ is captured using `vitest` and therefore analyzed for all tests that are execute
 
 #### Tools
 
-- Lefthook: Used to enforce pre-commit `vitest` test runs (and type checking and linting).
+- Lefthook: Used to enforce pre-push `vitest` test runs (and type checking and linting).
 - Faker: Used to generate test data.
 - Fishery: Used to create test data factories.
 
@@ -130,9 +129,9 @@ In case of a failing test in this suite, the test output only shows the context 
 
 The end-to-end tests in the CI pipeline run in sharded mode, meaning that the tests are split into multiple shards to speed up the test execution. At the time of writing, the slowest shard (we currently use 4 shards) of each test run (`verify-local-e2e` and `verify-preview-e2e`) in the CI pipeline takes about 6 to 8 minutes to finish.
 
-#### Automated Testing Pre Commit
+#### Automated Testing Pre Push
 
-Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit or component tests will prevent the commit from being created.
+Lefthook is used also to enforce pre-commit `vitest` test runs. Failing unit, integration or component tests will prevent the commit from being created.
 
 ### Test Data Management
 
