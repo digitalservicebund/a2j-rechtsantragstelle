@@ -1,16 +1,11 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const erbscheinNachlassgerichtPages = {
   start: {
     stepId: "start",
-    // verstorbeneName is potentially migrated from /erbschein/wegweiser and has no corresponding input field
-    pageSchema: {
-      verstorbeneName: stringOptionalSchema,
-    },
   },
   lebensmittelpunkt: {
     stepId: "lebensmittelpunkt",

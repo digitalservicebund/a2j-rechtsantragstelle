@@ -112,10 +112,8 @@ export const getUserDataAndFlow = async (
           ? currentFlow.migration?.sortedFields
           : undefined,
       buttonUrl:
-        "migration" in currentFlow &&
-        currentFlow.migration &&
-        "buttonUrl" in currentFlow.migration
-          ? currentFlow.migration.buttonUrl
+        "migration" in currentFlow
+          ? currentFlow.migration?.buttonUrl
           : undefined,
     },
   });
