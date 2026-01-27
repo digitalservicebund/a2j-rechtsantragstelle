@@ -6,5 +6,5 @@ export const erbscheinNachlassgericht = {
   flowType: "vorabCheck",
   config: erbscheinNachlassgerichtXstateConfig,
   guards: {},
-  stringReplacements: (context) => ({ ...getAmtsgerichtStrings(context) }),
+  stringReplacements: () => ({ ...getAmtsgerichtStrings() }),
 } satisfies Flow;

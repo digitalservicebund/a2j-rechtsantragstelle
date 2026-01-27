@@ -1,8 +1,4 @@
-import { ErbscheinNachlassGerichtUserData } from "./userData";
-
-export const getAmtsgerichtStrings = (
-  context: ErbscheinNachlassGerichtUserData,
-) => {
+export const getAmtsgerichtStrings = () => {
   // TODO: Replace with real lookup
   const court = {
     BEZEICHNUNG: "Amtsgericht Musterstadt",
