@@ -5,7 +5,7 @@ import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
 import KernButton from "./KernButton";
 import KernLabel from "./KernLabel";
-import { KernIcon } from "./commom/KernIcon";
+import { KernIcon } from "./common/KernIcon";
 
 type Props = {
   identifier?: string;

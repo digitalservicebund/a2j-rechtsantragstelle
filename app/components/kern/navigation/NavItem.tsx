@@ -11,7 +11,7 @@ import {
 import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
-import { KernIcon } from "../commom/KernIcon";
+import { KernIcon } from "../common/KernIcon";
 
 type StateIconProps = {
   id: string;
@@ -19,6 +19,7 @@ type StateIconProps = {
   showWarningIcon?: boolean;
 };
 
+// oxlint-disable-next-line no-unused-vars
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (

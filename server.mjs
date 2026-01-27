@@ -1,3 +1,4 @@
+// oxlint-disable no-console
 const shouldStartDevServer = process.env.NODE_ENV !== "production";
 let isShuttingDown = false; // Prevent multiple parallel shutdowns
 

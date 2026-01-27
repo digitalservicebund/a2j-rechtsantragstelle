@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/no-unsafe-call: 0, @typescript-eslint/no-var-requires: 0*/
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 

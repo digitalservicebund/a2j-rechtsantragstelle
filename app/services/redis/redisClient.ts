@@ -23,7 +23,6 @@ export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
     logError({ message: "[*] Redis", error });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   redisClient.on("ready", async () => {
     console.log("Redis client ready");
     await checkRedisVersion(redisClient);

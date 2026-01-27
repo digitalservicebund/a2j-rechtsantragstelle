@@ -60,8 +60,6 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
@@ -91,8 +89,6 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
 
     expect(addNewPageInCaseMissingVerticalSpace).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(addNewPageInCaseMissingVerticalSpace).toBeDefined();
   });
 });
 

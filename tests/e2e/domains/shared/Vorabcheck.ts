@@ -36,7 +36,6 @@ export class Vorabcheck {
      *
      * see https://github.com/microsoft/playwright/issues/20853 for a discussion,
      */
-    // eslint-disable-next-line sonarjs/deprecation
     await this.page.waitForNavigation();
   }
 
