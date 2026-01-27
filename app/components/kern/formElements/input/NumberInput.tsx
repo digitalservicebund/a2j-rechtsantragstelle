@@ -43,7 +43,7 @@ const NumberInput = function InputComponent({
     >
       {label && <div className="kern-label">{label}</div>}
       <input
-        className={classNames("kern-form-input__input", {
+        className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
         })}
         {...field.getInputProps({
