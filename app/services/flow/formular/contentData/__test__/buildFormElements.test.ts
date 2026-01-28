@@ -40,7 +40,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementWithRadio,
+      mockUserData,
+      "/some/pathname",
+    );
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
@@ -63,10 +67,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      plz: "12345",
-      pageData: { arrayIndexes: [] },
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        plz: "12345",
+        pageData: { arrayIndexes: [] },
+      },
+      "/some/pathname",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -89,10 +97,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      postleitzahlBeklagtePerson: "12345",
-      pageData: { arrayIndexes: [] },
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        postleitzahlBeklagtePerson: "12345",
+        pageData: { arrayIndexes: [] },
+      },
+      "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -115,10 +127,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      postleitzahlSecondary: "12345",
-      pageData: { arrayIndexes: [] },
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        postleitzahlSecondary: "12345",
+        pageData: { arrayIndexes: [] },
+      },
+      "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -139,7 +155,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementWithRadio,
+      mockUserData,
+      "/some/pathname",
+    );
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
@@ -160,7 +180,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementCheckbox, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementCheckbox,
+      mockUserData,
+      "/some/pathname",
+    );
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });

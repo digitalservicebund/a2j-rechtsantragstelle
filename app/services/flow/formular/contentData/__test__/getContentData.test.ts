@@ -106,7 +106,7 @@ describe("getContentData", () => {
 
   describe("getFormElements", () => {
     it("should return correctly the form elements", () => {
-      const actual = callContentData.getFormElements();
+      const actual = callContentData.getFormElements("/some/pathname");
 
       expect(actual).toEqual(mockCmsElement.formContent);
     });
