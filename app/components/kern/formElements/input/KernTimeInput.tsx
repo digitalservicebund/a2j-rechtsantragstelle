@@ -14,6 +14,11 @@ export type KernTimeInputProps = Readonly<{
   helperText?: string;
 }>;
 
+type MaskedInputProps = KernTimeInputProps & {
+  readonly mask: string | RegExp;
+  readonly eager?: boolean | ("remove" | "append");
+};
+
 const TimeInputBase = function TimeInputComponent({
   name,
   label,
@@ -73,7 +78,7 @@ const KernTimeInput = (props: KernTimeInputProps) => {
   return (
     <MaskedTimeInput
       {...props}
-      {...({ mask: "`0`0:`0`0", eager: "append" } as any)}
+      {...({ mask: "`0`0:`0`0", eager: "append" } as MaskedInputProps)}
     />
   );
 };
