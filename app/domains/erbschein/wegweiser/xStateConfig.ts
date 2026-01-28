@@ -23,7 +23,7 @@ export const erbscheinWegweiserXstateConfig = {
         BACK: stepIds.verstorbeneName,
         SUBMIT: [
           {
-            guard: ({ context }) => context.anzahlKinder === 0,
+            guard: ({ context }) => context.kinder?.count === 0,
             target: stepIds.staatsangehoerigkeit,
           },
           stepIds.kinderDesVerstorbenes,
@@ -47,7 +47,7 @@ export const erbscheinWegweiserXstateConfig = {
         ],
         BACK: [
           {
-            guard: ({ context }) => context.anzahlKinder === 0,
+            guard: ({ context }) => context.kinder?.count === 0,
             target: stepIds.verstorbeneAnzahlKinder,
           },
           stepIds.kinderDesVerstorbenes,

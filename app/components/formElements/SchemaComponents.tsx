@@ -4,7 +4,7 @@ import {
   isZodString,
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
-import type { SchemaObject, UserData } from "~/domains/userData";
+import type { SchemaObject } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
@@ -29,7 +29,6 @@ type Props = {
   formComponents?: StrapiFormComponent[];
   className?: string;
   showKernUX?: boolean;
-  stepData?: UserData;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -68,7 +67,6 @@ export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  stepData,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -90,11 +88,7 @@ export const SchemaComponents = ({
         if (fieldSetGroup !== undefined) {
           return renderFieldSet(fieldName, fieldSetGroup);
         } else if (dynamicArray !== undefined) {
-          return renderDynamicArray({
-            fieldName,
-            stepData: stepData ?? {},
-            ...dynamicArray,
-          });
+          return renderDynamicArray(dynamicArray);
         }
 
         const matchingElement = formComponents

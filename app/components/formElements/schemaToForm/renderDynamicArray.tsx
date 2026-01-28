@@ -1,7 +1,5 @@
-import {
-  DynamicArray,
-  type DynamicArrayProps,
-} from "~/components/formElements/DynamicArray";
+import { DynamicArray } from "~/components/formElements/DynamicArray";
+import { type StrapiDynamicArray } from "~/services/cms/models/formElements/StrapiDynamicArraySchema";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
 export const getDynamicArrayByFieldName = (
@@ -16,9 +14,6 @@ export const getDynamicArrayByFieldName = (
     .find(({ name }) => name === fieldName);
 };
 
-export const renderDynamicArray = ({
-  fieldName,
-  ...props
-}: DynamicArrayProps) => {
-  return <DynamicArray key={fieldName} fieldName={fieldName} {...props} />;
+export const renderDynamicArray = (props: StrapiDynamicArray) => {
+  return <DynamicArray key={props.name} {...props} />;
 };

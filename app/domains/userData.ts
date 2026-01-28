@@ -9,7 +9,7 @@ import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
-  [key: string]: BasicTypes | BasicTypes[] | ObjectType;
+  [key: string]: BasicTypes | BasicTypes[] | ObjectType | ObjectType[];
 };
 export type ArrayData = Array<Record<string, BasicTypes | ArrayData>>;
 export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;

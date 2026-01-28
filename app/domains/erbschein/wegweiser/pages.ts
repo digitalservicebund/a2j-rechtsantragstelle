@@ -1,17 +1,34 @@
-import { z } from "zod";
+import { z, type ZodType } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const nestedKinderSchema = z.array(
-  z.object({
-    name: stringRequiredSchema,
-    alive: YesNoAnswer,
-    kinder: z.array(z.lazy((): any => nestedKinderSchema)).optional(),
-  }),
-);
+export type NestedKinder = {
+  count: number;
+  entries?: Array<{
+    name: string;
+    alive: z.infer<typeof YesNoAnswer>;
+    hatteKinder?: z.infer<typeof YesNoAnswer>;
+    kinder?: NestedKinder;
+  }>;
+};
+
+export const nestedKinderSchema = z.object({
+  count: integerSchema,
+  entries: z
+    .array(
+      z.object({
+        name: stringRequiredSchema,
+        alive: YesNoAnswer,
+        hatteKinder: YesNoAnswer.optional(),
+        kinder: z
+          .lazy((): ZodType<NestedKinder> => nestedKinderSchema)
+          .optional(),
+      }),
+    )
+    .optional(),
+});
 
 export const erbscheinWegweiserPages = {
   start: {
@@ -26,14 +43,15 @@ export const erbscheinWegweiserPages = {
   verstorbeneAnzahlKinder: {
     stepId: "verstorbene-anzahl-kinder",
     pageSchema: {
-      anzahlKinder: integerSchema,
+      kinder: z.object({
+        count: integerSchema,
+      }),
     },
   },
   kinderDesVerstorbenes: {
     stepId: "kinder-des-verstorbenes",
     pageSchema: {
       kinder: nestedKinderSchema,
-      anzahlKinder: hiddenInputSchema(integerSchema),
     },
   },
   staatsangehoerigkeit: {
