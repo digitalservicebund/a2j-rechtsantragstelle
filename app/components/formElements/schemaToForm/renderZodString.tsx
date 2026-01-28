@@ -5,14 +5,15 @@ import Input, { type InputProps } from "~/components/formElements/Input";
 import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import AutoSuggestInput from "../AutoSuggestInput";
 import NumberIncrement from "~/components/formElements/NumberIncrement";
 import KernTextarea from "~/components/kern/formElements/Textarea";
 import TextInput from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
-import KernAutoSuggestInput from "~/components/kern/formElements/AutoSuggest/KernAutoSuggestInput";
 import KernDateInput from "~/components/kern/formElements/KernDateInput";
+import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
+import AutoSuggestInput from "../AutoSuggestInput";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -54,7 +55,11 @@ export const renderZodString = (
       <DateInput key={fieldName} {...inputProps} />
     );
   if (matchingElement?.__component === "form-elements.time-input")
-    return <TimeInput key={fieldName} {...inputProps} />;
+    return showKernUX ? (
+      <KernTimeInput key={fieldName} {...inputProps} />
+    ) : (
+      <TimeInput key={fieldName} {...inputProps} />
+    );
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
     return showKernUX ? (
       <KernAutoSuggestInput
