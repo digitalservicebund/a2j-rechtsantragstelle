@@ -2,7 +2,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { KernStandaloneLink } from "../KernStandaloneLink";
-import { KernIcon } from "~/components/kern/commom/KernIcon";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 type KernBreadcrumb = {
   url: string;

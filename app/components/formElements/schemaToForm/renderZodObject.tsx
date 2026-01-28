@@ -5,6 +5,8 @@ import SplitDateInput from "../SplitDateInput";
 import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
 import KernDateInput from "~/components/kern/formElements/KernDateInput";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
+import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -20,7 +22,14 @@ export const renderZodObject = (
         .map((el) => [el.name.split(".").at(-1)!, el.label]),
     );
 
-    return (
+    return showKernUX ? (
+      <KernExclusiveCheckboxes
+        key={fieldName}
+        name={fieldName}
+        options={Object.keys(nestedSchema.shape)}
+        labels={labels}
+      ></KernExclusiveCheckboxes>
+    ) : (
       <ExclusiveCheckboxes
         key={fieldName}
         name={fieldName}
@@ -41,7 +50,14 @@ export const renderZodObject = (
     nestedSchema.shape,
     (_, key) => `${fieldName}.${key}`,
   );
-  return (
+  return showKernUX ? (
+    <KernSchemaComponents
+      key={fieldName}
+      pageSchema={innerSchema}
+      formComponents={formComponents}
+      showKernUX={showKernUX}
+    />
+  ) : (
     <SchemaComponents
       key={fieldName}
       pageSchema={innerSchema}

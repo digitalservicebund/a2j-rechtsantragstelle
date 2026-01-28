@@ -5,7 +5,7 @@ import { translations } from "~/services/translations/translations";
 import KernButton from "./KernButton";
 import { KernOpenQuestion, type SurveyResponses } from "./KernOpenQuestion";
 import { KernMultipleChoiceQuestion } from "./KernMultipleChoiceQuestion";
-import { KernIcon } from "./commom/KernIcon";
+import { KernIcon } from "./common/KernIcon";
 
 type KernPosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
