@@ -238,7 +238,7 @@ const KernAutoSuggestInput = ({
           styles={kernCustomStyles()}
           classNames={{
             control: () =>
-              classNames("kern-form-input__input", {
+              classNames("kern-form-input__input bg-white!", {
                 "kern-form-input__input--error": hasError,
               }),
           }}
