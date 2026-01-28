@@ -5,13 +5,13 @@ import Input, { type InputProps } from "~/components/formElements/Input";
 import Textarea from "~/components/formElements/Textarea";
 import TimeInput from "~/components/formElements/TimeInput";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import AutoSuggestInput from "../AutoSuggestInput";
 import KernTextarea from "~/components/kern/formElements/Textarea";
 import TextInput from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
-import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 import KernDateInput from "~/components/kern/formElements/KernDateInput";
+import AutoSuggestInput from "../AutoSuggestInput";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,

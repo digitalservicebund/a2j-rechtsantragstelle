@@ -1,7 +1,7 @@
-import { FieldApi } from "@rvf/react-router";
+import { type FieldApi } from "@rvf/react-router";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { type ControlledCheckboxProps } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
-import {type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
+import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
 
 /**
  * Checkbox change handler, handles both normal checkboxes and the special "none" checkbox
