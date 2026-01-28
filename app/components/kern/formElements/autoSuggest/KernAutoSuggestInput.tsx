@@ -17,12 +17,12 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import InputError from "../InputError";
+import { FormatOptionLabel } from "~/components/formElements/autoSuggestInput/customComponents";
 import KernAutoSuggestClearInput from "./KernAutoSuggestClearInput";
 import KernAutoSuggestController from "./KernAutoSuggestController";
 import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
 import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
-import { FormatOptionLabel } from "~/components/formElements/autoSuggestInput/customComponents";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
