@@ -68,7 +68,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     userVisitedValidationPage,
   );
   const cmsContent = contentData.getCMSContent();
-  const formElements = contentData.getFormElements();
+  const formElements = contentData.getFormElements(pathname);
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData(pathname);
   const buttonNavigationProps = contentData.getButtonNavigation(
