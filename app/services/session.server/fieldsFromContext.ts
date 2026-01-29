@@ -6,7 +6,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 
 function flattenObjectWithArrayKeys(
   obj: UserData,
-  arrayPage: number,
+  arrayPage: number[],
   prefix = "",
 ): Record<string, UserData> {
   const result: Record<string, UserData> = {};
@@ -15,12 +15,12 @@ function flattenObjectWithArrayKeys(
     const value = obj[key];
     const newKey = prefix ? `${prefix}#${key}` : key;
 
-    if (Array.isArray(value) && typeof value[arrayPage] === "object") {
+    if (Array.isArray(value) && typeof value[arrayPage[0]] === "object") {
       // Flatten first object in array
       const flattenedChild = flattenObjectWithArrayKeys(
-        value[arrayPage],
-        arrayPage,
-        key,
+        value[arrayPage[0]],
+        arrayPage.slice(1),
+        newKey,
       );
       Object.assign(result, flattenedChild);
     } else {
@@ -44,7 +44,7 @@ export const fieldsFromContext = (context: UserData, fieldNames: string[]) => {
   const object = pick(context, resolvedFieldNames);
 
   if (arrayIsNonEmpty(arrayIndexes)) {
-    return flattenObjectWithArrayKeys(object, arrayIndexes[0]) as UserData;
+    return flattenObjectWithArrayKeys(object, arrayIndexes) as UserData;
   }
 
   return object;

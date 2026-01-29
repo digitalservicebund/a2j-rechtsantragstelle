@@ -34,16 +34,30 @@ function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   return "/" + leaf.path.join("/");
 }
 
-const getSteps = (machine: FlowStateMachine) => {
-  // The machine passed here relies on the context it was initialized with.
-  // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
-  // idea: machine.provide() with action that assigns the new context
-
+const getArrayEvents = (machine: FlowStateMachine) => {
   // Technically, arrayEvents are never triggered. They are only added here to make the subflows reachable to xstate
   const arrayConfig = rootMeta(machine)?.arrays ?? {};
   const arrayEvents = Object.values(arrayConfig).map(({ event }) => ({
     type: event as NavigationEvent,
   }));
+
+  Object.values(arrayConfig)
+    .filter((config) => config.nestedArrays)
+    .forEach((config) => {
+      Object.values(config.nestedArrays!).forEach((nestedArrayConfig) => {
+        arrayEvents.push({ type: nestedArrayConfig.event as NavigationEvent });
+      });
+    });
+
+  return arrayEvents;
+};
+
+const getSteps = (machine: FlowStateMachine) => {
+  // The machine passed here relies on the context it was initialized with.
+  // https://www.jsdocs.io/package/xstate#FlowStateMachine.provide is supposed to allow this but context isn't applied
+  // idea: machine.provide() with action that assigns the new context
+
+  const arrayEvents = getArrayEvents(machine);
 
   const possiblePaths = getShortestPaths(machine, {
     events: [{ type: "SUBMIT" }, ...arrayEvents],

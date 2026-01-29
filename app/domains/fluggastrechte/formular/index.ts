@@ -115,6 +115,14 @@ export const fluggastrechtFlow = {
           event: "add-weiterePersonen",
           displayIndexOffset: WEITERE_PERSONEN_START_INDEX,
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
+          nestedArrays: {
+            weiterePersonenAdresse: {
+              url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/adresse",
+              initialInputUrl: "daten",
+              statementKey: "isWeiterePersonen",
+              event: "add-weiterePersonenAdresse",
+            },
+          },
         },
       } satisfies Partial<
         Record<keyof FluggastrechteUserData, ArrayConfigServer>
