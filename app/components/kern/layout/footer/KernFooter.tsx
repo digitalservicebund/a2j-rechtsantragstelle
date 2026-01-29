@@ -5,28 +5,16 @@ import { KernFooterExternalLinks } from "./KernFooterExternalLinks";
 import { KernFooterDeletePersonalData } from "./KernFooterDeletePersonalData";
 import { KernFooterInternalLinks } from "./KernFooterInternalLinks";
 
-type LinkProps = {
-  url: string;
-  text?: string;
-};
-
-export type CategorizedLinkProps = {
-  readonly id: number;
-  readonly title: string;
-  readonly links: LinkProps[];
-};
 type FooterProps = Readonly<{
   image?: ImageProps;
   showDeletionBanner?: boolean;
   ariaLabel?: string;
-  categorizedLinks: CategorizedLinkProps[];
 }>;
 
 export default function KernFooter({
   image,
   showDeletionBanner = false,
   ariaLabel,
-  categorizedLinks,
 }: FooterProps) {
   return (
     <>
@@ -51,7 +39,7 @@ export default function KernFooter({
           className="[grid-row:2] md:[grid-row:2] lg:[grid-row:1] xl:[grid-row:1]"
           aria-label={ariaLabel}
         >
-          <KernFooterInternalLinks categorizedLinks={categorizedLinks} />
+          <KernFooterInternalLinks />
         </GridItem>
       </Grid>
       {showDeletionBanner && <KernFooterDeletePersonalData />}
