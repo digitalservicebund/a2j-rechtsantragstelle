@@ -1,7 +1,7 @@
-import type { Config } from "~/services/flow/server/types";
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
 import mapValues from "lodash/mapValues";
+import { type Config } from "~/services/flow/server/types";
 
 const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
 
@@ -13,30 +13,47 @@ export const erbscheinWegweiserXstateConfig = {
       on: { SUBMIT: stepIds.verstorbeneName },
     },
     [stepIds.verstorbeneName]: {
+      id: stepIds.verstorbeneName,
       on: {
         BACK: stepIds.start,
-        SUBMIT: stepIds.verstorbeneAnzahlKinder,
+        SUBMIT: "kinder-recursion",
       },
     },
-    [stepIds.verstorbeneAnzahlKinder]: {
-      on: {
-        BACK: stepIds.verstorbeneName,
-        SUBMIT: [
-          {
-            guard: ({ context }) => context.kinder?.count === 0,
-            target: stepIds.staatsangehoerigkeit,
+    "kinder-recursion": {
+      id: "kinder-recursion",
+      initial: "anzahl-kinder",
+      states: {
+        "anzahl-kinder": {
+          id: "anzahl-kinder",
+          on: {
+            BACK: `#${stepIds.verstorbeneName}`, // TODO: figure out back logic,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.kinder?.count === 0,
+                target: `#${stepIds.staatsangehoerigkeit}`,
+              },
+              "kinder",
+            ],
           },
-          stepIds.kinderDesVerstorbenes,
-        ],
-      },
-    },
-    [stepIds.kinderDesVerstorbenes]: {
-      on: {
-        BACK: stepIds.verstorbeneAnzahlKinder,
-        SUBMIT: stepIds.staatsangehoerigkeit,
+        },
+        kinder: {
+          id: "kinder",
+          on: {
+            BACK: "anzahl-kinder",
+            SUBMIT: "kinder-router",
+          },
+        },
+        "kinder-router": {
+          always: [
+            {},
+            // All children alive, go to next section
+            `#${stepIds.staatsangehoerigkeit}`,
+          ],
+        },
       },
     },
     [stepIds.staatsangehoerigkeit]: {
+      id: stepIds.staatsangehoerigkeit,
       on: {
         SUBMIT: [
           {
@@ -48,9 +65,9 @@ export const erbscheinWegweiserXstateConfig = {
         BACK: [
           {
             guard: ({ context }) => context.kinder?.count === 0,
-            target: stepIds.verstorbeneAnzahlKinder,
+            target: `#anzahl-kinder`,
           },
-          stepIds.kinderDesVerstorbenes,
+          `#kinder`,
         ],
       },
     },

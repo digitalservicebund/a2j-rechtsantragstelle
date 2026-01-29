@@ -40,16 +40,16 @@ export const erbscheinWegweiserPages = {
       verstorbeneName: z.string(),
     },
   },
-  verstorbeneAnzahlKinder: {
-    stepId: "verstorbene-anzahl-kinder",
+  anzahlKinder: {
+    stepId: "kinder-recursion/anzahl-kinder",
     pageSchema: {
       kinder: z.object({
         count: integerSchema,
       }),
     },
   },
-  kinderDesVerstorbenes: {
-    stepId: "kinder-des-verstorbenes",
+  kinder: {
+    stepId: "kinder-recursion/kinder",
     pageSchema: {
       kinder: nestedKinderSchema,
     },
