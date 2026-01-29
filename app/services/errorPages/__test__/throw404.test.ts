@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { config } from "~/services/env/public";
+import { mockPublicConfig } from "~/services/env/__test__/publicConfigMock";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   throw404OnProduction,
@@ -25,11 +26,9 @@ describe("throw404OnProduction", () => {
   });
 
   it("should throw a 404 Response in production environment", () => {
-    vi.mocked(config).mockReturnValue({
-      ENVIRONMENT: "production",
-      POSTHOG_API_KEY: "",
-      SENTRY_DSN: "",
-    });
+    vi.mocked(config).mockReturnValue(
+      mockPublicConfig({ ENVIRONMENT: "production" }),
+    );
 
     try {
       throw404OnProduction();
@@ -40,11 +39,9 @@ describe("throw404OnProduction", () => {
   });
 
   it("should not throw in non-production environment", () => {
-    vi.mocked(config).mockReturnValue({
-      ENVIRONMENT: "development",
-      POSTHOG_API_KEY: "",
-      SENTRY_DSN: "",
-    });
+    vi.mocked(config).mockReturnValue(
+      mockPublicConfig({ ENVIRONMENT: "development" }),
+    );
 
     expect(() => throw404OnProduction()).not.toThrow();
   });
