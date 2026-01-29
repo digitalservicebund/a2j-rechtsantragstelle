@@ -1,7 +1,7 @@
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
-import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
 import mapValues from "lodash/mapValues";
 import { type Config } from "~/services/flow/server/types";
+import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
 
 const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
 
@@ -23,14 +23,31 @@ export const erbscheinWegweiserXstateConfig = {
       id: "kinder-recursion",
       initial: "anzahl-kinder",
       states: {
+        // "kinder-router": {
+        //   always: [
+        //     {
+        //       guard: ({ context }) => {
+        //         // TODO: calculate which pointer we're at, dive into the context there, and check for >=1 dead child
+        //         const firstRecursion = context.kinder?.count === undefined;
+        //         return Boolean(
+        //           firstRecursion ||
+        //           context.kinder?.entries?.some((c) => c.alive === "no"),
+        //         );
+        //       },
+        //       target: "anzahl-kinder", // TODO: dynamically go deeper into 1st dead child,
+        //     },
+        //     // All children alive, go to next section
+        //     `#${stepIds.staatsangehoerigkeit}`,
+        //   ],
+        // },
         "anzahl-kinder": {
           id: "anzahl-kinder",
           on: {
-            BACK: `#${stepIds.verstorbeneName}`, // TODO: figure out back logic,
+            BACK: `#${stepIds.verstorbeneName}`, // TODO: figure out back logic
             SUBMIT: [
               {
                 guard: ({ context }) => context.kinder?.count === 0,
-                target: `#${stepIds.staatsangehoerigkeit}`,
+                target: `#${stepIds.staatsangehoerigkeit}`, // TODO: Go into dead sibling if existing
               },
               "kinder",
             ],
@@ -40,15 +57,22 @@ export const erbscheinWegweiserXstateConfig = {
           id: "kinder",
           on: {
             BACK: "anzahl-kinder",
-            SUBMIT: "kinder-router",
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  Boolean(
+                    context.kinder?.entries?.some((c) => c.alive === "no"),
+                  ),
+                target: "", // TODO: Go deeper into first dead child
+              },
+              /**
+               * All children alive, end of leaf.
+               *
+               * TODO: Traverse back up the tree to a sibling
+               */
+              `#${stepIds.staatsangehoerigkeit}`,
+            ],
           },
-        },
-        "kinder-router": {
-          always: [
-            {},
-            // All children alive, go to next section
-            `#${stepIds.staatsangehoerigkeit}`,
-          ],
         },
       },
     },
@@ -62,13 +86,7 @@ export const erbscheinWegweiserXstateConfig = {
           },
           stepIds.lebensmittelpunkt,
         ],
-        BACK: [
-          {
-            guard: ({ context }) => context.kinder?.count === 0,
-            target: `#anzahl-kinder`,
-          },
-          `#kinder`,
-        ],
+        BACK: "#kinder-recursion",
       },
     },
     [stepIds.lebensmittelpunkt]: {
