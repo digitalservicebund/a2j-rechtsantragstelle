@@ -28,9 +28,7 @@ export const abgabeXstateConfig = {
       always: {
         guard: ({ context }): boolean =>
           !!context.pageData?.subflowDoneStates &&
-          Object.values(context.pageData.subflowDoneStates).every(
-            (isDone) => isDone,
-          ),
+          Object.values(context.pageData.subflowDoneStates).every(Boolean),
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,
