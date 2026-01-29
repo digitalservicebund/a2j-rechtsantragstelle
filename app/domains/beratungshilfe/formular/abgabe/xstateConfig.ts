@@ -27,7 +27,8 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: ({ context }): boolean =>
-          Object.values(context.pageData?.subflowDoneStates ?? [false]).every(
+          !!context.pageData?.subflowDoneStates &&
+          Object.values(context.pageData.subflowDoneStates).every(
             (isDone) => isDone,
           ),
         target: showAutoSummary
