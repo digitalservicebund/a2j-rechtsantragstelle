@@ -17,13 +17,18 @@ const addDataListArgumentToAutoSuggestionInput = (
       dataListArgument = userDataWithPageData.plz;
     }
 
-    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
-    if (typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string") {
+    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
+    if (
+      element.name === "strasseBeklagte" &&
+      typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string"
+    ) {
       dataListArgument = userDataWithPageData.postleitzahlBeklagtePerson;
     }
-
-    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
-    if (typeof userDataWithPageData?.postleitzahlSecondary === "string") {
+    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
+    if (
+      element.name === "strasseSekundaer" &&
+      typeof userDataWithPageData?.postleitzahlSecondary === "string"
+    ) {
       dataListArgument = userDataWithPageData.postleitzahlSecondary;
     }
 
@@ -40,7 +45,6 @@ export const buildFormElements = (
   formContent.map((element) => {
     if (element.__component === "form-elements.select" && heading)
       element.altLabel = heading;
-
     addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
 
     return element;
