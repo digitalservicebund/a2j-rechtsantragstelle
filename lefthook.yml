@@ -3,6 +3,8 @@ pre-push:
   commands:
     format:
       run: pnpm run format
+      only:
+        - ref: main
     "unit tests":
       run: pnpm run test
       only:
