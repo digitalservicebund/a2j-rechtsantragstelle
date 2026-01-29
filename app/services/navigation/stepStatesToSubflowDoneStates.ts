@@ -1,6 +1,6 @@
 import type { StepState } from "../flow/server/buildFlowController";
 
-export const subflowDoneStatesFromStepStates = (stepStates: StepState[]) =>
+export const stepStatesToSubflowDoneStates = (stepStates: StepState[]) =>
   Object.fromEntries(
     stepStates
       .filter((stepState) => !stepState.excludedFromValidation)
