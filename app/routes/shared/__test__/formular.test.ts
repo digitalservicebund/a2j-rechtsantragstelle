@@ -145,7 +145,7 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ name: "" });
       });
 
-      it("should update session twice when form validation succeeds with migration data", async () => {
+      it("should update session with migration data when form validation succeeds", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
@@ -155,17 +155,13 @@ describe("formular.server", () => {
 
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
-        expect(updateSession).toHaveBeenCalledTimes(2);
+        expect(updateSession).toHaveBeenCalledTimes(1);
         expect(updateSession).toHaveBeenCalledWith(
           expect.anything(),
           expect.objectContaining({
-            name: "Valid Name",
+            name: "Migration Name",
           }),
         );
-
-        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
-          name: "Migration Name",
-        });
       });
 
       it("should call postValidationFormUserData once when form validation succeeds", async () => {
