@@ -17,7 +17,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       : []),
     {
       stepId: "/abgabe/art",
-      userInput: { abgabeArt: "online" },
+      userInput: { abgabeArt: "online", stepDoneStates: {} },
     },
     ...(showFileUpload
       ? [
@@ -37,7 +37,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       : []),
     {
       stepId: "/abgabe/art",
-      userInput: { abgabeArt: "ausdrucken" },
+      userInput: { abgabeArt: "ausdrucken", stepDoneStates: {} },
     },
     {
       stepId: "/abgabe/ausdrucken",

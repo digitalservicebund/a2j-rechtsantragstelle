@@ -25,7 +25,6 @@ vi.mock("~/services/logging", () => ({
   logWarning: vi.fn(),
 }));
 
-vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/upload/fileUploadHelpers.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
@@ -157,9 +156,12 @@ describe("formular.server", () => {
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(updateSession).toHaveBeenCalledTimes(2);
-        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
-          name: "Valid Name",
-        });
+        expect(updateSession).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({
+            name: "Valid Name",
+          }),
+        );
 
         expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
           name: "Migration Name",

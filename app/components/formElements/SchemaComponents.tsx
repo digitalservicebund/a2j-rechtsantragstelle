@@ -19,6 +19,10 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import {
+  isZodRecord,
+  ZodRecordComponent,
+} from "~/components/formElements/schemaToForm/renderZodRecord";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -96,6 +100,16 @@ export const SchemaComponents = ({
         }
 
         const nestedSchema = getNestedSchema(fieldSchema);
+
+        if (isZodRecord(nestedSchema))
+          return (
+            <ZodRecordComponent
+              key={fieldName}
+              nestedSchema={nestedSchema}
+              fieldName={fieldName}
+              formComponents={formComponents}
+            />
+          );
 
         if (isZodObject(nestedSchema)) {
           return renderZodObject(nestedSchema, fieldName, formComponents);
