@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import {
   pdfFileUploadArrayOptionalSchema,
   pdfFileUploadArrayRequiredSchema,
@@ -17,7 +16,6 @@ export const berHAntragAbgabePages = {
     stepId: "abgabe/art",
     pageSchema: {
       abgabeArt: z.enum(["online", "ausdrucken"]),
-      stepDoneStates: z.record(z.string(), hiddenInputSchema(z.string())),
     },
   },
   zusammenfassung: {

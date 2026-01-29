@@ -27,9 +27,8 @@ export const abgabeXstateConfig = {
       meta: { triggerValidation: true },
       always: {
         guard: ({ context }): boolean =>
-          !!context.stepDoneStates &&
-          Object.entries(context.stepDoneStates).every(
-            ([, isDone]) => isDone === "true",
+          Object.values(context.pageData?.subflowDoneStates ?? [false]).every(
+            (isDone) => isDone,
           ),
         target: showAutoSummary
           ? steps.zusammenfassung.relative

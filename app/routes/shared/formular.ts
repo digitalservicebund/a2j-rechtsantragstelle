@@ -181,9 +181,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  const stepDoneStates: Record<string, string> = buildFlowController({
+  const subflowDoneStates: Record<string, boolean> = buildFlowController({
     config: currentFlow.config,
-    data: merge(flowSession.data, resultFormUserData.value.userData),
+    data: merge({}, flowSession.data, resultFormUserData.value.userData),
     guards: "guards" in currentFlow ? currentFlow.guards : {},
   })
     .stepStates()
@@ -191,19 +191,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     .reduce(
       (prev, stepState) => ({
         ...prev,
-        [stepState.stepId.substring(1)]: String(
+        [stepState.stepId.substring(1)]:
           stepState.isDone && stepState.isReachable,
-        ),
       }),
       {},
     );
 
   updateSession(
     flowSession,
-    merge(resultFormUserData.value.userData, { stepDoneStates }),
+    merge({}, resultFormUserData.value.userData, {
+      pageData: { subflowDoneStates },
+    }),
   );
 
-  // TODO: add migrationData to stepDoneStates data
   if (resultFormUserData.value.migrationData) {
     updateSession(flowSession, resultFormUserData.value.migrationData);
   }
