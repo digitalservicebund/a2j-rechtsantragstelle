@@ -68,8 +68,8 @@ export const getContentData = (
         cmsContent.content,
       );
     },
-    getFormElements: (pathname: string) => {
-      return buildFormElements(cmsContent, userDataWithPageData, pathname);
+    getFormElements: () => {
+      return buildFormElements(cmsContent, userDataWithPageData);
     },
     getTranslations: () => {
       return translations;

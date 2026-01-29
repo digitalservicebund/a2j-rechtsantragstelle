@@ -6,7 +6,6 @@ type FormElement = CMSContent["formContent"][number];
 const addDataListArgumentToAutoSuggestionInput = (
   element: FormElement,
   userDataWithPageData: UserDataWithPageData,
-  pathname?: string,
 ) => {
   if (
     element.__component === "form-elements.auto-suggest-input" &&
@@ -20,16 +19,14 @@ const addDataListArgumentToAutoSuggestionInput = (
 
     // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
     if (
-      pathname ===
-        "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person" &&
+      element.name === "strasseBeklagte" &&
       typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string"
     ) {
       dataListArgument = userDataWithPageData.postleitzahlBeklagtePerson;
     }
     // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
     if (
-      pathname ===
-        "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer" &&
+      element.name === "strasseSekundaer" &&
       typeof userDataWithPageData?.postleitzahlSecondary === "string"
     ) {
       dataListArgument = userDataWithPageData.postleitzahlSecondary;
@@ -44,17 +41,11 @@ const addDataListArgumentToAutoSuggestionInput = (
 export const buildFormElements = (
   { formContent, heading }: CMSContent,
   userDataWithPageData: UserDataWithPageData,
-  pathname: string,
 ) =>
   formContent.map((element) => {
     if (element.__component === "form-elements.select" && heading)
       element.altLabel = heading;
-    console.log("pathname in buildFormElements:", pathname);
-    addDataListArgumentToAutoSuggestionInput(
-      element,
-      userDataWithPageData,
-      pathname,
-    );
+    addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
 
     return element;
   });

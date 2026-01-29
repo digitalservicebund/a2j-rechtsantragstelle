@@ -1,14 +1,13 @@
 import { type CMSContent } from "../../buildCmsContentAndTranslations";
 import { buildFormElements } from "../buildFormElements";
 
-const mockCmsElement = {
+const mockCmsElement: CMSContent = {
   heading: "new heading",
   content: [
     {
-      __component: "basic.paragraph" as const,
+      __component: "basic.paragraph",
       text: "someText",
       html: "someText",
-      required: true,
       id: 10,
     },
   ],
@@ -17,6 +16,7 @@ const mockCmsElement = {
   backButtonLabel: undefined,
   postFormContent: [],
   pageTitle: "page title",
+  formContent: [],
 };
 
 const mockUserData = {
@@ -40,11 +40,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementWithRadio,
-      mockUserData,
-      "/some/pathname",
-    );
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
@@ -67,14 +63,10 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementWithAutoComplete,
-      {
-        plz: "12345",
-        pageData: { arrayIndexes: [] },
-      },
-      "/some/pathname",
-    );
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      plz: "12345",
+      pageData: { arrayIndexes: [] },
+    });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -85,7 +77,7 @@ describe("buildFormElements", () => {
       formContent: [
         {
           __component: "form-elements.auto-suggest-input",
-          name: "streetname",
+          name: "strasseBeklagte",
           dataList: "streetNames",
           width: "10",
           isDisabled: false,
@@ -97,14 +89,10 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementWithAutoComplete,
-      {
-        postleitzahlBeklagtePerson: "12345",
-        pageData: { arrayIndexes: [] },
-      },
-      "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
-    );
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlBeklagtePerson: "12345",
+      pageData: { arrayIndexes: [] },
+    });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -115,7 +103,7 @@ describe("buildFormElements", () => {
       formContent: [
         {
           __component: "form-elements.auto-suggest-input",
-          name: "streetname",
+          name: "strasseSekundaer",
           dataList: "streetNames",
           width: "10",
           isDisabled: false,
@@ -127,14 +115,10 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementWithAutoComplete,
-      {
-        postleitzahlSecondary: "12345",
-        pageData: { arrayIndexes: [] },
-      },
-      "/geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer",
-    );
+    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
+      postleitzahlSecondary: "12345",
+      pageData: { arrayIndexes: [] },
+    });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -155,11 +139,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementWithRadio,
-      mockUserData,
-      "/some/pathname",
-    );
+    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
@@ -180,11 +160,7 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(
-      mockCmsElementCheckbox,
-      mockUserData,
-      "/some/pathname",
-    );
+    const actual = buildFormElements(mockCmsElementCheckbox, mockUserData);
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });
