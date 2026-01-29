@@ -27,6 +27,7 @@ import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
+import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -181,34 +182,25 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  const subflowDoneStates: Record<string, boolean> = buildFlowController({
-    config: currentFlow.config,
-    data: merge({}, flowSession.data, resultFormUserData.value.userData),
-    guards: "guards" in currentFlow ? currentFlow.guards : {},
-  })
-    .stepStates()
-    .filter((stepState) => !stepState.excludedFromValidation)
-    .reduce(
-      (prev, stepState) => ({
-        ...prev,
-        [stepState.stepId.substring(1)]:
-          stepState.isDone && stepState.isReachable,
-      }),
-      {},
-    );
-
-  updateSession(
-    flowSession,
-    merge({}, resultFormUserData.value.userData, {
-      pageData: { subflowDoneStates },
-    }),
+  const updatedUserData = merge(
+    {},
+    flowSession.data,
+    resultFormUserData.value.userData,
+    resultFormUserData.value.migrationData,
   );
 
-  if (resultFormUserData.value.migrationData) {
-    updateSession(flowSession, resultFormUserData.value.migrationData);
-  }
+  const subflowDoneStates = stepStatesToSubflowDoneStates(
+    buildFlowController({
+      config: currentFlow.config,
+      data: updatedUserData,
+      guards: "guards" in currentFlow ? currentFlow.guards : {},
+    }).stepStates(),
+  );
 
-  const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
+  const pageData = { pageData: { subflowDoneStates } };
+  const userDataToSave = merge({}, updatedUserData, pageData);
+  updateSession(flowSession, userDataToSave);
+  const { prunedData } = pruneIrrelevantData(userDataToSave, flowId);
 
   await postValidationFlowAction(request, prunedData);
 
