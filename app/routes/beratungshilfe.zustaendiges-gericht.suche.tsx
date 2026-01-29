@@ -17,6 +17,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -49,7 +50,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const serverSchema = clientSchema.refine(
-    (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
+    (postcodeObj) =>
+      courtForPlz(
+        postcodeObj.postcode,
+        ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+      ) !== undefined,
     { path: ["postcode"], message: "notFound" },
   );
   const result = await parseFormData(await request.formData(), serverSchema);

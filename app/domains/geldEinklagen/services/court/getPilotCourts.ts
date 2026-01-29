@@ -7,7 +7,10 @@ import {
   type GerbehIndex,
   gerbehIndex,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
-import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import {
+  ANGELEGENHEIT_INFO,
+  type Jmtd14VTErwerberGerbeh,
+} from "~/services/gerichtsfinder/types";
 import { Result, type Unit } from "true-myth";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { PILOT_COURTS } from "./pilotCourts";
@@ -27,7 +30,10 @@ const getPilotCourt = (
   street: string | undefined,
   streetNumber: string | undefined,
 ): Result<Jmtd14VTErwerberGerbeh, Unit> => {
-  const edgeCases = edgeCasesForPlz(zipCode);
+  const edgeCases = edgeCasesForPlz(
+    zipCode,
+    ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+  );
 
   // Check for the zip code edge cases if street or house number is missing
   if (edgeCases.length > 0 && (!street || !streetNumber)) {
@@ -38,6 +44,7 @@ const getPilotCourt = (
     zipCode,
     streetSlug: street,
     houseNumber: streetNumber,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
   });
 
   if (!courtData) {

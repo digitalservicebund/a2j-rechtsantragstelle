@@ -1,6 +1,7 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/maritalDescriptionMapping";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
   type AttachmentEntries,
@@ -36,6 +37,7 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
     zipCode: userData.plz,
     houseNumber: userData.houseNumber,
     streetSlug: userData.street,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
   });
   if (court) {
     const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();
