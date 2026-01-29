@@ -13,9 +13,13 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
+import {
+  getLifecycleTimeBySessionUserData,
+  getMaxAgeLifecycle,
+} from "./lifecycleSession";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
-type SessionUserData = (typeof allSessionUserData)[number];
+export type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
 
 function createDatabaseSessionStorage({
@@ -25,18 +29,20 @@ function createDatabaseSessionStorage({
   cookie: Cookie;
   context: SessionUserData;
 }) {
+  const timeToLiveSeconds = getLifecycleTimeBySessionUserData(context);
+
   return createSessionStorage({
     cookie,
     async createData(data) {
       const uuid = crypto.randomUUID();
-      await setDataForSession(fullId(context, uuid), data);
+      await setDataForSession(fullId(context, uuid), data, timeToLiveSeconds);
       return uuid;
     },
     async readData(id) {
       return await getDataForSession(fullId(context, id));
     },
     async updateData(id, data) {
-      await updateDataForSession(fullId(context, id), data);
+      await updateDataForSession(fullId(context, id), data, timeToLiveSeconds);
     },
     async deleteData(id) {
       await deleteSessionData(fullId(context, id));
@@ -45,13 +51,15 @@ function createDatabaseSessionStorage({
 }
 
 export function getSessionManager(context: SessionUserData) {
+  const maxAge = getMaxAgeLifecycle();
+
   const { getSession, commitSession, destroySession } =
     createDatabaseSessionStorage({
       cookie: createCookie("__session", {
         secrets: [config().COOKIE_SESSION_SECRET],
         sameSite: "lax",
         httpOnly: true,
-        maxAge: 24 * 60 * 60,
+        maxAge,
         secure: useSecureCookie,
       }),
       context: context,

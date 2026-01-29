@@ -65,4 +65,5 @@ export type Meta<TUserData extends MachineContext = UserData> = {
   shouldAppearAsMenuNavigation?: boolean;
   done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
+  lifecycleTimeInHours?: number;
 };
