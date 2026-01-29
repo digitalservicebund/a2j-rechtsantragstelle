@@ -5,10 +5,10 @@ export type FooterContent = {
   type: FooterContentType[];
   sectionName?: string;
   title?: string;
-  content: {
+  content: Array<{
     text: string;
     url: string;
-  }[];
+  }>;
 };
 
 export const footerContent: FooterContent[] = [

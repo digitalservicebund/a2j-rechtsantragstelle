@@ -26,58 +26,6 @@ export const Default: Story = {
       url: bucketUrl + "/bmj_logo_3fd953f074.png",
       alternativeText: "Bundesministerium der Justiz",
     },
-    categorizedLinks: [
-      {
-        id: 1,
-        title: "Rechtliche Hinweise",
-        links: [
-          {
-            url: "/impressum",
-            text: "Impressum",
-          },
-          {
-            url: "/barrierefreiheit",
-            text: "Barrierefreiheit",
-          },
-        ],
-      },
-      {
-        id: 2,
-        title: "Datenschutzerklärungen",
-        links: [
-          {
-            url: "/datenschutz",
-            text: "service.justiz.de Datenschutz",
-          },
-          {
-            url: "/beratungshilfe-datenschutz",
-            text: "Beratungshilfe Datenschutz",
-          },
-          {
-            url: "/prozesskostenhilfe-datenschutz",
-            text: "Prozesskostenhilfe Datenschutz",
-          },
-          {
-            url: "/fluggastrechte-datenschutz",
-            text: "Fluggastrechte Datenschutz",
-          },
-        ],
-      },
-      {
-        id: 3,
-        title: "Kontakt und Teilnahme",
-        links: [
-          {
-            url: "/kontakt",
-            text: "Kontakt",
-          },
-          {
-            url: "https://github.com/digitalservicebund/a2j-rechtsantragstelle",
-            text: "Open Source Code",
-          },
-        ],
-      },
-    ],
     showDeletionBanner: false,
   },
 };
