@@ -21,9 +21,7 @@ export const abgabeXstateConfig = {
   meta: { excludedFromValidation: true },
   states: {
     [steps.ueberpruefung.relative]: {
-      on: {
-        BACK: "#weitere-angaben",
-      },
+      on: { BACK: "#weitere-angaben" },
       meta: { triggerValidation: true },
       always: {
         guard: ({ context }): boolean =>
