@@ -24,6 +24,9 @@ export const geldEinklagenFormular = {
   config: {
     id: "/geld-einklagen/formular",
     initial: "gericht-pruefen",
+    meta: {
+      lifecycleTimeInHours: 164, // 7 days
+    },
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,
