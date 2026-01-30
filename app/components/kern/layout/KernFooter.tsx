@@ -1,7 +1,6 @@
 import { translations as staticTranslations } from "~/services/translations/translations";
 import KernRichText, { type RichTextProps } from "../KernRichText";
 import Image, { type ImageProps } from "~/components/common/Image";
-import { KernStandaloneLink } from "../KernStandaloneLink";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -29,11 +28,9 @@ const Links = ({ links }: Pick<CategorizedLinkProps, "links">) => {
   return links.map((link) => {
     return (
       <li key={link.url} className="">
-        <KernStandaloneLink
-          text={link.text ?? ""}
-          url={link.url}
-          className="kern-body"
-        />
+        <a href={link.url} className="kern-link">
+          {link.text ?? ""}
+        </a>
       </li>
     );
   });
@@ -109,14 +106,10 @@ export default function KernFooter({
               className="text-white print:hidden text-center pt-16 pb-16"
             >
               <div className="text-center print:hidden">
-                <KernStandaloneLink
-                  className="ds-label-03-reg"
-                  text={
-                    staticTranslations["delete-data"].footerLinkLabel.de ??
-                    "Persönliche Daten löschen"
-                  }
-                  url="/persoenliche-daten-loeschen"
-                />
+                <a className="kern-link" href="/persoenliche-daten-loeschen">
+                  {staticTranslations["delete-data"].footerLinkLabel.de ??
+                    "Persönliche Daten löschen"}
+                </a>
               </div>
             </GridItem>
           </Grid>
