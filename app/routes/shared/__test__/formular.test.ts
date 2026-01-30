@@ -25,7 +25,6 @@ vi.mock("~/services/logging", () => ({
   logWarning: vi.fn(),
 }));
 
-vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/upload/fileUploadHelpers.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
@@ -146,7 +145,35 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ name: "" });
       });
 
-      it("should update session twice when form validation succeeds with migration data", async () => {
+      it("should save both valid userdata and pageData including subflowDoneStates", async () => {
+        const userData = { name: "Valid Name" };
+        const expectedPageData = {
+          subflowDoneStates: {
+            "/intro": true,
+            "/abgabe": false,
+            "/flugdaten": false,
+            "/grundvoraussetzungen": false,
+            "/persoenliche-daten": false,
+            "/prozessfuehrung": false,
+            "/streitwert-kosten": false,
+            "/zusammenfassung": false,
+          },
+        };
+
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({ userData, migrationData: undefined }),
+        );
+
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
+
+        expect(updateSession).toHaveBeenCalledTimes(1);
+        expect(updateSession).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({ ...userData, pageData: expectedPageData }),
+        );
+      });
+
+      it("should update session with migration data when form validation succeeds", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
@@ -156,14 +183,13 @@ describe("formular.server", () => {
 
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
-        expect(updateSession).toHaveBeenCalledTimes(2);
-        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
-          name: "Valid Name",
-        });
-
-        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
-          name: "Migration Name",
-        });
+        expect(updateSession).toHaveBeenCalledTimes(1);
+        expect(updateSession).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({
+            name: "Migration Name",
+          }),
+        );
       });
 
       it("should call postValidationFormUserData once when form validation succeeds", async () => {
