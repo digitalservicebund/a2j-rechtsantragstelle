@@ -8,6 +8,15 @@ const defaultProps = {
   editUrl:
     "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person/0/daten",
   csrf: "test-csrf-token",
+  items: {
+    unterhaltszahlungen: [
+      {
+        firstName: "Another",
+        surname: "test",
+        familyRelationship: "mother",
+      },
+    ],
+  },
 };
 
 vi.mock("react-router", async () => {
