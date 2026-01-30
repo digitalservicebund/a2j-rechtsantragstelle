@@ -1,9 +1,28 @@
-import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
+import {
+  erbscheinWegweiserPages,
+  type NestedKinder,
+} from "~/domains/erbschein/wegweiser/pages";
 import mapValues from "lodash/mapValues";
 import { type Config } from "~/services/flow/server/types";
 import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
+import { assign } from "xstate";
 
 const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
+
+const popLastChild = ({ context }: { context: ErbscheinWegweiserUserData }) => {
+  const { pageData } = context;
+  return {
+    nestedArrayHistory: pageData?.nestedArrayHistory?.slice(0, -1),
+  };
+};
+
+// Try "pointer" (last array item) first; if undefined, we're at the root
+const getCurrentNode = ({
+  context,
+}: {
+  context: ErbscheinWegweiserUserData;
+}): NestedKinder | undefined =>
+  context.pageData?.nestedArrayHistory?.pop() ?? context.kinder;
 
 export const erbscheinWegweiserXstateConfig = {
   id: "/erbschein/wegweiser",
@@ -23,33 +42,63 @@ export const erbscheinWegweiserXstateConfig = {
       id: "kinder-recursion",
       initial: "anzahl-kinder",
       states: {
-        // "kinder-router": {
-        //   always: [
-        //     {
-        //       guard: ({ context }) => {
-        //         // TODO: calculate which pointer we're at, dive into the context there, and check for >=1 dead child
-        //         const firstRecursion = context.kinder?.count === undefined;
-        //         return Boolean(
-        //           firstRecursion ||
-        //           context.kinder?.entries?.some((c) => c.alive === "no"),
-        //         );
-        //       },
-        //       target: "anzahl-kinder", // TODO: dynamically go deeper into 1st dead child,
-        //     },
-        //     // All children alive, go to next section
-        //     `#${stepIds.staatsangehoerigkeit}`,
-        //   ],
-        // },
+        "kinder-router": {
+          always: [
+            /**
+             * History is empty, end of recursion
+             */
+            {
+              guard: ({ context }) =>
+                context.pageData?.nestedArrayHistory !== undefined &&
+                context.pageData?.nestedArrayHistory.length === 0,
+              target: "#staatsangehoerigkeit",
+            },
+            /**
+             * Children not entered yet
+             */
+            {
+              guard: ({ context }) =>
+                getCurrentNode({ context })?.count === undefined,
+              target: "anzahl-kinder",
+            },
+            /**
+             * Children have already been defined, pop last item from history and loop
+             */
+            {
+              target: "kinder-router",
+              actions: assign({
+                pageData: popLastChild,
+              }),
+              reenter: true,
+            },
+          ],
+        },
         "anzahl-kinder": {
           id: "anzahl-kinder",
           on: {
             BACK: `#${stepIds.verstorbeneName}`, // TODO: figure out back logic
             SUBMIT: [
+              /**
+               * No children, pop pointer from stack and loop
+               */
               {
-                guard: ({ context }) => context.kinder?.count === 0,
-                target: `#${stepIds.staatsangehoerigkeit}`, // TODO: Go into dead sibling if existing
+                guard: ({ context }) => {
+                  return getCurrentNode({ context })?.count === 0;
+                },
+                actions: assign({
+                  pageData: popLastChild,
+                }),
+                target: "kinder-router",
               },
-              "kinder",
+              /**
+               * Enter children's details
+               */
+              {
+                // Guard needed to prevent infinite loop during pruning, etc
+                guard: ({ context }) =>
+                  getCurrentNode({ context })?.count !== undefined,
+                target: "kinder",
+              },
             ],
           },
         },
@@ -58,26 +107,53 @@ export const erbscheinWegweiserXstateConfig = {
           on: {
             BACK: "anzahl-kinder",
             SUBMIT: [
+              /**
+               * No dead children, pop pointer from stack and loop
+               */
               {
                 guard: ({ context }) =>
                   Boolean(
-                    context.kinder?.entries?.some((c) => c.alive === "no"),
+                    getCurrentNode({ context })?.entries?.every(
+                      (c) => c.alive === "yes",
+                    ),
                   ),
-                target: "", // TODO: Go deeper into first dead child
+                actions: assign({
+                  pageData: popLastChild,
+                }),
+                target: "kinder-router",
               },
               /**
-               * All children alive, end of leaf.
-               *
-               * TODO: Traverse back up the tree to a sibling
+               * Push dead children onto stack and loop
                */
-              `#${stepIds.staatsangehoerigkeit}`,
+              {
+                target: "kinder-router",
+                actions: assign({
+                  pageData: ({ context }) => {
+                    const node = getCurrentNode({ context });
+                    const deadChildren =
+                      node?.entries?.filter((c) => c.alive === "no") ?? [];
+                    return {
+                      nestedArrayHistory:
+                        context.pageData?.nestedArrayHistory?.concat(
+                          deadChildren.map(
+                            (_) =>
+                              ({
+                                count: undefined,
+                                entries: undefined,
+                              }) as NestedKinder,
+                          ),
+                        ),
+                    };
+                  },
+                }),
+              },
             ],
           },
         },
       },
     },
-    [stepIds.staatsangehoerigkeit]: {
-      id: stepIds.staatsangehoerigkeit,
+    staatsangehoerigkeit: {
+      id: "staatsangehoerigkeit",
       on: {
         SUBMIT: [
           {

@@ -7,5 +7,8 @@ import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 export type ErbscheinWegweiserUserData = UserDataFromPagesSchema<
   typeof erbscheinWegweiserPages
 > & {
-  childPointer?: NestedKinder;
+  pageData?: {
+    nestedArrayHistory?: NestedKinder[];
+    currentTraversalIndex?: number;
+  };
 };

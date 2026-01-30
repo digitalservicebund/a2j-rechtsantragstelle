@@ -5,7 +5,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export type NestedKinder = {
-  count: number;
+  count?: number;
   entries?: Array<{
     name: string;
     alive: z.infer<typeof YesNoAnswer>;
