@@ -3,6 +3,7 @@ import { getEncrypted } from "~/services/gerichtsfinder/encryptedStorage.server"
 import {
   type Jmtd14VTErwerberPlzstrn,
   type Jmtd14VTErwerberPlzortk,
+  type AngelegenheitInfo,
 } from "~/services/gerichtsfinder/types";
 import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
 import type {
@@ -36,18 +37,32 @@ const courtAddress = (
   return fullCourtData;
 };
 
-export const courtForPlz = (PLZ: string | undefined) => {
+export const courtForPlz = (
+  PLZ: string | undefined,
+  angelegenheitInfo: AngelegenheitInfo,
+) => {
   const plzDb = getCourtData()["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"] as
     | PlzOrtkFile
     | undefined;
-  return PLZ && plzDb && PLZ in plzDb ? plzDb[PLZ][0] : undefined;
+  if (!PLZ || !plzDb || !(PLZ in plzDb)) return undefined;
+  return (
+    plzDb[PLZ].find(
+      (court) => court.ANGELEGENHEIT_INFO === angelegenheitInfo,
+    ) || plzDb[PLZ][0]
+  );
 };
 
-export const edgeCasesForPlz = (PLZ: string | undefined) => {
+export const edgeCasesForPlz = (
+  PLZ: string | undefined,
+  angelegenheitInfo: AngelegenheitInfo,
+) => {
   const edgeCaseDb = getCourtData()[
     "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"
   ] as PlzStrnFile | undefined;
-  return PLZ && edgeCaseDb && PLZ in edgeCaseDb ? edgeCaseDb[PLZ] : [];
+  if (!PLZ || !edgeCaseDb || !(PLZ in edgeCaseDb)) return [];
+  return edgeCaseDb[PLZ].filter(
+    (edgeCase) => edgeCase.ANGELEGENHEIT_INFO === angelegenheitInfo,
+  );
 };
 
 const buildGerbehIndex = (
@@ -94,25 +109,33 @@ function streetForEdgeCase(streetData: StreetData) {
   return { street, slug: buildStreetSlug(streetData) };
 }
 
-export const edgeCaseStreets = ({ zipCode }: { zipCode?: string }) => {
-  return edgeCasesForPlz(zipCode).map(streetForEdgeCase);
+export const edgeCaseStreets = ({
+  zipCode,
+  angelegenheitInfo,
+}: {
+  zipCode?: string;
+  angelegenheitInfo: AngelegenheitInfo;
+}) => {
+  return edgeCasesForPlz(zipCode, angelegenheitInfo).map(streetForEdgeCase);
 };
 
 export const findCourt = ({
   zipCode,
   streetSlug,
   houseNumber,
+  angelegenheitInfo,
 }: {
   zipCode?: string;
   streetSlug?: string;
   houseNumber?: string;
+  angelegenheitInfo: AngelegenheitInfo;
 }) => {
   if (streetSlug && streetSlug !== "default") {
     const decodedStreetName = streetSlug.toLowerCase().replaceAll("_", " ");
     const decodedStreetnameFull = decodedStreetName
       .toLowerCase()
       .replaceAll(/([Ss]tr\.)/g, "strasse");
-    const edgeCases = edgeCasesForPlz(zipCode).map((e) => ({
+    const edgeCases = edgeCasesForPlz(zipCode, angelegenheitInfo).map((e) => ({
       ...e,
       STRN_NORMALIZED: e.STRN.toLowerCase()
         .replaceAll("ä", "ae")
@@ -143,7 +166,7 @@ export const findCourt = ({
     }
   }
 
-  const court = courtForPlz(zipCode);
+  const court = courtForPlz(zipCode, angelegenheitInfo);
   if (!court) return undefined;
   return courtAddress(court);
 };

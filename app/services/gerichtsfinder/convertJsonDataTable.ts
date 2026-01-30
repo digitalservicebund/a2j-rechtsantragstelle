@@ -24,6 +24,13 @@ export function gerbehIndex(info: GerbehIndex) {
 }
 type ConversionInput = Record<string, unknown[]>;
 
+const allowedCaseTypes = new Set([
+  "Prozesskostenhilfe eingehend",
+  "Urheberrechtssachen",
+  "Verkehrsordnungswidrigkeiten Bußgeldsachen",
+  "Nachlasssachen",
+]);
+
 export const conversions = {
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (object: ConversionInput) => {
     return Object.fromEntries(
@@ -48,7 +55,7 @@ export const conversions = {
       object.JMTD14_VT_ERWERBER_PLZORTK as Jmtd14VTErwerberPlzortk[];
 
     plzOrtkData.forEach((entry) => {
-      if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {
+      if (allowedCaseTypes.has(entry.ANGELEGENHEIT_INFO)) {
         if (entry.PLZ in out) {
           out[entry.PLZ].push(entry);
         } else {
@@ -65,7 +72,7 @@ export const conversions = {
       object.JMTD14_VT_ERWERBER_PLZSTRN as Jmtd14VTErwerberPlzstrn[];
 
     plzStrnData.forEach((entry) => {
-      if (entry.ANGELEGENHEIT_INFO === "Prozesskostenhilfe eingehend") {
+      if (allowedCaseTypes.has(entry.ANGELEGENHEIT_INFO)) {
         if (entry.PLZ in out) {
           out[entry.PLZ].push(entry);
         } else {

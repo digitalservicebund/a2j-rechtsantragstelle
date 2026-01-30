@@ -13,6 +13,7 @@ import {
 } from "./guards";
 import { doneGerichtSuchen } from "./doneFunctions";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
@@ -58,7 +59,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+              edgeCasesForPlz(
+                postleitzahlBeklagtePerson,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           {
@@ -130,7 +134,10 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+              edgeCasesForPlz(
+                postleitzahlBeklagtePerson,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -138,7 +145,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+              edgeCasesForPlz(
+                postleitzahlSecondary,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
           ...submitButtonZustaendigesGerichtFlow,
@@ -150,7 +160,10 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+              edgeCasesForPlz(
+                postleitzahlBeklagtePerson,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -158,7 +171,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+              edgeCasesForPlz(
+                postleitzahlSecondary,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
           ...submitButtonZustaendigesGerichtFlow,
@@ -170,7 +186,10 @@ export const gerichtSuchenXstateConfig = {
         BACK: [
           {
             guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-              edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
+              edgeCasesForPlz(
+                postleitzahlBeklagtePerson,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummerBeklagtePerson.relative,
           },
           steps.gerichtSuchenPostleitzahlBeklagtePerson.relative,
@@ -178,7 +197,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+              edgeCasesForPlz(
+                postleitzahlSecondary,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
           ...submitButtonZustaendigesGerichtFlow,
@@ -191,7 +213,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+              edgeCasesForPlz(
+                postleitzahlSecondary,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
           ...submitButtonZustaendigesGerichtFlow,
@@ -204,7 +229,10 @@ export const gerichtSuchenXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context: { postleitzahlSecondary } }) =>
-              edgeCasesForPlz(postleitzahlSecondary).length > 0,
+              edgeCasesForPlz(
+                postleitzahlSecondary,
+                ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
+              ).length > 0,
             target: steps.gerichtSuchenStrasseNummer.relative,
           },
           ...submitButtonZustaendigesGerichtFlow,
