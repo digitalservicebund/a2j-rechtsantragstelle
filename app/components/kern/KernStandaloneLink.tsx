@@ -1,7 +1,7 @@
 import { mustachePlaceholderRegex } from "~/services/security/mustachePlaceholder";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
-import { OpenInNewTabIcon } from "~/components/common/OpenInNewTabIcon";
 import classNames from "classnames";
+import { KernIcon } from "./common/KernIcon";
 
 type KernStandaloneLinkProps = Readonly<{
   url: string;
@@ -43,7 +43,7 @@ export const KernStandaloneLink = ({
     <a {...anchorProps} className={className} data-testid={dataTestid}>
       {icon}
       {text}
-      {shouldOpenNewTab && <OpenInNewTabIcon />}
+      {shouldOpenNewTab && <KernIcon name="open-in-new" />}
     </a>
   );
 };
