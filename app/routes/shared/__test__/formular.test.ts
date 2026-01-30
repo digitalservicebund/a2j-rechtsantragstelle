@@ -145,6 +145,34 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ name: "" });
       });
 
+      it("should save both valid userdata and pageData including subflowDoneStates", async () => {
+        const userData = { name: "Valid Name" };
+        const expectedPageData = {
+          subflowDoneStates: {
+            "/intro": true,
+            "/abgabe": false,
+            "/flugdaten": false,
+            "/grundvoraussetzungen": false,
+            "/persoenliche-daten": false,
+            "/prozessfuehrung": false,
+            "/streitwert-kosten": false,
+            "/zusammenfassung": false,
+          },
+        };
+
+        vi.mocked(validateFormUserData).mockResolvedValue(
+          Result.ok({ userData, migrationData: undefined }),
+        );
+
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
+
+        expect(updateSession).toHaveBeenCalledTimes(1);
+        expect(updateSession).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({ ...userData, pageData: expectedPageData }),
+        );
+      });
+
       it("should update session with migration data when form validation succeeds", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
