@@ -11,6 +11,7 @@ const multiFieldsFlowValidation = {
   "/fluggastrechte/formular":
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/erbschein/wegweiser": undefined,
+  "/erbschein/nachlassgericht": undefined,
   "/prozesskostenhilfe/formular": undefined,
   "/kontopfaendung/wegweiser": undefined,
   "/geld-einklagen/formular": undefined,
