@@ -6,7 +6,6 @@ import {
   type Config,
 } from "~/services/flow/server/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import {
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
@@ -22,10 +21,7 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
   [
     {
       guard: ({ context: { postleitzahlSecondary } }) =>
-        edgeCasesForPlz(
-          postleitzahlSecondary,
-          ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
-        ).length > 0,
+        edgeCasesForPlz(postleitzahlSecondary).length > 0,
       target: steps.gerichtSuchenStrasseNummer.absolute,
     },
     {
@@ -51,10 +47,7 @@ const backButtonGerichtSuchenFlow: TransitionConfigOrTarget<GeldEinklagenFormula
     },
     {
       guard: ({ context: { postleitzahlBeklagtePerson } }) =>
-        edgeCasesForPlz(
-          postleitzahlBeklagtePerson,
-          ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
-        ).length > 0,
+        edgeCasesForPlz(postleitzahlBeklagtePerson).length > 0,
       target: steps.gerichtSuchenStrasseNummerBeklagtePerson.absolute,
     },
     {

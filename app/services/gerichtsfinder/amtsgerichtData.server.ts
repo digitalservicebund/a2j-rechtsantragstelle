@@ -4,6 +4,7 @@ import {
   type Jmtd14VTErwerberPlzstrn,
   type Jmtd14VTErwerberPlzortk,
   type AngelegenheitInfo,
+  ANGELEGENHEIT_INFO,
 } from "~/services/gerichtsfinder/types";
 import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
 import type {
@@ -39,7 +40,7 @@ const courtAddress = (
 
 export const courtForPlz = (
   PLZ: string | undefined,
-  angelegenheitInfo: AngelegenheitInfo,
+  angelegenheitInfo: AngelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 ) => {
   const plzDb = getCourtData()["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"] as
     | PlzOrtkFile
@@ -52,7 +53,7 @@ export const courtForPlz = (
 
 export const edgeCasesForPlz = (
   PLZ: string | undefined,
-  angelegenheitInfo: AngelegenheitInfo,
+  angelegenheitInfo: AngelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 ) => {
   const edgeCaseDb = getCourtData()[
     "JMTD14_VT_ERWERBER_PLZSTRN_DATA_TABLE.json"
@@ -109,10 +110,10 @@ function streetForEdgeCase(streetData: StreetData) {
 
 export const edgeCaseStreets = ({
   zipCode,
-  angelegenheitInfo,
+  angelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 }: {
   zipCode?: string;
-  angelegenheitInfo: AngelegenheitInfo;
+  angelegenheitInfo?: AngelegenheitInfo;
 }) => {
   return edgeCasesForPlz(zipCode, angelegenheitInfo).map(streetForEdgeCase);
 };
@@ -121,12 +122,12 @@ export const findCourt = ({
   zipCode,
   streetSlug,
   houseNumber,
-  angelegenheitInfo,
+  angelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 }: {
   zipCode?: string;
   streetSlug?: string;
   houseNumber?: string;
-  angelegenheitInfo: AngelegenheitInfo;
+  angelegenheitInfo?: AngelegenheitInfo;
 }) => {
   if (streetSlug && streetSlug !== "default") {
     const decodedStreetName = streetSlug.toLowerCase().replaceAll("_", " ");

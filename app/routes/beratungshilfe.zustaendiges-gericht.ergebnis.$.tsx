@@ -14,18 +14,13 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
   invariant(splat !== undefined);
 
   const [zipCode, streetSlug, houseNumber] = splat.split("/");
-  if (
-    edgeCasesForPlz(zipCode, ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE).length >
-      0 &&
-    !streetSlug
-  ) {
+  if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
@@ -33,7 +28,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     zipCode,
     streetSlug,
     houseNumber,
-    angelegenheitInfo: ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
   });
   if (!court) {
     throw new Response(null, {

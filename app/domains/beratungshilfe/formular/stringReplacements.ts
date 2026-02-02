@@ -1,5 +1,4 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import type { BeratungshilfeFormularUserData } from "./userData";
 
 export const getAmtsgerichtStrings = (
@@ -9,7 +8,6 @@ export const getAmtsgerichtStrings = (
     zipCode: context.plz,
     streetSlug: context.street,
     houseNumber: context.houseNumber,
-    angelegenheitInfo: ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
   });
   return {
     courtName: court?.BEZEICHNUNG,

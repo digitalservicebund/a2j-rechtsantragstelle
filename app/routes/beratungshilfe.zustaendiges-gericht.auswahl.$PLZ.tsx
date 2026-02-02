@@ -17,7 +17,6 @@ import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { getSessionManager } from "~/services/session.server";
@@ -42,7 +41,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     throw new Error("Something went wrong, no zipcode found");
   const edgeCases = edgeCaseStreets({
     zipCode,
-    angelegenheitInfo: ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
   });
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
