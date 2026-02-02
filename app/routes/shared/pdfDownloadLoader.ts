@@ -5,6 +5,8 @@ import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/pdf/geldEinklagenPdfFromUserdata";
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
@@ -22,7 +24,8 @@ import { pdfDateFormat, today } from "~/util/date";
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData
   | FluggastrechteFlugdatenUserData
-  | ProzesskostenhilfeFormularUserData;
+  | ProzesskostenhilfeFormularUserData
+  | GeldEinklagenFormularUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
   ? T extends PdfFlowContexts
@@ -67,6 +70,11 @@ const pdfConfigs = {
     pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
       await pKontoPdfFromUserdata(userData),
     name: "Antrag_Umwandlung_nach_Pfaendung",
+  },
+  "/geld-einklagen/formular": {
+    pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
+      await geldEinklagenPdfFromUserdata(userData),
+    name: `Geld_einklagen_Klage`,
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
