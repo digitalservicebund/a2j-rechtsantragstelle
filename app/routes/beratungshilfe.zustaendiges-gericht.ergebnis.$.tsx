@@ -24,11 +24,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
-  const court = findCourt({
-    zipCode,
-    streetSlug,
-    houseNumber,
-  });
+  const court = findCourt({ zipCode, streetSlug, houseNumber });
   if (!court) {
     throw new Response(null, {
       status: 404,

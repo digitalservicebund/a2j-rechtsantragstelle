@@ -192,14 +192,12 @@ describe("amtsGerichtData Helpers", () => {
         findCourt({
           zipCode: "20457",
           streetSlug: "default",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("BEZEICHNUNG", "Amtsgericht Hamburg");
       expect(
         findCourt({
           zipCode: "20457",
           streetSlug: undefined,
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("BEZEICHNUNG", "Amtsgericht Hamburg");
     });
@@ -209,7 +207,6 @@ describe("amtsGerichtData Helpers", () => {
         findCourt({
           zipCode: "12345",
           streetSlug: "default",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toBeUndefined();
     });
@@ -220,7 +217,6 @@ describe("amtsGerichtData Helpers", () => {
           zipCode: "20457",
           streetSlug: "kluetjenfelder_str.",
           houseNumber: "1",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("STR_HNR", "Buxtehuder Straße 9");
       expect(
@@ -228,7 +224,6 @@ describe("amtsGerichtData Helpers", () => {
           zipCode: "20457",
           streetSlug: "kluetjenfelder_str.",
           houseNumber: "12",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("STR_HNR", "Sievekingplatz 1");
     });
@@ -239,7 +234,6 @@ describe("amtsGerichtData Helpers", () => {
           zipCode: "10789",
           streetSlug: "augsburger_str.",
           houseNumber: "19",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
     });
@@ -249,7 +243,6 @@ describe("amtsGerichtData Helpers", () => {
           zipCode: "10789",
           streetSlug: "Augsburger Str.",
           houseNumber: "19",
-          angelegenheitInfo: "Prozesskostenhilfe eingehend",
         }),
       ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
     });

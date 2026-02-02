@@ -1,13 +1,11 @@
 import { serverOnly$ } from "vite-env-only/macros";
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 //otherwise error: Server-only module referenced by client
 const findCourtServer = serverOnly$((zipCode: string) =>
-  findCourt({
-    zipCode,
-  }),
+  findCourt({ zipCode }),
 );
 
 export const getCourtByStartAndEndAirport = (

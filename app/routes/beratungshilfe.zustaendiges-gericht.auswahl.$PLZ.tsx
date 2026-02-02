@@ -39,9 +39,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");
-  const edgeCases = edgeCaseStreets({
-    zipCode,
-  });
+  const edgeCases = edgeCaseStreets({ zipCode});
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
