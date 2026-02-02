@@ -1,11 +1,10 @@
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 
 export const getKinderStrings = (
   context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
-  const arrayIndex = firstArrayIndex(context.pageData);
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
   if (
     arrayIndex === undefined ||
     !context.kinder ||
@@ -22,7 +21,7 @@ export const getKinderStrings = (
 export const getArrayIndexStrings = (
   context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 ) => {
-  const arrayIndex = firstArrayIndex(context.pageData);
+  const arrayIndex = context.pageData?.arrayIndexes.at(0);
   return arrayIndex === undefined
     ? {}
     : { "array#index": String(arrayIndex + 1) };
