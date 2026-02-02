@@ -16,6 +16,7 @@ import {
   isResponse,
 } from "~/routes/__test__/isResponse";
 import invariant from "tiny-invariant";
+import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -146,19 +147,14 @@ describe("formular.server", () => {
       });
 
       it("should save both valid userdata and pageData including subflowDoneStates", async () => {
+        const subflowDoneStates = Object.fromEntries(
+          Object.keys(fluggastrechtFlow.config.states).map(
+            (subflowName, idx) => ["/" + subflowName, idx === 0], // first entry is done, all others aren't
+          ),
+        );
+
         const userData = { name: "Valid Name" };
-        const expectedPageData = {
-          subflowDoneStates: {
-            "/intro": true,
-            "/abgabe": false,
-            "/flugdaten": false,
-            "/grundvoraussetzungen": false,
-            "/persoenliche-daten": false,
-            "/prozessfuehrung": false,
-            "/streitwert-kosten": false,
-            "/zusammenfassung": false,
-          },
-        };
+        const expectedPageData = { subflowDoneStates };
 
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({ userData, migrationData: undefined }),
