@@ -149,7 +149,7 @@ describe("formular.server", () => {
       it("should save both valid userdata and pageData including subflowDoneStates", async () => {
         const subflowDoneStates = Object.fromEntries(
           Object.keys(fluggastrechtFlow.config.states).map(
-            (subflowName, idx) => ["/" + subflowName, idx === 0], // first entry is done, all others aren't
+            (subflowName, idx) => ["/" + subflowName, idx !== 1], // only second entry /grundvoraussetzungen isnt done
           ),
         );
 
