@@ -45,10 +45,8 @@ export const courtForPlz = (
     | PlzOrtkFile
     | undefined;
   if (!PLZ || !plzDb || !(PLZ in plzDb)) return undefined;
-  return (
-    plzDb[PLZ].find(
-      (court) => court.ANGELEGENHEIT_INFO === angelegenheitInfo,
-    ) || plzDb[PLZ][0]
+  return plzDb[PLZ].find(
+    (court) => court.ANGELEGENHEIT_INFO === angelegenheitInfo,
   );
 };
 
