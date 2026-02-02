@@ -56,7 +56,7 @@
     "@pdf-lib/fontkit": "^1.1.1",
     "@react-router/express": "^7.13.0",
     "@react-router/node": "^7.13.0",
-    "@remix-run/form-data-parser": "^0.14.0",
+    "@remix-run/form-data-parser": "^0.15.0",
     "@rvf/react-router": "^8.1.1",
     "@sentry/react-router": "^10.38.0",
     "@sentry/vite-plugin": "^4.8.0",
