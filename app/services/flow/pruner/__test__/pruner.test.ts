@@ -121,6 +121,7 @@ describe("pruner", () => {
             eigentuemer: "partner",
           },
         ],
+        pageData: { arrayIndexes: [1] },
       });
     });
   });
