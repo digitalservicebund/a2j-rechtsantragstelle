@@ -6,7 +6,7 @@ import {
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
 
-export const PLAINTIFF_TEXT = "– Klagende Partei –";
+export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
 export const addPlaintiffDetails = (
