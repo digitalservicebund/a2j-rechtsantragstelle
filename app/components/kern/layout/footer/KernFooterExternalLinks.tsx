@@ -14,7 +14,7 @@ export const KernFooterExternalLinks = () => {
             {section.title}{" "}
             <a
               href={link.url}
-              className="kern-link inline-flex items-center gap-1"
+              className="kern-link inline-flex items-center gap-1 no-underline!"
               target="_blank"
               rel="noopener noreferrer"
             >
