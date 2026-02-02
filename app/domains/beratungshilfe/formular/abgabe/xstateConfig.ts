@@ -1,9 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-import { beratungshilfeAbgabeGuards } from "./guards";
 import { berHAntragAbgabePages } from "./pages";
-import { type BeratungshilfeAbgabeUserData } from "./userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
@@ -25,7 +24,9 @@ export const abgabeXstateConfig = {
       on: { BACK: "#weitere-angaben" },
       meta: { triggerValidation: true },
       always: {
-        guard: beratungshilfeAbgabeGuards.readyForAbgabe,
+        guard: ({ context }): boolean =>
+          !!context.pageData?.subflowDoneStates &&
+          Object.values(context.pageData.subflowDoneStates).every(Boolean),
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,
@@ -45,17 +46,17 @@ export const abgabeXstateConfig = {
       on: {
         BACK: showAutoSummary
           ? steps.zusammenfassung.relative
-          : steps.art.relative,
+          : "#weitere-angaben",
         SUBMIT: [
           {
             target: showFileUpload
               ? steps.dokumente.relative
               : steps.online.relative,
-            guard: beratungshilfeAbgabeGuards.abgabeOnline,
+            guard: ({ context }) => context.abgabeArt == "online",
           },
           {
             target: steps.ausdrucken.relative,
-            guard: beratungshilfeAbgabeGuards.abgabeAusdrucken,
+            guard: ({ context }) => context.abgabeArt == "ausdrucken",
           },
         ],
       },
@@ -85,4 +86,4 @@ export const abgabeXstateConfig = {
       },
     },
   },
-} satisfies Config<BeratungshilfeAbgabeUserData>;
+} satisfies Config<BeratungshilfeFormularUserData>;
