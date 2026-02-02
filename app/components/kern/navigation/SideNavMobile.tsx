@@ -8,12 +8,9 @@ import {
   stateIsActive,
   stateIsWarning,
 } from "~/services/navigation/navState";
-import KeyboardArrowLeft from "@digitalservicebund/icons/KeyboardArrowLeft";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButtonAreaTitles";
 import classNames from "classnames";
 import { KernIcon } from "../common/KernIcon";
-import { KernStandaloneLink } from "../KernStandaloneLink";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
@@ -39,19 +36,19 @@ const StepStepperLinks = ({
           const isWarningStep = stateIsWarning(step.state);
           return (
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
-              <KernStandaloneLink
-                url={step.href}
+              <a
+                href={step.href}
                 className="truncate text-left mw-[70vw]"
-                icon={<KeyboardArrowLeft className="inline" />}
-                text={`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
-                dataTestid={DATA_TESTID_STEP_STEPPER_LINK}
+                data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
-              />
+              >
+                <KernIcon name="chevron-left" className="inline" />
+                {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
+              </a>
               {isWarningStep && (
-                <SvgWarningAmber
-                  data-testid="icon-warning"
-                  className="pl-2"
-                  id={step.href}
+                <KernIcon
+                  name="warning"
+                  className="pl-2 fill-kern-feedback-warning!"
                   aria-label={translations.navigation.navigationItemWarning.de}
                 />
               )}
