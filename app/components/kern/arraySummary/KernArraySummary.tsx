@@ -6,7 +6,7 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
-import KernHeading from "../KernHeading";
+import { type KernHeadingProps } from "../KernHeading";
 
 type ArraySummaryProps = Readonly<{
   category: string;
@@ -15,10 +15,10 @@ type ArraySummaryProps = Readonly<{
     configuration: ArrayConfigClient;
   };
   content: {
-    title?: React.ComponentProps<typeof KernHeading>;
+    title?: KernHeadingProps;
     description?: string;
     buttonLabel: string;
-    subtitle?: React.ComponentProps<typeof KernHeading>;
+    subtitle?: KernHeadingProps;
     itemLabels: ItemLabels;
   };
   csrf: string;
@@ -51,7 +51,6 @@ const KernArraySummary = ({
           key={`${content.buttonLabel}_${index}`}
           configuration={arrayData.configuration}
           itemIndex={index}
-          buttonLabel={content.buttonLabel}
           items={items}
           category={category}
           csrf={csrf}

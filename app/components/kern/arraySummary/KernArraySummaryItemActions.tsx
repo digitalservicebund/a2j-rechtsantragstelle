@@ -5,7 +5,6 @@ import { KernIcon } from "~/components/kern/common/KernIcon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
-import { KernStandaloneLink } from "../KernStandaloneLink";
 
 type Props = {
   readonly itemIndex: number;

@@ -1,4 +1,4 @@
-import KernHeading, { KernHeadingProps } from "~/components/kern/KernHeading";
+import { type KernHeadingProps } from "~/components/kern/KernHeading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
@@ -11,9 +11,8 @@ type ArraySummaryItemProps = {
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
-  readonly subtitle?: React.ComponentProps<typeof KernHeading>;
+  readonly subtitle?: KernHeadingProps;
   readonly itemLabels: ItemLabels;
-  readonly buttonLabel: string;
 };
 
 const KernArraySummaryDataItems = ({
@@ -23,7 +22,6 @@ const KernArraySummaryDataItems = ({
   configuration,
   csrf,
   subtitle,
-  buttonLabel,
   itemLabels,
 }: ArraySummaryItemProps) => {
   const { url, initialInputUrl, hiddenFields, displayIndexOffset } =
@@ -44,10 +42,8 @@ const KernArraySummaryDataItems = ({
     false,
   );
 
-  const displayIndex = itemIndex + (displayIndexOffset ?? 1);
   const editUrl = `${url}/${itemIndex}/${initialInputUrl}`;
 
-  console.log(heading);
   return (
     <div className="kern-summary">
       <div className="kern-summary__header gap-kern-space-small!">
