@@ -1,8 +1,7 @@
 import { createMachine } from "xstate";
+import { flows } from "~/domains/flows.server";
 import { type FlowStateMachine } from "./types";
 import { stateIdToStepId } from "../stepIdConverter";
-import { vorabcheckFlows } from "~/domains/vorabcheckFlows.server";
-import mapValues from "lodash/mapValues";
 
 export function progressLookupForMachine(machine: FlowStateMachine) {
   // TODO: add unit tests & reduce tests for .getProgress()
@@ -57,16 +56,20 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
   };
 }
 
-export const vorabcheckProgresses = mapValues(
-  vorabcheckFlows,
-  ({ config, guards }) =>
-    progressLookupForMachine(createMachine(config, { guards })),
-);
+function computeVorabcheckProgress() {
+  const vorabcheckEntries = Object.entries(flows).filter(
+    ([, flowConfig]) => flowConfig.flowType === "vorabCheck",
+  );
+  return Object.fromEntries(
+    vorabcheckEntries.map(([flowId, flow]) => [
+      flowId,
+      progressLookupForMachine(
+        createMachine(flow.config, {
+          guards: "guards" in flow ? flow.guards : {},
+        }),
+      ),
+    ]),
+  );
+}
 
-export const progressLookup = (
-  progress: ReturnType<typeof progressLookupForMachine>,
-  currentStepId: string,
-) => ({
-  max: progress.total,
-  progress: progress.progressLookup[currentStepId],
-});
+export const vorabcheckProgresses = computeVorabcheckProgress();

@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
@@ -18,12 +17,17 @@ import Video from "~/components/content/video/Video";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
+import KernList from "../kern/KernList";
+import KernHeroWithButton from "../kern/KernHeroWithButton";
+import KernHero from "../kern/KernHero";
+import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
 import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
+import KernVideo from "../kern/KernVideo";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -48,7 +52,19 @@ function getGridBackgroundColor(el: StrapiContentComponent): string {
   return "";
 }
 
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
+function getContainerBackgroundColor(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if (el.__component === "page.hero") {
+      return "bg-kern-action-default";
+    }
+    if (el.__component === "page.hero-with-button") {
+      return "bg-kern-neutral-050";
+    }
+  }
+
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.outerBackground?.backgroundColor) {
     return BACKGROUND_COLORS[
@@ -57,27 +73,64 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
   }
   return "";
 }
+// Map temporarily Strapi look values to Kern look values
+function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
+  const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
+    error: "danger",
+    success: "success",
+    warning: "warning",
+    tips: "info",
+  };
+  return lookMap[look] || "info";
+}
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
   opts?: { inFlow?: boolean; showKernUX?: boolean },
 ) {
-  // When showKernUX is true, render KERN UX components
-  // For now, we render the old components until KERN UX versions are created
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
         return <KernHeading {...componentProps} />;
       case "basic.paragraph":
         return <KernRichText {...componentProps} />;
+      case "page.hero":
+        return <KernHero {...componentProps} />;
+      case "page.hero-with-button":
+        return <KernHeroWithButton {...componentProps} />;
       case "page.box":
         return <KernBox {...componentProps} />;
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
-        return <KernInfoBox {...componentProps} />;
+        return (
+          <KernInfoBox
+            {...componentProps}
+            items={componentProps.items?.map((item) => ({
+              ...item,
+              inlineNotices: item.inlineNotices?.map((notice) => ({
+                ...notice,
+                look: mapLookValue(notice.look),
+              })),
+            }))}
+          />
+        );
+      case "page.video":
+        return <KernVideo {...componentProps} />;
+      case "page.list":
+        return <KernList {...componentProps} wrap={opts?.inFlow} />;
+      case "page.table-of-contents":
+        return <KernTableOfContents {...componentProps} />;
       case "page.inline-notice":
-        return <KernInlineNotice {...componentProps} wrap={opts?.inFlow} />;
+        return (
+          <KernInlineNotice
+            {...componentProps}
+            look={mapLookValue(componentProps.look)}
+            wrap={opts?.inFlow}
+          />
+        );
+      default:
+        return <></>;
     }
   }
 
@@ -134,7 +187,9 @@ function ContentComponents({
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
-      const isUserFeedback = el.__component === "page.user-feedback";
+      const isUserFeedback =
+        el.__component === "page.user-feedback" && !showKernUX;
+      const isKernBox = el.__component === "page.box" && showKernUX;
       const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {
@@ -157,8 +212,8 @@ function ContentComponents({
               ? el.container.paddingBottom
               : "default"
           }
+          className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
-          className={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{
@@ -169,6 +224,7 @@ function ContentComponents({
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
                   : getGridBackgroundColor(el),
+                isKernBox ? "bg-kern-neutral-050" : "",
                 "rounded-lg",
               ),
             }}

@@ -20,6 +20,10 @@ vi.mock("@rvf/react-router", async () => {
   };
 });
 
+vi.mock("~/components/Details", () => ({
+  Details: () => <div>Text-Beispiel</div>,
+}));
+
 afterEach(() => {
   vi.resetAllMocks(); // This clears all mocks after each test
 });
@@ -39,6 +43,7 @@ describe("Textarea component", () => {
     const elementByLabel = screen.getByLabelText("Test Label");
     expect(element).toBeInTheDocument();
     expect(element).not.toHaveClass("has-error");
+    expect(element).toHaveClass("ph-no-capture");
 
     expect(elementByLabel).toBeInTheDocument();
 
@@ -64,10 +69,6 @@ describe("Textarea component", () => {
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
-    vi.mock("~/components/Details", () => ({
-      Details: () => <div>Text-Beispiel</div>,
-    }));
-
     render(
       <Textarea
         name="test-textarea"

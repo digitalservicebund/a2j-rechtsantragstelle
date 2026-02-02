@@ -42,6 +42,8 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/geld-einklagen/formular": "showGeldEinklagenFlow",
+  "/kontopfaendung/pkonto/antrag": "showPkontoAntragFlow",
+  "/erbschein/wegweiser": "showErbscheinWegweiser",
 } as const;
 
 export const getUserDataAndFlow = async (
@@ -69,7 +71,7 @@ export const getUserDataAndFlow = async (
   const flowController = buildFlowController({
     config: currentFlow.config,
     data: userDataWithPageData,
-    guards: currentFlow.guards,
+    guards: "guards" in currentFlow ? currentFlow.guards : {},
   });
 
   const validationFlowResult = await validateStepIdFlow(

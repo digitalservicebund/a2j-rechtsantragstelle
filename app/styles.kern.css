@@ -10,325 +10,37 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-@layer base {
-  body {
-    font-family: "BundesSansWeb", "Helvetica", "Arial", sans-serif;
-    font-size: 1.125rem;
-    line-height: 1.5;
-    min-height: 100vh;
-  }
-
-  /* The BMJV logo features a white background, which requires the exclusion of styling elements. */
-  svg:not(:has(path[fill="white"])) {
-    fill: currentColor;
-  }
-
-  a {
-    color: currentcolor;
-  }
-
-  ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-  }
-
-  ol {
-    list-style-type: decimal;
-    padding-left: 1.5rem;
-  }
-}
-
-body:has(dialog[open]) {
-  @apply overflow-hidden!;
-}
-
-.survey-modal {
-  @apply p-24 max-w-fit max-h-fit border-1 border-blue-800 overflow-scroll bg-white;
-}
-
-/* Ensure black SVG paths don't disappear in high-contrast mode */
-/* Current usage: SVG icons in Tile component */
-@media (forced-colors: active) and (prefers-color-scheme: dark) {
-  .svg-image path[fill="black"] {
-    fill: white;
-  }
-}
-
-@utility container {
-  @apply mx-auto;
-  max-width: 59rem;
-  padding: 2.5rem 1rem 3rem 1rem;
-  padding-left: clamp(1rem, 5vw, 3rem);
-  padding-right: clamp(1rem, 5vw, 3rem);
-}
-
-/* headings and text inside containers have a project-specific max-width */
-.container .ds-heading-01-reg,
-.container .ds-heading-01-bold,
-.container .ds-heading-02-reg,
-.container .ds-heading-02-bold {
-  max-width: 848px;
-}
-
-.container .ds-heading-03-reg,
-.container .ds-heading-03-bold,
-.container .ds-label-01-bold,
-.container .ds-label-01-reg,
-.container .ds-label-02-bold,
-.container .ds-label-02-reg,
-.container .ds-label-03-bold,
-.container .ds-label-03-reg,
-.container p,
-.container ul,
-.container ol {
-  max-width: 630px;
-}
-
-/* There is a specific design request to remove the margin above lists and below small headlines */
-.rich-text ul,
-.rich-text .ds-label-01-bold + p {
-  @apply mt-0;
-}
-
-.text-link {
-  /* IE 11 and others that don't support text-decoration-line */
-  text-decoration: underline;
-  @apply text-blue-800;
-  @apply underline;
-  @apply underline-offset-4;
-  @apply decoration-1;
-}
-
-/* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
-@media (hover: hover) {
-  .text-link:hover {
-    @apply decoration-[3px];
-  }
-}
-
-.text-link:visited {
-  @apply text-[#4c2c92];
-}
-
-/* browsers without :focus-visible support */
-.text-link:focus {
-  @apply outline-solid;
-  @apply outline-2;
-  @apply no-underline;
-  @apply outline-offset-1;
-  @apply text-blue-800;
-  @apply outline-blue-800;
-}
-
-/* reset :focus styles for browsers with :focus-visible support */
-.text-link:not(:focus-visible):focus {
-  @apply outline-hidden;
-  @apply underline;
-}
-
-/* ignored by browsers without :focus-visible support */
-.text-link:focus-visible {
-  @apply outline-solid;
-  @apply outline-2;
-  @apply no-underline;
-  @apply outline-offset-1;
-  @apply text-blue-800!;
-  @apply outline-blue-800;
-}
-
-.text-link:active {
-  @apply text-black;
-}
-
-/* This is a fix where in Safari the details summary icon appears twice */
-details summary::-webkit-details-marker {
-  display: none;
-}
-
-/* when focus without the keyboard, remove the outline of the children*/
-details:not(:has(.summary-content:focus-visible)) {
-  @apply outline-hidden;
-}
-
-/* Only apply hover effect on devices that support it, see https://stackoverflow.com/a/28058919 */
-/* This will prevent hover states appear when screen touch gesture starts*/
-/* and ensures hover applies only in desktop */
-@media (hover: hover) {
-  .summary-content:hover {
-    @apply underline;
-    @apply underline-offset-2;
-    @apply decoration-2;
-  }
-}
-
-.increase-tap-area {
-  @apply relative;
-  @apply inline-block;
-}
-
-.increase-tap-area::before {
-  content: "";
-  @apply absolute;
-  top: -0.5rem;
-  bottom: -0.5rem;
-  left: -0.5rem;
-  right: -0.5rem;
-}
-
-@media (max-width: 499px) {
-  /* project-specific overwriting of angie styling */
-  .ds-heading-01-reg {
-    font-size: 2.25rem;
-    line-height: 1.2222;
-  }
-}
-
-.progress-bar::-webkit-progress-bar {
-  @apply bg-blue-500;
-  @apply h-4;
-  @apply border-0;
-}
-
-.progress-bar::-webkit-progress-value {
-  @apply bg-blue-800;
-}
-
-.progress-bar::-moz-progress-bar {
-  @apply bg-blue-800;
-}
-
-.ds-tile input[type="radio"]:focus + label,
-.ds-tile input[type="radio"]:focus-visible + label,
-.ds-tile input[type="radio"]:checked + label {
-  /* Increasing the border width causes neighbour elements to shift
-    https://stackoverflow.com/questions/19248985/how-to-prevent-shifting-when-changing-border-width
-  */
-  border-color: #004b76;
-}
-.ds-tile input[type="radio"]:focus + label,
-.ds-tile input[type="radio"]:focus-visible + label {
-  background: var(--background-color-blue-200, #ecf1f4);
-}
-.ds-tile input[type="radio"]:checked + label {
-  background: var(--background-color-blue-200, #ecf1f4);
-}
-
-.ds-tile-radio-group:has(label > input[type="radio"]:checked) {
-  /* Increasing the border width causes neighbour elements to shift
-    https://stackoverflow.com/questions/19248985/how-to-prevent-shifting-when-changing-border-width
-  */
-  border-color: #004b76;
-}
-
-/* avoid hover on mobile devices */
-@media (hover: hover) and (pointer: fine) {
-  .ds-tile-radio-group:has(label > input[type="radio"]:hover) {
-    background: var(--background-color-blue-200, #ecf1f4);
-    @apply border-blue-800;
-  }
-}
-
-/* it should have same hover behaviour when press tile */
-.ds-tile-radio-group:has(label > input[type="radio"]:active) {
-  background: var(--background-color-blue-200, #ecf1f4);
-  @apply border-blue-800;
-}
-
-/* when it's checked but not hover */
-.ds-tile-radio-group:has(label > input[type="radio"]:checked):not(:hover) {
-  background: var(--background-color-blue-300, #dce8ef);
-  box-shadow: 0 0 0 0.125rem #004b76;
-}
-
-/* for mobile or touch screens, it does not need to see if it's hover */
-@media only screen and (max-width: 1024px) {
-  .ds-tile-radio-group:has(label > input[type="radio"]:checked) {
-    background: var(--background-color-blue-300, #dce8ef);
-    box-shadow: 0 0 0 0.125rem #004b76;
-  }
-}
-
-.ds-tile-radio-group label .ds-radio:not(:disabled):hover {
-  box-shadow: inset 0 0 0 0.125rem #004b76;
-}
-
-/* when focus, add the outline */
-.ds-tile-radio-group:has(label > input[type="radio"]:focus) {
-  @apply outline-solid;
-  @apply outline-offset-4;
-  @apply outline-4;
-  @apply outline-blue-800;
-}
-
-/* when focus without the keyboard, remove the outline */
-.ds-tile-radio-group:not(:has(label > input[type="radio"]:focus-visible)) {
-  @apply outline-hidden;
-}
-
-/* when focus with the keyboard, but not focus on the remove item button */
-.auto-suggest-input:focus-within:not(:has(div > button:focus-visible)) {
-  @apply outline-solid;
-  @apply outline-4;
-  @apply outline-blue-800;
-  outline-offset: -4px;
-}
-
-.accordion-item {
-  @apply last:rounded-t-none not-first:border-t-0 not-first:not-last:rounded-none border-2 rounded-lg first:rounded-b-none overflow-hidden border-blue-500;
-}
-
-.accordion-item:focus-within {
-  @apply outline-blue-800! outline-4! outline-solid! border-none p-2 not-first:pt-0;
-}
-
-.auto-suggest-input-disabled:hover {
-  outline-offset: 0 !important;
-  outline: none !important;
-  @apply bg-white!;
-}
-
-/* when focus on the input without select an option */
-.suggestion-value-container:has(div > input[type="text"]:focus):not(
-    .option-was-selected
-  )
-  div
-  span {
-  @apply text-gray-600;
-}
-
-.auto-suggest-input-disabled {
-  box-shadow: none;
-}
-
-@font-face {
-  font-family: "Fira Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/fonts/Fira-Sans.woff2) format("woff2");
-}
-
-h1:focus {
-  outline: none;
-}
-
-.arrow-step:focus-within:not(.arrow-step:active) {
-  @apply before:absolute before:inset-x-0 before:bottom-0 before:h-[4px] before:bg-blue-800 forced-colors:before:bg-[ButtonText];
-}
-
-.arrow-step:active .triangle {
-  @apply text-blue-300;
-}
-
-.arrow-step-open:hover:not(.arrow-step:active) .triangle {
-  @apply text-blue-400;
-}
-
-.arrow-step-warning:active .triangle {
-  @apply text-yellow-300;
-}
-
 @layer utilities {
+  /* icons styling at the inline notice */
+  .app-icon--info {
+    color: var(--color-kern-feedback-info);
+  }
+  .app-icon--warning {
+    color: var(--color-kern-feedback-warning);
+  }
+  .app-icon--success {
+    color: var(--color-kern-feedback-success);
+  }
+  .app-icon--danger {
+    color: var(--color-kern-feedback-danger);
+  }
+
+  /* prevents Kern to style the inner input */
+
+  .kern-form-input input:focus,
+  .kern-form-input input:focus-visible {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* remove Kern focus visible from the inner input*/
+
+  .kern-form-input__input input:focus-visible,
+  .kern-form-input__input input:focus {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
   .grid-fluid {
     display: grid;
     /* defaults (S) */
@@ -343,25 +55,27 @@ h1:focus {
 
   @media (min-width: 768px) {
     .grid-fluid {
-      @apply px-16;
+      /* @apply px-16; */
       --cols: 8;
       --track: 64px;
       --gap: 0px;
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
     }
   }
+
   @media (min-width: 1024px) {
     .grid-fluid {
-      @apply px-12;
+      /* @apply px-12; */
       --cols: 12;
       --track: 54px;
       --gap: 32px;
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
     }
   }
+
   @media (min-width: 1280px) {
     .grid-fluid {
-      @apply px-32;
+      /* @apply px-32; */
       --cols: 12;
       --track: 72px;
       --gap: 32px;

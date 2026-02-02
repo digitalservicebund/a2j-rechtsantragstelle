@@ -5,62 +5,43 @@ import RadioGroup from "~/components/formElements/RadioGroup";
 import Select from "~/components/formElements/Select";
 import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
+import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
+import KernTile from "~/components/kern/formElements/tile/KernTile";
+import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
+import KernSelect from "~/components/kern/formElements/KernSelect";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
 export const isZodEnum = (fieldSchema: z.ZodType): fieldSchema is ZodEnum =>
   fieldSchema.def.type === "enum";
 
-const filterOptions = {
-  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-1"]: [
-    "startAirportFirstZwischenstopp",
-    "firstZwischenstoppEndAirport",
-  ],
-  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-2"]: [
-    "startAirportFirstZwischenstopp",
-    "firstAirportSecondZwischenstopp",
-    "secondZwischenstoppEndAirport",
-  ],
-  ["/fluggastrechte/formular/flugdaten/verspaeteter-flug-3"]: [
-    "startAirportFirstZwischenstopp",
-    "firstAirportSecondZwischenstopp",
-    "secondAirportThirdZwischenstopp",
-    "thirdZwischenstoppEndAirport",
-  ],
-};
-
-/**
- * Workaround to migrate the FGR Formular to Page Schemas.
- * The field verspaeteterFlug uses different options across multiple pages,
- * and we cannot remove it from the Page Schemas configuration due to issues with type object creation.
- * TODO: We plan to rename this field in the Flow soon and remove the temporary filter function.
- * */
-const filterOption = (option: string, fieldName: string, pathname: string) => {
-  if (fieldName !== "verspaeteterFlug" || !(pathname in filterOptions)) {
-    return true;
-  }
-
-  const fieldAvailableOptions =
-    filterOptions[pathname as keyof typeof filterOptions];
-
-  return fieldAvailableOptions.includes(option);
-};
-
 export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
-  pathname: string,
   matchingElement?: StrapiFormComponent,
+  showKernUX?: boolean,
 ) {
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
-  let options = schema.options
-    .map((value) => ({ value, text: value }))
-    .filter(({ value }) => filterOption(value, fieldName, pathname));
-  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
+
+  const sortedOptions = sortSchemaOptionsByFormComponents(
+    schema,
+    matchingElement,
+  );
+
+  let options = sortedOptions.map((value) => ({ value, text: value }));
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
-      return (
+      return showKernUX ? (
+        <KernCheckbox
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          required={matchingElement.required}
+          errorMessage={matchingElement.errorMessage}
+        />
+      ) : (
         <Checkbox
           key={fieldName}
           name={fieldName}
@@ -74,7 +55,21 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      return (
+      return showKernUX ? (
+        <KernTile
+          key={fieldName}
+          name={fieldName}
+          useTwoColumns={matchingElement.useTwoColumns}
+          label={label}
+          errorMessages={errorMessages}
+          options={options.map(({ value }) => ({
+            value,
+            description: cmsObject[value]?.description,
+            image: cmsObject[value]?.image,
+            title: cmsObject[value]?.title ?? value,
+          }))}
+        />
+      ) : (
         <TileGroup
           key={fieldName}
           name={fieldName}
@@ -99,12 +94,23 @@ export function renderZodEnum(
         value,
         text: cmsObject[value]?.text ?? text,
       }));
-      return (
+      return showKernUX ? (
+        <KernSelect
+          name={fieldName}
+          key={fieldName}
+          label={label}
+          options={options}
+          errorMessages={errorMessages}
+          width={get(matchingElement, "width")}
+          placeholder={get(matchingElement, "placeholder")}
+        />
+      ) : (
         <Select
           name={fieldName}
           key={fieldName}
           label={label}
           options={options}
+          placeholder={get(matchingElement, "placeholder")}
           altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
@@ -122,7 +128,16 @@ export function renderZodEnum(
           text: cmsObject[value]?.text ?? text,
         }));
       }
-      return (
+      return showKernUX ? (
+        <KernRadioGroup
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          altLabel={get(matchingElement, "altLabel")}
+          errorMessages={errorMessages}
+          options={options}
+        />
+      ) : (
         <RadioGroup
           key={fieldName}
           name={fieldName}
@@ -133,7 +148,16 @@ export function renderZodEnum(
         />
       );
     default:
-      return (
+      return showKernUX ? (
+        <KernRadioGroup
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          altLabel={get(matchingElement, "altLabel")}
+          errorMessages={errorMessages}
+          options={options}
+        />
+      ) : (
         <RadioGroup
           key={fieldName}
           name={fieldName}

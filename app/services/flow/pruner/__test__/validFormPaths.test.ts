@@ -4,24 +4,24 @@ import { buildFlowController } from "../../server/buildFlowController";
 import { validFormPaths } from "../validFormPaths";
 
 describe("validFormPaths", () => {
-  const { config, guards } = flows["/beratungshilfe/antrag"];
+  const { config } = flows["/beratungshilfe/antrag"];
 
   it("returns base path with reachable steps", () => {
     const data: BeratungshilfeFormularUserData = {
       rechtsschutzversicherung: "no",
     };
-    expect(
-      validFormPaths(buildFlowController({ config, guards, data })),
-    ).toStrictEqual([
-      {
-        stepIds: [
-          "/start/start",
-          "/grundvoraussetzungen/rechtsschutzversicherung",
-          "/grundvoraussetzungen/wurde-verklagt",
-          "/grundvoraussetzungen/wurde-verklagt-hinweis",
-        ],
-      },
-    ]);
+    expect(validFormPaths(buildFlowController({ config, data }))).toStrictEqual(
+      [
+        {
+          stepIds: [
+            "/start/start",
+            "/grundvoraussetzungen/rechtsschutzversicherung",
+            "/grundvoraussetzungen/wurde-verklagt",
+            "/grundvoraussetzungen/wurde-verklagt-hinweis",
+          ],
+        },
+      ],
+    );
   });
 
   describe("works for arrays", () => {
@@ -59,9 +59,7 @@ describe("validFormPaths", () => {
           },
         ],
       };
-      const validPaths = validFormPaths(
-        buildFlowController({ config, guards, data }),
-      );
+      const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toEqual(3);
 
       expect(validPaths[1]).toStrictEqual({
@@ -88,24 +86,18 @@ describe("validFormPaths", () => {
           },
         ],
       };
-      const validPaths = validFormPaths(
-        buildFlowController({ config, guards, data }),
-      );
+      const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toStrictEqual(1);
     });
 
     it("excludes array with empty array but statement key 'yes'", () => {
       const data = { ...baseData, hasBankkonto: "yes", bankkonten: [] };
-      const validPaths = validFormPaths(
-        buildFlowController({ config, guards, data }),
-      );
+      const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toStrictEqual(1);
     });
     it("excludes array with undefined array but statement key 'yes'", () => {
       const data = { ...baseData, hasBankkonto: "yes", bankkonten: undefined };
-      const validPaths = validFormPaths(
-        buildFlowController({ config, guards, data }),
-      );
+      const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toStrictEqual(1);
     });
 
@@ -123,9 +115,7 @@ describe("validFormPaths", () => {
           },
         ],
       };
-      const validPaths = validFormPaths(
-        buildFlowController({ config, guards, data }),
-      );
+      const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toStrictEqual(1);
     });
   });

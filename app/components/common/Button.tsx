@@ -23,6 +23,16 @@ function formatIcon(icon?: ReactElementWithClassname) {
   return cloneElement(icon, { className });
 }
 
+// for links that look like buttons, we want to add an event handler so that it can
+// be activated with the space bar
+// see: https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/43710c9e7d59e06f304830cc7e6b92893e7c7aa1#commitcomment-144257987
+const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+  if (event.code === "Space") {
+    event.currentTarget.click();
+    event.preventDefault();
+  }
+};
+
 function Button({
   children,
   text,
@@ -47,7 +57,7 @@ function Button({
       "ds-button-full-width": fullWidth,
       "is-disabled": props.disabled,
     },
-    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black", // TODO: move into angie?
+    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black",
     props.className,
   );
 
@@ -55,16 +65,6 @@ function Button({
   const childrenSpan = <span className="ds-button-label">{children}</span>;
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
-
-  // for links that look like buttons, we want to add an event handler so that it can
-  // be activated with the space bar
-  // see: https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/43710c9e7d59e06f304830cc7e6b92893e7c7aa1#commitcomment-144257987
-  const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
-    if (event.code === "Space") {
-      event.currentTarget.click();
-      event.preventDefault();
-    }
-  };
 
   if (href) {
     const isExternal = isExternalUrl(href);

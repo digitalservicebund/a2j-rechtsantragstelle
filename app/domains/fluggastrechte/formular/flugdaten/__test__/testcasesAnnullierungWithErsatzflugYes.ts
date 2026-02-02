@@ -38,7 +38,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "oneStop",
-        verspaeteterFlug: "startAirportFirstZwischenstopp",
+        verspaeteterFlugOneStop: "startAirportFirstZwischenstopp",
         anschlussFlugVerpasst: "no",
         ersterZwischenstopp: "HAM",
         zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
@@ -57,7 +57,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "oneStop",
-        verspaeteterFlug: "firstZwischenstoppEndAirport",
+        verspaeteterFlugOneStop: "firstZwischenstoppEndAirport",
         ersterZwischenstopp: "HAM",
         zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
       },
@@ -74,7 +74,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "twoStop",
-        verspaeteterFlug: "firstAirportSecondZwischenstopp",
+        verspaeteterFlugTwoStops: "firstAirportSecondZwischenstopp",
         anschlussFlugVerpasst: "no",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
@@ -94,7 +94,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "twoStop",
-        verspaeteterFlug: "secondZwischenstoppEndAirport",
+        verspaeteterFlugTwoStops: "secondZwischenstoppEndAirport",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
         zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
@@ -112,7 +112,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "threeStop",
-        verspaeteterFlug: "startAirportFirstZwischenstopp",
+        verspaeteterFlugThreeStops: "startAirportFirstZwischenstopp",
         anschlussFlugVerpasst: "no",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
@@ -133,7 +133,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "threeStop",
-        verspaeteterFlug: "firstAirportSecondZwischenstopp",
+        verspaeteterFlugThreeStops: "firstAirportSecondZwischenstopp",
         anschlussFlugVerpasst: "no",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
@@ -154,7 +154,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "threeStop",
-        verspaeteterFlug: "secondAirportThirdZwischenstopp",
+        verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
         anschlussFlugVerpasst: "no",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
@@ -175,7 +175,7 @@ export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugY
       {
         ...baseContext,
         zwischenstoppAnzahl: "threeStop",
-        verspaeteterFlug: "thirdZwischenstoppEndAirport",
+        verspaeteterFlugThreeStops: "thirdZwischenstoppEndAirport",
         ersterZwischenstopp: "HAM",
         zweiterZwischenstopp: "MUC",
         dritterZwischenstopp: "FRA",

@@ -1,14 +1,21 @@
 import { type GenericGuard } from "~/domains/guards.server";
-import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
+import { prozesskostenhilfeFinanzielleAngabeDone } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/doneFunctions";
+import { prozesskostenhilfeGesetzlicheVertretungDone } from "~/domains/prozesskostenhilfe/formular/gesetzlicheVertretung/doneFunctions";
 import { isNachueberpruefung } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/guards";
+import { prozesskostenhilfePersoenlicheDatenDone } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/doneFunctions";
+import { rechtsschutzversicherungDone } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/doneFunctions";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { allValidatedStatesDone } from "~/services/flow/reduceExcludedStatesToId";
 
 export const readyForAbgabe: GenericGuard<
   ProzesskostenhilfeFormularUserData
-> = ({ context }) => {
-  return allValidatedStatesDone(prozesskostenhilfeFormular.config, context);
-};
+> = ({ context }) =>
+  prozesskostenhilfeFinanzielleAngabeDone({ context }) &&
+  prozesskostenhilfeGesetzlicheVertretungDone({ context }) &&
+  (rechtsschutzversicherungDone({ context }) ||
+    context.formularArt === "nachueberpruefung") &&
+  prozesskostenhilfePersoenlicheDatenDone({
+    context,
+  });
 
 export const fileUploadRelevant: GenericGuard<
   ProzesskostenhilfeFormularUserData

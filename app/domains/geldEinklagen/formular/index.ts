@@ -24,9 +24,6 @@ export const geldEinklagenFormular = {
   config: {
     id: "/geld-einklagen/formular",
     initial: "gericht-pruefen",
-    meta: {
-      pruneDataFromPageSchema: true,
-    },
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,
@@ -39,7 +36,9 @@ export const geldEinklagenFormular = {
             initial: "start",
             states: {
               start: {
-                on: {},
+                on: {
+                  BACK: "#klage-erstellen.rechtlicher-zusatz.rechtliche-wuerdigung",
+                },
               },
             },
           },
@@ -47,6 +46,5 @@ export const geldEinklagenFormular = {
       },
     },
   },
-  guards: {},
   useStepper: true,
 } satisfies Flow;

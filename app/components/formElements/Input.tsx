@@ -22,6 +22,11 @@ export type InputProps = Readonly<{
   charLimit?: number;
 }>;
 
+const getInputType = (name: string): string => {
+  if (name === "telefonnummer") return "tel";
+  return "text";
+};
+
 const Input = function InputComponent({
   name,
   label,
@@ -39,11 +44,6 @@ const Input = function InputComponent({
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
-
-  const getInputType = (name: string): string => {
-    if (name === "telefonnummer") return "tel";
-    return "text";
-  };
 
   return (
     <div className="w-full">
@@ -63,7 +63,7 @@ const Input = function InputComponent({
           ref={innerRef}
           name={name}
           className={classNames(
-            "ds-input forced-colors:border-4",
+            "ds-input forced-colors:border-4 ph-no-capture",
             {
               "has-error": field.error(),
             },
@@ -85,11 +85,11 @@ const Input = function InputComponent({
         )}
       </div>
       {helperText && (
-        <div className="label-text mt-6" id={helperId}>
+        <div className="ds-label-03-reg mt-6" id={helperId}>
           {helperText}
         </div>
       )}
-      <InputError id={errorId} keepAriaLive={false}>
+      <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
       </InputError>

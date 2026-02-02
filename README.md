@@ -118,9 +118,9 @@ For more details, check `/doc/e2e-tests.md`
 
 ### Git Hooks
 
-We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-commit hooks, install them using `pnpm run init`.
+We use [lefthook](https://github.com/evilmartians/lefthook) for running several pre-push hooks when pushing on `main`, install them using `pnpm run init`.
 
-The git hooks check formatting, linting, unit tests, typecheck. You may execute them before committing using `lefthook run pre-commit`. See `lefthook.yaml` for more details.
+The git hooks check formatting, linting, unit tests, typecheck. You may execute them before committing using `lefthook run pre-push`. See `lefthook.yaml` for more details.
 
 ### Storybook
 

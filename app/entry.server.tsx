@@ -1,4 +1,4 @@
-import { PassThrough } from "stream";
+import { PassThrough } from "node:stream";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
@@ -12,7 +12,7 @@ import { NonceContext } from "./services/security/nonce";
 import { generateNonce } from "./services/security/nonce.server";
 import { originFromUrlString } from "./util/originFromUrlString";
 import { stripTrailingSlashFromURL } from "./util/strings";
-export { expressApp } from "./expressApp"; //re-exported to be called from server.js
+export { expressApp } from "./expressApp"; //re-exported to be called from server.mjs
 
 const ABORT_DELAY = 5000;
 const CONNECT_SOURCES = [originFromUrlString(configPublic().SENTRY_DSN)].filter(
@@ -25,6 +25,9 @@ export const handleError: HandleErrorFunction = (error, { request }) => {
     logError({ error });
   }
 };
+
+const unknownToError = (unknown: unknown): Error =>
+  unknown instanceof Error ? unknown : new Error(`Unknown error: ${unknown}`);
 
 export default function handleRequest(
   request: Request,
@@ -76,8 +79,7 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
-          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-          reject(error ?? "Unknown error");
+          reject(unknownToError(error));
         },
         onError(error: unknown) {
           didError = true;
@@ -135,9 +137,7 @@ function handleBrowserRequest(
         },
         onShellError(error: unknown) {
           logError({ error });
-
-          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-          reject(error ?? "Unknown error");
+          reject(unknownToError(error));
         },
         onError(error: unknown) {
           logError({ error });

@@ -5,6 +5,8 @@ import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services
 import { parsePathname, type FlowId } from "~/domains/flowIds";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
+import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
@@ -61,6 +63,11 @@ const pdfConfigs = {
       await fluggastrechtePdfFromUserdata(userData),
     name: `Fluggastrechte_Klage`,
   },
+  "/kontopfaendung/pkonto/antrag": {
+    pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
+      await pKontoPdfFromUserdata(userData),
+    name: "Antrag_Umwandlung_nach_Pfaendung",
+  },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -72,7 +79,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { pdfFunction, name } = pdfConfigs[flowId as keyof typeof pdfConfigs];
   const cookieHeader = request.headers.get("Cookie");
 
-  const { prunedData: userData } = await pruneIrrelevantData(
+  const { prunedData: userData } = pruneIrrelevantData(
     (await getSessionData(flowId, cookieHeader)).userData,
     flowId,
   );

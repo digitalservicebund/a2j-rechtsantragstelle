@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
-import type { FormFieldsMap } from "~/services/cms/fetchAllFormFields";
+import { type FormFieldsMap } from "~/domains/pageSchemas";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { flowPageSchemas } from "~/services/cms/schemas";
 
@@ -45,7 +45,6 @@ export function zodKeys<T extends z.ZodType | null | undefined>(
   }
   if (schema instanceof z.ZodObject) {
     //  loop through shape to get nested keys
-    // eslint-disable-next-line sonarjs/function-return-type
     return Object.entries(schema.shape).flatMap(([key, value]) => {
       const nested =
         value instanceof z.ZodType
@@ -85,7 +84,7 @@ export function getAllPossibleStates(flow: Flow) {
 }
 
 export function invertStrapiFormFields(formFields: FormFieldsMap) {
-  return Object.entries(formFields)
-    .map(([key, values]) => values.map((value) => [value, key]))
-    .flat();
+  return Object.entries(formFields).flatMap(([key, values]) =>
+    values.map((value) => [value, key]),
+  );
 }

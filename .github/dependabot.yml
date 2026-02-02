@@ -33,10 +33,6 @@ updates:
           - "react-dom"
           - "@types/react"
           - "@types/react-dom"
-      oxlint:
-        patterns:
-          - oxlint
-          - eslint-plugin-oxlint
       patch-updates:
         update-types: ["patch"]
   - package-ecosystem: "github-actions"

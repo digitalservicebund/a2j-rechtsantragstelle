@@ -55,7 +55,6 @@ export const prozesskostenhilfeFormular = {
           "/prozesskostenhilfe/formular/antragstellende-person",
         ),
       },
-      pruneDataFromPageSchema: true,
     },
     states: {
       start: {
@@ -192,7 +191,6 @@ export const prozesskostenhilfeFormular = {
       },
     },
   },
-  guards: {},
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),
     ...getArrayIndexStrings(context),

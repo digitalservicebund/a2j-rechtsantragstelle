@@ -10,10 +10,14 @@ const multiFieldsFlowValidation = {
     fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/fluggastrechte/formular":
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
+  "/erbschein/wegweiser": undefined,
   "/prozesskostenhilfe/formular": undefined,
   "/kontopfaendung/wegweiser": undefined,
   "/geld-einklagen/formular": undefined,
-} as const satisfies Record<FlowId, MultiFieldsStepIdValidation | undefined>;
+  "/kontopfaendung/pkonto/antrag": undefined,
+} as const satisfies Partial<
+  Record<FlowId, MultiFieldsStepIdValidation | undefined>
+>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>
   multiFieldsFlowValidation[flowId];

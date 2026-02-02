@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { configDotenv } from "dotenv";
 import { readSecretOrEnvVar } from "~/services/env/readSecretOrEnvVar.server";
 
@@ -17,12 +17,13 @@ type Config = {
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
   BUNDID_AUTH_BMI_ID?: string;
+  BUNDID_ENTITY_ID: string;
   SAML_ASSERTION_CONSUMER_SERVICE_URL: string;
   SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: string;
   SAML_SP_METADATA_PATH: string;
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_SP_SECRET_KEY_ENCRYPTION_PATH: string;
-  SAML_IDP_CERT?: string;
+  SAML_IDP_CERT: string;
   S3_REGION: string;
   S3_ENDPOINT: string;
   S3_DATA_STORAGE_ACCESS_KEY: string;
@@ -65,6 +66,7 @@ export function config(): Config {
     CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
     BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
+    BUNDID_ENTITY_ID: process.env.BUNDID_ENTITY_ID?.trim() ?? "",
     SAML_ASSERTION_CONSUMER_SERVICE_URL:
       process.env.SAML_ASSERTION_CONSUMER_SERVICE_URL?.trim() ?? "",
     SAML_SP_LOGIN_REQUEST_TEMPLATE_PATH: path.join(

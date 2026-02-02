@@ -1,4 +1,4 @@
-import { ibanSchema } from "../iban";
+import { formatIban, ibanSchema } from "../iban";
 
 describe("iban validation", () => {
   describe("success cases", () => {
@@ -47,6 +47,40 @@ describe("iban validation", () => {
         const actual = ibanSchema.safeParse(input);
         expect(actual.success).toBe(false);
         expect(actual.error!.issues[0].message).toBe(errorMessage);
+      },
+    );
+  });
+});
+
+describe("iban formatting", () => {
+  describe("formatIban", () => {
+    const cases = [
+      {
+        input: "DE14100205001234567890",
+        expected: "DE14 1002 0500 1234 5678 90",
+      },
+      {
+        input: " DE14 1002 0500 1234 5678 90 ",
+        expected: "DE14 1002 0500 1234 5678 90",
+      },
+      {
+        input: "de14100205001234567890",
+        expected: "DE14 1002 0500 1234 5678 90",
+      },
+      {
+        input: "KW81 CBKU000000000000 1234560101",
+        expected: "KW81 CBKU 0000 0000 0000 1234 5601 01",
+      },
+      {
+        input: " NO8330001234567 ",
+        expected: "NO83 3000 1234 567",
+      },
+    ];
+    test.each(cases)(
+      "given $input, returns $expected",
+      ({ input, expected }) => {
+        const actual = formatIban(input);
+        expect(actual).toBe(expected);
       },
     );
   });

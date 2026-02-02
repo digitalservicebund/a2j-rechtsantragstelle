@@ -16,9 +16,6 @@ const staatlicheLeistungenYes: GenericGuard<
 export const beratungshilfeVorabcheckXstateConfig = {
   id: "/beratungshilfe/vorabcheck",
   initial: stepIds.start,
-  meta: {
-    pruneDataFromPageSchema: true,
-  },
   states: {
     [stepIds.start]: {
       on: { SUBMIT: stepIds.rechtsschutzversicherung },

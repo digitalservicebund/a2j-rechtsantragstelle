@@ -7,7 +7,7 @@ import {
   stateValueToStepIds,
   stepIdToPath,
 } from "~/services/flow/stepIdConverter";
-import { progressLookup, vorabcheckProgresses } from "./progress";
+import { progressLookupForMachine, vorabcheckProgresses } from "./progress";
 import type {
   Config,
   FlowStateMachine,
@@ -19,11 +19,11 @@ import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
-import { isKeyOfObject } from "~/util/objects";
 
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
 
+  // oxlint-disable-next-line consistent-function-scoping
   function dive(node: typeof startNode): typeof startNode {
     if (Object.keys(node.states).length === 0) return node;
     return dive(Object.values(node.states)[0]);
@@ -197,7 +197,7 @@ function stepStates(
       url: `${state.machine.id}${stepId}`,
       isDone: reachableSubStates.every((state) => state.isDone),
       stepId,
-      isReachable: reachableSubStates.length > 0,
+      isReachable: reachableSubStates.some((state) => state.isReachable), // need this condition due the parameter addUnreachableSubSteps
       subStates: reachableSubStates,
       excludedFromValidation,
     };
@@ -266,9 +266,11 @@ export const buildFlowController = ({
     },
     getInitial: () => `${flowId}${getInitial(machine) ?? ""}`,
     getProgress: (currentStepId: string) => {
-      if (isKeyOfObject(flowId, vorabcheckProgresses)) {
-        return progressLookup(vorabcheckProgresses[flowId], currentStepId);
-      }
+      const { total, progressLookup } =
+        flowId && flowId in vorabcheckProgresses
+          ? vorabcheckProgresses[flowId]
+          : progressLookupForMachine(machine);
+      return { max: total, progress: progressLookup[currentStepId] };
     },
     getInitialSubState: (stepId: string) => {
       return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;

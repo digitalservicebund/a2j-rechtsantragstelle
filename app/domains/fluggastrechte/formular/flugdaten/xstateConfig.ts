@@ -54,15 +54,15 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenZwischenstoppUebersicht1.relative,
-            guard: "hasOneStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "oneStop",
           },
           {
             target: steps.flugdatenZwischenstoppUebersicht2.relative,
-            guard: "hasTwoStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "twoStop",
           },
           {
             target: steps.flugdatenZwischenstoppUebersicht3.relative,
-            guard: "hasThreeStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "threeStop",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
@@ -99,11 +99,13 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugOneStop ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
-            guard: "hasVerspaetung",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: steps.flugdatenErsatzverbindungDaten.relative,
@@ -129,15 +131,19 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugTwoStops ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugTwoStops ===
+              "firstAirportSecondZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
-            guard: "hasVerspaetung",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: steps.flugdatenErsatzverbindungDaten.relative,
@@ -163,19 +169,25 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugStartAirportFirstZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "startAirportFirstZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugFirstAirportSecondZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "firstAirportSecondZwischenstopp",
           },
           {
             target: steps.flugdatenAnschlussFlugVerpasst.relative,
-            guard: "hasVerspaeteterFlugSecondAirportThirdZwischenstopp",
+            guard: ({ context }) =>
+              context.verspaeteterFlugThreeStops ===
+              "secondAirportThirdZwischenstopp",
           },
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
-            guard: "hasVerspaetung",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: steps.flugdatenErsatzverbindungDaten.relative,
@@ -195,7 +207,7 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenTatsaechlicherFlug.relative,
-            guard: "hasVerspaetung",
+            guard: ({ context }) => context.bereich === "verspaetet",
           },
           {
             target: steps.flugdatenErsatzverbindungDaten.relative,
@@ -210,11 +222,11 @@ export const flugdatenXstateConfig = {
         BACK: [
           {
             target: steps.flugdatenVerspaeteterFlug1.relative,
-            guard: "hasOneStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "oneStop",
           },
           {
             target: steps.flugdatenVerspaeteterFlug2.relative,
-            guard: "hasTwoStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "twoStop",
           },
           steps.flugdatenVerspaeteterFlug3.relative,
         ],
@@ -225,11 +237,11 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenTatsaechlicherFlugAnkunft.relative,
-            guard: "tatsaechlicherFlugYes",
+            guard: ({ context }) => context.tatsaechlicherFlug === "yes",
           },
           {
             target: steps.flugdatenErsatzverbindungArt.relative,
-            guard: "tatsaechlicherFlugNo",
+            guard: ({ context }) => context.tatsaechlicherFlug === "no",
           },
         ],
         BACK: [
@@ -239,15 +251,15 @@ export const flugdatenXstateConfig = {
           },
           {
             target: steps.flugdatenVerspaeteterFlug1.relative,
-            guard: "hasOneStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "oneStop",
           },
           {
             target: steps.flugdatenVerspaeteterFlug2.relative,
-            guard: "hasTwoStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "twoStop",
           },
           {
             target: steps.flugdatenVerspaeteterFlug3.relative,
-            guard: "hasThreeStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "threeStop",
           },
           steps.flugdatenGeplanterFlug.relative,
         ],
@@ -269,15 +281,15 @@ export const flugdatenXstateConfig = {
           },
           {
             target: steps.flugdatenVerspaeteterFlug1.relative,
-            guard: "hasOneStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "oneStop",
           },
           {
             target: steps.flugdatenVerspaeteterFlug2.relative,
-            guard: "hasTwoStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "twoStop",
           },
           {
             target: steps.flugdatenVerspaeteterFlug3.relative,
-            guard: "hasThreeStop",
+            guard: ({ context }) => context.zwischenstoppAnzahl === "threeStop",
           },
           steps.flugdatenGeplanterFlug.relative,
         ],
@@ -288,11 +300,12 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.flugdatenAndererFlugAnkunft.relative,
-            guard: "hasErsatzVerbindungFlug",
+            guard: ({ context }) => context.ersatzverbindungArt === "flug",
           },
           {
             target: steps.flugdatenErsatzverbindungBeschreibung.relative,
-            guard: "hasAndereErsatzVerbindung",
+            guard: ({ context }) =>
+              context.ersatzverbindungArt === "etwasAnderes",
           },
           steps.flugdatenZusaetzlicheAngaben.relative,
         ],
@@ -378,7 +391,8 @@ export const flugdatenXstateConfig = {
           },
           {
             target: steps.flugdatenErsatzverbindungBeschreibung.relative,
-            guard: "hasAndereErsatzVerbindung",
+            guard: ({ context }) =>
+              context.ersatzverbindungArt === "etwasAnderes",
           },
           steps.flugdatenErsatzverbindungArt.relative,
         ],

@@ -38,8 +38,6 @@ describe("addFlightTextArea", () => {
     addFlightTextArea(mockDoc, userDataMock, mockSect);
 
     expect(mockDoc.text).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should have the text for start and end airport for verspaetet bereich and anschlussFlugVerpasst no", () => {

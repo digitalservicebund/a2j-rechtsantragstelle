@@ -8,6 +8,8 @@ type KernStandaloneLinkProps = Readonly<{
   text: string;
   icon?: React.ReactNode;
   className?: string;
+  dataTestid?: string;
+  ["aria-describedby"]?: string;
 }>;
 
 const OPEN_NEW_TAB = "öffnet neues Fenster";
@@ -17,6 +19,8 @@ export const KernStandaloneLink = ({
   text,
   icon,
   className,
+  dataTestid,
+  ["aria-describedby"]: ariaDescribedBy,
 }: KernStandaloneLinkProps) => {
   const shouldOpenNewTab =
     isExternalUrl(url) ||
@@ -24,7 +28,8 @@ export const KernStandaloneLink = ({
     isFileDownloadUrl(url);
   const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     href: url,
-    className: classNames("text-link min-h-[24px]", className),
+    className: classNames("kern-link min-h-[24px]", className),
+    "aria-describedby": ariaDescribedBy,
     ...(shouldOpenNewTab
       ? {
           "aria-label": `${text}, ${OPEN_NEW_TAB}`,
@@ -35,7 +40,7 @@ export const KernStandaloneLink = ({
   };
 
   return (
-    <a {...anchorProps}>
+    <a {...anchorProps} className={className} data-testid={dataTestid}>
       {icon}
       {text}
       {shouldOpenNewTab && <OpenInNewTabIcon />}

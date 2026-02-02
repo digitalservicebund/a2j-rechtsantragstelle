@@ -2,6 +2,12 @@ import { type MergeWithCustomizer } from "lodash";
 import { createSession } from "react-router";
 import { updateSession } from "~/services/session.server";
 
+const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) => {
+  if (key === "a") {
+    return objValue;
+  }
+};
+
 describe("index", () => {
   describe("updateSession", () => {
     it("should update a session with merged context data", () => {
@@ -32,15 +38,7 @@ describe("index", () => {
         a: 2,
         c: 3,
       };
-      const mergeCustomizer: MergeWithCustomizer = (
-        objValue,
-        _srcValue,
-        key,
-      ) => {
-        if (key === "a") {
-          return objValue;
-        }
-      };
+
       updateSession(mockSession, mockContext, mergeCustomizer);
       expect(mockSession.data).toEqual({
         a: 1,
