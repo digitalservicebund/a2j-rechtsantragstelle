@@ -26,10 +26,7 @@ export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
 
   const validFlowPaths = getValidFlowPaths(formFields, formPaths);
 
-  return {
-    prunedData: pick(data, validFormFields, "pageData"),
-    validFlowPaths,
-  };
+  return { prunedData: pick(data, validFormFields), validFlowPaths };
 }
 
 export function filterFormFields(
