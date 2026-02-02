@@ -54,7 +54,7 @@ import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 import { KernCookieBanner } from "./components/kern/KernCookieBanner";
-import KernFooter from "./components/kern/layout/KernFooter";
+import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
 import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
