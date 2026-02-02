@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useLoaderData } from "react-router";
-import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import { FormFlowContext } from "~/components/formFlowContext";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import MigrationDataOverview from "~/components/MigrationDataOverview";
@@ -19,6 +18,7 @@ import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFo
 import { type loader } from "../../formular";
 import KernHeading from "~/components/kern/KernHeading";
 import ContentComponents from "~/components/content/ContentComponents";
+import KernArraySummary from "~/components/kern/arraySummary/KernArraySummary";
 
 export function KernFormFlowPage() {
   const {
@@ -91,14 +91,12 @@ export function KernFormFlowPage() {
             row={3}
             as="section"
           >
-            {/* <div className="flex flex-col flex-1 gap-32 md:pl-0 md:pb-32! pt-0! justify-between"> */}
-            {/* <div className=""> */}
             <div
-              className="flex flex-col flex-1 justify-between"
+              className="flex flex-col flex-1 justify-between gap-kern-space-default"
               id="flow-page-content"
             >
               {cmsContent.preHeading && (
-                <p className="text-kern-18 text-kern-layout-text-muted! pb-2">
+                <p className="text-kern-18 kern-label text-kern-layout-text-muted! pb-2 pt-6">
                   {cmsContent.preHeading}
                 </p>
               )}
@@ -135,7 +133,7 @@ export function KernFormFlowPage() {
                 {arraySummaryData &&
                   Object.keys(arraySummaryData).length !== 0 &&
                   Object.entries(arraySummaryData).map(([category, array]) => (
-                    <ArraySummary
+                    <KernArraySummary
                       key={category}
                       category={category}
                       arrayData={{
