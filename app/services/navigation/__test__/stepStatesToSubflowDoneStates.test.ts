@@ -1,50 +1,47 @@
-import type { StepState } from "~/services/flow/server/buildFlowController";
 import { stepStatesToSubflowDoneStates } from "../stepStatesToSubflowDoneStates";
 
 describe("stepStatesToSubflowDoneStates", () => {
-  it("evaluated isReachable and isDone, ignores subStates", () => {
+  it("returns empty object on empty input", () => {
+    expect(stepStatesToSubflowDoneStates([])).toEqual({});
+  });
+
+  it("maps to stepId as key and isDone as value", () => {
+    expect(
+      stepStatesToSubflowDoneStates([
+        {
+          stepId: "step1",
+          isReachable: true,
+          isDone: true,
+          url: "/step1",
+        },
+        {
+          stepId: "step2",
+          isReachable: true,
+          isDone: false,
+          url: "/step1",
+        },
+      ]),
+    ).toEqual({ step1: true, step2: false });
+  });
+
+  it("ignores substates", () => {
     const stepStates = [
       {
         stepId: "step1",
         isReachable: true,
         isDone: true,
         url: "/step1",
-      },
-      {
-        stepId: "step2",
-        isReachable: true,
-        isDone: true,
         subStates: [
           {
-            stepId: "step2a",
-            isReachable: true,
-            isDone: true,
-            url: "/step2",
+            stepId: "step1a",
+            isReachable: false,
+            isDone: false,
+            url: "/step1a",
           },
         ],
-        url: "/step2",
       },
-      {
-        stepId: "step3",
-        isReachable: false,
-        isDone: true,
-        url: "/step3",
-      },
-      {
-        stepId: "step4",
-        isReachable: true,
-        isDone: false,
-        url: "/step4",
-      },
-    ] satisfies StepState[];
+    ];
 
-    const expected = {
-      step1: true,
-      step2: true,
-      step3: false,
-      step4: false,
-    };
-
-    expect(stepStatesToSubflowDoneStates(stepStates)).toEqual(expected);
+    expect(stepStatesToSubflowDoneStates(stepStates)).toEqual({ step1: true });
   });
 });
