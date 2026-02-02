@@ -42,6 +42,7 @@ function KernButton({
   look,
   href,
   textClassName,
+  disabled,
   ...props
 }: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
@@ -51,6 +52,7 @@ function KernButton({
       "kern-btn--secondary": look === "secondary",
       "kern-btn--tertiary": look === "tertiary",
       "kern-btn--block": fullWidth,
+      "kern-btn--disabled pointer-events-none": disabled,
     },
     props.className,
   );
@@ -76,7 +78,7 @@ function KernButton({
     return (
       <a
         {...(props as LinkProps)}
-        href={props.disabled ? undefined : href}
+        href={disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
         {...opts}
@@ -87,7 +89,11 @@ function KernButton({
   }
 
   return (
-    <button {...(props as ButtonProps)} className={buttonClasses}>
+    <button
+      {...(props as ButtonProps)}
+      className={buttonClasses}
+      disabled={disabled}
+    >
       {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
     </button>
   );

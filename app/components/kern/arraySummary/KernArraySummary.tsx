@@ -7,6 +7,7 @@ import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
 import { type KernHeadingProps } from "../KernHeading";
+import classNames from "classnames";
 
 type ArraySummaryProps = Readonly<{
   category: string;
@@ -66,9 +67,7 @@ const KernArraySummary = ({
             <KernIcon name="plus" className="text-kern-action-default" />
           }
           href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
-          className={
-            disableAddButton ? "kern-btn--disabled pointer-events-none" : ""
-          }
+          disabled={disableAddButton}
         >
           {`${content.buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}
         </KernButton>
