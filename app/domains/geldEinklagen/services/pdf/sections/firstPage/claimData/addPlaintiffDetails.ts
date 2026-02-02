@@ -7,7 +7,7 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
 
 export const PLAINTIFF_TEXT = "– Klagende Partei –";
-export const SEPARATOR = " | ";
+export const SEPARATOR = " | ";
 
 export const addPlaintiffDetails = (
   doc: typeof PDFDocument,
@@ -19,6 +19,7 @@ export const addPlaintiffDetails = (
     klagendePersonStrasseHausnummer,
     klagendePersonPlz,
     klagendePersonOrt,
+    klagendeTelefonnummer,
   }: GeldEinklagenFormularUserData,
 ) => {
   const plaintiffName = getFullPlaintiffName(
@@ -30,6 +31,7 @@ export const addPlaintiffDetails = (
   const address = klagendePersonStrasseHausnummer ?? "";
   const zipCode = klagendePersonPlz ?? "";
   const city = klagendePersonOrt ?? "";
+  const phoneNumber = klagendeTelefonnummer ?? "";
 
   doc
     .fontSize(10)
@@ -38,5 +40,6 @@ export const addPlaintiffDetails = (
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
     .text(`${address}, ${zipCode} ${city}, Deutschland`)
+    .text(phoneNumber)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };
