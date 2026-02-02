@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const pageDataSchema = z.object({
   arrayIndexes: z.array(z.number()),
-  subflowDoneStates: z.record(z.string(), z.boolean()).optional(),
 });
 
 export type PageData = z.infer<typeof pageDataSchema>;
