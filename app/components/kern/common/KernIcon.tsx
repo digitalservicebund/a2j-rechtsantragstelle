@@ -12,7 +12,7 @@ export function KernIcon({
 }: Readonly<IconProps>) {
   return (
     <svg
-      className={`app-icon ${className}`}
+      className={`app-icon ${className} flex-shrink-0`}
       width={size}
       height={size}
       fill="currentColor"
