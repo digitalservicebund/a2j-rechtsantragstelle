@@ -11,6 +11,7 @@ export type ButtonProps = {
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
   fullWidth?: boolean;
+  textClassName?: string;
   type?: HTMLButtonElement["type"];
 };
 
@@ -40,6 +41,7 @@ function KernButton({
   fullWidth,
   look,
   href,
+  textClassName,
   ...props
 }: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
@@ -53,8 +55,14 @@ function KernButton({
     props.className,
   );
 
-  const textSpan = text ? <span className="kern-label">{text}</span> : "";
-  const childrenSpan = <span className="kern-label">{children}</span>;
+  const textSpan = text ? (
+    <span className={classNames("kern-label", textClassName)}>{text}</span>
+  ) : (
+    ""
+  );
+  const childrenSpan = (
+    <span className={classNames("kern-label", textClassName)}>{children}</span>
+  );
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
 
