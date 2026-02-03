@@ -69,4 +69,7 @@ export const allowedWebsites = [
   "https://www.drk.de",
   "https://www.der-paritaetische.de",
   "https://mjp.justiz.de",
+  "https://www.schiedsamt.de",
+  "https://www.bmev.de",
+  "https://www.mahngerichte.de",
 ];
