@@ -6,8 +6,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
-export const STATEMENT_CLAIM_SUBTITLE_TEXT =
-  "Es werden folgende Anträge gestellt:";
+const STATEMENT_CLAIM_SUBTITLE_TEXT = "Es werden folgende Anträge gestellt:";
 
 export const addDefendantPartyList = (
   doc: typeof PDFDocument,
@@ -24,7 +23,7 @@ export const addDefendantPartyList = (
   const attorneyCostsClause =
     anwaltskosten === ""
       ? ""
-      : ` sowie die außergerichtlich angefallenen Anwaltskosten in Höhe von ${anwaltskosten} Euro${interestClause}`;
+      : ` sowie die außergerichtlich angefallenen Anwaltskosten in Höhe von ${anwaltskosten} Euro`;
 
   const defendantPartyList = {
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
