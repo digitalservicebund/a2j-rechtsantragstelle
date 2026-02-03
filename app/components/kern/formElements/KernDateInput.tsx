@@ -49,7 +49,7 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
           </label>
           <input
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-2",
+              "kern-form-input__input kern-form-input__input--width-2 bg-white!",
               {
                 "kern-form-input__input--error": dayError,
               },
@@ -85,7 +85,7 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
           </label>
           <input
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-2",
+              "kern-form-input__input kern-form-input__input--width-2 bg-white!",
               {
                 "kern-form-input__input--error": monthError,
               },
@@ -121,7 +121,7 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
           </label>
           <input
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-4",
+              "kern-form-input__input kern-form-input__input--width-4 bg-white!",
               {
                 "kern-form-input__input--error": yearError,
               },

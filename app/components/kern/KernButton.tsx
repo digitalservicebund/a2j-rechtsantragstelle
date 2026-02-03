@@ -11,6 +11,7 @@ export type ButtonProps = {
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
   fullWidth?: boolean;
+  textClassName?: string;
   type?: HTMLButtonElement["type"];
 };
 
@@ -40,6 +41,8 @@ function KernButton({
   fullWidth,
   look,
   href,
+  textClassName,
+  disabled,
   ...props
 }: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
@@ -49,12 +52,19 @@ function KernButton({
       "kern-btn--secondary": look === "secondary",
       "kern-btn--tertiary": look === "tertiary",
       "kern-btn--block": fullWidth,
+      "kern-btn--disabled pointer-events-none": disabled,
     },
     props.className,
   );
 
-  const textSpan = text ? <span className="kern-label">{text}</span> : "";
-  const childrenSpan = <span className="kern-label">{children}</span>;
+  const textSpan = text ? (
+    <span className={classNames("kern-label", textClassName)}>{text}</span>
+  ) : (
+    ""
+  );
+  const childrenSpan = (
+    <span className={classNames("kern-label", textClassName)}>{children}</span>
+  );
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
 
@@ -68,7 +78,7 @@ function KernButton({
     return (
       <a
         {...(props as LinkProps)}
-        href={props.disabled ? undefined : href}
+        href={disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
         {...opts}
@@ -79,7 +89,11 @@ function KernButton({
   }
 
   return (
-    <button {...(props as ButtonProps)} className={buttonClasses}>
+    <button
+      {...(props as ButtonProps)}
+      className={buttonClasses}
+      disabled={disabled}
+    >
       {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
     </button>
   );
