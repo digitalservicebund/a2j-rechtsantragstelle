@@ -1,15 +1,18 @@
 import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { createLocalCourtAndDate } from "./createLocalCourtAndDate";
 import { createClaimData } from "./claimData/createClaimData";
 import { createStatementClaim } from "./createStatementClaim";
+import { getResponsibleCourt } from "../../../court/getResponsibleCourt";
+import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 
 export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
 ) => {
-  createLocalCourtAndDate(doc, documentStruct, userData);
+  const amtsgericht = getResponsibleCourt(userData);
+
+  createLocalCourtAndDate(doc, documentStruct, amtsgericht);
 
   doc.moveDown(2);
 
