@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
+import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import { createFirstPage } from "../createFirstPage";
 import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { createStatementClaim } from "../createStatementClaim";
