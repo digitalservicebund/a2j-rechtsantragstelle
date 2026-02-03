@@ -14,13 +14,13 @@ export const createFirstPage = (
 
   createLocalCourtAndDate(doc, documentStruct, amtsgericht);
 
-  doc.moveDown(2);
+  doc.moveDown(3);
 
   const moneyClaimSection = doc.struct("Sect");
   createClaimData(doc, moneyClaimSection, userData);
   documentStruct.add(moneyClaimSection);
 
-  doc.moveDown(2);
+  doc.moveDown(3);
 
   createStatementClaim(doc, documentStruct, userData);
 
