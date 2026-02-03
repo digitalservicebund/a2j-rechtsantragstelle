@@ -19,6 +19,8 @@ export const userDataMock: GeldEinklagenFormularUserData = {
   klagendePersonVorname: "klagendePersonVorname",
   klagendePersonNachname: "klagendePersonNachname",
   klagendePersonStrasseHausnummer: "klagendePersonStrasseHausnummer",
+  klagendePersonKontoinhaber: "klagendePersonKontoinhaber",
+  klagendePersonIban: "DE68500123456789000000",
   klagendePersonPlz: ZIP_CODE_PILOT_COURT,
   klagendePersonOrt: "klagendePersonOrt",
   klagendeTelefonnummer: "klagendePersonTelefonnummer",

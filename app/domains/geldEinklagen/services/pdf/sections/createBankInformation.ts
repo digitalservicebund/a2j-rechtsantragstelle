@@ -4,7 +4,7 @@ import {
   PDF_HEIGHT_SEIZE,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import type { GeldEinklagenFormularUserData } from "../../formular/userData";
+import type { GeldEinklagenFormularUserData } from "../../../formular/userData";
 
 function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
   doc

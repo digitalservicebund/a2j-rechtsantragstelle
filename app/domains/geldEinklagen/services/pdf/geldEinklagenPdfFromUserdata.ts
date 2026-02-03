@@ -4,7 +4,7 @@ import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { createBankInformation } from "./createBankInformation";
+import { createBankInformation } from "./sections/createBankInformation";
 
 export const TITLE = "Klage Neueingang";
 export const SUBJECT = "Klageschrift";
