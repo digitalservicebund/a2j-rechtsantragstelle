@@ -1,19 +1,16 @@
 import { useLoaderData } from "react-router";
-import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import type { loader } from "../vorabcheck";
+import type { loader } from "~/routes/shared/vorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { KernProgress } from "~/components/kern/KernProgressBar";
-import { KernVorabcheckPage } from "./kern/KernVorabcheckPage";
 
-export function VorabcheckPage() {
+export function KernVorabcheckPage() {
   const {
     csrf,
     stepData,
@@ -25,10 +22,6 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
-  const showKernUX = useShowKernUX();
-  if (showKernUX) {
-    return <KernVorabcheckPage />;
-  }
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue}>
@@ -40,11 +33,7 @@ export function VorabcheckPage() {
           className="pt-40"
           row={1}
         >
-          {showKernUX ? (
             <KernProgress {...progressProps} />
-          ) : (
-            <ProgressBar {...progressProps} />
-          )}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -55,8 +44,9 @@ export function VorabcheckPage() {
         >
           <ContentComponents
             content={cmsContent.pre_form}
-            className="ds-stack ds-stack-16"
+            // className="ds-stack ds-stack-16"
             managedByParent
+            showKernUX
           />
         </GridItem>
         <GridItem
@@ -81,7 +71,7 @@ export function VorabcheckPage() {
             className="pb-40 flex justify-end"
             row={4}
           >
-            <ReportProblem />
+            <KernReportProblem />
           </GridItem>
         )}
       </Grid>
