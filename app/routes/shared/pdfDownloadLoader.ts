@@ -74,7 +74,7 @@ const pdfConfigs = {
   "/geld-einklagen/formular": {
     pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
       await geldEinklagenPdfFromUserdata(userData),
-    name: `Geld_einklagen_Klage`,
+    name: `Geld_Einklagen_Klage`,
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
