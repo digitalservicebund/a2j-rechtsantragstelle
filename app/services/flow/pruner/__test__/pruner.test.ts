@@ -83,7 +83,7 @@ describe("pruner", () => {
           {
             vorname: "a",
             nachname: "b",
-            geburtsdatum: "11.11.2023",
+            geburtsdatum: { day: "11", month: "11", year: "2023" },
             wohnortBeiAntragsteller: "no",
             unterhalt: "yes",
             unterhaltsSumme: "123",
@@ -161,7 +161,7 @@ describe("pruner", () => {
         {
           vorname: "a",
           nachname: "b",
-          geburtsdatum: "11.11.2023",
+          geburtsdatum: { day: "11", month: "11", year: "2023" },
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "100",

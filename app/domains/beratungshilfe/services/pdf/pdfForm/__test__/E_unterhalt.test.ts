@@ -35,7 +35,7 @@ describe("E_unterhalt", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "no",
           unterhaltsSumme: "100",
           unterhalt: "yes",
@@ -43,7 +43,7 @@ describe("E_unterhalt", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "50",
@@ -54,7 +54,7 @@ describe("E_unterhalt", () => {
           familyRelationship: "grandchild",
           firstName: "firstName",
           surname: "surname",
-          birthday: "10.10.2000",
+          birthday: { day: "01", month: "01", year: "2000" },
           monthlyPayment: "100",
         },
       ],
@@ -112,7 +112,7 @@ describe("E_unterhalt", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
-        geburtsdatum: "01.01.2010",
+        geburtsdatum: { day: "01", month: "01", year: "2010" },
         wohnortBeiAntragsteller: "no",
         unterhaltsSumme: "100",
         unterhalt: "yes",

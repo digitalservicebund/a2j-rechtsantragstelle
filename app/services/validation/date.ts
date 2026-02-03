@@ -96,7 +96,9 @@ export const createSplitDateSchema = (args?: {
         .refine(
           (val) => {
             const num = Number(val);
-            return !Number.isNaN(num) && num >= FIRST_MONTH && num <= LAST_MONTH;
+            return (
+              !Number.isNaN(num) && num >= FIRST_MONTH && num <= LAST_MONTH
+            );
           },
           { message: input_invalid },
         ),

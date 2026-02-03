@@ -72,7 +72,12 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       if ("zahlungsfrist" in ausgabe) {
         attachment.push({
           title: "Raten laufen bis",
-          text: ausgabe.zahlungsfrist,
+          text:
+            ausgabe.zahlungsfrist.day +
+            "." +
+            ausgabe.zahlungsfrist.month +
+            "." +
+            ausgabe.zahlungsfrist.year,
         });
       }
     });

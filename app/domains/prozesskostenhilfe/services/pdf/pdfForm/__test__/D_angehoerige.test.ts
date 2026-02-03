@@ -33,7 +33,7 @@ describe("D_angehoerige", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "100",
@@ -41,7 +41,7 @@ describe("D_angehoerige", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
           unterhaltsSumme: "100",
@@ -52,7 +52,7 @@ describe("D_angehoerige", () => {
           familyRelationship: "grandchild",
           firstName: "firstName",
           surname: "surname",
-          birthday: "10.10.2000",
+          birthday: { day: "10", month: "10", year: "2000" },
           monthlyPayment: "100",
         },
       ],
@@ -79,7 +79,11 @@ describe("D_angehoerige", () => {
       `${userData.kinder[0].vorname} ${userData.kinder[0].nachname}`,
     );
     expect(pdfValues.geburtsdatum2.value).toEqual(
-      userData.kinder[0].geburtsdatum,
+      userData.kinder[0].geburtsdatum.day +
+        "." +
+        userData.kinder[0].geburtsdatum.month +
+        "." +
+        userData.kinder[0].geburtsdatum.year,
     );
     expect(pdfValues.verhaeltnis2.value).toEqual("Kind");
     expect(pdfValues.d4.value).toEqual(true);
@@ -92,7 +96,11 @@ describe("D_angehoerige", () => {
       `${userData.kinder[1].vorname} ${userData.kinder[0].nachname}`,
     );
     expect(pdfValues.geburtsdatum3.value).toEqual(
-      userData.kinder[1].geburtsdatum,
+      userData.kinder[1].geburtsdatum.day +
+        "." +
+        userData.kinder[1].geburtsdatum.month +
+        "." +
+        userData.kinder[1].geburtsdatum.year,
     );
     expect(pdfValues.verhaeltnis3.value).toEqual("Kind");
     expect(pdfValues.monatsbetrag3.value).toEqual(
@@ -120,7 +128,7 @@ describe("D_angehoerige", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
-        geburtsdatum: "01.01.2010",
+        geburtsdatum: { day: "01", month: "01", year: "2010" },
         wohnortBeiAntragsteller: "no",
         unterhaltsSumme: "100",
         unterhalt: "yes",

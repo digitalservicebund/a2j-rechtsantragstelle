@@ -1,15 +1,16 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
+import { daysFromToday } from "./mockedDate";
 
 const baseContext = {
   ...fluggesellschaftAddresse,
   bereich: "verspaetet",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "01.05.2023",
+  direktAbflugsDatum: daysFromToday(0),
   direktAbflugsZeit: "10:00",
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: daysFromToday(0),
   direktAnkunftsZeit: "10:00",
 };
 
@@ -21,7 +22,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
+      ersatzFlugAnkunftsDatum: daysFromToday(0),
       ersatzFlugAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
@@ -40,7 +41,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
       zwischenstoppAnzahl: "no",
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "etwasAnderes",
-      andereErsatzverbindungAnkunftsDatum: "10.03.2024",
+      andereErsatzverbindungAnkunftsDatum: daysFromToday(0),
       andereErsatzverbindungAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
@@ -74,7 +75,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
       ...baseContext,
       zwischenstoppAnzahl: "no",
       tatsaechlicherFlug: "yes",
-      tatsaechlicherAnkunftsDatum: "10.03.2024",
+      tatsaechlicherAnkunftsDatum: daysFromToday(0),
       tatsaechlicherAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
@@ -96,7 +97,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
+      ersatzFlugAnkunftsDatum: daysFromToday(0),
       ersatzFlugAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },
@@ -121,7 +122,7 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [
       tatsaechlicherFlug: "no",
       ersatzverbindungArt: "flug",
       ersatzFlugnummer: "BCA4321",
-      ersatzFlugAnkunftsDatum: "10.03.2024",
+      ersatzFlugAnkunftsDatum: daysFromToday(0),
       ersatzFlugAnkunftsZeit: "10:10",
       zusaetzlicheAngaben: "Zusätzliche Angaben zum Reiseverlauf",
     },

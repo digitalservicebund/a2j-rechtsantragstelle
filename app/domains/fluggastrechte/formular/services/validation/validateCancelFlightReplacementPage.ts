@@ -60,7 +60,11 @@ function isStartTimestampMoreThan(
 
 const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
   originalDepartureDateTime: convertToTimestamp(
-    data.direktAbflugsDatum,
+    data.direktAbflugsDatum.day +
+      "." +
+      data.direktAbflugsDatum.month +
+      "." +
+      data.direktAbflugsDatum.year,
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
@@ -68,7 +72,11 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.annullierungErsatzverbindungAbflugsZeit,
   ),
   originalArrivalDateTime: convertToTimestamp(
-    data.direktAnkunftsDatum,
+    data.direktAnkunftsDatum.day +
+      "." +
+      data.direktAnkunftsDatum.month +
+      "." +
+      data.direktAnkunftsDatum.year,
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(

@@ -54,7 +54,12 @@ const enumerateSupportRecipients: BerHPdfFillFunction = ({
         `${kind.vorname} ${kind.nachname}`;
       pdfValues[
         `e2Geburtsdatum${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
-      ].value = kind.geburtsdatum;
+      ].value =
+        kind.geburtsdatum.day +
+        "." +
+        kind.geburtsdatum.month +
+        "." +
+        kind.geburtsdatum.year;
       pdfValues[
         `e3Familienverhaeltnis${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
       ].value = "Kind";
@@ -79,7 +84,12 @@ const enumerateSupportRecipients: BerHPdfFillFunction = ({
         `${supportRecipient.firstName} ${supportRecipient.surname}`;
       pdfValues[
         `e2Geburtsdatum${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
-      ].value = supportRecipient.birthday;
+      ].value =
+        supportRecipient.birthday.day +
+        "." +
+        supportRecipient.birthday.month +
+        "." +
+        supportRecipient.birthday.year;
       pdfValues[
         `e3Familienverhaeltnis${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
       ].value = familyRelationshipMap[supportRecipient.familyRelationship];

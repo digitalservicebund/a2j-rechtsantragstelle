@@ -125,7 +125,7 @@ describe("Finanzielle Angaben doneFunctions", () => {
               {
                 vorname: "Kinder",
                 nachname: "McKindery",
-                geburtsdatum: "01.11.2015",
+                geburtsdatum: { day: "01", month: "11", year: "2015" },
                 wohnortBeiAntragsteller: "yes",
                 eigeneEinnahmen: "yes",
                 einnahmen: "100",
@@ -382,7 +382,11 @@ describe("ausgabenDone", () => {
       ratenzahlungen: {
         ...zahlung,
         restschuld: "100",
-        laufzeitende: toGermanDateFormat(addYears(today(), 1)),
+        laufzeitende: {
+          day: "01",
+          month: "01",
+          year: "2023",
+        },
       },
       versicherungen: {
         beitrag: "100",

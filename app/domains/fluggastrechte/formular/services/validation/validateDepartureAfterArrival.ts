@@ -18,12 +18,20 @@ export function validateDepartureAfterArrival(
 ) {
   return baseSchema.check((ctx) => {
     const departureDateTime = convertToTimestamp(
-      ctx.value.direktAbflugsDatum,
+      ctx.value.direktAbflugsDatum.day +
+        "." +
+        ctx.value.direktAbflugsDatum.month +
+        "." +
+        ctx.value.direktAbflugsDatum.year,
       ctx.value.direktAbflugsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsDatum.day +
+        "." +
+        ctx.value.direktAnkunftsDatum.month +
+        "." +
+        ctx.value.direktAnkunftsDatum.year,
       ctx.value.direktAnkunftsZeit,
     );
 

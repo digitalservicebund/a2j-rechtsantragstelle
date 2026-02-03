@@ -107,7 +107,12 @@ const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
     if ("laufzeitende" in zahlung)
       attachment.push({
         title: "Laufzeitende",
-        text: zahlung.laufzeitende,
+        text:
+          zahlung.laufzeitende.day +
+          ". " +
+          zahlung.laufzeitende.month +
+          ". " +
+          zahlung.laufzeitende.year,
       });
   });
 };
