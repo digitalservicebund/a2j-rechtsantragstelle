@@ -10,13 +10,7 @@ export const erbscheinWegweiserXstateConfig = {
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
-      on: { SUBMIT: stepIds.verstorbeneName },
-    },
-    [stepIds.verstorbeneName]: {
-      on: {
-        BACK: stepIds.start,
-        SUBMIT: stepIds.staatsangehoerigkeit,
-      },
+      on: { SUBMIT: stepIds.staatsangehoerigkeit },
     },
     [stepIds.staatsangehoerigkeit]: {
       on: {
@@ -27,7 +21,7 @@ export const erbscheinWegweiserXstateConfig = {
           },
           stepIds.lebensmittelpunkt,
         ],
-        BACK: stepIds.verstorbeneName,
+        BACK: stepIds.start,
       },
     },
     [stepIds.lebensmittelpunkt]: {
