@@ -110,16 +110,34 @@ export const createSplitDateSchema = (args?: {
         }),
     })
     .superRefine((data, ctx) => {
-      if (
-        !isValidDate(
-          toDateString(Number(data.day), Number(data.month), Number(data.year)),
-        )
-      ) {
+      const dateString = toDateString(
+        Number(data.day),
+        Number(data.month),
+        Number(data.year),
+      );
+      if (!isValidDate(dateString)) {
         ctx.addIssue({
           code: "custom",
           message: invalid_birthdate,
           path: ["geburtsdatum"],
-          fatal: false,
+        });
+        return;
+      }
+      const date = dateUTCFromGermanDateString(dateString);
+      if (args?.earliest && date < args.earliest()) {
+        ctx.issues.push({
+          code: "custom",
+          message: "too_early",
+          input: ctx.value,
+          path: ["geburtsdatum"],
+        });
+      }
+      if (args?.latest && date > args.latest()) {
+        ctx.issues.push({
+          code: "custom",
+          message: "too_late",
+          input: ctx.value,
+          path: ["geburtsdatum"],
         });
       }
     })
