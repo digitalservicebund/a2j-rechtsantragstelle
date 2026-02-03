@@ -101,6 +101,13 @@ function fillAusgabenInPDF(
     const beitragKey = `g7Zahlung${index}` as keyof BeratungshilfePDF;
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
+    const formatDate = (date?: {
+      day: string;
+      month: string;
+      year: string;
+    }): string | undefined =>
+      date ? `${date.day}.${date.month}.${date.year}` : undefined;
+
     if (artKey in pdfValues) {
       pdfValues[artKey].value = ausgabe.art;
     }
@@ -108,7 +115,7 @@ function fillAusgabenInPDF(
       pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfValues) {
-      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+      pdfValues[zahlungsfristKey].value = formatDate(ausgabe.zahlungsfrist);
     }
     if (beitragKey in pdfValues) {
       pdfValues[beitragKey].value = ausgabe.beitrag;

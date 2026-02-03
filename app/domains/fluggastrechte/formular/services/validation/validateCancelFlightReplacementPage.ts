@@ -68,7 +68,7 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
+    data.annullierungErsatzverbindungAbflugsDatum.toString(),
     data.annullierungErsatzverbindungAbflugsZeit,
   ),
   originalArrivalDateTime: convertToTimestamp(
@@ -80,7 +80,7 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
+    data.annullierungErsatzverbindungAnkunftsDatum.toString(),
     data.annullierungErsatzverbindungAnkunftsZeit,
   ),
 });

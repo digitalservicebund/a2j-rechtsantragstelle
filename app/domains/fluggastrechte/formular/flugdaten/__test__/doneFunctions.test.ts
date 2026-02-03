@@ -161,13 +161,18 @@ describe("flugdatenDone", () => {
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(-0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(-0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
+        ersatzflugStartenEinStunde: "",
+        ersatzflugLandenZweiStunden: "",
+        ersatzflugStartenZweiStunden: "",
+        ersatzflugLandenVierStunden: "",
       } as const;
 
+      console.log("context", context);
       expect(flugdatenDone({ context })).toBe(true);
     });
 

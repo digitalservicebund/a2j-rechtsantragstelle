@@ -14,7 +14,7 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },
@@ -53,7 +53,7 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },
@@ -92,7 +92,7 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },
@@ -131,7 +131,7 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },
@@ -208,7 +208,7 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },
@@ -248,7 +248,7 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: { day: "10", month: "10", year: "2015" },
         },
       },
     },
@@ -281,7 +281,7 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: { day: "10", month: "10", year: "2015" },
         },
       },
     },
@@ -321,7 +321,7 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: { day: "10", month: "10", year: "2005" },
         },
       },
     },

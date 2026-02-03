@@ -1,3 +1,4 @@
+import { da } from "@faker-js/faker";
 import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
@@ -113,11 +114,11 @@ const getConnectionDetailsCancel = (
     timeTable: [
       annullierungErsatzverbindungFlugnummer || "--",
       formatAnnullierungDateHour(
-        annullierungErsatzverbindungAbflugsDatum,
+        annullierungErsatzverbindungAbflugsDatum?.toString(),
         annullierungErsatzverbindungAbflugsZeit,
       ),
       formatAnnullierungDateHour(
-        annullierungErsatzverbindungAnkunftsDatum,
+        annullierungErsatzverbindungAnkunftsDatum?.toString(),
         annullierungErsatzverbindungAnkunftsZeit,
       ),
     ],
@@ -153,9 +154,17 @@ function getConnectionDetailsDelayOrNoBoarding(
 
   if (tatsaechlicherFlug === "yes") {
     const info = getAmountOfDelay(
-      direktAnkunftsDatum,
+      direktAnkunftsDatum?.day +
+        "." +
+        direktAnkunftsDatum?.month +
+        "." +
+        direktAnkunftsDatum?.year,
       direktAnkunftsZeit,
-      userData.tatsaechlicherAnkunftsDatum,
+      userData.tatsaechlicherAnkunftsDatum?.day +
+        "." +
+        userData.tatsaechlicherAnkunftsDatum?.month +
+        "." +
+        userData.tatsaechlicherAnkunftsDatum?.year,
       userData.tatsaechlicherAnkunftsZeit,
       bereich,
     );
@@ -188,9 +197,17 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "flug":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum,
+          direktAnkunftsDatum?.day +
+            "." +
+            direktAnkunftsDatum?.month +
+            "." +
+            direktAnkunftsDatum?.year,
           direktAnkunftsZeit,
-          userData.ersatzFlugAnkunftsDatum,
+          userData.ersatzFlugAnkunftsDatum?.day +
+            "." +
+            userData.ersatzFlugAnkunftsDatum?.month +
+            "." +
+            userData.ersatzFlugAnkunftsDatum?.year,
           userData.ersatzFlugAnkunftsZeit,
           bereich,
         ),
@@ -200,9 +217,17 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "etwasAnderes":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum,
+          direktAnkunftsDatum?.day +
+            "." +
+            direktAnkunftsDatum?.month +
+            "." +
+            direktAnkunftsDatum?.year,
           direktAnkunftsZeit,
-          userData.andereErsatzverbindungAnkunftsDatum,
+          userData.andereErsatzverbindungAnkunftsDatum?.day +
+            "." +
+            userData.andereErsatzverbindungAnkunftsDatum?.month +
+            "." +
+            userData.andereErsatzverbindungAnkunftsDatum?.year,
           userData.andereErsatzverbindungAnkunftsZeit,
           bereich,
         ),

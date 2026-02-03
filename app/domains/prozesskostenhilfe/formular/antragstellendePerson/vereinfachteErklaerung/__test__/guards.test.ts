@@ -60,7 +60,7 @@ describe("guards", () => {
           child: {
             vorname: "Max",
             nachname: "Mustermann",
-            geburtsdatum: "01.01.2020",
+            geburtsdatum: { day: "01", month: "01", year: "2020" }, 
             unterhaltsSumme: "100",
           },
           livesTogether: "no",
@@ -76,7 +76,7 @@ describe("guards", () => {
             child: {
               vorname: "Max",
               nachname: "Mustermann",
-              geburtsdatum: "01.01.2020",
+              geburtsdatum:  { day: "01", month: "01", year: "2020" },
               unterhaltsSumme: "100",
             },
             livesTogether: "no",
