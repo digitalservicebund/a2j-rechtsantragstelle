@@ -119,25 +119,23 @@ export const createSplitDateSchema = (args?: {
         ctx.addIssue({
           code: "custom",
           message: invalid_birthdate,
-          path: ["geburtsdatum"],
+          path: ["year"],
         });
         return;
       }
       const date = dateUTCFromGermanDateString(dateString);
       if (args?.earliest && date < args.earliest()) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
           message: "too_early",
-          input: ctx.value,
-          path: ["geburtsdatum"],
+          path: ["year"],
         });
       }
       if (args?.latest && date > args.latest()) {
-        ctx.issues.push({
+        ctx.addIssue({
           code: "custom",
           message: "too_late",
-          input: ctx.value,
-          path: ["geburtsdatum"],
+          path: ["year"],
         });
       }
     })
