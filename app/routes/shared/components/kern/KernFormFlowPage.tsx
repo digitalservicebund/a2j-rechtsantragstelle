@@ -159,6 +159,7 @@ export function KernFormFlowPage() {
                 <ContentComponents
                   content={cmsContent.postFormContent}
                   managedByParent
+                  showKernUX={showKernUX}
                 />
               </div>
             </div>

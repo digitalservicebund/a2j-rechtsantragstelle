@@ -28,6 +28,7 @@ import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
 import KernVideo from "../kern/KernVideo";
+import KernUserFeedback from "../kern/UserFeedback";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -121,6 +122,8 @@ function cmsToReact(
         return <KernList {...componentProps} wrap={opts?.inFlow} />;
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
+      case "page.user-feedback":
+        return <KernUserFeedback {...componentProps} />;
       case "page.inline-notice":
         return (
           <KernInlineNotice
@@ -183,6 +186,7 @@ function ContentComponents({
   showKernUX = false,
 }: PageContentProps) {
   if (content.length === 0) return [];
+  console.log(content);
 
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")

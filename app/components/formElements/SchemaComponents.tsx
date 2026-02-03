@@ -19,6 +19,7 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -37,12 +38,22 @@ const renderSpecialMetaDescriptions = (
   fieldName: string,
   fieldSchema: ZodType,
   matchingElement?: StrapiFormComponent,
+  showKernUX?: boolean,
 ) => {
   if (fieldSchema.meta()?.description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
     >;
-    return (
+    return showKernUX ? (
+      <KernFileUpload
+        key={fieldName}
+        name={fieldName}
+        title={filesUploadElement.title}
+        description={filesUploadElement.description}
+        inlineNotices={filesUploadElement.inlineNotices}
+        errorMessages={filesUploadElement.errorMessages}
+      />
+    ) : (
       <FilesUpload
         key={fieldName}
         name={fieldName}
