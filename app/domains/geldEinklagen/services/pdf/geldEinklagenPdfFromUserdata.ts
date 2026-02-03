@@ -6,9 +6,9 @@ import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { createBankInformation } from "./sections/createBankInformation";
 
-export const TITLE = "Klage Neueingang";
-export const SUBJECT = "Klageschrift";
-export const KEYWORDS = "Geld einklagen";
+const TITLE = "Klage Neueingang";
+const SUBJECT = "Klageschrift";
+const KEYWORDS = "Geld einklagen";
 
 const buildGeldEinklagenPDFDocument: PDFDocumentBuilder<
   GeldEinklagenFormularUserData
