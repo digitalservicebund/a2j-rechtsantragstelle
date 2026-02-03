@@ -2,6 +2,7 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import {
   createSplitDateSchema,
+  MINUS_24_YEARS,
 } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -12,7 +13,7 @@ const sharedKinderFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsdatum: createSplitDateSchema({
-    earliest: () => addYears(today(), -24),
+    earliest: () => addYears(today(), MINUS_24_YEARS),
     latest: () => today(),
   }),
   wohnortBeiAntragsteller: z.enum(["yes", "no", "partially"]),

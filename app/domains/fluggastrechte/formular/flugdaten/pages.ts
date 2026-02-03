@@ -2,7 +2,10 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
-import { createDateSchema } from "~/services/validation/date";
+import {
+  createSplitDateSchema,
+  MINUS_4_YEARS,
+} from "~/services/validation/date";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -11,8 +14,8 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const fourYearsAgoSchema = createDateSchema({
-  earliest: () => addYears(today(), -4),
+const fourYearsAgoSchema = createSplitDateSchema({
+  earliest: () => addYears(today(), MINUS_4_YEARS),
   latest: () => today(),
 });
 

@@ -1,12 +1,13 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createDateSchema } from "~/services/validation/date";
+import {
+  createSplitDateSchema,
+  MINUS_150_YEARS,
+} from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
-
-const MINUS_150_YEARS = -150;
 
 const unterhaltszahlungenArraySchema = z
   .object({
@@ -22,7 +23,7 @@ const unterhaltszahlungenArraySchema = z
     ]),
     firstName: stringRequiredSchema,
     surname: stringRequiredSchema,
-    birthday: createDateSchema({
+    birthday: createSplitDateSchema({
       earliest: () => addYears(today(), MINUS_150_YEARS),
       latest: () => today(),
     }),

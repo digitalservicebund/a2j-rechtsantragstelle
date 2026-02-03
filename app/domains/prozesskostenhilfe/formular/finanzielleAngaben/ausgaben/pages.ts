@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import { createSplitDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -45,7 +45,7 @@ const sharedRatenZahlungFields = {
   zahlungsempfaenger: stringRequiredSchema,
   betragGesamt: buildMoneyValidationSchema(),
   restschuld: buildMoneyValidationSchema(),
-  laufzeitende: createDateSchema({ earliest: () => today() }),
+  laufzeitende: createSplitDateSchema({ earliest: () => today() }),
 };
 
 export const ratenZahlungArraySchema = z.array(

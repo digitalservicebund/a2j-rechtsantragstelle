@@ -11,7 +11,6 @@ import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
-import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -19,6 +18,7 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
+import { createSplitDateSchema } from "~/services/validation/date";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -108,7 +108,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Date Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: createDateSchema() });
+      mockGetPageSchema({ inputName: createSplitDateSchema() });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {

@@ -2,6 +2,10 @@ import isDate from "validator/lib/isDate";
 import { z } from "zod";
 import { addYears, dateUTCFromGermanDateString, today } from "~/util/date";
 
+export const MINUS_4_YEARS = -4;
+export const MINUS_24_YEARS = -24;
+export const MINUS_150_YEARS = -150;
+
 const isValidDate = (date: string) =>
   isDate(date, {
     format: "DD.MM.YYYY",
@@ -63,8 +67,13 @@ export const createSplitDateSchema = (args?: {
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
   }
+  const FIRST_DAY = 1;
+  const LAST_DAY = 31;
+  const FIRST_MONTH = 1;
+  const LAST_MONTH = 12;
+  const FIRST_YEAR = 1900;
 
-  const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+  const input_invalid = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
   const input_required = "Diese Felder müssen ausgefüllt werden.";
 
   return z
@@ -76,9 +85,9 @@ export const createSplitDateSchema = (args?: {
         .refine(
           (val) => {
             const num = Number(val);
-            return !Number.isNaN(num) && num >= 1 && num <= 31;
+            return !Number.isNaN(num) && num >= FIRST_DAY && num <= LAST_DAY;
           },
-          { message: invalid_birthdate },
+          { message: input_invalid },
         ),
       month: z
         .string({ message: input_required })
@@ -87,9 +96,9 @@ export const createSplitDateSchema = (args?: {
         .refine(
           (val) => {
             const num = Number(val);
-            return !Number.isNaN(num) && num >= 1 && num <= 12;
+            return !Number.isNaN(num) && num >= FIRST_MONTH && num <= LAST_MONTH;
           },
-          { message: invalid_birthdate },
+          { message: input_invalid },
         ),
       year: z
         .string({ message: input_required })
@@ -100,9 +109,9 @@ export const createSplitDateSchema = (args?: {
             const num = Number(val);
             return !Number.isNaN(num);
           },
-          { message: invalid_birthdate },
+          { message: input_invalid },
         )
-        .refine((val) => Number(val) >= 1900, {
+        .refine((val) => Number(val) >= FIRST_YEAR, {
           message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
         })
         .refine((val) => Number(val) <= Number(new Date().getFullYear()), {
@@ -118,7 +127,7 @@ export const createSplitDateSchema = (args?: {
       if (!isValidDate(dateString)) {
         ctx.addIssue({
           code: "custom",
-          message: invalid_birthdate,
+          message: input_invalid,
           path: ["year"],
         });
         return;
