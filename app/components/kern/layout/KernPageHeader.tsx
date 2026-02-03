@@ -54,7 +54,7 @@ export default function KernPageHeader({
           >
             <a
               href="/"
-              className="kern-link"
+              className="kern-title"
               aria-label={`${title} - ${linkLabel}`}
             >
               {title}
@@ -63,7 +63,7 @@ export default function KernPageHeader({
               <div className="flex gap-kern-space-x-large max-[447px]:pt-16">
                 <a
                   href={"/leichtesprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
                   <KernIcon name="local-library" className="flex-shrink-0" />
                   {translations.pageHeader.leichtesprache.de}
@@ -71,7 +71,7 @@ export default function KernPageHeader({
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
                   <KernIcon name="sign-language" className="flex-shrink-0" />
                   {"Gebärdensprache"}{" "}
