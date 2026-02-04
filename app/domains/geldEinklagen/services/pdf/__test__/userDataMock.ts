@@ -1,0 +1,38 @@
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+
+const ZIP_CODE_PILOT_COURT = "10823";
+
+export const userDataMock: GeldEinklagenFormularUserData = {
+  forderung: "maximal10000",
+  ausgeschlossen: "yes",
+  fuerWenKlagen: "selbst",
+  sachgebiet: "miete",
+  gegenWenBeklagen: "person",
+  mietePachtVertrag: "yes",
+  mietePachtRaum: "yes",
+  postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+  beklagteStrasseHausnummer: "beklagteStrasseHausnummer",
+  beklagtePlz: ZIP_CODE_PILOT_COURT,
+  beklagteOrt: "beklagteOrt",
+  klagendePersonAnrede: "herr",
+  klagendePersonTitle: "none",
+  klagendePersonVorname: "klagendePersonVorname",
+  klagendePersonNachname: "klagendePersonNachname",
+  klagendePersonStrasseHausnummer: "klagendePersonStrasseHausnummer",
+  klagendePersonKontoinhaber: "klagendePersonKontoinhaber",
+  klagendePersonIban: "DE68500123456789000000",
+  klagendePersonPlz: ZIP_CODE_PILOT_COURT,
+  klagendePersonOrt: "klagendePersonOrt",
+  klagendeTelefonnummer: "klagendePersonTelefonnummer",
+  beklagteAnrede: "none",
+  beklagteTitle: "none",
+  beklagteVorname: "beklagteVorname",
+  beklagteNachname: "beklagteNachname",
+  prozesszinsen: "yes",
+  anwaltskosten: "10",
+  streitbeilegung: "yes",
+  streitbeilegungGruende: "yes",
+  muendlicheVerhandlung: "yes",
+  videoVerhandlung: "no",
+  versaeumnisurteil: "yes",
+};

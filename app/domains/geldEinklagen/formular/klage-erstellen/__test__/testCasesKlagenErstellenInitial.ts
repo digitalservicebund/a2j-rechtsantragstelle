@@ -47,7 +47,12 @@ export const testCasesKlagenErstellenInitial = [
       ...baseContext,
       gegenWenBeklagen: "organisation",
       beklagteNameOrganisation: "beklagteNameOrganisation",
-      beklagteGesetzlichenVertretung: "beklagteGesetzlichenVertretung",
+      beklagteGesetzlichenVertretungVorname:
+        "beklagteGesetzlichenVertretungVorname",
+      beklagteGesetzlichenVertretungNachname:
+        "beklagteGesetzlichenVertretungNachname",
+      beklagteGesetzlichenVertretungAnrede: "herr",
+      beklagteGesetzlichenVertretungTitle: "dr",
     },
     [
       "/klage-erstellen/intro/start",
