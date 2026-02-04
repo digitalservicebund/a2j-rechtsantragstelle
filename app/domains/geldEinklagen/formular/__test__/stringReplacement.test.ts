@@ -1,9 +1,18 @@
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import { getResponsibleCourt } from "../../services/court/getResponsibleCourt";
 import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
+  isCourtAGSchoeneberg,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
+
+vi.mock("../../services/court/getResponsibleCourt");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("stringReplacement", () => {
   describe("isBeklagtePerson", () => {
@@ -162,6 +171,50 @@ describe("stringReplacement", () => {
 
       const actual = hasExclusivePlaceJurisdictionOrSelectCourt(context);
       expect(actual.hasExclusivePlaceJurisdictionOrSelectCourt).toBe(true);
+    });
+  });
+
+  describe("isCourtAGSchoeneberg", () => {
+    it("should return true if court AG Schoeneberg", () => {
+      const courtData: Jmtd14VTErwerberGerbeh = {
+        LKZ: "11",
+        OLG: "1",
+        LG: "01",
+        AG: "07",
+        TYP_INFO: "Zivilgericht - Amtsgericht",
+        BEZEICHNUNG: "Amtsgericht Schöneberg",
+        ORT: "",
+        ORTK: "",
+        PLZ_ZUSTELLBEZIRK: "10823",
+        STR_HNR: "",
+        XML_SUPPORT: "JA" as const,
+      };
+
+      vi.mocked(getResponsibleCourt).mockReturnValueOnce(courtData);
+
+      const actual = isCourtAGSchoeneberg({});
+      expect(actual.isCourtAGSchoeneberg).toBe(true);
+    });
+
+    it("should return false if court is not AG Schoeneberg", () => {
+      const courtData: Jmtd14VTErwerberGerbeh = {
+        LKZ: "11",
+        OLG: "1",
+        LG: "01",
+        AG: "07",
+        TYP_INFO: "Zivilgericht - Amtsgericht",
+        BEZEICHNUNG: "Amtsgericht Lichtenberg",
+        ORT: "",
+        ORTK: "",
+        PLZ_ZUSTELLBEZIRK: "10365",
+        STR_HNR: "",
+        XML_SUPPORT: "JA" as const,
+      };
+
+      vi.mocked(getResponsibleCourt).mockReturnValueOnce(courtData);
+
+      const actual = isCourtAGSchoeneberg({});
+      expect(actual.isCourtAGSchoeneberg).toBe(false);
     });
   });
 });
