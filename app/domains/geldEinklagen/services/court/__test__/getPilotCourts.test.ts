@@ -245,7 +245,7 @@ describe("getPilotCourts", () => {
       expect(actual).toEqual([]);
 
       userData.postleitzahlSecondary = ZIP_CODE_BERLIN_PILOT;
-      
+
       const actualSecondary = getPilotCourts(userData);
 
       expect(actualSecondary).toEqual([]);
