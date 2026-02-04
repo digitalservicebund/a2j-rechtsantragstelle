@@ -24,7 +24,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
   [
@@ -40,7 +40,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
     ],
   ],
   [
@@ -55,7 +55,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
     ],
   ],
   [
@@ -69,7 +69,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
     ],
   ],
   [
@@ -83,7 +83,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-gerichtsstandsvereinbarung",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
   [
@@ -97,7 +97,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
   [
@@ -110,7 +110,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
   [
@@ -122,7 +122,7 @@ export const testCasesGerichtSuchenVerkehrsunfall = [
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
