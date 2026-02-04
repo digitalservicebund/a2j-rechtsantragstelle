@@ -11,7 +11,7 @@ import {
 import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
-import { getHeightOfString } from "../getHeightOfString";
+import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
 export const CLAIM_FULL_JUSTIFIED_TEXT =

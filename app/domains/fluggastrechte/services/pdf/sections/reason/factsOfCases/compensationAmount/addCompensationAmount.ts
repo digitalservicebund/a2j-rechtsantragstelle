@@ -7,7 +7,7 @@ import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
 import { addWitnessesInfo } from "./addWitnessesInfo";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
-import { getHeightOfString } from "../../getHeightOfString";
+import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
 const COMPENSATION_PAYMENT_TEXT =
   "gemäß Art. 7 der Fluggastrechteverordnung (EG) 261/2004 von der beklagten Partei mit einer hinreichenden Frist von mindestens 2 Wochen ein. Die beklagte Partei hat jedoch trotz Fristablauf bisher keine Zahlung geleistet.";
