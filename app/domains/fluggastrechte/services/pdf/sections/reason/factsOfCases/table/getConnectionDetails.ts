@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { calculateDuration } from "./calculateDuration";
+import { format } from "path";
 
 const announcementMapping = {
   no: "Gar nicht vor Abflug mitgeteilt.",
@@ -26,6 +27,25 @@ export const LATER_ARRIVED = "später angekommen.";
 export const EARLIER_STARTED = "früher gestartet";
 export const NO_OFFER_REPLACEMENT_RECEIVED_TEXT =
   "Kein Angebot einer Ersatzverbindung erhalten.";
+
+const formatDate = (
+  date?:
+    | {
+        day: string;
+        month: string;
+        year: string;
+      }
+    | string,
+): string => {
+  if (!date) return "--";
+
+  if (typeof date === "string") {
+    const [year, month, day] = date.split("-");
+    return `${day}.${month}.${year}`;
+  }
+
+  return `${date.day}.${date.month}.${date.year}`;
+};
 
 const getReplacementFlightLandedDescription = (
   userData: FluggastrechteUserData,
@@ -114,11 +134,11 @@ const getConnectionDetailsCancel = (
     timeTable: [
       annullierungErsatzverbindungFlugnummer || "--",
       formatAnnullierungDateHour(
-        annullierungErsatzverbindungAbflugsDatum?.toString(),
+        formatDate(annullierungErsatzverbindungAbflugsDatum),
         annullierungErsatzverbindungAbflugsZeit,
       ),
       formatAnnullierungDateHour(
-        annullierungErsatzverbindungAnkunftsDatum?.toString(),
+        formatDate(annullierungErsatzverbindungAnkunftsDatum),
         annullierungErsatzverbindungAnkunftsZeit,
       ),
     ],
@@ -154,17 +174,9 @@ function getConnectionDetailsDelayOrNoBoarding(
 
   if (tatsaechlicherFlug === "yes") {
     const info = getAmountOfDelay(
-      direktAnkunftsDatum?.day +
-        "." +
-        direktAnkunftsDatum?.month +
-        "." +
-        direktAnkunftsDatum?.year,
+      formatDate(userData.direktAnkunftsDatum),
       direktAnkunftsZeit,
-      userData.tatsaechlicherAnkunftsDatum?.day +
-        "." +
-        userData.tatsaechlicherAnkunftsDatum?.month +
-        "." +
-        userData.tatsaechlicherAnkunftsDatum?.year,
+      formatDate(userData.tatsaechlicherAnkunftsDatum),
       userData.tatsaechlicherAnkunftsZeit,
       bereich,
     );
@@ -174,7 +186,7 @@ function getConnectionDetailsDelayOrNoBoarding(
       timeTable: [
         "--",
         "--",
-        `${userData.tatsaechlicherAnkunftsDatum}, ${userData.tatsaechlicherAnkunftsZeit}`,
+        `${formatDate(userData.tatsaechlicherAnkunftsDatum)}, ${userData.tatsaechlicherAnkunftsZeit}`,
       ],
     };
   }
@@ -183,12 +195,12 @@ function getConnectionDetailsDelayOrNoBoarding(
     flug: [
       userData.ersatzFlugnummer ?? "--",
       "--",
-      `${userData.ersatzFlugAnkunftsDatum}, ${userData.ersatzFlugAnkunftsZeit}`,
+      `${formatDate(userData.ersatzFlugAnkunftsDatum)}, ${userData.ersatzFlugAnkunftsZeit}`,
     ],
     etwasAnderes: [
       "--",
       "--",
-      `${userData.andereErsatzverbindungAnkunftsDatum}, ${userData.andereErsatzverbindungAnkunftsZeit}`,
+      `${formatDate(userData.andereErsatzverbindungAnkunftsDatum)}, ${userData.andereErsatzverbindungAnkunftsZeit}`,
     ],
     keineAnkunft: ["--", "--", "--"],
   };
@@ -197,17 +209,9 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "flug":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum?.day +
-            "." +
-            direktAnkunftsDatum?.month +
-            "." +
-            direktAnkunftsDatum?.year,
+          formatDate(direktAnkunftsDatum),
           direktAnkunftsZeit,
-          userData.ersatzFlugAnkunftsDatum?.day +
-            "." +
-            userData.ersatzFlugAnkunftsDatum?.month +
-            "." +
-            userData.ersatzFlugAnkunftsDatum?.year,
+          formatDate(userData.ersatzFlugAnkunftsDatum),
           userData.ersatzFlugAnkunftsZeit,
           bereich,
         ),
@@ -217,17 +221,9 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "etwasAnderes":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum?.day +
-            "." +
-            direktAnkunftsDatum?.month +
-            "." +
-            direktAnkunftsDatum?.year,
+          formatDate(direktAnkunftsDatum),
           direktAnkunftsZeit,
-          userData.andereErsatzverbindungAnkunftsDatum?.day +
-            "." +
-            userData.andereErsatzverbindungAnkunftsDatum?.month +
-            "." +
-            userData.andereErsatzverbindungAnkunftsDatum?.year,
+          formatDate(userData.andereErsatzverbindungAnkunftsDatum),
           userData.andereErsatzverbindungAnkunftsZeit,
           bereich,
         ),

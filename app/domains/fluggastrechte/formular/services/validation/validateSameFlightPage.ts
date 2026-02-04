@@ -7,6 +7,13 @@ import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 const _schema =
   fluggastrechteFlugdatenPages.flugdatenTatsaechlicherFlugAnkunft.pageSchema;
 
+  const formatDate = (
+  date: string | { day: string; month: string; year: string },
+) =>
+  typeof date === "string"
+    ? date
+    : `${date.day}.${date.month}.${date.year}`;
+
 export function validateSameFlightPage(
   baseSchema: MultiFieldsValidationBaseSchema<
     Pick<
@@ -20,20 +27,11 @@ export function validateSameFlightPage(
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum.day +
-        "." +
-        ctx.value.direktAnkunftsDatum.month +
-        "." +
-        ctx.value.direktAnkunftsDatum.year,
+      formatDate(ctx.value.direktAnkunftsDatum),
       ctx.value.direktAnkunftsZeit,
     );
-
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.tatsaechlicherAnkunftsDatum +
-        "." +
-        ctx.value.tatsaechlicherAnkunftsDatum.month +
-        "." +
-        ctx.value.tatsaechlicherAnkunftsDatum.year,
+      formatDate(ctx.value.tatsaechlicherAnkunftsDatum),
       ctx.value.tatsaechlicherAnkunftsZeit,
     );
 
