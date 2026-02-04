@@ -18,6 +18,8 @@ const ZIP_CODE_WITH_PILOT_COURT = "10115";
 const ZIP_CODE_SECONDARY_WITH_PILOT_COURT = "10119";
 const ZIP_CODE_WITHOUT_PILOT_COURT = "99999";
 const ZIP_CODE_WITH_EDGE_CASE = "12345";
+const ZIP_CODE_BERLIN_PILOT = "10116";
+const ZIP_CODE_NON_BERLIN_PILOT = "20095";
 
 const baseCourtData = {
   BEZEICHNUNG: "",
@@ -64,6 +66,16 @@ const EDGE_CASE_COURT: Jmtd14VTErwerberGerbeh = {
   ...baseCourtData,
 };
 
+const BERLIN_COURT: Jmtd14VTErwerberGerbeh = {
+  LKZ: "11",
+  OLG: "1",
+  LG: "01",
+  AG: "07",
+  TYP_INFO: "Zivilgericht - Amtsgericht",
+  ...baseCourtData,
+  PLZ_ZUSTELLBEZIRK: ZIP_CODE_BERLIN_PILOT,
+};
+
 vi.mocked(findCourt).mockImplementation(({ zipCode }) => {
   if (zipCode === ZIP_CODE_WITH_PILOT_COURT) {
     return PILOT_COURT;
@@ -79,6 +91,14 @@ vi.mocked(findCourt).mockImplementation(({ zipCode }) => {
 
   if (zipCode === ZIP_CODE_WITH_EDGE_CASE) {
     return EDGE_CASE_COURT;
+  }
+
+  if (zipCode === ZIP_CODE_NON_BERLIN_PILOT) {
+    return PILOT_COURT_SECONDARY;
+  }
+
+  if (zipCode === ZIP_CODE_BERLIN_PILOT) {
+    return BERLIN_COURT;
   }
 
   return undefined;
@@ -211,5 +231,49 @@ describe("getPilotCourts", () => {
     const actual = getPilotCourts(userData);
 
     expect(actual).toEqual([]);
+  });
+
+  describe("Special handling - Verkehrsunfall", () => {
+    it("should return empty array for traffic accident when only Berlin pilot court(s)", () => {
+      const userData: GeldEinklagenFormularUserData = {
+        sachgebiet: "verkehrsunfall",
+        postleitzahlBeklagtePerson: ZIP_CODE_BERLIN_PILOT,
+      };
+
+      const actual = getPilotCourts(userData);
+
+      expect(actual).toEqual([]);
+
+      userData.postleitzahlSecondary = ZIP_CODE_BERLIN_PILOT;
+      
+      const actualSecondary = getPilotCourts(userData);
+
+      expect(actualSecondary).toEqual([]);
+    });
+
+    it("should return only non-Berlin pilot court for traffic accident when one Berlin and one non-Berlin", () => {
+      const userData: GeldEinklagenFormularUserData = {
+        sachgebiet: "verkehrsunfall",
+        postleitzahlBeklagtePerson: ZIP_CODE_BERLIN_PILOT,
+        postleitzahlSecondary: ZIP_CODE_NON_BERLIN_PILOT,
+      };
+
+      const actual = getPilotCourts(userData);
+
+      expect(actual.length).toEqual(1);
+      expect(actual[0]).toStrictEqual(PILOT_COURT_SECONDARY);
+    });
+
+    it("should return pilot courts for traffic accident when no Berlin court", () => {
+      const userData: GeldEinklagenFormularUserData = {
+        sachgebiet: "verkehrsunfall",
+        postleitzahlBeklagtePerson: ZIP_CODE_NON_BERLIN_PILOT,
+      };
+
+      const actual = getPilotCourts(userData);
+
+      expect(actual.length).toEqual(1);
+      expect(actual[0]).toStrictEqual(PILOT_COURT_SECONDARY);
+    });
   });
 });
