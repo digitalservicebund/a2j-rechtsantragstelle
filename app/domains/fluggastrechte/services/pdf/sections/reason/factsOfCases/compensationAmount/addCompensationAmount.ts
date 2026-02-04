@@ -6,7 +6,7 @@ import { addDistanceInfo } from "./addDistanceInfo";
 import { addMultiplePersonsInfo } from "./addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "./addOtherDetailsItinerary";
 import { addWitnessesInfo } from "./addWitnessesInfo";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import { getHeightOfString } from "../../getHeightOfString";
 
 const COMPENSATION_PAYMENT_TEXT =

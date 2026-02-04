@@ -9,7 +9,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import { getHeightOfString } from "../../getHeightOfString";
 
 export const ARTICLE_AIR_PASSENGER_REGULATION_TEXT =
