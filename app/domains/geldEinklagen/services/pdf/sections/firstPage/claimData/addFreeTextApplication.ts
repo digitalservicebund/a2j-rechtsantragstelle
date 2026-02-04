@@ -1,6 +1,7 @@
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   FONTS_BUNDESSANS_REGULAR,
+  PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { getHeightOfString } from "~/services/pdf/getHeightOfString";
@@ -30,7 +31,7 @@ export const addFreeTextApplication = (
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text(freeTextApplication)
+        .text(freeTextApplication, PDF_MARGIN_HORIZONTAL)
         .moveDown(1.5);
     }),
   );
