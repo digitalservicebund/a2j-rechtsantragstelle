@@ -1,12 +1,11 @@
 import type PDFDocument from "pdfkit";
-import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { today, toGermanDateFormat } from "~/util/date";
+import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const CREATION_PDF_TEXT = "Erstellt am:";
 export const TO_THE_COURT_TEXT = "An das";
@@ -14,9 +13,8 @@ export const TO_THE_COURT_TEXT = "An das";
 export const createLocalCourtAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  { startAirport, endAirport }: FluggastrechteUserData,
+  amtsgericht: Jmtd14VTErwerberGerbeh | undefined,
 ) => {
-  const amtsgericht = getCourtByStartAndEndAirport(startAirport, endAirport);
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateFormat(today())}`;
 
   const courtAndDateSect = doc.struct("Sect");
