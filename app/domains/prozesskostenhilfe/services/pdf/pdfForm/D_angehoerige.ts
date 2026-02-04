@@ -27,12 +27,11 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
         ? {
             vorname: vorname ?? "",
             nachname: nachname ?? "",
-            geburtsdatum:
-              geburtsdatum?.day +
-              "." +
-              geburtsdatum?.month +
-              "." +
-              geburtsdatum?.year,
+            geburtsdatum: {
+              day: geburtsdatum?.day ?? "",
+              month: geburtsdatum?.month ?? "",
+              year: geburtsdatum?.year ?? "",
+            },
             wohnortBeiAntragsteller: "yes",
             eigeneEinnahmen: "yes",
             einnahmen: getTotalMonthlyFinancialEntries(userData.einnahmen),
@@ -40,12 +39,11 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
         : {
             vorname: vorname ?? "",
             nachname: nachname ?? "",
-            geburtsdatum:
-              geburtsdatum?.day +
-              "." +
-              geburtsdatum?.month +
-              "." +
-              geburtsdatum?.year,
+            geburtsdatum: {
+              day: geburtsdatum?.day ?? "",
+              month: geburtsdatum?.month ?? "",
+              year: geburtsdatum?.year ?? "",
+            },
             wohnortBeiAntragsteller: "no",
             unterhalt: "yes",
             unterhaltsSumme: unterhaltsSumme ?? "",

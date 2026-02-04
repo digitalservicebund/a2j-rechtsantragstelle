@@ -55,7 +55,13 @@ export const createVereinfachteErklaerungAnhang = (
         .font(pdfStyles.bold.font)
         .text("Geburtsdatum")
         .font(pdfStyles.page.font)
-        .text(userData.child?.geburtsdatum?.day + "." + userData.child?.geburtsdatum?.month + "." + userData.child?.geburtsdatum?.year)
+        .text(
+          userData.child?.geburtsdatum?.day +
+            "." +
+            userData.child?.geburtsdatum?.month +
+            "." +
+            userData.child?.geburtsdatum?.year,
+        )
         .moveDown()
         .font(pdfStyles.bold.font)
         .text("Kind lebt im Haushalt")

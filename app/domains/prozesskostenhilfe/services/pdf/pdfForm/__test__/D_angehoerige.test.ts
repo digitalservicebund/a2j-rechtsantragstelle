@@ -79,11 +79,9 @@ describe("D_angehoerige", () => {
       `${userData.kinder[0].vorname} ${userData.kinder[0].nachname}`,
     );
     expect(pdfValues.geburtsdatum2.value).toEqual(
-      userData.kinder[0].geburtsdatum.day +
-        "." +
-        userData.kinder[0].geburtsdatum.month +
-        "." +
-        userData.kinder[0].geburtsdatum.year,
+      `${userData.kinder[0].geburtsdatum.day}.` +
+        `${userData.kinder[0].geburtsdatum.month}.` +
+        `${userData.kinder[0].geburtsdatum.year}`,
     );
     expect(pdfValues.verhaeltnis2.value).toEqual("Kind");
     expect(pdfValues.d4.value).toEqual(true);
@@ -96,11 +94,9 @@ describe("D_angehoerige", () => {
       `${userData.kinder[1].vorname} ${userData.kinder[0].nachname}`,
     );
     expect(pdfValues.geburtsdatum3.value).toEqual(
-      userData.kinder[1].geburtsdatum.day +
-        "." +
-        userData.kinder[1].geburtsdatum.month +
-        "." +
-        userData.kinder[1].geburtsdatum.year,
+      `${userData.kinder[1].geburtsdatum.day}.` +
+        `${userData.kinder[1].geburtsdatum.month}.` +
+        `${userData.kinder[1].geburtsdatum.year}`,
     );
     expect(pdfValues.verhaeltnis3.value).toEqual("Kind");
     expect(pdfValues.monatsbetrag3.value).toEqual(
@@ -112,7 +108,9 @@ describe("D_angehoerige", () => {
       `${userData.unterhaltszahlungen[0].firstName} ${userData.unterhaltszahlungen[0].surname}`,
     );
     expect(pdfValues.geburtsdatum4.value).toEqual(
-      userData.unterhaltszahlungen[0].birthday,
+      `${userData.unterhaltszahlungen[0].birthday.day}.` +
+        `${userData.unterhaltszahlungen[0].birthday.month}.` +
+        `${userData.unterhaltszahlungen[0].birthday.year}`,
     );
     expect(pdfValues.verhaeltnis4.value).toEqual(
       familyRelationshipMap[userData.unterhaltszahlungen[0].familyRelationship],
