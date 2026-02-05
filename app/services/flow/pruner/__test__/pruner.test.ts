@@ -89,7 +89,6 @@ describe("pruner", () => {
             unterhaltsSumme: "123",
           },
         ],
-        pageData: { arrayIndexes: [1], subflowDoneStates: { "/a": true } },
       };
       const flowId = "/beratungshilfe/antrag";
 
@@ -122,7 +121,7 @@ describe("pruner", () => {
             eigentuemer: "partner",
           },
         ],
-        pageData: { subflowDoneStates: { "/a": true } },
+        pageData: { arrayIndexes: [1] },
       });
     });
   });
