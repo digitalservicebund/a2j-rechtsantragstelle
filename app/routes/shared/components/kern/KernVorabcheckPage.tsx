@@ -1,12 +1,10 @@
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import type { loader } from "~/routes/shared/vorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { BACKGROUND_COLORS } from "~/components";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { KernProgress } from "~/components/kern/KernProgressBar";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";

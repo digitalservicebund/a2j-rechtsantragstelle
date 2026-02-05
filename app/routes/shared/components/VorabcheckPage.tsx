@@ -10,7 +10,6 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernProgress } from "~/components/kern/KernProgressBar";
 import { KernVorabcheckPage } from "./kern/KernVorabcheckPage";
 
 export function VorabcheckPage() {
