@@ -23,18 +23,37 @@ const defaultRenderer: Partial<Renderer> = {
   },
 } as const;
 
+const kernRenderer: Partial<Renderer> = {
+  link({ href, text }) {
+    /* Either renders a Standalone link or Inline link,
+        but we use the StandaloneLink component, because both has the same structure and style */
+    return renderToString(<a className="kern-link" href={href}>{text}</a>);
+  },
+  heading({ depth, text }) {
+    // can't use .at() due to old browsers
+    return `<h${depth} class="kern-label">${text}</h${depth}>`;
+  },
+} as const;
+
+function getRendererToDisplay(showKernUX: boolean, renderer?: Partial<Renderer>) {
+  
+  if (showKernUX) {
+    return { ...kernRenderer, ...renderer };
+  }
+  return { ...defaultRenderer, ...renderer };
+}
+
 // TODO: refactor to split into markdown service
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
+  showKernUX: boolean = false
 ) {
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
-  const defaultRendererWithMarkdown = renderer
-    ? { ...defaultRenderer, ...renderer }
-    : defaultRenderer;
+  const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
 
   const marked = new Marked({
-    renderer: defaultRendererWithMarkdown,
+    renderer: rendererWithMarkdown,
     async: false,
   });
   marked.use({ hooks: { postprocess: handleNestedLists } });
