@@ -42,6 +42,9 @@ export const createStatementClaim = (
 
   addFreeTextApplication(doc, weitereAntraege, statementClaimSect);
 
+  // Add the statement claim section to the main document structure before negotiation text to break the page correctly
+  documentStruct.add(statementClaimSect);
+
   addNegotiationText(
     doc,
     videoVerhandlung,
@@ -49,6 +52,4 @@ export const createStatementClaim = (
     muendlicheVerhandlung,
     statementClaimSect,
   );
-
-  documentStruct.add(statementClaimSect);
 };
