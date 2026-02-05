@@ -116,10 +116,14 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
   [
     {
       ...baseContext,
-      sachgebiet: "verkehrsunfall",
-      verkehrsunfallStrassenverkehr: "yes",
+      sachgebiet: "urheberrecht",
+      klagendeVerbraucher: "yes",
       klagendeKaufmann: "yes",
+      gegenWenBeklagen: "person",
+      beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
+      klagendeVertrag: "yes",
+      klagendeHaustuergeschaeft: "yes",
       gerichtsstandsvereinbarung: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_EDGE_CASE,
       strasseBeklagte: STREET_EDGE_CASE,
@@ -131,7 +135,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
-      "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
       "/gericht-pruefen/gericht-suchen/strasse-nummer",
       "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
