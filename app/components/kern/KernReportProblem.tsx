@@ -59,7 +59,7 @@ export const KernReportProblem = () => {
         look="secondary"
         aria-haspopup="dialog"
         onClick={onReportProblemClicked}
-        className="min-w-full justify-center sm:min-w-fit mt-80"
+        className="min-w-full justify-center sm:min-w-fit"
         text={translations.feedback["report-problem"].de}
         iconLeft={
           <KernIcon
