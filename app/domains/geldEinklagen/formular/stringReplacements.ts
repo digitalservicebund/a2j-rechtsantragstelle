@@ -76,3 +76,15 @@ export const hasExclusivePlaceJurisdictionOrSelectCourt = ({
       pilotGerichtAuswahl !== undefined,
   };
 };
+
+export const isCourtAGSchoeneberg = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  const court = getResponsibleCourt(context);
+
+  return {
+    isCourtAGSchoeneberg:
+      court?.PLZ_ZUSTELLBEZIRK === "10823" &&
+      court.BEZEICHNUNG.includes("Schöneberg"),
+  };
+};

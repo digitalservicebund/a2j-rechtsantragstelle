@@ -4,7 +4,6 @@ import {
   FONTS_BUNDESSANS_BOLD,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "./addNewPageInCaseMissingVerticalSpace";
 import { addCompensationAmount } from "./factsOfCases/compensationAmount/addCompensationAmount";
 import { createFactsOfCases } from "./factsOfCases/createFactsOfCases";
 import { addTable } from "./factsOfCases/table/addTable";
@@ -14,6 +13,7 @@ import {
   COLUMN_HEIGHT,
   MARGIN_BOTTOM,
 } from "./factsOfCases/table/tableConfigurations";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 export const REASON_TITLE_TEXT = "Begründung";
 

@@ -21,13 +21,13 @@ export function pruneIrrelevantData(data: UserData, flowId: FlowId) {
 
   const formFields = getAllFieldsFromFlowId(flowId);
 
-  const formPaths = validFormPaths(flowController);
+  const formPaths = validFormPaths(flowController); // Warning: This modifies the userdata initially passed into flowController by adding arrayIndices!
   const validFormFields = filterFormFields(formFields, formPaths);
 
   const validFlowPaths = getValidFlowPaths(formFields, formPaths);
 
   return {
-    prunedData: pick(data, validFormFields, "pageData"),
+    prunedData: pick(data, validFormFields, "pageData.subflowDoneStates"), // Workaround: Explicitly only keep pageData.subflowDoneStates
     validFlowPaths,
   };
 }
