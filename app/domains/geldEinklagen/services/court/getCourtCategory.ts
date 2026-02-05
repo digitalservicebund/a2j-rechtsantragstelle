@@ -4,14 +4,14 @@ import {
   type AngelegenheitInfo,
 } from "~/services/gerichtsfinder/types";
 
+const courtCategoryMapping: Partial<
+  Record<GeldEinklagenSachgebietType, AngelegenheitInfo>
+> = {
+  urheberrecht: ANGELEGENHEIT_INFO.URHEBERRECHT,
+};
+
 export const getCourtCategory = (
   sachgebiet?: GeldEinklagenSachgebietType,
-): AngelegenheitInfo => {
-  switch (sachgebiet) {
-    case "urheberrecht":
-      return ANGELEGENHEIT_INFO.URHEBERRECHT;
-    // for nachlasssachen related
-    default:
-      return ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE;
-  }
-};
+): AngelegenheitInfo =>
+  (sachgebiet && courtCategoryMapping[sachgebiet]) ||
+  ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE;
