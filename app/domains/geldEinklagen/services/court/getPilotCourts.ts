@@ -7,11 +7,13 @@ import {
   type GerbehIndex,
   gerbehIndex,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
-import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import {
+  type Jmtd14VTErwerberGerbeh,
+  type AngelegenheitInfo,
+} from "~/services/gerichtsfinder/types";
 import { Result, type Unit } from "true-myth";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { PILOT_COURTS } from "./pilotCourts";
-import { type AngelegenheitInfo } from "~/services/gerichtsfinder/types";
 import { getCourtCategory } from "~/domains/geldEinklagen/services/court/getCourtCategory";
 import { applyVerkehrsunfallSpecialHandling } from "./verkehrsunfallSpecialHandling";
 
