@@ -40,11 +40,7 @@ export function VorabcheckPage() {
           className="pt-40"
           row={1}
         >
-          {showKernUX ? (
-            <KernProgress {...progressProps} />
-          ) : (
-            <ProgressBar {...progressProps} />
-          )}
+          <ProgressBar {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
