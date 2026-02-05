@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { MARGIN_BETWEEN_SECTIONS } from "../../../../configurations";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 export const WITNESS_EVIDENCE_TEXT =
   "Zum Beweis des unter I. dargestellten Sachverhaltes wird die klagende Partei im Prozessverlauf bei Bedarf Beweise anbieten.";

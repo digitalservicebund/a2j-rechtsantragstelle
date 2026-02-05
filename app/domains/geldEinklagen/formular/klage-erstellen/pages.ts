@@ -57,8 +57,11 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteNameOrganisation: stringRequiredSchema,
-      beklagteGesetzlichenVertretung: stringRequiredSchema,
       ...sharedBeklagteAddress,
+      beklagteGesetzlichenVertretungAnrede: z.enum(["herr", "frau", "none"]),
+      beklagteGesetzlichenVertretungTitle: z.enum(["none", "dr"]),
+      beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
+      beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
     },
   },
   rechtsproblemIntoStart: {
