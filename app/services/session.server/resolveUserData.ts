@@ -31,17 +31,15 @@ function flattenObjectWithArrayKeys(
   return result;
 }
 
-export const fieldsFromContext = (context: UserData, fieldNames: string[]) => {
-  const parsedPageData = pageDataSchema.safeParse(context?.pageData);
-  const arrayIndexes = parsedPageData.success
-    ? parsedPageData.data.arrayIndexes
-    : [];
+export const resolveUserData = (userData: UserData, fieldNames: string[]) => {
+  const parsedPageData = pageDataSchema.safeParse(userData?.pageData);
+  const arrayIndexes = parsedPageData.data?.arrayIndexes ?? [];
 
   const resolvedFieldNames = fieldNames.map((fieldName) =>
     resolveArrayCharacter(fieldName, arrayIndexes),
   );
 
-  const object = pick(context, resolvedFieldNames);
+  const object = pick(userData, resolvedFieldNames);
 
   if (arrayIsNonEmpty(arrayIndexes)) {
     return flattenObjectWithArrayKeys(object, arrayIndexes[0]) as UserData;

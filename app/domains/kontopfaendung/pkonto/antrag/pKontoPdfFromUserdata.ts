@@ -14,7 +14,7 @@ import { formatIban } from "~/services/validation/iban";
 import { createStamp } from "~/services/pdf/footer/createStamp";
 
 const SUBJECT_TITLE =
-  "Umwandlung meines Girokontos in ein Pfändungsschutzkonto (P-Konto) gemäß § 850k Absatz 1 Satz 1 ZPO ";
+  "Umwandlung meines Girokontos in ein Pfändungsschutzkonto (P-Konto) gemäß § 850k Absatz 1 Satz 1 ZPO ";
 
 const createHeader: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
   doc,
@@ -29,9 +29,8 @@ const createHeader: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(`${userData.vollstaendigerName} `, PDF_MARGIN_HORIZONTAL)
         .text(`${userData.kontoinhaberStrasseHausnummer} `)
-        .text(
-          `${userData.kontoinhaberPlz} ${userData.kontoinhaberOrt} ${userData.kontoinhaberLand} `,
-        )
+        .text(`${userData.kontoinhaberPlz} ${userData.kontoinhaberOrt} `)
+        .text(userData.kontoinhaberLand ? `${userData.kontoinhaberLand} ` : "")
         .text(userData.telefonnummer ? `${userData.telefonnummer} ` : "");
     }),
   );
@@ -88,7 +87,7 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
       doc.text("Sehr geehrte Damen und Herren, ");
       doc.moveDown(1);
       doc.text(
-        "bitte wandeln Sie mein oben genanntes Girokonto schnellstmöglich, jedoch nicht später als innerhalb der in § 850k Absatz 2 Satz 1 ZPO genannten Frist, in ein Pfändungsschutzkonto (P-Konto) um. ",
+        "bitte wandeln Sie mein oben genanntes Girokonto schnellstmöglich, jedoch nicht später als innerhalb der in § 850k Absatz 2 Satz 1 ZPO genannten Frist, in ein Pfändungsschutzkonto (P-Konto) um. ",
       );
       doc.moveDown(1);
       doc.text(
