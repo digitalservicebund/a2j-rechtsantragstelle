@@ -9,6 +9,7 @@ export type ErbscheinWegweiserUserData = UserDataFromPagesSchema<
 > & {
   pageData?: {
     nestedArrayHistory?: NestedKinder[];
-    currentTraversalIndex?: number;
+    traversalIndices?: number[];
+    traversalDepth?: number;
   };
 };

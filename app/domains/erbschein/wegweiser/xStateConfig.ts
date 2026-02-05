@@ -10,9 +10,52 @@ import { assign } from "xstate";
 const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
 
 const popLastChild = ({ context }: { context: ErbscheinWegweiserUserData }) => {
-  const { pageData } = context;
+  if ((context.pageData?.nestedArrayHistory?.length ?? 0) > 0) {
+    console.log("popping child!");
+    const { pageData } = context;
+    const newTraversalIndices = pageData?.traversalIndices
+      ? pageData.traversalIndices.slice(0, -1)
+      : [];
+    const newTraversalDepth =
+      newTraversalIndices.length === 0
+        ? (pageData?.traversalDepth ?? 1) - 1
+        : (pageData?.traversalDepth ?? 0);
+    return {
+      nestedArrayHistory: pageData?.nestedArrayHistory
+        ? pageData.nestedArrayHistory.slice(0, -1)
+        : [],
+      traversalIndices: newTraversalIndices,
+      traversalDepth: newTraversalDepth,
+    };
+  }
+  return context.pageData;
+};
+
+const addDeadChildrenToStack = ({
+  context,
+}: {
+  context: ErbscheinWegweiserUserData;
+}) => {
+  console.log("more dead kids");
+  const node = getCurrentNode({ context });
+  const deadChildrenIndices: number[] = [];
+  const deadChildren: NestedKinder[] = [];
+  node?.entries?.forEach(({ alive }, idx) => {
+    if (alive === "no") {
+      deadChildrenIndices.push(idx);
+      deadChildren.push({
+        count: undefined,
+        entries: undefined,
+      } as NestedKinder);
+    }
+  });
   return {
-    nestedArrayHistory: pageData?.nestedArrayHistory?.slice(0, -1),
+    nestedArrayHistory: context.pageData?.nestedArrayHistory
+      ? context.pageData.nestedArrayHistory.concat(deadChildren)
+      : deadChildren,
+    traversalIndices: context.pageData?.traversalIndices
+      ? context.pageData.traversalIndices.concat(deadChildrenIndices)
+      : deadChildrenIndices,
   };
 };
 
@@ -29,6 +72,7 @@ export const erbscheinWegweiserXstateConfig = {
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
+      id: stepIds.start,
       on: { SUBMIT: "kinder-recursion" },
     },
     "kinder-recursion": {
@@ -53,12 +97,25 @@ export const erbscheinWegweiserXstateConfig = {
               guard: ({ context }) =>
                 getCurrentNode({ context })?.count === undefined,
               target: "anzahl-kinder",
+              actions: assign({
+                pageData: ({ context }) => ({
+                  ...context.pageData,
+                  traversalDepth: (context.pageData?.traversalDepth ?? -1) + 1,
+                }),
+              }),
             },
             /**
              * Children have already been defined, pop last item from history and loop
              */
             {
               target: "kinder-router",
+              guard: ({ context }) => {
+                const currentNode = getCurrentNode({ context });
+                return (
+                  currentNode?.count !== undefined &&
+                  currentNode.entries !== undefined
+                );
+              },
               actions: assign({
                 pageData: popLastChild,
               }),
@@ -69,7 +126,7 @@ export const erbscheinWegweiserXstateConfig = {
         "anzahl-kinder": {
           id: "anzahl-kinder",
           on: {
-            BACK: `#start`, // TODO: figure out back logic
+            BACK: "#start", // TODO: figure out back logic
             SUBMIT: [
               /**
                * No children, pop pointer from stack and loop
@@ -105,6 +162,7 @@ export const erbscheinWegweiserXstateConfig = {
                */
               {
                 guard: ({ context }) =>
+                  getCurrentNode({ context })?.entries !== undefined &&
                   Boolean(
                     getCurrentNode({ context })?.entries?.every(
                       (c) => c.alive === "yes",
@@ -120,24 +178,15 @@ export const erbscheinWegweiserXstateConfig = {
                */
               {
                 target: "kinder-router",
+                guard: ({ context }) =>
+                  getCurrentNode({ context })?.entries !== undefined &&
+                  Boolean(
+                    getCurrentNode({ context })?.entries?.some(
+                      (c) => c.alive === "no",
+                    ),
+                  ),
                 actions: assign({
-                  pageData: ({ context }) => {
-                    const node = getCurrentNode({ context });
-                    const deadChildren =
-                      node?.entries?.filter((c) => c.alive === "no") ?? [];
-                    return {
-                      nestedArrayHistory:
-                        context.pageData?.nestedArrayHistory?.concat(
-                          deadChildren.map(
-                            (_) =>
-                              ({
-                                count: undefined,
-                                entries: undefined,
-                              }) as NestedKinder,
-                          ),
-                        ),
-                    };
-                  },
+                  pageData: addDeadChildrenToStack,
                 }),
               },
             ],

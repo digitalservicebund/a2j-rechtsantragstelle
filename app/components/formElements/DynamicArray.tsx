@@ -2,7 +2,6 @@ import { useField } from "@rvf/react";
 import mapKeys from "lodash/mapKeys";
 import times from "lodash/times";
 import { useLocation } from "react-router";
-import { Fragment } from "react/jsx-runtime";
 import { ZodOptional, type ZodObject } from "zod";
 import HiddenInput from "~/components/formElements/HiddenInput";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
@@ -35,21 +34,24 @@ export const DynamicArray = (props: StrapiDynamicArray) => {
     ).filter(([_, schema]) => !(schema instanceof ZodOptional)),
   );
 
-  return times(numberOfArrayItems, (idx) => (
-    <Fragment key={idx}>
+  return (
+    <>
       <HiddenInput name={`${name}.count`} />
-      <SchemaComponents
-        pageSchema={
-          mapKeys(
-            nonRecursiveArrayItem,
-            (_, key) => `${name}.entries[${idx}]${key}`,
-          ) as SchemaObject
-        }
-        formComponents={formComponents.map((component) => ({
-          ...component,
-          name: resolveArrayCharacter(component.name, [idx]),
-        }))}
-      />
-    </Fragment>
-  ));
+      {times(numberOfArrayItems ?? 0, (idx) => (
+        <SchemaComponents
+          key={idx}
+          pageSchema={
+            mapKeys(
+              nonRecursiveArrayItem,
+              (_, key) => `${name}.entries[${idx}]${key}`,
+            ) as SchemaObject
+          }
+          formComponents={formComponents.map((component) => ({
+            ...component,
+            name: resolveArrayCharacter(component.name, [idx]),
+          }))}
+        />
+      ))}
+    </>
+  );
 };
