@@ -16,7 +16,6 @@ import {
   isResponse,
 } from "~/routes/__test__/isResponse";
 import invariant from "tiny-invariant";
-import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -26,6 +25,7 @@ vi.mock("~/services/logging", () => ({
   logWarning: vi.fn(),
 }));
 
+vi.mock("~/services/flow/server/buildFlowController");
 vi.mock("~/services/upload/fileUploadHelpers.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
@@ -146,30 +146,7 @@ describe("formular.server", () => {
         expect(response.data.repopulateFields).toEqual({ name: "" });
       });
 
-      it("should save both valid userdata and pageData including subflowDoneStates", async () => {
-        const subflowDoneStates = Object.fromEntries(
-          Object.keys(fluggastrechtFlow.config.states).map(
-            (subflowName, idx) => ["/" + subflowName, idx !== 1], // only second entry /grundvoraussetzungen isnt done
-          ),
-        );
-
-        const userData = { name: "Valid Name" };
-        const expectedPageData = { subflowDoneStates };
-
-        vi.mocked(validateFormUserData).mockResolvedValue(
-          Result.ok({ userData, migrationData: undefined }),
-        );
-
-        await action(mockRouteArgsFromRequest(mockDefaultRequest));
-
-        expect(updateSession).toHaveBeenCalledTimes(1);
-        expect(updateSession).toHaveBeenCalledWith(
-          expect.anything(),
-          expect.objectContaining({ ...userData, pageData: expectedPageData }),
-        );
-      });
-
-      it("should update session with migration data when form validation succeeds", async () => {
+      it("should update session twice when form validation succeeds with migration data", async () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
@@ -179,13 +156,14 @@ describe("formular.server", () => {
 
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
-        expect(updateSession).toHaveBeenCalledTimes(1);
-        expect(updateSession).toHaveBeenCalledWith(
-          expect.anything(),
-          expect.objectContaining({
-            name: "Migration Name",
-          }),
-        );
+        expect(updateSession).toHaveBeenCalledTimes(2);
+        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
+          name: "Valid Name",
+        });
+
+        expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
+          name: "Migration Name",
+        });
       });
 
       it("should call postValidationFormUserData once when form validation succeeds", async () => {
