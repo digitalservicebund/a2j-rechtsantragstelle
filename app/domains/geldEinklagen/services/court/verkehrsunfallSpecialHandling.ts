@@ -1,7 +1,6 @@
 import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
-export const isBerlinCourt = (court: Jmtd14VTErwerberGerbeh) =>
-  court.ORT.trim().toUpperCase() === "BERLIN";
+const isBerlinCourt = (court: Jmtd14VTErwerberGerbeh) => court.ORT === "Berlin";
 
 export const applyVerkehrsunfallSpecialHandling = (
   pilotCourts: Jmtd14VTErwerberGerbeh[],
