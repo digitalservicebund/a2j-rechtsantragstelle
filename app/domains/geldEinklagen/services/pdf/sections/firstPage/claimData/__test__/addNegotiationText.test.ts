@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addNegotiationText } from "../claimData/addNegotiationText";
+import { addNegotiationText } from "../addNegotiationText";
 
 describe("addNegotiationText", () => {
   it("should add oral negotiation text section if muendlicheVerhandlung is yes", () => {
