@@ -15,8 +15,4 @@ export type ProzesskostenhilfeFormularUserData =
     ProzesskostenhilfeGesetzlicheVertretungUserData &
     ProzesskostenhilfePersoenlicheDatenUserData &
     ProzesskostenhilfeWeitereAngabenUserData &
-    ProzesskostenhilfeAbgabeUserData & {
-      pageData?: {
-        arrayIndexes: number[];
-      };
-    };
+    ProzesskostenhilfeAbgabeUserData;

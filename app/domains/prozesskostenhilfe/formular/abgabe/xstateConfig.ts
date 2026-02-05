@@ -3,9 +3,24 @@ import type { ProzesskostenhilfeAbgabeUserData } from "./userData";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { pkhFormularAbgabePages } from "./pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { isNachueberpruefung } from "../grundvoraussetzungen/guards";
+import type { GenericGuard } from "~/domains/guards.server";
+import type { ProzesskostenhilfeFormularUserData } from "../userData";
 
-const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+const showFileUpload = Boolean(await isFeatureFlagEnabled("showFileUpload"));
 const steps = xStateTargetsFromPagesConfig(pkhFormularAbgabePages);
+
+const weitereAngabenId = "#weitere-angaben";
+
+const fileUploadRelevant: GenericGuard<ProzesskostenhilfeFormularUserData> = ({
+  context,
+}) => isNachueberpruefung({ context }) && context.versandArt === "digital";
+
+const readyForAbgabe: GenericGuard<ProzesskostenhilfeAbgabeUserData> = ({
+  context,
+}) =>
+  !!context.pageData?.subflowDoneStates &&
+  Object.values(context.pageData.subflowDoneStates).every(Boolean);
 
 export const abgabeXstateConfig = {
   id: "abgabe",
@@ -14,28 +29,24 @@ export const abgabeXstateConfig = {
   states: {
     [steps.abgabeUeberpruefung.relative]: {
       meta: { triggerValidation: true },
-      on: {
-        BACK: steps.weitereAngaben.absolute,
-      },
+      on: { BACK: weitereAngabenId },
       always: [
         {
           guard: ({ context }) =>
-            readyForAbgabe({ context }) &&
+            showFileUpload &&
             fileUploadRelevant({ context }) &&
-            Boolean(showFileUpload),
+            readyForAbgabe({ context }),
           target: steps.dokumente.relative,
         },
         {
-          guard: ({ context }) =>
-            !!context.pageData?.subflowDoneStates &&
-            Object.values(context.pageData.subflowDoneStates).every(Boolean),
+          guard: readyForAbgabe,
           target: steps.ende.relative,
         },
       ],
     },
     [steps.dokumente.relative]: {
       on: {
-        BACK: steps.weitereAngaben.absolute,
+        BACK: weitereAngabenId,
         SUBMIT: steps.ende.relative,
       },
     },
@@ -44,10 +55,10 @@ export const abgabeXstateConfig = {
         BACK: [
           {
             guard: ({ context }) =>
-              Boolean(showFileUpload) && fileUploadRelevant({ context }),
+              showFileUpload && fileUploadRelevant({ context }),
             target: steps.dokumente.relative,
           },
-          steps.weitereAngaben.absolute,
+          weitereAngabenId,
         ],
       },
     },
