@@ -1,74 +1,83 @@
-import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
-import InfoOutline from "@digitalservicebund/icons/InfoOutline";
-import HighlightOff from "@digitalservicebund/icons/HighlightOff";
-import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { useLoaderData } from "react-router";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
 import ContentComponents from "~/components/content/ContentComponents";
-import { type loader } from "../result";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { BACKGROUND_COLORS } from "~/components";
-import Button from "~/components/common/Button";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernResultPage } from "./kern/KernResultPage";
+import { loader } from "../../result";
+import { KernIcon } from "~/components/kern/common/KernIcon";
+import KernHeading from "~/components/kern/KernHeading";
+import KernRichText from "~/components/kern/KernRichText";
+import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
 const iconProps = {
   "aria-hidden": false,
-  className: "inline-block h-[36px]! w-[36px]! min-h-[36px]! min-w-[36px]!",
+  iconClassName:
+    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3",
 };
 
 const boxProps = {
   error: {
-    backgroundColor: "red",
-    icon: <HighlightOff aria-label="Negatives Ergebnis" {...iconProps} />,
+    backgroundColor: "kern-alert--danger",
+    icon: (
+      <KernIcon
+        name="emergency-home"
+        className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
+        aria-label="Negatives Ergebnis"
+      />
+    ),
   },
   success: {
-    backgroundColor: "green",
-    icon: <CheckCircleOutline aria-label="Positives Ergebnis" {...iconProps} />,
+    backgroundColor: "kern-alert--success",
+    icon: (
+      <KernIcon
+        name="check-circle"
+        className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
+        aria-label="Positives Ergebnis"
+      />
+    ),
   },
   warning: {
-    backgroundColor: "yellow",
-    icon: <WarningAmber aria-label="Warnung" {...iconProps} />,
+    backgroundColor: "kern-alert--warning",
+    icon: (
+      <KernIcon
+        name="warning"
+        className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
+        aria-label="Warnung"
+      />
+    ),
   },
   info: {
-    backgroundColor: "midBlue",
-    icon: <InfoOutline aria-label="Information" {...iconProps} />,
+    backgroundColor: "kern-alert--info",
+    icon: (
+      <KernIcon
+        name="info"
+        className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
+        aria-label="Information"
+      />
+    ),
   },
 } as const;
 
-export function ResultPage() {
+export function KernResultPage() {
   const {
     cmsContent,
     buttonNavigationProps: { back, next },
   } = useLoaderData<typeof loader>();
-
-  const showKernUX = useShowKernUX();
-  if (showKernUX) {
-    return <KernResultPage />;
-  }
-
   const documentsList = cmsContent.documents;
   const nextSteps = cmsContent.nextSteps;
   const content = cmsContent.freeZone;
 
   return (
     <>
-      <GridSection
-        className={`${BACKGROUND_COLORS.blue} print:hidden`}
-        pt="40"
-        pb="24"
-      >
+      <GridSection className="print:hidden" pt="40" pb="24">
         <Grid
           rows={2}
           background={{
             mdColumn: { start: 1, span: 8 },
             lgColumn: { start: 2, span: 10 },
             xlColumn: { start: 2, span: 10 },
-            className: `rounded-lg ${BACKGROUND_COLORS[boxProps[cmsContent.pageType].backgroundColor]}`,
+            className: `rounded-lg ${boxProps[cmsContent.pageType].backgroundColor} border-2 border-kern-feedback-warning!`,
           }}
         >
           <GridItem
@@ -81,19 +90,20 @@ export function ResultPage() {
             <div className="flex sm:flex-row flex-col gap-16">
               {boxProps[cmsContent.pageType].icon}
               <div className="flex flex-col gap-16" id="flow-page-content">
-                <Heading
+                <KernHeading
                   tagName={cmsContent.heading.tagName}
-                  look={cmsContent.heading.look}
-                  className="flex items-center mb-0"
-                >
-                  {cmsContent.heading.text}
-                </Heading>
+                  text={cmsContent.heading.text}
+                  className="kern-heading-large p-0!"
+                />
                 {cmsContent.hintText && (
-                  <RichText html={cmsContent.hintText.html} />
+                  <KernRichText
+                    className="text-xl font-medium"
+                    html={cmsContent.hintText.html}
+                  />
                 )}
                 {cmsContent.hintButton && (
                   <div className="flex flex-wrap mt-16">
-                    <Button {...cmsContent.hintButton} />
+                    <KernButton {...cmsContent.hintButton} />
                   </div>
                 )}
               </div>
@@ -106,18 +116,26 @@ export function ResultPage() {
             className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
             row={2}
           >
-            <ButtonContainer>
+            <KernButtonContainer>
               {back.destination && (
-                <a className="text-link" href={back.destination}>
+                <a
+                  className="kern-link kern-link--small no-underline!"
+                  href={back.destination}
+                >
+                  <KernIcon name="arrow-back" />
                   {back.label}
                 </a>
               )}
               {cmsContent.nextLink?.url && (
-                <a className="text-link" href={cmsContent.nextLink.url}>
+                <a
+                  className="kern-link kern-link--small no-underline!"
+                  href={cmsContent.nextLink.url}
+                >
+                  <KernIcon name="keyboard-double-arrow-left" />
                   {next?.label}
                 </a>
               )}
-            </ButtonContainer>
+            </KernButtonContainer>
           </GridItem>
         </Grid>
       </GridSection>

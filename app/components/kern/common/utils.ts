@@ -23,6 +23,7 @@ export type IconName =
   | "info"
   | "keyboard-arrow-down"
   | "keyboard-arrow-up"
+  | "keyboard-double-arrow-left"
   | "local-library"
   | "more-time"
   | "no-luggage"
@@ -96,4 +97,6 @@ export const IconPaths: Record<IconName, string> = {
   edit: "M160-120q-17 0-28.5-11.5T120-160v-97q0-16 6-30.5t17-25.5l505-504q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L313-143q-11 11-25.5 17t-30.5 6h-97Zm544-528 56-56-56-56-56 56 56 56Z",
   trash:
     "M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z",
+  "keyboard-double-arrow-left":
+    "M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z",
 };
