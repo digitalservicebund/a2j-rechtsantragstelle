@@ -14,7 +14,7 @@ import { PILOT_COURTS } from "./pilotCourts";
 import { type AngelegenheitInfo } from "~/services/gerichtsfinder/types";
 import { getCourtCategory } from "~/domains/geldEinklagen/services/court/getCourtCategory";
 
-const isBerlinPostcode = (postcode: string) => postcode.startsWith("1");
+const isBerlinCourt = (court: Jmtd14VTErwerberGerbeh) => court.ORT === "Berlin";
 
 const buildGerbehIndex = (data: Jmtd14VTErwerberGerbeh): GerbehIndex => {
   return {
@@ -90,11 +90,9 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
   }
 
   if (userData.sachgebiet === "verkehrsunfall") {
-    const berlinCourts = pilotCourts.filter((court) =>
-      isBerlinPostcode(court.PLZ_ZUSTELLBEZIRK),
-    );
+    const berlinCourts = pilotCourts.filter((court) => isBerlinCourt(court));
     const nonBerlinCourts = pilotCourts.filter(
-      (court) => !isBerlinPostcode(court.PLZ_ZUSTELLBEZIRK),
+      (court) => !isBerlinCourt(court),
     );
 
     const hasOneCourt = pilotCourts.length === 1;

@@ -73,6 +73,7 @@ const BERLIN_COURT: Jmtd14VTErwerberGerbeh = {
   AG: "07",
   TYP_INFO: "Zivilgericht - Amtsgericht",
   ...baseCourtData,
+  ORT: "Berlin",
   PLZ_ZUSTELLBEZIRK: ZIP_CODE_BERLIN_PILOT,
 };
 
