@@ -1,4 +1,5 @@
 import type PDFDocument from "pdfkit";
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   PDF_MARGIN_HORIZONTAL,
@@ -6,7 +7,9 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
-const videoTrialAgreement = (videoverhandlung: string | undefined): string => {
+const videoTrialAgreement = (
+  videoverhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
+): string => {
   const responses: Record<string, string> = {
     yes: "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.",
     no: "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.",
@@ -16,9 +19,9 @@ const videoTrialAgreement = (videoverhandlung: string | undefined): string => {
 
 export const addNegotiationText = (
   doc: typeof PDFDocument,
-  videoVerhandlung: string,
-  versaeumnisurteil: string,
-  muendlicheVerhandlung: string,
+  videoVerhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
+  versaeumnisurteil: GeldEinklagenFormularUserData["versaeumnisurteil"],
+  muendlicheVerhandlung: GeldEinklagenFormularUserData["muendlicheVerhandlung"],
   statementClaimSect: PDFKit.PDFStructureElement,
 ) => {
   const oralNegotiationText =

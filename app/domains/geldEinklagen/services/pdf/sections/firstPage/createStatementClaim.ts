@@ -44,9 +44,9 @@ export const createStatementClaim = (
 
   addNegotiationText(
     doc,
-    videoVerhandlung ?? "",
-    versaeumnisurteil ?? "",
-    muendlicheVerhandlung ?? "",
+    videoVerhandlung,
+    versaeumnisurteil,
+    muendlicheVerhandlung,
     statementClaimSect,
   );
 
