@@ -41,7 +41,7 @@ function KernValidatedFlowForm({
       {(form) => (
         <>
           <input type="hidden" name={CSRFKey} value={csrf} />
-          <div className="flex flex-col gap-kern-space-x-large">
+          <div className="flex flex-col">
             {pageSchema && (
               <KernSchemaComponents
                 pageSchema={pageSchema}
