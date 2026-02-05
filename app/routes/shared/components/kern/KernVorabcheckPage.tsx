@@ -33,7 +33,7 @@ export function KernVorabcheckPage() {
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-            <KernProgress {...progressProps} />
+          <KernProgress {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -53,7 +53,7 @@ export function KernVorabcheckPage() {
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
           row={3}
-          className={classNames({"pb-80": !showReportProblem})}
+          className={classNames({ "pb-80": !showReportProblem })}
         >
           <KernValidatedFlowForm
             stepData={stepData}

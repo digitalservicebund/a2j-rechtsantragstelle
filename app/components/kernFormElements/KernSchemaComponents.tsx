@@ -77,7 +77,9 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={classNames("flex flex-col gap-kern-space-x-large", className)}>
+    <div
+      className={classNames("flex flex-col gap-kern-space-x-large", className)}
+    >
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
