@@ -3,24 +3,12 @@ import type { ProzesskostenhilfeAbgabeUserData } from "./userData";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { pkhFormularAbgabePages } from "./pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { isNachueberpruefung } from "../grundvoraussetzungen/guards";
-import type { GenericGuard } from "~/domains/guards.server";
-import type { ProzesskostenhilfeFormularUserData } from "../userData";
+import { fileUploadRelevant, readyForAbgabe } from "./guards";
 
 const showFileUpload = Boolean(await isFeatureFlagEnabled("showFileUpload"));
 const steps = xStateTargetsFromPagesConfig(pkhFormularAbgabePages);
 
 const weitereAngabenId = "#weitere-angaben";
-
-const fileUploadRelevant: GenericGuard<ProzesskostenhilfeFormularUserData> = ({
-  context,
-}) => isNachueberpruefung({ context }) && context.versandArt === "digital";
-
-const readyForAbgabe: GenericGuard<ProzesskostenhilfeAbgabeUserData> = ({
-  context,
-}) =>
-  !!context.pageData?.subflowDoneStates &&
-  Object.values(context.pageData.subflowDoneStates).every(Boolean);
 
 export const abgabeXstateConfig = {
   id: "abgabe",
