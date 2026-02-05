@@ -13,8 +13,7 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { PILOT_COURTS } from "./pilotCourts";
 import { type AngelegenheitInfo } from "~/services/gerichtsfinder/types";
 import { getCourtCategory } from "~/domains/geldEinklagen/services/court/getCourtCategory";
-
-const isBerlinCourt = (court: Jmtd14VTErwerberGerbeh) => court.ORT === "Berlin";
+import { applyVerkehrsunfallSpecialHandling } from "./verkehrsunfallSpecialHandling";
 
 const buildGerbehIndex = (data: Jmtd14VTErwerberGerbeh): GerbehIndex => {
   return {
@@ -90,24 +89,7 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
   }
 
   if (userData.sachgebiet === "verkehrsunfall") {
-    const berlinCourts = pilotCourts.filter((court) => isBerlinCourt(court));
-    const nonBerlinCourts = pilotCourts.filter(
-      (court) => !isBerlinCourt(court),
-    );
-
-    const hasOneCourt = pilotCourts.length === 1;
-    const hasOneBerlinCourt = berlinCourts.length === 1;
-    const hasTwoCourts = pilotCourts.length === 2;
-    const hasOneBerlinAndOneNonBerlin =
-      berlinCourts.length === 1 && nonBerlinCourts.length === 1;
-
-    if (hasOneCourt && hasOneBerlinCourt) {
-      return [];
-    }
-
-    if (hasTwoCourts && hasOneBerlinAndOneNonBerlin) {
-      return nonBerlinCourts;
-    }
+    return applyVerkehrsunfallSpecialHandling(pilotCourts);
   }
 
   return pilotCourts;
