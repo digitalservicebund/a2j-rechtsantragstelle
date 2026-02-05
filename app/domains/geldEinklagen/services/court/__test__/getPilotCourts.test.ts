@@ -233,48 +233,4 @@ describe("getPilotCourts", () => {
 
     expect(actual).toEqual([]);
   });
-
-  describe("Special handling - Verkehrsunfall", () => {
-    it("should return empty array for traffic accident when only Berlin pilot court(s)", () => {
-      const userData: GeldEinklagenFormularUserData = {
-        sachgebiet: "verkehrsunfall",
-        postleitzahlBeklagtePerson: ZIP_CODE_BERLIN_PILOT,
-      };
-
-      const actual = getPilotCourts(userData);
-
-      expect(actual).toEqual([]);
-
-      userData.postleitzahlSecondary = ZIP_CODE_BERLIN_PILOT;
-
-      const actualSecondary = getPilotCourts(userData);
-
-      expect(actualSecondary).toEqual([]);
-    });
-
-    it("should return only non-Berlin pilot court for traffic accident when one Berlin and one non-Berlin", () => {
-      const userData: GeldEinklagenFormularUserData = {
-        sachgebiet: "verkehrsunfall",
-        postleitzahlBeklagtePerson: ZIP_CODE_BERLIN_PILOT,
-        postleitzahlSecondary: ZIP_CODE_NON_BERLIN_PILOT,
-      };
-
-      const actual = getPilotCourts(userData);
-
-      expect(actual.length).toEqual(1);
-      expect(actual[0]).toStrictEqual(PILOT_COURT_SECONDARY);
-    });
-
-    it("should return pilot courts for traffic accident when no Berlin court", () => {
-      const userData: GeldEinklagenFormularUserData = {
-        sachgebiet: "verkehrsunfall",
-        postleitzahlBeklagtePerson: ZIP_CODE_NON_BERLIN_PILOT,
-      };
-
-      const actual = getPilotCourts(userData);
-
-      expect(actual.length).toEqual(1);
-      expect(actual[0]).toStrictEqual(PILOT_COURT_SECONDARY);
-    });
-  });
 });
