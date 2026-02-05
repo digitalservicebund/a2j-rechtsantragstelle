@@ -32,7 +32,7 @@ export const addFreeTextApplication = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
         .text(freeTextApplication, PDF_MARGIN_HORIZONTAL)
-        .moveDown(1.5);
+        .moveDown(1);
     }),
   );
   statementClaimSect.add(compensationSect);
