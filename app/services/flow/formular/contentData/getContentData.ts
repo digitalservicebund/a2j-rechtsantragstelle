@@ -5,7 +5,7 @@ import {
   type buildFlowController,
 } from "~/services/flow/server/buildFlowController";
 import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
-import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
+import { resolveUserData } from "~/services/session.server/resolveUserData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as translationCode } from "~/services/translations/translations";
 import { getButtonNavigationProps } from "~/util/buttonProps";
@@ -81,7 +81,7 @@ export const getContentData = (
       const pageSchema = getPageSchema(pathname);
       const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
 
-      return fieldsFromContext(userDataWithPageData, fieldNames);
+      return resolveUserData(userDataWithPageData, fieldNames);
     },
     getButtonNavigation: (
       flowController: ReturnType<typeof buildFlowController>,
