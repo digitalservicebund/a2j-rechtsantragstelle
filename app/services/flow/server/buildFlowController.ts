@@ -23,6 +23,7 @@ import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
   const startNode = machine.getStateNodeById(stepId);
 
+  // oxlint-disable-next-line consistent-function-scoping
   function dive(node: typeof startNode): typeof startNode {
     if (Object.keys(node.states).length === 0) return node;
     return dive(Object.values(node.states)[0]);

@@ -6,14 +6,14 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   addWitnessesInfo,
   WITNESS_EVIDENCE_MULTIPLE_PERSONS_TEXT,
   WITNESS_EVIDENCE_TEXT,
 } from "../addWitnessesInfo";
 
-vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("~/services/pdf/addNewPageInCaseMissingVerticalSpace");
 
 vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
   vi.fn(),
@@ -60,8 +60,6 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasZeugenMock, mockSect);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(mockDoc.text).toBeDefined();
   });
 
   it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
@@ -91,8 +89,6 @@ describe("addWitnessesInfo", () => {
     addWitnessesInfo(mockDoc, userDataHasNoZeugenMock, mockSect);
 
     expect(addNewPageInCaseMissingVerticalSpace).not.toBeCalled();
-    // Added to silence ESLint warning: "Add at least one assertion to this test case.eslintsonarjs/assertions-in-tests"
-    expect(addNewPageInCaseMissingVerticalSpace).toBeDefined();
   });
 });
 

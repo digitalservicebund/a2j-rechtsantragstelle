@@ -25,6 +25,22 @@
     color: var(--color-kern-feedback-danger);
   }
 
+  /* prevents Kern to style the inner input */
+
+  .kern-form-input input:focus,
+  .kern-form-input input:focus-visible {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* remove Kern focus visible from the inner input*/
+
+  .kern-form-input__input input:focus-visible,
+  .kern-form-input__input input:focus {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
   .grid-fluid {
     display: grid;
     /* defaults (S) */
@@ -39,7 +55,6 @@
 
   @media (min-width: 768px) {
     .grid-fluid {
-      /* @apply px-16; */
       --cols: 8;
       --track: 64px;
       --gap: 0px;
@@ -49,7 +64,6 @@
 
   @media (min-width: 1024px) {
     .grid-fluid {
-      /* @apply px-12; */
       --cols: 12;
       --track: 54px;
       --gap: 32px;
@@ -59,11 +73,24 @@
 
   @media (min-width: 1280px) {
     .grid-fluid {
-      /* @apply px-32; */
       --cols: 12;
       --track: 72px;
       --gap: 32px;
       grid-template-columns: repeat(var(--cols), minmax(var(--track), 1fr));
+    }
+  }
+
+  .rich-text {
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+    ol {
+      list-style-type: decimal;
+      padding-left: 1.5rem;
     }
   }
 }

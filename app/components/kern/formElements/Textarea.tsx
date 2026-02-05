@@ -5,6 +5,7 @@ import { Details } from "~/components/content/Details";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "../../common/types";
 import KernRichText from "../KernRichText";
+import InputError from "./InputError";
 
 type TextareaProps = Readonly<{
   name: string;
@@ -38,7 +39,11 @@ const KernTextarea = ({
   const errorId = `${name}-error`;
 
   return (
-    <div className="kern-form-input gap-kern-space-small!">
+    <div
+      className={classNames("kern-form-input gap-kern-space-small!", {
+        "kern-form-input--error": field.error(),
+      })}
+    >
       {label && (
         <label className="kern-label" id={name}>
           {label}
@@ -53,7 +58,7 @@ const KernTextarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames("kern-form-input__input", {
+        className={classNames("kern-form-input__input ph-no-capture", {
           "kern-form-input__input--error": field.error(),
         })}
         ref={innerRef}
@@ -62,18 +67,10 @@ const KernTextarea = ({
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
-      {errorMessages && (
-        <p className="kern-error" id="textarea-error" role="alert">
-          <span
-            className="kern-icon kern-icon--danger kern-icon--md"
-            aria-hidden="true"
-          ></span>
-          <span className="kern-body">
-            {errorMessages?.find((err) => err.code === field.error())?.text ??
-              field.error()}
-          </span>
-        </p>
-      )}
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
+      </InputError>
     </div>
   );
 };

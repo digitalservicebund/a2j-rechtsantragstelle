@@ -14,8 +14,8 @@ describe("objectKeysNonEmpty", () => {
   });
 
   it("should return true when all keys in objectKeys have non-empty values", () => {
-    const objects = { a: "a", b: "b", c: "c" };
-    const objectKeys = ["a", "b", "c"] as const;
+    const objects = { a: "a", b: "b", c: "c", d: 123, e: false };
+    const objectKeys = ["a", "b", "c", "d", "e"] as const;
     const actual = objectKeysNonEmpty(objects, objectKeys);
     expect(actual).toBe(true);
   });

@@ -24,6 +24,7 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
+  showKernUX?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -67,7 +68,6 @@ export const SchemaComponents = ({
     pageSchema,
     formComponents,
   );
-
   return (
     <div className={classNames("ds-stack ds-stack-40", className)}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {

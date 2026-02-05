@@ -1,5 +1,5 @@
-import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import type { PropsWithChildren } from "react";
+import { KernIcon } from "../common/KernIcon";
 
 type InputErrorProps = PropsWithChildren<{
   readonly id: string;
@@ -9,13 +9,12 @@ const InputError = ({ id, children }: InputErrorProps) => {
   return (
     <div>
       {children && (
-        <p
-          id={id}
-          data-testid="inputError"
-          className="mt-4 text-red-800 flex gap-x-4"
-        >
-          <ErrorOutline className="w-20 h-20 shrink-0 mt-2" />
-          <span className="sr-only">Fehler:</span> {children}
+        <p className="kern-error" id={id} role="alert">
+          <KernIcon
+            name="emergency-home"
+            className="fill-kern-feedback-danger!"
+          />
+          <span className="text-kern-feedback-danger!">{children}</span>
         </p>
       )}
     </div>

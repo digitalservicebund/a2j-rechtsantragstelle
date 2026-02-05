@@ -115,7 +115,6 @@ export const klageErstellenXstateConfig = {
               guard: ({ context }) =>
                 objectKeysNonEmpty(context, [
                   "beklagteNameOrganisation",
-                  "beklagteGesetzlichenVertretung",
                   "beklagteStrasseHausnummer",
                   "beklagtePlz",
                   "beklagteOrt",

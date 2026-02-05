@@ -61,9 +61,13 @@ function computeVorabcheckProgress() {
     ([, flowConfig]) => flowConfig.flowType === "vorabCheck",
   );
   return Object.fromEntries(
-    vorabcheckEntries.map(([flowId, { config, guards }]) => [
+    vorabcheckEntries.map(([flowId, flow]) => [
       flowId,
-      progressLookupForMachine(createMachine(config, { guards })),
+      progressLookupForMachine(
+        createMachine(flow.config, {
+          guards: "guards" in flow ? flow.guards : {},
+        }),
+      ),
     ]),
   );
 }

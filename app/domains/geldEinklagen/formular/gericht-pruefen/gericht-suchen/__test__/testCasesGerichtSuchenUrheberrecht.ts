@@ -2,10 +2,10 @@ import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const ZIP_CODE_PILOT_COURT = "10823";
-const ZIP_CODE_EDGE_CASE_SECONDARY = "53111";
+const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 
 const baseContext: GeldEinklagenFormularUserData = {
-  forderung: "maximal5000",
+  forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "urheberrecht",

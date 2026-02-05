@@ -11,6 +11,7 @@ export type ButtonProps = {
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
   fullWidth?: boolean;
+  textClassName?: string;
   type?: HTMLButtonElement["type"];
 };
 
@@ -22,6 +23,16 @@ function formatIcon(icon?: ReactElementWithClassname) {
   return cloneElement(icon, { className });
 }
 
+// for links that look like buttons, we want to add an event handler so that it can
+// be activated with the space bar
+// see: https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/43710c9e7d59e06f304830cc7e6b92893e7c7aa1#commitcomment-144257987
+const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+  if (event.code === "Space") {
+    event.currentTarget.click();
+    event.preventDefault();
+  }
+};
+
 function KernButton({
   children,
   text,
@@ -30,6 +41,8 @@ function KernButton({
   fullWidth,
   look,
   href,
+  textClassName,
+  disabled,
   ...props
 }: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
@@ -39,24 +52,21 @@ function KernButton({
       "kern-btn--secondary": look === "secondary",
       "kern-btn--tertiary": look === "tertiary",
       "kern-btn--block": fullWidth,
+      "kern-btn--disabled pointer-events-none": disabled,
     },
     props.className,
   );
 
-  const textSpan = text ? <span className="kern-label">{text}</span> : "";
-  const childrenSpan = <span className="kern-label">{children}</span>;
+  const textSpan = text ? (
+    <span className={classNames("kern-label", textClassName)}>{text}</span>
+  ) : (
+    ""
+  );
+  const childrenSpan = (
+    <span className={classNames("kern-label", textClassName)}>{children}</span>
+  );
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
-
-  // for links that look like buttons, we want to add an event handler so that it can
-  // be activated with the space bar
-  // see: https://github.com/digitalservicebund/a2j-rechtsantragstelle/commit/43710c9e7d59e06f304830cc7e6b92893e7c7aa1#commitcomment-144257987
-  const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
-    if (event.code === "Space") {
-      event.currentTarget.click();
-      event.preventDefault();
-    }
-  };
 
   if (href) {
     const isExternal = isExternalUrl(href);
@@ -68,7 +78,7 @@ function KernButton({
     return (
       <a
         {...(props as LinkProps)}
-        href={props.disabled ? undefined : href}
+        href={disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
         {...opts}
@@ -79,7 +89,11 @@ function KernButton({
   }
 
   return (
-    <button {...(props as ButtonProps)} className={buttonClasses}>
+    <button
+      {...(props as ButtonProps)}
+      className={buttonClasses}
+      disabled={disabled}
+    >
       {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
     </button>
   );

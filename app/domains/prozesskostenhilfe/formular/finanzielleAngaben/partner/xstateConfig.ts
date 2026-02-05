@@ -7,6 +7,7 @@ import {
 import type { PartnerEinkuenfteUserData } from "./userData";
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "../abzuege/userData";
+import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "../einkuenfte/userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenPartnerPages,
@@ -149,9 +150,9 @@ export const partnerXstateConfig = {
           },
         },
         [steps.partnerEinkuenfteEinkommen.relative]: {
-          initial: steps.partnarErwerbstaetig.relative,
+          initial: steps.partnerErwerbstaetig.relative,
           states: {
-            [steps.partnarErwerbstaetig.relative]: {
+            [steps.partnerErwerbstaetig.relative]: {
               on: {
                 SUBMIT: [
                   {
@@ -184,7 +185,7 @@ export const partnerXstateConfig = {
                   },
                   steps.partnerSelbststaendig.relative,
                 ],
-                BACK: steps.partnarErwerbstaetig.relative,
+                BACK: steps.partnerErwerbstaetig.relative,
               },
             },
             [steps.partnerNettoEinkommen.relative]: {
@@ -639,5 +640,6 @@ export const partnerXstateConfig = {
   },
 } satisfies Config<
   PartnerEinkuenfteUserData &
-    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData
+    ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData &
+    ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData
 >;

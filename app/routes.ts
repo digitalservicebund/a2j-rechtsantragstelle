@@ -17,6 +17,7 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
+  ...prefix("erbschein", [...prefix("wegweiser", vorabcheckRoutes("ESW"))]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),

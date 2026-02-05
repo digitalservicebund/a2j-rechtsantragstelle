@@ -1,8 +1,7 @@
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { KernStandaloneLink } from "../KernStandaloneLink";
-import { KernIcon } from "~/components/kern/commom/KernIcon";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 type KernBreadcrumb = {
   url: string;
@@ -53,11 +52,12 @@ export default function KernBreadcrumbs({
                     {breadcrumb.title}
                   </span>
                 ) : (
-                  <KernStandaloneLink
-                    text={breadcrumb.title ?? ""}
-                    url={breadcrumb.url ?? ""}
-                    className="increase-tap-area text-kern-16 p-0!"
-                  />
+                  <a
+                    href={breadcrumb.url ?? ""}
+                    className="increase-tap-area kern-link kern-link--small p-0!"
+                  >
+                    {breadcrumb.title ?? ""}
+                  </a>
                 )}
               </div>
             ))}

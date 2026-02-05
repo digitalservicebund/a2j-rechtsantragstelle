@@ -18,7 +18,7 @@ import {
   getAngestelltStrings,
   getKinderStrings,
   getSchuldnerberatungsstelleStrings,
-  getAmtsgerichtStrings,
+  getAmtsgerichtRequirementStrings,
   getInfoZumPKontoStrings,
   getHasErhöhungStrings,
   getArbeitStrings,
@@ -32,7 +32,6 @@ import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
   config: kontopfaendungWegweiserXstateConfig,
-  guards: {},
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getArbeitStrings(userData),
     ...getPKontoStrings(userData),
@@ -53,7 +52,7 @@ export const kontopfaendungWegweiser = {
     ...getAngestelltStrings(userData),
     ...getKinderStrings(userData),
     ...getSchuldnerberatungsstelleStrings(userData),
-    ...getAmtsgerichtStrings(userData),
+    ...getAmtsgerichtRequirementStrings(userData),
     ...getInfoZumPKontoStrings(userData),
     ...getHasErhöhungStrings(userData),
     ...getRenteStrings(userData),

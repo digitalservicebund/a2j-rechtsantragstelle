@@ -11,7 +11,7 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await formular.clickNext();
 
   // /geld-einklagen/formular/gericht-pruefen/forderung/was
-  await formular.fillRadioPage("forderung", "maximal5000");
+  await formular.fillRadioPage("forderung", "maximal10000");
 
   // /geld-einklagen/formular/gericht-pruefen/sachgebiet/info
   await formular.clickNext();
@@ -47,7 +47,7 @@ export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
   await formular.fillRadioPage("gerichtsstandsvereinbarung", "no");
 
   // /geld-einklagen/formular/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person
-  await formular.fillInputPage("postleitzahlBeklagtePerson", "53111");
+  await formular.fillInputPage("postleitzahlBeklagtePerson", "04103");
 
   // /geld-einklagen/formular/gericht-pruefen/zustaendiges-gericht/pilot-gericht
   await formular.clickNext();

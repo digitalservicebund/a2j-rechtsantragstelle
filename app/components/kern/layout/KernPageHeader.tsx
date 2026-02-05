@@ -5,7 +5,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
 import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
-import { KernIcon } from "~/components/kern/commom/KernIcon";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 type PageHeaderProps = {
   title: string;
@@ -63,17 +63,17 @@ export default function KernPageHeader({
               <div className="flex gap-kern-space-x-large max-[447px]:pt-16">
                 <a
                   href={"/leichtesprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
-                  <KernIcon name="local-library" />
+                  <KernIcon name="local-library" className="flex-shrink-0" />
                   {translations.pageHeader.leichtesprache.de}
                 </a>
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
-                  <KernIcon name="sign-language" />
+                  <KernIcon name="sign-language" className="flex-shrink-0" />
                   {"Gebärdensprache"}{" "}
                   {/*translations.pageHeader.gebaerdensprache.de */}
                 </a>
