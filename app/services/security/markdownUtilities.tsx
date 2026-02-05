@@ -27,7 +27,11 @@ const kernRenderer: Partial<Renderer> = {
   link({ href, text }) {
     /* Either renders a Standalone link or Inline link,
         but we use the StandaloneLink component, because both has the same structure and style */
-    return renderToString(<a className="kern-link" href={href}>{text}</a>);
+    return renderToString(
+      <a className="kern-link" href={href}>
+        {text}
+      </a>,
+    );
   },
   heading({ depth, text }) {
     // can't use .at() due to old browsers
@@ -35,8 +39,10 @@ const kernRenderer: Partial<Renderer> = {
   },
 } as const;
 
-function getRendererToDisplay(showKernUX: boolean, renderer?: Partial<Renderer>) {
-  
+function getRendererToDisplay(
+  showKernUX: boolean,
+  renderer?: Partial<Renderer>,
+) {
   if (showKernUX) {
     return { ...kernRenderer, ...renderer };
   }
@@ -47,7 +53,7 @@ function getRendererToDisplay(showKernUX: boolean, renderer?: Partial<Renderer>)
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
-  showKernUX: boolean = false
+  showKernUX: boolean = false,
 ) {
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
   const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
