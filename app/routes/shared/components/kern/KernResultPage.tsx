@@ -77,7 +77,7 @@ export function KernResultPage() {
             mdColumn: { start: 1, span: 8 },
             lgColumn: { start: 2, span: 10 },
             xlColumn: { start: 2, span: 10 },
-            className: `rounded-lg ${boxProps[cmsContent.pageType].backgroundColor} border-2 border-kern-feedback-warning!`,
+            className: `rounded-lg ${boxProps[cmsContent.pageType].backgroundColor} border-2 border-${boxProps[cmsContent.pageType].backgroundColor}`,
           }}
         >
           <GridItem
