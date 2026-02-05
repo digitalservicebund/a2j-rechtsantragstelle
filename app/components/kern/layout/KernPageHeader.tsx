@@ -63,17 +63,17 @@ export default function KernPageHeader({
               <div className="flex gap-kern-space-x-large max-[447px]:pt-16">
                 <a
                   href={"/leichtesprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
-                  <KernIcon name="local-library" />
+                  <KernIcon name="local-library" className="flex-shrink-0" />
                   {translations.pageHeader.leichtesprache.de}
                 </a>
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="kern-link kern-link--small"
+                  className="kern-link kern-link--small no-underline!"
                 >
-                  <KernIcon name="sign-language" />
+                  <KernIcon name="sign-language" className="flex-shrink-0" />
                   {"Gebärdensprache"}{" "}
                   {/*translations.pageHeader.gebaerdensprache.de */}
                 </a>

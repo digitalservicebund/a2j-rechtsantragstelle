@@ -10,19 +10,13 @@ export const erbscheinWegweiserTestCases = {
         stepId: "/start",
       },
       {
-        stepId: "/verstorbene-name",
-        userInput: {
-          verstorbeneName: "Max Mustermann",
-        },
-      },
-      {
         stepId: "/staatsangehoerigkeit",
         userInput: {
           staatsangehoerigkeit: "germanAndOther",
         },
       },
       {
-        stepId: "/ergebnis/auslaendische-erbfaelle",
+        stepId: "/ergebnis/auslandsbezug",
       },
     ],
     livedAbroad: [
@@ -39,7 +33,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/auslaendische-erbfaelle",
+        stepId: "/ergebnis/auslandsbezug",
       },
     ],
     notarizedTestament: [
@@ -56,7 +50,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/notarized-testament",
+        stepId: "/ergebnis/erbschein-nicht-erforderlich-notarielles-testament",
       },
     ],
     erbvertrag: [
@@ -67,7 +61,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbvertrag",
+        stepId: "/ergebnis/erbschein-nicht-erforderlich-erbvertrag",
       },
     ],
     hasGrundeigentumWithHandwrittenTestament: [
@@ -84,7 +78,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbschein-required-handwritten-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-handschriftliches-testament",
       },
     ],
     hasGrundeigentumWithNoTestament: [
@@ -101,7 +95,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbschein-required-no-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
       },
     ],
     hasUnternehmenWithHandwrittenTestament: [
@@ -124,7 +118,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbschein-required-handwritten-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-handschriftliches-testament",
       },
     ],
     hasUnternehmenWithNoTestament: [
@@ -147,7 +141,7 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbschein-required-no-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
       },
     ],
     erbscheinNotRequired: [
@@ -158,24 +152,24 @@ export const erbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/erbschein-requested-by-bank",
+        stepId: "/erbschein-verlangt",
         userInput: {
           bankRequestedErbschein: "no",
         },
       },
       {
-        stepId: "/ergebnis/erbschein-not-required",
+        stepId: "/ergebnis/erbschein-nicht-erforderlich-nicht-verlangt",
       },
     ],
     erbscheinRequired: [
       {
-        stepId: "/erbschein-requested-by-bank",
+        stepId: "/erbschein-verlangt",
         userInput: {
           bankRequestedErbschein: "yes",
         },
       },
       {
-        stepId: "/ergebnis/erbschein-required-no-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
       },
     ],
   },

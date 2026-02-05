@@ -34,12 +34,6 @@ export const erbscheinWegweiserPages = {
   start: {
     stepId: "start",
   },
-  verstorbeneName: {
-    stepId: "verstorbene-name",
-    pageSchema: {
-      verstorbeneName: z.string(),
-    },
-  },
   anzahlKinder: {
     stepId: "kinder-recursion/anzahl-kinder",
     pageSchema: {
@@ -67,7 +61,7 @@ export const erbscheinWegweiserPages = {
     },
   },
   auslaendischerErbfall: {
-    stepId: "ergebnis/auslaendische-erbfaelle",
+    stepId: "ergebnis/auslandsbezug",
   },
   testamentOderErbvertrag: {
     stepId: "testament-oder-erbvertrag",
@@ -76,10 +70,10 @@ export const erbscheinWegweiserPages = {
     },
   },
   notarizedTestament: {
-    stepId: "ergebnis/notarized-testament",
+    stepId: "ergebnis/erbschein-nicht-erforderlich-notarielles-testament",
   },
   erbvertrag: {
-    stepId: "ergebnis/erbvertrag",
+    stepId: "ergebnis/erbschein-nicht-erforderlich-erbvertrag",
   },
   grundeigentum: {
     stepId: "grundeigentum",
@@ -88,10 +82,10 @@ export const erbscheinWegweiserPages = {
     },
   },
   erbscheinRequiredHandwrittenTestament: {
-    stepId: "ergebnis/erbschein-required-handwritten-testament",
+    stepId: "ergebnis/erbschein-erforderlich-handschriftliches-testament",
   },
   erbscheinRequiredNoTestament: {
-    stepId: "ergebnis/erbschein-required-no-testament",
+    stepId: "ergebnis/erbschein-erforderlich-kein-testament",
   },
   unternehmen: {
     stepId: "unternehmen",
@@ -100,12 +94,12 @@ export const erbscheinWegweiserPages = {
     },
   },
   bankRequestedErbschein: {
-    stepId: "erbschein-requested-by-bank",
+    stepId: "erbschein-verlangt",
     pageSchema: {
       bankRequestedErbschein: YesNoAnswer,
     },
   },
   erbscheinNotRequired: {
-    stepId: "ergebnis/erbschein-not-required",
+    stepId: "ergebnis/erbschein-nicht-erforderlich-nicht-verlangt",
   },
 } as const satisfies PagesConfig;

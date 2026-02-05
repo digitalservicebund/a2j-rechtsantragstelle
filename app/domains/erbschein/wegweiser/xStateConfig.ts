@@ -29,14 +29,7 @@ export const erbscheinWegweiserXstateConfig = {
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
-      on: { SUBMIT: stepIds.verstorbeneName },
-    },
-    [stepIds.verstorbeneName]: {
-      id: stepIds.verstorbeneName,
-      on: {
-        BACK: stepIds.start,
-        SUBMIT: "kinder-recursion",
-      },
+      on: { SUBMIT: "kinder-recursion" },
     },
     "kinder-recursion": {
       id: "kinder-recursion",
@@ -76,7 +69,7 @@ export const erbscheinWegweiserXstateConfig = {
         "anzahl-kinder": {
           id: "anzahl-kinder",
           on: {
-            BACK: `#${stepIds.verstorbeneName}`, // TODO: figure out back logic
+            BACK: `#start`, // TODO: figure out back logic
             SUBMIT: [
               /**
                * No children, pop pointer from stack and loop

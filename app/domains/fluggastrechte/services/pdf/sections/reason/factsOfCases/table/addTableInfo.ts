@@ -4,8 +4,8 @@ import {
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
-import { getHeightOfString } from "../../getHeightOfString";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
+import { getHeightOfString } from "../../../../../../../../services/pdf/getHeightOfString";
 
 export const HEADLINE = "Beschreibung der Ersatzverbindung:";
 
