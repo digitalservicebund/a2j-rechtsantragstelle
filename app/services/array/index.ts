@@ -12,11 +12,12 @@ export type ArrayConfigServer = {
   displayIndexOffset?: number;
   shouldDisableAddButton?: (context: UserData) => boolean;
   hiddenFields?: string[];
+  nestedArrays?: Record<string, ArrayConfigServer>;
 };
 
 export type ArrayConfigClient = Omit<
   ArrayConfigServer,
-  "statementKey" | "shouldDisableAddButton"
+  "statementKey" | "shouldDisableAddButton" | "event"
 > & {
   disableAddButton: boolean;
 };

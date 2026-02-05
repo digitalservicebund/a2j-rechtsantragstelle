@@ -2,6 +2,7 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -30,6 +31,11 @@ const weiterePersonenArraySchema = z.array(
       buchungsnummer: schemaOrEmptyString(bookingNumberFlightSchema),
       ...persoenlicheDatenSchema,
       datenverarbeitungZustimmung: checkedRequired,
+      weiterePersonenAdresse: z.array(
+        z.object({
+          something: stringRequiredSchema,
+        }),
+      ),
     })
     .partial(),
 );
@@ -49,6 +55,9 @@ export const fluggastrechtePersoenlicheDatenPages = {
   },
   weiterePersonenUebersicht: {
     stepId: "persoenliche-daten/weitere-personen/uebersicht",
+    pageSchema: {
+      weiterePersonenAdresse: hiddenInputSchema(stringOptionalSchema),
+    },
   },
   weiterePersonenDaten: {
     stepId: "persoenliche-daten/weitere-personen/person",
@@ -78,6 +87,16 @@ export const fluggastrechtePersoenlicheDatenPages = {
           "weiterePersonen#datenverarbeitungZustimmung":
             weiterePersonenArraySchema.element.shape
               .datenverarbeitungZustimmung,
+        },
+      },
+      adresse: {
+        arrayPages: {
+          daten: {
+            pageSchema: {
+              "weiterePersonen#weiterePersonenAdresse#something":
+                stringRequiredSchema,
+            },
+          },
         },
       },
     },

@@ -31,8 +31,8 @@ describe("pruner", () => {
         },
         [
           { stepIds: ["/step1"] },
-          { stepIds: ["/step1a", "/step2a"], arrayIndex: 0 },
-          { stepIds: ["/step1b"], arrayIndex: 1 },
+          { stepIds: ["/step1a", "/step2a"], arrayIndex: [0] },
+          { stepIds: ["/step1b"], arrayIndex: [1] },
         ],
       );
 

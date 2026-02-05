@@ -1,4 +1,4 @@
-import type { UserData } from "~/domains/userData";
+import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import { parseArrayField } from "./fieldParsingUtils";
 import mustache from "mustache";
 
@@ -25,7 +25,7 @@ function createArrayReplacements(
   // And userdata has kinder, so inorder for mustache to work we need to unify the data
   const replacements: UserData = {};
   const kindKey = baseFieldName === "kinder" ? "kind" : baseFieldName;
-  replacements[kindKey] = arrayItem;
+  replacements[kindKey] = arrayItem as AllowedUserTypes;
 
   return replacements;
 }

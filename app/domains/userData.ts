@@ -11,7 +11,7 @@ export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
-export type ArrayData = Array<Record<string, BasicTypes>>;
+export type ArrayData = Array<Record<string, BasicTypes | ArrayData>>;
 export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
 
 export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;

@@ -3,7 +3,6 @@ import type { ArrayConfigClient } from "~/services/array";
 import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: false,
