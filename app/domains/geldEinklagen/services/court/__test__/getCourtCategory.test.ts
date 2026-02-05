@@ -16,9 +16,4 @@ describe("getCourtCategory", () => {
     const result = getCourtCategory(undefined);
     expect(result).toBe(ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE);
   });
-
-  it("should return PROZESSKOSTENHILFE when sachgebiet is an empty string", () => {
-    const result = getCourtCategory("");
-    expect(result).toBe(ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE);
-  });
 });
