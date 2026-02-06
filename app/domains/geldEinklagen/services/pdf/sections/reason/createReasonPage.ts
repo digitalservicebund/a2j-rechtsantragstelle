@@ -1,5 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
+import { addFactsOfCases } from "./addFactsOfCases";
+import { addEvidencesOnFacts } from "./addEvidencesOnFacts";
 
 const REASON_TITLE_TEXT = "Begründung";
 
@@ -26,4 +28,7 @@ export const createReasonPage = (
   );
 
   documentStruct.add(reasonSect);
+
+  addFactsOfCases(doc, reasonSect);
+  addEvidencesOnFacts(doc, reasonSect);
 };
