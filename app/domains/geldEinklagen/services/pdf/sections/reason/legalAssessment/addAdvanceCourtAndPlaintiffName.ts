@@ -7,6 +7,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
+import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
@@ -25,9 +26,6 @@ export function addAdvanceCourtAndPlaintiffName(
   }: GeldEinklagenFormularUserData,
 ) {
   const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} 0 ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
-  const advanceCourtTextHeight = doc.heightOfString(advanceCourtText, {
-    width: PDF_WIDTH_SEIZE,
-  });
 
   const plaintiffName = getFullPlaintiffName(
     klagendePersonAnrede,
@@ -36,12 +34,14 @@ export function addAdvanceCourtAndPlaintiffName(
     klagendePersonNachname,
   );
 
-  const plaintiffNameTextHeight = doc.heightOfString(plaintiffName, {
-    width: PDF_WIDTH_SEIZE,
-  });
+  const textHeight = getHeightOfString(
+    [advanceCourtText, plaintiffName],
+    doc,
+    PDF_WIDTH_SEIZE,
+  );
 
   addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: advanceCourtTextHeight + plaintiffNameTextHeight,
+    extraYPosition: textHeight,
     moveDownFactor: 1.5,
     numberOfParagraphs: 2,
   });
