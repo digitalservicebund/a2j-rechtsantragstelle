@@ -16,7 +16,7 @@ const buildGeldEinklagenPDFDocument: PDFDocumentBuilder<
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createFirstPage(doc, documentStruct, userData);
-  createReasonPage(doc, documentStruct);
+  createReasonPage(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData, createBankInformation);
 };
 
