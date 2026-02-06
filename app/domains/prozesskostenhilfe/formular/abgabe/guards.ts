@@ -11,4 +11,6 @@ export const readyForAbgabe: GenericGuard<
   ProzesskostenhilfeFormularUserData
 > = ({ context }) =>
   !!context.pageData?.subflowDoneStates &&
-  Object.values(context.pageData.subflowDoneStates).every(Boolean);
+  Object.entries(context.pageData.subflowDoneStates)
+    .filter(([stepId]) => !stepId.startsWith("/abgabe"))
+    .every(([, subflowDone]) => Boolean(subflowDone));
