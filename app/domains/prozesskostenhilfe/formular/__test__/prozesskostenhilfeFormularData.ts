@@ -116,7 +116,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
     {
       vorname: faker.person.firstName(),
       nachname: faker.person.lastName(),
-      geburtsdatum: "01.01.2010",
+      geburtsdatum: { day: "01", month: "01", year: "2010" },
       wohnortBeiAntragsteller: YesNoAnswer.enum.yes,
       eigeneEinnahmen: YesNoAnswer.enum.yes,
       einnahmen: faker.finance.amount(),
@@ -127,7 +127,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       familyRelationship: familyRelationshipSchema.enum.mother,
       firstName: faker.person.firstName(),
       surname: faker.person.lastName(),
-      birthday: "01.01.2010",
+      birthday: { day: "01", month: "01", year: "2010" },
       monthlyPayment: faker.finance.amount(),
     },
   ],
@@ -153,7 +153,7 @@ export const happyPathData: ProzesskostenhilfeFormularUserData = {
       zahlungspflichtiger: "myself",
       betragGesamt: faker.finance.amount(),
       restschuld: faker.finance.amount(),
-      laufzeitende: "01.01.2045",
+      laufzeitende: { day: "01", month: "01", year: "2045" },
     },
   ],
   sonstigeAusgaben: [

@@ -166,7 +166,13 @@ export function calculateFreibetragBerHFormular({
 
   if (kinder.length > 0) {
     const childrenFreibetrag = kinder.reduce((acc, kind) => {
-      const birthday = dateUTCFromGermanDateString(kind.geburtsdatum);
+      const birthday = dateUTCFromGermanDateString(
+        kind.geburtsdatum.day +
+          "." +
+          kind.geburtsdatum.month +
+          "." +
+          kind.geburtsdatum.year,
+      );
       const einnahmen = Number.parseInt(
         "einnahmen" in kind ? kind.einnahmen : "0",
       );

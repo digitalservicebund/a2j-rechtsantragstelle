@@ -1,5 +1,8 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createSplitDateSchema } from "~/services/validation/date";
+import {
+  createSplitDateSchema,
+  MINUS_150_YEARS,
+} from "~/services/validation/date";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -22,7 +25,7 @@ export const berHAntragPersoenlicheDatenPages = {
     stepId: "persoenliche-daten/geburtsdatum",
     pageSchema: {
       geburtsdatum: createSplitDateSchema({
-        earliest: () => addYears(today(), -150),
+        earliest: () => addYears(today(), MINUS_150_YEARS),
         latest: () => today(),
       }),
     },

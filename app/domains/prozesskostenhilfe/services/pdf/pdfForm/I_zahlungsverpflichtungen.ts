@@ -33,6 +33,13 @@ const versicherungMapping = {
 
 const ZAHLUNGSVERPFLICHTUNG_DESCRIPTION_LINE_LENGTH = 41;
 
+const formatDate = (date?: {
+  day: string;
+  month: string;
+  year: string;
+}): string | undefined =>
+  date ? `${date.day}.${date.month}.${date.year}` : undefined;
+
 const mapVersicherungsArt = (versicherung: Versicherung) =>
   versicherung.art === "sonstige"
     ? versicherung.sonstigeArt
@@ -44,7 +51,7 @@ const mapRatenzahlungAndSonstigeAusgabeToZahlungsverpflichtung = (
   description:
     `${ratenzahlungOrSonstigeAusgabe.art}, ${ratenzahlungOrSonstigeAusgabe.zahlungsempfaenger}` +
     ("laufzeitende" in ratenzahlungOrSonstigeAusgabe
-      ? `, bis ${ratenzahlungOrSonstigeAusgabe.laufzeitende}`
+      ? `, bis ${formatDate(ratenzahlungOrSonstigeAusgabe.laufzeitende)}`
       : ""),
   restschuld:
     "restschuld" in ratenzahlungOrSonstigeAusgabe
@@ -107,7 +114,7 @@ const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
     if ("laufzeitende" in zahlung)
       attachment.push({
         title: "Laufzeitende",
-        text: zahlung.laufzeitende,
+        text: formatDate(zahlung.laufzeitende),
       });
   });
 };

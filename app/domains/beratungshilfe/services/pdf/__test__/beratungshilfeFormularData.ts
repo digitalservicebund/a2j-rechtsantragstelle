@@ -37,7 +37,7 @@ export const happyPathData: BeratungshilfeFormularUserData = {
     {
       vorname: "Kind 1",
       nachname: "Nachname 1",
-      geburtsdatum: "12.12.1212",
+      geburtsdatum: { day: "12", month: "12", year: "2012" },
       wohnortBeiAntragsteller: "no",
       unterhalt: "yes",
       unterhaltsSumme: "10",
@@ -45,7 +45,7 @@ export const happyPathData: BeratungshilfeFormularUserData = {
     {
       vorname: "Kind 2",
       nachname: "Nachname 2",
-      geburtsdatum: "11.12.1212",
+      geburtsdatum: { day: "11", month: "11", year: "2011" },
       wohnortBeiAntragsteller: "yes",
       eigeneEinnahmen: "yes",
       einnahmen: "10",

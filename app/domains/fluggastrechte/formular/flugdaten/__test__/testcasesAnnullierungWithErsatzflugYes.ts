@@ -1,6 +1,7 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
+import { daysFromToday } from "./mockedDate";
 
 const baseContext = {
   ...fluggesellschaftAddresse,
@@ -8,14 +9,14 @@ const baseContext = {
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "01.05.2023",
+  direktAbflugsDatum: daysFromToday(0),
   direktAbflugsZeit: "10:00",
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: daysFromToday(0),
   direktAnkunftsZeit: "10:00",
   annullierungErsatzverbindungFlugnummer: "BCA4321",
-  annullierungErsatzverbindungAbflugsDatum: "10.03.2024",
+  annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
   annullierungErsatzverbindungAbflugsZeit: "10:10",
-  annullierungErsatzverbindungAnkunftsDatum: "10.03.2024",
+  annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
   annullierungErsatzverbindungAnkunftsZeit: "10:10",
 };
 

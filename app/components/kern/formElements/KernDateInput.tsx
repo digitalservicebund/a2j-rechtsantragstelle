@@ -2,14 +2,20 @@ import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
-import { KernIcon } from "../common/KernIcon";
+import { ErrorMessageProps } from "~/components/common/types";
+import InputError from "./InputError";
 
 type KernDateInputProps = {
   name: string;
   helperText?: string;
+  errorMessages?: ErrorMessageProps[];
 };
 
-const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
+const KernDateInput = ({
+  name,
+  helperText,
+  errorMessages,
+}: KernDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -64,7 +70,9 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[day] ?? "off"}
             name={day}
-            aria-required="true"
+            aria-required={
+              !!errorMessages?.find((err) => err.code === "required")
+            }
             aria-invalid={dayError !== null}
             aria-describedby={[
               dayError && errorId,
@@ -78,7 +86,6 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
             }}
           />
         </div>
-
         <div className="kern-form-input">
           <label className="kern-label" id={month}>
             {translations.splitDateComponent.monatInputLabel.de}
@@ -100,7 +107,9 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[month] ?? "off"}
             name={month}
-            aria-required="true"
+            aria-required={
+              !!errorMessages?.find((err) => err.code === "required")
+            }
             aria-invalid={monthError !== null}
             aria-describedby={[
               monthError && errorId,
@@ -114,7 +123,6 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
             }}
           />
         </div>
-
         <div className="kern-form-input">
           <label className="kern-label" id={year}>
             {translations.splitDateComponent.jahrInputLabel.de}
@@ -136,7 +144,9 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
             type="text"
             autoComplete={autocompleteMap[year] ?? "off"}
             name={year}
-            aria-required="true"
+            aria-required={
+              !!errorMessages?.find((err) => err.code === "required")
+            }
             aria-invalid={yearError !== null}
             aria-describedby={[
               yearError && errorId,
@@ -152,15 +162,9 @@ const KernDateInput = ({ name, helperText }: KernDateInputProps) => {
         </div>
       </div>
       {hasError && (
-        <p className="kern-error" id="kern-error" role="alert">
-          <KernIcon
-            name="emergency-home"
-            className="fill-kern-feedback-danger!"
-          />
-          <span className="text-kern-feedback-danger" id={errorId}>
-            {dayError ?? monthError ?? yearError}
-          </span>
-        </p>
+        <InputError id={errorId}>
+          {dayError ?? monthError ?? yearError}
+        </InputError>
       )}
     </fieldset>
   );

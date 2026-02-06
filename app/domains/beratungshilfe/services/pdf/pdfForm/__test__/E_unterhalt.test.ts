@@ -35,7 +35,7 @@ describe("E_unterhalt", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "no",
           unterhaltsSumme: "100",
           unterhalt: "yes",
@@ -43,7 +43,7 @@ describe("E_unterhalt", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          geburtsdatum: "01.01.2010",
+          geburtsdatum: { day: "01", month: "01", year: "2010" },
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
           einnahmen: "50",
@@ -54,7 +54,7 @@ describe("E_unterhalt", () => {
           familyRelationship: "grandchild",
           firstName: "firstName",
           surname: "surname",
-          birthday: "10.10.2000",
+          birthday: { day: "01", month: "01", year: "2000" },
           monthlyPayment: "100",
         },
       ],
@@ -82,7 +82,7 @@ describe("E_unterhalt", () => {
     expect(pdfValues.e1Person2.value).toEqual(
       `${child1.vorname} ${child1.nachname}`,
     );
-    expect(pdfValues.e2Geburtsdatum2.value).toEqual(child1.geburtsdatum);
+    expect(pdfValues.e2Geburtsdatum2.value).toEqual(child1.geburtsdatum.day + "." + child1.geburtsdatum.month + "." + child1.geburtsdatum.year);
     expect(pdfValues.e3Familienverhaeltnis2.value).toEqual("Kind");
     expect(pdfValues.e4Zahlung2.value).toEqual(child1.unterhaltsSumme + " €");
 
@@ -91,7 +91,7 @@ describe("E_unterhalt", () => {
     expect(pdfValues.e1Person3.value).toEqual(
       `${child2.vorname} ${child2.nachname}`,
     );
-    expect(pdfValues.e2Geburtsdatum3.value).toEqual(child2.geburtsdatum);
+    expect(pdfValues.e2Geburtsdatum3.value).toEqual(child2.geburtsdatum.day + "." + child2.geburtsdatum.month + "." + child2.geburtsdatum.year);
     expect(pdfValues.e3Familienverhaeltnis3.value).toEqual("Kind");
     expect(pdfValues.e6Betrag3.value).toEqual(child2.einnahmen + " €");
 
@@ -100,7 +100,7 @@ describe("E_unterhalt", () => {
     expect(pdfValues.e1Person4.value).toEqual(
       `${other.firstName} ${other.surname}`,
     );
-    expect(pdfValues.e2Geburtsdatum4.value).toEqual(other.birthday);
+    expect(pdfValues.e2Geburtsdatum4.value).toEqual(other.birthday.day + "." + other.birthday.month + "." + other.birthday.year);
     expect(pdfValues.e3Familienverhaeltnis4.value).toEqual(
       familyRelationshipMap[other.familyRelationship],
     );
@@ -112,7 +112,7 @@ describe("E_unterhalt", () => {
       kinder: times(6, () => ({
         vorname: "Max",
         nachname: "Mustermann",
-        geburtsdatum: "01.01.2010",
+        geburtsdatum: { day: "01", month: "01", year: "2010" },
         wohnortBeiAntragsteller: "no",
         unterhaltsSumme: "100",
         unterhalt: "yes",

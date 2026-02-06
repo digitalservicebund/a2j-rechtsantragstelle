@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import { createSplitDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -13,7 +13,8 @@ const sharedAusgabenFields = {
   beitrag: buildMoneyValidationSchema(),
   hasZahlungsfrist: YesNoAnswer,
 };
-const zahlungsfristSchema = createDateSchema({ earliest: () => today() });
+
+const zahlungsfristSchema = createSplitDateSchema({ earliest: () => today() });
 
 export const ausgabenArraySchema = z
   .union([

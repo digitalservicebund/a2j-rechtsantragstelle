@@ -333,7 +333,7 @@ describe("kinderDone", () => {
             {
               vorname: "Kinder",
               nachname: "McKindery",
-              geburtsdatum: "01.10.2016",
+              geburtsdatum: { day: "01", month: "10", year: "2016" },
               wohnortBeiAntragsteller: "yes",
               eigeneEinnahmen: "yes",
               einnahmen: "100",

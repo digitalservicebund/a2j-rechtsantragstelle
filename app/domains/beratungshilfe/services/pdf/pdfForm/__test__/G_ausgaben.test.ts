@@ -4,7 +4,7 @@ import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { AUSGABEN_ATTACHMENT_TITLE, fillAusgaben } from "../G_ausgaben";
 
 const expensesRecipients = "ausgaben empfänger";
-const paymentDeadlineDate = "12.12.2099";
+const paymentDeadlineDate = { day: "12", month: "12", year: "2099" };
 describe("G_ausgaben", () => {
   describe("zahlungsverpflichtungen", () => {
     test.each([
@@ -42,7 +42,7 @@ describe("G_ausgaben", () => {
       });
       expect(pdfValues.g21.value).toEqual("ausgaben art");
       expect(pdfValues.g31.value).toEqual(expensesRecipients);
-      expect(pdfValues.g5Raten1.value).toEqual(paymentDeadlineDate);
+      expect(pdfValues.g5Raten1.value).toEqual(paymentDeadlineDate.day + "." + paymentDeadlineDate.month + "." + paymentDeadlineDate.year);
       expect(pdfValues.g7Zahlung1.value).toEqual("12,00");
     });
 

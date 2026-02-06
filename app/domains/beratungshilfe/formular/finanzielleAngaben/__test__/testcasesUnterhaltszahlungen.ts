@@ -23,7 +23,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
               firstName: "a",
               surname: "b",
               familyRelationship: "kid",
-              birthday: "10.10.2010",
+              birthday: { day: "10", month: "10", year: "2010" },
               monthlyPayment: "10",
             },
           ],

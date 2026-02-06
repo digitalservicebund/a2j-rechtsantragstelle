@@ -2,9 +2,9 @@ import z from "zod";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { type ArrayConfigServer } from "~/services/array";
-import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { createSplitDateSchema } from "~/services/validation/date";
 
 const testArrayPageSchema: PagesConfig = {
   testArrayPage: {
@@ -14,7 +14,7 @@ const testArrayPageSchema: PagesConfig = {
         z.object({
           vorname: stringRequiredSchema,
           nachname: stringRequiredSchema,
-          geburtsdatum: createDateSchema(),
+          geburtsdatum: createSplitDateSchema(),
         }),
       ),
       hasKinder: z.enum(["yes", "no"]),
@@ -24,7 +24,7 @@ const testArrayPageSchema: PagesConfig = {
         pageSchema: {
           "kinder#vorname": stringRequiredSchema,
           "kinder#nachname": stringRequiredSchema,
-          "kinder#geburtsdatum": createDateSchema(),
+          "kinder#geburtsdatum": createSplitDateSchema(),
         },
       },
     },
@@ -39,14 +39,14 @@ const testMultipleArraysSchema: PagesConfig = {
         z.object({
           vorname: stringRequiredSchema,
           nachname: stringRequiredSchema,
-          geburtsdatum: createDateSchema(),
+          geburtsdatum: createSplitDateSchema(),
         }),
       ),
       test: z.array(
         z.object({
           vorname: stringRequiredSchema,
           nachname: stringRequiredSchema,
-          geburtsdatum: createDateSchema(),
+          geburtsdatum: createSplitDateSchema(),
         }),
       ),
       hasKinder: z.enum(["yes", "no"]),
@@ -56,7 +56,7 @@ const testMultipleArraysSchema: PagesConfig = {
         pageSchema: {
           "kinder#vorname": stringRequiredSchema,
           "kinder#nachname": stringRequiredSchema,
-          "kinder#geburtsdatum": createDateSchema(),
+          "kinder#geburtsdatum": createSplitDateSchema(),
         },
       },
     },

@@ -13,7 +13,12 @@ export const fillFooter: BerHPdfFillFunction = ({ userData, pdfValues }) => {
         userData.anwaltStrasseUndHausnummer,
         `${userData.anwaltPlz} ${userData.anwaltOrt}`,
       ].join(", ");
-      pdfValues.datumBeratung.value = userData.beratungStattgefundenDatum ?? "";
+      pdfValues.datumBeratung.value =
+        userData.beratungStattgefundenDatum?.day +
+        "." +
+        userData.beratungStattgefundenDatum?.month +
+        "." +
+        userData.beratungStattgefundenDatum?.year;
     }
   }
   pdfValues.ortDatum2.value = `${uppercaseFirstLetter(userData.ort)}, ${toGermanDateFormat(

@@ -1,14 +1,15 @@
 import { type FluggastrechteUserData } from "../../userData";
 import { flugdatenDone } from "../doneFunctions";
 import { fluggesellschaftAddresse } from "./flugdatenMock";
+import { daysFromToday } from "./mockedDate";
 
 const baseContextWithAirlineAddress: FluggastrechteUserData = {
   ...fluggesellschaftAddresse,
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "10.03.2024",
+  direktAbflugsDatum: daysFromToday(0),
   direktAbflugsZeit: "09:09",
-  direktAnkunftsDatum: "10.03.2024",
+  direktAnkunftsDatum: daysFromToday(0),
   direktAnkunftsZeit: "09:09",
   zusaetzlicheAngaben: "nice",
 };
@@ -16,9 +17,9 @@ const baseContextWithAirlineAddress: FluggastrechteUserData = {
 const baseContextWithoutAirlineAddress: FluggastrechteUserData = {
   direktFlugnummer: "AB6303",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "10.03.2024",
+  direktAbflugsDatum: daysFromToday(0),
   direktAbflugsZeit: "09:09",
-  direktAnkunftsDatum: "10.03.2024",
+  direktAnkunftsDatum: daysFromToday(0),
   direktAnkunftsZeit: "09:09",
   zusaetzlicheAngaben: "nice",
 };
@@ -32,7 +33,7 @@ describe("flugdatenDone", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
-        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsDatum: daysFromToday(0),
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
 
@@ -160,13 +161,18 @@ describe("flugdatenDone", () => {
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(-0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(-0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
+        ersatzflugStartenEinStunde: "",
+        ersatzflugLandenZweiStunden: "",
+        ersatzflugStartenZweiStunden: "",
+        ersatzflugLandenVierStunden: "",
       } as const;
 
+      console.log("context", context);
       expect(flugdatenDone({ context })).toBe(true);
     });
 
@@ -175,9 +181,9 @@ describe("flugdatenDone", () => {
         ...baseContextWithAirlineAddress,
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -192,7 +198,7 @@ describe("flugdatenDone", () => {
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -206,8 +212,8 @@ describe("flugdatenDone", () => {
         zwischenstoppAnzahl: "no",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -221,9 +227,9 @@ describe("flugdatenDone", () => {
         zwischenstoppAnzahl: "oneStop",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -238,9 +244,9 @@ describe("flugdatenDone", () => {
         ersterZwischenstopp: "BER",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -256,9 +262,9 @@ describe("flugdatenDone", () => {
         zweiterZwischenstopp: "BER",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -276,9 +282,9 @@ describe("flugdatenDone", () => {
         verspaeteterFlugThreeStops: "secondAirportThirdZwischenstopp",
         bereich: "annullierung",
         annullierungErsatzverbindungFlugnummer: "XY1234",
-        annullierungErsatzverbindungAbflugsDatum: "11.03.2024",
+        annullierungErsatzverbindungAbflugsDatum: daysFromToday(0),
         annullierungErsatzverbindungAbflugsZeit: "10:10",
-        annullierungErsatzverbindungAnkunftsDatum: "11.03.2024",
+        annullierungErsatzverbindungAnkunftsDatum: daysFromToday(0),
         annullierungErsatzverbindungAnkunftsZeit: "10:10",
         ersatzflug: "yes",
       } as const;
@@ -306,7 +312,7 @@ describe("flugdatenDone", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
+        ersatzFlugAnkunftsDatum: daysFromToday(0),
         ersatzFlugAnkunftsZeit: "10:10",
       } as const;
 
@@ -353,7 +359,7 @@ describe("flugdatenDone", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
+        ersatzFlugAnkunftsDatum: daysFromToday(0),
         ersatzFlugAnkunftsZeit: "10:10",
       } as const;
 
@@ -368,7 +374,7 @@ describe("flugdatenDone", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
+        ersatzFlugAnkunftsDatum: daysFromToday(0),
         ersatzFlugAnkunftsZeit: "10:10",
       } as const;
 
@@ -384,7 +390,7 @@ describe("flugdatenDone", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
+        ersatzFlugAnkunftsDatum: daysFromToday(0),
         ersatzFlugAnkunftsZeit: "10:10",
       } as const;
 
@@ -402,7 +408,7 @@ describe("flugdatenDone", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         ersatzFlugnummer: "XY1234",
-        ersatzFlugAnkunftsDatum: "11.03.2024",
+        ersatzFlugAnkunftsDatum: daysFromToday(0),
         ersatzFlugAnkunftsZeit: "10:10",
       } as const;
 
@@ -419,7 +425,7 @@ describe("flugdatenDone", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
-        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsDatum: daysFromToday(0),
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
 
@@ -435,7 +441,7 @@ describe("flugdatenDone", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
-        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsDatum: daysFromToday(0),
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
 
@@ -451,7 +457,7 @@ describe("flugdatenDone", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "no",
         ersatzverbindungArt: "etwasAnderes",
-        andereErsatzverbindungAnkunftsDatum: "11.03.2024",
+        andereErsatzverbindungAnkunftsDatum: daysFromToday(0),
         andereErsatzverbindungAnkunftsZeit: "11:00",
       } as const;
 

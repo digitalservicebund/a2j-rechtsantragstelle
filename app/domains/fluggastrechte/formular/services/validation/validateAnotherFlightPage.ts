@@ -21,12 +21,20 @@ export function validateAnotherFlightPage(
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsDatum.day +
+        "." +
+        ctx.value.direktAnkunftsDatum.month +
+        "." +
+        ctx.value.direktAnkunftsDatum.year,
       ctx.value.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.ersatzFlugAnkunftsDatum,
+      ctx.value.ersatzFlugAnkunftsDatum +
+        "." +
+        ctx.value.ersatzFlugAnkunftsDatum.month +
+        "." +
+        ctx.value.ersatzFlugAnkunftsDatum.year,
       ctx.value.ersatzFlugAnkunftsZeit,
     );
 
