@@ -3,6 +3,7 @@ import { Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -11,6 +12,7 @@ import {
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
 import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
+import KernPersoenlicheDatenLoeschen from "./kern/kern-persoenliche-daten-loeschen";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { referrer } = request;
@@ -35,6 +37,12 @@ export default function PersoenlicheDatenLoeschen() {
   const { content, translations, backButton } = useLoaderData<typeof loader>();
   const isSubmitting = useNavigation().state === "submitting";
 
+  const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return <KernPersoenlicheDatenLoeschen />;
+  }
+  
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} />

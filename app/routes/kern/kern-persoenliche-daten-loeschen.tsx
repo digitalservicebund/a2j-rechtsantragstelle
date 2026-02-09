@@ -1,8 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
+import KernButton from "~/components/kern/KernButton";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -45,27 +44,14 @@ export default function KernPersoenlicheDatenLoeschen() {
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
           >
-            <Form
-              method="post"
-              action="/action/delete-data"
-            >
-              <ButtonContainer>
-                <Button
-                  type="button"
-                  href={backButton}
-                  look="tertiary"
-                  size="large"
-                  text={translations.back ?? "Zurück ohne zu löschen"}
-                />
-                <Button
-                  type="submit"
-                  look="primary"
-                  size="large"
-                  text={translations.confirm ?? "Ja, Daten löschen"}
-                  id="submitButton"
-                  disabled={isSubmitting}
-                />
-              </ButtonContainer>
+            <Form method="post" action="/action/delete-data">
+              <KernButton
+                type="submit"
+                look="primary"
+                text={translations.confirm ?? "Ja, Daten löschen"}
+                id="submitButton"
+                disabled={isSubmitting}
+              />
             </Form>
           </GridItem>
         </Grid>
