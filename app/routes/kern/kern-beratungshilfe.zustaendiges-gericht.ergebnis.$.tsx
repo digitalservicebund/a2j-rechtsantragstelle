@@ -1,11 +1,10 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
-import { BACKGROUND_COLORS } from "~/components";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import ContentComponents from "~/components/content/ContentComponents";
-import CourtDetails from "~/components/CourtDetails";
+import { KernIcon } from "~/components/kern/common/KernIcon";
+import KernHeading from "~/components/kern/KernHeading";
+import KernCourtDetails from "~/components/KernCourtDetails";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -14,8 +13,6 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { KernZuestandigesGerichErgebnis } from "./kern/kern-beratungshilfe.zustaendiges-gericht.ergebnis.$";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
@@ -39,16 +36,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return { court, content, meta: pageMeta };
 };
 
-export const Component = () => {
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernZuestandigesGerichErgebnis />;
-  }
+export const KernZuestandigesGerichErgebnis = () => {
   const { court, content } = useLoaderData<typeof loader>();
 
   return (
-    <GridSection className={BACKGROUND_COLORS.blue} pt="48" pb="40">
+    <GridSection pt="48" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -56,16 +48,17 @@ export const Component = () => {
           xlColumn={{ start: 3, span: 8 }}
           row={1}
         >
-          <span className="ds-label-03-reg">Amtsgericht finden</span>
-          <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
-            Ihr zuständiges Amtsgericht
-          </Heading>
+          <span>Amtsgericht finden</span>
+          <KernHeading
+            tagName="h1"
+            text="Ihr zuständiges Amtsgericht"
+            className="mt-16"
+          />
         </GridItem>
       </Grid>
       <Grid
         className="py-40"
         background={{
-          className: `${BACKGROUND_COLORS.white} rounded-lg`,
           mdColumn: { start: 1, span: 8 },
           lgColumn: { start: 2, span: 10 },
           xlColumn: { start: 2, span: 10 },
@@ -77,7 +70,7 @@ export const Component = () => {
           xlColumn={{ start: 3, span: 8 }}
           className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
         >
-          <CourtDetails
+          <KernCourtDetails
             name={court.BEZEICHNUNG}
             street={court.STR_HNR}
             city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
@@ -96,10 +89,10 @@ export const Component = () => {
           xlColumn={{ start: 3, span: 8 }}
           row={3}
         >
-          <StandaloneLink
-            text="Suche wiederholen"
-            url="/beratungshilfe/zustaendiges-gericht/suche"
-          />
+          <a href="/beratungshilfe/zustaendiges-gericht/suche" className="flex kern-link no-underline!">
+          <KernIcon name="arrow-forward"/>
+            Suche wiederholen
+          </a>
         </GridItem>
       </Grid>
       <ContentComponents content={content} />
@@ -107,4 +100,4 @@ export const Component = () => {
   );
 };
 
-export default Component;
+export default KernZuestandigesGerichErgebnis;

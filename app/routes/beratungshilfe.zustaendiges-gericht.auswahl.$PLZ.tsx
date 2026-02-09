@@ -24,6 +24,7 @@ import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
+import KernZuestandigesGerichtPlz from "./kern/kern-beratungshilfe.zustaendiges-gericht.auswahl.$PLZ";
 
 const requiredError: ErrorMessageProps = {
   code: "required",
@@ -78,6 +79,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
   const showKernUX = useShowKernUX();
+
+  if(showKernUX) {
+    return <KernZuestandigesGerichtPlz />;
+  }
 
   return (
     <div className="flex flex-col grow bg-blue-100">
