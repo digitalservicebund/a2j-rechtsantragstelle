@@ -14,7 +14,65 @@ const sharedAusgabenFields = {
   hasZahlungsfrist: YesNoAnswer,
 };
 
-const zahlungsfristSchema = createSplitDateSchema({ earliest: () => today() });
+// For Zahlungsfrist we allow future dates (deadlines), so we can't use the
+// generic birthdate-oriented split date schema which forbids years after today.
+// This custom schema keeps the same split-date shape but only enforces basic
+// numeric ranges plus "not before today".
+const zahlungsfristSchema = z
+  .object({
+    day: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((val) => {
+        const num = Number(val);
+        return !Number.isNaN(num) && num >= 1 && num <= 31;
+      }),
+    month: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((val) => {
+        const num = Number(val);
+        return !Number.isNaN(num) && num >= 1 && num <= 12;
+      }),
+    year: z
+      .string()
+      .trim()
+      .min(1)
+      .refine((val) => {
+        const num = Number(val);
+        return !Number.isNaN(num) && num >= 1900;
+      }),
+  })
+  .superRefine((data, ctx) => {
+    const date = new Date(
+      Number(data.year),
+      Number(data.month) - 1,
+      Number(data.day),
+    );
+    const todayDate = today();
+    // Normalize both to midnight UTC to avoid timezone edge cases
+    const normalizedDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
+    const normalizedToday = new Date(
+      todayDate.getFullYear(),
+      todayDate.getMonth(),
+      todayDate.getDate(),
+    );
+
+    if (normalizedDate < normalizedToday) {
+      ctx.addIssue({
+        code: "custom",
+        message: "too_early",
+        path: ["year"],
+      });
+    }
+  })
+  .meta({ description: "split_date" });
 
 export const ausgabenArraySchema = z
   .union([

@@ -69,7 +69,11 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/laufzeitende",
       userInput: {
-        "ratenzahlungen#laufzeitende": toGermanDateFormat(addYears(today(), 1)),
+        "ratenzahlungen#laufzeitende": {
+          day: "01",
+          month: "01",
+          year: `${new Date().getFullYear() + 1}`,
+        },
       },
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },

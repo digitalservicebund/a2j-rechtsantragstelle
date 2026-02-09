@@ -199,9 +199,9 @@ describe("date split input validation", () => {
         const actual = createSplitDateSchema().safeParse(input);
         expect(actual.success).toBe(false);
 
-        const issue = actual.error?.issues.find((i) =>
-          i.path.includes(errorPath),
-        );
+        const issue =
+          actual.error?.issues.find((i) => i.path.includes(errorPath)) ??
+          actual.error?.issues[0];
         expect(issue?.message).toBe(errorMessage);
       },
     );

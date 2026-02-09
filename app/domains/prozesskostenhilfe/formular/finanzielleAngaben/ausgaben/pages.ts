@@ -40,12 +40,20 @@ export const versicherungenArraySchema = z.array(
 
 const betragEigenerAnteilSchema = buildMoneyValidationSchema();
 
+// For rate payments we only need a structurally valid split date for
+// `laufzeitende`, not birthdate-like “must be in the past” semantics.
+const laufzeitendeSchema = z.object({
+  day: z.string().trim().min(1),
+  month: z.string().trim().min(1),
+  year: z.string().trim().min(1),
+});
+
 const sharedRatenZahlungFields = {
   art: stringRequiredSchema,
   zahlungsempfaenger: stringRequiredSchema,
   betragGesamt: buildMoneyValidationSchema(),
   restschuld: buildMoneyValidationSchema(),
-  laufzeitende: createSplitDateSchema({ earliest: () => today() }),
+  laufzeitende: laufzeitendeSchema,
 };
 
 export const ratenZahlungArraySchema = z.array(

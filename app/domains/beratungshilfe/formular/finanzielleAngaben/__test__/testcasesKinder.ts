@@ -59,7 +59,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: "01", month: "01", year: "2005" },
       },
     },
     {
@@ -89,7 +89,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: "01", month: "01", year: "2005" },
       },
     },
     {
@@ -118,7 +118,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: "01", month: "01", year: "2005" },
       },
     },
     {

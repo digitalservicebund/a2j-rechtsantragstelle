@@ -113,43 +113,57 @@ describe("ValidatedFlowForm", () => {
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
         code: "invalid",
-        text: "Please enter a valid date.",
+        text: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
       },
       "date",
     );
 
     it("should display an error if the user enters an invalid date", async () => {
-      const { getByText, getByRole } = renderValidatedFlowForm([component]);
+      const { getByText, getByLabelText } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
-      const dateInputComponent = getByRole("textbox");
+      const dayInput = getByLabelText("Tag");
+      const monthInput = getByLabelText("Monat");
+      const yearInput = getByLabelText("Jahr");
       expect(nextButton).toBeInTheDocument();
 
-      fireEvent.input(dateInputComponent, {
-        target: { value: "13,20,2024" },
+      fireEvent.input(dayInput, {
+        target: { value: "32" },
       });
-      fireEvent.blur(dateInputComponent);
+      fireEvent.input(monthInput, {
+        target: { value: "13" },
+      });
+      fireEvent.input(yearInput, {
+        target: { value: "2024" },
+      });
+      fireEvent.blur(yearInput);
       await expectInputErrorToExist();
 
       fireEvent.click(nextButton);
       await waitFor(async () => {
-        expect(dateInputComponent).toHaveFocus();
+        expect(dayInput).toHaveFocus();
         await expectInputErrorToExist();
       });
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
-        component,
-      ]);
-      const dateInputComponent = getByRole("textbox");
+      const { getByText, getByLabelText, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      const dayInput = getByLabelText("Tag");
+      const monthInput = getByLabelText("Monat");
+      const yearInput = getByLabelText("Jahr");
 
-      fireEvent.input(dateInputComponent, {
-        target: { value: "10.12.2024" },
+      fireEvent.input(dayInput, {
+        target: { value: "10" },
+      });
+      fireEvent.input(monthInput, {
+        target: { value: "12" },
+      });
+      fireEvent.input(yearInput, {
+        target: { value: "2024" },
       });
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
-        expect(dateInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
       });

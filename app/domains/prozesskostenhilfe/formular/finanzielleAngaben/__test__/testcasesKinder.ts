@@ -1,6 +1,11 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
+import { addYears, today, toGermanDateFormat } from "~/util/date";
+
+const oneYearAgo = addYears(today(), -1);
+const [childDay, childMonth, childYear] =
+  toGermanDateFormat(oneYearAgo).split(".");
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = {
   doesntHaveChildren: [
@@ -51,7 +56,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
       },
     },
     {
@@ -89,7 +94,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
       },
     },
     {
@@ -126,7 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": "01.01.2005",
+        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
       },
     },
     {

@@ -15,6 +15,27 @@ const isValidDate = (date: string) =>
 export const toDateString = (day?: number, month?: number, year?: number) =>
   `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
 
+type SplitDate =
+  | { day: string; month: string; year: string }
+  | { day: number; month: number; year: number };
+
+export const toDateStringFromSplitDate = (value: SplitDate | "" | undefined) => {
+  if (value && typeof value === "object") {
+    const { day, month, year } = value as {
+      day: string | number;
+      month: string | number;
+      year: string | number;
+    };
+    return toDateString(
+      Number(day),
+      Number(month),
+      typeof year === "string" ? Number(year) : year,
+    );
+  }
+
+  return "";
+};
+
 export const createDateSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;

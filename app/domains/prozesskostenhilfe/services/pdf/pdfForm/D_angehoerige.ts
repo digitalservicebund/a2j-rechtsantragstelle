@@ -122,11 +122,11 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
       pdfValues[`angehoerigerNr${startCell}`].value =
         `${supportRecipient.firstName} ${supportRecipient.surname}`;
       pdfValues[`geburtsdatum${startCell}`].value =
-        supportRecipient.birthday.year +
-        "-" +
+        supportRecipient.birthday.day +
+        "." +
         supportRecipient.birthday.month +
-        "-" +
-        supportRecipient.birthday.day;
+        "." +
+        supportRecipient.birthday.year;
       pdfValues[`verhaeltnis${startCell}`].value =
         familyRelationshipMap[supportRecipient.familyRelationship];
       pdfValues[`monatsbetrag${startCell}`].value =

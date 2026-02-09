@@ -60,7 +60,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
           "unterhaltszahlungen#familyRelationship": "mother",
           "unterhaltszahlungen#firstName": "a",
           "unterhaltszahlungen#surname": "b",
-          "unterhaltszahlungen#birthday": "01.01.2020",
+        "unterhaltszahlungen#birthday": { day: "01", month: "01", year: "2020" },
           "unterhaltszahlungen#monthlyPayment": "100",
         },
       },

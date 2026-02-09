@@ -7,6 +7,7 @@ import {
   partnerSupportDone,
   wohnungDone,
 } from "../doneFunctions";
+import { ratenZahlungArraySchema } from "../ausgaben/pages";
 import { kraftfahrzeugeDone } from "../eigentum/doneFunctions";
 import { toGermanDateFormat, addYears, today } from "~/util/date";
 
@@ -117,6 +118,8 @@ describe("Finanzielle Angaben doneFunctions", () => {
     });
 
     it("should return true if the user a fully-entered child", () => {
+      const oneYearAgo = addYears(today(), -1);
+      const [day, month, year] = toGermanDateFormat(oneYearAgo).split(".");
       expect(
         kinderDone({
           context: {
@@ -125,7 +128,7 @@ describe("Finanzielle Angaben doneFunctions", () => {
               {
                 vorname: "Kinder",
                 nachname: "McKindery",
-                geburtsdatum: { day: "01", month: "11", year: "2015" },
+                geburtsdatum: { day, month, year },
                 wohnortBeiAntragsteller: "yes",
                 eigeneEinnahmen: "yes",
                 einnahmen: "100",
@@ -377,15 +380,19 @@ describe("ausgabenDone", () => {
       betragGesamt: "50",
     } as const;
 
+    const todayDate = today();
+    const [laufzeitTag, laufzeitMonat, laufzeitJahr] =
+      toGermanDateFormat(todayDate).split(".");
+
     const ausgabenItems = {
       sonstigeAusgaben: zahlung,
       ratenzahlungen: {
         ...zahlung,
         restschuld: "100",
         laufzeitende: {
-          day: "01",
-          month: "01",
-          year: "2023",
+          day: laufzeitTag,
+          month: laufzeitMonat,
+          year: laufzeitJahr,
         },
       },
       versicherungen: {
@@ -399,18 +406,34 @@ describe("ausgabenDone", () => {
       >[0];
     };
 
-    Object.entries(ausgabenItems).forEach(([key, item]) => {
-      it(`returns true with valid ${key}`, () => {
-        expect(
-          ausgabenDone({
-            context: {
-              hasAusgaben: "yes",
-              besondereBelastungen: { none: "on" },
-              [key]: [item],
-            },
-          }),
-        ).toBe(true);
-      });
+    it("returns true with valid sonstigeAusgaben", () => {
+      expect(
+        ausgabenDone({
+          context: {
+            hasAusgaben: "yes",
+            besondereBelastungen: { none: "on" },
+            sonstigeAusgaben: [ausgabenItems.sonstigeAusgaben],
+          },
+        }),
+      ).toBe(true);
+    });
+
+    it("returns true with valid ratenzahlungen", () => {
+      // Ensure our fixture actually satisfies the ratenZahlungArraySchema
+      const parseResult = ratenZahlungArraySchema.safeParse([
+        ausgabenItems.ratenzahlungen,
+      ]);
+      expect(parseResult.success).toBe(true);
+
+      expect(
+        ausgabenDone({
+          context: {
+            hasAusgaben: "yes",
+            besondereBelastungen: { none: "on" },
+            ratenzahlungen: [ausgabenItems.ratenzahlungen],
+          },
+        }),
+      ).toBe(true);
     });
   });
 });
