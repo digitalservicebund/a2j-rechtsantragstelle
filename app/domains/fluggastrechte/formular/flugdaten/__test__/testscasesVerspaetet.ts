@@ -11,6 +11,12 @@ const baseContext = {
   direktAbflugsZeit: "10:00",
   direktAnkunftsDatum: "02.05.2023",
   direktAnkunftsZeit: "10:00",
+  pageData: {
+    subflowDoneStates: {
+      "/flugdaten": true,
+    },
+    arrayIndexes: [0],
+  },
 };
 
 export const testCasesFluggastrechteFormularFlugdatenVerspaetet = [

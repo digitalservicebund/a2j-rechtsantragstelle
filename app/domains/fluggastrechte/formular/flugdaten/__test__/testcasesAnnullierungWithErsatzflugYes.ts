@@ -17,6 +17,12 @@ const baseContext = {
   annullierungErsatzverbindungAbflugsZeit: "10:10",
   annullierungErsatzverbindungAnkunftsDatum: "10.03.2024",
   annullierungErsatzverbindungAnkunftsZeit: "10:10",
+  pageData: {
+    subflowDoneStates: {
+      "/flugdaten": true,
+    },
+    arrayIndexes: [0],
+  },
 };
 
 export const testCasesFluggastrechteFormularFlugdatenAnnullierungWithErsatzflugYes =
