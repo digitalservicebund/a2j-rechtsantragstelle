@@ -10,25 +10,21 @@ import { assign } from "xstate";
 const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
 
 const popLastChild = ({ context }: { context: ErbscheinWegweiserUserData }) => {
-  if ((context.pageData?.nestedArrayHistory?.length ?? 0) > 0) {
-    console.log("popping child!");
-    const { pageData } = context;
-    const newTraversalIndices = pageData?.traversalIndices
-      ? pageData.traversalIndices.slice(0, -1)
-      : [];
-    const newTraversalDepth =
-      newTraversalIndices.length === 0
-        ? (pageData?.traversalDepth ?? 1) - 1
-        : (pageData?.traversalDepth ?? 0);
-    return {
-      nestedArrayHistory: pageData?.nestedArrayHistory
-        ? pageData.nestedArrayHistory.slice(0, -1)
-        : [],
-      traversalIndices: newTraversalIndices,
-      traversalDepth: newTraversalDepth,
-    };
-  }
-  return context.pageData;
+  const { pageData } = context;
+  const newTraversalIndices = pageData?.traversalIndices
+    ? pageData.traversalIndices.slice(0, -1)
+    : [];
+  const newTraversalDepth =
+    newTraversalIndices.length === 0
+      ? (pageData?.traversalDepth ?? 1) - 1
+      : (pageData?.traversalDepth ?? 0);
+  return {
+    nestedArrayHistory: pageData?.nestedArrayHistory
+      ? pageData.nestedArrayHistory.slice(0, -1)
+      : [],
+    traversalIndices: newTraversalIndices,
+    traversalDepth: newTraversalDepth,
+  };
 };
 
 const addDeadChildrenToStack = ({
@@ -36,7 +32,6 @@ const addDeadChildrenToStack = ({
 }: {
   context: ErbscheinWegweiserUserData;
 }) => {
-  console.log("more dead kids");
   const node = getCurrentNode({ context });
   const deadChildrenIndices: number[] = [];
   const deadChildren: NestedKinder[] = [];
@@ -56,6 +51,7 @@ const addDeadChildrenToStack = ({
     traversalIndices: context.pageData?.traversalIndices
       ? context.pageData.traversalIndices.concat(deadChildrenIndices)
       : deadChildrenIndices,
+    traversalDepth: context.pageData?.traversalDepth ?? 0,
   };
 };
 
@@ -64,8 +60,10 @@ const getCurrentNode = ({
   context,
 }: {
   context: ErbscheinWegweiserUserData;
-}): NestedKinder | undefined =>
-  context.pageData?.nestedArrayHistory?.pop() ?? context.kinder;
+}): NestedKinder | undefined => {
+  const lastChildFromHistory = context.pageData?.nestedArrayHistory?.at(-1);
+  return lastChildFromHistory ?? context.kinder;
+};
 
 export const erbscheinWegweiserXstateConfig = {
   id: "/erbschein/wegweiser",
