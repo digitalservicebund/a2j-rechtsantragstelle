@@ -172,7 +172,6 @@ describe("flugdatenDone", () => {
         ersatzflugLandenVierStunden: "",
       } as const;
 
-      console.log("context", context);
       expect(flugdatenDone({ context })).toBe(true);
     });
 

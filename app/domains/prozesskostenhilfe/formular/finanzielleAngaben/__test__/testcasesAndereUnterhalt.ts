@@ -39,7 +39,11 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
         "unterhaltszahlungen#familyRelationship": "kid",
         "unterhaltszahlungen#firstName": "Kind",
         "unterhaltszahlungen#surname": "Mustemann",
-        "unterhaltszahlungen#birthday": { day: "01", month: "01", year: "2020" },
+        "unterhaltszahlungen#birthday": {
+          day: "01",
+          month: "01",
+          year: "2020",
+        },
         "unterhaltszahlungen#monthlyPayment": "100",
       },
     },

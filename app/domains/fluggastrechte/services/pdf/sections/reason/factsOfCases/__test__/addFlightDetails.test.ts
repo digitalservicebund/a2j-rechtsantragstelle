@@ -71,7 +71,13 @@ describe("addFlightDetails", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.direktAbflugsDatum.day + "." + userDataMock.direktAbflugsDatum.month + "." + userDataMock.direktAbflugsDatum.year);
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataMock.direktAbflugsDatum.day +
+        "." +
+        userDataMock.direktAbflugsDatum.month +
+        "." +
+        userDataMock.direktAbflugsDatum.year,
+    );
   });
 
   it("should add the start and end airport to the pdf document", () => {

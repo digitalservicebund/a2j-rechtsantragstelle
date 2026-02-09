@@ -19,7 +19,9 @@ type SplitDate =
   | { day: string; month: string; year: string }
   | { day: number; month: number; year: number };
 
-export const toDateStringFromSplitDate = (value: SplitDate | "" | undefined) => {
+export const toDateStringFromSplitDate = (
+  value: SplitDate | "" | undefined,
+) => {
   if (value && typeof value === "object") {
     const { day, month, year } = value as {
       day: string | number;

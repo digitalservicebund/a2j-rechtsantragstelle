@@ -19,7 +19,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -58,7 +62,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -97,7 +105,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -136,7 +148,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -213,7 +229,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -253,7 +273,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -286,7 +310,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -326,7 +354,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: { day: veBirthDay, month: veBirthMonth, year: veBirthYear },
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },

@@ -119,7 +119,9 @@ describe("ValidatedFlowForm", () => {
     );
 
     it("should display an error if the user enters an invalid date", async () => {
-      const { getByText, getByLabelText } = renderValidatedFlowForm([component]);
+      const { getByText, getByLabelText } = renderValidatedFlowForm([
+        component,
+      ]);
 
       const nextButton = getByText("NEXT");
       const dayInput = getByLabelText("Tag");

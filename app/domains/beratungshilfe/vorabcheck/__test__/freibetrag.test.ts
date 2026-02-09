@@ -8,7 +8,7 @@ import {
   SELF_ALLOWANCE_BUFFER,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { addYears, today, toGermanDateFormat } from "~/util/date";
+import { addYears, today } from "~/util/date";
 
 const {
   selfAllowance,

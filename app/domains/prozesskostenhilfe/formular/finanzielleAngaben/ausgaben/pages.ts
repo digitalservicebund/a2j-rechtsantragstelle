@@ -1,11 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createSplitDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/date";
 
 const zahlungspflichtigerSchema = z.enum([
   "myself",

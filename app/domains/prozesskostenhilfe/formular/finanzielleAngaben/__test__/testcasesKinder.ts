@@ -56,7 +56,11 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
+        "kinder#geburtsdatum": {
+          day: childDay,
+          month: childMonth,
+          year: childYear,
+        },
       },
     },
     {
@@ -94,7 +98,11 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
+        "kinder#geburtsdatum": {
+          day: childDay,
+          month: childMonth,
+          year: childYear,
+        },
       },
     },
     {
@@ -131,7 +139,11 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       userInput: {
         "kinder#vorname": "Clara",
         "kinder#nachname": "Mustermann",
-        "kinder#geburtsdatum": { day: childDay, month: childMonth, year: childYear },
+        "kinder#geburtsdatum": {
+          day: childDay,
+          month: childMonth,
+          year: childYear,
+        },
       },
     },
     {

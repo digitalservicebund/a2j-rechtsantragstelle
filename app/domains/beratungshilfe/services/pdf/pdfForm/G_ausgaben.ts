@@ -6,6 +6,7 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
+import { toDateStringFromSplitDate } from "~/services/validation/date";
 import type { BerHPdfFillFunction } from "../types";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
@@ -106,7 +107,7 @@ function fillAusgabenInPDF(
       month: string;
       year: string;
     }): string | undefined =>
-      date ? `${date.day}.${date.month}.${date.year}` : undefined;
+      date ? toDateStringFromSplitDate(date) : undefined;
 
     if (artKey in pdfValues) {
       pdfValues[artKey].value = ausgabe.art;

@@ -1,9 +1,7 @@
-import { da } from "@faker-js/faker";
 import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { calculateDuration } from "./calculateDuration";
-import { format } from "path";
 
 const announcementMapping = {
   no: "Gar nicht vor Abflug mitgeteilt.",

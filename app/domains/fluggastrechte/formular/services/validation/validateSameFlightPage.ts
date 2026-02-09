@@ -7,12 +7,10 @@ import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 const _schema =
   fluggastrechteFlugdatenPages.flugdatenTatsaechlicherFlugAnkunft.pageSchema;
 
-  const formatDate = (
+const formatDate = (
   date: string | { day: string; month: string; year: string },
 ) =>
-  typeof date === "string"
-    ? date
-    : `${date.day}.${date.month}.${date.year}`;
+  typeof date === "string" ? date : `${date.day}.${date.month}.${date.year}`;
 
 export function validateSameFlightPage(
   baseSchema: MultiFieldsValidationBaseSchema<

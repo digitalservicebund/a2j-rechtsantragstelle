@@ -2,7 +2,7 @@ import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
-import { ErrorMessageProps } from "~/components/common/types";
+import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "./InputError";
 
 type KernDateInputProps = {
