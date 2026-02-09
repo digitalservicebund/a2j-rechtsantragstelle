@@ -4,6 +4,7 @@ import { redirect, Form, useLoaderData, useNavigation } from "react-router";
 import Button from "~/components/common/Button";
 import Heading from "~/components/common/Heading";
 import ContentComponents from "~/components/content/ContentComponents";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import Container from "~/components/layout/Container";
 import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import {
@@ -14,6 +15,7 @@ import {
   fetchTranslations,
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
+import KernDatenschutz from "./kern/kern-datenschutz";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const [{ content, pageMeta }, trackingConsent, cookieTranslations] =
@@ -52,6 +54,12 @@ export default function Index() {
     setSubmitButtonDisabled(trackingConsent === undefined);
   }, [trackingConsent]);
 
+  const showKernUX = useShowKernUX();
+  
+    if(showKernUX) {
+      return <KernDatenschutz />;
+    }
+  
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} />

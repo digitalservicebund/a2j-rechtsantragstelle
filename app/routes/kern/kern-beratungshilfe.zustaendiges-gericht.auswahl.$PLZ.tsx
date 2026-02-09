@@ -116,7 +116,6 @@ export default function KernZuestandigesGerichtPlz() {
                       noSuggestionMessage={
                         translations.gerichtFinder.noResultsFound.de
                       }
-                      width="54"
                       errorMessages={[requiredError]}
                       name="street"
                       isDisabled={false}

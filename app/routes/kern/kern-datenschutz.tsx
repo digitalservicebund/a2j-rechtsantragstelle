@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/common/Button";
-import Heading from "~/components/common/Heading";
 import ContentComponents from "~/components/content/ContentComponents";
-import Container from "~/components/layout/Container";
+import KernButton from "~/components/kern/KernButton";
+import KernHeading from "~/components/kern/KernHeading";
 import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import { GridSection } from "~/components/layout/grid/GridSection";
 import {
   consentCookieFromRequest,
   trackingCookieValue,
@@ -55,63 +57,72 @@ export default function KernDatenschutz() {
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} />
-      <Container paddingTop="0">
-        <Form method="post" className="ds-stack ds-stack-24">
-          <Heading
-            tagName="h2"
-            text={cookieTranslations?.heading}
-            look="ds-heading-02-reg"
-            elementId="cookieSetting"
-            className="pt-32 border-0 border-solid border-0 border-t-2 border-gray-400"
-          />
-
-          <fieldset
-            className="border-0 p-0 m-0 ds-stack ds-stack-16"
-            disabled={isSubmitting}
-            onChange={() => setSubmitButtonDisabled(false)}
+      <GridSection>
+        <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 7 }}
+            lgColumn={{ start: 3, span: 7 }}
+            xlColumn={{ start: 3, span: 7 }}
           >
-            <div>
-              <input
-                type="radio"
-                className="ds-radio"
-                id="cookieTrue"
-                value="true"
-                name={acceptCookiesFieldName}
-                defaultChecked={trackingConsent === "true"}
+            <Form
+              method="post"
+            >
+              <KernHeading
+                tagName="h2"
+                text={cookieTranslations?.heading}
+                elementId="cookieSetting"
+                className="text-3xl! pb-22!"
               />
-              <label htmlFor="cookieTrue">
-                {cookieTranslations?.acceptLabel}
-              </label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                className="ds-radio"
-                id="cookieFalse"
-                name={acceptCookiesFieldName}
-                value="false"
-                defaultChecked={trackingConsent === "false"}
+
+              <fieldset
+                className="kern-fieldset pb-22!"
+                disabled={isSubmitting}
+                onChange={() => setSubmitButtonDisabled(false)}
+              >
+                <legend className="kern-label">Einverständnis</legend>
+                <div className="kern-fieldset__body">
+                  <div className="kern-form-check">
+                    <input
+                      type="radio"
+                      className="kern-form-check__radio"
+                      id="cookieTrue"
+                      value="true"
+                      name={acceptCookiesFieldName}
+                      defaultChecked={trackingConsent === "true"}
+                    />
+                    <label className="kern-label" htmlFor="cookieTrue">
+                      {cookieTranslations?.acceptLabel}
+                    </label>
+                  </div>
+                  <div className="kern-form-check">
+                    <input
+                      type="radio"
+                      className="kern-form-check__radio"
+                      id="cookieFalse"
+                      name={acceptCookiesFieldName}
+                      value="false"
+                      defaultChecked={trackingConsent === "false"}
+                    />
+                    <label className="kern-label" htmlFor="cookieFalse">
+                      {cookieTranslations?.declineLabel}
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+              <KernButton
+                type="submit"
+                look="primary"
+                text="Speichern"
+                id="submitButton"
+                disabled={
+                  isSubmitting ||
+                  (submitButtonDisabled && trackingConsent === undefined)
+                }
               />
-              <label htmlFor="cookieFalse">
-                {cookieTranslations?.declineLabel}
-              </label>
-            </div>
-          </fieldset>
-          <div>
-            <Button
-              type="submit"
-              look="primary"
-              size="large"
-              text="Speichern"
-              id="submitButton"
-              disabled={
-                isSubmitting ||
-                (submitButtonDisabled && trackingConsent === undefined)
-              }
-            />
-          </div>
-        </Form>
-      </Container>
+            </Form>
+          </GridItem>
+        </Grid>
+      </GridSection>
     </div>
   );
 }
