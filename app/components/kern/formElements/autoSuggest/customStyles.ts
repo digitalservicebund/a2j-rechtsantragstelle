@@ -22,7 +22,7 @@ const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
       ...base,
       zIndex: 999,
     }),
-    control: (base, { isFocused }) => {
+    control: ({ isFocused }) => {
       // The control component will have the kern-form-input__input class applied
       // via the classNames prop. We don't spread base to avoid React Select's
       // default visual styles. Only include minimal layout properties needed
