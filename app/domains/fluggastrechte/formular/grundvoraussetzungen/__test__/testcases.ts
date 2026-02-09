@@ -21,6 +21,12 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
       startAirport: "BER",
       endAirport: "FRA",
       streitbeilegung: "yes",
+      pageData: {
+        subflowDoneStates: {
+          "/grundvoraussetzungen": true,
+        },
+        arrayIndexes: [0],
+      },
     },
     happyPathSteps,
   ],
@@ -32,6 +38,12 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
       startAirport: "BER",
       endAirport: "FRA",
       streitbeilegung: "noSpecification",
+      pageData: {
+        subflowDoneStates: {
+          "/grundvoraussetzungen": true,
+        },
+        arrayIndexes: [0],
+      },
     },
     happyPathSteps,
   ],
@@ -44,6 +56,12 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
       endAirport: "FRA",
       streitbeilegung: "no",
       streitbeilegungGruende: "no",
+      pageData: {
+        subflowDoneStates: {
+          "/grundvoraussetzungen": true,
+        },
+        arrayIndexes: [0],
+      },
     },
     [
       "/intro/start",
