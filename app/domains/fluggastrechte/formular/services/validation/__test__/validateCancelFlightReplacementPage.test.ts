@@ -2,6 +2,7 @@ import { z } from "zod";
 import { today, toGermanDateFormat } from "~/util/date";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
 import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { splitDate } from "./testUtils";
 
 describe("validateCancelFlightReplacementPage", () => {
   const baseSchema = z.object({
@@ -9,9 +10,9 @@ describe("validateCancelFlightReplacementPage", () => {
   });
 
   const mockData = {
-    direktAbflugsDatum: toGermanDateFormat(today()),
+    direktAbflugsDatum: splitDate(toGermanDateFormat(today())),
     direktAbflugsZeit: "10:00",
-    direktAnkunftsDatum: toGermanDateFormat(today()),
+    direktAnkunftsDatum: splitDate(toGermanDateFormat(today())),
     direktAnkunftsZeit: "11:00",
     ankuendigung: "no",
   };
@@ -55,7 +56,7 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: "",
       annullierungErsatzverbindungAnkunftsZeit: "",
@@ -95,7 +96,7 @@ describe("validateCancelFlightReplacementPage", () => {
       annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "",
-      annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+      annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
@@ -131,7 +132,7 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: "",
       annullierungErsatzverbindungAnkunftsZeit: "",
@@ -161,9 +162,9 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB123",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "10:00",
-      annullierungErsatzverbindungAnkunftsDatum: "02.01.2024",
+      annullierungErsatzverbindungAnkunftsDatum: splitDate("02.01.2024"),
       annullierungErsatzverbindungAnkunftsZeit: "12:00",
     });
     expect(result.error).toBeUndefined();
@@ -177,17 +178,17 @@ describe("validateCancelFlightReplacementPage", () => {
     };
 
     const validValuesForDeparture = {
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "11:00",
       ersatzflugStartenEinStunde: "yes",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "09:30",
     };
 
     const validValuesForArrivals = {
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "11:30",
-      annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+      annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAnkunftsZeit: "14:00",
       ersatzflugLandenZweiStunden: "yes",
     };
@@ -197,10 +198,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:00",
         });
 
@@ -234,10 +235,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "09:45",
         });
 
@@ -261,10 +262,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:01",
         });
 
@@ -277,10 +278,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "11:30",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "13:30",
         });
 
@@ -314,10 +315,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "14:01",
         });
 
@@ -341,10 +342,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "14:00",
         });
 
@@ -360,17 +361,17 @@ describe("validateCancelFlightReplacementPage", () => {
     };
 
     const validValuesForDeparture = {
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "11:00",
       ersatzflugStartenEinStunde: "yes",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "09:30",
     };
 
     const validValuesForArrivals = {
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "11:30",
-      annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+      annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAnkunftsZeit: "14:00",
       ersatzflugLandenZweiStunden: "yes",
     };
@@ -380,10 +381,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:00",
         });
 
@@ -417,10 +418,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "09:45",
         });
 
@@ -444,10 +445,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "11:00",
           ersatzflugStartenEinStunde: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:01",
         });
 
@@ -460,10 +461,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "11:30",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "13:30",
         });
 
@@ -497,10 +498,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "14:01",
         });
 
@@ -524,10 +525,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenZweiStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "14:00",
         });
 
@@ -543,17 +544,17 @@ describe("validateCancelFlightReplacementPage", () => {
     };
 
     const validValuesForDeparture = {
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "12:00",
       ersatzflugStartenZweiStunden: "yes",
-      annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+      annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAbflugsZeit: "09:30",
     };
 
     const validValuesForArrivals = {
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "11:30",
-      annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+      annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
       annullierungErsatzverbindungAnkunftsZeit: "16:00",
       ersatzflugLandenVierStunden: "yes",
     };
@@ -563,10 +564,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "12:00",
           ersatzflugStartenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:00",
         });
 
@@ -600,10 +601,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "12:00",
           ersatzflugStartenZweiStunden: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "09:30",
         });
 
@@ -627,10 +628,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForArrivals,
-          direktAbflugsDatum: "01.01.2024",
+          direktAbflugsDatum: splitDate("01.01.2024"),
           direktAbflugsZeit: "12:00",
           ersatzflugStartenZweiStunden: "no",
-          annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
+          annullierungErsatzverbindungAbflugsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAbflugsZeit: "10:30",
         });
 
@@ -643,10 +644,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "11:30",
           ersatzflugLandenVierStunden: "yes",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "15:30",
         });
 
@@ -680,10 +681,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenVierStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "16:01",
         });
 
@@ -707,10 +708,10 @@ describe("validateCancelFlightReplacementPage", () => {
         const result = validatorCancelFlightReplacementPage.safeParse({
           ...defaultValues,
           ...validValuesForDeparture,
-          direktAnkunftsDatum: "01.01.2024",
+          direktAnkunftsDatum: splitDate("01.01.2024"),
           direktAnkunftsZeit: "12:00",
           ersatzflugLandenVierStunden: "no",
-          annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
+          annullierungErsatzverbindungAnkunftsDatum: splitDate("01.01.2024"),
           annullierungErsatzverbindungAnkunftsZeit: "09:30",
         });
 

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { validateDepartureAfterArrival } from "../validateDepartureAfterArrival";
 import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
+import { splitDate } from "./testUtils";
 import { pick } from "lodash";
 
 describe("validateDepartureAfterArrival", () => {
@@ -28,9 +29,9 @@ describe("validateDepartureAfterArrival", () => {
 
   it("should return success false given a departure time after the arrival", () => {
     const result = validator.safeParse({
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "14:00",
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "11:00",
     });
 
@@ -39,9 +40,9 @@ describe("validateDepartureAfterArrival", () => {
 
   it("should return success false given a departure date after the arrival", () => {
     const result = validator.safeParse({
-      direktAbflugsDatum: "02.01.2024",
+      direktAbflugsDatum: splitDate("02.01.2024"),
       direktAbflugsZeit: "14:00",
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "15:00",
     });
 
@@ -50,9 +51,9 @@ describe("validateDepartureAfterArrival", () => {
 
   it("should return success true given a departure date before the arrival", () => {
     const result = validator.safeParse({
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "14:00",
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: splitDate("02.01.2024"),
       direktAnkunftsZeit: "10:00",
     });
 
@@ -61,9 +62,9 @@ describe("validateDepartureAfterArrival", () => {
 
   it("should return success true given a departure time before the arrival", () => {
     const result = validator.safeParse({
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "14:00",
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "15:00",
     });
 
@@ -72,9 +73,9 @@ describe("validateDepartureAfterArrival", () => {
 
   it("should return success false given a departure date time equal arrival", () => {
     const result = validator.safeParse({
-      direktAbflugsDatum: "01.01.2024",
+      direktAbflugsDatum: splitDate("01.01.2024"),
       direktAbflugsZeit: "14:00",
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: splitDate("01.01.2024"),
       direktAnkunftsZeit: "14:00",
     });
 
