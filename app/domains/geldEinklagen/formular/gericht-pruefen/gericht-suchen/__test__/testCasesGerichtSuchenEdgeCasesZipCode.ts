@@ -137,7 +137,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
       "/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
       "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
       "/gericht-pruefen/gericht-suchen/strasse-nummer",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
+      "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
