@@ -15,7 +15,6 @@ export type Jmtd14VTErwerberPlzortk = {
 export const ANGELEGENHEIT_INFO = {
   PROZESSKOSTENHILFE: "Prozesskostenhilfe eingehend",
   URHEBERRECHT: "Urheberrechtssachen",
-  VERKEHRSORDNUNGSWIDRIGKEITEN: "Verkehrsordnungswidrigkeiten Bußgeldsachen",
   NACHLASSSACHEN: "Nachlasssachen",
 } as const;
 

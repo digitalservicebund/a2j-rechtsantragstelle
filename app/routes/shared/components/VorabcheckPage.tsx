@@ -8,10 +8,9 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernProgress } from "~/components/kern/KernProgressBar";
+import { KernVorabcheckPage } from "./kern/KernVorabcheckPage";
 
 export function VorabcheckPage() {
   const {
@@ -26,6 +25,9 @@ export function VorabcheckPage() {
 
   useFocusFirstH1();
   const showKernUX = useShowKernUX();
+  if (showKernUX) {
+    return <KernVorabcheckPage />;
+  }
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue}>
@@ -37,11 +39,7 @@ export function VorabcheckPage() {
           className="pt-40"
           row={1}
         >
-          {showKernUX ? (
-            <KernProgress {...progressProps} />
-          ) : (
-            <ProgressBar {...progressProps} />
-          )}
+          <ProgressBar {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -78,7 +76,7 @@ export function VorabcheckPage() {
             className="pb-40 flex justify-end"
             row={4}
           >
-            {showKernUX ? <KernReportProblem /> : <ReportProblem />}
+            <ReportProblem />
           </GridItem>
         )}
       </Grid>

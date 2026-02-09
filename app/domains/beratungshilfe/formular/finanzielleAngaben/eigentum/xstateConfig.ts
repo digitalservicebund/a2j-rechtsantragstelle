@@ -1,6 +1,13 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
-import { berhAntragFinanzielleAngabenEigentumPages } from "./pages";
+import {
+  bankkontenArraySchema,
+  berhAntragFinanzielleAngabenEigentumPages,
+  geldanlagenArraySchema,
+  grundeigentumArraySchema,
+  kraftfahrzeugeArraySchema,
+  wertsachenArraySchema,
+} from "./pages";
 import {
   grundeigentumIsBewohnt,
   hasGrundeigentumYes,
@@ -20,13 +27,6 @@ import {
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
 import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "./userData";
-import {
-  bankKontoDone,
-  geldanlagenDone,
-  grundeigentumDone,
-  kraftfahrzeugeDone,
-  wertsachenDone,
-} from "./doneFunctions";
 
 const steps = xStateTargetsFromPagesConfig(
   berhAntragFinanzielleAngabenEigentumPages,
@@ -95,7 +95,8 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             BACK: "bankkonten-frage",
             SUBMIT: [
               {
-                guard: ({ context }) => !bankKontoDone({ context }),
+                guard: ({ context }) =>
+                  !bankkontenArraySchema.safeParse(context.bankkonten).success,
                 target: "warnung",
               },
               "#eigentum.geldanlagen",
@@ -148,7 +149,9 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             BACK: steps.eigentumGeldanlagenFrage.relative,
             SUBMIT: [
               {
-                guard: ({ context }) => !geldanlagenDone({ context }),
+                guard: ({ context }) =>
+                  !geldanlagenArraySchema.safeParse(context.geldanlagen)
+                    .success,
                 target: "warnung",
               },
               "#eigentum.kraftfahrzeuge",
@@ -272,7 +275,9 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             BACK: steps.eigentumKraftfahrzeugeFrage.relative,
             SUBMIT: [
               {
-                guard: ({ context }) => !kraftfahrzeugeDone({ context }),
+                guard: ({ context }) =>
+                  !kraftfahrzeugeArraySchema.safeParse(context.kraftfahrzeuge)
+                    .success,
                 target: "warnung",
               },
               "#eigentum.wertgegenstaende",
@@ -343,7 +348,8 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             BACK: steps.eigentumWertgegenstaendeFrage.relative,
             SUBMIT: [
               {
-                guard: ({ context }) => !wertsachenDone({ context }),
+                guard: ({ context }) =>
+                  !wertsachenArraySchema.safeParse(context.wertsachen).success,
                 target: "warnung",
               },
               "#eigentum.grundeigentum.grundeigentum-frage",
@@ -400,7 +406,9 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             BACK: steps.eigentumGrundeigentumFrage.relative,
             SUBMIT: [
               {
-                guard: ({ context }) => !grundeigentumDone({ context }),
+                guard: ({ context }) =>
+                  !grundeigentumArraySchema.safeParse(context.grundeigentum)
+                    .success,
                 target: steps.eigentumGrundeigentumWarnung.relative,
               },
               {

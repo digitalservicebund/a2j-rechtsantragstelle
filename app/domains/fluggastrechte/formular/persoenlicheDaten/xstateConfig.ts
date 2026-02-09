@@ -52,7 +52,7 @@ export const persoenlicheDatenXstateConfig = {
                 target: steps.weiterePersonenWarnung.absolute,
               },
               {
-                guard: "weiterePersonenDone",
+                guard: weiterePersonenDone,
                 target: steps.prozessfuehrungZeugen.absolute,
               },
             ],

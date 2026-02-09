@@ -18,7 +18,7 @@ import { logWarning } from "~/services/logging";
 import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { fieldsFromContext } from "~/services/session.server/fieldsFromContext";
+import { resolveUserData } from "~/services/session.server/resolveUserData";
 import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
@@ -81,7 +81,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   // filter user data for current step
   const pageSchema = getPageSchema(pathname);
   const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
-  const stepData = fieldsFromContext(userData, fieldNames);
+  const stepData = resolveUserData(userData, fieldNames);
 
   const { headers, csrf } = await updateMainSession({
     cookieHeader,

@@ -22,18 +22,3 @@ export const beratungshilfeAnwaltlicheVertretungGuards = {
     return differenceInDays > FOUR_WEEKS_IN_DAYS;
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretungUserData>;
-
-export const anwaltlicheVertretungDone: GenericGuard<
-  BeratungshilfeAnwaltlicheVertretungUserData
-> = ({ context }) =>
-  Boolean(
-    context.anwaltskanzlei === "no" || context.beratungStattgefunden === "no",
-  ) ||
-  Boolean(
-    context.beratungStattgefunden === "yes" &&
-    context.beratungStattgefundenDatum &&
-    context.anwaltName &&
-    context.anwaltStrasseUndHausnummer &&
-    context.anwaltPlz &&
-    context.anwaltOrt,
-  );
