@@ -19,6 +19,8 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { editorInputZodDescription } from "~/services/validation/editorInput";
+import { EditorInput } from "./EditorInpurt";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -28,9 +30,11 @@ type Props = {
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  return [
+    filesUploadZodDescription,
+    hiddenInputZodDescription,
+    editorInputZodDescription,
+  ].includes(fieldSchema.meta()?.description ?? "");
 };
 
 const renderSpecialMetaDescriptions = (
@@ -56,6 +60,10 @@ const renderSpecialMetaDescriptions = (
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (fieldSchema.meta()?.description === editorInputZodDescription) {
+    return <EditorInput key={fieldName} name={fieldName} />;
   }
 };
 

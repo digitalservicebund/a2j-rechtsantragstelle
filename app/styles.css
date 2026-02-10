@@ -362,3 +362,142 @@ h1:focus {
     }
   }
 }
+
+.editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 100%;
+  min-height: 200px;
+  max-height: 500px;
+  background-color: #fff;
+  margin-top: 5px;
+}
+
+.editor-inner {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+.editor-input {
+  padding: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  outline: none;
+  min-height: 200px;
+}
+
+.editor-placeholder {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #999;
+  pointer-events: none;
+}
+
+.editor-list-ul,
+.editor-list-ol {
+  padding-left: 20px;
+  margin: 0 0 12px 0;
+}
+
+.editor-listitem {
+  margin: 4px 0;
+}
+
+.editor-text-bold {
+  font-weight: bold;
+}
+
+.editor-text-italic {
+  font-style: italic;
+}
+
+.editor-text-underline {
+  text-decoration: underline;
+}
+
+.editor-scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 200px; /* Adjust as needed */
+}
+
+/* Customize scrollbar appearance */
+.editor-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.editor-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.editor-scrollable::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.editor-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox scrollbar */
+.editor-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+  background-color: #f9f9f9;
+  align-items: center;
+}
+
+.toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #d0d0d0;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.toolbar-button:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.toolbar-button:active {
+  background-color: #e0e0e0;
+}
+
+.toolbar-button-active {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.toolbar-button-active:hover {
+  background-color: #0056b3;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #d0d0d0;
+  margin: 0 4px;
+}
