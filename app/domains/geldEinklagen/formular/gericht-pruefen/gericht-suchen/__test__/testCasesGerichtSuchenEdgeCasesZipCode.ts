@@ -1,11 +1,11 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const ZIP_CODE_EDGE_CASE = "10789";
+const ZIP_CODE_EDGE_CASE = "20359";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "45143";
-const STREET_EDGE_CASE = "ansbacher_str.";
-const STREET_HOUSE_NUMBER_EDGE_CASE = "10";
-const STREET_EDGE_CASE_SECONDARY = "amixstr.";
+const STREET_EDGE_CASE = "Talstr.";
+const STREET_HOUSE_NUMBER_EDGE_CASE = "5";
+const STREET_EDGE_CASE_SECONDARY = "Amixstr.";
 const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "10";
 
 const baseContext: GeldEinklagenFormularUserData = {
@@ -116,14 +116,10 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
   [
     {
       ...baseContext,
-      sachgebiet: "urheberrecht",
-      klagendeVerbraucher: "yes",
+      sachgebiet: "verkehrsunfall",
+      verkehrsunfallStrassenverkehr: "yes",
       klagendeKaufmann: "yes",
-      gegenWenBeklagen: "person",
-      beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
-      klagendeVertrag: "yes",
-      klagendeHaustuergeschaeft: "yes",
       gerichtsstandsvereinbarung: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_EDGE_CASE,
       strasseBeklagte: STREET_EDGE_CASE,
@@ -135,7 +131,7 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
-      "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
+      "/gericht-pruefen/gericht-suchen/postleitzahl-verkehrsunfall",
       "/gericht-pruefen/gericht-suchen/strasse-nummer",
       "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
     ],
