@@ -20,13 +20,13 @@ const MAIN_SUBTITLE =
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 
 const subjectAreaMapping = {
-  miete: "Miete & Pacht",
-  versicherung: "Versicherung",
-  schaden: "Schaden durch unerlaubte Handlung",
-  reisen: "Reisen & Beförderung",
-  verkehrsunfall: "Verkehrsunfall",
-  urheberrecht: "Urheberrecht",
-  anderesRechtsproblem: "Ich habe ein anderes Rechtsproblem",
+  miete: "- Miete & Pacht",
+  versicherung: "- Versicherung",
+  schaden: "- Schaden durch unerlaubte Handlung",
+  reisen: "- Reisen & Beförderung",
+  verkehrsunfall: "- Verkehrsunfall",
+  urheberrecht: "- Urheberrecht",
+  anderesRechtsproblem: "",
 };
 
 export const createClaimData = (
@@ -86,7 +86,7 @@ export const createClaimData = (
       doc
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(`${DUE_REASON_TEXT} - ${subjectAreaDescription}`)
+        .text(`${DUE_REASON_TEXT} ${subjectAreaDescription}`)
         .text(`Streitwert: Euro`);
     }),
   );
