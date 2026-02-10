@@ -1,5 +1,4 @@
 import { type GenericGuard, type Guards } from "~/domains/guards.server";
-import { flugdatenDone } from "./doneFunctions";
 import { type FluggastrechteUserData } from "../userData";
 
 type Guard = GenericGuard<FluggastrechteUserData>;
@@ -76,5 +75,4 @@ export const fluggastrechteFlugdatenGuards = {
     _hasVerspaeteterFlugNonEndAirport({ context }),
   hasVerspaeteterFlugNonEndAirport: ({ context }) =>
     _hasVerspaeteterFlugNonEndAirport({ context }),
-  flugdatenDone,
 } satisfies Guards<FluggastrechteUserData>;
