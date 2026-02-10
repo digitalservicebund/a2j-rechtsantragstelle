@@ -1,4 +1,5 @@
 import KernButton, { type ButtonProps } from "~/components/kern/KernButton";
+import Image, { type ImageProps } from "~/components/common/Image";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import KernHeading, {
   type KernHeadingProps,
@@ -9,6 +10,21 @@ import KernRichText, {
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
+import classNames from "classnames";
+import KernBoxItem, { KernBoxItemProps } from "./KernBoxItem";
+import KernInfoBoxItem from "./KernInfoBoxItem";
+import { BackgroundColor } from "..";
+
+export type ImageWidth = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+
+export const imageWidths: Record<ImageWidth, string> = {
+  XS: "max-w-[80px]",
+  S: "max-w-[120px]",
+  M: "max-w-[280px]",
+  L: "max-w-[400px]",
+  XL: "max-w-[630px]",
+  XXL: "max-w-[848px]",
+};
 
 type BoxProps = {
   identifier?: string;
@@ -16,6 +32,9 @@ type BoxProps = {
   heading?: KernHeadingProps;
   content?: RichTextProps;
   buttons?: ButtonProps[];
+  image?: ImageProps;
+  imageWidth?: ImageWidth;
+  items?: KernBoxItemProps[];
 };
 
 const KernBox = ({
@@ -24,32 +43,62 @@ const KernBox = ({
   heading,
   content,
   buttons,
+  image,
+  imageWidth,
+  items,
 }: BoxProps) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="py-32 px-16"
+      // className="py-kern-space-x-large"
       id={identifier}
     >
-      <div className="gap-kern-space-x-large flex flex-col ">
-        <div className="kern-stack-sm">
-          {label && <KernLabel {...label} />}
-          {heading && <KernHeading {...heading} />}
-          {content && (
-            <div className="kern-text-container">
-              <KernRichText {...content} />
+
+      <div className="flex flex-col gap-kern-space-small p-kern-space-x-large">
+        <div className="flex flex-row items-start gap-kern-space-x-large">
+          {image && (
+            <div
+              className={`shrink-0 ${imageWidth ? imageWidths[imageWidth] : "max-w-full"}`}
+            >
+              <Image {...image} />
             </div>
           )}
+          <div className="flex flex-col gap-kern-space-x-large">
+            <div className="flex flex-col">
+              {label && <KernLabel
+                {...label}
+                className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
+              />}
+              {heading && <KernHeading
+                {...heading}
+                className={classNames("pt-9! pb-7!", { "text-kern-adaptive-medium!": image })}
+                managedByParent
+              />}
+              {content && (
+                <KernRichText {...content} />
+              )}
+            </div>
+            {arrayIsNonEmpty(items) && (
+              <div
+                className="flex flex-col justify-start align-start gap-kern-space-x-large"
+                data-testid="box-item-container"
+              >
+                {items.map((item) => (
+                  <KernBoxItem key={item.id} {...item} />
+                ))}
+              </div>
+            )}
+            {arrayIsNonEmpty(buttons) && (
+              <ButtonContainer className="kern-button-group pt-kern-space-small">
+                {buttons.map((button) => (
+                  <KernButton key={button.text ?? button.href} {...button} />
+                ))}
+              </ButtonContainer>
+            )}
+          </div>
         </div>
-        {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer className="kern-button-group pt-kern-space-small">
-            {buttons.map((button) => (
-              <KernButton key={button.text ?? button.href} {...button} />
-            ))}
-          </ButtonContainer>
-        )}
       </div>
     </GridItem>
   );

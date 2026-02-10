@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { BACKGROUND_COLORS } from "~/components";
+import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
@@ -63,6 +63,12 @@ function getContainerBackgroundColor(
     if (el.__component === "page.hero-with-button") {
       return "bg-kern-neutral-050";
     }
+
+    if (el.__component === "page.box" && el.sectionBackgroundColor) {
+      return SECTION_BACKGROUND_COLORS[
+        el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
+      ];
+    }
   }
 
   const hasLayout = hasLayoutProperties(el);
@@ -99,7 +105,13 @@ function cmsToReact(
       case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
-        return <KernBox {...componentProps} />;
+        return <KernBox {...componentProps} items={componentProps.items?.map((item) => ({
+          ...item,
+          inlineNotices: item.inlineNotices?.map((notice) => ({
+            ...notice,
+            look: mapLookValue(notice.look),
+          })),
+        }))} />;
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
