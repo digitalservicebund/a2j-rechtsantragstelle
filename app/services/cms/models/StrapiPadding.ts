@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { Padding } from "~/components/layout/Container";
+import { omitNull } from "~/util/omitNull";
 
 export const strapiPaddingOptions = [
   "default",
@@ -27,6 +28,19 @@ const strapiPaddingMap = {
   px64: "64",
 } as const satisfies Record<(typeof strapiPaddingOptions)[number], Padding>;
 
+export const paddingOptions = [
+  "default",
+  "0",
+  "40",
+] as const;
+
 export const StrapiPaddingSchema = z
   .enum(strapiPaddingOptions)
   .transform((val) => strapiPaddingMap[val]);
+
+
+export const StrapiPaddingOptionalSchema = z
+  .enum(paddingOptions)
+  .nullable()
+  .transform(omitNull)
+  .optional();

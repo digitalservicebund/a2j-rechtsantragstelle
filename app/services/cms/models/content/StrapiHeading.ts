@@ -11,7 +11,7 @@ export const StrapiHeadingSchema = z
   .object({
     text: StringWithHtmlEntities,
     tagName: z.enum(allowedHeadingTags),
-    look: z.enum(allowedHeadingLooks),
+    look: z.enum(allowedHeadingLooks), // To be removed
     ...HasStrapiIdSchema.shape,
   })
   .transform((cmsData) => {
