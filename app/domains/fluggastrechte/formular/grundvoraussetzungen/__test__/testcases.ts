@@ -25,7 +25,7 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [0],
+        arrayIndexes: [],
       },
     },
     happyPathSteps,
@@ -42,7 +42,7 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [0],
+        arrayIndexes: [],
       },
     },
     happyPathSteps,
@@ -60,7 +60,7 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [0],
+        arrayIndexes: [],
       },
     },
     [

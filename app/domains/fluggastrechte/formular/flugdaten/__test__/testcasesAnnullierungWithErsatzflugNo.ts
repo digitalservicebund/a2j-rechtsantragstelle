@@ -21,7 +21,7 @@ const baseContext = {
     subflowDoneStates: {
       "/flugdaten": true,
     },
-    arrayIndexes: [0],
+    arrayIndexes: [],
   },
 };
 
