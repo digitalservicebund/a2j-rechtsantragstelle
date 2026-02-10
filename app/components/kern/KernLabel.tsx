@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import type { allowedHeadingTags } from "./types";
 
 export type KernLabelProps = {
@@ -5,6 +6,7 @@ export type KernLabelProps = {
   text?: string;
   tabIndex?: number;
   elementId?: string;
+  className?: string;
 };
 
 const KernLabel = ({
@@ -12,12 +14,13 @@ const KernLabel = ({
   text,
   tabIndex,
   elementId,
+  className,
 }: KernLabelProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
 
   return (
-    <Tag className="kern-label p-0!" tabIndex={tabIndex} id={elementId}>
+    <Tag className={classNames("kern-label p-0!", className)} tabIndex={tabIndex} id={elementId}>
       {text}
     </Tag>
   );
