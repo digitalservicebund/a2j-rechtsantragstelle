@@ -1,12 +1,12 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import Container from "~/components/layout/Container";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import { GridSection } from "~/components/layout/grid/GridSection";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 import { dependencies } from "~/services/openSourceLicenses/dependencies.server";
-import LicenseList from "~/services/openSourceLicenses/LicenseList";
-import KernOpenSource from "./kern/kern-opensource";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import KernLicenseList from "~/services/openSourceLicenses/KernOpenSourceLicenses";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { content, pageMeta } = await strapiPageFromRequest({ request });
@@ -17,22 +17,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   };
 };
 
-export default function Index() {
+export default function KernOpenSource() {
   const { content, dependencies } = useLoaderData<typeof loader>();
-
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernOpenSource />;
-  }
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} />
-      <div className="w-full">
-        <Container>
-          <LicenseList dependencies={dependencies} />
-        </Container>
-      </div>
+      <GridSection>
+        <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 7 }}
+            lgColumn={{ start: 3, span: 7 }}
+            xlColumn={{ start: 3, span: 7 }}
+          >
+            <KernLicenseList dependencies={dependencies} />
+          </GridItem>
+        </Grid>
+      </GridSection>
     </div>
   );
 }

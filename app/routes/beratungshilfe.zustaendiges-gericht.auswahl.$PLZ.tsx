@@ -13,7 +13,6 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import Input from "~/components/formElements/Input";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -24,13 +23,14 @@ import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
+import KernZuestandigesGerichtPlz from "./kern/kern-beratungshilfe.zustaendiges-gericht.auswahl.$PLZ";
 
-const requiredError: ErrorMessageProps = {
+export const requiredError: ErrorMessageProps = {
   code: "required",
   text: translations.gerichtFinder.inputRequired.de,
 };
 
-const courtFinderSchema = z.object({
+export const courtFinderSchema = z.object({
   street: stringRequiredSchema,
   houseNumber: germanHouseNumberSchema,
 });
@@ -78,6 +78,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
   const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return <KernZuestandigesGerichtPlz />;
+  }
 
   return (
     <div className="flex flex-col grow bg-blue-100">
@@ -144,7 +148,7 @@ export default function Index() {
         </Container>
       </div>
       <div className="flex justify-end w-full p-32 relative">
-        {showKernUX ? <KernReportProblem /> : <ReportProblem />}
+        <ReportProblem />
       </div>
     </div>
   );

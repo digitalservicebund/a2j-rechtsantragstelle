@@ -1,8 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
+import KernButton from "~/components/kern/KernButton";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -11,8 +10,6 @@ import {
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
 import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
-import KernPersoenlicheDatenLoeschen from "./kern/persoenliche-daten-loeschen";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { referrer } = request;
@@ -33,15 +30,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   };
 }
 
-export default function PersoenlicheDatenLoeschen() {
-  const { content, translations, backButton } = useLoaderData<typeof loader>();
+export default function KernPersoenlicheDatenLoeschen() {
+  const { content, translations } = useLoaderData<typeof loader>();
   const isSubmitting = useNavigation().state === "submitting";
-
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernPersoenlicheDatenLoeschen />;
-  }
 
   return (
     <div className="flex flex-col grow">
@@ -53,28 +44,14 @@ export default function PersoenlicheDatenLoeschen() {
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
           >
-            <Form
-              method="post"
-              className="ds-stack ds-stack-24"
-              action="/action/delete-data"
-            >
-              <ButtonContainer>
-                <Button
-                  type="button"
-                  href={backButton}
-                  look="tertiary"
-                  size="large"
-                  text={translations.back ?? "Zurück ohne zu löschen"}
-                />
-                <Button
-                  type="submit"
-                  look="primary"
-                  size="large"
-                  text={translations.confirm ?? "Ja, Daten löschen"}
-                  id="submitButton"
-                  disabled={isSubmitting}
-                />
-              </ButtonContainer>
+            <Form method="post" action="/action/delete-data">
+              <KernButton
+                type="submit"
+                look="primary"
+                text={translations.confirm ?? "Ja, Daten löschen"}
+                id="submitButton"
+                disabled={isSubmitting}
+              />
             </Form>
           </GridItem>
         </Grid>
