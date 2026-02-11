@@ -40,7 +40,7 @@ export default function PersoenlicheDatenLoeschen() {
   const showKernUX = useShowKernUX();
 
   if (showKernUX) {
-    return <KernPersoenlicheDatenLoeschen />;
+    return <KernPersoenlicheDatenLoeschen content={content} isSubmitting={isSubmitting} translations={translations} />;
   }
 
   return (

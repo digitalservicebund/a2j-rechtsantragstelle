@@ -1,48 +1,24 @@
-import type { LoaderFunctionArgs } from "react-router";
-import { Form, useLoaderData, useNavigation } from "react-router";
+import { Form } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import KernButton from "~/components/kern/KernButton";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import {
-  fetchTranslations,
-  strapiPageFromRequest,
-} from "~/services/cms/index.server";
-import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
+import { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
+import { Translations } from "~/services/translations/getTranslationByKey";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { referrer } = request;
-  const { origin } = new URL(request.url);
-
-  const sanitizedReferrer = sanitizeReferrer({
-    referrer,
-    origin,
-  });
-
-  const { content, pageMeta } = await strapiPageFromRequest({ request });
-  const translations = await fetchTranslations("delete-data");
-  return {
-    meta: pageMeta,
-    content,
-    translations,
-    backButton: sanitizedReferrer,
-  };
-}
-
-export default function KernPersoenlicheDatenLoeschen() {
-  const { content, translations } = useLoaderData<typeof loader>();
-  const isSubmitting = useNavigation().state === "submitting";
+export default function KernPersoenlicheDatenLoeschen({ content, isSubmitting, translations }: { content: StrapiContentComponent[], isSubmitting: boolean, translations: Translations }) {
 
   return (
-    <div className="flex flex-col grow">
-      <ContentComponents content={content} />
+    <div className="flex flex-col grow bg-kern-layout-background-hued">
+      <ContentComponents content={content} showKernUX={true} />
       <GridSection className="pb-40">
         <Grid>
           <GridItem
             mdColumn={{ start: 1, span: 7 }}
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
+            className="px-kern-space-default"
           >
             <Form method="post" action="/action/delete-data">
               <KernButton
