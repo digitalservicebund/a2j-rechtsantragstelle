@@ -3,6 +3,7 @@ import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import { useEffect, useRef } from "react";
 import { useField } from "@rvf/react";
+import TurndownService from "turndown";
 
 const modules = {
   toolbar: [
@@ -21,9 +22,12 @@ type EditorInputProps = Readonly<{
   name: string;
 }>;
 
+const turndownService = new TurndownService();
+
 export function EditorInput({ name }: EditorInputProps) {
-  const field = useField(name);
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const field = useField(`${name}.htmlContent`);
+  const hiddenInputHTMLRef = useRef<HTMLInputElement>(null);
+  const hiddenInputMarkdownRef = useRef<HTMLInputElement>(null);
   const defaultValue = field.getInputProps().defaultValue as string | undefined;
 
   const { quill, quillRef } = useQuill({ modules });
@@ -37,8 +41,13 @@ export function EditorInput({ name }: EditorInputProps) {
   useEffect(() => {
     if (quill) {
       quill.on("text-change", () => {
-        if (hiddenInputRef.current) {
-          hiddenInputRef.current.value = quill.root.innerHTML;
+        if (hiddenInputHTMLRef.current) {
+          hiddenInputHTMLRef.current.value = quill.root.innerHTML;
+        }
+        if (hiddenInputMarkdownRef.current) {
+          hiddenInputMarkdownRef.current.value = turndownService.turndown(
+            quill.root.innerHTML,
+          );
         }
       });
     }
@@ -55,9 +64,15 @@ export function EditorInput({ name }: EditorInputProps) {
     >
       <div ref={quillRef} />
       <input
-        ref={hiddenInputRef}
+        ref={hiddenInputHTMLRef}
         type="hidden"
-        name={name}
+        name={`${name}.htmlContent`}
+        defaultValue={defaultValue}
+      />
+      <input
+        ref={hiddenInputMarkdownRef}
+        type="hidden"
+        name={`${name}.markdownContent`}
         defaultValue={defaultValue}
       />
     </div>

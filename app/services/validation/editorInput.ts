@@ -1,6 +1,11 @@
-import { type ZodType } from "zod";
+import z from "zod";
 
 export const editorInputZodDescription = "editor_input";
 
-export const editorInputSchema = <T extends ZodType>(schema: T) =>
-  schema.meta({ description: editorInputZodDescription });
+export const editorInputOptionalSchema = z
+  .object({
+    markdownContent: z.string(),
+    htmlContent: z.string(),
+  })
+  .optional()
+  .meta({ description: editorInputZodDescription });
