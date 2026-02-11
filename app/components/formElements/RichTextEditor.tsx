@@ -4,7 +4,13 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Extension } from "@tiptap/core";
 import { Markdown } from "@tiptap/markdown";
 import { Plugin } from "@tiptap/pm/state";
-import StarterKit from "@tiptap/starter-kit";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Bold from "@tiptap/extension-bold";
+import BulletList from "@tiptap/extension-bullet-list";
+import ListItem from "@tiptap/extension-list-item";
+import HardBreak from "@tiptap/extension-hard-break";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Details } from "~/components/content/Details";
@@ -97,6 +103,8 @@ const RichTextEditorClient = ({
   const field = useField(name);
   const errorId = `${name}-error`;
   const [wordLimitError, setWordLimitError] = useState<string | null>(null);
+  const [isBoldActive, setIsBoldActive] = useState(false);
+  const [isBulletListActive, setIsBulletListActive] = useState(false);
   const fieldError = field.error();
 
   const { defaultValue } = field.getInputProps();
@@ -109,7 +117,13 @@ const RichTextEditorClient = ({
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
+      Bold,
+      BulletList,
+      ListItem,
+      HardBreak,
       Markdown,
       WordLimit.configure({
         limit: RICH_TEXT_WORD_LIMIT,
@@ -145,6 +159,10 @@ const RichTextEditorClient = ({
           : null,
       );
       setRvfValue(editor.getMarkdown());
+    },
+    onSelectionUpdate: ({ editor }) => {
+      setIsBoldActive(editor.isActive("bold"));
+      setIsBulletListActive(editor.isActive("bulletList"));
     },
     editorProps: {
       attributes: {
@@ -220,7 +238,7 @@ const RichTextEditorClient = ({
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={classNames(
               "px-3 py-2 text-base border rounded hover:bg-gray-100 w-[100px]",
-              editor.isActive("bold")
+              isBoldActive
                 ? "bg-blue-500 text-white hover:bg-blue-600"
                 : "bg-white",
             )}
@@ -230,16 +248,16 @@ const RichTextEditorClient = ({
           </button>
           <button
             type="button"
-            onClick={() => editor.chain().focus().toggleItalic().run()}
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={classNames(
               "px-3 py-2 text-base border rounded hover:bg-gray-100 w-[100px]",
-              editor.isActive("italic")
+              isBulletListActive
                 ? "bg-blue-500 text-white hover:bg-blue-600"
                 : "bg-white",
             )}
-            title="Italic"
+            title="Bullet List"
           >
-            <em>I</em>
+            •
           </button>
         </div>
         <div className="relative">

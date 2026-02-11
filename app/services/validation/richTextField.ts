@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const RICH_TEXT_WORD_LIMIT = 2;
+export const RICH_TEXT_WORD_LIMIT = 2000;
 
 export const richTextZodDescription = "richText";
 
