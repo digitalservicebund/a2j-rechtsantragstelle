@@ -27,7 +27,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(@kern-ux/native@2.4.0)(tailwindcss@4.1.18)
       '@kern-ux/native':
-        specifier: ^2.3.2
+        specifier: ^2.4.0
         version: 2.4.0
       '@node-saml/node-saml':
         specifier: github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916

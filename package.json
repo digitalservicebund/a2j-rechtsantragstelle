@@ -50,7 +50,7 @@
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
     "@digitalservicebund/kern-ux-tailwind-theme": "^1.1.0",
-    "@kern-ux/native": "^2.3.2",
+    "@kern-ux/native": "^2.4.0",
     "@node-saml/node-saml": "github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916",
     "@pdf-lib/fontkit": "^1.1.1",
     "@react-router/express": "^7.13.0",
