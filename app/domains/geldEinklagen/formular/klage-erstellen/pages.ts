@@ -8,6 +8,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { withRichTextEditorValidation } from "~/services/validation/richTextEditor";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const sharedBeklagteAddress = {
@@ -66,6 +67,9 @@ export const geldEinklagenKlageErstellenPages = {
   },
   rechtsproblemIntoStart: {
     stepId: "klage-erstellen/rechtsproblem/intro/start",
+    pageSchema: {
+      rechtsproblemIntro: withRichTextEditorValidation(stringRequiredSchema),
+    },
   },
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",

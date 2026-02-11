@@ -83,6 +83,13 @@ body:has(dialog[open]) {
   @apply mt-0;
 }
 
+/* Plate editor lists reset padding/margin inline; re-add indentation inside editor surfaces. */
+.plate-rich-text ul,
+.plate-rich-text ol {
+  padding-left: 1.5rem !important;
+  margin-left: 1.5rem !important;
+}
+
 .text-link {
   /* IE 11 and others that don't support text-decoration-line */
   text-decoration: underline;

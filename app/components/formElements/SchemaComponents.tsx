@@ -19,6 +19,8 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { richTextEditorZodDescription } from "~/services/validation/richTextEditor";
+import RichTextEditor from "~/components/formElements/RichTextEditor";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -28,9 +30,11 @@ type Props = {
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  return [
+    filesUploadZodDescription,
+    hiddenInputZodDescription,
+    richTextEditorZodDescription,
+  ].includes(fieldSchema.meta()?.description ?? "");
 };
 
 const renderSpecialMetaDescriptions = (
@@ -56,6 +60,29 @@ const renderSpecialMetaDescriptions = (
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (fieldSchema.meta()?.description === richTextEditorZodDescription) {
+    const element = matchingElement as
+      | {
+          label?: string;
+          placeholder?: string;
+          errorMessages?: unknown;
+          description?: string;
+          details?: { title: string; content: string };
+        }
+      | undefined;
+    return (
+      <RichTextEditor
+        key={fieldName}
+        name={fieldName}
+        label={element?.label}
+        description={element?.description}
+        details={element?.details}
+        placeholder={element?.placeholder}
+        errorMessages={element?.errorMessages as any}
+      />
+    );
   }
 };
 
