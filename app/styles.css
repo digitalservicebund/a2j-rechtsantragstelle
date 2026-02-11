@@ -362,3 +362,7 @@ h1:focus {
     }
   }
 }
+
+.ql-container {
+  @apply bg-white;
+}
