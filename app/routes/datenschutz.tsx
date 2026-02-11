@@ -57,7 +57,12 @@ export default function Index() {
   const showKernUX = useShowKernUX();
 
   if (showKernUX) {
-    return <KernDatenschutz />;
+    return <KernDatenschutz
+      content={content}
+      trackingConsent={trackingConsent}
+      acceptCookiesFieldName={acceptCookiesFieldName}
+      cookieTranslations={cookieTranslations ?? {}}
+    />;
   }
   return (
     <div className="flex flex-col grow">

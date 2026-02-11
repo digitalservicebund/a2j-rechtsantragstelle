@@ -1,51 +1,21 @@
 import { useState, useEffect } from "react";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { redirect, Form, useLoaderData, useNavigation } from "react-router";
+import { Form, useNavigation } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import KernButton from "~/components/kern/KernButton";
 import KernHeading from "~/components/kern/KernHeading";
-import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import {
-  consentCookieFromRequest,
-  trackingCookieValue,
-} from "~/services/analytics/gdprCookie.server";
-import {
-  fetchTranslations,
-  strapiPageFromRequest,
-} from "~/services/cms/index.server";
+import { type StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const [{ content, pageMeta }, trackingConsent, cookieTranslations] =
-    await Promise.all([
-      strapiPageFromRequest({ request }),
-      trackingCookieValue({ request }),
-      fetchTranslations("cookieSetting"),
-    ]);
-
-  return {
-    meta: pageMeta,
-    content,
-    trackingConsent,
-    acceptCookiesFieldName,
-    cookieTranslations,
-  };
-}
-
-export async function action({ request }: ActionFunctionArgs) {
-  const headers = await consentCookieFromRequest({ request });
-  return redirect("/datenschutz/erfolg", { headers });
-}
-
-export default function KernDatenschutz() {
-  const {
-    trackingConsent,
-    content,
-    acceptCookiesFieldName,
-    cookieTranslations,
-  } = useLoaderData<typeof loader>();
+type KernDatenschutzProps = {
+  content: StrapiContentComponent[];
+  trackingConsent: "true" | "false" | undefined;
+  acceptCookiesFieldName: string;
+  cookieTranslations: Translations;
+};
+export default function KernDatenschutz({ content, trackingConsent, acceptCookiesFieldName, cookieTranslations }: KernDatenschutzProps) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -56,20 +26,21 @@ export default function KernDatenschutz() {
 
   return (
     <div className="flex flex-col grow">
-      <ContentComponents content={content} />
+      <ContentComponents content={content} showKernUX={true} />
       <GridSection>
         <Grid>
           <GridItem
             mdColumn={{ start: 1, span: 7 }}
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
+            className="pb-80"
           >
-            <Form method="post">
+            <Form method="post" className="flex flex-col gap-kern-space-x-large">
               <KernHeading
                 tagName="h2"
                 text={cookieTranslations?.heading}
                 elementId="cookieSetting"
-                className="text-3xl! pb-22!"
+                size="large"
               />
 
               <fieldset
@@ -107,16 +78,18 @@ export default function KernDatenschutz() {
                   </div>
                 </div>
               </fieldset>
-              <KernButton
-                type="submit"
-                look="primary"
-                text="Speichern"
-                id="submitButton"
-                disabled={
-                  isSubmitting ||
-                  (submitButtonDisabled && trackingConsent === undefined)
-                }
-              />
+              <div>
+                <KernButton
+                  type="submit"
+                  look="primary"
+                  text="Speichern"
+                  id="submitButton"
+                  disabled={
+                    isSubmitting ||
+                    (submitButtonDisabled && trackingConsent === undefined)
+                  }
+                />
+              </div>
             </Form>
           </GridItem>
         </Grid>
