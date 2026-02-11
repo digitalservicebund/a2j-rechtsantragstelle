@@ -12,8 +12,6 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import classNames from "classnames";
 import KernBoxItem, { KernBoxItemProps } from "./KernBoxItem";
-import KernInfoBoxItem from "./KernInfoBoxItem";
-import { BackgroundColor } from "..";
 
 export type ImageWidth = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
@@ -52,7 +50,6 @@ const KernBox = ({
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      // className="py-kern-space-x-large"
       id={identifier}
     >
 

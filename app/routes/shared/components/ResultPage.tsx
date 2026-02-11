@@ -13,6 +13,8 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { BACKGROUND_COLORS } from "~/components";
 import Button from "~/components/common/Button";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
+import { KernResultPage } from "./kern/KernResultPage";
 
 const iconProps = {
   "aria-hidden": false,
@@ -43,6 +45,12 @@ export function ResultPage() {
     cmsContent,
     buttonNavigationProps: { back, next },
   } = useLoaderData<typeof loader>();
+
+  const showKernUX = useShowKernUX();
+  if (showKernUX) {
+    return <KernResultPage />;
+  }
+
   const documentsList = cmsContent.documents;
   const nextSteps = cmsContent.nextSteps;
   const content = cmsContent.freeZone;

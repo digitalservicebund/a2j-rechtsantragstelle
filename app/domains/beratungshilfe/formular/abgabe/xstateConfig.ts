@@ -17,7 +17,7 @@ const getOnlineBackTarget = () => {
 
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
-  id: "abgabe",
+  id: steps.abgabe.relative,
   meta: { excludedFromValidation: true },
   states: {
     [steps.ueberpruefung.relative]: {
@@ -26,7 +26,11 @@ export const abgabeXstateConfig = {
       always: {
         guard: ({ context }): boolean =>
           !!context.pageData?.subflowDoneStates &&
-          Object.values(context.pageData.subflowDoneStates).every(Boolean),
+          Object.entries(context.pageData.subflowDoneStates)
+            .filter(
+              ([stepId]) => !stepId.startsWith(`/${steps.abgabe.relative}`),
+            )
+            .every(([, subflowDone]) => Boolean(subflowDone)),
         target: showAutoSummary
           ? steps.zusammenfassung.relative
           : steps.art.relative,

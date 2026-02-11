@@ -44,6 +44,9 @@ const buildFullUserInput = <T extends UserData>(
   return expectedSteps.slice(0, idx + 1).reduce((acc, step) => {
     let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
 
+    // This assignment is useful for injecting pageData, like subflowDoneStates
+    merged.pageData = step.pageData;
+
     // When adding an array item, increment the last array index or start with 0
     if (step.addArrayItemEvent) {
       merged.pageData = {
@@ -59,7 +62,7 @@ const buildFullUserInput = <T extends UserData>(
 
     // If step contains array indexes, add them to pageData and resolve array-indexed fields
     if (arrayIndexes.length > 0) {
-      merged.pageData = { arrayIndexes: arrayIndexes };
+      merged.pageData = { ...merged.pageData, arrayIndexes };
 
       // Get the last array index
       const lastIndex = arrayIndexes.at(-1);
