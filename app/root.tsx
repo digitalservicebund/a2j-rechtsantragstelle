@@ -297,13 +297,14 @@ function App() {
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
   const loaderData = useRouteLoaderData<RootLoader>("root");
+  const showKernUX = loaderData?.showKernUX ?? false;
 
   if (error && error instanceof Error) {
     Sentry.captureException(error);
   }
 
   return (
-    <html lang="de">
+    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
       <head>
         <title>Justiz Services - Fehler aufgetreten</title>
         <link
@@ -314,26 +315,47 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <Links />
         <meta name="darkreader-lock" />
       </head>
-      <body className="flex flex-col">
-        <div className="min-h-screen">
+      <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
+        {showKernUX ? (
+          <KernPageHeader
+            hideLinks={false}
+            linkLabel="Zurück zur Startseite"
+            title="Justiz-Services"
+          />
+        ) : (
           <PageHeader
             hideLinks={false}
             linkLabel="Zurück zur Startseite"
             title="Justiz-Services"
           />
+        )}
+        {showKernUX ? (
+          <main className="bg-kern-neutral-025">
+            <ErrorBox showKernUX />
+          </main>
+        ) : (
           <main className="grow">
             <ErrorBox />
           </main>
-        </div>
-        {loaderData && (
-          <Footer
-            {...loaderData.footer}
-            ariaLabel={getTranslationByKey(
-              "footer-navigation",
-              loaderData.accessibilityTranslations,
-            )}
-          />
         )}
+        {loaderData && (
+          showKernUX ? (
+            <KernFooter
+              {...loaderData.footer}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                loaderData.accessibilityTranslations,
+              )}
+            />
+          ) : (
+            <Footer
+              {...loaderData.footer}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                loaderData.accessibilityTranslations,
+              )}
+            />
+          ))}
       </body>
     </html>
   );

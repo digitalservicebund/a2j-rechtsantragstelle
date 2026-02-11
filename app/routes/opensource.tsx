@@ -23,7 +23,7 @@ export default function Index() {
   const showKernUX = useShowKernUX();
 
   if (showKernUX) {
-    return <KernOpenSource />;
+    return <KernOpenSource content={content} dependencies={dependencies} />;
   }
   return (
     <div className="flex flex-col grow">
