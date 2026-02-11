@@ -338,8 +338,8 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
             <ErrorBox />
           </main>
         )}
-        {loaderData && (
-          showKernUX ? (
+        {loaderData &&
+          (showKernUX ? (
             <KernFooter
               {...loaderData.footer}
               ariaLabel={getTranslationByKey(

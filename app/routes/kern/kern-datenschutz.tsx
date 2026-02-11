@@ -15,7 +15,12 @@ type KernDatenschutzProps = {
   acceptCookiesFieldName: string;
   cookieTranslations: Translations;
 };
-export default function KernDatenschutz({ content, trackingConsent, acceptCookiesFieldName, cookieTranslations }: KernDatenschutzProps) {
+export default function KernDatenschutz({
+  content,
+  trackingConsent,
+  acceptCookiesFieldName,
+  cookieTranslations,
+}: KernDatenschutzProps) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -35,7 +40,10 @@ export default function KernDatenschutz({ content, trackingConsent, acceptCookie
             xlColumn={{ start: 3, span: 7 }}
             className="pb-80"
           >
-            <Form method="post" className="flex flex-col gap-kern-space-x-large">
+            <Form
+              method="post"
+              className="flex flex-col gap-kern-space-x-large"
+            >
               <KernHeading
                 tagName="h2"
                 text={cookieTranslations?.heading}

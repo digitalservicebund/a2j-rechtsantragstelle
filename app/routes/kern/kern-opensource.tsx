@@ -8,12 +8,21 @@ import KernLicenseList from "~/services/openSourceLicenses/KernOpenSourceLicense
 type KernOpenSourceProps = {
   content: StrapiContentComponent[];
   dependencies: {
-    directDependencies: Record<string, { licenses: string | string[]; publisher?: string; repository?: string }>;
-    mentionableTransitiveDependencies: Record<string, { licenses: string | string[]; publisher?: string; repository?: string }>;
+    directDependencies: Record<
+      string,
+      { licenses: string | string[]; publisher?: string; repository?: string }
+    >;
+    mentionableTransitiveDependencies: Record<
+      string,
+      { licenses: string | string[]; publisher?: string; repository?: string }
+    >;
   };
 };
 
-export default function KernOpenSource({ content, dependencies }: KernOpenSourceProps) {
+export default function KernOpenSource({
+  content,
+  dependencies,
+}: KernOpenSourceProps) {
   return (
     <div className="flex flex-col grow">
       <ContentComponents content={content} showKernUX={true} />
