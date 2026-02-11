@@ -31,7 +31,9 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
               text={`Im Bereich Ihrer Postleitzahl ${plz} sind
           verschiedene Amtsgerichte zuständig.`}
             />
-            <h2 className="kern-body">Geben Sie bitte Ihre genaue Straße und Hausnummer ein</h2>
+            <h2 className="kern-body">
+              Geben Sie bitte Ihre genaue Straße und Hausnummer ein
+            </h2>
             <ValidatedForm
               method="post"
               schema={courtFinderSchema}
@@ -41,7 +43,9 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
                 <div className="flex flex-col gap-kern-space-x-large">
                   <KernAutoSuggestInput
                     label={translations.gerichtFinder.streetName.de}
-                    helperText={translations.gerichtFinder.autosuggestInputHelperText.de}
+                    helperText={
+                      translations.gerichtFinder.autosuggestInputHelperText.de
+                    }
                     dataList="streetNames"
                     dataListArgument={plz}
                     noSuggestionMessage={

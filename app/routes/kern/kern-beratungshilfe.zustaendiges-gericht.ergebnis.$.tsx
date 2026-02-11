@@ -21,7 +21,9 @@ export const KernZuestandigesGerichErgebnis = () => {
           row={1}
           className="flex flex-col gap-kern-space-default"
         >
-          <span className="kern-label text-kern-layout-text-muted!">Amtsgericht finden</span>
+          <span className="kern-label text-kern-layout-text-muted!">
+            Amtsgericht finden
+          </span>
           <KernHeading
             tagName="h1"
             text="Ihr zuständiges Amtsgericht"
@@ -76,11 +78,14 @@ export const KernZuestandigesGerichErgebnis = () => {
           xlColumn={{ start: 3, span: 9 }}
           row={3}
         >
-          <ContentComponents content={content} showKernUX={true} managedByParent={true} />
+          <ContentComponents
+            content={content}
+            showKernUX={true}
+            managedByParent={true}
+          />
         </GridItem>
       </Grid>
     </GridSection>
-
   );
 };
 

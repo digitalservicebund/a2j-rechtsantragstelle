@@ -15,7 +15,6 @@ export type KernHeadingProps = {
   size?: keyof typeof SIZES;
 };
 
-
 const KernHeading = ({
   tagName = "h1",
   text,

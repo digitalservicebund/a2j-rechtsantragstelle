@@ -11,8 +11,11 @@ import { postcodeSchema } from "~/services/validation/postcode";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
-export default function KernZuestandigesGerichtSuche({ backURL }: { backURL: string | undefined }) {
-
+export default function KernZuestandigesGerichtSuche({
+  backURL,
+}: {
+  backURL: string | undefined;
+}) {
   return (
     <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
       <Grid>

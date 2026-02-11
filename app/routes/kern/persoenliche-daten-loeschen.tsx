@@ -4,11 +4,18 @@ import KernButton from "~/components/kern/KernButton";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
-import { Translations } from "~/services/translations/getTranslationByKey";
+import { type StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 
-export default function KernPersoenlicheDatenLoeschen({ content, isSubmitting, translations }: { content: StrapiContentComponent[], isSubmitting: boolean, translations: Translations }) {
-
+export default function KernPersoenlicheDatenLoeschen({
+  content,
+  isSubmitting,
+  translations,
+}: {
+  content: StrapiContentComponent[];
+  isSubmitting: boolean;
+  translations: Translations;
+}) {
   return (
     <div className="flex flex-col grow bg-kern-layout-background-hued">
       <ContentComponents content={content} showKernUX={true} />
