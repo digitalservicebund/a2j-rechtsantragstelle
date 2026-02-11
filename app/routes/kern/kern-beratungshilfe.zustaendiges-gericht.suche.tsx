@@ -78,7 +78,7 @@ export default function KernZuestandigesGerichtSuche({
           lgColumn={{ start: 1, span: 12 }}
           xlColumn={{ start: 1, span: 12 }}
           className="pb-40 flex justify-end"
-          row={2}
+          row={4}
         >
           <KernReportProblem />
         </GridItem>

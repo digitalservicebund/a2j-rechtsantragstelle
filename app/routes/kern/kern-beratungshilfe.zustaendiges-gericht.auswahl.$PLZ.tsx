@@ -76,9 +76,15 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
               </div>
             </ValidatedForm>
           </div>
-          <div className="flex justify-end w-full p-32 relative">
-            <KernReportProblem />
-          </div>
+        </GridItem>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 1, span: 12 }}
+          xlColumn={{ start: 1, span: 12 }}
+          className="pb-40 pt-kern-space-x-large flex justify-end"
+          row={4}
+        >
+          <KernReportProblem />
         </GridItem>
       </Grid>
     </GridSection>
