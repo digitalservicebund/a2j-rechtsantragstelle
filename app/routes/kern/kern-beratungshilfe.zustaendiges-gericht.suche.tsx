@@ -1,5 +1,4 @@
 import { ValidatedForm } from "@rvf/react-router";
-import { useLoaderData } from "react-router";
 import { z } from "zod";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import { KernButtonNavigation } from "~/components/kern/KernButtonNavigation";
@@ -8,16 +7,14 @@ import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { type loader } from "../beratungshilfe.zustaendiges-gericht.suche";
 import { postcodeSchema } from "~/services/validation/postcode";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
-export default function KernZuestandigesGerichtSuche() {
-  const { backURL } = useLoaderData<typeof loader>();
+export default function KernZuestandigesGerichtSuche({ backURL }: { backURL: string | undefined }) {
 
   return (
-    <GridSection pt="40" pb="40">
+    <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -28,12 +25,12 @@ export default function KernZuestandigesGerichtSuche() {
             <KernHeading
               tagName="h1"
               text="Zuständiges Amtsgericht finden"
-              className="text-lg!"
+              className="text-lg! text-kern-layout-text-muted!"
             />
             <KernHeading
               tagName="h2"
               text="Wie ist Ihre Postleitzahl"
-              className="text-3xl!"
+              size="large"
             />
             <p className="kern-text">
               Bitte geben Sie die Postleitzahl Ihres Wohnsitzes ein. Wir zeigen

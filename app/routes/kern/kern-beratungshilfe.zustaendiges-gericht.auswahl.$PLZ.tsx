@@ -1,5 +1,4 @@
-import { ValidatedForm } from "@rvf/react";
-import { useLoaderData } from "react-router";
+import { ValidatedForm } from "@rvf/react-router";
 import { KernAutoSuggestInput } from "~/components/kern/formElements/autoSuggest";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import KernButton from "~/components/kern/KernButton";
@@ -13,14 +12,11 @@ import { translations } from "~/services/translations/translations";
 import {
   courtFinderSchema,
   requiredError,
-  type loader,
 } from "../beratungshilfe.zustaendiges-gericht.auswahl.$PLZ";
 
-export default function KernZuestandigesGerichtPlz() {
-  const { userData } = useLoaderData<typeof loader>();
-
+export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
   return (
-    <GridSection pt="40" pb="40">
+    <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -32,46 +28,36 @@ export default function KernZuestandigesGerichtPlz() {
             <KernHeading
               tagName="h1"
               className="mt-16 text-3xl!"
-              text={`Im Bereich Ihrer Postleitzahl ${userData.plz} sind
+              text={`Im Bereich Ihrer Postleitzahl ${plz} sind
           verschiedene Amtsgerichte zuständig.`}
             />
-          </div>
-          <div>
-            <KernHeading
-              tagName="h2"
-              text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
-              className="pb-16 pt-16! text-lg! font-normal!"
-            />
+            <h2 className="kern-body">Geben Sie bitte Ihre genaue Straße und Hausnummer ein</h2>
             <ValidatedForm
               method="post"
               schema={courtFinderSchema}
               defaultValues={{ street: "", houseNumber: "" }}
             >
               <div className="gap-kern-space-x-large flex flex-col">
-                <div className="flex flex-wrap md:flex-nowrap gap-16">
-                  <div className="flex flex-col">
-                    <KernAutoSuggestInput
-                      label={translations.gerichtFinder.streetName.de}
-                      dataList="streetNames"
-                      dataListArgument={userData.plz}
-                      noSuggestionMessage={
-                        translations.gerichtFinder.noResultsFound.de
-                      }
-                      errorMessages={[requiredError]}
-                      name="street"
-                      isDisabled={false}
-                      minSuggestCharacters={0}
-                    />
-                    <div className="label-text mt-6">
-                      {translations.gerichtFinder.autosuggestInputHelperText.de}
-                    </div>
-                    <NumberInput
-                      label={translations.gerichtFinder.houseNumber.de}
-                      name="houseNumber"
-                      errorMessages={[requiredError]}
-                      width="10"
-                    />
-                  </div>
+                <div className="flex flex-col gap-kern-space-x-large">
+                  <KernAutoSuggestInput
+                    label={translations.gerichtFinder.streetName.de}
+                    helperText={translations.gerichtFinder.autosuggestInputHelperText.de}
+                    dataList="streetNames"
+                    dataListArgument={plz}
+                    noSuggestionMessage={
+                      translations.gerichtFinder.noResultsFound.de
+                    }
+                    errorMessages={[requiredError]}
+                    name="street"
+                    isDisabled={false}
+                    minSuggestCharacters={0}
+                  />
+                  <NumberInput
+                    label={translations.gerichtFinder.houseNumber.de}
+                    name="houseNumber"
+                    errorMessages={[requiredError]}
+                    width="10"
+                  />
                 </div>
                 <KernButtonContainer>
                   <KernButton

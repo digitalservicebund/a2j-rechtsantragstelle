@@ -63,7 +63,7 @@ export default function Index() {
   const showKernUX = useShowKernUX();
 
   if (showKernUX) {
-    return <KernZuestandigesGerichtSuche />;
+    return <KernZuestandigesGerichtSuche backURL={backURL} />;
   }
 
   return (

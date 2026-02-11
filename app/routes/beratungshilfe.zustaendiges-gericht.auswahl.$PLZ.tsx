@@ -60,6 +60,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
+  console.log(params);
   const formData = await request.formData();
   const relevantFormData = filterFormData(formData);
   const validationResult = await parseFormData(
@@ -80,7 +81,9 @@ export default function Index() {
   const showKernUX = useShowKernUX();
 
   if (showKernUX) {
-    return <KernZuestandigesGerichtPlz />;
+    return <KernZuestandigesGerichtPlz
+      plz={userData.plz}
+    />
   }
 
   return (
