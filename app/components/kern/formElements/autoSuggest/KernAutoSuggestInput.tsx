@@ -163,14 +163,24 @@ const KernAutoSuggestInput = ({
         "kern-form-input--error": hasError,
       })}
     >
-      {label && (
-        <label
-          className="kern-label text-kern-layout-text-default!"
-          htmlFor="input-street"
-        >
-          {label}
-        </label>
-      )}
+      <div className="flex flex-col gap-kern-space-small pb-kern-space-small">
+        {label && (
+          <label
+            className="kern-label text-kern-layout-text-default! p-0! m-0!"
+            htmlFor="input-street"
+          >
+            {label}
+          </label>
+        )}
+        {helperText && (
+          <div
+            className="kern-body text-kern-layout-text-muted! p-0! m-0!"
+            id={helperId}
+          >
+            {helperText}
+          </div>
+        )}
+      </div>
 
       <div className="w-full">
         <SelectComponent
@@ -248,14 +258,6 @@ const KernAutoSuggestInput = ({
         />
       </div>
 
-      {helperText && (
-        <div
-          className="label-text mt-6 text-kern-layout-text-muted!"
-          id={helperId}
-        >
-          {helperText}
-        </div>
-      )}
       <div key={liveMessageKey} aria-live="polite" className="sr-only">
         {liveMessage}
       </div>
