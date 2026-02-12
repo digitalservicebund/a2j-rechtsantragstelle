@@ -6,18 +6,11 @@ import KernRichText from "./KernRichText";
 import KernButton, { type ButtonProps } from "./KernButton";
 import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
-import { KernInlineNotice } from "./KernInlineNotice";
+import {
+    KernInlineNotice,
+    type KernInlineNoticeProps,
+} from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
-
-type KernInlineNoticeProps = {
-    identifier?: string;
-    title: string;
-    tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-    look: "info" | "warning" | "danger" | "success";
-    content?: string;
-    wrap?: boolean;
-    nested?: boolean;
-};
 
 export type KernBoxItemProps = {
     id: number; // Strapi id
@@ -44,9 +37,8 @@ const KernBoxItem = ({
     buttons,
     accordion,
 }: KernBoxItemProps) => {
-    console.log(inlineNotices, "inlineNotices");
     return (
-        <div id={identifier} className="">
+        <div id={identifier}>
             {image && (
                 <Image
                     {...image}

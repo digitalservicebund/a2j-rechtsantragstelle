@@ -11,18 +11,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import classNames from "classnames";
-import KernBoxItem, { KernBoxItemProps } from "./KernBoxItem";
-
-export type ImageWidth = "XS" | "S" | "M" | "L" | "XL" | "XXL";
-
-export const imageWidths: Record<ImageWidth, string> = {
-  XS: "max-w-[80px]",
-  S: "max-w-[120px]",
-  M: "max-w-[280px]",
-  L: "max-w-[400px]",
-  XL: "max-w-[630px]",
-  XXL: "max-w-[848px]",
-};
+import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
 
 type BoxProps = {
   identifier?: string;
@@ -31,7 +20,6 @@ type BoxProps = {
   content?: RichTextProps;
   buttons?: ButtonProps[];
   image?: ImageProps;
-  imageWidth?: ImageWidth;
   items?: KernBoxItemProps[];
 };
 
@@ -42,7 +30,6 @@ const KernBox = ({
   content,
   buttons,
   image,
-  imageWidth,
   items,
 }: BoxProps) => {
   return (
@@ -52,30 +39,31 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-
       <div className="flex flex-col gap-kern-space-small p-kern-space-x-large">
         <div className="flex flex-row items-start gap-kern-space-x-large">
           {image && (
-            <div
-              className={`shrink-0 ${imageWidth ? imageWidths[imageWidth] : "max-w-full"}`}
-            >
+            <div className="shrink-0 max-w-full">
               <Image {...image} />
             </div>
           )}
           <div className="flex flex-col gap-kern-space-x-large">
             <div className="flex flex-col">
-              {label && <KernLabel
-                {...label}
-                className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
-              />}
-              {heading && <KernHeading
-                {...heading}
-                className={classNames("pt-9! pb-7!", { "text-kern-adaptive-medium!": image })}
-                managedByParent
-              />}
-              {content && (
-                <KernRichText {...content} />
+              {label && (
+                <KernLabel
+                  {...label}
+                  className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
+                />
               )}
+              {heading && (
+                <KernHeading
+                  {...heading}
+                  className={classNames("pt-9! pb-7!", {
+                    "text-kern-adaptive-medium!": image,
+                  })}
+                  managedByParent
+                />
+              )}
+              {content && <KernRichText {...content} />}
             </div>
             {arrayIsNonEmpty(items) && (
               <div

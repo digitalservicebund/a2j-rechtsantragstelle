@@ -1,11 +1,13 @@
 import { GridItem } from "../layout/grid/GridItem";
 import type { allowedHeadingTags } from "./types";
 
-const SIZES = {
+const SIZES_MAP = {
   medium: "kern-heading-medium",
   large: "kern-heading-large",
   xLarge: "kern-heading-x-large",
 };
+
+export const SIZES = Object.keys(SIZES_MAP) as Array<keyof typeof SIZES_MAP>;
 
 export type KernHeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
@@ -13,7 +15,7 @@ export type KernHeadingProps = {
   tabIndex?: number;
   className?: string;
   elementId?: string;
-  size?: keyof typeof SIZES;
+  size?: keyof typeof SIZES_MAP;
   managedByParent?: boolean;
 };
 
@@ -24,7 +26,7 @@ const KernHeading = ({
   managedByParent = false,
   className,
   elementId,
-  size = "xLarge",
+  size = "large",
 }: KernHeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
@@ -37,7 +39,7 @@ const KernHeading = ({
         xlColumn={{ start: 3, span: 8 }}
       >
         <Tag
-          className={`kern-heading-large p-0! ${className ?? ""}`}
+          className={`${SIZES_MAP[size as keyof typeof SIZES_MAP]} p-0! ${className ?? ""}`}
           tabIndex={tabIndex}
           id={elementId}
         >
@@ -48,7 +50,7 @@ const KernHeading = ({
   }
   return (
     <Tag
-      className={`${SIZES[size as keyof typeof SIZES]} p-0! ${className ?? ""}`}
+      className={`${SIZES_MAP[size as keyof typeof SIZES_MAP]} p-0! ${className ?? ""}`}
       tabIndex={tabIndex}
       id={elementId}
     >
