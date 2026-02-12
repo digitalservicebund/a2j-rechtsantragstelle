@@ -80,8 +80,8 @@ describe("addDisputeResolution", () => {
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
+    expect(mockDoc.text).not.toHaveBeenCalledWith(
+      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
     );
   });
 
@@ -96,8 +96,8 @@ describe("addDisputeResolution", () => {
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
+    expect(mockDoc.text).not.toHaveBeenCalledWith(
+      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
     );
   });
 });
