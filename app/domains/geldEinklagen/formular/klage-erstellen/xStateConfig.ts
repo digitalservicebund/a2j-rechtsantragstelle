@@ -25,6 +25,9 @@ const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
   ]);
 };
 
+const isPerson: GeldEinklagenKlageErstellenDaten = ({ context }) =>
+  context.gegenWenBeklagen === "person";
+
 export const klageErstellenXstateConfig = {
   id: "klage-erstellen",
   initial: "intro",
@@ -69,8 +72,7 @@ export const klageErstellenXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
-                  hasFilledKlagendePerson({ context }),
+                  isPerson({ context }) && hasFilledKlagendePerson({ context }),
                 target: steps.beklagtePersonMenschen.absolute,
               },
               {
@@ -89,7 +91,7 @@ export const klageErstellenXstateConfig = {
         [steps.beklagtePersonMenschen.relative]: {
           always: [
             {
-              guard: ({ context }) => context.gegenWenBeklagen === "person",
+              guard: isPerson,
               target: steps.beklagtePersonMenschen.relative,
             },
             steps.beklagtePersonOrganisation.relative,
@@ -105,7 +107,7 @@ export const klageErstellenXstateConfig = {
                   "beklagtePlz",
                   "beklagteOrt",
                 ]),
-              target: steps.rechtsproblemIntoStart.absolute,
+              target: steps.forderungGesamtbetrag.absolute,
             },
           },
         },
@@ -119,9 +121,63 @@ export const klageErstellenXstateConfig = {
                   "beklagtePlz",
                   "beklagteOrt",
                 ]),
-              target: steps.rechtsproblemIntoStart.absolute,
+              target: steps.forderungGesamtbetrag.absolute,
             },
             BACK: steps.klagendePersonKontaktdaten.absolute,
+          },
+        },
+      },
+    },
+    forderung: {
+      id: "forderung",
+      initial: "gesamtbetrag",
+      states: {
+        [steps.forderungGesamtbetrag.relative]: {
+          on: {
+            SUBMIT: steps.sachverhaltBegruendung.absolute,
+            BACK: [
+              {
+                guard: isPerson,
+                target: steps.beklagtePersonMenschen.absolute,
+              },
+              steps.beklagtePersonOrganisation.absolute,
+            ],
+          },
+        },
+      },
+    },
+    sachverhalt: {
+      id: "sachverhalt",
+      initial: "begruendung",
+      states: {
+        [steps.sachverhaltBegruendung.relative]: {
+          on: {
+            SUBMIT: steps.beweiseAngebot.absolute,
+            BACK: steps.forderungGesamtbetrag.absolute,
+          },
+        },
+      },
+    },
+    beweise: {
+      id: "beweise",
+      initial: "angebot",
+      states: {
+        [steps.beweiseAngebot.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.beweiseAngebot === "yes",
+                target: steps.beweiseBeschreibung.relative,
+              },
+              steps.rechtsproblemIntoStart.absolute,
+            ],
+            BACK: steps.sachverhaltBegruendung.absolute,
+          },
+        },
+        [steps.beweiseBeschreibung.relative]: {
+          on: {
+            SUBMIT: steps.rechtsproblemIntoStart.absolute,
+            BACK: steps.beweiseAngebot.relative,
           },
         },
       },
@@ -140,11 +196,10 @@ export const klageErstellenXstateConfig = {
                 SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
                 BACK: [
                   {
-                    guard: ({ context }) =>
-                      context.gegenWenBeklagen === "person",
-                    target: steps.beklagtePersonMenschen.absolute,
+                    guard: ({ context }) => context.beweiseAngebot === "yes",
+                    target: steps.beweiseBeschreibung.absolute,
                   },
-                  steps.beklagtePersonOrganisation.absolute,
+                  steps.beweiseAngebot.absolute,
                 ],
               },
             },

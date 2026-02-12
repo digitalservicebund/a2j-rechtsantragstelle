@@ -2,7 +2,10 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
-import { buildOptionalMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import {
+  buildOptionalMoneyValidationSchema,
+  buildMoneyValidationSchema,
+} from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -62,6 +65,30 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteGesetzlichenVertretungTitle: z.enum(["none", "dr"]),
       beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
       beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
+    },
+  },
+  forderungGesamtbetrag: {
+    stepId: "klage-erstellen/forderung/gesamtbetrag",
+    pageSchema: {
+      forderungGesamtbetrag: buildMoneyValidationSchema(),
+    },
+  },
+  sachverhaltBegruendung: {
+    stepId: "klage-erstellen/sachverhalt/begruendung",
+    pageSchema: {
+      sachverhaltBegruendung: stringRequiredSchema,
+    },
+  },
+  beweiseAngebot: {
+    stepId: "klage-erstellen/beweise/angebot",
+    pageSchema: {
+      beweiseAngebot: YesNoAnswer,
+    },
+  },
+  beweiseBeschreibung: {
+    stepId: "klage-erstellen/beweise/beschreibung",
+    pageSchema: {
+      beweiseBeschreibung: stringRequiredSchema,
     },
   },
   rechtsproblemIntoStart: {
