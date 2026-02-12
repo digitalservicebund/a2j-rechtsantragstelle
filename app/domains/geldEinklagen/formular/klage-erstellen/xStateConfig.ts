@@ -25,7 +25,7 @@ const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
   ]);
 };
 
-const isPerson: GeldEinklagenKlageErstellenDaten = ({ context }) =>
+const isBeklagenPerson: GeldEinklagenKlageErstellenDaten = ({ context }) =>
   context.gegenWenBeklagen === "person";
 
 export const klageErstellenXstateConfig = {
@@ -72,7 +72,8 @@ export const klageErstellenXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  isPerson({ context }) && hasFilledKlagendePerson({ context }),
+                  isBeklagenPerson({ context }) &&
+                  hasFilledKlagendePerson({ context }),
                 target: steps.beklagtePersonMenschen.absolute,
               },
               {
@@ -91,7 +92,7 @@ export const klageErstellenXstateConfig = {
         [steps.beklagtePersonMenschen.relative]: {
           always: [
             {
-              guard: isPerson,
+              guard: isBeklagenPerson,
               target: steps.beklagtePersonMenschen.relative,
             },
             steps.beklagtePersonOrganisation.relative,
@@ -141,7 +142,7 @@ export const klageErstellenXstateConfig = {
             },
             BACK: [
               {
-                guard: isPerson,
+                guard: isBeklagenPerson,
                 target: steps.beklagtePersonMenschen.absolute,
               },
               steps.beklagtePersonOrganisation.absolute,
