@@ -1,5 +1,6 @@
 import type { ZodType, z } from "zod";
 import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
+import RichTextEditor from "~/components/formElements/RichTextEditor";
 import {
   isZodString,
   renderZodString,
@@ -19,6 +20,7 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { richTextZodDescription } from "~/services/validation/richTextField";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -28,9 +30,11 @@ type Props = {
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  return [
+    filesUploadZodDescription,
+    hiddenInputZodDescription,
+    richTextZodDescription,
+  ].includes(fieldSchema.meta()?.description ?? "");
 };
 
 const renderSpecialMetaDescriptions = (
@@ -56,6 +60,10 @@ const renderSpecialMetaDescriptions = (
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (fieldSchema.meta()?.description === richTextZodDescription) {
+    return <RichTextEditor key={fieldName} name={fieldName} />;
   }
 };
 
