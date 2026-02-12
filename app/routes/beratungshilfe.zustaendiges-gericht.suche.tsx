@@ -11,7 +11,6 @@ import { ButtonNavigation } from "~/components/common/ButtonNavigation";
 import Heading from "~/components/common/Heading";
 import Input from "~/components/formElements/Input";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -20,6 +19,7 @@ import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
+import KernZuestandigesGerichtSuche from "./kern/kern-beratungshilfe.zustaendiges-gericht.suche";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
@@ -61,6 +61,10 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
   const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return <KernZuestandigesGerichtSuche backURL={backURL} />;
+  }
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
@@ -126,7 +130,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={2}
         >
-          {showKernUX ? <KernReportProblem /> : <ReportProblem />}
+          <ReportProblem />
         </GridItem>
       </Grid>
     </GridSection>

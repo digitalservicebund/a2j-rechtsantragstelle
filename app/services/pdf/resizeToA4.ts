@@ -19,7 +19,8 @@ export function resizeToA4(pdfDoc: PDFDocument) {
     field.acroField.getWidgets().forEach((widget) => {
       // We need to find its parent page, see https://github.com/Hopding/pdf-lib/issues/1090#issuecomment-970910486
       const page = pages.find((p) => p.ref === widget.P());
-      const { translateX, translateY } = xyTranslationsForA4(page!);
+      if (!page) return;
+      const { translateX, translateY } = xyTranslationsForA4(page);
       const rect = widget.getRectangle();
       rect.x += translateX;
       rect.y += translateY;
