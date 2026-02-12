@@ -3,6 +3,9 @@ import ContentComponents from "~/components/content/ContentComponents";
 import Container from "~/components/layout/Container";
 import { config } from "~/services/env/public";
 import { ERROR_PAGES } from "./errorPages";
+import { GridSection } from "~/components/layout/grid/GridSection";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 
 function jsError(routeError: unknown) {
   if (typeof routeError === "string") return routeError.toUpperCase();
@@ -38,7 +41,23 @@ export function ErrorBox({ showKernUX = false }: { showKernUX?: boolean }) {
     return (
       <div className="flex flex-col py-kern-space-x-large">
         <ContentComponents content={content} showKernUX />
-        <div>{!isProd && <pre>{jsError(routerError)}</pre>}</div>
+        <GridSection>
+          <Grid>
+            <GridItem
+              mdColumn={{ start: 1, span: 8 }}
+              lgColumn={{ start: 3, span: 9 }}
+              xlColumn={{ start: 3, span: 9 }}
+            >
+              <div>
+                {!isProd && (
+                  <pre className="whitespace-break-spaces">
+                    {jsError(routerError)}
+                  </pre>
+                )}
+              </div>
+            </GridItem>
+          </Grid>
+        </GridSection>
       </div>
     );
   }
