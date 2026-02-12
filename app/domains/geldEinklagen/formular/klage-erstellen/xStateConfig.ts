@@ -134,7 +134,11 @@ export const klageErstellenXstateConfig = {
       states: {
         [steps.forderungGesamtbetrag.relative]: {
           on: {
-            SUBMIT: steps.sachverhaltBegruendung.absolute,
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
+              target: steps.sachverhaltBegruendung.absolute,
+            },
             BACK: [
               {
                 guard: isPerson,
@@ -152,7 +156,11 @@ export const klageErstellenXstateConfig = {
       states: {
         [steps.sachverhaltBegruendung.relative]: {
           on: {
-            SUBMIT: steps.beweiseAngebot.absolute,
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["sachverhaltBegruendung"]),
+              target: steps.beweiseAngebot.absolute,
+            },
             BACK: steps.forderungGesamtbetrag.absolute,
           },
         },
@@ -169,14 +177,21 @@ export const klageErstellenXstateConfig = {
                 guard: ({ context }) => context.beweiseAngebot === "yes",
                 target: steps.beweiseBeschreibung.relative,
               },
-              steps.prozessfuehrungProzesszinsen.absolute,
+              {
+                guard: ({ context }) => context.beweiseAngebot === "no",
+                target: steps.prozessfuehrungProzesszinsen.absolute,
+              },
             ],
             BACK: steps.sachverhaltBegruendung.absolute,
           },
         },
         [steps.beweiseBeschreibung.relative]: {
           on: {
-            SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
+              target: steps.prozessfuehrungProzesszinsen.absolute,
+            },
             BACK: steps.beweiseAngebot.relative,
           },
         },
