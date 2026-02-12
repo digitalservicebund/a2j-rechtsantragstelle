@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { editorInputOptionalSchema } from "~/services/validation/editorInput";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import { buildOptionalMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -109,7 +110,7 @@ export const geldEinklagenKlageErstellenPages = {
   rechtlicherZusatzWeitereAntraege: {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
-      weitereAntraege: schemaOrEmptyString(stringRequiredSchema),
+      weitereAntraege: editorInputOptionalSchema,
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
