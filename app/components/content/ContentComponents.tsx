@@ -79,6 +79,40 @@ function getContainerBackgroundColor(
   }
   return "";
 }
+
+function getPaddingTop(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if ("paddingTop" in el && el.paddingTop) {
+      return el.paddingTop;
+    }
+    return "default";
+  }
+
+  if (hasLayoutProperties(el) && el.container?.paddingTop) {
+    return el.container.paddingTop;
+  }
+  return "default";
+}
+
+function getPaddingBottom(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if ("paddingBottom" in el && el.paddingBottom) {
+      return el.paddingBottom;
+    }
+    return "default";
+  }
+
+  if (hasLayoutProperties(el) && el.container?.paddingBottom) {
+    return el.container.paddingBottom;
+  }
+  return "default";
+}
 // Map temporarily Strapi look values to Kern look values
 function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
   const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
@@ -207,7 +241,6 @@ function ContentComponents({
       const isUserFeedback =
         el.__component === "page.user-feedback" && !showKernUX;
       const isKernBox = el.__component === "page.box" && showKernUX;
-      const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {
         return (
@@ -219,24 +252,8 @@ function ContentComponents({
 
       return (
         <GridSection
-          pt={
-            !showKernUX
-              ? hasLayout && el.container?.paddingTop
-                ? el.container.paddingTop
-                : "default"
-              : "paddingTop" in el && el.paddingTop
-                ? el.paddingTop
-                : "default"
-          }
-          pb={
-            !showKernUX
-              ? hasLayout && el.container?.paddingBottom
-                ? el.container.paddingBottom
-                : "default"
-              : "paddingBottom" in el && el.paddingBottom
-                ? el.paddingBottom
-                : "default"
-          }
+          pt={getPaddingTop(el, showKernUX)}
+          pb={getPaddingBottom(el, showKernUX)}
           className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
         >
