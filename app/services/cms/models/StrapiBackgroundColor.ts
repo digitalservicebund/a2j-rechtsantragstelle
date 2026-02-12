@@ -11,9 +11,7 @@ export const StrapiBackgroundColorSchema = z.enum([
   "red",
 ]);
 
-export const StrapiKernBackgroundColorSchema = z.enum([
-  "white",
-  "grey300",
-]);
+export const StrapiKernBackgroundColorSchema = z.enum(["white", "grey"]);
 
-export const StrapiKernBackgroundColorOptionalSchema = StrapiKernBackgroundColorSchema.nullable().transform(omitNull).optional();
+export const StrapiKernBackgroundColorOptionalSchema =
+  StrapiKernBackgroundColorSchema.nullable().transform(omitNull).optional();

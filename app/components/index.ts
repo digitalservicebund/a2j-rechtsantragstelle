@@ -21,9 +21,11 @@ export const BACKGROUND_COLORS = Object.freeze({
 
 export const SECTION_BACKGROUND_COLORS = Object.freeze({
   white: "bg-white",
-  grey300: "bg-kern-neutral-050",
+  grey: "bg-kern-neutral-050",
 });
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
-export type SectionBackgroundColor = "default" | keyof typeof SECTION_BACKGROUND_COLORS;
+export type SectionBackgroundColor =
+  | "default"
+  | keyof typeof SECTION_BACKGROUND_COLORS;
 configureZod(); // configures custom enum errors & disable CSP warning due to eval

@@ -105,13 +105,18 @@ function cmsToReact(
       case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
-        return <KernBox {...componentProps} items={componentProps.items?.map((item) => ({
-          ...item,
-          inlineNotices: item.inlineNotices?.map((notice) => ({
-            ...notice,
-            look: mapLookValue(notice.look),
-          })),
-        }))} />;
+        return (
+          <KernBox
+            {...componentProps}
+            items={componentProps.items?.map((item) => ({
+              ...item,
+              inlineNotices: item.inlineNotices?.map((notice) => ({
+                ...notice,
+                look: mapLookValue(notice.look),
+              })),
+            }))}
+          />
+        );
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
@@ -215,14 +220,22 @@ function ContentComponents({
       return (
         <GridSection
           pt={
-            hasLayout && el.container?.paddingTop
-              ? el.container.paddingTop
-              : "default"
+            !showKernUX
+              ? hasLayout && el.container?.paddingTop
+                ? el.container.paddingTop
+                : "default"
+              : "paddingTop" in el && el.paddingTop
+                ? el.paddingTop
+                : "default"
           }
           pb={
-            hasLayout && el.container?.paddingBottom
-              ? el.container.paddingBottom
-              : "default"
+            !showKernUX
+              ? hasLayout && el.container?.paddingBottom
+                ? el.container.paddingBottom
+                : "default"
+              : "paddingBottom" in el && el.paddingBottom
+                ? el.paddingBottom
+                : "default"
           }
           className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}

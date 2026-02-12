@@ -6,12 +6,14 @@ import {
   allowedHeadingLooks,
   allowedHeadingTags,
 } from "~/components/common/Heading";
+import { SIZES } from "~/components/kern/KernHeading";
 
 export const StrapiHeadingSchema = z
   .object({
     text: StringWithHtmlEntities,
     tagName: z.enum(allowedHeadingTags),
-    look: z.enum(allowedHeadingLooks), // To be removed
+    look: z.enum(allowedHeadingLooks), // To be removed after KERN migration
+    size: z.enum(SIZES).nullable().transform(omitNull).optional(),
     ...HasStrapiIdSchema.shape,
   })
   .transform((cmsData) => {
