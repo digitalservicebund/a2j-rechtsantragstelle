@@ -20,7 +20,11 @@ const KernLabel = ({
   const Tag = tagName;
 
   return (
-    <Tag className={classNames("kern-label p-0!", className)} tabIndex={tabIndex} id={elementId}>
+    <Tag
+      className={classNames("kern-label p-0!", className)}
+      tabIndex={tabIndex}
+      id={elementId}
+    >
       {text}
     </Tag>
   );
