@@ -169,40 +169,15 @@ export const klageErstellenXstateConfig = {
                 guard: ({ context }) => context.beweiseAngebot === "yes",
                 target: steps.beweiseBeschreibung.relative,
               },
-              steps.rechtsproblemIntoStart.absolute,
+              steps.prozessfuehrungProzesszinsen.absolute,
             ],
             BACK: steps.sachverhaltBegruendung.absolute,
           },
         },
         [steps.beweiseBeschreibung.relative]: {
           on: {
-            SUBMIT: steps.rechtsproblemIntoStart.absolute,
+            SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
             BACK: steps.beweiseAngebot.relative,
-          },
-        },
-      },
-    },
-    rechtsproblem: {
-      id: "rechtsproblem",
-      initial: "intro",
-      states: {
-        intro: {
-          id: "intro",
-          initial: "start",
-          meta: { shouldAppearAsMenuNavigation: true },
-          states: {
-            [steps.rechtsproblemIntoStart.relative]: {
-              on: {
-                SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
-                BACK: [
-                  {
-                    guard: ({ context }) => context.beweiseAngebot === "yes",
-                    target: steps.beweiseBeschreibung.absolute,
-                  },
-                  steps.beweiseAngebot.absolute,
-                ],
-              },
-            },
           },
         },
       },

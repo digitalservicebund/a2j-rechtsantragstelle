@@ -47,7 +47,7 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/sachverhalt/begruendung",
       "/klage-erstellen/beweise/angebot",
       "/klage-erstellen/beweise/beschreibung",
-      "/klage-erstellen/rechtsproblem/intro/start",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -74,7 +74,7 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/sachverhalt/begruendung",
       "/klage-erstellen/beweise/angebot",
       "/klage-erstellen/beweise/beschreibung",
-      "/klage-erstellen/rechtsproblem/intro/start",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -95,7 +95,32 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/forderung/gesamtbetrag",
       "/klage-erstellen/sachverhalt/begruendung",
       "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/rechtsproblem/intro/start",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      gegenWenBeklagen: "organisation",
+      beklagteNameOrganisation: "beklagteNameOrganisation",
+      beklagteGesetzlichenVertretungVorname:
+        "beklagteGesetzlichenVertretungVorname",
+      beklagteGesetzlichenVertretungNachname:
+        "beklagteGesetzlichenVertretungNachname",
+      beklagteGesetzlichenVertretungAnrede: "herr",
+      beklagteGesetzlichenVertretungTitle: "dr",
+      beweiseAngebot: "no",
+    },
+    [
+      "/klage-erstellen/intro/start",
+      "/klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
+      "/klage-erstellen/streitwert-kosten/weitere-kosten",
+      "/klage-erstellen/klagende-person/kontaktdaten",
+      "/klage-erstellen/beklagte-person/organisation",
+      "/klage-erstellen/forderung/gesamtbetrag",
+      "/klage-erstellen/sachverhalt/begruendung",
+      "/klage-erstellen/beweise/angebot",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
