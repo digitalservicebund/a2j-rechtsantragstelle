@@ -70,7 +70,7 @@ export const geldEinklagenKlageErstellenPages = {
   forderungGesamtbetrag: {
     stepId: "klage-erstellen/forderung/gesamtbetrag",
     pageSchema: {
-      forderungGesamtbetrag: buildMoneyValidationSchema(),
+      forderungGesamtbetrag: buildMoneyValidationSchema({ max: 1000000 }),
     },
   },
   sachverhaltBegruendung: {
@@ -90,9 +90,6 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       beweiseBeschreibung: stringRequiredSchema,
     },
-  },
-  rechtsproblemIntoStart: {
-    stepId: "klage-erstellen/rechtsproblem/intro/start",
   },
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
