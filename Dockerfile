@@ -31,10 +31,10 @@ FROM ${APP_IMAGE} AS appStageForCopy
 FROM node:24-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
-USER node
+USER 1000
 WORKDIR /a2j
 ENV NODE_ENV=production
-COPY --link --chown=node:node --from=appStageForCopy /a2j-app/ ./
+COPY --link --chown=1000:1000 --from=appStageForCopy /a2j-app/ ./
 COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
