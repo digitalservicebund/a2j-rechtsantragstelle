@@ -32,7 +32,13 @@ export const prozessfuehrungXstateConfig = {
     [steps.prozessfuehrungProzesszinsen.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungAnwaltskosten.relative,
-        BACK: steps.rechtsproblemIntoStart.absolute,
+        BACK: [
+          {
+            guard: ({ context }) => context.beweiseAngebot === "yes",
+            target: steps.beweiseBeschreibung.absolute,
+          },
+          steps.beweiseAngebot.absolute,
+        ],
       },
     },
     [steps.prozessfuehrungAnwaltskosten.relative]: {
