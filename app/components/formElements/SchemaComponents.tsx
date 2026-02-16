@@ -41,14 +41,16 @@ const renderSpecialMetaDescriptions = (
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
     >;
-    <FilesUpload
-      key={fieldName}
-      name={fieldName}
-      title={filesUploadElement.title}
-      description={filesUploadElement.description}
-      inlineNotices={filesUploadElement.inlineNotices}
-      errorMessages={filesUploadElement.errorMessages}
-    />;
+    return (
+      <FilesUpload
+        key={fieldName}
+        name={fieldName}
+        title={filesUploadElement.title}
+        description={filesUploadElement.description}
+        inlineNotices={filesUploadElement.inlineNotices}
+        errorMessages={filesUploadElement.errorMessages}
+      />
+    );
   }
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
