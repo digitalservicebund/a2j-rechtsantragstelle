@@ -115,7 +115,9 @@ function getPaddingBottom(
   return "default";
 }
 // Map temporarily Strapi look values to Kern look values
-export function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
+export function mapLookValue(
+  look: string,
+): "success" | "warning" | "info" | "danger" {
   const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
     error: "danger",
     success: "success",

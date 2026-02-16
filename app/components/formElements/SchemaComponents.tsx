@@ -19,13 +19,11 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
-import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-  showKernUX?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
@@ -38,7 +36,6 @@ const renderSpecialMetaDescriptions = (
   fieldName: string,
   fieldSchema: ZodType,
   matchingElement?: StrapiFormComponent,
-  showKernUX?: boolean,
 ) => {
   if (fieldSchema.meta()?.description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
@@ -51,7 +48,7 @@ const renderSpecialMetaDescriptions = (
       description={filesUploadElement.description}
       inlineNotices={filesUploadElement.inlineNotices}
       errorMessages={filesUploadElement.errorMessages}
-    />
+    />;
   }
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {

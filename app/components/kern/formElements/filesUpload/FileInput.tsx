@@ -38,6 +38,11 @@ export const KernFileInput = ({
       accept=".pdf"
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
+      aria-label={
+        splitFieldName(name).inputIndex === 0
+          ? translations.fileUpload.select.de
+          : translations.fileUpload.addAnother.de
+      }
       aria-errormessage={error && errorId}
       className={classNames(
         error && "kern-form-input__input--error",

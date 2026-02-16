@@ -55,10 +55,12 @@ const renderSpecialMetaDescriptions = (
         name={fieldName}
         title={filesUploadElement.title}
         description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices?.map((inlineNotice) => ({
-          ...inlineNotice,
-          look: mapLookValue(inlineNotice.look),
-        }))}
+        inlineNotices={filesUploadElement.inlineNotices?.map(
+          (inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }),
+        )}
         errorMessages={filesUploadElement.errorMessages}
       />
     );
