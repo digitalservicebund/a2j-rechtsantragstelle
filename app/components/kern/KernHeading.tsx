@@ -39,7 +39,7 @@ const KernHeading = ({
         xlColumn={{ start: 3, span: 8 }}
       >
         <Tag
-          className={`${SIZES_MAP[size as keyof typeof SIZES_MAP]} p-0! ${className ?? ""}`}
+          className={`${SIZES_MAP[size]} p-0! ${className ?? ""}`}
           tabIndex={tabIndex}
           id={elementId}
         >
@@ -50,7 +50,7 @@ const KernHeading = ({
   }
   return (
     <Tag
-      className={`${SIZES_MAP[size as keyof typeof SIZES_MAP]} p-0! ${className ?? ""}`}
+      className={`${SIZES_MAP[size]} p-0! ${className ?? ""}`}
       tabIndex={tabIndex}
       id={elementId}
     >
