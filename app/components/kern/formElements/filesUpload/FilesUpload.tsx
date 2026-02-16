@@ -11,7 +11,10 @@ import {
 } from "~/services/validation/pdfFileSchema";
 import { KernFileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import { KernInlineNotice, type KernInlineNoticeProps } from "../../KernInlineNotice";
+import {
+  KernInlineNotice,
+  type KernInlineNoticeProps,
+} from "../../KernInlineNotice";
 
 export type FilesUploadProps = {
   name: string;
@@ -75,9 +78,13 @@ const FilesUpload = ({
       <div className={classes}>
         <div
           data-testid={`files-upload-${name}`}
-          className={classNames("p-kern-space-default flex flex-col gap-kern-space-default bg-white", {
-            "bg-kern-feedback-danger-background! border border-2 border-kern-feedback-danger rounded-sm mb-kern-space-default": !!field.error(),
-          })}
+          className={classNames(
+            "p-kern-space-default flex flex-col gap-kern-space-default bg-white",
+            {
+              "bg-kern-feedback-danger-background! border border-2 border-kern-feedback-danger rounded-sm mb-kern-space-default":
+                !!field.error(),
+            },
+          )}
         >
           <FilesUploadHeader title={title} description={description} />
           <div className="flex flex-col gap-kern-space-small">

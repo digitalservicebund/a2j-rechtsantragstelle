@@ -58,11 +58,7 @@ export const KernFileInput = ({
   );
 
   return (
-    <div
-      className={classNames(
-        error && "kern-form-input--error",
-      )}
-    >
+    <div className={classNames(error && "kern-form-input--error")}>
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
