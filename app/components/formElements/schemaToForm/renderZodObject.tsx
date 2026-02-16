@@ -62,7 +62,6 @@ export const renderZodObject = (
       key={fieldName}
       pageSchema={innerSchema}
       formComponents={formComponents}
-      showKernUX={showKernUX}
     />
   );
 };
