@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { BACKGROUND_COLORS } from "~/components";
+import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
 import Box from "~/components/content/Box";
@@ -63,6 +63,12 @@ function getContainerBackgroundColor(
     if (el.__component === "page.hero-with-button") {
       return "bg-kern-neutral-050";
     }
+
+    if (el.__component === "page.box" && el.sectionBackgroundColor) {
+      return SECTION_BACKGROUND_COLORS[
+        el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
+      ];
+    }
   }
 
   const hasLayout = hasLayoutProperties(el);
@@ -72,6 +78,40 @@ function getContainerBackgroundColor(
     ];
   }
   return "";
+}
+
+function getPaddingTop(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if ("paddingTop" in el && el.paddingTop) {
+      return el.paddingTop;
+    }
+    return "default";
+  }
+
+  if (hasLayoutProperties(el) && el.container?.paddingTop) {
+    return el.container.paddingTop;
+  }
+  return "default";
+}
+
+function getPaddingBottom(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
+  if (showKernUX) {
+    if ("paddingBottom" in el && el.paddingBottom) {
+      return el.paddingBottom;
+    }
+    return "default";
+  }
+
+  if (hasLayoutProperties(el) && el.container?.paddingBottom) {
+    return el.container.paddingBottom;
+  }
+  return "default";
 }
 // Map temporarily Strapi look values to Kern look values
 function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
@@ -99,7 +139,18 @@ function cmsToReact(
       case "page.hero-with-button":
         return <KernHeroWithButton {...componentProps} />;
       case "page.box":
-        return <KernBox {...componentProps} />;
+        return (
+          <KernBox
+            {...componentProps}
+            items={componentProps.items?.map((item) => ({
+              ...item,
+              inlineNotices: item.inlineNotices?.map((notice) => ({
+                ...notice,
+                look: mapLookValue(notice.look),
+              })),
+            }))}
+          />
+        );
       case "page.box-with-image":
         return <KernBoxWithImage {...componentProps} />;
       case "page.info-box":
@@ -190,7 +241,6 @@ function ContentComponents({
       const isUserFeedback =
         el.__component === "page.user-feedback" && !showKernUX;
       const isKernBox = el.__component === "page.box" && showKernUX;
-      const hasLayout = hasLayoutProperties(el);
 
       if (managedByParent) {
         return (
@@ -202,16 +252,8 @@ function ContentComponents({
 
       return (
         <GridSection
-          pt={
-            hasLayout && el.container?.paddingTop
-              ? el.container.paddingTop
-              : "default"
-          }
-          pb={
-            hasLayout && el.container?.paddingBottom
-              ? el.container.paddingBottom
-              : "default"
-          }
+          pt={getPaddingTop(el, showKernUX)}
+          pb={getPaddingBottom(el, showKernUX)}
           className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
         >

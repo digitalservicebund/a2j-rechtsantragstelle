@@ -4,7 +4,7 @@ import KernRichText from "./KernRichText";
 import { KernIcon } from "./common/KernIcon";
 import { type IconName } from "./common/utils";
 
-type KernInlineNoticeProps = {
+export type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
