@@ -25,6 +25,9 @@ const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
   ]);
 };
 
+const isBeklagenPerson: GeldEinklagenKlageErstellenDaten = ({ context }) =>
+  context.gegenWenBeklagen === "person";
+
 export const klageErstellenXstateConfig = {
   id: "klage-erstellen",
   initial: "intro",
@@ -69,7 +72,7 @@ export const klageErstellenXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  context.gegenWenBeklagen === "person" &&
+                  isBeklagenPerson({ context }) &&
                   hasFilledKlagendePerson({ context }),
                 target: steps.beklagtePersonMenschen.absolute,
               },
@@ -89,7 +92,7 @@ export const klageErstellenXstateConfig = {
         [steps.beklagtePersonMenschen.relative]: {
           always: [
             {
-              guard: ({ context }) => context.gegenWenBeklagen === "person",
+              guard: isBeklagenPerson,
               target: steps.beklagtePersonMenschen.relative,
             },
             steps.beklagtePersonOrganisation.relative,
@@ -105,7 +108,7 @@ export const klageErstellenXstateConfig = {
                   "beklagtePlz",
                   "beklagteOrt",
                 ]),
-              target: steps.rechtsproblemIntoStart.absolute,
+              target: steps.forderungGesamtbetrag.absolute,
             },
           },
         },
@@ -119,35 +122,78 @@ export const klageErstellenXstateConfig = {
                   "beklagtePlz",
                   "beklagteOrt",
                 ]),
-              target: steps.rechtsproblemIntoStart.absolute,
+              target: steps.forderungGesamtbetrag.absolute,
             },
             BACK: steps.klagendePersonKontaktdaten.absolute,
           },
         },
       },
     },
-    rechtsproblem: {
-      id: "rechtsproblem",
-      initial: "intro",
+    forderung: {
+      id: "forderung",
+      initial: "gesamtbetrag",
       states: {
-        intro: {
-          id: "intro",
-          initial: "start",
-          meta: { shouldAppearAsMenuNavigation: true },
-          states: {
-            [steps.rechtsproblemIntoStart.relative]: {
-              on: {
-                SUBMIT: steps.prozessfuehrungProzesszinsen.absolute,
-                BACK: [
-                  {
-                    guard: ({ context }) =>
-                      context.gegenWenBeklagen === "person",
-                    target: steps.beklagtePersonMenschen.absolute,
-                  },
-                  steps.beklagtePersonOrganisation.absolute,
-                ],
-              },
+        [steps.forderungGesamtbetrag.relative]: {
+          on: {
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
+              target: steps.sachverhaltBegruendung.absolute,
             },
+            BACK: [
+              {
+                guard: isBeklagenPerson,
+                target: steps.beklagtePersonMenschen.absolute,
+              },
+              steps.beklagtePersonOrganisation.absolute,
+            ],
+          },
+        },
+      },
+    },
+    sachverhalt: {
+      id: "sachverhalt",
+      initial: "begruendung",
+      states: {
+        [steps.sachverhaltBegruendung.relative]: {
+          on: {
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["sachverhaltBegruendung"]),
+              target: steps.beweiseAngebot.absolute,
+            },
+            BACK: steps.forderungGesamtbetrag.absolute,
+          },
+        },
+      },
+    },
+    beweise: {
+      id: "beweise",
+      initial: "angebot",
+      states: {
+        [steps.beweiseAngebot.relative]: {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.beweiseAngebot === "yes",
+                target: steps.beweiseBeschreibung.relative,
+              },
+              {
+                guard: ({ context }) => context.beweiseAngebot === "no",
+                target: steps.prozessfuehrungProzesszinsen.absolute,
+              },
+            ],
+            BACK: steps.sachverhaltBegruendung.absolute,
+          },
+        },
+        [steps.beweiseBeschreibung.relative]: {
+          on: {
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
+              target: steps.prozessfuehrungProzesszinsen.absolute,
+            },
+            BACK: steps.beweiseAngebot.relative,
           },
         },
       },
