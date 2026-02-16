@@ -25,6 +25,7 @@ import {
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
 import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
 import classNames from "classnames";
+import { mapLookValue } from "../content/ContentComponents";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -54,7 +55,10 @@ const renderSpecialMetaDescriptions = (
         name={fieldName}
         title={filesUploadElement.title}
         description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices}
+        inlineNotices={filesUploadElement.inlineNotices?.map((inlineNotice) => ({
+          ...inlineNotice,
+          look: mapLookValue(inlineNotice.look),
+        }))}
         errorMessages={filesUploadElement.errorMessages}
       />
     );
