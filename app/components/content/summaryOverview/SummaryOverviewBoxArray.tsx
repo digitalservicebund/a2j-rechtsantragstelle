@@ -30,6 +30,7 @@ const SummaryOverviewBoxArray = ({ boxId, boxItems, title, stepId }: Props) => {
 
   return arrayObject.map((object, index) => (
     <SummaryOverviewBox
+      // oxlint-disable-next-line react/no-array-index-key
       key={boxId + index}
       boxId={boxId}
       stepId={addArrayIndexToPathUrl(stepId, index)}
