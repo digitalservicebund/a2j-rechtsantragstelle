@@ -13,13 +13,8 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
   return "";
 };
 
-const getFieldName = (field: string): string => {
-  if (field.includes(arrayChar)) {
-    const parts = field.split(arrayChar);
-    return parts[parts.length - 1];
-  }
-  return field;
-};
+const getFieldName = (field: string): string =>
+  field.split(arrayChar).pop() ?? field;
 
 export const getItemValueBox = (
   translations: Translations,

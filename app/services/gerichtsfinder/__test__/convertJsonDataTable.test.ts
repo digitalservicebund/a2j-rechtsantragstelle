@@ -128,6 +128,7 @@ describe("PlzOrtk data conversions", () => {
 
   it("ignores entries without prozesskosten", () => {
     const plzOrtkEntry2 = { ...plzOrtkEntry };
+    // @ts-expect-error - Testing with invalid value
     plzOrtkEntry2.ANGELEGENHEIT_INFO = "arbitrary value";
     const input = { JMTD14_VT_ERWERBER_PLZORTK: [plzOrtkEntry, plzOrtkEntry2] };
 

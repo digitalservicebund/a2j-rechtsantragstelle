@@ -6,7 +6,13 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { yesNoGuards } from "~/domains/guards.server";
 import { kinderArraySchema } from "./kinder/pages";
-import { hasStaatlicheLeistungen } from "./einkommen/doneFunctions";
+
+const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
+  context,
+}) =>
+  context.staatlicheLeistungen === "asylbewerberleistungen" ||
+  context.staatlicheLeistungen === "buergergeld" ||
+  context.staatlicheLeistungen === "grundsicherung";
 
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";

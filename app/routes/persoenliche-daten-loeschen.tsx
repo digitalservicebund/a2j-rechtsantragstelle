@@ -11,6 +11,8 @@ import {
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
 import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
+import KernPersoenlicheDatenLoeschen from "./kern/persoenliche-daten-loeschen";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { referrer } = request;
@@ -34,6 +36,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function PersoenlicheDatenLoeschen() {
   const { content, translations, backButton } = useLoaderData<typeof loader>();
   const isSubmitting = useNavigation().state === "submitting";
+
+  const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return (
+      <KernPersoenlicheDatenLoeschen
+        content={content}
+        isSubmitting={isSubmitting}
+        translations={translations}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col grow">

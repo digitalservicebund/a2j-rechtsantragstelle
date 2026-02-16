@@ -1,6 +1,5 @@
-import type { FluggastrechteGrundvoraussetzungenUserData } from "~/domains/fluggastrechte/formular/grundvoraussetzungen/userData";
+import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { Config } from "~/services/flow/server/types";
-import { grundvoraussetzungenDone } from "./doneFunctions";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 
@@ -63,11 +62,13 @@ export const grundvoraussetzungenXstateConfig = {
         SUBMIT: [
           {
             target: steps.streitwertKostenGerichtskosten.absolute,
-            guard: grundvoraussetzungenDone,
+            guard: ({ context }) =>
+              context.pageData?.subflowDoneStates?.["/grundvoraussetzungen"] ===
+              true,
           },
         ],
         BACK: steps.grundvoraussetzungenDatenUebernahme.relative,
       },
     },
   },
-} satisfies Config<FluggastrechteGrundvoraussetzungenUserData>;
+} satisfies Config<FluggastrechteUserData>;

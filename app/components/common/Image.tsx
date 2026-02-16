@@ -26,6 +26,7 @@ function Image({
         svgString={svgString}
         width={props.width}
         altText={alternativeText}
+        className={props.className}
       />
     );
 

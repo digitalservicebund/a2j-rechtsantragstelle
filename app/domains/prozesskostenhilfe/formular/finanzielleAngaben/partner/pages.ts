@@ -7,25 +7,14 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-const sharedPaymentFields = {
+const paymentSchema = z.object({
   beschreibung: stringRequiredSchema,
   betrag: buildMoneyValidationSchema(),
   zahlungsfrequenz: z.enum(["monthly", "quarterly", "yearly", "one-time"]),
-};
+});
 
-const partnerArbeitsausgabenArraySchema = z
-  .object({
-    ...sharedPaymentFields,
-  })
-  .array()
-  .min(1);
-
-const partnerWeitereEinkuenfteArraySchema = z
-  .object({
-    ...sharedPaymentFields,
-  })
-  .array()
-  .min(1);
+const partnerArbeitsausgabenArraySchema = z.array(paymentSchema).min(1);
+const partnerWeitereEinkuenfteArraySchema = z.array(paymentSchema).min(1);
 
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {

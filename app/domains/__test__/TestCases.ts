@@ -1,6 +1,7 @@
 import { type Config } from "~/services/flow/server/types";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
+import { type PageData } from "~/services/flow/pageDataSchema";
 
 // Old flow tests: forward & backward using full user data
 export type TestCases<T extends UserData> = Readonly<
@@ -10,7 +11,7 @@ export type TestCases<T extends UserData> = Readonly<
 type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
 export type ExpectedStepUserInput<T extends UserData> = T & {
-  pageData?: { arrayIndexes?: number[] };
+  pageData?: PageData;
   // oxlint-disable-next-line typescript/consistent-indexed-object-style
 } & { [K in ArrayItemProperties]: AllowedUserTypes };
 
@@ -24,6 +25,7 @@ export type ExpectedStep<T extends UserData> = {
    */
   skipPageSchemaValidation?: boolean;
   userInput?: ExpectedStepUserInput<T>;
+  pageData?: PageData;
 };
 
 export type FlowTestCases<T extends UserData> = Record<

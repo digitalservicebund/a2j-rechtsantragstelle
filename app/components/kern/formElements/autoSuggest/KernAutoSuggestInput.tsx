@@ -1,7 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { matchSorter } from "match-sorter";
 import { type RefObject, useEffect, useRef, useState } from "react";
-import Input from "react-imask/esm/input";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import Creatable from "react-select/creatable";
@@ -23,6 +22,7 @@ import KernAutoSuggestController from "./KernAutoSuggestController";
 import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
 import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
+import TextInput from "../input/TextInput";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -145,7 +145,7 @@ const KernAutoSuggestInput = ({
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
     return (
-      <Input
+      <TextInput
         name={name}
         label={label}
         placeholder={placeholder}
@@ -163,14 +163,24 @@ const KernAutoSuggestInput = ({
         "kern-form-input--error": hasError,
       })}
     >
-      {label && (
-        <label
-          className="kern-label text-kern-layout-text-default!"
-          htmlFor="input-street"
-        >
-          {label}
-        </label>
-      )}
+      <div className="flex flex-col gap-kern-space-small pb-kern-space-small">
+        {label && (
+          <label
+            className="kern-label text-kern-layout-text-default! p-0! m-0!"
+            htmlFor="input-street"
+          >
+            {label}
+          </label>
+        )}
+        {helperText && (
+          <div
+            className="kern-body text-kern-layout-text-muted! p-0! m-0!"
+            id={helperId}
+          >
+            {helperText}
+          </div>
+        )}
+      </div>
 
       <div className="w-full">
         <SelectComponent
@@ -248,14 +258,6 @@ const KernAutoSuggestInput = ({
         />
       </div>
 
-      {helperText && (
-        <div
-          className="label-text mt-6 text-kern-layout-text-muted!"
-          id={helperId}
-        >
-          {helperText}
-        </div>
-      )}
       <div key={liveMessageKey} aria-live="polite" className="sr-only">
         {liveMessage}
       </div>

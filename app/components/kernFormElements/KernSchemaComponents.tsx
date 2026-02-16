@@ -24,6 +24,7 @@ import {
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
 import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
+import classNames from "classnames";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -76,7 +77,9 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={`flex flex-col gap-kern-space-x-large ${className}`}>
+    <div
+      className={classNames("flex flex-col gap-kern-space-x-large", className)}
+    >
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
