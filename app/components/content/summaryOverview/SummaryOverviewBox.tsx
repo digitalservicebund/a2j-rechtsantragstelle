@@ -42,6 +42,7 @@ const SummaryOverviewBox = ({
         <dl>
           {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
             <SummaryOverviewBoxItem
+              // oxlint-disable-next-line react/no-array-index-key
               key={`${boxId}-${boxItemTitle ?? index}`}
               title={boxItemTitle}
               translations={translations}
