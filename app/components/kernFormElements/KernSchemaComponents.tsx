@@ -69,7 +69,7 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  showKernUX = false,
+  showKernUX = true,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,

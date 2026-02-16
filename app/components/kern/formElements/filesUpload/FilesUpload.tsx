@@ -2,26 +2,22 @@ import { useField, type ValidationErrorResponseData } from "@rvf/react-router";
 import classNames from "classnames";
 import { useActionData } from "react-router";
 import { type ErrorMessageProps } from "~/components/common/types";
-import {
-  InlineNotice,
-  type InlineNoticeProps,
-} from "~/components/content/InlineNotice";
 import InputError from "../InputError";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type UserData } from "~/domains/userData";
 import {
-  errorStyling,
   fileUploadLimit,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
 import { KernFileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
+import { KernInlineNotice, type KernInlineNoticeProps } from "../../KernInlineNotice";
 
 export type FilesUploadProps = {
   name: string;
   title?: string;
   description?: string;
-  inlineNotices?: InlineNoticeProps[];
+  inlineNotices?: KernInlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -50,8 +46,8 @@ const FilesUpload = ({
     ),
   );
   const errorId = `${name}-error`;
-  const classes = classNames("w-full bg-white p-16 flex flex-col gap-16", {
-    [errorStyling]: !!field.error(),
+  const classes = classNames({
+    "kern-form-input--error": !!field.error(),
   });
 
   const hasFileRequiredError =
@@ -76,47 +72,51 @@ const FilesUpload = ({
 
   return (
     <NoscriptWrapper jsAvailable={jsAvailable}>
-      <div
-        data-testid={`files-upload-${name}`}
-        className={`${classes} kern-form-input`}
-      >
-        <FilesUploadHeader title={title} description={description} />
-        <div className="w-full flex flex-col gap-16">
-          {items.map((value, index) => {
-            const inputName = `${name}[${index}]`;
-            return (
-              <KernFileInput
-                key={inputName}
-                selectedFile={value}
-                error={scopedErrors[inputName]}
-                errorMessages={errorMessages}
-                jsAvailable={jsAvailable}
-                name={inputName}
-              />
-            );
+      <div className={classes}>
+        <div
+          data-testid={`files-upload-${name}`}
+          className={classNames("p-kern-space-default flex flex-col gap-kern-space-default bg-white", {
+            "bg-kern-feedback-danger-background! border border-2 border-kern-feedback-danger rounded-sm mb-kern-space-default": !!field.error(),
           })}
-          {showAddMoreButton && (
-            <KernFileInput
-              selectedFile={undefined}
-              jsAvailable={jsAvailable}
-              name={`${name}[${items.length}]`}
-              error={scopedErrors[`${name}[${items.length}]`]}
-              errorMessages={errorMessages}
-            />
-          )}
+        >
+          <FilesUploadHeader title={title} description={description} />
+          <div className="flex flex-col gap-kern-space-small">
+            {items.map((value, index) => {
+              const inputName = `${name}[${index}]`;
+              return (
+                <KernFileInput
+                  key={inputName}
+                  selectedFile={value}
+                  error={scopedErrors[inputName]}
+                  errorMessages={errorMessages}
+                  jsAvailable={jsAvailable}
+                  name={inputName}
+                />
+              );
+            })}
+            {showAddMoreButton && (
+              <KernFileInput
+                selectedFile={undefined}
+                jsAvailable={jsAvailable}
+                name={`${name}[${items.length}]`}
+                error={scopedErrors[`${name}[${items.length}]`]}
+                errorMessages={errorMessages}
+              />
+            )}
+          </div>
+          {items.length === fileUploadLimit &&
+            inlineNotices?.map((inlineNotice) => (
+              <KernInlineNotice key={inlineNotice.title} {...inlineNotice} />
+            ))}
         </div>
-        {items.length === fileUploadLimit &&
-          inlineNotices?.map((inlineNotice) => (
-            <InlineNotice key={inlineNotice.title} {...inlineNotice} />
-          ))}
+        {shouldSubmitEmptyArray && (
+          <input type="hidden" name={"arrayPostfix"} value={name} />
+        )}
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === field.error())?.text ??
+            field.error()}
+        </InputError>
       </div>
-      {shouldSubmitEmptyArray && (
-        <input type="hidden" name={"arrayPostfix"} value={name} />
-      )}
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === field.error())?.text ??
-          field.error()}
-      </InputError>
     </NoscriptWrapper>
   );
 };

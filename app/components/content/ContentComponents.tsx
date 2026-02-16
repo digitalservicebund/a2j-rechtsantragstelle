@@ -237,7 +237,6 @@ function ContentComponents({
   showKernUX = false,
 }: PageContentProps) {
   if (content.length === 0) return [];
-  console.log(content);
 
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")

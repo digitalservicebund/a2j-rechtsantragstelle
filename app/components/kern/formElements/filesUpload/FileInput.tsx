@@ -40,11 +40,10 @@ export const KernFileInput = ({
       aria-invalid={error !== undefined}
       aria-errormessage={error && errorId}
       className={classNames(
-        "kern-form-input__input",
         error && "kern-form-input__input--error",
-        // jsAvailable
-        //   ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-        //   : "kern-body m-8 ml-0 file:kern-btn file:kern-btn--tertiary file:kern-btn--large w-fit file:cursor-pointer",
+        jsAvailable
+          ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
+          : "kern-body m-8 ml-0 file:kern-btn file:kern-btn--tertiary file:kern-btn--large w-fit file:cursor-pointer",
       )}
       ref={fileInputRef}
       onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
@@ -61,7 +60,6 @@ export const KernFileInput = ({
   return (
     <div
       className={classNames(
-        "kern-form-input",
         error && "kern-form-input--error",
       )}
     >
@@ -77,14 +75,16 @@ export const KernFileInput = ({
         <>
           {jsAvailable ? (
             <>
-              <label
-                className="kern-label relative inline-flex items-center kern-btn kern-btn--tertiary kern-btn--large cursor-pointer w-fit"
-                htmlFor={name}
-              >
-                {splitFieldName(name).inputIndex === 0
-                  ? translations.fileUpload.select.de
-                  : translations.fileUpload.addAnother.de}
-              </label>
+              <KernButton
+                type="button"
+                look="secondary"
+                onClick={() => fileInputRef.current?.click()}
+                text={
+                  splitFieldName(name).inputIndex === 0
+                    ? translations.fileUpload.select.de
+                    : translations.fileUpload.addAnother.de
+                }
+              />
               {FileInput}
             </>
           ) : (
@@ -98,7 +98,6 @@ export const KernFileInput = ({
               <KernButton
                 name="_action"
                 value={`fileUpload.${name}`}
-                className="w-fit"
                 type="submit"
                 look="primary"
                 text={translations.fileUpload.upload.de}
