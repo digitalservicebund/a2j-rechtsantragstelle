@@ -36,14 +36,14 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/sachverhalt/begruendung
-  await formular.fillInput("sachverhaltBegruendung", "some reason");
+  await formular.fillTextarea("sachverhaltBegruendung", "some reason");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/beweise/angebot
   await formular.fillRadioPage("beweiseAngebot", "yes");
 
   // /geld-einklagen/formular/klage-erstellen/beweise/beschreibung
-  await formular.fillInput("beweiseBeschreibung", "some description");
+  await formular.fillTextarea("beweiseBeschreibung", "some description");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/prozesszinsen
@@ -62,7 +62,7 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillRadioPage("muendlicheVerhandlung", "yes");
 
   // /geld-einklagen/formular/klage-erstellen/videoverhandlung
-  await formular.fillRadioPage("videoVerhandlung", "yes");
+  await formular.fillRadioPage("videoVerhandlung", "no");
 
   // /geld-einklagen/formular/klage-erstellen/versaeumnisurteil
   await formular.fillRadioPage("versaeumnisurteil", "yes");
