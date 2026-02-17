@@ -4,7 +4,7 @@ import { singleton } from "~/util/singleton.server";
 import { config } from "../env/env.server";
 import { logError } from "../logging";
 
-const REDIS_URL = `rediss://default:${config().REDIS_PASSWORD}@${config().REDIS_ENDPOINT}`;
+const { REDIS_URI } = config();
 
 type RedisClientProps = {
   url: string;
@@ -68,5 +68,5 @@ export function quitRedis(
 }
 
 export function getRedisInstance() {
-  return singleton("redisClient", () => createRedisClient({ url: REDIS_URL }));
+  return singleton("redisClient", () => createRedisClient({ url: REDIS_URI }));
 }

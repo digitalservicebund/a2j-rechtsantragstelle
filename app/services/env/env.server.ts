@@ -11,8 +11,7 @@ type Config = {
   CMS: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
   GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
-  REDIS_ENDPOINT: string;
-  REDIS_PASSWORD: string;
+  REDIS_URI: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
@@ -37,6 +36,14 @@ export function config(): Config {
     "STRAPI_API",
   );
 
+  // Temporary until after cloud migration
+  const REDIS_ENDPOINT = process.env.REDIS_ENDPOINT ?? "localhost:6380";
+  const REDIS_PASSWORD = readSecretOrEnvVar(
+    "/etc/redis-password-secret/password",
+    "REDIS_PASSWORD",
+  );
+  const fallbackRedisURI = `rediss://default:${REDIS_PASSWORD}@${REDIS_ENDPOINT}`;
+
   return {
     STRAPI_API,
     STRAPI_HOST: STRAPI_API.replace("/api/", ""),
@@ -53,11 +60,9 @@ export function config(): Config {
       "/etc/courtdata-secrets/password-old",
       "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
     ),
-    REDIS_ENDPOINT: process.env.REDIS_ENDPOINT ?? "localhost:6380",
-    REDIS_PASSWORD: readSecretOrEnvVar(
-      "/etc/redis-password-secret/password",
-      "REDIS_PASSWORD",
-    ),
+    REDIS_URI:
+      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ??
+      fallbackRedisURI,
     COOKIE_SESSION_SECRET: readSecretOrEnvVar(
       "/etc/cookie-session-secret/password",
       "COOKIE_SESSION_SECRET",
