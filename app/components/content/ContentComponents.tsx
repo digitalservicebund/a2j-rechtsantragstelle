@@ -28,6 +28,7 @@ import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernBoxWithImage from "../kern/KernBoxWithImage";
 import KernVideo from "../kern/KernVideo";
+import KernUserFeedback from "../kern/UserFeedback";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -114,7 +115,9 @@ function getPaddingBottom(
   return "default";
 }
 // Map temporarily Strapi look values to Kern look values
-function mapLookValue(look: string): "success" | "warning" | "info" | "danger" {
+export function mapLookValue(
+  look: string,
+): "success" | "warning" | "info" | "danger" {
   const lookMap: Record<string, "success" | "warning" | "info" | "danger"> = {
     error: "danger",
     success: "success",
@@ -172,6 +175,8 @@ function cmsToReact(
         return <KernList {...componentProps} wrap={opts?.inFlow} />;
       case "page.table-of-contents":
         return <KernTableOfContents {...componentProps} />;
+      case "page.user-feedback":
+        return <KernUserFeedback {...componentProps} />;
       case "page.inline-notice":
         return (
           <KernInlineNotice

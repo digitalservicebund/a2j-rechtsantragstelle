@@ -24,7 +24,6 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-  showKernUX?: boolean;
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
