@@ -22,7 +22,7 @@ export const rechtlicherZusatzXstateConfig = {
           guard: ({ context }) =>
             hasOptionalString(context.weitereAntraege) &&
             hasOptionalString(context.rechtlicheWuerdigung),
-          target: "#klage-herunterladen.intro.start",
+          target: steps.zusammenfassungUebersicht.absolute,
         },
         BACK: steps.rechtlicherZusatzWeitereAntraege.relative,
       },
