@@ -1,3 +1,4 @@
+import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
@@ -86,5 +87,32 @@ export const isCourtAGSchoeneberg = (
     isCourtAGSchoeneberg:
       court?.PLZ_ZUSTELLBEZIRK === "10823" &&
       court.BEZEICHNUNG.includes("Schöneberg"),
+  };
+};
+
+export const getCourtCost = (context: GeldEinklagenFormularUserData) => {
+  const totalCompensation = Number(context.forderungGesamtbetrag);
+  return {
+    courtCost: gerichtskostenFromBetrag(totalCompensation).toLocaleString(
+      "de-DE",
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 },
+    ),
+  };
+};
+
+export const getKlagendePersonInfo = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    klagendePersonAnrede: context.klagendePersonAnrede,
+    klagendePersonTitle: context.klagendePersonTitle,
+    klagendePersonVorname: context.klagendePersonVorname,
+    klagendePersonNachname: context.klagendePersonNachname,
+    klagendePersonStrasseHausnummer: context.klagendePersonStrasseHausnummer,
+    klagendePersonPlz: context.klagendePersonPlz,
+    klagendePersonOrt: context.klagendePersonOrt,
+    klagendeTelefonnummer: context.klagendeTelefonnummer,
+    klagendePersonIban: context.klagendePersonIban,
+    klagendePersonKontoinhaber: context.klagendePersonKontoinhaber,
   };
 };

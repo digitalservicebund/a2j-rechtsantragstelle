@@ -1,14 +1,17 @@
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getResponsibleCourt } from "../../services/court/getResponsibleCourt";
+import { gerichtskostenFromBetrag } from "../../services/court/getCourtCost";
 import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
   isCourtAGSchoeneberg,
+  getCourtCost,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
 vi.mock("../../services/court/getResponsibleCourt");
+vi.mock("../../services/court/getCourtCost");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -215,6 +218,18 @@ describe("stringReplacement", () => {
 
       const actual = isCourtAGSchoeneberg({});
       expect(actual.isCourtAGSchoeneberg).toBe(false);
+    });
+  });
+
+  describe("getCourtCost", () => {
+    it("should return courtCost", () => {
+      vi.mocked(gerichtskostenFromBetrag).mockReturnValueOnce(251);
+
+      const actual = getCourtCost({
+        forderungGesamtbetrag: "2500",
+      });
+
+      expect(actual).toEqual({ courtCost: "251,00" });
     });
   });
 });
