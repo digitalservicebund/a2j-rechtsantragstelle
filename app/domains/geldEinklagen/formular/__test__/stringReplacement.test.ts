@@ -256,8 +256,8 @@ describe("stringReplacement", () => {
       const actual = getKlagendePersonInfo(context);
 
       expect(actual).toEqual({
-        klagendePersonAnrede: "Herr",
-        klagendePersonTitle: "Dr.",
+        klagendePersonAnrede: "herr",
+        klagendePersonTitle: "dr",
         klagendePersonVorname: "Max",
         klagendePersonNachname: "Mustermann",
         klagendePersonStrasseHausnummer: "Musterstr. 1",
@@ -285,8 +285,8 @@ describe("stringReplacement", () => {
       const actual = getBeklagtePersonInfo(context);
 
       expect(actual).toEqual({
-        beklagteAnrede: "Frau",
-        beklagteTitle: "",
+        beklagteAnrede: "frau",
+        beklagteTitle: "none",
         beklagteVorname: "Erika",
         beklagteNachname: "Musterfrau",
         beklagteStrasseHausnummer: "Beispielweg 2",
@@ -309,7 +309,7 @@ describe("stringReplacement", () => {
       expect(actual).toEqual({
         forderungGesamtbetrag: "1000",
         sachverhaltBegruendung: "Begründung",
-        beweiseAngebot: "Beweis",
+        beweiseAngebot: "yes",
       });
     });
   });
