@@ -152,7 +152,9 @@ export const getProzesszinsenInfo = (
   };
 };
 
-export const getZusaetzlicheAngabenInfo = (context: GeldEinklagenFormularUserData) => {
+export const getZusaetzlicheAngabenInfo = (
+  context: GeldEinklagenFormularUserData,
+) => {
   return {
     weitereAntraege: context.weitereAntraege,
     rechtlicheWuerdigung: context.rechtlicheWuerdigung,
