@@ -13,9 +13,7 @@ describe("readSecretOrEnvVar", () => {
 
   it("reads trimmed from filesystem", () => {
     mockedReadFileSync.mockReturnValueOnce(" readFromDisk\n ");
-    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
-      "readFromDisk",
-    );
+    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR")).toBe("readFromDisk");
     expect(mockedReadFileSync).toHaveBeenCalledWith("/mock/path", "utf8");
   });
 
@@ -24,23 +22,12 @@ describe("readSecretOrEnvVar", () => {
       throw new Error("File Now Found");
     });
     vi.stubEnv("ENV_VAR", " readFromEnvVar");
-    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
-      "readFromEnvVar",
-    );
+    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR")).toBe("readFromEnvVar");
   });
 
   it("reads from environment variables if file-read return undefined", () => {
     mockedReadFileSync.mockReturnValueOnce(undefined);
     vi.stubEnv("ENV_VAR", "readFromEnvVar");
-    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
-      "readFromEnvVar",
-    );
-  });
-
-  it("returns fallback if file-read and ENV_VAR fails", () => {
-    mockedReadFileSync.mockReturnValueOnce(undefined);
-    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR", "fallback")).toBe(
-      "fallback",
-    );
+    expect(readSecretOrEnvVar("/mock/path", "ENV_VAR")).toBe("readFromEnvVar");
   });
 });
