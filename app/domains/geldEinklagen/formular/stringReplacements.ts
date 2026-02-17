@@ -116,3 +116,45 @@ export const getKlagendePersonInfo = (
     klagendePersonKontoinhaber: context.klagendePersonKontoinhaber,
   };
 };
+
+export const getBeklagtePersonInfo = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    beklagteAnrede: context.beklagteAnrede,
+    beklagteTitle: context.beklagteTitle,
+    beklagteVorname: context.beklagteVorname,
+    beklagteNachname: context.beklagteNachname,
+    beklagteStrasseHausnummer: context.beklagteStrasseHausnummer,
+    beklagtePlz: context.beklagtePlz,
+    beklagteOrt: context.beklagteOrt,
+  };
+};
+
+export const getSachverhaltInfo = (context: GeldEinklagenFormularUserData) => {
+  return {
+    forderungGesamtbetrag: context.forderungGesamtbetrag,
+    sachverhaltBegruendung: context.sachverhaltBegruendung,
+    beweiseAngebot: context.beweiseAngebot,
+  };
+};
+
+export const getProzesszinsenInfo = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    prozesszisnsen: context.prozesszinsen,
+    anwaltskosten: context.anwaltskosten,
+    streitbeilegung: context.streitbeilegung,
+    muendlicheVerhandlung: context.muendlicheVerhandlung,
+    videoVerhandlung: context.videoVerhandlung,
+    versaeumnisurteil: context.versaeumnisurteil,
+  };
+};
+
+export const getZusaetzlicheAngabenInfo = (context: GeldEinklagenFormularUserData) => {
+  return {
+    weitereAntraege: context.weitereAntraege,
+    rechtlicheWuerdigung: context.rechtlicheWuerdigung,
+  };
+};
