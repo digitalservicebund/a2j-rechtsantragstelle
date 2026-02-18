@@ -50,7 +50,7 @@ export default function KernPageHeader({
             xlColumn={{ start: 1, span: 12 }}
             as="nav"
             className="flex flex-row justify-between items-center h-[80px]"
-            aria-label={translations.pageHeader.mainNavigationAriaLabel.de}
+            ariaLabel={translations.pageHeader.mainNavigationAriaLabel.de}
           >
             <a
               href="/"

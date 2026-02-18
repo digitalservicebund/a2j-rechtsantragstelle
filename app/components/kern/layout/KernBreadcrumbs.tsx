@@ -34,18 +34,18 @@ export default function KernBreadcrumbs({
           xlColumn={{ start: 1, span: 12 }}
         >
           <nav
-            className={`py-16 flex flex-wrap items-center align-center gap-kern-space-x-small`}
+            className={`py-kern-space-default flex flex-wrap items-center align-center gap-kern-space-x-small`}
             aria-label={ariaLabel}
           >
             {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
-            <a href="/" aria-label={linkLabel} className="focus:outline-solid">
-              <KernIcon name="home" className="fill-kern-action-default!" />
+            <a href="/" aria-label={linkLabel} className="kern-link p-0!">
+              <KernIcon name="home" className="fill-kern-action-default!" title="Startseite" />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
               <div key={breadcrumb.title} className="kern-body-small flex ">
                 <KernIcon
                   name="chevron-right"
-                  className="fill-kern-neutral-300!"
+                  className="fill-kern-layout-text-muted!"
                 />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">
