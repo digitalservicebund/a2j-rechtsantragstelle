@@ -203,6 +203,7 @@ jobs:
     needs: [push-app-image, deploy-preview]
     runs-on: ubuntu-latest
     environment: staging
+    concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
@@ -295,6 +296,7 @@ jobs:
         build-app-image,
         push-app-image,
         deploy-staging,
+        deploy-staging-stackit,
         deploy-preview,
         verify-preview-e2e,
         deploy-production,
