@@ -5,6 +5,7 @@ import { config } from "../env/env.server";
 import { logError } from "../logging";
 
 const { REDIS_URI } = config();
+const { hostname } = new URL(REDIS_URI);
 
 type RedisClientProps = {
   url: string;
@@ -13,7 +14,7 @@ type RedisClientProps = {
 
 export function createRedisClient({ url, lazyConnect }: RedisClientProps) {
   const redisClient = new Redis(url, {
-    tls: { rejectUnauthorized: false },
+    tls: { rejectUnauthorized: false, servername: hostname },
     retryStrategy: (times) => Math.min(times * 100, 2000),
     enableReadyCheck: true,
     lazyConnect,
