@@ -85,9 +85,7 @@ const KernBox = ({
             <div className="shrink-0 max-w-full lg:max-w-[250px]">
               <Image {...image} />
             </div>
-            <div className="flex-1 min-w-0">
-              {contentBlock}
-            </div>
+            <div className="flex-1 min-w-0">{contentBlock}</div>
           </div>
         ) : (
           contentBlock
