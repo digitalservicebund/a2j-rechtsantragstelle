@@ -200,5 +200,17 @@ export const klageErstellenXstateConfig = {
     },
     prozessfuehrung: prozessfuehrungXstateConfig,
     "rechtlicher-zusatz": rechtlicherZusatzXstateConfig,
+    zusammenfassung: {
+      id: "zusammenfassung",
+      initial: "uebersicht",
+      states: {
+        [steps.zusammenfassungUebersicht.relative]: {
+          on: {
+            SUBMIT: "#klage-herunterladen.intro.start",
+            BACK: steps.rechtlicherZusatzRechtlicheWuerdigung.absolute,
+          },
+        },
+      },
+    },
   },
 } satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
