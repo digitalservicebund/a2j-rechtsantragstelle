@@ -72,4 +72,5 @@ export const allowedWebsites = [
   "https://www.schiedsamt.de",
   "https://www.bmev.de",
   "https://www.mahngerichte.de",
+  "https://surveys.digitalservice.dev",
 ];
