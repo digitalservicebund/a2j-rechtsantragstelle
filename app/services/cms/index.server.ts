@@ -35,7 +35,7 @@ export async function fetchContentPageMeta(
     apiId,
     populate,
   });
-  const parsedEntry = StrapiPageMetaSchema.safeParse(pageEntry[0]);
+  const parsedEntry = await StrapiPageMetaSchema.safeParseAsync(pageEntry[0]);
   return parsedEntry.success ? parsedEntry.data.pageMeta : null;
 }
 
