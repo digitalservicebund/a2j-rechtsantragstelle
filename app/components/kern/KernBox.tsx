@@ -32,6 +32,46 @@ const KernBox = ({
   image,
   items,
 }: BoxProps) => {
+  const contentBlock = (
+    <div className="flex flex-col gap-kern-space-x-large">
+      <div className="flex flex-col">
+        {label && (
+          <KernLabel
+            {...label}
+            className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
+          />
+        )}
+        {heading && (
+          <KernHeading
+            {...heading}
+            className={classNames("pt-9! pb-7!", {
+              "text-kern-adaptive-medium!": image,
+            })}
+            managedByParent
+          />
+        )}
+        {content && <KernRichText {...content} />}
+      </div>
+      {arrayIsNonEmpty(items) && (
+        <div
+          className="flex flex-col justify-start align-start gap-kern-space-x-large"
+          data-testid="box-item-container"
+        >
+          {items.map((item) => (
+            <KernBoxItem key={item.id} {...item} />
+          ))}
+        </div>
+      )}
+      {arrayIsNonEmpty(buttons) && (
+        <ButtonContainer className="kern-button-group pt-kern-space-small">
+          {buttons.map((button) => (
+            <KernButton key={button.text ?? button.href} {...button} />
+          ))}
+        </ButtonContainer>
+      )}
+    </div>
+  );
+
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
@@ -40,50 +80,18 @@ const KernBox = ({
       id={identifier}
     >
       <div className="flex flex-col gap-kern-space-small p-kern-space-x-large">
-        <div className="flex flex-row items-start gap-kern-space-x-large">
-          {image && (
-            <div className="shrink-0 max-w-full">
+        {image ? (
+          <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
+            <div className="shrink-0 max-w-full lg:max-w-[250px]">
               <Image {...image} />
             </div>
-          )}
-          <div className="flex flex-col gap-kern-space-x-large">
-            <div className="flex flex-col">
-              {label && (
-                <KernLabel
-                  {...label}
-                  className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
-                />
-              )}
-              {heading && (
-                <KernHeading
-                  {...heading}
-                  className={classNames("pt-9! pb-7!", {
-                    "text-kern-adaptive-medium!": image,
-                  })}
-                  managedByParent
-                />
-              )}
-              {content && <KernRichText {...content} />}
+            <div className="flex-1 min-w-0">
+              {contentBlock}
             </div>
-            {arrayIsNonEmpty(items) && (
-              <div
-                className="flex flex-col justify-start align-start gap-kern-space-x-large"
-                data-testid="box-item-container"
-              >
-                {items.map((item) => (
-                  <KernBoxItem key={item.id} {...item} />
-                ))}
-              </div>
-            )}
-            {arrayIsNonEmpty(buttons) && (
-              <ButtonContainer className="kern-button-group pt-kern-space-small">
-                {buttons.map((button) => (
-                  <KernButton key={button.text ?? button.href} {...button} />
-                ))}
-              </ButtonContainer>
-            )}
           </div>
-        </div>
+        ) : (
+          contentBlock
+        )}
       </div>
     </GridItem>
   );
