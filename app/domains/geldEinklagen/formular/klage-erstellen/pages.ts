@@ -142,4 +142,7 @@ export const geldEinklagenKlageErstellenPages = {
       rechtlicheWuerdigung: schemaOrEmptyString(stringRequiredSchema),
     },
   },
+  zusammenfassungUebersicht: {
+    stepId: "klage-erstellen/zusammenfassung/uebersicht",
+  },
 } as const satisfies PagesConfig;
