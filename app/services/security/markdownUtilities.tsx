@@ -2,6 +2,7 @@ import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { sanitizeHtml } from "./sanitizeHtml";
+import { isFeatureFlagEnabled } from "../isFeatureFlagEnabled.server";
 
 const CSS_HEADING_CLASSES = [
   "ds-heading-01-reg",
@@ -40,7 +41,7 @@ const kernRenderer: Partial<Renderer> = {
 } as const;
 
 function getRendererToDisplay(
-  showKernUX: boolean,
+  showKernUX: boolean | undefined,
   renderer?: Partial<Renderer>,
 ) {
   if (showKernUX) {
@@ -50,11 +51,11 @@ function getRendererToDisplay(
 }
 
 // TODO: refactor to split into markdown service
-export function parseAndSanitizeMarkdown(
+export async function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
-  showKernUX: boolean = false,
 ) {
+  const showKernUX = await isFeatureFlagEnabled("showKernUX");
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
   const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
 
