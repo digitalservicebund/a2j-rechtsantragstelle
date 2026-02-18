@@ -225,6 +225,33 @@ jobs:
           metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
+  deploy-staging-stackit:
+    if: github.ref == 'refs/heads/main'
+    needs: [push-app-image, deploy-preview]
+    runs-on: ubuntu-latest
+    environment: staging
+    concurrency: deploy-staging
+    steps:
+      - name: Deploy new staging image
+        uses: digitalservicebund/argocd-deploy@d14e68e4c78222189d8a20c1552639f33f93fe91 # auth-token branch, v1.0.0
+        with:
+          environment: environments/staging
+          version: ${{ github.sha }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-web-staging
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+      - name: Report Deployment
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
+        with:
+          project: a2j-rechtsantragstelle
+          environment: staging
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
   deploy-production:
     needs: [verify-preview-e2e, push-app-image]
     if: github.ref == 'refs/heads/main'
