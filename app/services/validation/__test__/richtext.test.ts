@@ -15,8 +15,8 @@ describe("richtext validation", () => {
 
     test.each(cases)(
       "given $input, returns $expected",
-      ({ input, expected }) => {
-        const actual = buildRichTextValidation().safeParse(input);
+      async ({ input, expected }) => {
+        const actual = await buildRichTextValidation().safeParseAsync(input);
         // Marked adds newline characters automatically after parsing -- we need to strip these for best results
         actual.data = actual.data?.replaceAll("\n", "");
         expect(actual).toEqual({ data: expected, success: true });
@@ -27,8 +27,8 @@ describe("richtext validation", () => {
   describe("failing cases", () => {
     const cases = [true, 1234, {}];
 
-    test.each(cases)("raises invalid_type for $0", (input) => {
-      const actual = buildRichTextValidation().safeParse(input);
+    test.each(cases)("raises invalid_type for $0", async (input) => {
+      const actual = await buildRichTextValidation().safeParseAsync(input);
       expect(actual.success).toBe(false);
       expect(actual.error!.issues[0].code).toBe("invalid_type");
     });
@@ -37,9 +37,9 @@ describe("richtext validation", () => {
   describe("custom renderers", () => {
     test("uses custom list renderer", () => {
       const paragraphText = "Some paragraph";
-      expect(
-        buildRichTextValidation(listRenderer).safeParse(paragraphText),
-      ).toEqual({
+      return expect(
+        buildRichTextValidation(listRenderer).safeParseAsync(paragraphText),
+      ).resolves.toEqual({
         data: `<p class="ds-subhead max-w-full">${paragraphText}</p>`,
         success: true,
       });
@@ -47,19 +47,20 @@ describe("richtext validation", () => {
 
     test("uses an arbitrary renderer", () => {
       const headingText = "Some heading";
-      expect(
+      return expect(
         buildRichTextValidation({
           heading: ({ text }) => `<h2>${text}</h2>`,
-        }).safeParse(`# ${headingText}`),
-      ).toEqual({
+        }).safeParseAsync(`# ${headingText}`),
+      ).resolves.toEqual({
         data: `<h2>${headingText}</h2>`,
         success: true,
       });
     });
 
-    test("when custom renderer is provided, it is merged with the default renderer", () => {
+    test("when custom renderer is provided, it is merged with the default renderer", async () => {
       const linkText = "[Link](/example.com)";
-      const actual = buildRichTextValidation(listRenderer).safeParse(linkText);
+      const actual =
+        await buildRichTextValidation(listRenderer).safeParseAsync(linkText);
 
       expect(actual).toEqual({
         data: `<p class="ds-subhead max-w-full"><a href="/example.com" class="text-link min-h-[24px]">Link</a></p>`,
