@@ -55,7 +55,6 @@ export function parseAndSanitizeMarkdown(
   renderer?: Partial<Renderer>,
   showKernUX?: boolean,
 ) {
-  // const showKernUX = await isFeatureFlagEnabled("showKernUX");
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
   const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
 
