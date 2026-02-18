@@ -203,7 +203,6 @@ jobs:
     needs: [push-app-image, deploy-preview]
     runs-on: ubuntu-latest
     environment: staging
-    concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
@@ -237,7 +236,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@d14e68e4c78222189d8a20c1552639f33f93fe91 # auth-token branch, v1.0.0
         with:
           environment: environments/staging
-          version: ${{ github.sha }}
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
