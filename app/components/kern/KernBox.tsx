@@ -12,7 +12,6 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import classNames from "classnames";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
-import { SectionBackgroundColor } from "..";
 
 type BoxProps = {
   identifier?: string;

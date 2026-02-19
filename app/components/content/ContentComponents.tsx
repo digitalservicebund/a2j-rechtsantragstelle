@@ -43,7 +43,10 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getGridBackgroundColor(el: StrapiContentComponent, showKernUX: boolean): string {
+function getGridBackgroundColor(
+  el: StrapiContentComponent,
+  showKernUX: boolean,
+): string {
   if (showKernUX) {
     return "";
   }
