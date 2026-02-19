@@ -127,7 +127,7 @@ export const translations = {
   },
   pageHeader: {
     gebaerdensprache: {
-      de: "Gebärden&shy;sprache",
+      de: "Gebärdensprache",
     },
     leichtesprache: {
       de: "Leichte Sprache",

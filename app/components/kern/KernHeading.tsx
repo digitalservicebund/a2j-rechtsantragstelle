@@ -50,7 +50,7 @@ const KernHeading = ({
   }
   return (
     <Tag
-      className={`${SIZES_MAP[size]} p-0! ${className ?? ""}`}
+      className={`${SIZES_MAP[size]} p-0! ${className ?? ""} hyphens-auto`}
       tabIndex={tabIndex}
       id={elementId}
     >
