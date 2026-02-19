@@ -219,7 +219,7 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
   verify-preview-e2e:
-    needs: [deploy-preview]
+    needs: [deploy-preview, deploy-preview-stackit]
     uses: ./.github/workflows/e2e-test.yml
     with:
       require-published-app: false
@@ -228,7 +228,7 @@ jobs:
 
   deploy-staging:
     if: github.ref == 'refs/heads/main'
-    needs: [push-app-image, deploy-preview]
+    needs: [push-app-image, deploy-preview, deploy-preview-stackit]
     runs-on: ubuntu-latest
     environment: staging
     concurrency: deploy-staging
@@ -256,7 +256,7 @@ jobs:
 
   deploy-staging-stackit:
     if: github.ref == 'refs/heads/main'
-    needs: [push-app-image, deploy-preview-stackit]
+    needs: [push-app-image, deploy-preview, deploy-preview-stackit]
     runs-on: ubuntu-latest
     environment: staging
     concurrency: deploy-staging
