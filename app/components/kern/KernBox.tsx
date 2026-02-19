@@ -12,6 +12,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import classNames from "classnames";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
+import { SectionBackgroundColor } from "..";
 
 type BoxProps = {
   identifier?: string;
@@ -33,8 +34,8 @@ const KernBox = ({
   items,
 }: BoxProps) => {
   const contentBlock = (
-    <div className="flex flex-col gap-kern-space-x-large">
-      <div className="flex flex-col">
+    <div className="flex flex-col ">
+      <div className="flex flex-col wrap-break-word">
         {label && (
           <KernLabel
             {...label}
@@ -79,7 +80,7 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small p-kern-space-x-large">
+      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-default">
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
             <div className="shrink-0 max-w-full lg:max-w-[250px]">

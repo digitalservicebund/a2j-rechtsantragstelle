@@ -49,18 +49,18 @@ export default function KernPageHeader({
             lgColumn={{ start: 1, span: 12 }}
             xlColumn={{ start: 1, span: 12 }}
             as="nav"
-            className="flex flex-row justify-between items-center h-[80px]"
+            className="flex flex-col md:flex-row md:justify-between md:items-center md:h-[80px] h-fit gap-kern-space-large md:gap-0 md:py-0 py-kern-space-large"
             ariaLabel={translations.pageHeader.mainNavigationAriaLabel.de}
           >
             <a
               href="/"
-              className="kern-title"
+              className="kern-title p-0!"
               aria-label={`${title} - ${linkLabel}`}
             >
               {title}
             </a>
             {!hideLinks && (
-              <div className="flex gap-kern-space-x-large max-[447px]:pt-16">
+              <div className="flex gap-kern-space-x-large">
                 <a
                   href={"/leichtesprache"}
                   className="kern-link kern-link--small no-underline!"
@@ -71,11 +71,10 @@ export default function KernPageHeader({
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="kern-link kern-link--small no-underline!"
+                  className="kern-link kern-link--small no-underline! hyphens-auto"
                 >
                   <KernIcon name="sign-language" className="flex-shrink-0" />
-                  {"Gebärdensprache"}{" "}
-                  {/*translations.pageHeader.gebaerdensprache.de */}
+                  {translations.pageHeader.gebaerdensprache.de}
                 </a>
               </div>
             )}

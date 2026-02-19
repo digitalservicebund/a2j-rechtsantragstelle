@@ -43,11 +43,23 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getGridBackgroundColor(el: StrapiContentComponent): string {
+function getGridBackgroundColor(el: StrapiContentComponent, showKernUX: boolean): string {
+  if (showKernUX) {
+    return "";
+  }
   const hasLayout = hasLayoutProperties(el);
   if (hasLayout && el.container?.backgroundColor) {
     return BACKGROUND_COLORS[
       el.container.backgroundColor as keyof typeof BACKGROUND_COLORS
+    ];
+  }
+  return "";
+}
+
+function getContentBackgroundColor(el: StrapiContentComponent): string {
+  if ("contentBackgroundColor" in el && el.contentBackgroundColor) {
+    return SECTION_BACKGROUND_COLORS[
+      el.contentBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
     ];
   }
   return "";
@@ -270,8 +282,8 @@ function ContentComponents({
               className: classNames(
                 isUserFeedback
                   ? BACKGROUND_COLORS.midBlue
-                  : getGridBackgroundColor(el),
-                isKernBox ? "bg-kern-neutral-050" : "",
+                  : getGridBackgroundColor(el, showKernUX),
+                isKernBox ? getContentBackgroundColor(el) : "",
                 "rounded-lg",
               ),
             }}
