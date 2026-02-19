@@ -117,11 +117,13 @@ export const geldEinklagenKlageErstellenPages = {
   },
   prozessfuehrungMuendlicheVerhandlung: {
     stepId: "klage-erstellen/prozessfuehrung/muendliche-verhandlung",
-    pageSchema: { muendlicheVerhandlung: YesNoAnswer },
+    pageSchema: {
+      muendlicheVerhandlung: z.enum(["yes", "no", "noSpecification"]),
+    },
   },
   prozessfuehrungVideoVerhandlung: {
     stepId: "klage-erstellen/prozessfuehrung/videoverhandlung",
-    pageSchema: { videoVerhandlung: YesNoAnswer },
+    pageSchema: { videoVerhandlung: z.enum(["yes", "no", "noSpecification"]) },
   },
   prozessfuehrungVersaeumnisurteil: {
     stepId: "klage-erstellen/prozessfuehrung/versaeumnisurteil",
