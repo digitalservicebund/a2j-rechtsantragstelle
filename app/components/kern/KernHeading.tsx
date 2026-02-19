@@ -42,7 +42,6 @@ const KernHeading = ({
           className={`${SIZES_MAP[size]} p-0! ${className ?? ""} outline-none`}
           tabIndex={tabIndex}
           id={elementId}
-          lang="de"
         >
           {text}
         </Tag>
