@@ -282,7 +282,12 @@ jobs:
           metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
 
   deploy-production:
-    needs: [verify-preview-e2e, push-app-image]
+    needs: [
+        verify-preview-e2e,
+        push-app-image,
+        deploy-staging, # Remove after migration, needed to prevent race condition with bump commit
+        deploy-staging-stackit, # Remove after migration, needed to prevent race condition with bump commit
+      ]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
