@@ -226,15 +226,15 @@ describe("stringReplacement", () => {
 
   describe("getCourtCost", () => {
     it.each([
-      ["99,00", "80,00"],
-      ["500,01", "122,00"],
-      ["1.000,00", "122,00"],
-      ["1.234,56", "164,00"],
-      ["9.000,00", "521,00"],
-      ["9.999,99", "566,00"],
+      ["80,00", "99,00"],
+      ["122,00", "500,01"],
+      ["122,00", "1.000,00"],
+      ["164,00", "1.234,56"],
+      ["521,00", "9.000,00"],
+      ["566,00", "9.999,99"],
     ])(
       "should return %s court cost for claim amount %s",
-      (forderungGesamtbetrag, courtCost) => {
+      (courtCost, forderungGesamtbetrag) => {
         const actual = getCourtCost({ forderungGesamtbetrag });
 
         expect(actual).toEqual({ courtCost });
