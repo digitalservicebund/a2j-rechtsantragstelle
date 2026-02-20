@@ -55,7 +55,7 @@ importers:
         version: 4.9.1
       '@xstate/graph':
         specifier: ^3.0.4
-        version: 3.0.4(xstate@5.26.0)
+        version: 3.0.4(xstate@5.28.0)
       axios:
         specifier: ^1.13.5
         version: 1.13.5
@@ -156,8 +156,8 @@ importers:
         specifier: ^1.0.15
         version: 1.0.15
       xstate:
-        specifier: ^5.26.0
-        version: 5.26.0
+        specifier: ^5.28.0
+        version: 5.28.0
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -4896,8 +4896,8 @@ packages:
     engines: {node: '>= 0.10.0'}
     hasBin: true
 
-  xstate@5.26.0:
-    resolution: {integrity: sha512-Fvi9VBoqHgsGYLU2NTag8xDTWtKqUC0+ue7EAhBNBb06wf620QEy05upBaEI1VLMzIn63zugLV8nHb69ZUWYAA==}
+  xstate@5.28.0:
+    resolution: {integrity: sha512-Iaqq6ZrUzqeUtA3hC5LQKZfR8ZLzEFTImMHJM3jWEdVvXWdKvvVLXZEiNQWm3SCA9ZbEou/n5rcsna1wb9t28A==}
 
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
@@ -7766,9 +7766,9 @@ snapshots:
 
   '@xmldom/xmldom@0.8.11': {}
 
-  '@xstate/graph@3.0.4(xstate@5.26.0)':
+  '@xstate/graph@3.0.4(xstate@5.28.0)':
     dependencies:
-      xstate: 5.26.0
+      xstate: 5.28.0
 
   abbrev@2.0.0: {}
 
@@ -10083,7 +10083,7 @@ snapshots:
       commander: 2.20.3
       cssfilter: 0.0.10
 
-  xstate@5.26.0: {}
+  xstate@5.28.0: {}
 
   xtend@4.0.2: {}
 
