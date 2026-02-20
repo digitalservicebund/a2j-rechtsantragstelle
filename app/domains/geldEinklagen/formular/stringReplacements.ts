@@ -1,4 +1,5 @@
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
@@ -91,12 +92,15 @@ export const isCourtAGSchoeneberg = (
 };
 
 export const getCourtCost = (context: GeldEinklagenFormularUserData) => {
-  const totalCompensation = Number(context.forderungGesamtbetrag);
+  const totalCompensation = parseCurrencyStringDE(
+    context.forderungGesamtbetrag,
+  );
+  const cost = gerichtskostenFromBetrag(totalCompensation);
   return {
-    courtCost: gerichtskostenFromBetrag(totalCompensation).toLocaleString(
-      "de-DE",
-      { minimumFractionDigits: 2, maximumFractionDigits: 2 },
-    ),
+    courtCost: cost.toLocaleString("de-DE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }),
   };
 };
 

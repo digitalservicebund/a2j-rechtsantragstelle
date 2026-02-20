@@ -1,6 +1,5 @@
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { getResponsibleCourt } from "../../services/court/getResponsibleCourt";
-import { gerichtskostenFromBetrag } from "../../services/court/getCourtCost";
 import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
@@ -16,7 +15,6 @@ import {
 import { type GeldEinklagenFormularUserData } from "../userData";
 
 vi.mock("../../services/court/getResponsibleCourt");
-vi.mock("../../services/court/getCourtCost");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -227,15 +225,21 @@ describe("stringReplacement", () => {
   });
 
   describe("getCourtCost", () => {
-    it("should return courtCost", () => {
-      vi.mocked(gerichtskostenFromBetrag).mockReturnValueOnce(251);
+    it.each([
+      ["99,00", "80,00"],
+      ["500,01", "122,00"],
+      ["1.000,00", "122,00"],
+      ["1.234,56", "164,00"],
+      ["9.000,00", "521,00"],
+      ["9.999,99", "566,00"],
+    ])(
+      "should return %s court cost for claim amount %s",
+      (forderungGesamtbetrag, courtCost) => {
+        const actual = getCourtCost({ forderungGesamtbetrag });
 
-      const actual = getCourtCost({
-        forderungGesamtbetrag: "2500",
-      });
-
-      expect(actual).toEqual({ courtCost: "251,00" });
-    });
+        expect(actual).toEqual({ courtCost });
+      },
+    );
   });
 
   describe("getKlagendePersonInfo", () => {
