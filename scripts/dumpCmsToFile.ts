@@ -6,10 +6,10 @@ import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
 import { config } from "../app/services/env/env.server";
 import axios from "axios";
 import escapeRegExp from "lodash/escapeRegExp";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import { bucketUrls } from "~/services/cms/bucketUrl";
 
 const imageMatchRegex = new RegExp(
-  `${escapeRegExp(bucketUrl)}/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
+  `(?:${bucketUrls.map((url) => escapeRegExp(url)).join("|")})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
   "gi",
 );
 
