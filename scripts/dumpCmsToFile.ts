@@ -6,10 +6,15 @@ import { strapiSchemas, type ApiId } from "../app/services/cms/schemas";
 import { config } from "../app/services/env/env.server";
 import axios from "axios";
 import escapeRegExp from "lodash/escapeRegExp";
-import { bucketUrls } from "~/services/cms/bucketUrl";
+import { bucketUrl } from "~/services/cms/bucketUrl";
+
+const bucketUrlAlt = bucketUrl.replace(
+  "a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+  "obs.eu-de.otc.t-systems.com/a2j-rechtsantragstelle-infra-public-assets-bucket",
+);
 
 const imageMatchRegex = new RegExp(
-  `(?:${bucketUrls.map((url) => escapeRegExp(url)).join("|")})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
+  `(?:${escapeRegExp(bucketUrl)}|${escapeRegExp(bucketUrlAlt)})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
   "gi",
 );
 
