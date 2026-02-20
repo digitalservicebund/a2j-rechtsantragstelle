@@ -12,6 +12,7 @@ import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
+import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -23,6 +24,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
   "/erbschein/wegweiser": erbscheinWegweiserPages,
+  "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
