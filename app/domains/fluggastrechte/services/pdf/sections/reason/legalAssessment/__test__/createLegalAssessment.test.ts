@@ -6,14 +6,14 @@ import {
 import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   CLAIM_FULL_JUSTIFIED_TEXT,
   createLegalAssessment,
   LEGAL_ASSESSMENT_TEXT,
 } from "../createLegalAssessment";
 
-vi.mock("../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("~/services/pdf/addNewPageInCaseMissingVerticalSpace");
 
 vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
   vi.fn(),

@@ -1,11 +1,11 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const ZIP_CODE_EDGE_CASE = "10789";
+const ZIP_CODE_EDGE_CASE = "20359";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "45143";
-const STREET_EDGE_CASE = "ansbacher_str.";
-const STREET_HOUSE_NUMBER_EDGE_CASE = "10";
-const STREET_EDGE_CASE_SECONDARY = "amixstr.";
+const STREET_EDGE_CASE = "Talstr.";
+const STREET_HOUSE_NUMBER_EDGE_CASE = "5";
+const STREET_EDGE_CASE_SECONDARY = "Amixstr.";
 const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "10";
 
 const baseContext: GeldEinklagenFormularUserData = {

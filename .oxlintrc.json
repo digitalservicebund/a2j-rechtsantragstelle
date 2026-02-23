@@ -18,6 +18,7 @@
     "@typescript-eslint/array-type": ["warn", { "default": "array-simple" }],
     "@typescript-eslint/only-throw-error": "off",
     // We are currently failing the following rules. Examine one-by-one and fix or more above this line
+    "eslint/no-shadow": "off",
     "import/no-named-as-default": "off",
     "jest/no-conditional-expect": "off",
     "jest/require-to-throw-message": "off",

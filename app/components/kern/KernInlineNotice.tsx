@@ -4,7 +4,7 @@ import KernRichText from "./KernRichText";
 import { KernIcon } from "./common/KernIcon";
 import { type IconName } from "./common/utils";
 
-type KernInlineNoticeProps = {
+export type KernInlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
@@ -61,7 +61,7 @@ export const KernInlineNotice = ({
       id={identifier}
       role="note"
     >
-      <div className="flex flex-row items-center pl-kern-space-large h-[48px]">
+      <div className="kern-alert__header">
         <KernIcon
           name={iconName}
           className={`${iconClassName} mr-8`}

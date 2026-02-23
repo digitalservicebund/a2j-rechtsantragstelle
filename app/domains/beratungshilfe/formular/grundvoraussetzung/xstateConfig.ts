@@ -1,5 +1,4 @@
 import type { Config } from "~/services/flow/server/types";
-import { grundvoraussetzungDone } from "./grundvoraussetzungDone";
 import { berHAntragGrundvoraussetzungenPages } from "./pages";
 import type { BeratungshilfeGrundvoraussetzungenUserData } from "./userData";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
@@ -108,7 +107,12 @@ export const grundvorraussetzungXstateConfig = {
         SUBMIT: [
           {
             target: "#anwaltliche-vertretung.start",
-            guard: grundvoraussetzungDone,
+            guard: ({ context }) =>
+              context.rechtsschutzversicherung === "no" &&
+              context.wurdeVerklagt === "no" &&
+              context.klageEingereicht === "no" &&
+              context.beratungshilfeBeantragt === "no" &&
+              context.eigeninitiativeGrundvorraussetzung === "no",
           },
           {
             target: steps.eigeninitiativeGrundvorraussetzungHinweis.relative,

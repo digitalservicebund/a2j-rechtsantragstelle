@@ -73,7 +73,7 @@ const zahlungsfristSchema = z
   })
   .meta({ description: "split_date" });
 
-export const ausgabenArraySchema = z
+const ausgabenArraySchema = z
   .union([
     z.object({
       ...sharedAusgabenFields,

@@ -1,6 +1,5 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
-import { happyPathData } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
@@ -91,8 +90,14 @@ export const prozesskostenhilfeFormularTestCases = {
       {
         stepId: "/weitere-angaben",
         userInput: {
-          ...happyPathData,
           weitereAngaben: "",
+        },
+        pageData: {
+          arrayIndexes: [],
+          subflowDoneStates: {
+            "/abgabe": false,
+            "/gesetzliche-vertretung": true,
+          },
         },
       },
       {

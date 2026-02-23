@@ -33,7 +33,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                   key={link.text ?? link.url}
                   className="list-none flex mb-10"
                 >
-                  <a href={link.url} className="kern-link">
+                  <a href={link.url} className="kern-link no-underline!">
                     <KernIcon
                       name="arrow-downward"
                       className="h-[1em] w-[1em] shrink-0 my-[0.25em]"

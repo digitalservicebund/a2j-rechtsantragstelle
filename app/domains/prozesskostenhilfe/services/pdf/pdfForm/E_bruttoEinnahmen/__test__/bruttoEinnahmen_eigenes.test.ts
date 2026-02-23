@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { createFinancialEntry } from "~/domains/prozesskostenhilfe/formular/__test__/prozesskostenhilfeFormularData";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
+import { createFinancialEntry } from "./createFinancialEntry";
 import {
   fillAndereLeistungen,
   fillEinkommenType,

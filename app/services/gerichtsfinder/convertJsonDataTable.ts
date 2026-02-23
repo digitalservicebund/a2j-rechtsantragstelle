@@ -27,7 +27,6 @@ type ConversionInput = Record<string, unknown[]>;
 const allowedCaseTypes = new Set([
   "Prozesskostenhilfe eingehend",
   "Urheberrechtssachen",
-  "Verkehrsordnungswidrigkeiten Bußgeldsachen",
   "Nachlasssachen",
 ]);
 

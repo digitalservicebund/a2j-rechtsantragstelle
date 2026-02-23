@@ -4,7 +4,7 @@ import {
 } from "tests/factories/mockPdfKit";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   addCompensationAmount,
   DEMANDED_COMPENSATION_PAYMENT_TEXT,
@@ -15,7 +15,7 @@ import { addMultiplePersonsInfo } from "../addMultiplePersonsInfo";
 import { addOtherDetailsItinerary } from "../addOtherDetailsItinerary";
 import { addWitnessesInfo } from "../addWitnessesInfo";
 
-vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("~/services/pdf/addNewPageInCaseMissingVerticalSpace");
 vi.mock("../addMultiplePersonsInfo");
 vi.mock("../addOtherDetailsItinerary");
 vi.mock("../addWitnessesInfo");

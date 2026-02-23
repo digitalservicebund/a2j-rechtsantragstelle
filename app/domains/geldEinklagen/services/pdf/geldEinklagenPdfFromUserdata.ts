@@ -5,6 +5,7 @@ import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { createFirstPage } from "./sections/firstPage/createFirstPage";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { createBankInformation } from "./sections/createBankInformation";
+import { createReasonPage } from "./sections/reason/createReasonPage";
 
 const TITLE = "Klage Neueingang";
 const SUBJECT = "Klageschrift";
@@ -15,6 +16,7 @@ const buildGeldEinklagenPDFDocument: PDFDocumentBuilder<
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createFirstPage(doc, documentStruct, userData);
+  createReasonPage(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData, createBankInformation);
 };
 

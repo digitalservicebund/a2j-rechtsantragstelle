@@ -58,9 +58,12 @@ const KernTextarea = ({
         })}
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS}
-        className={classNames("kern-form-input__input ph-no-capture", {
-          "kern-form-input__input--error": field.error(),
-        })}
+        className={classNames(
+          "kern-form-input__input ph-no-capture bg-white!",
+          {
+            "kern-form-input__input--error": field.error(),
+          },
+        )}
         ref={innerRef}
         aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : ariaDescribedby}

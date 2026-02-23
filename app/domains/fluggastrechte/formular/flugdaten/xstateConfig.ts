@@ -1,6 +1,5 @@
 import { type Config } from "~/services/flow/server/types";
 import { type FluggastrechteUserData } from "../userData";
-import { flugdatenDone } from "./doneFunctions";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fluggastrechteFormularPages } from "../pages";
@@ -352,7 +351,8 @@ export const flugdatenXstateConfig = {
         SUBMIT: [
           {
             target: steps.personDaten.absolute,
-            guard: flugdatenDone,
+            guard: ({ context }) =>
+              context.pageData?.subflowDoneStates?.["/flugdaten"] === true,
           },
         ],
         BACK: [

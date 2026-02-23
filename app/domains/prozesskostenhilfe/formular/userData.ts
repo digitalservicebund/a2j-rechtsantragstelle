@@ -6,6 +6,7 @@ import { type ProzesskostenhilfeGesetzlicheVertretungUserData } from "./gesetzli
 import { type ProzesskostenhilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./rechtsschutzversicherung/userData";
 import { type ProzesskostenhilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
+import type { PageData } from "~/services/flow/pageDataSchema";
 
 export type ProzesskostenhilfeFormularUserData =
   ProzesskostenhilfeGrundvoraussetzungenUserData &
@@ -15,8 +16,4 @@ export type ProzesskostenhilfeFormularUserData =
     ProzesskostenhilfeGesetzlicheVertretungUserData &
     ProzesskostenhilfePersoenlicheDatenUserData &
     ProzesskostenhilfeWeitereAngabenUserData &
-    ProzesskostenhilfeAbgabeUserData & {
-      pageData?: {
-        arrayIndexes: number[];
-      };
-    };
+    ProzesskostenhilfeAbgabeUserData & { pageData?: PageData };

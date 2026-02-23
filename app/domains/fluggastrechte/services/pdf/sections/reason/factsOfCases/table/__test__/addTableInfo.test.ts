@@ -6,10 +6,10 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { addNewPageInCaseMissingVerticalSpace } from "../../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import { addTableInfo, HEADLINE } from "../addTableInfo";
 
-vi.mock("../../../addNewPageInCaseMissingVerticalSpace");
+vi.mock("~/services/pdf/addNewPageInCaseMissingVerticalSpace");
 
 vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
   vi.fn(),

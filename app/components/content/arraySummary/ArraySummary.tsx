@@ -41,6 +41,7 @@ const ArraySummary = ({
         <div className="space-y-32">
           {arrayData.data.map((items, index) => (
             <ArraySummaryDataItems
+              // oxlint-disable-next-line react/no-array-index-key
               key={`${content.buttonLabel}_${index}`}
               configuration={arrayData.configuration}
               itemIndex={index}

@@ -37,7 +37,7 @@ export const exclusiveCheckboxesSchema = (checkboxNames: readonly string[]) =>
         return (
           (checkboxes.none === "on" &&
             checkboxValues.every((v) => v === "off")) ||
-          (checkboxes.none === "off" && checkboxValues.some((v) => v === "on"))
+          (checkboxes.none === "off" && checkboxValues.includes("on"))
         );
       },
       {

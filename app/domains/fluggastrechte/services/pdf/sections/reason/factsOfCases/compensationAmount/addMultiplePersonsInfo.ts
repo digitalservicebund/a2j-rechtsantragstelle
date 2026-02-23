@@ -11,7 +11,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getFullPlaintiffName } from "../../../getFullPlaintiffName";
-import { addNewPageInCaseMissingVerticalSpace } from "../../addNewPageInCaseMissingVerticalSpace";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 export const CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT =
   "Die Ansprüche folgender Personen wurden durch Abtretung gemäß § 398 BGB an die klagende Partei übertragen:";

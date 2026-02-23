@@ -48,6 +48,7 @@ const KernArraySummary = ({
 
       {arrayData.data.map((items, index) => (
         <KernArraySummaryDataItems
+          // oxlint-disable-next-line react/no-array-index-key
           key={`${content.buttonLabel}_${index}`}
           configuration={arrayData.configuration}
           itemIndex={index}
