@@ -8,8 +8,13 @@ import axios from "axios";
 import escapeRegExp from "lodash/escapeRegExp";
 import { bucketUrl } from "~/services/cms/bucketUrl";
 
+const bucketUrlAlt = bucketUrl.replace(
+  "a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
+  "obs.eu-de.otc.t-systems.com/a2j-rechtsantragstelle-infra-public-assets-bucket",
+);
+
 const imageMatchRegex = new RegExp(
-  `${escapeRegExp(bucketUrl)}/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
+  `(?:${escapeRegExp(bucketUrl)}|${escapeRegExp(bucketUrlAlt)})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
   "gi",
 );
 
