@@ -24,8 +24,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       '@digitalservicebund/kern-ux-tailwind-theme':
-        specifier: ^1.1.0
-        version: 1.1.0(@kern-ux/native@2.4.0)(tailwindcss@4.1.18)
+        specifier: ^2.0.0
+        version: 2.0.0(@kern-ux/native@2.4.0)(tailwindcss@4.1.18)
       '@kern-ux/native':
         specifier: ^2.4.0
         version: 2.4.0
@@ -756,10 +756,10 @@ packages:
     resolution: {integrity: sha512-YuKVA1ZFXr5iK2HRXiqTn/4XtPVTchz5QplMip1J3opLqNEoHwIn5Vz/1mqLYjDAdd2hZjOROBBimJcXI1/VLQ==}
     engines: {node: '>=18'}
 
-  '@digitalservicebund/kern-ux-tailwind-theme@1.1.0':
-    resolution: {integrity: sha512-jPYP7WRoy9LdIEmDxGe4FE5tAvHJbY2lChEvkaKGG+HYxy/j3HwsOIfmPWlBz3/QscUvPDP2XHbci/SgpeDCHQ==}
+  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0':
+    resolution: {integrity: sha512-3Q4MVUd7nrlNyiVj4zImOGe/gStJwOxXgwB7n4yguxiyXrBB5lpwGSnqi1F+Ae6KB5M2olA/3muvAsuLd9WGkg==}
     peerDependencies:
-      '@kern-ux/native': ^2.3.0
+      '@kern-ux/native': ^2.4.0
       tailwindcss: ^4.1.12
 
   '@emnapi/core@1.8.1':
@@ -5841,7 +5841,7 @@ snapshots:
 
   '@digitalservicebund/icons@2.1.0': {}
 
-  '@digitalservicebund/kern-ux-tailwind-theme@1.1.0(@kern-ux/native@2.4.0)(tailwindcss@4.1.18)':
+  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.4.0)(tailwindcss@4.1.18)':
     dependencies:
       '@kern-ux/native': 2.4.0
       tailwindcss: 4.1.18
