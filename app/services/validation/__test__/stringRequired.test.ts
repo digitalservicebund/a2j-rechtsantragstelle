@@ -1,4 +1,7 @@
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import {
+  stringRequiredSchema,
+  stringRequiredMaxSchema,
+} from "~/services/validation/stringRequired";
 
 describe("inputRequired validation", () => {
   describe("success cases", () => {
@@ -30,5 +33,18 @@ describe("inputRequired validation", () => {
         expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
+  });
+
+  describe("configurable max length", () => {
+    it("uses provided max", () => {
+      const actual = stringRequiredMaxSchema({ max: 3 }).safeParse("abcd");
+      expect(actual.success).toBe(false);
+      expect(actual.error!.issues[0].message).toBe("max");
+    });
+
+    it("falls back to default max when max is null", () => {
+      const actual = stringRequiredMaxSchema().safeParse("ok");
+      expect(actual).toEqual({ data: "ok", success: true });
+    });
   });
 });
