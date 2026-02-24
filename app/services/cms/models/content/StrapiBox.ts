@@ -11,7 +11,7 @@ import { StrapiKernBackgroundColorOptionalSchema } from "../StrapiBackgroundColo
 import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
 import { StrapiContainerSchema } from "../StrapiContainer";
-import { Variant, variantWidths } from "~/components/content/BoxWithImage";
+import { type Variant, variantWidths } from "~/components/content/BoxWithImage";
 
 // Necessary destructuring for zod enum type
 const [firstWidth, ...widths] = Object.keys(variantWidths).map(

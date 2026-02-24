@@ -18,7 +18,6 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 import KernList from "../kern/KernList";
-import KernHeroWithButton from "../kern/KernHeroWithButton";
 import KernHero from "../kern/KernHero";
 import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";

@@ -4,7 +4,7 @@ import { Details, type DetailsProps } from "~/components/content/Details";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernButton, { type ButtonProps } from "./KernButton";
-import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
+import { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import {
   KernInlineNotice,

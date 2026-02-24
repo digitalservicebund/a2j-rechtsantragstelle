@@ -5,9 +5,9 @@ import type { ImageProps } from "~/components/common/Image";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { BoxItemProps } from "./BoxItem";
 import BoxWithImage from "./BoxWithImage";
 import InfoBox from "./InfoBox";
+import { type InfoBoxItemProps } from "./InfoBoxItem";
 
 export type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
@@ -28,7 +28,7 @@ type BoxProps = {
   buttons?: ButtonProps[];
   image?: ImageProps;
   variant?: Variant;
-  items?: BoxItemProps[];
+  items?: InfoBoxItemProps[];
   separator?: boolean;
   container?: {
     backgroundColor?: string;

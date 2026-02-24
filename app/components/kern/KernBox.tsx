@@ -10,7 +10,6 @@ import KernRichText, {
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
-import classNames from "classnames";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
 
 type BoxProps = {
@@ -44,18 +43,9 @@ const KernBox = ({
           />
         )}
         {heading && (
-          <KernHeading
-            {...heading}
-            className="pt-9! pb-7!"
-            managedByParent
-          />
+          <KernHeading {...heading} className="pt-9! pb-7!" managedByParent />
         )}
-        {subline && (
-          <KernHeading
-            {...subline}
-            managedByParent
-          />
-        )}
+        {subline && <KernHeading {...subline} managedByParent />}
         {content && <KernRichText {...content} />}
       </div>
       {arrayIsNonEmpty(items) && (

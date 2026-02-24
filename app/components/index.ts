@@ -22,7 +22,7 @@ export const BACKGROUND_COLORS = Object.freeze({
 export const SECTION_BACKGROUND_COLORS = Object.freeze({
   white: "bg-white",
   grey: "bg-kern-neutral-050",
-  blue: "bg-kern-action-default"
+  blue: "bg-kern-action-default",
 });
 
 export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;

@@ -52,7 +52,7 @@ function Heading({
   tabIndex,
   innerRef,
   elementId,
-  managedByParent
+  managedByParent,
 }: HeadingProps) {
   if ((!text || text?.trim() === "") && !children) return null;
   const Tag = tagName;

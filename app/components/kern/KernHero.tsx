@@ -3,7 +3,6 @@ import { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import KernHeading from "./KernHeading";
 import classNames from "classnames";
-import { SECTION_BACKGROUND_COLORS } from "..";
 
 type Props = Readonly<{
   heading: HeadingProps;
@@ -11,7 +10,11 @@ type Props = Readonly<{
   sectionBackgroundColor?: string;
 }>;
 
-export default function KernHero({ heading, content, sectionBackgroundColor }: Props) {
+export default function KernHero({
+  heading,
+  content,
+  sectionBackgroundColor,
+}: Props) {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 7 }}
@@ -19,13 +22,16 @@ export default function KernHero({ heading, content, sectionBackgroundColor }: P
       xlColumn={{ start: 3, span: 9 }}
       className="flex flex-col gap-kern-space-default py-kern-space-x-large"
     >
-      <KernHeading {...heading} className={classNames("p-0!", {
-        "text-white!": sectionBackgroundColor === "blue"
-      })} />
+      <KernHeading
+        {...heading}
+        className={classNames("p-0!", {
+          "text-white!": sectionBackgroundColor === "blue",
+        })}
+      />
       {content && (
         <div
           className={classNames("text-kern-static-large", {
-            "text-white!": sectionBackgroundColor === "blue"
+            "text-white!": sectionBackgroundColor === "blue",
           })}
           dangerouslySetInnerHTML={{ __html: content.html }}
         />
