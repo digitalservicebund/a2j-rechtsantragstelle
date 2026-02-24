@@ -11,6 +11,7 @@ import {
   type KernInlineNoticeProps,
 } from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
+import KernHeading from "./KernHeading";
 
 export type KernBoxItemProps = {
   id: number; // Strapi id
@@ -47,7 +48,7 @@ const KernBoxItem = ({
       )}
       <div className="flex flex-col gap-kern-space-x-large">
         {label && <KernLabel {...label} />}
-        {headline && <KernHeadline {...headline} />}
+        {headline && <KernHeading managedByParent {...headline} />}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />

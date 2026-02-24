@@ -17,6 +17,7 @@ type BoxProps = {
   identifier?: string;
   label?: KernLabelProps;
   heading?: KernHeadingProps;
+  subline?: KernHeadingProps;
   content?: RichTextProps;
   buttons?: ButtonProps[];
   image?: ImageProps;
@@ -27,14 +28,15 @@ const KernBox = ({
   identifier,
   label,
   heading,
+  subline,
   content,
   buttons,
   image,
   items,
 }: BoxProps) => {
   const contentBlock = (
-    <div className="flex flex-col ">
-      <div className="flex flex-col wrap-break-word">
+    <div className="flex flex-col">
+      <div className="flex flex-col wrap-break-word gap-kern-space-default">
         {label && (
           <KernLabel
             {...label}
@@ -44,9 +46,13 @@ const KernBox = ({
         {heading && (
           <KernHeading
             {...heading}
-            className={classNames("pt-9! pb-7!", {
-              "text-kern-adaptive-medium!": image,
-            })}
+            className="pt-9! pb-7!"
+            managedByParent
+          />
+        )}
+        {subline && (
+          <KernHeading
+            {...subline}
             managedByParent
           />
         )}
@@ -54,7 +60,7 @@ const KernBox = ({
       </div>
       {arrayIsNonEmpty(items) && (
         <div
-          className="flex flex-col justify-start align-start gap-kern-space-x-large"
+          className="flex flex-col justify-start align-start gap-kern-space-x-large pt-kern-space-x-large"
           data-testid="box-item-container"
         >
           {items.map((item) => (
@@ -63,7 +69,7 @@ const KernBox = ({
         </div>
       )}
       {arrayIsNonEmpty(buttons) && (
-        <ButtonContainer className="kern-button-group pt-kern-space-small">
+        <ButtonContainer className="kern-button-group pt-kern-space-x-large">
           {buttons.map((button) => (
             <KernButton key={button.text ?? button.href} {...button} />
           ))}
@@ -79,10 +85,10 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-default">
+      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large">
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
-            <div className="shrink-0 max-w-full lg:max-w-[250px]">
+            <div className="shrink-0 max-w-full lg:max-w-[200px]">
               <Image {...image} />
             </div>
             <div className="flex-1 min-w-0">{contentBlock}</div>
