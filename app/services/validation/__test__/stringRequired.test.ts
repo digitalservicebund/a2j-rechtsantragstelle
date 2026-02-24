@@ -35,14 +35,14 @@ describe("inputRequired validation", () => {
     );
   });
 
-  describe("configurable max length", () => {
+  describe("stringRequiredMaxSchema configurable max length", () => {
     it("uses provided max", () => {
       const actual = stringRequiredMaxSchema({ max: 3 }).safeParse("abcd");
       expect(actual.success).toBe(false);
       expect(actual.error!.issues[0].message).toBe("max");
     });
 
-    it("falls back to default max when max is null", () => {
+    it("falls back to default value when max is undefined", () => {
       const actual = stringRequiredMaxSchema().safeParse("ok");
       expect(actual).toEqual({ data: "ok", success: true });
     });

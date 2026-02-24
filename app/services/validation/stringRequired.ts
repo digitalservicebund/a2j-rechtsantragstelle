@@ -7,7 +7,7 @@ export const stringRequiredSchema = z
   .min(1, { message: "required" })
   .max(TEXTAREA_CHAR_LIMIT, { message: "max" });
 
-export const stringRequiredMaxSchema = ({ max }: { max?: number }) =>
+export const stringRequiredMaxSchema = ({ max }: { max?: number } = {}) =>
   z
     .string()
     .trim()
