@@ -80,20 +80,14 @@ export function config(): Config {
       "data/saml/sp_login_request_template.xml",
     ),
     SAML_SP_METADATA_PATH:
-      readSecretOrEnvVar(
-        "/etc/saml/sp_metadata/sp_metadata.xml",
-        "SAML_SP_METADATA_PATH",
-      ) ?? "test",
+      process.env.SAML_SP_METADATA_PATH ??
+      "/etc/saml/sp_metadata/sp_metadata.xml",
     SAML_SP_SECRET_KEY_PATH:
-      readSecretOrEnvVar(
-        "/etc/saml/sp_private_key/sp_private_key.pem",
-        "SAML_SP_SECRET_KEY_PATH",
-      ) ?? "test",
+      process.env.SAML_SP_SECRET_KEY_PATH ??
+      "/etc/saml/sp_private_key/sp_private_key.pem",
     SAML_SP_SECRET_KEY_ENCRYPTION_PATH:
-      readSecretOrEnvVar(
-        "/etc/saml/sp_private_key_encryption/sp_private_key_encryption.pem",
-        "SAML_SP_SECRET_KEY_ENCRYPTION_PATH",
-      ) ?? "test",
+      process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH ??
+      "/etc/saml/sp_private_key_encryption/sp_private_key_encryption.pem",
     SAML_IDP_CERT: process.env.SAML_IDP_CERT?.replaceAll(" ", "") ?? "test",
     S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
     S3_ENDPOINT:
