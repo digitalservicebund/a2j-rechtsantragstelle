@@ -222,7 +222,7 @@ export const translations = {
       de: "Jahr",
     },
     legend: {
-      de: "Geburtsdatum",
+      de: "Datum",
     },
     hintText: {
       de: "Beispielsweise: 17 3 2015",

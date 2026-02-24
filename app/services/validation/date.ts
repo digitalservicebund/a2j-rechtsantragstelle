@@ -96,7 +96,7 @@ export const createSplitDateSchema = (args?: {
   const LAST_MONTH = 12;
   const FIRST_YEAR = 1900;
 
-  const input_invalid = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+  const input_invalid = "Bitte geben Sie ein gültiges Datum ein.";
   const input_required = "Diese Felder müssen ausgefüllt werden.";
 
   return z
@@ -137,10 +137,10 @@ export const createSplitDateSchema = (args?: {
           { message: input_invalid },
         )
         .refine((val) => Number(val) >= FIRST_YEAR, {
-          message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+          message: "Datum älter als 150 Jahre ist nicht relevant.",
         })
         .refine((val) => Number(val) <= Number(new Date().getFullYear()), {
-          message: "Geburtsdatum muss in der Vergangenheit liegen.",
+          message: "Datum muss in der Vergangenheit liegen.",
         }),
     })
     .superRefine((data, ctx) => {
