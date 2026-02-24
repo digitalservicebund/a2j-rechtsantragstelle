@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
+import { GridItem } from "../layout/grid/GridItem";
 
 export const allowedHeadingTags = [
   "h1",
@@ -39,6 +40,7 @@ export type HeadingProps = Readonly<{
   tabIndex?: number;
   innerRef?: React.Ref<HTMLHeadingElement>; // to be removed?
   elementId?: string;
+  managedByParent?: boolean;
 }>;
 
 function Heading({
@@ -50,9 +52,28 @@ function Heading({
   tabIndex,
   innerRef,
   elementId,
+  managedByParent
 }: HeadingProps) {
   if ((!text || text?.trim() === "") && !children) return null;
   const Tag = tagName;
+  if (!managedByParent) {
+    return (
+      <GridItem
+        mdColumn={{ start: 1, span: 8 }}
+        lgColumn={{ start: 3, span: 8 }}
+        xlColumn={{ start: 3, span: 8 }}
+      >
+        <Tag
+          ref={innerRef}
+          tabIndex={tabIndex}
+          className={classNames(look === "default" ? null : look, className)}
+          id={elementId}
+        >
+          {text}
+        </Tag>
+      </GridItem>
+    );
+  }
   return (
     <Tag
       ref={innerRef}
