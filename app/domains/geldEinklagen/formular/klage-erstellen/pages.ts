@@ -16,6 +16,8 @@ import {
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
+const TEXTAREA_MAX_LENGTH = 60000;
+
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
@@ -80,7 +82,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/sachverhalt/begruendung",
     pageSchema: {
       sachverhaltBegruendung: stringRequiredMaxSchema({
-        max: 60000,
+        max: TEXTAREA_MAX_LENGTH,
       }),
     },
   },
@@ -94,7 +96,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/beweise/beschreibung",
     pageSchema: {
       beweiseBeschreibung: stringRequiredMaxSchema({
-        max: 60000,
+        max: TEXTAREA_MAX_LENGTH,
       }),
     },
   },
@@ -143,7 +145,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
       weitereAntraege: schemaOrEmptyString(
-        stringRequiredMaxSchema({ max: 60000 }),
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
       ),
     },
   },
@@ -151,7 +153,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
     pageSchema: {
       rechtlicheWuerdigung: schemaOrEmptyString(
-        stringRequiredMaxSchema({ max: 60000 }),
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
       ),
     },
   },
