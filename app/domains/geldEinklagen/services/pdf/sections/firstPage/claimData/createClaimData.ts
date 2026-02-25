@@ -14,8 +14,7 @@ const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE =
-  "im Online-Verfahren nach Paragraf 1124 Absatz 1 Nummer 1 der Zivilprozessordnung";
+const MAIN_SUBTITLE = "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO";
 
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 
@@ -40,7 +39,7 @@ export const createClaimData = (
         .fontSize(31)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(MAIN_TITLE, { align: "left" });
-      doc.fontSize(10).font(FONTS_BUNDESSANS_REGULAR).text(MAIN_SUBTITLE);
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(MAIN_SUBTITLE);
       doc.moveDown(2);
     }),
   );
@@ -87,7 +86,7 @@ export const createClaimData = (
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(`${DUE_REASON_TEXT} ${subjectAreaDescription}`)
-        .text(`Streitwert: Euro`);
+        .text(`Streitwert: ${userData.forderungGesamtbetrag} Euro`);
     }),
   );
 };

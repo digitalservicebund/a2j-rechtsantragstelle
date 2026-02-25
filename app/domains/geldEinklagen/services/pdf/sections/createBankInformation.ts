@@ -30,7 +30,7 @@ export const createBankInformation = (
       : `${klagendePersonVorname} ${klagendePersonNachname}`;
 
   if (klagendePersonIban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${klagendePersonIban}`;
+    const bankInfo = `Konto der klagenden Partei: ${bankAccountHolder} | IBAN: ${klagendePersonIban}`;
 
     if (isLastPage) {
       const bankInfoParagraph = doc.struct("P", {}, () => {
