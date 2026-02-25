@@ -210,6 +210,7 @@ jobs:
           app: a2j-preview
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
           argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+          argocd_sync_timeout: 600
       - name: Report Deployment
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
@@ -273,6 +274,7 @@ jobs:
           app: a2j-staging
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
           argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+          argocd_sync_timeout: 600
       - name: Report Deployment
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
         with:
@@ -291,6 +293,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
+    concurrency: deploy-production
     steps:
       - name: Deploy new production image
         uses: digitalservicebund/argocd-deploy@4e758f584953506c571951ffcba33d6a6246e856 # v1.0.0
@@ -304,6 +307,39 @@ jobs:
           app: a2j-rast-production
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          argocd_sync_timeout: 600
+      - name: Report Deployment
+        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
+        with:
+          project: a2j-rechtsantragstelle
+          environment: production
+          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
+          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
+
+  deploy-production-stackit:
+    if: github.ref == 'refs/heads/main'
+    needs: [
+        verify-preview-e2e,
+        push-app-image,
+        deploy-staging, # Remove after migration, needed to prevent race condition with bump commit
+        deploy-staging-stackit, # Remove after migration, needed to prevent race condition with bump commit
+      ]
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency: deploy-production
+    steps:
+      - name: Deploy new production image
+        uses: digitalservicebund/argocd-deploy@d14e68e4c78222189d8a20c1552639f33f93fe91 # auth-token branch, v1.0.0
+        with:
+          environment: environments/production
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-production
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
           argocd_sync_timeout: 600
       - name: Report Deployment
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
@@ -334,6 +370,7 @@ jobs:
         deploy-preview-stackit,
         verify-preview-e2e,
         deploy-production,
+        deploy-production-stackit,
         test-production-text,
       ]
     if: always() && failure() && github.ref == 'refs/heads/main'

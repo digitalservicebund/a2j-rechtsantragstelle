@@ -12,7 +12,7 @@ export const addDefendantPartyList = (
   doc: typeof PDFDocument,
   statementClaimSect: PDFKit.PDFStructureElement,
   prozesszinsen: string,
-  streitwert: number,
+  streitwert: string,
   anwaltskosten: string,
 ) => {
   const interestClause =
@@ -36,7 +36,7 @@ export const addDefendantPartyList = (
     doc.struct("Caption", {}, () => {
       doc
         .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
+        .font(FONTS_BUNDESSANS_BOLD)
         .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
     }),
   );

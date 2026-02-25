@@ -31,7 +31,8 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       description: undefined,
     };
   }
-  const lastMatchData = matches.pop()?.loaderData;
+
+  const lastMatchData = matches.at(-1)?.loaderData;
 
   return {
     title: lastMatchData?.cmsContent?.pageTitle ?? lastMatchData?.meta?.title,

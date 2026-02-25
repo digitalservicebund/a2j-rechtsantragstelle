@@ -16,7 +16,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, mockStruct, "yes", 600, "");
+    addDefendantPartyList(mockDoc, mockStruct, "yes", "600", "");
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -49,7 +49,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, mockStruct, "no", 600, "");
+    addDefendantPartyList(mockDoc, mockStruct, "no", "600", "");
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -68,7 +68,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, mockStruct, "no", 600, "100");
+    addDefendantPartyList(mockDoc, mockStruct, "no", "600", "100");
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe("addDefendantPartyList - accessibility", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
 
-    addDefendantPartyList(mockDoc, mockSect, "no", 600, "");
+    addDefendantPartyList(mockDoc, mockSect, "no", "600", "");
     expect(mockDoc.struct).toHaveBeenCalledWith("L");
     expect(mockDoc.struct).toHaveBeenCalledWith("LI");
     expect(mockDoc.struct).toHaveBeenCalledWith(
