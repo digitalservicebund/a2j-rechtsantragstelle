@@ -75,7 +75,7 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large">
+      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-default">
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
             <div className="shrink-0 max-w-full lg:max-w-[200px]">

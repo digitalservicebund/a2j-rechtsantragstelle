@@ -27,6 +27,7 @@ export default function KernHero({
         className={classNames("p-0!", {
           "text-white!": sectionBackgroundColor === "blue",
         })}
+        managedByParent
       />
       {content && (
         <div
