@@ -10,8 +10,13 @@ import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import {
+  stringRequiredSchema,
+  stringRequiredMaxSchema,
+} from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const TEXTAREA_MAX_LENGTH = 60000;
 
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
@@ -76,7 +81,9 @@ export const geldEinklagenKlageErstellenPages = {
   sachverhaltBegruendung: {
     stepId: "klage-erstellen/sachverhalt/begruendung",
     pageSchema: {
-      sachverhaltBegruendung: stringRequiredSchema,
+      sachverhaltBegruendung: stringRequiredMaxSchema({
+        max: TEXTAREA_MAX_LENGTH,
+      }),
     },
   },
   beweiseAngebot: {
@@ -88,7 +95,9 @@ export const geldEinklagenKlageErstellenPages = {
   beweiseBeschreibung: {
     stepId: "klage-erstellen/beweise/beschreibung",
     pageSchema: {
-      beweiseBeschreibung: stringRequiredSchema,
+      beweiseBeschreibung: stringRequiredMaxSchema({
+        max: TEXTAREA_MAX_LENGTH,
+      }),
     },
   },
   prozessfuehrungProzesszinsen: {
@@ -135,13 +144,17 @@ export const geldEinklagenKlageErstellenPages = {
   rechtlicherZusatzWeitereAntraege: {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
-      weitereAntraege: schemaOrEmptyString(stringRequiredSchema),
+      weitereAntraege: schemaOrEmptyString(
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
+      ),
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
     stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
     pageSchema: {
-      rechtlicheWuerdigung: schemaOrEmptyString(stringRequiredSchema),
+      rechtlicheWuerdigung: schemaOrEmptyString(
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
+      ),
     },
   },
   zusammenfassungUebersicht: {
