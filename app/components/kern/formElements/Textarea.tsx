@@ -23,6 +23,12 @@ type TextareaProps = Readonly<{
 }>;
 
 const TEXT_AREA_ROWS = 3;
+const TEXT_AREA_ROWS_BY_NAME: Record<string, number> = {
+  sachverhaltBegruendung: 10,
+  beweiseBeschreibung: 10,
+  weitereAntraege: 10,
+  rechtlicheWuerdigung: 10,
+};
 
 const KernTextarea = ({
   name,
@@ -57,7 +63,7 @@ const KernTextarea = ({
           placeholder,
         })}
         maxLength={maxLength}
-        rows={TEXT_AREA_ROWS}
+        rows={TEXT_AREA_ROWS_BY_NAME[name] ?? TEXT_AREA_ROWS}
         className={classNames(
           "kern-form-input__input ph-no-capture bg-white!",
           {

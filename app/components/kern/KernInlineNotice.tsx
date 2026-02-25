@@ -64,7 +64,7 @@ export const KernInlineNotice = ({
       <div className="kern-alert__header">
         <KernIcon
           name={iconName}
-          className={`${iconClassName} mr-8`}
+          className={`${iconClassName} mr-8 forced-color-adjust-auto`}
           aria-hidden="true"
         />
         <Tag className="kern-body kern-body--bold p-0!"> {title}</Tag>

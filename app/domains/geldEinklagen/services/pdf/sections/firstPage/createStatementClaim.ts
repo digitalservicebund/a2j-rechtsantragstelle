@@ -36,7 +36,7 @@ export const createStatementClaim = (
     doc,
     statementClaimSect,
     prozesszinsen ?? "",
-    0,
+    userData.forderungGesamtbetrag ?? "",
     anwaltskosten ?? "",
   );
 

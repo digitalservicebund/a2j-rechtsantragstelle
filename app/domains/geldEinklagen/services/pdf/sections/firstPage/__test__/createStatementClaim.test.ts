@@ -35,7 +35,7 @@ describe("createStatementClaim", () => {
       mockDoc,
       mockStruct,
       userDataMock.prozesszinsen,
-      0,
+      "9.999,00",
       userDataMock.anwaltskosten,
     );
   });
