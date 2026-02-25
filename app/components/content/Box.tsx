@@ -5,20 +5,9 @@ import type { ImageProps } from "~/components/common/Image";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import BoxWithImage from "./BoxWithImage";
+import BoxWithImage, { type Variant } from "./BoxWithImage";
 import InfoBox from "./InfoBox";
 import { type InfoBoxItemProps } from "./InfoBoxItem";
-
-export type Variant = "XS" | "S" | "M" | "L" | "XL" | "XXL";
-
-export const variantWidths: Record<Variant, string> = {
-  XS: "max-w-[80px]",
-  S: "max-w-[120px]",
-  M: "max-w-[280px]",
-  L: "max-w-[400px]",
-  XL: "max-w-[630px]",
-  XXL: "max-w-[848px]",
-};
 
 type BoxProps = {
   identifier?: string;

@@ -10,9 +10,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-
 @layer utilities {
-
   /* icons styling at the inline notice */
   .app-icon--info {
     color: var(--color-kern-feedback-info);
