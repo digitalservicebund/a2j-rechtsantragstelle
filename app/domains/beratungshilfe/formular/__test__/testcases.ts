@@ -1,5 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+
+const showNachbefragung = await isFeatureFlagEnabled("showNachbefragung");
 
 export const testCasesBeratungshilfeFormularDefault = {
   receivesStaatlicheLeistung: [
@@ -272,9 +275,13 @@ export const testCasesBeratungshilfeFormularDefault = {
       stepId: "/persoenliche-daten/telefonnummer",
       userInput: { telefonnummer: "" },
     },
-    {
-      stepId: "/persoenliche-daten/nachbefragung",
-    },
+    ...(showNachbefragung
+      ? [
+          {
+            stepId: "/persoenliche-daten/nachbefragung",
+          },
+        ]
+      : []),
     {
       stepId: "/weitere-angaben",
       userInput: {
