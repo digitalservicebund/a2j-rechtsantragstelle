@@ -122,6 +122,7 @@ const kernErrorPage403: StrapiContentComponent = {
     id: 363,
   },
   buttons: [],
+  variant: undefined,
   container: {
     backgroundColor: "default",
     paddingTop: "default",
@@ -150,6 +151,7 @@ const kernErrorPage404: StrapiContentComponent = {
     id: 362,
   },
   buttons: [],
+  variant: undefined,
   container: {
     backgroundColor: "default",
     paddingTop: "default",
@@ -178,6 +180,7 @@ const kernErrorPage500: StrapiContentComponent = {
     id: 364,
   },
   buttons: [],
+  variant: undefined,
   container: {
     backgroundColor: "default",
     paddingTop: "default",
