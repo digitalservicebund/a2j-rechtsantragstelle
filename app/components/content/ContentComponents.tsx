@@ -180,7 +180,7 @@ function cmsToReact(
 
   switch (componentProps.__component) {
     case "basic.heading":
-      return <Heading managedByParent={false}  {...componentProps} />;
+      return <Heading managedByParent={false} {...componentProps} />;
     case "basic.paragraph":
       return <RichText {...componentProps} />;
     case "page.hero":
