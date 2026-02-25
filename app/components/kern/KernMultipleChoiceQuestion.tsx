@@ -1,10 +1,16 @@
 import { type MultipleSurveyQuestion } from "posthog-js";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./KernOpenQuestion";
 import { translations } from "~/services/translations/translations";
-import { KernIcon } from "./common/KernIcon";
+import InputError from "~/components/kern/formElements/InputError";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -21,18 +27,27 @@ export const KernMultipleChoiceQuestion = ({
     question.choices.map(() => false),
   );
 
+  const firstCheckboxRef = useRef<HTMLInputElement>(null);
+  const errorId = `${question.id}-error`;
+
+  useEffect(() => {
+    if (hasError) {
+      firstCheckboxRef.current?.focus();
+    }
+  }, [hasError]);
+
   const onCheckboxClicked = (idx: number, choice: string) => {
     const checked = !checkboxStates[idx];
     setCheckboxStates((prev) => prev.map((c, i) => (i === idx ? checked : c)));
-    setResponses((surveyResponses) => {
+    setResponses((prev) => {
       const existingResponses =
-        (surveyResponses?.[questionToAnswerId(question)] as string[]) ?? [];
+        (prev?.[questionToAnswerId(question)] as string[]) ?? [];
       const newAnswers = checked
         ? [...existingResponses, choice]
         : existingResponses.filter((c) => c !== choice);
 
       return {
-        ...surveyResponses,
+        ...prev,
         [questionToAnswerId(question)]: newAnswers,
       };
     });
@@ -43,6 +58,7 @@ export const KernMultipleChoiceQuestion = ({
       className={classNames("kern-fieldset", {
         "kern-fieldset--error": hasError,
       })}
+      aria-invalid={hasError}
     >
       <legend className="kern-text font-semibold py-8">
         {question.question}
@@ -59,8 +75,8 @@ export const KernMultipleChoiceQuestion = ({
                 type="checkbox"
                 checked={checkboxStates[idx]}
                 name={choiceName}
-                readOnly
-                onClick={() => onCheckboxClicked(idx, choice)}
+                onChange={() => onCheckboxClicked(idx, choice)}
+                ref={idx === 0 ? firstCheckboxRef : undefined}
                 className={classNames("kern-form-check__checkbox", {
                   "kern-form-check__checkbox--error": hasError,
                 })}
@@ -70,15 +86,9 @@ export const KernMultipleChoiceQuestion = ({
           );
         })}
         {hasError && (
-          <p className="kern-error flex gap-8 self-center mt-8!" role="alert">
-            <KernIcon
-              name="emergency-home"
-              className="fill-kern-feedback-danger!"
-            />
-            <span className="text-kern-feedback-danger">
-              {translations.feedback["validation-error"].de}
-            </span>
-          </p>
+          <InputError id={errorId}>
+            {translations.feedback["validation-error"].de}
+          </InputError>
         )}
       </div>
     </fieldset>

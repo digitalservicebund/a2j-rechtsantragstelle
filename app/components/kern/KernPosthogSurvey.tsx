@@ -62,6 +62,13 @@ export const KernPosthogSurvey = ({
     const dialog = dialogRef?.current;
     if (!dialog) return;
 
+    if (dialog.open) {
+      requestAnimationFrame(() => {
+        const heading = dialog.querySelector("h2");
+        heading?.focus();
+      });
+    }
+
     const handleClose = () => {
       setShowValidationError(false);
     };
@@ -70,22 +77,27 @@ export const KernPosthogSurvey = ({
     return () => {
       dialog.removeEventListener("close", handleClose);
     };
-  }, [dialogRef]);
+  }, [dialogRef, wasSubmitted]);
 
   const dialogLabelId = "dialog-label";
+  const dialogDescriptionId = "dialog-description";
 
   return (
     <dialog
+      role="dialog"
       aria-modal="true"
       ref={dialogRef}
       tabIndex={-1}
-      // Needed for storybook, as we're not able to pass in a ref and control the opening/closing of the dialog
-      open={!dialogRef}
       aria-labelledby={dialogLabelId}
+      aria-describedby={dialogDescriptionId}
       className="kern-dialog m-auto max-w-l grounded-2xl bg-white p-0"
     >
       <header className="kern-dialog__header">
-        <h2 id={dialogLabelId} className="kern-title kern-title--large">
+        <h2
+          id={dialogLabelId}
+          tabIndex={-1}
+          className="kern-title kern-title--large"
+        >
           {wasSubmitted
             ? translations.feedback["problem-gemeldet"].de
             : translations.feedback["report-problem"].de}
@@ -104,7 +116,7 @@ export const KernPosthogSurvey = ({
           onClick={closeSurvey}
         />
       </header>
-      <section className="kern-dialog__body">
+      <section id={dialogDescriptionId} className="kern-dialog__body">
         {wasSubmitted ? (
           <output className="kern-body">
             {translations.feedback["success-message"].de}{" "}

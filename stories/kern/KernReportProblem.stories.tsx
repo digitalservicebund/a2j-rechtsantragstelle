@@ -18,14 +18,14 @@ const meta = {
         {
           id: "1",
           type: SurveyQuestionType.MultipleChoice,
-          choices: ["Choice 1", "Choice 2", "Choice 3", "Other choice"],
-          question: "Question?",
+          choices: ["Auswahl 1", "Auswahl 2", "Auswahl 3", "Auswahl 4"],
+          question: "Welche Probleme gibt es mit dieser Formular-Seite?",
         },
         {
           id: "2",
           type: SurveyQuestionType.Open,
-          question: "Open question - Optional",
-          description: "Description.",
+          question: "Offene frage - Optional",
+          description: "Beschreibung",
         },
       ],
     } as unknown as Survey);
