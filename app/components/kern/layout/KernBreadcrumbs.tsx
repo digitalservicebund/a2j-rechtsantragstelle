@@ -46,7 +46,10 @@ export default function KernBreadcrumbs({
               />
             </a>
             {validBreadcrumbs.map((breadcrumb, idx, arr) => (
-              <div key={breadcrumb.title} className="kern-body-small flex items-center">
+              <div
+                key={breadcrumb.title}
+                className="kern-body-small flex items-center"
+              >
                 <KernIcon
                   name="chevron-right"
                   className="fill-kern-layout-text-muted!"
