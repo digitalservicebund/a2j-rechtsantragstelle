@@ -43,8 +43,8 @@ export function KernCookieBanner({
     ? "accept-cookie_with_js"
     : "accept-cookie_without_js";
 
-  if (hasTrackingConsent !== undefined) {
-    return <></>;
+  if (hasTrackingConsent !== undefined || !isOpen) {
+    return null;
   }
 
   function closeModal() {
@@ -56,25 +56,35 @@ export function KernCookieBanner({
   return (
     <div
       className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
-      aria-label="Cookie banner"
       data-testid="cookie-banner"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cookie-banner-heading"
+      aria-describedby="cookie-banner-desc"
+      tabIndex={-1}
     >
       <analyticsFetcher.Form
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <header className="kern-dialog__header flex! justify-between! items-center!">
-          <h2 className="kern-title">{content.heading.text}</h2>
+          <h2 className="kern-title" id="cookie-banner-heading">
+            {content.heading.text}
+          </h2>
           <KernButton
             type="button"
             look="ghost"
             iconLeft={
-              <KernIcon name="close" className="fill-kern-action-default!" />
+              <KernIcon
+                name="close"
+                className="fill-kern-action-default! forced-color-adjust-auto"
+              />
             }
             onClick={closeModal}
+            aria-label="schließen"
           />
         </header>
-        <section className="kern-dialog__body">
+        <section id="cookie-banner-desc" className="kern-dialog__body">
           {content.paragraphs.map((paragraph) => (
             <KernRichText key={paragraph.html} html={paragraph.html} />
           ))}
