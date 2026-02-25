@@ -22,11 +22,11 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div>
+      <nav aria-label="Inhalt">
         <div>
           {label && <KernLabel {...label} />}
           {links && links.length > 0 && (
-            <ul className="list-none pl-0! mt-10 kern-stack-lg">
+            <ul className="list-none pl-0! mt-10">
               {links.map((link) => (
                 <li
                   key={link.text ?? link.url}
@@ -51,7 +51,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
             ))}
           </ButtonContainer>
         )}
-      </div>
+      </nav>
     </GridItem>
   );
 };
