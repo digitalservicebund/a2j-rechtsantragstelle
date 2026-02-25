@@ -4,7 +4,6 @@ import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { addFreeTextApplication } from "./claimData/addFreeTextApplication";
 import { addNegotiationText } from "./claimData/addNegotiationText";
-import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 
 const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
 

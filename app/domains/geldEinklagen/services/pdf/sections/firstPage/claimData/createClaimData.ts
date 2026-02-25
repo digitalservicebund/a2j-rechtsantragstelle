@@ -1,8 +1,5 @@
 import type PDFDocument from "pdfkit";
-import {
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/createPdfKitDocument";
+import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
 import type {
   GeldEinklagenFormularUserData,
