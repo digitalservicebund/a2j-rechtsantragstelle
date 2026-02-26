@@ -7,12 +7,15 @@ import {
   allowedHeadingTags,
 } from "~/components/common/Heading";
 import { SIZES } from "~/components/kern/KernHeading";
+import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 
 export const StrapiHeadingSchema = z
   .object({
     text: StringWithHtmlEntities,
     tagName: z.enum(allowedHeadingTags),
     look: z.enum(allowedHeadingLooks), // To be removed after KERN migration
+    paddingTop: StrapiPaddingOptionalSchema,
+    paddingBottom: StrapiPaddingOptionalSchema,
     size: z.enum(SIZES).nullable().transform(omitNull).optional(),
     ...HasStrapiIdSchema.shape,
   })
