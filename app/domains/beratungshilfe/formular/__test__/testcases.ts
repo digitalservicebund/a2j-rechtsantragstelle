@@ -95,9 +95,6 @@ export const testCasesBeratungshilfeFormularDefault = {
         ]
       : []),
     {
-      stepId: "/persoenliche-daten/nachbefragung",
-    },
-    {
       stepId: "/weitere-angaben",
       userInput: {
         weitereAngaben: "",
@@ -289,9 +286,6 @@ export const testCasesBeratungshilfeFormularDefault = {
           },
         ]
       : []),
-    {
-      stepId: "/persoenliche-daten/nachbefragung",
-    },
     {
       stepId: "/weitere-angaben",
       userInput: {
