@@ -60,7 +60,7 @@ export const KernMultipleChoiceQuestion = ({
       })}
       aria-invalid={hasError}
     >
-      <legend className="kern-text font-semibold py-8">
+      <legend className="kern-body font-semibold py-8">
         {question.question}
       </legend>
       <div className="flex flex-col gap-16">

@@ -19,7 +19,7 @@ export const KernOpenQuestion = ({
   const hasDescription = Boolean(question.description);
   const descriptionId = hasDescription ? id + "Description" : undefined;
   return (
-    <div className="kern-stack-large">
+    <div>
       <label className="kern-label py-8" htmlFor={id}>
         {question.question}
       </label>
