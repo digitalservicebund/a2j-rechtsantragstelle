@@ -78,8 +78,8 @@ export const KernEmailCapture = ({
             "kern-form-input--error": invalidEmail,
           })}
         >
-          <div className="flex gap-kern-space-default w-full items-end">
-            <div className="flex flex-col grow">
+          <div className="flex flex-col items-start md:flex-row gap-kern-space-default w-full md:items-end">
+            <div className="flex flex-col grow min-w-full md:min-w-0">
               {label && (
                 <label
                   htmlFor={fieldName}
