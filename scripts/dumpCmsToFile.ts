@@ -8,13 +8,17 @@ import axios from "axios";
 import escapeRegExp from "lodash/escapeRegExp";
 import { bucketUrl } from "~/services/cms/bucketUrl";
 
-const bucketUrlAlt = bucketUrl.replace(
-  "a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
-  "obs.eu-de.otc.t-systems.com/a2j-rechtsantragstelle-infra-public-assets-bucket",
-);
+// OBS path style (endpoint/bucket) from virtual hosted style (bucket.endpoint)
+const hostedToPathStyle = (obsHostedUrl: string) => {
+  const { protocol, hostname } = new URL(obsHostedUrl);
+  const [bucket, ...endpointArray] = hostname.split(".");
+  return `${protocol}//${endpointArray.join(".")}/${bucket}`;
+};
+
+const bucketUrlPathstyle = hostedToPathStyle(bucketUrl);
 
 const imageMatchRegex = new RegExp(
-  `(?:${escapeRegExp(bucketUrl)}|${escapeRegExp(bucketUrlAlt)})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
+  `(?:${escapeRegExp(bucketUrl)}|${escapeRegExp(bucketUrlPathstyle)})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
   "gi",
 );
 
