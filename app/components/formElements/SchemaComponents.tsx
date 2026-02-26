@@ -54,6 +54,18 @@ const renderSpecialMetaDescriptions = (
   }
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
+    if (isZodObject(fieldSchema)) {
+      return (
+        <>
+          {Object.keys(fieldSchema.shape).map((key) => (
+            <HiddenInput
+              key={`${fieldName}.${key}`}
+              name={`${fieldName}.${key}`}
+            />
+          ))}
+        </>
+      );
+    }
     return <HiddenInput key={fieldName} name={fieldName} />;
   }
 };
