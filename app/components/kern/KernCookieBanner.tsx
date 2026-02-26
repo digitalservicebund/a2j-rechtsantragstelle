@@ -54,10 +54,9 @@ export function KernCookieBanner({
   if (!isOpen) return null;
 
   return (
-    <div
+    <dialog
       className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
       data-testid="cookie-banner"
-      role="dialog"
       aria-modal="true"
       aria-labelledby="cookie-banner-heading"
       aria-describedby="cookie-banner-desc"
@@ -84,7 +83,7 @@ export function KernCookieBanner({
             aria-label="schließen"
           />
         </header>
-        <section id="cookie-banner-desc" className="kern-dialog__body">
+        <section className="kern-dialog__body">
           {content.paragraphs.map((paragraph) => (
             <KernRichText key={paragraph.html} html={paragraph.html} />
           ))}
@@ -114,6 +113,6 @@ export function KernCookieBanner({
           />
         </footer>
       </analyticsFetcher.Form>
-    </div>
+    </dialog>
   );
 }
