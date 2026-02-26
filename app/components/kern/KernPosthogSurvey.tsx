@@ -84,7 +84,6 @@ export const KernPosthogSurvey = ({
 
   return (
     <dialog
-      role="dialog"
       aria-modal="true"
       ref={dialogRef}
       tabIndex={-1}
