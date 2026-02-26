@@ -5,7 +5,6 @@ import { StrapiStringOptionalSchema } from "~/services/cms/models/StrapiStringOp
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 
 export const StrapiEmailCaptureSchema = z.object({
-  target: z.string(),
   label: StrapiStringOptionalSchema,
   description: StrapiRichTextOptionalSchema(),
   buttonLabel: z.string(),
