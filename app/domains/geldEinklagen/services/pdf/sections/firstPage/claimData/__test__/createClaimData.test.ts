@@ -30,7 +30,7 @@ describe("createClaimData", () => {
     expect(mockDoc.moveDown).toHaveBeenCalled();
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "im Online-Verfahren nach Paragraf 1124 Absatz 1 Nummer 1 der Zivilprozessordnung",
+      "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO",
     );
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
