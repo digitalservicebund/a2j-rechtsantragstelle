@@ -35,4 +35,5 @@ export const userDataMock: GeldEinklagenFormularUserData = {
   muendlicheVerhandlung: "yes",
   videoVerhandlung: "no",
   versaeumnisurteil: "yes",
+  forderungGesamtbetrag: "9.999,00",
 };

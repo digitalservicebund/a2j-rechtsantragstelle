@@ -17,14 +17,34 @@ export const addAccusedDetails = (
     beklagteStrasseHausnummer,
     beklagteOrt,
     beklagtePlz,
+    beklagteNameOrganisation,
+    beklagteGesetzlichenVertretungAnrede,
+    beklagteGesetzlichenVertretungTitle,
+    beklagteGesetzlichenVertretungVorname,
+    beklagteGesetzlichenVertretungNachname,
+    gegenWenBeklagen,
   }: GeldEinklagenFormularUserData,
 ) => {
-  const accusedName = getFullPlaintiffName(
+  const accusedPersonName = getFullPlaintiffName(
     beklagteAnrede,
     beklagteTitle === "none" ? "" : beklagteTitle,
     beklagteVorname,
     beklagteNachname,
   );
+
+  const legalRepresentativeName = getFullPlaintiffName(
+    beklagteGesetzlichenVertretungAnrede,
+    beklagteGesetzlichenVertretungTitle === "none"
+      ? ""
+      : beklagteGesetzlichenVertretungTitle,
+    beklagteGesetzlichenVertretungVorname,
+    beklagteGesetzlichenVertretungNachname,
+  );
+
+  const legalRepresentative = `${beklagteNameOrganisation}, vertreten durch ${legalRepresentativeName}`;
+
+  const accusedName =
+    gegenWenBeklagen === "person" ? accusedPersonName : legalRepresentative;
 
   doc
     .fontSize(10)
