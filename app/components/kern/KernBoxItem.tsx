@@ -4,13 +4,14 @@ import { Details, type DetailsProps } from "~/components/content/Details";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernButton, { type ButtonProps } from "./KernButton";
-import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
+import { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import {
   KernInlineNotice,
   type KernInlineNoticeProps,
 } from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
+import KernHeading from "./KernHeading";
 
 export type KernBoxItemProps = {
   id: number; // Strapi id
@@ -47,7 +48,7 @@ const KernBoxItem = ({
       )}
       <div className="flex flex-col gap-kern-space-x-large">
         {label && <KernLabel {...label} />}
-        {headline && <KernHeadline {...headline} />}
+        {headline && <KernHeading managedByParent {...headline} />}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />

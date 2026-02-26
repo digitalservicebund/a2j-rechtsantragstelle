@@ -6,6 +6,8 @@ import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiContainerSchema } from "../StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiLinkSchema } from "../StrapiLink";
+import { StrapiKernBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
+import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 
 export const StrapiTableOfContentsSchema = z.object({
   label: StrapiHeadingOptionalSchema,
@@ -14,6 +16,10 @@ export const StrapiTableOfContentsSchema = z.object({
   outerBackground: StrapiBackgroundOptionalSchema,
   container: StrapiContainerSchema,
   links: z.array(StrapiLinkSchema),
+  contentBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
+  paddingTop: StrapiPaddingOptionalSchema,
+  paddingBottom: StrapiPaddingOptionalSchema,
+  sectionBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
   __component: z.literal("page.table-of-contents"),
   ...HasStrapiIdSchema.shape,
   ...OptionalStrapiLinkIdentifierSchema.shape,
