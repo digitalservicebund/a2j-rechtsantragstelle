@@ -50,7 +50,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: content-file
           path: content.json
@@ -94,7 +94,7 @@ jobs:
         run: docker save ${{ env.REGISTRY }}/${{ github.repository }}-app:latest | gzip > image.tar.gz
       - name: Upload docker image to artifact
         if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: docker-build
           path: image.tar.gz
