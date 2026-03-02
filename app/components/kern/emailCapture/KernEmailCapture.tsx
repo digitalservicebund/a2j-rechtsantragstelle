@@ -63,10 +63,8 @@ export const KernEmailCapture = ({
   }
 
   return (
-    <div className="ds-stack ds-stack-16">
-      {description && (
-        <KernRichText className="ds-body-01-reg" html={description} />
-      )}
+    <div className="flex flex-col gap-kern-space-large">
+      {description && <KernRichText className="kern-body" html={description} />}
       <form
         {...form.getFormProps()}
         data-testid="email-capture-form"
