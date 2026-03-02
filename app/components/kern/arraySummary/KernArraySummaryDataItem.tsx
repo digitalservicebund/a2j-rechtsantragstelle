@@ -55,16 +55,22 @@ const KernArraySummaryDataItems = ({
       </div>
       <div className="kern-summary__body bg-white!">
         <dl className="kern-description-list">
-          {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
-            <div className="kern-description-list-item" key={itemKey}>
-              <dt className="kern-description-list-item__key">
-                {itemLabels[itemKey] ?? ""}
-              </dt>
-              <dd className="kern-description-list-item__value">
-                {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
-              </dd>
-            </div>
-          ))}
+          {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => {
+            const displayValue =
+              typeof itemValue === "string" || typeof itemValue === "number"
+                ? String(itemValue)
+                : "";
+            return (
+              <div className="kern-description-list-item" key={itemKey}>
+                <dt className="kern-description-list-item__key">
+                  {itemLabels[itemKey] ?? ""}
+                </dt>
+                <dd className="kern-description-list-item__value">
+                  {itemLabels[`${itemKey}.${displayValue}`] ?? displayValue}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
 
         <KernArraySummaryItemActions

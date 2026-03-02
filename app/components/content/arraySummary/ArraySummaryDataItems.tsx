@@ -46,16 +46,22 @@ const ArraySummaryDataItems = ({
     <div className="space-y-16 bg-white p-16">
       {heading && <Heading {...heading} />}
 
-      {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
-        <div key={itemKey} className="first:pt-0 scroll-my-40">
-          <Heading
-            text={itemLabels[itemKey] ?? ""}
-            tagName="p"
-            look="ds-label-02-bold"
-          />
-          {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
-        </div>
-      ))}
+      {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => {
+        const displayValue =
+          typeof itemValue === "string" || typeof itemValue === "number"
+            ? String(itemValue)
+            : "";
+        return (
+          <div key={itemKey} className="first:pt-0 scroll-my-40">
+            <Heading
+              text={itemLabels[itemKey] ?? ""}
+              tagName="p"
+              look="ds-label-02-bold"
+            />
+            {itemLabels[`${itemKey}.${displayValue}`] ?? displayValue}
+          </div>
+        );
+      })}
       <ArraySummaryItemButton
         {...(heading ? { heading } : null)}
         category={category}
