@@ -65,11 +65,11 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput(
     "direktAbflugsDatum.day",
-    toGermanDateFormat(today()),
+    today().getDate().toString(),
   );
   await formular.fillInput(
     "direktAbflugsDatum.month",
-    (today().getMonth() + 1).toString(),
+    (today().getMonth() + 1).toString().padStart(2, "0"),
   );
   await formular.fillInput(
     "direktAbflugsDatum.year",
@@ -79,15 +79,15 @@ export async function startFluggastrechteFormular(
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
   await formular.fillInput(
     "direktAnkunftsDatum.day",
-    toGermanDateFormat(today()),
+    today().getDate().toString(),
   );
   await formular.fillInput(
     "direktAnkunftsDatum.month",
-    toGermanDateFormat(today()),
+    (today().getMonth() + 1).toString().padStart(2, "0"),
   );
   await formular.fillInput(
     "direktAnkunftsDatum.year",
-    toGermanDateFormat(today()),
+    today().getFullYear().toString(),
   );
   await formular.fillInput("direktAnkunftsZeit", "10:10");
   await formular.clickNext();
@@ -118,15 +118,15 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
   await formular.fillInput(
     "ersatzFlugAnkunftsDatum.day",
-    toGermanDateFormat(today()),
+    today().getDate().toString(),
   );
   await formular.fillInput(
     "ersatzFlugAnkunftsDatum.month",
-    toGermanDateFormat(today()),
+    (today().getMonth() + 1).toString().padStart(2, "0"),
   );
   await formular.fillInput(
     "ersatzFlugAnkunftsDatum.year",
-    toGermanDateFormat(today()),
+    today().getFullYear().toString(),
   );
   await formular.fillInput("ersatzFlugAnkunftsZeit", "15:10");
   await formular.clickNext();
