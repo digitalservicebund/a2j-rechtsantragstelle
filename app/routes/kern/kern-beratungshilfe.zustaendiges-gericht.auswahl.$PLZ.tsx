@@ -24,7 +24,7 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
           xlColumn={{ start: 3, span: 8 }}
         >
           <div className="gap-kern-space-x-large flex flex-col">
-            <span className="kern-text text-l! mt-16">Amtsgericht finden</span>
+            <span className="kern-body text-l! mt-16">Amtsgericht finden</span>
             <KernHeading
               tagName="h1"
               className="mt-16 text-3xl!"
