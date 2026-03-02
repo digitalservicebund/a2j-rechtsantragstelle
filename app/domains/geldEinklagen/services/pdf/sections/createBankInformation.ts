@@ -10,7 +10,9 @@ function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
   doc
     .fontSize(7)
     .font(FONTS_BUNDESSANS_REGULAR)
-    .text(text, PDF_MARGIN_HORIZONTAL, PDF_HEIGHT_SEIZE);
+    .text(text, PDF_MARGIN_HORIZONTAL, PDF_HEIGHT_SEIZE, {
+      lineBreak: false,
+    });
 }
 
 export const createBankInformation = (

@@ -33,7 +33,11 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "yes", "yes", "no", mockStruct);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt. Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.",
+      "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
+      expect.any(Number),
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.",
       expect.any(Number),
     );
   });
@@ -44,7 +48,7 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "yes", "no", "no", mockStruct);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt. ",
+      "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
       expect.any(Number),
     );
   });
@@ -55,8 +59,19 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "no", "no", "no", mockStruct);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken. ",
+      "Es wird beantragt, im Fall einer mündlichen Verhandlung an dieser im Gericht teilzunehmen.",
       expect.any(Number),
     );
+  });
+
+  it("should not create a paragraph structure element when all negotiation texts are empty", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "noSpecification", "no", "no", mockStruct);
+
+    expect(mockDoc.struct).not.toHaveBeenCalled();
+    expect(mockStruct.add).not.toHaveBeenCalled();
+    expect(mockDoc.text).not.toHaveBeenCalled();
   });
 });
