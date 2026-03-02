@@ -5,18 +5,23 @@ import { addAdvanceCourtAndPlaintiffName } from "./addAdvanceCourtAndPlaintiffNa
 import { addRechtlicheWuerdigung } from "./addRechtlicheWuerdigung";
 import { addDisputeResolution } from "./addDisputeResolution";
 
-const LEGAL_ASSESSMENT_TEXT = "III. Rechtliche Würdigung";
+const getLegalAssessmentTitle = (hasEvidencesOnFacts: boolean) =>
+  `${hasEvidencesOnFacts ? "III" : "II"}. Rechtliche Würdigung`;
 
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   reasonSect: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
+  hasEvidencesOnFacts: boolean,
 ) => {
   const legalAssessmentSect = doc.struct("Sect");
 
   legalAssessmentSect.add(
     doc.struct("H3", {}, () => {
-      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(LEGAL_ASSESSMENT_TEXT);
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(getLegalAssessmentTitle(hasEvidencesOnFacts));
       doc.moveDown(1);
     }),
   );

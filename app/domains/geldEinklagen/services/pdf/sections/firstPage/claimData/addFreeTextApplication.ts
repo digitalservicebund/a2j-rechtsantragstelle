@@ -1,10 +1,7 @@
-import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
-import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
 export const addFreeTextApplication = (
   doc: PDFKit.PDFDocument,
@@ -14,16 +11,6 @@ export const addFreeTextApplication = (
   if (!freeTextApplication) {
     return;
   }
-
-  const totalHeightOfStrings = getHeightOfString(
-    freeTextApplication,
-    doc,
-    PDF_WIDTH_SEIZE,
-  );
-
-  addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: totalHeightOfStrings,
-  });
 
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
