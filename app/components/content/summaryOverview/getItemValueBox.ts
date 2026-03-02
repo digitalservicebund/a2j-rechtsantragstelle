@@ -25,7 +25,17 @@ export const getItemValueBox = (
     const fieldName = getFieldName(field);
     const itemValue = fieldName.includes(".")
       ? getNestedValue(userData, fieldName)
-      : (userData[fieldName] as string);
+      : userData[fieldName];
+
+    if (
+      itemValue &&
+      typeof itemValue === "object" &&
+      "day" in itemValue &&
+      "month" in itemValue &&
+      "year" in itemValue
+    ) {
+      return `${itemValue.day}.${itemValue.month}.${itemValue.year}`;
+    }
 
     // Check if a direct translation exists
     const directTranslation = translations[`${fieldName}.${itemValue}`];

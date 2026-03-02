@@ -113,7 +113,7 @@ describe("ValidatedFlowForm", () => {
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
         code: "invalid",
-        text: "Bitte geben Sie ein gültiges Geburtsdatum ein.",
+        text: "Bitte geben Sie ein gültiges Datum ein.",
       },
       "date",
     );

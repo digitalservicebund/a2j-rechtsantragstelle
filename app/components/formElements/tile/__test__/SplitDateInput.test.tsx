@@ -20,7 +20,7 @@ vi.mock("@rvf/react-router", () => ({
     const fieldErrors: Record<string, string | null> = {
       day: "Diese Felder müssen ausgefüllt werden.",
       month: null,
-      year: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+      year: "Datum älter als 150 Jahre ist nicht relevant.",
     };
 
     return {

@@ -49,7 +49,9 @@ export const addPlannedFlightDetails = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(PLANNED_DEPARTURE_DATE_TEXT, { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(` ${userData?.direktAbflugsDatum ?? ""}`);
+        .text(
+          ` ${userData?.direktAbflugsDatum?.day}.${userData?.direktAbflugsDatum?.month}.${userData?.direktAbflugsDatum?.year ?? ""}`,
+        );
       doc.moveDown(0.2);
     }),
   );
