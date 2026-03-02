@@ -16,6 +16,17 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
 const getFieldName = (field: string): string =>
   field.split(arrayChar).pop() ?? field;
 
+const isDateObject = (
+  value: unknown,
+): value is { day: number; month: number; year: number } => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "day" in value &&
+    "month" in value &&
+    "year" in value
+  );
+};
 export const getItemValueBox = (
   translations: Translations,
   userData: UserData,
@@ -27,25 +38,24 @@ export const getItemValueBox = (
       ? getNestedValue(userData, fieldName)
       : userData[fieldName];
 
-    if (
-      itemValue &&
-      typeof itemValue === "object" &&
-      "day" in itemValue &&
-      "month" in itemValue &&
-      "year" in itemValue
-    ) {
+    if (isDateObject(itemValue)) {
       return `${itemValue.day}.${itemValue.month}.${itemValue.year}`;
     }
+    // Make sure itemValue is a string
+    const displayValue =
+      typeof itemValue === "string" || typeof itemValue === "number"
+        ? String(itemValue)
+        : "";
 
     // Check if a direct translation exists
-    const directTranslation = translations[`${fieldName}.${itemValue}`];
+    const directTranslation = translations[`${fieldName}.${displayValue}`];
     if (directTranslation) return directTranslation;
 
     // Handle empty value
-    if (!itemValue && emptyValuePlaceholder) return emptyValuePlaceholder;
+    if (!displayValue && emptyValuePlaceholder) return emptyValuePlaceholder;
 
     // Fallback to string replacement translation or the original item value
-    return translations[`${fieldName}.value`] ?? itemValue;
+    return translations[`${fieldName}.value`] ?? displayValue;
   });
 
   return itemValues.filter(Boolean).join(" ");
