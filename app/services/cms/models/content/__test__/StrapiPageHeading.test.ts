@@ -53,5 +53,4 @@ describe("StrapiPageHeading", () => {
     expect(actual.data?.paddingTop).toBe("40");
     expect(actual.data?.paddingBottom).toBe("0");
   });
-
 });
