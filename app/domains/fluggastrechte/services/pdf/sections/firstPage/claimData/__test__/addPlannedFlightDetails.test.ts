@@ -30,7 +30,7 @@ describe("addPlannedFlightDetails", () => {
       continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith(
-      ` ${userDataMock.direktAbflugsDatum}`,
+      ` ${userDataMock.direktAbflugsDatum.day}.${userDataMock.direktAbflugsDatum.month}.${userDataMock.direktAbflugsDatum.year}`,
     );
   });
 
