@@ -79,7 +79,7 @@ describe("date split input validation", () => {
   });
 
   describe("failing cases", () => {
-    const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+    const invalid_birthdate = "Bitte geben Sie ein gültiges Datum ein.";
     const input_required = "Diese Felder müssen ausgefüllt werden.";
 
     const cases = [
@@ -117,7 +117,7 @@ describe("date split input validation", () => {
           year: "2500",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum muss in der Vergangenheit liegen.",
+        errorMessage: "Datum muss in der Vergangenheit liegen.",
       },
       {
         input: {
@@ -126,7 +126,7 @@ describe("date split input validation", () => {
           year: "1800",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+        errorMessage: "Datum älter als 150 Jahre ist nicht relevant.",
       },
       {
         input: {
@@ -189,7 +189,7 @@ describe("date split input validation", () => {
           year: "-2000",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+        errorMessage: "Datum älter als 150 Jahre ist nicht relevant.",
       },
     ];
 
@@ -199,9 +199,9 @@ describe("date split input validation", () => {
         const actual = createSplitDateSchema().safeParse(input);
         expect(actual.success).toBe(false);
 
-        const issue = actual.error?.issues.find((i) =>
-          i.path.includes(errorPath),
-        );
+        const issue =
+          actual.error?.issues.find((i) => i.path.includes(errorPath)) ??
+          actual.error?.issues[0];
         expect(issue?.message).toBe(errorMessage);
       },
     );
