@@ -6,11 +6,11 @@ const localFeatureFlags = {
   showGeldEinklagenFlow: true,
   showFileUpload: false,
   showPKHZusammenfassung: false,
-  showKernUX: true,
+  showKernUX: false,
   showAutoSummary: false,
   showPkontoAntragFlow: false,
   showErbscheinWegweiser: false,
-  showNachbefragung: true,
+  showNachbefragung: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
