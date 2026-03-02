@@ -10,6 +10,7 @@ const localFeatureFlags = {
   showAutoSummary: false,
   showPkontoAntragFlow: false,
   showErbscheinWegweiser: false,
+  showNachbefragung: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

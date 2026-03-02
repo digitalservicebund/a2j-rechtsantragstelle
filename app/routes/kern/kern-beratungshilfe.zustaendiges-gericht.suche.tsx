@@ -35,7 +35,7 @@ export default function KernZuestandigesGerichtSuche({
               text="Wie ist Ihre Postleitzahl"
               size="large"
             />
-            <p className="kern-text">
+            <p className="kern-body">
               Bitte geben Sie die Postleitzahl Ihres Wohnsitzes ein. Wir zeigen
               Ihnen dann die Adresse Ihres Amtsgerichts und wie Sie mit dem
               Gericht in Kontakt treten können.

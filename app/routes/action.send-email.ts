@@ -11,8 +11,8 @@ import { filterFormData } from "~/util/filterFormData";
 
 export const loader = () => redirect("/");
 
-const formbricksEnvironmentId = "clyy3haia0008wtwmvnuzk8s5";
-const formbricksSurveyId = "s8cilvvp5qilg5on3qqnhqhe";
+const formbricksEnvironmentId = "cmk3q91md00djnt0156ia0jd9";
+const formbricksSurveyId = "cmk3qb3xs00dunt01vlkqz96w";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -28,7 +28,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const response = await fetch(
-    `https://app.formbricks.com/api/v1/client/${formbricksEnvironmentId}/responses`,
+    `https://surveys.digitalservice.dev/api/v1/client/${formbricksEnvironmentId}/responses`,
     {
       method: "post",
       body: JSON.stringify({
