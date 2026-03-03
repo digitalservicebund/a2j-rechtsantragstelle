@@ -144,8 +144,8 @@ export function getGridClass(
 // pt-0 pb-0
 export const getPaddingClasses = (pt: string, pb: string) => {
   if (pt && pb) {
-    const paddingTop = pt === "default" ? "40" : pt;
-    const paddingBottom = pb === "default" ? "40" : pb;
+    const paddingTop = pt === "default" || "auto" ? "40" : pt;
+    const paddingBottom = pb === "default" || "auto" ? "40" : pb;
     return `pt-${paddingTop} pb-${paddingBottom}`;
   }
   return "";
