@@ -177,11 +177,12 @@ function cmsToReact(
       case "page.email-capture":
         return <KernEmailCapture {...componentProps} />;
       case "page.heading":
-        return (<KernHeading
-          {...componentProps.heading}
-          elementId={componentProps.identifier}
-        />
-        )
+        return (
+          <KernHeading
+            {...componentProps.heading}
+            elementId={componentProps.identifier}
+          />
+        );
       default:
         return <></>;
     }
@@ -217,10 +218,12 @@ function cmsToReact(
     case "page.email-capture":
       return <EmailCapture {...componentProps} />;
     case "page.heading":
-      return <Heading
-        {...componentProps.heading}
-        elementId={componentProps.identifier}
-      />
+      return (
+        <Heading
+          {...componentProps.heading}
+          elementId={componentProps.identifier}
+        />
+      );
     case "page.array-summary":
     default:
       return <></>;
