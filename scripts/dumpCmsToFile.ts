@@ -15,7 +15,7 @@ const hostedToPathStyle = (obsHostedUrl: string) => {
   return `${protocol}//${endpointArray.join(".")}/${bucket}`;
 };
 
-const bucketUrlPathstyle = hostedToPathStyle(bucketUrl);
+const bucketUrlPathstyle = hostedToPathStyle(bucketUrl ?? "");
 
 const imageMatchRegex = new RegExp(
   `(?:${escapeRegExp(bucketUrl)}|${escapeRegExp(bucketUrlPathstyle)})/[^\\s"']+\\.(?:svg|png|jpg)\\b`,
