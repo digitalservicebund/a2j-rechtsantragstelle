@@ -15,9 +15,7 @@ const isValidDate = (date: string) =>
 export const toDateString = (day?: number, month?: number, year?: number) =>
   `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
 
-type SplitDate =
-  | { day: string; month: string; year: string }
-  | { day: number; month: number; year: number };
+type SplitDate = { day: string; month: string; year: string };
 
 export const toDateStringFromSplitDate = (
   value: SplitDate | "" | undefined,
@@ -28,11 +26,7 @@ export const toDateStringFromSplitDate = (
       month: string | number;
       year: string | number;
     };
-    return toDateString(
-      Number(day),
-      Number(month),
-      typeof year === "string" ? Number(year) : year,
-    );
+    return toDateString(Number(day), Number(month), Number(year));
   }
 
   return "";
