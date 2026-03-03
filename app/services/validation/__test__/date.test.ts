@@ -79,7 +79,7 @@ describe("date split input validation", () => {
   });
 
   describe("failing cases", () => {
-    const invalid_birthdate = "Bitte geben Sie ein gültiges Datum ein.";
+    const input_invalid = "Bitte geben Sie ein gültiges Datum ein.";
     const input_required = "Diese Felder müssen ausgefüllt werden.";
 
     const cases = [
@@ -99,7 +99,7 @@ describe("date split input validation", () => {
           year: "2020",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -108,7 +108,7 @@ describe("date split input validation", () => {
           year: "2020",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -135,7 +135,7 @@ describe("date split input validation", () => {
           year: "2020",
         },
         errorPath: "geburtsdatum",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -144,7 +144,7 @@ describe("date split input validation", () => {
           year: "2020",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -153,7 +153,7 @@ describe("date split input validation", () => {
           year: "2020",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -162,7 +162,7 @@ describe("date split input validation", () => {
           year: "cccc",
         },
         errorPath: "year",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -171,7 +171,7 @@ describe("date split input validation", () => {
           year: "2000",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
@@ -180,7 +180,7 @@ describe("date split input validation", () => {
           year: "2000",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
+        errorMessage: input_invalid,
       },
       {
         input: {
