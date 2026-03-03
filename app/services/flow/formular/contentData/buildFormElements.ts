@@ -17,6 +17,21 @@ const addDataListArgumentToAutoSuggestionInput = (
       dataListArgument = userDataWithPageData.plz;
     }
 
+    // for /erbschein/nachlassgericht/plz-wohnung-oder-haus
+    if (typeof userDataWithPageData?.plzWohnungOderHaus === "string") {
+      dataListArgument = userDataWithPageData.plzWohnungOderHaus;
+    }
+
+    // for /erbschein/nachlassgericht/plz-pflegeheim
+    if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+      dataListArgument = userDataWithPageData.plzPflegeheim;
+    }
+
+    // for /erbschein/nachlassgericht/plz-hospiz
+    if (typeof userDataWithPageData?.plzHospiz === "string") {
+      dataListArgument = userDataWithPageData.plzHospiz;
+    }
+
     // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
     if (
       element.name === "strasseBeklagte" &&

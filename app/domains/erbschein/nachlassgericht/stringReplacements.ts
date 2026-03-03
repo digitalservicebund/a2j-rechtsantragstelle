@@ -1,13 +1,27 @@
-export const getAmtsgerichtStrings = () => {
-  // TODO: Replace with real lookup
-  const court = {
-    BEZEICHNUNG: "Amtsgericht Musterstadt",
-    STR_HNR: "Musterstraße 1",
-    PLZ_ZUSTELLBEZIRK: "12345",
-    ORT: "Musterstadt",
-    URL1: "https://www.amtsgericht-musterstadt.de",
-    TEL: "01234 567890",
-  };
+import { type ErbscheinNachlassGerichtUserData } from "~/domains/erbschein/nachlassgericht/userData";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
+import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
+
+export const getAmtsgerichtStrings = (
+  userData: ErbscheinNachlassGerichtUserData,
+) => {
+  if (
+    !userData.plzWohnungOderHaus &&
+    !userData.plzPflegeheim &&
+    !userData.plzHospiz
+  )
+    return {};
+  const zipCode =
+    userData.plzWohnungOderHaus ?? userData.plzPflegeheim ?? userData.plzHospiz;
+  const court = findCourt({
+    zipCode,
+    streetSlug:
+      userData.strasse && userData.houseNumber
+        ? buildOpenPlzResultUrl(userData.strasse, userData.houseNumber)
+        : undefined,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+  });
   return {
     courtName: court?.BEZEICHNUNG,
     courtStreetNumber: court?.STR_HNR,
