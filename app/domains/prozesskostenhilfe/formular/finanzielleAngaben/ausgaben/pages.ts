@@ -1,11 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/date";
 
 const zahlungspflichtigerSchema = z.enum([
   "myself",
@@ -40,12 +38,20 @@ export const versicherungenArraySchema = z.array(
 
 const betragEigenerAnteilSchema = buildMoneyValidationSchema();
 
+// For rate payments we only need a structurally valid split date for
+// `laufzeitende`, not birthdate-like “must be in the past” semantics.
+const laufzeitendeSchema = z.object({
+  day: z.string().trim().min(1),
+  month: z.string().trim().min(1),
+  year: z.string().trim().min(1),
+});
+
 const sharedRatenZahlungFields = {
   art: stringRequiredSchema,
   zahlungsempfaenger: stringRequiredSchema,
   betragGesamt: buildMoneyValidationSchema(),
   restschuld: buildMoneyValidationSchema(),
-  laufzeitende: createDateSchema({ earliest: () => today() }),
+  laufzeitende: laufzeitendeSchema,
 };
 
 export const ratenZahlungArraySchema = z.array(

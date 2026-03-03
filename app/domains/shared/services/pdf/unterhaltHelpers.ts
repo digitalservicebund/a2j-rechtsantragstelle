@@ -37,19 +37,21 @@ export const addSupportRecipientsToAttachment =
 
     attachment.push({ title: seeAttachmentDescription, level: "h2" });
     if (userData.partnerUnterhaltsSumme !== undefined) {
-      attachment.push({ title: "Partner", level: "h3" });
-      attachment.push({
-        title: "Name",
-        text: `${userData.partnerVorname} ${userData.partnerNachname}`,
-      });
-      attachment.push({
-        title: "Monatliche Unterhaltszahlungen",
-        text: userData.partnerUnterhaltsSumme + " €",
-      });
-      attachment.push({
-        title: "Gemeinsame Wohnung",
-        text: userData.zusammenleben === "yes" ? "Ja" : "Nein",
-      });
+      attachment.push(
+        { title: "Partner", level: "h3" },
+        {
+          title: "Name",
+          text: `${userData.partnerVorname} ${userData.partnerNachname}`,
+        },
+        {
+          title: "Monatliche Unterhaltszahlungen",
+          text: userData.partnerUnterhaltsSumme + " €",
+        },
+        {
+          title: "Gemeinsame Wohnung",
+          text: userData.zusammenleben === "yes" ? "Ja" : "Nein",
+        },
+      );
       if ((userData as BeratungshilfeFormularUserData).partnerEinkommenSumme)
         attachment.push({
           title: "Eigene monatlichen Einnahmen",
@@ -63,12 +65,22 @@ export const addSupportRecipientsToAttachment =
       attachment.push({ title: "Kinder", level: "h3" });
 
       userData.kinder.forEach((kind, index) => {
-        attachment.push({ title: `Kind ${index + 1}`, level: "h4" });
-        attachment.push({
-          title: "Name",
-          text: `${kind.vorname} ${kind.nachname}`,
-        });
-        attachment.push({ title: "Geburtsdatum", text: kind.geburtsdatum });
+        attachment.push(
+          { title: `Kind ${index + 1}`, level: "h4" },
+          {
+            title: "Name",
+            text: `${kind.vorname} ${kind.nachname}`,
+          },
+          {
+            title: "Geburtsdatum",
+            text:
+              kind.geburtsdatum.day +
+              "." +
+              kind.geburtsdatum.month +
+              "." +
+              kind.geburtsdatum.year,
+          },
+        );
         if ("unterhaltsSumme" in kind) {
           attachment.push({
             title: "Monatliche Unterhaltszahlungen",
@@ -97,20 +109,30 @@ export const addSupportRecipientsToAttachment =
       });
 
       userData.unterhaltszahlungen.forEach((person, index) => {
-        attachment.push({ title: `Person ${index + 1}`, level: "h4" });
-        attachment.push({
-          title: "Name",
-          text: `${person.firstName} ${person.surname}`,
-        });
-        attachment.push({ title: "Geburtsdatum", text: person.birthday });
-        attachment.push({
-          title: "Familienverhältnis",
-          text: familyRelationshipMap[person.familyRelationship],
-        });
-        attachment.push({
-          title: "Monatliche Unterhaltszahlungen",
-          text: `${person.monthlyPayment} €`,
-        });
+        attachment.push(
+          { title: `Person ${index + 1}`, level: "h4" },
+          {
+            title: "Name",
+            text: `${person.firstName} ${person.surname}`,
+          },
+          {
+            title: "Geburtsdatum",
+            text:
+              person.birthday.day +
+              "." +
+              person.birthday.month +
+              "." +
+              person.birthday.year,
+          },
+          {
+            title: "Familienverhältnis",
+            text: familyRelationshipMap[person.familyRelationship],
+          },
+          {
+            title: "Monatliche Unterhaltszahlungen",
+            text: `${person.monthlyPayment} €`,
+          },
+        );
       });
     }
     return { pdfValues, attachment };

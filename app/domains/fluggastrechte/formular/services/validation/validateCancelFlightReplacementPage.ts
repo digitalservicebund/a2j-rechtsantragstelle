@@ -3,6 +3,7 @@ import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
 import { convertToTimestamp } from "~/util/date";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
+import { toDateStringFromSplitDate } from "~/services/validation/date";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -60,19 +61,19 @@ function isStartTimestampMoreThan(
 
 const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
   originalDepartureDateTime: convertToTimestamp(
-    data.direktAbflugsDatum,
+    toDateStringFromSplitDate(data.direktAbflugsDatum),
     data.direktAbflugsZeit,
   ),
   departureDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
+    toDateStringFromSplitDate(data.annullierungErsatzverbindungAbflugsDatum),
     data.annullierungErsatzverbindungAbflugsZeit,
   ),
   originalArrivalDateTime: convertToTimestamp(
-    data.direktAnkunftsDatum,
+    toDateStringFromSplitDate(data.direktAnkunftsDatum),
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime: convertToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
+    toDateStringFromSplitDate(data.annullierungErsatzverbindungAnkunftsDatum),
     data.annullierungErsatzverbindungAnkunftsZeit,
   ),
 });

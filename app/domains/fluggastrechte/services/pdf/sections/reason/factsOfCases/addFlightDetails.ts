@@ -62,7 +62,12 @@ const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
 
   flightDetails.push({
     text: PLANNED_DEPARTURE_DATE_TEXT,
-    value: userData.direktAbflugsDatum ?? "",
+    value:
+      userData.direktAbflugsDatum?.day +
+      "." +
+      userData.direktAbflugsDatum?.month +
+      "." +
+      userData.direktAbflugsDatum?.year,
   });
 
   flightDetails.push({

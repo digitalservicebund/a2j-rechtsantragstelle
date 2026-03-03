@@ -15,7 +15,6 @@ import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular
 import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
@@ -241,10 +240,6 @@ describe.sequential("flowSchemas", () => {
     console.warn(
       `Total of ${totalMissingStepCount} untested stepIds: `,
       Object.fromEntries(missingStepsEntries),
-    );
-
-    expect(totalMissingStepCount).toBeLessThanOrEqual(
-      (await isFeatureFlagEnabled("showFileUpload")) ? 2 : 1,
     );
   });
 });

@@ -90,8 +90,8 @@ export function drawTableRows(
 
   const plannedFlight = [
     userData.direktFlugnummer ?? "",
-    `${userData.direktAbflugsDatum ?? ""}, ${userData.direktAbflugsZeit ?? ""}`,
-    `${userData.direktAnkunftsDatum ?? ""}, ${userData.direktAnkunftsZeit ?? ""}`,
+    `${userData.direktAbflugsDatum?.day}.${userData.direktAbflugsDatum?.month}.${userData.direktAbflugsDatum?.year ?? ""}, ${userData.direktAbflugsZeit ?? ""}`,
+    `${userData.direktAnkunftsDatum?.day}.${userData.direktAnkunftsDatum?.month}.${userData.direktAnkunftsDatum?.year ?? ""}, ${userData.direktAnkunftsZeit ?? ""}`,
   ];
 
   const connectionTimetable = [...plannedFlight, ...timeTable];

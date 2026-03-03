@@ -11,7 +11,6 @@ import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
-import { createDateSchema } from "~/services/validation/date";
 import { integerSchema } from "~/services/validation/integer";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -19,6 +18,7 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
+import { createSplitDateSchema } from "~/services/validation/date";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -108,48 +108,64 @@ describe("ValidatedFlowForm", () => {
 
   describe("Date Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: createDateSchema() });
+      mockGetPageSchema({ inputName: createSplitDateSchema() });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
         code: "invalid",
-        text: "Please enter a valid date.",
+        text: "Bitte geben Sie ein gültiges Datum ein.",
       },
       "date",
     );
 
     it("should display an error if the user enters an invalid date", async () => {
-      const { getByText, getByRole } = renderValidatedFlowForm([component]);
+      const { getByText, getByLabelText } = renderValidatedFlowForm([
+        component,
+      ]);
 
       const nextButton = getByText("NEXT");
-      const dateInputComponent = getByRole("textbox");
+      const dayInput = getByLabelText("Tag");
+      const monthInput = getByLabelText("Monat");
+      const yearInput = getByLabelText("Jahr");
       expect(nextButton).toBeInTheDocument();
 
-      fireEvent.input(dateInputComponent, {
-        target: { value: "13,20,2024" },
+      fireEvent.input(dayInput, {
+        target: { value: "32" },
       });
-      fireEvent.blur(dateInputComponent);
+      fireEvent.input(monthInput, {
+        target: { value: "13" },
+      });
+      fireEvent.input(yearInput, {
+        target: { value: "2024" },
+      });
+      fireEvent.blur(yearInput);
       await expectInputErrorToExist();
 
       fireEvent.click(nextButton);
       await waitFor(async () => {
-        expect(dateInputComponent).toHaveFocus();
+        expect(dayInput).toHaveFocus();
         await expectInputErrorToExist();
       });
     });
 
     it("should not display an error for correct input", async () => {
-      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
-        component,
-      ]);
-      const dateInputComponent = getByRole("textbox");
+      const { getByText, getByLabelText, queryByTestId } =
+        renderValidatedFlowForm([component]);
+      const dayInput = getByLabelText("Tag");
+      const monthInput = getByLabelText("Monat");
+      const yearInput = getByLabelText("Jahr");
 
-      fireEvent.input(dateInputComponent, {
-        target: { value: "10.12.2024" },
+      fireEvent.input(dayInput, {
+        target: { value: "10" },
+      });
+      fireEvent.input(monthInput, {
+        target: { value: "12" },
+      });
+      fireEvent.input(yearInput, {
+        target: { value: "2024" },
       });
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
-        expect(dateInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
       });

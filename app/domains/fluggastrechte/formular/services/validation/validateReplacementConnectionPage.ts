@@ -21,12 +21,20 @@ export function validateReplacementConnectionPage(
 ) {
   return baseSchema.check((ctx) => {
     const originalArrivalDateTime = convertToTimestamp(
-      ctx.value.direktAnkunftsDatum,
+      ctx.value.direktAnkunftsDatum.day +
+        "." +
+        ctx.value.direktAnkunftsDatum.month +
+        "." +
+        ctx.value.direktAnkunftsDatum.year,
       ctx.value.direktAnkunftsZeit,
     );
 
     const arrivalDateTime = convertToTimestamp(
-      ctx.value.andereErsatzverbindungAnkunftsDatum,
+      ctx.value.andereErsatzverbindungAnkunftsDatum.day +
+        "." +
+        ctx.value.andereErsatzverbindungAnkunftsDatum.month +
+        "." +
+        ctx.value.andereErsatzverbindungAnkunftsDatum.year,
       ctx.value.andereErsatzverbindungAnkunftsZeit,
     );
 

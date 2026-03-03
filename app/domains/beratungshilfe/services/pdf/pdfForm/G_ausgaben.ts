@@ -6,6 +6,7 @@ import {
   SEE_IN_ATTACHMENT_DESCRIPTION,
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
+import { toDateStringFromSplitDate } from "~/services/validation/date";
 import type { BerHPdfFillFunction } from "../types";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
@@ -72,7 +73,12 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       if ("zahlungsfrist" in ausgabe) {
         attachment.push({
           title: "Raten laufen bis",
-          text: ausgabe.zahlungsfrist,
+          text:
+            ausgabe.zahlungsfrist.day +
+            "." +
+            ausgabe.zahlungsfrist.month +
+            "." +
+            ausgabe.zahlungsfrist.year,
         });
       }
     });
@@ -96,6 +102,13 @@ function fillAusgabenInPDF(
     const beitragKey = `g7Zahlung${index}` as keyof BeratungshilfePDF;
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
+    const formatDate = (date?: {
+      day: string;
+      month: string;
+      year: string;
+    }): string | undefined =>
+      date ? toDateStringFromSplitDate(date) : undefined;
+
     if (artKey in pdfValues) {
       pdfValues[artKey].value = ausgabe.art;
     }
@@ -103,7 +116,7 @@ function fillAusgabenInPDF(
       pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfValues) {
-      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+      pdfValues[zahlungsfristKey].value = formatDate(ausgabe.zahlungsfrist);
     }
     if (beitragKey in pdfValues) {
       pdfValues[beitragKey].value = ausgabe.beitrag;

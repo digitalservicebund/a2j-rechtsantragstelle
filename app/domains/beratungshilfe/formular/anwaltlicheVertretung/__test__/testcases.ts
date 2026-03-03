@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
-import { toGermanDateFormat, addDays, today } from "~/util/date";
+import { addDays, today } from "~/util/date";
 
 const rechtsproblemStart = "/rechtsproblem/start";
 const anwaltlicheVertretungStart = "/anwaltliche-vertretung/start";
@@ -8,6 +8,14 @@ const anwaltlicheVertretungBeratungStattgefunden =
   "/anwaltliche-vertretung/beratung-stattgefunden";
 const anwaltlicheVertretungBeratungStattgefundenDatum =
   "/anwaltliche-vertretung/beratung-stattgefunden-datum";
+
+const formatDate = (
+  date: Date,
+): { day: string; month: string; year: string } => ({
+  day: String(date.getDate()).padStart(2, "0"),
+  month: String(date.getMonth() + 1).padStart(2, "0"),
+  year: String(date.getFullYear()),
+});
 
 export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   noAnwaltlicheVertretung: [
@@ -61,7 +69,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     {
       stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
       userInput: {
-        beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -7)),
+        beratungStattgefundenDatum: formatDate(addDays(today(), -7)),
       },
     },
     { stepId: "/anwaltliche-vertretung/frist-hinweis" },
@@ -90,7 +98,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     {
       stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
       userInput: {
-        beratungStattgefundenDatum: toGermanDateFormat(addDays(today(), -30)),
+        beratungStattgefundenDatum: formatDate(addDays(today(), -30)),
       },
     },
     { stepId: "/anwaltliche-vertretung/anwalt-ende" },

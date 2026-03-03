@@ -24,7 +24,7 @@ describe("isValidKinderArrayIndex", () => {
           {
             vorname: "Clara",
             nachname: "Müller",
-            geburtsdatum: "01.01.2010",
+            geburtsdatum: { day: "01", month: "01", year: "2010" },
             wohnortBeiAntragsteller: "yes",
             eigeneEinnahmen: "yes",
             einnahmen: "100",

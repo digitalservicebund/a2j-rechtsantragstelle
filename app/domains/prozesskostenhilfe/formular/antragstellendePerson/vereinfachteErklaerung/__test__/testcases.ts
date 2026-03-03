@@ -1,6 +1,11 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
 import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
+import { addYears, today, toGermanDateFormat } from "~/util/date";
+
+const veChildBirthdate = addYears(today(), -2);
+const [veBirthDay, veBirthMonth, veBirthYear] =
+  toGermanDateFormat(veChildBirthdate).split(".");
 
 const frageVermoegenFulfilled = {
   frageVermoegenFulfilledUnterhalt: [
@@ -14,7 +19,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -53,7 +62,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -92,7 +105,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -131,7 +148,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -208,7 +229,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -248,7 +273,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -281,7 +310,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
@@ -321,7 +354,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: veBirthDay,
+            month: veBirthMonth,
+            year: veBirthYear,
+          },
         },
       },
     },
