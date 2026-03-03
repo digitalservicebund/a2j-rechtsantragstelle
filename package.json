@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.999.0",
+    "@aws-sdk/client-s3": "^3.1000.0",
     "@digitalservice4germany/angie": "2.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
@@ -60,7 +60,7 @@
     "@sentry/react-router": "^10.40.0",
     "@sentry/vite-plugin": "^5.1.1",
     "@xstate/graph": "^3.0.4",
-    "axios": "^1.13.5",
+    "axios": "^1.13.6",
     "classnames": "^2.5.1",
     "compression": "^1.8.1",
     "cookie": "^1.1.1",
@@ -71,7 +71,7 @@
     "haversine-distance": "1.2.4",
     "html-entities": "^2.6.0",
     "html-react-parser": "^5.2.17",
-    "ioredis": "^5.9.3",
+    "ioredis": "^5.10.0",
     "isbot": "^5.1.35",
     "lodash": "^4.17.23",
     "marked": "^17.0.3",
@@ -117,7 +117,7 @@
     "@types/follow-redirects": "^1.14.4",
     "@types/lodash": "^4.17.24",
     "@types/mustache": "^4.2.6",
-    "@types/node": "^24.10.15",
+    "@types/node": "^24.11.0",
     "@types/pdfkit": "^0.17.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -135,7 +135,7 @@
     "prettier": "^3.8.1",
     "react-router-dom": "^7.13.1",
     "size-limit": "^12.0.0",
-    "storybook": "^10.2.12",
+    "storybook": "^10.2.13",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
@@ -144,10 +144,10 @@
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.0.18"
   },
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.30.3",
   "engines": {
     "node": "24.14.0",
-    "pnpm": "10.30.2"
+    "pnpm": "10.30.3"
   },
   "engineStrict": true,
   "prettier": {
