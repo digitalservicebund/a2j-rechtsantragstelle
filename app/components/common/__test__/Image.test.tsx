@@ -67,4 +67,18 @@ describe("Image", () => {
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute("alt", "");
   });
+
+  it("should render the className props on svg images", () => {
+    const { container } = render(
+      <Image
+        svgString="<svg></svg>"
+        alternativeText="asd"
+        className="test-class"
+      />,
+    );
+    const image = container.querySelector("svg");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveClass("test-class");
+    expect(image).toHaveClass("svg-image");
+  });
 });

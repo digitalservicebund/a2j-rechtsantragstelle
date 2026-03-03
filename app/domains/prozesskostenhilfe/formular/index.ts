@@ -1,10 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import {
-  fileUploadRelevant,
-  readyForAbgabe,
-} from "~/domains/prozesskostenhilfe/formular/abgabe/guards";
-import {
   getAbgabeStrings,
   getWeitereDokumenteStrings,
 } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
@@ -22,7 +18,6 @@ import {
   getArrayIndexStrings,
   geldAnlagenStrings,
 } from "~/domains/shared/formular/stringReplacements";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
@@ -38,8 +33,7 @@ import { getGrundvoraussetzungenStringReplacements } from "./grundvoraussetzunge
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig";
 import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
-
-const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
+import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 
 const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
@@ -145,50 +139,7 @@ export const prozesskostenhilfeFormular = {
           SUBMIT: steps.abgabe.absolute,
         },
       },
-      [steps.abgabe.relative]: {
-        id: "abgabe",
-        initial: steps.abgabeUeberpruefung.relative,
-        meta: { excludedFromValidation: true },
-        states: {
-          [steps.abgabeUeberpruefung.relative]: {
-            meta: { triggerValidation: true },
-            on: {
-              BACK: steps.weitereAngaben.absolute,
-            },
-            always: [
-              {
-                guard: ({ context }) =>
-                  readyForAbgabe({ context }) &&
-                  fileUploadRelevant({ context }) &&
-                  Boolean(showFileUpload),
-                target: steps.dokumente.relative,
-              },
-              {
-                guard: readyForAbgabe,
-                target: steps.ende.relative,
-              },
-            ],
-          },
-          [steps.dokumente.relative]: {
-            on: {
-              BACK: steps.weitereAngaben.absolute,
-              SUBMIT: steps.ende.relative,
-            },
-          },
-          [steps.ende.relative]: {
-            on: {
-              BACK: [
-                {
-                  guard: ({ context }) =>
-                    Boolean(showFileUpload) && fileUploadRelevant({ context }),
-                  target: steps.dokumente.relative,
-                },
-                steps.weitereAngaben.absolute,
-              ],
-            },
-          },
-        },
-      },
+      [steps.abgabe.relative]: abgabeXstateConfig,
     },
   },
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({

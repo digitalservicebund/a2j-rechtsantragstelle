@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { useLocation, useLoaderData } from "react-router";
+import { useLocation, useLoaderData, Location } from "react-router";
 import {
   EmailCapture,
   type EmailCaptureProps,
@@ -88,10 +88,7 @@ describe("EmailCapture", () => {
       vi.mocked(useLocation).mockReturnValue({
         pathname: "",
         search: "?invalid",
-        state: "",
-        key: "",
-        hash: "",
-      });
+      } as Location);
       const { getByText } = renderEmailCapture();
       expect(getByText(invalidEmailError.text)).toBeInTheDocument();
     });
@@ -106,10 +103,7 @@ describe("EmailCapture", () => {
       vi.mocked(useLocation).mockReturnValue({
         pathname: "",
         search: "?success",
-        state: "",
-        key: "",
-        hash: "",
-      });
+      } as Location);
       const { getByText } = renderEmailCapture();
       expect(getByText(successBanner.content ?? "")).toBeInTheDocument();
     });

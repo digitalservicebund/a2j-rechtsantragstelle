@@ -15,7 +15,7 @@ const sharedAusgabenFields = {
 };
 const zahlungsfristSchema = createDateSchema({ earliest: () => today() });
 
-export const ausgabenArraySchema = z
+const ausgabenArraySchema = z
   .union([
     z.object({
       ...sharedAusgabenFields,

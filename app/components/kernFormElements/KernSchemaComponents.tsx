@@ -4,7 +4,6 @@ import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/for
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
-import FilesUpload from "../formElements/filesUpload/FilesUpload";
 import HiddenInput from "../formElements/HiddenInput";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
@@ -24,6 +23,9 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
+import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
+import classNames from "classnames";
+import { mapLookValue } from "../content/ContentComponents";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -48,12 +50,17 @@ const renderSpecialMetaDescriptions = (
       typeof StrapiFilesUploadComponentSchema
     >;
     return (
-      <FilesUpload
+      <KernFileUpload
         key={fieldName}
         name={fieldName}
         title={filesUploadElement.title}
         description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices}
+        inlineNotices={filesUploadElement.inlineNotices?.map(
+          (inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }),
+        )}
         errorMessages={filesUploadElement.errorMessages}
       />
     );
@@ -68,7 +75,7 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  showKernUX = false,
+  showKernUX = true,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -76,7 +83,9 @@ export const KernSchemaComponents = ({
   );
 
   return (
-    <div className={`flex flex-col gap-kern-space-x-large ${className}`}>
+    <div
+      className={classNames("flex flex-col gap-kern-space-x-large", className)}
+    >
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,

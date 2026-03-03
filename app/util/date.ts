@@ -24,8 +24,8 @@ export function today() {
 }
 
 export function dateUTCFromGermanDateString(date: string) {
-  const [day, month, year] = date.split(".");
-  return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+  const [day, month, year] = date.split(".").map(Number);
+  return new Date(Date.UTC(year, month - 1, Number(day)));
 }
 
 export const toGermanDateFormat = (date: Date) => {

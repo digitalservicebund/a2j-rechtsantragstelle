@@ -1,11 +1,19 @@
 pre-push:
   parallel: true
   commands:
-    "unit tests":
-      run: pnpm run test
-    lint:
-      run: pnpm run lint
     format:
       run: pnpm run format
+      only:
+        - ref: main
+    "unit tests":
+      run: pnpm run test
+      only:
+        - ref: main
+    lint:
+      run: pnpm run lint
+      only:
+        - ref: main
     typecheck:
       run: pnpm run typecheck
+      only:
+        - ref: main

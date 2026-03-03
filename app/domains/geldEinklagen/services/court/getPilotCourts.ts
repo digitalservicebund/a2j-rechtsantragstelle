@@ -7,10 +7,15 @@ import {
   type GerbehIndex,
   gerbehIndex,
 } from "~/services/gerichtsfinder/convertJsonDataTable";
-import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
+import {
+  type Jmtd14VTErwerberGerbeh,
+  type AngelegenheitInfo,
+} from "~/services/gerichtsfinder/types";
 import { Result, type Unit } from "true-myth";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { PILOT_COURTS } from "./pilotCourts";
+import { getCourtCategory } from "~/domains/geldEinklagen/services/court/getCourtCategory";
+import { applyVerkehrsunfallSpecialHandling } from "./verkehrsunfallSpecialHandling";
 
 const buildGerbehIndex = (data: Jmtd14VTErwerberGerbeh): GerbehIndex => {
   return {
@@ -26,8 +31,9 @@ const getPilotCourt = (
   zipCode: string,
   street: string | undefined,
   streetNumber: string | undefined,
+  courtCategory: AngelegenheitInfo,
 ): Result<Jmtd14VTErwerberGerbeh, Unit> => {
-  const edgeCases = edgeCasesForPlz(zipCode);
+  const edgeCases = edgeCasesForPlz(zipCode, courtCategory);
 
   // Check for the zip code edge cases if street or house number is missing
   if (edgeCases.length > 0 && (!street || !streetNumber)) {
@@ -38,6 +44,7 @@ const getPilotCourt = (
     zipCode,
     streetSlug: street,
     houseNumber: streetNumber,
+    angelegenheitInfo: courtCategory,
   });
 
   if (!courtData) {
@@ -50,6 +57,8 @@ const getPilotCourt = (
 };
 
 export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
+  const courtCategory = getCourtCategory(userData.sachgebiet);
+
   const pilotCourts: Jmtd14VTErwerberGerbeh[] = [];
 
   if (objectKeysNonEmpty(userData, ["postleitzahlBeklagtePerson"])) {
@@ -57,6 +66,7 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
       userData.postleitzahlBeklagtePerson,
       userData.strasseBeklagte,
       userData.strasseNummerBeklagte,
+      courtCategory,
     );
 
     if (resultPilotCourtBeklagte.isOk) {
@@ -69,6 +79,7 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
       userData.postleitzahlSecondary,
       userData.strasseSekundaer,
       userData.strasseNummerSekundaer,
+      courtCategory,
     );
 
     if (
@@ -77,6 +88,10 @@ export const getPilotCourts = (userData: GeldEinklagenFormularUserData) => {
     ) {
       pilotCourts.push(resultPilotCourtBeklagte.value);
     }
+  }
+
+  if (userData.sachgebiet === "verkehrsunfall") {
+    return applyVerkehrsunfallSpecialHandling(pilotCourts);
   }
 
   return pilotCourts;

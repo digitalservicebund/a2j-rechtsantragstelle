@@ -31,8 +31,8 @@ export function metaFromMatches(matches: ReturnType<typeof useMatches>) {
       description: undefined,
     };
   }
-  // can't use .at() due to old browsers
-  const lastMatchData = matches[matches.length - 1].loaderData;
+
+  const lastMatchData = matches.at(-1)?.loaderData;
 
   return {
     title: lastMatchData?.cmsContent?.pageTitle ?? lastMatchData?.meta?.title,

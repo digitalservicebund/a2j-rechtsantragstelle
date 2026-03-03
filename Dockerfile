@@ -2,7 +2,7 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:24-alpine AS app-base
+FROM node:24.14.0-alpine AS app-base
 
 WORKDIR /a2j
 
@@ -28,13 +28,13 @@ COPY ./content.json /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:24-alpine AS prod
+FROM node:24.14.0-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
-USER node
+USER 1000
 WORKDIR /a2j
 ENV NODE_ENV=production
-COPY --link --chown=node:node --from=appStageForCopy /a2j-app/ ./
+COPY --link --chown=1000:1000 --from=appStageForCopy /a2j-app/ ./
 COPY --link --from=contentStageForCopy /content.json ./
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]

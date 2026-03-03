@@ -175,7 +175,7 @@ export const wertsacheSchema = z.object({
   wert: buildMoneyValidationSchema(),
 });
 
-export const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
+const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {

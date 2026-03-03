@@ -7,7 +7,6 @@ export const erbscheinWegweiser = {
   config: erbscheinWegweiserXstateConfig,
   guards: {},
   stringReplacements: (userData: ErbscheinWegweiserUserData) => ({
-    verstorbeneName: userData.verstorbeneName,
     hasGrundeigentumAndHandwrittenTestament:
       userData.testamentType === "handwritten" &&
       userData.hasGrundeigentum === "yes",

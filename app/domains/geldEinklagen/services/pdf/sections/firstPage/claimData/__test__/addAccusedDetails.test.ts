@@ -1,0 +1,53 @@
+import {
+  mockPdfKitDocument,
+  mockPdfKitDocumentStructure,
+} from "tests/factories/mockPdfKit";
+import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
+import { addAccusedDetails } from "../addAccusedDetails";
+
+describe("addAccusedDetails", () => {
+  it("should generate document with accused details", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, userDataMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Beklagtevorname beklagteNachname",
+      {
+        continued: true,
+      },
+    );
+  });
+
+  it("should generate document with accused address details", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, userDataMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      `${userDataMock.beklagteStrasseHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
+    );
+  });
+
+  it("should generate document with organisation and legal representative when gegenWenBeklagen is 'organisation'", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, {
+      ...userDataMock,
+      gegenWenBeklagen: "organisation",
+      beklagteNameOrganisation: "Muster GmbH",
+      beklagteGesetzlichenVertretungAnrede: "herr",
+      beklagteGesetzlichenVertretungTitle: "none",
+      beklagteGesetzlichenVertretungVorname: "Max",
+      beklagteGesetzlichenVertretungNachname: "Mustermann",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Muster GmbH, vertreten durch Herr Max Mustermann",
+      { continued: true },
+    );
+  });
+});

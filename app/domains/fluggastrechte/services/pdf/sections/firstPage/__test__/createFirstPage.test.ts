@@ -5,10 +5,10 @@ import {
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { createFirstPage } from "../createFirstPage";
 import { createFlightCompensationClaim } from "../createFlightCompensationClaim";
-import { createLocalCourtAndDate } from "../createLocalCourtAndDate";
+import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { createStatementClaim } from "../createStatementClaim";
 
-vi.mock("../createLocalCourtAndDate");
+vi.mock("~/domains/shared/services/pdf/createLocalCourtAndDate");
 vi.mock("../createFlightCompensationClaim");
 vi.mock("../createStatementClaim");
 vi.mock("../../createPageFooter");

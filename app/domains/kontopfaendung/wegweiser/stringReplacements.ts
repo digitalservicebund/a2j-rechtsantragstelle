@@ -190,7 +190,7 @@ export const getSchuldnerberatungsstelleStrings = (
     hasRente;
   return { schuldnerberatungsstelleIsVisible };
 };
-export const getAmtsgerichtStrings = (
+export const getAmtsgerichtRequirementStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   const hasArbeitsentgeltEinmalig =

@@ -1,5 +1,5 @@
 export type Jmtd14VTErwerberPlzortk = {
-  ANGELEGENHEIT_INFO: string;
+  ANGELEGENHEIT_INFO: AngelegenheitInfo;
   GERBEH_AG: string;
   GERBEH_LG: string;
   GERBEH_LKZ: string;
@@ -11,6 +11,15 @@ export type Jmtd14VTErwerberPlzortk = {
   PLZ: string;
   PLZM_INFO: "Zustellbezirk";
 };
+
+export const ANGELEGENHEIT_INFO = {
+  PROZESSKOSTENHILFE: "Prozesskostenhilfe eingehend",
+  URHEBERRECHT: "Urheberrechtssachen",
+  NACHLASSSACHEN: "Nachlasssachen",
+} as const;
+
+export type AngelegenheitInfo =
+  (typeof ANGELEGENHEIT_INFO)[keyof typeof ANGELEGENHEIT_INFO];
 
 export type TypInfo =
   | "Ambulante soziale Dienste der Justiz"
@@ -79,7 +88,7 @@ type JaNeinLong = "JA" | "NEIN";
 
 export type Jmtd14VTErwerberPlzstrn = {
   AG: string;
-  ANGELEGENHEIT_INFO: string;
+  ANGELEGENHEIT_INFO: AngelegenheitInfo;
   HNR_BIS: string;
   HNR_MERKMAL_INFO: HnrMerkmalInfo;
   HNR_VON: string;

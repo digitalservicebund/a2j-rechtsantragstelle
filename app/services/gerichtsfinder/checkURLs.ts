@@ -30,7 +30,9 @@ const concurrency = 50;
 function allCourtURLs() {
   const gerbehDb: GerbehFile =
     getEncrypted()["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"];
-  return Object.values(gerbehDb).map((court) => court?.URL1 ?? "");
+  return Object.values(gerbehDb)
+    .filter((court) => court?.URL1 || court?.URL2)
+    .map((court) => court?.URL1 ?? court?.URL2 ?? "");
 }
 
 function warnIfNot200(

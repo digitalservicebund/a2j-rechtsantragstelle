@@ -93,7 +93,7 @@ export const fillKraftfahrzeuge: PkhPdfFillFunction = ({
       ? verkaufswertMappingDescription[kraftfahrzeug.wert]
       : "";
     pdfValues.verkehrswertKfz.value =
-      "verkaufswert" in kraftfahrzeug && kraftfahrzeug.verkaufswert
+      "verkaufswert" in kraftfahrzeug
         ? `${kraftfahrzeug.verkaufswert} €`
         : singleKfzWert;
     return { pdfValues };

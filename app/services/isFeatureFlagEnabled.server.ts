@@ -11,6 +11,7 @@ const localFeatureFlags = {
   showPkontoAntragFlow: false,
   showErbscheinWegweiser: false,
   showErbscheinNachlassgericht: false,
+  showNachbefragung: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

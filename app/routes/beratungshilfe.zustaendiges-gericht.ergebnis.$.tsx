@@ -6,6 +6,7 @@ import Heading from "~/components/common/Heading";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import ContentComponents from "~/components/content/ContentComponents";
 import CourtDetails from "~/components/CourtDetails";
+import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -14,6 +15,7 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import KernZuestandigesGerichErgebnis from "./kern/kern-beratungshilfe.zustaendiges-gericht.ergebnis.$";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
@@ -39,6 +41,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 export const Component = () => {
   const { court, content } = useLoaderData<typeof loader>();
+
+  const showKernUX = useShowKernUX();
+
+  if (showKernUX) {
+    return <KernZuestandigesGerichErgebnis />;
+  }
 
   return (
     <GridSection className={BACKGROUND_COLORS.blue} pt="48" pb="40">

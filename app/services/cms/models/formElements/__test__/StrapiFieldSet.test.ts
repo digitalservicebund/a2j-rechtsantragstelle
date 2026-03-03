@@ -1,7 +1,7 @@
 import { StrapiFieldSetComponentSchema } from "../StrapiFieldSet";
 
 describe("StrapiFieldSet", () => {
-  it("should parse false in case the formComponents is empty", () => {
+  it("should parse false in case the formComponents is empty", async () => {
     const mockData = {
       heading: "heading",
       __component: "form-elements.fieldset",
@@ -12,11 +12,11 @@ describe("StrapiFieldSet", () => {
       id: 10,
     };
 
-    const actual = StrapiFieldSetComponentSchema.safeParse(mockData);
+    const actual = await StrapiFieldSetComponentSchema.safeParseAsync(mockData);
     expect(actual.success).toBe(false);
   });
 
-  it("should parse true and the conversion data in case the formComponents is not empty", () => {
+  it("should parse true and the conversion data in case the formComponents is not empty", async () => {
     const mockData = {
       heading: "heading",
       __component: "form-elements.fieldset",
@@ -36,7 +36,7 @@ describe("StrapiFieldSet", () => {
       id: 10,
     };
 
-    const actual = StrapiFieldSetComponentSchema.safeParse(mockData);
+    const actual = await StrapiFieldSetComponentSchema.safeParseAsync(mockData);
     expect(actual.success).toBe(true);
     expect(actual.data).toEqual({
       heading: `<p class="ds-subhead">heading</p>`,

@@ -6,6 +6,9 @@ import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
+  isCourtAGSchoeneberg,
+  getCourtCost,
+  getKlagendePersonInfo,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -20,6 +23,9 @@ export const geldEinklagenFormular = {
     ...getOptionsCourts(context),
     ...getResponsibleCourtString(context),
     ...hasExclusivePlaceJurisdictionOrSelectCourt(context),
+    ...isCourtAGSchoeneberg(context),
+    ...getCourtCost(context),
+    ...getKlagendePersonInfo(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
@@ -37,7 +43,7 @@ export const geldEinklagenFormular = {
             states: {
               start: {
                 on: {
-                  BACK: "#klage-erstellen.rechtlicher-zusatz.rechtliche-wuerdigung",
+                  BACK: "#klage-erstellen.zusammenfassung.uebersicht",
                 },
               },
             },

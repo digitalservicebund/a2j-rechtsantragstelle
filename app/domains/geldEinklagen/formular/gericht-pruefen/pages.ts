@@ -5,6 +5,16 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
+export const sachgebietSchema = z.enum([
+  "miete",
+  "versicherung",
+  "schaden",
+  "reisen",
+  "verkehrsunfall",
+  "urheberrecht",
+  "anderesRechtsproblem",
+]);
+
 export const geldEinklagenGerichtPruefenPages = {
   introVoraussetzungen: {
     stepId: "gericht-pruefen/intro/voraussetzungen",
@@ -29,15 +39,7 @@ export const geldEinklagenGerichtPruefenPages = {
   sachgebietBesondere: {
     stepId: "gericht-pruefen/sachgebiet/besondere",
     pageSchema: {
-      sachgebiet: z.enum([
-        "miete",
-        "versicherung",
-        "schaden",
-        "reisen",
-        "verkehrsunfall",
-        "urheberrecht",
-        "anderesRechtsproblem",
-      ]),
+      sachgebiet: sachgebietSchema,
     },
   },
   sachgebietMietePachtVertrag: {

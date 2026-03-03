@@ -2,7 +2,7 @@ import zod from "zod";
 import { StrapiArraySummaryComponentSchema } from "../StrapiArraySummary";
 
 describe("StrapiArraySummaryComponentSchema", () => {
-  it("should fail parse when category is missing", () => {
+  it("should fail parse when category is missing", async () => {
     const data = {
       categoryUrl: "/some-url",
       title: { text: "Test Title", tagName: "h2", id: 1, look: "default" },
@@ -13,7 +13,7 @@ describe("StrapiArraySummaryComponentSchema", () => {
       id: 1,
     };
 
-    const actual = StrapiArraySummaryComponentSchema.safeParse(data);
+    const actual = await StrapiArraySummaryComponentSchema.safeParseAsync(data);
 
     expect(actual.success).toBe(false);
     expect(zod.treeifyError(actual.error!).properties).toMatchObject({
@@ -25,7 +25,7 @@ describe("StrapiArraySummaryComponentSchema", () => {
     });
   });
 
-  it("should fail parse when itemLabels is empty array", () => {
+  it("should fail parse when itemLabels is empty array", async () => {
     const data = {
       category: "Test Category",
       categoryUrl: "/some-url",
@@ -37,7 +37,7 @@ describe("StrapiArraySummaryComponentSchema", () => {
       id: 1,
     };
 
-    const actual = StrapiArraySummaryComponentSchema.safeParse(data);
+    const actual = await StrapiArraySummaryComponentSchema.safeParseAsync(data);
 
     expect(actual.success).toBe(false);
     expect(zod.treeifyError(actual.error!).properties).toMatchObject({
@@ -49,7 +49,7 @@ describe("StrapiArraySummaryComponentSchema", () => {
     });
   });
 
-  it("should pass parse and transform the itemLabels to an record object", () => {
+  it("should pass parse and transform the itemLabels to an record object", async () => {
     const data = {
       category: "Test Category",
       categoryUrl: "/some-url",
@@ -64,7 +64,7 @@ describe("StrapiArraySummaryComponentSchema", () => {
       id: 1,
     };
 
-    const actual = StrapiArraySummaryComponentSchema.safeParse(data);
+    const actual = await StrapiArraySummaryComponentSchema.safeParseAsync(data);
 
     expect(actual.success).toBe(true);
     expect(actual.data?.itemLabels).toEqual({

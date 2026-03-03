@@ -8,4 +8,5 @@ export default {
     v8_viteEnvironmentApi: true,
     v8_middleware: true,
   },
+  allowedActionOrigins: ["id.bund.de", "int.id.bund.de"],
 } satisfies Config;

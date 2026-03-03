@@ -31,7 +31,19 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillInput("beklagteOrt", "Mutant Mayhem");
   await formular.clickNext();
 
-  // /geld-einklagen/formular/klage-erstellen/rechtsproblem/intro/start
+  // /geld-einklagen/formular/klage-erstellen/forderung/gesamtbetrag
+  await formular.fillInput("forderungGesamtbetrag", "100.00");
+  await formular.clickNext();
+
+  // /geld-einklagen/formular/klage-erstellen/sachverhalt/begruendung
+  await formular.fillTextarea("sachverhaltBegruendung", "some reason");
+  await formular.clickNext();
+
+  // /geld-einklagen/formular/klage-erstellen/beweise/angebot
+  await formular.fillRadioPage("beweiseAngebot", "yes");
+
+  // /geld-einklagen/formular/klage-erstellen/beweise/beschreibung
+  await formular.fillTextarea("beweiseBeschreibung", "some description");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/prozesszinsen
@@ -47,7 +59,7 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillRadioPage("muendlicheVerhandlung", "yes");
 
   // /geld-einklagen/formular/klage-erstellen/videoverhandlung
-  await formular.fillRadioPage("videoVerhandlung", "yes");
+  await formular.fillRadioPage("videoVerhandlung", "no");
 
   // /geld-einklagen/formular/klage-erstellen/versaeumnisurteil
   await formular.fillRadioPage("versaeumnisurteil", "yes");

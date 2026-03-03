@@ -1,10 +1,12 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const ZIP_CODE_EDGE_CASE = "10789";
+const ZIP_CODE_EDGE_CASE = "20359";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "45143";
-const STREET_EDGE_CASE = "bayreuther_str.";
-const STREET_HOUSE_NUMBER_EDGE_CASE = "10";
+const STREET_EDGE_CASE = "Talstr.";
+const STREET_HOUSE_NUMBER_EDGE_CASE = "5";
+const STREET_EDGE_CASE_SECONDARY = "Amixstr.";
+const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "10";
 
 const baseContext: GeldEinklagenFormularUserData = {
   forderung: "maximal10000",
@@ -60,8 +62,8 @@ export const testCasesGerichtSuchenEdgeCasesZipCode = [
       strasseBeklagte: STREET_EDGE_CASE,
       strasseNummerBeklagte: STREET_HOUSE_NUMBER_EDGE_CASE,
       postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
-      strasseSekundaer: STREET_EDGE_CASE,
-      strasseNummerSekundaer: STREET_HOUSE_NUMBER_EDGE_CASE,
+      strasseSekundaer: STREET_EDGE_CASE_SECONDARY,
+      strasseNummerSekundaer: STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY,
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",

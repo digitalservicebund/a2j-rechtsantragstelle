@@ -42,7 +42,7 @@ const KernSelect = ({
         )}
       >
         <select
-          className="kern-form-input__select"
+          className="kern-form-input__select bg-white!"
           {...field.getInputProps({ id: name })}
           aria-invalid={field.error() !== null}
           aria-describedby={field.error() ? errorId : undefined}

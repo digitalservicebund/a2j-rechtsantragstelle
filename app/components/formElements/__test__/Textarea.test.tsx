@@ -117,6 +117,12 @@ describe("Textarea component", () => {
     expect(textarea.getAttribute("rows")).toEqual(TEXT_AREA_ROWS.toString());
   });
 
+  it("should render with custom row count when the name is configured", () => {
+    render(<Textarea name="sachverhaltBegruendung" label="Test Label" />);
+    const textarea = screen.getByRole("textbox");
+    expect(textarea.getAttribute("rows")).toEqual("10");
+  });
+
   it("should set the maxLength", () => {
     const maxLength = 10;
     getInputProps.mockImplementationOnce(() => ({

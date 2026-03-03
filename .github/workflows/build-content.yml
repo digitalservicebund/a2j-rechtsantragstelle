@@ -34,7 +34,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: content-file
           path: content.json
@@ -58,14 +58,14 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v6
       - name: Download Content File
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: content-file
       - name: Install cosign
@@ -77,7 +77,7 @@ jobs:
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # v0.33.1
+        uses: aquasecurity/trivy-action@97e0b3872f55f89b95b2f65b3dbab56962816478 # v0.34.2
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
@@ -94,6 +94,7 @@ jobs:
   deploy-preview:
     needs: [build-push-content-image]
     runs-on: ubuntu-latest
+    concurrency: deploy-preview
     environment: preview
     steps:
       - name: Report Deployment
@@ -118,8 +119,29 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
           argocd_sync_timeout: 600
 
+  deploy-preview-stackit:
+    if: github.ref == 'refs/heads/main'
+    needs: [build-push-content-image]
+    runs-on: ubuntu-latest
+    environment: preview
+    concurrency: deploy-preview
+    steps:
+      - name: Deploy new preview image
+        uses: digitalservicebund/argocd-deploy@d14e68e4c78222189d8a20c1552639f33f93fe91 # auth-token branch, v1.0.0
+        with:
+          environment: environments/preview
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-preview
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+          argocd_sync_timeout: 600
+
   verify-preview-e2e:
-    needs: [deploy-preview]
+    needs: [deploy-preview, deploy-preview-stackit]
     uses: ./.github/workflows/e2e-test.yml
     with:
       require-published-app: true
@@ -129,6 +151,7 @@ jobs:
   deploy-production:
     needs: [verify-preview-e2e, build-push-content-image]
     runs-on: ubuntu-latest
+    concurrency: deploy-production
     environment: production
     steps:
       - name: Report Deployment
@@ -151,6 +174,27 @@ jobs:
           app: a2j-rast-production
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          argocd_sync_timeout: 600
+
+  deploy-production-stackit:
+    if: github.ref == 'refs/heads/main'
+    needs: [verify-preview-e2e, build-push-content-image]
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency: deploy-production
+    steps:
+      - name: Deploy new production image
+        uses: digitalservicebund/argocd-deploy@d14e68e4c78222189d8a20c1552639f33f93fe91 # auth-token branch, v1.0.0
+        with:
+          environment: environments/production
+          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-production
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
           argocd_sync_timeout: 600
 
   test-production-text:

@@ -1,0 +1,77 @@
+import {
+  mockPdfKitDocument,
+  mockPdfKitDocumentStructure,
+} from "tests/factories/mockPdfKit";
+import { createStatementClaim } from "../createStatementClaim";
+import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
+import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
+import { addFreeTextApplication } from "../claimData/addFreeTextApplication";
+import { addNegotiationText } from "../claimData/addNegotiationText";
+
+vi.mock("../claimData/addDefendantPartyList");
+vi.mock("../claimData/addFreeTextApplication");
+vi.mock("../claimData/addNegotiationText");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
+describe("createStatementClaim", () => {
+  it("should render title and create a new page for free-text applications", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createStatementClaim(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
+    expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
+    expect(mockDoc.text).toHaveBeenCalledWith("Klageantrag");
+    expect(mockDoc.addPage).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call addDefendantPartyList with main claim values", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createStatementClaim(mockDoc, mockStruct, userDataMock);
+
+    expect(addDefendantPartyList).toHaveBeenCalledTimes(1);
+    expect(addDefendantPartyList).toHaveBeenCalledWith(
+      mockDoc,
+      mockStruct,
+      userDataMock.prozesszinsen,
+      "9.999,00",
+      userDataMock.anwaltskosten,
+    );
+  });
+
+  it("should call addFreeTextApplication with weitereAntraege", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createStatementClaim(mockDoc, mockStruct, userDataMock);
+
+    expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
+    expect(addFreeTextApplication).toHaveBeenCalledWith(
+      mockDoc,
+      userDataMock.weitereAntraege,
+      mockStruct,
+    );
+  });
+
+  it("should call addNegotiationText with negotiation fields", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createStatementClaim(mockDoc, mockStruct, userDataMock);
+
+    expect(addNegotiationText).toHaveBeenCalledTimes(1);
+    expect(addNegotiationText).toHaveBeenCalledWith(
+      mockDoc,
+      userDataMock.videoVerhandlung,
+      userDataMock.versaeumnisurteil,
+      userDataMock.muendlicheVerhandlung,
+      mockStruct,
+    );
+  });
+});
