@@ -25,6 +25,7 @@ const createFolderKey = (sessionId: string, identifier: string) => {
 const uploadConsentDataToS3 = async (headers: Headers, identifier: string) => {
   try {
     const s3Client = createClientS3DataStorage();
+    if (!s3Client) throw new Error("No S3 client");
     const cookieHeader = headers.get("Cookie");
     const sessionId = await getSessionIdByFlowId(
       "/fluggastrechte/formular",
