@@ -4,7 +4,7 @@ import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { AUSGABEN_ATTACHMENT_TITLE, fillAusgaben } from "../G_ausgaben";
 
 const expensesRecipients = "ausgaben empfänger";
-const paymentDeadlineDate = "12.12.2099";
+const paymentDeadlineDate = { day: "12", month: "12", year: "2099" };
 describe("G_ausgaben", () => {
   describe("zahlungsverpflichtungen", () => {
     test.each([

@@ -68,7 +68,17 @@ export const addSupportRecipientsToAttachment =
           title: "Name",
           text: `${kind.vorname} ${kind.nachname}`,
         });
-        attachment.push({ title: "Geburtsdatum", text: kind.geburtsdatum });
+        attachment.push({
+          title: "Geburtsdatum",
+          text:
+            typeof kind.geburtsdatum === "string"
+              ? kind.geburtsdatum
+              : kind.geburtsdatum.day +
+                "." +
+                kind.geburtsdatum.month +
+                "." +
+                kind.geburtsdatum.year,
+        });
         if ("unterhaltsSumme" in kind) {
           attachment.push({
             title: "Monatliche Unterhaltszahlungen",
@@ -102,7 +112,17 @@ export const addSupportRecipientsToAttachment =
           title: "Name",
           text: `${person.firstName} ${person.surname}`,
         });
-        attachment.push({ title: "Geburtsdatum", text: person.birthday });
+        attachment.push({
+          title: "Geburtsdatum",
+          text:
+            typeof person.birthday === "string"
+              ? person.birthday
+              : person.birthday.day +
+                "." +
+                person.birthday.month +
+                "." +
+                person.birthday.year,
+        });
         attachment.push({
           title: "Familienverhältnis",
           text: familyRelationshipMap[person.familyRelationship],

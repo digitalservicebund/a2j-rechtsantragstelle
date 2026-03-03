@@ -8,7 +8,7 @@ import {
   SELF_ALLOWANCE_BUFFER,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { addYears, today, toGermanDateFormat } from "~/util/date";
+import { addYears, today } from "~/util/date";
 
 const {
   selfAllowance,
@@ -21,6 +21,11 @@ const {
 } = getFreibetraege(today().getFullYear());
 
 vi.spyOn(console, "warn");
+
+const dateWithMinus5Years = addYears(today(), -5);
+const dateWithMinus12Years = addYears(today(), -12);
+const dateWithMinus16Years = addYears(today(), -16);
+const dateWithMinus19Years = addYears(today(), -19);
 
 describe("getFreibetraege", () => {
   it(`returns Freibetraege for ${latestFreibetraegeYear}`, () => {
@@ -88,7 +93,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            geburtsdatum: {
+              day: String(dateWithMinus5Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus5Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus5Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -96,7 +108,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            geburtsdatum: {
+              day: String(dateWithMinus5Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus5Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus5Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -104,7 +123,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            geburtsdatum: {
+              day: String(dateWithMinus12Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus12Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus12Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: sixteenYearOldIncome.toString(),
@@ -112,7 +138,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            geburtsdatum: {
+              day: String(dateWithMinus19Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus19Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus19Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: nineteenYearOldIncome.toString(),
@@ -139,7 +172,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            geburtsdatum: {
+              day: String(dateWithMinus5Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus5Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus5Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -147,7 +187,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            geburtsdatum: {
+              day: String(dateWithMinus12Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus12Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus12Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -155,7 +202,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            geburtsdatum: {
+              day: String(dateWithMinus16Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus16Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus16Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: sixteenYearOldIncome.toString(),
@@ -163,7 +217,14 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            geburtsdatum: {
+              day: String(dateWithMinus5Years.getDate()).padStart(2, "0"),
+              month: String(dateWithMinus5Years.getMonth() + 1).padStart(
+                2,
+                "0",
+              ),
+              year: String(dateWithMinus5Years.getFullYear()),
+            },
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: nineteenYearOldIncome.toString(),

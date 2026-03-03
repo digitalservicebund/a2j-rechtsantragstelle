@@ -69,10 +69,15 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
         title: "Monatliche Zahlung in Euro",
         text: ausgabe.beitrag,
       });
-      if ("zahlungsfrist" in ausgabe) {
+      if (ausgabe.hasZahlungsfrist === "yes") {
         attachment.push({
           title: "Raten laufen bis",
-          text: ausgabe.zahlungsfrist,
+          text:
+            ausgabe.zahlungsfrist.day +
+            "." +
+            ausgabe.zahlungsfrist.month +
+            "." +
+            ausgabe.zahlungsfrist.year,
         });
       }
     });
@@ -103,7 +108,12 @@ function fillAusgabenInPDF(
       pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfValues) {
-      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+      pdfValues[zahlungsfristKey].value =
+        ausgabe.zahlungsfrist.day +
+        "." +
+        ausgabe.zahlungsfrist.month +
+        "." +
+        ausgabe.zahlungsfrist.year;
     }
     if (beitragKey in pdfValues) {
       pdfValues[beitragKey].value = ausgabe.beitrag;
