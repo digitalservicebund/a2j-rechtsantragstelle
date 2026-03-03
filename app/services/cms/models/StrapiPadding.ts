@@ -28,7 +28,7 @@ const strapiPaddingMap = {
   px64: "64",
 } as const satisfies Record<(typeof strapiPaddingOptions)[number], Padding>;
 
-export const paddingOptions = ["default", "0", "40"] as const;
+export const paddingOptions = ["auto", "0", "40"] as const;
 
 export const StrapiPaddingSchema = z
   .enum(strapiPaddingOptions)
