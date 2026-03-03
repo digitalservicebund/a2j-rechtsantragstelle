@@ -21,20 +21,29 @@ beforeEach(() => {
 });
 
 describe("createLegalAssessment", () => {
-  it("should add a title for the legal assessment section", () => {
+  it("should add III title when evidences section is shown", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.text).toHaveBeenCalledWith("III. Rechtliche Würdigung");
+  });
+
+  it("should add II title when evidences section is hidden", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createLegalAssessment(mockDoc, mockStruct, userDataMock, false);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("II. Rechtliche Würdigung");
   });
 
   it("should call the addRechtlicheWuerdigung for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
 
     expect(addRechtlicheWuerdigung).toBeCalledTimes(1);
   });
@@ -43,7 +52,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
 
     expect(addDisputeResolution).toBeCalledTimes(1);
   });
@@ -52,7 +61,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
 
     expect(addAdvanceCourtAndPlaintiffName).toBeCalledTimes(1);
   });

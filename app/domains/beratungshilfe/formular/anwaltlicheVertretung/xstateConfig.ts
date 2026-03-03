@@ -46,11 +46,11 @@ export const anwaltlicheVertretungXstateConfig = {
         SUBMIT: [
           {
             guard:
-              beratungshilfeAnwaltlicheVertretungGuards.beratungStattgefundenDatumLaterThanFourWeeks,
-            target: steps.anwaltEnde.relative,
+              beratungshilfeAnwaltlicheVertretungGuards.beratungStattgefundenWithinFourWeeks,
+            target: steps.fristHinweis.relative,
           },
           {
-            target: steps.fristHinweis.relative,
+            target: steps.anwaltEnde.relative,
           },
         ],
         BACK: steps.beratungStattgefunden.relative,

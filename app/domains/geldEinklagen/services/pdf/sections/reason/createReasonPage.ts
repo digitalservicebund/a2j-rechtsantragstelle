@@ -32,7 +32,12 @@ export const createReasonPage = (
 
   documentStruct.add(reasonSect);
 
-  addFactsOfCases(doc, reasonSect);
-  addEvidencesOnFacts(doc, reasonSect);
-  createLegalAssessment(doc, reasonSect, userData);
+  addFactsOfCases(doc, reasonSect, userData.sachverhaltBegruendung ?? "");
+  const hasEvidencesOnFacts = userData.beweiseAngebot === "yes";
+  const beweiseBeschreibung = hasEvidencesOnFacts
+    ? userData.beweiseBeschreibung
+    : "";
+
+  addEvidencesOnFacts(doc, reasonSect, beweiseBeschreibung ?? "");
+  createLegalAssessment(doc, reasonSect, userData, hasEvidencesOnFacts);
 };
