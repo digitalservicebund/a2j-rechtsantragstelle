@@ -1,5 +1,5 @@
 import { type KernHeadingProps } from "~/components/kern/KernHeading";
-import type { BasicTypes } from "~/domains/userData";
+import type { ObjectType } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -7,7 +7,7 @@ import KernArraySummaryItemActions from "./KernArraySummaryItemActions";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
-  readonly items: Record<string, BasicTypes>;
+  readonly items: Record<string, ObjectType>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
@@ -55,16 +55,22 @@ const KernArraySummaryDataItems = ({
       </div>
       <div className="kern-summary__body bg-white!">
         <dl className="kern-description-list">
-          {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
-            <div className="kern-description-list-item" key={itemKey}>
-              <dt className="kern-description-list-item__key">
-                {itemLabels[itemKey] ?? ""}
-              </dt>
-              <dd className="kern-description-list-item__value">
-                {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
-              </dd>
-            </div>
-          ))}
+          {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => {
+            const displayValue =
+              typeof itemValue === "string" || typeof itemValue === "number"
+                ? String(itemValue)
+                : "";
+            return (
+              <div className="kern-description-list-item" key={itemKey}>
+                <dt className="kern-description-list-item__key">
+                  {itemLabels[itemKey] ?? ""}
+                </dt>
+                <dd className="kern-description-list-item__value">
+                  {itemLabels[`${itemKey}.${displayValue}`] ?? displayValue}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
 
         <KernArraySummaryItemActions

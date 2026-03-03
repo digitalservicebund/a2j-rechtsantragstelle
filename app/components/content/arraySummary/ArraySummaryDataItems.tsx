@@ -1,5 +1,5 @@
 import Heading, { type HeadingProps } from "~/components/common/Heading";
-import type { BasicTypes } from "~/domains/userData";
+import type { ObjectType } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -7,7 +7,7 @@ import ArraySummaryItemButton from "./ArraySummaryItemButton";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
-  readonly items: Record<string, BasicTypes>;
+  readonly items: Record<string, ObjectType>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;
@@ -46,16 +46,22 @@ const ArraySummaryDataItems = ({
     <div className="space-y-16 bg-white p-16">
       {heading && <Heading {...heading} />}
 
-      {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
-        <div key={itemKey} className="first:pt-0 scroll-my-40">
-          <Heading
-            text={itemLabels[itemKey] ?? ""}
-            tagName="p"
-            look="ds-label-02-bold"
-          />
-          {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
-        </div>
-      ))}
+      {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => {
+        const displayValue =
+          typeof itemValue === "string" || typeof itemValue === "number"
+            ? String(itemValue)
+            : "";
+        return (
+          <div key={itemKey} className="first:pt-0 scroll-my-40">
+            <Heading
+              text={itemLabels[itemKey] ?? ""}
+              tagName="p"
+              look="ds-label-02-bold"
+            />
+            {itemLabels[`${itemKey}.${displayValue}`] ?? displayValue}
+          </div>
+        );
+      })}
       <ArraySummaryItemButton
         {...(heading ? { heading } : null)}
         category={category}

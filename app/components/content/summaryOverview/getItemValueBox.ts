@@ -1,6 +1,7 @@
 import { type UserData } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
+import { isDateObject } from "./getDateObject";
 
 const getNestedValue = (userData: UserData, fieldName: string): string => {
   const [nestedObjectName, nestedValueName] = fieldName.split(".");
@@ -27,15 +28,24 @@ export const getItemValueBox = (
       ? getNestedValue(userData, fieldName)
       : (userData[fieldName] as string);
 
+    if (isDateObject(itemValue)) {
+      return `${itemValue.day}.${itemValue.month}.${itemValue.year}`;
+    }
+
+    const displayValue =
+      typeof itemValue === "string" || typeof itemValue === "number"
+        ? String(itemValue)
+        : "";
+
     // Check if a direct translation exists
-    const directTranslation = translations[`${fieldName}.${itemValue}`];
+    const directTranslation = translations[`${fieldName}.${displayValue}`];
     if (directTranslation) return directTranslation;
 
     // Handle empty value
-    if (!itemValue && emptyValuePlaceholder) return emptyValuePlaceholder;
+    if (!displayValue && emptyValuePlaceholder) return emptyValuePlaceholder;
 
     // Fallback to string replacement translation or the original item value
-    return translations[`${fieldName}.value`] ?? itemValue;
+    return translations[`${fieldName}.value`] ?? displayValue;
   });
 
   return itemValues.filter(Boolean).join(" ");
