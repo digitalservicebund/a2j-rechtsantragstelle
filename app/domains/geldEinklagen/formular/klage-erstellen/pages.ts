@@ -103,7 +103,7 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
-      anwaltskosten: buildOptionalMoneyValidationSchema(),
+      anwaltskosten: buildOptionalMoneyValidationSchema({ min: 1 }),
     },
   },
   prozessfuehrungProzesszinsen: {
