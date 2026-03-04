@@ -21,14 +21,9 @@ export const toDateStringFromSplitDate = (
   value: SplitDate | "" | undefined,
 ) => {
   if (value && typeof value === "object") {
-    const { day, month, year } = value as {
-      day: string | number;
-      month: string | number;
-      year: string | number;
-    };
+    const { day, month, year } = value 
     return toDateString(Number(day), Number(month), Number(year));
   }
-
   return "";
 };
 
