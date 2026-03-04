@@ -3,6 +3,7 @@ import { getResponsibleCourt } from "../../services/court/getResponsibleCourt";
 import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
+  hasAnwaltskosten,
   isBeklagtePerson,
   isCourtAGSchoeneberg,
   getCourtCost,
@@ -235,5 +236,25 @@ describe("stringReplacement", () => {
         expect(actual).toEqual({ courtCost });
       },
     );
+  });
+
+  describe("hasAnwaltskosten", () => {
+    it("should return false if anwaltskosten is empty string", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "" });
+
+      expect(actual.hasAnwaltskosten).toBe(false);
+    });
+
+    it("should return false if anwaltskosten is 0,00", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "0,00" });
+
+      expect(actual.hasAnwaltskosten).toBe(false);
+    });
+
+    it("should return true if anwaltskosten is greater than 0", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "12,34" });
+
+      expect(actual.hasAnwaltskosten).toBe(true);
+    });
   });
 });

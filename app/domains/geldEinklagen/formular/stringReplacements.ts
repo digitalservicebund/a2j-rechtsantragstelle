@@ -103,3 +103,11 @@ export const getCourtCost = (context: GeldEinklagenFormularUserData) => {
     }),
   };
 };
+
+export const hasAnwaltskosten = (context: GeldEinklagenFormularUserData) => {
+  const parsedAnwaltskosten = parseCurrencyStringDE(context.anwaltskosten);
+
+  return {
+    hasAnwaltskosten: parsedAnwaltskosten > 0,
+  };
+};
