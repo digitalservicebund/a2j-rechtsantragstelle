@@ -7,6 +7,7 @@ import {
 } from "~/services/flow/server/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import {
+  shouldVisitPilotGerichtAuswahl,
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
@@ -66,7 +67,9 @@ export const zustaendigesGerichtXstateConfig = {
           target: "ergebnis/gericht-abbruch",
         },
         {
-          guard: ({ context }) => getPilotCourts(context).length === 2,
+          guard: ({ context }) =>
+            shouldVisitPilotGerichtAuswahl({ context }) &&
+            getPilotCourts(context).length === 2,
           target: steps.zustaendigesGerichtPilotGerichtAuswahl.relative,
         },
         {
@@ -84,7 +87,9 @@ export const zustaendigesGerichtXstateConfig = {
       on: {
         BACK: [
           {
-            guard: ({ context }) => getPilotCourts(context).length === 2,
+            guard: ({ context }) =>
+              shouldVisitPilotGerichtAuswahl({ context }) &&
+              getPilotCourts(context).length === 2,
             target: steps.zustaendigesGerichtPilotGerichtAuswahl.relative,
           },
           ...backButtonGerichtSuchenFlow,

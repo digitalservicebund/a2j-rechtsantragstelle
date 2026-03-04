@@ -1,4 +1,4 @@
-import { omitNull } from "~/util/omitNull";
+import { isPresent, omitNull } from "~/util/omitNull";
 
 describe("util/omitNull", () => {
   const cases = [
@@ -78,5 +78,19 @@ describe("util/omitNull", () => {
 
   test.each(cases)("given $input, returns $output", ({ input, output }) => {
     expect(omitNull(input)).toEqual(output);
+  });
+});
+
+describe("isPresent", () => {
+  [undefined, null].forEach((failCase) => {
+    it(`true for ${failCase}`, () => {
+      expect(isPresent(failCase)).toEqual(false);
+    });
+  });
+
+  ["", "0", 0, [], {}, Number.NaN, "false"].forEach((successCase) => {
+    it(`true for ${successCase}`, () => {
+      expect(isPresent(successCase)).toEqual(true);
+    });
   });
 });

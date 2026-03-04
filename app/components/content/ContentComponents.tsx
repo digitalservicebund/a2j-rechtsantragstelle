@@ -220,6 +220,7 @@ function cmsToReact(
     case "page.heading":
       return (
         <Heading
+          managedByParent={false}
           {...componentProps.heading}
           elementId={componentProps.identifier}
         />

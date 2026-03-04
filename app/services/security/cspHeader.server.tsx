@@ -3,6 +3,7 @@
 // https://web.dev/articles/strict-csp
 // https://csp-evaluator.withgoogle.com/
 
+import { isPresent } from "~/util/omitNull";
 import { bucketUrl } from "../cms/bucketUrl";
 import { config } from "../env/public";
 
@@ -32,18 +33,15 @@ export const cspHeader = (args: {
       "eu.i.posthog.com",
       bucketUrl,
       ...(args.additionalConnectSrc ?? []),
-    ],
+    ].filter(isPresent),
     "img-src": [
       "'self'",
       bucketUrl,
       "https://mermaid.ink",
       "https://img.youtube.com",
       "data:",
-    ],
-    "form-action": [
-      "'self'",
-      ...(BUNDID_IDP_ENTRY_POINT ? [BUNDID_IDP_ENTRY_POINT] : []),
-    ],
+    ].filter(isPresent),
+    "form-action": ["'self'", BUNDID_IDP_ENTRY_POINT].filter(isPresent),
     "object-src": ["'none'"],
     "base-uri": ["'none'"],
     "frame-ancestors": ["'none'"],
