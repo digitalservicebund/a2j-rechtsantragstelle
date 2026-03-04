@@ -46,11 +46,11 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillTextarea("beweiseBeschreibung", "some description");
   await formular.clickNext();
 
-  // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/prozesszinsen
-  await formular.fillRadioPage("prozesszinsen", "yes");
-
   // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/anwaltskosten
   await formular.clickNext();
+
+  // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/prozesszinsen
+  await formular.fillRadioPage("prozesszinsen", "yes");
 
   // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/streitbeilegung
   await formular.fillRadioPage("streitbeilegung", "yes");

@@ -27,11 +27,11 @@ const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
 };
 export const prozessfuehrungXstateConfig = {
   id: "prozessfuehrung",
-  initial: "prozesszinsen",
+  initial: "anwaltskosten",
   states: {
-    [steps.prozessfuehrungProzesszinsen.relative]: {
+    [steps.prozessfuehrungAnwaltskosten.relative]: {
       on: {
-        SUBMIT: steps.prozessfuehrungAnwaltskosten.relative,
+        SUBMIT: steps.prozessfuehrungProzesszinsen.relative,
         BACK: [
           {
             guard: ({ context }) => context.beweiseAngebot === "yes",
@@ -41,10 +41,10 @@ export const prozessfuehrungXstateConfig = {
         ],
       },
     },
-    [steps.prozessfuehrungAnwaltskosten.relative]: {
+    [steps.prozessfuehrungProzesszinsen.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungStreitbeilegung.relative,
-        BACK: steps.prozessfuehrungProzesszinsen.relative,
+        BACK: steps.prozessfuehrungAnwaltskosten.relative,
       },
     },
     [steps.prozessfuehrungStreitbeilegung.relative]: {
@@ -56,7 +56,7 @@ export const prozessfuehrungXstateConfig = {
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
         ],
-        BACK: steps.prozessfuehrungAnwaltskosten.relative,
+        BACK: steps.prozessfuehrungProzesszinsen.relative,
       },
     },
     [steps.prozessfuehrungStreitbeilegungGruende.relative]: {

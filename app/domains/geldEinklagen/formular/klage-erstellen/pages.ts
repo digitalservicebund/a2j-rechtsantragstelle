@@ -100,16 +100,16 @@ export const geldEinklagenKlageErstellenPages = {
       }),
     },
   },
-  prozessfuehrungProzesszinsen: {
-    stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
-    pageSchema: {
-      prozesszinsen: YesNoAnswer,
-    },
-  },
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
       anwaltskosten: buildOptionalMoneyValidationSchema(),
+    },
+  },
+  prozessfuehrungProzesszinsen: {
+    stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
+    pageSchema: {
+      prozesszinsen: YesNoAnswer,
     },
   },
   prozessfuehrungStreitbeilegung: {
