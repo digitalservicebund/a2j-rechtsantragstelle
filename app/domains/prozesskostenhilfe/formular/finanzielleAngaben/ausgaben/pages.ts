@@ -25,9 +25,9 @@ const versicherungenArtSchema = z.enum([
 export const versicherungenArraySchema = z.array(
   z.union([
     z.object({
-      art: z.enum([
-        ...versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
-      ]),
+      art: z.enum(
+        versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
+      ),
       beitrag: buildMoneyValidationSchema(),
     }),
     z.object({

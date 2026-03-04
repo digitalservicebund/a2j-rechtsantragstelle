@@ -1,8 +1,5 @@
 import type PDFDocument from "pdfkit";
-import {
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/createPdfKitDocument";
+import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
 import type {
   GeldEinklagenFormularUserData,
@@ -14,19 +11,18 @@ const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE =
-  "im Online-Verfahren nach Paragraf 1124 Absatz 1 Nummer 1 der Zivilprozessordnung";
+const MAIN_SUBTITLE = "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO";
 
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 
 const subjectAreaMapping = {
-  miete: "Miete & Pacht",
-  versicherung: "Versicherung",
-  schaden: "Schaden durch unerlaubte Handlung",
-  reisen: "Reisen & Beförderung",
-  verkehrsunfall: "Verkehrsunfall",
-  urheberrecht: "Urheberrecht",
-  anderesRechtsproblem: "Ich habe ein anderes Rechtsproblem",
+  miete: "- Miete & Pacht",
+  versicherung: "- Versicherung",
+  schaden: "- Schaden durch unerlaubte Handlung",
+  reisen: "- Reisen & Beförderung",
+  verkehrsunfall: "- Verkehrsunfall",
+  urheberrecht: "- Urheberrecht",
+  anderesRechtsproblem: "",
 };
 
 export const createClaimData = (
@@ -40,7 +36,7 @@ export const createClaimData = (
         .fontSize(31)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(MAIN_TITLE, { align: "left" });
-      doc.fontSize(10).font(FONTS_BUNDESSANS_REGULAR).text(MAIN_SUBTITLE);
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(MAIN_SUBTITLE);
       doc.moveDown(2);
     }),
   );
@@ -86,8 +82,8 @@ export const createClaimData = (
       doc
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(`${DUE_REASON_TEXT} - ${subjectAreaDescription}`)
-        .text(`Streitwert: Euro`);
+        .text(`${DUE_REASON_TEXT} ${subjectAreaDescription}`)
+        .text(`Streitwert: ${userData.forderungGesamtbetrag} Euro`);
     }),
   );
 };

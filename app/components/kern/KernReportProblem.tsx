@@ -64,7 +64,7 @@ export const KernReportProblem = () => {
         iconLeft={
           <KernIcon
             name="emergency-home"
-            className="fill-kern-action-default!"
+            className="fill-kern-action-default! forced-color-adjust-auto"
           />
         }
       />

@@ -20,20 +20,19 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="py-24"
       id={identifier}
     >
-      <div className="kern-stack-lg">
-        <div className="kern-stack-sm">
+      <nav aria-label="Inhalt">
+        <div>
           {label && <KernLabel {...label} />}
           {links && links.length > 0 && (
-            <ul className="list-none pl-0! mt-10 kern-stack-lg">
+            <ul className="list-none pl-0! mt-10">
               {links.map((link) => (
                 <li
                   key={link.text ?? link.url}
                   className="list-none flex mb-10"
                 >
-                  <a href={link.url} className="kern-link">
+                  <a href={link.url} className="kern-link no-underline!">
                     <KernIcon
                       name="arrow-downward"
                       className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
@@ -52,7 +51,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
             ))}
           </ButtonContainer>
         )}
-      </div>
+      </nav>
     </GridItem>
   );
 };

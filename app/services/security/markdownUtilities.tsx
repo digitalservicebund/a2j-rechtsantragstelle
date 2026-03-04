@@ -40,7 +40,7 @@ const kernRenderer: Partial<Renderer> = {
 } as const;
 
 function getRendererToDisplay(
-  showKernUX: boolean,
+  showKernUX: boolean | undefined,
   renderer?: Partial<Renderer>,
 ) {
   if (showKernUX) {
@@ -53,7 +53,7 @@ function getRendererToDisplay(
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
-  showKernUX: boolean = false,
+  showKernUX?: boolean,
 ) {
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
   const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);

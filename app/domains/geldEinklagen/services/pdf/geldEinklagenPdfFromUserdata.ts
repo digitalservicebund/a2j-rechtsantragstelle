@@ -14,9 +14,15 @@ const KEYWORDS = "Geld einklagen";
 const buildGeldEinklagenPDFDocument: PDFDocumentBuilder<
   GeldEinklagenFormularUserData
 > = (doc, documentStruct, userData) => {
+  // Keep this margin override local to TGA so body text doesn't overlap footer bank info/page numbers.
+  doc.page.margins.bottom = 70;
+  doc.on("pageAdded", () => {
+    doc.page.margins.bottom = 70;
+  });
+
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createFirstPage(doc, documentStruct, userData);
-  createReasonPage(doc, documentStruct);
+  createReasonPage(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData, createBankInformation);
 };
 

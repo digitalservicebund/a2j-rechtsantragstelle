@@ -9,10 +9,10 @@ type Config = {
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
+  CMS_MEDIA_STORAGE_URL?: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
   GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
-  REDIS_ENDPOINT: string;
-  REDIS_PASSWORD: string;
+  REDIS_URI: string;
   COOKIE_SESSION_SECRET: string;
   CONTENT_FILE_PATH: string;
   CSP_REPORT_URI?: string;
@@ -32,37 +32,45 @@ type Config = {
 };
 
 export function config(): Config {
-  const STRAPI_API = readSecretOrEnvVar(
-    "/etc/strapi-api-secret/password",
-    "STRAPI_API",
+  const STRAPI_API =
+    readSecretOrEnvVar("/etc/strapi-api-secret/password", "STRAPI_API") ?? "";
+
+  // Temporary until after cloud migration
+  const REDIS_ENDPOINT = process.env.REDIS_ENDPOINT ?? "localhost:6380";
+  const REDIS_PASSWORD = readSecretOrEnvVar(
+    "/etc/redis-password-secret/password",
+    "REDIS_PASSWORD",
   );
+  const fallbackRedisURI = `rediss://default:${REDIS_PASSWORD}@${REDIS_ENDPOINT}`;
 
   return {
     STRAPI_API,
     STRAPI_HOST: STRAPI_API.replace("/api/", ""),
-    STRAPI_ACCESS_KEY: readSecretOrEnvVar(
-      "/etc/strapi-access-key-secret/password",
-      "STRAPI_ACCESS_KEY",
-    ),
+    STRAPI_ACCESS_KEY:
+      readSecretOrEnvVar(
+        "/etc/strapi-access-key-secret/password",
+        "STRAPI_ACCESS_KEY",
+      ) ?? "",
     CMS: process.env.CMS ?? "FILE",
-    GERICHTSFINDER_ENCRYPTION_KEY: readSecretOrEnvVar(
-      "/etc/courtdata-secrets/password",
-      "GERICHTSFINDER_ENCRYPTION_KEY",
-    ),
-    GERICHTSFINDER_ENCRYPTION_KEY_OLD: readSecretOrEnvVar(
-      "/etc/courtdata-secrets/password-old",
-      "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
-    ),
-    REDIS_ENDPOINT: process.env.REDIS_ENDPOINT ?? "localhost:6380",
-    REDIS_PASSWORD: readSecretOrEnvVar(
-      "/etc/redis-password-secret/password",
-      "REDIS_PASSWORD",
-    ),
-    COOKIE_SESSION_SECRET: readSecretOrEnvVar(
-      "/etc/cookie-session-secret/password",
-      "COOKIE_SESSION_SECRET",
-      "s3cr3t",
-    ),
+    CMS_MEDIA_STORAGE_URL: process.env.CMS_MEDIA_STORAGE_URL,
+    GERICHTSFINDER_ENCRYPTION_KEY:
+      readSecretOrEnvVar(
+        "/etc/courtdata-secrets/password",
+        "GERICHTSFINDER_ENCRYPTION_KEY",
+      ) ?? "",
+    GERICHTSFINDER_ENCRYPTION_KEY_OLD:
+      readSecretOrEnvVar(
+        "/etc/courtdata-secrets/password-old",
+        "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
+      ) ?? "",
+    REDIS_URI:
+      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ??
+      fallbackRedisURI,
+    COOKIE_SESSION_SECRET:
+      readSecretOrEnvVar(
+        "/etc/cookie-session-secret/password",
+        "COOKIE_SESSION_SECRET",
+      ) ?? "s3cr3t",
     CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
     BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
@@ -74,32 +82,28 @@ export function config(): Config {
       "data/saml/sp_login_request_template.xml",
     ),
     SAML_SP_METADATA_PATH:
-      process.env.SAML_SP_METADATA_PATH?.trim() ??
-      path.join(process.cwd(), "data/saml/sp_metadata.xml"),
+      process.env.SAML_SP_METADATA_PATH ??
+      "/etc/saml/sp_metadata/sp_metadata.xml",
     SAML_SP_SECRET_KEY_PATH:
-      process.env.SAML_SP_SECRET_KEY_PATH?.trim() ??
-      path.join(process.cwd(), "data/saml/sp_privateKey.pem"),
+      process.env.SAML_SP_SECRET_KEY_PATH ??
+      "/etc/saml/sp_private_key/sp_private_key.pem",
     SAML_SP_SECRET_KEY_ENCRYPTION_PATH:
-      process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH?.trim() ??
-      path.join(process.cwd(), "data/saml/sp_privateKeyEncryption.pem"),
-    SAML_IDP_CERT: readSecretOrEnvVar(
-      "/etc/saml/idp_cert",
-      "SAML_IDP_CERT",
-      "test",
-    ).replaceAll(" ", ""),
+      process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH ??
+      "/etc/saml/sp_private_key_encryption/sp_private_key_encryption.pem",
+    SAML_IDP_CERT: process.env.SAML_IDP_CERT?.replaceAll(" ", "") ?? "test",
     S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
     S3_ENDPOINT:
       process.env.S3_ENDPOINT ?? "https://s3.localhost.localstack.cloud:4566",
-    S3_DATA_STORAGE_ACCESS_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-access-key/password",
-      "S3_DATA_STORAGE_ACCESS_KEY",
-      "test",
-    ),
-    S3_DATA_STORAGE_SECRET_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-key/password",
-      "S3_DATA_STORAGE_SECRET_KEY",
-      "test",
-    ),
+    S3_DATA_STORAGE_ACCESS_KEY:
+      readSecretOrEnvVar(
+        "/etc/s3-storage-credentials-secret-access-key/password",
+        "S3_DATA_STORAGE_ACCESS_KEY",
+      ) ?? "test",
+    S3_DATA_STORAGE_SECRET_KEY:
+      readSecretOrEnvVar(
+        "/etc/s3-storage-credentials-secret-key/password",
+        "S3_DATA_STORAGE_SECRET_KEY",
+      ) ?? "test",
     S3_DATA_STORAGE_BUCKET_NAME:
       process.env.S3_DATA_STORAGE_BUCKET_NAME ?? "a2j-data-storage",
   };

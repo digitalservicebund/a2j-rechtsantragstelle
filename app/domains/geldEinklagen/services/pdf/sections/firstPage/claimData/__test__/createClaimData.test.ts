@@ -30,7 +30,7 @@ describe("createClaimData", () => {
     expect(mockDoc.moveDown).toHaveBeenCalled();
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "im Online-Verfahren nach Paragraf 1124 Absatz 1 Nummer 1 der Zivilprozessordnung",
+      "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO",
     );
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
@@ -52,6 +52,22 @@ describe("createClaimData", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Wegen: Zahlungsklage - Miete & Pacht",
     );
+    expect(mockDoc.moveDown).toHaveBeenCalled();
+  });
+
+  it("should not have the description of subject area when sachgebiet is anderesRechtsproblem", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const userDataWithAnderesRechtsproblem = {
+      ...userDataMock,
+      sachgebiet: "anderesRechtsproblem" as const,
+    };
+
+    createClaimData(mockDoc, mockStruct, userDataWithAnderesRechtsproblem);
+
+    expect(mockDoc.fontSize).toHaveBeenCalledWith(12);
+    expect(mockDoc.text).toHaveBeenCalledWith("Wegen: Zahlungsklage ");
     expect(mockDoc.moveDown).toHaveBeenCalled();
   });
 

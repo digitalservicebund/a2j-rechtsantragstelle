@@ -12,8 +12,12 @@ vi.mock("../claimData/addDefendantPartyList");
 vi.mock("../claimData/addFreeTextApplication");
 vi.mock("../claimData/addNegotiationText");
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("createStatementClaim", () => {
-  it("should create the document with the statement claim correctly", () => {
+  it("should render title and create a new page for free-text applications", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -21,31 +25,33 @@ describe("createStatementClaim", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
-
     expect(mockDoc.text).toHaveBeenCalledWith("Klageantrag");
+    expect(mockDoc.addPage).toHaveBeenCalledTimes(1);
   });
 
-  it("should call addDefendantPartyList", () => {
+  it("should call addDefendantPartyList with main claim values", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
+    expect(addDefendantPartyList).toHaveBeenCalledTimes(1);
     expect(addDefendantPartyList).toHaveBeenCalledWith(
       mockDoc,
       mockStruct,
       userDataMock.prozesszinsen,
-      0,
+      "9.999,00",
       userDataMock.anwaltskosten,
     );
   });
 
-  it("should call addFreeTextApplication", () => {
+  it("should call addFreeTextApplication with weitereAntraege", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
+    expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
     expect(addFreeTextApplication).toHaveBeenCalledWith(
       mockDoc,
       userDataMock.weitereAntraege,
@@ -53,12 +59,13 @@ describe("createStatementClaim", () => {
     );
   });
 
-  it("should call addNegotiationText", () => {
+  it("should call addNegotiationText with negotiation fields", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
+    expect(addNegotiationText).toHaveBeenCalledTimes(1);
     expect(addNegotiationText).toHaveBeenCalledWith(
       mockDoc,
       userDataMock.videoVerhandlung,

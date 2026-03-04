@@ -27,7 +27,7 @@ jobs:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
       - name: Upload coverage
         if: ${{ matrix.cmd == 'test:coverage' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage/

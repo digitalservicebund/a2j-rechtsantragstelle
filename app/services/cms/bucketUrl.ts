@@ -1,2 +1,3 @@
-export const bucketUrl =
-  "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com";
+import { config } from "../env/env.server";
+
+export const bucketUrl = config().CMS_MEDIA_STORAGE_URL;

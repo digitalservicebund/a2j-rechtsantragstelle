@@ -4,22 +4,16 @@ import { Details, type DetailsProps } from "~/components/content/Details";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernButton, { type ButtonProps } from "./KernButton";
-import KernHeadline, { type KernHeadlineProps } from "./KernHeadline";
+import { type KernHeadlineProps } from "./KernHeadline";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
-import { KernInlineNotice } from "./KernInlineNotice";
+import {
+  KernInlineNotice,
+  type KernInlineNoticeProps,
+} from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
+import KernHeading from "./KernHeading";
 
-type KernInlineNoticeProps = {
-  identifier?: string;
-  title: string;
-  tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "info" | "warning" | "danger" | "success";
-  content?: string;
-  wrap?: boolean;
-  nested?: boolean;
-};
-
-export type KernInfoBoxItemProps = {
+export type KernBoxItemProps = {
   id: number; // Strapi id
   identifier?: string;
   label?: KernLabelProps;
@@ -33,7 +27,7 @@ export type KernInfoBoxItemProps = {
   accordion?: KernAccordionProps;
 };
 
-const KernInfoBoxItem = ({
+const KernBoxItem = ({
   identifier,
   label,
   headline,
@@ -43,19 +37,19 @@ const KernInfoBoxItem = ({
   inlineNotices,
   buttons,
   accordion,
-}: KernInfoBoxItemProps) => {
+}: KernBoxItemProps) => {
   return (
-    <div id={identifier} className="flex flex-row gap-kern-space-large">
+    <div id={identifier}>
       {image && (
         <Image
           {...image}
           className="max-[499px]:mb-16 max-[499px]:w-[144px] max-[499px]:h-[144px] h-[168px] w-[168px] self-baseline"
         />
       )}
-      <div className="flex flex-col gap-kern-space-default">
+      <div className="flex flex-col gap-kern-space-x-large">
         {label && <KernLabel {...label} />}
-        {headline && <KernHeadline {...headline} />}
-        {content && <KernRichText html={content} className="pt-32!" />}
+        {headline && <KernHeading managedByParent {...headline} />}
+        {content && <KernRichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />
         ))}
@@ -75,4 +69,4 @@ const KernInfoBoxItem = ({
   );
 };
 
-export default KernInfoBoxItem;
+export default KernBoxItem;

@@ -31,25 +31,34 @@ export const createStatementClaim = (
       doc.moveDown(1.5);
     }),
   );
-
   addDefendantPartyList(
     doc,
     statementClaimSect,
     prozesszinsen ?? "",
-    0,
+    userData.forderungGesamtbetrag ?? "",
     anwaltskosten ?? "",
   );
-
-  addFreeTextApplication(doc, weitereAntraege, statementClaimSect);
-
-  // Add the statement claim section to the main document structure before negotiation text to break the page correctly
   documentStruct.add(statementClaimSect);
 
+  doc.addPage(); // start the free text application on a new page (2nd page)
+
+  const freeTextWeitereAntraegeSect = doc.struct("Sect");
+  freeTextWeitereAntraegeSect.add(
+    doc.struct("Caption", {}, () => {
+      doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
+    }),
+  );
+
+  addFreeTextApplication(doc, weitereAntraege, freeTextWeitereAntraegeSect);
+  documentStruct.add(freeTextWeitereAntraegeSect);
+
+  const negotiationSect = doc.struct("Sect");
   addNegotiationText(
     doc,
     videoVerhandlung,
     versaeumnisurteil,
     muendlicheVerhandlung,
-    statementClaimSect,
+    negotiationSect,
   );
+  documentStruct.add(negotiationSect);
 };

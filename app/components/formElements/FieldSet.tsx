@@ -43,6 +43,7 @@ export const FieldSet = ({ heading, formComponents, image }: FieldSetProps) => {
         {image && (
           <Image
             {...image}
+            className="min-h-full min-w-[24px]"
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}

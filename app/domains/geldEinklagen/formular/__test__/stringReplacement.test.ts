@@ -5,6 +5,12 @@ import {
   hasExclusivePlaceJurisdictionOrSelectCourt,
   isBeklagtePerson,
   isCourtAGSchoeneberg,
+  getCourtCost,
+  getKlagendePersonInfo,
+  getBeklagtePersonInfo,
+  getSachverhaltInfo,
+  getProzesszinsenInfo,
+  getZusaetzlicheAngabenInfo,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -215,6 +221,140 @@ describe("stringReplacement", () => {
 
       const actual = isCourtAGSchoeneberg({});
       expect(actual.isCourtAGSchoeneberg).toBe(false);
+    });
+  });
+
+  describe("getCourtCost", () => {
+    it.each([
+      ["80,00", "99,00"],
+      ["122,00", "500,01"],
+      ["122,00", "1.000,00"],
+      ["164,00", "1.234,56"],
+      ["521,00", "9.000,00"],
+      ["566,00", "9.999,99"],
+    ])(
+      "should return %s court cost for claim amount %s",
+      (courtCost, forderungGesamtbetrag) => {
+        const actual = getCourtCost({ forderungGesamtbetrag });
+
+        expect(actual).toEqual({ courtCost });
+      },
+    );
+  });
+
+  describe("getKlagendePersonInfo", () => {
+    it("should return klagende person info fields", () => {
+      const context: GeldEinklagenFormularUserData = {
+        klagendePersonAnrede: "herr",
+        klagendePersonTitle: "dr",
+        klagendePersonVorname: "Max",
+        klagendePersonNachname: "Mustermann",
+        klagendePersonStrasseHausnummer: "Musterstr. 1",
+        klagendePersonPlz: "12345",
+        klagendePersonOrt: "Musterstadt",
+        klagendeTelefonnummer: "0123",
+        klagendePersonIban: "DE0012345678",
+        klagendePersonKontoinhaber: "Max Mustermann",
+      };
+
+      const actual = getKlagendePersonInfo(context);
+
+      expect(actual).toEqual({
+        klagendePersonAnrede: "herr",
+        klagendePersonTitle: "dr",
+        klagendePersonVorname: "Max",
+        klagendePersonNachname: "Mustermann",
+        klagendePersonStrasseHausnummer: "Musterstr. 1",
+        klagendePersonPlz: "12345",
+        klagendePersonOrt: "Musterstadt",
+        klagendeTelefonnummer: "0123",
+        klagendePersonIban: "DE0012345678",
+        klagendePersonKontoinhaber: "Max Mustermann",
+      });
+    });
+  });
+
+  describe("getBeklagtePersonInfo", () => {
+    it("should return beklagte person info fields", () => {
+      const context: GeldEinklagenFormularUserData = {
+        beklagteAnrede: "frau",
+        beklagteTitle: "none",
+        beklagteVorname: "Erika",
+        beklagteNachname: "Musterfrau",
+        beklagteStrasseHausnummer: "Beispielweg 2",
+        beklagtePlz: "54321",
+        beklagteOrt: "Beispielstadt",
+      };
+
+      const actual = getBeklagtePersonInfo(context);
+
+      expect(actual).toEqual({
+        beklagteAnrede: "frau",
+        beklagteTitle: "none",
+        beklagteVorname: "Erika",
+        beklagteNachname: "Musterfrau",
+        beklagteStrasseHausnummer: "Beispielweg 2",
+        beklagtePlz: "54321",
+        beklagteOrt: "Beispielstadt",
+      });
+    });
+  });
+
+  describe("getSachverhaltInfo", () => {
+    it("should return sachverhalt info fields", () => {
+      const context: GeldEinklagenFormularUserData = {
+        forderungGesamtbetrag: "1000",
+        sachverhaltBegruendung: "Begründung",
+        beweiseAngebot: "yes",
+      };
+
+      const actual = getSachverhaltInfo(context);
+
+      expect(actual).toEqual({
+        forderungGesamtbetrag: "1000",
+        sachverhaltBegruendung: "Begründung",
+        beweiseAngebot: "yes",
+      });
+    });
+  });
+
+  describe("getProzesszinsenInfo", () => {
+    it("should return prozesszinsen info fields (keeps existing key name)", () => {
+      const context: GeldEinklagenFormularUserData = {
+        prozesszinsen: "yes",
+        anwaltskosten: "200",
+        streitbeilegung: "no",
+        muendlicheVerhandlung: "yes",
+        videoVerhandlung: "no",
+        versaeumnisurteil: "no",
+      };
+
+      const actual = getProzesszinsenInfo(context);
+
+      expect(actual).toEqual({
+        prozesszisnsen: "yes",
+        anwaltskosten: "200",
+        streitbeilegung: "no",
+        muendlicheVerhandlung: "yes",
+        videoVerhandlung: "no",
+        versaeumnisurteil: "no",
+      });
+    });
+  });
+
+  describe("getZusaetzlicheAngabenInfo", () => {
+    it("should return additional Angaben including rechtlicheWuerdigung", () => {
+      const context: GeldEinklagenFormularUserData = {
+        weitereAntraege: "Sonstige Anträge",
+        rechtlicheWuerdigung: "Rechtliche Würdigung Text",
+      };
+
+      const actual = getZusaetzlicheAngabenInfo(context);
+
+      expect(actual).toEqual({
+        weitereAntraege: "Sonstige Anträge",
+        rechtlicheWuerdigung: "Rechtliche Würdigung Text",
+      });
     });
   });
 });

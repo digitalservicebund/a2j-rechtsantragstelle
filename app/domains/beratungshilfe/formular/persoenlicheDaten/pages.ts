@@ -47,4 +47,7 @@ export const berHAntragPersoenlicheDatenPages = {
       telefonnummer: schemaOrEmptyString(phoneNumberSchema),
     },
   },
+  nachbefragung: {
+    stepId: "persoenliche-daten/nachbefragung",
+  },
 } as const satisfies PagesConfig;

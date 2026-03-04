@@ -3,7 +3,7 @@ import ContentComponents from "~/components/content/ContentComponents";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { loader } from "../../result";
+import { type loader } from "~/routes/shared/result";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 import KernHeading from "~/components/kern/KernHeading";
 import KernRichText from "~/components/kern/KernRichText";

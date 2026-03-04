@@ -2,13 +2,21 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
-import { buildOptionalMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import {
+  buildOptionalMoneyValidationSchema,
+  buildMoneyValidationSchema,
+} from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import {
+  stringRequiredSchema,
+  stringRequiredMaxSchema,
+} from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
+const TEXTAREA_MAX_LENGTH = 60000;
 
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
@@ -64,8 +72,33 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
     },
   },
-  rechtsproblemIntoStart: {
-    stepId: "klage-erstellen/rechtsproblem/intro/start",
+  forderungGesamtbetrag: {
+    stepId: "klage-erstellen/forderung/gesamtbetrag",
+    pageSchema: {
+      forderungGesamtbetrag: buildMoneyValidationSchema({ max: 1000000 }),
+    },
+  },
+  sachverhaltBegruendung: {
+    stepId: "klage-erstellen/sachverhalt/begruendung",
+    pageSchema: {
+      sachverhaltBegruendung: stringRequiredMaxSchema({
+        max: TEXTAREA_MAX_LENGTH,
+      }),
+    },
+  },
+  beweiseAngebot: {
+    stepId: "klage-erstellen/beweise/angebot",
+    pageSchema: {
+      beweiseAngebot: YesNoAnswer,
+    },
+  },
+  beweiseBeschreibung: {
+    stepId: "klage-erstellen/beweise/beschreibung",
+    pageSchema: {
+      beweiseBeschreibung: stringRequiredMaxSchema({
+        max: TEXTAREA_MAX_LENGTH,
+      }),
+    },
   },
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
@@ -93,11 +126,13 @@ export const geldEinklagenKlageErstellenPages = {
   },
   prozessfuehrungMuendlicheVerhandlung: {
     stepId: "klage-erstellen/prozessfuehrung/muendliche-verhandlung",
-    pageSchema: { muendlicheVerhandlung: YesNoAnswer },
+    pageSchema: {
+      muendlicheVerhandlung: z.enum(["yes", "no", "noSpecification"]),
+    },
   },
   prozessfuehrungVideoVerhandlung: {
     stepId: "klage-erstellen/prozessfuehrung/videoverhandlung",
-    pageSchema: { videoVerhandlung: YesNoAnswer },
+    pageSchema: { videoVerhandlung: z.enum(["yes", "no", "noSpecification"]) },
   },
   prozessfuehrungVersaeumnisurteil: {
     stepId: "klage-erstellen/prozessfuehrung/versaeumnisurteil",
@@ -109,13 +144,20 @@ export const geldEinklagenKlageErstellenPages = {
   rechtlicherZusatzWeitereAntraege: {
     stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
-      weitereAntraege: schemaOrEmptyString(stringRequiredSchema),
+      weitereAntraege: schemaOrEmptyString(
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
+      ),
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
     stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
     pageSchema: {
-      rechtlicheWuerdigung: schemaOrEmptyString(stringRequiredSchema),
+      rechtlicheWuerdigung: schemaOrEmptyString(
+        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
+      ),
     },
+  },
+  zusammenfassungUebersicht: {
+    stepId: "klage-erstellen/zusammenfassung/uebersicht",
   },
 } as const satisfies PagesConfig;

@@ -6,6 +6,10 @@ type NullToUndefined<T> = T extends null
       ? { [K in keyof T]: NullToUndefined<T[K]> }
       : T;
 
+export function isPresent<T>(item: T | null | undefined): item is T {
+  return item !== null && item !== undefined;
+}
+
 /**
  * Deep replacing null values with undefined, see https://stackoverflow.com/a/72549576
  *

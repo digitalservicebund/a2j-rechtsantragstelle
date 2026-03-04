@@ -1,11 +1,16 @@
 import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
+import { addFactsOfCases } from "./addFactsOfCases";
+import { addEvidencesOnFacts } from "./addEvidencesOnFacts";
+import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
 const REASON_TITLE_TEXT = "Begründung";
 
 export const createReasonPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
+  userData: GeldEinklagenFormularUserData,
 ) => {
   const pages = doc.bufferedPageRange();
 
@@ -26,4 +31,13 @@ export const createReasonPage = (
   );
 
   documentStruct.add(reasonSect);
+
+  addFactsOfCases(doc, reasonSect, userData.sachverhaltBegruendung ?? "");
+  const hasEvidencesOnFacts = userData.beweiseAngebot === "yes";
+  const beweiseBeschreibung = hasEvidencesOnFacts
+    ? userData.beweiseBeschreibung
+    : "";
+
+  addEvidencesOnFacts(doc, reasonSect, beweiseBeschreibung ?? "");
+  createLegalAssessment(doc, reasonSect, userData, hasEvidencesOnFacts);
 };

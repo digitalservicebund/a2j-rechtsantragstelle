@@ -88,6 +88,7 @@ const SummarySection = ({
 
           {arrayGroup.items.map((arrayItem, itemIndex) => (
             <div
+              // oxlint-disable-next-line react/no-array-index-keys
               key={`array-item-${arrayGroup.id}-${itemIndex}`}
               className="bg-white p-16 border-b border-gray-200 flex flex-col gap-16 mb-8 ml-0"
             >

@@ -159,6 +159,7 @@ export function KernFormFlowPage() {
                 <ContentComponents
                   content={cmsContent.postFormContent}
                   managedByParent
+                  showKernUX={showKernUX}
                 />
               </div>
             </div>
@@ -168,7 +169,7 @@ export function KernFormFlowPage() {
               mdColumn={{ start: 1, span: 8 }}
               lgColumn={{ start: 1, span: 12 }}
               xlColumn={{ start: 1, span: 12 }}
-              className="pb-40 flex justify-end"
+              className="pb-kern-space-x-large pt-kern-space-x-large flex justify-end"
               row={4}
             >
               <KernReportProblem />
