@@ -1,5 +1,6 @@
 // used by scripts/verifyExternalLinks
 
+import { isPresent } from "~/util/omitNull.ts";
 import { bucketUrl } from "../../app/services/cms/bucketUrl.ts";
 
 export const allowedWebsites = [
@@ -73,4 +74,4 @@ export const allowedWebsites = [
   "https://www.bmev.de",
   "https://www.mahngerichte.de",
   "https://surveys.digitalservice.dev",
-];
+].filter(isPresent);
