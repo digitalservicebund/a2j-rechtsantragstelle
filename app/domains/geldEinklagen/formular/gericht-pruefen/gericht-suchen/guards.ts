@@ -85,3 +85,30 @@ export const shouldVisitGerichtSuchenGerichtsstandsvereinbarung: GeldEinklagenGe
 
     return false;
   };
+
+export const shouldVisitGerichtSuchenBeklagtePostleitzahl: GeldEinklagenGerichtPruefenDaten =
+  ({ context }) => {
+    return (
+      !shouldVisitGerichtSuchenGerichtsstandsvereinbarung({ context }) &&
+      !shouldVisitGerichtSuchenPostleitzahlWohnraum({ context })
+    );
+  };
+
+export const shouldVisitGerichtSuchenSecondaryPostleitzahl: GeldEinklagenGerichtPruefenDaten =
+  ({ context }) => {
+    return (
+      shouldVisitGerichtSuchenGerichtsstandsvereinbarung({ context }) ||
+      shouldVisitGerichtSuchenPostleitzahlWohnraum({ context }) ||
+      shouldVisitGerichtSuchenPostleitzahlKlagendePerson({ context }) ||
+      shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall({ context }) ||
+      context.sachgebiet === "schaden"
+    );
+  };
+
+export const shouldVisitPilotGerichtAuswahl: GeldEinklagenGerichtPruefenDaten =
+  ({ context }) => {
+    return (
+      shouldVisitGerichtSuchenBeklagtePostleitzahl({ context }) &&
+      shouldVisitGerichtSuchenSecondaryPostleitzahl({ context })
+    );
+  };
