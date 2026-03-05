@@ -1,5 +1,6 @@
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiMeta } from "~/services/cms/models/StrapiMeta";
+import { type StrapiVorabCheckPage } from "~/services/cms/models/StrapiVorabCheckPage";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {
@@ -16,7 +17,9 @@ type BuildCmsContentAndTranslations = {
   parentMeta: StrapiMeta | null;
 };
 
-const structureCmsContent = (formPageContent: StrapiFormFlowPage) => {
+export const structureCmsContent = (
+  formPageContent: StrapiFormFlowPage | StrapiVorabCheckPage,
+) => {
   return {
     heading: "heading" in formPageContent ? formPageContent.heading : undefined,
     preHeading:

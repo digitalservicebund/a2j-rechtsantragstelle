@@ -13,6 +13,7 @@ import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
+import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
 
 type FlowMigration = {
   source: FlowId;
@@ -43,6 +44,7 @@ export const flows = {
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/erbschein/wegweiser": erbscheinWegweiser,
+  "/erbschein/nachlassgericht": erbscheinNachlassgericht,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
