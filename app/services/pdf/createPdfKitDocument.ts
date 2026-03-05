@@ -4,19 +4,19 @@ import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
 export const PDF_VERSION = "1.7";
 export const PDF_LANGUAGE = "de-DE";
 export const PDF_SIZE_FORMAT = "A4";
-export const FONTS_BUNDESSANS_REGULAR = "BundesSansWebRegular";
-export const FONTS_BUNDESSANS_BOLD = "BundesSansWebBold";
+export const FONTS_BUNDESSANS_REGULAR = "BundesSansDTPRegular";
+export const FONTS_BUNDESSANS_BOLD = "BundesSansDTPBold";
 export const PDF_MARGIN_VERTICAL = 50;
 export const PDF_MARGIN_HORIZONTAL = 70;
 export const PDF_HEIGHT_SEIZE = 780;
 export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
-const bundesSansWebRegular = await readRelativeFileToBuffer(
-  "public/fonts/BundesSansWeb-Regular.woff",
+const bundesSansDTPRegular = await readRelativeFileToBuffer(
+  "public/fonts/BundesSans-DTP-Regular.otf",
 );
-const bundesSansWebBold = await readRelativeFileToBuffer(
-  "public/fonts/BundesSansWeb-Bold.woff",
+const bundesSansDTPBold = await readRelativeFileToBuffer(
+  "public/fonts/BundesSans-DTP-Bold.otf",
 );
 
 export const createPdfKitDocument = () => {
@@ -44,8 +44,8 @@ export const createPdfKitDocument = () => {
   });
 
   // Register fonts
-  document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansWebRegular);
-  document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansWebBold);
+  document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansDTPRegular);
+  document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansDTPBold);
   document.lineGap(LINE_GAP_GLOBAL);
 
   return document;
