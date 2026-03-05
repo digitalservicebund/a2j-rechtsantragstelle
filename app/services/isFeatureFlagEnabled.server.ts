@@ -9,8 +9,8 @@ const localFeatureFlags = {
   showKernUX: false,
   showAutoSummary: false,
   showPkontoAntragFlow: false,
-  showErbscheinWegweiser: true,
-  showErbscheinNachlassgericht: true,
+  showErbscheinWegweiser: false,
+  showErbscheinNachlassgericht: false,
   showNachbefragung: false,
 } as const;
 
