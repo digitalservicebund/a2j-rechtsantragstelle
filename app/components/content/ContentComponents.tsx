@@ -267,7 +267,7 @@ function ContentComponents({
           pt={getPaddingTop(el, showKernUX)}
           pb={getPaddingBottom(el, showKernUX)}
           className={classNames(getContainerBackgroundColor(el, showKernUX), {
-            "mb-40": isKernHero
+            "mb-40": isKernHero,
           })}
           key={`${el.__component}_${el.id}`}
         >
