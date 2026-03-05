@@ -252,7 +252,6 @@ function ContentComponents({
       const isUserFeedback =
         el.__component === "page.user-feedback" && !showKernUX;
       const isKernBox = el.__component === "page.box" && showKernUX;
-      const isKernHero = el.__component === "page.hero" && showKernUX;
 
       if (managedByParent) {
         return (
@@ -266,9 +265,7 @@ function ContentComponents({
         <GridSection
           pt={getPaddingTop(el, showKernUX)}
           pb={getPaddingBottom(el, showKernUX)}
-          className={classNames(getContainerBackgroundColor(el, showKernUX), {
-            "mb-40": isKernHero,
-          })}
+          className={getContainerBackgroundColor(el, showKernUX)}
           key={`${el.__component}_${el.id}`}
         >
           <Grid
