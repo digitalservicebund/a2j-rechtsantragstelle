@@ -180,7 +180,7 @@ export const klageErstellenXstateConfig = {
               },
               {
                 guard: ({ context }) => context.beweiseAngebot === "no",
-                target: steps.prozessfuehrungProzesszinsen.absolute,
+                target: steps.prozessfuehrungAnwaltskosten.absolute,
               },
             ],
             BACK: steps.sachverhaltBegruendung.absolute,
@@ -191,7 +191,7 @@ export const klageErstellenXstateConfig = {
             SUBMIT: {
               guard: ({ context }) =>
                 objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
-              target: steps.prozessfuehrungProzesszinsen.absolute,
+              target: steps.prozessfuehrungAnwaltskosten.absolute,
             },
             BACK: steps.beweiseAngebot.relative,
           },

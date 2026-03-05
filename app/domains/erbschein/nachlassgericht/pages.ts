@@ -1,7 +1,9 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const erbscheinNachlassgerichtPages = {
   start: {
@@ -16,16 +18,16 @@ export const erbscheinNachlassgerichtPages = {
   auslaendischerErbfall: {
     stepId: "ergebnis/auslaendische-erbfaelle",
   },
-  wohnsituation: {
-    stepId: "wohnsituation",
+  wohnsituationPflegeheim: {
+    stepId: "wohnsituation-pflegeheim",
     pageSchema: {
-      wohnsituation: z.enum(["wohnungOderHaus", "pflegeheim", "hospiz"]),
+      wohnsituationPflegeheim: YesNoAnswer,
     },
   },
-  plzWohnungOderHaus: {
-    stepId: "plz-wohnung-oder-haus",
+  wohnsituationHospiz: {
+    stepId: "wohnsituation-hospiz",
     pageSchema: {
-      plzWohnungOderHaus: postcodeSchema,
+      wohnsituationHospiz: YesNoAnswer,
     },
   },
   plzPflegeheim: {
@@ -40,11 +42,17 @@ export const erbscheinNachlassgerichtPages = {
       plzHospiz: postcodeSchema,
     },
   },
+  plzLebensmittelpunkt: {
+    stepId: "plz-lebensmittelpunkt",
+    pageSchema: {
+      plzLebensmittelpunkt: postcodeSchema,
+    },
+  },
   strasseHausnummer: {
     stepId: "strasse-hausnummer",
     pageSchema: {
       strasse: stringRequiredSchema,
-      houseNumber: stringRequiredSchema,
+      houseNumber: germanHouseNumberSchema,
     },
   },
   nachlassgerichtErgebnis: {

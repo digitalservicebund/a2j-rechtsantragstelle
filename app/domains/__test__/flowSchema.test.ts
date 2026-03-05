@@ -21,12 +21,14 @@ import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
 import { erbscheinWegweiserTestCases } from "~/domains/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { erbscheinNachlassgerichtTestCases } from "~/domains/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
   erbscheinWegweiserTestCases,
+  erbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
 };
