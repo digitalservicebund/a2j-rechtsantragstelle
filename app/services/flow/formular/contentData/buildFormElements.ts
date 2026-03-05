@@ -1,40 +1,50 @@
+import type z from "zod";
 import type { UserDataWithPageData } from "../../pageData";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
-
-type FormElement = CMSContent["formContent"][number];
+import { type StrapiAutoSuggestInputComponentSchema } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 
 const addDataListArgumentToAutoSuggestionInput = (
-  element: FormElement,
+  autoSuggestProps: z.infer<typeof StrapiAutoSuggestInputComponentSchema>,
   userDataWithPageData: UserDataWithPageData,
 ) => {
+  let dataListArgument = undefined;
+
+  if (typeof userDataWithPageData?.plz === "string") {
+    dataListArgument = userDataWithPageData.plz;
+  }
+
+  // for /erbschein/nachlassgericht/plz-wohnung-oder-haus
+  if (typeof userDataWithPageData?.plzWohnungOderHaus === "string") {
+    dataListArgument = userDataWithPageData.plzWohnungOderHaus;
+  }
+
+  // for /erbschein/nachlassgericht/plz-pflegeheim
+  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+    dataListArgument = userDataWithPageData.plzPflegeheim;
+  }
+
+  // for /erbschein/nachlassgericht/plz-hospiz
+  if (typeof userDataWithPageData?.plzHospiz === "string") {
+    dataListArgument = userDataWithPageData.plzHospiz;
+  }
+
+  // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
   if (
-    element.__component === "form-elements.auto-suggest-input" &&
-    element.dataList === "streetNames"
+    autoSuggestProps.name === "strasseBeklagte" &&
+    typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string"
   ) {
-    let dataListArgument = undefined;
+    dataListArgument = userDataWithPageData.postleitzahlBeklagtePerson;
+  }
+  // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
+  if (
+    autoSuggestProps.name === "strasseSekundaer" &&
+    typeof userDataWithPageData?.postleitzahlSecondary === "string"
+  ) {
+    dataListArgument = userDataWithPageData.postleitzahlSecondary;
+  }
 
-    if (typeof userDataWithPageData?.plz === "string") {
-      dataListArgument = userDataWithPageData.plz;
-    }
-
-    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
-    if (
-      element.name === "strasseBeklagte" &&
-      typeof userDataWithPageData?.postleitzahlBeklagtePerson === "string"
-    ) {
-      dataListArgument = userDataWithPageData.postleitzahlBeklagtePerson;
-    }
-    // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer
-    if (
-      element.name === "strasseSekundaer" &&
-      typeof userDataWithPageData?.postleitzahlSecondary === "string"
-    ) {
-      dataListArgument = userDataWithPageData.postleitzahlSecondary;
-    }
-
-    if (dataListArgument) {
-      element.dataListArgument = dataListArgument;
-    }
+  if (dataListArgument) {
+    autoSuggestProps.dataListArgument = dataListArgument;
   }
 };
 
@@ -45,7 +55,12 @@ export const buildFormElements = (
   formContent.map((element) => {
     if (element.__component === "form-elements.select" && heading)
       element.altLabel = heading;
-    addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
+    if (
+      element.__component === "form-elements.auto-suggest-input" &&
+      element.dataList === "streetNames"
+    ) {
+      addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
+    }
 
     return element;
   });
