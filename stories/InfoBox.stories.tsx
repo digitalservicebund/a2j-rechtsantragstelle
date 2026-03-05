@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Container from "../app/components/layout/Container";
 import InfoBox, { type InfoBoxProps } from "~/components/content/InfoBox";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import imgUrl from "./assets/bmj_logo.png";
 
 const meta = {
   title: "Content/InfoBox",
@@ -57,7 +57,7 @@ export const WithImage: Story = {
         label: { text: "Label", look: "ds-label-01-reg" },
         headline: { text: "Headline", look: "ds-heading-03-reg" },
         image: {
-          url: bucketUrl + "/bmj_logo_3fd953f074.png",
+          url: imgUrl,
           width: 240,
           height: 132,
           alternativeText: "Logo des Bundesministerium der Justiz",
