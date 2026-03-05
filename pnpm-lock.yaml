@@ -117,11 +117,11 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.356.1
-        version: 1.356.1
+        specifier: 1.356.2
+        version: 1.356.2
       posthog-node:
-        specifier: 5.26.0
-        version: 5.26.0
+        specifier: 5.26.1
+        version: 5.26.1
       rate-limit-redis:
         specifier: ^4.3.1
         version: 4.3.1(express-rate-limit@8.2.1(express@5.2.1))
@@ -256,8 +256,8 @@ importers:
         specifier: ^5.85.0
         version: 5.85.0(@types/node@24.11.0)(typescript@5.9.3)
       lefthook:
-        specifier: ^2.1.1
-        version: 2.1.1
+        specifier: ^2.1.2
+        version: 2.1.2
       license-checker-rseidelsohn:
         specifier: ^4.4.2
         version: 4.4.2
@@ -1072,6 +1072,12 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
+  '@opentelemetry/core@2.6.0':
+    resolution: {integrity: sha512-HLM1v2cbZ4TgYN6KEOj+Bbj8rAKriOdkF9Ed3tG25FoprSiQl7kYc+RRT6fUZGOvx0oMi5U67GoFdT+XUn8zEg==}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.10.0'
+
   '@opentelemetry/exporter-logs-otlp-http@0.208.0':
     resolution: {integrity: sha512-jOv40Bs9jy9bZVLo/i8FwUiuCvbjWDI+ZW13wimJm4LjnlwJxGgB+N/VWOZUTpM+ah/awXeQqKdNlpLf2EjvYg==}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -1252,6 +1258,12 @@ packages:
 
   '@opentelemetry/resources@2.5.1':
     resolution: {integrity: sha512-BViBCdE/GuXRlp9k7nS1w6wJvY5fnFX5XvuEtWsTAOQFIO89Eru7lGW3WbfbxtCuZ/GbrJfAziXG0w0dpxL7eQ==}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.3.0 <1.10.0'
+
+  '@opentelemetry/resources@2.6.0':
+    resolution: {integrity: sha512-D4y/+OGe3JSuYUCBxtH5T9DSAWNcvCb/nQWIga8HNtXTVPQn59j0nTBAgaAXxUVBDl40mG3Tc76b46wPlZaiJQ==}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
@@ -1548,8 +1560,8 @@ packages:
   '@posthog/core@1.23.1':
     resolution: {integrity: sha512-GViD5mOv/mcbZcyzz3z9CS0R79JzxVaqEz4sP5Dsea178M/j3ZWe6gaHDZB9yuyGfcmIMQ/8K14yv+7QrK4sQQ==}
 
-  '@posthog/types@1.356.1':
-    resolution: {integrity: sha512-miIUjs4LiBDMOxKkC87HEJLIih0pNGMAjxx+mW4X7jLpN41n0PLMW7swRE6uuxcMV0z3H6MllRSCYmsokkyfuQ==}
+  '@posthog/types@1.356.2':
+    resolution: {integrity: sha512-KRrOv1c1rJpEh0rt7ZGZqIVGao72ONl0N2vkI3NwVzrazXRnEBp9PGx5/BCqayOaCC0hreMAA4Im0aYWpAw+sQ==}
 
   '@prisma/instrumentation@7.2.0':
     resolution: {integrity: sha512-Rh9Z4x5kEj1OdARd7U18AtVrnL6rmLSI0qYShaB4W7Wx5BKbgzndWF+QnuzMb7GLfVdlT5aYCXoPQVYuYtVu0g==}
@@ -3478,58 +3490,58 @@ packages:
       '@types/node': '>=18'
       typescript: '>=5.0.4 <7'
 
-  lefthook-darwin-arm64@2.1.1:
-    resolution: {integrity: sha512-O/RS1j03/Fnq5zCzEb2r7UOBsqPeBuf1C5pMkIJcO4TSE6hf3rhLUkcorKc2M5ni/n5zLGtzQUXHV08/fSAT3Q==}
+  lefthook-darwin-arm64@2.1.2:
+    resolution: {integrity: sha512-AgHu93YuJtj1l9bcKlCbo4Tg8N8xFl9iD6BjXCGaGMu46LSjFiXbJFlkUdpgrL8fIbwoCjJi5FNp3POpqs4Wdw==}
     cpu: [arm64]
     os: [darwin]
 
-  lefthook-darwin-x64@2.1.1:
-    resolution: {integrity: sha512-mm/kdKl81ROPoYnj9XYk5JDqj+/6Al8w/SSPDfhItkLJyl4pqS+hWUOP6gDGrnuRk8S0DvJ2+hzhnDsQnZohWQ==}
+  lefthook-darwin-x64@2.1.2:
+    resolution: {integrity: sha512-exooc9Ectz13OLJJOXM9AzaFQbqzf9QCF8JuVvGfbr4RYABYK+BwwtydjlPQrA76/n/h4tsS11MH5bBULnLkYA==}
     cpu: [x64]
     os: [darwin]
 
-  lefthook-freebsd-arm64@2.1.1:
-    resolution: {integrity: sha512-F7JXlKmjxGqGbCWPLND0bVB4DMQezIe48pEwTlUQZbxh450c2gP5Q8FdttMZKOT163kBGGTqJAJSEC6zW+QSxA==}
+  lefthook-freebsd-arm64@2.1.2:
+    resolution: {integrity: sha512-E1QMlJPEU21n9eewv6ePfh+JmoTSg5R1jaYcKCky10kfbMdohNucI3xV91F2LcerE+p3UejKDqr/1wWO2RMGeQ==}
     cpu: [arm64]
     os: [freebsd]
 
-  lefthook-freebsd-x64@2.1.1:
-    resolution: {integrity: sha512-Po8/lJMqNzKSZPuEI46dLuWoBoXtAxCuRpeOh6DAV/M4RhBynaCu8rLMZ9BqF7cVbZEWoplOmYo6HdOuiYpCkQ==}
+  lefthook-freebsd-x64@2.1.2:
+    resolution: {integrity: sha512-/5zp+x8055Thj46x9S7hgnneZxvWhHQvPWkkgISCab1Lh6eLrbxvhE1qTb1lU3DqTnNmH9NeXdq1xPHc9uGluA==}
     cpu: [x64]
     os: [freebsd]
 
-  lefthook-linux-arm64@2.1.1:
-    resolution: {integrity: sha512-mI2ljFgPEqHxI8vrN9nKgnVu63Rz1KisDbPwlvs7BTYNwq3sncdK5ukpGR4zzWdh6saNJ5tCtHEtep5GQI11nw==}
+  lefthook-linux-arm64@2.1.2:
+    resolution: {integrity: sha512-UK5FvDTkwKO7tOznY8iEZzuTsM1jXMZAG5BMRs7olN1k1K6m2unR6oKABP0hCd0wDErK6DZKDJDJfB564Rzqtw==}
     cpu: [arm64]
     os: [linux]
 
-  lefthook-linux-x64@2.1.1:
-    resolution: {integrity: sha512-m3G/FaxC+crxeg9XeaUuHfEoL+i9gbkg2Hp2KD2IcVVIxprqlyqf0Hb8zbLV2NMXuo5RSGokJu44oAoTO3Ou2g==}
+  lefthook-linux-x64@2.1.2:
+    resolution: {integrity: sha512-4eOtz4PNh8GbJ+nA8YVDfW/eMirQWdZqMP/V/MVtoVBGobf6oXvvuDOySvAPOgNYEFN0Boegytmuji/851Vstg==}
     cpu: [x64]
     os: [linux]
 
-  lefthook-openbsd-arm64@2.1.1:
-    resolution: {integrity: sha512-gz/8FJPvhjOdOFt1GmFvuvDOe+W+BBRjoeAT1/mTgkN7HCXMXgqNjjvakQKQeGz1I1v08wXG1ZNf5y+T9XBCDQ==}
+  lefthook-openbsd-arm64@2.1.2:
+    resolution: {integrity: sha512-lJXRJ6iJIBKwomuNBA3CUNSclj2/rKuxGAQoUra214B92VB6jL9zaY5YEs6h/ie9jQrzSnllEeg7xyDIsuVCrQ==}
     cpu: [arm64]
     os: [openbsd]
 
-  lefthook-openbsd-x64@2.1.1:
-    resolution: {integrity: sha512-ch3lyMUtbmtWUufaQVn4IoEs/2hjK51XqaCdY1mh5ca//VctR1peknIwQ5feHu+vATCDviWQ7HsdNDewm3HMPg==}
+  lefthook-openbsd-x64@2.1.2:
+    resolution: {integrity: sha512-GyOje4W0DIqkmR7/Of5D+mZ0vWqMvtGAVedtJR6d1239xNeMzCS8Q+/a3O1xigceZa5xhlqq0BWlssB/QYPQnA==}
     cpu: [x64]
     os: [openbsd]
 
-  lefthook-windows-arm64@2.1.1:
-    resolution: {integrity: sha512-mm3PZhKDs9FE/jQDimkfWxtoj9xQ2k8uw2MdhtC825bhvIh+MEi0WFj/MOW+ug0RBg0I55tGYzZ5aVuozAWpTQ==}
+  lefthook-windows-arm64@2.1.2:
+    resolution: {integrity: sha512-MZKMqTULEpX/8N3fKXAR0A9RjsGKkEEY0japLqrHOIpxsJXry1DRz0FvQo2kkY4WW3rtFegV9m6eesOymuDrUg==}
     cpu: [arm64]
     os: [win32]
 
-  lefthook-windows-x64@2.1.1:
-    resolution: {integrity: sha512-1L2oGIzmhfOTxfwbe5mpSQ+m3ilpvGNymwIhn4UHq6hwHsUL6HEhODqx02GfBn6OXpVIr56bvdBAusjL/SVYGQ==}
+  lefthook-windows-x64@2.1.2:
+    resolution: {integrity: sha512-NZUgObuaSxc0EXAwC/CzkMf7TuQc++GGIk6TLPdaUpoSsNSJSZEwBVz5DtFB1cG+eMkfO/wOKplls+yjimTTtQ==}
     cpu: [x64]
     os: [win32]
 
-  lefthook@2.1.1:
-    resolution: {integrity: sha512-Tl9h9c+sG3ShzTHKuR3LAIblnnh+Mgxnm2Ul7yu9cu260Z27LEbO3V6Zw4YZFP59/2rlD42pt/llYsQCkkCFzw==}
+  lefthook@2.1.2:
+    resolution: {integrity: sha512-HdAMl4g47kbWSkrUkCx3Kucq54omFS6piMJtXwXNtmCAfB40UaybTJuYtFW4hNzZ5SvaEimtxTp7P/MNIkEfsA==}
     hasBin: true
 
   license-checker-rseidelsohn@4.4.2:
@@ -3999,11 +4011,11 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.356.1:
-    resolution: {integrity: sha512-4EQliSyTp3j/xOaWpZmu7fk1b4S+J3qy4JOu5Xy3/MYFxv1SlAylgifRdCbXZxCQWb6PViaNvwRf4EmburgfWA==}
+  posthog-js@1.356.2:
+    resolution: {integrity: sha512-muaUpzGZuCPUSrr9ED5587T6ew27gnf2Y1qje0Ovw2XHgOnWkIynzdziIGqa8wz7wtuWYkm1/Q32MV7/1q1PyQ==}
 
-  posthog-node@5.26.0:
-    resolution: {integrity: sha512-DK1XF/RiunhvT57cFyPxW9OaliZzl5aREHFwY/AISL3MVOaDUb4wIccMn0G3ws3Ounen8iGH7xvzZQ0x2vEOEQ==}
+  posthog-node@5.26.1:
+    resolution: {integrity: sha512-UndYpR54PN0N8hFdRoUz2hQwg/iGZEtNnwL+RI1l0/76lIffnGYDSt2YyoCwmlN206q4angGvVze3oPCfJgiYA==}
     engines: {node: ^20.20.0 || >=22.22.0}
 
   preact@10.28.4:
@@ -5963,6 +5975,11 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.39.0
 
+  '@opentelemetry/core@2.6.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/semantic-conventions': 1.40.0
+
   '@opentelemetry/exporter-logs-otlp-http@0.208.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -6221,6 +6238,12 @@ snapshots:
       '@opentelemetry/core': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.40.0
 
+  '@opentelemetry/resources@2.6.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.40.0
+
   '@opentelemetry/sdk-logs@0.208.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -6401,7 +6424,7 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  '@posthog/types@1.356.1': {}
+  '@posthog/types@1.356.2': {}
 
   '@prisma/instrumentation@7.2.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -6725,7 +6748,7 @@ snapshots:
 
   '@sentry/core@10.40.0': {}
 
-  '@sentry/node-core@10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0))(@opentelemetry/resources@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)':
+  '@sentry/node-core@10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0))(@opentelemetry/resources@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)':
     dependencies:
       '@sentry/core': 10.40.0
       '@sentry/opentelemetry': 10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)
@@ -6735,7 +6758,7 @@ snapshots:
       '@opentelemetry/context-async-hooks': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/core': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.211.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.6.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.40.0
 
@@ -6768,12 +6791,12 @@ snapshots:
       '@opentelemetry/instrumentation-redis': 0.59.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-tedious': 0.30.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-undici': 0.21.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.6.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.40.0
       '@prisma/instrumentation': 7.2.0(@opentelemetry/api@1.9.0)
       '@sentry/core': 10.40.0
-      '@sentry/node-core': 10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0))(@opentelemetry/resources@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)
+      '@sentry/node-core': 10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0))(@opentelemetry/resources@2.6.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)
       '@sentry/opentelemetry': 10.40.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.40.0)
       import-in-the-middle: 2.0.6
     transitivePeerDependencies:
@@ -8520,48 +8543,48 @@ snapshots:
       typescript: 5.9.3
       zod: 4.3.6
 
-  lefthook-darwin-arm64@2.1.1:
+  lefthook-darwin-arm64@2.1.2:
     optional: true
 
-  lefthook-darwin-x64@2.1.1:
+  lefthook-darwin-x64@2.1.2:
     optional: true
 
-  lefthook-freebsd-arm64@2.1.1:
+  lefthook-freebsd-arm64@2.1.2:
     optional: true
 
-  lefthook-freebsd-x64@2.1.1:
+  lefthook-freebsd-x64@2.1.2:
     optional: true
 
-  lefthook-linux-arm64@2.1.1:
+  lefthook-linux-arm64@2.1.2:
     optional: true
 
-  lefthook-linux-x64@2.1.1:
+  lefthook-linux-x64@2.1.2:
     optional: true
 
-  lefthook-openbsd-arm64@2.1.1:
+  lefthook-openbsd-arm64@2.1.2:
     optional: true
 
-  lefthook-openbsd-x64@2.1.1:
+  lefthook-openbsd-x64@2.1.2:
     optional: true
 
-  lefthook-windows-arm64@2.1.1:
+  lefthook-windows-arm64@2.1.2:
     optional: true
 
-  lefthook-windows-x64@2.1.1:
+  lefthook-windows-x64@2.1.2:
     optional: true
 
-  lefthook@2.1.1:
+  lefthook@2.1.2:
     optionalDependencies:
-      lefthook-darwin-arm64: 2.1.1
-      lefthook-darwin-x64: 2.1.1
-      lefthook-freebsd-arm64: 2.1.1
-      lefthook-freebsd-x64: 2.1.1
-      lefthook-linux-arm64: 2.1.1
-      lefthook-linux-x64: 2.1.1
-      lefthook-openbsd-arm64: 2.1.1
-      lefthook-openbsd-x64: 2.1.1
-      lefthook-windows-arm64: 2.1.1
-      lefthook-windows-x64: 2.1.1
+      lefthook-darwin-arm64: 2.1.2
+      lefthook-darwin-x64: 2.1.2
+      lefthook-freebsd-arm64: 2.1.2
+      lefthook-freebsd-x64: 2.1.2
+      lefthook-linux-arm64: 2.1.2
+      lefthook-linux-x64: 2.1.2
+      lefthook-openbsd-arm64: 2.1.2
+      lefthook-openbsd-x64: 2.1.2
+      lefthook-windows-arm64: 2.1.2
+      lefthook-windows-x64: 2.1.2
 
   license-checker-rseidelsohn@4.4.2:
     dependencies:
@@ -8995,15 +9018,15 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.356.1:
+  posthog-js@1.356.2:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.208.0
       '@opentelemetry/exporter-logs-otlp-http': 0.208.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.6.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs': 0.208.0(@opentelemetry/api@1.9.0)
       '@posthog/core': 1.23.1
-      '@posthog/types': 1.356.1
+      '@posthog/types': 1.356.2
       core-js: 3.48.0
       dompurify: 3.3.1
       fflate: 0.4.8
@@ -9011,7 +9034,7 @@ snapshots:
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.1.0
 
-  posthog-node@5.26.0:
+  posthog-node@5.26.1:
     dependencies:
       '@posthog/core': 1.23.1
 
