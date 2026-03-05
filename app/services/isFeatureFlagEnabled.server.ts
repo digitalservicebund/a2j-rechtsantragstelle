@@ -10,6 +10,7 @@ const localFeatureFlags = {
   showAutoSummary: false,
   showPkontoAntragFlow: false,
   showErbscheinWegweiser: false,
+  showErbscheinNachlassgericht: false,
   showNachbefragung: false,
 } as const;
 

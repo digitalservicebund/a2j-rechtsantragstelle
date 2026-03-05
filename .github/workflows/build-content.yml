@@ -18,6 +18,7 @@ jobs:
         env:
           STRAPI_API: "${{ vars.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
+          CMS_MEDIA_STORAGE_URL: https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com
       - run: echo "content_file_size_mb=$(stat -c %s content.json | numfmt --to=iec | grep -Po '\d+')" >> $GITHUB_OUTPUT
         id: contentFileSize
       - name: Alert slack channel upon high content file size
@@ -58,7 +59,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}

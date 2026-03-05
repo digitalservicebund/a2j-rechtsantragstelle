@@ -14,3 +14,5 @@ export const StrapiVorabCheckPageSchema = z.object({
   ...HasStrapiLocaleSchema.shape,
   pageTitle: z.string(),
 });
+
+export type StrapiVorabCheckPage = z.infer<typeof StrapiVorabCheckPageSchema>;
