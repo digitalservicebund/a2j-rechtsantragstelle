@@ -30,6 +30,8 @@ export { VorabcheckPage as default } from "~/routes/shared/components/Vorabcheck
 import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";
+import { structureCmsContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -62,7 +64,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   // Inject heading into <legend> inside radio groups
   // TODO: only do for pages with *one* select?
   const headings = cmsContent.pre_form.filter(isStrapiHeadingComponent);
-  const formElements = vorabcheckPage.form.map((strapiFormElement) => {
+  const formElements = buildFormElements(
+    structureCmsContent(cmsContent),
+    userData,
+  ).map((strapiFormElement) => {
     if (
       isStrapiSelectComponent(strapiFormElement) &&
       !strapiFormElement.label &&
