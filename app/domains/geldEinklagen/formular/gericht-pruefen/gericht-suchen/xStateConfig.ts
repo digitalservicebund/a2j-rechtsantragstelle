@@ -6,6 +6,7 @@ import type {
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import {
+  shouldVisitPilotGerichtAuswahl,
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
@@ -26,7 +27,9 @@ const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklage
     },
     {
       guard: ({ context }) =>
-        getPilotCourts(context).length === 2 && doneGerichtSuchen({ context }),
+        shouldVisitPilotGerichtAuswahl({ context }) &&
+        getPilotCourts(context).length === 2 &&
+        doneGerichtSuchen({ context }),
       target: steps.zustaendigesGerichtPilotGerichtAuswahl.absolute,
     },
     {

@@ -71,6 +71,21 @@ export const testCasesZustaendigesGericht = [
   [
     {
       ...baseContext,
+      mietePachtVertrag: "no",
+      klagendeVerbraucher: "yes",
+      klagendeHaustuergeschaeft: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/klage-erstellen/intro/start",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeVerbraucher: "yes",
