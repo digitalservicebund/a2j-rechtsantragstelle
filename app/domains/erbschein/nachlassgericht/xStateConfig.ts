@@ -20,7 +20,7 @@ export const erbscheinNachlassgerichtXstateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.lebensmittelpunkt === "deutschland",
-            target: stepIds.wohnsituation,
+            target: stepIds.wohnsituationPflegeheim,
           },
           stepIds.auslaendischerErbfall,
         ],
@@ -31,41 +31,21 @@ export const erbscheinNachlassgerichtXstateConfig = {
         BACK: stepIds.lebensmittelpunkt,
       },
     },
-    [stepIds.wohnsituation]: {
+    [stepIds.wohnsituationPflegeheim]: {
       on: {
         BACK: stepIds.lebensmittelpunkt,
         SUBMIT: [
           {
-            guard: ({ context }) => context.wohnsituation === "wohnungOderHaus",
-            target: stepIds.plzWohnungOderHaus,
-          },
-          {
-            guard: ({ context }) => context.wohnsituation === "pflegeheim",
+            guard: ({ context }) => context.wohnsituationPflegeheim === "yes",
             target: stepIds.plzPflegeheim,
           },
-          stepIds.plzHospiz,
-        ],
-      },
-    },
-    [stepIds.plzWohnungOderHaus]: {
-      on: {
-        BACK: stepIds.wohnsituation,
-        SUBMIT: [
-          {
-            guard: ({ context }) =>
-              edgeCasesForPlz(
-                context.plzWohnungOderHaus,
-                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
-              ).length === 0,
-            target: stepIds.nachlassgerichtErgebnis,
-          },
-          stepIds.strasseHausnummer,
+          stepIds.wohnsituationHospiz,
         ],
       },
     },
     [stepIds.plzPflegeheim]: {
       on: {
-        BACK: stepIds.wohnsituation,
+        BACK: stepIds.wohnsituationPflegeheim,
         SUBMIT: [
           {
             guard: ({ context }) =>
@@ -79,9 +59,21 @@ export const erbscheinNachlassgerichtXstateConfig = {
         ],
       },
     },
+    [stepIds.wohnsituationHospiz]: {
+      on: {
+        BACK: stepIds.wohnsituationPflegeheim,
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.wohnsituationHospiz === "yes",
+            target: stepIds.plzHospiz,
+          },
+          stepIds.plzLebensmittelpunkt,
+        ],
+      },
+    },
     [stepIds.plzHospiz]: {
       on: {
-        BACK: stepIds.wohnsituation,
+        BACK: stepIds.wohnsituationHospiz,
         SUBMIT: [
           {
             guard: ({ context }) =>
@@ -95,18 +87,36 @@ export const erbscheinNachlassgerichtXstateConfig = {
         ],
       },
     },
+    [stepIds.plzLebensmittelpunkt]: {
+      on: {
+        BACK: stepIds.wohnsituationHospiz,
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              edgeCasesForPlz(
+                context.plzLebensmittelpunkt,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length === 0,
+            target: stepIds.nachlassgerichtErgebnis,
+          },
+          stepIds.strasseHausnummer,
+        ],
+      },
+    },
     [stepIds.strasseHausnummer]: {
       on: {
         BACK: [
           {
-            guard: ({ context }) => context.wohnsituation === "wohnungOderHaus",
-            target: stepIds.plzWohnungOderHaus,
+            guard: ({ context }) =>
+              context.wohnsituationHospiz === "no" &&
+              context.wohnsituationPflegeheim === "no",
+            target: stepIds.plzLebensmittelpunkt,
           },
           {
-            guard: ({ context }) => context.wohnsituation === "pflegeheim",
-            target: stepIds.plzPflegeheim,
+            guard: ({ context }) => context.wohnsituationHospiz === "yes",
+            target: stepIds.plzHospiz,
           },
-          stepIds.plzHospiz,
+          stepIds.plzPflegeheim,
         ],
         SUBMIT: stepIds.nachlassgerichtErgebnis,
       },
@@ -117,22 +127,24 @@ export const erbscheinNachlassgerichtXstateConfig = {
           {
             guard: ({ context }) =>
               edgeCasesForPlz(
-                context.plzWohnungOderHaus ??
+                context.plzLebensmittelpunkt ??
+                  context.plzHospiz ??
                   context.plzPflegeheim ??
-                  context.plzHospiz,
-                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+                  ANGELEGENHEIT_INFO.NACHLASSSACHEN,
               ).length > 0,
             target: stepIds.strasseHausnummer,
           },
           {
-            guard: ({ context }) => context.wohnsituation === "wohnungOderHaus",
-            target: stepIds.plzWohnungOderHaus,
+            guard: ({ context }) =>
+              context.wohnsituationHospiz === "no" &&
+              context.wohnsituationPflegeheim === "no",
+            target: stepIds.plzLebensmittelpunkt,
           },
           {
-            guard: ({ context }) => context.wohnsituation === "pflegeheim",
-            target: stepIds.plzPflegeheim,
+            guard: ({ context }) => context.wohnsituationHospiz === "yes",
+            target: stepIds.plzHospiz,
           },
-          stepIds.plzHospiz,
+          stepIds.plzPflegeheim,
         ],
       },
     },

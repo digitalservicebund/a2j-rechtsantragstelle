@@ -7,13 +7,15 @@ export const getAmtsgerichtStrings = (
   userData: ErbscheinNachlassGerichtUserData,
 ) => {
   if (
-    !userData.plzWohnungOderHaus &&
-    !userData.plzPflegeheim &&
-    !userData.plzHospiz
+    !userData.plzLebensmittelpunkt &&
+    !userData.plzHospiz &&
+    !userData.plzPflegeheim
   )
     return {};
   const zipCode =
-    userData.plzWohnungOderHaus ?? userData.plzPflegeheim ?? userData.plzHospiz;
+    userData.plzLebensmittelpunkt ??
+    userData.plzHospiz ??
+    userData.plzPflegeheim;
   const court = findCourt({
     zipCode,
     streetSlug:
