@@ -1,5 +1,7 @@
+import fs from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import PDFDocument from "pdfkit";
-import { readRelativeFileToBuffer } from "./readRelativeFileToBuffer";
 
 export const PDF_VERSION = "1.7";
 export const PDF_LANGUAGE = "de-DE";
@@ -12,11 +14,13 @@ export const PDF_HEIGHT_SEIZE = 780;
 export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
-const bundesSansDTPRegular = await readRelativeFileToBuffer(
-  "public/fonts/BundesSans-DTP-Regular.otf",
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const bundesSansDTPRegular = fs.readFileSync(
+  join(__dirname, "fonts", "BundesSans-DTP-Regular.otf"),
 );
-const bundesSansDTPBold = await readRelativeFileToBuffer(
-  "public/fonts/BundesSans-DTP-Bold.otf",
+const bundesSansDTPBold = fs.readFileSync(
+  join(__dirname, "fonts", "BundesSans-DTP-Bold.otf"),
 );
 
 export const createPdfKitDocument = () => {
