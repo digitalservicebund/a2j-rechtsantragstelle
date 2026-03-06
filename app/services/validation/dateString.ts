@@ -59,11 +59,5 @@ export const childBirthdaySchema = createDateSchema({
 
 export function toDate(date: string) {
   const [day, month, year] = date.split(".").map(Number);
-  return new Date(Date.UTC(year, month - 1, Number(day)));
-}
-
-export function convertToTimestamp(date: string, time: string): number {
-  const [day, month, year] = date.split(".").map(Number);
-  const [hours, minutes] = time.split(":").map(Number);
-  return new Date(year, month - 1, day, hours, minutes).getTime();
+  return new Date(year, month - 1, day);
 }
