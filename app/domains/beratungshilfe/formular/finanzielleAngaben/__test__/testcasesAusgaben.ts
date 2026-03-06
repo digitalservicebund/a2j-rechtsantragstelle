@@ -77,7 +77,9 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben/0/zahlungsfrist",
-      userInput: { "ausgaben#zahlungsfrist": "01.01.2050" },
+      userInput: {
+        "ausgaben#zahlungsfrist": { day: "01", month: "01", year: "2050" },
+      },
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],

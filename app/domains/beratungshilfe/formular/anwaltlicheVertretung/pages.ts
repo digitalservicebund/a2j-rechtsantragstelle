@@ -1,5 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createDateSchema } from "~/services/validation/date";
+import { createSplitDateSchema } from "~/services/validation/date";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -20,7 +20,7 @@ export const berHAntragAnwaltlicheVertretungPages = {
   beratungStattgefundenDatum: {
     stepId: "anwaltliche-vertretung/beratung-stattgefunden-datum",
     pageSchema: {
-      beratungStattgefundenDatum: createDateSchema(),
+      beratungStattgefundenDatum: createSplitDateSchema(),
     },
   },
   fristHinweis: {

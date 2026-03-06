@@ -7,6 +7,7 @@ import {
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "../types";
+import { toDateStringFromSplitDate } from "~/services/validation/date";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 19;
@@ -56,23 +57,30 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
     pdfValues.g21.value = SEE_IN_ATTACHMENT_DESCRIPTION;
     attachment.push({ title: AUSGABEN_ATTACHMENT_TITLE, level: "h2" });
     ausgaben.forEach((ausgabe, index) => {
-      attachment.push({
-        title: `Ausgabe ${index + 1}`,
-        level: "h3",
-      });
-      attachment.push({ title: "Art der Ausgabe", text: ausgabe.art });
-      attachment.push({
-        title: "Zahlungsempfänger",
-        text: ausgabe.zahlungsempfaenger,
-      });
-      attachment.push({
-        title: "Monatliche Zahlung in Euro",
-        text: ausgabe.beitrag,
-      });
+      attachment.push(
+        {
+          title: `Ausgabe ${index + 1}`,
+          level: "h3",
+        },
+        { title: "Art der Ausgabe", text: ausgabe.art },
+        {
+          title: "Zahlungsempfänger",
+          text: ausgabe.zahlungsempfaenger,
+        },
+        {
+          title: "Monatliche Zahlung in Euro",
+          text: ausgabe.beitrag,
+        },
+      );
       if ("zahlungsfrist" in ausgabe) {
         attachment.push({
           title: "Raten laufen bis",
-          text: ausgabe.zahlungsfrist,
+          text:
+            ausgabe.zahlungsfrist.day +
+            "." +
+            ausgabe.zahlungsfrist.month +
+            "." +
+            ausgabe.zahlungsfrist.year,
         });
       }
     });
@@ -96,6 +104,13 @@ function fillAusgabenInPDF(
     const beitragKey = `g7Zahlung${index}` as keyof BeratungshilfePDF;
     const hasFrist = ausgabe?.hasZahlungsfrist === "yes";
 
+    const formatDate = (date?: {
+      day: string;
+      month: string;
+      year: string;
+    }): string | undefined =>
+      date ? toDateStringFromSplitDate(date) : undefined;
+
     if (artKey in pdfValues) {
       pdfValues[artKey].value = ausgabe.art;
     }
@@ -103,7 +118,7 @@ function fillAusgabenInPDF(
       pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfValues) {
-      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+      pdfValues[zahlungsfristKey].value = formatDate(ausgabe.zahlungsfrist);
     }
     if (beitragKey in pdfValues) {
       pdfValues[beitragKey].value = ausgabe.beitrag;

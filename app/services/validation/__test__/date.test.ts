@@ -79,7 +79,7 @@ describe("date split input validation", () => {
   });
 
   describe("failing cases", () => {
-    const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
+    const invalid_birthdate = "Bitte geben Sie ein gültiges Datum ein.";
     const input_required = "Diese Felder müssen ausgefüllt werden.";
 
     const cases = [
@@ -117,7 +117,7 @@ describe("date split input validation", () => {
           year: "2500",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum muss in der Vergangenheit liegen.",
+        errorMessage: "Datum muss in der Vergangenheit liegen.",
       },
       {
         input: {
@@ -126,7 +126,7 @@ describe("date split input validation", () => {
           year: "1800",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+        errorMessage: "Datum älter als 150 Jahre ist nicht relevant.",
       },
       {
         input: {
@@ -134,7 +134,7 @@ describe("date split input validation", () => {
           month: "2",
           year: "2020",
         },
-        errorPath: "geburtsdatum",
+        errorPath: "year",
         errorMessage: invalid_birthdate,
       },
       {
@@ -189,7 +189,7 @@ describe("date split input validation", () => {
           year: "-2000",
         },
         errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+        errorMessage: "Datum älter als 150 Jahre ist nicht relevant.",
       },
     ];
 
