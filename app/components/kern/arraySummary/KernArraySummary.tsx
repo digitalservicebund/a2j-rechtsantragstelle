@@ -5,7 +5,7 @@ import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
-import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
+import KernArraySummaryDataItems from "./KernArraySummaryDataItems";
 import { type KernHeadingProps } from "../KernHeading";
 
 type ArraySummaryProps = Readonly<{
