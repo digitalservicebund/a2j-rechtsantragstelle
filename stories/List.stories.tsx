@@ -3,7 +3,7 @@ import List from "~/components/content/list/List";
 import Background from "../app/components/layout/Background";
 import Container from "../app/components/layout/Container";
 import { faker } from "@faker-js/faker";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import imgUrl from "./assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
   title: "Content/List",
@@ -45,7 +45,7 @@ export const Example: Story = {
         },
         content: faker.lorem.paragraph(),
         image: {
-          url: bucketUrl + "/1_Rechtliche_Unterstuetzung_904342381e.svg",
+          url: imgUrl,
           alternativeText: "Example SVG marker",
           width: 40,
           height: 40,

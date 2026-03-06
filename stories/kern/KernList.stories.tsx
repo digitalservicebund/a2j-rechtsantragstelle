@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import KernList from "~/components/kern/KernList";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import imgUrl from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
   title: "kern/KernList",
@@ -45,7 +45,7 @@ export const Example: Story = {
         },
         content: faker.lorem.paragraph(),
         image: {
-          url: bucketUrl + "/1_Rechtliche_Unterstuetzung_904342381e.svg",
+          url: imgUrl,
           alternativeText: "Example SVG marker",
           width: 40,
           height: 40,

@@ -4,7 +4,8 @@ import KernTile from "~/components/kern/formElements/tile/KernTile";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import img1Url from "../../assets/nichtbefoerderung.svg?no-inline";
+import img2Url from "../../assets/verspaetung.svg?no-inline";
 
 const meta = {
   title: "kern/formElements/KernTile",
@@ -31,55 +32,30 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
-const tileGroupOptionOneProps = {
-  value: "value1",
-  description: "Kachelbeschreibung",
-  title: "Kacheltitel",
-};
-
-const tileGroupOptionTwoProps = {
-  value: "value2",
-  description: "Kachelbeschreibung",
-  title: "Kacheltitel",
-};
-
-const tileGroupProps = {
-  title: "Kacheltitel",
-  name: "Kachelname",
-  errorMessages: undefined,
-  options: [tileGroupOptionOneProps, tileGroupOptionTwoProps],
-  useTwoColumns: false,
-};
-
-const imgUrl1 = bucketUrl + "/nichtbefoerderung_622132fec8.svg";
-const imgUrl2 = bucketUrl + "/verspaetung_3a4c9932b4.svg";
-
-export const TextOnly: Story = {
-  args: { ...tileGroupProps },
-};
-
-export const WithImageAndTag: Story = {
+export const WithImageAndTag: StoryObj<typeof meta> = {
   args: {
-    ...tileGroupProps,
+    name: "tileName",
+    errorMessages: undefined,
     options: [
       {
-        ...tileGroupOptionOneProps,
+        value: "value1",
+        description: "Some random description",
+        title: "Some random title",
       },
       {
-        ...tileGroupOptionOneProps,
-        image: { url: imgUrl1 },
+        value: "value2",
+        description: "Some random description",
+        title: "Some random title",
+        image: { url: img1Url },
       },
       {
-        ...tileGroupOptionOneProps,
-        image: { url: imgUrl1 },
-      },
-      {
-        ...tileGroupOptionTwoProps,
-        image: { url: imgUrl2 },
+        image: { url: img2Url },
+        value: "value3",
+        description: "Some random description",
+        title: "Some random title",
         tagDescription: "Tag description",
       },
     ],
+    useTwoColumns: false,
   },
 };
