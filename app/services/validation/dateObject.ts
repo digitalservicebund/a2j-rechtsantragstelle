@@ -1,6 +1,9 @@
 import z from "zod";
 import { isValidDate } from "./dateString";
 
+const input_required = "Diese Felder müssen ausgefüllt werden.";
+const requiredString = z.string().trim().min(1, input_required);
+
 export const createSplitDateSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
@@ -11,66 +14,60 @@ export const createSplitDateSchema = (args?: {
     );
   }
 
-  const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
-  const input_required = "Diese Felder müssen ausgefüllt werden.";
-
   return z
     .object({
-      day: z
-        .string({ message: input_required })
-        .trim()
-        .min(1, input_required)
+      day: requiredString
         .refine(
           (val) => {
             const num = Number(val);
             return !Number.isNaN(num) && num >= 1 && num <= 31;
           },
-          { message: invalid_birthdate },
-        ),
-      month: z
-        .string({ message: input_required })
-        .trim()
-        .min(1, input_required)
+          { error: "Ungültiger Tag" },
+        )
+        .transform((val) => val.padStart(2, "0")),
+      month: requiredString
         .refine(
           (val) => {
             const num = Number(val);
             return !Number.isNaN(num) && num >= 1 && num <= 12;
           },
-          { message: invalid_birthdate },
-        ),
-      year: z
-        .string({ message: input_required })
-        .trim()
-        .min(1, input_required)
-        .refine(
-          (val) => {
-            const num = Number(val);
-            return !Number.isNaN(num);
-          },
-          { message: invalid_birthdate },
+          { error: "Ungültiger Monat" },
         )
-        .refine((val) => Number(val) >= 1900, {
-          message: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
-        })
-        .refine((val) => Number(val) <= Number(new Date().getFullYear()), {
-          message: "Geburtsdatum muss in der Vergangenheit liegen.",
-        }),
+        .transform((val) => val.padStart(2, "0")),
+
+      year: requiredString.refine((val) => !Number.isNaN(Number(val)), {
+        error: "Ungültiges Jahr",
+      }),
     })
-    .superRefine((data, ctx) => {
-      if (
-        !isValidDate(
-          toDateString(Number(data.day), Number(data.month), Number(data.year)),
-        )
-      ) {
-        ctx.addIssue({
+    .meta({ description: "split_date" })
+    .refine((dateObj) => isValidDate(toDateString(dateObj)), {
+      error: "Ungültiges Datum",
+    })
+    .check((ctx) => {
+      const date = toDate(ctx.value);
+      if (args?.earliest && date < args.earliest()) {
+        ctx.issues.push({
           code: "custom",
-          message: invalid_birthdate,
-          path: ["geburtsdatum"],
-          fatal: false,
+          message: "too_early",
+          input: ctx.value,
         });
       }
-    })
-    .meta({ description: "split_date" });
+      if (args?.latest && date > args.latest()) {
+        ctx.issues.push({
+          code: "custom",
+          message: "too_late",
+          input: ctx.value,
+        });
+      }
+    });
 };
-export const toDateString = (day?: number, month?: number, year?: number) =>
-  `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
+
+type DateObject = { day: string; month: string; year: string };
+
+export const toDateString = (date: DateObject) =>
+  `${date.day}.${date.month}.${date.year}`;
+
+export const toDate = (date: DateObject) =>
+  new Date(
+    Date.UTC(Number(date.year), Number(date.month) - 1, Number(date.day)),
+  );

@@ -1,4 +1,4 @@
-import { createSplitDateSchema } from "../dateObject";
+import { createSplitDateSchema, toDate } from "../dateObject";
 
 describe("createSplitDateSchema", () => {
   describe("success cases", () => {
@@ -10,8 +10,20 @@ describe("createSplitDateSchema", () => {
           year: "2023",
         },
         expected: {
-          day: "1",
-          month: "3",
+          day: "01",
+          month: "03",
+          year: "2023",
+        },
+      },
+      {
+        input: {
+          day: "01",
+          month: "03",
+          year: "2023",
+        },
+        expected: {
+          day: "01",
+          month: "03",
           year: "2023",
         },
       },
@@ -27,9 +39,6 @@ describe("createSplitDateSchema", () => {
   });
 
   describe("failing cases", () => {
-    const invalid_birthdate = "Bitte geben Sie ein gültiges Geburtsdatum ein.";
-    const input_required = "Diese Felder müssen ausgefüllt werden.";
-
     const cases = [
       {
         input: {
@@ -38,7 +47,7 @@ describe("createSplitDateSchema", () => {
           year: "",
         },
         errorPath: "day",
-        errorMessage: input_required,
+        errorMessage: "Diese Felder müssen ausgefüllt werden.",
       },
       {
         input: {
@@ -47,7 +56,7 @@ describe("createSplitDateSchema", () => {
           year: "2020",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiger Tag",
       },
       {
         input: {
@@ -56,34 +65,7 @@ describe("createSplitDateSchema", () => {
           year: "2020",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
-      },
-      {
-        input: {
-          day: "10",
-          month: "10",
-          year: "2500",
-        },
-        errorPath: "year",
-        errorMessage: "Geburtsdatum muss in der Vergangenheit liegen.",
-      },
-      {
-        input: {
-          day: "10",
-          month: "12",
-          year: "1800",
-        },
-        errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
-      },
-      {
-        input: {
-          day: "31",
-          month: "2",
-          year: "2020",
-        },
-        errorPath: "geburtsdatum",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiger Monat",
       },
       {
         input: {
@@ -92,7 +74,7 @@ describe("createSplitDateSchema", () => {
           year: "2020",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiger Tag",
       },
       {
         input: {
@@ -101,7 +83,7 @@ describe("createSplitDateSchema", () => {
           year: "2020",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiger Monat",
       },
       {
         input: {
@@ -110,7 +92,7 @@ describe("createSplitDateSchema", () => {
           year: "cccc",
         },
         errorPath: "year",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiges Jahr",
       },
       {
         input: {
@@ -119,7 +101,7 @@ describe("createSplitDateSchema", () => {
           year: "2000",
         },
         errorPath: "day",
-        errorMessage: invalid_birthdate,
+        errorMessage: "Ungültiger Tag",
       },
       {
         input: {
@@ -128,16 +110,7 @@ describe("createSplitDateSchema", () => {
           year: "2000",
         },
         errorPath: "month",
-        errorMessage: invalid_birthdate,
-      },
-      {
-        input: {
-          day: "10",
-          month: "12",
-          year: "-2000",
-        },
-        errorPath: "year",
-        errorMessage: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
+        errorMessage: "Ungültiger Monat",
       },
     ];
 
@@ -153,5 +126,37 @@ describe("createSplitDateSchema", () => {
         expect(issue?.message).toBe(errorMessage);
       },
     );
+  });
+
+  test("too early", () => {
+    const actual = createSplitDateSchema({
+      earliest: () =>
+        toDate({
+          day: "02",
+          month: "01",
+          year: "2025",
+        }),
+    }).safeParse({
+      day: "01",
+      month: "01",
+      year: "2025",
+    });
+    expect(actual.success).toEqual(false);
+  });
+
+  test("too early", () => {
+    const actual = createSplitDateSchema({
+      latest: () =>
+        toDate({
+          day: "01",
+          month: "01",
+          year: "2025",
+        }),
+    }).safeParse({
+      day: "02",
+      month: "01",
+      year: "2025",
+    });
+    expect(actual.success).toEqual(false);
   });
 });

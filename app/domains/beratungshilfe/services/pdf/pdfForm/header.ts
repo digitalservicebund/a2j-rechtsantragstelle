@@ -26,11 +26,10 @@ const weiteresEinkommenMapping = {
 export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const attachment: AttachmentEntries = [];
   pdfValues.antragstellerNameVornameggfGeburtsname.value = `${userData.nachname}, ${userData.vorname}`;
-  pdfValues.geburtsdatumdesAntragstellers.value = toDateString(
-    Number(userData?.geburtsdatum?.day),
-    Number(userData?.geburtsdatum?.month),
-    Number(userData?.geburtsdatum?.year),
-  );
+  if (userData.geburtsdatum)
+    pdfValues.geburtsdatumdesAntragstellers.value = toDateString(
+      userData.geburtsdatum,
+    );
   pdfValues.anschriftStrasseHausnummerPostleitzahlWohnortdesAntragstellers.value = `${userData.street} ${userData.houseNumber}, ${userData.plz} ${userData.ort}`;
   const court = findCourt({
     zipCode: userData.plz,
