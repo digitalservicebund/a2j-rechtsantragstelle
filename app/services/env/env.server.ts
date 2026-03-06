@@ -52,7 +52,10 @@ export function config(): Config {
         "STRAPI_ACCESS_KEY",
       ) ?? "",
     CMS: process.env.CMS ?? "FILE",
-    CMS_MEDIA_STORAGE_URL: process.env.CMS_MEDIA_STORAGE_URL,
+    CMS_MEDIA_STORAGE_URL:
+      process.env.CMS_MEDIA_STORAGE_URL ??
+      // remove fallback after cloud migration
+      "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com",
     GERICHTSFINDER_ENCRYPTION_KEY:
       readSecretOrEnvVar(
         "/etc/courtdata-secrets/password",
