@@ -1,6 +1,4 @@
-import fs from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import PDFDocument from "pdfkit";
 
 export const PDF_VERSION = "1.7";
@@ -14,13 +12,13 @@ export const PDF_HEIGHT_SEIZE = 780;
 export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const bundesSansDTPRegular = fs.readFileSync(
-  join(__dirname, "fonts", "BundesSans-DTP-Regular.otf"),
+const bundesSansDTPRegularPath = resolve(
+  process.cwd(),
+  "app/services/pdf/fonts/BundesSans-DTP-Regular.otf",
 );
-const bundesSansDTPBold = fs.readFileSync(
-  join(__dirname, "fonts", "BundesSans-DTP-Bold.otf"),
+const bundesSansDTPBoldPath = resolve(
+  process.cwd(),
+  "app/services/pdf/fonts/BundesSans-DTP-Bold.otf",
 );
 
 export const createPdfKitDocument = () => {
@@ -48,8 +46,8 @@ export const createPdfKitDocument = () => {
   });
 
   // Register fonts
-  document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansDTPRegular);
-  document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansDTPBold);
+  document.registerFont(FONTS_BUNDESSANS_REGULAR, bundesSansDTPRegularPath);
+  document.registerFont(FONTS_BUNDESSANS_BOLD, bundesSansDTPBoldPath);
   document.lineGap(LINE_GAP_GLOBAL);
 
   return document;
