@@ -1,8 +1,7 @@
 import airlines from "data/airlines/data.json";
 import { getAirportNameByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportNameByIataCode";
 import { getRouteCompensationBetweenAirports } from "~/domains/fluggastrechte/services/airports/getRouteCompensationBetweenAirports";
-import { today } from "~/util/dateCalculations";
-import { toGermanDateFormat } from "~/services/validation/dateString";
+import { today, toGermanDateString } from "~/util/date";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
 
@@ -53,7 +52,7 @@ export function getLastDayFromFourYearsAgoDate(): string {
   date.setFullYear(date.getFullYear() - FOUR_YEARS_AGO);
   date.setMonth(LAST_MONTH_YEAR);
   date.setDate(LAST_DAY_YEAR);
-  return toGermanDateFormat(date);
+  return toGermanDateString(date);
 }
 
 export function getStartAirportName({

@@ -8,8 +8,7 @@ import {
   SELF_ALLOWANCE_BUFFER,
   SIMPLIFIED_CHILD_ALLOWANCE,
 } from "~/domains/beratungshilfe/vorabcheck/freibetrag";
-import { addYears, today } from "~/util/dateCalculations";
-import { toGermanDateFormat } from "~/services/validation/dateString";
+import { addYears, today, toGermanDateString } from "~/util/date";
 
 const {
   selfAllowance,
@@ -89,7 +88,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            geburtsdatum: toGermanDateString(addYears(today(), -5)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -97,7 +96,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            geburtsdatum: toGermanDateString(addYears(today(), -12)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -105,7 +104,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            geburtsdatum: toGermanDateString(addYears(today(), -16)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: sixteenYearOldIncome.toString(),
@@ -113,7 +112,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            geburtsdatum: toGermanDateString(addYears(today(), -19)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: nineteenYearOldIncome.toString(),
@@ -140,7 +139,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -5)),
+            geburtsdatum: toGermanDateString(addYears(today(), -5)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -148,7 +147,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -12)),
+            geburtsdatum: toGermanDateString(addYears(today(), -12)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: "0",
@@ -156,7 +155,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -16)),
+            geburtsdatum: toGermanDateString(addYears(today(), -16)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: sixteenYearOldIncome.toString(),
@@ -164,7 +163,7 @@ describe("calculateFreibetragBerHFormular", () => {
           {
             vorname: "Maxi",
             nachname: "Mustermensch",
-            geburtsdatum: toGermanDateFormat(addYears(today(), -19)),
+            geburtsdatum: toGermanDateString(addYears(today(), -19)),
             wohnortBeiAntragsteller: "partially",
             eigeneEinnahmen: "yes",
             einnahmen: nineteenYearOldIncome.toString(),

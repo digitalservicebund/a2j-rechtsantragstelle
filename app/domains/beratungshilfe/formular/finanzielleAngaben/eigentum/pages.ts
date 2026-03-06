@@ -8,7 +8,7 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { createYearSchema } from "~/services/validation/year";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/dateCalculations";
+import { today } from "~/util/date";
 
 export const bankkontenArraySchema = z
   .array(

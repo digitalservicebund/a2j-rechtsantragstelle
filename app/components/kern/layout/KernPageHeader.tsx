@@ -3,9 +3,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
-import { today } from "~/util/dateCalculations";
-import { toHourAndMinuteTime } from "~/services/validation/dateString";
-import { toGermanDateFormat } from "~/services/validation/dateString";
+import { today, toGermanDateString, toGermanTimeString } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 
@@ -26,8 +24,8 @@ export default function KernPageHeader({
     <header>
       {shouldPrint && (
         <span>
-          {translations.pageHeader.printPage.de} {toGermanDateFormat(today())}{" "}
-          {translations.pageHeader.at.de} {toHourAndMinuteTime(today())}{" "}
+          {translations.pageHeader.printPage.de} {toGermanDateString(today())}{" "}
+          {translations.pageHeader.at.de} {toGermanTimeString(today())}{" "}
           {translations.pageHeader.time.de}
         </span>
       )}

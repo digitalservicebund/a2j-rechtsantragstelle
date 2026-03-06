@@ -1,8 +1,7 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { parsePathname } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
-import { today } from "~/util/dateCalculations";
-import { toGermanDateFormat } from "../validation/dateString";
+import { today, toGermanDateString } from "~/util/date";
 import { createClientS3DataStorage } from "./createClientS3DataStorage";
 import { sendSentryMessage } from "../logging";
 import { getSessionIdByFlowId } from "../session.server";
@@ -16,7 +15,7 @@ const createConsentDataBuffer = (sessionId: string, headers: Headers) => {
 };
 
 const getFolderDate = () => {
-  return toGermanDateFormat(today()).replaceAll(".", "-");
+  return toGermanDateString(today()).replaceAll(".", "-");
 };
 
 const createFolderKey = (sessionId: string, identifier: string) => {

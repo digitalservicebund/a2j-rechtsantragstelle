@@ -1,11 +1,4 @@
-import {
-  convertToTimestamp,
-  createDateSchema,
-  dateUTCFromGermanDateString,
-  pdfDateFormat,
-  toGermanDateFormat,
-  toHourAndMinuteTime,
-} from "../dateString";
+import { convertToTimestamp, createDateSchema, toDate } from "../dateString";
 
 describe("createDateSchema", () => {
   describe("success cases", () => {
@@ -57,17 +50,9 @@ describe("createDateSchema", () => {
 });
 
 describe("dateString conversions", () => {
-  describe("toGermanDateFormat()", () => {
-    it("formats correctly", () => {
-      expect(toGermanDateFormat(new Date("2000-01-01"))).toEqual("01.01.2000");
-    });
-  });
-
-  describe("dateUTCFromGermanDateString()", () => {
+  describe("toDate", () => {
     it("parses correctly", () => {
-      expect(dateUTCFromGermanDateString("01.01.2000")).toEqual(
-        new Date("2000-01-01"),
-      );
+      expect(toDate("01.01.2000")).toEqual(new Date("2000-01-01"));
     });
   });
 
@@ -80,24 +65,6 @@ describe("dateString conversions", () => {
       const actual = convertToTimestamp(date, time);
 
       expect(actual).toBe(expectedTimestamp);
-    });
-  });
-
-  describe("pdfDateFormat()", () => {
-    it("formats correctly", () => {
-      expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("01_01_2000");
-    });
-  });
-
-  describe("toHourAndMinuteTime", () => {
-    it("should format time correctly", () => {
-      const date = new Date("2025-06-10T12:34:00");
-      expect(toHourAndMinuteTime(date)).toBe("12:34");
-    });
-
-    it("should pad single digit hours and minutes", () => {
-      const date = new Date("2025-06-10T01:05:00");
-      expect(toHourAndMinuteTime(date)).toBe("01:05");
     });
   });
 });
