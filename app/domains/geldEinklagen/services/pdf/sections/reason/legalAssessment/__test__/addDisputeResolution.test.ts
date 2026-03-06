@@ -3,9 +3,25 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { addDisputeResolution } from "../addDisputeResolution";
+import {
+  addDisputeResolution,
+  DISPUTE_RESOLUTION_TITLE,
+} from "../addDisputeResolution";
 
 describe("addDisputeResolution", () => {
+  it("should always render the dispute resolution title", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      streitbeilegung: "yes",
+    } satisfies GeldEinklagenFormularUserData;
+
+    addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE);
+  });
+
   it("should render document with assumed settlement section text given streitbeilegung yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -33,7 +49,7 @@ describe("addDisputeResolution", () => {
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 
@@ -65,7 +81,7 @@ describe("addDisputeResolution", () => {
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 
@@ -81,7 +97,7 @@ describe("addDisputeResolution", () => {
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
-      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 
@@ -97,7 +113,7 @@ describe("addDisputeResolution", () => {
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
-      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+      "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 });
