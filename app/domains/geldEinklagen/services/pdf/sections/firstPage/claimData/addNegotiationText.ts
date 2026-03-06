@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
+  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -12,7 +13,7 @@ const videoTrialAgreement = (
 ): string => {
   const responses: Record<string, string> = {
     yes: "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
-    no: "Es wird beantragt, im Fall einer mündlichen Verhandlung an dieser im Gericht teilzunehmen.",
+    no: "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
   };
   return responses[videoverhandlung ?? ""] ?? "";
 };
@@ -57,8 +58,18 @@ export const addNegotiationText = (
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {
+      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
       for (const text of negotiationTexts) {
         doc.text(text, PDF_MARGIN_HORIZONTAL);
+
+        const shouldAddEmptyLineBeforeDefaultJudgment =
+          text === videoNegotiationText &&
+          Boolean(videoNegotiationText) &&
+          Boolean(defaultJudgmentText);
+
+        if (shouldAddEmptyLineBeforeDefaultJudgment) {
+          doc.moveDown(1);
+        }
       }
     }),
   );

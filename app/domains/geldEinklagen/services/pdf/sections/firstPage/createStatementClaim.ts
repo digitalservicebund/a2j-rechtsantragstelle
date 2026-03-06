@@ -42,15 +42,22 @@ export const createStatementClaim = (
 
   doc.addPage(); // start the free text application on a new page (2nd page)
 
-  const freeTextWeitereAntraegeSect = doc.struct("Sect");
-  freeTextWeitereAntraegeSect.add(
-    doc.struct("Caption", {}, () => {
-      doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
-    }),
-  );
+  const shouldShowWeitereAntraege =
+    videoVerhandlung !== "noSpecification" ||
+    versaeumnisurteil === "yes" ||
+    muendlicheVerhandlung === "yes";
 
-  addFreeTextApplication(doc, weitereAntraege, freeTextWeitereAntraegeSect);
-  documentStruct.add(freeTextWeitereAntraegeSect);
+  if (shouldShowWeitereAntraege) {
+    const freeTextWeitereAntraegeSect = doc.struct("Sect");
+    freeTextWeitereAntraegeSect.add(
+      doc.struct("Caption", {}, () => {
+        doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
+      }),
+    );
+
+    addFreeTextApplication(doc, weitereAntraege, freeTextWeitereAntraegeSect);
+    documentStruct.add(freeTextWeitereAntraegeSect);
+  }
 
   const negotiationSect = doc.struct("Sect");
   addNegotiationText(
