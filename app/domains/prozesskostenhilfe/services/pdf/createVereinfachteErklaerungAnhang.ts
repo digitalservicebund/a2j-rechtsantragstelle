@@ -6,7 +6,8 @@ import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 import { arrayIsNonEmpty } from "~/util/array";
-import { toGermanDateFormat, today } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 
 const gapBetweenDateAndSignature = 124;
 

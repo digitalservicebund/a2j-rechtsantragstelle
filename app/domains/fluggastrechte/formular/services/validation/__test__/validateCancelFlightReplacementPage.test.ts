@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
 import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 

@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import { fillFooter } from "../K_footer";
 
 let pdfParams: ProzesskostenhilfePDF;

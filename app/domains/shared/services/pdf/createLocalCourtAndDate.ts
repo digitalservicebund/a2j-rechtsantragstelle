@@ -4,7 +4,8 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const CREATION_PDF_TEXT = "Erstellt am:";

@@ -1,6 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
-import { toGermanDateFormat, addDays, today } from "~/util/date";
+import { addDays, today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 
 const rechtsproblemStart = "/rechtsproblem/start";
 const anwaltlicheVertretungStart = "/anwaltliche-vertretung/start";

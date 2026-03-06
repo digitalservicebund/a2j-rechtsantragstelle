@@ -8,7 +8,8 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { toGermanDateFormat, today } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { formatIban } from "~/services/validation/iban";
 import { createStamp } from "~/services/pdf/footer/createStamp";

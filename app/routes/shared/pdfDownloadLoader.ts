@@ -19,7 +19,8 @@ import {
   getSessionIdByFlowId,
 } from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { pdfDateFormat, today } from "~/util/date";
+import { pdfDateFormat } from "~/services/validation/dateString";
+import { today } from "~/util/dateCalculations";
 
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData

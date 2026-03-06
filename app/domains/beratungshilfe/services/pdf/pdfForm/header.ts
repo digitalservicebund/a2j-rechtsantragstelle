@@ -7,7 +7,7 @@ import {
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "../types";
-import { toDateString } from "~/services/validation/date";
+import { toDateString } from "~/services/validation/dateObject";
 
 const weiteresEinkommenMapping = {
   unterhaltszahlungen: "Unterhaltszahlungen",

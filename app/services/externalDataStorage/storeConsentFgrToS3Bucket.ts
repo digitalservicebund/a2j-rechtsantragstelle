@@ -1,7 +1,8 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { parsePathname } from "~/domains/flowIds";
 import { config } from "~/services/env/env.server";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "../validation/dateString";
 import { createClientS3DataStorage } from "./createClientS3DataStorage";
 import { sendSentryMessage } from "../logging";
 import { getSessionIdByFlowId } from "../session.server";

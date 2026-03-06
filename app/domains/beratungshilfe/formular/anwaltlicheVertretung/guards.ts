@@ -1,6 +1,7 @@
 import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
 import type { Guards } from "~/domains/guards.server";
-import { addDays, dateUTCFromGermanDateString, today } from "~/util/date";
+import { addDays, today } from "~/util/dateCalculations";
+import { dateUTCFromGermanDateString } from "~/services/validation/dateString";
 
 export const beratungshilfeAnwaltlicheVertretungGuards = {
   anwaltskanzleiYes: ({ context }) => context.anwaltskanzlei === "yes",

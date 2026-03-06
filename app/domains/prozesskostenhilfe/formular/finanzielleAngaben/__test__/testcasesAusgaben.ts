@@ -1,7 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
-import { addYears, today, toGermanDateFormat } from "~/util/date";
+import { addYears, today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenNo: [

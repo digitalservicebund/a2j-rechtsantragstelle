@@ -3,7 +3,7 @@ import { maritalDescriptionMapping } from "~/domains/shared/services/pdf/marital
 import { type AttachmentEntries } from "~/services/pdf/attachment";
 import { fillPdfField } from "~/services/pdf/fillPdfField";
 import type { PkhPdfFillFunction } from "../types";
-import { toDateString } from "~/services/validation/date";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const concatenateGesetzlicherVertreterString = ({
   gesetzlicheVertretungDaten,

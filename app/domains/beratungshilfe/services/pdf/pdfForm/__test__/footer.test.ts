@@ -1,6 +1,7 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import { fillFooter } from "../footer";
 
 describe("fillFooter", () => {

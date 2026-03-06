@@ -3,7 +3,9 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
-import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { toHourAndMinuteTime } from "~/services/validation/dateString";
+import { toGermanDateFormat } from "~/services/validation/dateString";
 import KernKopfzeile from "./KernKopfzeile";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 

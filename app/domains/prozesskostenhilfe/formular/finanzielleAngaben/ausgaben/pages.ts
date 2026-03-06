@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/dateString";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/date";
+import { today } from "~/util/dateCalculations";
 
 const zahlungspflichtigerSchema = z.enum([
   "myself",

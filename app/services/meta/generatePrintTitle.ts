@@ -1,4 +1,5 @@
-import { pdfDateFormat, today } from "~/util/date";
+import { today } from "~/util/dateCalculations";
+import { pdfDateFormat } from "~/services/validation/dateString";
 
 const PAGE_TITLE_PREFIX_FGR_PRINT_PAGE =
   "Anleitung_Fluggastrechte_digitale_Klage_einreichen_";

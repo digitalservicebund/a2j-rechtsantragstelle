@@ -1,5 +1,6 @@
 import mapValues from "lodash/mapValues";
-import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
+import { addYears, today } from "~/util/dateCalculations";
+import { dateUTCFromGermanDateString } from "~/services/validation/dateString";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
 import { logWarning, sendSentryMessage } from "~/services/logging";

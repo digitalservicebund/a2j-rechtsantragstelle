@@ -1,7 +1,7 @@
 import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { convertToTimestamp } from "~/util/date";
+import { convertToTimestamp } from "~/services/validation/dateString";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
