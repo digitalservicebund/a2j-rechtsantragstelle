@@ -3,7 +3,7 @@ import SignLanguage from "@digitalservicebund/icons/SignLanguage";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import Kopfzeile from "~/components/layout/Kopfzeile";
 import { translations } from "~/services/translations/translations";
-import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanTimeString, toGermanDateString } from "~/util/date";
 import { useShouldPrint } from "../hooks/useShouldPrint";
 import { Grid } from "./grid/Grid";
 import { GridItem } from "./grid/GridItem";
@@ -26,8 +26,8 @@ export default function PageHeader({
     <header>
       {shouldPrint && (
         <span>
-          {translations.pageHeader.printPage.de} {toGermanDateFormat(today())}{" "}
-          {translations.pageHeader.at.de} {toHourAndMinuteTime(today())}{" "}
+          {translations.pageHeader.printPage.de} {toGermanDateString(today())}{" "}
+          {translations.pageHeader.at.de} {toGermanTimeString(today())}{" "}
           {translations.pageHeader.time.de}
         </span>
       )}

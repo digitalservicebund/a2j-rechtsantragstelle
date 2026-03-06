@@ -8,7 +8,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { toGermanDateFormat, today } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { formatIban } from "~/services/validation/iban";
 import { createStamp } from "~/services/pdf/footer/createStamp";
@@ -70,7 +70,7 @@ const createBody: PDFDocumentBuilder<KontopfaendungPkontoAntragUserData> = (
     doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(`${userData.kontoinhaberOrt}, ${toGermanDateFormat(today())} `);
+        .text(`${userData.kontoinhaberOrt}, ${toGermanDateString(today())} `);
       doc.moveDown(1);
     }),
   );
