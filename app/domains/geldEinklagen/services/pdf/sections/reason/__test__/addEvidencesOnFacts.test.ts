@@ -11,7 +11,7 @@ describe("addEvidencesOnFacts", () => {
 
     addEvidencesOnFacts(mockDoc, mockStruct, "Mein Beweistext");
 
-    expect(mockDoc.text).toHaveBeenCalledWith("II. Beweise zum Sachverhalt");
+    expect(mockDoc.text).toHaveBeenCalledWith("II. Beweise");
     expect(mockDoc.text).toHaveBeenCalledWith("Mein Beweistext");
   });
 
@@ -21,9 +21,7 @@ describe("addEvidencesOnFacts", () => {
 
     addEvidencesOnFacts(mockDoc, mockStruct, "");
 
-    expect(mockDoc.text).not.toHaveBeenCalledWith(
-      "II. Beweise zum Sachverhalt",
-    );
+    expect(mockDoc.text).not.toHaveBeenCalledWith("II. Beweise");
     expect(mockDoc.text).not.toHaveBeenCalled();
   });
 });

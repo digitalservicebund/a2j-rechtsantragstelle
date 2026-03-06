@@ -1,3 +1,4 @@
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -45,17 +46,48 @@ describe("createStatementClaim", () => {
     );
   });
 
-  it("should call addFreeTextApplication with weitereAntraege", () => {
+  it("should show Weitere Antraege section when shouldShowWeitereAntraege is true", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const userData: GeldEinklagenFormularUserData = {
+      ...userDataMock,
+      videoVerhandlung: "yes",
+      versaeumnisurteil: "no",
+      muendlicheVerhandlung: "no",
+    };
 
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
+    createStatementClaim(mockDoc, mockStruct, userData);
 
     expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
     expect(addFreeTextApplication).toHaveBeenCalledWith(
       mockDoc,
-      userDataMock.weitereAntraege,
+      userData.weitereAntraege,
       mockStruct,
+    );
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "Caption",
+      {},
+      expect.any(Function),
+    );
+  });
+
+  it("should not show Weitere Antraege section when shouldShowWeitereAntraege is false", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userData: GeldEinklagenFormularUserData = {
+      ...userDataMock,
+      videoVerhandlung: "noSpecification",
+      versaeumnisurteil: "no",
+      muendlicheVerhandlung: "no",
+    };
+
+    createStatementClaim(mockDoc, mockStruct, userData);
+
+    expect(addFreeTextApplication).not.toHaveBeenCalled();
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "Caption",
+      {},
+      expect.any(Function),
     );
   });
 

@@ -59,9 +59,18 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "no", "no", "no", mockStruct);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Es wird beantragt, im Fall einer mündlichen Verhandlung an dieser im Gericht teilzunehmen.",
+      "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
       expect.any(Number),
     );
+  });
+
+  it("should add an empty row after video negotiation text when default judgment text follows", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "yes", "yes", "no", mockStruct);
+
+    expect(mockDoc.moveDown).toHaveBeenCalledWith(1);
   });
 
   it("should not create a paragraph structure element when all negotiation texts are empty", () => {
