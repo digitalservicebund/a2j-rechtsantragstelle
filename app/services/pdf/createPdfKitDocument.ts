@@ -1,5 +1,5 @@
-import { resolve } from "node:path";
 import PDFDocument from "pdfkit";
+import { readRelativeFileToBuffer } from "~/services/pdf/readRelativeFileToBuffer";
 
 export const PDF_VERSION = "1.7";
 export const PDF_LANGUAGE = "de-DE";
@@ -12,12 +12,10 @@ export const PDF_HEIGHT_SEIZE = 780;
 export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
-const bundesSansDTPRegularPath = resolve(
-  process.cwd(),
+const bundesSansDTPRegularPath = await readRelativeFileToBuffer(
   "app/services/pdf/fonts/BundesSans-DTP-Regular.otf",
 );
-const bundesSansDTPBoldPath = resolve(
-  process.cwd(),
+const bundesSansDTPBoldPath = await readRelativeFileToBuffer(
   "app/services/pdf/fonts/BundesSans-DTP-Bold.otf",
 );
 
