@@ -30,4 +30,24 @@ describe("addAccusedDetails", () => {
       `${userDataMock.beklagteStrasseHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
     );
   });
+
+  it("should generate document with organisation and legal representative when gegenWenBeklagen is 'organisation'", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, {
+      ...userDataMock,
+      gegenWenBeklagen: "organisation",
+      beklagteNameOrganisation: "Muster GmbH",
+      beklagteGesetzlichenVertretungAnrede: "herr",
+      beklagteGesetzlichenVertretungTitle: "none",
+      beklagteGesetzlichenVertretungVorname: "Max",
+      beklagteGesetzlichenVertretungNachname: "Mustermann",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Muster GmbH, vertreten durch Herr Max Mustermann",
+      { continued: true },
+    );
+  });
 });

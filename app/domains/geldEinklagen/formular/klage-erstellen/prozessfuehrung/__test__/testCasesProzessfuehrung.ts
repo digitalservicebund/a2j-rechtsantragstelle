@@ -41,8 +41,8 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
@@ -63,8 +63,8 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
       "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
@@ -86,8 +86,8 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
       "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",

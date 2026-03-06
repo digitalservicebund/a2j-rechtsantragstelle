@@ -1,6 +1,7 @@
 import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FieldSet } from "~/components/formElements/FieldSet";
+import demoImage from "./assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
   title: "FormElements/FieldSet",
@@ -35,7 +36,7 @@ export const FieldSetWithImage: Story = {
       },
     ],
     image: {
-      url: "https://a2j-rechtsantragstelle-infra-public-assets-bucket.obs.eu-de.otc.t-systems.com/1_Rechtliche_Unterstuetzung_904342381e.svg",
+      url: demoImage,
       alternativeText: "Example SVG marker",
       width: 24,
       height: 24,

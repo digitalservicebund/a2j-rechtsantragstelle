@@ -9,6 +9,7 @@ type Config = {
   STRAPI_HOST: string;
   STRAPI_ACCESS_KEY: string;
   CMS: string;
+  CMS_MEDIA_STORAGE_URL?: string;
   GERICHTSFINDER_ENCRYPTION_KEY: string;
   GERICHTSFINDER_ENCRYPTION_KEY_OLD: string;
   REDIS_URI: string;
@@ -51,6 +52,7 @@ export function config(): Config {
         "STRAPI_ACCESS_KEY",
       ) ?? "",
     CMS: process.env.CMS ?? "FILE",
+    CMS_MEDIA_STORAGE_URL: process.env.CMS_MEDIA_STORAGE_URL,
     GERICHTSFINDER_ENCRYPTION_KEY:
       readSecretOrEnvVar(
         "/etc/courtdata-secrets/password",

@@ -1,9 +1,6 @@
 // used by scripts/verifyExternalLinks
 
-import { bucketUrl } from "../../app/services/cms/bucketUrl.ts";
-
 export const allowedWebsites = [
-  bucketUrl,
   "https://github.com",
   "https://digitalservice.bund.de",
   "https://www.bmj.de",

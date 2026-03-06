@@ -22,6 +22,10 @@ updates:
         patterns:
           - "@react-router/*"
           - "react-router*"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/vite"
       vitest:
         patterns:
           - "vitest*"

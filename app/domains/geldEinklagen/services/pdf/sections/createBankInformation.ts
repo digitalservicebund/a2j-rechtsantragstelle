@@ -10,7 +10,9 @@ function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
   doc
     .fontSize(7)
     .font(FONTS_BUNDESSANS_REGULAR)
-    .text(text, PDF_MARGIN_HORIZONTAL, PDF_HEIGHT_SEIZE);
+    .text(text, PDF_MARGIN_HORIZONTAL, PDF_HEIGHT_SEIZE, {
+      lineBreak: false,
+    });
 }
 
 export const createBankInformation = (
@@ -30,7 +32,7 @@ export const createBankInformation = (
       : `${klagendePersonVorname} ${klagendePersonNachname}`;
 
   if (klagendePersonIban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${klagendePersonIban}`;
+    const bankInfo = `Konto der klagenden Partei: ${bankAccountHolder} | IBAN: ${klagendePersonIban}`;
 
     if (isLastPage) {
       const bankInfoParagraph = doc.struct("P", {}, () => {

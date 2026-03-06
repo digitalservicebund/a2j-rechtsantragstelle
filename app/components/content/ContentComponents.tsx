@@ -18,17 +18,15 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 import KernList from "../kern/KernList";
-import KernHeroWithButton from "../kern/KernHeroWithButton";
 import KernHero from "../kern/KernHero";
 import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
-import KernInfoBox from "../kern/KernInfoBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
-import KernBoxWithImage from "../kern/KernBoxWithImage";
 import KernVideo from "../kern/KernVideo";
 import KernUserFeedback from "../kern/UserFeedback";
+import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -73,14 +71,7 @@ function getContainerBackgroundColor(
   showKernUX: boolean,
 ): string {
   if (showKernUX) {
-    if (el.__component === "page.hero") {
-      return "bg-kern-action-default";
-    }
-    if (el.__component === "page.hero-with-button") {
-      return "bg-kern-neutral-050";
-    }
-
-    if (el.__component === "page.box" && el.sectionBackgroundColor) {
+    if ("sectionBackgroundColor" in el) {
       return SECTION_BACKGROUND_COLORS[
         el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
       ];
@@ -149,31 +140,14 @@ function cmsToReact(
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
-        return <KernHeading {...componentProps} />;
+        return <KernHeading managedByParent {...componentProps} />;
       case "basic.paragraph":
         return <KernRichText {...componentProps} />;
       case "page.hero":
         return <KernHero {...componentProps} />;
-      case "page.hero-with-button":
-        return <KernHeroWithButton {...componentProps} />;
       case "page.box":
         return (
           <KernBox
-            {...componentProps}
-            items={componentProps.items?.map((item) => ({
-              ...item,
-              inlineNotices: item.inlineNotices?.map((notice) => ({
-                ...notice,
-                look: mapLookValue(notice.look),
-              })),
-            }))}
-          />
-        );
-      case "page.box-with-image":
-        return <KernBoxWithImage {...componentProps} />;
-      case "page.info-box":
-        return (
-          <KernInfoBox
             {...componentProps}
             items={componentProps.items?.map((item) => ({
               ...item,
@@ -198,6 +172,15 @@ function cmsToReact(
             {...componentProps}
             look={mapLookValue(componentProps.look)}
             wrap={opts?.inFlow}
+          />
+        );
+      case "page.email-capture":
+        return <KernEmailCapture {...componentProps} />;
+      case "page.heading":
+        return (
+          <KernHeading
+            {...componentProps.heading}
+            elementId={componentProps.identifier}
           />
         );
       default:
@@ -234,6 +217,14 @@ function cmsToReact(
       return <SummaryOverviewSection {...componentProps} />;
     case "page.email-capture":
       return <EmailCapture {...componentProps} />;
+    case "page.heading":
+      return (
+        <Heading
+          managedByParent={false}
+          {...componentProps.heading}
+          elementId={componentProps.identifier}
+        />
+      );
     case "page.array-summary":
     default:
       return <></>;

@@ -1,7 +1,10 @@
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../../userData";
 import {
+  shouldVisitGerichtSuchenBeklagtePostleitzahl,
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
+  shouldVisitGerichtSuchenSecondaryPostleitzahl,
+  shouldVisitPilotGerichtAuswahl,
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../guards";
@@ -436,6 +439,41 @@ describe("guards", () => {
         });
         expect(actual).toBe(true);
       });
+    });
+  });
+
+  describe("shouldVisitPilotGerichtAuswahl", () => {
+    it("should return false when only beklagte postcode branch is relevant", () => {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
+        sachgebiet: "miete",
+        mietePachtVertrag: "no",
+        klagendeHaustuergeschaeft: "no",
+      };
+
+      expect(shouldVisitGerichtSuchenBeklagtePostleitzahl({ context })).toBe(
+        true,
+      );
+      expect(shouldVisitGerichtSuchenSecondaryPostleitzahl({ context })).toBe(
+        false,
+      );
+      expect(shouldVisitPilotGerichtAuswahl({ context })).toBe(false);
+    });
+
+    it("should return true when both postcode branches are relevant", () => {
+      const context: GeldEinklagenFormularGerichtPruefenUserData = {
+        sachgebiet: "miete",
+        mietePachtVertrag: "yes",
+        mietePachtRaum: "no",
+        klagendeHaustuergeschaeft: "yes",
+      };
+
+      expect(shouldVisitGerichtSuchenBeklagtePostleitzahl({ context })).toBe(
+        true,
+      );
+      expect(shouldVisitGerichtSuchenSecondaryPostleitzahl({ context })).toBe(
+        true,
+      );
+      expect(shouldVisitPilotGerichtAuswahl({ context })).toBe(true);
     });
   });
 });
