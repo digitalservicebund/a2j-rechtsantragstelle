@@ -17,6 +17,7 @@ export type InputProps = Readonly<{
   width?: FieldWidth;
   helperText?: string;
   charLimit?: number;
+  inputRef?: React.Ref<HTMLInputElement>;
 }>;
 
 const TextInput = function InputComponent({
@@ -27,6 +28,7 @@ const TextInput = function InputComponent({
   errorMessages,
   helperText,
   charLimit = INPUT_CHAR_LIMIT,
+  inputRef,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -59,6 +61,7 @@ const TextInput = function InputComponent({
           helperText && helperId,
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
+        ref={inputRef}
       />
 
       <InputError id={errorId}>

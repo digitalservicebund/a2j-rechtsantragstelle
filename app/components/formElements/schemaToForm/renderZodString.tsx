@@ -73,19 +73,17 @@ export const renderZodString = (
     );
   if (
     matchingElement?.__component === "form-elements.input" &&
-    matchingElement.type === "iban"
+    matchingElement.type === "iban" &&
+    !showKernUX
   )
-    return showKernUX ? (
-      <KernIbanInput key={fieldName} {...inputProps} />
-    ) : (
-      <IbanInput key={fieldName} {...inputProps} />
-    );
+    return <IbanInput key={fieldName} {...inputProps} />;
 
   const inputType =
     ((inputProps as InputProps).type as
       | "text"
       | "number"
       | "telephone"
+      | "iban"
       | undefined) ?? "text";
 
   if (showKernUX) {
@@ -96,6 +94,8 @@ export const renderZodString = (
         return <NumberInput key={fieldName} {...inputProps} />;
       case "telephone":
         return <TelephoneInput key={fieldName} {...inputProps} />;
+      case "iban":
+        return <KernIbanInput key={fieldName} {...inputProps} />;
       default:
         return <TextInput key={fieldName} {...inputProps} />;
     }
