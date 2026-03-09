@@ -34,12 +34,6 @@ describe("Button Component", () => {
     );
   });
 
-  test("renders button with different look prop", () => {
-    render(<Button look="secondary" />);
-
-    expect(screen.getByRole("button")).toHaveClass("ds-button-secondary");
-  });
-
   test("renders button with different size prop", () => {
     render(<Button size="large" />);
 

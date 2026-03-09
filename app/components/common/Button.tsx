@@ -47,8 +47,7 @@ function Button({
   const buttonClasses = classNames(
     "ds-button",
     {
-      "ds-button-secondary": look == "secondary",
-      "ds-button-tertiary": look == "tertiary",
+      "ds-button-tertiary": look == "tertiary" || look === "secondary",
       "ds-button-ghost": look == "ghost",
       "ds-button-large": size == "large",
       "ds-button-small": size == "small",
