@@ -40,6 +40,7 @@
     "update:courtData": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts updateZip",
     "update:courtDataKey": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts rotateKey",
     "update:URLs": "vite-node ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
+    "update:streetNames": "vite-node ./scripts/updateStreetNames.ts",
     "verify:emails": "node ./scripts/verifyExternalLinks.ts verifyEmails",
     "verify:unusedStrapiEntries": "vite-node ./scripts/unusedStrapiEntries.ts unusedStrapiEntry",
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
