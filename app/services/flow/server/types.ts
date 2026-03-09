@@ -5,7 +5,9 @@ import { type ArrayConfigServer } from "~/services/array";
 
 export type NavigationEvent = "SUBMIT" | "BACK" | ArrayConfigServer["event"];
 
-type FlowStateMachineEvents = { type: NavigationEvent };
+export type FlowStateMachineEvents =
+  | { type: NavigationEvent }
+  | { type: "xstate.route"; to: unknown }; // XState's built-in route event
 
 export type StateMachineTypes = {
   context: UserData;
@@ -40,9 +42,8 @@ export type XstateStates<T extends UserData = UserData> = NonNullable<
   Config<T>["states"]
 >;
 
-// 2. Index directly using NavigationEvent and XState's wildcard
 export type TransitionConfigOrTarget<T extends UserData = UserData> =
-  NonNullable<XstateStates<T>[string]["on"]>[NavigationEvent | "*"];
+  NonNullable<XstateStates<T>[string]["on"]>["SUBMIT"];
 
 export type FlowConfigTransitions = {
   backToCallingFlow?: TransitionConfigOrTarget;
