@@ -27,14 +27,18 @@ const KernList = ({
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
   const base = (
-    <div id={identifier}>
+    <div id={identifier} className="px-kern-space-default">
       <div>
         {heading && (
-          <KernHeading {...heading} className="kern-heading-large! mb-16!" />
+          <KernHeading
+            {...heading}
+            managedByParent
+            className="kern-heading-large! p-0!"
+          />
         )}
         {subheading && <KernRichText html={subheading} />}
       </div>
-      <ListTag className="list-none ps-0">
+      <ListTag className="list-none ps-0 py-kern-space-default">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)

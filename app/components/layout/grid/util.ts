@@ -142,10 +142,12 @@ export function getGridClass(
 // pt-24 pb-24
 // pt-8 pb-8
 // pt-0 pb-0
+const PADDING_ALIASES: Record<string, string> = { default: "40", auto: "40" };
+
 export const getPaddingClasses = (pt: string, pb: string) => {
   if (pt && pb) {
-    const paddingTop = pt === "default" ? "40" : pt;
-    const paddingBottom = pb === "default" ? "40" : pb;
+    const paddingTop = PADDING_ALIASES[pt] ?? pt;
+    const paddingBottom = PADDING_ALIASES[pb] ?? pb;
     return `pt-${paddingTop} pb-${paddingBottom}`;
   }
   return "";
