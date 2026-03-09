@@ -14,8 +14,8 @@ export const StrapiInlineNoticeSchema = z
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundOptionalSchema,
-  paddingTop: StrapiPaddingOptionalSchema,
-  paddingBottom: StrapiPaddingOptionalSchema,
+    paddingTop: StrapiPaddingOptionalSchema,
+    paddingBottom: StrapiPaddingOptionalSchema,
     ...HasStrapiIdSchema.shape,
     ...OptionalStrapiLinkIdentifierSchema.shape,
   })
