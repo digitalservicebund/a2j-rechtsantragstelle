@@ -1,11 +1,22 @@
-import streetNamesByPostcode from "../../../data/streetNames.json";
+import fs from "node:fs";
 
 // See scripts/streetNames/postProcess.ts
 type StreetData = {
   name: string;
   locality: string;
 };
-type StreetNameMap = Record<string, StreetData[]>;
+type StreetNamesMap = Record<string, StreetData[]>;
+
+const JSON_FILE_PATH = "../../../data/streetNames.json";
+let streetNamesMap: StreetNamesMap | undefined = undefined;
+
+function getStreetNamesByPostcode() {
+  if (!streetNamesMap) {
+    const jsonFileUrl = new URL(JSON_FILE_PATH, import.meta.url);
+    streetNamesMap = JSON.parse(fs.readFileSync(jsonFileUrl, "utf8"));
+  }
+  return streetNamesMap as StreetNamesMap;
+}
 
 export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
   /**
@@ -21,5 +32,5 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
 }
 export function fetchStreetnamesForZipcode(zipCode?: string): StreetData[] {
   if (!zipCode) return [];
-  return (streetNamesByPostcode as StreetNameMap)[zipCode] ?? [];
+  return getStreetNamesByPostcode()[zipCode] ?? [];
 }
