@@ -1,5 +1,5 @@
-import { setup, type MachineContext } from "xstate";
-import type { GenericGuard, Guards } from "~/domains/guards.server";
+import { setup } from "xstate";
+import type { Guards } from "~/domains/guards.server";
 import { type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
@@ -18,7 +18,6 @@ class ConfigExtractor<TContext extends UserData> {
       types: {
         context: {} as TContext,
         events: {} as FlowStateMachineEvents,
-        meta: {} as Meta<TContext>,
       },
       guards: {} as Guards,
     });
@@ -50,10 +49,9 @@ export type FlowConfigTransitions = {
   nextFlowEntrypoint?: TransitionConfigOrTarget;
 };
 
-export type Meta<TUserData extends MachineContext = UserData> = {
+export type Meta = {
   excludedFromValidation?: boolean;
   triggerValidation?: boolean;
   shouldAppearAsMenuNavigation?: boolean;
-  done?: GenericGuard<TUserData>;
   arrays?: Record<string, ArrayConfigServer>;
 };
