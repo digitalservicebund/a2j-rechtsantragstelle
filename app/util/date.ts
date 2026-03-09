@@ -22,3 +22,20 @@ export function today() {
     ),
   );
 }
+export const toGermanDateString = (date: Date) => {
+  return date.toLocaleDateString("de", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+};
+
+export const pdfDateFormat = (date: Date) =>
+  toGermanDateString(date).replaceAll(".", "_");
+
+export const toGermanTimeString = (date: Date) =>
+  date.toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });

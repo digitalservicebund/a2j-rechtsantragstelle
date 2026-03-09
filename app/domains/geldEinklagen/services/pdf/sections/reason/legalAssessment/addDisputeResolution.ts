@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
+  FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -10,7 +11,9 @@ import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 export const CLAIM_FULL_JUSTIFIED_TEXT =
   "Die Klage ist vollumfänglich begründet.";
 
-const getAssumedSettlementSectionText = ({
+export const DISPUTE_RESOLUTION_TITLE = "Außergerichtliche Streitbeilegung:";
+
+const getDisputeResolutionText = ({
   streitbeilegung,
   streitbeilegungGruende,
 }: GeldEinklagenFormularUserData): string => {
@@ -20,7 +23,7 @@ const getAssumedSettlementSectionText = ({
 
   if (streitbeilegung === "no") {
     if (streitbeilegungGruende === "yes") {
-      return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
+      return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
     }
 
     return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
@@ -30,7 +33,7 @@ const getAssumedSettlementSectionText = ({
     streitbeilegung === "noSpecification" &&
     streitbeilegungGruende === "yes"
   ) {
-    return "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
+    return "Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
   }
 
   return "";
@@ -41,10 +44,14 @@ export function addDisputeResolution(
   legalAssessmentSect: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
 ) {
-  const disputeResolutionText = getAssumedSettlementSectionText(userData);
+  const disputeResolutionText = getDisputeResolutionText(userData);
 
   const legalAssessmentTextsHeight = getHeightOfString(
-    [CLAIM_FULL_JUSTIFIED_TEXT, disputeResolutionText],
+    [
+      CLAIM_FULL_JUSTIFIED_TEXT,
+      DISPUTE_RESOLUTION_TITLE,
+      disputeResolutionText,
+    ],
     doc,
     PDF_WIDTH_SEIZE,
   );
@@ -59,6 +66,24 @@ export function addDisputeResolution(
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(CLAIM_FULL_JUSTIFIED_TEXT)
+        .moveDown(1);
+    }),
+  );
+
+  legalAssessmentSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(DISPUTE_RESOLUTION_TITLE);
+    }),
+  );
+
+  legalAssessmentSect.add(
+    doc.struct("P", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_REGULAR)
         .text(disputeResolutionText)
         .moveDown(4);
     }),

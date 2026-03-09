@@ -1,8 +1,7 @@
 import { type Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "tests/e2e/domains/fluggastrechte/formular/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { today } from "~/util/dateCalculations";
-import { toGermanDateFormat } from "~/services/validation/dateString";
+import { today, toGermanDateString } from "~/util/date";
 
 export async function startFluggastrechteFormular(
   page: Page,
@@ -64,10 +63,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
-  await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
+  await formular.fillInput("direktAbflugsDatum", toGermanDateString(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
-  await formular.fillInput("direktAnkunftsDatum", toGermanDateFormat(today()));
+  await formular.fillInput("direktAnkunftsDatum", toGermanDateString(today()));
   await formular.fillInput("direktAnkunftsZeit", "10:10");
   await formular.clickNext();
 
@@ -97,7 +96,7 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
   await formular.fillInput(
     "ersatzFlugAnkunftsDatum",
-    toGermanDateFormat(today()),
+    toGermanDateString(today()),
   );
   await formular.fillInput("ersatzFlugAnkunftsZeit", "15:10");
   await formular.clickNext();

@@ -9,7 +9,7 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { addYears, today } from "~/util/dateCalculations";
+import { addYears, today } from "~/util/date";
 
 const fourYearsAgoSchema = createDateSchema({
   earliest: () => addYears(today(), -4),

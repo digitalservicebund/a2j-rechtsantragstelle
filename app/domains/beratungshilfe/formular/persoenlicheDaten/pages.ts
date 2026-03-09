@@ -5,7 +5,7 @@ import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { addYears, today } from "~/util/dateCalculations";
+import { addYears, today } from "~/util/date";
 
 export const berHAntragPersoenlicheDatenPages = {
   persoenlicheDatenStart: {

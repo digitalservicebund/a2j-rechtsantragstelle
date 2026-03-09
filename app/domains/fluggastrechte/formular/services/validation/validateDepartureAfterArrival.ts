@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { convertToTimestamp } from "~/services/validation/dateString";
+import { dateAndTimeToTimestamp } from "~/services/validation/time";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
 const _schema = fluggastrechteFlugdatenPages.flugdatenGeplanterFlug.pageSchema;
@@ -17,12 +17,12 @@ export function validateDepartureAfterArrival(
   >,
 ) {
   return baseSchema.check((ctx) => {
-    const departureDateTime = convertToTimestamp(
+    const departureDateTime = dateAndTimeToTimestamp(
       ctx.value.direktAbflugsDatum,
       ctx.value.direktAbflugsZeit,
     );
 
-    const arrivalDateTime = convertToTimestamp(
+    const arrivalDateTime = dateAndTimeToTimestamp(
       ctx.value.direktAnkunftsDatum,
       ctx.value.direktAnkunftsZeit,
     );

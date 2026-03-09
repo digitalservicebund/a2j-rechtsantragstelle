@@ -1,5 +1,4 @@
-import { today } from "~/util/dateCalculations";
-import { pdfDateFormat } from "~/services/validation/dateString";
+import { today, pdfDateFormat } from "~/util/date";
 import { generatePrintTitle } from "../generatePrintTitle";
 
 describe("generatePrintTitle", () => {

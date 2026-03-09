@@ -1,6 +1,6 @@
 import isDate from "validator/lib/isDate";
 import { z } from "zod";
-import { addYears, today } from "~/util/dateCalculations";
+import { addYears, today } from "~/util/date";
 
 export const isValidDate = (date: string) =>
   isDate(date, {
@@ -34,7 +34,7 @@ export const createDateSchema = (args?: {
     })
     .refine(isValidDate, { message: "invalid" })
     .check((ctx) => {
-      const date = dateUTCFromGermanDateString(ctx.value);
+      const date = toDate(ctx.value);
       if (args?.earliest && date < args.earliest()) {
         ctx.issues.push({
           code: "custom",
@@ -57,39 +57,7 @@ export const childBirthdaySchema = createDateSchema({
   latest: () => today(),
 });
 
-export function dateUTCFromGermanDateString(date: string) {
+export function toDate(date: string) {
   const [day, month, year] = date.split(".").map(Number);
-  return new Date(Date.UTC(year, month - 1, Number(day)));
-}
-
-export const toGermanDateFormat = (date: Date) => {
-  return date.toLocaleDateString("de", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
-
-export const pdfDateFormat = (date: Date) =>
-  date
-    .toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replaceAll(".", "_"); // Helper function to convert German date/time format to timestamp
-
-export function convertToTimestamp(date: string, time: string): number {
-  const [day, month, year] = date.split(".").map(Number);
-  const [hours, minutes] = time.split(":").map(Number);
-  return new Date(year, month - 1, day, hours, minutes).getTime();
-}
-
-export function toHourAndMinuteTime(date: Date) {
-  const hoursMinuteFormatter = new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-  return hoursMinuteFormatter.format(date);
+  return new Date(year, month - 1, day);
 }

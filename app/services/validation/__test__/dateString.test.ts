@@ -1,11 +1,5 @@
-import {
-  convertToTimestamp,
-  createDateSchema,
-  dateUTCFromGermanDateString,
-  pdfDateFormat,
-  toGermanDateFormat,
-  toHourAndMinuteTime,
-} from "../dateString";
+import { createDateSchema, toDate } from "../dateString";
+import { dateAndTimeToTimestamp } from "../time";
 
 describe("createDateSchema", () => {
   describe("success cases", () => {
@@ -57,47 +51,18 @@ describe("createDateSchema", () => {
 });
 
 describe("dateString conversions", () => {
-  describe("toGermanDateFormat()", () => {
-    it("formats correctly", () => {
-      expect(toGermanDateFormat(new Date("2000-01-01"))).toEqual("01.01.2000");
-    });
-  });
-
-  describe("dateUTCFromGermanDateString()", () => {
-    it("parses correctly", () => {
-      expect(dateUTCFromGermanDateString("01.01.2000")).toEqual(
-        new Date("2000-01-01"),
-      );
+  describe("toDate", () => {
+    it("parses German Dates correctly", () => {
+      expect(toDate("01.01.2000")).toEqual(new Date("2000-01-01T00:00:00"));
     });
   });
 
   describe("convertToTimestamp", () => {
     it("should convert a valid date and time to a timestamp", () => {
-      const date = "24.03.2025";
-      const time = "15:30";
+      const actual = dateAndTimeToTimestamp("24.03.2025", "15:30");
       const expectedTimestamp = new Date(2025, 2, 24, 15, 30).getTime();
 
-      const actual = convertToTimestamp(date, time);
-
-      expect(actual).toBe(expectedTimestamp);
-    });
-  });
-
-  describe("pdfDateFormat()", () => {
-    it("formats correctly", () => {
-      expect(pdfDateFormat(new Date("2000-01-01"))).toEqual("01_01_2000");
-    });
-  });
-
-  describe("toHourAndMinuteTime", () => {
-    it("should format time correctly", () => {
-      const date = new Date("2025-06-10T12:34:00");
-      expect(toHourAndMinuteTime(date)).toBe("12:34");
-    });
-
-    it("should pad single digit hours and minutes", () => {
-      const date = new Date("2025-06-10T01:05:00");
-      expect(toHourAndMinuteTime(date)).toBe("01:05");
+      expect(actual).toStrictEqual(expectedTimestamp);
     });
   });
 });

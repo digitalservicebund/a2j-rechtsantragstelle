@@ -4,8 +4,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { today } from "~/util/dateCalculations";
-import { toGermanDateFormat } from "~/services/validation/dateString";
+import { today, toGermanDateString } from "~/util/date";
 import type { Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 
 export const CREATION_PDF_TEXT = "Erstellt am:";
@@ -16,7 +15,7 @@ export const createLocalCourtAndDate = (
   documentStruct: PDFKit.PDFStructureElement,
   amtsgericht: Jmtd14VTErwerberGerbeh | undefined,
 ) => {
-  const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateFormat(today())}`;
+  const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateString(today())}`;
 
   const courtAndDateSect = doc.struct("Sect");
 

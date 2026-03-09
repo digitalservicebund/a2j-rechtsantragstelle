@@ -5,7 +5,7 @@ import { createDateSchema } from "~/services/validation/dateString";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { today } from "~/util/dateCalculations";
+import { today } from "~/util/date";
 
 const sharedAusgabenFields = {
   art: stringRequiredSchema,
