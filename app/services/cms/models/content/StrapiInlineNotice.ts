@@ -4,6 +4,7 @@ import { HasStrapiIdSchema } from "../HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
 import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
 import { StrapiContainerSchema } from "../StrapiContainer";
+import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 
 export const StrapiInlineNoticeSchema = z
   .object({
@@ -13,6 +14,8 @@ export const StrapiInlineNoticeSchema = z
     content: StrapiRichTextOptionalSchema(),
     container: StrapiContainerSchema,
     outerBackground: StrapiBackgroundOptionalSchema,
+  paddingTop: StrapiPaddingOptionalSchema,
+  paddingBottom: StrapiPaddingOptionalSchema,
     ...HasStrapiIdSchema.shape,
     ...OptionalStrapiLinkIdentifierSchema.shape,
   })
