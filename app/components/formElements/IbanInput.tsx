@@ -6,7 +6,6 @@ const IbanInput = (props: InputProps) => {
     <MaskedInput
       mask={"**** **** **** **** **** **** **** **** **"}
       type="number"
-      width="10"
       eager={"append"}
       {...props}
     />
