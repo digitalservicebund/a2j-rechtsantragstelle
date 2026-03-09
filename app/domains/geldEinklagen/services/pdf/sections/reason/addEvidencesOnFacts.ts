@@ -4,7 +4,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 
-const EVIDENCES_ON_FACTS_TEXT = "II. Beweise zum Sachverhalt";
+const EVIDENCES_ON_FACTS_TEXT = "II. Beweise";
 
 export const addEvidencesOnFacts = (
   doc: typeof PDFDocument,

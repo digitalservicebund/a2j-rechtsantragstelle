@@ -11,7 +11,7 @@ import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
-import { createDateSchema } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/dateString";
 import { integerSchema } from "~/services/validation/integer";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";

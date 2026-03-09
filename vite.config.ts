@@ -41,6 +41,7 @@ export default defineConfig((config) => ({
   test: {
     globals: true,
     environment: "node",
+    env: { TZ: "Europe/Berlin" },
     pool: "threads",
     coverage: {
       provider: "istanbul",
