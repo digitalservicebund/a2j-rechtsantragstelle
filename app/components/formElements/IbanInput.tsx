@@ -7,6 +7,7 @@ const IbanInput = (props: InputProps) => {
       mask={"**** **** **** **** **** **** **** **** **"}
       type="number"
       eager={"append"}
+      prepareChar={(str) => str.toUpperCase()}
       {...props}
     />
   );
