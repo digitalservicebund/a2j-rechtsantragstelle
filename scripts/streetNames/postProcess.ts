@@ -3,6 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { parse } from "fast-csv";
 
+// Input: csv with Name,PostalCode,Locality,RegionalKey,Borough,Suburb
+// Output: Record<string, Array<{name: string, locality: string}>>
+
 type StreetData = {
   name: string;
   locality: string;

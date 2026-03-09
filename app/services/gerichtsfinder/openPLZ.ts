@@ -1,22 +1,11 @@
-import uniqBy from "lodash/uniqBy";
+import streetNamesByPostcode from "../../../data/streetNames.json";
 
-const OPENPLZ_URL = "https://openplzapi.org/de";
-type OpenPLZResult = {
+// See scripts/streetNames/postProcess.ts
+type StreetData = {
   name: string;
-  postalCode: string;
   locality: string;
-  borough: string;
-  suburb: string;
-  municipality: {
-    key: string;
-    name: string;
-    type: string;
-  };
-  federalState: {
-    key: string;
-    name: string;
-  };
 };
+type StreetNameMap = Record<string, StreetData[]>;
 
 export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
   /**
@@ -30,47 +19,7 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
     .replaceAll("ü", "ue")
     .replaceAll(/\s+/g, "_")}/${trimmedHouseNumber}`;
 }
-export async function fetchStreetnamesForZipcode(zipCode?: string) {
-  const openPlzResponse = await fetch(
-    OPENPLZ_URL + `/Streets?postalCode=${zipCode}&page=1&pageSize=50`,
-  );
-  if (!openPlzResponse.ok) {
-    throw new Error(
-      `OpenPLZ Error: ${openPlzResponse.status} ${openPlzResponse.statusText}`,
-    );
-  }
-  const results: OpenPLZResult[] = await openPlzResponse.json();
-  const numPages = Number.parseInt(
-    openPlzResponse.headers.get("x-total-pages") ?? "",
-  );
-  if (numPages > 1) {
-    const requests: Array<Promise<Response>> = [];
-    for (let page = 2; page <= numPages; page++) {
-      requests.push(
-        fetch(
-          OPENPLZ_URL +
-            `/Streets?postalCode=${zipCode}&page=${page}&pageSize=50`,
-        ),
-      );
-    }
-    const responses = await Promise.all(requests);
-    if (responses.some((response) => !response.ok)) {
-      const failedRequest = responses.find((response) => !response.ok)!;
-      throw new Error(
-        `OpenPLZ Error: ${failedRequest.status} ${failedRequest.statusText}`,
-      );
-    }
-    const newResults = (
-      await Promise.all(
-        responses.map(
-          async (response) => (await response.json()) as OpenPLZResult[],
-        ),
-      )
-    ).flat();
-    results.push(...newResults);
-  }
-  return uniqBy(results, "name").map(({ name }) => ({
-    value: name,
-    label: name,
-  }));
+export function fetchStreetnamesForZipcode(zipCode?: string): StreetData[] {
+  if (!zipCode) return [];
+  return (streetNamesByPostcode as StreetNameMap)[zipCode] ?? [];
 }

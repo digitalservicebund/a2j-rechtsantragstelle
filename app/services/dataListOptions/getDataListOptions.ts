@@ -33,7 +33,10 @@ export async function getDataListOptions(
         }));
     }
     case "streetNames": {
-      return await fetchStreetnamesForZipcode(params?.PLZ);
+      return fetchStreetnamesForZipcode(params?.PLZ).map(({ name }) => ({
+        value: name,
+        label: name,
+      }));
     }
     case undefined:
     default: {
