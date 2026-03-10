@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
-import invariant from "tiny-invariant";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
