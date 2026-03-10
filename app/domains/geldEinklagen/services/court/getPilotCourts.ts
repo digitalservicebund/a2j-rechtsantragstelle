@@ -42,7 +42,7 @@ const getPilotCourt = (
 
   const courtData = findCourt({
     zipCode,
-    streetSlug: street,
+    streetName: street,
     houseNumber: streetNumber,
     angelegenheitInfo: courtCategory,
   });
