@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
-        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+        uses: sigstore/cosign-installer@ba7bc0a3fef59531c69a25acd34668d6d3fe6f22 # v4.1.0
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - uses: actions/download-artifact@v8
@@ -130,7 +130,7 @@ jobs:
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@97e0b3872f55f89b95b2f65b3dbab56962816478 # v0.34.2
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
@@ -138,7 +138,7 @@ jobs:
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@97e0b3872f55f89b95b2f65b3dbab56962816478 # v0.34.2
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
