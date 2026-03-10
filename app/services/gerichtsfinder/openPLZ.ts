@@ -19,18 +19,6 @@ async function loadStreetNamesMap() {
   return streetNamesMap as StreetNamesMap;
 }
 
-export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
-  /**
-   * For the purposes of matching the user input to zuständiges gericht, we really only need the house number without ergänzung
-   */
-  const trimmedHouseNumber = new RegExp(/\d+/).exec(houseNumber)?.[0];
-  return `${streetName
-    .toLowerCase()
-    .replaceAll("ä", "ae")
-    .replaceAll("ö", "oe")
-    .replaceAll("ü", "ue")
-    .replaceAll(/\s+/g, "_")}/${trimmedHouseNumber}`;
-}
 export async function streetNamesForZipcode(
   zipCode?: string,
 ): Promise<StreetData[]> {

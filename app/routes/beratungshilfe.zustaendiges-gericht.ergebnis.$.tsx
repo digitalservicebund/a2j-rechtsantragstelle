@@ -21,7 +21,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const splat = params["*"];
   invariant(splat !== undefined);
 
-  const [zipCode, streetSlug, houseNumber] = splat.split("/");
+  const [zipCode, streetSlug, ...houseNumberSplit] = splat.split("/");
+  const houseNumber = houseNumberSplit.join("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }

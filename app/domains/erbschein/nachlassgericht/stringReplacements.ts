@@ -1,6 +1,5 @@
 import { type ErbscheinNachlassGerichtUserData } from "~/domains/erbschein/nachlassgericht/userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { buildOpenPlzResultUrl } from "~/services/gerichtsfinder/openPLZ";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
 export const getAmtsgerichtStrings = (
@@ -18,10 +17,8 @@ export const getAmtsgerichtStrings = (
     userData.plzPflegeheim;
   const court = findCourt({
     zipCode,
-    streetSlug:
-      userData.strasse && userData.houseNumber
-        ? buildOpenPlzResultUrl(userData.strasse, userData.houseNumber)
-        : undefined,
+    streetSlug: userData.strasse,
+    houseNumber: userData.houseNumber,
     angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
   });
   return {
