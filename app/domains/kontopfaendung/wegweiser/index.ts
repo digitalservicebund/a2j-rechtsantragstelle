@@ -28,6 +28,7 @@ import {
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
+import { getPfaendungsfreibetraegeStrings } from "./stringReplacements";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
@@ -58,5 +59,6 @@ export const kontopfaendungWegweiser = {
     ...getRenteStrings(userData),
     ...getPflegegeldStrings(userData),
     ...getBescheinigungStrings(userData),
+    ...getPfaendungsfreibetraegeStrings(),
   }),
 } satisfies Flow;

@@ -1,3 +1,6 @@
+import { getPfaendungsfreibetraege } from "~/domains/kontopfaendung/wegweiser/pfaendungsfreibetraege";
+import type { Replacements } from "~/util/applyStringReplacement";
+import { today } from "~/util/date";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 
 export const getArbeitStrings = (userData: KontopfaendungWegweiserUserData) => {
@@ -296,4 +299,12 @@ export const getBescheinigungStrings = (
     hasWohngeld;
 
   return { bescheinigungenIsVisible };
+};
+
+export const getPfaendungsfreibetraegeStrings = (): Replacements => {
+  return {
+    selfAllowancePfaendungsfreibetrag: getPfaendungsfreibetraege(
+      today().getFullYear(),
+    ).selfAllowance.toString(),
+  };
 };
