@@ -1,6 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
-import invariant from "tiny-invariant";
 import { BACKGROUND_COLORS } from "~/components";
 import Heading from "~/components/common/Heading";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
@@ -16,12 +15,12 @@ import {
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import KernZuestandigesGerichErgebnis from "./kern/kern-beratungshilfe.zustaendiges-gericht.ergebnis.$";
+import { splatFromParams } from "~/services/params";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const splat = params["*"];
-  invariant(splat !== undefined);
-
-  const [zipCode, streetSlug, houseNumber] = splat.split("/");
+  const [zipCode, streetSlug, ...houseNumberSplit] =
+    splatFromParams(params).split("/");
+  const houseNumber = houseNumberSplit.join("/");
   if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }

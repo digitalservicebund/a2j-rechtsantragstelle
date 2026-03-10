@@ -1,0 +1,62 @@
+// oxlint-disable no-console
+import fs from "node:fs";
+import path from "node:path";
+import { parseFile } from "@fast-csv/parse";
+
+// Input: csv with Name,PostalCode,Locality,RegionalKey,Borough,Suburb
+// Output: Record<string, Array<{name: string, locality: string}>>
+
+type StreetData = {
+  name: string;
+  locality: string;
+};
+
+const OUTPUT_JSON_RELATIVE = "../../data/streetNames.json";
+const outputJsonPath = path.join(__dirname, OUTPUT_JSON_RELATIVE);
+
+export async function generateStreetNamesJson(
+  inputFilePath: string,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const result: Record<string, StreetData[]> = {};
+    const seenSignatures = new Set<string>();
+
+    console.log("Parsing CSV and building grouped data...");
+    console.time("Build Time");
+
+    parseFile(inputFilePath, { headers: true })
+      .on("error", (error) => reject(error))
+      .on("data", (row) => {
+        const postalCode = (row.PostalCode ?? "").trim();
+        if (!postalCode) return;
+        const rawName = row.Name ?? "";
+        const locality = (row.Locality ?? "").trim();
+
+        const cleanName = rawName.replace(/(^"+|"+$)/g, "").trim();
+        const uniqueSignature = `${postalCode}|${cleanName}|${locality}`;
+        if (seenSignatures.has(uniqueSignature)) {
+          return;
+        }
+        seenSignatures.add(uniqueSignature);
+
+        if (!result[postalCode]) result[postalCode] = [];
+        result[postalCode].push({ name: cleanName, locality });
+      })
+      .on("end", (rowCount: number) => {
+        console.timeEnd("Build Time");
+        console.log(`Parsed ${rowCount} rows.`);
+        console.log(
+          `Extracted ${Object.keys(result).length} unique postal codes.`,
+        );
+
+        console.log(`Writing JSON to ${OUTPUT_JSON_RELATIVE}...`);
+        try {
+          fs.writeFileSync(outputJsonPath, JSON.stringify(result));
+          console.log("✅ JSON file successfully created!");
+          resolve();
+        } catch (writeError) {
+          reject(writeError);
+        }
+      });
+  });
+}
