@@ -12,7 +12,7 @@ export const getAmtsgerichtStrings = (
   if (!zipCode) return {};
   const court = findCourt({
     zipCode,
-    streetSlug: userData.strasse,
+    streetName: userData.strasse,
     houseNumber: userData.houseNumber,
     angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
   });

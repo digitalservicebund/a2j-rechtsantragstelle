@@ -34,7 +34,7 @@ export const fillHeader: BerHPdfFillFunction = ({ userData, pdfValues }) => {
   const court = findCourt({
     zipCode: userData.plz,
     houseNumber: userData.houseNumber,
-    streetSlug: userData.street,
+    streetName: userData.street,
   });
   if (court) {
     const courtName = court.BEZEICHNUNG.replace("Amtsgericht", "").trim();

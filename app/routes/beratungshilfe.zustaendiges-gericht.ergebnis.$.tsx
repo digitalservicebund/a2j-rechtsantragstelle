@@ -18,14 +18,14 @@ import KernZuestandigesGerichErgebnis from "./kern/kern-beratungshilfe.zustaendi
 import { splatFromParams } from "~/services/params";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const [zipCode, streetSlug, ...houseNumberSplit] =
+  const [zipCode, streetName, ...houseNumberSplit] =
     splatFromParams(params).split("/");
   const houseNumber = houseNumberSplit.join("/");
-  if (edgeCasesForPlz(zipCode).length > 0 && !streetSlug) {
+  if (edgeCasesForPlz(zipCode).length > 0 && !streetName) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/auswahl/${zipCode}`);
   }
 
-  const court = findCourt({ zipCode, streetSlug, houseNumber });
+  const court = findCourt({ zipCode, streetName, houseNumber });
   if (!court) {
     throw new Response(null, {
       status: 404,
