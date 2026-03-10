@@ -6,16 +6,11 @@ import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 export const getAmtsgerichtStrings = (
   userData: ErbscheinNachlassGerichtUserData,
 ) => {
-  if (
-    !userData.plzLebensmittelpunkt &&
-    !userData.plzHospiz &&
-    !userData.plzPflegeheim
-  )
-    return {};
   const zipCode =
     userData.plzLebensmittelpunkt ??
     userData.plzHospiz ??
     userData.plzPflegeheim;
+  if (!zipCode) return {};
   const court = findCourt({
     zipCode,
     streetSlug:
