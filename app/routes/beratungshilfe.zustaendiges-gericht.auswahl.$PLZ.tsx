@@ -15,7 +15,7 @@ import Input from "~/components/formElements/Input";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { edgeCaseStreets } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
@@ -38,7 +38,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");
-  const edgeCases = edgeCaseStreets({ zipCode });
+  const edgeCases = edgeCasesForPlz(zipCode);
   if (edgeCases.length == 0) {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }

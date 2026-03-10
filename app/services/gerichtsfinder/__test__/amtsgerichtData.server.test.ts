@@ -202,40 +202,36 @@ describe("amtsGerichtData Helpers", () => {
       ).toBeUndefined();
     });
 
-    it("should return the correct court if a valid street slug is passed", () => {
-      expect(
-        findCourt({
-          zipCode: "20457",
-          streetName: "kluetjenfelder_str.",
-          houseNumber: "1",
-        }),
-      ).toHaveProperty("STR_HNR", "Buxtehuder Straße 9");
-      expect(
-        findCourt({
-          zipCode: "20457",
-          streetName: "kluetjenfelder_str.",
-          houseNumber: "12",
-        }),
-      ).toHaveProperty("STR_HNR", "Sievekingplatz 1");
+    [
+      "kluetjenfelder_str.",
+      "kluetjenfelder str.",
+      "kluetjenfelder str",
+      "Klütjenfelder Str",
+      "Klütjenfelder Str.",
+      "Klütjenfelder Strasse",
+      "Klütjenfelder Straße",
+    ].forEach((streetName) => {
+      it(`should return the correct court for ${streetName}`, () => {
+        expect(
+          findCourt({
+            zipCode: "20457",
+            streetName,
+            houseNumber: "12",
+          }),
+        ).toHaveProperty("STR_HNR", "Sievekingplatz 1");
+      });
     });
 
-    it("should also handle streets saved as `strasse` instead of `str.`", () => {
-      expect(
-        findCourt({
-          zipCode: "10789",
-          streetName: "augsburger_str.",
-          houseNumber: "19",
-        }),
-      ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
-    });
-    it("should normalize uppercase street names", () => {
-      expect(
-        findCourt({
-          zipCode: "10789",
-          streetName: "Augsburger Str.",
-          houseNumber: "19",
-        }),
-      ).toHaveProperty("STR_HNR", "Amtsgerichtsplatz 1");
+    ["1", "1a", "1 1/2", "1 as"].forEach((houseNumber) => {
+      it(`should return the edge case court based on house Number ${houseNumber}`, () => {
+        expect(
+          findCourt({
+            zipCode: "20457",
+            streetName: "kluetjenfelder_str.",
+            houseNumber: houseNumber,
+          }),
+        ).toHaveProperty("STR_HNR", "Buxtehuder Straße 9");
+      });
     });
   });
 });
