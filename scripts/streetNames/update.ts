@@ -12,20 +12,25 @@ const etagFilePath = `${localFilePath}.etag`;
 
 async function syncStreetNamesFile() {
   try {
-    // 1. Read our locally saved ETag (if both the data file and ETag file exist)
-    const localETag =
-      fs.existsSync(etagFilePath) && fs.existsSync(localFilePath)
-        ? fs.readFileSync(etagFilePath, "utf8")
-        : null;
+    let localETag: string | null = null;
+    try {
+      localETag = fs.readFileSync(etagFilePath, "utf8"); // Throws error if not existing
+      fs.accessSync(localFilePath);
+      console.log(
+        `Found ETag ${localETag}, checking whether still up-to-date...`,
+      );
+    } catch {
+      console.warn("ETag file not found, re-downloading...");
+    }
 
     const headers: Record<string, string> = localETag
       ? { "If-None-Match": localETag }
       : {};
 
-    console.log(`Checking for updates: ${RAW_URL_REMOTE}...`);
+    console.log(`Fetching ${RAW_URL_REMOTE}`);
     const response = await fetch(RAW_URL_REMOTE, { headers });
 
-    // 3. Handle a 304 Not Modified response (File hasn't changed!)
+    // If the Etag matches the remote, it returns a '304 Not Modified'
     if (response.status === 304) {
       console.log("✅ Local file matches remote, skipping download.");
       return;
@@ -37,14 +42,13 @@ async function syncStreetNamesFile() {
       );
     }
 
-    // 4. If we get a 200 OK, the file is new or modified. Download it.
     console.log("Remote file is new or updated. Downloading...");
     fs.writeFileSync(localFilePath, Buffer.from(await response.arrayBuffer()));
 
-    // 5. Save the new ETag for the next time we run the script
     const newETag = response.headers.get("etag");
     if (newETag) {
       fs.writeFileSync(etagFilePath, newETag);
+      console.log(`Saved new ETag ${newETag}.`);
     }
 
     generateStreetNamesJson().catch((err) => {
