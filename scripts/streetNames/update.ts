@@ -15,7 +15,6 @@ async function syncStreetNamesFile() {
     let localETag: string | null = null;
     try {
       const rawETag = fs.readFileSync(etagFilePath, "utf8"); // Throws error if not existing
-      fs.accessSync(localFilePath);
       if (/^(W\/)?"[a-zA-Z0-9]+"$/.test(rawETag) && rawETag.length < 100) {
         localETag = rawETag;
       } else {
@@ -34,7 +33,7 @@ async function syncStreetNamesFile() {
 
     // If the Etag matches the remote, it returns a '304 Not Modified'
     if (response.status === 304) {
-      console.log("✅ Local file matches remote, skipping download.");
+      console.log("✅ Local ETag matches remote, skipping download.");
       return;
     }
 
