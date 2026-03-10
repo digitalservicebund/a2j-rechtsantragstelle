@@ -9,17 +9,17 @@ describe("OpenPLZ helpers", () => {
       vi.resetAllMocks();
     });
 
-    it("should return empty array without input", () => {
-      expect(fetchStreetnamesForZipcode()).toStrictEqual([]);
+    it("should return empty array without input", async () => {
+      expect(await fetchStreetnamesForZipcode()).toStrictEqual([]);
     });
 
-    it("should return empty array for invalid postcodes", () => {
-      expect(fetchStreetnamesForZipcode("asd")).toStrictEqual([]);
+    it("should return empty array for invalid postcodes", async () => {
+      expect(await fetchStreetnamesForZipcode("asd")).toStrictEqual([]);
     });
 
-    it("should filter by unique results", () => {
+    it("should filter by unique results", async () => {
       // 27499 (Insel Neuwerk) has only two entries
-      expect(fetchStreetnamesForZipcode("27499")).toEqual([
+      expect(await fetchStreetnamesForZipcode("27499")).toEqual([
         { locality: "Hamburg", name: "Herrengarten" },
         { locality: "Hamburg", name: "Mittelweg" },
       ]);

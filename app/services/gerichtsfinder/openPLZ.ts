@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 
 // See scripts/streetNames/postProcess.ts
 type StreetData = {
@@ -10,10 +10,10 @@ type StreetNamesMap = Record<string, StreetData[]>;
 const JSON_FILE_PATH = "../../../data/streetNames.json";
 let streetNamesMap: StreetNamesMap | undefined = undefined;
 
-function getStreetNamesByPostcode() {
+async function getStreetNamesByPostcode() {
   if (!streetNamesMap) {
     const jsonFileUrl = new URL(JSON_FILE_PATH, import.meta.url);
-    streetNamesMap = JSON.parse(fs.readFileSync(jsonFileUrl, "utf8"));
+    streetNamesMap = JSON.parse(await readFile(jsonFileUrl, "utf8"));
   }
   return streetNamesMap as StreetNamesMap;
 }
@@ -30,7 +30,9 @@ export function buildOpenPlzResultUrl(streetName: string, houseNumber: string) {
     .replaceAll("ü", "ue")
     .replaceAll(/\s+/g, "_")}/${trimmedHouseNumber}`;
 }
-export function fetchStreetnamesForZipcode(zipCode?: string): StreetData[] {
+export async function fetchStreetnamesForZipcode(
+  zipCode?: string,
+): Promise<StreetData[]> {
   if (!zipCode) return [];
-  return getStreetNamesByPostcode()[zipCode] ?? [];
+  return (await getStreetNamesByPostcode())[zipCode] ?? [];
 }
