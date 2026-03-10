@@ -25,10 +25,10 @@ import {
   getRenteStrings,
   getPflegegeldStrings,
   getBescheinigungStrings,
+  getPfaendungsfreibetraegeStrings,
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
-import { getPfaendungsfreibetraegeStrings } from "./stringReplacements";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",

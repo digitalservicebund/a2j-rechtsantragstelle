@@ -6,7 +6,7 @@ import { logWarning, sendSentryMessage } from "~/services/logging";
  * Those who make maintenance payments to others have increased
  * Freibetraege
  */
-type PfanedungsFreibetraege = {
+type PfaendungsFreibetraege = {
   selfAllowance: number;
   allowanceOneDependent: number;
   allowanceTwoDependents: number;
@@ -17,7 +17,7 @@ type PfanedungsFreibetraege = {
 
 export const pfaendungsbeitraegePerYear: Record<
   number,
-  PfanedungsFreibetraege
+  PfaendungsFreibetraege
 > = {
   2026: {
     selfAllowance: 1560,
