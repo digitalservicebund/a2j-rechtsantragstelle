@@ -40,6 +40,7 @@
     "update:courtData": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts updateZip",
     "update:courtDataKey": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts rotateKey",
     "update:URLs": "vite-node ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
+    "update:streetNames": "vite-node ./scripts/streetNames/update.ts",
     "verify:emails": "node ./scripts/verifyExternalLinks.ts verifyEmails",
     "verify:unusedStrapiEntries": "vite-node ./scripts/unusedStrapiEntries.ts unusedStrapiEntry",
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
@@ -99,6 +100,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
     "@faker-js/faker": "^10.3.0",
+    "@fast-csv/parse": "^5.0.5",
     "@playwright/test": "^1.58.2",
     "@react-router/dev": "^7.13.1",
     "@react-router/fs-routes": "^7.13.1",

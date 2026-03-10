@@ -24,6 +24,9 @@ lefthook-local.yml
 # Gerichtsfinder data
 **/gerichtsfinder/_data/
 
+# streetNames raw download
+/scripts/streetNames/streets.updated.csv
+
 # local Redis TLS certs
 /certs
 
