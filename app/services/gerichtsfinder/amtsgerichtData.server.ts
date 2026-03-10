@@ -120,17 +120,17 @@ export const edgeCaseStreets = ({
 
 export const findCourt = ({
   zipCode,
-  streetSlug,
+  streetName,
   houseNumber,
   angelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 }: {
   zipCode?: string;
-  streetSlug?: string;
+  streetName?: string;
   houseNumber?: string;
   angelegenheitInfo?: AngelegenheitInfo;
 }) => {
-  if (streetSlug && streetSlug !== "default") {
-    const decodedStreetName = streetSlug.toLowerCase().replaceAll("_", " ");
+  if (streetName && streetName !== "default") {
+    const decodedStreetName = streetName.toLowerCase().replaceAll("_", " ");
     const decodedStreetnameFull = decodedStreetName
       .toLowerCase()
       .replaceAll(/([Ss]tr\.)/g, "strasse");
