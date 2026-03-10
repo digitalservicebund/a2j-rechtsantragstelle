@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 // See scripts/streetNames/postProcess.ts
 type StreetData = {
@@ -7,13 +8,13 @@ type StreetData = {
 };
 type StreetNamesMap = Record<string, StreetData[]>;
 
-const JSON_FILE_PATH = "../../../data/streetNames.json";
+const JSON_FILE_PATH = "data/streetNames.json";
 let streetNamesMap: StreetNamesMap | undefined = undefined;
 
 async function getStreetNamesByPostcode() {
   if (!streetNamesMap) {
-    const jsonFileUrl = new URL(JSON_FILE_PATH, import.meta.url);
-    streetNamesMap = JSON.parse(await readFile(jsonFileUrl, "utf8"));
+    const jsonFilePath = path.resolve(path.join(process.cwd(), JSON_FILE_PATH));
+    streetNamesMap = JSON.parse(await readFile(jsonFilePath, "utf8"));
   }
   return streetNamesMap as StreetNamesMap;
 }
