@@ -14,13 +14,15 @@ async function syncStreetNamesFile() {
   try {
     let localETag: string | null = null;
     try {
-      localETag = fs.readFileSync(etagFilePath, "utf8"); // Throws error if not existing
+      const rawETag = fs.readFileSync(etagFilePath, "utf8"); // Throws error if not existing
       fs.accessSync(localFilePath);
-      console.log(
-        `Found ETag ${localETag}, checking whether still up-to-date...`,
-      );
+      if (/^(W\/)?"[a-zA-Z0-9]+"$/.test(rawETag) && rawETag.length < 100) {
+        localETag = rawETag;
+      } else {
+        throw new Error(`${rawETag} doesn't match requirements`);
+      }
     } catch {
-      console.warn("ETag file not found, re-downloading...");
+      console.warn("No valid existing ETag found.");
     }
 
     const headers: Record<string, string> = localETag
