@@ -1,5 +1,5 @@
+import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { reactRouterFormContext } from "../.storybook/reactRouterFormContext";
 import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
 
 const meta = {
