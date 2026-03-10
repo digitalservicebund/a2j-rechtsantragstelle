@@ -9,7 +9,7 @@ import {
 } from "../addDisputeResolution";
 
 describe("addDisputeResolution", () => {
-  it("should always render the dispute resolution title", () => {
+  it("should render dispute resolution title when there is content", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -20,6 +20,20 @@ describe("addDisputeResolution", () => {
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE);
+  });
+
+  it("should not render dispute resolution title when there is no content", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      streitbeilegung: "noSpecification",
+      streitbeilegungGruende: "no",
+    } satisfies GeldEinklagenFormularUserData;
+
+    addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE);
   });
 
   it("should render document with assumed settlement section text given streitbeilegung yes", () => {

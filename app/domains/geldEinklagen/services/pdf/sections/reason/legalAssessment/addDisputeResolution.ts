@@ -70,22 +70,24 @@ export function addDisputeResolution(
     }),
   );
 
-  legalAssessmentSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(DISPUTE_RESOLUTION_TITLE);
-    }),
-  );
+  if (disputeResolutionText) {
+    legalAssessmentSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .fontSize(10)
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(DISPUTE_RESOLUTION_TITLE);
+      }),
+    );
 
-  legalAssessmentSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(disputeResolutionText)
-        .moveDown(4);
-    }),
-  );
+    legalAssessmentSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .fontSize(10)
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(disputeResolutionText)
+          .moveDown(4);
+      }),
+    );
+  }
 }
