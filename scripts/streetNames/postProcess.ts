@@ -1,7 +1,7 @@
 // oxlint-disable no-console
 import fs from "node:fs";
 import path from "node:path";
-import { parse } from "fast-csv";
+import { parseFile } from "@fast-csv/parse";
 
 // Input: csv with Name,PostalCode,Locality,RegionalKey,Borough,Suburb
 // Output: Record<string, Array<{name: string, locality: string}>>
@@ -19,25 +19,19 @@ const outputJsonPath = path.join(__dirname, OUTPUT_JSON_RELATIVE);
 
 export async function generateStreetNamesJson(): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(inputCsvPath)) {
-      return reject(new Error(`Input CSV not found at ${inputCsvPath}`));
-    }
-
     const result: Record<string, StreetData[]> = {};
     const seenSignatures = new Set<string>();
 
     console.log("Parsing CSV and building grouped data...");
     console.time("Build Time");
 
-    fs.createReadStream(inputCsvPath)
-      .pipe(parse({ headers: true }))
+    parseFile(inputCsvPath, { headers: true })
       .on("error", (error) => reject(error))
       .on("data", (row) => {
-        const rawName = row.Name ?? "";
         const postalCode = (row.PostalCode ?? "").trim();
-        const locality = (row.Locality ?? "").trim();
-
         if (!postalCode) return;
+        const rawName = row.Name ?? "";
+        const locality = (row.Locality ?? "").trim();
 
         const cleanName = rawName.replace(/(^"+|"+$)/g, "").trim();
         const uniqueSignature = `${postalCode}|${cleanName}|${locality}`;
@@ -46,9 +40,7 @@ export async function generateStreetNamesJson(): Promise<void> {
         }
         seenSignatures.add(uniqueSignature);
 
-        if (!result[postalCode]) {
-          result[postalCode] = [];
-        }
+        if (!result[postalCode]) result[postalCode] = [];
         result[postalCode].push({ name: cleanName, locality });
       })
       .on("end", (rowCount: number) => {
