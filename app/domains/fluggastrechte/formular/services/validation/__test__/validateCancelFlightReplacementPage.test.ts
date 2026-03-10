@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 import { validateCancelFlightReplacementPage } from "../validateCancelFlightReplacementPage";
 import { fluggastrechteFlugdatenPages } from "../../../flugdaten/pages";
 
@@ -9,9 +9,9 @@ describe("validateCancelFlightReplacementPage", () => {
   });
 
   const mockData = {
-    direktAbflugsDatum: toGermanDateFormat(today()),
+    direktAbflugsDatum: toGermanDateString(today()),
     direktAbflugsZeit: "10:00",
-    direktAnkunftsDatum: toGermanDateFormat(today()),
+    direktAnkunftsDatum: toGermanDateString(today()),
     direktAnkunftsZeit: "11:00",
     ankuendigung: "no",
   };

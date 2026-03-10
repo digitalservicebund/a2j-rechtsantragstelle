@@ -124,7 +124,7 @@ The git hooks check formatting, linting, unit tests, typecheck. You may execute 
 
 ### Storybook
 
-Storybook containing our components is running on staging and [preview](https://a2j-test.dev.ds4g.net/storybook/). To run it locally, use `pnpm run start:storybook`.
+Storybook containing our components is running on staging and [preview](https://a2j-preview.prod.tech.digitalservice.dev/storybook). To run it locally, use `pnpm run start:storybook`.
 
 ## Known issues
 

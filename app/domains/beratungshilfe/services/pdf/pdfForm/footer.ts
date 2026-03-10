@@ -1,4 +1,4 @@
-import { today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 import { uppercaseFirstLetter } from "~/util/strings";
 import type { BerHPdfFillFunction } from "../types";
 
@@ -16,7 +16,7 @@ export const fillFooter: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       pdfValues.datumBeratung.value = userData.beratungStattgefundenDatum ?? "";
     }
   }
-  pdfValues.ortDatum2.value = `${uppercaseFirstLetter(userData.ort)}, ${toGermanDateFormat(
+  pdfValues.ortDatum2.value = `${uppercaseFirstLetter(userData.ort)}, ${toGermanDateString(
     today(),
   )}`;
 

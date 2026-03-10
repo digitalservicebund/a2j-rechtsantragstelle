@@ -1,7 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
-import { addYears, today, toGermanDateFormat } from "~/util/date";
+import { addYears, today, toGermanDateString } from "~/util/date";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenNo: [
@@ -69,7 +69,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/laufzeitende",
       userInput: {
-        "ratenzahlungen#laufzeitende": toGermanDateFormat(addYears(today(), 1)),
+        "ratenzahlungen#laufzeitende": toGermanDateString(addYears(today(), 1)),
       },
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },

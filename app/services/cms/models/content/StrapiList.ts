@@ -7,6 +7,8 @@ import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
 import { StrapiContainerSchema } from "../StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiListItemSchema } from "./StrapiListItem";
+import { StrapiKernBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
+import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 
 export const listRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {
@@ -20,6 +22,10 @@ export const StrapiListSchema = z.object({
   items: z.array(StrapiListItemSchema),
   variant: z.enum(["unordered", "numbered", "stepByStep"]).default("unordered"),
   outerBackground: StrapiBackgroundOptionalSchema,
+  contentBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
+  paddingTop: StrapiPaddingOptionalSchema,
+  paddingBottom: StrapiPaddingOptionalSchema,
+  sectionBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
   container: StrapiContainerSchema,
   __component: z.literal("page.list"),
   ...HasStrapiIdSchema.shape,

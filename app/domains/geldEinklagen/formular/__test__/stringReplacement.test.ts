@@ -3,14 +3,10 @@ import { getResponsibleCourt } from "../../services/court/getResponsibleCourt";
 import {
   hasClaimVertrag,
   hasExclusivePlaceJurisdictionOrSelectCourt,
+  hasAnwaltskosten,
   isBeklagtePerson,
   isCourtAGSchoeneberg,
   getCourtCost,
-  getKlagendePersonInfo,
-  getBeklagtePersonInfo,
-  getSachverhaltInfo,
-  getProzesszinsenInfo,
-  getZusaetzlicheAngabenInfo,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -242,119 +238,23 @@ describe("stringReplacement", () => {
     );
   });
 
-  describe("getKlagendePersonInfo", () => {
-    it("should return klagende person info fields", () => {
-      const context: GeldEinklagenFormularUserData = {
-        klagendePersonAnrede: "herr",
-        klagendePersonTitle: "dr",
-        klagendePersonVorname: "Max",
-        klagendePersonNachname: "Mustermann",
-        klagendePersonStrasseHausnummer: "Musterstr. 1",
-        klagendePersonPlz: "12345",
-        klagendePersonOrt: "Musterstadt",
-        klagendeTelefonnummer: "0123",
-        klagendePersonIban: "DE0012345678",
-        klagendePersonKontoinhaber: "Max Mustermann",
-      };
+  describe("hasAnwaltskosten", () => {
+    it("should return false if anwaltskosten is empty string", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "" });
 
-      const actual = getKlagendePersonInfo(context);
-
-      expect(actual).toEqual({
-        klagendePersonAnrede: "herr",
-        klagendePersonTitle: "dr",
-        klagendePersonVorname: "Max",
-        klagendePersonNachname: "Mustermann",
-        klagendePersonStrasseHausnummer: "Musterstr. 1",
-        klagendePersonPlz: "12345",
-        klagendePersonOrt: "Musterstadt",
-        klagendeTelefonnummer: "0123",
-        klagendePersonIban: "DE0012345678",
-        klagendePersonKontoinhaber: "Max Mustermann",
-      });
+      expect(actual.hasAnwaltskosten).toBe(false);
     });
-  });
 
-  describe("getBeklagtePersonInfo", () => {
-    it("should return beklagte person info fields", () => {
-      const context: GeldEinklagenFormularUserData = {
-        beklagteAnrede: "frau",
-        beklagteTitle: "none",
-        beklagteVorname: "Erika",
-        beklagteNachname: "Musterfrau",
-        beklagteStrasseHausnummer: "Beispielweg 2",
-        beklagtePlz: "54321",
-        beklagteOrt: "Beispielstadt",
-      };
+    it("should return false if anwaltskosten is 0,00", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "0,00" });
 
-      const actual = getBeklagtePersonInfo(context);
-
-      expect(actual).toEqual({
-        beklagteAnrede: "frau",
-        beklagteTitle: "none",
-        beklagteVorname: "Erika",
-        beklagteNachname: "Musterfrau",
-        beklagteStrasseHausnummer: "Beispielweg 2",
-        beklagtePlz: "54321",
-        beklagteOrt: "Beispielstadt",
-      });
+      expect(actual.hasAnwaltskosten).toBe(false);
     });
-  });
 
-  describe("getSachverhaltInfo", () => {
-    it("should return sachverhalt info fields", () => {
-      const context: GeldEinklagenFormularUserData = {
-        forderungGesamtbetrag: "1000",
-        sachverhaltBegruendung: "Begründung",
-        beweiseAngebot: "yes",
-      };
+    it("should return true if anwaltskosten is greater than 0", () => {
+      const actual = hasAnwaltskosten({ anwaltskosten: "12,34" });
 
-      const actual = getSachverhaltInfo(context);
-
-      expect(actual).toEqual({
-        forderungGesamtbetrag: "1000",
-        sachverhaltBegruendung: "Begründung",
-        beweiseAngebot: "yes",
-      });
-    });
-  });
-
-  describe("getProzesszinsenInfo", () => {
-    it("should return prozesszinsen info fields (keeps existing key name)", () => {
-      const context: GeldEinklagenFormularUserData = {
-        prozesszinsen: "yes",
-        anwaltskosten: "200",
-        streitbeilegung: "no",
-        muendlicheVerhandlung: "yes",
-        videoVerhandlung: "no",
-        versaeumnisurteil: "no",
-      };
-
-      const actual = getProzesszinsenInfo(context);
-
-      expect(actual).toEqual({
-        prozesszisnsen: "yes",
-        anwaltskosten: "200",
-        streitbeilegung: "no",
-        muendlicheVerhandlung: "yes",
-        videoVerhandlung: "no",
-        versaeumnisurteil: "no",
-      });
-    });
-  });
-
-  describe("getZusaetzlicheAngabenInfo", () => {
-    it("should return additional Angaben including rechtlicheWuerdigung", () => {
-      const context: GeldEinklagenFormularUserData = {
-        weitereAntraege: "Sonstige Anträge",
-        rechtlicheWuerdigung: "Rechtliche Würdigung Text",
-      };
-
-      const actual = getZusaetzlicheAngabenInfo(context);
-
-      expect(actual).toEqual({
-        weitereAntraege: "Sonstige Anträge",
-        rechtlicheWuerdigung: "Rechtliche Würdigung Text",
-      });
+      expect(actual.hasAnwaltskosten).toBe(true);
     });
   });
 });
