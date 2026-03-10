@@ -11,13 +11,12 @@ type StreetData = {
   locality: string;
 };
 
-const INPUT_CSV_RELATIVE = "./streets.updated.csv";
 const OUTPUT_JSON_RELATIVE = "../../data/streetNames.json";
-
-const inputCsvPath = path.join(__dirname, INPUT_CSV_RELATIVE);
 const outputJsonPath = path.join(__dirname, OUTPUT_JSON_RELATIVE);
 
-export async function generateStreetNamesJson(): Promise<void> {
+export async function generateStreetNamesJson(
+  inputFilePath: string,
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const result: Record<string, StreetData[]> = {};
     const seenSignatures = new Set<string>();
@@ -25,7 +24,7 @@ export async function generateStreetNamesJson(): Promise<void> {
     console.log("Parsing CSV and building grouped data...");
     console.time("Build Time");
 
-    parseFile(inputCsvPath, { headers: true })
+    parseFile(inputFilePath, { headers: true })
       .on("error", (error) => reject(error))
       .on("data", (row) => {
         const postalCode = (row.PostalCode ?? "").trim();

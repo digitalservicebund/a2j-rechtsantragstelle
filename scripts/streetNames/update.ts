@@ -12,20 +12,18 @@ const etagFilePath = `${localFilePath}.etag`;
 
 async function syncStreetNamesFile() {
   try {
-    let localETag: string | null = null;
+    let validETag: string | null = null;
     try {
       const rawETag = fs.readFileSync(etagFilePath, "utf8"); // Throws error if not existing
       if (/^(W\/)?"[a-zA-Z0-9]+"$/.test(rawETag) && rawETag.length < 100) {
-        localETag = rawETag;
-      } else {
-        throw new Error(`${rawETag} doesn't match requirements`);
+        validETag = rawETag;
       }
     } catch {
       console.warn("No valid existing ETag found.");
     }
 
-    const headers: Record<string, string> = localETag
-      ? { "If-None-Match": localETag }
+    const headers: Record<string, string> = validETag
+      ? { "If-None-Match": validETag }
       : {};
 
     console.log(`Fetching ${RAW_URL_REMOTE}`);
@@ -52,9 +50,7 @@ async function syncStreetNamesFile() {
       console.log(`Saved new ETag ${newETag}.`);
     }
 
-    generateStreetNamesJson().catch((err) => {
-      console.error("❌ Failed to generate JSON:", err);
-    });
+    generateStreetNamesJson(localFilePath);
 
     console.log("✅ Download complete and local file updated.");
   } catch (error) {
