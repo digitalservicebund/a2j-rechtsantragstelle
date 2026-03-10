@@ -18,7 +18,8 @@ jobs:
         env:
           STRAPI_API: "${{ vars.STRAPI_API }}"
           STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
-      - run: echo "content_file_size_mb=$(stat -c %s content.json | numfmt --to=iec | grep -Po '\d+')" >> $GITHUB_OUTPUT
+          CMS_MEDIA_STORAGE_URL: "${{ vars.CMS_MEDIA_STORAGE_URL }}"
+      - run: echo "content_file_size_mb=$(($(stat -c %s content.json) / 1000000))" >> $GITHUB_OUTPUT
         id: contentFileSize
       - name: Alert slack channel upon high content file size
         if: ${{fromJson(steps.contentFileSize.outputs.content_file_size_mb) > 1000}}
@@ -34,7 +35,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHash)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: content-file
           path: content.json
@@ -58,18 +59,18 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+      - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v6
       - name: Download Content File
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: content-file
       - name: Install cosign
-        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+        uses: sigstore/cosign-installer@ba7bc0a3fef59531c69a25acd34668d6d3fe6f22 # v4.1.0
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
       - run: ./docker.sh --build content
@@ -77,7 +78,7 @@ jobs:
       - run: ./docker.sh --build prod
       - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodImageTag)" >> $GITHUB_ENV
       - name: Generate cosign vulnerability scan record for PROD image
-        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 # v0.34.1
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:

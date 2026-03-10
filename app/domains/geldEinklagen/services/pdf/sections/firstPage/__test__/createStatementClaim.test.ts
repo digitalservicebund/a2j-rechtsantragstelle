@@ -1,3 +1,4 @@
+import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -12,8 +13,12 @@ vi.mock("../claimData/addDefendantPartyList");
 vi.mock("../claimData/addFreeTextApplication");
 vi.mock("../claimData/addNegotiationText");
 
+beforeEach(() => {
+  vi.clearAllMocks();
+});
+
 describe("createStatementClaim", () => {
-  it("should create the document with the statement claim correctly", () => {
+  it("should render title and create a new page for free-text applications", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -21,16 +26,17 @@ describe("createStatementClaim", () => {
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
-
     expect(mockDoc.text).toHaveBeenCalledWith("Klageantrag");
+    expect(mockDoc.addPage).toHaveBeenCalledTimes(1);
   });
 
-  it("should call addDefendantPartyList", () => {
+  it("should call addDefendantPartyList with main claim values", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
+    expect(addDefendantPartyList).toHaveBeenCalledTimes(1);
     expect(addDefendantPartyList).toHaveBeenCalledWith(
       mockDoc,
       mockStruct,
@@ -40,25 +46,58 @@ describe("createStatementClaim", () => {
     );
   });
 
-  it("should call addFreeTextApplication", () => {
+  it("should show Weitere Antraege section when shouldShowWeitereAntraege is true", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+    const userData: GeldEinklagenFormularUserData = {
+      ...userDataMock,
+      videoVerhandlung: "yes",
+      versaeumnisurteil: "no",
+      muendlicheVerhandlung: "no",
+    };
 
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
+    createStatementClaim(mockDoc, mockStruct, userData);
 
+    expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
     expect(addFreeTextApplication).toHaveBeenCalledWith(
       mockDoc,
-      userDataMock.weitereAntraege,
+      userData.weitereAntraege,
       mockStruct,
+    );
+    expect(mockDoc.struct).toHaveBeenCalledWith(
+      "Caption",
+      {},
+      expect.any(Function),
     );
   });
 
-  it("should call addNegotiationText", () => {
+  it("should not show Weitere Antraege section when shouldShowWeitereAntraege is false", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userData: GeldEinklagenFormularUserData = {
+      ...userDataMock,
+      videoVerhandlung: "noSpecification",
+      versaeumnisurteil: "no",
+      muendlicheVerhandlung: "no",
+    };
+
+    createStatementClaim(mockDoc, mockStruct, userData);
+
+    expect(addFreeTextApplication).not.toHaveBeenCalled();
+    expect(mockDoc.struct).not.toHaveBeenCalledWith(
+      "Caption",
+      {},
+      expect.any(Function),
+    );
+  });
+
+  it("should call addNegotiationText with negotiation fields", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createStatementClaim(mockDoc, mockStruct, userDataMock);
 
+    expect(addNegotiationText).toHaveBeenCalledTimes(1);
     expect(addNegotiationText).toHaveBeenCalledWith(
       mockDoc,
       userDataMock.videoVerhandlung,

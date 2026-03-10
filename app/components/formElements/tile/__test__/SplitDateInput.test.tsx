@@ -19,16 +19,14 @@ vi.mock("@rvf/react-router", () => ({
 
     const fieldErrors: Record<string, string | null> = {
       day: "Diese Felder müssen ausgefüllt werden.",
-      month: null,
+      month: "Ungültiger Monat",
       year: "Geburtsdatum älter als 150 Jahre ist nicht relevant.",
     };
 
     return {
       error: () => fieldErrors[fieldName as string],
-      getInputProps: ({ id }: { id: string }) => ({
-        id,
-        value: "",
-      }),
+      getInputProps: ({ id }: { id: string }) => ({ id }),
+      getControlProps: () => ({}),
     };
   },
 }));
@@ -68,12 +66,13 @@ describe("SplitDateInput", () => {
     ).toBeInTheDocument();
   });
 
-  it("applies aria atributes when errors exist", () => {
-    render(<SplitDateInput name="birthdate" />);
+  it("applies aria attributes when errors exist", () => {
+    const { getAllByRole } = render(<SplitDateInput name="birthdate" />);
 
-    const fieldset = screen.getByRole("group");
-    expect(fieldset).toHaveAttribute("aria-invalid", "true");
-    expect(fieldset).toHaveAttribute("aria-describedby", "birthdate-error");
-    expect(fieldset).toHaveAttribute("aria-errormessage", "birthdate-error");
+    const formElements = getAllByRole("textbox");
+    formElements.forEach((inputField) => {
+      expect(inputField).toHaveAttribute("aria-invalid", "true");
+      expect(inputField).toHaveAttribute("aria-describedby", "birthdate-error");
+    });
   });
 });

@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
+  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -11,10 +12,10 @@ const videoTrialAgreement = (
   videoverhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
 ): string => {
   const responses: Record<string, string> = {
-    yes: "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.",
-    no: "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.",
+    yes: "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
+    no: "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
   };
-  return responses[videoverhandlung ?? ""];
+  return responses[videoverhandlung ?? ""] ?? "";
 };
 
 export const addNegotiationText = (
@@ -35,9 +36,18 @@ export const addNegotiationText = (
       : "";
 
   const videoNegotiationText = videoTrialAgreement(videoVerhandlung);
+  const negotiationTexts = [
+    oralNegotiationText,
+    videoNegotiationText,
+    defaultJudgmentText,
+  ].filter((text): text is string => Boolean(text));
+
+  if (negotiationTexts.length === 0) {
+    return;
+  }
 
   const totalHeightOfStrings = getHeightOfString(
-    [oralNegotiationText, defaultJudgmentText, videoNegotiationText],
+    negotiationTexts,
     doc,
     PDF_WIDTH_SEIZE,
   );
@@ -48,11 +58,19 @@ export const addNegotiationText = (
 
   statementClaimSect.add(
     doc.struct("P", {}, () => {
-      doc.text(oralNegotiationText, PDF_MARGIN_HORIZONTAL);
-      doc.text(
-        `${videoNegotiationText} ${defaultJudgmentText}`,
-        PDF_MARGIN_HORIZONTAL,
-      );
+      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
+      for (const text of negotiationTexts) {
+        doc.text(text, PDF_MARGIN_HORIZONTAL);
+
+        const shouldAddEmptyLineBeforeDefaultJudgment =
+          text === videoNegotiationText &&
+          Boolean(videoNegotiationText) &&
+          Boolean(defaultJudgmentText);
+
+        if (shouldAddEmptyLineBeforeDefaultJudgment) {
+          doc.moveDown(1);
+        }
+      }
     }),
   );
 };

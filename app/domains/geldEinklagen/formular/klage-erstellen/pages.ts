@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { emailSchema } from "~/services/validation/email";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
@@ -45,6 +46,7 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
       klagendePersonOrt: stringRequiredSchema,
       klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
+      klagendeEmail: schemaOrEmptyString(emailSchema),
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
     },
@@ -100,16 +102,16 @@ export const geldEinklagenKlageErstellenPages = {
       }),
     },
   },
+  prozessfuehrungAnwaltskosten: {
+    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
+    pageSchema: {
+      anwaltskosten: buildOptionalMoneyValidationSchema({ min: 1 }),
+    },
+  },
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
     pageSchema: {
       prozesszinsen: YesNoAnswer,
-    },
-  },
-  prozessfuehrungAnwaltskosten: {
-    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
-    pageSchema: {
-      anwaltskosten: buildOptionalMoneyValidationSchema(),
     },
   },
   prozessfuehrungStreitbeilegung: {

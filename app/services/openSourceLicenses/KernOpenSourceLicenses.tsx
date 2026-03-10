@@ -37,7 +37,7 @@ type LicenseListProps = {
 };
 
 const KernLicenseList = ({ dependencies }: LicenseListProps) => (
-  <div>
+  <div className="px-kern-space-default pb-40">
     <ul>
       {Object.entries(dependencies.directDependencies).map(
         ([dependencyString, infos]) =>

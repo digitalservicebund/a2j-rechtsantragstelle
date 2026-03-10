@@ -1,6 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -23,9 +24,13 @@ export function addAdvanceCourtAndPlaintiffName(
     klagendePersonTitle,
     klagendePersonVorname,
     klagendePersonNachname,
+    forderungGesamtbetrag,
   }: GeldEinklagenFormularUserData,
 ) {
-  const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} 0 ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
+  const gerichtskostenvorschuss = forderungGesamtbetrag
+    ? gerichtskostenFromBetrag(Number(forderungGesamtbetrag))
+    : 0;
+  const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${gerichtskostenvorschuss} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
 
   const plaintiffName = getFullPlaintiffName(
     klagendePersonAnrede,

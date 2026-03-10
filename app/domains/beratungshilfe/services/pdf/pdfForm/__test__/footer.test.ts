@@ -1,6 +1,6 @@
 import { getBeratungshilfeParameters } from "data/pdf/beratungshilfe/beratungshilfe.generated";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 import { fillFooter } from "../footer";
 
 describe("fillFooter", () => {
@@ -46,7 +46,7 @@ describe("fillFooter", () => {
     });
 
     expect(pdfValues.ortDatum2.value).toEqual(
-      `Test, ${toGermanDateFormat(today())}`,
+      `Test, ${toGermanDateString(today())}`,
     );
   });
 

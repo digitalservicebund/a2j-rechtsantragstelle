@@ -1,24 +1,17 @@
-import type { BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
-import type { GenericGuard, Guards } from "~/domains/guards.server";
-import { dateUTCFromGermanDateString, today } from "~/util/date";
-
-const anwaltskanzleiYes: GenericGuard<
-  BeratungshilfeAnwaltlicheVertretungUserData
-> = ({ context }) => context.anwaltskanzlei === "yes";
+import type { BeratungshilfeAnwaltlicheVertretungUserData } from "./userData";
+import type { Guards } from "~/domains/guards.server";
+import { addDays, today } from "~/util/date";
+import { toDate } from "~/services/validation/dateString";
 
 export const beratungshilfeAnwaltlicheVertretungGuards = {
-  anwaltskanzleiYes,
+  anwaltskanzleiYes: ({ context }) => context.anwaltskanzlei === "yes",
   beratungStattgefundenYes: ({ context }) =>
-    anwaltskanzleiYes({ context }) && context.beratungStattgefunden === "yes",
-  beratungStattgefundenDatumLaterThanFourWeeks: ({ context }) => {
-    if (typeof context.beratungStattgefundenDatum !== "string") return false;
-    const inputDateAsUTC = dateUTCFromGermanDateString(
-      context.beratungStattgefundenDatum,
-    );
-    const differenceInDays =
-      (today().getTime() - inputDateAsUTC.getTime()) / 1000 / 60 / 60 / 24; // ms to days
-
-    const FOUR_WEEKS_IN_DAYS = 28;
-    return differenceInDays > FOUR_WEEKS_IN_DAYS;
+    context.beratungStattgefunden === "yes",
+  beratungStattgefundenWithinFourWeeks: ({
+    context: { beratungStattgefundenDatum },
+  }) => {
+    if (!beratungStattgefundenDatum) return false;
+    const beratungDate = toDate(beratungStattgefundenDatum);
+    return addDays(beratungDate, 28) > today();
   },
 } satisfies Guards<BeratungshilfeAnwaltlicheVertretungUserData>;

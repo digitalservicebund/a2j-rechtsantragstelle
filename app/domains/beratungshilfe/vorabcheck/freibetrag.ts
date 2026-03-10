@@ -1,5 +1,6 @@
 import mapValues from "lodash/mapValues";
-import { dateUTCFromGermanDateString, addYears, today } from "~/util/date";
+import { addYears, today } from "~/util/date";
+import { toDate } from "~/services/validation/dateString";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
 import { logWarning, sendSentryMessage } from "~/services/logging";
@@ -166,7 +167,7 @@ export function calculateFreibetragBerHFormular({
 
   if (kinder.length > 0) {
     const childrenFreibetrag = kinder.reduce((acc, kind) => {
-      const birthday = dateUTCFromGermanDateString(kind.geburtsdatum);
+      const birthday = toDate(kind.geburtsdatum);
       const einnahmen = Number.parseInt(
         "einnahmen" in kind ? kind.einnahmen : "0",
       );

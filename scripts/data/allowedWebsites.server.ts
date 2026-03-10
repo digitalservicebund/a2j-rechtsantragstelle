@@ -1,9 +1,6 @@
 // used by scripts/verifyExternalLinks
 
-import { bucketUrl } from "../../app/services/cms/bucketUrl.ts";
-
 export const allowedWebsites = [
-  bucketUrl,
   "https://github.com",
   "https://digitalservice.bund.de",
   "https://www.bmj.de",
@@ -14,8 +11,6 @@ export const allowedWebsites = [
   "https://justiz.de",
   "https://www.justiz.de",
   "https://service.justiz.de",
-  "https://a2j-rast-stag.dev.ds4g.net",
-  "https://a2j-staging.dev.ds4g.net",
   "https://www.gesetze-im-internet.de",
   "https://www.schlichtungsstelle-bgg.de",
   "https://posthog.com",

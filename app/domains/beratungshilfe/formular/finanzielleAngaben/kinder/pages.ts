@@ -1,6 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { childBirthdaySchema } from "~/services/validation/date";
+import { childBirthdaySchema } from "~/services/validation/dateString";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";

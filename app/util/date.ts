@@ -22,13 +22,7 @@ export function today() {
     ),
   );
 }
-
-export function dateUTCFromGermanDateString(date: string) {
-  const [day, month, year] = date.split(".");
-  return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
-}
-
-export const toGermanDateFormat = (date: Date) => {
+export const toGermanDateString = (date: Date) => {
   return date.toLocaleDateString("de", {
     day: "2-digit",
     month: "2-digit",
@@ -36,27 +30,12 @@ export const toGermanDateFormat = (date: Date) => {
   });
 };
 
-export function toHourAndMinuteTime(date: Date) {
-  const hoursMinuteFormatter = new Intl.DateTimeFormat(undefined, {
+export const pdfDateFormat = (date: Date) =>
+  toGermanDateString(date).replaceAll(".", "_");
+
+export const toGermanTimeString = (date: Date) =>
+  date.toLocaleTimeString("de-DE", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   });
-  return hoursMinuteFormatter.format(date);
-}
-
-export const pdfDateFormat = (date: Date) =>
-  date
-    .toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replaceAll(".", "_");
-
-// Helper function to convert German date/time format to timestamp
-export function convertToTimestamp(date: string, time: string): number {
-  const [day, month, year] = date.split(".").map(Number);
-  const [hours, minutes] = time.split(":").map(Number);
-  return new Date(year, month - 1, day, hours, minutes).getTime();
-}

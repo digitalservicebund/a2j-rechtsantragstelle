@@ -38,7 +38,7 @@ jobs:
 
       - name: Download Content File
         if: inputs.e2e-target != 'preview'
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: content-file
 
@@ -60,14 +60,14 @@ jobs:
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
-          E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-preview.prod.ds4g.net/' || 'http://localhost:3000/' }}"
+          E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-preview.prod.tech.digitalservice.dev/' || 'http://localhost:3000/' }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
           CMS: FILE
         run: pnpm run test:e2e ${{ inputs.e2e-target == 'preview' && '--project=critical' || '' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-blob-report-${{ inputs.e2e-target }}-${{ matrix.shard }}
           path: blob-report/*.zip
@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload Failed Test results
         if: ${{ always() && env.files_exist_subfolder_test_results == 'true' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: video-test-results-${{ inputs.e2e-target }}-${{ matrix.shard }}
           path: test-results/*
@@ -101,7 +101,7 @@ jobs:
       - uses: ./.github/actions/cached-checkout-install
 
       - name: Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           merge-multiple: true
           pattern: playwright-blob-report-${{ inputs.e2e-target }}-*
@@ -111,7 +111,7 @@ jobs:
         run: pnpm playwright merge-reports --reporter html ./playwright-blob-reports
 
       - name: Upload Playwright test results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report-${{ inputs.e2e-target }}-${{ github.run_attempt }}
           path: playwright-report

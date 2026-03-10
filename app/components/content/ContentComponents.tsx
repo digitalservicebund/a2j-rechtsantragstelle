@@ -140,7 +140,7 @@ function cmsToReact(
   if (opts?.showKernUX) {
     switch (componentProps.__component) {
       case "basic.heading":
-        return <KernHeading {...componentProps} />;
+        return <KernHeading managedByParent {...componentProps} />;
       case "basic.paragraph":
         return <KernRichText {...componentProps} />;
       case "page.hero":
@@ -176,6 +176,13 @@ function cmsToReact(
         );
       case "page.email-capture":
         return <KernEmailCapture {...componentProps} />;
+      case "page.heading":
+        return (
+          <KernHeading
+            {...componentProps.heading}
+            elementId={componentProps.identifier}
+          />
+        );
       default:
         return <></>;
     }
@@ -183,7 +190,7 @@ function cmsToReact(
 
   switch (componentProps.__component) {
     case "basic.heading":
-      return <Heading managedByParent={false} {...componentProps} />;
+      return <Heading {...componentProps} />;
     case "basic.paragraph":
       return <RichText {...componentProps} />;
     case "page.hero":
@@ -210,6 +217,14 @@ function cmsToReact(
       return <SummaryOverviewSection {...componentProps} />;
     case "page.email-capture":
       return <EmailCapture {...componentProps} />;
+    case "page.heading":
+      return (
+        <Heading
+          managedByParent={false}
+          {...componentProps.heading}
+          elementId={componentProps.identifier}
+        />
+      );
     case "page.array-summary":
     default:
       return <></>;
