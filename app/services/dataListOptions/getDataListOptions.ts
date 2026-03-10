@@ -16,13 +16,13 @@ export async function getDataListOptions(
 ): Promise<DataListOptions[]> {
   switch (dataListType) {
     case "airlines": {
-      return [...airlines].map((airline) => ({
+      return airlines.map((airline) => ({
         value: airline.iata,
         label: airline.name,
       }));
     }
     case "airports": {
-      return [...airports]
+      return airports
         .sort((a, b) => a.city.localeCompare(b.city))
         .map((airport) => ({
           value: airport.iata,
