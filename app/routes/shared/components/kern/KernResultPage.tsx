@@ -94,6 +94,7 @@ export function KernResultPage() {
                   tagName={cmsContent.heading.tagName}
                   text={cmsContent.heading.text}
                   className="kern-heading-large p-0!"
+                  managedByParent
                 />
                 {cmsContent.hintText && (
                   <KernRichText
@@ -140,20 +141,18 @@ export function KernResultPage() {
         </Grid>
       </GridSection>
 
-      {content.length > 0 && (
-        <ContentComponents content={content} showKernUX={true} />
-      )}
+      {content.length > 0 && <ContentComponents content={content} showKernUX />}
 
       {documentsList.length > 0 &&
         documentsList.map((element) => (
           <ContentComponents
             key={`${element.__component}_${element.id}`}
             content={[element]}
-            showKernUX={true}
+            showKernUX
           />
         ))}
 
-      <ContentComponents content={nextSteps} />
+      <ContentComponents content={nextSteps} showKernUX />
     </>
   );
 }
