@@ -24,7 +24,7 @@ import KernBox from "../kern/KernBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
-import KernVideo from "../kern/KernVideo";
+import KernVideo from "../kern/video/KernVideo";
 import KernUserFeedback from "../kern/UserFeedback";
 import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
 import { KernDetails } from "../kern/KernDetails";
