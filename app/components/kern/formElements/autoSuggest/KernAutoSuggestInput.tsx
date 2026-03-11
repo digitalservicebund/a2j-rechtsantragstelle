@@ -81,7 +81,6 @@ const KernAutoSuggestInput = ({
   placeholder,
   errorMessages,
   helperText,
-  width,
   dataList,
   dataListArgument,
   noSuggestionMessage,
@@ -149,7 +148,6 @@ const KernAutoSuggestInput = ({
         name={name}
         label={label}
         placeholder={placeholder}
-        width={width}
       />
     );
   }
