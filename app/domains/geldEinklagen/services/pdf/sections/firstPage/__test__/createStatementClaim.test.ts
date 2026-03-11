@@ -10,7 +10,7 @@ import { addAdditionalApplicationsFreeText } from "../claimData/addAdditionalApp
 import { addNegotiationText } from "../claimData/addNegotiationText";
 
 vi.mock("../claimData/addDefendantPartyList");
-vi.mock("../claimData/addFreeTextApplication");
+vi.mock("../claimData/addAdditionalApplicationsFreeText");
 vi.mock("../claimData/addNegotiationText");
 
 beforeEach(() => {
