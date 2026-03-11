@@ -2,7 +2,6 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { widthClassname, type FieldWidth } from "~/components/common/width";
 import InputError from "../InputError";
 
 export type InputProps = Readonly<{
@@ -14,7 +13,6 @@ export type InputProps = Readonly<{
   prefix?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
-  width?: FieldWidth;
   helperText?: string;
   charLimit?: number;
   inputRef?: React.Ref<HTMLInputElement>;
@@ -23,7 +21,6 @@ export type InputProps = Readonly<{
 const TextInput = function InputComponent({
   name,
   label,
-  width,
   placeholder,
   errorMessages,
   helperText,
@@ -35,13 +32,9 @@ const TextInput = function InputComponent({
   const helperId = `${name}-helper`;
   return (
     <div
-      className={classNames(
-        "kern-form-input",
-        {
-          "kern-form-input--error": field.error(),
-        },
-        widthClassname(width),
-      )}
+      className={classNames("kern-form-input", {
+        "kern-form-input--error": field.error(),
+      })}
     >
       {label && <div className="kern-label">{label}</div>}
       <input
