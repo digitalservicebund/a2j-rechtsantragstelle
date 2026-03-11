@@ -84,6 +84,7 @@ export const FeedbackFormBox = ({
       {(form) => (
         <div className="flex flex-col gap-kern-space-small!">
           <KernTextarea
+            backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}
             label={
               <>

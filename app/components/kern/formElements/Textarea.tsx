@@ -9,6 +9,7 @@ import InputError from "./InputError";
 
 type TextareaProps = Readonly<{
   name: string;
+  backgroundClass?: string;
   description?: string;
   label?: ReactNode;
   details?: {
@@ -32,6 +33,7 @@ const TEXT_AREA_ROWS_BY_NAME: Record<string, number> = {
 
 const KernTextarea = ({
   name,
+  backgroundClass,
   description,
   label,
   details,
@@ -65,10 +67,12 @@ const KernTextarea = ({
         maxLength={maxLength}
         rows={TEXT_AREA_ROWS_BY_NAME[name] ?? TEXT_AREA_ROWS}
         className={classNames(
-          "kern-form-input__input ph-no-capture bg-white!",
+          "kern-form-input__input ph-no-capture",
           {
             "kern-form-input__input--error": field.error(),
+            "bg-white!": !backgroundClass,
           },
+          backgroundClass,
         )}
         ref={innerRef}
         aria-invalid={field.error() !== null}

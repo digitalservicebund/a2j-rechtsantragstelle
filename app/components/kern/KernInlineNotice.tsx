@@ -82,8 +82,8 @@ export const KernInlineNotice = ({
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
-      lgColumn={{ start: 3, span: 7 }}
-      xlColumn={{ start: 3, span: 7 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
     >
       {base}
     </GridItem>

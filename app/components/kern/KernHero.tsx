@@ -18,8 +18,8 @@ export default function KernHero({
   return (
     <GridItem
       mdColumn={{ start: 1, span: 7 }}
-      lgColumn={{ start: 3, span: 9 }}
-      xlColumn={{ start: 3, span: 9 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
       className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-default"
     >
       <KernHeading
