@@ -4,9 +4,9 @@ import { ExclusiveCheckboxes } from "../exclusiveCheckboxes/ExclusiveCheckboxes"
 import SplitDateInput from "../SplitDateInput";
 import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
-import KernDateInput from "~/components/kern/formElements/KernDateInput";
 import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
+import KernSplitDateInput from "~/components/kern/formElements/input/KernDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -40,7 +40,7 @@ export const renderZodObject = (
   }
   if (nestedSchema.meta()?.description === "split_date") {
     return showKernUX ? (
-      <KernDateInput key={fieldName} name={fieldName} />
+      <KernSplitDateInput key={fieldName} name={fieldName} />
     ) : (
       <SplitDateInput key={fieldName} name={fieldName} />
     );

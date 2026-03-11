@@ -1,15 +1,15 @@
 import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernDateInput from "~/components/kern/formElements/KernDateInput";
+import KernSplitDateInput from "~/components/kern/formElements/input/KernSplitDateInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/formElements/KernDateInput",
-  component: KernDateInput,
+  title: "kern/formElements/input/SplitDateInput",
+  component: KernSplitDateInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernDateInput>;
+} satisfies Meta<typeof KernSplitDateInput>;
 
 export default meta;
 
