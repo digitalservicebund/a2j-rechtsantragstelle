@@ -20,11 +20,11 @@ export default function KernHero({
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 9 }}
       xlColumn={{ start: 3, span: 9 }}
-      className="flex flex-col gap-kern-space-default py-kern-space-x-large"
+      className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-default"
     >
       <KernHeading
         {...heading}
-        className={classNames("p-0!", {
+        className={classNames({
           "text-white!": sectionBackgroundColor === "blue",
         })}
         managedByParent
