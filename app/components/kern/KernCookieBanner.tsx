@@ -50,7 +50,7 @@ export function KernCookieBanner({
 
   return (
     <section
-      className="right-16 left-16 z-50"
+      className="right-16 left-16 z-50 border-b border-kern-layout-border!"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -59,7 +59,11 @@ export function KernCookieBanner({
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <div className="p-kern-space-default! gap-kern-space-default!">
-          <KernHeading managedByParent={true} className="kern-heading-medium" text={content.heading.text} />
+          <KernHeading
+            managedByParent={true}
+            className="kern-heading-medium"
+            text={content.heading.text}
+          />
           {content.paragraphs.map((paragraph) => (
             <KernRichText key={paragraph.html} html={paragraph.html} />
           ))}
