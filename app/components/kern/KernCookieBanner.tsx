@@ -7,6 +7,7 @@ import KernRichText, { type RichTextProps } from "./KernRichText";
 import { type HeadingProps } from "../common/Heading";
 import { KernIcon } from "./common/KernIcon";
 import KernButtonContainer from "./KernButtonContainer";
+import KernHeading from "./KernHeading";
 
 const acceptCookiesFieldName = "accept-cookies";
 
@@ -58,7 +59,7 @@ export function KernCookieBanner({
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <div className="p-kern-space-default! gap-kern-space-default!">
-          <h2 className="kern-heading-medium">{content.heading.text}</h2>
+          <KernHeading managedByParent={true} className="kern-heading-medium" text={content.heading.text} />
           {content.paragraphs.map((paragraph) => (
             <KernRichText key={paragraph.html} html={paragraph.html} />
           ))}
