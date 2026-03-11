@@ -18,7 +18,6 @@ const KernIbanInput = (props: InputProps) => {
       {...props}
       mask={"**** **** **** **** **** **** **** **** **"}
       type="number"
-      eager={"append"}
       prepareChar={(str) => str.toUpperCase()}
     />
   );
