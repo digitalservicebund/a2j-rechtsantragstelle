@@ -41,7 +41,7 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
+      "Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von  Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit.",
     );
   });
 
@@ -79,7 +79,24 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits sowie die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro.",
+      "Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro.",
+    );
+  });
+
+  it("should append interest clause to attorney costs when litigation interest is requested", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDefendantPartyList(mockDoc, mockStruct, "yes", "600", "100");
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "2. ",
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
+      undefined,
+      { continued: true },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit.",
     );
   });
 });
