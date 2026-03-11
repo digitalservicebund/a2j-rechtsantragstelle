@@ -2,7 +2,7 @@ import { type Params } from "react-router";
 import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
 import type { DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
-import { fetchStreetnamesForZipcode } from "~/services/gerichtsfinder/openPLZ";
+import { streetNamesForZipcode } from "~/services/streetNames";
 
 export type DataListOptions = {
   value: string;
@@ -33,7 +33,9 @@ export async function getDataListOptions(
         }));
     }
     case "streetNames": {
-      return await fetchStreetnamesForZipcode(params?.PLZ);
+      return streetNamesForZipcode(params?.PLZ).then((streetNames) =>
+        streetNames.map(({ name }) => ({ value: name, label: name })),
+      );
     }
     case undefined:
     default: {

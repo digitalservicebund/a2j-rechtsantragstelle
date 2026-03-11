@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { useLocation, useLoaderData, Location } from "react-router";
+import { useLocation, useLoaderData, type Location } from "react-router";
 import {
   EmailCapture,
   type EmailCaptureProps,
