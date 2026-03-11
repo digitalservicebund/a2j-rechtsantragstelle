@@ -2,7 +2,6 @@ import { useField } from "@rvf/react-router";
 import { IMaskMixin } from "react-imask";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { widthClassname, type FieldWidth } from "~/components/common/width";
 import InputError from "../InputError";
 
 export type KernTimeInputProps = Readonly<{
@@ -10,7 +9,6 @@ export type KernTimeInputProps = Readonly<{
   label?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-  width?: FieldWidth;
   helperText?: string;
 }>;
 
@@ -22,7 +20,6 @@ type MaskedInputProps = KernTimeInputProps & {
 const TimeInputBase = function TimeInputComponent({
   name,
   label,
-  width,
   placeholder,
   errorMessages,
   helperText,
@@ -34,13 +31,9 @@ const TimeInputBase = function TimeInputComponent({
 
   return (
     <div
-      className={classNames(
-        "kern-form-input",
-        {
-          "kern-form-input--error": field.error(),
-        },
-        widthClassname(width),
-      )}
+      className={classNames("kern-form-input", {
+        "kern-form-input--error": field.error(),
+      })}
     >
       {label && <div className="kern-label">{label}</div>}
       <input

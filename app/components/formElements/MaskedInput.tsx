@@ -1,10 +1,7 @@
-import { IMaskMixin } from "react-imask";
+import { IMaskMixin, type IMaskMixinProps } from "react-imask";
 import Input, { type InputProps } from "./Input";
 
-type MaskedInputProps = InputProps & {
-  readonly mask: string | RegExp;
-  readonly eager?: boolean | ("remove" | "append");
-};
+type MaskedInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
 
 const MaskedStyledInput = IMaskMixin<HTMLInputElement, InputProps>(
   ({ inputRef, ...props }) => <Input {...props} innerRef={inputRef} />,
