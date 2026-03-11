@@ -14,6 +14,8 @@ import KernDateInput from "~/components/kern/formElements/KernDateInput";
 import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
 import AutoSuggestInput from "../AutoSuggestInput";
 import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
+import IbanInput from "~/components/formElements/IbanInput";
+import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -72,13 +74,19 @@ export const renderZodString = (
     );
   if (matchingElement?.__component === "form-elements.number-increment")
     return <NumberIncrement key={fieldName} {...matchingElement} />;
-  // Default fallback for text input
+  if (
+    matchingElement?.__component === "form-elements.input" &&
+    matchingElement.type === "iban" &&
+    !showKernUX
+  )
+    return <IbanInput key={fieldName} {...inputProps} />;
 
   const inputType =
     ((inputProps as InputProps).type as
       | "text"
       | "number"
       | "telephone"
+      | "iban"
       | undefined) ?? "text";
 
   if (showKernUX) {
@@ -89,6 +97,8 @@ export const renderZodString = (
         return <NumberInput key={fieldName} {...inputProps} />;
       case "telephone":
         return <TelephoneInput key={fieldName} {...inputProps} />;
+      case "iban":
+        return <KernIbanInput key={fieldName} {...inputProps} />;
       default:
         return <TextInput key={fieldName} {...inputProps} />;
     }

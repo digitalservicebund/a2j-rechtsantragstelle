@@ -6,7 +6,7 @@ export const getAmtsgerichtStrings = (
 ) => {
   const court = findCourt({
     zipCode: context.plz,
-    streetSlug: context.street,
+    streetName: context.street,
     houseNumber: context.houseNumber,
   });
   return {
