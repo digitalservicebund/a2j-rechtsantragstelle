@@ -22,11 +22,12 @@ const getDisputeResolutionText = ({
   }
 
   if (streitbeilegung === "no") {
-    if (streitbeilegungGruende === "yes") {
-      return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
-    }
+    const streitbeilegungGruendeText =
+      streitbeilegungGruende === "yes"
+        ? " Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist."
+        : "";
 
-    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
+    return `Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.${streitbeilegungGruendeText}`;
   }
 
   if (
