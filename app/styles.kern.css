@@ -28,6 +28,14 @@
     color: var(--color-kern-feedback-danger);
   }
 
+  .detail-summary:focus-within {
+    border-radius: var(--kern-metric-border-radius-default, 0.25rem);
+    box-shadow:
+      0 0 0 2px var(--kern-color-action-on-default),
+      0 0 0 4px var(--kern-color-action-focus-border-inside),
+      0 0 0 6px var(--kern-color-action-focus-border-outside);
+  }
+
   /* prevents Kern to style the inner input */
 
   .kern-form-input input:focus,
