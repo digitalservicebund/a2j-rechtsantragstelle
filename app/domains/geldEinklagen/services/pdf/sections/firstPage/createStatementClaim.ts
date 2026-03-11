@@ -48,14 +48,16 @@ export const createStatementClaim = (
     muendlicheVerhandlung === "yes" ||
     weitereAntraege !== "";
 
-  const additionalApplicationsSect = doc.struct("Sect");
-  if (showAdditionalApplicationsTitle) {
-    additionalApplicationsSect.add(
-      doc.struct("H2", {}, () => {
-        doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
-      }),
-    );
+  if (!showAdditionalApplicationsTitle) {
+    return;
   }
+
+  const additionalApplicationsSect = doc.struct("Sect");
+  additionalApplicationsSect.add(
+    doc.struct("H2", {}, () => {
+      doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
+    }),
+  );
 
   addAdditionalApplicationsFreeText(
     doc,
