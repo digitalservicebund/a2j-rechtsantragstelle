@@ -1,4 +1,4 @@
-import { KernIcon } from "../common/KernIcon";
+import KernButton from "../KernButton";
 
 export function KernSkipToContentLink({
   label,
@@ -8,13 +8,15 @@ export function KernSkipToContentLink({
   target: string;
 }>) {
   return (
-    <a
-      href={target}
-      className="bg-kern-yellow-100 px-8 flex py-6 text-kern-action-default outline-none absolute transform -translate-y-full focus:translate-y-0 focus:relative"
+    <div
       id="skip-to-content-link"
-    >
-      <KernIcon name="arrow-downward" />
-      {label}
-    </a>
+      className="flex justify-center absolute pt-kern-space-default left-1/2 -translate-x-1/2 -translate-y-full focus-within:translate-y-0 z-11">
+      <KernButton
+        href={target}
+
+        text={label}
+      />
+    </div>
+
   );
 }
