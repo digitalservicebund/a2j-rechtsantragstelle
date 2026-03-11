@@ -1,6 +1,3 @@
-import Button from "~/components/common/Button";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
@@ -50,10 +47,7 @@ export const KernDataProtectionBanner = ({
       </div>
       <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
-        <a
-          href="/datenschutz"
-          className="kern-link"
-        >
+        <a href="/datenschutz" className="kern-link">
           <KernIcon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
         </a>
@@ -63,7 +57,6 @@ export const KernDataProtectionBanner = ({
           onClick={onCookiesAccepted}
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.activateVideo]}
           look="secondary"
-
         />
       </div>
     </section>
