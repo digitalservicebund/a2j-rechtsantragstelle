@@ -2,14 +2,14 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addFreeTextApplication } from "../addFreeTextApplication";
+import { addAdditionalApplicationsFreeText } from "../addFreeTextApplication";
 
-describe("addFreeTextApplication", () => {
+describe("addAdditionalApplicationsFreeText", () => {
   it("should not add free text application section if no free text application is provided", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addFreeTextApplication(mockDoc, undefined, mockStruct);
+    addAdditionalApplicationsFreeText(mockDoc, undefined, mockStruct);
 
     expect(mockDoc.struct).not.toHaveBeenCalledWith("Sect");
   });
@@ -19,7 +19,7 @@ describe("addFreeTextApplication", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const freeTextApplication = "This is a free text application.";
-    addFreeTextApplication(mockDoc, freeTextApplication, mockStruct);
+    addAdditionalApplicationsFreeText(mockDoc, freeTextApplication, mockStruct);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.text).toHaveBeenCalledWith(

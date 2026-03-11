@@ -3,7 +3,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
-export const addFreeTextApplication = (
+export const addAdditionalApplicationsFreeText = (
   doc: PDFKit.PDFDocument,
   freeTextApplication: string | undefined,
   statementClaimSect: PDFKit.PDFStructureElement,
