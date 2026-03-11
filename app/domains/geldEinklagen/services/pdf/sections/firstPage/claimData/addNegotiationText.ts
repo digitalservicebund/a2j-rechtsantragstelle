@@ -23,7 +23,7 @@ export const addNegotiationText = (
   videoVerhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
   versaeumnisurteil: GeldEinklagenFormularUserData["versaeumnisurteil"],
   muendlicheVerhandlung: GeldEinklagenFormularUserData["muendlicheVerhandlung"],
-  statementClaimSect: PDFKit.PDFStructureElement,
+  additionalApplicationsSect: PDFKit.PDFStructureElement,
 ) => {
   const oralNegotiationText =
     muendlicheVerhandlung === "yes"
@@ -56,7 +56,7 @@ export const addNegotiationText = (
     extraYPosition: totalHeightOfStrings,
   });
 
-  statementClaimSect.add(
+  additionalApplicationsSect.add(
     doc.struct("P", {}, () => {
       doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
       for (const text of negotiationTexts) {

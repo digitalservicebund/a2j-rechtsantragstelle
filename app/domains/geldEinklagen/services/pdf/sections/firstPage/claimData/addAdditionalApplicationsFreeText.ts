@@ -6,7 +6,7 @@ import {
 export const addAdditionalApplicationsFreeText = (
   doc: PDFKit.PDFDocument,
   freeTextApplication: string | undefined,
-  statementClaimSect: PDFKit.PDFStructureElement,
+  additionalApplicationsSect: PDFKit.PDFStructureElement,
 ) => {
   if (!freeTextApplication) {
     return;
@@ -22,5 +22,5 @@ export const addAdditionalApplicationsFreeText = (
         .moveDown(1);
     }),
   );
-  statementClaimSect.add(compensationSect);
+  additionalApplicationsSect.add(compensationSect);
 };

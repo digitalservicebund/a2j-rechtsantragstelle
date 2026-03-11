@@ -6,7 +6,7 @@ import {
 import { createStatementClaim } from "../createStatementClaim";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
-import { addAdditionalApplicationsFreeText } from "../claimData/addFreeTextApplication";
+import { addAdditionalApplicationsFreeText } from "../claimData/addAdditionalApplicationsFreeText";
 import { addNegotiationText } from "../claimData/addNegotiationText";
 
 vi.mock("../claimData/addDefendantPartyList");

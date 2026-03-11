@@ -2,7 +2,7 @@ import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { addAdditionalApplicationsFreeText } from "./claimData/addFreeTextApplication";
+import { addAdditionalApplicationsFreeText } from "./claimData/addAdditionalApplicationsFreeText";
 import { addNegotiationText } from "./claimData/addNegotiationText";
 
 const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
@@ -55,7 +55,6 @@ export const createStatementClaim = (
         doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
       }),
     );
-    documentStruct.add(additionalApplicationsSect);
   }
 
   addAdditionalApplicationsFreeText(
@@ -64,13 +63,13 @@ export const createStatementClaim = (
     additionalApplicationsSect,
   );
 
-  const negotiationSect = doc.struct("Sect");
   addNegotiationText(
     doc,
     videoVerhandlung,
     versaeumnisurteil,
     muendlicheVerhandlung,
-    negotiationSect,
+    additionalApplicationsSect,
   );
-  documentStruct.add(negotiationSect);
+
+  documentStruct.add(additionalApplicationsSect);
 };

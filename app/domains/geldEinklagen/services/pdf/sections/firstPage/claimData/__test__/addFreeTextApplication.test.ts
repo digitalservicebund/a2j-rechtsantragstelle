@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addAdditionalApplicationsFreeText } from "../addFreeTextApplication";
+import { addAdditionalApplicationsFreeText } from "../addAdditionalApplicationsFreeText";
 
 describe("addAdditionalApplicationsFreeText", () => {
   it("should not add free text application section if no free text application is provided", () => {
