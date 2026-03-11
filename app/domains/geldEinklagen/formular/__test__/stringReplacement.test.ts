@@ -8,6 +8,7 @@ import {
   isCourtAGSchoeneberg,
   getCourtCost,
   hasStreitbeilegungGruende,
+  hasBeweiseAngebot,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -290,6 +291,26 @@ describe("stringReplacement", () => {
       });
 
       expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+  });
+
+  describe("hasBeweiseAngebot", () => {
+    it("should return true if beweiseAngebot is yes", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: "yes" });
+
+      expect(actual.hasBeweiseAngebot).toBe(true);
+    });
+
+    it("should return false if beweiseAngebot is no", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: "no" });
+
+      expect(actual.hasBeweiseAngebot).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is undefined", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: undefined });
+
+      expect(actual.hasBeweiseAngebot).toBe(false);
     });
   });
 });
