@@ -111,3 +111,11 @@ export const hasAnwaltskosten = (context: GeldEinklagenFormularUserData) => {
     hasAnwaltskosten: parsedAnwaltskosten > 0,
   };
 };
+
+export const hasStreitbeilegungGruende = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    streitbeilegungGruende: context.streitbeilegungGruende === "yes",
+  };
+};
