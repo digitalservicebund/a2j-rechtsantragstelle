@@ -55,8 +55,8 @@ export const createStatementClaim = (
         doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
       }),
     );
+    documentStruct.add(additionalApplicationsSect);
   }
-  documentStruct.add(additionalApplicationsSect);
 
   addAdditionalApplicationsFreeText(
     doc,
