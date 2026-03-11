@@ -1,6 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { erbscheinNachlassgerichtXstateConfig } from "./xStateConfig";
-import { getAmtsgerichtStrings } from "./stringReplacements";
+import { getAmtsgerichtStrings, getPlzStrings } from "./stringReplacements";
 import { type ErbscheinNachlassGerichtUserData } from "~/domains/erbschein/nachlassgericht/userData";
 
 export const erbscheinNachlassgericht = {
@@ -9,5 +9,6 @@ export const erbscheinNachlassgericht = {
   guards: {},
   stringReplacements: (context: ErbscheinNachlassGerichtUserData) => ({
     ...getAmtsgerichtStrings(context),
+    ...getPlzStrings(context),
   }),
 } satisfies Flow;

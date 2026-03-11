@@ -27,6 +27,7 @@ import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernVideo from "../kern/KernVideo";
 import KernUserFeedback from "../kern/UserFeedback";
 import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
+import { KernDetails } from "../kern/KernDetails";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -158,6 +159,8 @@ function cmsToReact(
             }))}
           />
         );
+      case "page.details-summary":
+        return <KernDetails {...componentProps} />;
       case "page.video":
         return <KernVideo {...componentProps} />;
       case "page.list":
