@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
