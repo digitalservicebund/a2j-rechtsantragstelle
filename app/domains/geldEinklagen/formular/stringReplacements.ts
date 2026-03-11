@@ -116,6 +116,6 @@ export const hasStreitbeilegungGruende = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    streitbeilegungGruende: context.streitbeilegungGruende === "yes",
+    hasStreitbeilegungGruende: context.streitbeilegungGruende === "yes",
   };
 };

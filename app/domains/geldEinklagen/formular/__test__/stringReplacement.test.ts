@@ -265,7 +265,7 @@ describe("stringReplacement", () => {
         streitbeilegungGruende: "yes",
       });
 
-      expect(actual.streitbeilegungGruende).toBe(true);
+      expect(actual.hasStreitbeilegungGruende).toBe(true);
     });
 
     it("should return false if streitbeilegungGruende is no", () => {
@@ -273,7 +273,7 @@ describe("stringReplacement", () => {
         streitbeilegungGruende: "no",
       });
 
-      expect(actual.streitbeilegungGruende).toBe(false);
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
     });
 
     it("should return false if streitbeilegungGruende is noSpecification", () => {
@@ -281,7 +281,7 @@ describe("stringReplacement", () => {
         streitbeilegungGruende: "noSpecification",
       });
 
-      expect(actual.streitbeilegungGruende).toBe(false);
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
     });
 
     it("should return false if streitbeilegungGruende is undefined", () => {
@@ -289,7 +289,7 @@ describe("stringReplacement", () => {
         streitbeilegungGruende: undefined,
       });
 
-      expect(actual.streitbeilegungGruende).toBe(false);
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
     });
   });
 });
