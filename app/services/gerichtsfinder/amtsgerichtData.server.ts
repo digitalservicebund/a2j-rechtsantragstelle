@@ -6,7 +6,6 @@ import {
   type AngelegenheitInfo,
   ANGELEGENHEIT_INFO,
 } from "~/services/gerichtsfinder/types";
-import { stripLeadingZeros, uppercaseFirstLetter } from "~/util/strings";
 import type {
   GerbehFile,
   GerbehIndex,
@@ -22,6 +21,15 @@ function getCourtData() {
   courtdata ??= getEncrypted();
   return courtdata;
 }
+
+const normalizeStreetName = (streetName: string) =>
+  streetName
+    .toLowerCase()
+    .replaceAll("ä", "ae")
+    .replaceAll("ö", "oe")
+    .replaceAll("ü", "ue")
+    .replaceAll("ß", "ss")
+    .replaceAll(/[^a-z]/g, "_");
 
 const courtAddress = (
   courtData: Jmtd14VTErwerberPlzstrn | Jmtd14VTErwerberPlzortk,
@@ -77,74 +85,31 @@ const buildGerbehIndex = (
   };
 };
 
-type StreetData = Pick<
-  Jmtd14VTErwerberPlzstrn,
-  "HNR_MERKMAL_INFO" | "HNR_VON" | "HNR_BIS" | "STRN"
->;
-
-const buildStreetSlug = (streetData: StreetData) => {
-  return `${streetData.STRN} ${streetData.HNR_MERKMAL_INFO} ${streetData.HNR_VON} ${streetData.HNR_BIS}`
-    .toLowerCase()
-    .replaceAll("ä", "ae")
-    .replaceAll("ö", "oe")
-    .replaceAll("ü", "ue")
-    .replaceAll(/[^0-9a-z]/g, "-")
-    .replace("-fortlaufende-hausnummern-001-999", "");
-};
-
-const capitalizeStreet = (street: string) => {
-  const capitalizeWord = (word: string) =>
-    word.split("-").map(uppercaseFirstLetter).join("-");
-  return street.toLowerCase().split(/\s/).map(capitalizeWord).join(" ");
-};
-
-function streetForEdgeCase(streetData: StreetData) {
-  const streetNumbers = `(${
-    streetData.HNR_MERKMAL_INFO
-  } von ${stripLeadingZeros(streetData.HNR_VON)} bis ${stripLeadingZeros(
-    streetData.HNR_BIS,
-  )})`;
-  const street = `${capitalizeStreet(streetData.STRN)} ${streetNumbers}`;
-  return { street, slug: buildStreetSlug(streetData) };
-}
-
-export const edgeCaseStreets = ({
-  zipCode,
-  angelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
-}: {
-  zipCode?: string;
-  angelegenheitInfo?: AngelegenheitInfo;
-}) => {
-  return edgeCasesForPlz(zipCode, angelegenheitInfo).map(streetForEdgeCase);
-};
-
 export const findCourt = ({
   zipCode,
-  streetSlug,
+  streetName,
   houseNumber,
   angelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 }: {
   zipCode?: string;
-  streetSlug?: string;
+  streetName?: string;
   houseNumber?: string;
   angelegenheitInfo?: AngelegenheitInfo;
 }) => {
-  if (streetSlug && streetSlug !== "default") {
-    const decodedStreetName = streetSlug.toLowerCase().replaceAll("_", " ");
-    const decodedStreetnameFull = decodedStreetName
-      .toLowerCase()
-      .replaceAll(/([Ss]tr\.)/g, "strasse");
+  if (streetName && streetName !== "default") {
+    const normalizedStreetName = normalizeStreetName(streetName);
+    const decodedStreetnameFull = normalizedStreetName.replaceAll(
+      /(str_)/g,
+      "strasse",
+    );
     const edgeCases = edgeCasesForPlz(zipCode, angelegenheitInfo).map((e) => ({
       ...e,
-      STRN_NORMALIZED: e.STRN.toLowerCase()
-        .replaceAll("ä", "ae")
-        .replaceAll("ö", "oe")
-        .replaceAll("ü", "ue"),
+      STRN_NORMALIZED: normalizeStreetName(e.STRN),
     }));
 
     const matchingEdgeCases = edgeCases.filter(
       ({ STRN_NORMALIZED }) =>
-        STRN_NORMALIZED.startsWith(decodedStreetName) ||
+        STRN_NORMALIZED.startsWith(normalizedStreetName) ||
         STRN_NORMALIZED.startsWith(decodedStreetnameFull),
     );
     const rangedMatches = matchingEdgeCases.filter((e) => {
