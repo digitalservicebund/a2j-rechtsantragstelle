@@ -43,4 +43,3 @@ export const WithRichContent: Story = {
 <p>Diese Unterlagen helfen dem Gericht, Ihre finanzielle Situation zu prüfen.</p>`,
   },
 };
-
