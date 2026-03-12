@@ -2,39 +2,46 @@ import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
-import { KernIcon } from "../../common/KernIcon";
+import InputError from "../InputError";
 
 type KernSplitDateInputProps = {
   name: string;
-  helperText?: string;
 };
 
-const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
+const sharedClassnames = "kern-form-input__input" as const;
+const sharedAttributes = {
+  "aria-required": "true",
+  type: "text",
+  inputMode: "numeric",
+  onInput: (e: React.InputEvent<HTMLInputElement>) => {
+    e.currentTarget.value = e.currentTarget.value.replaceAll(/\D/g, "");
+  },
+} as const;
+
+const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
 
+  const dateField = useField(name);
   const dayField = useField(day);
   const monthField = useField(month);
   const yearField = useField(year);
 
+  const dateError = dateField.error();
   const dayError = dayField.error();
   const monthError = monthField.error();
   const yearError = yearField.error();
 
-  const hasError = Boolean(dayError ?? monthError ?? yearError);
-
+  const hasError = Boolean(dayError ?? monthError ?? yearError ?? dateError);
   const errorId = `${name}-error`;
-  const helperId = `${name}-helper`;
 
   return (
     <fieldset
       className={classNames("kern-fieldset", {
         "kern-fieldset--error": hasError,
       })}
-      aria-invalid={hasError}
-      aria-describedby={hasError ? errorId : undefined}
-      aria-errormessage={hasError ? errorId : undefined}
+      {...dateField.getControlProps()}
     >
       <legend className="kern-label">
         {translations.splitDateComponent.legend.de}
@@ -48,34 +55,23 @@ const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
             {translations.splitDateComponent.tagInputLabel.de}
           </label>
           <input
+            {...dayField.getInputProps({
+              id: day,
+              min: 1,
+              max: 31,
+              maxLength: 2,
+              ...sharedAttributes,
+            })}
+            autoComplete={autocompleteMap[day] ?? "off"}
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-2 bg-white!",
+              sharedClassnames,
+              "kern-form-input__input--width-2",
               {
                 "kern-form-input__input--error": dayError,
               },
             )}
-            {...dayField.getInputProps({
-              inputMode: "numeric",
-              id: day,
-            })}
-            min={1}
-            max={31}
-            maxLength={2}
-            type="text"
-            autoComplete={autocompleteMap[day] ?? "off"}
-            name={day}
-            aria-required="true"
             aria-invalid={dayError !== null}
-            aria-describedby={[
-              dayError && errorId,
-              helperText && helperId,
-            ].join(" ")}
-            onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replaceAll(
-                /\D/g,
-                "",
-              );
-            }}
+            aria-describedby={dayError ? errorId : undefined}
           />
         </div>
 
@@ -84,34 +80,23 @@ const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
             {translations.splitDateComponent.monatInputLabel.de}
           </label>
           <input
+            {...monthField.getInputProps({
+              id: month,
+              min: 1,
+              max: 12,
+              maxLength: 2,
+              ...sharedAttributes,
+            })}
+            autoComplete={autocompleteMap[month] ?? "off"}
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-2 bg-white!",
+              sharedClassnames,
+              "kern-form-input__input--width-2",
               {
                 "kern-form-input__input--error": monthError,
               },
             )}
-            {...monthField.getInputProps({
-              inputMode: "numeric",
-              id: month,
-            })}
-            min={1}
-            max={12}
-            maxLength={2}
-            type="text"
-            autoComplete={autocompleteMap[month] ?? "off"}
-            name={month}
-            aria-required="true"
             aria-invalid={monthError !== null}
-            aria-describedby={[
-              monthError && errorId,
-              helperText && helperId,
-            ].join(" ")}
-            onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replaceAll(
-                /\D/g,
-                "",
-              );
-            }}
+            aria-describedby={monthError ? errorId : undefined}
           />
         </div>
 
@@ -120,47 +105,28 @@ const KernSplitDateInput = ({ name, helperText }: KernSplitDateInputProps) => {
             {translations.splitDateComponent.jahrInputLabel.de}
           </label>
           <input
+            {...yearField.getInputProps({
+              id: year,
+              maxLength: 4,
+              ...sharedAttributes,
+            })}
+            autoComplete={autocompleteMap[year] ?? "off"}
             className={classNames(
-              "kern-form-input__input kern-form-input__input--width-4 bg-white!",
+              sharedClassnames,
+              "kern-form-input__input--width-4",
               {
                 "kern-form-input__input--error": yearError,
               },
             )}
-            {...yearField.getInputProps({
-              inputMode: "numeric",
-              id: year,
-            })}
-            min={1900}
-            max={new Date().getFullYear()}
-            maxLength={4}
-            type="text"
-            autoComplete={autocompleteMap[year] ?? "off"}
-            name={year}
-            aria-required="true"
             aria-invalid={yearError !== null}
-            aria-describedby={[
-              yearError && errorId,
-              helperText && helperId,
-            ].join(" ")}
-            onInput={(e) => {
-              e.currentTarget.value = e.currentTarget.value.replaceAll(
-                /\D/g,
-                "",
-              );
-            }}
+            aria-describedby={yearError ? errorId : undefined}
           />
         </div>
       </div>
       {hasError && (
-        <p className="kern-error" id="kern-error" role="alert">
-          <KernIcon
-            name="emergency-home"
-            className="fill-kern-feedback-danger!"
-          />
-          <span className="text-kern-feedback-danger" id={errorId}>
-            {dayError ?? monthError ?? yearError}
-          </span>
-        </p>
+        <InputError id={errorId}>
+          {dayError ?? monthError ?? yearError ?? dateError}
+        </InputError>
       )}
     </fieldset>
   );

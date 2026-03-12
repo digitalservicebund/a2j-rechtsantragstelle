@@ -6,7 +6,7 @@ import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
 import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
-import KernSplitDateInput from "~/components/kern/formElements/input/KernDateInput";
+import KernSplitDateInput from "~/components/kern/formElements/input/KernSplitDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -28,7 +28,7 @@ export const renderZodObject = (
         name={fieldName}
         options={Object.keys(nestedSchema.shape)}
         labels={labels}
-      ></KernExclusiveCheckboxes>
+      />
     ) : (
       <ExclusiveCheckboxes
         key={fieldName}
