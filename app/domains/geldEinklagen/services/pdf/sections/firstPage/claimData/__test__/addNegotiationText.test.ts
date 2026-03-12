@@ -37,7 +37,7 @@ describe("addNegotiationText", () => {
       expect.any(Number),
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.",
+      "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.",
       expect.any(Number),
     );
   });

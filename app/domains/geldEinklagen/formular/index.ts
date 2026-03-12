@@ -9,6 +9,8 @@ import {
   isCourtAGSchoeneberg,
   getCourtCost,
   hasAnwaltskosten,
+  hasStreitbeilegungGruende,
+  hasBeweiseAngebot,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -26,6 +28,8 @@ export const geldEinklagenFormular = {
     ...isCourtAGSchoeneberg(context),
     ...getCourtCost(context),
     ...hasAnwaltskosten(context),
+    ...hasStreitbeilegungGruende(context),
+    ...hasBeweiseAngebot(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
