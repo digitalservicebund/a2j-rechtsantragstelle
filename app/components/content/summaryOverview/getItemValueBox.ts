@@ -1,4 +1,7 @@
-import { type UserData } from "~/domains/userData";
+import type {
+  FieldItems,
+  InlineItems,
+} from "~/components/content/summaryOverview/types";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 

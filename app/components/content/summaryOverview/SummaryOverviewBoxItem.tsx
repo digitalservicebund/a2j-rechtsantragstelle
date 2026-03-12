@@ -1,4 +1,5 @@
 import { type UserData } from "~/domains/userData";
+import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { getItemValueBox } from "./getItemValueBox";
 
