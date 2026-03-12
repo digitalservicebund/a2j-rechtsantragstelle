@@ -2,6 +2,7 @@ import type {
   FieldItems,
   InlineItems,
 } from "~/components/content/summaryOverview/types";
+import type { UserData } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 
@@ -19,16 +20,31 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
 const getFieldName = (field: string): string =>
   field.split(arrayChar).pop() ?? field;
 
+export const resolveInlineUserFields = (
+  userData: UserData,
+  inlineItems: InlineItems,
+): FieldItems =>
+  inlineItems
+    .flatMap(({ field }) => field.split(arrayChar))
+    .map((field) => {
+      const fieldName = getFieldName(field);
+      const fieldValue = fieldName.includes(".")
+        ? getNestedValue(userData, fieldName)
+        : userData[fieldName];
+
+      return { fieldName, fieldValue };
+    });
+
 export const getItemValueBox = (
   translations: Translations,
   userData: UserData,
-  inlineItems: Array<{ field: string; emptyValuePlaceholder?: string }>,
+  inlineItems: InlineItems,
 ) => {
   const itemValues = inlineItems.map(({ field, emptyValuePlaceholder }) => {
     const fieldName = getFieldName(field);
     const itemValue = fieldName.includes(".")
       ? getNestedValue(userData, fieldName)
-      : (userData[fieldName] as string);
+      : userData[fieldName];
 
     // Check if a direct translation exists
     const directTranslation = translations[`${fieldName}.${itemValue}`];
