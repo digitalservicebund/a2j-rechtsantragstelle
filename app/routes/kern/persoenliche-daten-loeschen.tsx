@@ -10,11 +10,13 @@ import { type Translations } from "~/services/translations/getTranslationByKey";
 export default function KernPersoenlicheDatenLoeschen({
   content,
   isSubmitting,
+  backButton,
   translations,
 }: {
   content: StrapiContentComponent[];
   isSubmitting: boolean;
   translations: Translations;
+  backButton: string;
 }) {
   return (
     <div className="flex flex-col grow bg-kern-layout-background-hued">
@@ -27,7 +29,17 @@ export default function KernPersoenlicheDatenLoeschen({
             xlColumn={{ start: 3, span: 7 }}
             className="px-kern-space-default"
           >
-            <Form method="post" action="/action/delete-data">
+            <Form
+              method="post"
+              action="/action/delete-data"
+              className=" gap-kern-space-default flex flex-row"
+            >
+              <KernButton
+                type="button"
+                href={backButton}
+                look="secondary"
+                text={translations.back ?? "Zurück ohne zu löschen"}
+              />
               <KernButton
                 type="submit"
                 look="primary"
