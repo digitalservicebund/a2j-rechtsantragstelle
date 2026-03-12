@@ -11,7 +11,16 @@ type GeldEinklagenKlageErstellenDaten =
 const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
   context,
 }) => {
-  return objectKeysNonEmpty(context, [
+  const hasFilledKlagendePersonAnwaltschaftData = objectKeysNonEmpty(context, [
+    "klagendePersonAnwaltschaftAnrede",
+    "klagendePersonAnwaltschaftVorname",
+    "klagendePersonAnwaltschaftNachname",
+    "klagendePersonAnwaltschaftStrasseHausnummer",
+    "klagendePersonAnwaltschaftPlz",
+    "klagendePersonAnwaltschaftOrt",
+  ]);
+
+  const hasFilledKlagendePersonKontaktdaten = objectKeysNonEmpty(context, [
     "klagendePersonAnrede",
     "klagendePersonVorname",
     "klagendePersonNachname",
@@ -19,6 +28,13 @@ const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
     "klagendePersonPlz",
     "klagendePersonOrt",
   ]);
+
+  return (
+    hasFilledKlagendePersonKontaktdaten &&
+    ((context.anwaltschaft === "yes" &&
+      hasFilledKlagendePersonAnwaltschaftData) ||
+      context.anwaltschaft === "no")
+  );
 };
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
