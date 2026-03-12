@@ -7,7 +7,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
 
 const meta = {
-  title: "kern/formElements/input/KernTimeInput",
+  title: "kern/formElements/input/TimeInput",
   component: KernTimeInput,
   tags: ["autodocs"],
   decorators: [

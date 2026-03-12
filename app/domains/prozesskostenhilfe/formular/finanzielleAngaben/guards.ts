@@ -41,6 +41,10 @@ export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
+export const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
+export const { hasVersicherungenYes } = yesNoGuards("hasVersicherungen");
+export const { hasRatenzahlungenYes } = yesNoGuards("hasRatenzahlungen");
+export const { hasSonstigeAusgabenYes } = yesNoGuards("hasSonstigeAusgaben");
 
 export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
   ({ context }) =>
