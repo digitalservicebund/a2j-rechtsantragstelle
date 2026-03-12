@@ -114,7 +114,7 @@ export function KernResultPage() {
             mdColumn={{ start: 1, span: 8 }}
             lgColumn={{ start: 2, span: 12 }}
             xlColumn={{ start: 2, span: 12 }}
-            className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+            className="py-24"
             row={2}
           >
             <KernButtonContainer>
