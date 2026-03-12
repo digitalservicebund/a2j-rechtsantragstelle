@@ -154,7 +154,7 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/intro/start",
       "/klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
       "/klage-erstellen/streitwert-kosten/weitere-kosten",
-      "/klage-erstellen/klagende-person/anwaltschaft",
+      "/klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
