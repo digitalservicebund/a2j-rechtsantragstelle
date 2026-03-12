@@ -10,10 +10,10 @@ import type { ErbscheinNachlassGerichtUserData } from "./erbschein/nachlassgeric
 import type { ErbscheinWegweiserUserData } from "./erbschein/wegweiser/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
+export type ArrayData = Array<Record<string, BasicTypes | ArrayData>>;
 export type ObjectType = {
-  [key: string]: BasicTypes | BasicTypes[] | ObjectType;
+  [key: string]: BasicTypes | BasicTypes[] | ObjectType | ArrayData;
 };
-export type ArrayData = Array<Record<string, BasicTypes>>;
 export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
 
 export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;

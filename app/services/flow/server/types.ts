@@ -3,7 +3,11 @@ import type { Guards } from "~/domains/guards.server";
 import { type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 
-export type NavigationEvent = "SUBMIT" | "BACK" | ArrayConfigServer["event"];
+export type NavigationEvent =
+  | "SUBMIT"
+  | "BACK"
+  | ArrayConfigServer["event"]
+  | `add-${string}`; // Support nested array events (arrayField approach)
 
 export type FlowStateMachineEvents =
   | { type: NavigationEvent }

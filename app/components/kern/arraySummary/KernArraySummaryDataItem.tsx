@@ -1,5 +1,5 @@
 import { type KernHeadingProps } from "~/components/kern/KernHeading";
-import type { BasicTypes } from "~/domains/userData";
+import type { ArrayData, BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -7,7 +7,7 @@ import KernArraySummaryItemActions from "./KernArraySummaryItemActions";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
-  readonly items: Record<string, BasicTypes>;
+  readonly items: Record<string, BasicTypes | ArrayData>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly csrf: string;

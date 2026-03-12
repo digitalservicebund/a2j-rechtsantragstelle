@@ -55,27 +55,23 @@ export const fluggastrechtePersoenlicheDatenPages = {
     pageSchema: {
       weiterePersonen: weiterePersonenArraySchema,
     },
+    arrayField: "weiterePersonen",
     arrayPages: {
       daten: {
         pageSchema: {
-          "weiterePersonen#buchungsnummer":
+          buchungsnummer:
             weiterePersonenArraySchema.element.shape.buchungsnummer,
-          "weiterePersonen#anrede":
-            weiterePersonenArraySchema.element.shape.anrede,
-          "weiterePersonen#title":
-            weiterePersonenArraySchema.element.shape.title,
-          "weiterePersonen#vorname":
-            weiterePersonenArraySchema.element.shape.vorname,
-          "weiterePersonen#nachname":
-            weiterePersonenArraySchema.element.shape.nachname,
-          "weiterePersonen#strasseHausnummer":
+          anrede: weiterePersonenArraySchema.element.shape.anrede,
+          title: weiterePersonenArraySchema.element.shape.title,
+          vorname: weiterePersonenArraySchema.element.shape.vorname,
+          nachname: weiterePersonenArraySchema.element.shape.nachname,
+          strasseHausnummer:
             weiterePersonenArraySchema.element.shape.strasseHausnummer,
-          "weiterePersonen#plz": weiterePersonenArraySchema.element.shape.plz,
-          "weiterePersonen#ort": weiterePersonenArraySchema.element.shape.ort,
-          "weiterePersonen#land": weiterePersonenArraySchema.element.shape.land,
-          "weiterePersonen#telefonnummer":
-            weiterePersonenArraySchema.element.shape.telefonnummer,
-          "weiterePersonen#datenverarbeitungZustimmung":
+          plz: weiterePersonenArraySchema.element.shape.plz,
+          ort: weiterePersonenArraySchema.element.shape.ort,
+          land: weiterePersonenArraySchema.element.shape.land,
+          telefonnummer: weiterePersonenArraySchema.element.shape.telefonnummer,
+          datenverarbeitungZustimmung:
             weiterePersonenArraySchema.element.shape
               .datenverarbeitungZustimmung,
         },

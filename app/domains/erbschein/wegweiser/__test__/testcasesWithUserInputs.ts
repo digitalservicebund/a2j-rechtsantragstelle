@@ -1,6 +1,7 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
 import { erbscheinWegweiserXstateConfig } from "~/domains/erbschein/wegweiser/xStateConfig";
+import type { ArrayConfigServer } from "~/services/array";
 
 export const erbscheinWegweiserTestCases = {
   xstateConfig: erbscheinWegweiserXstateConfig,
@@ -170,6 +171,51 @@ export const erbscheinWegweiserTestCases = {
       },
       {
         stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
+      },
+    ],
+
+    // --- Erbfolge: nested arrays PoC ---
+    erbfolgeAddKind: [
+      {
+        stepId: "/erbfolge/kinder/uebersicht",
+        addArrayItemEvent: "add-kinder",
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/kind/0/daten",
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/uebersicht",
+        skipPageSchemaValidation: true,
+      },
+    ],
+    erbfolgeAddKindWithEnkelkinder: [
+      {
+        // Pre-seed kinder data for the guard (before entering array context)
+        stepId: "/erbfolge/kinder/uebersicht",
+        userInput: {
+          kinder: [{ vorname: "Anna", istVerstorben: "yes" }],
+        },
+        addArrayItemEvent: "add-kinder",
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/kind/0/daten",
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/kind/enkelkinder/uebersicht",
+        addArrayItemEvent: "add-enkelkinder" as ArrayConfigServer["event"],
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/kind/enkelkinder/enkelkind/0/daten",
+        skipPageSchemaValidation: true,
+      },
+      {
+        stepId: "/erbfolge/kinder/kind/enkelkinder/uebersicht",
+        skipPageSchemaValidation: true,
       },
     ],
   },
