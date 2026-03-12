@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularUserData } from "../../userData";
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
