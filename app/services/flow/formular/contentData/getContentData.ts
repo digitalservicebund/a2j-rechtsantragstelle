@@ -81,7 +81,7 @@ export const getContentData = (
       const pageSchema = getPageSchema(pathname);
       const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
 
-      return resolveUserData(userDataWithPageData, fieldNames);
+      return resolveUserData(userDataWithPageData, fieldNames, pathname);
     },
     getButtonNavigation: (
       flowController: ReturnType<typeof buildFlowController>,

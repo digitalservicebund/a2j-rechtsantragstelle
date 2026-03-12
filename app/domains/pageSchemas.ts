@@ -39,6 +39,25 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
   return Object.assign({}, ...schemaObjects) as SchemaObject;
 };
 
+function collectArrayPageFields(
+  arrayPages: Record<string, ArrayPage>,
+  parentStepId: string,
+  result: FormFieldsMap,
+) {
+  for (const [key, arrayPage] of Object.entries(arrayPages)) {
+    if (arrayPage.pageSchema && Object.keys(arrayPage.pageSchema).length > 0) {
+      result[`/${parentStepId}/${key}`] = Object.keys(arrayPage.pageSchema);
+    }
+    if (arrayPage.arrayPages) {
+      collectArrayPageFields(
+        arrayPage.arrayPages,
+        `${parentStepId}/${key}`,
+        result,
+      );
+    }
+  }
+}
+
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
@@ -50,17 +69,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
     }
 
     if (isArrayParentPage(page)) {
-      for (const [arrayPageKey, arrayPage] of Object.entries(page.arrayPages)) {
-        if (
-          !arrayPage.pageSchema ||
-          Object.keys(arrayPage.pageSchema).length === 0
-        ) {
-          continue;
-        }
-
-        const stepId = `/${page.stepId}/${arrayPageKey}`;
-        fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
-      }
+      collectArrayPageFields(page.arrayPages, page.stepId, fieldsMap);
     }
   }
 
@@ -141,11 +150,13 @@ export type PagesConfig = Record<string, PageConfig>;
 type FlowPage = { stepId: string; pageSchema?: SchemaObject };
 type ArrayPage = {
   pageSchema?: SchemaObject;
+  arrayField?: string;
   arrayPages?: Record<string, ArrayPage>;
 };
 type ArrayParentPage = {
   stepId: string;
   pageSchema: SchemaObject;
+  arrayField: string;
   arrayPages: Record<string, ArrayPage>;
 };
 
@@ -153,6 +164,47 @@ const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
 export type PageConfig = FlowPage | ArrayParentPage;
+
+/**
+ * Walk up the arrayPages tree from a leaf page and collect all arrayField values.
+ * These, combined with URL array indexes, form the full data path to the leaf's fields.
+ */
+export function collectArrayFieldsForStep(pathname: string): string[] {
+  const flowId = flowIdFromPathname(pathname);
+  if (!flowId) return [];
+  const { stepId, arrayIndexes } = parsePathname(pathname);
+  if (arrayIndexes.length === 0) return [];
+
+  const stepIdWithoutLeadingSlash = stepId.slice(1);
+  const pagesConfig = pages[flowId];
+
+  const parentPageConfig = Object.values(pagesConfig)
+    .filter(isArrayParentPage)
+    .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
+
+  if (!parentPageConfig) return [];
+
+  // Walk the arrayPages tree collecting arrayField values
+  const arrayFields: string[] = [];
+  if (parentPageConfig.arrayField) {
+    arrayFields.push(parentPageConfig.arrayField);
+  }
+
+  const remainingPath = stepIdWithoutLeadingSlash
+    .slice(parentPageConfig.stepId.length + 1)
+    .split("/");
+
+  let currentNode: ArrayPage | undefined = parentPageConfig;
+  for (const part of remainingPath) {
+    if (!currentNode?.arrayPages?.[part]) continue;
+    currentNode = currentNode.arrayPages[part];
+    if (currentNode.arrayField) {
+      arrayFields.push(currentNode.arrayField);
+    }
+  }
+
+  return arrayFields;
+}
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
