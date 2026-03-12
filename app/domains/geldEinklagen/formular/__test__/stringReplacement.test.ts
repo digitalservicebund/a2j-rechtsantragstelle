@@ -7,6 +7,7 @@ import {
   isBeklagtePerson,
   isCourtAGSchoeneberg,
   getCourtCost,
+  hasStreitbeilegungGruende,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -255,6 +256,40 @@ describe("stringReplacement", () => {
       const actual = hasAnwaltskosten({ anwaltskosten: "12,34" });
 
       expect(actual.hasAnwaltskosten).toBe(true);
+    });
+  });
+
+  describe("hasStreitbeilegungGruende", () => {
+    it("should return true if streitbeilegungGruende is yes", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "yes",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(true);
+    });
+
+    it("should return false if streitbeilegungGruende is no", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "no",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is noSpecification", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "noSpecification",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is undefined", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: undefined,
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
     });
   });
 });
