@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { getItemValueBox } from "../getItemValueBox";
+import { getItemValueBox, resolveInlineUserFields } from "../getItemValueBox";
 
 describe("getItemValueBox", () => {
   test("returns translated value if a direct translation exists", () => {
@@ -128,5 +128,46 @@ describe("getItemValueBox", () => {
     ]);
 
     expect(actual).toBe("No Status admin");
+  });
+});
+
+describe("resolveInlineUserFields", () => {
+  test("returns resolved fieldName and fieldValue pairs for simple and nested fields", () => {
+    const userData: UserData = {
+      sachverhaltBegruendung: "Free text",
+      weiterePersonen: { buchungsnummer: "ABCDEF10" },
+    };
+
+    const actual = resolveInlineUserFields(userData, [
+      { field: "sachverhaltBegruendung" },
+      { field: "weiterePersonen.buchungsnummer" },
+    ]);
+
+    expect(actual).toEqual([
+      { fieldName: "sachverhaltBegruendung", fieldValue: "Free text" },
+      {
+        fieldName: "weiterePersonen.buchungsnummer",
+        fieldValue: "ABCDEF10",
+      },
+    ]);
+  });
+
+  test("splits array-prefixed field and resolves each segment", () => {
+    const userData: UserData = {
+      weiterePersonen: [{ vorname: "Mina" }],
+      vorname: "Erika",
+    };
+
+    const actual = resolveInlineUserFields(userData, [
+      { field: `weiterePersonen#vorname` },
+    ]);
+
+    expect(actual).toEqual([
+      {
+        fieldName: "weiterePersonen",
+        fieldValue: [{ vorname: "Mina" }],
+      },
+      { fieldName: "vorname", fieldValue: "Erika" },
+    ]);
   });
 });

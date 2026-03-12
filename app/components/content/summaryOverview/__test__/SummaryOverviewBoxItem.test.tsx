@@ -2,11 +2,12 @@ import { render } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { getItemValueBox } from "../getItemValueBox";
+import { getItemValueBox, resolveInlineUserFields } from "../getItemValueBox";
 import SummaryOverviewBoxItem from "../SummaryOverviewBoxItem";
 
 vi.mock("../getItemValueBox", () => ({
   getItemValueBox: vi.fn(),
+  resolveInlineUserFields: vi.fn(),
 }));
 
 const mockTranslations: Translations = {};
@@ -86,5 +87,66 @@ describe("SummaryOverviewBoxItem", () => {
 
     expect(queryByTestId("summary-box-item-value")).toBeInTheDocument();
     expect(getByText("Inaktiv")).toBeInTheDocument();
+  });
+
+  test("should wrap value in a scrollable container for long-text summary", () => {
+    const userData: UserData = { sachverhaltBegruendung: "Langer Text" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("Langer Text");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      {
+        fieldName: "sachverhaltBegruendung",
+        fieldValue: "Langer Text",
+      },
+    ]);
+
+    const { container } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "sachverhaltBegruendung" }]}
+      />,
+    );
+
+    const scrollableContainer = container.querySelector(".resize-y");
+    expect(scrollableContainer).toBeInTheDocument();
+  });
+
+  test("should not render scrollable container when long-text field is blank", () => {
+    const userData: UserData = { sachverhaltBegruendung: "" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("Fallback value");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "sachverhaltBegruendung", fieldValue: "" },
+    ]);
+
+    const { container } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "sachverhaltBegruendung" }]}
+      />,
+    );
+
+    const scrollableContainer = container.querySelector(".resize-y");
+    expect(scrollableContainer).not.toBeInTheDocument();
+  });
+
+  test("should not render scrollable container when userData key is not allowed", () => {
+    const userData: UserData = { vorname: "Donatello" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("Fallback value");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([]);
+
+    const { container } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "vorname" }]}
+      />,
+    );
+
+    const scrollableContainer = container.querySelector(".resize-y");
+    expect(scrollableContainer).not.toBeInTheDocument();
   });
 });
