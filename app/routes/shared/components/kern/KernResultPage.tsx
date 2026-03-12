@@ -98,7 +98,7 @@ export function KernResultPage() {
                 />
                 {cmsContent.hintText && (
                   <KernRichText
-                    className="text-xl font-medium"
+                    className="font-medium!"
                     html={cmsContent.hintText.html}
                   />
                 )}
