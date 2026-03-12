@@ -130,7 +130,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
   return (
     <nav
       aria-label={translations.navigation.navigationStepper.de}
-      className="w-full"
+      className="w-full print:hidden"
     >
       <ol className={"flex max-w-full! pl-0"}>
         {steps.map(({ state, href, label }, stepIndex) => {

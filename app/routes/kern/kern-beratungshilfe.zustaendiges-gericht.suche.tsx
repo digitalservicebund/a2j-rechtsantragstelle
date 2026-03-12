@@ -52,7 +52,6 @@ export default function KernZuestandigesGerichtSuche({
                   name="postcode"
                   label="Postleitzahl"
                   type="number"
-                  width="16"
                   errorMessages={[
                     {
                       code: "length",

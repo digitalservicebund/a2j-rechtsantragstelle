@@ -5,7 +5,7 @@ import { createSplitDateSchema } from "~/services/validation/dateObject";
 import z from "zod";
 
 const meta = {
-  title: "FormElements/DateSplitInput",
+  title: "FormElements/SplitDateInput",
   component: SplitDateInput,
   tags: ["autodocs"],
 } satisfies Meta<typeof SplitDateInput>;

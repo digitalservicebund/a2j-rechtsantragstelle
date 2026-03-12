@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { DataProtectionBanner } from "~/components/content/video/DataProtectionBanner";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { translations } from "~/services/translations/translations";
 import { getYoutubeVideoId } from "~/util/url";
+import { KernDataProtectionBanner } from "./KernDataProtectionBanner";
 
 type VideoProps = {
   title: string;
@@ -59,7 +59,7 @@ const KernVideo = ({ title, url }: VideoProps) => {
         ) : (
           <>
             <YoutubeThumbnail videoId={ytVideoId} />
-            <DataProtectionBanner onCookiesAccepted={acceptCookies} />
+            <KernDataProtectionBanner onCookiesAccepted={acceptCookies} />
           </>
         )}
       </div>

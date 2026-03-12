@@ -20,6 +20,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
+      className="px-kern-space-default"
       id={identifier}
     >
       <nav aria-label="Inhalt">

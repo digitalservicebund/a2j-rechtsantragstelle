@@ -22,11 +22,12 @@ const getDisputeResolutionText = ({
   }
 
   if (streitbeilegung === "no") {
-    if (streitbeilegungGruende === "yes") {
-      return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
-    }
+    const streitbeilegungGruendeText =
+      streitbeilegungGruende === "yes"
+        ? " Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist."
+        : "";
 
-    return "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
+    return `Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.${streitbeilegungGruendeText}`;
   }
 
   if (
@@ -70,22 +71,24 @@ export function addDisputeResolution(
     }),
   );
 
-  legalAssessmentSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(DISPUTE_RESOLUTION_TITLE);
-    }),
-  );
+  if (disputeResolutionText) {
+    legalAssessmentSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .fontSize(10)
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(DISPUTE_RESOLUTION_TITLE);
+      }),
+    );
 
-  legalAssessmentSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(disputeResolutionText)
-        .moveDown(4);
-    }),
-  );
+    legalAssessmentSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .fontSize(10)
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(disputeResolutionText)
+          .moveDown(4);
+      }),
+    );
+  }
 }
