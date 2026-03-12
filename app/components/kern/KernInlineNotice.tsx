@@ -87,6 +87,7 @@ export const KernInlineNotice = ({
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
+      className="px-kern-space-default"
     >
       {base}
     </GridItem>
