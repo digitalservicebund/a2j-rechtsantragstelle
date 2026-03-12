@@ -21,6 +21,9 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: UserData = { status: "" };
 
     vi.mocked(getItemValueBox).mockReturnValue("");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "status", fieldValue: "" },
+    ]);
 
     const { queryByTestId } = render(
       <SummaryOverviewBoxItem
@@ -38,6 +41,9 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: UserData = { status: "active" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Aktiv");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "status", fieldValue: "active" },
+    ]);
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
@@ -58,6 +64,9 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: UserData = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "status", fieldValue: "inactive" },
+    ]);
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
@@ -76,6 +85,9 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: UserData = { status: "inactive" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Inaktiv");
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "status", fieldValue: "inactive" },
+    ]);
 
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
@@ -136,7 +148,9 @@ describe("SummaryOverviewBoxItem", () => {
     const userData: UserData = { vorname: "Donatello" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Fallback value");
-    vi.mocked(resolveInlineUserFields).mockReturnValue([]);
+    vi.mocked(resolveInlineUserFields).mockReturnValue([
+      { fieldName: "vorname", fieldValue: "Donatello" },
+    ]);
 
     const { container } = render(
       <SummaryOverviewBoxItem
