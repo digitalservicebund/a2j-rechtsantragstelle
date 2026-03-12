@@ -38,6 +38,7 @@ export const geldEinklagenKlageErstellenPages = {
   klagendePersonKontaktdaten: {
     stepId: "klage-erstellen/klagende-person/kontaktdaten",
     pageSchema: {
+      anwaltschaft: hiddenInputSchema(YesNoAnswer),
       klagendePersonAnrede: z.enum(["herr", "frau", "none"]),
       klagendePersonTitle: z.enum(["none", "dr"]),
       klagendePersonVorname: stringRequiredSchema,
@@ -49,6 +50,24 @@ export const geldEinklagenKlageErstellenPages = {
       klagendeEmail: schemaOrEmptyString(emailSchema),
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
+    },
+  },
+  klagendePersonAnwaltschaft: {
+    stepId: "klage-erstellen/klagende-person/anwaltschaft",
+    pageSchema: {
+      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
+      klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
+      klagendePersonAnwaltschaftStrasseHausnummer: stringRequiredSchema,
+      klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonAnwaltschaftOrt: stringRequiredSchema,
+      klagendePersonAnwaltschaftAnrede: z.enum(["herr", "frau", "none"]),
+      klagendePersonAnwaltschaftTitle: stringOptionalSchema,
+      klagendePersonAnwaltschaftVorname: stringRequiredSchema,
+      klagendePersonAnwaltschaftNachname: stringRequiredSchema,
+      klagendePersonAnwaltschaftBerufsbezeichnung: stringOptionalSchema,
+      klagendePersonAnwaltschaftTelefonnummer:
+        schemaOrEmptyString(phoneNumberSchema),
+      klagendePersonAnwaltschaftEmail: schemaOrEmptyString(emailSchema),
     },
   },
   beklagtePersonMenschen: {

@@ -37,7 +37,13 @@ export const klageErstellenXstateConfig = {
         },
         [steps.streitwertKostenWeitereKosten.relative]: {
           on: {
-            SUBMIT: steps.klagendePersonKontaktdaten.absolute,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.anwaltschaft === "yes",
+                target: steps.klagendePersonAnwaltschaft.absolute,
+              },
+              steps.klagendePersonKontaktdaten.absolute,
+            ],
             BACK: steps.streitWertKostenGerichtskostenvorschuss.relative,
           },
         },

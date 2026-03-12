@@ -25,11 +25,30 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
 export const klagendePersonXstateConfig = {
   id: "klagende-person",
-  initial: "kontaktdaten",
+  initial: "anwaltschaft",
   states: {
-    [steps.klagendePersonKontaktdaten.relative]: {
+    [steps.klagendePersonAnwaltschaft.relative]: {
+      always: [
+        {
+          guard: ({ context }) => context.anwaltschaft === "yes",
+          target: steps.klagendePersonAnwaltschaft.relative,
+        },
+        steps.klagendePersonKontaktdaten.relative,
+      ],
       on: {
         BACK: steps.streitwertKostenWeitereKosten.absolute,
+        SUBMIT: steps.klagendePersonKontaktdaten.relative,
+      },
+    },
+    [steps.klagendePersonKontaktdaten.relative]: {
+      on: {
+        BACK: [
+          {
+            guard: ({ context }) => context.anwaltschaft === "yes",
+            target: steps.klagendePersonAnwaltschaft.relative,
+          },
+          steps.streitwertKostenWeitereKosten.absolute,
+        ],
         SUBMIT: [
           {
             guard: ({ context }) =>
