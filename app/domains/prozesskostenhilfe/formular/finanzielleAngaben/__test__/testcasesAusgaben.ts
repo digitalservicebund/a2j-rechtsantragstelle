@@ -4,18 +4,7 @@ import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/proze
 import { addYears, today, toGermanDateString } from "~/util/date";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
-  ausgabenNo: [
-    {
-      stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
-      userInput: {
-        hasAusgaben: "no",
-      },
-    },
-    {
-      stepId: "/finanzielle-angaben/ausgaben/besondere-belastungen",
-    },
-  ],
-  addVersicherungen: [
+  ausgabenYes: [
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
       userInput: {
@@ -23,7 +12,29 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
+    },
+  ],
+  versicherungenNo: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
+      userInput: {
+        hasVersicherungen: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+    },
+  ],
+  addVersicherungen: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
+      userInput: {
+        hasVersicherungen: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
       addArrayItemEvent: "add-versicherungen",
     },
     {
@@ -39,11 +50,30 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "versicherungen#sonstigeArt": "sonstige",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
+    },
+  ],
+  ratenzahlungenNo: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+      userInput: {
+        hasRatenzahlungen: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+    },
   ],
   addRatenzahlungen: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+      userInput: {
+        hasRatenzahlungen: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
     },
     {
@@ -72,11 +102,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "ratenzahlungen#laufzeitende": toGermanDateString(addYears(today(), 1)),
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
+    },
   ],
   addRatenzahlungenSplit: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
     },
     {
@@ -104,9 +136,27 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       userInput: { "ratenzahlungen#betragEigenerAnteil": "50" },
     },
   ],
+  sonstigeAusgabenNo: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+      userInput: {
+        hasAusgaben: "yes",
+        hasSonstigeAusgaben: "no",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/besondere-belastungen",
+    },
+  ],
   addSonstigeAusgaben: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+      userInput: {
+        hasSonstigeAusgaben: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
     },
     {
@@ -129,11 +179,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "sonstigeAusgaben#betragGesamt": "10",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
+    },
   ],
   addSonstigeAusgabenPartner: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/uebersicht",
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
     },
     {
@@ -164,7 +216,45 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
         "sonstigeAusgaben#betragEigenerAnteil": "10",
       },
     },
-    { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
+    },
+  ],
+  versicherungenWarnung: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasVersicherungen: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/versicherungen-warnung",
+    },
+  ],
+  ratenzahlungenWarnung: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasRatenzahlungen: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-warnung",
+    },
+  ],
+  sonstigeAusgabenWarnung: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasSonstigeAusgaben: "yes",
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-warnung",
+    },
   ],
   besondereBelastungen: [
     {
