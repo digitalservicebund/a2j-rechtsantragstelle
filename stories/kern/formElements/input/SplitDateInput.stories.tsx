@@ -33,7 +33,7 @@ export const Default: Story = {
             </Grid>
           </GridSection>
         </>,
-        z.object({ date: createSplitDateSchema() })
+        z.object({ date: createSplitDateSchema() }),
       ),
   ],
 };
