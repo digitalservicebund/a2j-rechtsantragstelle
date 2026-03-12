@@ -41,7 +41,7 @@ const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
 export const klagendePersonXstateConfig = {
   id: "klagende-person",
-  initial: "anwaltschaft",
+  initial: "kontaktdaten-anwaltschaft",
   states: {
     [steps.klagendePersonAnwaltschaft.relative]: {
       always: [

@@ -53,7 +53,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   klagendePersonAnwaltschaft: {
-    stepId: "klage-erstellen/klagende-person/anwaltschaft",
+    stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
     pageSchema: {
       klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
       klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
