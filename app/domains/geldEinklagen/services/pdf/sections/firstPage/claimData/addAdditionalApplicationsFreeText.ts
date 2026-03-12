@@ -5,10 +5,10 @@ import {
 
 export const addAdditionalApplicationsFreeText = (
   doc: PDFKit.PDFDocument,
-  freeTextApplication: string | undefined,
+  weitereAntraege: string | undefined,
   additionalApplicationsSect: PDFKit.PDFStructureElement,
 ) => {
-  if (!freeTextApplication) {
+  if (!weitereAntraege) {
     return;
   }
 
@@ -18,7 +18,7 @@ export const addAdditionalApplicationsFreeText = (
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .fontSize(10)
-        .text(freeTextApplication, PDF_MARGIN_HORIZONTAL)
+        .text(weitereAntraege, PDF_MARGIN_HORIZONTAL)
         .moveDown(1);
     }),
   );
