@@ -16,8 +16,15 @@ export const sachgebietSchema = z.enum([
 ]);
 
 export const geldEinklagenGerichtPruefenPages = {
+  introAnwaltschaft: {
+    pageSchema: { anwaltschaft: YesNoAnswer },
+    stepId: "gericht-pruefen/intro/anwaltschaft",
+  },
   introVoraussetzungen: {
     stepId: "gericht-pruefen/intro/voraussetzungen",
+  },
+  introVoraussetzungenAnwaltschaft: {
+    stepId: "gericht-pruefen/intro/voraussetzungen-anwaltschaft",
   },
   introStart: {
     stepId: "gericht-pruefen/intro/start",
