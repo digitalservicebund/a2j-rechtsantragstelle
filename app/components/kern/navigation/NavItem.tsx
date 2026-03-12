@@ -86,7 +86,7 @@ export function NavItem({
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
-      "text-kern-grey-400! curser-not-allowed hover:font-normal pointer-events-none":
+      "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
     },
   );
