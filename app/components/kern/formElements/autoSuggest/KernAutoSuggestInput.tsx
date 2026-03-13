@@ -81,7 +81,6 @@ const KernAutoSuggestInput = ({
   placeholder,
   errorMessages,
   helperText,
-  width,
   dataList,
   dataListArgument,
   noSuggestionMessage,
@@ -144,14 +143,7 @@ const KernAutoSuggestInput = ({
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
-    return (
-      <TextInput
-        name={name}
-        label={label}
-        placeholder={placeholder}
-        width={width}
-      />
-    );
+    return <TextInput name={name} label={label} placeholder={placeholder} />;
   }
 
   const SelectComponent = isCreatable ? Creatable : Select;

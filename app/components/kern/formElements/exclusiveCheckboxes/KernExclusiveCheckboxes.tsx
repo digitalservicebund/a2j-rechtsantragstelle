@@ -43,7 +43,7 @@ export const KernExclusiveCheckboxes = ({
         {checkboxes.filter(Boolean).map(({ name, ...checkbox }) =>
           name.split(".").pop() === "none" ? (
             <div key={name}>
-              <p className="kern-label mb-32">oder</p>
+              <p className="kern-label mb-24!">oder</p>
               <KernExclusiveCheckboxInput
                 name={name}
                 {...checkbox}

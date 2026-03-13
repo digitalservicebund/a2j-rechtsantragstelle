@@ -94,10 +94,11 @@ export function KernResultPage() {
                   tagName={cmsContent.heading.tagName}
                   text={cmsContent.heading.text}
                   className="kern-heading-large p-0!"
+                  managedByParent
                 />
                 {cmsContent.hintText && (
                   <KernRichText
-                    className="text-xl font-medium"
+                    className="font-medium! text-kern-static-large!"
                     html={cmsContent.hintText.html}
                   />
                 )}
@@ -111,9 +112,9 @@ export function KernResultPage() {
           </GridItem>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 3, span: 12 }}
-            xlColumn={{ start: 3, span: 12 }}
-            className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+            lgColumn={{ start: 2, span: 12 }}
+            xlColumn={{ start: 2, span: 12 }}
+            className="py-24"
             row={2}
           >
             <KernButtonContainer>
@@ -140,17 +141,18 @@ export function KernResultPage() {
         </Grid>
       </GridSection>
 
-      {content.length > 0 && <ContentComponents content={content} />}
+      {content.length > 0 && <ContentComponents content={content} showKernUX />}
 
       {documentsList.length > 0 &&
         documentsList.map((element) => (
           <ContentComponents
             key={`${element.__component}_${element.id}`}
             content={[element]}
+            showKernUX
           />
         ))}
 
-      <ContentComponents content={nextSteps} />
+      <ContentComponents content={nextSteps} showKernUX />
     </>
   );
 }

@@ -60,7 +60,6 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
                     label={translations.gerichtFinder.houseNumber.de}
                     name="houseNumber"
                     errorMessages={[requiredError]}
-                    width="10"
                   />
                 </div>
                 <KernButtonContainer>

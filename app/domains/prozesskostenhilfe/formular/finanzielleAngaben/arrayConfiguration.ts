@@ -74,20 +74,20 @@ export const finanzielleAngabenArrayConfig = {
   versicherungen: {
     url: `${prefix}/ausgaben/versicherungen`,
     initialInputUrl: "daten",
-    statementKey: "hasAusgaben",
+    statementKey: "hasVersicherungen",
     event: "add-versicherungen",
   },
   ratenzahlungen: {
     url: `${prefix}/ausgaben/ratenzahlungen`,
     initialInputUrl: "daten",
-    statementKey: "hasAusgaben",
+    statementKey: "hasRatenzahlungen",
     hiddenFields: ["zahlungspflichtiger"],
     event: "add-ratenzahlungen",
   },
   sonstigeAusgaben: {
     url: `${prefix}/ausgaben/sonstigeAusgaben`,
     initialInputUrl: "daten",
-    statementKey: "hasAusgaben",
+    statementKey: "hasSonstigeAusgaben",
     hiddenFields: ["zahlungspflichtiger"],
     event: "add-sonstigeAusgaben",
   },

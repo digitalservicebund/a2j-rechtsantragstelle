@@ -25,3 +25,9 @@ export const getAmtsgerichtStrings = (
     courtTelephone: court?.TEL,
   };
 };
+
+export const getPlzStrings = (userData: ErbscheinNachlassGerichtUserData) => ({
+  plzPflegeheim: userData.plzPflegeheim,
+  plzHospiz: userData.plzHospiz,
+  plzLebensmittelpunkt: userData.plzLebensmittelpunkt,
+});

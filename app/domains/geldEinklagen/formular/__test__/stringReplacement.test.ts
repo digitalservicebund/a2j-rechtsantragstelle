@@ -7,6 +7,8 @@ import {
   isBeklagtePerson,
   isCourtAGSchoeneberg,
   getCourtCost,
+  hasStreitbeilegungGruende,
+  hasBeweiseAngebot,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -255,6 +257,60 @@ describe("stringReplacement", () => {
       const actual = hasAnwaltskosten({ anwaltskosten: "12,34" });
 
       expect(actual.hasAnwaltskosten).toBe(true);
+    });
+  });
+
+  describe("hasStreitbeilegungGruende", () => {
+    it("should return true if streitbeilegungGruende is yes", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "yes",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(true);
+    });
+
+    it("should return false if streitbeilegungGruende is no", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "no",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is noSpecification", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: "noSpecification",
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is undefined", () => {
+      const actual = hasStreitbeilegungGruende({
+        streitbeilegungGruende: undefined,
+      });
+
+      expect(actual.hasStreitbeilegungGruende).toBe(false);
+    });
+  });
+
+  describe("hasBeweiseAngebot", () => {
+    it("should return true if beweiseAngebot is yes", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: "yes" });
+
+      expect(actual.hasBeweiseAngebot).toBe(true);
+    });
+
+    it("should return false if beweiseAngebot is no", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: "no" });
+
+      expect(actual.hasBeweiseAngebot).toBe(false);
+    });
+
+    it("should return false if streitbeilegungGruende is undefined", () => {
+      const actual = hasBeweiseAngebot({ beweiseAngebot: undefined });
+
+      expect(actual.hasBeweiseAngebot).toBe(false);
     });
   });
 });

@@ -1,10 +1,10 @@
 import { useField } from "@rvf/react-router";
-import { IMaskMixin } from "react-imask";
 import classNames from "classnames";
+import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
-import InputError from "../InputError";
+import InputError from "~/components/formElements/InputError";
 
-export type KernTimeInputProps = Readonly<{
+export type KernDateInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
@@ -12,19 +12,19 @@ export type KernTimeInputProps = Readonly<{
   helperText?: string;
 }>;
 
-type MaskedInputProps = KernTimeInputProps & {
+type MaskedInputProps = KernDateInputProps & {
   readonly mask: string | RegExp;
   readonly eager?: boolean | ("remove" | "append");
 };
 
-const TimeInputBase = function TimeInputComponent({
+const DateInputBase = function DateInputComponent({
   name,
   label,
   placeholder,
   errorMessages,
   helperText,
   inputRef,
-}: KernTimeInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
+}: KernDateInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
@@ -63,17 +63,18 @@ const TimeInputBase = function TimeInputComponent({
   );
 };
 
-const MaskedTimeInput = IMaskMixin<HTMLInputElement, KernTimeInputProps>(
-  ({ inputRef, ...props }) => <TimeInputBase {...props} inputRef={inputRef} />,
+const MaskedDateInput = IMaskMixin<HTMLInputElement, KernDateInputProps>(
+  ({ inputRef, ...props }) => <DateInputBase {...props} inputRef={inputRef} />,
 );
 
-const KernTimeInput = (props: KernTimeInputProps) => {
+const KernDateInput = (props: KernDateInputProps) => {
   return (
-    <MaskedTimeInput
+    <MaskedDateInput
       {...props}
-      {...({ mask: "`0`0:`0`0", eager: "append" } as MaskedInputProps)}
+      {...({ mask: "0`0`.0`0`.0`0`0`0", eager: "append" } as MaskedInputProps)}
+      placeholder="TT.MM.JJJJ"
     />
   );
 };
 
-export default KernTimeInput;
+export default KernDateInput;

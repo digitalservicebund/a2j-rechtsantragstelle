@@ -103,6 +103,7 @@ export function KernFormFlowPage() {
               <KernHeading
                 text={cmsContent.heading}
                 className="kern-heading-large pb-7! pt-9!"
+                managedByParent
               />
               <div className="flex flex-col gap-kern-space-x-large">
                 <ContentComponents

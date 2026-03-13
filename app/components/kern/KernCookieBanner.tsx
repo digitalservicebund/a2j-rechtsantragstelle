@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
@@ -6,6 +6,8 @@ import KernButton from "./KernButton";
 import KernRichText, { type RichTextProps } from "./KernRichText";
 import { type HeadingProps } from "../common/Heading";
 import { KernIcon } from "./common/KernIcon";
+import KernButtonContainer from "./KernButtonContainer";
+import KernHeading from "./KernHeading";
 
 const acceptCookiesFieldName = "accept-cookies";
 
@@ -24,7 +26,6 @@ export function KernCookieBanner({
   const { posthogClient, hasTrackingConsent } = useAnalytics();
   const jsAvailable = useJsAvailable();
   const analyticsFetcher = useFetcher();
-  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (posthogClient) {
@@ -47,15 +48,9 @@ export function KernCookieBanner({
     return <></>;
   }
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="kern-dialog fixed bottom-4 z-50 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-4 w-[calc(100%-2rem)] max-w-sm"
+    <section
+      className="right-16 left-16 z-50 border-b border-kern-layout-border!"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -63,47 +58,42 @@ export function KernCookieBanner({
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
-        <header className="kern-dialog__header flex! justify-between! items-center!">
-          <h2 className="kern-title">{content.heading.text}</h2>
-          <KernButton
-            type="button"
-            look="ghost"
-            iconLeft={
-              <KernIcon name="close" className="fill-kern-action-default!" />
-            }
-            onClick={closeModal}
+        <div className="p-kern-space-default! gap-kern-space-default!">
+          <KernHeading
+            managedByParent={true}
+            className="kern-heading-medium"
+            text={content.heading.text}
           />
-        </header>
-        <section className="kern-dialog__body">
           {content.paragraphs.map((paragraph) => (
             <KernRichText key={paragraph.html} html={paragraph.html} />
           ))}
-          {content.cookieSettingLinkUrl && (
-            <a href={content.cookieSettingLinkUrl} className="kern-link">
-              <KernIcon name="arrow-forward" />
-              {content.cookieSettingLinkText}
-            </a>
-          )}
-        </section>
-        <footer className="kern-dialog__footer">
-          <KernButton
-            name={acceptCookiesFieldName}
-            value="false"
-            type="submit"
-            look="secondary"
-            text={content.declineButtonLabel}
-            data-testid="decline-cookie"
-          />
-          <KernButton
-            name={acceptCookiesFieldName}
-            value="true"
-            type="submit"
-            look="primary"
-            text={content.acceptButtonLabel}
-            data-testid={buttonAcceptCookieTestId}
-          />
-        </footer>
+
+          <KernButtonContainer className="flex! items-center! pt-kern-space-default!">
+            <KernButton
+              name={acceptCookiesFieldName}
+              value="false"
+              type="submit"
+              look="secondary"
+              text={content.declineButtonLabel}
+              data-testid="decline-cookie"
+            />
+            <KernButton
+              name={acceptCookiesFieldName}
+              value="true"
+              type="submit"
+              look="primary"
+              text={content.acceptButtonLabel}
+              data-testid={buttonAcceptCookieTestId}
+            />
+            {content.cookieSettingLinkUrl && (
+              <a href={content.cookieSettingLinkUrl} className="kern-link">
+                <KernIcon name="arrow-forward" />
+                {content.cookieSettingLinkText}
+              </a>
+            )}
+          </KernButtonContainer>
+        </div>
       </analyticsFetcher.Form>
-    </div>
+    </section>
   );
 }
