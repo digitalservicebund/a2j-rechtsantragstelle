@@ -1,11 +1,11 @@
 import { type Config } from "~/services/flow/server/types";
-import { type GeldEinklagenFormularKlageErstellenUserData } from "./userData";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { geldEinklagenKlageErstellenPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { prozessfuehrungXstateConfig } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/xStateConfig";
 import { rechtlicherZusatzXstateConfig } from "./rechtlicher-zusatz/xStateConfig";
 import { klagendePersonXstateConfig } from "./klagende-person/xStateConfig";
+import { type GeldEinklagenFormularUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
@@ -178,4 +178,4 @@ export const klageErstellenXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

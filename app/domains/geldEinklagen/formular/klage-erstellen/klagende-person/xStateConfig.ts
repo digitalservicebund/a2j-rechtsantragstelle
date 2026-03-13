@@ -1,12 +1,12 @@
-import type { GeldEinklagenFormularKlageErstellenUserData } from "~/domains/geldEinklagen/formular/klage-erstellen/userData";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { geldEinklagenKlageErstellenPages } from "../pages";
 import type { Config } from "~/services/flow/server/types";
 import { type GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { type GeldEinklagenFormularUserData } from "../../userData";
 
 type GeldEinklagenKlageErstellenDaten =
-  GenericGuard<GeldEinklagenFormularKlageErstellenUserData>;
+  GenericGuard<GeldEinklagenFormularUserData>;
 
 const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
   context,
@@ -80,4 +80,4 @@ export const klagendePersonXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

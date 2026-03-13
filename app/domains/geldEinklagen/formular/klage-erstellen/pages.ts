@@ -1,7 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { emailSchema } from "~/services/validation/email";
-import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
   buildOptionalMoneyValidationSchema,
@@ -38,7 +37,6 @@ export const geldEinklagenKlageErstellenPages = {
   klagendePersonKontaktdaten: {
     stepId: "klage-erstellen/klagende-person/kontaktdaten",
     pageSchema: {
-      anwaltschaft: hiddenInputSchema(YesNoAnswer),
       klagendePersonAnrede: z.enum(["herr", "frau", "none"]),
       klagendePersonTitle: z.enum(["none", "dr"]),
       klagendePersonVorname: stringRequiredSchema,
@@ -73,7 +71,6 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonMenschen: {
     stepId: "klage-erstellen/beklagte-person/mensch",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteAnrede: z.enum(["herr", "frau", "none"]),
       beklagteTitle: z.enum(["none", "dr"]),
       beklagteVorname: stringRequiredSchema,
@@ -84,7 +81,6 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteNameOrganisation: stringRequiredSchema,
       ...sharedBeklagteAddress,
       beklagteGesetzlichenVertretungAnrede: z.enum(["herr", "frau", "none"]),
