@@ -135,7 +135,7 @@ describe("getItemValueBox", () => {
 });
 
 describe("extractFieldItemsFromInlineItems", () => {
-  test("returns resolved fieldName and fieldValue pairs for simple and nested fields", () => {
+  it("extracts fieldName and fieldValue pairs for simple and nested fields", () => {
     const userData: UserData = {
       sachverhaltBegruendung: "Free text",
       weiterePersonen: { buchungsnummer: "ABCDEF10" },
@@ -155,7 +155,7 @@ describe("extractFieldItemsFromInlineItems", () => {
     ]);
   });
 
-  test("uses only the resolved field name for array-prefixed field", () => {
+  it("uses only the extract field name for array-prefixed field", () => {
     const userData: UserData = {
       weiterePersonen: [{ vorname: "Mina" }],
       vorname: "Erika",
