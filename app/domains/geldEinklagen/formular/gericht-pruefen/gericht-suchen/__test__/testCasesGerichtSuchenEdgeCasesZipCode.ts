@@ -9,6 +9,7 @@ const STREET_EDGE_CASE_SECONDARY = "Amixstr.";
 const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "10";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",

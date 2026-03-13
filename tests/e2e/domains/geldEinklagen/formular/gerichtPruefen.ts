@@ -2,6 +2,9 @@ import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessibl
 import { type GeldEinklagenFormular } from "./GeldEinklagenFormular";
 
 export async function startGerichtPruefen(formular: GeldEinklagenFormular) {
+  // /geld-einklagen/formular/gericht-pruefen/intro/anwaltschaft
+  await formular.fillRadioPage("anwaltschaft", "no");
+
   // /geld-einklagen/formular/gericht-pruefen/intro/voraussetzungen
   await expectPageToBeAccessible(formular);
   await formular.clickNext();

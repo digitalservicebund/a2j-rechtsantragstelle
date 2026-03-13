@@ -15,7 +15,9 @@ test.describe("Data submission", () => {
     await expect(
       page.getByText("wahrscheinlich keine Beratungshilfe"),
     ).toBeVisible();
-    await page.getByRole("link", { name: "Zurück", exact: true }).click();
+    await page
+      .getByRole("link", { name: "Zur vorherigen Frage", exact: true })
+      .click();
     await expect(page.getByLabel("Ja, komplett")).toBeChecked();
   });
 });

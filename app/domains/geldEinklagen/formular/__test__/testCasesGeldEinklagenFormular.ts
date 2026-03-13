@@ -1,7 +1,7 @@
 import { createMachine } from "xstate";
 import { type FlowStateMachine } from "~/services/flow/server/types";
 import { geldEinklagenFormular } from "..";
-import { testCasesForderung } from "../gericht-pruefen/__test__/testCasesForderung";
+import { testCasesIntroForderung } from "../gericht-pruefen/__test__/testCasesIntroForderung";
 import { testCasesSachgebiet } from "../gericht-pruefen/sachgebiet/__test__/testCasesSachgebiet";
 import { testCasesBeklagtePersonUrheberrecht } from "../gericht-pruefen/beklagtePerson/__test__/testCasesBeklagtePersonUrheberrecht";
 import { testCasesBeklagtePersonMiete } from "../gericht-pruefen/beklagtePerson/__test__/testCasesBeklagtePersonMiete";
@@ -28,7 +28,7 @@ const machine: FlowStateMachine = createMachine({
 });
 
 const testsCases = [
-  ...testCasesForderung,
+  ...testCasesIntroForderung,
   ...testCasesSachgebiet,
   ...testCasesKlagendePersonVerkehrsunfallSchadenVersicherung,
   ...testCasesKlagendePersonReisenAnderesRechtsproblemUrheberrecht,
