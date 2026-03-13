@@ -184,11 +184,17 @@ function stepStates(
         state.machine.config.meta?.arrays,
       );
 
+      const isReachable = reachableSteps.includes(targetStepId);
+
       return {
         url: `${state.machine.id}${targetStepId}`,
-        isDone,
+        /**
+         * If the step isn't reachable, we don't want to mark it as done, even if it would be with the current context.
+         * This is to avoid marking steps as done when they aren't even accessible with the current context
+         *  */
+        isDone: isDone && isReachable,
         stepId,
-        isReachable: reachableSteps.includes(targetStepId),
+        isReachable,
         excludedFromValidation,
       };
     }
