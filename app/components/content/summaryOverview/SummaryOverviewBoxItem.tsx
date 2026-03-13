@@ -1,4 +1,5 @@
 import type { UserData } from "~/domains/userData";
+import { isGeldEinklagenLongTextField } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import {
@@ -11,19 +12,12 @@ type Props = SummaryOverviewBoxItemType & {
   readonly translations: Translations;
 };
 
-const allowedFieldOverflow = new Set([
-  "sachverhaltBegruendung",
-  "beweiseBeschreibung",
-  "weitereAntraege",
-  "rechtlicheWuerdigung",
-]);
-
 const SCROLLABLE_BOX_ROWS = 10;
 
 const hasNonEmptyLongTextField = (fieldItems: FieldItems) =>
   fieldItems.some(
     ({ fieldName, fieldValue }) =>
-      allowedFieldOverflow.has(fieldName) &&
+      isGeldEinklagenLongTextField(fieldName) &&
       typeof fieldValue === "string" &&
       fieldValue.trim().length > 0,
   );
