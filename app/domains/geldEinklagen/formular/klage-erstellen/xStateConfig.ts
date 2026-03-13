@@ -1,32 +1,13 @@
 import { type Config } from "~/services/flow/server/types";
-import { type GeldEinklagenFormularKlageErstellenUserData } from "./userData";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { geldEinklagenKlageErstellenPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { type GenericGuard } from "~/domains/guards.server";
 import { prozessfuehrungXstateConfig } from "~/domains/geldEinklagen/formular/klage-erstellen/prozessfuehrung/xStateConfig";
 import { rechtlicherZusatzXstateConfig } from "./rechtlicher-zusatz/xStateConfig";
+import { klagendePersonXstateConfig } from "./klagende-person/xStateConfig";
+import { type GeldEinklagenFormularUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
-
-type GeldEinklagenKlageErstellenDaten =
-  GenericGuard<GeldEinklagenFormularKlageErstellenUserData>;
-
-const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
-  context,
-}) => {
-  return objectKeysNonEmpty(context, [
-    "klagendePersonAnrede",
-    "klagendePersonVorname",
-    "klagendePersonNachname",
-    "klagendePersonStrasseHausnummer",
-    "klagendePersonPlz",
-    "klagendePersonOrt",
-  ]);
-};
-
-const isBeklagenPerson: GeldEinklagenKlageErstellenDaten = ({ context }) =>
-  context.gegenWenBeklagen === "person";
 
 export const klageErstellenXstateConfig = {
   id: "klage-erstellen",
@@ -56,35 +37,19 @@ export const klageErstellenXstateConfig = {
         },
         [steps.streitwertKostenWeitereKosten.relative]: {
           on: {
-            SUBMIT: steps.klagendePersonKontaktdaten.absolute,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.anwaltschaft === "yes",
+                target: steps.klagendePersonAnwaltschaft.absolute,
+              },
+              steps.klagendePersonKontaktdaten.absolute,
+            ],
             BACK: steps.streitWertKostenGerichtskostenvorschuss.relative,
           },
         },
       },
     },
-    "klagende-person": {
-      id: "klagende-person",
-      initial: "kontaktdaten",
-      states: {
-        [steps.klagendePersonKontaktdaten.relative]: {
-          on: {
-            BACK: steps.streitwertKostenWeitereKosten.absolute,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  isBeklagenPerson({ context }) &&
-                  hasFilledKlagendePerson({ context }),
-                target: steps.beklagtePersonMenschen.absolute,
-              },
-              {
-                guard: hasFilledKlagendePerson,
-                target: steps.beklagtePersonOrganisation.absolute,
-              },
-            ],
-          },
-        },
-      },
-    },
+    "klagende-person": klagendePersonXstateConfig,
     "beklagte-person": {
       id: "beklagte-person",
       initial: "mensch",
@@ -92,7 +57,7 @@ export const klageErstellenXstateConfig = {
         [steps.beklagtePersonMenschen.relative]: {
           always: [
             {
-              guard: isBeklagenPerson,
+              guard: ({ context }) => context.gegenWenBeklagen === "person",
               target: steps.beklagtePersonMenschen.relative,
             },
             steps.beklagtePersonOrganisation.relative,
@@ -142,7 +107,7 @@ export const klageErstellenXstateConfig = {
             },
             BACK: [
               {
-                guard: isBeklagenPerson,
+                guard: ({ context }) => context.gegenWenBeklagen === "person",
                 target: steps.beklagtePersonMenschen.absolute,
               },
               steps.beklagtePersonOrganisation.absolute,
@@ -213,4 +178,4 @@ export const klageErstellenXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

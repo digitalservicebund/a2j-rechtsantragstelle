@@ -10,3 +10,7 @@ export const forderungDone: GeldEinklagenGerichtPruefenDaten = ({
 }) => {
   return objectKeysNonEmpty(context, ["forderung"]);
 };
+
+export const introDone: GeldEinklagenGerichtPruefenDaten = ({ context }) => {
+  return objectKeysNonEmpty(context, ["anwaltschaft"]);
+};

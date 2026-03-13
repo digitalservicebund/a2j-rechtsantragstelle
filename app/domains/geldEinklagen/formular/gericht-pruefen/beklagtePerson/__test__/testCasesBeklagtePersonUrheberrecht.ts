@@ -2,6 +2,7 @@ import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
 const baseContext = {
+  anwaltschaft: "no" as const,
   forderung: "maximal10000" as const,
   ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
