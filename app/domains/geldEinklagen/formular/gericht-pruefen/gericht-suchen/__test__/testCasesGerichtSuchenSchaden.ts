@@ -5,6 +5,7 @@ const ZIP_CODE_PILOT_COURT = "10823";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 
 const baseContext = {
+  anwaltschaft: "no" as const,
   forderung: "maximal10000" as const,
   ausgeschlossen: "yes" as const,
   fuerWenKlagen: "selbst" as const,
