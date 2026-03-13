@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { getItemValueBox, resolveInlineUserFields } from "../getItemValueBox";
+import {
+  getItemValueBox,
+  extractFieldItemsFromInlineItems,
+} from "../getItemValueBox";
 
 describe("getItemValueBox", () => {
   test("returns translated value if a direct translation exists", () => {
@@ -131,14 +134,14 @@ describe("getItemValueBox", () => {
   });
 });
 
-describe("resolveInlineUserFields", () => {
+describe("extractFieldItemsFromInlineItems", () => {
   test("returns resolved fieldName and fieldValue pairs for simple and nested fields", () => {
     const userData: UserData = {
       sachverhaltBegruendung: "Free text",
       weiterePersonen: { buchungsnummer: "ABCDEF10" },
     };
 
-    const actual = resolveInlineUserFields(userData, [
+    const actual = extractFieldItemsFromInlineItems(userData, [
       { field: "sachverhaltBegruendung" },
       { field: "weiterePersonen.buchungsnummer" },
     ]);
@@ -152,22 +155,16 @@ describe("resolveInlineUserFields", () => {
     ]);
   });
 
-  test("splits array-prefixed field and resolves each segment", () => {
+  test("uses only the resolved field name for array-prefixed field", () => {
     const userData: UserData = {
       weiterePersonen: [{ vorname: "Mina" }],
       vorname: "Erika",
     };
 
-    const actual = resolveInlineUserFields(userData, [
+    const actual = extractFieldItemsFromInlineItems(userData, [
       { field: `weiterePersonen#vorname` },
     ]);
 
-    expect(actual).toEqual([
-      {
-        fieldName: "weiterePersonen",
-        fieldValue: [{ vorname: "Mina" }],
-      },
-      { fieldName: "vorname", fieldValue: "Erika" },
-    ]);
+    expect(actual).toEqual([{ fieldName: "vorname", fieldValue: "Erika" }]);
   });
 });

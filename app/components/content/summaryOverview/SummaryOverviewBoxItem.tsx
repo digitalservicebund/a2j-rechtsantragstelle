@@ -1,7 +1,10 @@
 import type { UserData } from "~/domains/userData";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { resolveInlineUserFields, getItemValueBox } from "./getItemValueBox";
+import {
+  extractFieldItemsFromInlineItems,
+  getItemValueBox,
+} from "./getItemValueBox";
 
 type Props = SummaryOverviewBoxItemType & {
   readonly userData: UserData;
@@ -57,7 +60,7 @@ const SummaryOverviewBoxItem = ({
   const itemValue = getItemValueBox(translations, userData, inlineItems);
   if (itemValue.trim() === "") return null;
 
-  const fieldItems = resolveInlineUserFields(userData, inlineItems);
+  const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
 
   return (
     <div>

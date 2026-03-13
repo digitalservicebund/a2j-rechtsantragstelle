@@ -20,20 +20,18 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
 const getFieldName = (field: string): string =>
   field.split(arrayChar).pop() ?? field;
 
-export const resolveInlineUserFields = (
+export const extractFieldItemsFromInlineItems = (
   userData: UserData,
   inlineItems: InlineItems,
 ): FieldItems =>
-  inlineItems
-    .flatMap(({ field }) => field.split(arrayChar))
-    .map((field) => {
-      const fieldName = getFieldName(field);
-      const fieldValue = fieldName.includes(".")
-        ? getNestedValue(userData, fieldName)
-        : userData[fieldName];
+  inlineItems.map(({ field }) => {
+    const fieldName = getFieldName(field);
+    const fieldValue = fieldName.includes(".")
+      ? getNestedValue(userData, fieldName)
+      : userData[fieldName];
 
-      return { fieldName, fieldValue };
-    });
+    return { fieldName, fieldValue };
+  });
 
 export const getItemValueBox = (
   translations: Translations,
