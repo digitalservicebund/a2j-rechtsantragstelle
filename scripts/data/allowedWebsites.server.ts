@@ -68,4 +68,5 @@ export const allowedWebsites = [
   "https://www.bmev.de",
   "https://www.mahngerichte.de",
   "https://surveys.digitalservice.dev",
+  "https://www.bea-brak.de/bea",
 ];

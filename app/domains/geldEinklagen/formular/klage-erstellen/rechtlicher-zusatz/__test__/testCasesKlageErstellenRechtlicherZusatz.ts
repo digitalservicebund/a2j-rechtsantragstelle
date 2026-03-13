@@ -63,4 +63,24 @@ export const testCasesKlageErstellenRechtlicherZusatz = [
       "/klage-herunterladen/intro/start",
     ],
   ],
+  [
+    {
+      ...baseContext,
+      anwaltschaft: "yes",
+      klagendePersonAnwaltschaftPlz: ZIP_CODE_PILOT_COURT,
+      klagendePersonAnwaltschaftOrt: "klagendePersonAnwaltschaftOrt",
+      klagendePersonAnwaltschaftAnrede: "none",
+      klagendePersonAnwaltschaftVorname: "klagendePersonAnwaltschaftVorname",
+      klagendePersonAnwaltschaftNachname: "klagendePersonAnwaltschaftNachname",
+      klagendePersonAnwaltschaftTitle: "none",
+      weitereAntraege: "",
+      rechtlicheWuerdigung: "",
+    },
+    [
+      "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
+      "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
+      "/klage-erstellen/zusammenfassung/uebersicht",
+      "/klage-herunterladen/intro/start-anwaltschaft",
+    ],
+  ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
