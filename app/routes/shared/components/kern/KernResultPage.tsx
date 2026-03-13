@@ -112,9 +112,9 @@ export function KernResultPage() {
           </GridItem>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 3, span: 12 }}
-            xlColumn={{ start: 3, span: 12 }}
-            className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+            lgColumn={{ start: 2, span: 12 }}
+            xlColumn={{ start: 2, span: 12 }}
+            className="py-24"
             row={2}
           >
             <KernButtonContainer>
