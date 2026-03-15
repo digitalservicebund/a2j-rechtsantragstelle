@@ -140,9 +140,9 @@
     "storybook": "^10.2.19",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^8.0.0",
     "vite-env-only": "^3.0.3",
-    "vite-node": "^5.3.0",
+    "vite-node": "^6.0.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.0"
   },
