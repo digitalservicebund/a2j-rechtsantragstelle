@@ -1,4 +1,4 @@
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 
