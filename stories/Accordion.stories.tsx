@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Accordion from "../app/components/common/Accordion";
 import Container from "../app/components/layout/Container";
-import { reactRouterContext } from "../.storybook/reactRouterContext";
+import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
   title: "Common/Accordion",
