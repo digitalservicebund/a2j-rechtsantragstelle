@@ -672,7 +672,7 @@ describe("getInitialSubState", () => {
           id: "parent1",
           initial: "step1",
           states: {
-            step1: {},
+            step1: { on: { SUBMIT: "#parent2.step1" } },
             step2: {},
           },
         },
@@ -683,7 +683,24 @@ describe("getInitialSubState", () => {
             step1: {
               initial: "intro",
               states: {
-                intro: {},
+                intro: { on: { SUBMIT: "#parent3.step1" } },
+              },
+            },
+            step2: {},
+          },
+        },
+        parent3: {
+          initial: "step1",
+          id: "parent3",
+          states: {
+            step1: {
+              initial: "intro",
+              states: {
+                intro: {
+                  always: { target: "new-intro" },
+                  on: { SUBMIT: "new-intro" },
+                },
+                "new-intro": {},
               },
             },
             step2: {},
@@ -702,6 +719,13 @@ describe("getInitialSubState", () => {
     const actual = buildFlowController(configSubStates);
     expect(actual.getInitialSubState("parent2")).toBe(
       "/test/parent2/step1/intro",
+    );
+  });
+
+  it("should return initial state of the parent3 handling the always transition", () => {
+    const actual = buildFlowController(configSubStates);
+    expect(actual.getInitialSubState("parent3")).toBe(
+      "/test/parent3/step1/new-intro",
     );
   });
 });

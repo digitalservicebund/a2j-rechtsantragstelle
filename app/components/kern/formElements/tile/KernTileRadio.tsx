@@ -8,7 +8,6 @@ export type KernTileOptions = Readonly<{
   description?: string;
   title?: string;
   image?: ImageProps;
-  tagDescription?: string;
   tileDescription?: string;
   tileTitle?: string;
 }>;
@@ -25,7 +24,6 @@ type KernTileRadioProps = KernTileOptions &
 const KernTileRadio = ({
   name,
   tileDescription,
-  tagDescription,
   value,
   tileTitle,
   image,
@@ -41,14 +39,14 @@ const KernTileRadio = ({
   return (
     <div
       className={classNames(
-        "flex rounded-lg border-2 border-[#171A2B] bg-[#F7F7F9]",
+        "flex rounded-lg border-2 border-kern-form-input-border bg-kern-form-input-background-inverted",
         {
           "border-kern-feedback-danger": field.error() !== null,
         },
       )}
     >
       <label
-        className="flex flex-row items-center cursor-pointer touch-manipulation p-24 h-full"
+        className="flex flex-row items-center cursor-pointer touch-manipulation p-kern-space-large h-full"
         htmlFor={id}
         aria-label={tileTitle}
       >
@@ -68,7 +66,6 @@ const KernTileRadio = ({
         <KernTileContent
           tileTitle={tileTitle}
           tileDescription={tileDescription}
-          tagDescription={tagDescription}
           image={image}
         />
       </label>

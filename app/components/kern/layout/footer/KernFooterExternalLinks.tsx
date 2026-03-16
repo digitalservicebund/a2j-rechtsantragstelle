@@ -14,13 +14,13 @@ export const KernFooterExternalLinks = () => {
             {section.title}{" "}
             <a
               href={link.url}
-              className="kern-link inline-flex items-center gap-1 no-underline!"
+              className="kern-link inline-block p-0! no-underline!"
               target="_blank"
               rel="noopener noreferrer"
             >
               <KernIcon
                 name="open-in-new"
-                className="w-[1em] h-[1em] flex-shrink-0 mt-4"
+                className="size-[1em] inline! mt-3"
               />
               {link.text}
             </a>
