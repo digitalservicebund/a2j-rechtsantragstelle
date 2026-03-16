@@ -125,3 +125,9 @@ export const hasBeweiseAngebot = (context: GeldEinklagenFormularUserData) => {
     hasBeweiseAngebot: context.beweiseAngebot === "yes",
   };
 };
+
+export const hasAnwaltschaft = (context: GeldEinklagenFormularUserData) => {
+  return {
+    hasAnwaltschaft: context.anwaltschaft === "yes",
+  };
+};
