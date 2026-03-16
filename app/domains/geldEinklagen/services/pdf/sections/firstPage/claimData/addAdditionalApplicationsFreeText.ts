@@ -1,4 +1,5 @@
 import {
+  FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
@@ -11,6 +12,12 @@ export const addAdditionalApplicationsFreeText = (
   if (!weitereAntraege) {
     return;
   }
+
+  additionalApplicationsSect.add(
+    doc.struct("H3", {}, () => {
+      doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text("Weitere Anträge:");
+    }),
+  );
 
   const compensationSect = doc.struct("Sect");
   compensationSect.add(
