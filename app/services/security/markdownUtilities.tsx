@@ -38,12 +38,9 @@ const kernRenderer: Partial<Renderer> = {
 
     const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
       href: url,
-      className: classNames(
-        "kern-link p-0! inline-flex items-center gap-1!",
-        {
-          "no-underline! relative! top-[1.5px]!": shouldOpenNewTab,
-        },
-      ),
+      className: classNames("kern-link p-0! inline-flex items-center gap-1!", {
+        "no-underline! relative! top-[1.5px]!": shouldOpenNewTab,
+      }),
       ...(shouldOpenNewTab
         ? {
             "aria-label": `${text}, ${OPEN_NEW_TAB}`,
