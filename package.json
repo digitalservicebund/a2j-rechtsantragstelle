@@ -37,10 +37,10 @@
     "test:integration": "./tests/integration/runTests.sh",
     "typecheck": "react-router typegen && tsc",
     "typecheck:watch": "react-router typegen && tsc -w",
-    "update:courtData": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts updateZip",
-    "update:courtDataKey": "vite-node ./app/services/gerichtsfinder/encryptedStorage.server.ts rotateKey",
-    "update:URLs": "vite-node ./app/services/gerichtsfinder/checkURLs.ts checkURLs",
     "update:streetNames": "vite-node ./scripts/streetNames/update.ts",
+    "update:courtData": "node ./scripts/vite-runner.ts courtDataUpdate",
+    "update:courtDataKey": "node ./scripts/vite-runner.ts courtDataRotateKey",
+    "update:courtURLs": "node ./scripts/vite-runner.ts checkCourtURLs",
     "verify:emails": "node ./scripts/verifyExternalLinks.ts verifyEmails",
     "verify:unusedStrapiEntries": "node ./scripts/vite-runner.ts unusedStrapiEntry",
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
