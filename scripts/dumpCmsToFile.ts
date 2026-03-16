@@ -61,7 +61,7 @@ const fetchAndEmbedImages = async (content: Record<string, unknown>) => {
   return stringifiedContent;
 };
 
-async function dumpCmsToFile() {
+export default async function execute() {
   configDotenv();
   const { CONTENT_FILE_PATH, STRAPI_API } = config();
   console.log(`Fetching CMS data from ${STRAPI_API}`);
@@ -93,5 +93,3 @@ async function dumpCmsToFile() {
   console.log(`Writing CMS content to ${CONTENT_FILE_PATH}...`);
   fs.writeFileSync(CONTENT_FILE_PATH, stringifiedContent + "\n", "utf8");
 }
-
-await dumpCmsToFile();
