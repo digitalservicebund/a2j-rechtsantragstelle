@@ -56,23 +56,18 @@ const KernTile = ({
         {label && (
           <legend className="kern-label kern-label--large">{label}</legend>
         )}
-        {options.map(
-          ({ value, description, tagDescription, image, title }, index) => (
-            <KernTileRadio
-              key={value}
-              name={name}
-              onClick={() => setRenderHiddenField(false)}
-              value={value}
-              tileDescription={description}
-              tileTitle={title}
-              tagDescription={tagDescription}
-              image={image}
-              ref={
-                index === 0 && field.error() ? field.refs.controlled() : null
-              }
-            />
-          ),
-        )}
+        {options.map(({ value, description, image, title }, index) => (
+          <KernTileRadio
+            key={value}
+            name={name}
+            onClick={() => setRenderHiddenField(false)}
+            value={value}
+            tileDescription={description}
+            tileTitle={title}
+            image={image}
+            ref={index === 0 && field.error() ? field.refs.controlled() : null}
+          />
+        ))}
       </div>
       <div className="pt-16 pb-16">
         {errorToDisplay && (
