@@ -38,8 +38,8 @@ const kernRenderer: Partial<Renderer> = {
 
     const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
       href: url,
-      className: classNames("kern-link p-0! inline-flex items-center gap-1!", {
-        "no-underline! relative! top-[1.5px]!": shouldOpenNewTab,
+      className: classNames("kern-link inline-block! p-0!", {
+        "no-underline!": shouldOpenNewTab,
       }),
       ...(shouldOpenNewTab
         ? {
@@ -55,7 +55,7 @@ const kernRenderer: Partial<Renderer> = {
         {shouldOpenNewTab && (
           <KernIcon
             name="open-in-new"
-            className="size-[1em] flex-shrink-0 relative! top-[1.2px]! mt-2!"
+            className="size-[1em] mb-[3.5px]! inline! mr-4"
           />
         )}
         {text}
