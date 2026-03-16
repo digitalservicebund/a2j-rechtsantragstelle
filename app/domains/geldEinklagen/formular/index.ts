@@ -11,6 +11,7 @@ import {
   hasAnwaltskosten,
   hasStreitbeilegungGruende,
   hasBeweiseAngebot,
+  hasAnwaltschaft,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -31,6 +32,7 @@ export const geldEinklagenFormular = {
     ...hasAnwaltskosten(context),
     ...hasStreitbeilegungGruende(context),
     ...hasBeweiseAngebot(context),
+    ...hasAnwaltschaft(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
