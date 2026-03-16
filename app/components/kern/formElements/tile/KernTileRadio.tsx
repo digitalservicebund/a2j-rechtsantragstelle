@@ -41,7 +41,7 @@ const KernTileRadio = ({
   return (
     <div
       className={classNames(
-        "flex rounded-lg border-2 border-[#171A2B] bg-[#F7F7F9]",
+        "flex rounded-lg border-2 border-kern-form-input-border bg-kern-form-input-background-inverted",
         {
           "border-kern-feedback-danger": field.error() !== null,
         },
