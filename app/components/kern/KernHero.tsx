@@ -3,17 +3,20 @@ import { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import KernHeading from "./KernHeading";
 import classNames from "classnames";
+import KernButton, { type ButtonProps } from "./KernButton";
 
 type Props = Readonly<{
   heading: HeadingProps;
   content?: RichTextProps;
   sectionBackgroundColor?: string;
+  button?: ButtonProps;
 }>;
 
 export default function KernHero({
   heading,
   content,
   sectionBackgroundColor,
+  button,
 }: Props) {
   return (
     <GridItem
@@ -31,11 +34,16 @@ export default function KernHero({
       />
       {content && (
         <div
-          className={classNames("text-kern-static-large", {
+          className={classNames("text-kern-static-large font-medium", {
             "text-white!": sectionBackgroundColor === "blue",
           })}
           dangerouslySetInnerHTML={{ __html: content.html }}
         />
+      )}
+      {button && (
+        <div>
+          <KernButton {...button} />
+        </div>
       )}
     </GridItem>
   );
