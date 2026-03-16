@@ -1,4 +1,5 @@
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { ibanSchema } from "~/services/validation/iban";
 import { integerSchema } from "~/services/validation/integer";
@@ -9,6 +10,12 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungPkontoAntragPages = {
+  grundvoraussetzungenDatenverarbeitung: {
+    stepId: "grundvoraussetzungen/datenverarbeitung",
+    pageSchema: {
+      datenverarbeitungZustimmung: checkedRequired,
+    },
+  },
   bestehendesPkonto: {
     stepId: "grundvoraussetzungen/bestehendes-pkonto",
     pageSchema: {

@@ -21,11 +21,17 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     grundvoraussetzungen: {
       id: "grundvoraussetzungen",
-      initial: stepIds.bestehendesPkonto.relative,
+      initial: stepIds.grundvoraussetzungenDatenverarbeitung.relative,
       states: {
-        [stepIds.bestehendesPkonto.relative]: {
+        [stepIds.grundvoraussetzungenDatenverarbeitung.relative]: {
           on: {
             BACK: "#start",
+            SUBMIT: stepIds.bestehendesPkonto.relative,
+          },
+        },
+        [stepIds.bestehendesPkonto.relative]: {
+          on: {
+            BACK: stepIds.grundvoraussetzungenDatenverarbeitung.relative,
             SUBMIT: [
               {
                 guard: ({ context }) => context.bestehendesPkonto === "no",
@@ -48,7 +54,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
       states: {
         [stepIds.bankdatenEinleitung.relative]: {
           on: {
-            BACK: "#grundvoraussetzungen",
+            BACK: stepIds.bestehendesPkonto.absolute,
             SUBMIT: stepIds.bankdatenKontodaten.relative,
           },
         },
