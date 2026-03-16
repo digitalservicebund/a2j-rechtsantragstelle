@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { getItemValueBox } from "../getItemValueBox";
+import {
+  getItemValueBox,
+  extractFieldItemsFromInlineItems,
+} from "../getItemValueBox";
 
 describe("getItemValueBox", () => {
   test("returns translated value if a direct translation exists", () => {
@@ -128,5 +131,40 @@ describe("getItemValueBox", () => {
     ]);
 
     expect(actual).toBe("No Status admin");
+  });
+});
+
+describe("extractFieldItemsFromInlineItems", () => {
+  it("extracts fieldName and fieldValue pairs for simple and nested fields", () => {
+    const userData: UserData = {
+      sachverhaltBegruendung: "Free text",
+      weiterePersonen: { buchungsnummer: "ABCDEF10" },
+    };
+
+    const actual = extractFieldItemsFromInlineItems(userData, [
+      { field: "sachverhaltBegruendung" },
+      { field: "weiterePersonen.buchungsnummer" },
+    ]);
+
+    expect(actual).toEqual([
+      { fieldName: "sachverhaltBegruendung", fieldValue: "Free text" },
+      {
+        fieldName: "weiterePersonen.buchungsnummer",
+        fieldValue: "ABCDEF10",
+      },
+    ]);
+  });
+
+  it("uses only the extract field name for array-prefixed field", () => {
+    const userData: UserData = {
+      weiterePersonen: [{ vorname: "Mina" }],
+      vorname: "Erika",
+    };
+
+    const actual = extractFieldItemsFromInlineItems(userData, [
+      { field: `weiterePersonen#vorname` },
+    ]);
+
+    expect(actual).toEqual([{ fieldName: "vorname", fieldValue: "Erika" }]);
   });
 });

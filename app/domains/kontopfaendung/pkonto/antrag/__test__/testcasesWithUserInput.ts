@@ -16,6 +16,10 @@ export const kontopfaendungPkontoAntragTestCases = {
         stepId: "/start",
       },
       {
+        stepId: "/grundvoraussetzungen/datenverarbeitung",
+        userInput: { datenverarbeitungZustimmung: "on" },
+      },
+      {
         stepId: "/grundvoraussetzungen/bestehendes-pkonto",
         userInput: { bestehendesPkonto: "yes" },
       },
@@ -26,6 +30,10 @@ export const kontopfaendungPkontoAntragTestCases = {
     pkontoAntragKontoinhaberIsAntragsteller: [
       {
         stepId: "/start",
+      },
+      {
+        stepId: "/grundvoraussetzungen/datenverarbeitung",
+        userInput: { datenverarbeitungZustimmung: "on" },
       },
       {
         stepId: "/grundvoraussetzungen/bestehendes-pkonto",
