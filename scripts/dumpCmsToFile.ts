@@ -34,7 +34,7 @@ const fetchAndEmbedImages = async (content: Record<string, unknown>) => {
   );
   const responses = await Promise.all(
     Array.from(uniqueImageUrls).map((url) =>
-      axios.get(url, { responseType: "arraybuffer", timeout: 20000 }),
+      axios.get(url, { responseType: "arraybuffer", timeout: 50000 }),
     ),
   );
 
