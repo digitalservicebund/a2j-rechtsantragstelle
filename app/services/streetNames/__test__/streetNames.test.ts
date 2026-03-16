@@ -12,8 +12,8 @@ describe("streetNamesForZipcode", () => {
   it("should filter by unique results", async () => {
     // 27499 (Insel Neuwerk) has only two entries
     expect(await streetNamesForZipcode("27499")).toEqual([
-      { locality: "Hamburg", name: "Herrengarten" },
-      { locality: "Hamburg", name: "Mittelweg" },
+      { city: "Hamburg", name: "Herrengarten", postalCode: "27499" },
+      { city: "Hamburg", name: "Mittelweg", postalCode: "27499" },
     ]);
   });
 });

@@ -1,27 +1,21 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
+import { DatabaseSync, type StatementSync } from "node:sqlite";
+import type { StreetData } from "scripts/streetNames/postProcess";
 
-// See scripts/streetNames/postProcess.ts
-type StreetData = {
-  name: string;
-  locality: string;
-};
-type StreetNamesMap = Record<string, StreetData[]>;
+let dbLookupStatement: StatementSync | undefined = undefined;
 
-const JSON_FILE_PATH = "data/streetNames.json";
-let streetNamesMap: StreetNamesMap | undefined = undefined;
-
-async function loadStreetNamesMap() {
-  if (!streetNamesMap) {
-    const jsonFilePath = path.resolve(path.join(process.cwd(), JSON_FILE_PATH));
-    streetNamesMap = JSON.parse(await readFile(jsonFilePath, "utf8"));
+function dbLookup(zipCode: string) {
+  // cache dbLookupStatement so we only read the db & compile the statement once
+  if (!dbLookupStatement) {
+    const db = new DatabaseSync("data/streetNames.sqlite", { readOnly: true });
+    dbLookupStatement = db.prepare(
+      `SELECT postalCode, name, city FROM streets WHERE postalCode = ?`,
+    );
   }
-  return streetNamesMap as StreetNamesMap;
+  return dbLookupStatement.all(zipCode) as StreetData[];
 }
 
 export async function streetNamesForZipcode(
   zipCode?: string,
 ): Promise<StreetData[]> {
-  if (!zipCode) return [];
-  return (await loadStreetNamesMap())[zipCode] ?? [];
+  return zipCode ? dbLookup(zipCode) : [];
 }
