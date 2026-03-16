@@ -1,7 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { emailSchema } from "~/services/validation/email";
-import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
   buildOptionalMoneyValidationSchema,
@@ -51,10 +50,27 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonKontoinhaber: stringOptionalSchema,
     },
   },
+  klagendePersonAnwaltschaft: {
+    stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
+    pageSchema: {
+      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
+      klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
+      klagendePersonAnwaltschaftStrasseHausnummer: stringRequiredSchema,
+      klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonAnwaltschaftOrt: stringRequiredSchema,
+      klagendePersonAnwaltschaftAnrede: z.enum(["herr", "frau", "none"]),
+      klagendePersonAnwaltschaftTitle: stringOptionalSchema,
+      klagendePersonAnwaltschaftVorname: stringRequiredSchema,
+      klagendePersonAnwaltschaftNachname: stringRequiredSchema,
+      klagendePersonAnwaltschaftBerufsbezeichnung: stringOptionalSchema,
+      klagendePersonAnwaltschaftTelefonnummer:
+        schemaOrEmptyString(phoneNumberSchema),
+      klagendePersonAnwaltschaftEmail: schemaOrEmptyString(emailSchema),
+    },
+  },
   beklagtePersonMenschen: {
     stepId: "klage-erstellen/beklagte-person/mensch",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteAnrede: z.enum(["herr", "frau", "none"]),
       beklagteTitle: z.enum(["none", "dr"]),
       beklagteVorname: stringRequiredSchema,
@@ -65,7 +81,6 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteNameOrganisation: stringRequiredSchema,
       ...sharedBeklagteAddress,
       beklagteGesetzlichenVertretungAnrede: z.enum(["herr", "frau", "none"]),

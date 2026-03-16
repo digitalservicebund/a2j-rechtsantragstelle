@@ -8,6 +8,7 @@ import { klagendePersonXstateConfig } from "./klagendePerson/xStateConfig";
 import { beklagtePersonXstateConfig } from "./beklagtePerson/xStateConfig";
 import { gerichtSuchenXstateConfig } from "./gericht-suchen/xStateConfig";
 import { zustaendigesGerichtXstateConfig } from "./zustaendiges-gericht/xStateConfig";
+import { introXstateConfig } from "./intro/xStateConfig";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -15,23 +16,7 @@ export const gerichtPruefenXstateConfig = {
   id: "gericht-pruefen",
   initial: "intro",
   states: {
-    intro: {
-      id: "intro",
-      initial: "voraussetzungen",
-      states: {
-        [steps.introVoraussetzungen.relative]: {
-          on: {
-            SUBMIT: steps.introStart.relative,
-          },
-        },
-        [steps.introStart.relative]: {
-          on: {
-            SUBMIT: steps.forderungWas.absolute,
-            BACK: steps.introVoraussetzungen.relative,
-          },
-        },
-      },
-    },
+    intro: introXstateConfig,
     forderung: {
       id: "forderung",
       initial: "was",

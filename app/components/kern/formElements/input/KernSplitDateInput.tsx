@@ -8,7 +8,7 @@ type KernSplitDateInputProps = {
   name: string;
 };
 
-const sharedClassnames = "kern-form-input__input" as const;
+const sharedClassnames = "kern-form-input__input bg-white!" as const;
 const sharedAttributes = {
   "aria-required": "true",
   type: "text",
