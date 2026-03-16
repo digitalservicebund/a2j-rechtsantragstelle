@@ -1,5 +1,4 @@
 import * as xssImport from "xss";
-import { openInNewAllowedAttributes } from "~/components/common/OpenInNewTabIcon";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
 
 // Note: type recast of import due to wrong default type export
@@ -16,7 +15,19 @@ const allowList = {
   h5: xss.getDefaultWhiteList().h5?.concat(["class"]),
   h6: xss.getDefaultWhiteList().h6?.concat(["class"]),
   dt: xss.getDefaultWhiteList().dt?.concat(["class"]),
-  ...openInNewAllowedAttributes,
+  svg: [
+    "xmlns",
+    "height",
+    "viewbox",
+    "width",
+    "role",
+    "focusable",
+    "aria-hidden",
+    "style",
+    "class",
+    "fill",
+  ],
+  path: ["d", "fill"],
 };
 
 const sanitizer = new xss.FilterXSS({
