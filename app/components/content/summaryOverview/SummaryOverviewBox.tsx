@@ -26,8 +26,8 @@ const SummaryOverviewBox = ({
   const { translations, flowId } = useFormFlow();
 
   return (
-    <div className="bg-white mt-8 p-16 gap-4 flex flex-col content-between sm:flex-row sm:justify-between">
-      <div>
+    <div className="bg-white mt-8 p-16 gap-4 flex flex-col sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex-1">
         {title && (
           <Heading
             {...title}
@@ -54,7 +54,7 @@ const SummaryOverviewBox = ({
       </div>
       <StandaloneLink
         url={`${flowId}${stepId}`}
-        className="flex basis gap-2 pl-2 ds-link-01-bold items-start justify-end h-min"
+        className="flex basis ml-auto gap-2 pl-2 ds-link-01-bold items-start h-min"
         icon={<EditIcon className="shrink-0 inline" />}
         text={"Bearbeiten"}
       />
