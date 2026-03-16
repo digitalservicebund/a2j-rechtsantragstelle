@@ -1,7 +1,7 @@
 // oxlint-disable no-console
 import fs from "node:fs";
 import path from "node:path";
-import { generateStreetNamesJson } from "./postProcess";
+import { buildStreetNamesDb } from "./postProcess";
 
 const FILE_NAME = "streets.updated.csv";
 const RAW_URL_REMOTE = `https://raw.githubusercontent.com/openpotato/openplzapi.data/main/src/de/osm/${FILE_NAME}`;
@@ -50,7 +50,7 @@ async function syncStreetNamesFile() {
       console.log(`Saved new ETag ${newETag}.`);
     }
 
-    generateStreetNamesJson(localFilePath);
+    buildStreetNamesDb();
 
     console.log("✅ Download complete and local file updated.");
   } catch (error) {

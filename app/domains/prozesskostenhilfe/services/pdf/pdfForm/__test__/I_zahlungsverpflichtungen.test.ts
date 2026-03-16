@@ -26,7 +26,6 @@ describe("I_zahlungsverpflichtungen", () => {
       ],
       sonstigeAusgaben: [],
       versicherungen: [],
-      hasAusgaben: "yes",
     };
 
     const { pdfValues } = fillZahlungsverpflichtungen({
@@ -76,7 +75,6 @@ describe("I_zahlungsverpflichtungen", () => {
         },
       ],
       versicherungen: [],
-      hasAusgaben: "yes",
     };
 
     const { pdfValues } = fillZahlungsverpflichtungen({
@@ -138,7 +136,6 @@ describe("I_zahlungsverpflichtungen", () => {
           beitrag: "50",
         },
       ],
-      hasAusgaben: "yes",
     };
 
     const { pdfValues } = fillZahlungsverpflichtungen({
@@ -207,7 +204,6 @@ describe("I_zahlungsverpflichtungen", () => {
           sonstigeArt: "Spezialversicherung",
         },
       ],
-      hasAusgaben: "yes",
     };
 
     const { pdfValues, attachment } = fillZahlungsverpflichtungen({
@@ -260,7 +256,6 @@ describe("I_zahlungsverpflichtungen", () => {
       ],
       sonstigeAusgaben: [],
       versicherungen: [],
-      hasAusgaben: "yes",
     };
 
     const { pdfValues, attachment } = fillZahlungsverpflichtungen({

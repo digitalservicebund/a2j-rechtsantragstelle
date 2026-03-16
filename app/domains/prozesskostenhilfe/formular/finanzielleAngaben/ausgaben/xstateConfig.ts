@@ -4,10 +4,15 @@ import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import {
   hasGrundeigentumYes,
+  hasAusgabenYes,
+  hasVersicherungenYes,
+  hasRatenzahlungenYes,
+  hasSonstigeAusgabenYes,
   isSonstigeVersicherung,
   ratenzahlungAnteiligYes,
   sonstigeAusgabeAnteiligYes,
 } from "../guards";
+import { arrayIsNonEmpty } from "~/util/array";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenAusgabenPages,
@@ -31,63 +36,114 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
           ],
           SUBMIT: [
             {
-              guard: ({ context }) => context.hasAusgaben === "yes",
-              target: steps.ausgabenZusammenfassung.relative,
+              guard: hasAusgabenYes,
+              target: steps.ausgabenVersicherungenFrage.relative,
             },
             steps.ausgabenBesondereBelastungen.relative,
           ],
         },
       },
-      [steps.ausgabenBesondereBelastungen.relative]: {
-        on: {
-          BACK: [
-            {
-              guard: ({ context }) => context.hasAusgaben === "yes",
-              target: steps.ausgabenZusammenfassung.absolute,
-            },
-            steps.ausgabenFrage.relative,
-          ],
-          SUBMIT: ["#gesetzliche-vertretung"],
-        },
-      },
-      [steps.ausgabenZusammenfassung.relative]: {
+      [steps.ausgabenVersicherungenFrage.relative]: {
         on: {
           BACK: steps.ausgabenFrage.relative,
-          SUBMIT: steps.ausgabenBesondereBelastungen.relative,
-          "add-versicherungen": steps.ausgabenVersicherungen.relative,
-          "add-ratenzahlungen": steps.ausgabenRatenzahlungen.relative,
-          "add-sonstigeAusgaben": steps.ausgabenSonstigeAusgaben.relative,
+          SUBMIT: [
+            {
+              guard: hasVersicherungenYes,
+              target: steps.ausgabenVersicherungenUebersicht.relative,
+            },
+            steps.ausgabenRatenzahlungenFrage.relative,
+          ],
         },
       },
-      [steps.ausgabenVersicherungen.relative]: {
+      [steps.ausgabenVersicherungenUebersicht.relative]: {
+        on: {
+          BACK: steps.ausgabenVersicherungenFrage.relative,
+          SUBMIT: [
+            {
+              guard: ({ context }) =>
+                hasVersicherungenYes({ context }) &&
+                !arrayIsNonEmpty(context.versicherungen),
+              target: steps.ausgabenVersicherungenWarnung.relative,
+            },
+            steps.ausgabenRatenzahlungenFrage.relative,
+          ],
+          "add-versicherungen": `${steps.ausgabenVersicherung.relative}.daten`,
+        },
+      },
+      [steps.ausgabenVersicherungenWarnung.relative]: {
+        on: {
+          BACK: steps.ausgabenVersicherungenUebersicht.relative,
+          SUBMIT: steps.ausgabenRatenzahlungenFrage.relative,
+        },
+      },
+      [steps.ausgabenVersicherung.relative]: {
         initial: "daten",
         states: {
           daten: {
             on: {
-              BACK: steps.ausgabenZusammenfassung.absolute,
+              BACK: steps.ausgabenVersicherungenUebersicht.absolute,
               SUBMIT: [
                 {
                   guard: isSonstigeVersicherung,
                   target: "sonstige-art",
                 },
-                steps.ausgabenZusammenfassung.absolute,
+                steps.ausgabenVersicherungenUebersicht.absolute,
               ],
             },
           },
           "sonstige-art": {
             on: {
               BACK: "daten",
-              SUBMIT: steps.ausgabenZusammenfassung.absolute,
+              SUBMIT: steps.ausgabenVersicherungenUebersicht.absolute,
             },
           },
         },
       },
-      [steps.ausgabenRatenzahlungen.relative]: {
+      [steps.ausgabenRatenzahlungenFrage.relative]: {
+        on: {
+          BACK: [
+            {
+              guard: hasVersicherungenYes,
+              target: steps.ausgabenVersicherungenUebersicht.relative,
+            },
+            steps.ausgabenVersicherungenFrage.relative,
+          ],
+          SUBMIT: [
+            {
+              guard: hasRatenzahlungenYes,
+              target: steps.ausgabenRatenzahlungenUebersicht.relative,
+            },
+            steps.ausgabenSonstigeAusgabenFrage.relative,
+          ],
+        },
+      },
+      [steps.ausgabenRatenzahlungenUebersicht.relative]: {
+        on: {
+          BACK: steps.ausgabenRatenzahlungenFrage.relative,
+          SUBMIT: [
+            {
+              guard: ({ context }) =>
+                hasRatenzahlungenYes({ context }) &&
+                !arrayIsNonEmpty(context.ratenzahlungen),
+              target: steps.ausgabenRatenzahlungenWarnung.relative,
+            },
+            steps.ausgabenSonstigeAusgabenFrage.relative,
+          ],
+          "add-ratenzahlungen": `${steps.ausgabenRatenzahlung.relative}.daten`,
+        },
+      },
+      [steps.ausgabenRatenzahlungenWarnung.relative]: {
+        on: {
+          BACK: steps.ausgabenRatenzahlungenUebersicht.relative,
+          SUBMIT: steps.ausgabenSonstigeAusgabenFrage.relative,
+        },
+      },
+      [steps.ausgabenRatenzahlung.relative]: {
         initial: "daten",
         states: {
           daten: {
             on: {
-              BACK: steps.ausgabenZusammenfassung.absolute,
+              BACK: steps.ausgabenRatenzahlungenUebersicht.absolute,
               SUBMIT: "zahlungspflichtiger",
             },
           },
@@ -136,17 +192,56 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
           laufzeitende: {
             on: {
               BACK: "restschuld",
-              SUBMIT: steps.ausgabenZusammenfassung.absolute,
+              SUBMIT: steps.ausgabenRatenzahlungenUebersicht.absolute,
             },
           },
         },
       },
-      [steps.ausgabenSonstigeAusgaben.relative]: {
+      [steps.ausgabenSonstigeAusgabenFrage.relative]: {
+        on: {
+          BACK: [
+            {
+              guard: hasRatenzahlungenYes,
+              target: steps.ausgabenRatenzahlungenUebersicht.relative,
+            },
+            steps.ausgabenRatenzahlungenFrage.relative,
+          ],
+          SUBMIT: [
+            {
+              guard: hasSonstigeAusgabenYes,
+              target: steps.ausgabenSonstigeAusgabenUebersicht.relative,
+            },
+            steps.ausgabenBesondereBelastungen.relative,
+          ],
+        },
+      },
+      [steps.ausgabenSonstigeAusgabenUebersicht.relative]: {
+        on: {
+          BACK: steps.ausgabenSonstigeAusgabenFrage.relative,
+          SUBMIT: [
+            {
+              guard: ({ context }) =>
+                hasSonstigeAusgabenYes({ context }) &&
+                !arrayIsNonEmpty(context.sonstigeAusgaben),
+              target: steps.ausgabenSonstigeAusgabenWarnung.relative,
+            },
+            steps.ausgabenBesondereBelastungen.relative,
+          ],
+          "add-sonstigeAusgaben": `${steps.ausgabenSonstigeAusgabe.relative}.daten`,
+        },
+      },
+      [steps.ausgabenSonstigeAusgabenWarnung.relative]: {
+        on: {
+          BACK: steps.ausgabenSonstigeAusgabenUebersicht.relative,
+          SUBMIT: steps.ausgabenBesondereBelastungen.relative,
+        },
+      },
+      [steps.ausgabenSonstigeAusgabe.relative]: {
         initial: "daten",
         states: {
           daten: {
             on: {
-              BACK: steps.ausgabenZusammenfassung.absolute,
+              BACK: steps.ausgabenSonstigeAusgabenUebersicht.absolute,
               SUBMIT: "zahlungspflichtiger",
             },
           },
@@ -171,15 +266,31 @@ export const ausgabenXstateConfig: Config<ProzesskostenhilfeFinanzielleAngabenUs
           betragEigenerAnteil: {
             on: {
               BACK: "betragGemeinsamerAnteil",
-              SUBMIT: steps.ausgabenZusammenfassung.absolute,
+              SUBMIT: steps.ausgabenSonstigeAusgabenUebersicht.absolute,
             },
           },
           betragGesamt: {
             on: {
               BACK: "zahlungspflichtiger",
-              SUBMIT: steps.ausgabenZusammenfassung.absolute,
+              SUBMIT: steps.ausgabenSonstigeAusgabenUebersicht.absolute,
             },
           },
+        },
+      },
+      [steps.ausgabenBesondereBelastungen.relative]: {
+        on: {
+          BACK: [
+            {
+              guard: hasSonstigeAusgabenYes,
+              target: steps.ausgabenSonstigeAusgabenUebersicht.relative,
+            },
+            {
+              guard: hasAusgabenYes,
+              target: steps.ausgabenSonstigeAusgabenFrage.relative,
+            },
+            steps.ausgabenFrage.relative,
+          ],
+          SUBMIT: ["#gesetzliche-vertretung"],
         },
       },
     },
