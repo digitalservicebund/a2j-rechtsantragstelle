@@ -28,6 +28,7 @@ describe("addLegalRepresentation", () => {
       klagendePersonAnwaltschaftNachname: "Mustermann",
       klagendePersonAnwaltschaftTitle: "Dr.",
       klagendePersonAnwaltschaftVorname: "Max",
+      klagendePersonAnwaltschaftBerufsbezeichnung: "Rechtsanwalt",
       klagendePersonAnwaltschaftStrasseHausnummer: "Musterstraße 1",
       klagendePersonAnwaltschaftPlz: "12345",
       klagendePersonAnwaltschaftOrt: "Musterstadt",
