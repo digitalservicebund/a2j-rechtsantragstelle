@@ -44,7 +44,10 @@ import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import { getFeedbackData } from "./services/feedback/getFeedbackData";
-import { isFeatureFlagEnabled } from "./services/isFeatureFlagEnabled.server";
+import {
+  globalFeatureFlags,
+  isFeatureFlagEnabled,
+} from "./services/isFeatureFlagEnabled.server";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -125,6 +128,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
   ]);
+  globalFeatureFlags.showKernUX = Boolean(showKernUX);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
     pathname,
