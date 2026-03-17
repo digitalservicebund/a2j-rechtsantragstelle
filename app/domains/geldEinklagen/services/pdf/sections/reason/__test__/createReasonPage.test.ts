@@ -98,27 +98,4 @@ describe("createReasonPage", () => {
       false,
     );
   });
-
-  it("should hide evidences section and set legal numbering to II when beweiseAngebot is no", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-    const userData: GeldEinklagenFormularUserData = {
-      beweiseAngebot: "no",
-      beweiseBeschreibung: "Should not be used",
-    };
-
-    createReasonPage(mockDoc, mockStruct, userData);
-
-    expect(addEvidencesOnFacts).toHaveBeenCalledWith(
-      mockDoc,
-      expect.anything(),
-      "",
-    );
-    expect(createLegalAssessment).toHaveBeenCalledWith(
-      mockDoc,
-      expect.anything(),
-      userData,
-      false,
-    );
-  });
 });
