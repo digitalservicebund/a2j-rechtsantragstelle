@@ -9,6 +9,11 @@ import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sect
 export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
+const formatContactInfo = (phone?: string, email?: string): string => {
+  const parts = [phone, email].filter(Boolean);
+  return parts.join(` ${SEPARATOR} `);
+};
+
 export const addPlaintiffDetails = (
   doc: typeof PDFDocument,
   {
@@ -20,6 +25,7 @@ export const addPlaintiffDetails = (
     klagendePersonPlz,
     klagendePersonOrt,
     klagendeTelefonnummer,
+    klagendeEmail,
   }: GeldEinklagenFormularUserData,
 ) => {
   const plaintiffName = getFullPlaintiffName(
@@ -31,7 +37,8 @@ export const addPlaintiffDetails = (
   const address = klagendePersonStrasseHausnummer ?? "";
   const zipCode = klagendePersonPlz ?? "";
   const city = klagendePersonOrt ?? "";
-  const phoneNumber = klagendeTelefonnummer ?? "";
+  const contactInfo =
+    formatContactInfo(klagendeTelefonnummer, klagendeEmail) || "";
 
   doc
     .fontSize(10)
@@ -40,6 +47,6 @@ export const addPlaintiffDetails = (
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
     .text(`${address}, ${zipCode} ${city}, Deutschland`)
-    .text(phoneNumber)
+    .text(contactInfo)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };
