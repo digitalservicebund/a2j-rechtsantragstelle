@@ -1,4 +1,5 @@
 import { type HeadingProps } from "~/components/common/Heading";
+import type { AllowedUserTypes } from "~/domains/userData";
 
 export type SummaryOverviewBoxWrappedProps = {
   readonly title?: HeadingProps;
@@ -7,10 +8,17 @@ export type SummaryOverviewBoxWrappedProps = {
   readonly boxItems: SummaryOverviewBoxItemType[];
 };
 
-type SummaryOverviewBoxItemType = {
+export type InlineItems = Array<{
+  readonly field: string;
+  readonly emptyValuePlaceholder?: string;
+}>;
+
+export type SummaryOverviewBoxItemType = {
   readonly title?: string;
-  readonly inlineItems: Array<{
-    readonly field: string;
-    readonly emptyValuePlaceholder?: string;
-  }>;
+  readonly inlineItems: InlineItems;
 };
+
+export type FieldItems = Array<{
+  fieldName: string;
+  fieldValue: AllowedUserTypes;
+}>;

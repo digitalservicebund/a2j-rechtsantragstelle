@@ -28,7 +28,8 @@
     color: var(--color-kern-feedback-danger);
   }
 
-  .detail-summary:focus-within {
+  .detail-summary:focus-within,
+  .kern-tile:focus-within {
     border-radius: var(--kern-metric-border-radius-default, 0.25rem);
     box-shadow:
       0 0 0 2px var(--kern-color-action-on-default),

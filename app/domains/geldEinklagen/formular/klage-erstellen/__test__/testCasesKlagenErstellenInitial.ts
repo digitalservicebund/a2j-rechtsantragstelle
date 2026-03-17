@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularUserData } from "../../userData";
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
@@ -118,6 +119,42 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/intro/start",
       "/klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
       "/klage-erstellen/streitwert-kosten/weitere-kosten",
+      "/klage-erstellen/klagende-person/kontaktdaten",
+      "/klage-erstellen/beklagte-person/organisation",
+      "/klage-erstellen/forderung/gesamtbetrag",
+      "/klage-erstellen/sachverhalt/begruendung",
+      "/klage-erstellen/beweise/angebot",
+      "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      anwaltschaft: "yes",
+      gegenWenBeklagen: "organisation",
+      klagendePersonAnwaltschaftStrasseHausnummer:
+        "klagendePersonAnwaltschaftStrasseHausnummer",
+      klagendePersonAnwaltschaftPlz: ZIP_CODE_PILOT_COURT,
+      klagendePersonAnwaltschaftOrt: "klagendePersonAnwaltschaftOrt",
+      klagendePersonAnwaltschaftAnrede: "none",
+      klagendePersonAnwaltschaftVorname: "klagendePersonAnwaltschaftVorname",
+      klagendePersonAnwaltschaftNachname: "klagendePersonAnwaltschaftNachname",
+      klagendePersonAnwaltschaftTitle: "none",
+      beklagteNameOrganisation: "beklagteNameOrganisation",
+      beklagteGesetzlichenVertretungVorname:
+        "beklagteGesetzlichenVertretungVorname",
+      beklagteGesetzlichenVertretungNachname:
+        "beklagteGesetzlichenVertretungNachname",
+      beklagteGesetzlichenVertretungAnrede: "herr",
+      beklagteGesetzlichenVertretungTitle: "dr",
+      beweiseAngebot: "no",
+    },
+    [
+      "/klage-erstellen/intro/start",
+      "/klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
+      "/klage-erstellen/streitwert-kosten/weitere-kosten",
+      "/klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",

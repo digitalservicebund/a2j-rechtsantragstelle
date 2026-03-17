@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
@@ -60,6 +61,26 @@ export const testCasesKlageErstellenRechtlicherZusatz = [
       "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
       "/klage-erstellen/zusammenfassung/uebersicht",
       "/klage-herunterladen/intro/start",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      anwaltschaft: "yes",
+      klagendePersonAnwaltschaftPlz: ZIP_CODE_PILOT_COURT,
+      klagendePersonAnwaltschaftOrt: "klagendePersonAnwaltschaftOrt",
+      klagendePersonAnwaltschaftAnrede: "none",
+      klagendePersonAnwaltschaftVorname: "klagendePersonAnwaltschaftVorname",
+      klagendePersonAnwaltschaftNachname: "klagendePersonAnwaltschaftNachname",
+      klagendePersonAnwaltschaftTitle: "none",
+      weitereAntraege: "",
+      rechtlicheWuerdigung: "",
+    },
+    [
+      "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
+      "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
+      "/klage-erstellen/zusammenfassung/uebersicht",
+      "/klage-herunterladen/intro/start-anwaltschaft",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
