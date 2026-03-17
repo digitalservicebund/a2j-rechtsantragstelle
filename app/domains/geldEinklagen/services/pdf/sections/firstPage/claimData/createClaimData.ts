@@ -6,6 +6,7 @@ import type {
   GeldEinklagenSachgebietType,
 } from "~/domains/geldEinklagen/formular/userData";
 import { addAccusedDetails } from "./addAccusedDetails";
+import { addLegalRepresentation } from "./addLegalRepresentation";
 
 const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
@@ -52,6 +53,13 @@ export const createClaimData = (
   moneyCompensationClaimSection.add(
     doc.struct("P", {}, () => {
       addPlaintiffDetails(doc, userData);
+      doc.moveDown();
+    }),
+  );
+
+  moneyCompensationClaimSection.add(
+    doc.struct("P", {}, () => {
+      addLegalRepresentation(doc, userData);
       doc.moveDown();
     }),
   );
