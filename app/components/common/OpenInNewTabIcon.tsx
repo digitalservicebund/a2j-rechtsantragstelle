@@ -1,19 +1,5 @@
 import OpenInNewIcon from "@digitalservicebund/icons/OpenInNew";
 
-export const openInNewAllowedAttributes = {
-  svg: [
-    "xmlns",
-    "height",
-    "viewbox",
-    "width",
-    "role",
-    "focusable",
-    "aria-hidden",
-    "style",
-  ],
-  path: ["d", "fill"],
-};
-
 export const OpenInNewTabIcon = () =>
   OpenInNewIcon({
     height: "1.2em",
