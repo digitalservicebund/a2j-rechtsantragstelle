@@ -11,7 +11,8 @@ const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE = "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO";
+const MAIN_SUBTITLE =
+  "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
 
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 
