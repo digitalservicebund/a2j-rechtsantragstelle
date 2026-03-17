@@ -58,14 +58,7 @@ describe("services/cms", () => {
       ],
       translations: [],
     } satisfies StrapiSchemas;
-
-    beforeEach(() => {
-      vi.clearAllMocks();
-      vi.mocked(fs.statSync).mockReturnValue({
-        mtimeMs: 1,
-      } as fs.Stats);
-      vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
-    });
+    vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(fileContent));
 
     test("returns an entry", async () => {
       expect(

@@ -43,8 +43,6 @@ Two small PoC-specific additions remain justified:
 
 ## Changes that are part of the diff but not really part of the PoC
 
-- `content.json` file reload via mtime in file-based CMS mode
-  Reason: local content edits did not reliably show up during development.
 - generic `arraySchema` support in shared page-schema handling
   Reason: the no-`#` data model needed shared schema/path support.
 - temporary result-page fallback logic was tried during development, but the cleaner final direction is to keep transitional info pages out of the result route
