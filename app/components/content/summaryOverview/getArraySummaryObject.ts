@@ -1,7 +1,6 @@
 import { type UserData } from "~/domains/userData";
+import type { SummaryOverviewBoxItemType } from "./types";
 import { arrayChar } from "~/services/array";
-import { type SummaryOverviewBoxItemType } from "./SummaryOverviewBoxItem";
-
 export const getArraySummaryObject = (
   boxItems: SummaryOverviewBoxItemType[],
   userData: UserData,
