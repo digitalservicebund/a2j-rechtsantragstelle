@@ -271,7 +271,7 @@ describe("SchemaComponents", () => {
             __component: "form-elements.multi-item-input",
             name: "kinder",
             count: 2,
-            itemTitle: "Kind {{index}}",
+            itemTitleTemplate: "Kind {{index}}",
             fields: [
               {
                 name: "vorname",

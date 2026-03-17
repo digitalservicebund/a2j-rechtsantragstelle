@@ -16,7 +16,7 @@ type MultiItemInputProps = Readonly<{
   /** Array name for form data (e.g., "kinder") */
   arrayName: string;
   /** Title template with {{index}} placeholder (e.g., "Kind {{index}}") */
-  itemTitle: string;
+  itemTitleTemplate: string;
   /** Fields to render for each item */
   fields: ReadonlyArray<FieldConfig>;
   /** Shared CMS-configured validation messages for required fields */
@@ -36,14 +36,17 @@ type MultiItemInputProps = Readonly<{
 export function MultiItemInput({
   count,
   arrayName,
-  itemTitle,
+  itemTitleTemplate,
   fields,
   errorMessages,
 }: MultiItemInputProps) {
   return (
     <div className="ds-stack ds-stack-32">
       {Array.from({ length: count }).map((_, index) => {
-        const title = itemTitle.replace("{{index}}", String(index + 1));
+        const title = itemTitleTemplate.replace(
+          "{{index}}",
+          String(index + 1),
+        );
         const itemKey = `${arrayName}-${index}`;
 
         return (

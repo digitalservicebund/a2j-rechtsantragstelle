@@ -10,7 +10,7 @@ export const StrapiMultiItemInputComponentSchema = z
     __component: z.literal("form-elements.multi-item-input"),
     name: z.string(),
     countField: z.string().optional(), // User data field containing the count (e.g., "kinderAnzahl")
-    itemTitle: z.string(), // Title template with {{index}} placeholder
+    itemTitleTemplate: z.string(), // Title template with {{index}} placeholder
     fields: z.array(
       z.object({
         name: z.string(),

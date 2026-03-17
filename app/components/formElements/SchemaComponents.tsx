@@ -94,7 +94,7 @@ export const SchemaComponents = ({
               key={fieldName}
               count={matchingElement.count ?? 0}
               arrayName={matchingElement.name}
-              itemTitle={matchingElement.itemTitle}
+              itemTitleTemplate={matchingElement.itemTitleTemplate}
               fields={[...matchingElement.fields]}
               errorMessages={matchingElement.errorMessages}
             />

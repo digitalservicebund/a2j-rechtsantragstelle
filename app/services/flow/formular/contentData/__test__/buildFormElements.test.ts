@@ -173,7 +173,7 @@ describe("buildFormElements", () => {
           __component: "form-elements.multi-item-input",
           name: "kinder",
           countField: "kinderAnzahl",
-          itemTitle: "Kind {{index}}",
+          itemTitleTemplate: "Kind {{index}}",
           fields: [
             {
               name: "vorname",
