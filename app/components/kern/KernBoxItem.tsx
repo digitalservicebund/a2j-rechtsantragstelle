@@ -1,6 +1,4 @@
-import ButtonContainer from "~/components/common/ButtonContainer";
 import Image, { type ImageProps } from "~/components/common/Image";
-import { Details, type DetailsProps } from "~/components/content/Details";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernRichText from "./KernRichText";
 import KernButton, { type ButtonProps } from "./KernButton";
@@ -12,6 +10,8 @@ import {
 } from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
 import KernHeading from "./KernHeading";
+import { KernDetails, type KernDetailsProps } from "./KernDetails";
+import KernButtonContainer from "./KernButtonContainer";
 
 export type KernBoxItemProps = {
   id: number; // Strapi id
@@ -20,7 +20,7 @@ export type KernBoxItemProps = {
   headline?: KernHeadlineProps;
   image?: ImageProps;
   content?: string;
-  details?: DetailsProps[];
+  details?: KernDetailsProps[];
   inlineNotices?: KernInlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
@@ -51,17 +51,17 @@ const KernBoxItem = ({
         {headline && <KernHeading managedByParent {...headline} />}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
-          <Details key={details.title} {...details} />
+          <KernDetails key={details.title} {...details} />
         ))}
         {inlineNotices?.map((inlineNotice) => (
           <KernInlineNotice key={inlineNotice.title} {...inlineNotice} nested />
         ))}
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
+          <KernButtonContainer>
             {buttons.map((button) => (
               <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
         {accordion && <KernAccordion {...accordion} />}
       </div>
