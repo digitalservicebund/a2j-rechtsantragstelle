@@ -178,7 +178,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     {
       csrf,
       stepData,
-      userData,
       cmsContent: { ...cmsContent, pageTitle },
       formElements,
       arraySummaryData,
