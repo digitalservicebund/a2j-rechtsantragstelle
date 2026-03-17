@@ -1,4 +1,3 @@
-import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -39,13 +38,8 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
     .join(" ");
 };
 
-const formatContactInfo = (phone?: string, email?: string): string => {
-  const parts = [phone, email].filter(Boolean);
-  return parts.join(` ${SEPARATOR} `);
-};
-
 export const addLegalRepresentation = (
-  doc: typeof PDFDocument,
+  doc: PDFKit.PDFDocument,
   userData: GeldEinklagenFormularUserData,
 ) => {
   if (userData.anwaltschaft === "no") {
@@ -59,11 +53,12 @@ export const addLegalRepresentation = (
   const businessIdentification = userData.klagendePersonAnwaltschaftKanzlei
     ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftKanzlei}`
     : "";
-  const contactInfo =
-    formatContactInfo(
-      userData.klagendePersonAnwaltschaftTelefonnummer,
-      userData.klagendePersonAnwaltschaftEmail,
-    ) || "";
+  const contactInfo = [
+    userData.klagendePersonAnwaltschaftTelefonnummer,
+    userData.klagendePersonAnwaltschaftEmail,
+  ]
+    .filter(Boolean)
+    .join(` ${SEPARATOR} `);
 
   doc
     .font(FONTS_BUNDESSANS_REGULAR)

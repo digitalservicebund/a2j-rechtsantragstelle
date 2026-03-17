@@ -1,4 +1,3 @@
-import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -9,13 +8,8 @@ import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sect
 export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
-const formatContactInfo = (phone?: string, email?: string): string => {
-  const parts = [phone, email].filter(Boolean);
-  return parts.join(` ${SEPARATOR} `);
-};
-
 export const addPlaintiffDetails = (
-  doc: typeof PDFDocument,
+  doc: PDFKit.PDFDocument,
   {
     klagendePersonAnrede,
     klagendePersonTitle,
@@ -37,8 +31,9 @@ export const addPlaintiffDetails = (
   const address = klagendePersonStrasseHausnummer ?? "";
   const zipCode = klagendePersonPlz ?? "";
   const city = klagendePersonOrt ?? "";
-  const contactInfo =
-    formatContactInfo(klagendeTelefonnummer, klagendeEmail) || "";
+  const contactInfo = [klagendeTelefonnummer, klagendeEmail]
+    .filter(Boolean)
+    .join(` ${SEPARATOR} `);
 
   doc
     .fontSize(10)
