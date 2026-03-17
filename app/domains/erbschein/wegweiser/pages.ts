@@ -104,8 +104,8 @@ const elternSchema = z.array(
  * Leaf level: eingabe only (no further recursion).
  */
 function makeErbfolgeArrayPages(
-  depth: number,
   maxDepth: number,
+  depth = 0,
 ): Record<string, ArrayPage> {
   if (depth < maxDepth) {
     return {
@@ -124,7 +124,7 @@ function makeErbfolgeArrayPages(
       uebersicht: {},
       kind: {
         arraySchema: { kinder: kinderSchemasByDepth[depth + 1] },
-        arrayPages: makeErbfolgeArrayPages(depth + 1, maxDepth),
+        arrayPages: makeErbfolgeArrayPages(maxDepth, depth + 1),
       },
     };
   }
@@ -278,7 +278,7 @@ export const erbscheinWegweiserPages = {
   kinderEingabe: {
     stepId: "erbfolge-kinder-eingabe",
     arraySchema: { kinder: kinderSchema },
-    arrayPages: makeErbfolgeArrayPages(0, MAX_ERBFOLGE_DEPTH),
+    arrayPages: makeErbfolgeArrayPages(MAX_ERBFOLGE_DEPTH),
   },
   kinderUebersicht: {
     stepId: "erbfolge-kinder-uebersicht",
