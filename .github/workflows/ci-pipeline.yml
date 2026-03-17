@@ -376,6 +376,6 @@ jobs:
     if: always() && failure() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: digitalservicebund/notify-on-failure-gha@868884a79c05c62cab52b4f79832cc3589c91a12
+      - uses: digitalservicebund/notify-on-failure-gha@30386cb269b2406ec23f67ff77a20ce28ab0057c
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
