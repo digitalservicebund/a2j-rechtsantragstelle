@@ -22,7 +22,7 @@ const hasNonEmptyLongTextField = (fieldItems: FieldItems) =>
       fieldValue.trim().length > 0,
   );
 
-export const SummaryValueOverflowContainer = ({
+const SummaryValueOverflowContainer = ({
   children,
   fieldItems,
 }: {
