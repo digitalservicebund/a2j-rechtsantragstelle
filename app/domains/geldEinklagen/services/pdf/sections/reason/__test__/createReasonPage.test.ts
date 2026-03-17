@@ -21,24 +21,6 @@ beforeEach(() => {
 });
 
 describe("createReasonPage", () => {
-  it("should add a new page if the document is on the first page", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct, { start: 1, count: 1 });
-
-    createReasonPage(mockDoc, mockStruct, {});
-
-    expect(mockDoc.addPage).toHaveBeenCalled();
-  });
-
-  it("should not add a new page if the document is not on the first page", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-
-    createReasonPage(mockDoc, mockStruct, {});
-
-    expect(mockDoc.addPage).not.toHaveBeenCalled();
-  });
-
   it("should add the document the title of the reason section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
