@@ -1,3 +1,4 @@
+import { isKeyOfObject } from "~/util/objects";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "./userData";
 
 /* 
@@ -18,18 +19,10 @@ const GeldEinklagenTextAreaConfig = {
   Partial<Record<keyof GeldEinklagenFormularKlageErstellenUserData, number>>
 >;
 
-export type GeldEinklagenLongTextFieldName =
-  keyof typeof GeldEinklagenTextAreaConfig;
+export const isGeldEinklagenLongTextField = (fieldName: string) =>
+  isKeyOfObject(fieldName, GeldEinklagenTextAreaConfig);
 
-export const isGeldEinklagenLongTextField = (
-  fieldName: string,
-): fieldName is GeldEinklagenLongTextFieldName =>
-  Object.hasOwn(GeldEinklagenTextAreaConfig, fieldName);
-
-export const getGeldEinklagenTextareaRows = (fieldName: string) => {
-  if (!isGeldEinklagenLongTextField(fieldName)) {
-    return undefined;
-  }
-
-  return GeldEinklagenTextAreaConfig[fieldName];
-};
+export const getGeldEinklagenTextareaRows = (fieldName: string) =>
+  isGeldEinklagenLongTextField(fieldName)
+    ? GeldEinklagenTextAreaConfig[fieldName]
+    : undefined;
