@@ -21,10 +21,18 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
         dependencyString
       )}
 
-      {infos.publisher && <span className="ml-4">by {infos.publisher}</span>}
-      {infos.licenses &&
-        infos.licenses.length > 0 &&
-        ` - License: ${Array.isArray(infos.licenses) ? infos.licenses.join(", ") : infos.licenses}`}
+      {infos.publisher && (
+        <span className="ml-4 kern-body"> by {infos.publisher}</span>
+      )}
+      {infos.licenses && infos.licenses.length > 0 && (
+        <span className="kern-body">
+          {" "}
+          - License:{" "}
+          {Array.isArray(infos.licenses)
+            ? infos.licenses.join(", ")
+            : infos.licenses}
+        </span>
+      )}
     </li>
   );
 };
