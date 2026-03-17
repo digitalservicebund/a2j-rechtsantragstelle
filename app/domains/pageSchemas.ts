@@ -39,20 +39,44 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
   return Object.assign({}, ...schemaObjects) as SchemaObject;
 };
 
-function collectArrayPageFields(
+function assignFieldsForSchema(
+  fieldsMap: FormFieldsMap,
+  stepId: string,
+  schema: Record<string, z.ZodTypeAny> | undefined,
+) {
+  if (!schema || Object.keys(schema).length === 0) {
+    return;
+  }
+
+  fieldsMap[stepId] = Object.keys(schema);
+}
+
+function assignArrayParentFields(
+  fieldsMap: FormFieldsMap,
+  page: ArrayParentPage,
+) {
+  assignFieldsForSchema(fieldsMap, `/${page.stepId}`, page.pageSchema);
+  assignFieldsForSchema(fieldsMap, `/${page.stepId}`, page.arraySchema);
+
+  assignNestedArrayPageFields(fieldsMap, page.arrayPages, page.stepId);
+}
+
+function assignNestedArrayPageFields(
+  fieldsMap: FormFieldsMap,
   arrayPages: Record<string, ArrayPage>,
   parentStepId: string,
-  result: FormFieldsMap,
 ) {
-  for (const [key, arrayPage] of Object.entries(arrayPages)) {
-    if (arrayPage.pageSchema && Object.keys(arrayPage.pageSchema).length > 0) {
-      result[`/${parentStepId}/${key}`] = Object.keys(arrayPage.pageSchema);
-    }
+  for (const [arrayPageKey, arrayPage] of Object.entries(arrayPages)) {
+    const stepId = `/${parentStepId}/${arrayPageKey}`;
+    assignFieldsForSchema(fieldsMap, stepId, arrayPage.pageSchema);
+
+    assignFieldsForSchema(fieldsMap, stepId, arrayPage.arraySchema);
+
     if (arrayPage.arrayPages) {
-      collectArrayPageFields(
+      assignNestedArrayPageFields(
+        fieldsMap,
         arrayPage.arrayPages,
-        `${parentStepId}/${key}`,
-        result,
+        `${parentStepId}/${arrayPageKey}`,
       );
     }
   }
@@ -63,14 +87,12 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const fieldsMap: FormFieldsMap = {};
 
   for (const page of Object.values(pagesConfig)) {
-    if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = `/${page.stepId}`;
-      fieldsMap[stepId] = Object.keys(page.pageSchema);
+    if (isArrayParentPage(page)) {
+      assignArrayParentFields(fieldsMap, page);
+      continue;
     }
 
-    if (isArrayParentPage(page)) {
-      collectArrayPageFields(page.arrayPages, page.stepId, fieldsMap);
-    }
+    assignFieldsForSchema(fieldsMap, `/${page.stepId}`, page.pageSchema);
   }
 
   return fieldsMap;
@@ -100,9 +122,17 @@ export function getPageSchema(pathname: string) {
     return arrayPageSchemaFromNestedArrayPages(parentPageConfig, stepPathParts);
   }
 
-  return Object.values(pagesConfig).find(
+  const page = Object.values(pagesConfig).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
-  )?.pageSchema;
+  );
+
+  if (!page) return undefined;
+
+  if (isArrayParentPage(page) && page.arraySchema) {
+    return page.arraySchema as unknown as SchemaObject;
+  }
+
+  return page.pageSchema;
 }
 
 function arrayPageSchemaFromNestedArrayPages(
@@ -148,15 +178,16 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 export type PagesConfig = Record<string, PageConfig>;
 
 type FlowPage = { stepId: string; pageSchema?: SchemaObject };
-type ArrayPage = {
+type ArraySchema = Record<string, z.ZodArray<z.ZodTypeAny>>;
+export type ArrayPage = {
   pageSchema?: SchemaObject;
-  arrayField?: string;
+  arraySchema?: ArraySchema;
   arrayPages?: Record<string, ArrayPage>;
 };
 type ArrayParentPage = {
   stepId: string;
-  pageSchema: SchemaObject;
-  arrayField: string;
+  pageSchema?: SchemaObject;
+  arraySchema?: ArraySchema;
   arrayPages: Record<string, ArrayPage>;
 };
 
@@ -166,7 +197,7 @@ const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
 export type PageConfig = FlowPage | ArrayParentPage;
 
 /**
- * Walk up the arrayPages tree from a leaf page and collect all arrayField values.
+ * Walk the arrayPages tree from a leaf page and collect all arraySchema keys.
  * These, combined with URL array indexes, form the full data path to the leaf's fields.
  */
 export function collectArrayFieldsForStep(pathname: string): string[] {
@@ -184,11 +215,9 @@ export function collectArrayFieldsForStep(pathname: string): string[] {
 
   if (!parentPageConfig) return [];
 
-  // Walk the arrayPages tree collecting arrayField values
-  const arrayFields: string[] = [];
-  if (parentPageConfig.arrayField) {
-    arrayFields.push(parentPageConfig.arrayField);
-  }
+  const arrayFields: string[] = parentPageConfig.arraySchema
+    ? Object.keys(parentPageConfig.arraySchema)
+    : [];
 
   const remainingPath = stepIdWithoutLeadingSlash
     .slice(parentPageConfig.stepId.length + 1)
@@ -198,8 +227,8 @@ export function collectArrayFieldsForStep(pathname: string): string[] {
   for (const part of remainingPath) {
     if (!currentNode?.arrayPages?.[part]) continue;
     currentNode = currentNode.arrayPages[part];
-    if (currentNode.arrayField) {
-      arrayFields.push(currentNode.arrayField);
+    if (currentNode.arraySchema) {
+      arrayFields.push(...Object.keys(currentNode.arraySchema));
     }
   }
 
@@ -207,9 +236,11 @@ export function collectArrayFieldsForStep(pathname: string): string[] {
 }
 
 type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
+  [K in keyof T]: T[K] extends { pageSchema: SchemaObject }
     ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
-    : never;
+    : T[K] extends { arraySchema: infer A extends ArraySchema }
+      ? { [AK in keyof A]: z.infer<A[AK]> }
+      : never;
 }[keyof T];
 
 type UnionToIntersection<U> = (

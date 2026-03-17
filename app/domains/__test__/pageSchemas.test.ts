@@ -66,6 +66,35 @@ describe("getPageSchema", () => {
       );
       expect(result).toBeUndefined(); // This should return undefined as it's not a valid path structure
     });
+
+    it("should resolve nested Erbschein grandchild page schemas", () => {
+      const result = getPageSchema(
+        "/erbschein/wegweiser/erbfolge-kinder-eingabe/kind/0/kind/0/daten",
+      );
+
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("vorname");
+      expect(result).toHaveProperty("istVerstorben");
+    });
+
+    it("should resolve nested Erbschein sibling descendant question pages", () => {
+      const result = getPageSchema(
+        "/erbschein/wegweiser/erbfolge-geschwister-eingabe/kind/0/frage",
+      );
+
+      expect(result).toStrictEqual({ hatKinder: YesNoAnswer });
+    });
+
+    it("should resolve nested Erbschein great-niece page schemas", () => {
+      const result = getPageSchema(
+        "/erbschein/wegweiser/erbfolge-geschwister-eingabe/kind/0/kind/0/daten",
+      );
+
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("vorname");
+      expect(result).not.toHaveProperty("istVerstorben");
+    });
+
     it("should return undefined for invalid nested path structure", () => {
       const result = getPageSchema(
         "/prozesskostenhilfe/formular/finanzielle-angaben/eigentum-zusammenfassung/invalid/0/art",

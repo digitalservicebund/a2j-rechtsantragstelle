@@ -19,6 +19,7 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { MultiItemInput } from "~/components/vorabcheck/MultiItemInput";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -85,6 +86,20 @@ export const SchemaComponents = ({
               formComponents.__component !== "form-elements.fieldset",
           )
           .find(({ name }) => name === fieldName);
+
+        // Handle multi-item-input component (geschlossen variant)
+        if (matchingElement?.__component === "form-elements.multi-item-input") {
+          return (
+            <MultiItemInput
+              key={fieldName}
+              count={matchingElement.count ?? 0}
+              arrayName={matchingElement.name}
+              itemTitle={matchingElement.itemTitle}
+              fields={[...matchingElement.fields]}
+              errorMessages={matchingElement.errorMessages}
+            />
+          );
+        }
 
         if (isZodSpecialMetaDescription(fieldSchema)) {
           return renderSpecialMetaDescriptions(

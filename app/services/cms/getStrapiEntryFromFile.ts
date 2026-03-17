@@ -8,20 +8,33 @@ import type {
 import { config } from "../env/env.server";
 
 let content: StrapiSchemas | undefined;
+let contentMtimeMs: number | undefined;
 
 const NO_VALID_FILE =
   "No valid content.json found while using 'CMS=FILE'.\nEither run 'pnpm run build:localContent' or try another CMS source";
+
+function readContentFile(filePath: string) {
+  const fileStat = fs.statSync(filePath);
+
+  if (content && contentMtimeMs === fileStat.mtimeMs) {
+    return content;
+  }
+
+  const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
+  content = JSON.parse(fileContent);
+  contentMtimeMs = fileStat.mtimeMs;
+
+  return content;
+}
+
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts<T>,
 ) => {
-  if (!content) {
-    try {
-      const filePath = config().CONTENT_FILE_PATH;
-      const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
-      content = JSON.parse(fileContent);
-    } catch (error) {
-      throw new Error(NO_VALID_FILE, { cause: error });
-    }
+  try {
+    const filePath = config().CONTENT_FILE_PATH;
+    content = readContentFile(filePath);
+  } catch (error) {
+    throw new Error(NO_VALID_FILE, { cause: error });
   }
 
   if (!content?.[opts.apiId]) {
