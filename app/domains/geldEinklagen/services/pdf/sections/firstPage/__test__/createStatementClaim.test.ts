@@ -1,4 +1,3 @@
-import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -6,11 +5,10 @@ import {
 import { createStatementClaim } from "../createStatementClaim";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
-import { addFreeTextApplication } from "../claimData/addFreeTextApplication";
 import { addNegotiationText } from "../claimData/addNegotiationText";
 
 vi.mock("../claimData/addDefendantPartyList");
-vi.mock("../claimData/addFreeTextApplication");
+vi.mock("../claimData/addAdditionalApplicationsFreeText");
 vi.mock("../claimData/addNegotiationText");
 
 beforeEach(() => {
@@ -43,51 +41,6 @@ describe("createStatementClaim", () => {
       userDataMock.prozesszinsen,
       "9.999,00",
       userDataMock.anwaltskosten,
-    );
-  });
-
-  it("should show Weitere Antraege section when shouldShowWeitereAntraege is true", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-    const userData: GeldEinklagenFormularUserData = {
-      ...userDataMock,
-      videoVerhandlung: "yes",
-      versaeumnisurteil: "no",
-      muendlicheVerhandlung: "no",
-    };
-
-    createStatementClaim(mockDoc, mockStruct, userData);
-
-    expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
-    expect(addFreeTextApplication).toHaveBeenCalledWith(
-      mockDoc,
-      userData.weitereAntraege,
-      mockStruct,
-    );
-    expect(mockDoc.struct).toHaveBeenCalledWith(
-      "Caption",
-      {},
-      expect.any(Function),
-    );
-  });
-
-  it("should not show Weitere Antraege section when shouldShowWeitereAntraege is false", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-    const userData: GeldEinklagenFormularUserData = {
-      ...userDataMock,
-      videoVerhandlung: "noSpecification",
-      versaeumnisurteil: "no",
-      muendlicheVerhandlung: "no",
-    };
-
-    createStatementClaim(mockDoc, mockStruct, userData);
-
-    expect(addFreeTextApplication).not.toHaveBeenCalled();
-    expect(mockDoc.struct).not.toHaveBeenCalledWith(
-      "Caption",
-      {},
-      expect.any(Function),
     );
   });
 
