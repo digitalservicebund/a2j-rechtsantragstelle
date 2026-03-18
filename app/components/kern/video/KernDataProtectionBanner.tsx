@@ -47,7 +47,7 @@ export const KernDataProtectionBanner = ({
       </div>
       <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
-        <a href="/datenschutz" className="kern-link">
+        <a href="/datenschutzerklaerung" className="kern-link">
           <KernIcon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
         </a>

@@ -28,7 +28,8 @@
     color: var(--color-kern-feedback-danger);
   }
 
-  .detail-summary:focus-within {
+  .detail-summary:focus-within,
+  .kern-tile:focus-within {
     border-radius: var(--kern-metric-border-radius-default, 0.25rem);
     box-shadow:
       0 0 0 2px var(--kern-color-action-on-default),
@@ -41,7 +42,6 @@
   .kern-form-input input:focus,
   .kern-form-input input:focus-visible {
     box-shadow: none !important;
-    border-radius: 0 !important;
   }
 
   /* remove Kern focus visible from the inner input*/
@@ -49,7 +49,6 @@
   .kern-form-input__input input:focus-visible,
   .kern-form-input__input input:focus {
     box-shadow: none !important;
-    border-radius: 0 !important;
   }
 
   .grid-fluid {
@@ -102,19 +101,23 @@
     }
   }
 
+  .kern-body {
+    line-height: 27px;
+  }
+
   .rich-text {
     ul {
       list-style-type: disc;
       padding-left: 1.5rem;
-
-      li {
-        margin-bottom: 0.5rem;
-      }
     }
 
     ol {
       list-style-type: decimal;
       padding-left: 1.5rem;
+    }
+
+    p {
+      margin-top: var(--kern-metric-space-default);
     }
   }
 }

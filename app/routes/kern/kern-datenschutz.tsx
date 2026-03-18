@@ -20,7 +20,7 @@ export default function KernDatenschutz({
   trackingConsent,
   acceptCookiesFieldName,
   cookieTranslations,
-}: KernDatenschutzProps) {
+}: Readonly<KernDatenschutzProps>) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);

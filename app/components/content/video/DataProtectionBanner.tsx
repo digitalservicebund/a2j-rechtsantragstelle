@@ -46,7 +46,7 @@ export const DataProtectionBanner = ({
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
         <StandaloneLink
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
-          url="/datenschutz"
+          url="/datenschutzerklaerung"
         />
         <Button
           onClick={onCookiesAccepted}

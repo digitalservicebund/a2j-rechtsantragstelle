@@ -1,12 +1,10 @@
 import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
+  FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
-import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
 const videoTrialAgreement = (
   videoverhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
@@ -23,8 +21,11 @@ export const addNegotiationText = (
   videoVerhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
   versaeumnisurteil: GeldEinklagenFormularUserData["versaeumnisurteil"],
   muendlicheVerhandlung: GeldEinklagenFormularUserData["muendlicheVerhandlung"],
-  statementClaimSect: PDFKit.PDFStructureElement,
+  additionalApplicationsSect: PDFKit.PDFStructureElement,
 ) => {
+  const negotiationTitle = "Mündliche Verhandlung:";
+  const defaultJudgmentTitle = "Versäumnisurteil:";
+
   const oralNegotiationText =
     muendlicheVerhandlung === "yes"
       ? "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen."
@@ -36,41 +37,52 @@ export const addNegotiationText = (
       : "";
 
   const videoNegotiationText = videoTrialAgreement(videoVerhandlung);
-  const negotiationTexts = [
-    oralNegotiationText,
-    videoNegotiationText,
-    defaultJudgmentText,
-  ].filter((text): text is string => Boolean(text));
+  const negotiationTexts = [oralNegotiationText, videoNegotiationText].filter(
+    (text): text is string => Boolean(text),
+  );
 
-  if (negotiationTexts.length === 0) {
+  const shouldShowNegotiationTitle = negotiationTexts.length > 0;
+  const shouldShowDefaultJudgmentTitle = Boolean(defaultJudgmentText);
+
+  if (!shouldShowNegotiationTitle && !shouldShowDefaultJudgmentTitle) {
     return;
   }
 
-  const totalHeightOfStrings = getHeightOfString(
-    negotiationTexts,
-    doc,
-    PDF_WIDTH_SEIZE,
-  );
+  if (shouldShowNegotiationTitle) {
+    additionalApplicationsSect.add(
+      doc.struct("H3", {}, () => {
+        doc.font(FONTS_BUNDESSANS_BOLD).fontSize(10).text(negotiationTitle);
+      }),
+    );
 
-  addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: totalHeightOfStrings,
-  });
+    additionalApplicationsSect.add(
+      doc.struct("P", {}, () => {
+        doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
+        for (const text of negotiationTexts) {
+          doc.text(text, PDF_MARGIN_HORIZONTAL);
+        }
 
-  statementClaimSect.add(
-    doc.struct("P", {}, () => {
-      doc.font(FONTS_BUNDESSANS_REGULAR).fontSize(10);
-      for (const text of negotiationTexts) {
-        doc.text(text, PDF_MARGIN_HORIZONTAL);
-
-        const shouldAddEmptyLineBeforeDefaultJudgment =
-          text === videoNegotiationText &&
-          Boolean(videoNegotiationText) &&
-          Boolean(defaultJudgmentText);
-
-        if (shouldAddEmptyLineBeforeDefaultJudgment) {
+        if (shouldShowDefaultJudgmentTitle) {
           doc.moveDown(1);
         }
-      }
-    }),
-  );
+      }),
+    );
+  }
+
+  if (shouldShowDefaultJudgmentTitle) {
+    additionalApplicationsSect.add(
+      doc.struct("H3", {}, () => {
+        doc.font(FONTS_BUNDESSANS_BOLD).fontSize(10).text(defaultJudgmentTitle);
+      }),
+    );
+
+    additionalApplicationsSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .fontSize(10)
+          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
+      }),
+    );
+  }
 };
