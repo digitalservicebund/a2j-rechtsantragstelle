@@ -33,20 +33,8 @@ export const footerContent: FooterContent[] = [
     sectionName: "Datenschutzerklärungen",
     content: [
       {
-        text: "service.justiz.de Datenschutz",
+        text: "Datenschutzerklärung",
         url: "/datenschutzerklaerung",
-      },
-      {
-        text: "Beratungshilfe Datenschutz",
-        url: "/beratungshilfe/datenschutz",
-      },
-      {
-        text: "Prozesskostenhilfe Datenschutz",
-        url: "/prozesskostenhilfe/datenschutz",
-      },
-      {
-        text: "Fluggastrechte Datenschutz",
-        url: "/fluggastrechte/datenschutz",
       },
     ],
   },
