@@ -378,4 +378,5 @@ jobs:
     steps:
       - uses: digitalservicebund/notify-on-failure-gha@30386cb269b2406ec23f67ff77a20ce28ab0057c
         with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_A2J_ALERT_ID }}
