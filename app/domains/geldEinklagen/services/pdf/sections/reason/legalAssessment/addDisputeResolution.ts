@@ -43,22 +43,6 @@ export function addDisputeResolution(
   legalAssessmentSect: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
 ) {
-  const disputeResolutionText = getDisputeResolutionText(userData);
-
-  const legalAssessmentTextsHeight = getHeightOfString(
-    [
-      CLAIM_FULL_JUSTIFIED_TEXT,
-      DISPUTE_RESOLUTION_TITLE,
-      disputeResolutionText,
-    ],
-    doc,
-    PDF_WIDTH_SEIZE,
-  );
-
-  addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: legalAssessmentTextsHeight,
-  });
-
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
       doc
@@ -69,7 +53,19 @@ export function addDisputeResolution(
     }),
   );
 
+  const disputeResolutionText = getDisputeResolutionText(userData);
+
   if (disputeResolutionText) {
+    const legalAssessmentTextsHeight = getHeightOfString(
+      [DISPUTE_RESOLUTION_TITLE, disputeResolutionText],
+      doc,
+      PDF_WIDTH_SEIZE,
+    );
+
+    addNewPageInCaseMissingVerticalSpace(doc, {
+      extraYPosition: legalAssessmentTextsHeight,
+    });
+
     legalAssessmentSect.add(
       doc.struct("P", {}, () => {
         doc
@@ -84,9 +80,10 @@ export function addDisputeResolution(
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(disputeResolutionText)
-          .moveDown(4);
+          .text(disputeResolutionText);
       }),
     );
   }
+
+  doc.moveDown(4);
 }
