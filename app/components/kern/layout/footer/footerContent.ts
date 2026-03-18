@@ -30,7 +30,7 @@ export const footerContent: FooterContent[] = [
   {
     key: "datenschutzerklaerungen",
     type: ["internalLink"],
-    sectionName: "Datenschutzerklärungen",
+    sectionName: "Datenschutz",
     content: [
       {
         text: "Datenschutzerklärung",
