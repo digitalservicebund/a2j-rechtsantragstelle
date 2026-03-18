@@ -1,12 +1,12 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "../../common/types";
 import KernRichText from "../KernRichText";
 import InputError from "./InputError";
+import { KernDetails } from "../KernDetails";
 
 type TextareaProps = Readonly<{
   name: string;
@@ -53,7 +53,7 @@ const KernTextarea = ({
         </label>
       )}
       {description && <KernRichText html={description} />}
-      {details && <Details {...details} />}
+      {details && <KernDetails {...details} />}
       <textarea
         {...field.getInputProps({
           id: name,
