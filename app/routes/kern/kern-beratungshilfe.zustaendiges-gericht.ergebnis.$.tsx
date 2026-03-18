@@ -12,80 +12,72 @@ export const KernZuestandigesGerichErgebnis = () => {
   const { court, content } = useLoaderData<typeof loader>();
 
   return (
-    <GridSection pt="48" pb="40" className="bg-kern-neutral-025">
-      <Grid>
-        <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 8 }}
-          xlColumn={{ start: 3, span: 8 }}
-          row={1}
-          className="flex flex-col gap-kern-space-default"
-        >
-          <span className="kern-label text-kern-layout-text-muted!">
-            Amtsgericht finden
-          </span>
-          <KernHeading
-            tagName="h1"
-            text="Ihr zuständiges Amtsgericht"
-            className="mt-16"
-          />
-        </GridItem>
-      </Grid>
-      <Grid
-        className="py-40"
-        background={{
-          mdColumn: { start: 1, span: 8 },
-          lgColumn: { start: 2, span: 10 },
-          xlColumn: { start: 2, span: 10 },
-          className: "rounded-lg bg-kern-neutral-050",
-        }}
-      >
-        <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 8 }}
-          xlColumn={{ start: 3, span: 8 }}
-          className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
-        >
-          <KernCourtDetails
-            name={court.BEZEICHNUNG}
-            street={court.STR_HNR}
-            city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
-            website={court.URL1}
-            phone={court.TEL}
-            addressLabel="Adresse"
-            websiteLabel="Webseite"
-            phoneLabel="Telefonnummer"
-          />
-        </GridItem>
-        <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 8 }}
-          xlColumn={{ start: 3, span: 8 }}
-          row={2}
-          className="pt-32 pb-32"
-        >
-          <a
-            href="/beratungshilfe/zustaendiges-gericht/suche"
-            className="flex kern-link no-underline!"
+    <>
+      <GridSection pt="48" pb="40" className="bg-kern-neutral-025">
+        <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 3, span: 8 }}
+            row={1}
+            className="flex flex-col gap-kern-space-default lg:px-kern-space-default"
           >
-            <KernIcon name="arrow-forward" />
-            Suche wiederholen
-          </a>
-        </GridItem>
-        <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 9 }}
-          xlColumn={{ start: 3, span: 9 }}
-          row={3}
+            <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
+              Amtsgericht finden
+            </h1>
+            <KernHeading
+              tagName="h2"
+              text="Ihr zuständiges Amtsgericht"
+              size="xLarge"
+              managedByParent
+            />
+          </GridItem>
+        </Grid>
+        <Grid
+          className="py-40"
+          background={{
+            mdColumn: { start: 1, span: 8 },
+            lgColumn: { start: 2, span: 10 },
+            xlColumn: { start: 2, span: 10 },
+            className: "rounded-lg bg-kern-neutral-050",
+          }}
         >
-          <ContentComponents
-            content={content}
-            showKernUX={true}
-            managedByParent={true}
-          />
-        </GridItem>
-      </Grid>
-    </GridSection>
+          <GridItem
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 3, span: 8 }}
+            className="py-kern-space-default lg:px-kern-space-default px-kern-space-small"
+          >
+            <KernCourtDetails
+              name={court.BEZEICHNUNG}
+              street={court.STR_HNR}
+              city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
+              website={court.URL1}
+              phone={court.TEL}
+              addressLabel="Adresse"
+              websiteLabel="Webseite"
+              phoneLabel="Telefonnummer"
+            />
+          </GridItem>
+          <GridItem
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 3, span: 8 }}
+            row={2}
+            className="py-kern-space-large lg:px-kern-space-default"
+          >
+            <a
+              href="/beratungshilfe/zustaendiges-gericht/suche"
+              className="flex kern-link no-underline!"
+            >
+              <KernIcon name="arrow-forward" />
+              Suche wiederholen
+            </a>
+          </GridItem>
+        </Grid>
+        <ContentComponents content={content} showKernUX={true} />
+      </GridSection>
+    </>
   );
 };
 
