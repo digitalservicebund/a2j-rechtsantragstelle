@@ -8,9 +8,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 
-export const CLAIM_FULL_JUSTIFIED_TEXT =
-  "Die Klage ist vollumfänglich begründet.";
-
+const CLAIM_FULL_JUSTIFIED_TEXT = "Die Klage ist vollumfänglich begründet.";
 export const DISPUTE_RESOLUTION_TITLE = "Außergerichtliche Streitbeilegung:";
 
 const getDisputeResolutionText = ({

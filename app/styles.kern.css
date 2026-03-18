@@ -42,7 +42,6 @@
   .kern-form-input input:focus,
   .kern-form-input input:focus-visible {
     box-shadow: none !important;
-    border-radius: 0 !important;
   }
 
   /* remove Kern focus visible from the inner input*/
@@ -50,7 +49,6 @@
   .kern-form-input__input input:focus-visible,
   .kern-form-input__input input:focus {
     box-shadow: none !important;
-    border-radius: 0 !important;
   }
 
   .grid-fluid {
@@ -116,6 +114,10 @@
     ol {
       list-style-type: decimal;
       padding-left: 1.5rem;
+    }
+
+    p {
+      margin-top: var(--kern-metric-space-default);
     }
   }
 }

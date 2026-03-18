@@ -7,12 +7,15 @@ import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/user
 import { addAccusedDetails } from "../addAccusedDetails";
 import { addPlaintiffDetails } from "../addPlaintiffDetails";
 import { createClaimData } from "../createClaimData";
+import { addLegalRepresentation } from "../addLegalRepresentation";
 
 vi.mock("../addPlaintiffDetails");
 vi.mock("../addAccusedDetails");
+vi.mock("../addLegalRepresentation");
 
 vi.mocked(addPlaintiffDetails).mockImplementation(() => vi.fn());
 vi.mocked(addAccusedDetails).mockImplementation(() => vi.fn());
+vi.mocked(addLegalRepresentation).mockImplementation(() => vi.fn());
 
 beforeEach(() => {
   vi.resetAllMocks();
@@ -30,7 +33,7 @@ describe("createClaimData", () => {
     expect(mockDoc.moveDown).toHaveBeenCalled();
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO",
+      "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung",
     );
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
@@ -77,7 +80,7 @@ describe("createClaimData", () => {
 
     createClaimData(mockDoc, mockStruct, userDataMock);
 
-    expect(addPlaintiffDetails).toBeCalledTimes(1);
+    expect(addPlaintiffDetails).toHaveBeenCalledTimes(1);
   });
 
   it("should call addAccusedDetails", () => {
@@ -86,7 +89,16 @@ describe("createClaimData", () => {
 
     createClaimData(mockDoc, mockStruct, userDataMock);
 
-    expect(addAccusedDetails).toBeCalledTimes(1);
+    expect(addAccusedDetails).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call addLegalRepresentation", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createClaimData(mockDoc, mockStruct, userDataMock);
+
+    expect(addLegalRepresentation).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -115,7 +127,7 @@ describe("createClaimData - accessibility", () => {
     );
     expect(callsWithH2).toHaveLength(1);
   });
-  it("should call createClaimData with four paragraphs", () => {
+  it("should call createClaimData with five paragraphs", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
@@ -125,6 +137,6 @@ describe("createClaimData - accessibility", () => {
     const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
       ([tag]) => tag === "P",
     );
-    expect(callsWithP).toHaveLength(4);
+    expect(callsWithP).toHaveLength(5);
   });
 });
