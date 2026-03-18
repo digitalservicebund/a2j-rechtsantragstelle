@@ -22,6 +22,7 @@ const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
       "versaeumnisurteil",
     ]) &&
     (context.streitbeilegung === "yes" ||
+      context.streitbeilegung === "noSpecification" ||
       objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
   );
 };
@@ -51,7 +52,9 @@ export const prozessfuehrungXstateConfig = {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) => context.streitbeilegung === "yes",
+            guard: ({ context }) =>
+              context.streitbeilegung === "yes" ||
+              context.streitbeilegung === "noSpecification",
             target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
@@ -70,7 +73,9 @@ export const prozessfuehrungXstateConfig = {
         SUBMIT: steps.prozessfuehrungVideoVerhandlung.relative,
         BACK: [
           {
-            guard: ({ context }) => context.streitbeilegung === "yes",
+            guard: ({ context }) =>
+              context.streitbeilegung === "yes" ||
+              context.streitbeilegung === "noSpecification",
             target: steps.prozessfuehrungStreitbeilegung.relative,
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
