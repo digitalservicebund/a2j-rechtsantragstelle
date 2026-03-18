@@ -37,7 +37,7 @@ const KernHeading = ({
         mdColumn={{ start: 1, span: 8 }}
         lgColumn={{ start: 3, span: 8 }}
         xlColumn={{ start: 3, span: 8 }}
-        className="px-kern-space-default"
+        className="px-kern-space-large lg:px-0 xl:px-0"
       >
         <Tag
           className={`${SIZES_MAP[size]} p-0! ${className ?? ""} outline-none`}
