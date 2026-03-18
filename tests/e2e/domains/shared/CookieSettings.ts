@@ -5,7 +5,7 @@ import { decodeBase64 } from "~/util/strings";
 
 export class CookieSettings {
   readonly page: Page;
-  readonly url = "/datenschutz";
+  readonly url = "/datenschutzerklaerung";
   readonly buttonAcceptCookieWithJSTestId = "accept-cookie_with_js";
 
   constructor(page: Page) {

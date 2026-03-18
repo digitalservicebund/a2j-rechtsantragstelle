@@ -24,12 +24,14 @@ export default function KernZuestandigesGerichtPlz({ plz }: { plz: string }) {
           xlColumn={{ start: 3, span: 8 }}
         >
           <div className="gap-kern-space-x-large flex flex-col">
-            <span className="kern-body text-l! mt-16">Amtsgericht finden</span>
+            <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
+              Amtsgericht finden
+            </h1>
             <KernHeading
-              tagName="h1"
-              className="mt-16 text-3xl!"
+              tagName="h2"
               text={`Im Bereich Ihrer Postleitzahl ${plz} sind
           verschiedene Amtsgerichte zuständig.`}
+              managedByParent
             />
             <h2 className="kern-body">
               Geben Sie bitte Ihre genaue Straße und Hausnummer ein
