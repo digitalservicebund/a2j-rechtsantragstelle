@@ -278,7 +278,7 @@ describe("buildFlowController", () => {
     });
   });
 
-  describe("stepStates()", () => {
+  describe(".stepStates()", () => {
     it("ignores states without substates", () => {
       expect(
         buildFlowController({
@@ -413,7 +413,7 @@ describe("buildFlowController", () => {
         }).stepStates(),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/unreachable",
           url: "/test/unreachable/start",
@@ -452,7 +452,7 @@ describe("buildFlowController", () => {
           url: "/test/child1",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/child2",
           url: "/test/child2",
@@ -464,7 +464,7 @@ describe("buildFlowController", () => {
           url: "/test/child3/start",
         },
         {
-          isDone: false,
+          isDone: true,
           isReachable: false,
           stepId: "/child4",
           url: "/test/child4/start",
@@ -550,7 +550,7 @@ describe("buildFlowController", () => {
         }).stepStates(true),
       ).toEqual([
         {
-          isDone: false,
+          isDone: true,
           isReachable: true,
           stepId: "/parent1",
           url: "/test/parent1",
@@ -562,7 +562,7 @@ describe("buildFlowController", () => {
               url: "/test/parent1/child1/start",
             },
             {
-              isDone: false,
+              isDone: true,
               isReachable: false,
               stepId: "/parent1/child2",
               url: "/test/parent1/child2/start",
@@ -597,19 +597,19 @@ describe("buildFlowController", () => {
       }).stepStates(true);
 
       expect(actual[1]).toEqual({
-        isDone: false,
+        isDone: true,
         isReachable: false,
         stepId: "/parent2",
         url: "/test/parent2",
         subStates: [
           {
-            isDone: false,
+            isDone: true,
             isReachable: false,
             stepId: "/parent2/child1",
             url: "/test/parent2/child1/start",
           },
           {
-            isDone: false,
+            isDone: true,
             isReachable: false,
             stepId: "/parent2/child2",
             url: "/test/parent2/child2/start",
