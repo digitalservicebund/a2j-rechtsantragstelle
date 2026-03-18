@@ -35,9 +35,10 @@ const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
         display: "flex",
         alignItems: "center",
         cursor: "text",
+        borderRadius: isFocused ? 4 : 0,
         // Apply KERN focus outline when focused using KERN color variable
         outline: isFocused
-          ? "4px solid var(--kern-color-action-default)"
+          ? "4px solid var(--kern-color-form-input-border)"
           : "none",
         outlineOffset: isFocused ? "-4px" : "0",
         // Don't set any border, background, or other visual properties
