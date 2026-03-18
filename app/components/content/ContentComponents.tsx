@@ -80,7 +80,7 @@ function getContainerBackgroundColor(
   }
 
   const hasLayout = hasLayoutProperties(el);
-  if (hasLayout && el.outerBackground?.backgroundColor) {
+  if (hasLayout && el.outerBackground?.backgroundColor && !showKernUX) {
     return BACKGROUND_COLORS[
       el.outerBackground.backgroundColor as keyof typeof BACKGROUND_COLORS
     ];

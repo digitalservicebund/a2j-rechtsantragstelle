@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const headers = await consentCookieFromRequest({ request });
-  return redirect("/datenschutz/erfolg", { headers });
+  return redirect("/datenschutzerklaerung/erfolg", { headers });
 }
 
 export default function Index() {
@@ -76,7 +76,7 @@ export default function Index() {
             text={cookieTranslations?.heading}
             look="ds-heading-02-reg"
             elementId="cookieSetting"
-            className="pt-32 border-0 border-solid border-0 border-t-2 border-gray-400"
+            className="pt-32 border-0 border-solid border-t-2 border-gray-400"
           />
 
           <fieldset
