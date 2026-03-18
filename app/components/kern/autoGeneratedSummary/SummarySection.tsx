@@ -40,15 +40,26 @@ const SummarySection = ({
             >
               {field.multipleQuestions ? (
                 field.multipleQuestions.map((qa) => (
-                  <dl key={qa.id} className="flex items-start gap-kern-space-x-large">
-                    <dt className="kern-label text-kern-static-medium flex-1">{qa.question}</dt>
-                    <dd className="kern-body text-kern-static-medium  flex-1">{qa.answer}</dd>
+                  <dl
+                    key={qa.id}
+                    className="flex items-start gap-kern-space-x-large"
+                  >
+                    <dt className="kern-label text-kern-static-medium flex-1">
+                      {qa.question}
+                    </dt>
+                    <dd className="kern-body text-kern-static-medium  flex-1">
+                      {qa.answer}
+                    </dd>
                   </dl>
                 ))
               ) : (
                 <dl className="flex items-start gap-kern-space-x-large">
-                  <dt className="kern-label text-kern-static-medium flex-1">{field.question}</dt>
-                  <dd className="kern-body text-kern-static-medium  flex-1">{field.answer}</dd>
+                  <dt className="kern-label text-kern-static-medium flex-1">
+                    {field.question}
+                  </dt>
+                  <dd className="kern-body text-kern-static-medium  flex-1">
+                    {field.answer}
+                  </dd>
                 </dl>
               )}
 
@@ -78,20 +89,34 @@ const SummarySection = ({
                 >
                   {arrayItem.multipleQuestions ? (
                     arrayItem.multipleQuestions.map((qa) => (
-                      <dl key={qa.id} className="flex items-start gap-kern-space-x-large">
-                        <dt className="kern-label text-kern-static-medium flex-1">{qa.question}</dt>
-                        <dd className="kern-body text-kern-static-medium  flex-1">{qa.answer}</dd>
+                      <dl
+                        key={qa.id}
+                        className="flex items-start gap-kern-space-x-large"
+                      >
+                        <dt className="kern-label text-kern-static-medium flex-1">
+                          {qa.question}
+                        </dt>
+                        <dd className="kern-body text-kern-static-medium  flex-1">
+                          {qa.answer}
+                        </dd>
                       </dl>
                     ))
                   ) : (
                     <dl className="flex items-start  gap-kern-space-x-large">
-                      <dt className="kern-label text-kern-static-medium flex-1">{arrayItem.question}</dt>
-                      <dd className="kern-body text-kern-static-medium  flex-1">{arrayItem.answer}</dd>
+                      <dt className="kern-label text-kern-static-medium flex-1">
+                        {arrayItem.question}
+                      </dt>
+                      <dd className="kern-body text-kern-static-medium  flex-1">
+                        {arrayItem.answer}
+                      </dd>
                     </dl>
                   )}
 
                   {arrayItem.editUrl && (
-                    <a href={arrayItem.editUrl} className="kern-link no-underline!">
+                    <a
+                      href={arrayItem.editUrl}
+                      className="kern-link no-underline!"
+                    >
                       <KernIcon name="edit" />
                       Bearbeiten
                     </a>
@@ -100,9 +125,7 @@ const SummarySection = ({
               ))}
             </div>
           ))}
-
         </section>
-
       </details>
     </div>
   );
