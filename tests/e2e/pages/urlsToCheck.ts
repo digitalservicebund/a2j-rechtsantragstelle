@@ -16,6 +16,6 @@ export const flowUrls = [
   "/beratungshilfe/antrag/abgabe/ausdrucken",
 ];
 
-export const footerLinks = ["/impressum", "/datenschutz", "/barrierefreiheit"];
+export const footerLinks = ["/impressum", "/barrierefreiheit"];
 
 export const headerLinks = ["/leichtesprache", "/gebaerdensprache"];
