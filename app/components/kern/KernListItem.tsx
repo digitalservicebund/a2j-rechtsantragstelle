@@ -71,9 +71,13 @@ const KernListItem = ({
       <div className="gap-kern-space-x-large">
         <div>
           {headline && (
-            <KernHeading {...headline} className="text-2xl!" managedByParent />
+            <KernHeading
+              {...headline}
+              className="text-kern-static-large!"
+              managedByParent
+            />
           )}
-          {content && <KernRichText html={content} />}
+          {content && <KernRichText className="pt-8!" html={content} />}
           {arrayIsNonEmpty(buttons) && (
             <ButtonContainer className="mt-16">
               {buttons.map((button) => (
