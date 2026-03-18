@@ -34,7 +34,7 @@ export const footerContent: FooterContent[] = [
     content: [
       {
         text: "service.justiz.de Datenschutz",
-        url: "/datenschutz",
+        url: "/datenschutzerklaerung",
       },
       {
         text: "Beratungshilfe Datenschutz",
