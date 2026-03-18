@@ -32,11 +32,53 @@ describe("addPlaintiffDetails", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       `${userDataMock.klagendePersonStrasseHausnummer}, ${userDataMock.klagendePersonPlz} ${userDataMock.klagendePersonOrt}, Deutschland`,
     );
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      userDataMock.klagendeTelefonnummer,
-    );
+
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_TEXT, {
       align: "left",
     });
+  });
+
+  it("should add plaintiff phone number without email", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithoutEmail = {
+      ...userDataMock,
+      klagendeEmail: undefined,
+    };
+
+    addPlaintiffDetails(mockDoc, userDataWithoutEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataWithoutEmail.klagendeTelefonnummer,
+    );
+  });
+
+  it("should add plaintiff phone number and email when both are provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithEmail = {
+      ...userDataMock,
+      klagendeEmail: "test@test.com.de",
+    };
+
+    addPlaintiffDetails(mockDoc, userDataWithEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      `${userDataWithEmail.klagendeTelefonnummer} ${SEPARATOR} ${userDataWithEmail.klagendeEmail}`,
+    );
+  });
+
+  it("should add plaintiff email without phone number", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithEmail = {
+      ...userDataMock,
+      klagendeTelefonnummer: undefined,
+      klagendeEmail: "test@test.com.de",
+    };
+
+    addPlaintiffDetails(mockDoc, userDataWithEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(userDataWithEmail.klagendeEmail);
   });
 });

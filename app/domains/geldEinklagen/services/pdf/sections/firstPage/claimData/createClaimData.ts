@@ -6,12 +6,14 @@ import type {
   GeldEinklagenSachgebietType,
 } from "~/domains/geldEinklagen/formular/userData";
 import { addAccusedDetails } from "./addAccusedDetails";
+import { addLegalRepresentation } from "./addLegalRepresentation";
 
 const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE = "im Online-Verfahren nach § 1124 Absatz 1 Nummer 1 ZPO";
+const MAIN_SUBTITLE =
+  "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
 
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 
@@ -51,6 +53,13 @@ export const createClaimData = (
   moneyCompensationClaimSection.add(
     doc.struct("P", {}, () => {
       addPlaintiffDetails(doc, userData);
+      doc.moveDown();
+    }),
+  );
+
+  moneyCompensationClaimSection.add(
+    doc.struct("P", {}, () => {
+      addLegalRepresentation(doc, userData);
       doc.moveDown();
     }),
   );
