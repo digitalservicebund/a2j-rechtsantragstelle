@@ -2,12 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
-import {
-  FONTS_BUNDESSANS_REGULAR,
-  PDF_WIDTH_SEIZE,
-} from "~/services/pdf/createPdfKitDocument";
-import { getHeightOfString } from "~/services/pdf/getHeightOfString";
+import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
 
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
@@ -23,13 +18,6 @@ export function addAdvanceCourtText(
     ? gerichtskostenFromBetrag(parseCurrencyStringDE(forderungGesamtbetrag))
     : 0;
   const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${gerichtskostenvorschuss} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
-
-  const textHeight = getHeightOfString(advanceCourtText, doc, PDF_WIDTH_SEIZE);
-
-  addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: textHeight,
-    moveDownFactor: 3.5,
-  });
 
   legalAssessmentSect.add(
     doc.struct("P", {}, () => {
