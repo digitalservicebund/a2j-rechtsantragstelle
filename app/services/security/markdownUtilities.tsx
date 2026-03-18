@@ -6,6 +6,7 @@ import { KernIcon } from "~/components/kern/common/KernIcon";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
+import { globalFeatureFlags } from "../isFeatureFlagEnabled.server";
 
 const OPEN_NEW_TAB = "öffnet neues Fenster";
 
@@ -63,24 +64,16 @@ const kernRenderer: Partial<Renderer> = {
     );
   },
 };
-function getRendererToDisplay(
-  showKernUX: boolean | undefined,
-  renderer?: Partial<Renderer>,
-) {
-  if (showKernUX) {
-    return { ...kernRenderer, ...renderer };
-  }
-  return { ...defaultRenderer, ...renderer };
-}
 
 // TODO: refactor to split into markdown service
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
-  showKernUX?: boolean,
 ) {
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
-  const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
+  const { showKernUX } = globalFeatureFlags;
+  const baseRenderer = showKernUX ? kernRenderer : defaultRenderer;
+  const rendererWithMarkdown = { ...baseRenderer, ...renderer };
 
   const marked = new Marked({
     renderer: rendererWithMarkdown,
