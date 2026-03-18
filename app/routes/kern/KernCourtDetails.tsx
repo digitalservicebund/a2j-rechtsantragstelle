@@ -24,7 +24,7 @@ const KernCourtDetails = ({
 }: KernCourtDetailsProps) => {
   return (
     <address className="not-italic flex flex-col gap-kern-space-default">
-      <KernHeading tagName="h2" size="large" text={name} />
+      <KernHeading tagName="h2" size="large" text={name} managedByParent />
       <div className="flex flex-col">
         <span className="kern-body kern-body--bold m-0! p-0!">
           {addressLabel}

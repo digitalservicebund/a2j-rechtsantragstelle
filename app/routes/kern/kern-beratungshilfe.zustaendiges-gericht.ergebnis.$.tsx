@@ -19,15 +19,15 @@ export const KernZuestandigesGerichErgebnis = () => {
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
           row={1}
-          className="flex flex-col gap-kern-space-default"
+          className="flex flex-col gap-kern-space-default lg:px-kern-space-default"
         >
-          <span className="kern-label text-kern-layout-text-muted!">
+          <span className="kern-label text-kern-layout-text-muted! font-normal!">
             Amtsgericht finden
           </span>
           <KernHeading
             tagName="h1"
             text="Ihr zuständiges Amtsgericht"
-            className="mt-16"
+            managedByParent
           />
         </GridItem>
       </Grid>
@@ -44,7 +44,7 @@ export const KernZuestandigesGerichErgebnis = () => {
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
-          className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+          className="py-kern-space-default lg:px-kern-space-default px-kern-space-small"
         >
           <KernCourtDetails
             name={court.BEZEICHNUNG}
@@ -62,7 +62,7 @@ export const KernZuestandigesGerichErgebnis = () => {
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
           row={2}
-          className="pt-32 pb-32"
+          className="py-kern-space-large lg:px-kern-space-default"
         >
           <a
             href="/beratungshilfe/zustaendiges-gericht/suche"
