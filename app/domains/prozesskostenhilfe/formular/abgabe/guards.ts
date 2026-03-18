@@ -12,10 +12,9 @@ export const readyForAbgabe: GenericGuard<
 > = ({ context }) =>
   !!context.pageData?.subflowDoneStates &&
   Object.entries(context.pageData.subflowDoneStates)
-    .filter(([stepId]) => !stepId.startsWith("/abgabe"))
     .filter(
       ([stepId]) =>
-        context.formularArt !== "nachueberpruefung" ||
+        !stepId.startsWith("/abgabe") &&
         !stepId.startsWith("/rechtsschutzversicherung"),
     )
     .every(([, subflowDone]) => Boolean(subflowDone));
