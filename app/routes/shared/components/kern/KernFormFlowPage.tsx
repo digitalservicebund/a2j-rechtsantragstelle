@@ -168,8 +168,8 @@ export function KernFormFlowPage() {
           {showReportProblem && (
             <GridItem
               mdColumn={{ start: 1, span: 8 }}
-              lgColumn={{ start: 1, span: 12 }}
-              xlColumn={{ start: 1, span: 12 }}
+              lgColumn={{ start: 7, span: 5 }}
+              xlColumn={{ start: 7, span: 5 }}
               className="pb-kern-space-x-large pt-kern-space-x-large flex justify-end"
               row={4}
             >
