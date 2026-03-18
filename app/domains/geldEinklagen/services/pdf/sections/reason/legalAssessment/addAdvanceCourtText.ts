@@ -1,11 +1,9 @@
 import type PDFDocument from "pdfkit";
-import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
-  FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
@@ -16,40 +14,21 @@ const ADVANCE_COURT_COSTS_FIRST_TEXT =
 const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "Euro anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
-export function addAdvanceCourtAndPlaintiffName(
+export function addAdvanceCourtText(
   doc: typeof PDFDocument,
-  reasonSect: PDFKit.PDFStructureElement,
   legalAssessmentSect: PDFKit.PDFStructureElement,
-  {
-    klagendePersonAnrede,
-    klagendePersonTitle,
-    klagendePersonVorname,
-    klagendePersonNachname,
-    forderungGesamtbetrag,
-  }: GeldEinklagenFormularUserData,
+  { forderungGesamtbetrag }: GeldEinklagenFormularUserData,
 ) {
   const gerichtskostenvorschuss = forderungGesamtbetrag
     ? gerichtskostenFromBetrag(parseCurrencyStringDE(forderungGesamtbetrag))
     : 0;
   const advanceCourtText = `${ADVANCE_COURT_COSTS_FIRST_TEXT} ${gerichtskostenvorschuss} ${ADVANCE_COURT_COSTS_SECOND_TEXT}`;
 
-  const plaintiffName = getFullPlaintiffName(
-    klagendePersonAnrede,
-    klagendePersonTitle === "none" ? "" : klagendePersonTitle,
-    klagendePersonVorname,
-    klagendePersonNachname,
-  );
-
-  const textHeight = getHeightOfString(
-    [advanceCourtText, plaintiffName],
-    doc,
-    PDF_WIDTH_SEIZE,
-  );
+  const textHeight = getHeightOfString(advanceCourtText, doc, PDF_WIDTH_SEIZE);
 
   addNewPageInCaseMissingVerticalSpace(doc, {
     extraYPosition: textHeight,
-    moveDownFactor: 1.5,
-    numberOfParagraphs: 2,
+    moveDownFactor: 3.5,
   });
 
   legalAssessmentSect.add(
@@ -58,19 +37,7 @@ export function addAdvanceCourtAndPlaintiffName(
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(advanceCourtText)
-        .moveDown(2);
+        .moveDown(3.5);
     }),
   );
-
-  const plaintiffNameSect = doc.struct("Sect");
-
-  doc.moveDown(1.5);
-
-  plaintiffNameSect.add(
-    doc.struct("P", {}, () => {
-      doc.font(FONTS_BUNDESSANS_BOLD).text(plaintiffName);
-    }),
-  );
-
-  reasonSect.add(plaintiffNameSect);
 }

@@ -6,15 +6,15 @@ import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/user
 import { createLegalAssessment } from "../createLegalAssessment";
 import { addRechtlicheWuerdigung } from "../addRechtlicheWuerdigung";
 import { addDisputeResolution } from "../addDisputeResolution";
-import { addAdvanceCourtAndPlaintiffName } from "../addAdvanceCourtAndPlaintiffName";
+import { addAdvanceCourtText } from "../addAdvanceCourtText";
 
 vi.mock("../addRechtlicheWuerdigung");
 vi.mock("../addDisputeResolution");
-vi.mock("../addAdvanceCourtAndPlaintiffName");
+vi.mock("../addAdvanceCourtText");
 
 vi.mocked(addRechtlicheWuerdigung).mockImplementation(() => vi.fn());
 vi.mocked(addDisputeResolution).mockImplementation(() => vi.fn());
-vi.mocked(addAdvanceCourtAndPlaintiffName).mockImplementation(() => vi.fn());
+vi.mocked(addAdvanceCourtText).mockImplementation(() => vi.fn());
 
 beforeEach(() => {
   vi.resetAllMocks();
@@ -57,12 +57,12 @@ describe("createLegalAssessment", () => {
     expect(addDisputeResolution).toBeCalledTimes(1);
   });
 
-  it("should call the addAdvanceCourtAndPlaintiffName for the legal assessment section", () => {
+  it("should call the addAdvanceCourtText for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
 
-    expect(addAdvanceCourtAndPlaintiffName).toBeCalledTimes(1);
+    expect(addAdvanceCourtText).toBeCalledTimes(1);
   });
 });
