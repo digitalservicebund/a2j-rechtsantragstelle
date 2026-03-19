@@ -39,7 +39,7 @@ describe("StrapiFieldSet", () => {
     const actual = await StrapiFieldSetComponentSchema.safeParseAsync(mockData);
     expect(actual.success).toBe(true);
     expect(actual.data).toEqual({
-      heading: `<p class="ds-subhead">heading</p>`,
+      heading: `<p>heading</p>`,
       __component: "form-elements.fieldset",
       fieldSetGroup: {
         formComponents: [
