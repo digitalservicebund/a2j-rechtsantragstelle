@@ -1,13 +1,13 @@
 /* oxlint-disable no-console */
 import fs from "node:fs";
-import { type IncomingMessage } from "node:http";
 import path from "node:path";
+import { type IncomingMessage } from "node:http";
 import { type FollowResponse } from "follow-redirects";
 import followRedirects from "follow-redirects";
 import pMap from "p-map";
-import type { GerbehFile } from "./convertJsonDataTable";
-import { getEncrypted } from "./encryptedStorage.server";
-import { normalizeURL } from "../../util/strings";
+import type { GerbehFile } from "~/services/gerichtsfinder/convertJsonDataTable";
+import { getEncrypted } from "~/services/gerichtsfinder/encryptedStorage.server";
+import { normalizeURL } from "~/util/strings";
 
 const { http, https } = followRedirects; // Workaround, as follow-redirects is not ESM ready
 
@@ -88,13 +88,8 @@ async function checkAllURLS() {
   return Object.fromEntries(await pMap(uniqueURLs, checkUrl, { concurrency }));
 }
 
-async function writeURLMap() {
+export default async function writeURLMap() {
   const urlMap = await checkAllURLS();
   console.log(`Writing URL map to ${OUTFILE}...`);
-  fs.writeFile(OUTFILE, JSON.stringify(urlMap), "utf8", () => {
-    console.log("Task is finished.");
-    process.exit();
-  });
+  fs.writeFileSync(OUTFILE, JSON.stringify(urlMap), "utf8");
 }
-
-if (process.argv[2] === "checkURLs") await writeURLMap();
