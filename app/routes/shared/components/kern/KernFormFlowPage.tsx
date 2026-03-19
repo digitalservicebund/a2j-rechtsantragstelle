@@ -12,7 +12,6 @@ import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNaviga
 import { NavigationList } from "~/components/kern/navigation/NavigationList";
 import SideNavMobile from "~/components/kern/navigation/SideNavMobile";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
 import { type loader } from "../../formular";
 import KernHeading from "~/components/kern/KernHeading";
@@ -49,7 +48,6 @@ export function KernFormFlowPage() {
   );
 
   useFocusFirstH1();
-  const showKernUX = useShowKernUX();
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -108,7 +106,7 @@ export function KernFormFlowPage() {
               <div className="flex flex-col gap-kern-space-x-large">
                 <ContentComponents
                   content={cmsContent.content}
-                  showKernUX={showKernUX}
+                  showKernUX
                   managedByParent
                 />
                 <KernMissingDataList
@@ -160,7 +158,7 @@ export function KernFormFlowPage() {
                 <ContentComponents
                   content={cmsContent.postFormContent}
                   managedByParent
-                  showKernUX={showKernUX}
+                  showKernUX
                 />
               </div>
             </div>
