@@ -37,6 +37,7 @@ export default defineConfig((config) => ({
     target: config.isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
   },
   resolve: { tsconfigPaths: true },
+  ssr: { noExternal: ["@digitalservicebund/icons"] },
   test: {
     globals: true,
     environment: "node",
