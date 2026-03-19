@@ -19,6 +19,8 @@ import {
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { ibanZodDescription } from "~/services/validation/iban";
+import IbanInput from "~/components/formElements/IbanInput";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -27,9 +29,11 @@ type Props = {
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  return [
+    filesUploadZodDescription,
+    hiddenInputZodDescription,
+    ibanZodDescription,
+  ].includes(fieldSchema.meta()?.description ?? "");
 };
 
 const renderSpecialMetaDescriptions = (
@@ -55,6 +59,10 @@ const renderSpecialMetaDescriptions = (
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (fieldSchema.meta()?.description === ibanZodDescription) {
+    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
   }
 };
 

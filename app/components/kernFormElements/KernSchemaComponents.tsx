@@ -26,6 +26,8 @@ import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSch
 import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
+import { ibanZodDescription } from "~/services/validation/iban";
+import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -35,9 +37,11 @@ type Props = {
 };
 
 const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  return [
+    filesUploadZodDescription,
+    hiddenInputZodDescription,
+    ibanZodDescription,
+  ].includes(fieldSchema.meta()?.description ?? "");
 };
 
 const renderSpecialMetaDescriptions = (
@@ -68,6 +72,12 @@ const renderSpecialMetaDescriptions = (
 
   if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (fieldSchema.meta()?.description === ibanZodDescription) {
+    return (
+      <KernIbanInput key={fieldName} name={fieldName} {...matchingElement} />
+    );
   }
 };
 

@@ -11,7 +11,7 @@ import { StrapiImageOptionalSchema } from "../StrapiImage";
 export const StrapiFieldSetComponentSchema = z.object({
   heading: buildRichTextValidation({
     paragraph({ tokens }) {
-      return `<p class="ds-subhead">${this.parser?.parseInline(tokens)}</p>`;
+      return `<p>${this.parser?.parseInline(tokens)}</p>`;
     },
   }),
   image: StrapiImageOptionalSchema,
