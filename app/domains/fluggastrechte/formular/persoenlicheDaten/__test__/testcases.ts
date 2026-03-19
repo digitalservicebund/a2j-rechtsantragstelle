@@ -26,7 +26,6 @@ export const testCasesFluggastrechteFormularPersoenlicheDaten = [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/prozessfuehrung/zeugen",
-      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
@@ -38,7 +37,6 @@ export const testCasesFluggastrechteFormularPersoenlicheDaten = [
       "/persoenliche-daten/person/daten",
       "/persoenliche-daten/weitere-personen/frage",
       "/prozessfuehrung/zeugen",
-      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [
@@ -56,7 +54,6 @@ export const testCasesFluggastrechteFormularPersoenlicheDaten = [
       "/persoenliche-daten/weitere-personen/frage",
       "/persoenliche-daten/weitere-personen/uebersicht",
       "/prozessfuehrung/zeugen",
-      "/prozessfuehrung/videoverhandlung",
     ],
   ],
   [

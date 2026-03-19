@@ -6,6 +6,7 @@ export const testCasesFluggastrechteFormularProzessfuehrung = [
     {
       hasZeugen: "yes",
       versaeumnisurteil: "yes",
+      muendlicheVerhandlung: "yes",
       videoverhandlung: "yes",
       pageData: {
         subflowDoneStates: {
@@ -16,6 +17,7 @@ export const testCasesFluggastrechteFormularProzessfuehrung = [
     },
     [
       "/prozessfuehrung/zeugen",
+      "/prozessfuehrung/muendliche-verhandlung",
       "/prozessfuehrung/videoverhandlung",
       "/prozessfuehrung/versaeumnisurteil",
       "/prozessfuehrung/zahlung-nach-klageeinreichung",
