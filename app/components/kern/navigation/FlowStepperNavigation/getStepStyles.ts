@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import {
-  NavState,
+  type NavState,
   stateIsCurrent,
   stateIsDone,
   stateIsWarning,

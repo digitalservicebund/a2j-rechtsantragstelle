@@ -1,4 +1,8 @@
-import { NavState, stateIsDone, stateIsWarning } from "~/services/navigation/navState";
+import {
+  type NavState,
+  stateIsDone,
+  stateIsWarning,
+} from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
 import { KernIcon } from "../../common/KernIcon";
 

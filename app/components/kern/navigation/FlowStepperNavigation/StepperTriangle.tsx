@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 import { getStepStyles } from "./getStepStyles";
 
 export const StepperTriangle = ({ state }: { state: NavState }) => {

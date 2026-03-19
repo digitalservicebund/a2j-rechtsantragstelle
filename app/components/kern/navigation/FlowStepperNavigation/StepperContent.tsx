@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { NavState } from "~/services/navigation/navState";
+import { type NavState } from "~/services/navigation/navState";
 import { getStepStyles } from "./getStepStyles";
 import { StepperIcon } from "./StepperIcon";
 
