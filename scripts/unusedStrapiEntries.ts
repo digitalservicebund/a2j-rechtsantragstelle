@@ -45,7 +45,7 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
   return partition(pages, (page) => page.flow_ids.length > 0);
 }
 
-async function unusedStrapiEntry() {
+export default async function unusedStrapiEntry() {
   let content: StrapiSchemasOutput | undefined = undefined;
   try {
     content = await strapiFileSchema.parseAsync(
@@ -98,5 +98,3 @@ async function unusedStrapiEntry() {
     );
   }
 }
-
-if (process.argv[2] === "unusedStrapiEntry") void unusedStrapiEntry();
