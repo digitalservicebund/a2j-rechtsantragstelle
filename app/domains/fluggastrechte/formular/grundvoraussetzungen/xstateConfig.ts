@@ -20,7 +20,7 @@ export const grundvoraussetzungenXstateConfig = {
         SUBMIT: [
           {
             target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
-            guard: "hasNoStreitbeilegung",
+            guard: ({ context }) => context.streitbeilegung === "no",
           },
           steps.grundvorraussetzungenProzessfaehig.relative,
         ],
@@ -39,7 +39,7 @@ export const grundvoraussetzungenXstateConfig = {
         BACK: [
           {
             target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
-            guard: "hasNoStreitbeilegung",
+            guard: ({ context }) => context.streitbeilegung === "no",
           },
           steps.grundvoraussetzungenStreitbeilegung.relative,
         ],
