@@ -17,7 +17,7 @@ export function getStepStyles(state: NavState) {
     container: classNames(
       "arrow-step border border-kern-neutral-200 flex w-full relative",
       {
-        "bg-kern-neutral-025 text-gray-400 pointer-events-none":
+        "bg-kern-neutral-025 text-kern-neutral-400 pointer-events-none":
           stateIsDisabled(state),
         "bg-kern-feedback-warning": stateIsWarning(state),
         "bg-kern-neutral-200 font-semibold": stateIsCurrent(state),
