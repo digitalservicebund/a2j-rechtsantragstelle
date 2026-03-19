@@ -86,7 +86,7 @@ async function allRelevantLicenses() {
   );
 }
 
-async function updateLicenseList() {
+export default async function updateLicenseList() {
   const licenses = await allRelevantLicenses();
   const licenseCount = Object.keys(licenses).length;
   const directLicenses = Object.values(licenses).filter((val) => val.direct);
@@ -96,5 +96,3 @@ async function updateLicenseList() {
   );
   fs.writeFileSync(filepath, JSON.stringify(licenses));
 }
-
-await updateLicenseList();
