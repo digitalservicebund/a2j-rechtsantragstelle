@@ -7,6 +7,7 @@ import { StrapiFieldSetComponentSchema } from "./StrapiFieldSet";
 import { StrapiFilesUploadComponentSchema } from "./StrapiFilesUpload";
 import { StrapiHiddenInputComponentSchema } from "./StrapiHiddenInput";
 import { StrapiInputComponentSchema } from "./StrapiInput";
+import { StrapiMultiItemInputComponentSchema } from "./StrapiMultiItemInput";
 import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
@@ -25,6 +26,7 @@ export const StrapiFormComponentSchema = z.union([
   StrapiAutoSuggestInputComponentSchema,
   StrapiHiddenInputComponentSchema,
   StrapiFieldSetComponentSchema,
+  StrapiMultiItemInputComponentSchema,
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;

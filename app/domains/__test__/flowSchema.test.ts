@@ -229,7 +229,6 @@ describe.sequential("flowSchemas", () => {
         const missingSteps = allStepsFromMachine(
           createMachine(xstateConfig),
         ).filter((x) => !visitedSteps.has(x));
-        // .filter((x) => !ignoreVisitedSteps.includes(x));
         return [flowId, missingSteps];
       })
       .filter(([_, missingSteps]) => missingSteps.length > 0);

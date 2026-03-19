@@ -11,6 +11,7 @@ let content: StrapiSchemas | undefined;
 
 const NO_VALID_FILE =
   "No valid content.json found while using 'CMS=FILE'.\nEither run 'pnpm run build:localContent' or try another CMS source";
+
 export const getStrapiEntryFromFile: GetStrapiEntry = async <T extends ApiId>(
   opts: GetStrapiEntryOpts<T>,
 ) => {

@@ -164,4 +164,34 @@ describe("buildFormElements", () => {
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });
+
+  it("should inject the dynamic count for multi-item-input components", () => {
+    const mockCmsElementWithMultiItemInput = {
+      ...mockCmsElement,
+      formContent: [
+        {
+          __component: "form-elements.multi-item-input",
+          name: "kinder",
+          countField: "kinderAnzahl",
+          itemTitleTemplate: "Kind {{index}}",
+          fields: [
+            {
+              name: "vorname",
+              label: "Vorname",
+              type: "text",
+            },
+          ],
+          errorMessages: undefined,
+          count: undefined,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(mockCmsElementWithMultiItemInput, {
+      kinderAnzahl: "3",
+      pageData: { arrayIndexes: [] },
+    });
+
+    expect(actual[0]).toMatchObject({ count: 3 });
+  });
 });

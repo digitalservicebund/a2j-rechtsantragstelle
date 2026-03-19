@@ -19,11 +19,15 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
+    props: Readonly<
+      Parameters<typeof SchemaComponents>[0] & {
+        defaultValues?: Record<string, unknown>;
+      }
+    >,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
-      defaultValues: {},
+      defaultValues: props.defaultValues ?? {},
     });
 
     const router = createMemoryRouter([
@@ -241,6 +245,62 @@ describe("SchemaComponents", () => {
       <WrappedSchemaComponents pageSchema={pageSchema} formComponents={[]} />,
     );
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
+  });
+
+  it("should prefill multi-item input values from defaultValues", () => {
+    const pageSchema = {
+      kinder: z.array(
+        z.object({
+          vorname: z.string(),
+          istVerstorben: z.enum(["yes", "no"]),
+        }),
+      ),
+    };
+
+    const { getByDisplayValue, getAllByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        defaultValues={{
+          kinder: [
+            { vorname: "Max", istVerstorben: "no" },
+            { vorname: "Anna", istVerstorben: "yes" },
+          ],
+        }}
+        formComponents={[
+          {
+            __component: "form-elements.multi-item-input",
+            name: "kinder",
+            count: 2,
+            itemTitleTemplate: "Kind {{index}}",
+            fields: [
+              {
+                name: "vorname",
+                label: "Vorname",
+                type: "text",
+                required: true,
+              },
+              {
+                name: "istVerstorben",
+                label: "Ist dieses Kind verstorben?",
+                type: "select",
+                options: [
+                  { value: "yes", label: "Ja" },
+                  { value: "no", label: "Nein" },
+                ],
+                required: true,
+              },
+            ],
+          } as StrapiFormComponent,
+        ]}
+      />,
+    );
+
+    expect(getByDisplayValue("Max")).toBeInTheDocument();
+    expect(getByDisplayValue("Anna")).toBeInTheDocument();
+
+    const selects = getAllByRole("combobox");
+    expect(selects[0]).toHaveValue("no");
+    expect(selects[1]).toHaveValue("yes");
   });
 
   it("should render a fieldset component with two input components", () => {

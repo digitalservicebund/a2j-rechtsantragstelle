@@ -9,7 +9,7 @@ const localFeatureFlags = {
   showKernUX: false,
   showAutoSummary: false,
   showPkontoAntragFlow: false,
-  showErbscheinWegweiser: false,
+  showErbscheinWegweiser: true,
   showErbscheinNachlassgericht: false,
   showNachbefragung: false,
 } as const;

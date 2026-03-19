@@ -47,4 +47,21 @@ describe("getDestinationFlowAction", () => {
       "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/4/address",
     );
   });
+
+  it("should preserve multiple array indexes for deep descendant routes", () => {
+    vi.mocked(buildFlowController).mockReturnValueOnce({
+      getNext: () =>
+        "/erbschein/wegweiser/erbfolge-kinder-eingabe/kind/kind/anzahl",
+      getInitial: () => "/erbschein/wegweiser/start",
+    } as unknown as FlowController);
+
+    const actual = flowDestination(
+      "/erbschein/wegweiser/erbfolge-kinder-eingabe/kind/3/kind/1/frage",
+      {},
+    );
+
+    expect(actual).toBe(
+      "/erbschein/wegweiser/erbfolge-kinder-eingabe/kind/3/kind/1/anzahl",
+    );
+  });
 });

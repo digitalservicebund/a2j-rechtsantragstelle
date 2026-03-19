@@ -65,6 +65,65 @@ const nestedInitialStateConfig: Config = {
   },
 };
 
+const deepNestedTraversalConfig: Config = {
+  id: "/test/deep",
+  initial: "family",
+  states: {
+    family: {
+      initial: "child",
+      states: {
+        child: {
+          initial: "frage",
+          states: {
+            frage: {
+              on: {
+                SUBMIT: { target: "anzahl" },
+              },
+            },
+            anzahl: {
+              on: {
+                SUBMIT: { target: "grandchild" },
+                BACK: { target: "frage" },
+              },
+            },
+            grandchild: {
+              initial: "frage",
+              states: {
+                frage: {
+                  on: {
+                    SUBMIT: { target: "anzahl" },
+                    BACK: { target: "#/test/deep.family.child.anzahl" },
+                  },
+                },
+                anzahl: {
+                  on: {
+                    SUBMIT: { target: "greatGrandchild" },
+                    BACK: { target: "frage" },
+                  },
+                },
+                greatGrandchild: {
+                  initial: "daten",
+                  states: {
+                    daten: {
+                      on: {
+                        BACK: {
+                          target: "#/test/deep.family.child.grandchild.anzahl",
+                        },
+                        SUBMIT: { target: "#/test/deep.summary" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    summary: {},
+  },
+};
+
 describe("buildFlowController", () => {
   describe("isFinal", () => {
     it("returns true if final step", () => {
@@ -726,6 +785,36 @@ describe("getInitialSubState", () => {
     const actual = buildFlowController(configSubStates);
     expect(actual.getInitialSubState("parent3")).toBe(
       "/test/parent3/step1/new-intro",
+    );
+  });
+});
+
+describe("deep nested traversal", () => {
+  it("navigates forward into deeper nested descendants", () => {
+    const actual = buildFlowController({ config: deepNestedTraversalConfig });
+
+    expect(actual.getNext("/family/child/frage")).toBe(
+      "/test/deep/family/child/anzahl",
+    );
+    expect(actual.getNext("/family/child/anzahl")).toBe(
+      "/test/deep/family/child/grandchild/frage",
+    );
+    expect(actual.getNext("/family/child/grandchild/frage")).toBe(
+      "/test/deep/family/child/grandchild/anzahl",
+    );
+    expect(actual.getNext("/family/child/grandchild/anzahl")).toBe(
+      "/test/deep/family/child/grandchild/greatGrandchild/daten",
+    );
+  });
+
+  it("navigates backward out of deeper nested descendants", () => {
+    const actual = buildFlowController({ config: deepNestedTraversalConfig });
+
+    expect(
+      actual.getPrevious("/family/child/grandchild/greatGrandchild/daten"),
+    ).toBe("/test/deep/family/child/grandchild/anzahl");
+    expect(actual.getPrevious("/family/child/grandchild/frage")).toBe(
+      "/test/deep/family/child/anzahl",
     );
   });
 });

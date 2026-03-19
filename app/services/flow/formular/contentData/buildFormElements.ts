@@ -48,6 +48,16 @@ const addDataListArgumentToAutoSuggestionInput = (
   }
 };
 
+function parseCount(countValue: unknown): number {
+  if (typeof countValue === "string") {
+    return Number.parseInt(countValue, 10);
+  }
+  if (typeof countValue === "number") {
+    return countValue;
+  }
+  return 0;
+}
+
 export const buildFormElements = (
   { formContent, heading }: CMSContent,
   userDataWithPageData: UserDataWithPageData,
@@ -60,6 +70,14 @@ export const buildFormElements = (
       element.dataList === "streetNames"
     ) {
       addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
+    }
+
+    // Inject count for multi-item-input components
+    if (element.__component === "form-elements.multi-item-input") {
+      if (element.countField) {
+        const countValue = userDataWithPageData?.[element.countField];
+        element.count = parseCount(countValue);
+      }
     }
 
     return element;

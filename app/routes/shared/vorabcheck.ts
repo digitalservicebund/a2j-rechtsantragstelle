@@ -33,6 +33,63 @@ import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";
 import { structureCmsContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 
+type VorabcheckArraySummaryItem = {
+  category: string;
+  itemTitle: string;
+  displayFields: [string, string][];
+  valueLabels: Record<string, string>;
+  items: unknown[];
+  expectedCount?: number;
+  baseUrl: string;
+};
+
+function parseExpectedCount(countValue: unknown) {
+  if (typeof countValue === "string") {
+    return Number.parseInt(countValue, 10);
+  }
+
+  if (typeof countValue === "number") {
+    return countValue;
+  }
+
+  return undefined;
+}
+
+function getVorabcheckArraySummaryData(
+  preFormContent: Array<{ __component: string; [key: string]: unknown }>,
+  userData: Record<string, unknown>,
+  flowId: string,
+): VorabcheckArraySummaryItem[] {
+  return preFormContent
+    .filter((item) => item.__component === "page.array-summary")
+    .map((item) => {
+      const category = String(item.category);
+      const rawItemLabels = item.itemLabels as Record<string, string>;
+
+      return {
+        category,
+        itemTitle:
+          typeof item.subtitle === "object" &&
+          item.subtitle &&
+          "text" in item.subtitle &&
+          typeof item.subtitle.text === "string"
+            ? item.subtitle.text.replace("{{indexArray}}", "{{index}}")
+            : `${String(item.buttonLabel)} {{index}}`,
+        displayFields: Object.entries(rawItemLabels).filter(
+          ([key]) => !key.includes("."),
+        ) as [string, string][],
+        valueLabels: Object.fromEntries(
+          Object.entries(rawItemLabels).filter(([key]) => key.includes(".")),
+        ),
+        items: Array.isArray(userData[category])
+          ? (userData[category] as unknown[])
+          : [],
+        expectedCount: parseExpectedCount(userData[`${category}Anzahl`]),
+        baseUrl: `${flowId}${String(item.categoryUrl)}`,
+      };
+    });
+}
+
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
 
@@ -108,12 +165,22 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     label: translations.vorabcheck.progressBarLabel.de,
   };
 
+  const arraySummaryData = getVorabcheckArraySummaryData(
+    cmsContent.pre_form as Array<{
+      __component: string;
+      [key: string]: unknown;
+    }>,
+    userData as Record<string, unknown>,
+    flowId,
+  );
+
   return data(
     {
       csrf,
       stepData,
       cmsContent: { ...cmsContent, pageTitle },
       formElements,
+      arraySummaryData,
       progressProps,
       buttonNavigationProps,
       showReportProblem: shouldShowReportProblem(stepId),
