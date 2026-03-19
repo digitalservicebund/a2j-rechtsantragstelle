@@ -8,7 +8,7 @@ export const StrapiInputComponentSchema = z
   .object({
     name: z.string(),
     label: StrapiStringOptionalSchema,
-    type: z.enum(["text", "number", "iban"]),
+    type: z.enum(["text", "number"]),
     placeholder: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
