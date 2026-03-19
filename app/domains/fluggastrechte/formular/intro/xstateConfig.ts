@@ -14,13 +14,10 @@ export const introXstateConfig = {
   states: {
     [steps.intro.relative]: {
       on: {
-        SUBMIT: [
-          {
-            target: steps.grundvoraussetzungenStreitbeilegung.absolute,
-            guards: () => showFGROnlineVerfahren,
-          },
-          steps.grundvoraussetzungenDatenverarbeitung.absolute,
-        ],
+        SUBMIT: showFGROnlineVerfahren
+          ? steps.grundvoraussetzungenStreitbeilegung.absolute
+          : steps.grundvoraussetzungenDatenverarbeitung.absolute,
+
         BACK: steps.redirectVorabcheckErgebnis.relative,
       },
     },

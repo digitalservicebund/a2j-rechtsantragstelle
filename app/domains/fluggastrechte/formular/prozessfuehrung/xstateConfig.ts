@@ -23,13 +23,9 @@ export const prozessfuehrungXstateConfig = {
           },
           steps.weiterePersonenFrage.absolute,
         ],
-        SUBMIT: [
-          {
-            guard: () => showFGROnlineVerfahren,
-            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
-          },
-          steps.prozessfuehrungVideoverhandlung.relative,
-        ],
+        SUBMIT: showFGROnlineVerfahren
+          ? steps.prozessfuehrungMuendlicheVerhandlung.relative
+          : steps.prozessfuehrungVideoverhandlung.relative,
       },
     },
     [steps.prozessfuehrungMuendlicheVerhandlung.relative]: {
@@ -41,13 +37,9 @@ export const prozessfuehrungXstateConfig = {
     [steps.prozessfuehrungVideoverhandlung.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungVersaeumnisurteil.relative,
-        BACK: [
-          {
-            guard: () => showFGROnlineVerfahren,
-            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
-          },
-          steps.prozessfuehrungZeugen.relative,
-        ],
+        BACK: showFGROnlineVerfahren
+          ? steps.prozessfuehrungMuendlicheVerhandlung.relative
+          : steps.prozessfuehrungZeugen.relative,
       },
     },
     [steps.prozessfuehrungVersaeumnisurteil.relative]: {

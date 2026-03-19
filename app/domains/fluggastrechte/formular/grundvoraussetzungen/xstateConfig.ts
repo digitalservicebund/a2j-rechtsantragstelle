@@ -15,13 +15,9 @@ export const grundvoraussetzungenXstateConfig = {
   initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
     [steps.grundvoraussetzungenDatenverarbeitung.relative]: {
-      always: [
-        {
-          guard: () => showFGROnlineVerfahren,
-          target: steps.grundvoraussetzungenStreitbeilegung.relative,
-        },
-        steps.grundvoraussetzungenDatenverarbeitung.relative,
-      ],
+      always: showFGROnlineVerfahren
+        ? steps.grundvoraussetzungenStreitbeilegung.relative
+        : steps.grundvoraussetzungenDatenverarbeitung.relative,
       on: {
         SUBMIT: steps.grundvoraussetzungenStreitbeilegung.relative,
         BACK: steps.intro.absolute,
@@ -36,13 +32,9 @@ export const grundvoraussetzungenXstateConfig = {
           },
           steps.grundvorraussetzungenProzessfaehig.relative,
         ],
-        BACK: [
-          {
-            target: steps.intro.absolute,
-            guard: () => showFGROnlineVerfahren,
-          },
-          steps.grundvoraussetzungenDatenverarbeitung.relative,
-        ],
+        BACK: showFGROnlineVerfahren
+          ? steps.intro.absolute
+          : steps.grundvoraussetzungenDatenverarbeitung.relative,
       },
     },
     [steps.grundvoraussetzungenStreitbeilegungGruende.relative]: {
