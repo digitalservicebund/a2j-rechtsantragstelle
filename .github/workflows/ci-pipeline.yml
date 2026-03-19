@@ -199,7 +199,7 @@ jobs:
     concurrency: deploy-preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
+        uses: digitalservicebund/argocd-deploy@19708d480aa35161125e04e2e5147bec1a9322ad # auth-token branch, v1.0.0
         with:
           environment: environments/preview
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -263,7 +263,7 @@ jobs:
     concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
+        uses: digitalservicebund/argocd-deploy@19708d480aa35161125e04e2e5147bec1a9322ad # auth-token branch, v1.0.0
         with:
           environment: environments/staging
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -329,7 +329,7 @@ jobs:
     concurrency: deploy-production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
+        uses: digitalservicebund/argocd-deploy@19708d480aa35161125e04e2e5147bec1a9322ad # auth-token branch, v1.0.0
         with:
           environment: environments/production
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
