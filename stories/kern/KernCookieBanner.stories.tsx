@@ -1,5 +1,5 @@
 import { KernCookieBanner } from "~/components/kern/KernCookieBanner";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 import { Grid } from "~/components/layout/grid/Grid";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import { GridItem } from "~/components/layout/grid/GridItem";

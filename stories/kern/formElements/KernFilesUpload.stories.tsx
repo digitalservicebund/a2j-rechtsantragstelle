@@ -6,7 +6,7 @@ import {
   type PDFFileMetadata,
   TEN_MB_IN_BYTES,
 } from "~/services/validation/pdfFileSchema";
-import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
+import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 
 const meta = {
