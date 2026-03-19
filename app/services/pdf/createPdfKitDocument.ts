@@ -13,10 +13,10 @@ export const PDF_WIDTH_SEIZE = 460;
 export const LINE_GAP_GLOBAL = 2;
 
 const bundesSansDTPRegularPath = await readRelativeFileToBuffer(
-  "app/services/pdf/fonts/BundesSans-DTP-Regular.otf",
+  "data/pdf/fonts/BundesSans-DTP-Regular.otf",
 );
 const bundesSansDTPBoldPath = await readRelativeFileToBuffer(
-  "app/services/pdf/fonts/BundesSans-DTP-Bold.otf",
+  "data/pdf/fonts/BundesSans-DTP-Bold.otf",
 );
 
 export const createPdfKitDocument = () => {

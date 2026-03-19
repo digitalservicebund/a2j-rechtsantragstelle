@@ -17,7 +17,6 @@ WORKDIR /a2j-app
 COPY --link --from=app-base /a2j/node_modules ./node_modules/
 # The folder build is generated during the ci pipeline and saves in the artifacts. To run the docker image locally, you need to run `pnpm run build` first.
 COPY ./build ./build/
-COPY ./app/services ./app/services/
 COPY ./data ./data/
 COPY ./public ./public/
 COPY ./server.mjs package.json ./

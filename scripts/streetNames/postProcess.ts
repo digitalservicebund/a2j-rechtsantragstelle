@@ -15,16 +15,13 @@ export type StreetData = {
 // \p{N}  -> Any numeric character
 // /u     -> Enables Unicode mode (required for \p{})
 const validStreetNameRegex = /^[\p{L}\p{N}]/u;
-const INPUT_RELATIVE = "./streets.updated.csv";
-const OUTPUT_RELATIVE = "../../data/streetNames.sqlite";
-const outputPath = path.join(__dirname, OUTPUT_RELATIVE);
-const inputPath = path.join(__dirname, INPUT_RELATIVE);
+const outputPath = path.join(process.cwd(), "/data/streetNames.sqlite");
 
 type Row = Record<string, any>;
 const getTrimmedEntryOrNull = (row: Row, fieldName: string) =>
   typeof row[fieldName] === "string" ? row[fieldName].trim() : null;
 
-export function buildStreetNamesDb() {
+export function buildStreetNamesDb(inputPath: string) {
   console.log(`Building sqlite db from ${inputPath}`);
   const db = new DatabaseSync(outputPath);
 
@@ -94,5 +91,3 @@ export function buildStreetNamesDb() {
       console.timeEnd("Build time");
     });
 }
-
-buildStreetNamesDb();
