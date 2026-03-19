@@ -1,11 +1,18 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
-import type { FluggastrechteProzessfuehrungUserData } from "~/domains/fluggastrechte/formular/prozessfuehrung/userData";
+import type { FluggastrechteUserData } from "../../userData";
+
 export const testCasesFluggastrechteFormularProzessfuehrung = [
   [
     {
       hasZeugen: "yes",
       versaeumnisurteil: "yes",
       videoverhandlung: "yes",
+      pageData: {
+        subflowDoneStates: {
+          "/prozessfuehrung": true,
+        },
+        arrayIndexes: [],
+      },
     },
     [
       "/prozessfuehrung/zeugen",
@@ -16,4 +23,4 @@ export const testCasesFluggastrechteFormularProzessfuehrung = [
       "/abgabe/start",
     ],
   ],
-] as const satisfies TestCases<FluggastrechteProzessfuehrungUserData>;
+] as const satisfies TestCases<FluggastrechteUserData>;
