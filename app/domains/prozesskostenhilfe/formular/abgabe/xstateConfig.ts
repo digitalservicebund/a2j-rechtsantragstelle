@@ -6,6 +6,7 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fileUploadRelevant, readyForAbgabe } from "./guards";
 
 const showFileUpload = Boolean(await isFeatureFlagEnabled("showFileUpload"));
+const showAutoSummary = Boolean(await isFeatureFlagEnabled("showAutoSummary"));
 const steps = xStateTargetsFromPagesConfig(pkhFormularAbgabePages);
 
 const weitereAngabenId = "#weitere-angaben";
@@ -28,26 +29,49 @@ export const abgabeXstateConfig = {
         },
         {
           guard: readyForAbgabe,
-          target: steps.ende.relative,
+          target: showAutoSummary
+            ? steps.zusammenfassung.relative
+            : steps.ende.relative,
         },
       ],
     },
     [steps.dokumente.relative]: {
       on: {
         BACK: weitereAngabenId,
-        SUBMIT: steps.ende.relative,
+        SUBMIT: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : steps.ende.relative,
       },
     },
+
+    ...(showAutoSummary && {
+      [steps.zusammenfassung.relative]: {
+        on: {
+          BACK: [
+            {
+              guard: ({ context }) =>
+                showFileUpload && fileUploadRelevant({ context }),
+              target: steps.dokumente.relative,
+            },
+            weitereAngabenId,
+          ],
+          SUBMIT: steps.ende.relative,
+        },
+      },
+    }),
+
     [steps.ende.relative]: {
       on: {
-        BACK: [
-          {
-            guard: ({ context }) =>
-              showFileUpload && fileUploadRelevant({ context }),
-            target: steps.dokumente.relative,
-          },
-          weitereAngabenId,
-        ],
+        BACK: showAutoSummary
+          ? steps.zusammenfassung.relative
+          : [
+              {
+                guard: ({ context }) =>
+                  showFileUpload && fileUploadRelevant({ context }),
+                target: steps.dokumente.relative,
+              },
+              weitereAngabenId,
+            ],
       },
     },
   },

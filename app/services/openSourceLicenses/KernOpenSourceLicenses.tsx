@@ -8,23 +8,31 @@ type Dependency = {
 
 const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (
-    <li key={dependencyString} className="flex">
+    <li key={dependencyString}>
       {infos.repository ? (
         <a
-          className="kern-link min-h-[24px] no-underline! p-0!"
+          className="kern-link inline-block! no-underline! p-0!"
           href={infos.repository}
         >
-          <KernIcon name="open-in-new" className="w-[1.2em] h-[1.2em]" />
+          <KernIcon name="open-in-new" className="inline! mr-4" />
           {dependencyString}
         </a>
       ) : (
         dependencyString
       )}
 
-      {infos.publisher && <span className="ml-4">by {infos.publisher}</span>}
-      {infos.licenses &&
-        infos.licenses.length > 0 &&
-        ` - License: ${Array.isArray(infos.licenses) ? infos.licenses.join(", ") : infos.licenses}`}
+      {infos.publisher && (
+        <span className="ml-4 kern-body"> by {infos.publisher}</span>
+      )}
+      {infos.licenses && infos.licenses.length > 0 && (
+        <span className="kern-body">
+          {" "}
+          - License:{" "}
+          {Array.isArray(infos.licenses)
+            ? infos.licenses.join(", ")
+            : infos.licenses}
+        </span>
+      )}
     </li>
   );
 };

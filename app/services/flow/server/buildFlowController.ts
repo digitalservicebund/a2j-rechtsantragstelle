@@ -20,7 +20,11 @@ import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
 import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
 
-function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
+function getInitialSubState(
+  machine: FlowStateMachine,
+  stepId: string,
+  reachableSteps: string[],
+): string {
   const startNode = machine.getStateNodeById(stepId);
 
   // oxlint-disable-next-line consistent-function-scoping
@@ -31,7 +35,18 @@ function getInitialSubState(machine: FlowStateMachine, stepId: string): string {
 
   const leaf = dive(startNode);
 
-  return "/" + leaf.path.join("/");
+  const pathByAlways = leaf?.always
+    ?.find((val) => {
+      const targetPaths = val.target?.at(0)?.path ?? [];
+      return reachableSteps.includes(
+        stateValueToStepIds(pathToStateValue(targetPaths))[0],
+      );
+    })
+    ?.target?.at(0)?.path;
+
+  const pathStep = pathByAlways ?? leaf.path;
+
+  return "/" + pathStep.join("/");
 }
 
 const getSteps = (machine: FlowStateMachine) => {
@@ -273,7 +288,7 @@ export const buildFlowController = ({
       return { max: total, progress: progressLookup[currentStepId] };
     },
     getInitialSubState: (stepId: string) => {
-      return `${flowId}${getInitialSubState(machine, stepId) ?? ""}`;
+      return `${flowId}${getInitialSubState(machine, stepId, reachableSteps) ?? ""}`;
     },
   };
 };

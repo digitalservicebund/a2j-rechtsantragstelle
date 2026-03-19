@@ -1,9 +1,10 @@
 import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
-import { addAdvanceCourtAndPlaintiffName } from "./addAdvanceCourtAndPlaintiffName";
+import { addAdvanceCourtText } from "./addAdvanceCourtText";
 import { addRechtlicheWuerdigung } from "./addRechtlicheWuerdigung";
 import { addDisputeResolution } from "./addDisputeResolution";
+import { addSignature } from "./addSignature";
 
 const getLegalAssessmentTitle = (hasEvidencesOnFacts: boolean) =>
   `${hasEvidencesOnFacts ? "III" : "II"}. Rechtliche Würdigung`;
@@ -32,10 +33,7 @@ export const createLegalAssessment = (
 
   addDisputeResolution(doc, legalAssessmentSect, userData);
 
-  addAdvanceCourtAndPlaintiffName(
-    doc,
-    reasonSect,
-    legalAssessmentSect,
-    userData,
-  );
+  addAdvanceCourtText(doc, legalAssessmentSect, userData);
+
+  addSignature(doc, reasonSect, userData);
 };

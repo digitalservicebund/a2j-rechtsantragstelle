@@ -53,7 +53,6 @@ export const WithImageAndTag: StoryObj<typeof meta> = {
         value: "value3",
         description: "Some random description",
         title: "Some random title",
-        tagDescription: "Tag description",
       },
     ],
     useTwoColumns: false,

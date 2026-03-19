@@ -30,23 +30,11 @@ export const footerContent: FooterContent[] = [
   {
     key: "datenschutzerklaerungen",
     type: ["internalLink"],
-    sectionName: "Datenschutzerklärungen",
+    sectionName: "Datenschutz",
     content: [
       {
-        text: "service.justiz.de Datenschutz",
-        url: "/datenschutz",
-      },
-      {
-        text: "Beratungshilfe Datenschutz",
-        url: "/beratungshilfe/datenschutz",
-      },
-      {
-        text: "Prozesskostenhilfe Datenschutz",
-        url: "/prozesskostenhilfe/datenschutz",
-      },
-      {
-        text: "Fluggastrechte Datenschutz",
-        url: "/fluggastrechte/datenschutz",
+        text: "Datenschutzerklärung",
+        url: "/datenschutzerklaerung",
       },
     ],
   },

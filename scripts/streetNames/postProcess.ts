@@ -1,62 +1,93 @@
 // oxlint-disable no-console
-import fs from "node:fs";
-import path from "node:path";
 import { parseFile } from "@fast-csv/parse";
+import { DatabaseSync } from "node:sqlite";
+import path from "node:path";
 
-// Input: csv with Name,PostalCode,Locality,RegionalKey,Borough,Suburb
-// Output: Record<string, Array<{name: string, locality: string}>>
-
-type StreetData = {
+export type StreetData = {
+  postalCode: string;
   name: string;
-  locality: string;
+  city: string;
 };
 
-const OUTPUT_JSON_RELATIVE = "../../data/streetNames.json";
-const outputJsonPath = path.join(__dirname, OUTPUT_JSON_RELATIVE);
+// We want to drop any row, where the streetName doesn't start with a letter or number
+// ^      -> Start of string
+// \p{L}  -> Any letter from any language (includes Ä, ß, Ć, İ, Š, etc.)
+// \p{N}  -> Any numeric character
+// /u     -> Enables Unicode mode (required for \p{})
+const validStreetNameRegex = /^[\p{L}\p{N}]/u;
+const outputPath = path.join(process.cwd(), "/data/streetNames.sqlite");
 
-export async function generateStreetNamesJson(
-  inputFilePath: string,
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const result: Record<string, StreetData[]> = {};
-    const seenSignatures = new Set<string>();
+type Row = Record<string, any>;
+const getTrimmedEntryOrNull = (row: Row, fieldName: string) =>
+  typeof row[fieldName] === "string" ? row[fieldName].trim() : null;
 
-    console.log("Parsing CSV and building grouped data...");
-    console.time("Build Time");
+export function buildStreetNamesDb(inputPath: string) {
+  console.log(`Building sqlite db from ${inputPath}`);
+  const db = new DatabaseSync(outputPath);
 
-    parseFile(inputFilePath, { headers: true })
-      .on("error", (error) => reject(error))
-      .on("data", (row) => {
-        const postalCode = (row.PostalCode ?? "").trim();
-        if (!postalCode) return;
-        const rawName = row.Name ?? "";
-        const locality = (row.Locality ?? "").trim();
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS streets (
+      postalCode TEXT NOT NULL,
+      name TEXT NOT NULL,
+      city TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_postalCode ON streets(postalCode);
+  `);
 
-        const cleanName = rawName.replace(/(^"+|"+$)/g, "").trim();
-        const uniqueSignature = `${postalCode}|${cleanName}|${locality}`;
-        if (seenSignatures.has(uniqueSignature)) {
-          return;
-        }
-        seenSignatures.add(uniqueSignature);
+  const insertStmt = db.prepare(
+    `INSERT INTO streets (postalCode, name, city) VALUES (?, ?, ?)`,
+  );
 
-        if (!result[postalCode]) result[postalCode] = [];
-        result[postalCode].push({ name: cleanName, locality });
-      })
-      .on("end", (rowCount: number) => {
-        console.timeEnd("Build Time");
-        console.log(`Parsed ${rowCount} rows.`);
-        console.log(
-          `Extracted ${Object.keys(result).length} unique postal codes.`,
-        );
+  db.exec("BEGIN TRANSACTION");
 
-        console.log(`Writing JSON to ${OUTPUT_JSON_RELATIVE}...`);
-        try {
-          fs.writeFileSync(outputJsonPath, JSON.stringify(result));
-          console.log("✅ JSON file successfully created!");
-          resolve();
-        } catch (writeError) {
-          reject(writeError);
-        }
-      });
-  });
+  let parsedCount = 0;
+  let insertedCount = 0;
+  let skippedInvalidStreetNameCount = 0;
+  let skippedDuplicates = 0;
+  const seenRows = new Set<string>();
+  console.log("Beginning parsing (this might take ~20s)...");
+  console.time("Build time");
+
+  parseFile(inputPath, { headers: true })
+    .on("error", (error) => {
+      db.exec("ROLLBACK");
+      console.error("CSV Parsing Error:", error);
+    })
+    .on("data", (row: Row) => {
+      parsedCount++;
+      const name = getTrimmedEntryOrNull(row, "Name");
+      const postalCode = getTrimmedEntryOrNull(row, "PostalCode");
+      const city = getTrimmedEntryOrNull(row, "Locality");
+
+      // Skip row if missing data or invalid streetName
+      if (!name || !postalCode || !city) return;
+      if (!validStreetNameRegex.test(name)) {
+        skippedInvalidStreetNameCount++;
+        return;
+      }
+
+      const rowFingerprint = `${postalCode}|${name}`;
+      if (seenRows.has(rowFingerprint)) {
+        skippedDuplicates++;
+        return;
+      }
+      seenRows.add(rowFingerprint);
+
+      insertStmt.run(postalCode, name, city);
+      insertedCount++;
+    })
+    .on("end", () => {
+      console.log("Committing...");
+      db.exec("COMMIT");
+      db.close();
+
+      console.log("--- Build Complete ---");
+      console.log(`Total rows parsed:   ${parsedCount}`);
+      console.log(`Rows inserted:       ${insertedCount}`);
+      console.log(
+        `Skipped (invalid street name): ${skippedInvalidStreetNameCount}`,
+      );
+      console.log(`Skipped (duplicates): ${skippedDuplicates}`);
+      console.timeEnd("Build time");
+    });
 }

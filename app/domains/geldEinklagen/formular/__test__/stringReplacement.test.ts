@@ -9,6 +9,7 @@ import {
   getCourtCost,
   hasStreitbeilegungGruende,
   hasBeweiseAngebot,
+  hasAnwaltschaft,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -311,6 +312,26 @@ describe("stringReplacement", () => {
       const actual = hasBeweiseAngebot({ beweiseAngebot: undefined });
 
       expect(actual.hasBeweiseAngebot).toBe(false);
+    });
+  });
+
+  describe("hasAnwaltschaft", () => {
+    it("should return true if anwaltschaft is yes", () => {
+      const actual = hasAnwaltschaft({ anwaltschaft: "yes" });
+
+      expect(actual.hasAnwaltschaft).toBe(true);
+    });
+
+    it("should return false if anwaltschaft is no", () => {
+      const actual = hasAnwaltschaft({ anwaltschaft: "no" });
+
+      expect(actual.hasAnwaltschaft).toBe(false);
+    });
+
+    it("should return false if anwaltschaft is undefined", () => {
+      const actual = hasAnwaltschaft({ anwaltschaft: undefined });
+
+      expect(actual.hasAnwaltschaft).toBe(false);
     });
   });
 });

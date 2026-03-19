@@ -2,9 +2,54 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addNegotiationText } from "../addNegotiationText";
+import { addNegotiationText } from "~/domains/geldEinklagen/services/pdf/sections/firstPage/claimData/addNegotiationText";
 
 describe("addNegotiationText", () => {
+  it('should show title "Mündliche Verhandlung" when muendlicheVerhandlung content is visible', () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "noSpecification", "no", "yes", mockStruct);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Mündliche Verhandlung:");
+  });
+
+  it('should show title "Mündliche Verhandlung" when videoVerhandlung content is visible', () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "yes", "no", "no", mockStruct);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Mündliche Verhandlung:");
+  });
+
+  it('should not show title "Mündliche Verhandlung" when no oral or video content is visible', () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "noSpecification", "no", "no", mockStruct);
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith("Mündliche Verhandlung");
+  });
+
+  it('should show title "Versäumnisurteil" when versaeumnisurteil is yes', () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "noSpecification", "yes", "no", mockStruct);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Versäumnisurteil:");
+  });
+
+  it('should not show title "Versäumnisurteil" when versaeumnisurteil is no', () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addNegotiationText(mockDoc, "yes", "no", "no", mockStruct);
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith("Versäumnisurteil:");
+  });
+
   it("should add oral negotiation text section if muendlicheVerhandlung is yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
@@ -64,7 +109,7 @@ describe("addNegotiationText", () => {
     );
   });
 
-  it("should add an empty row after video negotiation text when default judgment text follows", () => {
+  it("should add an empty row between negotiation and default judgment sections", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
