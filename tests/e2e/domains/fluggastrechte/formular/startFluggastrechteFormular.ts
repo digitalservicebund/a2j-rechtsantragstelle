@@ -118,7 +118,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/prozessfuehrung/zeugen
   await formular.fillRadioPage("hasZeugen", "no");
 
-  // /fluggastrechte/formular/streitwert-kosten/videoverhandlung
+  // /fluggastrechte/formular/prozessfuehrung/muendliche-verhandlung
+  await formular.fillRadioPage("muendlicheVerhandlung", "yes");
+
+  // /fluggastrechte/formular/prozessfuehrung/videoverhandlung
   await formular.fillRadioPage("videoverhandlung", "yes");
 
   // /fluggastrechte/formular/prozessfuehrung/versaeumnisurteil
