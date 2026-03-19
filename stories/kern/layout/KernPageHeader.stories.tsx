@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernPageHeader from "~/components/kern/layout/KernPageHeader";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
   title: "kern/layout/KernPageHeader",
