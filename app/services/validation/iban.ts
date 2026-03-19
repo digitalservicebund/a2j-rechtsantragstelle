@@ -6,10 +6,13 @@ const isIbanCheck: typeof isIBAN = isIBAN.default ?? isIBAN;
 
 export const ibanZodDescription = "iban";
 
+export type ZodIban = typeof ibanSchema;
+
 export const ibanSchema = z
-  .string()
-  .toUpperCase()
-  .transform((ibanInput) => ibanInput.replaceAll(" ", ""))
+  .codec(z.string(), z.string(), {
+    decode: (iban) => iban.replaceAll(" ", "").toLocaleUpperCase(),
+    encode: (iban) => formatIban(iban),
+  })
   .refine(isIbanCheck, { message: "invalid_iban_format" })
   .describe(ibanZodDescription);
 
