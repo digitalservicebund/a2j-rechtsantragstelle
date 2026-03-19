@@ -13,6 +13,7 @@ describe("getNestedSchema", () => {
     innerSchema.or(z.number()),
     z.union([innerSchema, z.number(), z.boolean()]),
     schemaOrEmptyString(innerSchema),
+    z.array(innerSchema),
   ];
   outerSchemas.forEach((outerSchema) => {
     it(`should unwrap ${outerSchema.def.type}`, () => {

@@ -63,7 +63,7 @@ export const getContentData = (
         .filter((value) => value.__component === "page.array-summary")
         .map((arraySummary) => arraySummary.category);
       const relevantPageSchemas = pick(
-        getAllPageSchemaByFlowId(flowController.getConfig().id as FlowId),
+        getAllPageSchemaByFlowId(flowController.getConfig()?.id as FlowId),
         arrayCategories,
       );
 

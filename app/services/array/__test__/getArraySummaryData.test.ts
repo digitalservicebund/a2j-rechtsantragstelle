@@ -1,8 +1,10 @@
+import z from "zod";
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import { ibanSchema } from "~/services/validation/iban";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
-    const summaryData = getArraySummaryData([], undefined, {}, []);
+    const summaryData = getArraySummaryData([], undefined, {}, [], {});
     expect(summaryData).toBeUndefined();
   });
 
@@ -35,6 +37,10 @@ describe("getArraySummaryData", () => {
           kraftfahrzeuge: [{ hasArbeitsweg: "no", wert: "under10000" }],
         },
         [],
+        {
+          bankkonten: z.array(z.object({})),
+          kraftfahrzeuge: z.array(z.object({})),
+        },
       ),
     ).toEqual({
       bankkonten: {
@@ -66,6 +72,10 @@ describe("getArraySummaryData", () => {
         },
         { hasBankkonto: "no" },
         [],
+        {
+          bankkonten: z.array(z.object({})),
+          kraftfahrzeuge: z.array(z.object({})),
+        },
       ),
     ).toEqual({});
   });
@@ -78,6 +88,9 @@ describe("getArraySummaryData", () => {
         hasBankkonto: "yes",
       },
       [],
+      {
+        bankkonten: z.array(z.object({})),
+      },
     );
 
     expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
@@ -96,6 +109,9 @@ describe("getArraySummaryData", () => {
         hasBankkonto: "yes",
       },
       [],
+      {
+        bankkonten: z.array(z.object({})),
+      },
     );
 
     expect(actual?.bankkonten?.configuration.disableAddButton).toBe(false);
@@ -114,6 +130,9 @@ describe("getArraySummaryData", () => {
         hasBankkonto: "yes",
       },
       [],
+      {
+        bankkonten: z.array(z.object({})),
+      },
     );
 
     expect(actual?.bankkonten?.configuration.disableAddButton).toBe(true);
@@ -156,6 +175,9 @@ describe("getArraySummaryData", () => {
           id: 0,
         },
       ],
+      {
+        bankkonten: z.array(z.object({})),
+      },
     );
 
     expect(actual).toEqual({
@@ -182,6 +204,47 @@ describe("getArraySummaryData", () => {
           name: "Name des Bankkontos",
           kontonummer: "Kontonummer",
         },
+      },
+    });
+  });
+
+  it("should process special display fields, leaving other fields unmodified", () => {
+    expect(
+      getArraySummaryData(
+        ["bankkonten", "kraftfahrzeuge"],
+        { bankkonten: bankkontenArrayConfig, kraftfahrzeuge: kfzArrayConfig },
+        {
+          hasBankkonto: "yes",
+          hasKraftfahrzeug: "yes",
+          bankkonten: [
+            {
+              iban: "DE02100100100006820101",
+            },
+          ],
+          kraftfahrzeuge: [{ hasArbeitsweg: "no", wert: "under10000" }],
+        },
+        [],
+        {
+          bankkonten: z.array(
+            z.object({
+              iban: ibanSchema,
+            }),
+          ),
+          kraftfahrzeuge: z.array(z.object({})),
+        },
+      ),
+    ).toEqual({
+      bankkonten: {
+        data: [{ iban: "DE02 1001 0010 0006 8201 01" }],
+        configuration: { ...bankkontenArrayConfig, disableAddButton: false },
+        itemLabels: {},
+        buttonLabel: "",
+      },
+      kraftfahrzeuge: {
+        data: [{ hasArbeitsweg: "no", wert: "under10000" }],
+        configuration: { ...kfzArrayConfig, disableAddButton: false },
+        itemLabels: {},
+        buttonLabel: "",
       },
     });
   });

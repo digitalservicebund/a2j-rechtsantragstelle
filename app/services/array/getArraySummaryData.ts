@@ -1,9 +1,16 @@
 import { type HeadingProps } from "~/components/common/Heading";
-import type { ArrayData, SchemaObject, UserData } from "~/domains/userData";
+import type {
+  ArrayData,
+  BasicTypes,
+  SchemaObject,
+  UserData,
+} from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 import { type StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
-import { ZodObject, type ZodType, type ZodArray, type ZodSchema } from "zod";
-import { ibanZodDescription, type ZodIban } from "~/services/validation/iban";
+import { type ZodType } from "zod";
+import { ibanZodDescription } from "~/services/validation/iban";
+import { isZodObject } from "~/components/formElements/schemaToForm/renderZodObject";
+import { getNestedSchema } from "~/components/formElements/schemaToForm/getNestedSchema";
 
 export type ItemLabels = Record<string, string>;
 
@@ -22,24 +29,22 @@ export type ArraySummaryData =
     >
   | undefined;
 
-function handleSpecialFieldDisplay(
+const specialFieldsToEncode = new Set([ibanZodDescription]);
+
+function processSpecialDisplayFields(
   inputArray: ArrayData,
-  arraySchema: ZodArray,
+  arraySchema: SchemaObject[string],
 ): ArrayData {
-  const innerSchema = arraySchema.unwrap();
+  const innerSchema = getNestedSchema(arraySchema);
   let encodedData = inputArray;
-  if (
-    innerSchema instanceof ZodObject &&
-    Object.values(innerSchema.shape).some(
-      (schema: ZodSchema) => schema.meta()?.description === ibanZodDescription,
-    )
-  ) {
+  if (isZodObject(innerSchema)) {
     Object.entries(innerSchema.shape).forEach(
       ([fieldName, schema]: [string, ZodType]) => {
-        if (schema.meta()?.description === ibanZodDescription) {
+        const fieldDescription = schema.meta()?.description;
+        if (fieldDescription && specialFieldsToEncode.has(fieldDescription)) {
           encodedData = encodedData.map((item) => ({
             ...item,
-            [fieldName]: (schema as ZodIban).encode(item[fieldName] as string),
+            [fieldName]: schema.encode(item[fieldName]) as BasicTypes,
           }));
         }
       },
@@ -72,9 +77,9 @@ export function getArraySummaryData(
           arrayConfiguration.shouldDisableAddButton?.(userData) ?? false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray)
-          ? handleSpecialFieldDisplay(
+          ? processSpecialDisplayFields(
               possibleArray,
-              relevantPageSchemas[category] as ZodArray,
+              relevantPageSchemas[category],
             )
           : [];
 
