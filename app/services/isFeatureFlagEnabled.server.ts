@@ -12,6 +12,7 @@ const localFeatureFlags = {
   showErbscheinWegweiser: false,
   showErbscheinNachlassgericht: false,
   showNachbefragung: false,
+  showFGROnlineVerfahren: true,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
