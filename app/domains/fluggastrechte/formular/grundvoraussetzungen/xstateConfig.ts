@@ -2,6 +2,11 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import type { Config } from "~/services/flow/server/types";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+
+const showFGROnlineVerfahren = Boolean(
+  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
+);
 
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
@@ -10,6 +15,13 @@ export const grundvoraussetzungenXstateConfig = {
   initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
     [steps.grundvoraussetzungenDatenverarbeitung.relative]: {
+      always: [
+        {
+          guard: () => showFGROnlineVerfahren,
+          target: steps.grundvoraussetzungenStreitbeilegung.relative,
+        },
+        steps.grundvoraussetzungenDatenverarbeitung.relative,
+      ],
       on: {
         SUBMIT: steps.grundvoraussetzungenStreitbeilegung.relative,
         BACK: steps.intro.absolute,
@@ -24,7 +36,13 @@ export const grundvoraussetzungenXstateConfig = {
           },
           steps.grundvorraussetzungenProzessfaehig.relative,
         ],
-        BACK: steps.grundvoraussetzungenDatenverarbeitung.relative,
+        BACK: [
+          {
+            target: steps.intro.absolute,
+            guard: () => showFGROnlineVerfahren,
+          },
+          steps.grundvoraussetzungenDatenverarbeitung.relative,
+        ],
       },
     },
     [steps.grundvoraussetzungenStreitbeilegungGruende.relative]: {

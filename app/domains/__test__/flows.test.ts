@@ -46,7 +46,7 @@ function getEnabledSteps({
  */
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
-  isFeatureFlagEnabled: vi.fn().mockResolvedValue(false),
+  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
 }));
 
 const ignoreVisitedSteps = new Set([
