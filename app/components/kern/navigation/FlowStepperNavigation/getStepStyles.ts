@@ -27,8 +27,8 @@ export function getStepStyles(state: NavState) {
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
       {
-        "bg-kern-action-default text-white":
-          stateIsCurrent(state) || stateIsDone(state),
+        "bg-kern-action-default text-white": stateIsCurrent(state),
+        "bg-white": stateIsDone(state),
         "bg-kern-neutral-400 text-white": stateIsDisabled(state),
       },
     ),
