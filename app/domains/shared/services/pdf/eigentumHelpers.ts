@@ -15,6 +15,7 @@ import type {
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type { Eigentumer } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
+import { formatIban } from "~/services/validation/iban";
 
 const befristungMapping = {
   lifeInsurance: "Lebensversicherung",
@@ -298,8 +299,8 @@ export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
     description += `, Bezeichnung: ${geldanlage.kontoBezeichnung}`;
   if ("kontoBankName" in geldanlage)
     description += `, Name der Bank: ${geldanlage.kontoBankName}`;
-  if ("kontoIban" in geldanlage)
-    description += `, IBAN: ${geldanlage.kontoIban}`;
+  if ("kontoIban" in geldanlage && geldanlage.kontoIban)
+    description += `, IBAN: ${formatIban(geldanlage.kontoIban)}`;
   return description;
 }
 
