@@ -25,10 +25,10 @@ importers:
         version: 2.1.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
-        version: 2.0.0(@kern-ux/native@2.4.0)(tailwindcss@4.2.2)
+        version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.2.2)
       '@kern-ux/native':
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^2.5.0
+        version: 2.5.0
       '@node-saml/node-saml':
         specifier: github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916
         version: https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916
@@ -960,8 +960,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kern-ux/native@2.4.0':
-    resolution: {integrity: sha512-wZRRWidk7ZocPCB/2kXlFfOUyIsTQHXSqHSUlzbICorUkZ+9krrNZKLbuftUwv1Y/WUJSKHm0C4Gyzjka8YQtA==}
+  '@kern-ux/native@2.5.0':
+    resolution: {integrity: sha512-mKNasZH/zExMAqzEtFS+CjvZwn1AE/HsWe8bFN5sjxPM1F6p4f3eXA8HGZqQZQoUXgACPXNYq3DZGcsAt7wm6Q==}
 
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
@@ -5689,9 +5689,9 @@ snapshots:
 
   '@digitalservicebund/icons@2.1.0': {}
 
-  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.4.0)(tailwindcss@4.2.2)':
+  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.2.2)':
     dependencies:
-      '@kern-ux/native': 2.4.0
+      '@kern-ux/native': 2.5.0
       tailwindcss: 4.2.2
 
   '@emnapi/core@1.9.1':
@@ -5928,7 +5928,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kern-ux/native@2.4.0': {}
+  '@kern-ux/native@2.5.0': {}
 
   '@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.4)':
     dependencies:
