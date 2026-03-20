@@ -1,4 +1,4 @@
-import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
+import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
 import demoImage from "../../assets/Rechtliche_Unterstuetzung.svg?no-inline";
