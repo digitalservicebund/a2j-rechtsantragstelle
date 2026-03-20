@@ -181,7 +181,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "1000",
         "geldanlagen#kontoBankName": "N26",
-        "geldanlagen#kontoIban": "DE1234567890",
+        "geldanlagen#kontoIban": "DE34500105179381718236",
         "geldanlagen#kontoBezeichnung": "Persönlich",
       },
     },
