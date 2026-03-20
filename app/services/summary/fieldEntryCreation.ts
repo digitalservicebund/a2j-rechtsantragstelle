@@ -1,10 +1,16 @@
-import type { AllowedUserTypes, UserData } from "~/domains/userData";
+import type {
+  AllowedUserTypes,
+  SchemaObject,
+  UserData,
+} from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
+import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
+import { type FlowId } from "~/domains/flowIds";
 
 export function createFieldEntry(
   fieldName: string,
@@ -14,6 +20,7 @@ export function createFieldEntry(
     { question?: string; options?: Array<{ text: string; value: string }> }
   >,
   representativeStepId: string,
+  schema: SchemaObject[string],
 ): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
@@ -52,7 +59,7 @@ export function createFieldEntry(
   const answer =
     value == undefined || value === ""
       ? "Keine Angabe" // need to get this from CMS for translations
-      : formatFieldValue(value, fieldQuestion?.options);
+      : formatFieldValue(value, schema, fieldQuestion?.options);
 
   let editUrl: string | undefined = undefined;
   if (representativeStepId) {
@@ -80,12 +87,23 @@ export function processBoxFields(
     { question?: string; options?: Array<{ text: string; value: string }> }
   >,
   fieldToStepMapping: Record<string, string>,
-  flowId: string,
+  flowId: FlowId,
 ): FieldItem[] {
   return fields.map((fieldName) => {
     const stepId = findStepIdForField(fieldName, fieldToStepMapping);
     const fullStepId = stepId ? `${flowId}${stepId}` : "";
+    const pageConfig = getRelevantPageSchemasForStepId(flowId, stepId ?? "");
+    const pageSchemas = Object.entries(pageConfig).reduce(
+      (prev, [, item]) => ({ ...prev, ...item.pageSchema }),
+      {} as SchemaObject,
+    );
 
-    return createFieldEntry(fieldName, userData, fieldQuestions, fullStepId);
+    return createFieldEntry(
+      fieldName,
+      userData,
+      fieldQuestions,
+      fullStepId,
+      pageSchemas[fieldName],
+    );
   });
 }

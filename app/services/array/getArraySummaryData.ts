@@ -1,16 +1,16 @@
 import { type HeadingProps } from "~/components/common/Heading";
 import type {
+  AllowedUserTypes,
   ArrayData,
-  BasicTypes,
   SchemaObject,
   UserData,
 } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 import { type StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
 import { type ZodType } from "zod";
-import { ibanZodDescription } from "~/services/validation/iban";
 import { isZodObject } from "~/components/formElements/schemaToForm/renderZodObject";
 import { getNestedSchema } from "~/components/formElements/schemaToForm/getNestedSchema";
+import { processSpecialFieldDisplay } from "~/services/processSpecialFieldDisplay";
 
 export type ItemLabels = Record<string, string>;
 
@@ -29,27 +29,23 @@ export type ArraySummaryData =
     >
   | undefined;
 
-const specialFieldsToEncode = new Set([ibanZodDescription]);
-
-function processSpecialDisplayFields(
+function encodeSpecialFields(
   inputArray: ArrayData,
   arraySchema: SchemaObject[string],
 ): ArrayData {
   const innerSchema = getNestedSchema(arraySchema);
-  let encodedData = inputArray;
-  if (isZodObject(innerSchema)) {
-    Object.entries(innerSchema.shape).forEach(
-      ([fieldName, schema]: [string, ZodType]) => {
-        const fieldDescription = schema.meta()?.description;
-        if (fieldDescription && specialFieldsToEncode.has(fieldDescription)) {
-          encodedData = encodedData.map((item) => ({
-            ...item,
-            [fieldName]: schema.encode(item[fieldName]) as BasicTypes,
-          }));
-        }
-      },
-    );
+  if (!isZodObject(innerSchema)) {
+    return inputArray;
   }
+  let encodedData = inputArray;
+  Object.entries(innerSchema.shape).forEach(
+    ([fieldName, schema]: [string, ZodType<AllowedUserTypes>]) => {
+      encodedData = encodedData.map((item) => ({
+        ...item,
+        [fieldName]: processSpecialFieldDisplay(item[fieldName], schema),
+      }));
+    },
+  );
   return encodedData;
 }
 
@@ -77,10 +73,7 @@ export function getArraySummaryData(
           arrayConfiguration.shouldDisableAddButton?.(userData) ?? false;
         const possibleArray = userData[category];
         const data = Array.isArray(possibleArray)
-          ? processSpecialDisplayFields(
-              possibleArray,
-              relevantPageSchemas[category],
-            )
+          ? encodeSpecialFields(possibleArray, relevantPageSchemas[category])
           : [];
 
         const arraySummaryCategoryContent = content
