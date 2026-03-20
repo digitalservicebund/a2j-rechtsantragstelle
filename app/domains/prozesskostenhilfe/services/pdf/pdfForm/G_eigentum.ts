@@ -16,6 +16,7 @@ import {
   type AttachmentEntries,
 } from "~/services/pdf/attachment";
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
+import { formatIban } from "~/services/validation/iban";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
@@ -31,7 +32,7 @@ export const fillBankkonto: PkhPdfFillFunction = ({ userData, pdfValues }) => {
     if (kontoDescription)
       pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, Bezeichnung: ${kontoDescription}`;
     if (iban)
-      pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, IBAN: ${iban}`;
+      pdfValues.artdesKontosKontoinhaberKreditinstitut.value += `, IBAN: ${formatIban(iban)}`;
 
     pdfValues.kontostand.value = kontostand + " €";
     return { pdfValues };
