@@ -55,6 +55,7 @@ export const KernExclusiveCheckboxes = ({
                   setCheckboxes,
                 )}
                 value={noneCheckboxValue}
+                hasError={hasError}
               />
             </div>
           ) : (
@@ -69,6 +70,7 @@ export const KernExclusiveCheckboxes = ({
                 setCheckboxes,
               )}
               {...checkbox}
+              hasError={hasError}
             />
           ),
         )}
