@@ -11,6 +11,12 @@ const baseContext: GeldEinklagenFormularUserData = {
   fuerWenKlagen: "selbst",
   sachgebiet: "versicherung",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+    arrayIndexes: [],
+  },
 };
 
 export const testCasesGerichtSuchenVersicherung = [

@@ -3,7 +3,6 @@ import type {
   TransitionConfigOrTarget,
   Config,
 } from "~/services/flow/server/types";
-import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import {
   shouldVisitPilotGerichtAuswahl,
@@ -12,28 +11,39 @@ import {
   shouldVisitGerichtSuchenPostleitzahlVerkehrsunfall,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "./guards";
-import { doneGerichtSuchen } from "./doneFunctions";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+import { type GenericGuard } from "~/domains/guards.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
-const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklagenFormularGerichtPruefenUserData> =
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
+
+const isGerichtSuchenDone: GeldEinklagenDaten = ({ context }) => {
+  return (
+    context.pageData?.subflowDoneStates?.["/gericht-pruefen/gericht-suchen"] ===
+    true
+  );
+};
+
+const submitButtonZustaendigesGerichtFlow: TransitionConfigOrTarget<GeldEinklagenFormularUserData> =
   [
     {
       guard: ({ context }) =>
-        getPilotCourts(context).length === 0 && doneGerichtSuchen({ context }),
+        getPilotCourts(context).length === 0 &&
+        isGerichtSuchenDone({ context }),
       target: "#zustaendiges-gericht.ergebnis/gericht-abbruch",
     },
     {
       guard: ({ context }) =>
         shouldVisitPilotGerichtAuswahl({ context }) &&
         getPilotCourts(context).length === 2 &&
-        doneGerichtSuchen({ context }),
+        isGerichtSuchenDone({ context }),
       target: steps.zustaendigesGerichtPilotGerichtAuswahl.absolute,
     },
     {
-      guard: doneGerichtSuchen,
+      guard: isGerichtSuchenDone,
       target: steps.zustaendigesGerichtPilotGericht.absolute,
     },
   ];
@@ -244,4 +254,4 @@ export const gerichtSuchenXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularGerichtPruefenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;
