@@ -8,7 +8,7 @@ export const StepperTriangle = ({ state }: { state: NavState }) => {
     <svg
       data-testid="triangle"
       className={classNames(
-        "triangle z-1 h-full absolute right-[-1.25rem] w-[1.25rem]",
+        "z-1 h-full absolute right-[-1.25rem] w-[1.25rem] text-kern-neutral-025",
         styles.triangle,
       )}
       viewBox="1 0 100 100"

@@ -5,6 +5,7 @@ import {
   stateIsDone,
   stateIsWarning,
   stateIsDisabled,
+  stateIsOpen,
 } from "~/services/navigation/navState";
 
 export function getStepStyles(state: NavState) {
@@ -15,7 +16,7 @@ export function getStepStyles(state: NavState) {
     isDisabled: stateIsDisabled(state),
 
     container: classNames(
-      "arrow-step border border-kern-neutral-200 flex w-full relative",
+      "border border-kern-neutral-200 flex w-full relative group before:absolute before:inset-x-0 before:bottom-0 before:h-[4px]",
       {
         "bg-kern-neutral-025 text-kern-neutral-400 pointer-events-none":
           stateIsDisabled(state),
@@ -27,9 +28,12 @@ export function getStepStyles(state: NavState) {
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
       {
-        "bg-kern-action-default text-white": stateIsCurrent(state),
+        "bg-kern-action-default text-white":
+          stateIsCurrent(state) || stateIsOpen(state),
         "bg-white": stateIsDone(state),
         "bg-kern-neutral-400 text-white": stateIsDisabled(state),
+        "forced-colors:outline-solid forced-colors:border-0":
+          !stateIsDone(state) && !stateIsWarning(state),
       },
     ),
 
