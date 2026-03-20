@@ -44,7 +44,7 @@ describe("G_eigentum", () => {
           bankkonten: [
             {
               bankName: "My Bank",
-              iban: "DE12345678901234567890",
+              iban: "DE34500105179381718236",
               kontoDescription: "My Bank Account",
               kontostand: "100",
               kontoEigentuemer: "partner",
@@ -54,7 +54,7 @@ describe("G_eigentum", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.artdesKontosKontoinhaberKreditinstitut.value).toBe(
-        "Bank: My Bank, Inhaber: Ehe-Partner:in, Bezeichnung: My Bank Account, IBAN: DE12345678901234567890",
+        "Bank: My Bank, Inhaber: Ehe-Partner:in, Bezeichnung: My Bank Account, IBAN: DE34 5001 0517 9381 7182 36",
       );
     });
 
