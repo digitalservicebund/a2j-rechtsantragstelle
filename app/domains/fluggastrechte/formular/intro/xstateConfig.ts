@@ -1,12 +1,8 @@
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
-
-const showFGROnlineVerfahren = Boolean(
-  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
-);
 
 export const introXstateConfig = {
   id: "intro",
@@ -14,9 +10,13 @@ export const introXstateConfig = {
   states: {
     [steps.intro.relative]: {
       on: {
-        SUBMIT: showFGROnlineVerfahren
-          ? steps.grundvoraussetzungenStreitbeilegung.absolute
-          : steps.grundvoraussetzungenDatenverarbeitung.absolute,
+        SUBMIT: [
+          {
+            target: steps.grundvoraussetzungenStreitbeilegung.absolute,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.grundvoraussetzungenDatenverarbeitung.absolute,
+        ],
 
         BACK: steps.redirectVorabcheckErgebnis.relative,
       },

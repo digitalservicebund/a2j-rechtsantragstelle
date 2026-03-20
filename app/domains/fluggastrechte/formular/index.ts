@@ -48,7 +48,7 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -60,10 +60,6 @@ const asyncFlowActions = {
   "/persoenliche-daten/weitere-personen/person/daten":
     storeMultiplePersonsConsent,
 };
-
-const showFGROnlineVerfahren = Boolean(
-  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
-);
 
 export const fluggastrechtFlow = {
   flowType: "formFlow",
@@ -108,7 +104,7 @@ export const fluggastrechtFlow = {
     ...getResponsibleAirportForCourt(context),
     isClaimWillSucceddedAboveLimit:
       isTotalClaimWillSucceddedAboveLimit(context),
-    showFGROnlineVerfahren: showFGROnlineVerfahren,
+    showFGROnlineVerfahren: globalFeatureFlags.showFGROnlineVerfahren,
   }),
   config: {
     meta: {

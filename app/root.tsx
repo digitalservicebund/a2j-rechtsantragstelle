@@ -116,6 +116,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSession,
     breadcrumbs,
     showKernUX,
+    showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -127,8 +128,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     mainSessionFromCookieHeader(cookieHeader),
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
+    isFeatureFlagEnabled("showFGROnlineVerfahren"),
   ]);
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
+  globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
     pathname,

@@ -2,13 +2,9 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 import { type FluggastrechteUserData } from "../userData";
 import { type Config } from "~/services/flow/server/types";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
-
-const showFGROnlineVerfahren = Boolean(
-  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
-);
 
 export const prozessfuehrungXstateConfig = {
   id: "prozessfuehrung",
@@ -23,9 +19,13 @@ export const prozessfuehrungXstateConfig = {
           },
           steps.weiterePersonenFrage.absolute,
         ],
-        SUBMIT: showFGROnlineVerfahren
-          ? steps.prozessfuehrungMuendlicheVerhandlung.relative
-          : steps.prozessfuehrungVideoverhandlung.relative,
+        SUBMIT: [
+          {
+            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.prozessfuehrungVideoverhandlung.relative,
+        ],
       },
     },
     [steps.prozessfuehrungMuendlicheVerhandlung.relative]: {
@@ -37,9 +37,13 @@ export const prozessfuehrungXstateConfig = {
     [steps.prozessfuehrungVideoverhandlung.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungVersaeumnisurteil.relative,
-        BACK: showFGROnlineVerfahren
-          ? steps.prozessfuehrungMuendlicheVerhandlung.relative
-          : steps.prozessfuehrungZeugen.relative,
+        BACK: [
+          {
+            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.prozessfuehrungZeugen.relative,
+        ],
       },
     },
     [steps.prozessfuehrungVersaeumnisurteil.relative]: {
