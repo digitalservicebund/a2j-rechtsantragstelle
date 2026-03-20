@@ -50,6 +50,8 @@ export const stateIsWarning = (state: NavState) =>
 
 export const stateIsDisabled = (state: NavState) => state === "Disabled";
 
+export const stateIsOpen = (state: NavState) => state === "Open";
+
 export const navStateStepper = (states: NavState[]): NavState => {
   const allDone = states.every(stateIsDone);
   const anyDoneCurrent = states.includes("DoneCurrent");
