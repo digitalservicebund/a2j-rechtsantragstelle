@@ -18,7 +18,18 @@ type SpecialComponentDescription =
   (typeof specialComponentDescriptions)[number];
 
 export const extractZodDescription = (schema: z.ZodType) => {
-  return schema.meta()?.description;
+  let nestedDescription: string | undefined;
+  if (schema instanceof z.ZodUnion) {
+    nestedDescription = schema.options
+      .map((innerSchema) => (innerSchema as z.ZodType).description)
+      .find(Boolean);
+  }
+  if (schema instanceof z.ZodPipe) {
+    nestedDescription =
+      (schema.out as z.ZodType).description ??
+      (schema.in as z.ZodType).description;
+  }
+  return schema.description ?? nestedDescription;
 };
 
 export const isSpecialComponentDescriptions = (
