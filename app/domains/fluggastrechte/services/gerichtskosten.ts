@@ -16,9 +16,6 @@ const gerichtskostenvorschussLegacy = {
   above_9000: 849,
 } as const;
 
-const showFGROnlineVerfahren =
-  (await isFeatureFlagEnabled("showFGROnlineVerfahren")) ?? true;
-
 const gerichtskostenFromBetragLegacy = (betrag: number) => {
   if (betrag <= 500) return gerichtskostenvorschussLegacy.below_500;
   if (betrag <= 1000) return gerichtskostenvorschussLegacy.above_500;
@@ -33,6 +30,10 @@ const gerichtskostenFromBetragLegacy = (betrag: number) => {
   if (betrag <= 9000) return gerichtskostenvorschussLegacy.above_8000;
   return gerichtskostenvorschussLegacy.above_9000;
 };
+
+const showFGROnlineVerfahren = Boolean(
+  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
+);
 
 export const gerichtskostenFromBetrag = (betrag: number) =>
   showFGROnlineVerfahren
