@@ -5,6 +5,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import type { GeldEinklagenFormularUserData } from "../../../formular/userData";
+import { formatIban } from "~/services/validation/iban";
 
 function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
   doc
@@ -32,7 +33,7 @@ export const createBankInformation = (
       : `${klagendePersonVorname} ${klagendePersonNachname}`;
 
   if (klagendePersonIban) {
-    const bankInfo = `Konto der klagenden Partei: ${bankAccountHolder} | IBAN: ${klagendePersonIban}`;
+    const bankInfo = `Konto der klagenden Partei: ${bankAccountHolder} | IBAN: ${formatIban(klagendePersonIban)}`;
 
     if (isLastPage) {
       const bankInfoParagraph = doc.struct("P", {}, () => {

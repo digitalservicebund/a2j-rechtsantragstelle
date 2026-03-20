@@ -5,6 +5,7 @@ import {
   PDF_HEIGHT_SEIZE,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { formatIban } from "~/services/validation/iban";
 
 function drawBankInfo(doc: PDFKit.PDFDocument, text: string) {
   doc
@@ -25,7 +26,7 @@ export const createBankInformation = (
       : `${vorname} ${nachname}`;
 
   if (iban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${iban}`;
+    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${formatIban(iban)}`;
 
     if (isLastPage) {
       const bankInfoParagraph = doc.struct("P", {}, () => {
