@@ -28,11 +28,12 @@ const KernCheckbox = ({
     (field.defaultValue() as CheckboxValue) !== "on",
   );
   const jsAvailable = useJsAvailable();
+  const hasError = Boolean(field.error());
 
   return (
     <fieldset
       className={classNames("kern-fieldset", {
-        "kern-fieldset--error": Boolean(errorMessage),
+        "kern-fieldset--error": hasError,
       })}
     >
       {(!jsAvailable || renderHiddenField) && (
@@ -43,22 +44,17 @@ const KernCheckbox = ({
         <div className="kern-form-check">
           <input
             className={classNames("kern-form-check__checkbox", {
-              "kern-form-check__checkbox--error": Boolean(errorMessage),
-              // Accessibility: use a red inset box-shadow on focus in the error state
-              // to simulate focus (since the checkbox uses box-shadows for its borders)
-              // and ensure users can clearly see the error.
-              "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]":
-                field.error(),
+              "kern-form-check__checkbox--error": hasError,
             })}
             id={name}
             name={name}
             type="checkbox"
             defaultChecked={field.defaultValue() === "on"}
             value={"on"}
-            aria-describedby={field.error() ? errorId : undefined}
+            aria-describedby={hasError ? errorId : undefined}
             onClick={() => setRenderHiddenField(!renderHiddenField)}
             aria-required={required}
-            ref={field.error() ? field.refs.controlled() : null}
+            ref={hasError ? field.refs.controlled() : null}
           />
 
           {label && (
