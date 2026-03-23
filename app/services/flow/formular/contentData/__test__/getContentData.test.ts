@@ -54,7 +54,7 @@ const mockBuildFlowController = {
 
 const mockUserData = {
   name: "testName",
-  pageData: { arrayIndexes: [] },
+  pageData: {},
 };
 
 const callContentData = getContentData(

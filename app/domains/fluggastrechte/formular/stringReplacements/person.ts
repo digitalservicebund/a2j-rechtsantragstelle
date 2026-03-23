@@ -1,3 +1,4 @@
+import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type FluggastrechteUserData } from "../userData";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;
@@ -21,7 +22,7 @@ export function getPersonNachname({ nachname }: FluggastrechteUserData) {
 export const getArrayWeiterePersonenIndexStrings = (
   context: FluggastrechteUserData,
 ) => {
-  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  const arrayIndex = firstArrayIndex(context.pageData);
   return arrayIndex === undefined
     ? {}
     : {
@@ -34,7 +35,7 @@ export const getArrayWeiterePersonenIndexStrings = (
 export const getWeiterePersonenNameStrings = (
   context: FluggastrechteUserData,
 ) => {
-  const arrayIndex = context.pageData?.arrayIndexes.at(0);
+  const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
     !context.weiterePersonen ||
