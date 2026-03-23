@@ -79,6 +79,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "bankkonten#kontoEigentuemer": "myself",
         "bankkonten#bankName": "N26",
         "bankkonten#kontostand": "1000000",
+        "bankkonten#iban": "",
       },
     },
     {
