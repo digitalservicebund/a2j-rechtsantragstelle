@@ -77,8 +77,8 @@ function translateWithOptions(
 
 export function formatFieldValue(
   value: AllowedUserTypes,
-  schema: SchemaObject[string],
   options?: Array<{ text: string; value: string }>,
+  schema?: SchemaObject[string],
 ): string {
   if (value == null || Array.isArray(value)) {
     return "";

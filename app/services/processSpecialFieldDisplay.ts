@@ -5,9 +5,9 @@ export const specialFieldsToEncode = new Set([ibanZodDescription]);
 
 export function processSpecialFieldDisplay<T extends AllowedUserTypes>(
   value: T,
-  schema: SchemaObject[string],
+  schema?: SchemaObject[string],
 ): T {
-  if (schema.description && specialFieldsToEncode.has(schema.description)) {
+  if (schema?.description && specialFieldsToEncode.has(schema.description)) {
     return schema.encode(value) as T;
   }
   return value;

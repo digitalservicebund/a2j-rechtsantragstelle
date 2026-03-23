@@ -59,7 +59,7 @@ export function createFieldEntry(
   const answer =
     value == undefined || value === ""
       ? "Keine Angabe" // need to get this from CMS for translations
-      : formatFieldValue(value, schema, fieldQuestion?.options);
+      : formatFieldValue(value, fieldQuestion?.options, schema);
 
   let editUrl: string | undefined = undefined;
   if (representativeStepId) {

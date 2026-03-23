@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createFieldEntry, processBoxFields } from "../fieldEntryCreation";
 import type { UserData } from "~/domains/userData";
+import z from "zod";
 
 describe("fieldEntryCreation", () => {
   describe("createFieldEntry", () => {
@@ -24,6 +25,7 @@ describe("fieldEntryCreation", () => {
         userData,
         mockFieldQuestions,
         "/beratungshilfe/antrag/persoenliche-daten/name",
+        z.string(),
       );
 
       expect(result).toEqual(
@@ -46,6 +48,7 @@ describe("fieldEntryCreation", () => {
         userData,
         mockFieldQuestions,
         "/beratungshilfe/antrag/persoenliche-daten/name",
+        z.string(),
       );
 
       expect(result).toEqual(
@@ -70,6 +73,7 @@ describe("fieldEntryCreation", () => {
         userData,
         mockFieldQuestions,
         "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
+        z.string(),
       );
 
       expect(result).toEqual(
@@ -95,6 +99,7 @@ describe("fieldEntryCreation", () => {
         userData,
         mockFieldQuestions,
         "/beratungshilfe/antrag/finanzielle-angaben/einkommen/einkommen",
+        z.string(),
       );
 
       expect(result.question).toBe("Welche Berufsart haben Sie?");
