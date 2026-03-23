@@ -17,5 +17,5 @@ export function formatIban(iban: string) {
   return iban
     .replaceAll(" ", "")
     .toLocaleUpperCase()
-    .replace(/(.{4})(?!$)/g, "$1 "); // replace groups of 4 with group plus space
+    .replaceAll(/(.{4})(?!$)/g, "$1 "); // replace groups of 4 with group plus space
 }
