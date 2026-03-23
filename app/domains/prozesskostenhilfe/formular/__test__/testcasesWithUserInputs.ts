@@ -96,7 +96,6 @@ export const prozesskostenhilfeFormularTestCases = {
           weitereAngaben: "",
         },
         pageData: {
-          arrayIndexes: [],
           subflowDoneStates: {
             "/abgabe": false,
             "/gesetzliche-vertretung": true,
