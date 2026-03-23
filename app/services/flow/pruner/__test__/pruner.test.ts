@@ -61,7 +61,12 @@ describe("pruner", () => {
         hasGrundeigentum: "no",
         hasKraftfahrzeug: "no",
         bankkonten: [
-          { bankName: "asd", kontoEigentuemer: "myself", kontostand: "123" },
+          {
+            bankName: "asd",
+            kontoEigentuemer: "myself",
+            kontostand: "123",
+            iban: "",
+          },
         ],
         geldanlagen: [
           {
