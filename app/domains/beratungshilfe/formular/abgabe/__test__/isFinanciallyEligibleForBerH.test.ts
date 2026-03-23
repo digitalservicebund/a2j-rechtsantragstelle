@@ -24,6 +24,7 @@ describe("isFinanciallyEligibleForBerH", () => {
           bankName: "N26",
           kontostand: "9999",
           kontoEigentuemer: "myself",
+          iban: "",
         },
       ],
     };

@@ -21,7 +21,7 @@ export const bankkontenArraySchema = z
   .object({
     bankName: stringRequiredSchema,
     kontostand: buildMoneyValidationSchema({}),
-    iban: schemaOrEmptyString(ibanSchema).optional(),
+    iban: schemaOrEmptyString(ibanSchema),
     kontoEigentuemer: eigentuemerSchema,
     kontoDescription: stringOptionalSchema,
   })
@@ -86,7 +86,7 @@ const sparkontoSchema = z.object({
   ...sharedGeldanlagenFields,
   art: z.literal(geldanlagenArtSchema.enum.giroTagesgeldSparkonto),
   kontoBankName: stringRequiredSchema,
-  kontoIban: schemaOrEmptyString(ibanSchema).optional(),
+  kontoIban: schemaOrEmptyString(ibanSchema),
   kontoBezeichnung: stringOptionalSchema,
 });
 
