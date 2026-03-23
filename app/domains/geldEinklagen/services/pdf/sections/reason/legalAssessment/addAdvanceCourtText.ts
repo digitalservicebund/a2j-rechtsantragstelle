@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
 
