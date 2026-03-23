@@ -102,7 +102,7 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  await formular.fillDropdown("title", "");
+  await formular.fillDropdown("title", "none");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
   await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
