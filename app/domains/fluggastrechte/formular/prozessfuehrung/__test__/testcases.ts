@@ -12,7 +12,6 @@ export const testCasesFluggastrechteFormularProzessfuehrung = [
         subflowDoneStates: {
           "/prozessfuehrung": true,
         },
-        arrayIndexes: [],
       },
     },
     [
