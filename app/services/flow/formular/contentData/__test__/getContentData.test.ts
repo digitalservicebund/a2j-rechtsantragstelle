@@ -45,6 +45,7 @@ const mockTranslations = {
 
 const mockBuildFlowController = {
   getRootMeta: vi.fn().mockReturnValue(undefined),
+  getConfig: vi.fn().mockReturnValue(""),
   isFinal: vi.fn().mockReturnValue(false),
   getPrevious: vi.fn().mockReturnValue(""),
   stepStates: vi.fn().mockReturnValue(undefined),
