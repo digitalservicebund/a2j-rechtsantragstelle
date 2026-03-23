@@ -33,7 +33,7 @@ describe("person", () => {
       const context: FluggastrechteUserData = {
         weiterePersonen: [
           {
-            title: "",
+            title: "none",
             vorname: "vorname",
             nachname: "nachname",
             strasseHausnummer: "strasseHausnummer",
@@ -58,7 +58,7 @@ describe("person", () => {
       const context: FluggastrechteUserData = {
         weiterePersonen: [
           {
-            title: "",
+            title: "none",
             vorname: "vorname",
             nachname: "nachname",
             strasseHausnummer: "strasseHausnummer",

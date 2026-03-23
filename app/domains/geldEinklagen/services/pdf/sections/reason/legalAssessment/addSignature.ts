@@ -17,9 +17,7 @@ const getSignatureText = (
     return {
       signatureText: getFullPlaintiffName(
         userData.klagendePersonAnrede,
-        userData.klagendePersonTitle === "none"
-          ? ""
-          : userData.klagendePersonTitle,
+        userData.klagendePersonTitle,
         userData.klagendePersonVorname,
         userData.klagendePersonNachname,
       ),
