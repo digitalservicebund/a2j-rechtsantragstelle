@@ -24,7 +24,7 @@ export const addPlaintiffDetails = (
 ) => {
   const plaintiffName = getFullPlaintiffName(
     klagendePersonAnrede,
-    klagendePersonTitle === "none" ? "" : klagendePersonTitle,
+    klagendePersonTitle,
     klagendePersonVorname,
     klagendePersonNachname,
   );
