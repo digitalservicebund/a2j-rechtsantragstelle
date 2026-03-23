@@ -18,7 +18,7 @@ describe("F_besitz", () => {
             kontoEigentuemer: "myself",
             kontostand: "1000",
             bankName: "Bank1",
-            iban: "DE123456789",
+            iban: "DE34500105179381718236",
           },
         ],
       };
@@ -33,7 +33,9 @@ describe("F_besitz", () => {
       expect(pdfValues.f1InhaberA.value).toBe(true);
       expect(pdfValues.f2InhaberB.value).toBe(false);
       expect(pdfValues.f2InhaberC.value).toBe(false);
-      expect(pdfValues.f3Bank1.value).toBe("Bank: Bank1\nIBAN: DE123456789");
+      expect(pdfValues.f3Bank1.value).toBe(
+        "Bank: Bank1\nIBAN: DE34 5001 0517 9381 7182 36",
+      );
       expect(pdfValues.f4Kontostand.value).toBe("1000 €");
     });
 

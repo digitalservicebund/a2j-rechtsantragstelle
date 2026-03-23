@@ -1,11 +1,18 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+
 export const fluggastrechteProzessfuehrungPages = {
   prozessfuehrungZeugen: {
     stepId: "prozessfuehrung/zeugen",
     pageSchema: {
       hasZeugen: YesNoAnswer,
+    },
+  },
+  prozessfuehrungMuendlicheVerhandlung: {
+    stepId: "prozessfuehrung/muendliche-verhandlung",
+    pageSchema: {
+      muendlicheVerhandlung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungVideoverhandlung: {

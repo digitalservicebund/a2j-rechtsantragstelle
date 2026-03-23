@@ -17,10 +17,8 @@ export const ibanSchema = z
   .describe(ibanZodDescription);
 
 export function formatIban(iban: string) {
-  const splitIban = iban
+  return iban
     .replaceAll(" ", "")
     .toLocaleUpperCase()
-    .match(/.{1,4}/g);
-  const formattedIban = splitIban?.join(" ") ?? "";
-  return formattedIban;
+    .replaceAll(/(.{4})(?!$)/g, "$1 "); // replace groups of 4 with group plus space
 }
