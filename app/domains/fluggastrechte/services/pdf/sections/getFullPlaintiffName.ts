@@ -5,7 +5,7 @@ const mapTitle = (title?: "none" | "dr") => {
     return "Dr.";
   }
 
-  if (title === "none") {
+  if (title === "none" || title === undefined) {
     return "";
   }
 
