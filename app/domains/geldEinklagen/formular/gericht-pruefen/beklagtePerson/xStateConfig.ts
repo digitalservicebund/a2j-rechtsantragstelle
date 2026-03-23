@@ -1,15 +1,25 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
-import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
-import { beklagtePersonDone } from "./doneFunctions";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import {
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../gericht-suchen/guards";
+import type { GeldEinklagenFormularUserData } from "../../userData";
+import type { GenericGuard } from "~/domains/guards.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
+
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
+
+const isBeklagteDone: GeldEinklagenDaten = ({ context }) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/gericht-pruefen/beklagte-person"
+    ] === true
+  );
+};
 
 export const beklagtePersonXstateConfig = {
   id: "beklagte-person",
@@ -61,7 +71,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.gerichtSuchenPostleitzahlWohnraum.absolute,
           },
           {
-            guard: beklagtePersonDone,
+            guard: isBeklagteDone,
             target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -125,7 +135,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.beklagtePersonKaufmann.relative,
           },
           {
-            guard: beklagtePersonDone,
+            guard: isBeklagteDone,
             target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -140,7 +150,7 @@ export const beklagtePersonXstateConfig = {
             target: steps.beklagtePersonGerichtsstandsvereinbarung.relative,
           },
           {
-            guard: beklagtePersonDone,
+            guard: isBeklagteDone,
             target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -164,7 +174,7 @@ export const beklagtePersonXstateConfig = {
                 .absolute,
           },
           {
-            guard: beklagtePersonDone,
+            guard: isBeklagteDone,
             target: steps.gerichtSuchenPostleitzahlBeklagtePerson.absolute,
           },
         ],
@@ -172,4 +182,4 @@ export const beklagtePersonXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularGerichtPruefenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

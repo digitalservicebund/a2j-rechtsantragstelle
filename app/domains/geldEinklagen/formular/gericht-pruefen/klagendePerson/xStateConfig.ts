@@ -2,9 +2,20 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
 import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
-import { klagendePersonDone } from "./doneFunctions";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+import { type GenericGuard } from "~/domains/guards.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
+
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
+
+const isKlagendePersonDone: GeldEinklagenDaten = ({ context }) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/gericht-pruefen/klagende-person"
+    ] === true
+  );
+};
 
 export const klagendePersonXstateConfig = {
   id: "klagende-person",
@@ -22,7 +33,7 @@ export const klagendePersonXstateConfig = {
               context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "yes" &&
-              klagendePersonDone({ context }),
+              isKlagendePersonDone({ context }),
             target: steps.beklagtePersonGegenWen.absolute,
           },
           {
@@ -111,7 +122,7 @@ export const klagendePersonXstateConfig = {
             target: steps.klagendePersonVertrag.relative,
           },
           {
-            guard: klagendePersonDone,
+            guard: isKlagendePersonDone,
             target: steps.beklagtePersonGegenWen.absolute,
           },
         ],
@@ -121,7 +132,7 @@ export const klagendePersonXstateConfig = {
     [steps.klagendePersonKaufmann.relative]: {
       on: {
         SUBMIT: {
-          guard: klagendePersonDone,
+          guard: isKlagendePersonDone,
           target: steps.beklagtePersonGegenWen.absolute,
         },
         BACK: [
@@ -146,7 +157,7 @@ export const klagendePersonXstateConfig = {
             target: steps.klagendePersonHaustuergeschaeft.relative,
           },
           {
-            guard: klagendePersonDone,
+            guard: isKlagendePersonDone,
             target: steps.beklagtePersonGegenWen.absolute,
           },
         ],
@@ -156,7 +167,7 @@ export const klagendePersonXstateConfig = {
     [steps.klagendePersonHaustuergeschaeft.relative]: {
       on: {
         SUBMIT: {
-          guard: klagendePersonDone,
+          guard: isKlagendePersonDone,
           target: steps.beklagtePersonGegenWen.absolute,
         },
         BACK: [

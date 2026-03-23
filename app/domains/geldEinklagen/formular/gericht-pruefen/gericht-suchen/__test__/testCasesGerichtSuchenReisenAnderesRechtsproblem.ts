@@ -10,6 +10,12 @@ const baseContext: GeldEinklagenFormularUserData = {
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+    arrayIndexes: [],
+  },
 };
 
 export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [

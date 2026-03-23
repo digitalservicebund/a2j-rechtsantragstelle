@@ -1,31 +1,21 @@
 import { geldEinklagenKlageErstellenPages } from "~/domains/geldEinklagen/formular/klage-erstellen/pages";
-import type { GeldEinklagenFormularKlageErstellenUserData } from "~/domains/geldEinklagen/formular/klage-erstellen/userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import type { GeldEinklagenFormularUserData } from "../../userData";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
-type GeldEinklagenKlageErstellenDaten =
-  GenericGuard<GeldEinklagenFormularKlageErstellenUserData>;
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
 
-const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
-  context,
-}) => {
+const hasFilledProzessfuehrung: GeldEinklagenDaten = ({ context }) => {
   return (
-    objectKeysNonEmpty(context, [
-      "prozesszinsen",
-      "streitbeilegung",
-      "muendlicheVerhandlung",
-      "videoVerhandlung",
-      "versaeumnisurteil",
-    ]) &&
-    (context.streitbeilegung === "yes" ||
-      context.streitbeilegung === "noSpecification" ||
-      objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
+    context.pageData?.subflowDoneStates?.[
+      "/klage-erstellen/prozessfuehrung"
+    ] === true
   );
 };
+
 export const prozessfuehrungXstateConfig = {
   id: "prozessfuehrung",
   initial: "anwaltskosten",
@@ -106,4 +96,4 @@ export const prozessfuehrungXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

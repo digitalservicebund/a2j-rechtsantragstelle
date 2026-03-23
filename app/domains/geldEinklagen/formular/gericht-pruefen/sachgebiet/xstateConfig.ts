@@ -1,10 +1,19 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type Config } from "~/services/flow/server/types";
-import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
-import { sachgebietDone } from "./doneFunctions";
+import { type GenericGuard } from "~/domains/guards.server";
+import { type GeldEinklagenFormularUserData } from "../../userData";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
+
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
+
+const isSachgebietDone: GeldEinklagenDaten = ({ context }) => {
+  return (
+    context.pageData?.subflowDoneStates?.["/gericht-pruefen/sachgebiet"] ===
+    true
+  );
+};
 
 export const sachgebietXstateConfig = {
   id: "sachgebiet",
@@ -38,7 +47,7 @@ export const sachgebietXstateConfig = {
               (context.sachgebiet === "schaden" ||
                 context.sachgebiet === "anderesRechtsproblem" ||
                 context.sachgebiet === "urheberrecht") &&
-              sachgebietDone({ context }),
+              isSachgebietDone({ context }),
             target: steps.klagendePersonFuerWen.absolute,
           },
           {
@@ -69,7 +78,7 @@ export const sachgebietXstateConfig = {
             target: steps.sachgebietMietePachtRaum.relative,
           },
           {
-            guard: sachgebietDone,
+            guard: isSachgebietDone,
             target: steps.klagendePersonFuerWen.absolute,
           },
         ],
@@ -79,7 +88,7 @@ export const sachgebietXstateConfig = {
     [steps.sachgebietMietePachtRaum.relative]: {
       on: {
         SUBMIT: {
-          guard: sachgebietDone,
+          guard: isSachgebietDone,
           target: steps.klagendePersonFuerWen.absolute,
         },
         BACK: steps.sachgebietMietePachtVertrag.relative,
@@ -93,7 +102,7 @@ export const sachgebietXstateConfig = {
             target: steps.sachgebietVersicherungVersicherungsnehmer.relative,
           },
           {
-            guard: sachgebietDone,
+            guard: isSachgebietDone,
             target: steps.klagendePersonFuerWen.absolute,
           },
         ],
@@ -103,7 +112,7 @@ export const sachgebietXstateConfig = {
     [steps.sachgebietVersicherungVersicherungsnehmer.relative]: {
       on: {
         SUBMIT: {
-          guard: sachgebietDone,
+          guard: isSachgebietDone,
           target: steps.klagendePersonFuerWen.absolute,
         },
         BACK: steps.sachgebietVersicherungVertrag.relative,
@@ -117,7 +126,7 @@ export const sachgebietXstateConfig = {
             target: "ergebnis/reise-flug",
           },
           {
-            guard: sachgebietDone,
+            guard: isSachgebietDone,
             target: steps.klagendePersonFuerWen.absolute,
           },
         ],
@@ -127,7 +136,7 @@ export const sachgebietXstateConfig = {
     [steps.sachgebietVerkehrsunfallStrassenverkehr.relative]: {
       on: {
         SUBMIT: {
-          guard: sachgebietDone,
+          guard: isSachgebietDone,
           target: steps.klagendePersonFuerWen.absolute,
         },
         BACK: steps.sachgebietBesondere.relative,
@@ -145,4 +154,4 @@ export const sachgebietXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularGerichtPruefenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;
