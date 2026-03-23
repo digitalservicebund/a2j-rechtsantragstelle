@@ -49,7 +49,7 @@ describe("navStates", () => {
           isWeiterePersonen: "yes",
           weiterePersonen: [
             {
-              title: "",
+              title: "none",
               ...DEFAULT_WEITERE_PERSONEN_DATA,
             },
           ],
@@ -65,7 +65,7 @@ describe("navStates", () => {
           isWeiterePersonen: "yes",
           weiterePersonen: [
             {
-              title: "",
+              title: "none",
               ...DEFAULT_WEITERE_PERSONEN_DATA,
             },
             {
