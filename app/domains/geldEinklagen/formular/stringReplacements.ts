@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";

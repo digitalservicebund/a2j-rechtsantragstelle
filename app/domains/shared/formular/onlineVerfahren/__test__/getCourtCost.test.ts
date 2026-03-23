@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 
 describe("gerichtskostenFromBetrag (GeldEinklagen)", () => {
   it("returns expected court cost", () => {
