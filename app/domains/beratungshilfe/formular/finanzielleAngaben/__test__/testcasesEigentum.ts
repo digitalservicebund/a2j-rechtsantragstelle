@@ -405,6 +405,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "100",
         "geldanlagen#kontoBankName": "N26 Bank",
+        "geldanlagen#kontoIban": "",
       },
     },
     {
