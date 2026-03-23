@@ -21,7 +21,7 @@ const mockCmsElement: CMSContent = {
 
 const mockUserData = {
   name: "name",
-  pageData: { arrayIndexes: [] },
+  pageData: {},
 };
 
 describe("buildFormElements", () => {
@@ -65,7 +65,7 @@ describe("buildFormElements", () => {
 
     const actual = buildFormElements(mockCmsElementWithAutoComplete, {
       plz: "12345",
-      pageData: { arrayIndexes: [] },
+      pageData: {},
     });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
@@ -91,7 +91,7 @@ describe("buildFormElements", () => {
 
     const actual = buildFormElements(mockCmsElementWithAutoComplete, {
       postleitzahlBeklagtePerson: "12345",
-      pageData: { arrayIndexes: [] },
+      pageData: {},
     });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
@@ -117,7 +117,7 @@ describe("buildFormElements", () => {
 
     const actual = buildFormElements(mockCmsElementWithAutoComplete, {
       postleitzahlSecondary: "12345",
-      pageData: { arrayIndexes: [] },
+      pageData: {},
     });
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });

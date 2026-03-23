@@ -14,7 +14,7 @@ const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
 const mockUserDataWithPageData = {
   startAirport: "BER",
-  pageData: { arrayIndexes: [] },
+  pageData: {},
 };
 
 const mockFormPageContent = {
