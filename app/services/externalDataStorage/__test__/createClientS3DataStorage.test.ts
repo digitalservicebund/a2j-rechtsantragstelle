@@ -1,7 +1,10 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { config } from "~/services/env/env.server";
-import { createClientS3DataStorage } from "~/services/externalDataStorage/createClientS3DataStorage";
+import {
+  createClientS3DataStorage,
+  resetS3Client,
+} from "~/services/externalDataStorage/createClientS3DataStorage";
 
 vi.mock("@aws-sdk/client-s3", () => ({
   S3Client: vi.fn(),
@@ -11,19 +14,21 @@ vi.mock("~/services/env/env.server", () => ({
   config: vi.fn(),
 }));
 
+type EnvConfig = ReturnType<typeof config>;
+
 describe("createClientS3DataStorage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    resetS3Client();
   });
 
   it("should create a new S3Client instance if not already created only once", () => {
     const mockConfig = {
-      ...config(),
       S3_DATA_STORAGE_ACCESS_KEY: "test-access-key",
       S3_DATA_STORAGE_SECRET_KEY: "test-secret-key",
       S3_REGION: "test-region",
       S3_ENDPOINT: "test-endpoint",
-    };
+    } as EnvConfig;
 
     vi.mocked(config).mockReturnValue(mockConfig);
 
@@ -42,5 +47,19 @@ describe("createClientS3DataStorage", () => {
     const secondClient = createClientS3DataStorage();
     expect(S3Client).toHaveBeenCalledTimes(1);
     expect(firstClient).toBe(secondClient);
+  });
+
+  it("should not return an S3Client without secret key", () => {
+    vi.mocked(config).mockReturnValue({
+      S3_DATA_STORAGE_ACCESS_KEY: "test-access-key",
+    } as EnvConfig);
+    expect(createClientS3DataStorage()).toBeUndefined();
+  });
+
+  it("should not return an S3Client without access key", () => {
+    vi.mocked(config).mockReturnValue({
+      S3_DATA_STORAGE_SECRET_KEY: "test-secret-key",
+    } as EnvConfig);
+    expect(createClientS3DataStorage()).toBeUndefined();
   });
 });
