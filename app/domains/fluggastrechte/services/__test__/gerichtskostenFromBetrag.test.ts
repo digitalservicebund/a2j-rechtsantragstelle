@@ -1,7 +1,9 @@
 import { gerichtskostenFromBetrag } from "../gerichtskosten";
 
 vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
-  isFeatureFlagEnabled: vi.fn().mockResolvedValue(true),
+  globalFeatureFlags: {
+    showFGROnlineVerfahren: true,
+  },
 }));
 
 describe("gerichtskostenFromBetrag", () => {

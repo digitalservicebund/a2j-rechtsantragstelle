@@ -1,5 +1,5 @@
 import { gerichtskostenFromBetrag as gerichtskostenFromBetragOnlineVerfahren } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const gerichtskostenvorschussLegacy = {
   below_500: 120,
@@ -31,11 +31,7 @@ const gerichtskostenFromBetragLegacy = (betrag: number) => {
   return gerichtskostenvorschussLegacy.above_9000;
 };
 
-const showFGROnlineVerfahren = Boolean(
-  await isFeatureFlagEnabled("showFGROnlineVerfahren"),
-);
-
 export const gerichtskostenFromBetrag = (betrag: number) =>
-  showFGROnlineVerfahren
+  globalFeatureFlags.showFGROnlineVerfahren
     ? gerichtskostenFromBetragOnlineVerfahren(betrag)
     : gerichtskostenFromBetragLegacy(betrag);
