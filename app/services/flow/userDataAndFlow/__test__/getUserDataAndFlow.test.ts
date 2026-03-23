@@ -23,7 +23,7 @@ const mockBuildFlowController = vi.fn() as unknown as ReturnType<
 const mockPrunerData = {
   userDataWithPageData: {
     name: "someName",
-    pageData: { arrayIndexes: [] },
+    pageData: {},
   },
   validFlowPaths: {
     "/grundvoraussetzungen/klage-eingereicht": {
