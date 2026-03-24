@@ -8,13 +8,13 @@ import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 
-const specialComponentDescriptions = [
+export const specialComponentDescriptions = [
   filesUploadZodDescription,
   hiddenInputZodDescription,
   ibanZodDescription,
 ] as const;
 
-type SpecialComponentDescription =
+export type SpecialComponentDescription =
   (typeof specialComponentDescriptions)[number];
 
 export const extractZodDescription = (schema: z.ZodType) => {
