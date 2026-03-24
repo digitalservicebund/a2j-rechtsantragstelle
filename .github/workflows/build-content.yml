@@ -97,7 +97,6 @@ jobs:
     needs: [build-push-content-image]
     runs-on: ubuntu-latest
     environment: preview
-    concurrency: deploy-preview
     steps:
       - name: Deploy new preview image
         uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
