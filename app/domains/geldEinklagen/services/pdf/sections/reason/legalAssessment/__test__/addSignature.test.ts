@@ -39,6 +39,6 @@ describe("addSignature", () => {
     addSignature(mockDoc, mockStruct, mockDataLegalRepresentation);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Herr Prof. Dr. Max Mustermann");
-    expect(mockDoc.text).toHaveBeenCalledWith("Rechtsanwalt");
+    expect(mockDoc.text).toHaveBeenCalledWith("(Rechtsanwalt)");
   });
 });

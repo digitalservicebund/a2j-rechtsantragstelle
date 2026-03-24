@@ -28,7 +28,6 @@ describe("addLegalRepresentation", () => {
       klagendePersonAnwaltschaftNachname: "Mustermann",
       klagendePersonAnwaltschaftTitle: "Dr.",
       klagendePersonAnwaltschaftVorname: "Max",
-      klagendePersonAnwaltschaftBerufsbezeichnung: "Rechtsanwalt",
       klagendePersonAnwaltschaftStrasseHausnummer: "Musterstraße 1",
       klagendePersonAnwaltschaftPlz: "12345",
       klagendePersonAnwaltschaftOrt: "Musterstadt",
@@ -37,7 +36,7 @@ describe("addLegalRepresentation", () => {
     addLegalRepresentation(mockDoc, userDataWithAnwaltschaft);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Musterkanzlei, Herr Dr. Max Mustermann Rechtsanwalt",
+      "Musterkanzlei, Herr Dr. Max Mustermann",
       {
         continued: true,
       },

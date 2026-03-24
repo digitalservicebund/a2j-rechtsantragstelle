@@ -15,7 +15,6 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
     klagendePersonAnwaltschaftNachname,
     klagendePersonAnwaltschaftTitle,
     klagendePersonAnwaltschaftVorname,
-    klagendePersonAnwaltschaftBerufsbezeichnung,
   } = userData;
 
   const salutation =
@@ -32,7 +31,6 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
     klagendePersonAnwaltschaftTitle,
     capitalizedVorname,
     klagendePersonAnwaltschaftNachname,
-    klagendePersonAnwaltschaftBerufsbezeichnung,
   ]
     .filter(Boolean)
     .join(" ");

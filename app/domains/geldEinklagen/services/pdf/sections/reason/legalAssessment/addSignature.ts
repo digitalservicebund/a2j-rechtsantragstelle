@@ -48,7 +48,9 @@ const getSignatureText = (
     ]
       .filter(Boolean)
       .join(" "),
-    signatureSubtitleText: klagendePersonAnwaltschaftBerufsbezeichnung ?? "",
+    signatureSubtitleText: klagendePersonAnwaltschaftBerufsbezeichnung
+      ? `(${klagendePersonAnwaltschaftBerufsbezeichnung})`
+      : "",
   };
 };
 
