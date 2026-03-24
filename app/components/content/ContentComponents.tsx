@@ -11,6 +11,7 @@ import InfoBox from "~/components/content/InfoBox";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import List from "~/components/content/list/List";
 import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
+import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import TableOfContents from "~/components/content/TableOfContents";
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
@@ -169,6 +170,8 @@ function cmsToReact(
         return <KernTableOfContents {...componentProps} />;
       case "page.user-feedback":
         return <KernUserFeedback {...componentProps} />;
+      case "page.summary-overview-section":
+        return <KernSummaryOverviewSection {...componentProps} />;
       case "page.inline-notice":
         return (
           <KernInlineNotice
