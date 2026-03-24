@@ -1,4 +1,4 @@
-import { type z, type ZodType } from "zod";
+import { type z } from "zod";
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
@@ -28,6 +28,11 @@ import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
 import { ibanZodDescription } from "~/services/validation/iban";
 import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
+import {
+  extractZodDescription,
+  isSpecialComponentDescriptions,
+  type SpecialComponentDescription,
+} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -36,20 +41,12 @@ type Props = {
   showKernUX?: boolean;
 };
 
-const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [
-    filesUploadZodDescription,
-    hiddenInputZodDescription,
-    ibanZodDescription,
-  ].includes(fieldSchema.meta()?.description ?? "");
-};
-
 const renderSpecialMetaDescriptions = (
   fieldName: string,
-  fieldSchema: ZodType,
+  description: SpecialComponentDescription,
   matchingElement?: StrapiFormComponent,
 ) => {
-  if (fieldSchema.meta()?.description === filesUploadZodDescription) {
+  if (description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
     >;
@@ -70,11 +67,11 @@ const renderSpecialMetaDescriptions = (
     );
   }
 
-  if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
+  if (description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
   }
 
-  if (fieldSchema.meta()?.description === ibanZodDescription) {
+  if (description === ibanZodDescription) {
     return (
       <KernIbanInput key={fieldName} name={fieldName} {...matchingElement} />
     );
@@ -113,10 +110,11 @@ export const KernSchemaComponents = ({
           )
           .find(({ name }) => name === fieldName);
 
-        if (isZodSpecialMetaDescription(fieldSchema)) {
+        const description = extractZodDescription(fieldSchema);
+        if (isSpecialComponentDescriptions(description)) {
           return renderSpecialMetaDescriptions(
             fieldName,
-            fieldSchema,
+            description,
             matchingElement,
           );
         }

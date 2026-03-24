@@ -27,7 +27,7 @@ const StyledMarker = ({
 }) => (
   <div
     className={classNames("shrink-0 flex justify-center items-center", {
-      "w-[16px] h-[2px] border border-black mt-[19.5px] text-black text-black! forced-color-adjust-auto ":
+      "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto ":
         variant === "unordered",
       "h-[40px] w-full border-2 border-kern-neutral-300 rounded-full text-black! forced-color-adjust-auto":
         variant === "numbered",
