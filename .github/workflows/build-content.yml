@@ -93,34 +93,6 @@ jobs:
       prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
 
   deploy-preview:
-    needs: [build-push-content-image]
-    runs-on: ubuntu-latest
-    concurrency: deploy-preview
-    environment: preview
-    steps:
-      - name: Report Deployment
-        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
-        with:
-          project: a2j-rechtsantragstelle
-          environment: preview
-          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-
-      - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@19708d480aa35161125e04e2e5147bec1a9322ad # v1.0.0
-        with:
-          environment: preview
-          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
-          deploying_repo: a2j-rechtsantragstelle
-          infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
-          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
-          app: a2j-rast-preview
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 600
-
-  deploy-preview-stackit:
     if: github.ref == 'refs/heads/main'
     needs: [build-push-content-image]
     runs-on: ubuntu-latest
@@ -131,7 +103,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
         with:
           environment: environments/preview
-          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
+          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
@@ -142,7 +114,7 @@ jobs:
           argocd_sync_timeout: 600
 
   verify-preview-e2e:
-    needs: [deploy-preview, deploy-preview-stackit]
+    needs: [deploy-preview]
     uses: ./.github/workflows/e2e-test.yml
     with:
       require-published-app: true
@@ -150,34 +122,6 @@ jobs:
       e2e-target: preview
 
   deploy-production:
-    needs: [verify-preview-e2e, build-push-content-image]
-    runs-on: ubuntu-latest
-    concurrency: deploy-production
-    environment: production
-    steps:
-      - name: Report Deployment
-        uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
-        with:
-          project: a2j-rechtsantragstelle
-          environment: production
-          metrics_deployment_webhook_url: ${{ secrets.METRICS_DEPLOYMENT_WEBHOOK_URL }}
-          metrics_webhook_token: ${{ secrets.METRICS_WEBHOOK_TOKEN }}
-
-      - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@19708d480aa35161125e04e2e5147bec1a9322ad # v1.0.0
-        with:
-          environment: production
-          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
-          deploying_repo: a2j-rechtsantragstelle
-          infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
-          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
-          app: a2j-rast-production
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          argocd_sync_timeout: 600
-
-  deploy-production-stackit:
     if: github.ref == 'refs/heads/main'
     needs: [verify-preview-e2e, build-push-content-image]
     runs-on: ubuntu-latest
@@ -188,7 +132,7 @@ jobs:
         uses: digitalservicebund/argocd-deploy@050e50ee533ead763aa61d2e511ae5ae9e769593 # auth-token branch, v1.0.0
         with:
           environment: environments/production
-          version: ${{ needs.push-app-image.outputs.prod_image_tag }}
+          version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
