@@ -25,6 +25,14 @@ const baseContext: GeldEinklagenFormularUserData = {
   klagendePersonOrt: "klagendePersonOrt",
   forderungGesamtbetrag: "100.00",
   sachverhaltBegruendung: "some reason",
+  pageData: {
+    subflowDoneStates: {
+      "/klage-erstellen/klagende-person": true,
+      "/klage-erstellen/beklagte-person": true,
+      "/klage-erstellen/forderung": true,
+      "/klage-erstellen/sachverhalt": true,
+    },
+  },
 };
 
 export const testCasesKlagenErstellenInitial = [

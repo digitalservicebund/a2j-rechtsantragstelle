@@ -1,11 +1,21 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
+const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
+  forderung: "maximal10000",
+  ausgeschlossen: "no",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/sachgebiet": true,
+    },
+  },
+};
+
 export const testCasesSachgebiet = [
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
+      ...baseContext,
       ausgeschlossen: "yes",
     },
     [
@@ -16,9 +26,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "anderesRechtsproblem",
     },
     [
@@ -30,9 +38,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "urheberrecht",
     },
     [
@@ -44,9 +50,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "schaden",
     },
     [
@@ -58,9 +62,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
       mietePachtRaum: "yes",
@@ -76,9 +78,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "miete",
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
@@ -94,9 +94,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "miete",
       mietePachtVertrag: "no",
     },
@@ -110,9 +108,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
       versicherungsnehmer: "yes",
@@ -128,9 +124,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "versicherung",
       versicherungVertrag: "yes",
       versicherungsnehmer: "no",
@@ -146,9 +140,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "versicherung",
       versicherungVertrag: "no",
     },
@@ -162,9 +154,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "reisen",
       reiseArt: "andereReise",
     },
@@ -178,9 +168,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "reisen",
       reiseArt: "flug",
     },
@@ -195,9 +183,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "yes",
     },
@@ -211,9 +197,7 @@ export const testCasesSachgebiet = [
   ],
   [
     {
-      anwaltschaft: "no",
-      forderung: "maximal10000",
-      ausgeschlossen: "no",
+      ...baseContext,
       sachgebiet: "verkehrsunfall",
       verkehrsunfallStrassenverkehr: "no",
     },

@@ -12,6 +12,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   fuerWenKlagen: "selbst",
   sachgebiet: "miete",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesZustaendigesGericht = [

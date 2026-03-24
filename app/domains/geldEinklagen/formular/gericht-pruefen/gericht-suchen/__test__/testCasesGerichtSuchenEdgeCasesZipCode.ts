@@ -14,6 +14,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesGerichtSuchenEdgeCasesZipCode = [
