@@ -32,7 +32,6 @@ const baseContext: GeldEinklagenFormularUserData = {
       "/klage-erstellen/forderung": true,
       "/klage-erstellen/sachverhalt": true,
     },
-    arrayIndexes: [],
   },
 };
 

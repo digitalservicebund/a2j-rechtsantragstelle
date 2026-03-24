@@ -10,7 +10,6 @@ const baseContext: GeldEinklagenFormularUserData = {
     subflowDoneStates: {
       "/gericht-pruefen/klagende-person": true,
     },
-    arrayIndexes: [],
   },
 };
 

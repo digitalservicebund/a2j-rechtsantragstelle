@@ -9,7 +9,6 @@ const baseContext: GeldEinklagenFormularUserData = {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
     },
-    arrayIndexes: [],
   },
 };
 

@@ -31,7 +31,6 @@ const baseContext: GeldEinklagenFormularUserData = {
     subflowDoneStates: {
       "/klage-erstellen/prozessfuehrung": true,
     },
-    arrayIndexes: [],
   },
 };
 
