@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { translations } from "~/services/translations/translations";
 import { type StepStepper } from "../types";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -17,11 +18,17 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
       aria-label={translations.navigation.navigationStepper.de}
       className="w-full print:hidden"
     >
-      <ol className={"flex max-w-full! pl-0"}>
+      <ol className="flex max-w-full! pl-0">
         {steps.map(({ state, href, label }, stepIndex) => {
           const isLast = stepIndex === steps.length - 1;
           return (
-            <li key={label} className={getStepStyles(state).container}>
+            <li
+              key={label}
+              className={classNames(getStepStyles(state).container, {
+                "border-r-0": !isLast,
+              })}
+              style={{ zIndex: steps.length - stepIndex }}
+            >
               <StepperContent
                 href={href}
                 stepIndex={stepIndex}

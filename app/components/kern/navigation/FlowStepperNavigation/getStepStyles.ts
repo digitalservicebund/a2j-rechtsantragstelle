@@ -16,7 +16,7 @@ export function getStepStyles(state: NavState) {
     isDisabled: stateIsDisabled(state),
 
     container: classNames(
-      "border border-kern-neutral-200 rounded-sm flex w-full relative group before:absolute before:inset-x-0 before:bottom-0 before:h-[4px]",
+      "border border-2 border-kern-neutral-300 flex w-full relative group before:absolute  rounded-sm",
       {
         "bg-kern-neutral-025 text-kern-neutral-400 pointer-events-none":
           stateIsDisabled(state),
