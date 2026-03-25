@@ -35,7 +35,7 @@ describe("createStatementClaim", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
+    createStatementClaim(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
@@ -48,6 +48,7 @@ describe("createStatementClaim", () => {
       mockStruct,
       userDataMock.prozesszinsen,
       600,
+      true,
     );
   });
 
@@ -65,6 +66,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVersaeumnisurteil,
+        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -86,6 +88,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithoutVersaeumnisurteil,
+        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -109,6 +112,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideorverhandlungRequest,
+        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -130,6 +134,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoTrialConcerns,
+        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -151,6 +156,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoverhandlungNoSpecification,
+        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -172,6 +178,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoverhandlungNoSpecification,
+        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -186,7 +193,7 @@ describe("createStatementClaim", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      createStatementClaim(mockDoc, mockStruct, userDataMock, true);
       expect(mockDoc.struct).toHaveBeenCalledWith(
         "H2",
         {},
@@ -202,7 +209,7 @@ describe("createStatementClaim", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      createStatementClaim(mockDoc, mockStruct, userDataMock);
+      createStatementClaim(mockDoc, mockStruct, userDataMock, true);
       const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
         ([tag]) => tag === "P",
       );
@@ -228,6 +235,7 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockNoVideoverhandlungNoVersaeumnisurteil,
+        true,
       );
       const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
         ([tag]) => tag === "P",

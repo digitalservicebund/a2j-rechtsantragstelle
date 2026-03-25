@@ -26,7 +26,7 @@ describe("createFirstPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createFirstPage(mockDoc, mockStruct, userDataMock);
+    createFirstPage(mockDoc, mockStruct, userDataMock, true);
 
     expect(createLocalCourtAndDate).toBeCalledTimes(1);
   });
@@ -35,7 +35,7 @@ describe("createFirstPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createFirstPage(mockDoc, mockStruct, userDataMock);
+    createFirstPage(mockDoc, mockStruct, userDataMock, true);
 
     expect(createFlightCompensationClaim).toBeCalledTimes(1);
   });
@@ -44,7 +44,7 @@ describe("createFirstPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createFirstPage(mockDoc, mockStruct, userDataMock);
+    createFirstPage(mockDoc, mockStruct, userDataMock, true);
 
     expect(createStatementClaim).toBeCalledTimes(1);
   });

@@ -24,6 +24,7 @@ export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
+  showFGROnlineVerfahren: boolean,
 ) => {
   const { prozesszinsen, versaeumnisurteil, videoverhandlung } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);
@@ -44,6 +45,7 @@ export const createStatementClaim = (
     statementClaimSect,
     prozesszinsen ?? "",
     compensationByDistance,
+    showFGROnlineVerfahren,
   );
 
   if (
