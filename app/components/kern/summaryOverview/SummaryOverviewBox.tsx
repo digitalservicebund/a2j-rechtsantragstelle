@@ -36,6 +36,9 @@ const SummaryOverviewBox = ({
                 : title.text
             }
             className="mb-16"
+            type="label"
+            size="large"
+            managedByParent
           />
         )}
         {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
