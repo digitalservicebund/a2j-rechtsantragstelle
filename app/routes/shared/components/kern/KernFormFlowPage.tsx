@@ -58,7 +58,7 @@ export function KernFormFlowPage() {
             lgColumn={{ start: 1, span: 11 }}
             xlColumn={{ start: 1, span: 11 }}
             row={1}
-            className="hidden lg:block"
+            className="hidden lg:block pb-kern-space-default"
           >
             <FlowStepperNavigation steps={navigationProps.stepsStepper} />
           </GridItem>
