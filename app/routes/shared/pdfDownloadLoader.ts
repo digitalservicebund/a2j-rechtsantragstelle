@@ -13,6 +13,7 @@ import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
   getSessionData,
@@ -62,8 +63,14 @@ const pdfConfigs = {
     name: `Erklaerung_Prozesskostenhilfe`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) =>
-      await fluggastrechtePdfFromUserdata(userData),
+    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) => {
+      const showFGROnlineVerfahren = await isFeatureFlagEnabled(
+        "showFGROnlineVerfahren",
+      );
+      return await fluggastrechtePdfFromUserdata(userData, {
+        showFGROnlineVerfahren: Boolean(showFGROnlineVerfahren),
+      });
+    },
     name: `Fluggastrechte_Klage`,
   },
   "/kontopfaendung/pkonto/antrag": {
