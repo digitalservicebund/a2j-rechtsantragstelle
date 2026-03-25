@@ -1,10 +1,8 @@
+import axios from "axios";
 import { StrapiImageSchema } from "~/services/cms/models/StrapiImage";
 
 const mockSvgString = "svgString";
-const fetchMock = vi
-  .fn()
-  .mockResolvedValue({ text: () => Promise.resolve(mockSvgString) });
-globalThis.fetch = fetchMock;
+vi.mock("axios");
 
 const strapiImage = {
   url: "",
@@ -26,9 +24,12 @@ describe("StrapiImageSchema", () => {
     it("should fetch an SVG image and return an empty url", async () => {
       const imageURL = "https://example.com/image.svg";
       const input = { ...strapiImage, url: imageURL, mime };
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockSvgString });
+
       const result = await StrapiImageSchema.safeParseAsync(input);
+
       const expected = { ...strapiImage, svgString: mockSvgString, mime };
-      expect(fetchMock).toHaveBeenCalledWith(imageURL);
+      expect(axios.get).toHaveBeenCalledWith(imageURL);
       expect(result.data).toEqual(expected);
     });
 
