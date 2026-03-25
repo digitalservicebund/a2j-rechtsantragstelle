@@ -27,7 +27,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
         name="check-circle"
         className="fill-kern-feedback-success"
         aria-label={translations.navigation.navigationItemFinished.de}
-        size={20}
+        size={24}
       />
     );
   } else if (showWarningIcon) {
@@ -36,7 +36,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
         name="warning"
         aria-label={translations.navigation.navigationItemWarning.de}
         className="fill-kern-feedback-warning"
-        size={20}
+        size={24}
       />
     );
   }
