@@ -12,10 +12,17 @@ import {
   hasStreitbeilegungGruende,
   hasBeweiseAngebot,
   hasAnwaltschaft,
+  hasKlagendePersonStatePlzPrefilled,
+  hasBeklagtePersonStatePlzPrefilled,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
 import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
+import {
+  prefillZipCode,
+  updateIfUserNotPrefilledBeklagtePlz,
+  updateIfUserNotPrefilledKlagendePersonPlz,
+} from "../services/prefillZipCode";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -33,6 +40,8 @@ export const geldEinklagenFormular = {
     ...hasStreitbeilegungGruende(context),
     ...hasBeweiseAngebot(context),
     ...hasAnwaltschaft(context),
+    ...hasKlagendePersonStatePlzPrefilled(context),
+    ...hasBeklagtePersonStatePlzPrefilled(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
@@ -44,4 +53,21 @@ export const geldEinklagenFormular = {
     },
   },
   useStepper: true,
+  asyncFlowActions: {
+    "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
+      prefillZipCode,
+    "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person":
+      prefillZipCode,
+    "/klage-erstellen/intro/start": prefillZipCode,
+    "/gericht-pruefen/zustaendiges-gericht/pilot-gericht": prefillZipCode,
+    "/gericht-pruefen/klagende-person/kaufmann": prefillZipCode,
+    "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung":
+      prefillZipCode,
+    "/klage-erstellen/klagende-person/kontaktdaten":
+      updateIfUserNotPrefilledKlagendePersonPlz,
+    "/klage-erstellen/beklagte-person/mensch":
+      updateIfUserNotPrefilledBeklagtePlz,
+    "/klage-erstellen/beklagte-person/organisation":
+      updateIfUserNotPrefilledBeklagtePlz,
+  },
 } satisfies Flow;
