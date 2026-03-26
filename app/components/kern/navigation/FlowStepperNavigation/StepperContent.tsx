@@ -24,6 +24,7 @@ export function StepperContent({
       aria-disabled={styles.isDisabled}
       aria-current={styles.isCurrent}
       aria-describedby={styles.isDone || styles.isWarning ? iconId : undefined}
+      tabIndex={-1}
     >
       <span className={styles.circle}>
         <StepperIcon state={state} stepIndex={stepIndex} />

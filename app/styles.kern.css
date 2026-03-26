@@ -51,30 +51,6 @@
     box-shadow: none !important;
   }
 
-  /* Select all but the last stepper, as it doesn't contain a forward arrow shape */
-  .stepper-list > li:nth-last-child(n + 2):before {
-    height: 100%;
-  }
-
-  .stepper-list > li:last-child:before {
-    width: 100%;
-    z-index: 50;
-    height: 100%;
-  }
-
-  /* Need to pull the steppers forward, so their shadow isn't cut off by the previous arrow */
-  .stepper-list > li:focus-within {
-    z-index: 50 !important;
-  }
-
-  .stepper-list > li:focus-within:before {
-    border-radius: var(--kern-metric-border-radius-default, 0.25rem);
-    box-shadow:
-      0 0 0 2px var(--kern-color-action-on-default),
-      0 0 0 4px var(--kern-color-action-focus-border-inside),
-      0 0 0 6px var(--kern-color-action-focus-border-outside);
-  }
-
   .stepper-step::before {
     content: "";
     position: absolute;
@@ -92,6 +68,7 @@
 
   .stepper-step::after {
     content: "";
+    outline: none;
     position: absolute;
     width: 0;
     height: 0;
