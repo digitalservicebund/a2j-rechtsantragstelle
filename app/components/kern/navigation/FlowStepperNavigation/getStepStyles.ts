@@ -16,7 +16,7 @@ export function getStepStyles(state: NavState) {
     isDisabled: stateIsDisabled(state),
 
     container: classNames(
-      "border border-2 border-kern-neutral-300 flex w-full relative group before:absolute  rounded-sm",
+      "border border-kern-neutral-300 flex w-full relative h-[48px] items-center",
       {
         "bg-kern-neutral-025 text-kern-neutral-400 pointer-events-none":
           stateIsDisabled(state),
@@ -24,6 +24,14 @@ export function getStepStyles(state: NavState) {
         "bg-kern-neutral-200 font-semibold": stateIsCurrent(state),
       },
     ),
+
+    arrowBg: stateIsCurrent(state)
+      ? "var(--color-kern-neutral-200)"
+      : stateIsDisabled(state)
+        ? "var(--color-kern-neutral-025)"
+        : stateIsWarning(state)
+          ? "var(--color-kern-feedback-warning)"
+          : "var(--color-kern-neutral-025)",
 
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
