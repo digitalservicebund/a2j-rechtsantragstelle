@@ -25,6 +25,7 @@ import {
   getRenteStrings,
   getPflegegeldStrings,
   getBescheinigungStrings,
+  getPfaendungsfreibetraegeStrings,
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
@@ -58,5 +59,6 @@ export const kontopfaendungWegweiser = {
     ...getRenteStrings(userData),
     ...getPflegegeldStrings(userData),
     ...getBescheinigungStrings(userData),
+    ...getPfaendungsfreibetraegeStrings(),
   }),
 } satisfies Flow;
