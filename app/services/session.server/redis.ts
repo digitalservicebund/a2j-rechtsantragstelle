@@ -1,4 +1,4 @@
-import { Vault } from "../redis/encryption";
+import { pack, unpack } from "../redis/encryption";
 import { getRedisInstance } from "../redis/redisClient";
 
 const timeToLiveSeconds = 60 * 60 * 24;
@@ -10,7 +10,7 @@ export async function setDataForSession(
   data: RedisData,
   userKey?: string,
 ) {
-  const payload = Vault.pack(data, uuid, userKey);
+  const payload = pack(data, uuid, userKey);
   return getRedisInstance().set(uuid, payload, "EX", timeToLiveSeconds);
 }
 
@@ -26,7 +26,7 @@ export async function updateDataForSession(
 export async function getDataForSession(uuid: string, userKey?: string) {
   const redisResponse = await getRedisInstance().getBuffer(uuid);
   if (!redisResponse) return null;
-  return Vault.unpack(redisResponse, uuid, userKey);
+  return unpack(redisResponse, uuid, userKey);
 }
 
 export async function deleteSessionData(uuid: string) {

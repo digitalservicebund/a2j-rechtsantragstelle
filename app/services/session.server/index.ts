@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { type MergeWithCustomizer } from "lodash";
 import mergeWith from "lodash/mergeWith";
-import type { Cookie, Session } from "react-router";
+import type { Session } from "react-router";
 import { createSessionStorage, createCookie } from "react-router";
 import { flowIds, type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
