@@ -20,7 +20,7 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 const TEXTAREA_MAX_LENGTH = 60000;
 
 const stateZipCodePrefilled = z
-  .enum(["prefilled", "filledByUser", "none"])
+  .enum(["prefilled", "filledByUser", "unfilled"])
   .default("filledByUser");
 
 const sharedBeklagteAddress = {

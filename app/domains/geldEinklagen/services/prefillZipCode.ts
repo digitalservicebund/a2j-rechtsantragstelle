@@ -25,10 +25,10 @@ const prefillZipKlagendePerson = (
 
   /**
    * if the user doesn't have a secondary zip code or the guard for pre-filling the zip code for the plaintiff is not fulfilled
-   * we set the state to "none" and the zip code to an empty value
+   * we set the state to "unfilled" and the zip code to an empty value
    *  */
   return {
-    klagendePersonStatePlzPrefilled: "none",
+    klagendePersonStatePlzPrefilled: "unfilled",
     klagendePersonPlz: "",
   };
 };
@@ -49,9 +49,9 @@ const prefillZipBeklagtePerson = (
     return undefined;
   }
 
-  // if the user doesn't have a defendant zip code, we set the state to "none" and the zip code to an empty value
+  // if the user doesn't have a defendant zip code, we set the state to "unfilled" and the zip code to an empty value
   return {
-    beklagteStatePlzPrefilled: "none",
+    beklagteStatePlzPrefilled: "unfilled",
     beklagtePlz: "",
   };
 };
