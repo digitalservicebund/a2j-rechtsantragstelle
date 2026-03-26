@@ -48,9 +48,10 @@ export const addLegalRepresentation = (
   const address = userData.klagendePersonAnwaltschaftStrasseHausnummer ?? "";
   const zipCode = userData.klagendePersonAnwaltschaftPlz ?? "";
   const city = userData.klagendePersonAnwaltschaftOrt ?? "";
-  const businessIdentification = userData.klagendePersonAnwaltschaftKanzlei
-    ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftKanzlei}`
-    : "";
+  const businessIdentification =
+    userData.klagendePersonAnwaltschaftGeschaeftszeichen
+      ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftGeschaeftszeichen}`
+      : "";
   const contactInfo = [
     userData.klagendePersonAnwaltschaftTelefonnummer,
     userData.klagendePersonAnwaltschaftEmail,

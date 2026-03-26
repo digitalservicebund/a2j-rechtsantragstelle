@@ -24,13 +24,13 @@ const StepStepperLinks = ({
   }
 
   return (
-    <div>
+    <>
       {stepsStepper
         .map((step, index) => {
           return { ...step, stepIndex: index + 1 };
         })
         .filter(
-          (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
+          (steps) => stateIsCurrent(steps.state) && stateIsActive(steps.state),
         )
         .map((step) => {
           const isWarningStep = stateIsWarning(step.state);
@@ -38,11 +38,11 @@ const StepStepperLinks = ({
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <a
                 href={step.href}
-                className="truncate text-left mw-[70vw]"
+                className="truncate flex kern-link text-left mw-[70vw] pt-0!"
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
-                <KernIcon name="chevron-left" className="inline" />
+                <KernIcon name="arrow-back" className="inline" />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
@@ -55,7 +55,7 @@ const StepStepperLinks = ({
             </div>
           );
         })}
-    </div>
+    </>
   );
 };
 
@@ -143,21 +143,21 @@ export default function SideNavMobile({
         >
           <div className="flex flex-row gap-8">
             <div className="flex flex-col items-start">
-              <span className="kern-body kern-body--bold kern-body--small truncate text-left w-[70vw]">
+              <span className="kern-body--bold truncate text-left w-[70vw]">
                 {currentAreaTitle}
               </span>
-              <span className="kern-body kern-body--small">
+              <span className=" text-kern-layout-text-muted">
                 {currentNavTitle}
               </span>
             </div>
           </div>
           <KernIcon
             name="keyboard-arrow-up"
-            className="hidden group-open:block"
+            className="hidden! group-open:block! fill-kern-action-default"
           />
           <KernIcon
             name="keyboard-arrow-down"
-            className="block group-open:hidden"
+            className="block! group-open:hidden! fill-kern-action-default"
           />
         </div>
       </summary>

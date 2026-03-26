@@ -164,7 +164,7 @@ export const translations = {
       de: "Schritt-für-Schritt-Menü umschalten",
     },
     toStep: {
-      de: "Zu Schritt:",
+      de: "Zum Schritt:",
     },
   },
   buttonNavigation: {
