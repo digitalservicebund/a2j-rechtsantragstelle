@@ -79,7 +79,7 @@ export function getSessionManager(context: SessionUserData) {
       session.unset("__vaultKey");
       return generateHeader([
         await createScopedStorage(context, userKey).commitSession(session),
-        await vaultCookie.serialize({ userKey }),
+        await vaultCookie.serialize(userKey),
       ]);
     },
 
