@@ -70,7 +70,7 @@ export function getSessionManager(context: SessionUserData) {
 
       const storage = createScopedStorage(context, userKey);
       const session = await storage.getSession(cookieHeader);
-      session.set("__vaultKey", userKey); // to pass to commitSession. Could be refactored to add cookieheader on getSessionManager()
+      session.set("__vaultKey", userKey); // to pass to commitSession. Should be refactored to add cookieHeader on getSessionManager()
       return session;
     },
 
