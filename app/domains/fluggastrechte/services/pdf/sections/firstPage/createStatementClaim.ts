@@ -35,8 +35,18 @@ const onlineVerfahrenVideoTrialAgreement = (
   const responses: Record<string, string> = {
     yes: "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
     no: "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
+    noSpecification: "",
   };
   return responses[videoverhandlung ?? ""] ?? "";
+};
+
+const videoTrialAgreement = (
+  videoverhandlung: string | undefined,
+  showFGROnlineVerfahren: boolean,
+): string => {
+  return showFGROnlineVerfahren
+    ? onlineVerfahrenVideoTrialAgreement(videoverhandlung)
+    : legacyVideoTrialAgreement(videoverhandlung);
 };
 
 export const createStatementClaim = (
@@ -75,9 +85,9 @@ export const createStatementClaim = (
   const negotiationTexts = showFGROnlineVerfahren
     ? [
         oralTrialAgreement(muendlicheVerhandlung),
-        onlineVerfahrenVideoTrialAgreement(videoverhandlung),
+        videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren),
       ].filter((text): text is string => Boolean(text))
-    : [legacyVideoTrialAgreement(videoverhandlung)].filter(
+    : [videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren)].filter(
         (text): text is string => Boolean(text),
       );
 

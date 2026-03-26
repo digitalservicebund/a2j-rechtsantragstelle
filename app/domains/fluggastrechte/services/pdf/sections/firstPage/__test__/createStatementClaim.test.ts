@@ -17,6 +17,8 @@ import {
 
 const LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST =
   "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.";
+const LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS =
+  "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.";
 const ONLINE_STATEMENT_ORAL_TRIAL_REQUEST =
   "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.";
 const ONLINE_STATEMENT_VIDEO_TRIAL_REQUEST =
@@ -122,6 +124,54 @@ describe("createStatementClaim", () => {
 
       expect(mockDoc.text).toHaveBeenCalledWith(
         LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should include legacy videoverhandlung concerns sentence when feature flag is disabled and answer is no", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVideoTrialConcerns = {
+        ...userDataMock,
+        videoverhandlung: "no",
+      } satisfies FluggastrechteUserData;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVideoTrialConcerns,
+        false,
+      );
+
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should not include legacy videoverhandlung text when feature flag is disabled and answer is noSpecification", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVideoverhandlungNoSpecification = {
+        ...userDataMock,
+        videoverhandlung: "noSpecification",
+      } satisfies FluggastrechteUserData;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVideoverhandlungNoSpecification,
+        false,
+      );
+
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS,
         PDF_MARGIN_HORIZONTAL,
       );
     });
