@@ -120,7 +120,7 @@ export function KernResultPage() {
             <KernButtonContainer>
               {back.destination && (
                 <a
-                  className="kern-link kern-link--small no-underline!"
+                  className="kern-link text-kern-static-small! no-underline!"
                   href={back.destination}
                 >
                   <KernIcon name="arrow-back" />
@@ -129,7 +129,7 @@ export function KernResultPage() {
               )}
               {cmsContent.nextLink?.url && (
                 <a
-                  className="kern-link kern-link--small no-underline!"
+                  className="kern-link text-kern-static-small! no-underline!"
                   href={cmsContent.nextLink.url}
                 >
                   <KernIcon name="keyboard-double-arrow-left" />

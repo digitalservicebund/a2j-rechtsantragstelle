@@ -7,6 +7,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "anderesRechtsproblem",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/beklagte-person": true,
+    },
+  },
 };
 
 export const testCasesBeklagteOtherSachgebiet = [

@@ -27,6 +27,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
+  pageData: {
+    subflowDoneStates: {
+      "/klage-erstellen/prozessfuehrung": true,
+    },
+  },
 };
 
 export const testCasesKlageErstellenProzessfuehrung = [

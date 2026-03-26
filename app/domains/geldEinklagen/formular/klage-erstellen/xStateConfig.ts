@@ -6,8 +6,19 @@ import { prozessfuehrungXstateConfig } from "~/domains/geldEinklagen/formular/kl
 import { rechtlicherZusatzXstateConfig } from "./rechtlicher-zusatz/xStateConfig";
 import { klagendePersonXstateConfig } from "./klagende-person/xStateConfig";
 import { type GeldEinklagenFormularUserData } from "../userData";
+import { type GenericGuard } from "~/domains/guards.server";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
+
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
+
+const isBeklagtePersonDone: GeldEinklagenDaten = ({ context }) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/klage-erstellen/beklagte-person"
+    ] === true
+  );
+};
 
 export const klageErstellenXstateConfig = {
   id: "klage-erstellen",
@@ -65,14 +76,7 @@ export const klageErstellenXstateConfig = {
           on: {
             BACK: steps.klagendePersonKontaktdaten.absolute,
             SUBMIT: {
-              guard: ({ context }) =>
-                objectKeysNonEmpty(context, [
-                  "beklagteNachname",
-                  "beklagteVorname",
-                  "beklagteStrasseHausnummer",
-                  "beklagtePlz",
-                  "beklagteOrt",
-                ]),
+              guard: isBeklagtePersonDone,
               target: steps.forderungGesamtbetrag.absolute,
             },
           },
@@ -80,13 +84,7 @@ export const klageErstellenXstateConfig = {
         [steps.beklagtePersonOrganisation.relative]: {
           on: {
             SUBMIT: {
-              guard: ({ context }) =>
-                objectKeysNonEmpty(context, [
-                  "beklagteNameOrganisation",
-                  "beklagteStrasseHausnummer",
-                  "beklagtePlz",
-                  "beklagteOrt",
-                ]),
+              guard: isBeklagtePersonDone,
               target: steps.forderungGesamtbetrag.absolute,
             },
             BACK: steps.klagendePersonKontaktdaten.absolute,

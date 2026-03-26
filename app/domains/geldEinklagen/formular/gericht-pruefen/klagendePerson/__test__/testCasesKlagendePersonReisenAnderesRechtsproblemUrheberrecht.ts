@@ -1,11 +1,16 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const baseContext = {
-  anwaltschaft: "no" as const,
-  forderung: "maximal10000" as const,
-  ausgeschlossen: "yes" as const,
-  fuerWenKlagen: "selbst" as const,
+const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
+  forderung: "maximal10000",
+  ausgeschlossen: "yes",
+  fuerWenKlagen: "selbst",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/klagende-person": true,
+    },
+  },
 };
 
 export const testCasesKlagendePersonReisenAnderesRechtsproblemUrheberrecht = [

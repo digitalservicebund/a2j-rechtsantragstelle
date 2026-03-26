@@ -2,7 +2,7 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
-import InputError from "~/components/formElements/InputError";
+import InputError from "~/components/kern/formElements/InputError";
 
 export type KernDateInputProps = Readonly<{
   name: string;

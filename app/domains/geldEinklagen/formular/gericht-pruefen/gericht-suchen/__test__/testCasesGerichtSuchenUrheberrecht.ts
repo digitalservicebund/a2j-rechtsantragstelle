@@ -11,6 +11,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   fuerWenKlagen: "selbst",
   sachgebiet: "urheberrecht",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesGerichtSuchenUrheberrecht = [
