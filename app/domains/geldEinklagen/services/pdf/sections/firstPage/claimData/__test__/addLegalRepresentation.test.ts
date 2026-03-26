@@ -31,6 +31,7 @@ describe("addLegalRepresentation", () => {
       klagendePersonAnwaltschaftStrasseHausnummer: "Musterstraße 1",
       klagendePersonAnwaltschaftPlz: "12345",
       klagendePersonAnwaltschaftOrt: "Musterstadt",
+      klagendePersonAnwaltschaftGeschaeftszeichen: "123/456/789",
     };
 
     addLegalRepresentation(mockDoc, userDataWithAnwaltschaft);
@@ -45,5 +46,6 @@ describe("addLegalRepresentation", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Musterstraße 1, 12345 Musterstadt, Deutschland",
     );
+    expect(mockDoc.text).toHaveBeenCalledWith("Geschäftszeichen: 123/456/789");
   });
 });
