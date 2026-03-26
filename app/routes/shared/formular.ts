@@ -162,7 +162,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       }
     }
     return data(flowSession.data, {
-      headers: { "Set-Cookie": await commitSession(flowSession) },
+      headers: await commitSession(flowSession),
       status: 200,
     });
   }
@@ -202,7 +202,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   await postValidationFlowAction(request, prunedData);
 
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const headers = await commitSession(flowSession);
   const destination = flowDestination(pathname, prunedData);
   return redirectDocument(destination, { headers });
 };

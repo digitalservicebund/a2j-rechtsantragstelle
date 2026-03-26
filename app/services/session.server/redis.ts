@@ -1,27 +1,32 @@
+import { Vault } from "../redis/encryption";
 import { getRedisInstance } from "../redis/redisClient";
 
 const timeToLiveSeconds = 60 * 60 * 24;
 
 type RedisData = Record<string, unknown>;
 
-export async function setDataForSession(uuid: string, data: RedisData) {
-  return getRedisInstance().set(
-    uuid,
-    JSON.stringify(data),
-    "EX",
-    timeToLiveSeconds,
-  );
+export async function setDataForSession(
+  uuid: string,
+  data: RedisData,
+  userKey?: string,
+) {
+  const payload = Vault.pack(data, uuid, userKey);
+  return getRedisInstance().set(uuid, payload, "EX", timeToLiveSeconds);
 }
 
-export async function updateDataForSession(uuid: string, data: RedisData) {
-  const currentData = await getDataForSession(uuid);
-  return setDataForSession(uuid, { ...currentData, ...data });
+export async function updateDataForSession(
+  uuid: string,
+  data: RedisData,
+  userKey?: string,
+) {
+  const currentData = await getDataForSession(uuid, userKey);
+  return setDataForSession(uuid, { ...currentData, ...data }, userKey);
 }
 
-export async function getDataForSession(uuid: string) {
-  const redisResponse = await getRedisInstance().get(uuid);
+export async function getDataForSession(uuid: string, userKey?: string) {
+  const redisResponse = await getRedisInstance().getBuffer(uuid);
   if (!redisResponse) return null;
-  return JSON.parse(redisResponse) as RedisData;
+  return Vault.unpack(redisResponse, uuid, userKey);
 }
 
 export async function deleteSessionData(uuid: string) {

@@ -29,7 +29,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     request,
     session: await sessionManager.getSession(request.headers.get("Cookie")),
   });
-  const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
 
   return data(
     {
@@ -43,7 +42,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         breadcrumb: "Amtsgericht finden",
       },
     },
-    { headers },
+    { headers: await sessionManager.commitSession(session) },
   );
 }
 
