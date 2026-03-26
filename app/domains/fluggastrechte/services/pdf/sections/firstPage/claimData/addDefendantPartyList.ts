@@ -21,9 +21,14 @@ export const addDefendantPartyList = (
       ? " nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit"
       : "";
 
-  const defendantPartyList = {
+  const defendantPartyList: Record<string, string> = {
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
   };
+
+  if (showFGROnlineVerfahren) {
+    defendantPartyList["2. "] =
+      "Die beklagte Partei trägt die Kosten des Rechtsstreits.";
+  }
 
   const statementClaimList = doc.struct("L");
 
