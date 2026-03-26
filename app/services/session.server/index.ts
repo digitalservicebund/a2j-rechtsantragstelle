@@ -38,7 +38,6 @@ const vaultCookie = createCookie("__vault", {
   secrets: [config().COOKIE_SESSION_SECRET],
   sameSite: "lax",
   httpOnly: true,
-  path: "/",
   maxAge: 24 * 60 * 60,
   secure: useSecureCookie,
 });
@@ -87,7 +86,6 @@ export function getSessionManager(context: SessionUserData) {
     async destroySession(session: Session): Promise<Headers> {
       return generateHeader([
         await createScopedStorage(context).destroySession(session),
-        await vaultCookie.serialize("", { maxAge: 0, expires: new Date(0) }),
       ]);
     },
   };
