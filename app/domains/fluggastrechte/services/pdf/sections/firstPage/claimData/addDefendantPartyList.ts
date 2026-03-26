@@ -25,7 +25,7 @@ export const addDefendantPartyList = (
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
   };
 
-  if (showFGROnlineVerfahren) {
+  if (!showFGROnlineVerfahren) {
     defendantPartyList["2. "] =
       "Die beklagte Partei trägt die Kosten des Rechtsstreits.";
   }
