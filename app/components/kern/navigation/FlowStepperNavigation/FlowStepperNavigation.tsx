@@ -4,7 +4,6 @@ import { type StepStepper } from "../types";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getStepStyles } from "./getStepStyles";
 import { StepperContent } from "./StepperContent";
-import { StepperTriangle } from "./StepperTriangle";
 
 type Props = {
   steps: StepStepper[];
@@ -20,14 +19,21 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
     >
       <ol className="flex max-w-full! pl-0 stepper-list">
         {steps.map(({ state, href, label }, stepIndex) => {
+          const isFirst = stepIndex === 0;
           const isLast = stepIndex === steps.length - 1;
+          const styles = getStepStyles(state);
           return (
             <li
               key={label}
-              className={classNames(getStepStyles(state).container, {
-                "border-r-0": !isLast,
+              className={classNames(styles.container, {
+                "border-r-0 stepper-step": !isLast,
+                "rounded-l-sm": isFirst,
+                "rounded-r-sm": isLast,
               })}
-              style={{ zIndex: steps.length - stepIndex }}
+              style={{
+                zIndex: steps.length - stepIndex,
+                ["--stepper-step-bg" as string]: styles.arrowBg,
+              }}
             >
               <StepperContent
                 href={href}
@@ -35,7 +41,6 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
                 label={label}
                 state={state}
               />
-              {!isLast && <StepperTriangle state={state} />}
             </li>
           );
         })}
