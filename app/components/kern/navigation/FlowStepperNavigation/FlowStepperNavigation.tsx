@@ -18,7 +18,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
       aria-label={translations.navigation.navigationStepper.de}
       className="w-full print:hidden"
     >
-      <ol className="flex max-w-full! pl-0">
+      <ol className="flex max-w-full! pl-0 stepper-list">
         {steps.map(({ state, href, label }, stepIndex) => {
           const isLast = stepIndex === steps.length - 1;
           return (
