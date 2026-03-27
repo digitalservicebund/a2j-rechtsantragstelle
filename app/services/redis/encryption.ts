@@ -5,6 +5,7 @@ import {
   hkdfSync,
 } from "node:crypto";
 import { logError } from "../logging";
+import { config } from "../env/env.server";
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 12;
@@ -23,7 +24,8 @@ export function pack(
   vaultKey?: string,
 ): Buffer {
   const plaintext = JSON.stringify(data);
-  if (!vaultKey) return Buffer.from(plaintext, "utf8");
+  if (!vaultKey || !config().ENABLE_SESSION_ENCRYPTION)
+    return Buffer.from(plaintext, "utf8");
 
   const key = deriveKey(vaultKey, uuid);
   const iv = randomBytes(IV_LENGTH);

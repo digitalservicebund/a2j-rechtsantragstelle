@@ -1,10 +1,15 @@
 import { describe, it, expect, vi } from "vitest";
 import { pack, unpack } from "../encryption";
 import * as logging from "~/services/logging";
+import { config } from "~/services/env/env.server";
 
 const mockUuid = "session-123-abc";
 const mockVaultKey = "super-secret-vault-key";
 const mockData = { foo: "bar", nested: { num: 42 } };
+
+vi.mock("~/services/env/env.server", () => ({ config: vi.fn() }));
+const mockedConfig = vi.mocked(config);
+mockedConfig.mockReturnValue({ ENABLE_SESSION_ENCRYPTION: true } as any);
 
 describe("pack", () => {
   it("should return a Buffer", () => {
@@ -20,6 +25,14 @@ describe("pack", () => {
 
   it("should fall back to JSON buffer without vaultKey", () => {
     const result = pack(mockData, mockUuid);
+    const parsed = JSON.parse(result.toString("utf8"));
+    expect(parsed).toEqual(mockData);
+  });
+
+  it("should fall back to JSON buffer if ENABLE_SESSION_ENCRYPTION is false", () => {
+    const mockedConfigResponse: any = { ENABLE_SESSION_ENCRYPTION: false };
+    mockedConfig.mockReturnValueOnce(mockedConfigResponse);
+    const result = pack(mockData, mockUuid, mockVaultKey);
     const parsed = JSON.parse(result.toString("utf8"));
     expect(parsed).toEqual(mockData);
   });
