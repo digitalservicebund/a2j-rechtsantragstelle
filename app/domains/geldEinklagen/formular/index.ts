@@ -12,8 +12,8 @@ import {
   hasStreitbeilegungGruende,
   hasBeweiseAngebot,
   hasAnwaltschaft,
-  hasKlagendePersonStatePlzPrefilled,
-  hasBeklagtePersonStatePlzPrefilled,
+  hasKlagendePersonStatePrefilled,
+  hasBeklagtePersonStatePrefilled,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -40,8 +40,8 @@ export const geldEinklagenFormular = {
     ...hasStreitbeilegungGruende(context),
     ...hasBeweiseAngebot(context),
     ...hasAnwaltschaft(context),
-    ...hasKlagendePersonStatePlzPrefilled(context),
-    ...hasBeklagtePersonStatePlzPrefilled(context),
+    ...hasKlagendePersonStatePrefilled(context),
+    ...hasBeklagtePersonStatePrefilled(context),
   }),
   config: {
     id: "/geld-einklagen/formular",

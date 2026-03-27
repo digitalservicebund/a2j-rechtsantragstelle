@@ -132,20 +132,20 @@ export const hasAnwaltschaft = (context: GeldEinklagenFormularUserData) => {
   };
 };
 
-export const hasKlagendePersonStatePlzPrefilled = (
+export const hasKlagendePersonStatePrefilled = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    hasKlagendePersonStatePlzPrefilled:
-      context.klagendePersonStatePlzPrefilled === "prefilled",
+    hasKlagendePersonStatePrefilled:
+      context.klagendePersonStatePrefilled === "prefilled",
   };
 };
 
-export const hasBeklagtePersonStatePlzPrefilled = (
+export const hasBeklagtePersonStatePrefilled = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    hasBeklagtePersonStatePlzPrefilled:
-      context.beklagteStatePlzPrefilled === "prefilled",
+    hasBeklagtePersonStatePrefilled:
+      context.beklagteStatePrefilled === "prefilled",
   };
 };
