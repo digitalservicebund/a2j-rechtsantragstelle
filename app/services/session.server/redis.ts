@@ -1,4 +1,4 @@
-import { pack, unpack } from "../redis/encryption";
+import { pack, unpack } from "./encryption";
 import { getRedisInstance } from "../redis/redisClient";
 
 const timeToLiveSeconds = 60 * 60 * 24;
