@@ -13,13 +13,13 @@ const prefillZipKlagendePerson = (
     userData.postleitzahlSecondary
   ) {
     return {
-      klagendePersonStatePlzPrefilled: "prefilled",
+      klagendePersonStatePrefilled: "prefilled",
       klagendePersonPlz: userData.postleitzahlSecondary,
     };
   }
 
   //if the user has already filled the zip code for the plaintiff, we don't want to overwrite it with an empty value
-  if (userData.klagendePersonStatePlzPrefilled === "filledByUser") {
+  if (userData.klagendePersonStatePrefilled === "filledByUser") {
     return undefined;
   }
 
@@ -28,7 +28,7 @@ const prefillZipKlagendePerson = (
    * we set the state to "unfilled" and the zip code to an empty value
    *  */
   return {
-    klagendePersonStatePlzPrefilled: "unfilled",
+    klagendePersonStatePrefilled: "unfilled",
     klagendePersonPlz: "",
   };
 };
@@ -39,19 +39,19 @@ const prefillZipBeklagtePerson = (
   //if the user has the zip code for the defendant
   if (userData.postleitzahlBeklagtePerson) {
     return {
-      beklagteStatePlzPrefilled: "prefilled",
+      beklagteStatePrefilled: "prefilled",
       beklagtePlz: userData.postleitzahlBeklagtePerson,
     };
   }
 
   //if the user has already filled the zip code for the defendant, we don't want to overwrite it with an empty value
-  if (userData.beklagteStatePlzPrefilled === "filledByUser") {
+  if (userData.beklagteStatePrefilled === "filledByUser") {
     return undefined;
   }
 
   // if the user doesn't have a defendant zip code, we set the state to "unfilled" and the zip code to an empty value
   return {
-    beklagteStatePlzPrefilled: "unfilled",
+    beklagteStatePrefilled: "unfilled",
     beklagtePlz: "",
   };
 };
@@ -76,12 +76,12 @@ export const updateIfUserNotPrefilledBeklagtePlz = async (
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
 ) => {
-  if (userData.beklagteStatePlzPrefilled === "prefilled") {
+  if (userData.beklagteStatePrefilled === "prefilled") {
     return;
   }
 
   const userPrefillData: Partial<GeldEinklagenFormularUserData> = {
-    beklagteStatePlzPrefilled: "filledByUser",
+    beklagteStatePrefilled: "filledByUser",
   };
 
   const updatedUserData = merge({}, userData, userPrefillData);
@@ -94,12 +94,12 @@ export const updateIfUserNotPrefilledKlagendePersonPlz = async (
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
 ) => {
-  if (userData.klagendePersonStatePlzPrefilled === "prefilled") {
+  if (userData.klagendePersonStatePrefilled === "prefilled") {
     return;
   }
 
   const userPrefillData: Partial<GeldEinklagenFormularUserData> = {
-    klagendePersonStatePlzPrefilled: "filledByUser",
+    klagendePersonStatePrefilled: "filledByUser",
   };
 
   const updatedUserData = merge({}, userData, userPrefillData);
