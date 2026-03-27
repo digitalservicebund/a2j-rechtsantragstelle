@@ -111,7 +111,9 @@ export const createStatementClaim = (
 
     statementClaimSect.add(
       doc.struct("P", {}, () => {
-        doc.text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
       }),
     );
   }
