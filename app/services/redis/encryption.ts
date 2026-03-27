@@ -4,6 +4,7 @@ import {
   randomBytes,
   hkdfSync,
 } from "node:crypto";
+import { logError } from "../logging";
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 12;
@@ -57,11 +58,7 @@ export function unpack(
       decipher.update(cipherText, undefined, "utf8") + decipher.final("utf8");
     return JSON.parse(decrypted);
   } catch (error) {
-    // oxlint-disable-next-line no-console
-    console.error(
-      "[Vault] Unpack failed:",
-      error instanceof Error ? error.message : error,
-    );
+    logError({ message: "[Vault] Unpack failed", error });
     return null;
   }
 }
