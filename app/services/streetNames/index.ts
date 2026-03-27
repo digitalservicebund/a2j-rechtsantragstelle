@@ -1,5 +1,10 @@
 import { DatabaseSync, type StatementSync } from "node:sqlite";
-import type { StreetData } from "scripts/streetNames/postProcess";
+
+type StreetData = {
+  postalCode: string;
+  name: string;
+  city: string;
+};
 
 let dbLookupStatement: StatementSync | undefined = undefined;
 

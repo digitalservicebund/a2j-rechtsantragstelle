@@ -3,12 +3,6 @@ import { parseFile } from "@fast-csv/parse";
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 
-export type StreetData = {
-  postalCode: string;
-  name: string;
-  city: string;
-};
-
 // We want to drop any row, where the streetName doesn't start with a letter or number
 // ^      -> Start of string
 // \p{L}  -> Any letter from any language (includes Ä, ß, Ć, İ, Š, etc.)
