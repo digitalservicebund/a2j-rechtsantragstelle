@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { pack, unpack } from "../encryption";
+import * as logging from "~/services/logging";
 
 const mockUuid = "session-123-abc";
 const mockVaultKey = "super-secret-vault-key";
@@ -35,20 +36,20 @@ describe("unpack", () => {
     expect(unpack(legacyData, mockUuid)).toEqual(mockData);
   });
 
-  it("should return null if the vaultKey is wrong (Auth Tag failure)", () => {
+  it("should return undefined if the vaultKey is wrong (Auth Tag failure)", () => {
     const encrypted = pack(mockData, mockUuid, mockVaultKey);
-    expect(unpack(encrypted, mockUuid, "wrong-key")).toBeNull();
+    expect(unpack(encrypted, mockUuid, "wrong-key")).toBeUndefined();
   });
 
-  it("should return null if the UUID is different (Key Derivation failure)", () => {
+  it("should return undefined if the UUID is different (Key Derivation failure)", () => {
     const encrypted = pack(mockData, "uuid-a", mockVaultKey);
-    expect(unpack(encrypted, "uuid-b", mockVaultKey)).toBeNull();
+    expect(unpack(encrypted, "uuid-b", mockVaultKey)).toBeUndefined();
   });
 
-  it("should return null and log error if encrypted data is missing a key", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  it("should return undefined and log error if encrypted data is missing a key", () => {
     const encrypted = pack(mockData, mockUuid, mockVaultKey);
-    expect(unpack(encrypted, mockUuid)).toBeNull();
+    expect(unpack(encrypted, mockUuid)).toBeUndefined();
     expect(consoleSpy).toHaveBeenCalledWith(
       "[Vault] Unpack failed:",
       "Data is encrypted but no key provided.",
@@ -56,25 +57,25 @@ describe("unpack", () => {
     consoleSpy.mockRestore();
   });
 
-  it("should return null if the buffer is tampered with", () => {
+  it("should return undefined if the buffer is tampered with", () => {
     const encrypted = pack(mockData, mockUuid, mockVaultKey);
     encrypted[encrypted.length - 1] ^= 1; // Flip a random bit in the ciphertext area
-    expect(unpack(encrypted, mockUuid, mockVaultKey)).toBeNull();
+    expect(unpack(encrypted, mockUuid, mockVaultKey)).toBeUndefined();
   });
 
-  it("should return null for an empty buffer", () => {
-    expect(unpack(Buffer.alloc(0), mockUuid)).toBeNull();
+  it("should return undefined for an empty buffer", () => {
+    expect(unpack(Buffer.alloc(0), mockUuid)).toBeUndefined();
   });
 
-  it("should return null for non-JSON data", () => {
+  it("should return undefined for non-JSON data", () => {
     const badData = Buffer.from("this is definitely not json", "utf8");
-    expect(unpack(badData, mockUuid)).toBeNull();
+    expect(unpack(badData, mockUuid)).toBeUndefined();
   });
 
-  it("should return null if the encrypted buffer is truncated", () => {
+  it("should return undefined if the encrypted buffer is truncated", () => {
     const encrypted = pack(mockData, mockUuid, mockVaultKey);
     const truncated = encrypted.subarray(0, 10);
-    expect(unpack(truncated, mockUuid, mockVaultKey)).toBeNull();
+    expect(unpack(truncated, mockUuid, mockVaultKey)).toBeUndefined();
   });
 
   it("should handle an empty object correctly", () => {
@@ -95,7 +96,7 @@ describe("Rotation Simulation", () => {
 
     const updatedData = { ...current, page: 2 };
     const blob2 = pack(updatedData, mockUuid, keyB);
-    expect(unpack(blob2, mockUuid, keyA)).toBeNull(); // Verify Key A no longer works for blob2
+    expect(unpack(blob2, mockUuid, keyA)).toBeUndefined(); // Verify Key A no longer works for blob2
     expect(unpack(blob2, mockUuid, keyB)).toEqual(updatedData); // Verify Key B works for blob2
   });
 

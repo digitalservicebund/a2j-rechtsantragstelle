@@ -41,7 +41,7 @@ export function unpack(
   buffer: Buffer,
   uuid: string,
   vaultKey?: string,
-): Record<string, unknown> | null {
+): Record<string, unknown> | undefined {
   try {
     if (!isBufferEncrypted(buffer)) return JSON.parse(buffer.toString("utf8"));
 
@@ -59,6 +59,5 @@ export function unpack(
     return JSON.parse(decrypted);
   } catch (error) {
     logError({ message: "[Vault] Unpack failed", error });
-    return null;
   }
 }
