@@ -65,7 +65,7 @@ const createScopedStorage = (context: SessionUserData, vaultKey?: string) => {
 export function getSessionManager(context: SessionUserData) {
   return {
     async getSession(cookieHeader: CookieHeader) {
-      const vaultKey =
+      const vaultKey: string =
         (await vaultCookie.parse(cookieHeader ?? null)) ?? generateVaultKey();
 
       const storage = createScopedStorage(context, vaultKey);
@@ -75,7 +75,7 @@ export function getSessionManager(context: SessionUserData) {
     },
 
     async commitSession(session: Session): Promise<Headers> {
-      const vaultKey = session.get("__vaultKey");
+      const vaultKey: string = session.get("__vaultKey");
       session.unset("__vaultKey");
       return generateHeader([
         await createScopedStorage(context, vaultKey).commitSession(session),
