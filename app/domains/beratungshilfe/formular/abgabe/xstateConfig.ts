@@ -6,7 +6,6 @@ import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/fo
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 const getOnlineBackTarget = () => {
   if (showFileUpload) {
@@ -31,26 +30,16 @@ export const abgabeXstateConfig = {
               ([stepId]) => !stepId.startsWith(`/${steps.abgabe.relative}`),
             )
             .every(([, subflowDone]) => Boolean(subflowDone)),
-        target: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : steps.art.relative,
+        target: steps.zusammenfassung.relative,
       },
     },
-
-    ...(showAutoSummary && {
-      [steps.zusammenfassung.relative]: {
-        on: {
-          BACK: "#weitere-angaben",
-          SUBMIT: steps.art.relative,
-        },
-      },
-    }),
+    [steps.zusammenfassung.relative]: {
+      on: { BACK: "#weitere-angaben", SUBMIT: steps.art.relative },
+    },
 
     [steps.art.relative]: {
       on: {
-        BACK: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : "#weitere-angaben",
+        BACK: steps.zusammenfassung.relative,
         SUBMIT: [
           {
             target: showFileUpload

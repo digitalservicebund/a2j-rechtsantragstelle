@@ -6,7 +6,6 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fileUploadRelevant, readyForAbgabe } from "./guards";
 
 const showFileUpload = Boolean(await isFeatureFlagEnabled("showFileUpload"));
-const showAutoSummary = Boolean(await isFeatureFlagEnabled("showAutoSummary"));
 const steps = xStateTargetsFromPagesConfig(pkhFormularAbgabePages);
 
 const weitereAngabenId = "#weitere-angaben";
@@ -29,50 +28,31 @@ export const abgabeXstateConfig = {
         },
         {
           guard: readyForAbgabe,
-          target: showAutoSummary
-            ? steps.zusammenfassung.relative
-            : steps.ende.relative,
+          target: steps.zusammenfassung.relative,
         },
       ],
     },
     [steps.dokumente.relative]: {
       on: {
         BACK: weitereAngabenId,
-        SUBMIT: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : steps.ende.relative,
+        SUBMIT: steps.zusammenfassung.relative,
       },
     },
-
-    ...(showAutoSummary && {
-      [steps.zusammenfassung.relative]: {
-        on: {
-          BACK: [
-            {
-              guard: ({ context }) =>
-                showFileUpload && fileUploadRelevant({ context }),
-              target: steps.dokumente.relative,
-            },
-            weitereAngabenId,
-          ],
-          SUBMIT: steps.ende.relative,
-        },
-      },
-    }),
-
-    [steps.ende.relative]: {
+    [steps.zusammenfassung.relative]: {
       on: {
-        BACK: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : [
-              {
-                guard: ({ context }) =>
-                  showFileUpload && fileUploadRelevant({ context }),
-                target: steps.dokumente.relative,
-              },
-              weitereAngabenId,
-            ],
+        BACK: [
+          {
+            guard: ({ context }) =>
+              showFileUpload && fileUploadRelevant({ context }),
+            target: steps.dokumente.relative,
+          },
+          weitereAngabenId,
+        ],
+        SUBMIT: steps.ende.relative,
       },
+    },
+    [steps.ende.relative]: {
+      on: { BACK: steps.zusammenfassung.relative },
     },
   },
 } satisfies Config<ProzesskostenhilfeAbgabeUserData>;
