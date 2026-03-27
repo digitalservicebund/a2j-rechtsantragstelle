@@ -11,6 +11,9 @@ import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
+export const ONLINE_STATEMENT_CLAIM_COURT_SENTENCE =
+  "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.";
+export const STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT = "Versäumnisurteil:";
 export const STATEMENT_NEGOTIATION_TITLE_TEXT = "Mündliche Verhandlung:";
 
 const legacyVideoTrialAgreement = (videoverhandlung?: string): string => {
@@ -91,10 +94,24 @@ export const createStatementClaim = (
         (text): text is string => Boolean(text),
       );
 
+  const defaultJudgmentText = showFGROnlineVerfahren
+    ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
+    : STATEMENT_CLAIM_COURT_SENTENCE;
+
   if (versaeumnisurteil === "yes") {
+    if (showFGROnlineVerfahren) {
+      statementClaimSect.add(
+        doc.struct("H3", {}, () => {
+          doc
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
+        }),
+      );
+    }
+
     statementClaimSect.add(
       doc.struct("P", {}, () => {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
+        doc.text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
       }),
     );
   }
@@ -104,6 +121,7 @@ export const createStatementClaim = (
       statementClaimSect.add(
         doc.struct("H3", {}, () => {
           doc
+            .moveDown(1)
             .font(FONTS_BUNDESSANS_BOLD)
             .text(STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
         }),

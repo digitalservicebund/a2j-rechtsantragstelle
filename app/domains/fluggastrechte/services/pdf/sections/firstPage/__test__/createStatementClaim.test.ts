@@ -11,6 +11,8 @@ import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
 import {
   createStatementClaim,
   STATEMENT_CLAIM_COURT_SENTENCE,
+  ONLINE_STATEMENT_CLAIM_COURT_SENTENCE,
+  STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
   STATEMENT_NEGOTIATION_TITLE_TEXT,
   STATEMENT_CLAIM_TITLE_TEXT,
 } from "../createStatementClaim";
@@ -60,7 +62,7 @@ describe("createStatementClaim", () => {
   });
 
   describe("createStatementClaim - versaeumnisurteil logic", () => {
-    it("should include court sentence when versaeumnisurteil is yes", () => {
+    it("should include online court sentence and title when versaeumnisurteil is yes and feature flag is enabled", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -77,7 +79,37 @@ describe("createStatementClaim", () => {
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
+        ONLINE_STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      expect(mockDoc.text).toHaveBeenCalledWith(
+        STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
+        PDF_MARGIN_HORIZONTAL,
+      );
+    });
+
+    it("should include legacy court sentence and no title when versaeumnisurteil is yes and feature flag is disabled", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithVersaeumnisurteil = {
+        ...userDataMock,
+        versaeumnisurteil: "yes",
+      } satisfies FluggastrechteUserData;
+
+      createStatementClaim(
+        mockDoc,
+        mockStruct,
+        userDataMockWithVersaeumnisurteil,
+        false,
+      );
+
+      expect(mockDoc.text).toHaveBeenCalledWith(
         STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
         PDF_MARGIN_HORIZONTAL,
       );
     });
@@ -100,6 +132,14 @@ describe("createStatementClaim", () => {
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
         STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        ONLINE_STATEMENT_CLAIM_COURT_SENTENCE,
+        PDF_MARGIN_HORIZONTAL,
+      );
+      expect(mockDoc.text).not.toHaveBeenCalledWith(
+        STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
         PDF_MARGIN_HORIZONTAL,
       );
     });
