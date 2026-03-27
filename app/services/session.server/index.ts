@@ -62,9 +62,7 @@ export function getSessionManager(context: SessionUserData) {
 export const getSessionData = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
-) => ({
-  userData: (await getSessionManager(flowId).getSession(cookieHeader)).data,
-});
+) => (await getSessionManager(flowId).getSession(cookieHeader)).data;
 
 export const updateSession = (
   session: Session,
@@ -80,12 +78,8 @@ export const updateSession = (
 export const getSessionIdByFlowId = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
-) => {
-  const contextSession = getSessionManager(flowId);
-  const { id } = await contextSession.getSession(cookieHeader);
-  return id;
-};
+) => (await getSessionManager(flowId).getSession(cookieHeader)).id;
 
-export type CookieHeader = string | null | undefined;
+export type CookieHeader = ReturnType<Headers["get"]>;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);

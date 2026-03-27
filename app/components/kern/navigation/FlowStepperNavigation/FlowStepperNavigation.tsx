@@ -17,13 +17,14 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
       aria-label={translations.navigation.navigationStepper.de}
       className="w-full print:hidden"
     >
-      <ol className="flex max-w-full! pl-0 stepper-list">
+      <ol className="flex max-w-full! pl-0">
         {steps.map(({ state, href, label }, stepIndex) => {
           const isFirst = stepIndex === 0;
           const isLast = stepIndex === steps.length - 1;
           const styles = getStepStyles(state);
           return (
             <li
+              tabIndex={0}
               key={label}
               className={classNames(styles.container, {
                 "border-r-0 stepper-step": !isLast,
