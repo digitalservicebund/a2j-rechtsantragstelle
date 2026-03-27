@@ -1,9 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import {
-  getAbgabeStrings,
-  getWeitereDokumenteStrings,
-} from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
+import { getAbgabeStrings } from "~/domains/prozesskostenhilfe/formular/abgabe/stringReplacements";
 import { antragstellendePersonArrayConfig } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/arrayConfiguration";
 import { getAntragstellendePersonStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/stringReplacements";
 import { getVereinfachteErklaerungStrings } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/stringReplacements";
@@ -150,7 +147,6 @@ export const prozesskostenhilfeFormular = {
     ...geldAnlagenStrings(context),
     ...getAbgabeStrings(context),
     ...belegeStrings(context),
-    ...getWeitereDokumenteStrings(context),
     ...getGrundvoraussetzungenStringReplacements(context),
   }),
 } satisfies Flow;
