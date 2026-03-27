@@ -30,7 +30,7 @@ const StepStepperLinks = ({
           return { ...step, stepIndex: index + 1 };
         })
         .filter(
-          (steps) => stateIsCurrent(steps.state) && stateIsActive(steps.state),
+          (steps) => !stateIsCurrent(steps.state) && stateIsActive(steps.state),
         )
         .map((step) => {
           const isWarningStep = stateIsWarning(step.state);
