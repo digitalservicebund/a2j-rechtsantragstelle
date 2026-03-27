@@ -1,13 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
 import { type Page, type Response, expect, test } from "@playwright/test";
-import { PDFDocument } from "pdf-lib";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";
 import { startWeitereAngaben } from "tests/e2e/domains/shared/weitereAngaben";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { startAnwaltlicheVertretung } from "./anwaltlicheVertretung";
 import { startFinanzielleAngabenEinkommen } from "./finanzielleAngabenEinkommen";
 import { startFinanzielleAngabenGrundsicherung } from "./finanzielleAngabenGrundsicherung";
@@ -59,9 +55,6 @@ test("beratungshilfe formular can be traversed", async ({ page }) => {
   await startWeitereAngaben(page, beratungshilfeFormular);
 
   await startOnlineAbgabe(page);
-  if (await isFeatureFlagEnabled("showFileUpload")) {
-    await startDocumentUpload(page);
-  }
   await downloadOnlineAbgabe(page);
 });
 
@@ -85,69 +78,6 @@ test("invalid array index redirects to initial step of subflow", async ({
   );
 });
 
-async function startDocumentUpload(page: Page) {
-  // beratungshilfe/antrag/abgabe/dokumente
-  await expectPageToBeAccessible({ page });
-  await page.getByRole("button", { name: "Weiter", exact: true }).click();
-
-  // Test empty form submission
-  const errorMessage = page.getByTestId("inputError");
-  await expect(errorMessage).toBeVisible();
-
-  // Test file upload with a file that's too large
-  // TODO: move to e2e/testData
-  const dummyFilePathTooBig = path.resolve(
-    path.join(process.cwd(), "playwright/generated/", "tooBig.pdf"),
-  );
-  fs.writeFileSync(dummyFilePathTooBig, Buffer.alloc(1024 * 1024 * 11));
-  await page
-    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
-    .setInputFiles(dummyFilePathTooBig);
-  const fileUploadInfo = page.getByTestId(
-    "file-upload-info-grundsicherungBeweis[0]",
-  );
-  await expect(fileUploadInfo).toBeVisible();
-  await expect(errorMessage).toBeVisible();
-
-  await page.getByRole("button", { name: "Löschen" }).click();
-
-  // Test file upload with a file that's of the wrong type
-  // TODO: move to e2e/testData
-  const dummyFilePathWrongType = path.resolve(
-    path.join(process.cwd(), "playwright/generated/", "wrongType.txt"),
-  );
-  fs.writeFileSync(dummyFilePathWrongType, "test");
-  await page
-    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
-    .setInputFiles(dummyFilePathWrongType);
-  await expect(fileUploadInfo).toBeVisible();
-  await expect(errorMessage).toBeVisible();
-
-  await page.getByRole("button", { name: "Löschen" }).click();
-
-  // Test file upload with a valid file
-  // TODO: move to e2e/testData
-  const dummyFilePath = path.resolve(
-    path.join(process.cwd(), "playwright/generated/", "test.pdf"),
-  );
-
-  const pdfDoc = await PDFDocument.create();
-  const pdfPage = pdfDoc.addPage([600, 800]);
-  pdfPage.drawText("Test PDF", {
-    x: 50,
-    y: 700,
-    size: 30,
-  });
-
-  const pdfBytes = await pdfDoc.save();
-  fs.writeFileSync(dummyFilePath, pdfBytes);
-  await page
-    .getByTestId("file-upload-input-grundsicherungBeweis[0]")
-    .setInputFiles(dummyFilePath);
-  await expect(fileUploadInfo).toBeVisible();
-  await expect(errorMessage).not.toBeVisible();
-  await page.getByRole("button", { name: "Weiter", exact: true }).click();
-}
 async function startOnlineAbgabe(page: Page) {
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");

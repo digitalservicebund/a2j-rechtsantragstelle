@@ -1,9 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type BeratungshilfeAbgabeUserData } from "~/domains/beratungshilfe/formular/abgabe/userData";
 import { type BeratungshilfeWeitereAngabenUserData } from "~/domains/beratungshilfe/formular/weitereAngaben/userData";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-
-const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
@@ -12,13 +9,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
     },
-    ...(showFileUpload
-      ? [
-          {
-            stepId: "/abgabe/dokumente",
-          },
-        ]
-      : [{ stepId: "/abgabe/online" }]),
+    { stepId: "/abgabe/online" },
   ],
   printedAbgabe: [
     { stepId: "/abgabe/zusammenfassung" },
