@@ -80,11 +80,7 @@ export const updateSession = (
 export const getSessionIdByFlowId = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
-) => {
-  const contextSession = getSessionManager(flowId);
-  const { id } = await contextSession.getSession(cookieHeader);
-  return id;
-};
+) => (await getSessionManager(flowId).getSession(cookieHeader)).id;
 
 export type CookieHeader = ReturnType<Headers["get"]>;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
