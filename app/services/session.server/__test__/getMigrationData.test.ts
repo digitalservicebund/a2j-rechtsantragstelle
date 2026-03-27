@@ -43,12 +43,12 @@ describe("getMigrationData", () => {
     expect(actual).toBeUndefined();
   });
 
-  it("should return undefined given an undefined cookie", async () => {
+  it("should return undefined given a null cookie", async () => {
     const actual = await getMigrationData(
       "anotherMigrationKey",
       mockMigrationFlowIdDestination,
       mockMigrationFlowDestination,
-      undefined,
+      null,
     );
 
     expect(actual).toBeUndefined();

@@ -86,6 +86,6 @@ export const getSessionIdByFlowId = async (
   return id;
 };
 
-export type CookieHeader = string | null | undefined;
+export type CookieHeader = ReturnType<Headers["get"]>;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);
