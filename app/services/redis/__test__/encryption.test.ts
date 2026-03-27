@@ -46,15 +46,16 @@ describe("unpack", () => {
     expect(unpack(encrypted, "uuid-b", mockVaultKey)).toBeUndefined();
   });
 
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   it("should return undefined and log error if encrypted data is missing a key", () => {
+    const logErrorSpy = vi
+      .spyOn(logging, "logError")
+      .mockImplementation(() => {});
     const encrypted = pack(mockData, mockUuid, mockVaultKey);
     expect(unpack(encrypted, mockUuid)).toBeUndefined();
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "[Vault] Unpack failed:",
-      "Data is encrypted but no key provided.",
-    );
-    consoleSpy.mockRestore();
+    expect(logErrorSpy).toHaveBeenCalledWith({
+      error: new Error("Data is encrypted but no key provided."),
+    });
+    logErrorSpy.mockRestore();
   });
 
   it("should return undefined if the buffer is tampered with", () => {

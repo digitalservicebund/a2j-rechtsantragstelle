@@ -58,6 +58,6 @@ export function unpack(
       decipher.update(cipherText, undefined, "utf8") + decipher.final("utf8");
     return JSON.parse(decrypted);
   } catch (error) {
-    logError({ message: "[Vault] Unpack failed", error });
+    logError({ error });
   }
 }
