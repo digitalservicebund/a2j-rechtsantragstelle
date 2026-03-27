@@ -149,6 +149,8 @@ async function startDocumentUpload(page: Page) {
   await page.getByRole("button", { name: "Weiter", exact: true }).click();
 }
 async function startOnlineAbgabe(page: Page) {
+  // beratungshilfe/antrag/abgabe/zusammenfassung
+  await beratungshilfeFormular.clickNext();
   // beratungshilfe/antrag/abgabe/art
   await beratungshilfeFormular.fillRadioPage("abgabeArt", "online");
   // beratungshilfe/antrag/abgabe/online
