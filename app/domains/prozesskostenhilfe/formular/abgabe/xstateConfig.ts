@@ -23,12 +23,6 @@ export const abgabeXstateConfig = {
         },
       ],
     },
-    [steps.dokumente.relative]: {
-      on: {
-        BACK: weitereAngabenId,
-        SUBMIT: steps.zusammenfassung.relative,
-      },
-    },
     [steps.zusammenfassung.relative]: {
       on: {
         BACK: [weitereAngabenId],
