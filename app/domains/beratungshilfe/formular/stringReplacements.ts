@@ -69,11 +69,3 @@ export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
 export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
-
-export const getWeitereDokumenteStrings = (
-  context: BeratungshilfeFormularUserData,
-) => {
-  return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
-  };
-};

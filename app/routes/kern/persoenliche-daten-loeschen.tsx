@@ -12,12 +12,12 @@ export default function KernPersoenlicheDatenLoeschen({
   isSubmitting,
   backButton,
   translations,
-}: {
+}: Readonly<{
   content: StrapiContentComponent[];
   isSubmitting: boolean;
   translations: Translations;
   backButton: string;
-}) {
+}>) {
   return (
     <div className="flex flex-col grow bg-kern-layout-background-hued">
       <ContentComponents content={content} showKernUX={true} />
@@ -27,12 +27,12 @@ export default function KernPersoenlicheDatenLoeschen({
             mdColumn={{ start: 1, span: 7 }}
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
-            className="px-kern-space-default"
+            className="px-kern-space-large lg:px-0"
           >
             <Form
               method="post"
               action="/action/delete-data"
-              className=" gap-kern-space-default flex flex-row"
+              className="gap-kern-space-default flex flex-row"
             >
               <KernButton
                 type="button"
