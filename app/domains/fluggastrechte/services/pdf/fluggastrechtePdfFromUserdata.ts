@@ -26,7 +26,7 @@ const buildFluggastrechtePDFDocument = (
     });
     createFirstPage(doc, documentStruct, userData, showFGROnlineVerfahren);
     doc.addPage();
-    createReasonPage(doc, documentStruct, userData);
+    createReasonPage(doc, documentStruct, userData, showFGROnlineVerfahren);
     createFooter(doc, documentStruct, userData, createBankInformation);
   };
 };

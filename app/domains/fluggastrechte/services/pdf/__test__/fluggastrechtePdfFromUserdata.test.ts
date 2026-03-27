@@ -91,6 +91,7 @@ describe("fluggastrechtePdfFromUserdata", () => {
         mockDoc,
         mockStruct,
         userDataMock,
+        showFGROnlineVerfahren,
       );
       expect(createFooter).toHaveBeenCalledWith(
         mockDoc,
