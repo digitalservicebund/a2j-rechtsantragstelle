@@ -7,7 +7,6 @@ const localFeatureFlags = {
   showFileUpload: false,
   showKernUX: false,
   showAutoSummary: false,
-  showNachbefragung: false,
   showFGROnlineVerfahren: true,
 } as const;
 
