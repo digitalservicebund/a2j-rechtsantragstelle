@@ -1,11 +1,9 @@
 import type { Config } from "~/services/flow/server/types";
 import type { ProzesskostenhilfeAbgabeUserData } from "./userData";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { pkhFormularAbgabePages } from "./pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { fileUploadRelevant, readyForAbgabe } from "./guards";
+import { readyForAbgabe } from "./guards";
 
-const showFileUpload = Boolean(await isFeatureFlagEnabled("showFileUpload"));
 const steps = xStateTargetsFromPagesConfig(pkhFormularAbgabePages);
 
 const weitereAngabenId = "#weitere-angaben";
@@ -20,13 +18,6 @@ export const abgabeXstateConfig = {
       on: { BACK: weitereAngabenId },
       always: [
         {
-          guard: ({ context }) =>
-            showFileUpload &&
-            fileUploadRelevant({ context }) &&
-            readyForAbgabe({ context }),
-          target: steps.dokumente.relative,
-        },
-        {
           guard: readyForAbgabe,
           target: steps.zusammenfassung.relative,
         },
@@ -40,14 +31,7 @@ export const abgabeXstateConfig = {
     },
     [steps.zusammenfassung.relative]: {
       on: {
-        BACK: [
-          {
-            guard: ({ context }) =>
-              showFileUpload && fileUploadRelevant({ context }),
-            target: steps.dokumente.relative,
-          },
-          weitereAngabenId,
-        ],
+        BACK: [weitereAngabenId],
         SUBMIT: steps.ende.relative,
       },
     },
