@@ -3,11 +3,12 @@ import { shouldVisitGerichtSuchenPostleitzahlKlagendePerson } from "../formular/
 import { type GeldEinklagenFormularUserData } from "../formular/userData";
 import merge from "lodash/merge";
 import { type Session } from "react-router";
+import { getCityNameByZipCode } from "~/services/streetNames";
 
-const prefillZipKlagendePerson = (
+const prefillZipCodeAndCityKlagendePerson = (
   userData: GeldEinklagenFormularUserData,
 ): Partial<GeldEinklagenFormularUserData> | undefined => {
-  //if the user has a secondary zip code and the guard for pre-filling the zip code for the plaintiff
+  //if the user has a secondary zip code and the guard for pre-filling the zip code and city for the plaintiff
   if (
     shouldVisitGerichtSuchenPostleitzahlKlagendePerson({ context: userData }) &&
     userData.postleitzahlSecondary
@@ -15,6 +16,10 @@ const prefillZipKlagendePerson = (
     return {
       klagendePersonStatePrefilled: "prefilled",
       klagendePersonPlz: userData.postleitzahlSecondary,
+      klagendePersonOrt:
+        userData.postleitzahlSecondary === userData.klagendePersonPlz
+          ? userData.klagendePersonOrt
+          : getCityNameByZipCode(userData.postleitzahlSecondary),
     };
   }
 
@@ -25,15 +30,16 @@ const prefillZipKlagendePerson = (
 
   /**
    * if the user doesn't have a secondary zip code or the guard for pre-filling the zip code for the plaintiff is not fulfilled
-   * we set the state to "unfilled" and the zip code to an empty value
+   * we set the state to "unfilled" and empty value for the zip code and city
    *  */
   return {
     klagendePersonStatePrefilled: "unfilled",
     klagendePersonPlz: "",
+    klagendePersonOrt: "",
   };
 };
 
-const prefillZipBeklagtePerson = (
+const prefillZipCodeAndCityBeklagteData = (
   userData: GeldEinklagenFormularUserData,
 ): Partial<GeldEinklagenFormularUserData> | undefined => {
   //if the user has the zip code for the defendant
@@ -41,6 +47,10 @@ const prefillZipBeklagtePerson = (
     return {
       beklagteStatePrefilled: "prefilled",
       beklagtePlz: userData.postleitzahlBeklagtePerson,
+      beklagteOrt:
+        userData.postleitzahlBeklagtePerson === userData.beklagtePlz
+          ? userData.beklagteOrt
+          : getCityNameByZipCode(userData.postleitzahlBeklagtePerson),
     };
   }
 
@@ -49,21 +59,22 @@ const prefillZipBeklagtePerson = (
     return undefined;
   }
 
-  // if the user doesn't have a defendant zip code, we set the state to "unfilled" and the zip code to an empty value
+  // if the user doesn't have a defendant zip code, we set the state to "unfilled" and empty value for the zip code and city
   return {
     beklagteStatePrefilled: "unfilled",
     beklagtePlz: "",
+    beklagteOrt: "",
   };
 };
 
-export const prefillZipCode = async (
+export const prefillZipCodeAndCity = async (
   _request: Request,
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
 ) => {
   const userPrefillData = {
-    ...prefillZipKlagendePerson(userData),
-    ...prefillZipBeklagtePerson(userData),
+    ...prefillZipCodeAndCityKlagendePerson(userData),
+    ...prefillZipCodeAndCityBeklagteData(userData),
   };
 
   const updatedUserData = merge({}, userData, userPrefillData);

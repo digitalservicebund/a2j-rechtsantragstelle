@@ -19,10 +19,10 @@ import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
 import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
 import {
-  prefillZipCode,
+  prefillZipCodeAndCity,
   updateIfUserNotPrefilledBeklagtePlz,
   updateIfUserNotPrefilledKlagendePersonPlz,
-} from "../services/prefillZipCode";
+} from "../services/prefillZipCodeAndCity";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -55,14 +55,15 @@ export const geldEinklagenFormular = {
   useStepper: true,
   asyncFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
-      prefillZipCode,
+      prefillZipCodeAndCity,
     "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person":
-      prefillZipCode,
-    "/klage-erstellen/intro/start": prefillZipCode,
-    "/gericht-pruefen/zustaendiges-gericht/pilot-gericht": prefillZipCode,
-    "/gericht-pruefen/klagende-person/kaufmann": prefillZipCode,
+      prefillZipCodeAndCity,
+    "/klage-erstellen/intro/start": prefillZipCodeAndCity,
+    "/gericht-pruefen/zustaendiges-gericht/pilot-gericht":
+      prefillZipCodeAndCity,
+    "/gericht-pruefen/klagende-person/kaufmann": prefillZipCodeAndCity,
     "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung":
-      prefillZipCode,
+      prefillZipCodeAndCity,
     "/klage-erstellen/klagende-person/kontaktdaten":
       updateIfUserNotPrefilledKlagendePersonPlz,
     "/klage-erstellen/beklagte-person/mensch":

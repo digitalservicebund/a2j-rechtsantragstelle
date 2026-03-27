@@ -1,4 +1,5 @@
 import { DatabaseSync, type StatementSync } from "node:sqlite";
+import { arrayIsNonEmpty } from "~/util/array";
 
 type StreetData = {
   postalCode: string;
@@ -23,4 +24,9 @@ export async function streetNamesForZipcode(
   zipCode?: string,
 ): Promise<StreetData[]> {
   return zipCode ? dbLookup(zipCode) : [];
+}
+
+export function getCityNameByZipCode(zipCode: string): string {
+  const streets = dbLookup(zipCode);
+  return arrayIsNonEmpty(streets) ? streets[0].city : "";
 }
