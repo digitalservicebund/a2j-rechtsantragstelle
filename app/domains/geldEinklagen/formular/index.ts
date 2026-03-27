@@ -20,8 +20,8 @@ import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
 import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
 import {
   prefillZipCodeAndCity,
-  updateIfUserNotPrefilledBeklagtePlz,
-  updateIfUserNotPrefilledKlagendePersonPlz,
+  updateIfUserNotPrefilledBeklagte,
+  updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
 
 export const geldEinklagenFormular = {
@@ -65,10 +65,9 @@ export const geldEinklagenFormular = {
     "/gericht-pruefen/beklagte-person/gerichtsstandsvereinbarung":
       prefillZipCodeAndCity,
     "/klage-erstellen/klagende-person/kontaktdaten":
-      updateIfUserNotPrefilledKlagendePersonPlz,
-    "/klage-erstellen/beklagte-person/mensch":
-      updateIfUserNotPrefilledBeklagtePlz,
+      updateIfUserNotPrefilledKlagendePerson,
+    "/klage-erstellen/beklagte-person/mensch": updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/beklagte-person/organisation":
-      updateIfUserNotPrefilledBeklagtePlz,
+      updateIfUserNotPrefilledBeklagte,
   },
 } satisfies Flow;

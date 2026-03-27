@@ -82,7 +82,7 @@ export const prefillZipCodeAndCity = async (
   updateSession(flowSession, updatedUserData);
 };
 
-export const updateIfUserNotPrefilledBeklagtePlz = async (
+export const updateIfUserNotPrefilledBeklagte = async (
   _request: Request,
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
@@ -100,7 +100,7 @@ export const updateIfUserNotPrefilledBeklagtePlz = async (
   updateSession(flowSession, updatedUserData);
 };
 
-export const updateIfUserNotPrefilledKlagendePersonPlz = async (
+export const updateIfUserNotPrefilledKlagendePerson = async (
   _request: Request,
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
