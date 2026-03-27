@@ -62,9 +62,7 @@ export function getSessionManager(context: SessionUserData) {
 export const getSessionData = async (
   flowId: FlowId,
   cookieHeader: CookieHeader,
-) => ({
-  userData: (await getSessionManager(flowId).getSession(cookieHeader)).data,
-});
+) => (await getSessionManager(flowId).getSession(cookieHeader)).data;
 
 export const updateSession = (
   session: Session,

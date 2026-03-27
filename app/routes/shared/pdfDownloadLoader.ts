@@ -88,7 +88,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
 
   const { prunedData: userData } = pruneIrrelevantData(
-    (await getSessionData(flowId, cookieHeader)).userData,
+    await getSessionData(flowId, cookieHeader),
     flowId,
   );
   if (isEmpty(userData)) return redirect(flowId);

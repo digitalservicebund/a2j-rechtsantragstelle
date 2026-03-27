@@ -17,7 +17,7 @@ export async function getMigrationData(
   if (!migration || !stepId.includes(migrationKey) || !cookieHeader)
     return undefined;
 
-  const { userData } = await getSessionData(migration.source, cookieHeader);
+  const userData = await getSessionData(migration.source, cookieHeader);
   const { prunedData } = pruneIrrelevantData(userData, migration.source);
   const destinationUserSchemas = getAllPageSchemaByFlowId(
     migrationFlowIdDestination,
