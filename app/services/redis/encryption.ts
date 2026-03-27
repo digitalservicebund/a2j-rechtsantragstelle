@@ -22,21 +22,18 @@ export function pack(
   userKey?: string,
 ): Buffer {
   const plaintext = JSON.stringify(data);
+  if (!userKey) return Buffer.from(plaintext, "utf8");
 
-  if (userKey) {
-    const key = deriveKey(userKey, uuid);
-    const iv = randomBytes(IV_LENGTH);
-    const cipher = createCipheriv(ALGORITHM, key, iv);
+  const key = deriveKey(userKey, uuid);
+  const iv = randomBytes(IV_LENGTH);
+  const cipher = createCipheriv(ALGORITHM, key, iv);
 
-    const ciphertext = Buffer.concat([
-      cipher.update(plaintext, "utf8"),
-      cipher.final(),
-    ]);
-    const tag = cipher.getAuthTag();
-    return Buffer.concat([ENCRYPTION_PREFIX, iv, tag, ciphertext]);
-  }
-
-  return Buffer.from(plaintext, "utf8");
+  const ciphertext = Buffer.concat([
+    cipher.update(plaintext, "utf8"),
+    cipher.final(),
+  ]);
+  const tag = cipher.getAuthTag();
+  return Buffer.concat([ENCRYPTION_PREFIX, iv, tag, ciphertext]);
 }
 
 export function unpack(
