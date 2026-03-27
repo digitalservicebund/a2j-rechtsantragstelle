@@ -8,13 +8,8 @@ import {
   staatlicheLeistungenIsKeine,
 } from "../finanzielleAngaben/guards";
 import { type BeratungshilfeFinanzielleAngabenUserData } from "../finanzielleAngaben/userData";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragPersoenlicheDatenPages);
-
-const showNachbefragung = Boolean(
-  await isFeatureFlagEnabled("showNachbefragung"),
-);
 
 export const persoenlicheDatenXstateConfig = {
   id: "persoenliche-daten",
@@ -69,16 +64,12 @@ export const persoenlicheDatenXstateConfig = {
     [steps.telefonnummer.relative]: {
       on: {
         BACK: steps.adresse.relative,
-        SUBMIT: showNachbefragung
-          ? "#persoenliche-daten.nachbefragung"
-          : "#weitere-angaben",
+        SUBMIT: "#persoenliche-daten.nachbefragung",
       },
     },
-    ...(showNachbefragung && {
-      [steps.nachbefragung.relative]: {
-        on: { BACK: steps.telefonnummer.relative, SUBMIT: "#weitere-angaben" },
-      },
-    }),
+    [steps.nachbefragung.relative]: {
+      on: { BACK: steps.telefonnummer.relative, SUBMIT: "#weitere-angaben" },
+    },
   },
 } satisfies Config<
   BeratungshilfePersoenlicheDatenUserData &

@@ -1,6 +1,6 @@
 import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularFinanzielleAngabenEinkuenftePages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/pages";
-import { PageData } from "~/services/flow/pageDataSchema";
+import { type PageData } from "~/services/flow/pageDataSchema";
 
 export type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData =
   UserDataFromPagesSchema<

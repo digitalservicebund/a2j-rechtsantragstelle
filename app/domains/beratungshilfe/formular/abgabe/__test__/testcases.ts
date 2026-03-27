@@ -4,17 +4,10 @@ import { type BeratungshilfeWeitereAngabenUserData } from "~/domains/beratungshi
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
-    ...(showAutoSummary
-      ? [
-          {
-            stepId: "/abgabe/zusammenfassung",
-          },
-        ]
-      : []),
+    { stepId: "/abgabe/zusammenfassung" },
     {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
@@ -28,13 +21,7 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       : [{ stepId: "/abgabe/online" }]),
   ],
   printedAbgabe: [
-    ...(showAutoSummary
-      ? [
-          {
-            stepId: "/abgabe/zusammenfassung",
-          },
-        ]
-      : []),
+    { stepId: "/abgabe/zusammenfassung" },
     {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "ausdrucken" },
