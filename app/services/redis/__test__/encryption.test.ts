@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { pack, unpack } from "../encryption";
 
 const mockUuid = "session-123-abc";
-const mockUserKey = "super-secret-user-key";
+const mockVaultKey = "super-secret-vault-key";
 const mockData = { foo: "bar", nested: { num: 42 } };
 
 describe("pack", () => {
@@ -11,13 +11,13 @@ describe("pack", () => {
     expect(Buffer.isBuffer(result)).toBe(true);
   });
 
-  it("should produce non-JSON buffer with userKey", () => {
-    const packed = pack(mockData, mockUuid, mockUserKey);
+  it("should produce non-JSON buffer with vaultKey", () => {
+    const packed = pack(mockData, mockUuid, mockVaultKey);
     const asString = packed.toString("utf8");
     expect(() => JSON.parse(asString)).toThrow("not valid JSON");
   });
 
-  it("should fall back to JSON buffer without userKey", () => {
+  it("should fall back to JSON buffer without vaultKey", () => {
     const result = pack(mockData, mockUuid);
     const parsed = JSON.parse(result.toString("utf8"));
     expect(parsed).toEqual(mockData);
@@ -26,8 +26,8 @@ describe("pack", () => {
 
 describe("unpack", () => {
   it("should decrypt valid encrypted data", () => {
-    const encrypted = pack(mockData, mockUuid, mockUserKey);
-    expect(unpack(encrypted, mockUuid, mockUserKey)).toEqual(mockData);
+    const encrypted = pack(mockData, mockUuid, mockVaultKey);
+    expect(unpack(encrypted, mockUuid, mockVaultKey)).toEqual(mockData);
   });
 
   it("should parse legacy unencrypted data automatically", () => {
@@ -35,19 +35,19 @@ describe("unpack", () => {
     expect(unpack(legacyData, mockUuid)).toEqual(mockData);
   });
 
-  it("should return null if the userKey is wrong (Auth Tag failure)", () => {
-    const encrypted = pack(mockData, mockUuid, mockUserKey);
+  it("should return null if the vaultKey is wrong (Auth Tag failure)", () => {
+    const encrypted = pack(mockData, mockUuid, mockVaultKey);
     expect(unpack(encrypted, mockUuid, "wrong-key")).toBeNull();
   });
 
   it("should return null if the UUID is different (Key Derivation failure)", () => {
-    const encrypted = pack(mockData, "uuid-a", mockUserKey);
-    expect(unpack(encrypted, "uuid-b", mockUserKey)).toBeNull();
+    const encrypted = pack(mockData, "uuid-a", mockVaultKey);
+    expect(unpack(encrypted, "uuid-b", mockVaultKey)).toBeNull();
   });
 
   it("should return null and log error if encrypted data is missing a key", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const encrypted = pack(mockData, mockUuid, mockUserKey);
+    const encrypted = pack(mockData, mockUuid, mockVaultKey);
     expect(unpack(encrypted, mockUuid)).toBeNull();
     expect(consoleSpy).toHaveBeenCalledWith(
       "[Vault] Unpack failed:",
@@ -57,9 +57,9 @@ describe("unpack", () => {
   });
 
   it("should return null if the buffer is tampered with", () => {
-    const encrypted = pack(mockData, mockUuid, mockUserKey);
+    const encrypted = pack(mockData, mockUuid, mockVaultKey);
     encrypted[encrypted.length - 1] ^= 1; // Flip a random bit in the ciphertext area
-    expect(unpack(encrypted, mockUuid, mockUserKey)).toBeNull();
+    expect(unpack(encrypted, mockUuid, mockVaultKey)).toBeNull();
   });
 
   it("should return null for an empty buffer", () => {
@@ -72,15 +72,15 @@ describe("unpack", () => {
   });
 
   it("should return null if the encrypted buffer is truncated", () => {
-    const encrypted = pack(mockData, mockUuid, mockUserKey);
+    const encrypted = pack(mockData, mockUuid, mockVaultKey);
     const truncated = encrypted.subarray(0, 10);
-    expect(unpack(truncated, mockUuid, mockUserKey)).toBeNull();
+    expect(unpack(truncated, mockUuid, mockVaultKey)).toBeNull();
   });
 
   it("should handle an empty object correctly", () => {
     const empty = {};
-    const packed = pack(empty, mockUuid, mockUserKey);
-    expect(unpack(packed, mockUuid, mockUserKey)).toEqual(empty);
+    const packed = pack(empty, mockUuid, mockVaultKey);
+    expect(unpack(packed, mockUuid, mockVaultKey)).toEqual(empty);
   });
 });
 
@@ -100,8 +100,8 @@ describe("Rotation Simulation", () => {
   });
 
   it("should produce different ciphertexts for the same data (IV rotation)", () => {
-    const blob1 = pack(mockData, mockUuid, mockUserKey);
-    const blob2 = pack(mockData, mockUuid, mockUserKey);
+    const blob1 = pack(mockData, mockUuid, mockVaultKey);
+    const blob2 = pack(mockData, mockUuid, mockVaultKey);
     expect(blob1.equals(blob2)).toBe(false);
   });
 });

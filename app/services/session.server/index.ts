@@ -18,7 +18,7 @@ export const allSessionUserData = [...flowIds, "main"] as const;
 type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
 
-const generateUserKey = () => crypto.randomBytes(32).toString("hex");
+const generateVaultKey = () => crypto.randomBytes(32).toString("hex");
 
 const generateHeader = (cookies: string[]) => {
   const headers = new Headers();
@@ -34,7 +34,7 @@ const cookie = createCookie("__session", {
   secure: useSecureCookie,
 });
 
-const vaultCookie = createCookie("__vault", {
+const vaultCookie = createCookie("__vaultKey", {
   secrets: [config().COOKIE_SESSION_SECRET],
   sameSite: "lax",
   httpOnly: true,
@@ -42,19 +42,19 @@ const vaultCookie = createCookie("__vault", {
   secure: useSecureCookie,
 });
 
-const createScopedStorage = (context: SessionUserData, userKey?: string) => {
+const createScopedStorage = (context: SessionUserData, vaultKey?: string) => {
   return createSessionStorage({
     cookie,
     async createData(data) {
       const uuid = crypto.randomUUID();
-      await setDataForSession(fullId(context, uuid), data, userKey);
+      await setDataForSession(fullId(context, uuid), data, vaultKey);
       return uuid;
     },
     async readData(id) {
-      return await getDataForSession(fullId(context, id), userKey);
+      return await getDataForSession(fullId(context, id), vaultKey);
     },
     async updateData(id, data) {
-      await updateDataForSession(fullId(context, id), data, userKey);
+      await updateDataForSession(fullId(context, id), data, vaultKey);
     },
     async deleteData(id) {
       await deleteSessionData(fullId(context, id));
@@ -65,21 +65,21 @@ const createScopedStorage = (context: SessionUserData, userKey?: string) => {
 export function getSessionManager(context: SessionUserData) {
   return {
     async getSession(cookieHeader: CookieHeader) {
-      const userKey =
-        (await vaultCookie.parse(cookieHeader ?? null)) ?? generateUserKey();
+      const vaultKey =
+        (await vaultCookie.parse(cookieHeader ?? null)) ?? generateVaultKey();
 
-      const storage = createScopedStorage(context, userKey);
+      const storage = createScopedStorage(context, vaultKey);
       const session = await storage.getSession(cookieHeader);
-      session.set("__vaultKey", userKey); // to pass to commitSession. Should be refactored to add cookieHeader on getSessionManager()
+      session.set("__vaultKey", vaultKey); // to pass to commitSession. Should be refactored to add cookieHeader on getSessionManager()
       return session;
     },
 
     async commitSession(session: Session): Promise<Headers> {
-      const userKey = session.get("__vaultKey");
+      const vaultKey = session.get("__vaultKey");
       session.unset("__vaultKey");
       return generateHeader([
-        await createScopedStorage(context, userKey).commitSession(session),
-        await vaultCookie.serialize(userKey),
+        await createScopedStorage(context, vaultKey).commitSession(session),
+        await vaultCookie.serialize(vaultKey),
       ]);
     },
 
