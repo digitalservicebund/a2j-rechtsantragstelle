@@ -35,6 +35,9 @@ describe("Generic route", () => {
 
     it("throws 404 if not found", async () => {
       const request = new Request("http://localhost/settings");
+      vi.spyOn(cmsModule, "fetchPage").mockThrowOnce({
+        name: "StrapiPageNotFound",
+      });
       const resp = async () => await loader({ request } as LoaderFunctionArgs);
       await expect(resp).rejects.toThrow(
         expect.objectContaining({ status: 404 }),
