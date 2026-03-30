@@ -1,4 +1,4 @@
-import { pack, unpack } from "./encryption";
+import { deriveCipherKey, pack, unpack } from "./encryption";
 import { getRedisInstance } from "../redis/redisClient";
 
 const timeToLiveSeconds = 60 * 60 * 24;
@@ -10,7 +10,7 @@ export async function setDataForSession(
   data: RedisData,
   vaultKey?: string,
 ) {
-  const payload = pack(data, uuid, vaultKey);
+  const payload = pack(data, deriveCipherKey(uuid, vaultKey));
   return getRedisInstance().set(uuid, payload, "EX", timeToLiveSeconds);
 }
 
@@ -26,7 +26,7 @@ export async function updateDataForSession(
 export async function getDataForSession(uuid: string, vaultKey?: string) {
   const redisResponse = await getRedisInstance().getBuffer(uuid);
   if (!redisResponse) return null;
-  return unpack(redisResponse, uuid, vaultKey);
+  return unpack(redisResponse, deriveCipherKey(uuid, vaultKey));
 }
 
 export async function deleteSessionData(uuid: string) {
