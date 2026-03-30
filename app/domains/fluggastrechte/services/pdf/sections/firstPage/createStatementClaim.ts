@@ -93,15 +93,6 @@ export const createStatementClaim = (
     );
   }
 
-  const negotiationTexts = showFGROnlineVerfahren
-    ? [
-        oralTrialAgreement(muendlicheVerhandlung),
-        videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren),
-      ].filter((text): text is string => Boolean(text))
-    : [videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren)].filter(
-        (text): text is string => Boolean(text),
-      );
-
   const defaultJudgmentText = showFGROnlineVerfahren
     ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
     : STATEMENT_CLAIM_COURT_SENTENCE;
@@ -125,6 +116,15 @@ export const createStatementClaim = (
       }),
     );
   }
+
+  const negotiationTexts = showFGROnlineVerfahren
+    ? [
+        oralTrialAgreement(muendlicheVerhandlung),
+        videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren),
+      ].filter((text): text is string => Boolean(text))
+    : [videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren)].filter(
+        (text): text is string => Boolean(text),
+      );
 
   if (negotiationTexts.length > 0) {
     if (showFGROnlineVerfahren) {
