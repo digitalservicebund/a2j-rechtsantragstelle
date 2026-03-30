@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { action, loader } from "../$";
 import { type LoaderFunctionArgs } from "react-router";
 import { redirectMap } from "~/services/routing/redirects";
