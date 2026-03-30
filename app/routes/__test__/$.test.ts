@@ -4,14 +4,22 @@ import { type LoaderFunctionArgs } from "react-router";
 import { redirectMap } from "~/services/routing/redirects";
 import { faker } from "@faker-js/faker";
 import invariant from "tiny-invariant";
+import * as cmsModule from "~/services/cms/index.server";
 
 describe("Generic route", () => {
   describe("loader", () => {
     it("returns 200 with content and meta", async () => {
+      const pageMeta = { title: "page title" };
+      vi.spyOn(cmsModule, "fetchPage").mockResolvedValueOnce({
+        pageMeta,
+        content: [],
+        locale: "de",
+        slug: "/",
+      });
       const request = new Request("http://localhost");
       const resp = await loader({ request } as LoaderFunctionArgs);
       expect(resp).toHaveProperty("content");
-      expect(resp).toHaveProperty("meta");
+      expect(resp).toEqual(expect.objectContaining({ meta: pageMeta }));
     });
 
     it("returns redirect if pathname in redirectMap", async () => {
