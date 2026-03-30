@@ -155,6 +155,9 @@ export const translations = {
     navigationStepper: {
       de: "Prozessübersicht",
     },
+    linkOpensNewTab: {
+      de: "öffnet neues Fenster",
+    },
   },
   navigationMobile: {
     closeMenu: {
