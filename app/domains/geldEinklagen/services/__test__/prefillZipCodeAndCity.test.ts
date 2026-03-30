@@ -1,6 +1,10 @@
 import { createSession, type Session } from "react-router";
 import { type GeldEinklagenFormularUserData } from "../../formular/userData";
-import { prefillZipCodeAndCity } from "../prefillZipCodeAndCity";
+import {
+  prefillZipCodeAndCity,
+  updateIfUserNotPrefilledBeklagte,
+  updateIfUserNotPrefilledKlagendePerson,
+} from "../prefillZipCodeAndCity";
 import { shouldVisitGerichtSuchenPostleitzahlKlagendePerson } from "../../formular/gericht-pruefen/gericht-suchen/guards";
 import { updateSession } from "~/services/session.server";
 import { getCityNameByZipCode } from "~/services/streetNames";
@@ -216,5 +220,83 @@ describe("prefillZipCodeAndCity", () => {
         }),
       );
     });
+  });
+});
+
+describe("updateIfUserNotPrefilledBeklagte", () => {
+  it("should not update the state if the beklagteStatePrefilled is prefilled", async () => {
+    const userData = {
+      beklagteStatePrefilled: "prefilled",
+    } as GeldEinklagenFormularUserData;
+
+    const mockSession: Session = createSession();
+
+    await updateIfUserNotPrefilledBeklagte(
+      {} as Request,
+      userData,
+      mockSession,
+    );
+
+    expect(updateSession).not.toHaveBeenCalled();
+  });
+
+  it("should update the state to filledByUser if the beklagteStatePrefilled is not prefilled", async () => {
+    const userData = {
+      beklagteStatePrefilled: "unfilled",
+    } as GeldEinklagenFormularUserData;
+
+    const mockSession: Session = createSession();
+
+    await updateIfUserNotPrefilledBeklagte(
+      {} as Request,
+      userData,
+      mockSession,
+    );
+
+    expect(updateSession).toHaveBeenCalledWith(
+      mockSession,
+      expect.objectContaining({
+        beklagteStatePrefilled: "filledByUser",
+      }),
+    );
+  });
+});
+
+describe("updateIfUserNotPrefilledKlagendePerson", () => {
+  it("should not update the state if the klagendePersonStatePrefilled is prefilled", async () => {
+    const userData = {
+      klagendePersonStatePrefilled: "prefilled",
+    } as GeldEinklagenFormularUserData;
+
+    const mockSession: Session = createSession();
+
+    await updateIfUserNotPrefilledKlagendePerson(
+      {} as Request,
+      userData,
+      mockSession,
+    );
+
+    expect(updateSession).not.toHaveBeenCalled();
+  });
+
+  it("should update the state to filledByUser if the klagendePersonStatePrefilled is not prefilled", async () => {
+    const userData = {
+      klagendePersonStatePrefilled: "unfilled",
+    } as GeldEinklagenFormularUserData;
+
+    const mockSession: Session = createSession();
+
+    await updateIfUserNotPrefilledKlagendePerson(
+      {} as Request,
+      userData,
+      mockSession,
+    );
+
+    expect(updateSession).toHaveBeenCalledWith(
+      mockSession,
+      expect.objectContaining({
+        klagendePersonStatePrefilled: "filledByUser",
+      }),
+    );
   });
 });
