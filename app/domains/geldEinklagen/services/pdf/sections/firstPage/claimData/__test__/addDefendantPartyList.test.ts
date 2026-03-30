@@ -75,7 +75,7 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro.",
+      "Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro zu zahlen.",
     );
   });
 
@@ -92,7 +92,7 @@ describe("addDefendantPartyList", () => {
       { continued: true },
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit.",
+      "Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
     );
   });
 });

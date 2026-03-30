@@ -9,13 +9,8 @@ import { beratungshilfeAntragPages } from "./pages";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
-
-const showNachbefragung = Boolean(
-  await isFeatureFlagEnabled("showNachbefragung"),
-);
 
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
@@ -42,9 +37,7 @@ export const beratungshilfeXstateConfig = {
       id: "weitere-angaben",
       meta: { shouldAppearAsMenuNavigation: true },
       on: {
-        BACK: showNachbefragung
-          ? "#persoenliche-daten.nachbefragung"
-          : "#persoenliche-daten.telefonnummer",
+        BACK: "#persoenliche-daten.nachbefragung",
         SUBMIT: "#abgabe",
       },
     },

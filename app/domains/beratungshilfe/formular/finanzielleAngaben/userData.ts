@@ -5,7 +5,7 @@ import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "./einkom
 import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "./kinder/userData";
 import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "./partner/userData";
 import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "./wohnung/userData";
-import { PageData } from "~/services/flow/pageDataSchema";
+import { type PageData } from "~/services/flow/pageDataSchema";
 
 export type BeratungshilfeFinanzielleAngabenUserData =
   BeratungshilfeFinanzielleAngabenEinkommenUserData &

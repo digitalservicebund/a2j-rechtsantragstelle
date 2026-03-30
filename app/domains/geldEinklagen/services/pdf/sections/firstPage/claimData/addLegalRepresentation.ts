@@ -6,7 +6,7 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import capitalize from "lodash/capitalize";
 
 const SEPARATOR = " | ";
-const REPRESENTATION_LEGAL_TEXT = "Anwaltliche Vertretung:";
+const REPRESENTATION_LEGAL_TEXT = "Prozessbevollmächtigte";
 
 const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
   const {

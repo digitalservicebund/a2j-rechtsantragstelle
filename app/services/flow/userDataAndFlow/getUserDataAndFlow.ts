@@ -42,9 +42,6 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/geld-einklagen/formular": "showGeldEinklagenFlow",
-  "/kontopfaendung/pkonto/antrag": "showPkontoAntragFlow",
-  "/erbschein/wegweiser": "showErbscheinWegweiser",
-  "/erbschein/nachlassgericht": "showErbscheinNachlassgericht",
 } as const;
 
 export const getUserDataAndFlow = async (

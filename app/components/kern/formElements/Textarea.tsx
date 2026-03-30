@@ -48,7 +48,7 @@ const KernTextarea = ({
       })}
     >
       {label && (
-        <label className="kern-label" id={name}>
+        <label className="kern-label" htmlFor={name}>
           {label}
         </label>
       )}
