@@ -36,7 +36,11 @@ const TextInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
