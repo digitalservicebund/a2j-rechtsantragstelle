@@ -46,7 +46,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1015.0",
+    "@aws-sdk/client-s3": "^3.1018.0",
     "@digitalservice4germany/angie": "2.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
@@ -56,9 +56,9 @@
     "@pdf-lib/fontkit": "^1.1.1",
     "@react-router/express": "^7.13.2",
     "@react-router/node": "^7.13.2",
-    "@remix-run/form-data-parser": "^0.15.0",
+    "@remix-run/form-data-parser": "^0.16.0",
     "@rvf/react-router": "^8.1.1",
-    "@sentry/react-router": "^10.45.0",
+    "@sentry/react-router": "^10.46.0",
     "@sentry/vite-plugin": "^5.1.1",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.13.6",
@@ -82,7 +82,7 @@
     "pdfkit": "^0.18.0",
     "pino-http": "^11.0.0",
     "posthog-js": "1.363.3",
-    "posthog-node": "5.28.5",
+    "posthog-node": "5.28.7",
     "rate-limit-redis": "^4.3.1",
     "react": "^19.2.4",
     "react-collapsed": "^4.2.0",
@@ -94,7 +94,7 @@
     "true-myth": "^9.3.1",
     "validator": "^13.15.26",
     "xss": "^1.0.15",
-    "xstate": "^5.28.0",
+    "xstate": "^5.29.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -124,12 +124,12 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/validator": "^13.15.10",
-    "@vitest/coverage-istanbul": "^4.1.1",
+    "@vitest/coverage-istanbul": "^4.1.2",
     "follow-redirects": "^1.15.11",
     "globals": "^17.4.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^29.0.1",
-    "knip": "^6.0.4",
+    "knip": "^6.0.6",
     "lefthook": "^2.1.4",
     "license-checker-rseidelsohn": "^4.4.2",
     "oxlint": "^1.56.0",
@@ -140,9 +140,9 @@
     "storybook": "^10.3.3",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
-    "vite": "^8.0.2",
+    "vite": "^8.0.3",
     "vite-env-only": "^3.0.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.2"
   },
   "packageManager": "pnpm@10.32.1",
   "engines": {
