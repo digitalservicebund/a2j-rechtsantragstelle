@@ -7,8 +7,7 @@ import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
 import { globalFeatureFlags } from "../isFeatureFlagEnabled.server";
-
-const OPEN_NEW_TAB = "öffnet neues Fenster";
+import { translations } from "~/services/translations/translations";
 
 const CSS_HEADING_CLASSES = [
   "ds-heading-01-reg",
@@ -44,7 +43,7 @@ const kernRenderer: Partial<Renderer> = {
       }),
       ...(shouldOpenNewTab
         ? {
-            "aria-label": `${text}, ${OPEN_NEW_TAB}`,
+            "aria-label": `${text}, ${translations.navigation.linkOpensNewTab.de}`,
             target: "_blank",
             rel: "noopener noreferrer",
           }

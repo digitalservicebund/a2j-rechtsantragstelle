@@ -15,6 +15,10 @@ describe("isFileDownloadUrl", () => {
   it("checks for ?print query parameter in the url", () => {
     expect(isFileDownloadUrl("/test/url?print")).toBeTruthy();
   });
+
+  it("checks for .pdf extension in the url", () => {
+    expect(isFileDownloadUrl("/test/url.pdf")).toBeTruthy();
+  });
 });
 
 describe("getYoutubeVideoId", () => {
