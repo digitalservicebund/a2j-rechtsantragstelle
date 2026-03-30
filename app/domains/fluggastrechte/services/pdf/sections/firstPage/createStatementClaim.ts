@@ -85,14 +85,6 @@ export const createStatementClaim = (
     showFGROnlineVerfahren,
   );
 
-  if (versaeumnisurteil === "yes") {
-    statementClaimSect.add(
-      doc.struct("P", {}, () => {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
-      }),
-    );
-  }
-
   const defaultJudgmentText = showFGROnlineVerfahren
     ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
     : STATEMENT_CLAIM_COURT_SENTENCE;
