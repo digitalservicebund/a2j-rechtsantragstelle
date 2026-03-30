@@ -42,8 +42,8 @@ importers:
         specifier: ^7.13.2
         version: 7.13.2(react-router@7.13.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
       '@remix-run/form-data-parser':
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.16.0
+        version: 0.16.0
       '@rvf/react-router':
         specifier: ^8.1.1
         version: 8.1.1(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react-router@7.13.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(scheduler@0.27.0)(use-sync-external-store@1.6.0(react@19.2.4))
@@ -1748,14 +1748,14 @@ packages:
       typescript:
         optional: true
 
-  '@remix-run/form-data-parser@0.15.0':
-    resolution: {integrity: sha512-sQP4r9218TWmow6Nt252VjKE674dRi4Z8WTnWUxJJG8I/qNfnGZubZ8LgyE0dR9z1gfaEpkd19MfYMLiOTOkJQ==}
+  '@remix-run/form-data-parser@0.16.0':
+    resolution: {integrity: sha512-k4QCgCyPURpqe+9Rual1GBJ8Ab6ri82Clfh5ooxq03jKQ1TyQZT5xh+XP0R05+Bqg5bzAZl7r2BpmDEvfoRTWw==}
 
   '@remix-run/headers@0.19.0':
     resolution: {integrity: sha512-+62NbkXuXm9r/NdG6KfH9OCKofCWm8VjkrVPICiHKtRl8Gf2Vi6eFTN4mGgBlZRhd5mmEVRV4hTIn/JUSHDAOw==}
 
-  '@remix-run/multipart-parser@0.14.2':
-    resolution: {integrity: sha512-yDq9ql4Xz92bRG/Sgl4cg2dRlxxC6A40XBy/oyDhy76hJtTQvgyzx9sfPXYPxcfL1BtqljC+sYHE0PvjmQhSfw==}
+  '@remix-run/multipart-parser@0.15.0':
+    resolution: {integrity: sha512-/Ugo6k2bN7gh7Ybyhe7R/NrkD075fHrEfVf17P+NNC9rlWHBQCOSyJ4V8n4wtoG8umeImagU/AuHuUuTwzvHww==}
 
   '@remix-run/node-fetch-server@0.13.0':
     resolution: {integrity: sha512-1EsNo0ZpgXu/90AWoRZf/oE3RVTUS80tiTUpt+hv5pjtAkw7icN4WskDwz/KdAw5ARbJLMhZBrO1NqThmy/McA==}
@@ -6745,13 +6745,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  '@remix-run/form-data-parser@0.15.0':
+  '@remix-run/form-data-parser@0.16.0':
     dependencies:
-      '@remix-run/multipart-parser': 0.14.2
+      '@remix-run/multipart-parser': 0.15.0
 
   '@remix-run/headers@0.19.0': {}
 
-  '@remix-run/multipart-parser@0.14.2':
+  '@remix-run/multipart-parser@0.15.0':
     dependencies:
       '@remix-run/headers': 0.19.0
 
