@@ -36,7 +36,10 @@ const KernAutoSuggestClearInput = (
       }}
       tabIndex={0}
     >
-      <KernIcon name="close" className="text-blue-800 forced-color-adjust-auto" />
+      <KernIcon
+        name="close"
+        className="text-blue-800 forced-color-adjust-auto"
+      />
     </button>
   );
 };
