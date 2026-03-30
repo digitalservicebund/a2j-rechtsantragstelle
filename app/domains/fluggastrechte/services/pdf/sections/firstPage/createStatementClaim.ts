@@ -72,6 +72,14 @@ export const createStatementClaim = (
     showFGROnlineVerfahren,
   );
 
+  if (versaeumnisurteil === "yes") {
+    statementClaimSect.add(
+      doc.struct("P", {}, () => {
+        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
+      }),
+    );
+  }
+
   const negotiationTexts = showFGROnlineVerfahren
     ? [
         oralTrialAgreement(muendlicheVerhandlung),
@@ -80,14 +88,6 @@ export const createStatementClaim = (
     : [legacyVideoTrialAgreement(videoverhandlung)].filter(
         (text): text is string => Boolean(text),
       );
-
-  if (versaeumnisurteil === "yes") {
-    statementClaimSect.add(
-      doc.struct("P", {}, () => {
-        doc.text(STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
-      }),
-    );
-  }
 
   if (negotiationTexts.length > 0) {
     if (showFGROnlineVerfahren) {
