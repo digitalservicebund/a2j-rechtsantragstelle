@@ -1,10 +1,10 @@
-import CloseIcon from "@digitalservicebund/icons/Close";
 import type { RefObject } from "react";
 import { useRouteLoaderData } from "react-router";
 import type { ClearIndicatorProps } from "react-select";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { KernIcon } from "../../common/KernIcon";
 
 const AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY =
   "auto-suggestion-input-button-arial";
@@ -36,7 +36,7 @@ const KernAutoSuggestClearInput = (
       }}
       tabIndex={0}
     >
-      <CloseIcon className="text-blue-800 forced-colors:text-[ButtonText]" />
+      <KernIcon name="close" className="text-blue-800 forced-color-adjust-auto" />
     </button>
   );
 };
