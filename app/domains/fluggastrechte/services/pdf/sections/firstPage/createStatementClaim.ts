@@ -11,6 +11,9 @@ import { addDefendantPartyList } from "./claimData/addDefendantPartyList";
 export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
+export const ONLINE_STATEMENT_CLAIM_COURT_SENTENCE =
+  "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.";
+export const STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT = "Versäumnisurteil:";
 export const STATEMENT_NEGOTIATION_TITLE_TEXT = "Mündliche Verhandlung:";
 
 const legacyVideoTrialAgreement = (videoverhandlung?: string): string => {
@@ -35,8 +38,18 @@ const onlineVerfahrenVideoTrialAgreement = (
   const responses: Record<string, string> = {
     yes: "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
     no: "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
+    noSpecification: "",
   };
   return responses[videoverhandlung ?? ""] ?? "";
+};
+
+const videoTrialAgreement = (
+  videoverhandlung: string | undefined,
+  showFGROnlineVerfahren: boolean,
+): string => {
+  return showFGROnlineVerfahren
+    ? onlineVerfahrenVideoTrialAgreement(videoverhandlung)
+    : legacyVideoTrialAgreement(videoverhandlung);
 };
 
 export const createStatementClaim = (
@@ -80,12 +93,36 @@ export const createStatementClaim = (
     );
   }
 
+  const defaultJudgmentText = showFGROnlineVerfahren
+    ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
+    : STATEMENT_CLAIM_COURT_SENTENCE;
+
+  if (versaeumnisurteil === "yes") {
+    if (showFGROnlineVerfahren) {
+      statementClaimSect.add(
+        doc.struct("H3", {}, () => {
+          doc
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
+        }),
+      );
+    }
+
+    statementClaimSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
+      }),
+    );
+  }
+
   const negotiationTexts = showFGROnlineVerfahren
     ? [
         oralTrialAgreement(muendlicheVerhandlung),
-        onlineVerfahrenVideoTrialAgreement(videoverhandlung),
+        videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren),
       ].filter((text): text is string => Boolean(text))
-    : [legacyVideoTrialAgreement(videoverhandlung)].filter(
+    : [videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren)].filter(
         (text): text is string => Boolean(text),
       );
 
@@ -94,6 +131,7 @@ export const createStatementClaim = (
       statementClaimSect.add(
         doc.struct("H3", {}, () => {
           doc
+            .moveDown(1)
             .font(FONTS_BUNDESSANS_BOLD)
             .text(STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
         }),
