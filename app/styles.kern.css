@@ -64,6 +64,7 @@
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     z-index: 2;
+    forced-color-adjust: none;
   }
 
   .stepper-step::after {
@@ -81,8 +82,43 @@
     border-bottom-left-radius: 1px;
     border-top-left-radius: 1px;
     z-index: 3;
+    forced-color-adjust: none;
   }
 
+  @media (forced-colors: active) {
+    .stepper-step {
+      forced-color-adjust: none;
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+
+    .stepper-step::before {
+      border-left: 14px solid ButtonText;
+      right: -14px;
+    }
+
+    .stepper-step::after {
+      border-left: 14px solid Canvas;
+      right: -12px;
+    }
+
+    .stepper-step.active {
+      background: Highlight;
+      color: HighlightText;
+      border-color: Highlight;
+    }
+
+    .stepper-step.active::before {
+      border-left-color: Highlight;
+    }
+
+    .stepper-step.active::after {
+      border-left-color: Highlight;
+      right: -14px;
+    }
+  }
+  
   .grid-fluid {
     display: grid;
     /* defaults (S) */
