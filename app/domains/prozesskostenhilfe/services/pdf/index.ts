@@ -6,10 +6,6 @@ import { belegeStrings } from "~/domains/prozesskostenhilfe/formular/stringRepla
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { fillZahlungsverpflichtungen } from "~/domains/prozesskostenhilfe/services/pdf/pdfForm/I_zahlungsverpflichtungen";
 import { buildBelegeList } from "~/domains/prozesskostenhilfe/services/pdf/util";
-import {
-  attachUserUploadedFilesToPdf,
-  type RelevantFiles,
-} from "~/domains/shared/services/pdf/userUploadedFiles/attachUserUploadedFilesToPdf";
 import type { Metadata } from "~/services/pdf/addMetadataToPdf";
 import { addMetadataToPdf } from "~/services/pdf/addMetadataToPdf";
 import { appendPagesToPdf } from "~/services/pdf/appendPagesToPdf";
@@ -127,19 +123,7 @@ export async function prozesskostenhilfePdfFromUserdata(
     flowTranslations,
   );
 
-  if (userData.versandArt === "digital") {
-    const userFilesPdfBuffer = await attachUserUploadedFilesToPdf(
-      pdfKitBuffer,
-      sessionId,
-      "/prozesskostenhilfe/formular",
-      relevantProzesskostenhilfeFilesList(userData),
-    );
-    const userFilesDocument = await PDFDocument.load(userFilesPdfBuffer);
-    await appendPagesToPdf(
-      filledPdfFormDocumentWithMetadata,
-      userFilesDocument,
-    );
-  } else {
+  if (userData.versandArt !== "digital") {
     const anhang = await appendPagesToPdf(
       await PDFDocument.load(pdfKitBuffer),
       await loadHinweisblatt(),
@@ -151,107 +135,4 @@ export async function prozesskostenhilfePdfFromUserdata(
   }
 
   return filledPdfFormDocumentWithMetadata.save();
-}
-
-function relevantProzesskostenhilfeFilesList(
-  userData: ProzesskostenhilfeFormularUserData,
-): RelevantFiles {
-  const {
-    rsvDeckung,
-    rsvOrgDeckung,
-    hasBuergergeld,
-    hasArbeitslosengeld,
-    hasGrundsicherung,
-    hasAsylbewerberleistungen,
-    isAngestellt,
-    isSelbstaendig,
-    hasAbzuege,
-    hasWerbungskosten,
-    hasRente,
-    hasWohngeld,
-    hasKrankengeld,
-    hasElterngeld,
-    hasWeitereEinkuenfte,
-    partnerHasBuergergeld,
-    partnerHasArbeitslosengeld,
-    partnerHasAsylbewerberleistungen,
-    partnerHasGrundsicherung,
-    partnerIsAngestellt,
-    partnerIsSelbststaendig,
-    partnerHasAbzuege,
-    partnerHasWerbungskosten,
-    partnerHasRente,
-    partnerHasWohngeld,
-    partnerHasKrankengeld,
-    partnerHasElterngeld,
-    partnerWeitereEinkuenfte,
-    isHomeowner,
-    hasGrundeigentum,
-    hasKraftfahrzeug,
-    hasWertpapier,
-    hasGeldanlageBefristet,
-    hasGeldanlageSonstige,
-    hasGuthabenKryptoKonto,
-    hasGiroTagesSparKonto,
-    hasSchwangerschaft,
-    hasSchwerbehinderung,
-    hasKostenaufwaendigeErnaehrung,
-    hasVersicherung,
-    hasRatenzahlung,
-    hasSonstigeAusgaben,
-    hasWeitereDokumente,
-    hasParkplatzImMietvertrag,
-  } = belegeStrings(userData);
-  return [
-    [rsvDeckung, userData.rechtsschutzversicherungDeckungBeweis],
-    [rsvOrgDeckung, userData.organisationDeckungBeweis],
-    [hasBuergergeld, userData.buergergeldBeweis],
-    [hasArbeitslosengeld, userData.arbeitslosengeldBeweis],
-    [hasGrundsicherung, userData.grundsicherungSozialhilfeBeweis],
-    [hasAsylbewerberleistungen, userData.asylbewerberleistungBeweis],
-    [isAngestellt, userData.einkommenAngestelltBeweis],
-    [isSelbstaendig, userData.einkommenSelbststaendigBeweis],
-    [hasAbzuege, userData.abzuegeBeweis],
-    [hasWerbungskosten, userData.werbungskostenBeweis],
-    [hasRente, userData.renteBeweis],
-    [hasWohngeld, userData.wohngeldBeweis],
-    [hasKrankengeld, userData.krankengeldBeweis],
-    [hasElterngeld, userData.elterngeldBeweis],
-    [hasWeitereEinkuenfte, userData.weitereEinkuenfteBeweis],
-    [partnerHasBuergergeld, userData.buergergeldPartnerBeweis],
-    [partnerHasArbeitslosengeld, userData.arbeitslosengeldPartnerBeweis],
-    [
-      partnerHasAsylbewerberleistungen,
-      userData.asylbewerberleistungPartnerBeweis,
-    ],
-    [partnerHasGrundsicherung, userData.grundsicherungSozialhilfePartnerBeweis],
-    [partnerIsAngestellt, userData.einkommenAngestelltPartnerBeweis],
-    [partnerIsSelbststaendig, userData.einkommenSelbststaendigPartnerBeweis],
-    [partnerHasAbzuege, userData.abzuegePartnerBeweis],
-    [partnerHasWerbungskosten, userData.werbungskostenPartnerBeweis],
-    [partnerHasRente, userData.rentePartnerBeweis],
-    [partnerHasWohngeld, userData.wohngeldPartnerBeweis],
-    [partnerHasKrankengeld, userData.krankengeldPartnerBeweis],
-    [partnerHasElterngeld, userData.elterngeldPartnerBeweis],
-    [partnerWeitereEinkuenfte, userData.weitereEinkuenftePartnerBeweis],
-    [isHomeowner, userData.wohngeldBeweis],
-    [hasGrundeigentum, userData.grundeigentumBeweis],
-    [hasKraftfahrzeug, userData.kraftfahrzeugeBeweis],
-    [hasWertpapier, userData.wertpapiereBeweis],
-    [hasGeldanlageBefristet, userData.geldanlagenBefristetBeweis],
-    [hasGeldanlageSonstige, userData.geldanlagenSonstigeBeweis],
-    [hasGuthabenKryptoKonto, userData.guthabenkontoKryptowaehrungBeweis],
-    [hasGiroTagesSparKonto, userData.sparkontenBeweis],
-    [hasSchwangerschaft, userData.schwangerschaftBeweis],
-    [hasSchwerbehinderung, userData.schwerbehinderungBeweis],
-    [
-      hasKostenaufwaendigeErnaehrung,
-      userData.kostenaufwaendigeErnaehrungBeweis,
-    ],
-    [hasVersicherung, userData.versicherungenBeweis],
-    [hasRatenzahlung, userData.ratenzahlungenBeweis],
-    [hasSonstigeAusgaben, userData.sonstigeAusgabenBeweis],
-    [hasWeitereDokumente, userData.weitereDokumenteBeweis],
-    [hasParkplatzImMietvertrag, userData.parkplatzImMietvertragBeweis],
-  ];
 }

@@ -8,7 +8,6 @@ import {
   getAnwaltStrings,
   ausgabenStrings,
   weiteresEinkommenStrings,
-  getWeitereDokumenteStrings,
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
@@ -31,7 +30,6 @@ export const beratungshilfeFormular = {
     ...ausgabenStrings(context),
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
-    ...getWeitereDokumenteStrings(context),
   }),
   asyncFlowActions: {
     "/abgabe/art": (request, userData) =>

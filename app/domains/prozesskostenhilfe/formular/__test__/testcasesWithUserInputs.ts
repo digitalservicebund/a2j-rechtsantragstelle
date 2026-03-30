@@ -17,9 +17,6 @@ import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/r
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const prozesskostenhilfeFormularTestCases = {
   xstateConfig: prozesskostenhilfeFormular.config,
@@ -102,10 +99,8 @@ export const prozesskostenhilfeFormularTestCases = {
           },
         },
       },
-      ...(showAutoSummary ? [{ stepId: "/abgabe/zusammenfassung" }] : []),
-      {
-        stepId: "/abgabe/ende",
-      },
+      { stepId: "/abgabe/zusammenfassung" },
+      { stepId: "/abgabe/ende" },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,

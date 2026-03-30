@@ -43,10 +43,8 @@ type PdfConfig = PdfFlowContexts extends infer T
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: async (
-      userData: BeratungshilfeFormularUserData,
-      sessionId: string,
-    ) => await beratungshilfePdfFromUserdata(userData, sessionId),
+    pdfFunction: async (userData: BeratungshilfeFormularUserData) =>
+      await beratungshilfePdfFromUserdata(userData),
     name: `Antrag_Beratungshilfe`,
   },
   "/prozesskostenhilfe/formular": {
@@ -95,7 +93,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
 
   const { prunedData: userData } = pruneIrrelevantData(
-    (await getSessionData(flowId, cookieHeader)).userData,
+    await getSessionData(flowId, cookieHeader),
     flowId,
   );
   if (isEmpty(userData)) return redirect(flowId);
