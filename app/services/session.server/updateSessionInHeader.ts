@@ -21,6 +21,6 @@ export const updateMainSession = async ({
   session.set(lastStepKey, { [flowId]: stepId });
 
   const sessionManager = getSessionManager("main");
-  const headers = { "Set-Cookie": await sessionManager.commitSession(session) };
+  const headers = await sessionManager.commitSession(session);
   return { headers, csrf };
 };

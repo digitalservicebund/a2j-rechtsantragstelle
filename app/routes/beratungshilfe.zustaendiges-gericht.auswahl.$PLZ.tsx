@@ -54,7 +54,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       userData: { plz: zipCode },
       meta: { title: "Amtsgericht finden" },
     },
-    { headers: { "Set-Cookie": await sessionManager.commitSession(session) } },
+    { headers: await sessionManager.commitSession(session) },
   );
 };
 

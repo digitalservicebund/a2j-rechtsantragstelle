@@ -159,6 +159,11 @@ export const translations = {
       de: "öffnet neues Fenster",
     },
   },
+  footer: {
+    internalLinks: {
+      de: "Rechtliche und weiterführende Informationen",
+    },
+  },
   navigationMobile: {
     closeMenu: {
       de: "Schritt-für-Schritt-Menü schließen",

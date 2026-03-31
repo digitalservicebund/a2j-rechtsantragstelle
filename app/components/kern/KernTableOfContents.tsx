@@ -23,9 +23,11 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
       id={identifier}
       className="px-kern-space-large lg:px-0 xl:px-0"
     >
-      <nav aria-label="Inhalt">
+      <nav aria-labelledby="table-of-contents-label">
         <div>
-          {label && <KernLabel {...label} />}
+          {label && (
+            <KernLabel {...label} elementId="table-of-contents-label" />
+          )}
           {links && links.length > 0 && (
             <ul className="list-none pl-0! mt-10">
               {links.map((link) => (
@@ -33,7 +35,11 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                   key={link.text ?? link.url}
                   className="list-none flex mb-10"
                 >
-                  <a href={link.url} className="kern-link no-underline!">
+                  <a
+                    href={link.url}
+                    className="kern-link no-underline!"
+                    aria-label={link.text}
+                  >
                     <KernIcon
                       name="arrow-downward"
                       className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
