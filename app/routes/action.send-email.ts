@@ -48,6 +48,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const session = await getSession(request.headers.get("Cookie"));
   session.set(emailCaptureConsentName, true);
-  const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(`${url}?success`, { headers });
+  return redirect(`${url}?success`, { headers: await commitSession(session) });
 };

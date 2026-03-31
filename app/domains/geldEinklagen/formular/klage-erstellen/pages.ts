@@ -1,6 +1,7 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { emailSchema } from "~/services/validation/email";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
   buildOptionalMoneyValidationSchema,
@@ -18,10 +19,15 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
+const statePrefilled = z
+  .enum(["prefilled", "filledByUser", "unfilled"])
+  .default("filledByUser");
+
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
   beklagteOrt: stringRequiredSchema,
+  beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
 export const geldEinklagenKlageErstellenPages = {
@@ -43,6 +49,7 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonNachname: stringRequiredSchema,
       klagendePersonStrasseHausnummer: stringRequiredSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
       klagendePersonOrt: stringRequiredSchema,
       klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
       klagendeEmail: schemaOrEmptyString(emailSchema),

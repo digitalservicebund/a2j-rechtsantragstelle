@@ -1,3 +1,4 @@
+import { createSession, type Session } from "react-router";
 import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
 import { postValidationFlowAction } from "../postValidationFlowAction";
 
@@ -7,6 +8,7 @@ const mockUserData = { name: "John Doe" };
 const mockRequest = new Request(
   "https://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
 );
+const mockSession: Session = createSession();
 
 describe("postValidationFormUserData", () => {
   it("should call matching post actions", async () => {
@@ -19,9 +21,13 @@ describe("postValidationFormUserData", () => {
       stepId: "/test",
     } as unknown as ReturnType<typeof getPageAndFlowDataFromPathname>);
 
-    await postValidationFlowAction(mockRequest, mockUserData);
+    await postValidationFlowAction(mockRequest, mockUserData, mockSession);
 
-    expect(mockAction1).toHaveBeenCalledWith(mockRequest, mockUserData);
+    expect(mockAction1).toHaveBeenCalledWith(
+      mockRequest,
+      mockUserData,
+      mockSession,
+    );
     expect(mockAction2).not.toHaveBeenCalled();
   });
 
@@ -32,7 +38,8 @@ describe("postValidationFormUserData", () => {
     } as unknown as ReturnType<typeof getPageAndFlowDataFromPathname>);
 
     expect(
-      async () => await postValidationFlowAction(mockRequest, mockUserData),
+      async () =>
+        await postValidationFlowAction(mockRequest, mockUserData, mockSession),
     ).not.toThrow();
   });
 });

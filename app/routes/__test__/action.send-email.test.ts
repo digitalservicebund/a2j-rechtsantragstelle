@@ -53,7 +53,7 @@ describe("/action/send-email route", () => {
     await action(mockRouteArgsFromRequest(request));
     expect(fetchMock).toHaveBeenCalled();
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?success`, {
-      headers: {},
+      headers: undefined,
     });
   });
 

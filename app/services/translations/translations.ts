@@ -155,6 +155,14 @@ export const translations = {
     navigationStepper: {
       de: "Prozessübersicht",
     },
+    linkOpensNewTab: {
+      de: "öffnet neues Fenster",
+    },
+  },
+  footer: {
+    internalLinks: {
+      de: "Rechtliche und weiterführende Informationen",
+    },
   },
   navigationMobile: {
     closeMenu: {
