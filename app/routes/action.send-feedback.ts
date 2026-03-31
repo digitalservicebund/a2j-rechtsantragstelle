@@ -30,7 +30,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
 
   updateBannerState(session, "feedbackGiven", url);
-  const headers = { "Set-Cookie": await commitSession(session) };
 
   if (result.data?.feedback && result.data.feedback !== "") {
     sendCustomAnalyticsEvent({
@@ -50,5 +49,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const userFeedbackPath = clientJavaScriptAvailable
     ? url
     : `${url}#${USER_FEEDBACK_ID}`;
-  return redirect(userFeedbackPath, { headers });
+  return redirect(userFeedbackPath, { headers: await commitSession(session) });
 };

@@ -45,7 +45,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
   updateRatingWasHepful(session, feedbackData.wasHelpful, url);
   updateBannerState(session, "showFeedback", url);
-  const headers = { "Set-Cookie": await commitSession(session) };
 
   sendCustomAnalyticsEvent({
     eventName: "rating given",
@@ -58,6 +57,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   searchParams.set("wasHelpful", feedbackData.wasHelpful);
+  const headers = await commitSession(session);
 
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
   if (clientJavaScriptAvailable) {
@@ -66,8 +66,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   return redirect(
     `${url}?wasHelpful=${feedbackData?.wasHelpful}#${USER_FEEDBACK_ID}`,
-    {
-      headers,
-    },
+    { headers },
   );
 };
