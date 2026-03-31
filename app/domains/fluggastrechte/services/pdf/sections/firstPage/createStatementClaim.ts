@@ -43,15 +43,6 @@ const onlineVerfahrenVideoTrialAgreement = (
   return responses[videoverhandlung ?? ""] ?? "";
 };
 
-const videoTrialAgreement = (
-  videoverhandlung: string | undefined,
-  showFGROnlineVerfahren: boolean,
-): string => {
-  return showFGROnlineVerfahren
-    ? onlineVerfahrenVideoTrialAgreement(videoverhandlung)
-    : legacyVideoTrialAgreement(videoverhandlung);
-};
-
 export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
@@ -65,6 +56,9 @@ export const createStatementClaim = (
     muendlicheVerhandlung,
   } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);
+  const getVideoTrialAgreement = showFGROnlineVerfahren
+    ? onlineVerfahrenVideoTrialAgreement
+    : legacyVideoTrialAgreement;
 
   const statementClaimSect = doc.struct("Sect");
   statementClaimSect.add(
@@ -112,9 +106,9 @@ export const createStatementClaim = (
   const negotiationTexts = showFGROnlineVerfahren
     ? [
         oralTrialAgreement(muendlicheVerhandlung),
-        videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren),
+        getVideoTrialAgreement(videoverhandlung),
       ].filter((text): text is string => Boolean(text))
-    : [videoTrialAgreement(videoverhandlung, showFGROnlineVerfahren)].filter(
+    : [getVideoTrialAgreement(videoverhandlung)].filter(
         (text): text is string => Boolean(text),
       );
 
