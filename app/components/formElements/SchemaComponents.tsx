@@ -23,17 +23,20 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
+  readOnlyFieldNames: string[];
 };
 
 export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
+  readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
     formComponents,
   );
+
   return (
     <div className={classNames("ds-stack ds-stack-40", className)}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
@@ -43,8 +46,15 @@ export const SchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup);
+          return renderFieldSet(
+            fieldName,
+            fieldSetGroup,
+            readOnlyFieldNames,
+            false,
+          );
         }
+
+        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
 
         const matchingElement = formComponents
           ?.filter(
@@ -65,14 +75,19 @@ export const SchemaComponents = ({
         const nestedSchema = getNestedSchema(fieldSchema);
 
         if (isZodObject(nestedSchema)) {
-          return renderZodObject(nestedSchema, fieldName, formComponents);
+          return renderZodObject(
+            nestedSchema,
+            fieldName,
+            readOnlyFieldNames,
+            formComponents,
+          );
         }
 
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement);
+          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
       })}
     </div>
   );

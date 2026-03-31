@@ -50,6 +50,7 @@ describe("FieldSet", () => {
       <FieldSet
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
+        readOnlyFieldNames={[]}
       />,
     );
 
@@ -68,6 +69,7 @@ describe("FieldSet", () => {
           height: 24,
           width: 24,
         }}
+        readOnlyFieldNames={[]}
       />,
     );
 

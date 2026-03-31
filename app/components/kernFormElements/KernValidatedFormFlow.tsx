@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { getPageSchema, getReadOnlyFields } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
@@ -8,6 +8,7 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "./KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
+import { getReadOnlyFieldNames } from "../formElements/schemaToForm/getReadOnlyFieldNames";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -26,6 +27,8 @@ function KernValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
+  const readOnlyFields = getReadOnlyFields(pathname);
+  const readOnlyFieldNames = getReadOnlyFieldNames(readOnlyFields, stepData);
 
   return (
     <ValidatedForm
@@ -45,6 +48,7 @@ function KernValidatedFlowForm({
                 pageSchema={pageSchema}
                 formComponents={formElements}
                 className="mb-kern-space-x-large"
+                readOnlyFieldNames={readOnlyFieldNames}
               />
             )}
             <KernButtonNavigation

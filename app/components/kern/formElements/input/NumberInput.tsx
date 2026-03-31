@@ -14,6 +14,7 @@ export type InputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
   charLimit?: number;
+  readonly?: boolean;
 }>;
 
 const NumberInput = function InputComponent({
@@ -23,6 +24,7 @@ const NumberInput = function InputComponent({
   step,
   errorMessages,
   helperText,
+  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -56,6 +58,7 @@ const NumberInput = function InputComponent({
           helperText && helperId,
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
+        readOnly={readonly}
       />
 
       <InputError id={errorId}>

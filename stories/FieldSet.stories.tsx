@@ -41,6 +41,7 @@ export const FieldSetWithImage: Story = {
       width: 24,
       height: 24,
     },
+    readOnlyFieldNames: [],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -64,6 +65,7 @@ export const FieldSetWithoutImage: Story = {
         __component: "form-elements.time-input",
       },
     ],
+    readOnlyFieldNames: [],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

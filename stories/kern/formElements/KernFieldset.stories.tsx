@@ -35,6 +35,7 @@ export const Default: Story = {
         __component: "form-elements.time-input",
       },
     ],
+    readOnlyFieldNames: [],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -64,6 +65,7 @@ export const FieldsetWithImage: Story = {
       width: 24,
       height: 24,
     },
+    readOnlyFieldNames: [],
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
