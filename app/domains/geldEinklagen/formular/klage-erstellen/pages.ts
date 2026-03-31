@@ -56,6 +56,12 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
     },
+    readonlyFields: {
+      fields: ["klagendePersonPlz", "klagendePersonOrt"],
+      shouldMakeReadOnly: (userData) =>
+        !!userData.klagendePersonStatePrefilled &&
+        userData.klagendePersonStatePrefilled === "prefilled",
+    },
   },
   klagendePersonAnwaltschaft: {
     stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
@@ -83,6 +89,12 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteVorname: stringRequiredSchema,
       beklagteNachname: stringRequiredSchema,
       ...sharedBeklagteAddress,
+    },
+    readonlyFields: {
+      fields: ["beklagtePlz", "beklagteOrt"],
+      shouldMakeReadOnly: (userData) =>
+        !!userData.beklagteStatePrefilled &&
+        userData.beklagteStatePrefilled === "prefilled",
     },
   },
   beklagtePersonOrganisation: {
