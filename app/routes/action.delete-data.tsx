@@ -24,6 +24,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       // see https://github.com/remix-run/remix/issues/231#issuecomment-1926294674
       ["Set-Cookie", await createCookie(consentCookieName).serialize("", opts)],
       ["Set-Cookie", await createCookie("__session").serialize("", opts)],
+      ["Set-Cookie", await createCookie("__vault").serialize("", opts)],
     ],
   });
 };

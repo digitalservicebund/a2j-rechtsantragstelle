@@ -156,6 +156,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   await postValidationFlowAction(request, prunedData, flowSession);
 
   const destination = flowDestination(pathname, prunedData);
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const headers = await commitSession(flowSession);
   return redirectDocument(destination, { headers });
 };
