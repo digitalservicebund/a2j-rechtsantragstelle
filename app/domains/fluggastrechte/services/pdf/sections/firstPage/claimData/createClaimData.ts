@@ -12,7 +12,6 @@ export const IN_THE_MATTER = "in der Sache";
 export const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE = "Neueingang";
 
 export const DUE_REASON_TEXT =
   "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";
@@ -21,14 +20,26 @@ export const createClaimData = (
   doc: typeof PDFDocument,
   flightCompensationClaimSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
+  showFGROnlineVerfahren: boolean,
 ) => {
+  const MAIN_SUBTITLE = showFGROnlineVerfahren
+    ? "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung"
+    : "Neueingang";
+
   flightCompensationClaimSect.add(
     doc.struct("H1", {}, () => {
       doc
         .fontSize(31)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(MAIN_TITLE, { align: "left" });
-      doc.fontSize(10).font(FONTS_BUNDESSANS_REGULAR).text(MAIN_SUBTITLE);
+      doc
+        .fontSize(showFGROnlineVerfahren ? 14 : 10)
+        .font(
+          showFGROnlineVerfahren
+            ? FONTS_BUNDESSANS_BOLD
+            : FONTS_BUNDESSANS_REGULAR,
+        )
+        .text(MAIN_SUBTITLE);
       doc.moveDown(2);
     }),
   );
