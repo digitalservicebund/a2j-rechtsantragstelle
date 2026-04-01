@@ -60,7 +60,11 @@ const NumberInput = function InputComponent({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
         readOnly={readonly}
       />
-
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
