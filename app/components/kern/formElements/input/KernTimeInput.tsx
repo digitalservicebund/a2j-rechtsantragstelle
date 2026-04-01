@@ -59,10 +59,7 @@ const TimeInputBase = function TimeInputComponent({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
       {helperText && (
-        <div
-          className="kern-body text-kern-layout-text-muted!"
-          id={helperId}
-        >
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
           {helperText}
         </div>
       )}
