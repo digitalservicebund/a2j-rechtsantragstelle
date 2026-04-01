@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
-import { getPageSchema, getReadOnlyFields } from "~/domains/pageSchemas";
+import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
@@ -27,8 +27,7 @@ function KernValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
-  const readOnlyFields = getReadOnlyFields(pathname);
-  const readOnlyFieldNames = getReadOnlyFieldNames(readOnlyFields, stepData);
+  const readOnlyFieldNames = getReadOnlyFieldNames(pathname, stepData);
 
   return (
     <ValidatedForm

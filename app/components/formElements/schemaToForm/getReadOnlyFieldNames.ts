@@ -1,17 +1,17 @@
-import { type ReadOnlyFields } from "~/domains/pageSchemas";
+import { getReadOnlyFields } from "~/domains/pageSchemas";
 import { type UserData } from "~/domains/userData";
 
 export const getReadOnlyFieldNames = (
-  readOnlyFields: ReadOnlyFields | undefined,
+  pathname: string,
   userData: UserData,
 ): string[] => {
+  const readOnlyFields = getReadOnlyFields(pathname);
+
   if (!readOnlyFields) {
     return [];
   }
 
-  if (readOnlyFields.shouldMakeReadOnly(userData)) {
-    return readOnlyFields.fields;
-  }
-
-  return [];
+  return readOnlyFields.shouldMakeReadOnly(userData)
+    ? readOnlyFields.fields
+    : [];
 };
