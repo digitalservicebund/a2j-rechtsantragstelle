@@ -314,4 +314,24 @@ describe("SchemaComponents", () => {
     expect(inputs[0]).toHaveAttribute("name", "field1");
     expect(inputs[1]).toHaveAttribute("name", "field2");
   });
+
+  it("should render an input with readonly attribute when the field name is in readOnlyFieldNames", () => {
+    const pageSchema = { field1: z.string(), field2: z.string() };
+    const { getAllByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={["field1"]}
+      />,
+    );
+
+    expect(getAllByRole("textbox").length).toBe(2);
+
+    const textInput1 = getAllByRole("textbox")[0];
+    const textInput2 = getAllByRole("textbox")[1];
+
+    expect(textInput1).toHaveAttribute("name", "field1");
+    expect(textInput2).toHaveAttribute("name", "field2");
+    expect(textInput1).toHaveAttribute("readonly");
+    expect(textInput2).not.toHaveAttribute("readonly");
+  });
 });
