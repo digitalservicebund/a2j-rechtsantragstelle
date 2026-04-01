@@ -55,7 +55,14 @@ const TelephoneInput = function InputComponent({
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
-
+      {helperText && (
+        <div
+          className="kern-body text-kern-layout-text-muted! p-0! m-0!"
+          id={helperId}
+        >
+          {helperText}
+        </div>
+      )}
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
