@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../InputError";
 
-export type InputProps = Readonly<{
+type InputProps = Readonly<{
   name: string;
   label?: string;
   type?: string;
