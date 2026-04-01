@@ -29,7 +29,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, false);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       REASON_TITLE_TEXT,
@@ -46,7 +46,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, false);
 
     expect(createFactsOfCases).toBeCalledTimes(1);
   });
@@ -55,16 +55,22 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, true);
 
     expect(createLegalAssessment).toBeCalledTimes(1);
+    expect(createLegalAssessment).toBeCalledWith(
+      mockDoc,
+      mockStruct,
+      userDataMock,
+      true,
+    );
   });
 
   it("should call the createAdditionalInformation for the creation facts of cases", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, false);
 
     expect(addCompensationAmount).toBeCalledTimes(1);
   });
@@ -73,7 +79,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, false);
 
     expect(addTable).toBeCalledTimes(1);
   });
@@ -82,7 +88,7 @@ describe("createReasonPage", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createReasonPage(mockDoc, mockStruct, userDataMock);
+    createReasonPage(mockDoc, mockStruct, userDataMock, false);
 
     expect(mockDoc.struct).toHaveBeenCalled();
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
