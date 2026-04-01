@@ -7,9 +7,7 @@ const NOT_EXISTING_PATHNAME = "/non-existing-pathname";
 const EXISTING_PATHNAME = "/klage-erstellen/beklagte-person/anschrift";
 
 vi.mocked(getReadOnlyFields).mockImplementation((pathname) => {
-  if (pathname === NOT_EXISTING_PATHNAME) {
-    return undefined;
-  }
+  if (pathname !== EXISTING_PATHNAME) return undefined;
 
   if (pathname === EXISTING_PATHNAME) {
     return {
