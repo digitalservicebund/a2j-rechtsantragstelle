@@ -7,6 +7,7 @@ import {
   getRelevantPageSchemasForStepId,
   filterPageSchemasByReachableSteps,
   type PageConfig,
+  getReadOnlyFields,
 } from "../pageSchemas";
 
 describe("getPageSchema", () => {
@@ -281,5 +282,25 @@ describe("filterPageSchemasByReachableSteps", () => {
         } as PageConfig),
       ).toBe(true);
     });
+  });
+});
+
+describe("getReadOnlyFields", () => {
+  it("should return undefined if there are no readOnlyFields defined for the page", () => {
+    const actual = getReadOnlyFields(
+      "/beratungshilfe/vorabcheck/rechtsschutzversicherung",
+    );
+
+    expect(actual).not.toBeDefined();
+  });
+
+  it("should return the readOnlyFields for the page if they are defined", () => {
+    const actual = getReadOnlyFields(
+      "/geld-einklagen/formular/klage-erstellen/klagende-person/kontaktdaten",
+    );
+
+    expect(actual).toBeDefined();
+    expect(actual?.fields).toEqual(["klagendePersonPlz", "klagendePersonOrt"]);
+    expect(actual?.shouldMakeReadOnly).toEqual(expect.any(Function));
   });
 });

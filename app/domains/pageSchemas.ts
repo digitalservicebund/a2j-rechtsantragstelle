@@ -156,7 +156,7 @@ type FlowPage = {
   readonlyFields?: ReadOnlyFields;
 };
 
-export type ReadOnlyFields = {
+type ReadOnlyFields = {
   fields: string[];
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
