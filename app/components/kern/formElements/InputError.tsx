@@ -12,7 +12,7 @@ const InputError = ({ id, children }: InputErrorProps) => {
         <p className="kern-error" id={id} role="alert">
           <KernIcon
             name="emergency-home"
-            className="fill-kern-feedback-danger!"
+            className="fill-kern-feedback-danger! forced-color-adjust-auto"
           />
           <span className="text-kern-feedback-danger!">{children}</span>
         </p>
