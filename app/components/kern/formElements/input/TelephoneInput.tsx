@@ -57,7 +57,7 @@ const TelephoneInput = function InputComponent({
       />
       {helperText && (
         <div
-          className="kern-body text-kern-layout-text-muted! p-0! m-0!"
+          className="kern-body text-kern-layout-text-muted!"
           id={helperId}
         >
           {helperText}
