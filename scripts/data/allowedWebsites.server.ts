@@ -69,4 +69,5 @@ export const allowedWebsites = [
   "https://www.mahngerichte.de",
   "https://surveys.digitalservice.dev",
   "https://www.bea-brak.de/bea",
+  "https://mjpserviceportal.de/",
 ];
