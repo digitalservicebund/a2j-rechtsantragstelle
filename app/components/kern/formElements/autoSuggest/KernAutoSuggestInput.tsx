@@ -165,10 +165,7 @@ const KernAutoSuggestInput = ({
           </label>
         )}
         {helperText && (
-          <div
-            className="kern-body text-kern-layout-text-muted! p-0! m-0!"
-            id={helperId}
-          >
+          <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
             {helperText}
           </div>
         )}
