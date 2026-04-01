@@ -95,6 +95,7 @@ describe("Input", () => {
       expect(element).toHaveAttribute("aria-required", "false");
     });
   });
+
   describe("Input field with autocomplete attribute", () => {
     Object.entries(autocompleteMap).forEach(([name, expectedAutocomplete]) => {
       it(`renders input with autocomplete="${expectedAutocomplete}" for name="${name}"`, () => {
@@ -111,5 +112,11 @@ describe("Input", () => {
       const input = screen.getByRole("textbox");
       expect(input).toHaveAttribute("autoComplete", "off");
     });
+  });
+
+  it("should render input with readonly attribute when readonly prop is true", () => {
+    render(<Input name="input" readonly />);
+    const input = screen.getByRole("textbox");
+    expect(input).toHaveAttribute("readOnly");
   });
 });
