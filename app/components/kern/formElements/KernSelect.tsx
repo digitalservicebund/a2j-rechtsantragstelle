@@ -28,7 +28,7 @@ const KernSelect = ({
   return (
     <div className="kern-form-input">
       {label && (
-        <label className="kern-label" htmlFor="select">
+        <label className="kern-label" htmlFor={name}>
           {label}
         </label>
       )}

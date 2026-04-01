@@ -1,3 +1,4 @@
+import { translations } from "~/services/translations/translations";
 import { KernIcon } from "../../common/KernIcon";
 import { footerContent } from "./footerContent";
 
@@ -14,9 +15,10 @@ export const KernFooterExternalLinks = () => {
             {section.title}{" "}
             <a
               href={link.url}
-              className="kern-link inline-block p-0! no-underline!"
+              className="kern-link inline-block p-0! no-underline! wrap-anywhere"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${link.text}, ${translations.navigation.linkOpensNewTab.de}`}
             >
               <KernIcon
                 name="open-in-new"

@@ -147,6 +147,7 @@ describe("vorabcheck.server", () => {
       expect(postValidationFlowAction).toHaveBeenCalledWith(
         mockDefaultRequest,
         { name: "Valid Name" },
+        expect.anything(),
       );
     });
 

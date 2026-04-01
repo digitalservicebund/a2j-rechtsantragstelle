@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularGerichtPruefenUserData } from "../userData";
 import { geldEinklagenGerichtPruefenPages } from "../pages";
 import { type GeldEinklagenFormularUserData } from "../../userData";
 import { type GenericGuard } from "~/domains/guards.server";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenGerichtPruefenPages);
 
@@ -33,7 +34,7 @@ export const klagendePersonXstateConfig = {
               context.sachgebiet === "miete" &&
               context.mietePachtVertrag === "yes" &&
               context.mietePachtRaum === "yes" &&
-              isKlagendePersonDone({ context }),
+              objectKeysNonEmpty(context, ["fuerWenKlagen"]),
             target: steps.beklagtePersonGegenWen.absolute,
           },
           {

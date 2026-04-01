@@ -35,7 +35,11 @@ const TimeInputBase = function TimeInputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
       <input
         {...field.getInputProps({
           id: name,
