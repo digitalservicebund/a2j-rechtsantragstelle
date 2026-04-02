@@ -14,10 +14,11 @@ export const getStrapiEntry: GetStrapiEntry = async (opts) => {
   if (publicConfig().ENVIRONMENT === "production")
     return getterFunction({ ...opts, locale: defaultLocale });
 
-  const stagingData = await getterFunction({ ...opts, locale: stagingLocale });
-  const returnData = stagingData.at(0)
-    ? stagingData
-    : await getterFunction({ ...opts, locale: defaultLocale });
-
-  return returnData;
+  // Fetch all locales at once, then try to return stagingLocale first.
+  // Not really any but the filtering breaks type inference from getterFunction
+  const entries = await getterFunction({ ...opts, locale: "*" });
+  const stagingEntry: any = entries.find(
+    (entry) => entry && "locale" in entry && entry.locale === stagingLocale,
+  );
+  return stagingEntry ? [stagingEntry] : entries;
 };
