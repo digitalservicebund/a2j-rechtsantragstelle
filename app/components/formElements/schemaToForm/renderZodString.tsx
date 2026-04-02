@@ -20,11 +20,13 @@ export const isZodString = (
 
 export const renderZodString = (
   fieldName: string,
+  isFieldReadOnly: boolean,
   matchingElement?: StrapiFormComponent,
   showKernUX?: boolean,
 ) => {
   const sharedProps = {
     name: fieldName,
+    readonly: isFieldReadOnly,
     ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
   };
 

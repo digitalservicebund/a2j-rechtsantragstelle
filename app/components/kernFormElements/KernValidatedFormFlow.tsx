@@ -8,6 +8,7 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "./KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
+import { getReadOnlyFieldNames } from "../formElements/schemaToForm/getReadOnlyFieldNames";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -26,6 +27,7 @@ function KernValidatedFlowForm({
 
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
+  const readOnlyFieldNames = getReadOnlyFieldNames(pathname, stepData);
 
   return (
     <ValidatedForm
@@ -45,6 +47,7 @@ function KernValidatedFlowForm({
                 pageSchema={pageSchema}
                 formComponents={formElements}
                 className="mb-kern-space-x-large"
+                readOnlyFieldNames={readOnlyFieldNames}
               />
             )}
             <KernButtonNavigation

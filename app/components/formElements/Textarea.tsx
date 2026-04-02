@@ -22,6 +22,7 @@ type TextareaProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   innerRef?: React.Ref<HTMLTextAreaElement>;
   ariaDescribedby?: string;
+  readonly?: boolean;
 }>;
 
 export const TEXT_AREA_ROWS = 3;
@@ -36,6 +37,7 @@ const Textarea = ({
   errorMessages,
   innerRef,
   ariaDescribedby,
+  readonly,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -64,6 +66,7 @@ const Textarea = ({
             "has-error": field.error(),
           },
         )}
+        readOnly={readonly}
         ref={innerRef}
         aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : ariaDescribedby}

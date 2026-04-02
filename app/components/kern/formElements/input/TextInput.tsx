@@ -16,6 +16,7 @@ export type InputProps = Readonly<{
   helperText?: string;
   charLimit?: number;
   inputRef?: React.Ref<HTMLInputElement>;
+  readonly?: boolean;
 }>;
 
 const TextInput = function InputComponent({
@@ -26,6 +27,7 @@ const TextInput = function InputComponent({
   helperText,
   charLimit = INPUT_CHAR_LIMIT,
   inputRef,
+  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -57,6 +59,7 @@ const TextInput = function InputComponent({
         type="text"
         placeholder={placeholder}
         maxLength={charLimit}
+        readOnly={readonly}
         aria-invalid={field.error() !== null}
         aria-describedby={[
           field.error() && errorId,

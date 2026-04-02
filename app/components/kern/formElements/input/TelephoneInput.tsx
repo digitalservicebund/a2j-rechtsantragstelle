@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../InputError";
 
-export type InputProps = Readonly<{
+type InputProps = Readonly<{
   name: string;
   label?: string;
   type?: string;
@@ -14,6 +14,7 @@ export type InputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
   charLimit?: number;
+  readonly?: boolean;
 }>;
 
 const TelephoneInput = function InputComponent({
@@ -22,6 +23,7 @@ const TelephoneInput = function InputComponent({
   placeholder,
   errorMessages,
   helperText,
+  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -54,6 +56,7 @@ const TelephoneInput = function InputComponent({
         })}
         name={name}
         aria-invalid={field.error() !== null}
+        readOnly={readonly}
         aria-describedby={[
           field.error() && errorId,
           helperText && helperId,

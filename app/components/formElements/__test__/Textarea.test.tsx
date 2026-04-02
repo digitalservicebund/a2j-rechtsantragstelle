@@ -174,4 +174,11 @@ describe("Textarea component", () => {
       expect(element).toHaveAttribute("aria-required", "false");
     });
   });
+
+  it("should render textarea with readonly attribute when readonly prop is true", () => {
+    render(<Textarea name="input" readonly />);
+
+    const textarea = screen.getByRole("textbox");
+    expect(textarea).toHaveAttribute("readOnly");
+  });
 });
