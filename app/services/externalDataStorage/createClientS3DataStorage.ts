@@ -4,9 +4,10 @@ import { config } from "~/services/env/env.server";
 let instance: S3Client | undefined = undefined;
 
 export const createClientS3DataStorage = () => {
-  const { S3_DATA_STORAGE_ACCESS_KEY, S3_DATA_STORAGE_SECRET_KEY } = config();
+  if (instance) return instance;
 
-  if (!instance && S3_DATA_STORAGE_ACCESS_KEY && S3_DATA_STORAGE_SECRET_KEY) {
+  const { S3_DATA_STORAGE_ACCESS_KEY, S3_DATA_STORAGE_SECRET_KEY } = config();
+  if (S3_DATA_STORAGE_ACCESS_KEY && S3_DATA_STORAGE_SECRET_KEY) {
     instance = new S3Client({
       region: config().S3_REGION,
       credentials: {
