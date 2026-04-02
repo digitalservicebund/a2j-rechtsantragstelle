@@ -23,6 +23,7 @@ export async function uploadUserFileToS3(
 ) {
   try {
     const s3Client = createClientS3DataStorage();
+    if (!s3Client) throw new Error("No S3 client");
     const fileKey = crypto.randomUUID();
 
     await s3Client.send(
@@ -46,6 +47,7 @@ export async function deleteUserFileFromS3(
 ) {
   try {
     const s3Client = createClientS3DataStorage();
+    if (!s3Client) throw new Error("No S3 client");
     await s3Client.send(
       new DeleteObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
@@ -67,6 +69,7 @@ export async function downloadUserFileFromS3(
 ) {
   try {
     const s3Client = createClientS3DataStorage();
+    if (!s3Client) throw new Error("No S3 client");
     const response = await s3Client.send(
       new GetObjectCommand({
         Bucket: config().S3_DATA_STORAGE_BUCKET_NAME,
