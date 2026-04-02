@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
@@ -104,63 +104,48 @@ export const getCourtCost = (context: GeldEinklagenFormularUserData) => {
   };
 };
 
-export const getKlagendePersonInfo = (
-  context: GeldEinklagenFormularUserData,
-) => {
+export const hasAnwaltskosten = (context: GeldEinklagenFormularUserData) => {
+  const parsedAnwaltskosten = parseCurrencyStringDE(context.anwaltskosten);
+
   return {
-    klagendePersonAnrede: context.klagendePersonAnrede,
-    klagendePersonTitle: context.klagendePersonTitle,
-    klagendePersonVorname: context.klagendePersonVorname,
-    klagendePersonNachname: context.klagendePersonNachname,
-    klagendePersonStrasseHausnummer: context.klagendePersonStrasseHausnummer,
-    klagendePersonPlz: context.klagendePersonPlz,
-    klagendePersonOrt: context.klagendePersonOrt,
-    klagendeTelefonnummer: context.klagendeTelefonnummer,
-    klagendePersonIban: context.klagendePersonIban,
-    klagendePersonKontoinhaber: context.klagendePersonKontoinhaber,
+    hasAnwaltskosten: parsedAnwaltskosten > 0,
   };
 };
 
-export const getBeklagtePersonInfo = (
+export const hasStreitbeilegungGruende = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    beklagteAnrede: context.beklagteAnrede,
-    beklagteTitle: context.beklagteTitle,
-    beklagteVorname: context.beklagteVorname,
-    beklagteNachname: context.beklagteNachname,
-    beklagteStrasseHausnummer: context.beklagteStrasseHausnummer,
-    beklagtePlz: context.beklagtePlz,
-    beklagteOrt: context.beklagteOrt,
+    hasStreitbeilegungGruende: context.streitbeilegungGruende === "yes",
   };
 };
 
-export const getSachverhaltInfo = (context: GeldEinklagenFormularUserData) => {
+export const hasBeweiseAngebot = (context: GeldEinklagenFormularUserData) => {
   return {
-    forderungGesamtbetrag: context.forderungGesamtbetrag,
-    sachverhaltBegruendung: context.sachverhaltBegruendung,
-    beweiseAngebot: context.beweiseAngebot,
+    hasBeweiseAngebot: context.beweiseAngebot === "yes",
   };
 };
 
-export const getProzesszinsenInfo = (
+export const hasAnwaltschaft = (context: GeldEinklagenFormularUserData) => {
+  return {
+    hasAnwaltschaft: context.anwaltschaft === "yes",
+  };
+};
+
+export const hasKlagendePersonStatePrefilled = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    prozesszisnsen: context.prozesszinsen,
-    anwaltskosten: context.anwaltskosten,
-    streitbeilegung: context.streitbeilegung,
-    muendlicheVerhandlung: context.muendlicheVerhandlung,
-    videoVerhandlung: context.videoVerhandlung,
-    versaeumnisurteil: context.versaeumnisurteil,
+    hasKlagendePersonStatePrefilled:
+      context.klagendePersonStatePrefilled === "prefilled",
   };
 };
 
-export const getZusaetzlicheAngabenInfo = (
+export const hasBeklagtePersonStatePrefilled = (
   context: GeldEinklagenFormularUserData,
 ) => {
   return {
-    weitereAntraege: context.weitereAntraege,
-    rechtlicheWuerdigung: context.rechtlicheWuerdigung,
+    hasBeklagtePersonStatePrefilled:
+      context.beklagteStatePrefilled === "prefilled",
   };
 };

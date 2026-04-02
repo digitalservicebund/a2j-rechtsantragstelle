@@ -4,9 +4,6 @@ import type {
 } from "~/domains/__test__/TestCases";
 import type { KontopfaendungPkontoAntragUserData } from "../userData";
 import { kontopfaendungPkontoAntragXStateConfig } from "../xStateConfig";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const kontopfaendungPkontoAntragTestCases = {
   xstateConfig: kontopfaendungPkontoAntragXStateConfig,
@@ -14,6 +11,10 @@ export const kontopfaendungPkontoAntragTestCases = {
     bestehendesPkonto: [
       {
         stepId: "/start",
+      },
+      {
+        stepId: "/grundvoraussetzungen/datenverarbeitung",
+        userInput: { datenverarbeitungZustimmung: "on" },
       },
       {
         stepId: "/grundvoraussetzungen/bestehendes-pkonto",
@@ -26,6 +27,10 @@ export const kontopfaendungPkontoAntragTestCases = {
     pkontoAntragKontoinhaberIsAntragsteller: [
       {
         stepId: "/start",
+      },
+      {
+        stepId: "/grundvoraussetzungen/datenverarbeitung",
+        userInput: { datenverarbeitungZustimmung: "on" },
       },
       {
         stepId: "/grundvoraussetzungen/bestehendes-pkonto",
@@ -62,16 +67,8 @@ export const kontopfaendungPkontoAntragTestCases = {
           emailadresse: "email@adresse.de",
         },
       },
-      ...(showAutoSummary
-        ? [
-            {
-              stepId: "/abgabe/zusammenfassung",
-            },
-          ]
-        : []),
-      {
-        stepId: "/abgabe/p-konto-vorhanden",
-      },
+      { stepId: "/abgabe/zusammenfassung" },
+      { stepId: "/abgabe/p-konto-vorhanden" },
     ],
   } satisfies FlowTestCases<KontopfaendungPkontoAntragUserData>,
 } satisfies FlowTestConfig<KontopfaendungPkontoAntragUserData>;

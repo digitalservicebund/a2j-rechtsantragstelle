@@ -5,11 +5,10 @@ import {
 import { createStatementClaim } from "../createStatementClaim";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import { addDefendantPartyList } from "../claimData/addDefendantPartyList";
-import { addFreeTextApplication } from "../claimData/addFreeTextApplication";
 import { addNegotiationText } from "../claimData/addNegotiationText";
 
 vi.mock("../claimData/addDefendantPartyList");
-vi.mock("../claimData/addFreeTextApplication");
+vi.mock("../claimData/addAdditionalApplicationsFreeText");
 vi.mock("../claimData/addNegotiationText");
 
 beforeEach(() => {
@@ -42,20 +41,6 @@ describe("createStatementClaim", () => {
       userDataMock.prozesszinsen,
       "9.999,00",
       userDataMock.anwaltskosten,
-    );
-  });
-
-  it("should call addFreeTextApplication with weitereAntraege", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createStatementClaim(mockDoc, mockStruct, userDataMock);
-
-    expect(addFreeTextApplication).toHaveBeenCalledTimes(1);
-    expect(addFreeTextApplication).toHaveBeenCalledWith(
-      mockDoc,
-      userDataMock.weitereAntraege,
-      mockStruct,
     );
   });
 

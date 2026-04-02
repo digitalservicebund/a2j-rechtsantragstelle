@@ -6,11 +6,17 @@ const ZIP_CODE_NON_PILOT_COURT = "10115";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "miete",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesZustaendigesGericht = [
@@ -66,6 +72,21 @@ export const testCasesZustaendigesGericht = [
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       "/gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
+    ],
+  ],
+  [
+    {
+      ...baseContext,
+      mietePachtVertrag: "no",
+      klagendeVerbraucher: "yes",
+      klagendeHaustuergeschaeft: "no",
+      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
+      postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
+    },
+    [
+      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
+      "/klage-erstellen/intro/start",
     ],
   ],
   [

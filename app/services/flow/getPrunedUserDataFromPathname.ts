@@ -8,7 +8,7 @@ export const getPrunedUserDataFromPathname = async (
   cookieHeader: CookieHeader,
 ) => {
   const { flowId, arrayIndexes } = parsePathname(pathname);
-  const { userData } = await getSessionData(flowId, cookieHeader);
+  const userData = await getSessionData(flowId, cookieHeader);
   const prunedOut = pruneIrrelevantData(userData, flowId);
   const userDataWithPageData = addPageDataToUserData(prunedOut.prunedData, {
     arrayIndexes,

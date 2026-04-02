@@ -1,37 +1,28 @@
 import { geldEinklagenKlageErstellenPages } from "~/domains/geldEinklagen/formular/klage-erstellen/pages";
-import type { GeldEinklagenFormularKlageErstellenUserData } from "~/domains/geldEinklagen/formular/klage-erstellen/userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import type { GeldEinklagenFormularUserData } from "../../userData";
 
 const steps = xStateTargetsFromPagesConfig(geldEinklagenKlageErstellenPages);
 
-type GeldEinklagenKlageErstellenDaten =
-  GenericGuard<GeldEinklagenFormularKlageErstellenUserData>;
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
 
-const hasFilledProzessfuehrung: GeldEinklagenKlageErstellenDaten = ({
-  context,
-}) => {
+const hasFilledProzessfuehrung: GeldEinklagenDaten = ({ context }) => {
   return (
-    objectKeysNonEmpty(context, [
-      "prozesszinsen",
-      "streitbeilegung",
-      "muendlicheVerhandlung",
-      "videoVerhandlung",
-      "versaeumnisurteil",
-    ]) &&
-    (context.streitbeilegung === "yes" ||
-      objectKeysNonEmpty(context, ["streitbeilegungGruende"]))
+    context.pageData?.subflowDoneStates?.[
+      "/klage-erstellen/prozessfuehrung"
+    ] === true
   );
 };
+
 export const prozessfuehrungXstateConfig = {
   id: "prozessfuehrung",
-  initial: "prozesszinsen",
+  initial: "anwaltskosten",
   states: {
-    [steps.prozessfuehrungProzesszinsen.relative]: {
+    [steps.prozessfuehrungAnwaltskosten.relative]: {
       on: {
-        SUBMIT: steps.prozessfuehrungAnwaltskosten.relative,
+        SUBMIT: steps.prozessfuehrungProzesszinsen.relative,
         BACK: [
           {
             guard: ({ context }) => context.beweiseAngebot === "yes",
@@ -41,22 +32,24 @@ export const prozessfuehrungXstateConfig = {
         ],
       },
     },
-    [steps.prozessfuehrungAnwaltskosten.relative]: {
+    [steps.prozessfuehrungProzesszinsen.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungStreitbeilegung.relative,
-        BACK: steps.prozessfuehrungProzesszinsen.relative,
+        BACK: steps.prozessfuehrungAnwaltskosten.relative,
       },
     },
     [steps.prozessfuehrungStreitbeilegung.relative]: {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) => context.streitbeilegung === "yes",
+            guard: ({ context }) =>
+              context.streitbeilegung === "yes" ||
+              context.streitbeilegung === "noSpecification",
             target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
         ],
-        BACK: steps.prozessfuehrungAnwaltskosten.relative,
+        BACK: steps.prozessfuehrungProzesszinsen.relative,
       },
     },
     [steps.prozessfuehrungStreitbeilegungGruende.relative]: {
@@ -70,7 +63,9 @@ export const prozessfuehrungXstateConfig = {
         SUBMIT: steps.prozessfuehrungVideoVerhandlung.relative,
         BACK: [
           {
-            guard: ({ context }) => context.streitbeilegung === "yes",
+            guard: ({ context }) =>
+              context.streitbeilegung === "yes" ||
+              context.streitbeilegung === "noSpecification",
             target: steps.prozessfuehrungStreitbeilegung.relative,
           },
           steps.prozessfuehrungStreitbeilegungGruende.relative,
@@ -101,4 +96,4 @@ export const prozessfuehrungXstateConfig = {
       },
     },
   },
-} satisfies Config<GeldEinklagenFormularKlageErstellenUserData>;
+} satisfies Config<GeldEinklagenFormularUserData>;

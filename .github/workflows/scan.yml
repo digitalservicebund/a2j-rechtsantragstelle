@@ -49,9 +49,9 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@97e0b3872f55f89b95b2f65b3dbab56962816478 # v0.34.2
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
@@ -78,12 +78,12 @@ jobs:
             exit 0
           fi
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 #v4.35.1
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
         with:
           sarif_file: "trivy-results.sarif"
       - name: Generate cosign vulnerability scan record
-        uses: aquasecurity/trivy-action@97e0b3872f55f89b95b2f65b3dbab56962816478 # v0.34.2
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         with:
@@ -91,12 +91,12 @@ jobs:
           format: "cosign-vuln"
           output: "vulnerabilities.json"
       - name: Install cosign
-        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+        uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
 
       - name: Log into container registry
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}

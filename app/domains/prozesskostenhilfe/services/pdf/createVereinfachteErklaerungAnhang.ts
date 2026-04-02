@@ -6,7 +6,7 @@ import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 import { arrayIsNonEmpty } from "~/util/array";
-import { toGermanDateFormat, today } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 
 const gapBetweenDateAndSignature = 124;
 
@@ -99,7 +99,7 @@ export const createVereinfachteErklaerungAnhang = (
         .font(pdfStyles.page.font)
         .text(
           versandDigitalGericht({ context: userData })
-            ? toGermanDateFormat(today())
+            ? toGermanDateString(today())
             : "",
         );
 

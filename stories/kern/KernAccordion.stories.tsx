@@ -3,7 +3,7 @@ import KernAccordion from "~/components/kern/KernAccordion";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { reactRouterContext } from ".storybook/reactRouterContext";
+import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
   title: "kern/KernAccordion",

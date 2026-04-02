@@ -33,11 +33,3 @@ export const getAbgabeStrings = (
     nachueberpruefung: isNachueberpruefung({ context }),
   };
 };
-
-export const getWeitereDokumenteStrings = (
-  context: ProzesskostenhilfeFormularUserData,
-) => {
-  return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
-  };
-};

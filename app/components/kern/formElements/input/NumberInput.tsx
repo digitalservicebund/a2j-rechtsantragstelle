@@ -1,7 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { widthClassname, type FieldWidth } from "~/components/common/width";
 import InputError from "../InputError";
 
 export type InputProps = Readonly<{
@@ -13,14 +12,12 @@ export type InputProps = Readonly<{
   prefix?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
-  width?: FieldWidth;
   helperText?: string;
   charLimit?: number;
 }>;
 
 const NumberInput = function InputComponent({
   name,
-  width,
   label,
   placeholder,
   step,
@@ -33,15 +30,20 @@ const NumberInput = function InputComponent({
 
   return (
     <div
-      className={classNames(
-        "kern-form-input",
-        {
-          "kern-form-input--error": field.error(),
-        },
-        widthClassname(width),
-      )}
+      className={classNames("kern-form-input", {
+        "kern-form-input--error": field.error(),
+      })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
@@ -60,7 +62,6 @@ const NumberInput = function InputComponent({
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
-
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}

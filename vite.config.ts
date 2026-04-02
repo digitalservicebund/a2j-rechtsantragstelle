@@ -5,7 +5,6 @@ import {
   type SentryReactRouterBuildOptions,
 } from "@sentry/react-router";
 import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { envOnlyMacros } from "vite-env-only";
 
@@ -31,16 +30,18 @@ export default defineConfig((config) => ({
     isAppBuild && reactRouter(),
     useSentry && sentryVitePlugin(sentryConfig),
     useSentry && sentryReactRouter(sentryConfig, config),
-    tsconfigPaths(),
     tailwindcss(),
   ],
   build: {
     sourcemap: useSentry,
     target: config.isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
   },
+  resolve: { tsconfigPaths: true },
+  ssr: { noExternal: ["@digitalservicebund/icons"] },
   test: {
     globals: true,
     environment: "node",
+    env: { TZ: "Europe/Berlin" },
     pool: "threads",
     coverage: {
       provider: "istanbul",

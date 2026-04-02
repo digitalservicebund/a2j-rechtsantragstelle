@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/date";
+import { createDateSchema } from "~/services/validation/dateString";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -93,10 +93,16 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       hasAusgaben: YesNoAnswer,
     },
   },
-  ausgabenZusammenfassung: {
-    stepId: "finanzielle-angaben/ausgaben/uebersicht",
+  ausgabenVersicherungenFrage: {
+    stepId: "finanzielle-angaben/ausgaben/versicherungen-frage",
+    pageSchema: {
+      hasVersicherungen: YesNoAnswer,
+    },
   },
-  ausgabenVersicherungen: {
+  ausgabenVersicherungenUebersicht: {
+    stepId: "finanzielle-angaben/ausgaben/versicherungen-uebersicht",
+  },
+  ausgabenVersicherung: {
     stepId: "finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
       versicherungen: versicherungenArraySchema,
@@ -117,7 +123,19 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenRatenzahlungen: {
+  ausgabenVersicherungenWarnung: {
+    stepId: "finanzielle-angaben/ausgaben/versicherungen-warnung",
+  },
+  ausgabenRatenzahlungenFrage: {
+    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+    pageSchema: {
+      hasRatenzahlungen: YesNoAnswer,
+    },
+  },
+  ausgabenRatenzahlungenUebersicht: {
+    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
+  },
+  ausgabenRatenzahlung: {
     stepId: "finanzielle-angaben/ausgaben/ratenzahlungen",
     pageSchema: { ratenzahlungen: ratenZahlungArraySchema },
     arrayPages: {
@@ -160,7 +178,19 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       },
     },
   },
-  ausgabenSonstigeAusgaben: {
+  ausgabenRatenzahlungenWarnung: {
+    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-warnung",
+  },
+  ausgabenSonstigeAusgabenFrage: {
+    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+    pageSchema: {
+      hasSonstigeAusgaben: YesNoAnswer,
+    },
+  },
+  ausgabenSonstigeAusgabenUebersicht: {
+    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
+  },
+  ausgabenSonstigeAusgabe: {
     stepId: "finanzielle-angaben/ausgaben/sonstigeAusgaben",
     pageSchema: { sonstigeAusgaben: sonstigeZahlungArraySchema },
     arrayPages: {
@@ -194,6 +224,9 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
         },
       },
     },
+  },
+  ausgabenSonstigeAusgabenWarnung: {
+    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-warnung",
   },
   ausgabenBesondereBelastungen: {
     stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",

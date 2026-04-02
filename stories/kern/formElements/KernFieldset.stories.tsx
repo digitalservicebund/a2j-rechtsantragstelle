@@ -1,7 +1,7 @@
-import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
+import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import demoImage from "../../assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
   title: "kern/formElements/KernFieldset",
@@ -59,7 +59,7 @@ export const FieldsetWithImage: Story = {
       },
     ],
     image: {
-      url: bucketUrl + "/1_Rechtliche_Unterstuetzung_904342381e.svg",
+      url: demoImage,
       alternativeText: "Example SVG marker",
       width: 24,
       height: 24,

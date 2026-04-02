@@ -15,18 +15,19 @@ import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular
 import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
 import { erbscheinWegweiserTestCases } from "~/domains/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { erbscheinNachlassgerichtTestCases } from "~/domains/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
   erbscheinWegweiserTestCases,
+  erbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
 };
@@ -243,8 +244,6 @@ describe.sequential("flowSchemas", () => {
       Object.fromEntries(missingStepsEntries),
     );
 
-    expect(totalMissingStepCount).toBeLessThanOrEqual(
-      (await isFeatureFlagEnabled("showFileUpload")) ? 2 : 1,
-    );
+    expect(totalMissingStepCount).toBeLessThanOrEqual(1);
   });
 });

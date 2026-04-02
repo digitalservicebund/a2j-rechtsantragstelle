@@ -25,15 +25,14 @@ export default function KernZuestandigesGerichtSuche({
           xlColumn={{ start: 3, span: 8 }}
         >
           <div className="gap-kern-space-x-large flex flex-col">
-            <KernHeading
-              tagName="h1"
-              text="Zuständiges Amtsgericht finden"
-              className="text-lg! text-kern-layout-text-muted!"
-            />
+            <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
+              Zuständiges Amtsgericht finden
+            </h1>
             <KernHeading
               tagName="h2"
               text="Wie ist Ihre Postleitzahl"
               size="large"
+              managedByParent
             />
             <p className="kern-body">
               Bitte geben Sie die Postleitzahl Ihres Wohnsitzes ein. Wir zeigen
@@ -52,7 +51,6 @@ export default function KernZuestandigesGerichtSuche({
                   name="postcode"
                   label="Postleitzahl"
                   type="number"
-                  width="16"
                   errorMessages={[
                     {
                       code: "length",

@@ -3,12 +3,12 @@ description: "Checks out repository, downloads node, caches node_modules and ins
 runs:
   using: "composite"
   steps:
-    - uses: pnpm/action-setup@v4
+    - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
       name: Install pnpm
       with:
         run_install: false
     - name: Setup Node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
       with:
         node-version-file: "package.json"
         cache: "pnpm"

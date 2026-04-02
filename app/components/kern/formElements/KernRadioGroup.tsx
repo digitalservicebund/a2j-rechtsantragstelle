@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { KernRadioInput } from "./KernRadioInput";
-import { KernIcon } from "../common/KernIcon";
+import InputError from "./InputError";
 
 type KernRadioGroupProps = Readonly<{
   name: string;
@@ -63,19 +63,7 @@ const KernRadioGroup = ({
           />
         ))}
       </div>
-      {errorToDisplay && (
-        <p
-          className="kern-error flex gap-8 self-center mt-8!"
-          id={errorId}
-          role="alert"
-        >
-          <KernIcon
-            name="emergency-home"
-            className="fill-kern-feedback-danger!"
-          />
-          <span className="text-kern-feedback-danger!">{errorToDisplay}</span>
-        </p>
-      )}
+      {errorToDisplay && <InputError id={errorId}>{errorToDisplay}</InputError>}
     </fieldset>
   );
 };

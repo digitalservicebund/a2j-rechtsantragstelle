@@ -14,5 +14,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return data({ success: true }, { headers });
   }
 
-  return redirect("/datenschutz", { headers });
+  return redirect("/datenschutzerklaerung", { headers });
 };

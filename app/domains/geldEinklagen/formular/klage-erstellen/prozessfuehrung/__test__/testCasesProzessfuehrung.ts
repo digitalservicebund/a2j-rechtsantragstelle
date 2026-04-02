@@ -4,6 +4,7 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 const ZIP_CODE_PILOT_COURT = "10823";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
@@ -26,6 +27,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
+  pageData: {
+    subflowDoneStates: {
+      "/klage-erstellen/prozessfuehrung": true,
+    },
+  },
 };
 
 export const testCasesKlageErstellenProzessfuehrung = [
@@ -41,8 +47,8 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
@@ -63,8 +69,8 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
       "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
@@ -86,10 +92,9 @@ export const testCasesKlageErstellenProzessfuehrung = [
       versaeumnisurteil: "yes",
     },
     [
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
+      "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
-      "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
       "/klage-erstellen/prozessfuehrung/versaeumnisurteil",

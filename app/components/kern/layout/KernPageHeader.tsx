@@ -3,7 +3,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
-import { toHourAndMinuteTime, today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanDateString, toGermanTimeString } from "~/util/date";
 import KernKopfzeile from "./KernKopfzeile";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 
@@ -24,8 +24,8 @@ export default function KernPageHeader({
     <header>
       {shouldPrint && (
         <span>
-          {translations.pageHeader.printPage.de} {toGermanDateFormat(today())}{" "}
-          {translations.pageHeader.at.de} {toHourAndMinuteTime(today())}{" "}
+          {translations.pageHeader.printPage.de} {toGermanDateString(today())}{" "}
+          {translations.pageHeader.at.de} {toGermanTimeString(today())}{" "}
           {translations.pageHeader.time.de}
         </span>
       )}
@@ -60,10 +60,10 @@ export default function KernPageHeader({
               {title}
             </a>
             {!hideLinks && (
-              <div className="flex gap-kern-space-x-large">
+              <div className="flex flex-col md:flex-row gap-kern-space-default md:gap-kern-space-x-large">
                 <a
                   href={"/leichtesprache"}
-                  className="flex items-center! kern-link kern-link--small no-underline!"
+                  className="flex items-center! kern-link text-kern-static-small! no-underline!"
                 >
                   <KernIcon name="local-library" className="flex-shrink-0" />
                   {translations.pageHeader.leichtesprache.de}
@@ -71,7 +71,7 @@ export default function KernPageHeader({
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="flex items-center! kern-link kern-link--small no-underline! hyphens-auto"
+                  className="flex items-center! kern-link text-kern-static-small! no-underline! hyphens-auto"
                 >
                   <KernIcon name="sign-language" className="flex-shrink-0" />
                   {translations.pageHeader.gebaerdensprache.de}

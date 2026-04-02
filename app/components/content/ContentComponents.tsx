@@ -11,6 +11,7 @@ import InfoBox from "~/components/content/InfoBox";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import List from "~/components/content/list/List";
 import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
+import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import TableOfContents from "~/components/content/TableOfContents";
 import UserFeedback from "~/components/content/userFeedback";
 import Video from "~/components/content/video/Video";
@@ -24,9 +25,10 @@ import KernBox from "../kern/KernBox";
 import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
-import KernVideo from "../kern/KernVideo";
+import KernVideo from "../kern/video/KernVideo";
 import KernUserFeedback from "../kern/UserFeedback";
 import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
+import { KernDetails } from "../kern/KernDetails";
 
 function hasLayoutProperties(
   component: StrapiContentComponent,
@@ -79,7 +81,7 @@ function getContainerBackgroundColor(
   }
 
   const hasLayout = hasLayoutProperties(el);
-  if (hasLayout && el.outerBackground?.backgroundColor) {
+  if (hasLayout && el.outerBackground?.backgroundColor && !showKernUX) {
     return BACKGROUND_COLORS[
       el.outerBackground.backgroundColor as keyof typeof BACKGROUND_COLORS
     ];
@@ -158,6 +160,8 @@ function cmsToReact(
             }))}
           />
         );
+      case "page.details-summary":
+        return <KernDetails {...componentProps} />;
       case "page.video":
         return <KernVideo {...componentProps} />;
       case "page.list":
@@ -166,6 +170,8 @@ function cmsToReact(
         return <KernTableOfContents {...componentProps} />;
       case "page.user-feedback":
         return <KernUserFeedback {...componentProps} />;
+      case "page.summary-overview-section":
+        return <KernSummaryOverviewSection {...componentProps} />;
       case "page.inline-notice":
         return (
           <KernInlineNotice

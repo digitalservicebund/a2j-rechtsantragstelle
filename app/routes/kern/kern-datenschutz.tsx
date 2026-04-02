@@ -20,7 +20,7 @@ export default function KernDatenschutz({
   trackingConsent,
   acceptCookiesFieldName,
   cookieTranslations,
-}: KernDatenschutzProps) {
+}: Readonly<KernDatenschutzProps>) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -31,7 +31,7 @@ export default function KernDatenschutz({
 
   return (
     <div className="flex flex-col grow">
-      <ContentComponents content={content} showKernUX={true} />
+      <ContentComponents content={content} showKernUX />
       <GridSection>
         <Grid>
           <GridItem
@@ -52,7 +52,7 @@ export default function KernDatenschutz({
               />
 
               <fieldset
-                className="kern-fieldset pb-22!"
+                className="kern-fieldset px-kern-space-default!"
                 disabled={isSubmitting}
                 onChange={() => setSubmitButtonDisabled(false)}
               >
@@ -86,7 +86,7 @@ export default function KernDatenschutz({
                   </div>
                 </div>
               </fieldset>
-              <div>
+              <div className="px-kern-space-default">
                 <KernButton
                   type="submit"
                   look="primary"

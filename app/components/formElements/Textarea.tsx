@@ -2,6 +2,7 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { Details } from "~/components/content/Details";
+import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "./InputError";
@@ -24,12 +25,6 @@ type TextareaProps = Readonly<{
 }>;
 
 export const TEXT_AREA_ROWS = 3;
-const TEXT_AREA_ROWS_BY_NAME: Record<string, number> = {
-  sachverhaltBegruendung: 10,
-  beweiseBeschreibung: 10,
-  weitereAntraege: 10,
-  rechtlicheWuerdigung: 10,
-};
 
 const Textarea = ({
   name,
@@ -62,7 +57,7 @@ const Textarea = ({
           placeholder,
         })}
         maxLength={maxLength}
-        rows={TEXT_AREA_ROWS_BY_NAME[name] ?? TEXT_AREA_ROWS}
+        rows={getGeldEinklagenTextareaRows(name) ?? TEXT_AREA_ROWS}
         className={classNames(
           "ds-textarea forced-colors:border-4 ph-no-capture",
           {

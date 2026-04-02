@@ -93,16 +93,14 @@ export const prozesskostenhilfeFormularTestCases = {
           weitereAngaben: "",
         },
         pageData: {
-          arrayIndexes: [],
           subflowDoneStates: {
             "/abgabe": false,
             "/gesetzliche-vertretung": true,
           },
         },
       },
-      {
-        stepId: "/abgabe/ende",
-      },
+      { stepId: "/abgabe/zusammenfassung" },
+      { stepId: "/abgabe/ende" },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,

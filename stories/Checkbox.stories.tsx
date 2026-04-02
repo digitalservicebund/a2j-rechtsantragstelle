@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-vite";
 import Checkbox from "../app/components/formElements/Checkbox";
-import { reactRouterFormContext } from ".storybook/reactRouterFormContext";
+import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 
 const meta = {
   title: "FormElements/Checkbox",

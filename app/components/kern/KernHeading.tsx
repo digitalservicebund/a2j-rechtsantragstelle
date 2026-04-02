@@ -1,13 +1,20 @@
 import { GridItem } from "../layout/grid/GridItem";
 import type { allowedHeadingTags } from "./types";
 
-const SIZES_MAP = {
+const SIZES_MAP_HEADING = {
   medium: "kern-heading-medium",
   large: "kern-heading-large",
   xLarge: "kern-heading-x-large",
 };
 
-export const SIZES = Object.keys(SIZES_MAP) as Array<keyof typeof SIZES_MAP>;
+const SIZES_MAP_LABEL = {
+  small: "kern-label kern-label--small",
+  large: "kern-label kern-label--large",
+};
+
+export const SIZES = Object.keys(SIZES_MAP_HEADING) as Array<
+  keyof typeof SIZES_MAP_HEADING
+>;
 
 export type KernHeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
@@ -15,8 +22,9 @@ export type KernHeadingProps = {
   tabIndex?: number;
   className?: string;
   elementId?: string;
-  size?: keyof typeof SIZES_MAP;
+  size?: keyof typeof SIZES_MAP_HEADING | keyof typeof SIZES_MAP_LABEL;
   managedByParent?: boolean;
+  type?: "heading" | "label";
 };
 
 const KernHeading = ({
@@ -26,10 +34,19 @@ const KernHeading = ({
   managedByParent = false,
   className,
   elementId,
-  size = "large",
+  size,
+  type = "heading",
 }: KernHeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
+
+  const sizeClass =
+    type === "label"
+      ? (SIZES_MAP_LABEL[(size as keyof typeof SIZES_MAP_LABEL) ?? "large"] ??
+        SIZES_MAP_LABEL["large"])
+      : (SIZES_MAP_HEADING[
+          (size as keyof typeof SIZES_MAP_HEADING) ?? "large"
+        ] ?? SIZES_MAP_HEADING["large"]);
 
   if (!managedByParent) {
     return (
@@ -37,10 +54,10 @@ const KernHeading = ({
         mdColumn={{ start: 1, span: 8 }}
         lgColumn={{ start: 3, span: 8 }}
         xlColumn={{ start: 3, span: 8 }}
-        className="px-kern-space-default"
+        className="px-kern-space-large lg:px-0 xl:px-0"
       >
         <Tag
-          className={`${SIZES_MAP[size]} p-0! ${className ?? ""} outline-none`}
+          className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
           tabIndex={tabIndex}
           id={elementId}
         >
@@ -51,7 +68,7 @@ const KernHeading = ({
   }
   return (
     <Tag
-      className={`${SIZES_MAP[size]} p-0! ${className ?? ""} hyphens-auto`}
+      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none`}
       tabIndex={tabIndex}
       id={elementId}
     >

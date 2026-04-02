@@ -155,6 +155,14 @@ export const translations = {
     navigationStepper: {
       de: "Prozessübersicht",
     },
+    linkOpensNewTab: {
+      de: "öffnet neues Fenster",
+    },
+  },
+  footer: {
+    internalLinks: {
+      de: "Rechtliche und weiterführende Informationen",
+    },
   },
   navigationMobile: {
     closeMenu: {
@@ -164,7 +172,7 @@ export const translations = {
       de: "Schritt-für-Schritt-Menü umschalten",
     },
     toStep: {
-      de: "Zu Schritt:",
+      de: "Zum Schritt:",
     },
   },
   buttonNavigation: {

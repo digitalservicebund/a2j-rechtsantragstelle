@@ -13,6 +13,8 @@ import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
+import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
+import { type Session } from "react-router";
 
 type FlowMigration = {
   source: FlowId;
@@ -31,7 +33,11 @@ export type Flow = {
   stringReplacements?: (context: UserData) => Replacements;
   asyncFlowActions?: Record<
     string,
-    (request: Request, userData: UserData) => Promise<void>
+    (
+      request: Request,
+      userData: UserData,
+      flowSession: Session,
+    ) => Promise<void>
   >;
   useStepper?: boolean;
 };
@@ -43,6 +49,7 @@ export const flows = {
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/erbschein/wegweiser": erbscheinWegweiser,
+  "/erbschein/nachlassgericht": erbscheinNachlassgericht,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,

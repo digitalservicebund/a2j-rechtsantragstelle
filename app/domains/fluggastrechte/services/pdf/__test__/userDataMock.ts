@@ -22,7 +22,7 @@ export const userDataMock = {
   zusaetzlicheAngaben:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   anrede: "herr",
-  title: "",
+  title: "none",
   vorname: "Test-Test",
   nachname: "Test",
   strasseHausnummer: "Musterstr. 22",

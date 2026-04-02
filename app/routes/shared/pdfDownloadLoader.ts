@@ -13,13 +13,14 @@ import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
   getSessionData,
   getSessionIdByFlowId,
 } from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { pdfDateFormat, today } from "~/util/date";
+import { today, pdfDateFormat } from "~/util/date";
 
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData
@@ -42,10 +43,8 @@ type PdfConfig = PdfFlowContexts extends infer T
 
 const pdfConfigs = {
   "/beratungshilfe/antrag": {
-    pdfFunction: async (
-      userData: BeratungshilfeFormularUserData,
-      sessionId: string,
-    ) => await beratungshilfePdfFromUserdata(userData, sessionId),
+    pdfFunction: async (userData: BeratungshilfeFormularUserData) =>
+      await beratungshilfePdfFromUserdata(userData),
     name: `Antrag_Beratungshilfe`,
   },
   "/prozesskostenhilfe/formular": {
@@ -62,8 +61,14 @@ const pdfConfigs = {
     name: `Erklaerung_Prozesskostenhilfe`,
   },
   "/fluggastrechte/formular": {
-    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) =>
-      await fluggastrechtePdfFromUserdata(userData),
+    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) => {
+      const showFGROnlineVerfahren = await isFeatureFlagEnabled(
+        "showFGROnlineVerfahren",
+      );
+      return await fluggastrechtePdfFromUserdata(userData, {
+        showFGROnlineVerfahren: Boolean(showFGROnlineVerfahren),
+      });
+    },
     name: `Fluggastrechte_Klage`,
   },
   "/kontopfaendung/pkonto/antrag": {
@@ -88,7 +93,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
 
   const { prunedData: userData } = pruneIrrelevantData(
-    (await getSessionData(flowId, cookieHeader)).userData,
+    await getSessionData(flowId, cookieHeader),
     flowId,
   );
   if (isEmpty(userData)) return redirect(flowId);

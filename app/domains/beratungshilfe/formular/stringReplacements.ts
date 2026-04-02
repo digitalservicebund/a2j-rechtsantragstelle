@@ -6,7 +6,7 @@ export const getAmtsgerichtStrings = (
 ) => {
   const court = findCourt({
     zipCode: context.plz,
-    streetSlug: context.street,
+    streetName: context.street,
     houseNumber: context.houseNumber,
   });
   return {
@@ -68,12 +68,4 @@ export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
 
 export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
-};
-
-export const getWeitereDokumenteStrings = (
-  context: BeratungshilfeFormularUserData,
-) => {
-  return {
-    hasWeitereDokumente: context.weitereDokumenteBeweis !== undefined,
-  };
 };

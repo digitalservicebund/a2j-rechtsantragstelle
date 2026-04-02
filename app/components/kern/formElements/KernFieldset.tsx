@@ -43,24 +43,26 @@ export const KernFieldset = ({
 
   return (
     <fieldset className="kern-fieldset">
-      <legend className="kern-label kern-label--large">
+      <legend className="flex gap-kern-space-small items-center m-0! p-0!">
         {image && (
           <Image
             {...image}
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}
-            className="min-h-full min-w-[24px]"
+            className="min-h-full min-w-[26px] forced-color-adjust-auto"
           />
         )}
-        <KernRichText html={heading} />
+        <KernRichText
+          html={heading}
+          className="text-kern-adaptive-medium! kern-label"
+        />
       </legend>
       <div className="kern-fieldset__body">
         <KernSchemaComponents
           pageSchema={pageSchema}
           formComponents={formComponents}
           className={classNames("pt-16", { "md:pl-32": image })}
-          showKernUX={false}
         />
       </div>
     </fieldset>

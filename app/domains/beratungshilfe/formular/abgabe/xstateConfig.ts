@@ -1,19 +1,9 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import { berHAntragAbgabePages } from "./pages";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 const steps = xStateTargetsFromPagesConfig(berHAntragAbgabePages);
-const showFileUpload = await isFeatureFlagEnabled("showFileUpload");
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
-
-const getOnlineBackTarget = () => {
-  if (showFileUpload) {
-    return steps.dokumente.relative;
-  }
-  return steps.art.relative;
-};
 
 export const abgabeXstateConfig = {
   initial: steps.ueberpruefung.relative,
@@ -31,31 +21,19 @@ export const abgabeXstateConfig = {
               ([stepId]) => !stepId.startsWith(`/${steps.abgabe.relative}`),
             )
             .every(([, subflowDone]) => Boolean(subflowDone)),
-        target: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : steps.art.relative,
+        target: steps.zusammenfassung.relative,
       },
     },
-
-    ...(showAutoSummary && {
-      [steps.zusammenfassung.relative]: {
-        on: {
-          BACK: "#weitere-angaben",
-          SUBMIT: steps.art.relative,
-        },
-      },
-    }),
+    [steps.zusammenfassung.relative]: {
+      on: { BACK: "#weitere-angaben", SUBMIT: steps.art.relative },
+    },
 
     [steps.art.relative]: {
       on: {
-        BACK: showAutoSummary
-          ? steps.zusammenfassung.relative
-          : "#weitere-angaben",
+        BACK: steps.zusammenfassung.relative,
         SUBMIT: [
           {
-            target: showFileUpload
-              ? steps.dokumente.relative
-              : steps.online.relative,
+            target: steps.online.relative,
             guard: ({ context }) => context.abgabeArt == "online",
           },
           {
@@ -65,16 +43,6 @@ export const abgabeXstateConfig = {
         ],
       },
     },
-
-    ...(showFileUpload && {
-      [steps.dokumente.relative]: {
-        on: {
-          BACK: steps.art.relative,
-          SUBMIT: steps.online.relative,
-        },
-      },
-    }),
-
     [steps.ausdrucken.relative]: {
       on: {
         BACK: {
@@ -83,11 +51,7 @@ export const abgabeXstateConfig = {
       },
     },
     [steps.online.relative]: {
-      on: {
-        BACK: {
-          target: getOnlineBackTarget(),
-        },
-      },
+      on: { BACK: { target: steps.art.relative } },
     },
   },
 } satisfies Config<BeratungshilfeFormularUserData>;

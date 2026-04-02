@@ -12,7 +12,7 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDatenSchema = {
   anrede: z.enum(["herr", "frau", "none"]),
-  title: z.enum(["", "dr"]),
+  title: z.enum(["none", "dr"]),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   strasseHausnummer: stringRequiredSchema,

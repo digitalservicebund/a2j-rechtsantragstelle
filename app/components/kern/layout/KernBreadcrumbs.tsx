@@ -52,7 +52,7 @@ export default function KernBreadcrumbs({
               >
                 <KernIcon
                   name="chevron-right"
-                  className="fill-kern-layout-text-muted!"
+                  className="fill-kern-layout-text-muted! forced-color-adjust-auto"
                 />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">
@@ -61,7 +61,7 @@ export default function KernBreadcrumbs({
                 ) : (
                   <a
                     href={breadcrumb.url ?? ""}
-                    className="increase-tap-area kern-link kern-link--small p-0!"
+                    className="increase-tap-area kern-link text-kern-static-small! p-0!"
                   >
                     {breadcrumb.title ?? ""}
                   </a>

@@ -5,10 +5,16 @@ const ZIP_CODE_PILOT_COURT = "10823";
 const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [

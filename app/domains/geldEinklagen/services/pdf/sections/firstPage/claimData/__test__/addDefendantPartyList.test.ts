@@ -33,15 +33,11 @@ describe("addDefendantPartyList", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Die beklagte Partei wird verurteilt, an die klagende Partei 600 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
     );
-    expect(mockDoc.text).toHaveBeenCalledWith(
+    expect(mockDoc.text).not.toHaveBeenCalledWith(
       "2. ",
       PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
       undefined,
       { continued: true },
-    );
-    expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
     );
   });
 
@@ -79,7 +75,24 @@ describe("addDefendantPartyList", () => {
     );
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits sowie die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro.",
+      "Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro zu zahlen.",
+    );
+  });
+
+  it("should append interest clause to attorney costs when litigation interest is requested", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDefendantPartyList(mockDoc, mockStruct, "yes", "600", "100");
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "2. ",
+      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
+      undefined,
+      { continued: true },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von 100 Euro nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit zu zahlen.",
     );
   });
 });
@@ -108,7 +121,7 @@ describe("addDefendantPartyList - accessibility", () => {
       ([tag]) => tag === "LBody",
     );
     expect(callsWithList).toHaveLength(1);
-    expect(callsWithListItem).toHaveLength(2);
-    expect(callsWithListBody).toHaveLength(2);
+    expect(callsWithListItem).toHaveLength(1);
+    expect(callsWithListBody).toHaveLength(1);
   });
 });

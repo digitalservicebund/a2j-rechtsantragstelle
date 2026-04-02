@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { ibanSchema } from "~/services/validation/iban";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -20,7 +21,7 @@ export const bankkontenArraySchema = z
   .object({
     bankName: stringRequiredSchema,
     kontostand: buildMoneyValidationSchema({}),
-    iban: stringOptionalSchema,
+    iban: schemaOrEmptyString(ibanSchema),
     kontoEigentuemer: eigentuemerSchema,
     kontoDescription: stringOptionalSchema,
   })
@@ -85,7 +86,7 @@ const sparkontoSchema = z.object({
   ...sharedGeldanlagenFields,
   art: z.literal(geldanlagenArtSchema.enum.giroTagesgeldSparkonto),
   kontoBankName: stringRequiredSchema,
-  kontoIban: stringOptionalSchema,
+  kontoIban: schemaOrEmptyString(ibanSchema),
   kontoBezeichnung: stringOptionalSchema,
 });
 

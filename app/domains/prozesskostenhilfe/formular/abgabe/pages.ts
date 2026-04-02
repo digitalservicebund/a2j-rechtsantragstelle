@@ -1,5 +1,4 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { pkhFormularDokumentePages } from "~/domains/prozesskostenhilfe/formular/abgabe/dokumente/pages";
 
 export const pkhFormularAbgabePages = {
   abgabe: {
@@ -11,7 +10,6 @@ export const pkhFormularAbgabePages = {
   zusammenfassung: {
     stepId: "abgabe/zusammenfassung",
   },
-  ...pkhFormularDokumentePages,
   ende: {
     stepId: "abgabe/ende",
   },

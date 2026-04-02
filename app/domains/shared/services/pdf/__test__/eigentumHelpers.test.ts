@@ -23,6 +23,7 @@ describe("eigentumHelpers", () => {
           bankName: "Bank1",
           kontoEigentuemer: "myself",
           kontostand: "2222",
+          iban: "",
         },
       ];
       const { attachment: result } = attachBankkontenToAnhang(

@@ -12,13 +12,6 @@ export const createReasonPage = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
 ) => {
-  const pages = doc.bufferedPageRange();
-
-  // If the document is on the first page, we need to add a new page for the reason section
-  if (pages.count === 1) {
-    doc.addPage();
-  }
-
   const reasonSect = doc.struct("Sect");
 
   reasonSect.add(
@@ -34,10 +27,6 @@ export const createReasonPage = (
 
   addFactsOfCases(doc, reasonSect, userData.sachverhaltBegruendung ?? "");
   const hasEvidencesOnFacts = userData.beweiseAngebot === "yes";
-  const beweiseBeschreibung = hasEvidencesOnFacts
-    ? userData.beweiseBeschreibung
-    : "";
-
-  addEvidencesOnFacts(doc, reasonSect, beweiseBeschreibung ?? "");
+  addEvidencesOnFacts(doc, reasonSect, userData.beweiseBeschreibung ?? "");
   createLegalAssessment(doc, reasonSect, userData, hasEvidencesOnFacts);
 };

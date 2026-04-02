@@ -4,16 +4,15 @@ import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server"
 const localFeatureFlags = {
   showBundID: false,
   showGeldEinklagenFlow: true,
-  showFileUpload: false,
-  showPKHZusammenfassung: false,
   showKernUX: false,
-  showAutoSummary: false,
-  showPkontoAntragFlow: false,
-  showErbscheinWegweiser: false,
-  showNachbefragung: false,
+  showFGROnlineVerfahren: true,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
+
+// Potentially temporary for sharing feature flag state across the backend
+type GlobalFeatureFlags = Record<FeatureFlag, boolean>;
+export const globalFeatureFlags: GlobalFeatureFlags = { ...localFeatureFlags };
 
 const posthogDistinctId = "backend";
 

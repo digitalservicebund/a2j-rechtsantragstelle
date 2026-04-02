@@ -1,4 +1,3 @@
-import type PDFDocument from "pdfkit";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -10,7 +9,7 @@ export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
 export const addPlaintiffDetails = (
-  doc: typeof PDFDocument,
+  doc: PDFKit.PDFDocument,
   {
     klagendePersonAnrede,
     klagendePersonTitle,
@@ -20,18 +19,21 @@ export const addPlaintiffDetails = (
     klagendePersonPlz,
     klagendePersonOrt,
     klagendeTelefonnummer,
+    klagendeEmail,
   }: GeldEinklagenFormularUserData,
 ) => {
   const plaintiffName = getFullPlaintiffName(
     klagendePersonAnrede,
-    klagendePersonTitle === "none" ? "" : klagendePersonTitle,
+    klagendePersonTitle,
     klagendePersonVorname,
     klagendePersonNachname,
   );
   const address = klagendePersonStrasseHausnummer ?? "";
   const zipCode = klagendePersonPlz ?? "";
   const city = klagendePersonOrt ?? "";
-  const phoneNumber = klagendeTelefonnummer ?? "";
+  const contactInfo = [klagendeTelefonnummer, klagendeEmail]
+    .filter(Boolean)
+    .join(` ${SEPARATOR} `);
 
   doc
     .fontSize(10)
@@ -40,6 +42,6 @@ export const addPlaintiffDetails = (
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
     .text(`${address}, ${zipCode} ${city}, Deutschland`)
-    .text(phoneNumber)
+    .text(contactInfo)
     .text(PLAINTIFF_TEXT, { align: "left" });
 };

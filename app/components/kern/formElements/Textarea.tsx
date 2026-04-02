@@ -1,14 +1,16 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { Details } from "~/components/content/Details";
+import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "../../common/types";
 import KernRichText from "../KernRichText";
 import InputError from "./InputError";
+import { KernDetails } from "../KernDetails";
 
 type TextareaProps = Readonly<{
   name: string;
+  backgroundClass?: string;
   description?: string;
   label?: ReactNode;
   details?: {
@@ -23,15 +25,10 @@ type TextareaProps = Readonly<{
 }>;
 
 const TEXT_AREA_ROWS = 3;
-const TEXT_AREA_ROWS_BY_NAME: Record<string, number> = {
-  sachverhaltBegruendung: 10,
-  beweiseBeschreibung: 10,
-  weitereAntraege: 10,
-  rechtlicheWuerdigung: 10,
-};
 
 const KernTextarea = ({
   name,
+  backgroundClass,
   description,
   label,
   details,
@@ -51,24 +48,26 @@ const KernTextarea = ({
       })}
     >
       {label && (
-        <label className="kern-label" id={name}>
+        <label className="kern-label" htmlFor={name}>
           {label}
         </label>
       )}
       {description && <KernRichText html={description} />}
-      {details && <Details {...details} />}
+      {details && <KernDetails {...details} />}
       <textarea
         {...field.getInputProps({
           id: name,
           placeholder,
         })}
         maxLength={maxLength}
-        rows={TEXT_AREA_ROWS_BY_NAME[name] ?? TEXT_AREA_ROWS}
+        rows={getGeldEinklagenTextareaRows(name) ?? TEXT_AREA_ROWS}
         className={classNames(
-          "kern-form-input__input ph-no-capture bg-white!",
+          "kern-form-input__input ph-no-capture h-fit!",
           {
             "kern-form-input__input--error": field.error(),
+            "bg-white!": !backgroundClass,
           },
+          backgroundClass,
         )}
         ref={innerRef}
         aria-invalid={field.error() !== null}

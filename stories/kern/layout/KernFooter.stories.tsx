@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernFooter from "~/components/kern/layout/footer/KernFooter";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { bucketUrl } from "~/services/cms/bucketUrl";
+import imgUrl from "../../assets/bmj_logo.png";
 
 const meta = {
   title: "kern/layout/KernFooter",
@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     image: {
-      url: bucketUrl + "/bmj_logo_3fd953f074.png",
+      url: imgUrl,
       alternativeText: "Bundesministerium der Justiz",
     },
     showDeletionBanner: false,

@@ -8,6 +8,7 @@ import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/use
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
+  DISPUTE_RESOLUTION_TITLE_TEXT,
   CLAIM_FULL_JUSTIFIED_TEXT,
   createLegalAssessment,
   LEGAL_ASSESSMENT_TEXT,
@@ -77,6 +78,40 @@ describe("createLegalAssessment", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+    );
+  });
+
+  it("should render updated assumed settlement text when feature flag is enabled", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "no",
+      streitbeilegungGruende: "yes",
+    } satisfies FluggastrechteUserData;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung, true);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE_TEXT);
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
+    );
+  });
+
+  it("should not render assumed settlement title when no settlement content is visible", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const mockDataStreitbeilegung = {
+      ...userDataMock,
+      streitbeilegung: "noSpecification",
+    } satisfies FluggastrechteUserData;
+
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung, true);
+
+    expect(mockDoc.text).not.toHaveBeenCalledWith(
+      DISPUTE_RESOLUTION_TITLE_TEXT,
     );
   });
 

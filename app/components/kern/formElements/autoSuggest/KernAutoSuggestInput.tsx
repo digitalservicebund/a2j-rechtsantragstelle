@@ -16,13 +16,13 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import InputError from "../InputError";
-import { FormatOptionLabel } from "~/components/formElements/autoSuggestInput/customComponents";
 import KernAutoSuggestClearInput from "./KernAutoSuggestClearInput";
 import KernAutoSuggestController from "./KernAutoSuggestController";
 import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
 import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
 import TextInput from "../input/TextInput";
+import KernFormatOptionLabel from "~/components/kern/formElements/autoSuggest/KernFormatOptionLabel";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -81,7 +81,6 @@ const KernAutoSuggestInput = ({
   placeholder,
   errorMessages,
   helperText,
-  width,
   dataList,
   dataListArgument,
   noSuggestionMessage,
@@ -144,14 +143,7 @@ const KernAutoSuggestInput = ({
 
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
-    return (
-      <TextInput
-        name={name}
-        label={label}
-        placeholder={placeholder}
-        width={width}
-      />
-    );
+    return <TextInput name={name} label={label} placeholder={placeholder} />;
   }
 
   const SelectComponent = isCreatable ? Creatable : Select;
@@ -167,16 +159,13 @@ const KernAutoSuggestInput = ({
         {label && (
           <label
             className="kern-label text-kern-layout-text-default! p-0! m-0!"
-            htmlFor="input-street"
+            htmlFor={inputId}
           >
             {label}
           </label>
         )}
         {helperText && (
-          <div
-            className="kern-body text-kern-layout-text-muted! p-0! m-0!"
-            id={helperId}
-          >
+          <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
             {helperText}
           </div>
         )}
@@ -206,7 +195,7 @@ const KernAutoSuggestInput = ({
             ValueContainer: KernAutoSuggestValueContainer,
           }}
           filterOption={() => true}
-          formatOptionLabel={FormatOptionLabel}
+          formatOptionLabel={KernFormatOptionLabel}
           id={name}
           inputId={inputId}
           instanceId={name}
@@ -251,6 +240,8 @@ const KernAutoSuggestInput = ({
               classNames("kern-form-input__input bg-white!", {
                 "kern-form-input__input--error": hasError,
               }),
+            singleValue: () => "absolute",
+            input: () => "w-full h-full z-50",
           }}
           tabIndex={0}
           value={currentItemValue}

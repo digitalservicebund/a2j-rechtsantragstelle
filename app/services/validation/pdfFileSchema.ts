@@ -21,10 +21,6 @@ const pdfFileUploadArraySchema = z
   .array(pdfFileMetaDataSchema)
   .max(fileUploadLimit, { message: "fileLimitReached" });
 
-export const pdfFileUploadArrayOptionalSchema = pdfFileUploadArraySchema
-  .optional()
-  .meta({ description: filesUploadZodDescription });
-
 export const pdfFileUploadArrayRequiredSchema = pdfFileUploadArraySchema
   .nonempty({ message: "fileRequired" })
   .optional() // Must remain despite being required, as the zod schema has no knowledge of which field is required

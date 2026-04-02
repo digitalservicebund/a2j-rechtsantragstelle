@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { emailSchema } from "~/services/validation/email";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
@@ -18,10 +19,15 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
+const statePrefilled = z
+  .enum(["prefilled", "filledByUser", "unfilled"])
+  .default("filledByUser");
+
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
   beklagteOrt: stringRequiredSchema,
+  beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
 export const geldEinklagenKlageErstellenPages = {
@@ -43,16 +49,35 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonNachname: stringRequiredSchema,
       klagendePersonStrasseHausnummer: stringRequiredSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
       klagendePersonOrt: stringRequiredSchema,
       klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
+      klagendeEmail: schemaOrEmptyString(emailSchema),
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
+    },
+  },
+  klagendePersonAnwaltschaft: {
+    stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
+    pageSchema: {
+      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
+      klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
+      klagendePersonAnwaltschaftStrasseHausnummer: stringRequiredSchema,
+      klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonAnwaltschaftOrt: stringRequiredSchema,
+      klagendePersonAnwaltschaftAnrede: z.enum(["herr", "frau", "none"]),
+      klagendePersonAnwaltschaftTitle: stringOptionalSchema,
+      klagendePersonAnwaltschaftVorname: stringRequiredSchema,
+      klagendePersonAnwaltschaftNachname: stringRequiredSchema,
+      klagendePersonAnwaltschaftBerufsbezeichnung: stringOptionalSchema,
+      klagendePersonAnwaltschaftTelefonnummer:
+        schemaOrEmptyString(phoneNumberSchema),
+      klagendePersonAnwaltschaftEmail: schemaOrEmptyString(emailSchema),
     },
   },
   beklagtePersonMenschen: {
     stepId: "klage-erstellen/beklagte-person/mensch",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteAnrede: z.enum(["herr", "frau", "none"]),
       beklagteTitle: z.enum(["none", "dr"]),
       beklagteVorname: stringRequiredSchema,
@@ -63,7 +88,6 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
     pageSchema: {
-      gegenWenBeklagen: hiddenInputSchema(z.enum(["person", "organisation"])),
       beklagteNameOrganisation: stringRequiredSchema,
       ...sharedBeklagteAddress,
       beklagteGesetzlichenVertretungAnrede: z.enum(["herr", "frau", "none"]),
@@ -100,16 +124,16 @@ export const geldEinklagenKlageErstellenPages = {
       }),
     },
   },
+  prozessfuehrungAnwaltskosten: {
+    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
+    pageSchema: {
+      anwaltskosten: buildOptionalMoneyValidationSchema({ min: 1 }),
+    },
+  },
   prozessfuehrungProzesszinsen: {
     stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
     pageSchema: {
       prozesszinsen: YesNoAnswer,
-    },
-  },
-  prozessfuehrungAnwaltskosten: {
-    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
-    pageSchema: {
-      anwaltskosten: buildOptionalMoneyValidationSchema(),
     },
   },
   prozessfuehrungStreitbeilegung: {

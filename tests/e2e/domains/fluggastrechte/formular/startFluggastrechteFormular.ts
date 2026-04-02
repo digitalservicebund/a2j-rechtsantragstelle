@@ -1,7 +1,7 @@
 import { type Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "tests/e2e/domains/fluggastrechte/formular/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { today, toGermanDateFormat } from "~/util/date";
+import { today, toGermanDateString } from "~/util/date";
 
 export async function startFluggastrechteFormular(
   page: Page,
@@ -15,9 +15,6 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/intro/start
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
-
-  // /fluggastrechte/formular/grundvoraussetzungen/datenverarbeitung
-  await formular.fillCheckboxesPage("datenverarbeitungZustimmung");
 
   // /fluggastrechte/formular/grundvoraussetzungen/streitbeilegung
   await formular.fillRadioPage("streitbeilegung", "yes");
@@ -63,10 +60,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
-  await formular.fillInput("direktAbflugsDatum", toGermanDateFormat(today()));
+  await formular.fillInput("direktAbflugsDatum", toGermanDateString(today()));
   await formular.fillInput("direktAbflugsZeit", "08:10");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
-  await formular.fillInput("direktAnkunftsDatum", toGermanDateFormat(today()));
+  await formular.fillInput("direktAnkunftsDatum", toGermanDateString(today()));
   await formular.fillInput("direktAnkunftsZeit", "10:10");
   await formular.clickNext();
 
@@ -96,7 +93,7 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
   await formular.fillInput(
     "ersatzFlugAnkunftsDatum",
-    toGermanDateFormat(today()),
+    toGermanDateString(today()),
   );
   await formular.fillInput("ersatzFlugAnkunftsZeit", "15:10");
   await formular.clickNext();
@@ -105,7 +102,7 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  await formular.fillDropdown("title", "");
+  await formular.fillDropdown("title", "none");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
   await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
@@ -121,7 +118,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/prozessfuehrung/zeugen
   await formular.fillRadioPage("hasZeugen", "no");
 
-  // /fluggastrechte/formular/streitwert-kosten/videoverhandlung
+  // /fluggastrechte/formular/prozessfuehrung/muendliche-verhandlung
+  await formular.fillRadioPage("muendlicheVerhandlung", "yes");
+
+  // /fluggastrechte/formular/prozessfuehrung/videoverhandlung
   await formular.fillRadioPage("videoverhandlung", "yes");
 
   // /fluggastrechte/formular/prozessfuehrung/versaeumnisurteil

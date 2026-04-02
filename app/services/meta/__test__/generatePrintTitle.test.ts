@@ -1,4 +1,4 @@
-import { pdfDateFormat, today } from "~/util/date";
+import { today, pdfDateFormat } from "~/util/date";
 import { generatePrintTitle } from "../generatePrintTitle";
 
 describe("generatePrintTitle", () => {
@@ -17,6 +17,16 @@ describe("generatePrintTitle", () => {
     const result = generatePrintTitle(originalTitle, pathname);
     expect(result).toBe(
       `Anleitung_Fluggastrechte_digitale_Klage_einreichen_${pdfDateFormat(today())}`,
+    );
+  });
+
+  it("should return formatted title for geld-einklagen form", () => {
+    const originalTitle = "Original Title";
+    const pathname = "/geld-einklagen/formular/some/path";
+
+    const result = generatePrintTitle(originalTitle, pathname);
+    expect(result).toBe(
+      `Anleitung_Geld_einklagen_Klage_einreichen_${pdfDateFormat(today())}`,
     );
   });
 });

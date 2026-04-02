@@ -1,7 +1,6 @@
 import { type Page } from "@playwright/test";
 import type { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 export async function startPersoenlicheDaten(
   page: Page,
@@ -39,7 +38,5 @@ export async function startPersoenlicheDaten(
   await beratungshilfeFormular.fillInputPage("telefonnummer", "123456789");
 
   // beratungshilfe/antrag/persoenliche-daten/nachbefragung
-  if (await isFeatureFlagEnabled("showNachbefragung")) {
-    await beratungshilfeFormular.clickNext();
-  }
+  await beratungshilfeFormular.clickNext();
 }

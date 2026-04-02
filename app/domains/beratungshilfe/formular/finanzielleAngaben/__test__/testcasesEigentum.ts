@@ -83,7 +83,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       userInput: {
         "bankkonten#bankName": "Bank1",
         "bankkonten#kontostand": "1000",
-        "bankkonten#iban": "DE123456789",
+        "bankkonten#iban": "DE34500105179381718236",
         "bankkonten#kontoEigentuemer": "myself",
       },
     },
@@ -405,6 +405,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "100",
         "geldanlagen#kontoBankName": "N26 Bank",
+        "geldanlagen#kontoIban": "",
       },
     },
     {

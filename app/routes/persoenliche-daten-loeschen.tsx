@@ -43,6 +43,7 @@ export default function PersoenlicheDatenLoeschen() {
     return (
       <KernPersoenlicheDatenLoeschen
         content={content}
+        backButton={backButton}
         isSubmitting={isSubmitting}
         translations={translations}
       />

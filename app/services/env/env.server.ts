@@ -29,6 +29,7 @@ type Config = {
   S3_DATA_STORAGE_ACCESS_KEY?: string;
   S3_DATA_STORAGE_SECRET_KEY?: string;
   S3_DATA_STORAGE_BUCKET_NAME?: string;
+  ENABLE_SESSION_ENCRYPTION: boolean;
 };
 
 export function config(): Config {
@@ -46,6 +47,8 @@ export function config(): Config {
   return {
     STRAPI_API,
     STRAPI_HOST: STRAPI_API.replace("/api/", ""),
+    ENABLE_SESSION_ENCRYPTION:
+      process.env.ENABLE_SESSION_ENCRYPTION !== "false", // Only disable on explicit 'false'
     STRAPI_ACCESS_KEY:
       readSecretOrEnvVar(
         "/etc/strapi-access-key-secret/password",

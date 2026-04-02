@@ -1,4 +1,4 @@
-import { forderungDone } from "../doneFunctions";
+import { forderungDone, introDone } from "../doneFunctions";
 
 describe("doneFunctions", () => {
   describe("forderungDone", () => {
@@ -9,6 +9,18 @@ describe("doneFunctions", () => {
 
     it("should return true if 'forderung' is present", () => {
       const result = forderungDone({ context: { forderung: "etwasAnderes" } });
+      expect(result).toBe(true);
+    });
+  });
+
+  describe("introDone", () => {
+    it("should return false if 'anwaltschaft' is missing", () => {
+      const result = introDone({ context: {} });
+      expect(result).toBe(false);
+    });
+
+    it("should return true if 'anwaltschaft' is present", () => {
+      const result = introDone({ context: { anwaltschaft: "yes" } });
       expect(result).toBe(true);
     });
   });

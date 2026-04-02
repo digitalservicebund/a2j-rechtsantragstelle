@@ -6,11 +6,17 @@ const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 const ZIP_CODE_HAMBURG_PILOT_COURT = "20095";
 
 const baseContext: GeldEinklagenFormularUserData = {
+  anwaltschaft: "no",
   forderung: "maximal10000",
   ausgeschlossen: "yes",
   fuerWenKlagen: "selbst",
   sachgebiet: "verkehrsunfall",
   gegenWenBeklagen: "person",
+  pageData: {
+    subflowDoneStates: {
+      "/gericht-pruefen/gericht-suchen": true,
+    },
+  },
 };
 
 export const testCasesGerichtSuchenVerkehrsunfall = [

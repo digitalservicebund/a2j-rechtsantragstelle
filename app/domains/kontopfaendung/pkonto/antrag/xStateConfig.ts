@@ -3,10 +3,8 @@ import type { KontopfaendungPkontoAntragUserData } from "./userData";
 import { kontopfaendungPkontoAntragPages } from "./pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 
 const stepIds = xStateTargetsFromPagesConfig(kontopfaendungPkontoAntragPages);
-const showAutoSummary = await isFeatureFlagEnabled("showAutoSummary");
 
 export const kontopfaendungPkontoAntragXStateConfig = {
   id: "/kontopfaendung/pkonto/antrag",
@@ -21,11 +19,17 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     grundvoraussetzungen: {
       id: "grundvoraussetzungen",
-      initial: stepIds.bestehendesPkonto.relative,
+      initial: stepIds.grundvoraussetzungenDatenverarbeitung.relative,
       states: {
-        [stepIds.bestehendesPkonto.relative]: {
+        [stepIds.grundvoraussetzungenDatenverarbeitung.relative]: {
           on: {
             BACK: "#start",
+            SUBMIT: stepIds.bestehendesPkonto.relative,
+          },
+        },
+        [stepIds.bestehendesPkonto.relative]: {
+          on: {
+            BACK: stepIds.grundvoraussetzungenDatenverarbeitung.relative,
             SUBMIT: [
               {
                 guard: ({ context }) => context.bestehendesPkonto === "no",
@@ -48,7 +52,7 @@ export const kontopfaendungPkontoAntragXStateConfig = {
       states: {
         [stepIds.bankdatenEinleitung.relative]: {
           on: {
-            BACK: "#grundvoraussetzungen",
+            BACK: stepIds.bestehendesPkonto.absolute,
             SUBMIT: stepIds.bankdatenKontodaten.relative,
           },
         },
@@ -103,28 +107,20 @@ export const kontopfaendungPkontoAntragXStateConfig = {
     },
     abgabe: {
       id: "abgabe",
-      initial: showAutoSummary
-        ? stepIds.zusammenfassung.relative
-        : stepIds.ergebnis.relative,
+      initial: stepIds.zusammenfassung.relative,
       meta: {
         shouldAppearAsMenuNavigation: true,
         excludedFromValidation: true,
       },
       states: {
-        ...(showAutoSummary && {
-          [stepIds.zusammenfassung.relative]: {
-            on: {
-              BACK: stepIds.kontakt.absolute,
-              SUBMIT: stepIds.ergebnis.relative,
-            },
-          },
-        }),
-        [stepIds.ergebnis.relative]: {
+        [stepIds.zusammenfassung.relative]: {
           on: {
-            BACK: showAutoSummary
-              ? stepIds.zusammenfassung.relative
-              : stepIds.kontakt.absolute,
+            BACK: stepIds.kontakt.absolute,
+            SUBMIT: stepIds.ergebnis.relative,
           },
+        },
+        [stepIds.ergebnis.relative]: {
+          on: { BACK: stepIds.zusammenfassung.relative },
         },
       },
     },
