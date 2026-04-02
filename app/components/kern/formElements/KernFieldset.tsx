@@ -52,7 +52,7 @@ export const KernFieldset = ({
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}
-            className="min-h-full min-w-[26px]"
+            className="min-h-full min-w-[26px] forced-color-adjust-auto"
           />
         )}
         <KernRichText

@@ -11,7 +11,7 @@ export const KernFooterDeletePersonalData = () => {
 
   return (
     <GridSection className="bg-kern-neutral-025">
-      <Grid>
+      <Grid className="pb-40 lg:pb-0">
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}

@@ -41,6 +41,11 @@ const NumberInput = function InputComponent({
           {label}
         </label>
       )}
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
@@ -60,11 +65,6 @@ const NumberInput = function InputComponent({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
         readOnly={readonly}
       />
-      {helperText && (
-        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-          {helperText}
-        </div>
-      )}
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}
