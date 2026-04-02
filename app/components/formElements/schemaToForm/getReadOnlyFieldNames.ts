@@ -12,6 +12,6 @@ export const getReadOnlyFieldNames = (
   }
 
   return readOnlyFields.shouldMakeReadOnly(userData)
-    ? readOnlyFields.fields
+    ? readOnlyFields.fieldNames
     : [];
 };

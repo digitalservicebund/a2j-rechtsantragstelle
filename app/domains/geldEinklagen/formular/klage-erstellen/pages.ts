@@ -57,7 +57,7 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonKontoinhaber: stringOptionalSchema,
     },
     readonlyFields: {
-      fields: ["klagendePersonPlz", "klagendePersonOrt"],
+      fieldNames: ["klagendePersonPlz", "klagendePersonOrt"],
       shouldMakeReadOnly: (userData) =>
         !!userData.klagendePersonStatePrefilled &&
         userData.klagendePersonStatePrefilled === "prefilled",
@@ -91,7 +91,7 @@ export const geldEinklagenKlageErstellenPages = {
       ...sharedBeklagteAddress,
     },
     readonlyFields: {
-      fields: ["beklagtePlz", "beklagteOrt"],
+      fieldNames: ["beklagtePlz", "beklagteOrt"],
       shouldMakeReadOnly: (userData) =>
         !!userData.beklagteStatePrefilled &&
         userData.beklagteStatePrefilled === "prefilled",

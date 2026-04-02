@@ -157,7 +157,7 @@ type FlowPage = {
 };
 
 type ReadOnlyFields = {
-  fields: string[];
+  fieldNames: string[];
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 

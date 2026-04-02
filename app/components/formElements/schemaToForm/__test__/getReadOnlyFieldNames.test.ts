@@ -11,7 +11,7 @@ vi.mocked(getReadOnlyFields).mockImplementation((pathname) => {
 
   if (pathname === EXISTING_PATHNAME) {
     return {
-      fields: ["beklagtePlz", "beklagteOrt"],
+      fieldNames: ["beklagtePlz", "beklagteOrt"],
       shouldMakeReadOnly: (userData: any) =>
         userData.beklagteStatePrefilled === "prefilled",
     };

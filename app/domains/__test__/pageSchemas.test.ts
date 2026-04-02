@@ -300,7 +300,10 @@ describe("getReadOnlyFields", () => {
     );
 
     expect(actual).toBeDefined();
-    expect(actual?.fields).toEqual(["klagendePersonPlz", "klagendePersonOrt"]);
+    expect(actual?.fieldNames).toEqual([
+      "klagendePersonPlz",
+      "klagendePersonOrt",
+    ]);
     expect(actual?.shouldMakeReadOnly).toEqual(expect.any(Function));
   });
 });
