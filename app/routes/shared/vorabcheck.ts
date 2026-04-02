@@ -32,6 +32,8 @@ import { composePageTitle } from "~/services/meta/composePageTitle";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";
 import { structureCmsContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
+import { beratungshilfeManager } from "~/domains/beratungshilfe/vorabcheck/new/flowConfig";
+import { createFlowSession } from "~/services/flow/server/new/sessionInterpreter";
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request);
@@ -94,17 +96,37 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     stepId,
   });
 
+  let isFinal = flowController.isFinal(stepId);
+  let backDestination = flowController.getPrevious(stepId);
+  let progress = flowController.getProgress(stepId);
+
+  if (flowId === "/beratungshilfe/vorabcheck") {
+    const sessionManager = createFlowSession(
+      beratungshilfeManager,
+      userData as any,
+      stepId,
+      true,
+    );
+
+    const prevStep = sessionManager.getPrevStep();
+    backDestination = prevStep?.stepId
+      ? flowId + "/" + prevStep?.stepId
+      : undefined;
+    isFinal = beratungshilfeManager.isFinal(stepId);
+    progress = beratungshilfeManager.getProgress(stepId);
+  }
+
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: translations.buttonNavigation.backButtonDefaultLabel.de,
     nextButtonLabel:
       vorabcheckPage.nextButtonLabel ??
       translations.buttonNavigation.nextButtonDefaultLabel.de,
-    isFinal: flowController.isFinal(stepId),
-    backDestination: flowController.getPrevious(stepId),
+    isFinal,
+    backDestination,
   });
 
   const progressProps = {
-    ...flowController.getProgress(stepId),
+    ...progress,
     label: translations.vorabcheck.progressBarLabel.de,
   };
 
