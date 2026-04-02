@@ -149,7 +149,7 @@ jobs:
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@7434149006143a4d75b82a2f411ef15b03ccc2d7 #v4
+        uses: github/codeql-action/upload-sarif@34950e1b113b30df4edee1a6d3a605242df0c40b #v4
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
