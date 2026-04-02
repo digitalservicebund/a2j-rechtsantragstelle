@@ -22,7 +22,7 @@ const LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST =
 const LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS =
   "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.";
 const ONLINE_STATEMENT_ORAL_TRIAL_REQUEST =
-  "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.";
+  "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.";
 const ONLINE_STATEMENT_VIDEO_TRIAL_REQUEST =
   "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.";
 const ONLINE_STATEMENT_VIDEO_TRIAL_CONCERNS =

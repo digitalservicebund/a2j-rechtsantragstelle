@@ -12,7 +12,7 @@ export const STATEMENT_CLAIM_TITLE_TEXT = "Klageantrag";
 export const STATEMENT_CLAIM_COURT_SENTENCE =
   "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 331 Abs. 1 und Abs. 3 ZPO gestellt.";
 export const ONLINE_STATEMENT_CLAIM_COURT_SENTENCE =
-  "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.";
+  "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gemäß § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.";
 export const STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT = "Versäumnisurteil:";
 export const STATEMENT_NEGOTIATION_TITLE_TEXT = "Mündliche Verhandlung:";
 
@@ -27,7 +27,7 @@ const legacyVideoTrialAgreement = (videoverhandlung?: string): string => {
 
 const oralTrialAgreement = (muendlicheVerhandlung?: string): string => {
   const responses: Record<string, string> = {
-    yes: "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
+    yes: "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
   };
   return responses[muendlicheVerhandlung ?? ""] ?? "";
 };
