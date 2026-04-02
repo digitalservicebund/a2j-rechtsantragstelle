@@ -40,10 +40,10 @@ const PILOT_COURT: Jmtd14VTErwerberGerbeh = {
 };
 
 const PILOT_COURT_SECONDARY: Jmtd14VTErwerberGerbeh = {
-  LKZ: "08",
+  LKZ: "06",
   OLG: "1",
-  LG: "06",
-  AG: "01",
+  LG: "02",
+  AG: "03",
   TYP_INFO: "Zivilgericht - Amtsgericht",
   ...baseCourtData,
 };
