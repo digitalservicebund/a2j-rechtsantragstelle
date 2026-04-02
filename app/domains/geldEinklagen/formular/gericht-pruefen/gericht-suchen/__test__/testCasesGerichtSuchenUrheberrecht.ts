@@ -1,7 +1,7 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const ZIP_CODE_PILOT_COURT = "76133"; // AG Mannheim zip code
+const ZIP_CODE_PILOT_COURT = "60313"; // AG Frankfurt am Main zip code
 const ZIP_CODE_EDGE_CASE_SECONDARY = "04103"; // Leipzig zip code
 
 const baseContext: GeldEinklagenFormularUserData = {
@@ -163,7 +163,7 @@ export const testCasesGerichtSuchenUrheberrecht = [
       beklagtePersonGeldVerdienen: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
-      postleitzahlBeklagtePerson: "10823", // Berlin AG Schöneberg zip code NON-PILOT
+      postleitzahlBeklagtePerson: "10115", // Berlin AG Miete zip code NON-PILOT
     },
     [
       "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
