@@ -1,12 +1,12 @@
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
-const ZIP_CODE_EDGE_CASE = "20359";
-const ZIP_CODE_EDGE_CASE_SECONDARY = "45143";
+const ZIP_CODE_EDGE_CASE = "20359"; // AG Hamburg zip code
+const ZIP_CODE_EDGE_CASE_SECONDARY = "28237"; // AG Bremen zip code
 const STREET_EDGE_CASE = "Talstr.";
 const STREET_HOUSE_NUMBER_EDGE_CASE = "5";
-const STREET_EDGE_CASE_SECONDARY = "Amixstr.";
-const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "10";
+const STREET_EDGE_CASE_SECONDARY = "Altenescher Str.";
+const STREET_HOUSE_NUMBER_EDGE_CASE_SECONDARY = "12";
 
 const baseContext: GeldEinklagenFormularUserData = {
   anwaltschaft: "no",
