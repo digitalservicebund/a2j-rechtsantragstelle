@@ -28,12 +28,12 @@ export const addNegotiationText = (
 
   const oralNegotiationText =
     muendlicheVerhandlung === "yes"
-      ? "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen."
+      ? "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen."
       : "";
 
   const defaultJudgmentText =
     versaeumnisurteil === "yes"
-      ? "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt."
+      ? "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gemäß § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt."
       : "";
 
   const videoNegotiationText = videoTrialAgreement(videoVerhandlung);

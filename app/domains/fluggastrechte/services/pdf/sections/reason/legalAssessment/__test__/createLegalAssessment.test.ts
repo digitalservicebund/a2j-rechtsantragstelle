@@ -95,7 +95,7 @@ describe("createLegalAssessment", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 
