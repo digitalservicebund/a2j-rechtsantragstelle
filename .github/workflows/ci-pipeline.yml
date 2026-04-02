@@ -24,10 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [code-quality]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         name: coverage
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 # v7.0.0
@@ -37,7 +37,7 @@ jobs:
   get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - id: fetchLatestImageContent
         run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
         continue-on-error: true
@@ -50,7 +50,7 @@ jobs:
         id: checksum
         run: echo "content_checksum=$(./docker.sh --contentHashFromImage)" >> $GITHUB_OUTPUT
       - name: Upload content.json
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: content-file
           path: content.json
@@ -63,7 +63,7 @@ jobs:
   #     STRAPI_API: "${{ vars.STRAPI_API }}"
   #     STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
   #   steps:
-  #     - uses: actions/checkout@v6
+  #     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
   #     - uses: ./.github/actions/cached-checkout-install
   #     - run: pnpm run test:integration
 
@@ -84,7 +84,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - uses: ./.github/actions/cached-checkout-install
       - run: ./docker.sh --build app
         env:
@@ -94,7 +94,7 @@ jobs:
         run: docker save ${{ env.REGISTRY }}/${{ github.repository }}-app:latest | gzip > image.tar.gz
       - name: Upload docker image to artifact
         if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: docker-build
           path: image.tar.gz
@@ -114,13 +114,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - uses: ./.github/actions/cached-checkout-install
       - name: Install cosign
         uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
         with:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: docker-build
       - name: Load Docker image
