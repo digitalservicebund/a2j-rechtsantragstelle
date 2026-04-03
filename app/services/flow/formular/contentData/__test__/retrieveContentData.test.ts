@@ -13,7 +13,7 @@ import { retrieveContentData } from "../retrieveContentData";
 const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
 const mockUserDataWithPageData = {
-  startAirport: "MUC",
+  startAirport: "BER",
   pageData: {},
 };
 
