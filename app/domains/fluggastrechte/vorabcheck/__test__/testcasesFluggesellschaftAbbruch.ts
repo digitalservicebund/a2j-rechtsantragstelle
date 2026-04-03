@@ -13,7 +13,7 @@ export const testCasesFluggastrechteFluggesellschaftAbbruch = [
     {
       ...baseContext,
       startAirport: "JFK",
-      endAirport: "BER",
+      endAirport: "MUC",
       fluggesellschaft: "DL",
     },
     [
@@ -70,7 +70,7 @@ export const testCasesFluggastrechteFluggesellschaftAbbruch = [
     {
       ...baseContext,
       startAirport: "JFK",
-      endAirport: "BER",
+      endAirport: "MUC",
       fluggesellschaft: "sonstiges",
     },
     [

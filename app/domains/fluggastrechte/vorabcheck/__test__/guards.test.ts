@@ -14,7 +14,7 @@ describe("fluggastrechteGuard", () => {
   describe("areAirportsOutsideEU", () => {
     it("if the departure airport is in EU country, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
         endAirport: "GRU",
       };
 
@@ -26,7 +26,7 @@ describe("fluggastrechteGuard", () => {
     it("if the destination airport is in EU country, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "GRU",
-        endAirport: "BER",
+        endAirport: "MUC",
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -48,7 +48,7 @@ describe("fluggastrechteGuard", () => {
     it("if the departure airport does not exist, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "BLABLA",
-        endAirport: "BER",
+        endAirport: "MUC",
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -58,7 +58,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the destination airport does not exist, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
         endAirport: "BLABLA",
       };
 
@@ -69,7 +69,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the departure airport is undefined, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        endAirport: "BER",
+        endAirport: "MUC",
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -79,7 +79,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the destination airport is undefined, it should return true", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -95,7 +95,7 @@ describe("fluggastrechteGuard", () => {
 
     it("in case is not possible to calculate the airports, it should return true", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
       };
 
       mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
@@ -109,7 +109,7 @@ describe("fluggastrechteGuard", () => {
 
     it("in case is possible to calculate the airports, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
       };
 
       mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
@@ -125,7 +125,7 @@ describe("fluggastrechteGuard", () => {
   describe("isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
         endAirport: "CDG",
         fluggesellschaft: "sonstiges",
       };
@@ -141,7 +141,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "CDG",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "sonstiges",
       };
 
@@ -202,7 +202,7 @@ describe("fluggastrechteGuard", () => {
   describe("isNonGermanAirportsAndIsNotClaimableInEU", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
         endAirport: "CDG",
         fluggesellschaft: "LH",
       };
@@ -217,7 +217,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "CDG",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "LH",
       };
 
@@ -289,7 +289,7 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: "MUC",
         endAirport: "AMS",
         fluggesellschaft: "LH",
         gericht: "no",
@@ -305,7 +305,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "CDG",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "LH",
         gericht: "no",
       };
@@ -382,7 +382,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a departure german airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "DRS",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "DL",
       };
 
@@ -396,7 +396,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a destination german airport, non eu departure and eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "JFK",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "LH",
       };
 
@@ -410,7 +410,7 @@ describe("fluggastrechteGuard", () => {
     it("should return false given a destination german airport, non eu departure and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "JFK",
-        endAirport: "BER",
+        endAirport: "MUC",
         fluggesellschaft: "sonstiges",
       };
 

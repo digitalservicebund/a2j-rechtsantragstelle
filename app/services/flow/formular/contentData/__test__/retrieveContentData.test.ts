@@ -13,7 +13,7 @@ import { retrieveContentData } from "../retrieveContentData";
 const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
 const mockUserDataWithPageData = {
-  startAirport: "BER",
+  startAirport: "MUC",
   pageData: {},
 };
 
@@ -110,7 +110,7 @@ describe("retrieveContentData", () => {
     expect(buildCmsContentAndTranslations).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
         replacements: expect.objectContaining({
-          startAirport: "Frankfurt Flughafen (FRA)",
+          startAirport: "Frankfurt Main Flughafen (FRA)",
         }),
       }),
     );
