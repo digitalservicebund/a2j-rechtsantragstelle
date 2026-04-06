@@ -1,20 +1,20 @@
-import { getCityNameByZipCode, streetNamesForZipcode } from "../index";
+import { getCityNameByZipCode, getStreetsNameByZipCode } from "../index";
 
-describe("streetNamesForZipcode", () => {
-  it("should return empty array without input", async () => {
-    const actual = await streetNamesForZipcode();
+describe("getStreetsNameByZipCode", () => {
+  it("should return empty array without input", () => {
+    const actual = getStreetsNameByZipCode();
 
     expect(actual).toStrictEqual([]);
   });
 
-  it("should return empty array for invalid postcodes", async () => {
-    const actual = await streetNamesForZipcode("asd");
+  it("should return empty array for invalid postcodes", () => {
+    const actual = getStreetsNameByZipCode("asd");
     expect(actual).toStrictEqual([]);
   });
 
-  it("should filter by unique results", async () => {
+  it("should filter by unique results", () => {
     // 27499 (Insel Neuwerk) has only two entries
-    const actual = await streetNamesForZipcode("27499");
+    const actual = getStreetsNameByZipCode("27499");
 
     expect(actual).toEqual([
       { city: "Hamburg", name: "Herrengarten", postalCode: "27499" },
