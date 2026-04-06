@@ -101,7 +101,7 @@
     "@axe-core/playwright": "^4.11.1",
     "@faker-js/faker": "^10.4.0",
     "@fast-csv/parse": "^5.0.5",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.59.1",
     "@react-router/dev": "^7.13.2",
     "@react-router/fs-routes": "^7.13.2",
     "@rvf/react": "^8.1.1",
