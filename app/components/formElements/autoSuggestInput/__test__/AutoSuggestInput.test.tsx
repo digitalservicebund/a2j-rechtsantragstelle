@@ -52,11 +52,11 @@ function getMockUseFieldReturnValue() {
   };
 }
 
-beforeEach(async () => {
+beforeEach(() => {
   vi.mocked(useField).mockReturnValue(getMockUseFieldReturnValue());
 
   vi.spyOn(useDataListOptions, "default").mockReturnValue(
-    await getDataListOptions("airports"),
+    getDataListOptions("airports"),
   );
 
   vi.mocked(useLiveMessage.default).mockReturnValue({
