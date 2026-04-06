@@ -18,7 +18,7 @@ const KernTileContent = ({
   return (
     <div
       className={classNames("h-full flex flex-col", {
-        "gap-y-kern-space-small": image,
+        "gap-y-kern-space-small max-w-[calc(100%-1.5rem)]": image,
       })}
     >
       <div className="flex flex-row justify-between">
@@ -39,7 +39,7 @@ const KernTileContent = ({
         {tileDescription && (
           <p
             id={tileDescription ? `${tileTitle}-description` : undefined}
-            className="kern-body kern-body--muted"
+            className="kern-body kern-body--muted break-words"
           >
             {tileDescription}
           </p>
