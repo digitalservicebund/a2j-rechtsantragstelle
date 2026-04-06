@@ -46,7 +46,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1020.0",
+    "@aws-sdk/client-s3": "^3.1023.0",
     "@digitalservice4germany/angie": "2.4.0",
     "@digitalservice4germany/style-dictionary": "^2.0.0",
     "@digitalservicebund/icons": "^2.1.0",
@@ -58,7 +58,7 @@
     "@react-router/node": "^7.13.2",
     "@remix-run/form-data-parser": "^0.16.0",
     "@rvf/react-router": "^8.1.1",
-    "@sentry/react-router": "^10.46.0",
+    "@sentry/react-router": "^10.47.0",
     "@sentry/vite-plugin": "^5.1.1",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.14.0",
@@ -71,7 +71,7 @@
     "fflate": "^0.8.2",
     "haversine-distance": "1.2.4",
     "html-entities": "^2.6.0",
-    "html-react-parser": "^5.2.17",
+    "html-react-parser": "^6.0.0",
     "ioredis": "^5.10.1",
     "isbot": "^5.1.37",
     "lodash": "^4.18.1",
