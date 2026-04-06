@@ -46,7 +46,7 @@ const KernTileRadio = ({
       )}
     >
       <label
-        className="flex flex-row items-center cursor-pointer touch-manipulation p-kern-space-large h-full"
+        className="flex flex-row items-center cursor-pointer touch-manipulation p-kern-space-large h-full max-w-full"
         htmlFor={id}
         aria-label={tileTitle}
       >
