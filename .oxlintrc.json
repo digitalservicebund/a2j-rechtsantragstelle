@@ -28,7 +28,8 @@
     "unicorn/no-array-reverse": "off",
     "unicorn/no-array-sort": "off",
     "unicorn/no-useless-spread": "off",
-    "vitest/expect-expect": "off"
+    "vitest/expect-expect": "off",
+    "vitest/require-mock-type-parameters": "off"
   },
   "ignorePatterns": ["data/xml/**"]
 }
