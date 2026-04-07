@@ -23,7 +23,7 @@ export const sortSchemaByFormComponents = (
 
   const orderIndex = new Map(fieldOrder.map((field, index) => [field, index]));
 
-  const sortedEntries = Object.entries(pageSchema).sort(
+  const sortedEntries = Object.entries(pageSchema).toSorted(
     ([fieldA], [fieldB]) => {
       const indexA = orderIndex.get(fieldA);
       const indexB = orderIndex.get(fieldB);
