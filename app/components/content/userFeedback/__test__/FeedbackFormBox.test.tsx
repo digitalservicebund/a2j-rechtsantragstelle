@@ -31,6 +31,7 @@ function renderFeedbackFormBox() {
             destination="destination"
             shouldFocus={true}
             feedback={"positive"}
+            csrf=""
             onSubmit={vitest.fn}
           />
         ),

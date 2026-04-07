@@ -1,10 +1,12 @@
 import { test, expect, type Page } from "@playwright/test";
+import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 
 const POST_SUBMISSION_BOX = "user-feedback-submission";
 const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
 const BERATUNGSHILFE_PAGE = "/beratungshilfe";
+let beratungshilfeFormular: BeratungshilfeFormular;
 
 type FeedbackOptions = {
   page: Page;
@@ -28,9 +30,11 @@ async function submitFeedback({
 
 test.describe("User Feedback with JavaScript", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(BERATUNGSHILFE_PAGE);
+    beratungshilfeFormular = new BeratungshilfeFormular(page);
+    await beratungshilfeFormular.goto();
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
+    await page.goto(BERATUNGSHILFE_PAGE);
   });
 
   test("positive feedback submission", async ({ page }) => {
@@ -55,7 +59,9 @@ test.describe("User Feedback without JavaScript", () => {
 
   test.use({ javaScriptEnabled });
   test.beforeEach(async ({ page }) => {
-    await page.goto(BERATUNGSHILFE_PAGE);
+    beratungshilfeFormular = new BeratungshilfeFormular(page);
+    await beratungshilfeFormular.goto();
+    await beratungshilfeFormular.clickNext(true);
     await page.getByRole("button").filter({ hasText: "Ablehnen" }).click();
     await page.goto(BERATUNGSHILFE_PAGE);
   });

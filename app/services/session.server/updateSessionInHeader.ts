@@ -12,13 +12,15 @@ export const updateMainSession = async ({
   stepId,
 }: {
   cookieHeader: CookieHeader;
-  flowId: FlowId;
-  stepId: string;
+  flowId?: FlowId;
+  stepId?: string;
 }) => {
   const { session, csrf } = await createSessionWithCsrf(cookieHeader);
 
-  // update session with last valid step
-  session.set(lastStepKey, { [flowId]: stepId });
+  if (flowId && stepId) {
+    // update session with last valid step
+    session.set(lastStepKey, { [flowId]: stepId });
+  }
 
   const sessionManager = getSessionManager("main");
   const headers = await sessionManager.commitSession(session);

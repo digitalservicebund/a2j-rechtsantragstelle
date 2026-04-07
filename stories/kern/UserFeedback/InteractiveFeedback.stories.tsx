@@ -71,6 +71,7 @@ const InteractiveFeedbackComponent = () => {
                   destination="/"
                   shouldFocus={shouldFocus}
                   feedback={feedbackType}
+                  csrf=""
                   onSubmit={handleFeedbackSubmit}
                 />
               )}

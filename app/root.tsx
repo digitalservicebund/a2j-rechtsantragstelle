@@ -61,6 +61,7 @@ import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
 import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
+import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 
 export { headers } from "./rootHeaders";
 
@@ -117,6 +118,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     breadcrumbs,
     showKernUX,
     showFGROnlineVerfahren,
+    { csrf },
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -129,6 +131,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
     isFeatureFlagEnabled("showFGROnlineVerfahren"),
+    updateMainSession({ cookieHeader }),
   ]);
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
@@ -157,6 +160,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         staticTranslations.feedback["text-post-submission"].de,
       ),
       showKernUX,
+      csrf,
     },
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );

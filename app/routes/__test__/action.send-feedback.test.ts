@@ -1,5 +1,8 @@
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
-import { getSessionManager } from "~/services/session.server";
+import {
+  getSessionManager,
+  mainSessionFromCookieHeader,
+} from "~/services/session.server";
 import { action } from "../action.send-feedback";
 import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 import {
@@ -8,6 +11,9 @@ import {
   isResponse,
 } from "./isResponse";
 import invariant from "tiny-invariant";
+import { createSession, type Session } from "react-router";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { logWarning } from "~/services/logging";
 
 vi.mock("~/services/session.server");
 vi.stubEnv("PUBLIC_POSTHOG_API_KEY", "-");
@@ -18,8 +24,20 @@ vi.mocked(getSessionManager).mockReturnValue({
   destroySession: vi.fn(),
 });
 
+const mockMainSessionFromCookieHeader = (sessionMocked: Session) => {
+  vi.mocked(mainSessionFromCookieHeader).mockResolvedValue(sessionMocked);
+};
+
+vi.mock("~/services/logging", () => ({
+  logWarning: vi.fn(),
+}));
+
 const formData = new FormData();
 formData.append("feedback", "feedback");
+const mockSession: Session = createSession();
+mockMainSessionFromCookieHeader(mockSession);
+mockSession.set(CSRFKey, "csrf");
+formData.append(CSRFKey, "csrf");
 
 const options = { method: "POST", body: formData };
 
@@ -34,12 +52,30 @@ describe("/action/send-feedback route", () => {
     expect(response.init?.status).toBe(400);
   });
 
+  it("should fail if the CSRF token isn't present in the body", async () => {
+    const request = new Request(
+      `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
+      {
+        method: "POST",
+        body: new FormData(),
+      },
+    );
+
+    const response = await action(mockRouteArgsFromRequest(request)).catch(
+      (error) => error,
+    );
+    assertResponse(response);
+    expect(response.status).toBe(403);
+    expect(logWarning).toHaveBeenCalledWith("Form: CSRF Token not included.");
+  });
+
   it("should fail if feedback parameter does not exist in the body", async () => {
-    const optionsWithoutBody = { method: "POST", body: new URLSearchParams() };
+    const formData = new FormData();
+    formData.append(CSRFKey, "csrf");
 
     const request = new Request(
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
-      optionsWithoutBody,
+      { method: "POST", body: formData },
     );
 
     const response = await action(mockRouteArgsFromRequest(request));

@@ -8,6 +8,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import KernTextarea from "../formElements/Textarea";
 import KernButton from "../KernButton";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 const FEEDBACK_FIELD_NAME = "feedback";
@@ -30,6 +31,7 @@ type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;
+  readonly csrf: string;
   readonly feedback?: FeedbackType;
 };
 
@@ -41,6 +43,7 @@ export const FeedbackFormBox = ({
   destination,
   shouldFocus,
   onSubmit,
+  csrf,
   feedback,
 }: FeedbackBoxProps) => {
   const jsAvailable = useJsAvailable();
@@ -83,6 +86,7 @@ export const FeedbackFormBox = ({
     >
       {(form) => (
         <div className="flex flex-col gap-kern-space-small!">
+          <input type="hidden" name={CSRFKey} value={csrf} />
           <KernTextarea
             backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}

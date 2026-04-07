@@ -9,6 +9,7 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -31,6 +32,7 @@ type FeedbackBoxProps = {
   readonly destination: string;
   readonly shouldFocus: boolean;
   readonly onSubmit: () => void;
+  readonly csrf: string;
   readonly feedback?: FeedbackType;
 };
 
@@ -42,6 +44,7 @@ export const FeedbackFormBox = ({
   destination,
   shouldFocus,
   onSubmit,
+  csrf,
   feedback,
 }: FeedbackBoxProps) => {
   const jsAvailable = useJsAvailable();
@@ -83,6 +86,7 @@ export const FeedbackFormBox = ({
     >
       {(form) => (
         <div className="ds-stack ds-stack-16">
+          <input type="hidden" name={CSRFKey} value={csrf} />
           <Textarea
             name={FEEDBACK_FIELD_NAME}
             label={

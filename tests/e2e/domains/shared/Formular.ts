@@ -28,16 +28,18 @@ export class Formular {
     await this.clickLabelFor(`${field.split(".").join("\\.")}-${option}`);
   }
 
-  async clickNext() {
+  async clickNext(jsDisabled?: boolean) {
     await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
-    /**
-     * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
-     * However, as we don't know what the next page's url is going to be beforehand,
-     * we can't drop-in the replacement waitForURL().
-     *
-     * see https://github.com/microsoft/playwright/issues/20853 for a discussion,
-     */
-    await this.page.waitForNavigation();
+    if (!jsDisabled) {
+      /**
+       * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
+       * However, as we don't know what the next page's url is going to be beforehand,
+       * we can't drop-in the replacement waitForURL().
+       *
+       * see https://github.com/microsoft/playwright/issues/20853 for a discussion,
+       */
+      await this.page.waitForNavigation();
+    }
   }
 
   async fillRadioPage(field: string, option: string) {

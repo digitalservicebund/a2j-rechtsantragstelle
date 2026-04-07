@@ -27,6 +27,8 @@ export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
     setShouldFocus(true);
   }, []);
 
+  if (!rootLoaderData?.csrf) return null;
+
   return (
     <GridItem
       smColumn={{ start: 1, span: 12 }}
@@ -55,6 +57,7 @@ export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
                   destination={pathname}
                   shouldFocus={shouldFocus}
                   feedback={feedbackResult}
+                  csrf={rootLoaderData?.csrf}
                   onSubmit={applyFocus}
                 />
               ),

@@ -23,12 +23,18 @@ afterEach(() => {
 describe("UserFeedback", () => {
   it("renders RatingBox when bannerState is showRating", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
-      { path: "", Component: () => <UserFeedback {...mockedProps} /> },
+      {
+        id: "root",
+        path: "",
+        Component: () => <UserFeedback {...mockedProps} />,
+      },
     ]);
     const { getByText } = render(
       <UserFeedbackWithRouteStub
         hydrationData={{
-          loaderData: { root: { feedback: { state: "showRating" } } },
+          loaderData: {
+            root: { feedback: { state: "showRating" }, csrf: "test" },
+          },
         }}
       />,
     );
@@ -38,6 +44,7 @@ describe("UserFeedback", () => {
   it("renders FeedbackFormBox when bannerState is showFeedback", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
       {
+        id: "root",
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
@@ -46,7 +53,7 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: "showFeedback" } },
+            root: { feedback: { state: "showFeedback" }, csrf: "test" },
           },
         }}
       />,
@@ -57,6 +64,7 @@ describe("UserFeedback", () => {
   it("renders PostSubmissionBox when bannerState is feedbackGiven", () => {
     const UserFeedbackWithRouteStub = createRoutesStub([
       {
+        id: "root",
         path: "",
         Component: () => <UserFeedback {...mockedProps} />,
       },
@@ -65,7 +73,10 @@ describe("UserFeedback", () => {
       <UserFeedbackWithRouteStub
         hydrationData={{
           loaderData: {
-            root: { feedback: { state: "feedbackGiven", result: true } },
+            root: {
+              feedback: { state: "feedbackGiven", result: true },
+              csrf: "test",
+            },
           },
         }}
       />,
