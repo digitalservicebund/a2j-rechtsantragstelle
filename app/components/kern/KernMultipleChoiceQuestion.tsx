@@ -55,12 +55,12 @@ export const KernMultipleChoiceQuestion = ({
 
   return (
     <fieldset
-      className={classNames("kern-fieldset", {
+      className={classNames("kern-fieldset flex flex-col", {
         "kern-fieldset--error": hasError,
       })}
       aria-invalid={hasError}
     >
-      <legend className="kern-body font-semibold py-8">
+      <legend className="kern-body font-semibold py-8!">
         {question.question}
       </legend>
       <div className="flex flex-col gap-16">
