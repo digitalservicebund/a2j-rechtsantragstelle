@@ -41,6 +41,7 @@ export const fluggastrechteGrundvoraussetzungenPages = {
         schemaOrEmptyString(stringOptionalSchema),
       ),
       bereich: hiddenInputSchema(stringOptionalSchema),
+      ersatzflug: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
     },
   },
   grundvoraussetzungenAmtsgericht: {
