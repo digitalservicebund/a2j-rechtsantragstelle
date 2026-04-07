@@ -48,7 +48,6 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
-import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -104,7 +103,6 @@ export const fluggastrechtFlow = {
     ...getResponsibleAirportForCourt(context),
     isClaimWillSucceddedAboveLimit:
       isTotalClaimWillSucceddedAboveLimit(context),
-    showFGROnlineVerfahren: globalFeatureFlags.showFGROnlineVerfahren,
   }),
   config: {
     meta: {
