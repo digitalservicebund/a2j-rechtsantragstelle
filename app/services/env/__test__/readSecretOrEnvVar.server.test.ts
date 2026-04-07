@@ -17,17 +17,30 @@ describe("readSecretOrEnvVar", () => {
     expect(mockedReadFileSync).toHaveBeenCalledWith("/mock/path", "utf8");
   });
 
-  it("reads trimmed from environment variables if file-read fails", () => {
+  it("reads trimmed from environment variables if file-read fails with ENOENT", () => {
     vi.mocked(fs.readFileSync).mockImplementationOnce(() => {
-      throw new Error("File Now Found");
+      const err = new Error("File Not Found") as NodeJS.ErrnoException;
+      err.code = "ENOENT";
+      throw err;
     });
     vi.stubEnv("ENV_VAR", " readFromEnvVar");
     expect(readSecretOrEnvVar("/mock/path", "ENV_VAR")).toBe("readFromEnvVar");
   });
 
-  it("reads from environment variables if file-read return undefined", () => {
-    mockedReadFileSync.mockReturnValueOnce(undefined);
+  it("falls back to env var if file is empty or whitespace-only", () => {
+    mockedReadFileSync.mockReturnValueOnce("   ");
     vi.stubEnv("ENV_VAR", "readFromEnvVar");
     expect(readSecretOrEnvVar("/mock/path", "ENV_VAR")).toBe("readFromEnvVar");
+  });
+
+  it("re-throws errors other than ENOENT", () => {
+    vi.mocked(fs.readFileSync).mockImplementationOnce(() => {
+      const err = new Error("Permission denied") as NodeJS.ErrnoException;
+      err.code = "EACCES";
+      throw err;
+    });
+    expect(() => readSecretOrEnvVar("/mock/path", "ENV_VAR")).toThrow(
+      "Permission denied",
+    );
   });
 });

@@ -11,9 +11,9 @@ const envFromNode = () =>
 export function config() {
   const env = envFromBrowser() ?? envFromNode() ?? {};
   return {
-    POSTHOG_API_KEY: env.PUBLIC_POSTHOG_API_KEY ?? env.POSTHOG_API_KEY,
-    SENTRY_DSN: env.PUBLIC_SENTRY_DSN ?? env.SENTRY_DSN,
-    ENVIRONMENT: env.PUBLIC_ENVIRONMENT ?? env.ENVIRONMENT ?? "development",
+    POSTHOG_API_KEY: env.PUBLIC_POSTHOG_API_KEY,
+    SENTRY_DSN: env.PUBLIC_SENTRY_DSN,
+    ENVIRONMENT: env.PUBLIC_ENVIRONMENT ?? "development",
     BUNDID_IDP_ENTRY_POINT: env.PUBLIC_BUNDID_IDP_ENTRY_POINT,
   };
 }

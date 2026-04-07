@@ -32,11 +32,16 @@ type Config = {
   ENABLE_SESSION_ENCRYPTION: boolean;
 };
 
+let cachedConfig: Config | undefined;
+
 export function config(): Config {
+  if (cachedConfig) return cachedConfig;
+
   const STRAPI_API =
     readSecretOrEnvVar("/etc/strapi-api-secret/password", "STRAPI_API") ?? "";
 
-  // Temporary until after cloud migration
+  // Fallback Redis URI for environments that provide credentials individually
+  // rather than a full URI. Can be removed once the cloud migration is complete.
   const REDIS_ENDPOINT = process.env.REDIS_ENDPOINT ?? "localhost:6380";
   const REDIS_PASSWORD = readSecretOrEnvVar(
     "/etc/redis-password-secret/password",
@@ -44,11 +49,30 @@ export function config(): Config {
   );
   const fallbackRedisURI = `rediss://default:${REDIS_PASSWORD}@${REDIS_ENDPOINT}`;
 
-  return {
+  const COOKIE_SESSION_SECRET =
+    readSecretOrEnvVar(
+      "/etc/cookie-session-secret/password",
+      "COOKIE_SESSION_SECRET",
+    ) ?? "";
+
+  const GERICHTSFINDER_ENCRYPTION_KEY =
+    readSecretOrEnvVar(
+      "/etc/courtdata-secrets/password",
+      "GERICHTSFINDER_ENCRYPTION_KEY",
+    ) ?? "";
+
+  if (!COOKIE_SESSION_SECRET) {
+    throw new Error("Missing required config: COOKIE_SESSION_SECRET");
+  }
+  if (!GERICHTSFINDER_ENCRYPTION_KEY) {
+    throw new Error("Missing required config: GERICHTSFINDER_ENCRYPTION_KEY");
+  }
+
+  cachedConfig = {
     STRAPI_API,
     STRAPI_HOST: STRAPI_API.replace("/api/", ""),
     ENABLE_SESSION_ENCRYPTION:
-      process.env.ENABLE_SESSION_ENCRYPTION !== "false", // Only disable on explicit 'false'
+      process.env.ENABLE_SESSION_ENCRYPTION !== "false",
     STRAPI_ACCESS_KEY:
       readSecretOrEnvVar(
         "/etc/strapi-access-key-secret/password",
@@ -56,11 +80,7 @@ export function config(): Config {
       ) ?? "",
     CMS: process.env.CMS ?? "FILE",
     CMS_MEDIA_STORAGE_URL: process.env.CMS_MEDIA_STORAGE_URL,
-    GERICHTSFINDER_ENCRYPTION_KEY:
-      readSecretOrEnvVar(
-        "/etc/courtdata-secrets/password",
-        "GERICHTSFINDER_ENCRYPTION_KEY",
-      ) ?? "",
+    GERICHTSFINDER_ENCRYPTION_KEY,
     GERICHTSFINDER_ENCRYPTION_KEY_OLD:
       readSecretOrEnvVar(
         "/etc/courtdata-secrets/password-old",
@@ -69,11 +89,7 @@ export function config(): Config {
     REDIS_URI:
       readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ??
       fallbackRedisURI,
-    COOKIE_SESSION_SECRET:
-      readSecretOrEnvVar(
-        "/etc/cookie-session-secret/password",
-        "COOKIE_SESSION_SECRET",
-      ) ?? "s3cr3t",
+    COOKIE_SESSION_SECRET,
     CONTENT_FILE_PATH: process.env.CONTENT_FILE_PATH ?? "./content.json",
     CSP_REPORT_URI: process.env.CSP_REPORT_URI,
     BUNDID_AUTH_BMI_ID: process.env.BUNDID_AUTH_BMI_ID?.trim(),
@@ -93,7 +109,7 @@ export function config(): Config {
     SAML_SP_SECRET_KEY_ENCRYPTION_PATH:
       process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH ??
       "/etc/saml/sp_private_key_encryption/sp_private_key_encryption.pem",
-    SAML_IDP_CERT: process.env.SAML_IDP_CERT?.replaceAll(" ", "") ?? "test",
+    SAML_IDP_CERT: process.env.SAML_IDP_CERT?.replaceAll(" ", "") ?? "",
     S3_REGION: process.env.S3_REGION,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
     S3_DATA_STORAGE_ACCESS_KEY: readSecretOrEnvVar(
@@ -107,4 +123,6 @@ export function config(): Config {
     S3_DATA_STORAGE_BUCKET_NAME:
       process.env.S3_DATA_STORAGE_BUCKET_NAME ?? "a2j-data-storage",
   };
+
+  return cachedConfig;
 }
