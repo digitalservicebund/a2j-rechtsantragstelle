@@ -166,4 +166,34 @@ describe("SummaryOverviewBoxItem", () => {
     const scrollableContainer = container.querySelector(".resize-y");
     expect(scrollableContainer).not.toBeInTheDocument();
   });
+  test.each([
+    { actual: "1000", expected: "1000" },
+    { actual: "1000,00", expected: "1000,00 €" },
+    { actual: "1.000,00", expected: "1.000,00 €" },
+    { actual: "1.000", expected: "1.000" },
+    { actual: "1.234.567,89", expected: "1.234.567,89 €" },
+    { actual: "0", expected: "0" },
+    { actual: "0,00", expected: "0,00 €" },
+    { actual: "-1.000,00", expected: "-1.000,00 €" },
+    { actual: "€1.000,00", expected: "€1.000,00" },
+    { actual: "1 000,00", expected: "1 000,00" },
+    { actual: "1.000,0", expected: "1.000,0" },
+  ])("renders numeric values correctly: %o", ({ actual, expected }) => {
+    const userData: UserData = { amount: actual } as unknown as UserData;
+
+    vi.mocked(getItemValueBox).mockReturnValue(actual);
+    vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
+      { fieldName: "amount", fieldValue: actual },
+    ]);
+
+    const { getByText } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "amount" }]}
+      />,
+    );
+
+    expect(getByText(expected)).toBeInTheDocument();
+  });
 });

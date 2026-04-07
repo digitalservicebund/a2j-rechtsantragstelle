@@ -1,3 +1,4 @@
+import isCurrency from "validator/lib/isCurrency";
 import type { UserData } from "~/domains/userData";
 import { isGeldEinklagenLongTextField } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
@@ -53,7 +54,15 @@ const SummaryOverviewBoxItem = ({
   title,
   inlineItems,
 }: Props) => {
-  const itemValue = getItemValueBox(translations, userData, inlineItems);
+  const rawItemValue = getItemValueBox(translations, userData, inlineItems);
+  const detectedAsCurrency = isCurrency(rawItemValue, {
+    thousands_separator: ".",
+    decimal_separator: ",",
+    require_decimal: true,
+  });
+
+  const itemValue = detectedAsCurrency ? `${rawItemValue} €` : rawItemValue;
+
   if (itemValue.trim() === "") return null;
 
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
