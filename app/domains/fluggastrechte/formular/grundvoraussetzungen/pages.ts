@@ -41,6 +41,12 @@ export const fluggastrechteGrundvoraussetzungenPages = {
         schemaOrEmptyString(stringOptionalSchema),
       ),
       bereich: hiddenInputSchema(stringOptionalSchema),
+      ersatzflug: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
+      ankuendigung: hiddenInputSchema(
+        schemaOrEmptyString(
+          z.enum(["no", "until6Days", "between7And13Days", "moreThan13Days"]),
+        ),
+      ),
     },
   },
   grundvoraussetzungenAmtsgericht: {
