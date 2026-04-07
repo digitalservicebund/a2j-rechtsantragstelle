@@ -13,7 +13,7 @@
     "incremental": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2024"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,7 +21,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "target": "es2022",
+    "target": "es2024",
     "types": [
       "@testing-library/jest-dom",
       "node",
