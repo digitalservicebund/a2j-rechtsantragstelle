@@ -10,13 +10,15 @@ A detailed sequence diagram was produced to map out what the formular loader act
 
 ### Identified Problems
 
-#### 1. URL / Pathname Parsed Three Times Per Request
+#### 1. URL / Pathname Parsed Multiple Times Per Request
 
 `parsePathname` (or its wrapper `getPageAndFlowDataFromPathname`) is called three separate times across the request lifecycle:
 
 1. Inside `getPrunedUserDataFromPathname` (re-parses `pathname` to extract `flowId` and `arrayIndexes`)
 2. Inside `getUserDataAndFlow` (calls `getPageAndFlowDataFromPathname`)
 3. Inside `retrieveContentData` (calls `getPageAndFlowDataFromPathname` yet again)
+
+Additionally, the loader itself calls `new URL(request.url)` to extract `pathname` after `getUserDataAndFlow` has already parsed it internally.
 
 The same values — `flowId`, `stepId`, `arrayIndexes`, `currentFlow` — are derived from the URL independently in each of these scopes and then passed back up or re-derived in the caller.
 
@@ -31,17 +33,18 @@ Both resolves to the same underlying Redis entry.
 
 #### 3. `FlowController` Built Multiple Times
 
-`buildFlowController` is called at least twice, and sometimes three times, per request:
+`buildFlowController` is called at least twice, and sometimes up to four times, per request:
 
 1. Inside `pruneIrrelevantData` — with raw (unpruned) `userData`, to traverse the flow graph for pruning.
 2. Inside `getUserDataAndFlow` — with the pruned and page-augmented `userDataWithPageData`.
 3. Inside `validateFlowTransition` — a separate instance for the source flow, when a cross-flow transition config is present.
+4. Inside `getMigrationData` → `pruneIrrelevantData` — another instance for the migration source flow, when migration applies.
 
 The first instance is then silently discarded; the second is what the loader ultimately uses.
 
 #### 4. `cookieHeader` Extracted in Multiple Places
 
-`request.headers.get("Cookie")` is called at the top level of `getUserDataAndFlow` and again at the top level of the main `loader` function, producing the same string twice with no sharing between them.
+`request.headers.get("Cookie")` is called at the top level of `getUserDataAndFlow`, again inside `validateStepIdFlow`, and again at the top level of the main `loader` function, producing the same string three times with no sharing between them.
 
 #### 5. `request` Passed Through Multiple Layers
 
@@ -58,7 +61,9 @@ These have different lifetimes and ownership. Mixing them in one object obscures
 
 #### 7. Parallel Session Writes with Lost Headers
 
-In `Promise.all`, `updateMainSession` and `setUserVisitedValidationPage` both write to Redis and return HTTP headers carrying `Set-Cookie`. Only the headers from `updateMainSession` are threaded through to the response; the cookie from `setUserVisitedValidationPage` is silently discarded. Depending on Redis implementation details, the two writes could race and one could overwrite the other.
+In `Promise.all`, `updateMainSession` and `setUserVisitedValidationPage` both write to Redis and produce `Set-Cookie` headers. Only the headers from `updateMainSession` are threaded through to the response; the cookie from `setUserVisitedValidationPage` is silently discarded.
+
+The two writes target different session scopes (`"main"` vs the flow-specific session), so they do not race on the same Redis key. However, both scoped storages share the same `__session` cookie, so discarding the `Set-Cookie` header from `setUserVisitedValidationPage` can cause the browser's cookie to fall out of sync with the server-side session state.
 
 #### 8. Feature Flag Guard Buried in a Data-Loading Function
 
@@ -77,7 +82,7 @@ The function currently:
 - Validates the current step's reachability
 - Validates cross-flow eligibility
 
-This breadth makes it large (117 lines of logic), hard to test individual phases, and difficult to onboard new contributors to.
+This breadth makes the function hard to test individual phases and difficult to onboard new contributors to.
 
 ---
 
@@ -87,7 +92,7 @@ Refactor the formular loader and its supporting modules to establish clean phase
 
 ### Scope
 
-The primary focus is the loader. The action shares some of the same structural issues — `getPageAndFlowDataFromPathname` is called again independently, `buildFlowController` is reinstantiated purely to compute `stepStates()`, and `request` is passed into `postValidationFlowAction`. It is simpler and easier to follow than the loader, but it will be aligned to the same principles as part of this work rather than in a separate pass.
+The primary focus is the loader. The action shares some of the same structural issues — `getPageAndFlowDataFromPathname` is called three times independently (once in the action itself, once in `validateFormUserData`, and once in `postValidationFlowAction`), `buildFlowController` is reinstantiated purely to compute `stepStates()`, and `request` is passed into `postValidationFlowAction`. It is simpler and easier to follow than the loader, but it will be aligned to the same principles as part of this work rather than in a separate pass.
 
 ### Goals
 
