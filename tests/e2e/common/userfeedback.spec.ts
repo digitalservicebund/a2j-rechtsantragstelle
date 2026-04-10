@@ -2,28 +2,22 @@ import { test, expect, type Page } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 
-const POST_SUBMISSION_BOX = "user-feedback-submission";
-const TOP_BREADCRUMB_ICON = "HomeOutlinedIcon";
 const BERATUNGSHILFE_PAGE = "/beratungshilfe";
 
 type FeedbackOptions = {
   page: Page;
-  feedbackIconTestId: "ThumbUpOutlinedIcon" | "ThumbDownOutlinedIcon";
+  wasHelpful: "yes" | "no";
   message: string;
 };
 
-async function submitFeedback({
-  page,
-  feedbackIconTestId,
-  message,
-}: FeedbackOptions) {
-  await page.getByTestId(feedbackIconTestId).click();
+async function submitFeedback({ page, wasHelpful, message }: FeedbackOptions) {
+  await page.locator(`button[value="${wasHelpful}"]`).click();
   await page.getByRole("textbox").fill(message);
-  await page.getByRole("button").click();
+  await page.getByRole("button").click({ force: true });
 
-  await expect(page.getByTestId(TOP_BREADCRUMB_ICON)).not.toBeInViewport();
+  await expect(page.getByTitle("Startseite")).not.toBeInViewport();
   await expect(page.getByTestId(USER_FEEDBACK_ID)).toBeInViewport();
-  await expect(page.getByTestId(POST_SUBMISSION_BOX)).toBeInViewport();
+  await expect(page.getByTestId("user-feedback-submission")).toBeInViewport();
 }
 
 test.describe("User Feedback with JavaScript", () => {
@@ -36,7 +30,7 @@ test.describe("User Feedback with JavaScript", () => {
   test("positive feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
-      feedbackIconTestId: "ThumbUpOutlinedIcon",
+      wasHelpful: "yes",
       message: "### e2e test submission positive",
     });
   });
@@ -44,7 +38,7 @@ test.describe("User Feedback with JavaScript", () => {
   test("negative feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
-      feedbackIconTestId: "ThumbDownOutlinedIcon",
+      wasHelpful: "no",
       message: "### e2e test submission negative",
     });
   });
@@ -63,7 +57,7 @@ test.describe("User Feedback without JavaScript", () => {
   test("positive feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
-      feedbackIconTestId: "ThumbUpOutlinedIcon",
+      wasHelpful: "yes",
       message: "### e2e test submission positive",
     });
   });
@@ -71,7 +65,7 @@ test.describe("User Feedback without JavaScript", () => {
   test("negative feedback submission", async ({ page }) => {
     await submitFeedback({
       page,
-      feedbackIconTestId: "ThumbDownOutlinedIcon",
+      wasHelpful: "no",
       message: "### e2e test submission negative",
     });
   });
