@@ -58,7 +58,7 @@ const SummaryOverviewBoxItem = ({
 
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
   return (
-    <dl className="flex flex-col items-start">
+    <>
       {title && (
         <dt
           data-testid="summary-box-item-title"
@@ -76,7 +76,7 @@ const SummaryOverviewBoxItem = ({
           {itemValue}
         </SummaryValueOverflowContainer>
       </dd>
-    </dl>
+    </>
   );
 };
 
