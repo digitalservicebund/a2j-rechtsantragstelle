@@ -8,11 +8,18 @@ import { flowIdFromPathname } from "~/domains/flowIds";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getRedirectForNonRelativeUrl } from "~/services/feedback/getRedirectForNonRelativeUrl";
 import { updateBannerState } from "~/services/feedback/updateBannerState";
+import { logWarning } from "~/services/logging";
+import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const resultValidatedSession = await validatedSession(request);
+  if (resultValidatedSession.isErr) {
+    logWarning(resultValidatedSession.error);
+    throw new Response(null, { status: 403 });
+  }
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url") ?? "";
   const redirectNonRelative = getRedirectForNonRelativeUrl(url);

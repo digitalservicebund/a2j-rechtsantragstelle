@@ -20,7 +20,7 @@ async function csrfSessionFromCookieHeader(
   return session;
 }
 
-function createCSRFToken() {
+export function createCSRFToken() {
   // random base64 string of length 32
   return randomBytes(24).toString("base64");
 }

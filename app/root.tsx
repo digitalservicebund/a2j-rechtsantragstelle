@@ -52,7 +52,10 @@ import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import { mainSessionFromCookieHeader } from "./services/session.server";
+import {
+  getSessionManager,
+  mainSessionFromCookieHeader,
+} from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
 import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
@@ -61,6 +64,9 @@ import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
 import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
+import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
+import { createCSRFToken } from "~/services/security/csrf/createSessionWithCsrf.server";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 export { headers } from "./rootHeaders";
 
@@ -133,6 +139,11 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
+  if (!getCSRFFromSession(mainSession)) {
+    mainSession.set(CSRFKey, createCSRFToken());
+  }
+  const headers = await getSessionManager("main").commitSession(mainSession);
+
   const shouldAddCacheControl = shouldSetCacheControlHeader(
     pathname,
     trackingConsent,
@@ -158,7 +169,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       ),
       showKernUX,
     },
-    { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
+    {
+      headers: {
+        ...headers,
+        shouldAddCacheControl: String(shouldAddCacheControl),
+      },
+    },
   );
 };
 
