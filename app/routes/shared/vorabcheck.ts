@@ -19,7 +19,7 @@ import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { resolveUserData } from "~/services/session.server/resolveUserData";
-import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { updateLastVisitedStep } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
@@ -88,7 +88,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
   const stepData = resolveUserData(userData, fieldNames);
 
-  const { headers, csrf } = await updateMainSession({
+  const { headers, csrf } = await updateLastVisitedStep({
     cookieHeader,
     flowId,
     stepId,

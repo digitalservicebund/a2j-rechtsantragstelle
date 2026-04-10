@@ -6,7 +6,7 @@ import {
 } from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { composePageTitle } from "~/services/meta/composePageTitle";
-import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { updateLastVisitedStep } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
@@ -52,7 +52,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     backDestination: flowController.getPrevious(stepId),
   });
 
-  const { headers } = await updateMainSession({
+  const { headers } = await updateLastVisitedStep({
     cookieHeader,
     flowId,
     stepId,

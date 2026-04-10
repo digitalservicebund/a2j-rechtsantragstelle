@@ -12,7 +12,7 @@ import { validateFormUserData } from "~/services/flow/userFlowAction/validateFor
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
+import { updateLastVisitedStep } from "~/services/session.server/updateSessionInHeader";
 import type { SummaryItem } from "~/services/summary/types";
 import merge from "lodash/merge";
 import {
@@ -54,7 +54,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const [contentData, { headers, csrf }] = await Promise.all([
     retrieveContentData(pathname, params, userData, migration.userData),
-    updateMainSession({ cookieHeader, flowId, stepId }),
+    updateLastVisitedStep({ cookieHeader, flowId, stepId }),
     setUserVisitedValidationPage(
       flowController.getMeta(stepId)?.triggerValidation,
       flowId,
