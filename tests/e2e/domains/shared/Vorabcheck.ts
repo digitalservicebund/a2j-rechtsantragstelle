@@ -27,9 +27,7 @@ export class Vorabcheck {
   }
 
   async clickNext() {
-    await this.page
-      .locator(`button[name="${this.nextButtonName}"]`)
-      .click({ force: true });
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     await this.page.waitForLoadState("load");
     /**
      * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
@@ -42,9 +40,7 @@ export class Vorabcheck {
   }
 
   async clickNextWithoutJavaScript() {
-    await this.page
-      .locator(`button[name="${this.nextButtonName}"]`)
-      .click({ force: true });
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
   }
 
   async fillRadioPage(field: string, option: string) {

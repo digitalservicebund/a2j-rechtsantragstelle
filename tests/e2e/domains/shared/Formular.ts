@@ -29,9 +29,7 @@ export class Formular {
   }
 
   async clickNext() {
-    await this.page
-      .locator(`button[name="${this.nextButtonName}"]`)
-      .click({ force: true });
+    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
     /**
      * waitForNavigation() is 'deprecated' (not actually, just discouraged) for its inherent raciness.
      * However, as we don't know what the next page's url is going to be beforehand,
