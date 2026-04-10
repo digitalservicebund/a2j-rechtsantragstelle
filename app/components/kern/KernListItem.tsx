@@ -58,10 +58,7 @@ const KernListItem = ({
   image,
 }: ListItemProps & { variant: ListVariant }) => {
   return (
-    <div
-      id={identifier}
-      className="flex flex-row gap-kern-space-default py-kern-space-x-large"
-    >
+    <div id={identifier} className="flex flex-row gap-kern-space-default pb-48">
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
         <ListMarker index={index} variant={variant} image={image} />
         {variant === "stepByStep" && (
@@ -69,26 +66,27 @@ const KernListItem = ({
         )}
       </div>
       <div className="gap-kern-space-x-large">
-        <div>
-          {headline && (
-            <KernHeading
-              {...headline}
-              className="text-kern-static-large!"
-              managedByParent
-            />
-          )}
-          {content && <KernRichText className="pt-8!" html={content} />}
-          {arrayIsNonEmpty(buttons) && (
-            <ButtonContainer className="mt-16">
-              {buttons.map((button) => (
-                <KernButton key={button.text ?? button.href} {...button} />
-              ))}
-            </ButtonContainer>
-          )}
-        </div>
-        <div className="pt-kern-space-x-large">
-          {accordion && <KernAccordion {...accordion} />}
-        </div>
+        {headline && (
+          <KernHeading
+            {...headline}
+            className="text-kern-static-large!"
+            managedByParent
+          />
+        )}
+        {content && <KernRichText className="pt-8!" html={content} />}
+        {arrayIsNonEmpty(buttons) && (
+          <ButtonContainer className="mt-16">
+            {buttons.map((button) => (
+              <KernButton key={button.text ?? button.href} {...button} />
+            ))}
+          </ButtonContainer>
+        )}
+
+        {accordion && (
+          <div className="pt-kern-space-x-large">
+            <KernAccordion {...accordion} />
+          </div>
+        )}
       </div>
     </div>
   );
