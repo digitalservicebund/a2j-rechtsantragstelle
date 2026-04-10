@@ -10,6 +10,7 @@ export type KernTileOptions = Readonly<{
   image?: ImageProps;
   tileDescription?: string;
   tileTitle?: string;
+  errorId?: string;
 }>;
 
 type KernTileRadioProps = KernTileOptions &
@@ -29,10 +30,10 @@ const KernTileRadio = ({
   image,
   onClick,
   ref,
+  errorId,
 }: KernTileRadioProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
-  const errorId = `${name}-error`;
   const descriptionId = tileDescription ? `${value}-description` : undefined;
   const ariaDescribedBy = field.error() ? errorId : descriptionId;
 
