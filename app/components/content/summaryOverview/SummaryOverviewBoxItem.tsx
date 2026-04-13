@@ -1,19 +1,27 @@
+import isCurrency from "validator/lib/isCurrency";
 import type { UserData } from "~/domains/userData";
+import { isGeldEinklagenLongTextField } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import {
   extractFieldItemsFromInlineItems,
   getItemValueBox,
 } from "./getItemValueBox";
-import { hasMoneyValidationSchema, hasNonEmptyLongTextField } from "./helper";
 
 type Props = SummaryOverviewBoxItemType & {
   readonly userData: UserData;
   readonly translations: Translations;
-  readonly pathname: string;
 };
 
 const SCROLLABLE_BOX_ROWS = 10;
+
+const hasNonEmptyLongTextField = (fieldItems: FieldItems) =>
+  fieldItems.some(
+    ({ fieldName, fieldValue }) =>
+      isGeldEinklagenLongTextField(fieldName) &&
+      typeof fieldValue === "string" &&
+      fieldValue.trim().length > 0,
+  );
 
 const SummaryValueOverflowContainer = ({
   children,
@@ -43,16 +51,11 @@ const SummaryOverviewBoxItem = ({
   translations,
   title,
   inlineItems,
-  pathname,
 }: Props) => {
-  const rawItemValue = getItemValueBox(translations, userData, inlineItems);
-  if (rawItemValue.trim() === "") return null;
+  const itemValue = getItemValueBox(translations, userData, inlineItems);
+  if (itemValue.trim() === "") return null;
 
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
-  const shouldAppendEuroSign = hasMoneyValidationSchema(pathname, fieldItems);
-  const itemValue = shouldAppendEuroSign
-    ? `${rawItemValue} Euro`
-    : rawItemValue;
 
   return (
     <div>
