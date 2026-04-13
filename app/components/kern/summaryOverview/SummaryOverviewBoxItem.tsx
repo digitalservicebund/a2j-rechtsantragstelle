@@ -1,6 +1,7 @@
 import type { UserData } from "~/domains/userData";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import {
   extractFieldItemsFromInlineItems,
   getItemValueBox,
@@ -53,7 +54,7 @@ const SummaryOverviewBoxItem = ({
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
   const shouldAppendEuroWord = hasMoneyValidationSchema(pathname, fieldItems);
   const itemValue = shouldAppendEuroWord
-    ? `${rawItemValue} Euro`
+    ? `${rawItemValue} ${staticTranslations.currency.euro.de}`
     : rawItemValue;
 
   return (
