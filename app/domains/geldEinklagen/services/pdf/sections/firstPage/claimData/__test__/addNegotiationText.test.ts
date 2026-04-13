@@ -56,7 +56,7 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "no", "no", "yes", mockStruct);
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
+      "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
       expect.any(Number),
     );
   });
@@ -67,7 +67,7 @@ describe("addNegotiationText", () => {
 
     addNegotiationText(mockDoc, "no", "no", "no", mockStruct);
     expect(mockDoc.text).not.toHaveBeenCalledWith(
-      "Es wird beantragt, eine mündliche Verhandlung nach §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
+      "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
       expect.any(Number),
     );
   });
@@ -82,7 +82,7 @@ describe("addNegotiationText", () => {
       expect.any(Number),
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gem. § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.",
+      "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gemäß § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt.",
       expect.any(Number),
     );
   });

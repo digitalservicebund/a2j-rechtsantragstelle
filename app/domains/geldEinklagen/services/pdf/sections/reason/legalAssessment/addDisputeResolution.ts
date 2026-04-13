@@ -22,7 +22,7 @@ const getDisputeResolutionText = ({
   if (streitbeilegung === "no") {
     const streitbeilegungGruendeText =
       streitbeilegungGruende === "yes"
-        ? " Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist."
+        ? " Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist."
         : "";
 
     return `Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.${streitbeilegungGruendeText}`;

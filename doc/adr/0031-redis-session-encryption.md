@@ -3,7 +3,8 @@
 ## Status
 
 - 2026-03-27: Drafted
-- 2026-03-XX: Accepted
+- 2026-03-31: Accepted
+- 2026-04-07: Edited (Added alternatives considered)
 
 ## Context
 
@@ -24,6 +25,24 @@ We will implement an application-level encryption layer between React Router's s
 - **Key Storage**: The key will be sent to the browser via a dedicated, securely signed, HTTP-only cookie (e.g., `__vaultKey`). It will never be written to Redis or the file system.
 - **Feature Toggle**: Encryption will be controlled via an environment variable `ENABLE_SESSION_ENCRYPTION` (defaults to `true`, to be manually turned off for local development).
 - **Migration Strategy**: The decryption method will transparently handle both encrypted and unencrypted data. Previously un-encrypted legacy sessions will be encrypted on their next write.
+
+## Alternatives Considered:
+
+### Client-Side Encryption
+
+We considered pushing the encryption/decryption workload to the user's browser (using the native Web Crypto API). In this model, the server would only ever receive and store pre-encrypted ciphertexts. This approach was rejected for the following critical reasons:
+
+1. **Server-Side Rendering (SSR) Incompatibility**: Our React Router application relies on server-side session storage and data access to make routing decisions. This makes client-side encryption fundamentally incompatible with our current architecture.
+1. **"No-JS" Requirement**: Our application should support users who cannot load or execute client-side Javascript, which the Web Crypto API requires. Relying on it would fundamentally break the application's core accessibility and progressive enhancement goals.
+1. **XSS Vulnerability**: To perform client-side encryption, the key must be accessible to the browser JavaScript context (e.g., localStorage or a standard cookie), which exposes the key to Cross-Site Scripting (XSS) attacks.
+
+Conclusion: Client-side encryption is fundamentally incompatible with a progressively enhanced, Server-Side Rendered form architecture.
+
+## Client-Side Key Generation
+
+We also evaluated having the client browser generate the key (via Web Crypto API) and transmit it to the server, rather than having the server generate it. In addition to points 2. & 3. from above, this was rejected because:
+
+1. Because our Server-Side Rendered architecture requires the Node server to decrypt the data at runtime, the key must still travel over the network via TLS. Generating it on the client provides no cryptographic or network security advantages over generating it on the server.
 
 ## Consequences
 

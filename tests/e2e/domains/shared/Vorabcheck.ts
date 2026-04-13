@@ -40,7 +40,10 @@ export class Vorabcheck {
   }
 
   async clickNextWithoutJavaScript() {
-    await this.page.locator(`button[name="${this.nextButtonName}"]`).click();
+    await this.page
+      .locator(`button[name="${this.nextButtonName}"]`)
+      .dispatchEvent("click");
+    // .click(); // This should technically be a click, but we are having issues with the stability of the next buttons on pages with AutoSuggestInpux
   }
 
   async fillRadioPage(field: string, option: string) {

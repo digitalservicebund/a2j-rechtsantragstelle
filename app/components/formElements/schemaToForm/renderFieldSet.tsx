@@ -20,6 +20,7 @@ export const getFieldSetByFieldName = (
 export const renderFieldSet = (
   fieldName: string,
   fieldSet: StrapiFieldSet,
+  readOnlyFieldNames: string[],
   showKernUX?: boolean,
 ) => {
   const {
@@ -40,6 +41,7 @@ export const renderFieldSet = (
       formComponents={formComponents}
       heading={heading}
       image={image}
+      readOnlyFieldNames={readOnlyFieldNames}
     />
   ) : (
     <FieldSet
@@ -47,6 +49,7 @@ export const renderFieldSet = (
       formComponents={formComponents}
       heading={heading}
       image={image}
+      readOnlyFieldNames={readOnlyFieldNames}
     />
   );
 };

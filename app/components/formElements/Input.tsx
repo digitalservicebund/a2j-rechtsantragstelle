@@ -20,6 +20,7 @@ export type InputProps = Readonly<{
   width?: FieldWidth;
   helperText?: string;
   charLimit?: number;
+  readonly?: boolean;
 }>;
 
 const getInputType = (name: string): string => {
@@ -40,6 +41,7 @@ const Input = function InputComponent({
   width,
   charLimit = INPUT_CHAR_LIMIT,
   innerRef,
+  readonly,
 }: InputProps & { innerRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -62,6 +64,7 @@ const Input = function InputComponent({
           autoComplete={autocompleteMap[name] ?? "off"}
           ref={innerRef}
           name={name}
+          readOnly={readonly}
           className={classNames(
             "ds-input forced-colors:border-4 ph-no-capture",
             {

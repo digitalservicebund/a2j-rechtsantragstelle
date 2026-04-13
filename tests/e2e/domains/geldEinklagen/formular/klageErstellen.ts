@@ -27,8 +27,6 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillInput("beklagteVorname", "Donatello");
   await formular.fillInput("beklagteNachname", "Cowabunga");
   await formular.fillInput("beklagteStrasseHausnummer", "Schildkrötenstraße 5");
-  await formular.fillInput("beklagtePlz", "10119");
-  await formular.fillInput("beklagteOrt", "Mutant Mayhem");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/forderung/gesamtbetrag

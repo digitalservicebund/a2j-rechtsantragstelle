@@ -4,6 +4,8 @@ import moneyToCents from "./moneyToCents";
 import preprocessMoney from "./preprocessMoney";
 import validateMoney from "./validateMoney";
 
+export const formatCurrencyZodDescription = "format_currency";
+
 type BuildMoneyValidationSchemaOptions = {
   min?: number;
   max?: number;

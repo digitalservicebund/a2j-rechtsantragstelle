@@ -53,7 +53,7 @@ function TileRadio({
           onClick={onClick}
           ref={ref}
         />
-        <div className="h-full pl-24 flex flex-col gap-y-8">
+        <div className="h-full pl-24 flex flex-col gap-y-8 max-w-[calc(100%-1.5rem)]">
           <div className="flex flex-row justify-between">
             {image && (
               <Image
@@ -70,7 +70,7 @@ function TileRadio({
             {description && (
               <p
                 id={descriptionId}
-                className="ds-body-01-reg whitespace-pre-line"
+                className="ds-body-01-reg whitespace-pre-line break-words"
               >
                 {description}
               </p>

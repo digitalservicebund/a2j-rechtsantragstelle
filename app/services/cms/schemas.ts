@@ -46,7 +46,7 @@ export type StrapiSchemasOutput = z.output<typeof strapiFileSchema>;
 export type GetStrapiEntryOpts<T extends ApiId> = {
   apiId: T;
   filters?: Filter[];
-  locale?: StrapiLocale;
+  locale?: StrapiLocale | "*";
   populate?: string;
   pageSize?: string;
   fields?: string;

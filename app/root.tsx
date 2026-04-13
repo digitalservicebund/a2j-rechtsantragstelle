@@ -122,7 +122,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     trackingCookieValue({ request }),
-    fetchContentPageMeta({ filterValue: "/" }),
+    fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
     mainSessionFromCookieHeader(cookieHeader),
@@ -161,6 +161,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
   );
 };
+
+// Don't accept any mutations on content routes. This safely catches bot POST/PUT spam without crashing or alerting Sentry
+export const action = async () =>
+  new Response("Method Not Allowed", { status: 405 });
 
 function App() {
   const {

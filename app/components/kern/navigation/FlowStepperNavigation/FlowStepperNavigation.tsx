@@ -24,7 +24,6 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
           const styles = getStepStyles(state);
           return (
             <li
-              tabIndex={0}
               key={label}
               className={classNames(styles.container, {
                 "border-r-0 stepper-step": !isLast,

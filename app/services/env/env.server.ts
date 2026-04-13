@@ -24,25 +24,17 @@ type Config = {
   SAML_SP_SECRET_KEY_PATH: string;
   SAML_SP_SECRET_KEY_ENCRYPTION_PATH: string;
   SAML_IDP_CERT: string;
-  S3_REGION: string;
-  S3_ENDPOINT: string;
-  S3_DATA_STORAGE_ACCESS_KEY: string;
-  S3_DATA_STORAGE_SECRET_KEY: string;
-  S3_DATA_STORAGE_BUCKET_NAME: string;
+  S3_REGION?: string;
+  S3_ENDPOINT?: string;
+  S3_DATA_STORAGE_ACCESS_KEY?: string;
+  S3_DATA_STORAGE_SECRET_KEY?: string;
+  S3_DATA_STORAGE_BUCKET_NAME?: string;
   ENABLE_SESSION_ENCRYPTION: boolean;
 };
 
 export function config(): Config {
   const STRAPI_API =
     readSecretOrEnvVar("/etc/strapi-api-secret/password", "STRAPI_API") ?? "";
-
-  // Temporary until after cloud migration
-  const REDIS_ENDPOINT = process.env.REDIS_ENDPOINT ?? "localhost:6380";
-  const REDIS_PASSWORD = readSecretOrEnvVar(
-    "/etc/redis-password-secret/password",
-    "REDIS_PASSWORD",
-  );
-  const fallbackRedisURI = `rediss://default:${REDIS_PASSWORD}@${REDIS_ENDPOINT}`;
 
   return {
     STRAPI_API,
@@ -67,8 +59,7 @@ export function config(): Config {
         "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
       ) ?? "",
     REDIS_URI:
-      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ??
-      fallbackRedisURI,
+      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ?? "",
     COOKIE_SESSION_SECRET:
       readSecretOrEnvVar(
         "/etc/cookie-session-secret/password",
@@ -94,19 +85,16 @@ export function config(): Config {
       process.env.SAML_SP_SECRET_KEY_ENCRYPTION_PATH ??
       "/etc/saml/sp_private_key_encryption/sp_private_key_encryption.pem",
     SAML_IDP_CERT: process.env.SAML_IDP_CERT?.replaceAll(" ", "") ?? "test",
-    S3_REGION: process.env.AWS_S3_REGION ?? "eu-central-1",
-    S3_ENDPOINT:
-      process.env.S3_ENDPOINT ?? "https://s3.localhost.localstack.cloud:4566",
-    S3_DATA_STORAGE_ACCESS_KEY:
-      readSecretOrEnvVar(
-        "/etc/s3-storage-credentials-secret-access-key/password",
-        "S3_DATA_STORAGE_ACCESS_KEY",
-      ) ?? "test",
-    S3_DATA_STORAGE_SECRET_KEY:
-      readSecretOrEnvVar(
-        "/etc/s3-storage-credentials-secret-key/password",
-        "S3_DATA_STORAGE_SECRET_KEY",
-      ) ?? "test",
+    S3_REGION: process.env.S3_REGION,
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    S3_DATA_STORAGE_ACCESS_KEY: readSecretOrEnvVar(
+      "/etc/s3-storage-credentials-secrets/access_key",
+      "S3_DATA_STORAGE_ACCESS_KEY",
+    ),
+    S3_DATA_STORAGE_SECRET_KEY: readSecretOrEnvVar(
+      "/etc/s3-storage-credentials-secrets/secret_access_key",
+      "S3_DATA_STORAGE_SECRET_KEY",
+    ),
     S3_DATA_STORAGE_BUCKET_NAME:
       process.env.S3_DATA_STORAGE_BUCKET_NAME ?? "a2j-data-storage",
   };

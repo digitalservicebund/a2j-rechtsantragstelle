@@ -9,6 +9,7 @@ import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaCo
 type KernFieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
+    readOnlyFieldNames: string[];
   }
 >;
 
@@ -34,6 +35,7 @@ export const KernFieldset = ({
   heading,
   formComponents,
   image,
+  readOnlyFieldNames,
 }: KernFieldsetProps) => {
   const { pathname } = useLocation();
 
@@ -50,7 +52,7 @@ export const KernFieldset = ({
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}
-            className="min-h-full min-w-[26px]"
+            className="min-h-full min-w-[26px] forced-color-adjust-auto"
           />
         )}
         <KernRichText
@@ -63,6 +65,7 @@ export const KernFieldset = ({
           pageSchema={pageSchema}
           formComponents={formComponents}
           className={classNames("pt-16", { "md:pl-32": image })}
+          readOnlyFieldNames={readOnlyFieldNames}
         />
       </div>
     </fieldset>

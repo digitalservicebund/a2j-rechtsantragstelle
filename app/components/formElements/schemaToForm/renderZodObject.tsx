@@ -11,6 +11,7 @@ import KernSplitDateInput from "~/components/kern/formElements/input/KernSplitDa
 export const renderZodObject = (
   nestedSchema: ZodObject,
   fieldName: string,
+  readOnlyFieldNames: string[],
   formComponents?: StrapiFormComponent[],
   showKernUX?: boolean,
 ) => {
@@ -56,12 +57,14 @@ export const renderZodObject = (
       pageSchema={innerSchema}
       formComponents={formComponents}
       showKernUX={showKernUX}
+      readOnlyFieldNames={readOnlyFieldNames}
     />
   ) : (
     <SchemaComponents
       key={fieldName}
       pageSchema={innerSchema}
       formComponents={formComponents}
+      readOnlyFieldNames={readOnlyFieldNames}
     />
   );
 };

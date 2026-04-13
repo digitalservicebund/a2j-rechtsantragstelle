@@ -13,7 +13,7 @@ import KernButtonContainer from "~/components/kern/KernButtonContainer";
 const iconProps = {
   "aria-hidden": false,
   iconClassName:
-    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3",
+    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3 forced-color-adjust-auto",
 };
 
 const boxProps = {

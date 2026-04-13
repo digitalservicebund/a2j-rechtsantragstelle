@@ -28,6 +28,7 @@ const config: KnipConfig = {
     types: "warn",
     unlisted: "warn",
   },
+  entry: ["scripts/**.ts", ".storybook/css.d.ts"],
   // Info: Knip reports unlisted dependencies coming from @vitest/coverage-v8
   // we are using istanbul for the coverage
   ignoreDependencies: ["@vitest/coverage-v8"],

@@ -20,9 +20,7 @@ function dbLookup(zipCode: string) {
   return dbLookupStatement.all(zipCode) as StreetData[];
 }
 
-export async function streetNamesForZipcode(
-  zipCode?: string,
-): Promise<StreetData[]> {
+export function getStreetsNameByZipCode(zipCode?: string): StreetData[] {
   return zipCode ? dbLookup(zipCode) : [];
 }
 
