@@ -10,7 +10,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
 import { KernIcon } from "./common/KernIcon";
-import { ButtonProps } from "./KernButton";
+import { type ButtonProps } from "./KernButton";
 
 type BoxProps = {
   identifier?: string;
