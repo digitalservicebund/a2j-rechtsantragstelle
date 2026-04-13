@@ -6,18 +6,15 @@ type InputErrorProps = PropsWithChildren<{
 }>;
 
 const InputError = ({ id, children }: InputErrorProps) => {
+  if (!children) return null;
   return (
-    <div>
-      {children && (
-        <p className="kern-error" id={id} role="alert">
-          <KernIcon
-            name="emergency-home"
-            className="fill-kern-feedback-danger! forced-color-adjust-auto"
-          />
-          <span className="text-kern-feedback-danger!">{children}</span>
-        </p>
-      )}
-    </div>
+    <p className="kern-error" id={id} role="alert">
+      <KernIcon
+        name="emergency-home"
+        className="fill-kern-feedback-danger! forced-color-adjust-auto"
+      />
+      <span className="text-kern-feedback-danger!">{children}</span>
+    </p>
   );
 };
 
