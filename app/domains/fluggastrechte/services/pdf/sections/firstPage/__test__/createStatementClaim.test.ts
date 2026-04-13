@@ -524,5 +524,34 @@ describe("createStatementClaim", () => {
       );
       expect(callsWithP).toHaveLength(0);
     });
+
+    it("should render Mündliche Verhandlung before Versäumnisurteil when both are visible", () => {
+      const mockStruct = mockPdfKitDocumentStructure();
+      const mockDoc = mockPdfKitDocument(mockStruct);
+
+      const userDataMockWithBoth = {
+        ...userDataMock,
+        versaeumnisurteil: "yes",
+        muendlicheVerhandlung: "yes",
+        videoverhandlung: "yes",
+      } satisfies FluggastrechteUserData;
+
+      createStatementClaim(mockDoc, mockStruct, userDataMockWithBoth, true);
+
+      const called = (mockDoc.text as Mock).mock.calls.filter(
+        ([txt]) =>
+          txt === STATEMENT_NEGOTIATION_TITLE_TEXT ||
+          txt === STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
+      );
+
+      expect(called).toEqual([
+        [STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL],
+        [STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL],
+      ]);
+      expect(called).not.toEqual([
+        [STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL],
+        [STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL],
+      ]);
+    });
   });
 });
