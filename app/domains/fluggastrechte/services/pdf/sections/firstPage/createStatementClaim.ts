@@ -82,27 +82,6 @@ export const createStatementClaim = (
   const defaultJudgmentText = showFGROnlineVerfahren
     ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
     : STATEMENT_CLAIM_COURT_SENTENCE;
-
-  if (versaeumnisurteil === "yes") {
-    if (showFGROnlineVerfahren) {
-      statementClaimSect.add(
-        doc.struct("H3", {}, () => {
-          doc
-            .font(FONTS_BUNDESSANS_BOLD)
-            .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
-        }),
-      );
-    }
-
-    statementClaimSect.add(
-      doc.struct("P", {}, () => {
-        doc
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
-      }),
-    );
-  }
-
   const negotiationTexts = showFGROnlineVerfahren
     ? [
         oralTrialAgreement(muendlicheVerhandlung),
@@ -129,6 +108,26 @@ export const createStatementClaim = (
         for (const text of negotiationTexts) {
           doc.font(FONTS_BUNDESSANS_REGULAR).text(text, PDF_MARGIN_HORIZONTAL);
         }
+      }),
+    );
+  }
+
+  if (versaeumnisurteil === "yes") {
+    if (showFGROnlineVerfahren) {
+      statementClaimSect.add(
+        doc.struct("H3", {}, () => {
+          doc
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
+        }),
+      );
+    }
+
+    statementClaimSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
       }),
     );
   }
