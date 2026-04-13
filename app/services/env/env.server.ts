@@ -97,11 +97,11 @@ export function config(): Config {
     S3_REGION: process.env.S3_REGION,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
     S3_DATA_STORAGE_ACCESS_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-access-key/password",
+      "/etc/s3-storage-credentials-secrets/access_key",
       "S3_DATA_STORAGE_ACCESS_KEY",
     ),
     S3_DATA_STORAGE_SECRET_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-key/password",
+      "/etc/s3-storage-credentials-secrets/secret_access_key",
       "S3_DATA_STORAGE_SECRET_KEY",
     ),
     S3_DATA_STORAGE_BUCKET_NAME:
