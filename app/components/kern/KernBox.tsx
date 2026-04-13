@@ -1,6 +1,4 @@
-import KernButton, { type ButtonProps } from "~/components/kern/KernButton";
 import Image, { type ImageProps } from "~/components/common/Image";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import KernHeading, {
   type KernHeadingProps,
 } from "~/components/kern/KernHeading";
@@ -11,6 +9,8 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
+import { KernIcon } from "./common/KernIcon";
+import { type ButtonProps } from "./KernButton";
 
 type BoxProps = {
   identifier?: string;
@@ -40,6 +40,7 @@ const KernBox = ({
           <KernLabel
             {...label}
             className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
+            aria-describedby={identifier ? `${identifier}-label` : undefined}
           />
         )}
         {heading && (
@@ -59,11 +60,18 @@ const KernBox = ({
         </div>
       )}
       {arrayIsNonEmpty(buttons) && (
-        <ButtonContainer className="kern-button-group pt-kern-space-x-large">
+        <div>
           {buttons.map((button) => (
-            <KernButton key={button.text ?? button.href} {...button} />
+            <a
+              href={button.href}
+              className="kern-link inline-flex items-center! no-underline!"
+              key={button.text ?? button.href}
+            >
+              <KernIcon className="size-[1em]" name="arrow-forward" />
+              {button.text}
+            </a>
           ))}
-        </ButtonContainer>
+        </div>
       )}
     </div>
   );
@@ -75,7 +83,7 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0">
+      <div className="flex flex-col gap-kern-space-small py-kern-space-large px-kern-space-large lg:px-0 xl:px-0">
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
             <div className="shrink-0 max-w-full lg:max-w-[200px]">

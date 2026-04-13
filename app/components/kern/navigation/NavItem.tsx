@@ -71,22 +71,29 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none border-b border-kern-neutral-200 last:border-0 flex w-full flex-col w-fit",
+    "flex w-full flex-col list-none",
+    "border-b border-kern-neutral-200 last:border-0",
     {
-      "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
+      "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
       "border-none": isChild,
-      "border-transparent last:border-transparent flex flex-col": isChild,
     },
   );
 
   const itemClassNames = classNames(
-    "w-initial p-16! flex justify-between items-center hover:underline hover:bg-kern-neutral-200 active:bg-kern-neutral-200 kern-body kern-body--small ",
+    "kern-body kern-body--small w-full p-16! flex justify-between items-center",
+    "hover:underline hover:bg-kern-neutral-200",
+    "active:bg-kern-neutral-200",
+    "relative focus-visible:z-10",
+    "focus-visible:outline-none",
+    "focus-visible:bg-white",
+    "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
+    "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-border-inside),0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
     {
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
-      "text-kern-neutral-400! curser-not-allowed hover:font-normal pointer-events-none":
+      "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
     },
   );
