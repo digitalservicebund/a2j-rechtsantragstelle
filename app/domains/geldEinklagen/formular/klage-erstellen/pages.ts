@@ -6,6 +6,7 @@ import { ibanSchema } from "~/services/validation/iban";
 import {
   buildOptionalMoneyValidationSchema,
   buildMoneyValidationSchema,
+  formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -111,7 +112,9 @@ export const geldEinklagenKlageErstellenPages = {
   forderungGesamtbetrag: {
     stepId: "klage-erstellen/forderung/gesamtbetrag",
     pageSchema: {
-      forderungGesamtbetrag: buildMoneyValidationSchema({ max: 1000000 }),
+      forderungGesamtbetrag: buildMoneyValidationSchema({
+        max: 1000000,
+      }).meta({ description: formatCurrencyZodDescription }),
     },
   },
   sachverhaltBegruendung: {
@@ -139,7 +142,9 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
-      anwaltskosten: buildOptionalMoneyValidationSchema({ min: 1 }),
+      anwaltskosten: buildOptionalMoneyValidationSchema({
+        min: 1,
+      }).meta({ description: formatCurrencyZodDescription }),
     },
   },
   prozessfuehrungProzesszinsen: {
