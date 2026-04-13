@@ -117,6 +117,7 @@ export const createStatementClaim = (
       statementClaimSect.add(
         doc.struct("H3", {}, () => {
           doc
+            .moveDown(1)
             .font(FONTS_BUNDESSANS_BOLD)
             .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
         }),
