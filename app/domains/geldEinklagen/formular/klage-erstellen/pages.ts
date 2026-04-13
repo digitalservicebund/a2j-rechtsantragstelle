@@ -144,7 +144,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       anwaltskosten: buildOptionalMoneyValidationSchema({
         min: 1,
-      }).meta({ description: "format_currency" }),
+      }).meta({ description: formatCurrencyZodDescription }),
     },
   },
   prozessfuehrungProzesszinsen: {
