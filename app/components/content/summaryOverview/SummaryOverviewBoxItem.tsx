@@ -1,4 +1,3 @@
-import isCurrency from "validator/lib/isCurrency";
 import type { UserData } from "~/domains/userData";
 import { isGeldEinklagenLongTextField } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
