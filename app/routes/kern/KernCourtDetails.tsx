@@ -26,9 +26,7 @@ const KernCourtDetails = ({
     <address className="not-italic flex flex-col gap-kern-space-default">
       <KernHeading tagName="h2" size="large" text={name} managedByParent />
       <div className="flex flex-col">
-        <span className="kern-body kern-body--bold m-0! p-0!">
-          {addressLabel}
-        </span>
+        <h3 className="kern-body kern-body--bold m-0! p-0!">{addressLabel}</h3>
         <span className="kern-body m-0! p-0! text-kern-layout-text-default">
           {street}
           <br />
@@ -37,9 +35,9 @@ const KernCourtDetails = ({
       </div>
       {website && (
         <div className="flex flex-col">
-          <span className="kern-body kern-body--bold m-0! p-0!">
+          <h3 className="kern-body kern-body--bold m-0! p-0!">
             {websiteLabel}
-          </span>
+          </h3>
           <a
             className="kern-link p-0!"
             href={normalizeURL(website)}
@@ -48,9 +46,7 @@ const KernCourtDetails = ({
       )}
       {phone && (
         <div className="flex flex-col">
-          <span className="kern-body kern-body--bold m-0! p-0!">
-            {phoneLabel}
-          </span>
+          <h3 className="kern-body kern-body--bold m-0! p-0!">{phoneLabel}</h3>
           <a className="kern-link p-0!" href={`tel:${phone}`}>
             {phone}
           </a>

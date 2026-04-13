@@ -65,7 +65,7 @@ export default function KernPageHeader({
                   href={"/leichtesprache"}
                   className="flex items-center! kern-link text-kern-static-small! no-underline!"
                 >
-                  <KernIcon name="local-library" className="flex-shrink-0" />
+                  <KernIcon name="local-library" />
                   {translations.pageHeader.leichtesprache.de}
                 </a>
 
@@ -73,7 +73,7 @@ export default function KernPageHeader({
                   href={"/gebaerdensprache"}
                   className="flex items-center! kern-link text-kern-static-small! no-underline! hyphens-auto"
                 >
-                  <KernIcon name="sign-language" className="flex-shrink-0" />
+                  <KernIcon name="sign-language" />
                   {translations.pageHeader.gebaerdensprache.de}
                 </a>
               </div>
