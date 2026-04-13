@@ -145,6 +145,11 @@ export const translations = {
       de: "um",
     },
   },
+  currency: {
+    euro: {
+      de: "Euro",
+    },
+  },
   navigation: {
     navigationItemFinished: {
       de: "Abgeschlossen",
