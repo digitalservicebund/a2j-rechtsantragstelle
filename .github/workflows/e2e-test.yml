@@ -63,6 +63,7 @@ jobs:
           E2E_BASE_URL: "${{ inputs.e2e-target == 'preview' && 'https://a2j-preview.prod.tech.digitalservice.dev/' || 'http://localhost:3000/' }}"
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
           CMS: FILE
+          REDIS_URI: "rediss://localhost:6380"
         run: pnpm run test:e2e ${{ inputs.e2e-target == 'preview' && '--project=critical' || '' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
