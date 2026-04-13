@@ -1,6 +1,12 @@
 import { render } from "@testing-library/react";
+import { z } from "zod";
 import { describe, expect, test, vi } from "vitest";
 import { type UserData } from "~/domains/userData";
+import { getPageSchema } from "~/domains/pageSchemas";
+import {
+  buildMoneyValidationSchema,
+  formatCurrencyZodDescription,
+} from "~/services/validation/money/buildMoneyValidationSchema";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import {
   getItemValueBox,
@@ -13,11 +19,18 @@ vi.mock("../getItemValueBox", () => ({
   extractFieldItemsFromInlineItems: vi.fn(),
 }));
 
+vi.mock("~/domains/pageSchemas", () => ({
+  getPageSchema: vi.fn(),
+}));
+
 const mockTranslations: Translations = {};
+const TEST_PATHNAME =
+  "/geld-einklagen/formular/klage-erstellen/prozessfuehrung/anwaltskosten";
 
 describe("SummaryOverviewBoxItem", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(getPageSchema).mockReturnValue(undefined);
   });
 
   test("renders nothing when item value is missing", () => {
@@ -33,6 +46,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -54,6 +68,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -76,6 +91,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -97,6 +113,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -120,6 +137,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -140,6 +158,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
@@ -160,40 +179,56 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "vorname" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
     const scrollableContainer = container.querySelector(".resize-y");
     expect(scrollableContainer).not.toBeInTheDocument();
   });
-  test.each([
-    { actual: "1000", expected: "1000" },
-    { actual: "1000,00", expected: "1000,00 €" },
-    { actual: "1.000,00", expected: "1.000,00 €" },
-    { actual: "1.000", expected: "1.000" },
-    { actual: "1.234.567,89", expected: "1.234.567,89 €" },
-    { actual: "0", expected: "0" },
-    { actual: "0,00", expected: "0,00 €" },
-    { actual: "-1.000,00", expected: "-1.000,00 €" },
-    { actual: "€1.000,00", expected: "€1.000,00" },
-    { actual: "1 000,00", expected: "1 000,00" },
-    { actual: "1.000,0", expected: "1.000,0" },
-  ])("renders numeric values correctly: %o", ({ actual, expected }) => {
-    const userData: UserData = { amount: actual } as unknown as UserData;
+  test("appends euro word when field schema uses money validation", () => {
+    const userData: UserData = { anwaltskosten: "1.000,00" };
 
-    vi.mocked(getItemValueBox).mockReturnValue(actual);
+    vi.mocked(getItemValueBox).mockReturnValue("1.000,00");
     vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
-      { fieldName: "amount", fieldValue: actual },
+      { fieldName: "anwaltskosten", fieldValue: "1.000,00" },
     ]);
+    vi.mocked(getPageSchema).mockReturnValue({
+      anwaltskosten: buildMoneyValidationSchema().meta({
+        description: formatCurrencyZodDescription,
+      }),
+    });
+
+    const { getByText } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "anwaltskosten" }]}
+        pathname={TEST_PATHNAME}
+      />,
+    );
+
+    expect(getByText("1.000,00 Euro")).toBeInTheDocument();
+  });
+
+  test("does not append euro word when field schema is not money validation", () => {
+    const userData: UserData = { amount: "1.000,00" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("1.000,00");
+    vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
+      { fieldName: "amount", fieldValue: "1.000,00" },
+    ]);
+    vi.mocked(getPageSchema).mockReturnValue({ amount: z.string() });
 
     const { getByText } = render(
       <SummaryOverviewBoxItem
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "amount" }]}
+        pathname={TEST_PATHNAME}
       />,
     );
 
-    expect(getByText(expected)).toBeInTheDocument();
+    expect(getByText("1.000,00")).toBeInTheDocument();
   });
 });

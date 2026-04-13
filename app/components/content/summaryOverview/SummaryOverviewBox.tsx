@@ -48,6 +48,7 @@ const SummaryOverviewBox = ({
               translations={translations}
               userData={userData}
               inlineItems={inlineItems}
+              pathname={`${flowId}${stepId}`}
             />
           ))}
         </dl>
