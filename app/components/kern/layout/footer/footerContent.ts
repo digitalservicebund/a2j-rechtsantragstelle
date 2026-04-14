@@ -1,6 +1,6 @@
 type FooterContentType = "internalLink" | "externalLink" | "deletionBanner";
 
-export type FooterContent = {
+type FooterContent = {
   key: string;
   type: FooterContentType[];
   sectionName?: string;
@@ -25,15 +25,8 @@ export const footerContent: FooterContent[] = [
         text: "Barrierefreiheit",
         url: "/barrierefreiheit",
       },
-    ],
-  },
-  {
-    key: "datenschutzerklaerungen",
-    type: ["internalLink"],
-    sectionName: "Datenschutz",
-    content: [
       {
-        text: "Datenschutzerklärung",
+        text: "Datenschutz",
         url: "/datenschutzerklaerung",
       },
     ],
@@ -50,6 +43,10 @@ export const footerContent: FooterContent[] = [
       {
         text: "Open Source Code",
         url: "/opensource",
+      },
+      {
+        text: "Feedback-Studien",
+        url: "/feedback",
       },
     ],
   },

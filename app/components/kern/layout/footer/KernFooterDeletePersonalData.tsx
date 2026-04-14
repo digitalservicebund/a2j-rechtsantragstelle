@@ -1,7 +1,7 @@
-import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { translations } from "~/services/translations/translations";
 import { footerContent } from "./footerContent";
+import { KernIcon } from "~/components/kern/common/KernIcon";
 
 export const KernFooterDeletePersonalData = () => {
   const personalDataDeleteLink = footerContent.find((section) =>
@@ -9,20 +9,15 @@ export const KernFooterDeletePersonalData = () => {
   )?.content[0];
 
   return (
-    <Grid className="bg-kern-neutral-025 pb-40 lg:pb-0">
-      <GridItem
-        mdColumn={{ start: 1, span: 8 }}
-        lgColumn={{ start: 3, span: 8 }}
-        xlColumn={{ start: 2, span: 10 }}
-        className="text-white print:hidden text-center pt-16 pb-16"
-      >
-        <div className="text-center print:hidden">
-          <a className="kern-link" href={personalDataDeleteLink?.url}>
-            {translations["delete-data"].footerLinkLabel.de ??
-              personalDataDeleteLink?.text}
-          </a>
-        </div>
-      </GridItem>
-    </Grid>
+    <GridItem
+      row={3}
+      className="bg-kern-neutral-025! mb-40 lg:mb-0 mx-0! text-white print:hidden text-center pt-16 pb-16"
+    >
+      <a className="kern-link items-center!" href={personalDataDeleteLink?.url}>
+        <KernIcon className="size-[1em]" name="arrow-forward" />
+        {translations["delete-data"].footerLinkLabel.de ??
+          personalDataDeleteLink?.text}
+      </a>
+    </GridItem>
   );
 };
