@@ -11,7 +11,7 @@ describe("addLegalRepresentation", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addLegalRepresentation(mockDoc, userDataMock);
+    addLegalRepresentation(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).not.toHaveBeenCalled();
   });
@@ -34,7 +34,7 @@ describe("addLegalRepresentation", () => {
       klagendePersonAnwaltschaftGeschaeftszeichen: "123/456/789",
     };
 
-    addLegalRepresentation(mockDoc, userDataWithAnwaltschaft);
+    addLegalRepresentation(mockDoc, mockStruct, userDataWithAnwaltschaft);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Musterkanzlei, Herr Dr. Max Mustermann",

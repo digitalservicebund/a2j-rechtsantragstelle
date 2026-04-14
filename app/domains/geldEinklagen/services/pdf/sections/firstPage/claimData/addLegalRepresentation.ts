@@ -38,6 +38,7 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
 
 export const addLegalRepresentation = (
   doc: PDFKit.PDFDocument,
+  legalRepresentationParagraph: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
 ) => {
   if (userData.anwaltschaft === "no") {
@@ -52,21 +53,46 @@ export const addLegalRepresentation = (
     userData.klagendePersonAnwaltschaftGeschaeftszeichen
       ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftGeschaeftszeichen}`
       : "";
-  const contactInfo = [
-    userData.klagendePersonAnwaltschaftTelefonnummer,
-    userData.klagendePersonAnwaltschaftEmail,
-  ]
-    .filter(Boolean)
-    .join(` ${SEPARATOR} `);
 
-  doc
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text(REPRESENTATION_LEGAL_TEXT)
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(representationName, { continued: true })
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}, Deutschland`)
-    .text(businessIdentification)
-    .text(contactInfo);
+  const klagendePersonAnwaltschaftTelefonnummer =
+    userData.klagendePersonAnwaltschaftTelefonnummer;
+  const hasEmail = Boolean(userData.klagendePersonAnwaltschaftEmail);
+
+  const legalRepresentationData = doc.struct("Span", {}, () => {
+    doc
+      .moveDown()
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text(REPRESENTATION_LEGAL_TEXT)
+      .font(FONTS_BUNDESSANS_BOLD)
+      .text(representationName, { continued: true })
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text(SEPARATOR, { continued: true })
+      .text(`${address}, ${zipCode} ${city}, Deutschland`)
+      .text(businessIdentification);
+
+    if (klagendePersonAnwaltschaftTelefonnummer) {
+      doc.text(klagendePersonAnwaltschaftTelefonnummer, {
+        continued: hasEmail,
+      });
+
+      if (hasEmail) {
+        doc.text(SEPARATOR, { continued: true });
+      }
+    }
+  });
+
+  legalRepresentationParagraph.add(legalRepresentationData);
+
+  if (hasEmail) {
+    const plaintiffEmailData = doc.struct(
+      "Link",
+      { alt: userData.klagendePersonAnwaltschaftEmail },
+      () => {
+        doc.text(userData.klagendePersonAnwaltschaftEmail ?? "", {
+          link: `mailto:${userData.klagendePersonAnwaltschaftEmail}`,
+        });
+      },
+    );
+    legalRepresentationParagraph.add(plaintiffEmailData);
+  }
 };
