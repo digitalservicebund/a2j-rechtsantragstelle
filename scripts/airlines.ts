@@ -29,8 +29,10 @@ function processAirlineRow(row: string): Airline {
       ? null
       : arbitrationBoardValueWithoutDash;
 
+  // Trim countryFullName to remove extra whitespace from the source file.
+  // Without trimming, the country code lookup fails and defaults to "DE".
   const countryCode =
-    countries.getAlpha2Code(countryFullName, ENGLISH_LOCALE) ?? "DE";
+    countries.getAlpha2Code(countryFullName.trimEnd(), ENGLISH_LOCALE) ?? "DE";
 
   return {
     name: airlineName,
