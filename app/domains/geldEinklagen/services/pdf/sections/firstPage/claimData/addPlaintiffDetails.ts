@@ -13,7 +13,7 @@ const formatAddress = (
   plz?: string,
   ort?: string,
 ): string => {
-  const addressParts = [strasseHausnummer, plz, ort].filter(Boolean);
+  const addressParts = [strasseHausnummer, `${plz} ${ort}`].filter(Boolean);
   return (
     addressParts.join(", ") +
     (addressParts.length > 0 ? ", " : "") +
