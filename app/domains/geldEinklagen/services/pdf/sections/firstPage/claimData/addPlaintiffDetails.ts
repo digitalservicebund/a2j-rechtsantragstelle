@@ -8,8 +8,22 @@ import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sect
 export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
+const formatAddress = (
+  strasseHausnummer?: string,
+  plz?: string,
+  ort?: string,
+): string => {
+  const addressParts = [strasseHausnummer, plz, ort].filter(Boolean);
+  return (
+    addressParts.join(", ") +
+    (addressParts.length > 0 ? ", " : "") +
+    "Deutschland"
+  );
+};
+
 export const addPlaintiffDetails = (
   doc: PDFKit.PDFDocument,
+  plaintiffDetailsParagraph: PDFKit.PDFStructureElement,
   {
     klagendePersonAnrede,
     klagendePersonTitle,
@@ -28,20 +42,49 @@ export const addPlaintiffDetails = (
     klagendePersonVorname,
     klagendePersonNachname,
   );
-  const address = klagendePersonStrasseHausnummer ?? "";
-  const zipCode = klagendePersonPlz ?? "";
-  const city = klagendePersonOrt ?? "";
-  const contactInfo = [klagendeTelefonnummer, klagendeEmail]
-    .filter(Boolean)
-    .join(` ${SEPARATOR} `);
 
-  doc
-    .fontSize(10)
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(plaintiffName, { continued: true })
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text(SEPARATOR, { continued: true })
-    .text(`${address}, ${zipCode} ${city}, Deutschland`)
-    .text(contactInfo)
-    .text(PLAINTIFF_TEXT, { align: "left" });
+  const address = formatAddress(
+    klagendePersonStrasseHausnummer,
+    klagendePersonPlz,
+    klagendePersonOrt,
+  );
+
+  const hasEmail = Boolean(klagendeEmail);
+
+  const plaintiffData = doc.struct("Span", {}, () => {
+    doc
+      .fontSize(10)
+      .font(FONTS_BUNDESSANS_BOLD)
+      .text(plaintiffName, { continued: true })
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text(SEPARATOR, { continued: true })
+      .text(address);
+
+    if (klagendeTelefonnummer) {
+      doc.text(klagendeTelefonnummer, { continued: hasEmail });
+
+      if (hasEmail) {
+        doc.text(SEPARATOR, { continued: true });
+      }
+    }
+  });
+
+  plaintiffDetailsParagraph.add(plaintiffData);
+
+  if (hasEmail) {
+    const plaintiffEmailData = doc.struct(
+      "Link",
+      { alt: klagendeEmail },
+      () => {
+        doc.text(klagendeEmail ?? "", { link: `mailto:${klagendeEmail}` });
+      },
+    );
+    plaintiffDetailsParagraph.add(plaintiffEmailData);
+  }
+
+  plaintiffDetailsParagraph.add(
+    doc.struct("Span", {}, () => {
+      doc.text(PLAINTIFF_TEXT, { align: "left" });
+    }),
+  );
 };

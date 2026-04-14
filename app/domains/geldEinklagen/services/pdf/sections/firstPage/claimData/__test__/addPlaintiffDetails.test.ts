@@ -17,7 +17,7 @@ describe("addPlaintiffDetails", () => {
   it("should create document with full plaintiff details", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
-    addPlaintiffDetails(mockDoc, userDataMock);
+    addPlaintiffDetails(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(10);
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
@@ -46,10 +46,11 @@ describe("addPlaintiffDetails", () => {
       klagendeEmail: undefined,
     };
 
-    addPlaintiffDetails(mockDoc, userDataWithoutEmail);
+    addPlaintiffDetails(mockDoc, mockStruct, userDataWithoutEmail);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       userDataWithoutEmail.klagendeTelefonnummer,
+      { continued: false },
     );
   });
 
@@ -61,11 +62,16 @@ describe("addPlaintiffDetails", () => {
       klagendeEmail: "test@test.com.de",
     };
 
-    addPlaintiffDetails(mockDoc, userDataWithEmail);
+    addPlaintiffDetails(mockDoc, mockStruct, userDataWithEmail);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataWithEmail.klagendeTelefonnummer} ${SEPARATOR} ${userDataWithEmail.klagendeEmail}`,
+      userDataWithEmail.klagendeTelefonnummer,
+      { continued: true },
     );
+    expect(mockDoc.text).toHaveBeenCalledWith(SEPARATOR, { continued: true });
+    expect(mockDoc.text).toHaveBeenCalledWith(userDataWithEmail.klagendeEmail, {
+      link: `mailto:${userDataWithEmail.klagendeEmail}`,
+    });
   });
 
   it("should add plaintiff email without phone number", () => {
@@ -77,8 +83,10 @@ describe("addPlaintiffDetails", () => {
       klagendeEmail: "test@test.com.de",
     };
 
-    addPlaintiffDetails(mockDoc, userDataWithEmail);
+    addPlaintiffDetails(mockDoc, mockStruct, userDataWithEmail);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(userDataWithEmail.klagendeEmail);
+    expect(mockDoc.text).toHaveBeenCalledWith(userDataWithEmail.klagendeEmail, {
+      link: `mailto:${userDataWithEmail.klagendeEmail}`,
+    });
   });
 });

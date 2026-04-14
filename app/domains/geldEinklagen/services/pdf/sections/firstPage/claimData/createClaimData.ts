@@ -50,12 +50,13 @@ export const createClaimData = (
     }),
   );
 
-  moneyCompensationClaimSection.add(
-    doc.struct("P", {}, () => {
-      addPlaintiffDetails(doc, userData);
-      doc.moveDown();
-    }),
-  );
+  const plaintiffDetailsParagraph = doc.struct("P");
+
+  addPlaintiffDetails(doc, plaintiffDetailsParagraph, userData);
+
+  moneyCompensationClaimSection.add(plaintiffDetailsParagraph);
+
+  doc.moveDown();
 
   moneyCompensationClaimSection.add(
     doc.struct("P", {}, () => {
