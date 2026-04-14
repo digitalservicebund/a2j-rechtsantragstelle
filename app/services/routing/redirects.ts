@@ -2,6 +2,7 @@ import { isKeyOfObject } from "~/util/objects";
 
 export const redirectMap = {
   "/datenschutz": "/datenschutzerklaerung",
+  "/feedback/datenschutz": "/datenschutzerklaerung",
   "/beratungshilfe/datenschutz": "/datenschutzerklaerung",
   "/prozesskostenhilfe/datenschutz": "/datenschutzerklaerung",
   "/fluggastrechte/datenschutz": "/datenschutzerklaerung",
