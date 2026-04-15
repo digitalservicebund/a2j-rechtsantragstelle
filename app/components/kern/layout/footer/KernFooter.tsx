@@ -12,6 +12,8 @@ type FooterProps = Readonly<{
   ariaLabel?: string;
 }>;
 
+export const logoAltText = "Logo des BMJVs";
+
 export default function KernFooter({
   showDeletionBanner = false,
   ariaLabel,
@@ -42,7 +44,7 @@ export default function KernFooter({
               url=""
               width={180}
               height={105}
-              alternativeText="Logo des BMJVs"
+              alternativeText={logoAltText}
             />
           </div>
           <KernFooterExternalLinks />
