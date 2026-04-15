@@ -1,6 +1,6 @@
 import type { FlowId } from "~/domains/flowIds";
 import { lastStepKey } from "~/services/flow/constants";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
 import {
   type CookieHeader,
   getSessionManager,
@@ -15,12 +15,10 @@ export const updateLastVisitedStep = async ({
   flowId: FlowId;
   stepId: string;
 }) => {
-  const sessionManager = getSessionManager(flowId);
+  const sessionManager = getSessionManager("main");
   const session = await sessionManager.getSession(cookieHeader);
   session.set(lastStepKey, { [flowId]: stepId });
   const headers = await sessionManager.commitSession(session);
 
-  const mainSession = await getSessionManager("main").getSession(cookieHeader);
-  const csrf = mainSession.get(CSRFKey);
-  return { headers, csrf };
+  return { headers, csrf: getCSRFFromSession(session) };
 };
