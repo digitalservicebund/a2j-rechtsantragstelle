@@ -8,7 +8,7 @@ const authFile = path.join(
 
 setup("Set session storage and CSRF token", async ({ page }) => {
   // Visit homepage to retrieve CSRF token and session cookies.
-  await page.goto("http://localhost:3000/");
+  await page.goto("/");
   // Wait for the session to settle
   await page.waitForLoadState("networkidle");
 
