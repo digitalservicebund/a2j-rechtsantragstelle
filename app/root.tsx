@@ -67,6 +67,7 @@ import { KernSkipToContentLink } from "./components/kern/navigation/SkipToConten
 import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
 import { createCSRFToken } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { cacheControlHeaderKey } from "~/rootHeaders";
 
 export { headers } from "./rootHeaders";
 
@@ -148,6 +149,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     pathname,
     trackingConsent,
   );
+  headers.set(cacheControlHeaderKey, String(shouldAddCacheControl));
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
     {
@@ -168,12 +170,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         staticTranslations.feedback["text-post-submission"].de,
       ),
       showKernUX,
+      csrf: mainSession.get(CSRFKey),
     },
     {
-      headers: {
-        ...headers,
-        shouldAddCacheControl: String(shouldAddCacheControl),
-      },
+      headers,
     },
   );
 };
