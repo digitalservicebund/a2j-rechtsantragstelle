@@ -4,12 +4,16 @@ import { isErfolgAnalog } from "../isErfolgAnalog";
 const EU_AIRLINE = "LH";
 const NON_EU_AIRLINE = "DL";
 const SONSTIGES_AIRLINE = "sonstiges";
+const PARTNER_COURT_AIRPORT = "MUC";
+const NON_EU_AIRPORT = "JFK";
+const NON_GERMAN_AIRPORT = "AMS";
+const NON_PARTNER_COURT_AIRPORTS = ["ERF", "DRS"];
 
 describe("isErfolgAnalog", () => {
   it("should return false given gericht as yes", () => {
     const context: FluggastrechtVorabcheckUserData = {
-      startAirport: "AMS",
-      endAirport: "DRS",
+      startAirport: NON_GERMAN_AIRPORT,
+      endAirport: NON_PARTNER_COURT_AIRPORTS[0],
       fluggesellschaft: "LH",
       gericht: "yes",
     };
@@ -23,8 +27,8 @@ describe("isErfolgAnalog", () => {
     describe("destination without partner court", () => {
       it("should return true given a departure outside EU and eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "JFK",
-          endAirport: "DRS",
+          startAirport: NON_EU_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -36,8 +40,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false given a departure outside EU and non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "JFK",
-          endAirport: "DRS",
+          startAirport: NON_EU_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -49,8 +53,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false given a departure outside EU and airline sonstiges", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "JFK",
-          endAirport: "DRS",
+          startAirport: NON_EU_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
@@ -64,8 +68,8 @@ describe("isErfolgAnalog", () => {
     describe("destination with partner court", () => {
       it("should return false given a departure outside EU and eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "JFK",
-          endAirport: "BER",
+          startAirport: NON_EU_AIRPORT,
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -81,8 +85,8 @@ describe("isErfolgAnalog", () => {
     describe("without partner court", () => {
       it("should return true given eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "DRS",
-          endAirport: "ERF",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -94,8 +98,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return true given non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "DRS",
-          endAirport: "ERF",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -107,8 +111,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return true given sonstiges airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "DRS",
-          endAirport: "ERF",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
@@ -122,8 +126,8 @@ describe("isErfolgAnalog", () => {
     describe("with partner court", () => {
       it("should return true departure airport with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "BER",
-          endAirport: "ERF",
+          startAirport: PARTNER_COURT_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
@@ -135,8 +139,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false departure airport with partner court and eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "BER",
-          endAirport: "ERF",
+          startAirport: PARTNER_COURT_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -148,8 +152,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false departure airport with partner court and non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "BER",
-          endAirport: "ERF",
+          startAirport: PARTNER_COURT_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -161,8 +165,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return true destination airport with partner court and sonstiges airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "ERF",
-          endAirport: "BER",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
@@ -174,8 +178,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false destination airport with partner court and eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "ERF",
-          endAirport: "BER",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -187,8 +191,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false destination airport with partner court and non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "ERF",
-          endAirport: "BER",
+          startAirport: NON_PARTNER_COURT_AIRPORTS[0],
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -204,8 +208,8 @@ describe("isErfolgAnalog", () => {
     describe("destination without partner court", () => {
       it("should return true given eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "ERF",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -217,8 +221,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return true given non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "ERF",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[1],
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -230,8 +234,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return true given non sonstiges airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "ERF",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: NON_PARTNER_COURT_AIRPORTS[0],
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
@@ -245,8 +249,8 @@ describe("isErfolgAnalog", () => {
     describe("destination with partner court", () => {
       it("should return false given eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "BER",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: EU_AIRLINE,
           gericht: "no",
         };
@@ -258,8 +262,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false given non eu airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "BER",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: NON_EU_AIRLINE,
           gericht: "no",
         };
@@ -271,8 +275,8 @@ describe("isErfolgAnalog", () => {
 
       it("should return false given sonstiges airline", () => {
         const context: FluggastrechtVorabcheckUserData = {
-          startAirport: "AMS",
-          endAirport: "BER",
+          startAirport: NON_GERMAN_AIRPORT,
+          endAirport: PARTNER_COURT_AIRPORT,
           fluggesellschaft: SONSTIGES_AIRLINE,
           gericht: "no",
         };
