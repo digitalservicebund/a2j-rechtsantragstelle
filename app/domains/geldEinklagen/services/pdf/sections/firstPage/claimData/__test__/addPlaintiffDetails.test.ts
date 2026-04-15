@@ -50,7 +50,10 @@ describe("addPlaintiffDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       userDataWithoutEmail.klagendeTelefonnummer,
-      { continued: false },
+      {
+        link: `tel:${userDataWithoutEmail.klagendeTelefonnummer}`,
+        continued: false,
+      },
     );
   });
 
@@ -66,7 +69,10 @@ describe("addPlaintiffDetails", () => {
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       userDataWithEmail.klagendeTelefonnummer,
-      { continued: true },
+      {
+        link: `tel:${userDataWithEmail.klagendeTelefonnummer}`,
+        continued: true,
+      },
     );
     expect(mockDoc.text).toHaveBeenCalledWith(SEPARATOR, { continued: true });
     expect(mockDoc.text).toHaveBeenCalledWith(userDataWithEmail.klagendeEmail, {

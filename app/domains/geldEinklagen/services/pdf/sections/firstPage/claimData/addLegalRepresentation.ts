@@ -36,6 +36,19 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
     .join(" ");
 };
 
+const formatAddress = (
+  strasseHausnummer?: string,
+  plz?: string,
+  ort?: string,
+): string => {
+  const addressParts = [strasseHausnummer, `${plz} ${ort}`].filter(Boolean);
+  return (
+    addressParts.join(", ") +
+    (addressParts.length > 0 ? ", " : "") +
+    "Deutschland"
+  );
+};
+
 export const addLegalRepresentation = (
   doc: PDFKit.PDFDocument,
   legalRepresentationParagraph: PDFKit.PDFStructureElement,
@@ -46,53 +59,65 @@ export const addLegalRepresentation = (
   }
 
   const representationName = getRepresentationName(userData);
-  const address = userData.klagendePersonAnwaltschaftStrasseHausnummer ?? "";
-  const zipCode = userData.klagendePersonAnwaltschaftPlz ?? "";
-  const city = userData.klagendePersonAnwaltschaftOrt ?? "";
+  const address = formatAddress(
+    userData.klagendePersonAnwaltschaftStrasseHausnummer,
+    userData.klagendePersonAnwaltschaftPlz,
+    userData.klagendePersonAnwaltschaftOrt,
+  );
   const businessIdentification =
     userData.klagendePersonAnwaltschaftGeschaeftszeichen
       ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftGeschaeftszeichen}`
       : "";
 
+  legalRepresentationParagraph.add(
+    doc.struct("Span", {}, () => {
+      doc
+        .moveDown()
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(REPRESENTATION_LEGAL_TEXT)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(representationName, { continued: true })
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(SEPARATOR, { continued: true })
+        .text(address)
+        .text(businessIdentification);
+    }),
+  );
+
   const klagendePersonAnwaltschaftTelefonnummer =
     userData.klagendePersonAnwaltschaftTelefonnummer;
   const hasEmail = Boolean(userData.klagendePersonAnwaltschaftEmail);
 
-  const legalRepresentationData = doc.struct("Span", {}, () => {
-    doc
-      .moveDown()
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text(REPRESENTATION_LEGAL_TEXT)
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(representationName, { continued: true })
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text(SEPARATOR, { continued: true })
-      .text(`${address}, ${zipCode} ${city}, Deutschland`)
-      .text(businessIdentification);
+  if (klagendePersonAnwaltschaftTelefonnummer) {
+    legalRepresentationParagraph.add(
+      doc.struct(
+        "Link",
+        { alt: klagendePersonAnwaltschaftTelefonnummer },
+        () => {
+          doc.text(klagendePersonAnwaltschaftTelefonnummer, {
+            link: `tel:${klagendePersonAnwaltschaftTelefonnummer.trim()}`,
+            continued: hasEmail,
+          });
 
-    if (klagendePersonAnwaltschaftTelefonnummer) {
-      doc.text(klagendePersonAnwaltschaftTelefonnummer, {
-        continued: hasEmail,
-      });
-
-      if (hasEmail) {
-        doc.text(SEPARATOR, { continued: true });
-      }
-    }
-  });
-
-  legalRepresentationParagraph.add(legalRepresentationData);
+          if (hasEmail) {
+            doc.text(SEPARATOR, { continued: true });
+          }
+        },
+      ),
+    );
+  }
 
   if (hasEmail) {
-    const plaintiffEmailData = doc.struct(
-      "Link",
-      { alt: userData.klagendePersonAnwaltschaftEmail },
-      () => {
-        doc.text(userData.klagendePersonAnwaltschaftEmail ?? "", {
-          link: `mailto:${userData.klagendePersonAnwaltschaftEmail}`,
-        });
-      },
+    legalRepresentationParagraph.add(
+      doc.struct(
+        "Link",
+        { alt: userData.klagendePersonAnwaltschaftEmail },
+        () => {
+          doc.text(userData.klagendePersonAnwaltschaftEmail ?? "", {
+            link: `mailto:${userData.klagendePersonAnwaltschaftEmail}`,
+          });
+        },
+      ),
     );
-    legalRepresentationParagraph.add(plaintiffEmailData);
   }
 };

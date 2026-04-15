@@ -48,4 +48,73 @@ describe("addLegalRepresentation", () => {
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Geschäftszeichen: 123/456/789");
   });
+
+  it("should add legal representation phone number without email", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithoutEmail = {
+      ...userDataMock,
+      anwaltschaft: "yes" as const,
+      klagendePersonAnwaltschaftEmail: undefined,
+      klagendePersonAnwaltschaftTelefonnummer: "0123456789",
+    };
+
+    addLegalRepresentation(mockDoc, mockStruct, userDataWithoutEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataWithoutEmail.klagendePersonAnwaltschaftTelefonnummer,
+      {
+        link: `tel:${userDataWithoutEmail.klagendePersonAnwaltschaftTelefonnummer}`,
+        continued: false,
+      },
+    );
+  });
+
+  it("should add legal representation phone number and email when both are provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithEmail = {
+      ...userDataMock,
+      anwaltschaft: "yes" as const,
+      klagendePersonAnwaltschaftEmail: "test@test.com.de",
+      klagendePersonAnwaltschaftTelefonnummer: "0123456789",
+    };
+
+    addLegalRepresentation(mockDoc, mockStruct, userDataWithEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataWithEmail.klagendePersonAnwaltschaftTelefonnummer,
+      {
+        link: `tel:${userDataWithEmail.klagendePersonAnwaltschaftTelefonnummer}`,
+        continued: true,
+      },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith(" | ", { continued: true });
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataWithEmail.klagendePersonAnwaltschaftEmail,
+      {
+        link: `mailto:${userDataWithEmail.klagendePersonAnwaltschaftEmail}`,
+      },
+    );
+  });
+
+  it("should add legal representation email without phone number", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    const userDataWithEmail = {
+      ...userDataMock,
+      anwaltschaft: "yes" as const,
+      klagendePersonAnwaltschaftEmail: "test@test.com.de",
+      klagendePersonAnwaltschaftTelefonnummer: undefined,
+    };
+
+    addLegalRepresentation(mockDoc, mockStruct, userDataWithEmail);
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      userDataWithEmail.klagendePersonAnwaltschaftEmail,
+      {
+        link: `mailto:${userDataWithEmail.klagendePersonAnwaltschaftEmail}`,
+      },
+    );
+  });
 });

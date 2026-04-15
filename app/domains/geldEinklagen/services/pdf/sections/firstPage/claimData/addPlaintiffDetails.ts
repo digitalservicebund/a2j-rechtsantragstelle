@@ -51,35 +51,39 @@ export const addPlaintiffDetails = (
 
   const hasEmail = Boolean(klagendeEmail);
 
-  const plaintiffData = doc.struct("Span", {}, () => {
-    doc
-      .fontSize(10)
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(plaintiffName, { continued: true })
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text(SEPARATOR, { continued: true })
-      .text(address);
+  plaintiffDetailsParagraph.add(
+    doc.struct("Span", {}, () => {
+      doc
+        .fontSize(10)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(plaintiffName, { continued: true })
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(SEPARATOR, { continued: true })
+        .text(address);
+    }),
+  );
 
-    if (klagendeTelefonnummer) {
-      doc.text(klagendeTelefonnummer, { continued: hasEmail });
+  if (klagendeTelefonnummer) {
+    plaintiffDetailsParagraph.add(
+      doc.struct("Link", { alt: klagendeTelefonnummer }, () => {
+        doc.text(klagendeTelefonnummer, {
+          link: `tel:${klagendeTelefonnummer.trim()}`,
+          continued: hasEmail,
+        });
 
-      if (hasEmail) {
-        doc.text(SEPARATOR, { continued: true });
-      }
-    }
-  });
-
-  plaintiffDetailsParagraph.add(plaintiffData);
+        if (hasEmail) {
+          doc.text(SEPARATOR, { continued: true });
+        }
+      }),
+    );
+  }
 
   if (hasEmail) {
-    const plaintiffEmailData = doc.struct(
-      "Link",
-      { alt: klagendeEmail },
-      () => {
+    plaintiffDetailsParagraph.add(
+      doc.struct("Link", { alt: klagendeEmail }, () => {
         doc.text(klagendeEmail ?? "", { link: `mailto:${klagendeEmail}` });
-      },
+      }),
     );
-    plaintiffDetailsParagraph.add(plaintiffEmailData);
   }
 
   plaintiffDetailsParagraph.add(
