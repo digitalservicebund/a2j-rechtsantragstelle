@@ -94,7 +94,7 @@ export default async function unusedStrapiEntry() {
 
     console.log(
       `Found ${unusedUrls.length} unused strapi entries with following stepIds: `,
-      unusedUrls.sort(),
+      unusedUrls.toSorted(),
     );
   }
 }

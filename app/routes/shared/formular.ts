@@ -194,9 +194,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }).stepStates(),
   );
 
-  const pageData = { pageData: { subflowDoneStates } };
-  const userDataToSave = merge({}, updatedUserData, pageData);
-  updateSession(flowSession, userDataToSave);
+  const userDataToSave = {
+    ...updatedUserData,
+    pageData: { ...updatedUserData.pageData, subflowDoneStates },
+  };
+  updateSession(flowSession, userDataToSave, (_, newData, key) =>
+    key === "pageData" ? newData : undefined,
+  );
   const { prunedData } = pruneIrrelevantData(userDataToSave, flowId);
 
   await postValidationFlowAction(request, prunedData, flowSession);

@@ -65,6 +65,7 @@ const KernTile = ({
             tileDescription={description}
             tileTitle={title}
             image={image}
+            errorId={errorId}
             ref={index === 0 && field.error() ? field.refs.controlled() : null}
           />
         ))}
@@ -76,9 +77,7 @@ const KernTile = ({
               name="emergency-home"
               className="fill-kern-feedback-danger!"
             />
-            <span className="text-kern-feedback-danger" id={errorId}>
-              {errorToDisplay}
-            </span>
+            <span className="text-kern-feedback-danger">{errorToDisplay}</span>
           </p>
         )}
       </div>

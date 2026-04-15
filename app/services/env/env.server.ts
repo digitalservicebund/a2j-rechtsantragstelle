@@ -36,14 +36,6 @@ export function config(): Config {
   const STRAPI_API =
     readSecretOrEnvVar("/etc/strapi-api-secret/password", "STRAPI_API") ?? "";
 
-  // Temporary until after cloud migration
-  const REDIS_ENDPOINT = process.env.REDIS_ENDPOINT ?? "localhost:6380";
-  const REDIS_PASSWORD = readSecretOrEnvVar(
-    "/etc/redis-password-secret/password",
-    "REDIS_PASSWORD",
-  );
-  const fallbackRedisURI = `rediss://default:${REDIS_PASSWORD}@${REDIS_ENDPOINT}`;
-
   return {
     STRAPI_API,
     STRAPI_HOST: STRAPI_API.replace("/api/", ""),
@@ -67,8 +59,7 @@ export function config(): Config {
         "GERICHTSFINDER_ENCRYPTION_KEY_OLD",
       ) ?? "",
     REDIS_URI:
-      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ??
-      fallbackRedisURI,
+      readSecretOrEnvVar("/etc/redis-credentials/uri", "REDIS_URI") ?? "",
     COOKIE_SESSION_SECRET:
       readSecretOrEnvVar(
         "/etc/cookie-session-secret/password",
@@ -97,11 +88,11 @@ export function config(): Config {
     S3_REGION: process.env.S3_REGION,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
     S3_DATA_STORAGE_ACCESS_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-access-key/password",
+      "/etc/s3-storage-credentials-secrets/access_key",
       "S3_DATA_STORAGE_ACCESS_KEY",
     ),
     S3_DATA_STORAGE_SECRET_KEY: readSecretOrEnvVar(
-      "/etc/s3-storage-credentials-secret-key/password",
+      "/etc/s3-storage-credentials-secrets/secret_access_key",
       "S3_DATA_STORAGE_SECRET_KEY",
     ),
     S3_DATA_STORAGE_BUCKET_NAME:

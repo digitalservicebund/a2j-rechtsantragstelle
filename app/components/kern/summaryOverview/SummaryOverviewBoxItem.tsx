@@ -1,26 +1,20 @@
 import type { UserData } from "~/domains/userData";
-import { isGeldEinklagenLongTextField } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
+import { translations as staticTranslations } from "~/services/translations/translations";
 import {
   extractFieldItemsFromInlineItems,
   getItemValueBox,
 } from "./getItemValueBox";
+import { hasMoneyValidationSchema, hasNonEmptyLongTextField } from "./helper";
 
 type Props = SummaryOverviewBoxItemType & {
   readonly userData: UserData;
   readonly translations: Translations;
+  readonly pathname: string;
 };
 
 const SCROLLABLE_BOX_ROWS = 10;
-
-const hasNonEmptyLongTextField = (fieldItems: FieldItems) =>
-  fieldItems.some(
-    ({ fieldName, fieldValue }) =>
-      isGeldEinklagenLongTextField(fieldName) &&
-      typeof fieldValue === "string" &&
-      fieldValue.trim().length > 0,
-  );
 
 const SummaryValueOverflowContainer = ({
   children,
@@ -52,13 +46,19 @@ const SummaryOverviewBoxItem = ({
   translations,
   title,
   inlineItems,
+  pathname,
 }: Props) => {
-  const itemValue = getItemValueBox(translations, userData, inlineItems);
-  if (itemValue.trim() === "") return null;
+  const rawItemValue = getItemValueBox(translations, userData, inlineItems);
+  if (rawItemValue.trim() === "") return null;
 
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
+  const shouldAppendEuroWord = hasMoneyValidationSchema(pathname, fieldItems);
+  const itemValue = shouldAppendEuroWord
+    ? `${rawItemValue} ${staticTranslations.currency.euro.de}`
+    : rawItemValue;
+
   return (
-    <dl className="flex flex-col items-start">
+    <>
       {title && (
         <dt
           data-testid="summary-box-item-title"
@@ -76,7 +76,7 @@ const SummaryOverviewBoxItem = ({
           {itemValue}
         </SummaryValueOverflowContainer>
       </dd>
-    </dl>
+    </>
   );
 };
 
