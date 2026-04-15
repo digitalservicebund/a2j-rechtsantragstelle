@@ -16,8 +16,6 @@ import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import Container from "~/components/layout/Container";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
-import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -34,7 +32,7 @@ export const courtFinderSchema = z.object({
   houseNumber: germanHouseNumberSchema,
 });
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");
@@ -43,19 +41,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  const { session } = await createSessionWithCsrf(
-    request.headers.get("Cookie"),
-  );
-
-  const sessionManager = getSessionManager("main");
-
-  return data(
-    {
-      userData: { plz: zipCode },
-      meta: { title: "Amtsgericht finden" },
-    },
-    { headers: await sessionManager.commitSession(session) },
-  );
+  return data({
+    userData: { plz: zipCode },
+    meta: { title: "Amtsgericht finden" },
+  });
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {

@@ -65,9 +65,9 @@ import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
 import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
 import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
-import { createCSRFToken } from "~/services/security/csrf/createSessionWithCsrf.server";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { cacheControlHeaderKey } from "~/rootHeaders";
+import { randomBytes } from "node:crypto";
 
 export { headers } from "./rootHeaders";
 
@@ -141,7 +141,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
   if (!getCSRFFromSession(mainSession)) {
-    mainSession.set(CSRFKey, createCSRFToken());
+    mainSession.set(CSRFKey, randomBytes(24).toString("base64"));
   }
   const headers = await getSessionManager("main").commitSession(mainSession);
 
