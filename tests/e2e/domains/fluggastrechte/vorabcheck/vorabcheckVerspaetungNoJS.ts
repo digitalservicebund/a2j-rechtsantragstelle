@@ -33,7 +33,7 @@ export async function startFluggastrechteVorabcheckVerspaetungNoJS(
 
   // fluggastrechte/vorabcheck/flughaefen
   await vorabcheck.fillMultipleInputPageNonJavascript([
-    { field: "startAirport", value: "BER" },
+    { field: "startAirport", value: "MUC" },
     { field: "endAirport", value: "FRA" },
   ]);
 

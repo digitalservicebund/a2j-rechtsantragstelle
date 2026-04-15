@@ -11,7 +11,7 @@ export const testCasesFluggastrechteNichtBefoerderungErfolg = [
       vertretbareGruende: "no",
       verjaehrung: "yes",
       startAirport: "FRA",
-      endAirport: "BER",
+      endAirport: "MUC",
       fluggesellschaft: "LH",
       kostenlos: "no",
       rabatt: "no",

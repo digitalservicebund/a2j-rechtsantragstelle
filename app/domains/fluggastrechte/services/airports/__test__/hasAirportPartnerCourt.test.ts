@@ -20,7 +20,7 @@ describe("hasAirportPartnerCourt", () => {
   });
 
   it("should return true given an airport with partner court", () => {
-    const actual = hasAirportPartnerCourt("BER");
+    const actual = hasAirportPartnerCourt("MUC");
 
     expect(actual).toBe(true);
   });

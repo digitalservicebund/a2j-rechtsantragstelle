@@ -9,6 +9,8 @@ const baseContext: FluggastrechtVorabcheckUserData = {
   verspaetung: "yes",
   gruende: "yes",
   verjaehrung: "yes",
+  startAirport: "FRA",
+  endAirport: "MUC",
   checkin: "yes",
   kostenlos: "no",
   rabatt: "no",
@@ -42,7 +44,6 @@ export const testCasesFluggastrechteErfolg = [
     {
       ...baseContext,
       startAirport: "JFK",
-      endAirport: "MUC",
       fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
@@ -50,7 +51,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
       endAirport: "JFK",
       fluggesellschaft: EU_AIRLINE,
     },
@@ -59,7 +59,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
       endAirport: "AMS",
       fluggesellschaft: EU_AIRLINE,
     },
@@ -68,7 +67,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
       endAirport: "JFK",
       fluggesellschaft: NON_EU_AIRLINE,
     },
@@ -77,7 +75,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
       endAirport: "AMS",
       fluggesellschaft: NON_EU_AIRLINE,
     },
@@ -86,8 +83,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
-      endAirport: "MUC",
       fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
@@ -95,8 +90,6 @@ export const testCasesFluggastrechteErfolg = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
-      endAirport: "MUC",
       fluggesellschaft: NON_EU_AIRLINE,
     },
     validSteps,
@@ -105,7 +98,6 @@ export const testCasesFluggastrechteErfolg = [
     {
       ...baseContext,
       startAirport: "AMS",
-      endAirport: "MUC",
       fluggesellschaft: EU_AIRLINE,
     },
     validSteps,
@@ -114,7 +106,6 @@ export const testCasesFluggastrechteErfolg = [
     {
       ...baseContext,
       startAirport: "AMS",
-      endAirport: "MUC",
       fluggesellschaft: NON_EU_AIRLINE,
     },
     validSteps,

@@ -17,12 +17,14 @@ const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
 
 const pilotCourt = {
   BRE: "28199",
-  BER: "12529",
-  DUS: "40474",
+  //BER: "12529", enable it later
+  //DUS: "40474", enable it later
   FRA: "60549",
   HAM: "22335",
-  MUC: "85356",
-  STR: "70629",
+  LEJ: "04838",
+  MUC: "85435",
+  NUE: "90402",
+  //STR: "70629", enable it later
 };
 
 function removeDoubleQuotes(value: unknown): string {
