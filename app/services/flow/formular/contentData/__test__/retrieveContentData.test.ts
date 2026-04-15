@@ -110,7 +110,7 @@ describe("retrieveContentData", () => {
     expect(buildCmsContentAndTranslations).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
         replacements: expect.objectContaining({
-          startAirport: "Frankfurt Flughafen (FRA)",
+          startAirport: "Frankfurt Main Flughafen (FRA)",
         }),
       }),
     );

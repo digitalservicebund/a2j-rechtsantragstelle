@@ -5,7 +5,7 @@ import { getCourtByStartAndEndAirport } from "../getCourtByStartAndEndAirport";
 
 vi.mock("~/services/gerichtsfinder/amtsgerichtData.server");
 
-const startAirportMock = "BER";
+const startAirportMock = "MUC";
 const endAirportMock = "FRA";
 
 const pilotCourtStartAirportAmtsgericht: Jmtd14VTErwerberGerbeh = {
