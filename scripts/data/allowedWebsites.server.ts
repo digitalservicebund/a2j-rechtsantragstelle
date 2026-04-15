@@ -70,4 +70,5 @@ export const allowedWebsites = [
   "https://surveys.digitalservice.dev",
   "https://www.bea-brak.de/bea",
   "https://mjpserviceportal.de/",
+  "https://dias.de",
 ];
