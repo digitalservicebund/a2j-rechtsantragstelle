@@ -22,8 +22,8 @@ export function getDataListOptions(
       }));
     }
     case "airports": {
-      return [...airports]
-        .sort((a, b) => a.city.localeCompare(b.city))
+      return airports
+        .toSorted((a, b) => a.city.localeCompare(b.city))
         .map((airport) => ({
           value: airport.iata,
           label: airport.airport.includes(airport.city)

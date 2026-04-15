@@ -2340,6 +2340,36 @@
     "country": "Türkei"
   },
   {
+    "name": "IndiGo",
+    "iata": "6E",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Indien"
+  },
+  {
+    "name": "Nile Air",
+    "iata": "NP",
+    "isInEU": false,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Ägypten"
+  },
+  {
+    "name": "Luxair",
+    "iata": "LG",
+    "isInEU": true,
+    "arbitrationBoard": "BfJ",
+    "streetAndNumber": "",
+    "postalCode": "",
+    "city": "",
+    "country": "Luxemburg"
+  },
+  {
     "name": "Sonstiges",
     "iata": "sonstiges",
     "isInEU": true,

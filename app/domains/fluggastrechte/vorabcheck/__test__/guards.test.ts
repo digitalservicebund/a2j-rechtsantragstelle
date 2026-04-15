@@ -10,12 +10,20 @@ const mockedCalculateDistanceBetweenAirportsInKilometers = vi.mocked(
   calculateDistanceBetweenAirportsInKilometers,
 );
 
+const EU_AIRLINE = "LH";
+const NON_EU_AIRLINE = "DL";
+const SONSTIGES_AIRLINE = "sonstiges";
+const PARTNER_COURT_AIRPORT = "MUC";
+const NON_EU_AIRPORT = "JFK";
+const NON_GERMAN_AIRPORTS = ["AMS", "CDG"];
+const NON_PARTNER_COURT_AIRPORT = "DRS";
+
 describe("fluggastrechteGuard", () => {
   describe("areAirportsOutsideEU", () => {
     it("if the departure airport is in EU country, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
-        endAirport: "GRU",
+        startAirport: PARTNER_COURT_AIRPORT,
+        endAirport: NON_EU_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -25,8 +33,8 @@ describe("fluggastrechteGuard", () => {
 
     it("if the destination airport is in EU country, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "GRU",
-        endAirport: "BER",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: PARTNER_COURT_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -36,8 +44,8 @@ describe("fluggastrechteGuard", () => {
 
     it("if the both airports are outside EU, it should return true", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "GRU",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_EU_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -48,7 +56,7 @@ describe("fluggastrechteGuard", () => {
     it("if the departure airport does not exist, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: "BLABLA",
-        endAirport: "BER",
+        endAirport: PARTNER_COURT_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -58,7 +66,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the destination airport does not exist, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: PARTNER_COURT_AIRPORT,
         endAirport: "BLABLA",
       };
 
@@ -69,7 +77,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the departure airport is undefined, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        endAirport: "BER",
+        endAirport: PARTNER_COURT_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -79,7 +87,7 @@ describe("fluggastrechteGuard", () => {
 
     it("if the destination airport is undefined, it should return true", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: PARTNER_COURT_AIRPORT,
       };
 
       const actual = guards.areAirportsOutsideEU({ context });
@@ -95,7 +103,7 @@ describe("fluggastrechteGuard", () => {
 
     it("in case is not possible to calculate the airports, it should return true", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: PARTNER_COURT_AIRPORT,
       };
 
       mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
@@ -109,7 +117,7 @@ describe("fluggastrechteGuard", () => {
 
     it("in case is possible to calculate the airports, it should return false", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
+        startAirport: PARTNER_COURT_AIRPORT,
       };
 
       mockedCalculateDistanceBetweenAirportsInKilometers.mockReturnValue(
@@ -125,9 +133,9 @@ describe("fluggastrechteGuard", () => {
   describe("isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
-        endAirport: "CDG",
-        fluggesellschaft: "sonstiges",
+        startAirport: PARTNER_COURT_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual =
@@ -140,9 +148,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "BER",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual =
@@ -155,9 +163,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a departure EU airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "JFK",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_EU_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual =
@@ -170,9 +178,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a non departure EU airport, destination EU airport and EU airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "CDG",
-        fluggesellschaft: "LH",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual =
@@ -185,9 +193,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given a non departure EU airport, destination EU airport and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "CDG",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual =
@@ -202,9 +210,9 @@ describe("fluggastrechteGuard", () => {
   describe("isNonGermanAirportsAndIsNotClaimableInEU", () => {
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
-        endAirport: "CDG",
-        fluggesellschaft: "LH",
+        startAirport: PARTNER_COURT_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
@@ -216,9 +224,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "BER",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
@@ -230,9 +238,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a departure EU airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "JFK",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_EU_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
@@ -244,9 +252,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a non departure EU airport, destination EU airport and EU airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "CDG",
-        fluggesellschaft: "LH",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
@@ -258,9 +266,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given a non departure EU airport, destination EU airport and non EU airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "CDG",
-        fluggesellschaft: "DL",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: NON_EU_AIRLINE,
       };
 
       const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
@@ -274,9 +282,9 @@ describe("fluggastrechteGuard", () => {
   describe("isErfolgEU", () => {
     it("should return false given gericht as yes", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "AMS",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_GERMAN_AIRPORTS[0],
+        fluggesellschaft: EU_AIRLINE,
         gericht: "yes",
       };
 
@@ -289,9 +297,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a german departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "BER",
-        endAirport: "AMS",
-        fluggesellschaft: "LH",
+        startAirport: PARTNER_COURT_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[0],
+        fluggesellschaft: EU_AIRLINE,
         gericht: "no",
       };
 
@@ -304,9 +312,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a german destination airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "BER",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
         gericht: "no",
       };
 
@@ -319,9 +327,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given an EU airports ", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "CDG",
-        endAirport: "AMS",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_GERMAN_AIRPORTS[0],
+        fluggesellschaft: EU_AIRLINE,
         gericht: "no",
       };
 
@@ -334,9 +342,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given an EU destination airport, non EU departure airport and airline ", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "AMS",
-        fluggesellschaft: "DL",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[0],
+        fluggesellschaft: NON_EU_AIRLINE,
         gericht: "no",
       };
 
@@ -349,9 +357,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given an EU destination airport and airline, non EU departure airport ", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "AMS",
-        fluggesellschaft: "LH",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_GERMAN_AIRPORTS[0],
+        fluggesellschaft: EU_AIRLINE,
         gericht: "no",
       };
 
@@ -364,9 +372,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given non EU departure and destination airports", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
+        startAirport: NON_EU_AIRPORT,
         endAirport: "GRU",
-        fluggesellschaft: "LH",
+        fluggesellschaft: EU_AIRLINE,
         gericht: "no",
       };
 
@@ -381,9 +389,9 @@ describe("fluggastrechteGuard", () => {
   describe("isGermanEndAirportsAndIsNotClaimable", () => {
     it("should return false given a departure german airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "DRS",
-        endAirport: "BER",
-        fluggesellschaft: "DL",
+        startAirport: NON_PARTNER_COURT_AIRPORT,
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: NON_EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -395,9 +403,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, non eu departure and eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "BER",
-        fluggesellschaft: "LH",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -409,9 +417,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, non eu departure and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "BER",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -423,9 +431,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, eu airline and non eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "DRS",
-        fluggesellschaft: "DL",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: NON_EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -437,9 +445,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, eu departure and eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "DRS",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -451,9 +459,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, eu departure and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "DRS",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -465,9 +473,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given a destination german airport, non eu departure and non eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "DRS",
-        fluggesellschaft: "DL",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: NON_EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndIsNotClaimable({
@@ -481,9 +489,9 @@ describe("fluggastrechteGuard", () => {
   describe("isGermanEndAirportsAndOtherAirline", () => {
     it("should return false given both non german airports", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "CDG",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_GERMAN_AIRPORTS[0],
+        endAirport: NON_GERMAN_AIRPORTS[1],
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
@@ -495,9 +503,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a departure german airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "DRS",
-        endAirport: "DRS",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_PARTNER_COURT_AIRPORT,
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
@@ -509,9 +517,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given an eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "DRS",
-        fluggesellschaft: "LH",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
@@ -523,9 +531,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, an eu departure airport and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "AMS",
-        endAirport: "DRS",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_GERMAN_AIRPORTS[1],
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
@@ -537,9 +545,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return false given a destination german airport, a non eu departure airport and an eu airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "DRS",
-        fluggesellschaft: "LH",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: EU_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
@@ -551,9 +559,9 @@ describe("fluggastrechteGuard", () => {
 
     it("should return true given a destination german airport, a non eu departure airport and sonstiges airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
-        startAirport: "JFK",
-        endAirport: "DRS",
-        fluggesellschaft: "sonstiges",
+        startAirport: NON_EU_AIRPORT,
+        endAirport: NON_PARTNER_COURT_AIRPORT,
+        fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
       const actual = guards.isGermanEndAirportsAndOtherAirline({
