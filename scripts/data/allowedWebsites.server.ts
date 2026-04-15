@@ -71,4 +71,6 @@ export const allowedWebsites = [
   "https://www.bea-brak.de/bea",
   "https://mjpserviceportal.de/",
   "https://dias.de",
+  "https://bitvtest.de",
+  "https://www.kern-ux.de",
 ];
