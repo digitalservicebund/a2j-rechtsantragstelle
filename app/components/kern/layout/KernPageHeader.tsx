@@ -60,7 +60,7 @@ export default function KernPageHeader({
               {title}
             </a>
             {!hideLinks && (
-              <div className="flex flex-col md:flex-row gap-kern-space-default md:gap-kern-space-x-large">
+              <div className="flex  md:flex-row gap-kern-space-default md:gap-kern-space-x-large">
                 <a
                   href={"/leichtesprache"}
                   className="flex items-center! kern-link text-kern-static-small! no-underline!"
