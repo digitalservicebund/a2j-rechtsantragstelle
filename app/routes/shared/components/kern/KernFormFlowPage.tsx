@@ -106,7 +106,6 @@ export function KernFormFlowPage() {
               <div className="flex flex-col gap-kern-space-x-large">
                 <ContentComponents
                   content={cmsContent.content}
-                  showKernUX
                   managedByParent
                 />
                 <KernMissingDataList
@@ -156,7 +155,6 @@ export function KernFormFlowPage() {
                 <ContentComponents
                   content={cmsContent.postFormContent}
                   managedByParent
-                  showKernUX
                 />
               </div>
             </div>
