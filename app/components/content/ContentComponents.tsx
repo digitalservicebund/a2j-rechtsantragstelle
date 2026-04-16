@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { SECTION_BACKGROUND_COLORS } from "~/components";
+import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
 import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
@@ -29,10 +29,10 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
-  if ("sectionBackgroundColor" in el) {
+function getContentBackgroundColor(el: StrapiContentComponent): string {
+  if ("contentBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
-      el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
+      el.contentBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
     ];
   }
   return "";
@@ -154,7 +154,6 @@ function ContentComponents({
         <GridSection
           pt={getPaddingTop(el)}
           pb={getPaddingBottom(el)}
-          className={getContainerBackgroundColor(el)}
           key={`${el.__component}_${el.id}`}
         >
           <Grid
@@ -162,7 +161,10 @@ function ContentComponents({
               mdColumn: { start: 1, span: 8 },
               lgColumn: { start: 2, span: 10 },
               xlColumn: { start: 2, span: 10 },
-              className: classNames("rounded-lg"),
+              className: classNames(
+                getContentBackgroundColor(el),
+                "rounded-lg",
+              ),
             }}
           >
             {cmsToReact(el)}
