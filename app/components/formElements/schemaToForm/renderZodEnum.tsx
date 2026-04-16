@@ -1,9 +1,5 @@
 import get from "lodash/get";
 import type { z } from "zod";
-import Checkbox from "~/components/formElements/Checkbox";
-import RadioGroup from "~/components/formElements/RadioGroup";
-import Select from "~/components/formElements/Select";
-import TileGroup from "~/components/formElements/tile/TileGroup";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
@@ -20,7 +16,6 @@ export function renderZodEnum(
   schema: ZodEnum,
   fieldName: string,
   matchingElement?: StrapiFormComponent,
-  showKernUX?: boolean,
 ) {
   const label = get(matchingElement, "label");
   const errorMessages = get(matchingElement, "errorMessages");
@@ -33,16 +28,8 @@ export function renderZodEnum(
   let options = sortedOptions.map((value) => ({ value, text: value }));
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
-      return showKernUX ? (
+      return (
         <KernCheckbox
-          key={fieldName}
-          name={fieldName}
-          label={label}
-          required={matchingElement.required}
-          errorMessage={matchingElement.errorMessage}
-        />
-      ) : (
-        <Checkbox
           key={fieldName}
           name={fieldName}
           label={label}
@@ -55,22 +42,8 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      return showKernUX ? (
+      return (
         <KernTile
-          key={fieldName}
-          name={fieldName}
-          useTwoColumns={matchingElement.useTwoColumns}
-          label={label}
-          errorMessages={errorMessages}
-          options={options.map(({ value }) => ({
-            value,
-            description: cmsObject[value]?.description,
-            image: cmsObject[value]?.image,
-            title: cmsObject[value]?.title ?? value,
-          }))}
-        />
-      ) : (
-        <TileGroup
           key={fieldName}
           name={fieldName}
           useTwoColumns={matchingElement.useTwoColumns}
@@ -94,7 +67,7 @@ export function renderZodEnum(
         value,
         text: cmsObject[value]?.text ?? text,
       }));
-      return showKernUX ? (
+      return (
         <KernSelect
           name={fieldName}
           key={fieldName}
@@ -103,17 +76,6 @@ export function renderZodEnum(
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
           placeholder={get(matchingElement, "placeholder")}
-        />
-      ) : (
-        <Select
-          name={fieldName}
-          key={fieldName}
-          label={label}
-          options={options}
-          placeholder={get(matchingElement, "placeholder")}
-          altLabel={get(matchingElement, "altLabel")}
-          errorMessages={errorMessages}
-          width={get(matchingElement, "width")}
         />
       );
     }
@@ -128,17 +90,8 @@ export function renderZodEnum(
           text: cmsObject[value]?.text ?? text,
         }));
       }
-      return showKernUX ? (
+      return (
         <KernRadioGroup
-          key={fieldName}
-          name={fieldName}
-          label={label}
-          altLabel={get(matchingElement, "altLabel")}
-          errorMessages={errorMessages}
-          options={options}
-        />
-      ) : (
-        <RadioGroup
           key={fieldName}
           name={fieldName}
           label={label}
@@ -148,17 +101,8 @@ export function renderZodEnum(
         />
       );
     default:
-      return showKernUX ? (
+      return (
         <KernRadioGroup
-          key={fieldName}
-          name={fieldName}
-          label={label}
-          altLabel={get(matchingElement, "altLabel")}
-          errorMessages={errorMessages}
-          options={options}
-        />
-      ) : (
-        <RadioGroup
           key={fieldName}
           name={fieldName}
           label={label}

@@ -20,10 +20,10 @@ export function getStrapiTextareaComponent(
       await waitFor(() => {
         expect(screen.getByText(errorCode.text)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(`textarea`)).toHaveClass(
-          "has-error",
+          "kern-form-input__input--error",
         );
         expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
       });
     },
   };
