@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { SECTION_BACKGROUND_COLORS } from "~/components";
+import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
 import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
@@ -29,10 +29,35 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
+function getGridBackgroundColor(el: StrapiContentComponent): string {
+  const hasLayout = hasLayoutProperties(el);
+  if (hasLayout && el.container?.backgroundColor) {
+    return BACKGROUND_COLORS[
+      el.container.backgroundColor as keyof typeof BACKGROUND_COLORS
+    ];
+  }
+  return "";
+}
+
+function getContainerBackgroundColor(el: StrapiContentComponent): string {
+  const hasLayout = hasLayoutProperties(el);
+  if (hasLayout && el.outerBackground?.backgroundColor) {
+    return BACKGROUND_COLORS[
+      el.outerBackground.backgroundColor as keyof typeof BACKGROUND_COLORS
+    ];
+  }
+  return "";
+}
+
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
       el.contentBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
+    ];
+  }
+  if ("sectionBackgroundColor" in el) {
+    return SECTION_BACKGROUND_COLORS[
+      el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
     ];
   }
   return "";
@@ -155,6 +180,7 @@ function ContentComponents({
           pt={getPaddingTop(el)}
           pb={getPaddingBottom(el)}
           key={`${el.__component}_${el.id}`}
+          className={getContainerBackgroundColor(el)}
         >
           <Grid
             background={{
@@ -163,6 +189,7 @@ function ContentComponents({
               xlColumn: { start: 2, span: 10 },
               className: classNames(
                 getContentBackgroundColor(el),
+                getGridBackgroundColor(el),
                 "rounded-lg",
               ),
             }}
