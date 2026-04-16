@@ -4,6 +4,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import capitalize from "lodash/capitalize";
+import { formatAddress } from "./addPlaintiffDetails";
 
 const SEPARATOR = " | ";
 const REPRESENTATION_LEGAL_TEXT = "Prozessbevollmächtigte";
@@ -34,19 +35,6 @@ const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
   ]
     .filter(Boolean)
     .join(" ");
-};
-
-const formatAddress = (
-  strasseHausnummer?: string,
-  plz?: string,
-  ort?: string,
-): string => {
-  const addressParts = [strasseHausnummer, `${plz} ${ort}`].filter(Boolean);
-  return (
-    addressParts.join(", ") +
-    (addressParts.length > 0 ? ", " : "") +
-    "Deutschland"
-  );
 };
 
 export const addLegalRepresentation = (
@@ -90,20 +78,16 @@ export const addLegalRepresentation = (
 
   if (klagendePersonAnwaltschaftTelefonnummer) {
     legalRepresentationParagraph.add(
-      doc.struct(
-        "Link",
-        { alt: klagendePersonAnwaltschaftTelefonnummer },
-        () => {
-          doc.text(klagendePersonAnwaltschaftTelefonnummer, {
-            link: `tel:${klagendePersonAnwaltschaftTelefonnummer.trim()}`,
-            continued: hasEmail,
-          });
+      doc.struct("Link", {}, () => {
+        doc.text(klagendePersonAnwaltschaftTelefonnummer, {
+          link: `tel:${klagendePersonAnwaltschaftTelefonnummer.trim()}`,
+          continued: hasEmail,
+        });
 
-          if (hasEmail) {
-            doc.text(SEPARATOR, { continued: true });
-          }
-        },
-      ),
+        if (hasEmail) {
+          doc.text(SEPARATOR, { continued: true });
+        }
+      }),
     );
   }
 

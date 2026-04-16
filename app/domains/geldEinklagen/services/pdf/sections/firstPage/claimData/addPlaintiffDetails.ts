@@ -8,7 +8,7 @@ import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sect
 export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
-const formatAddress = (
+export const formatAddress = (
   strasseHausnummer?: string,
   plz?: string,
   ort?: string,
@@ -65,7 +65,7 @@ export const addPlaintiffDetails = (
 
   if (klagendeTelefonnummer) {
     plaintiffDetailsParagraph.add(
-      doc.struct("Link", { alt: klagendeTelefonnummer }, () => {
+      doc.struct("Link", {}, () => {
         doc.text(klagendeTelefonnummer, {
           link: `tel:${klagendeTelefonnummer.trim()}`,
           continued: hasEmail,
