@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
+import { SECTION_BACKGROUND_COLORS } from "~/components";
 import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
