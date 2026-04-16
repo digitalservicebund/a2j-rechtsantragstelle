@@ -267,7 +267,6 @@ function App() {
           <footer>
             {showKernUX ? (
               <KernFooter
-                {...footer}
                 showDeletionBanner={hasAnyUserData}
                 ariaLabel={getTranslationByKey(
                   "footer-navigation",
@@ -329,7 +328,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         )}
         {showKernUX ? (
           <main className="bg-kern-neutral-025">
-            <ErrorBox showKernUX />
+            <ErrorBox />
           </main>
         ) : (
           <main className="grow">

@@ -1,6 +1,5 @@
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { fetchPage } from "~/services/cms/index.server";
 
 export const loader = async () => {
@@ -10,6 +9,5 @@ export const loader = async () => {
 
 export default function Index() {
   const { content } = useLoaderData<typeof loader>();
-  const showKernUX = useShowKernUX();
-  return <ContentComponents content={content} showKernUX={showKernUX} />;
+  return <ContentComponents content={content} />;
 }

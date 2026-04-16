@@ -4,7 +4,7 @@ import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "~/components/common/types";
 import KernTileRadio, { type KernTileOptions } from "./KernTileRadio";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import InputError from "../InputError";
 
 type KernTileProps = Readonly<{
   name: string;
@@ -72,13 +72,7 @@ const KernTile = ({
       </div>
       <div className="pt-16 pb-16">
         {errorToDisplay && (
-          <p className="kern-error" id={errorId} role="alert">
-            <KernIcon
-              name="emergency-home"
-              className="fill-kern-feedback-danger!"
-            />
-            <span className="text-kern-feedback-danger">{errorToDisplay}</span>
-          </p>
+          <InputError id={errorId}>{errorToDisplay}</InputError>
         )}
       </div>
     </fieldset>

@@ -5,11 +5,11 @@ import {
   checkedRequired,
   exclusiveCheckboxesSchema,
 } from "~/services/validation/checkedCheckbox";
-import { SchemaComponents } from "../SchemaComponents";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -19,7 +19,7 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
+    props: Readonly<Parameters<typeof KernSchemaComponents>[0]>,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
@@ -31,7 +31,7 @@ describe("SchemaComponents", () => {
         path: "/",
         element: (
           <FormProvider scope={form.scope()}>
-            <SchemaComponents {...props} />
+            <KernSchemaComponents {...props} />
           </FormProvider>
         ),
       },
@@ -128,11 +128,16 @@ describe("SchemaComponents", () => {
         ]}
       />,
     );
-    const radio = getByRole("radio");
+    const group = getByRole("group");
+    expect(group).toBeInTheDocument();
+    const radio = group.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+    expect(radio).toBeInTheDocument();
     expect(radio).toHaveAttribute("name", "field1");
     expect(radio).toHaveAttribute("value", "option1");
-    expect(radio.parentElement).toHaveTextContent("option1 title");
-    expect(radio.parentElement).toHaveTextContent("option1 description");
+    expect(group).toHaveTextContent("option1 title");
+    expect(group).toHaveTextContent("option1 description");
   });
 
   it("should render checkboxes ", () => {
