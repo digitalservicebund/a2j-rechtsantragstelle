@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "tests/e2e/util/fixtures";
 import { startAbgabe } from "tests/e2e/domains/prozesskostenhilfe/formular/abgabe";
 import { startAntragstellendePerson } from "tests/e2e/domains/prozesskostenhilfe/formular/antragstellendePerson";
 import { startFinanzielleAngabenEinkuenfte } from "tests/e2e/domains/prozesskostenhilfe/formular/finanzielleAngabenEinkuenfte";

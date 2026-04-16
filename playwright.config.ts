@@ -47,35 +47,19 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "setup",
-      testMatch: ["**/auth.setup.ts"],
-    },
-    {
       name: "critical",
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState: "playwright/.auth/storageState.json",
-      },
+      use: { ...devices["Desktop Chrome"] },
       testMatch: ["**/critical/**.spec.ts"],
-      dependencies: ["setup"],
     },
     {
       name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState: "playwright/.auth/storageState.json",
-      },
+      use: { ...devices["Desktop Chrome"] },
       testIgnore: ["**/critical/**.spec.ts"],
-      dependencies: ["setup"],
     },
     {
       name: "mobile",
-      use: {
-        ...devices["Galaxy S8"],
-        storageState: "playwright/.auth/storageState.json",
-      },
+      use: { ...devices["Galaxy S8"] },
       testIgnore: ["**/critical/**.spec.ts", "**/accessibilityScans.spec.ts"],
-      dependencies: ["setup"],
     },
   ],
 

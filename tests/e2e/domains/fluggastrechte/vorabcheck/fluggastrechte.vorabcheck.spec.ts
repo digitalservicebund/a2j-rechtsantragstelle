@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "tests/e2e/util/fixtures";
 import { FluggastrechteVorabcheck } from "tests/e2e/domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";
 import { startFluggastrechteVorabcheckAnnullierung } from "./vorabcheckAnnullierung";
 import { startFluggastrechteVorabcheckFunnelCheck } from "./vorabcheckFunnelCheck";

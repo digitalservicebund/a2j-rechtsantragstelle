@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test } from "tests/e2e/util/fixtures";
 import { expectPageToBeAccessible } from "./expectPageToBeAccessible";
 
 export const testPageToBeAccessible = (url?: string) => {

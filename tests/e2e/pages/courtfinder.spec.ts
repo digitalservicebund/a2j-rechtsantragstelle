@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "tests/e2e/util/fixtures";
 import { CourtFinder } from "./CourtFinder";
 import { CookieSettings } from "../domains/shared/CookieSettings";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";

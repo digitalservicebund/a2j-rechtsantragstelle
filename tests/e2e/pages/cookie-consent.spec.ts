@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "tests/e2e/util/fixtures";
 import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { CookieSettings } from "../domains/shared/CookieSettings";
