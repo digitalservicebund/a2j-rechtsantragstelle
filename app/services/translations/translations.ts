@@ -168,6 +168,51 @@ export const translations = {
     internalLinks: {
       de: "Rechtliche und weiterführende Informationen",
     },
+    justizServices: {
+      de: "Justiz-Services",
+    },
+    onlineDienste: {
+      de: "Onlinedienste der Justiz",
+    },
+    rechtlicheHinweise: {
+      de: "Rechtliche Hinweise",
+    },
+    impressum: {
+      de: "Impressum",
+    },
+    barrierefreiheit: {
+      de: "Barrierefreiheit",
+    },
+    datenschutz: {
+      de: "Datenschutz",
+    },
+    kontaktUndTeilnahme: {
+      de: "Kontakt und Teilnahme",
+    },
+    kontakt: {
+      de: "Kontakt",
+    },
+    openSourceCode: {
+      de: "Open Source Code",
+    },
+    feedbackStudien: {
+      de: "Feedback-Studien",
+    },
+    persoenlicheDatenLoeschen: {
+      de: "Persönliche Daten löschen",
+    },
+    pilotProjekt: {
+      de: "Ein Pilotprojekt des",
+    },
+    bmjv: {
+      de: "Bundesministeriums der Justiz und für Verbraucherschutz",
+    },
+    umsetztung: {
+      de: "Umsetzung und Betrieb durch",
+    },
+    digitalService: {
+      de: "DigitalService GmbH des Bundes",
+    },
   },
   navigationMobile: {
     closeMenu: {
