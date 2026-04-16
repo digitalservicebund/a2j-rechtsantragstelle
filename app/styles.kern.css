@@ -28,6 +28,26 @@
     color: var(--color-kern-feedback-danger);
   }
 
+  /* --- 
+  Embeddable High-contrast icons
+  usage: /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
+  --- */
+
+  @media (forced-colors: active) {
+    .app-icon--high-contrast {
+      forced-color-adjust: none;
+      fill: black;
+    }
+  }
+
+  @media (forced-colors: active) and (prefers-color-scheme: dark) {
+    .app-icon--high-contrast {
+      fill: white;
+    }
+  }
+
+  /* ------------------------------- */
+
   .detail-summary:focus-within,
   .kern-tile:focus-within {
     border-radius: var(--kern-metric-border-radius-default, 0.25rem);

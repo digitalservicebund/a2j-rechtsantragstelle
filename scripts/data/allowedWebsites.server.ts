@@ -73,4 +73,5 @@ export const allowedWebsites = [
   "https://dias.de",
   "https://bitvtest.de",
   "https://www.kern-ux.de",
+  "https://www.w3.org",
 ];
