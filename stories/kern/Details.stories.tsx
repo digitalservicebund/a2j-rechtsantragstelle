@@ -4,7 +4,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernDetails",
+  title: "kern/Details",
   component: KernDetails,
   tags: ["autodocs"],
   decorators: [

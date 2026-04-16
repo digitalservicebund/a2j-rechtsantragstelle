@@ -6,7 +6,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/formElements/KernExclusiveCheckboxes",
+  title: "kern/formElements/ExclusiveCheckboxes",
   component: KernExclusiveCheckboxes,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernExclusiveCheckboxes>;

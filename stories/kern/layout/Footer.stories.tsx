@@ -4,7 +4,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import imgUrl from "../../assets/bmj_logo.png";
 
 const meta = {
-  title: "kern/layout/KernFooter",
+  title: "kern/layout/Footer",
   component: KernFooter,
   tags: ["autodocs"],
   decorators: [

@@ -6,7 +6,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/formElements/KernRadioGroup",
+  title: "kern/formElements/RadioGroup",
   component: KernRadioGroup,
   parameters: {
     layout: "centered",

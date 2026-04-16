@@ -6,7 +6,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import imgUrl from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
-  title: "kern/KernList",
+  title: "kern/List",
   component: KernList,
   parameters: {
     layout: "fullscreen",

@@ -5,7 +5,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernProgress",
+  title: "kern/Progress",
   component: KernProgress,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernProgress>;

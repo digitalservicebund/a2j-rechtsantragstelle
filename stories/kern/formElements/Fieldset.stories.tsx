@@ -4,7 +4,7 @@ import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
 import demoImage from "../../assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
-  title: "kern/formElements/KernFieldset",
+  title: "kern/formElements/Fieldset",
   component: KernFieldset,
   parameters: {
     layout: "centered",

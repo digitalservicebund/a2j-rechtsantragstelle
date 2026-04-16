@@ -9,7 +9,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 
 const meta = {
-  title: "kern/KernReportProblem",
+  title: "kern/ReportProblem",
   component: KernReportProblem,
   beforeEach: async () => {
     mocked(fetchSurvey).mockReturnValue({

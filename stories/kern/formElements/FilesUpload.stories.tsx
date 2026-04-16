@@ -10,7 +10,7 @@ import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 
 const meta = {
-  title: "kern/formElements/KernFilesUpload",
+  title: "kern/formElements/FilesUpload",
   component: FilesUpload,
   tags: ["autodocs"],
 } satisfies Meta<typeof FilesUpload>;

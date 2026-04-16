@@ -6,7 +6,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
-  title: "kern/KernAccordion",
+  title: "kern/Accordion",
   component: KernAccordion,
   tags: ["autodocs"],
   decorators: [

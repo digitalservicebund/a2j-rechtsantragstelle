@@ -41,7 +41,7 @@ const allIconNames: IconName[] = [
 ];
 
 const meta = {
-  title: "kern/KernIcon",
+  title: "kern/Icon",
   component: KernIcon,
   tags: ["autodocs"],
   argTypes: {

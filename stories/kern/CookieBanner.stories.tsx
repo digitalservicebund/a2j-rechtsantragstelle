@@ -6,7 +6,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta: Meta<typeof KernCookieBanner> = {
-  title: "kern/KernCookieBanner",
+  title: "kern/CookieBanner",
   component: KernCookieBanner,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernCookieBanner>;

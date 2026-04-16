@@ -4,7 +4,7 @@ import type { ArrayConfigClient } from "~/services/array";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
-  title: "kern/arraySummary/KernArraySummary",
+  title: "kern/arraySummary/ArraySummary",
   component: KernArraySummary,
   tags: ["autodocs"],
   decorators: [(Story) => reactRouterContext(Story)],

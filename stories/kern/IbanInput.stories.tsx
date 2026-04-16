@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
 
 const meta = {
-  title: "kern/KernIbanInput",
+  title: "kern/IbanInput",
   component: KernIbanInput,
   parameters: {
     layout: "centered",

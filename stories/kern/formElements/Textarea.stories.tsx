@@ -7,7 +7,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 
 const meta = {
-  title: "kern/formElements/KernTextarea",
+  title: "kern/formElements/Textarea",
   component: KernTextarea,
   tags: ["autodocs"],
   decorators: [

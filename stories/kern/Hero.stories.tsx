@@ -4,7 +4,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernHero",
+  title: "kern/Hero",
   component: KernHero,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernHero>;

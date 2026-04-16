@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernRichText from "~/components/kern/KernRichText";
 
 const meta = {
-  title: "kern/KernRichText",
+  title: "kern/RichText",
   component: KernRichText,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernRichText>;

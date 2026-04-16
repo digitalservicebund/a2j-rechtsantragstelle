@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernHeading from "~/components/kern/KernHeading";
 
 const meta = {
-  title: "kern/KernHeading",
+  title: "kern/Heading",
   component: KernHeading,
   tags: ["autodocs"],
   argTypes: {

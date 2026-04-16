@@ -5,7 +5,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/KernTableOfContents",
+  title: "kern/TableOfContents",
   component: KernTableOfContents,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernTableOfContents>;

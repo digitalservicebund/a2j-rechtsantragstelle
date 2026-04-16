@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernHeadline from "~/components/kern/KernHeadline";
 
 const meta = {
-  title: "kern/KernHeadline",
+  title: "kern/Headline",
   component: KernHeadline,
   tags: ["autodocs"],
   argTypes: {

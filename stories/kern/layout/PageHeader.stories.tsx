@@ -3,7 +3,7 @@ import KernPageHeader from "~/components/kern/layout/KernPageHeader";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
-  title: "kern/layout/KernPageHeader",
+  title: "kern/layout/PageHeader",
   component: KernPageHeader,
   tags: ["autodocs"],
   parameters: {

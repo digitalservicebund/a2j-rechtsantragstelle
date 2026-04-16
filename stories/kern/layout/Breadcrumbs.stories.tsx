@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernBreadcrumbs from "~/components/kern/layout/KernBreadcrumbs";
 
 const meta = {
-  title: "kern/layout/KernBreadcrumbs",
+  title: "kern/layout/Breadcrumbs",
   component: KernBreadcrumbs,
   tags: ["autodocs"],
 } satisfies Meta<typeof KernBreadcrumbs>;

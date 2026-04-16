@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernLabel from "~/components/kern/KernLabel";
 
 const meta = {
-  title: "kern/KernLabel",
+  title: "kern/Label",
   component: KernLabel,
   tags: ["autodocs"],
   argTypes: {

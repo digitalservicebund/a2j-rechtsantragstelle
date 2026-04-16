@@ -8,7 +8,7 @@ import img1Url from "../../assets/nichtbefoerderung.svg?no-inline";
 import img2Url from "../../assets/verspaetung.svg?no-inline";
 
 const meta = {
-  title: "kern/formElements/KernTile",
+  title: "kern/formElements/Tile",
   component: KernTile,
   parameters: {
     controls: {

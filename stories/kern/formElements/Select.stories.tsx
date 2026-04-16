@@ -6,7 +6,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "kern/formElements/KernSelect",
+  title: "kern/formElements/Select",
   component: KernSelect,
   parameters: {
     layout: "centered",
