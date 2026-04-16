@@ -1,48 +1,59 @@
-import Image, { type ImageProps } from "~/components/common/Image";
+import Image from "~/components/common/Image";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { KernFooterExternalLinks } from "./KernFooterExternalLinks";
 import { KernFooterDeletePersonalData } from "./KernFooterDeletePersonalData";
 import { KernFooterInternalLinks } from "./KernFooterInternalLinks";
+import { GridSection } from "~/components/layout/grid/GridSection";
+import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
+import { translations } from "~/services/translations/translations";
 
 type FooterProps = Readonly<{
-  image?: ImageProps;
   showDeletionBanner?: boolean;
   ariaLabel?: string;
 }>;
 
+export const logoAltText = "Logo des BMJVs";
+
 export default function KernFooter({
-  image,
   showDeletionBanner = false,
   ariaLabel,
 }: FooterProps) {
   return (
-    <>
-      <Grid className="py-40 px-0 print:pb-0">
+    <GridSection>
+      <Grid className="pt-kern-space-x-large flex flex-col gap-y-32 pl-0! pr-0! print:pb-0 border-t-kern-neutral-100">
         <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 1, span: 3 }}
-          xlColumn={{ start: 1, span: 3 }}
-          className="flex flex-col gap-kern-space-large"
+          row={1}
+          ariaLabel={ariaLabel}
+          className="grid grid-cols-subgrid px-kern-space-small"
         >
-          {image && (
-            <div className="forced-colors:bg-black">
-              <Image {...image} />
-            </div>
-          )}
-          <KernFooterExternalLinks />
-        </GridItem>
-        <GridItem
-          mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 4, span: 9 }}
-          xlColumn={{ start: 4, span: 9 }}
-          className="[grid-row:2] md:[grid-row:2] lg:[grid-row:1] xl:[grid-row:1]"
-          aria-label={ariaLabel}
-        >
+          <div className="col-start-1 col-span-12 lg:col-span-6 p-kern-space-default! gap-kern-space-small">
+            <h2 className="kern-title">
+              {translations.footer.justizServices.de}
+            </h2>
+            <p className="kern-body kern-body--muted text-kern-static-medium">
+              {translations.footer.onlineDienste.de}
+            </p>
+          </div>
           <KernFooterInternalLinks />
         </GridItem>
+        <GridItem
+          row={2}
+          className="grid grid-cols-subgrid px-kern-space-small"
+        >
+          <div className="forced-colors:bg-black col-start-1 col-span-12 lg:col-span-6 p-kern-space-default!">
+            <Image
+              svgString={BMJVLogo}
+              url=""
+              width={180}
+              height={105}
+              alternativeText={logoAltText}
+            />
+          </div>
+          <KernFooterExternalLinks />
+        </GridItem>
+        {showDeletionBanner && <KernFooterDeletePersonalData />}
       </Grid>
-      {showDeletionBanner && <KernFooterDeletePersonalData />}
-    </>
+    </GridSection>
   );
 }

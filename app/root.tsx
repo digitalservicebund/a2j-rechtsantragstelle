@@ -280,7 +280,6 @@ function App() {
           <footer>
             {showKernUX ? (
               <KernFooter
-                {...footer}
                 showDeletionBanner={hasAnyUserData}
                 ariaLabel={getTranslationByKey(
                   "footer-navigation",
