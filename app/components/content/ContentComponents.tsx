@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { BACKGROUND_COLORS, SECTION_BACKGROUND_COLORS } from "~/components";
+import { SECTION_BACKGROUND_COLORS } from "~/components";
 import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
@@ -29,16 +29,6 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getGridBackgroundColor(el: StrapiContentComponent): string {
-  const hasLayout = hasLayoutProperties(el);
-  if (hasLayout && el.container?.backgroundColor) {
-    return BACKGROUND_COLORS[
-      el.container.backgroundColor as keyof typeof BACKGROUND_COLORS
-    ];
-  }
-  return "";
-}
-
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el && el.contentBackgroundColor) {
     return SECTION_BACKGROUND_COLORS[
@@ -52,13 +42,6 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
   if ("sectionBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
       el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
-    ];
-  }
-
-  const hasLayout = hasLayoutProperties(el);
-  if (hasLayout && el.outerBackground?.backgroundColor) {
-    return BACKGROUND_COLORS[
-      el.outerBackground.backgroundColor as keyof typeof BACKGROUND_COLORS
     ];
   }
   return "";
@@ -78,10 +61,6 @@ function getPaddingTop(el: StrapiContentComponent): string {
 function getPaddingBottom(el: StrapiContentComponent): string {
   if ("paddingBottom" in el && el.paddingBottom) {
     return el.paddingBottom;
-  }
-
-  if (hasLayoutProperties(el) && el.container?.paddingBottom) {
-    return el.container.paddingBottom;
   }
   return "default";
 }
@@ -172,7 +151,6 @@ function ContentComponents({
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
-      const isUserFeedback = el.__component === "page.user-feedback";
       const isKernBox = el.__component === "page.box";
 
       if (managedByParent) {
@@ -196,9 +174,6 @@ function ContentComponents({
               lgColumn: { start: 2, span: 10 },
               xlColumn: { start: 2, span: 10 },
               className: classNames(
-                isUserFeedback
-                  ? BACKGROUND_COLORS.midBlue
-                  : getGridBackgroundColor(el),
                 isKernBox ? getContentBackgroundColor(el) : "",
                 "rounded-lg",
               ),
