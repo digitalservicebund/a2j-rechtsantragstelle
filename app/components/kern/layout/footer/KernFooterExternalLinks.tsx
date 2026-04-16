@@ -7,12 +7,15 @@ export const KernFooterExternalLinks = () => {
     section.type.includes("externalLink"),
   );
   return (
-    <div>
+    <div className="col-start-1 lg:col-start-7 col-span-12 lg:col-span-6 flex flex-col md:flex-row gap-kern-space-default">
       {externalLinksSections.map((section) => {
         const link = section.content[0];
         return (
-          <p key={section.key} className="kern-body gap-kern-space-default">
-            {section.title}{" "}
+          <p
+            key={section.key}
+            className="kern-body kern-body--bold gap-kern-space-small flex flex-col md:w-1/2 md:max-w-1/2 p-kern-space-default!"
+          >
+            {section.title}
             <a
               href={link.url}
               className="kern-link inline-block p-0! no-underline! wrap-anywhere"

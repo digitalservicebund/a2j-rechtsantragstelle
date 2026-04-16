@@ -16,20 +16,15 @@ import KernUserFeedback from "../kern/UserFeedback";
 import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
 import { KernDetails } from "../kern/KernDetails";
 
-function hasLayoutProperties(
-  component: StrapiContentComponent,
-): component is StrapiContentComponent & {
-  outerBackground?: { backgroundColor?: string };
-  container?: {
-    backgroundColor?: string;
-    paddingTop?: string;
-    paddingBottom?: string;
-  };
-} {
-  return "outerBackground" in component || "container" in component;
+function getContentBackgroundColor(el: StrapiContentComponent): string {
+  if ("contentBackgroundColor" in el) {
+    return SECTION_BACKGROUND_COLORS[
+      el.contentBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
+    ];
+  }
+  return "";
 }
-
-function getContainerBackgroundColor(el: StrapiContentComponent): string {
+function getSectionBackgroundColor(el: StrapiContentComponent): string {
   if ("sectionBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
       el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
@@ -41,10 +36,6 @@ function getContainerBackgroundColor(el: StrapiContentComponent): string {
 function getPaddingTop(el: StrapiContentComponent): string {
   if ("paddingTop" in el && el.paddingTop) {
     return el.paddingTop;
-  }
-
-  if (hasLayoutProperties(el) && el.container?.paddingTop) {
-    return el.container.paddingTop;
   }
   return "default";
 }
@@ -154,15 +145,18 @@ function ContentComponents({
         <GridSection
           pt={getPaddingTop(el)}
           pb={getPaddingBottom(el)}
-          className={getContainerBackgroundColor(el)}
           key={`${el.__component}_${el.id}`}
+          className={getSectionBackgroundColor(el)}
         >
           <Grid
             background={{
               mdColumn: { start: 1, span: 8 },
               lgColumn: { start: 2, span: 10 },
               xlColumn: { start: 2, span: 10 },
-              className: classNames("rounded-lg"),
+              className: classNames(
+                getContentBackgroundColor(el),
+                "rounded-lg",
+              ),
             }}
           >
             {cmsToReact(el)}
