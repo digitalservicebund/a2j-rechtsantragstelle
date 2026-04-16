@@ -6,20 +6,17 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import { BACKGROUND_COLORS } from "~/components";
-import { ButtonNavigation } from "~/components/common/ButtonNavigation";
-import Heading from "~/components/common/Heading";
-import Input from "~/components/formElements/Input";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
-import KernZuestandigesGerichtSuche from "./kern/kern-beratungshilfe.zustaendiges-gericht.suche";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { KernButtonNavigation } from "~/components/kern/KernButtonNavigation";
+import NumberInput from "~/components/kern/formElements/input/NumberInput";
+import KernHeading from "~/components/kern/KernHeading";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
@@ -59,32 +56,26 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 export default function Index() {
   const { backURL } = useLoaderData<typeof loader>();
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernZuestandigesGerichtSuche backURL={backURL} />;
-  }
 
   return (
-    <GridSection className={BACKGROUND_COLORS.blue} pt="40" pb="40">
+    <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
         >
-          <div className="ds-stack ds-stack-32">
-            <Heading
-              tagName="h1"
-              look="ds-label-02-reg"
-              text="Zuständiges Amtsgericht finden"
-            />
-            <Heading
+          <div className="gap-kern-space-x-large flex flex-col">
+            <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
+              Zuständiges Amtsgericht finden
+            </h1>
+            <KernHeading
               tagName="h2"
-              look="ds-heading-02-reg"
               text="Wie ist Ihre Postleitzahl"
+              size="large"
+              managedByParent
             />
-            <p>
+            <p className="kern-body">
               Bitte geben Sie die Postleitzahl Ihres Wohnsitzes ein. Wir zeigen
               Ihnen dann die Adresse Ihres Amtsgerichts und wie Sie mit dem
               Gericht in Kontakt treten können.
@@ -96,12 +87,11 @@ export default function Index() {
               defaultValues={{ postcode: "" }}
               noValidate
             >
-              <div className="ds-stack ds-stack-32">
-                <Input
+              <div>
+                <NumberInput
                   name="postcode"
                   label="Postleitzahl"
                   type="number"
-                  width="10"
                   errorMessages={[
                     {
                       code: "length",
@@ -114,7 +104,7 @@ export default function Index() {
                     },
                   ]}
                 />
-                <ButtonNavigation
+                <KernButtonNavigation
                   back={{ destination: backURL, label: "Zurück" }}
                   next={{ label: "Weiter" }}
                 />
@@ -127,9 +117,9 @@ export default function Index() {
           lgColumn={{ start: 1, span: 12 }}
           xlColumn={{ start: 1, span: 12 }}
           className="pb-40 flex justify-end"
-          row={2}
+          row={4}
         >
-          <ReportProblem />
+          <KernReportProblem />
         </GridItem>
       </Grid>
     </GridSection>
