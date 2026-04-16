@@ -6,6 +6,7 @@ import { KernFooterDeletePersonalData } from "./KernFooterDeletePersonalData";
 import { KernFooterInternalLinks } from "./KernFooterInternalLinks";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
+import { translations } from "~/services/translations/translations";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
@@ -27,9 +28,11 @@ export default function KernFooter({
           className="grid grid-cols-subgrid px-kern-space-small"
         >
           <div className="col-start-1 col-span-12 lg:col-span-6 p-kern-space-default! gap-kern-space-small">
-            <h2 className="kern-title">Justiz-Services</h2>
+            <h2 className="kern-title">
+              {translations.footer.justizServices.de}
+            </h2>
             <p className="kern-body kern-body--muted text-kern-static-medium">
-              Onlinedienste der Justiz
+              {translations.footer.onlineDienste.de}
             </p>
           </div>
           <KernFooterInternalLinks />
