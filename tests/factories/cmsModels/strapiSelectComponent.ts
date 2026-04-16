@@ -29,7 +29,7 @@ export function getStrapiSelectComponent(
       await waitFor(() => {
         expect(screen.getByText(errorCode.text)).toBeInTheDocument();
         expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
       });
     },
   };

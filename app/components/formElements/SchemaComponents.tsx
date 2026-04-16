@@ -46,12 +46,7 @@ export const SchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(
-            fieldName,
-            fieldSetGroup,
-            readOnlyFieldNames,
-            false,
-          );
+          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
 
         const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);

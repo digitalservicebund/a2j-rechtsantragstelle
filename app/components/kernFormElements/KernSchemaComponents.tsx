@@ -38,7 +38,6 @@ type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-  showKernUX?: boolean;
   readOnlyFieldNames: string[];
 };
 
@@ -83,7 +82,6 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  showKernUX = true,
   readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
@@ -102,12 +100,7 @@ export const KernSchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(
-            fieldName,
-            fieldSetGroup,
-            readOnlyFieldNames,
-            showKernUX,
-          );
+          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
 
         const matchingElement = formComponents
@@ -135,25 +128,14 @@ export const KernSchemaComponents = ({
             fieldName,
             readOnlyFieldNames,
             formComponents,
-            showKernUX,
           );
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(
-            nestedSchema,
-            fieldName,
-            matchingElement,
-            showKernUX,
-          );
+          return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(
-            fieldName,
-            isFieldReadOnly,
-            matchingElement,
-            showKernUX,
-          );
+          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
       })}
     </div>
   );
