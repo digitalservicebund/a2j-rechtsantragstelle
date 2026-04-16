@@ -42,11 +42,7 @@ export function KernVorabcheckPage() {
           className="gap-kern-space-x-large flex flex-col"
           row={2}
         >
-          <ContentComponents
-            content={cmsContent.pre_form}
-            managedByParent
-            showKernUX
-          />
+          <ContentComponents content={cmsContent.pre_form} managedByParent />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}

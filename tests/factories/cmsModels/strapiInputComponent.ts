@@ -26,9 +26,11 @@ export function getStrapiInputComponent<T extends InputType = "input">(
     expectInputErrorToExist: async function () {
       await waitFor(() => {
         expect(screen.getByText(errorCode.text)).toBeInTheDocument();
-        expect(screen.getByRole("textbox")).toHaveClass("has-error");
+        expect(screen.getByRole("textbox")).toHaveClass(
+          "kern-form-input__input--error",
+        );
         expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
       });
     },
   };
