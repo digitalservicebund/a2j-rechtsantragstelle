@@ -151,8 +151,6 @@ function ContentComponents({
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
     .map((el) => {
-      const isKernBox = el.__component === "page.box";
-
       if (managedByParent) {
         return (
           <div key={`${el.__component}_${el.id}`} className={className}>
@@ -173,10 +171,7 @@ function ContentComponents({
               mdColumn: { start: 1, span: 8 },
               lgColumn: { start: 2, span: 10 },
               xlColumn: { start: 2, span: 10 },
-              className: classNames(
-                isKernBox ? getContentBackgroundColor(el) : "",
-                "rounded-lg",
-              ),
+              className: classNames("rounded-lg"),
             }}
           >
             {cmsToReact(el)}
