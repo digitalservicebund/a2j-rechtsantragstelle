@@ -1,6 +1,3 @@
-import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb-Bold.woff2?url";
-import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
-import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
 import { useEffect } from "react";
 import type {
@@ -33,8 +30,7 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
-import styles from "~/styles.css?url";
-import kernStyles from "~/styles.kern.css?url";
+import styles from "~/styles.kern.css?url";
 import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
 import Breadcrumbs from "./components/layout/Breadcrumbs";
@@ -76,15 +72,6 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
-  { rel: "preload", href: BundesSansWeb, as: "font", crossOrigin: "anonymous" },
-  {
-    rel: "preload",
-    href: BundesSansWebBold,
-    as: "font",
-    crossOrigin: "anonymous",
-  },
-  { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
-  { rel: "stylesheet", href: fonts },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -221,7 +208,7 @@ function App() {
             __html: `window.ENV = ${JSON.stringify(configPublic())}`,
           }}
         />
-        <link rel="stylesheet" href={showKernUX ? kernStyles : styles} />
+        <link rel="stylesheet" href={styles} />
         <Meta />
         <Links />
       </head>
@@ -320,7 +307,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <title>Justiz Services - Fehler aufgetreten</title>
         <link
           rel="stylesheet"
-          href={loaderData?.showKernUX ? kernStyles : styles}
+          href={styles}
         />
         <Meta />
         <Links />
