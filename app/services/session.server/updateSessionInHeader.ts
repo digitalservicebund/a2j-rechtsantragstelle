@@ -20,5 +20,5 @@ export const updateLastVisitedStep = async ({
   session.set(lastStepKey, { [flowId]: stepId });
   const headers = await sessionManager.commitSession(session);
 
-  return { headers, csrf: getCSRFFromSession(session) };
+  return { headers, csrf: getCSRFFromSession(session) ?? "" };
 };
