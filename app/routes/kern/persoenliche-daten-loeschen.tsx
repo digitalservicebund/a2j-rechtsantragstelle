@@ -20,7 +20,7 @@ export default function KernPersoenlicheDatenLoeschen({
 }>) {
   return (
     <div className="flex flex-col grow bg-kern-layout-background-hued">
-      <ContentComponents content={content} showKernUX={true} />
+      <ContentComponents content={content} />
       <GridSection className="pb-40">
         <Grid>
           <GridItem

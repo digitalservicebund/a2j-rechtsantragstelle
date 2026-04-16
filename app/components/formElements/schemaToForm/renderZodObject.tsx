@@ -1,8 +1,5 @@
 import type { z, ZodObject } from "zod";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { ExclusiveCheckboxes } from "../exclusiveCheckboxes/ExclusiveCheckboxes";
-import SplitDateInput from "../SplitDateInput";
-import { SchemaComponents } from "../SchemaComponents";
 import mapKeys from "lodash/mapKeys";
 import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
@@ -13,7 +10,6 @@ export const renderZodObject = (
   fieldName: string,
   readOnlyFieldNames: string[],
   formComponents?: StrapiFormComponent[],
-  showKernUX?: boolean,
 ) => {
   if (nestedSchema.meta()?.description === "exclusive_checkbox") {
     const labels = Object.fromEntries(
@@ -23,15 +19,8 @@ export const renderZodObject = (
         .map((el) => [el.name.split(".").at(-1)!, el.label]),
     );
 
-    return showKernUX ? (
+    return (
       <KernExclusiveCheckboxes
-        key={fieldName}
-        name={fieldName}
-        options={Object.keys(nestedSchema.shape)}
-        labels={labels}
-      />
-    ) : (
-      <ExclusiveCheckboxes
         key={fieldName}
         name={fieldName}
         options={Object.keys(nestedSchema.shape)}
@@ -40,27 +29,15 @@ export const renderZodObject = (
     );
   }
   if (nestedSchema.meta()?.description === "split_date") {
-    return showKernUX ? (
-      <KernSplitDateInput key={fieldName} name={fieldName} />
-    ) : (
-      <SplitDateInput key={fieldName} name={fieldName} />
-    );
+    return <KernSplitDateInput key={fieldName} name={fieldName} />;
   }
   // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
   const innerSchema = mapKeys(
     nestedSchema.shape,
     (_, key) => `${fieldName}.${key}`,
   );
-  return showKernUX ? (
+  return (
     <KernSchemaComponents
-      key={fieldName}
-      pageSchema={innerSchema}
-      formComponents={formComponents}
-      showKernUX={showKernUX}
-      readOnlyFieldNames={readOnlyFieldNames}
-    />
-  ) : (
-    <SchemaComponents
       key={fieldName}
       pageSchema={innerSchema}
       formComponents={formComponents}

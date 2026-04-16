@@ -101,7 +101,7 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(inputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -151,7 +151,7 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(dateInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -201,7 +201,7 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(timeInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -246,7 +246,7 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(textareaComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -291,7 +291,7 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -309,11 +309,12 @@ describe("ValidatedFlowForm", () => {
       });
 
     it("should display an error if the user doesn't select an option", async () => {
-      const { getByText, getByRole } = renderValidatedFlowForm([component]);
+      const { getByText, getByTestId } = renderValidatedFlowForm([component]);
 
+      const select = getByTestId("select");
+      fireEvent.change(select, { target: { value: "" } });
       const nextButton = getByText("NEXT");
-      expect(nextButton).toBeInTheDocument();
-      fireEvent.blur(getByRole("option", { name: "Select a value." }));
+      fireEvent.click(nextButton);
       await expectDropdownErrorToExist();
     });
 
@@ -324,7 +325,7 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -388,7 +389,7 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
   });
@@ -423,7 +424,7 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("ErrorOutlineIcon")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
 
@@ -432,7 +433,7 @@ describe("ValidatedFlowForm", () => {
         renderValidatedFlowForm([component]);
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
-        expect(queryByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).toBeInTheDocument();
         const radioButtons = getAllByRole("radio");
         const firstRadio = radioButtons[0];
         const secondRadio = radioButtons[1];

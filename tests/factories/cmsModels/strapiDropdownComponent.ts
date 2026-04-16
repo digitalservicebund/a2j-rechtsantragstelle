@@ -33,8 +33,11 @@ export function getStrapiDropdownComponent(
     expectDropdownErrorToExist: async function () {
       await waitFor(() => {
         expect(screen.getByText(errorCode.text)).toBeInTheDocument();
+        expect(screen.getByTestId("select-wrapper")).toHaveClass(
+          "kern-form-input__select-wrapper--error",
+        );
         expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("ErrorOutlineIcon")).toBeInTheDocument();
+        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
       });
     },
   };

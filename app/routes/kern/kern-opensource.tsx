@@ -25,7 +25,7 @@ export default function KernOpenSource({
 }: KernOpenSourceProps) {
   return (
     <div className="flex flex-col grow">
-      <ContentComponents content={content} showKernUX={true} />
+      <ContentComponents content={content} />
       <GridSection>
         <Grid>
           <GridItem

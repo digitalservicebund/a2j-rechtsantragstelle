@@ -141,18 +141,17 @@ export function KernResultPage() {
         </Grid>
       </GridSection>
 
-      {content.length > 0 && <ContentComponents content={content} showKernUX />}
+      {content.length > 0 && <ContentComponents content={content} />}
 
       {documentsList.length > 0 &&
         documentsList.map((element) => (
           <ContentComponents
             key={`${element.__component}_${element.id}`}
             content={[element]}
-            showKernUX
           />
         ))}
 
-      <ContentComponents content={nextSteps} showKernUX />
+      <ContentComponents content={nextSteps} />
     </>
   );
 }
