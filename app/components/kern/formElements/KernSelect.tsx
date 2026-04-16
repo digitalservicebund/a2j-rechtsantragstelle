@@ -33,6 +33,7 @@ const KernSelect = ({
         </label>
       )}
       <div
+        data-testid="select-wrapper"
         className={classNames(
           "kern-form-input__select-wrapper",
           {
@@ -50,6 +51,7 @@ const KernSelect = ({
           aria-required={
             !!errorMessages?.find((err) => err.code === "required")
           }
+          data-testid="select"
         >
           {placeholder && (
             <option disabled value="">

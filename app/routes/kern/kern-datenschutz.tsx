@@ -31,7 +31,7 @@ export default function KernDatenschutz({
 
   return (
     <div className="flex flex-col grow">
-      <ContentComponents content={content} showKernUX />
+      <ContentComponents content={content} />
       <GridSection>
         <Grid>
           <GridItem

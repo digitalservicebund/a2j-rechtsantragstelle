@@ -75,7 +75,7 @@ export const KernZuestandigesGerichErgebnis = () => {
             </a>
           </GridItem>
         </Grid>
-        <ContentComponents content={content} showKernUX={true} />
+        <ContentComponents content={content} />
       </GridSection>
     </>
   );

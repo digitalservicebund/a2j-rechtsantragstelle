@@ -1,6 +1,5 @@
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { FieldSet } from "../FieldSet";
 import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
 
 export const getFieldSetByFieldName = (
@@ -21,7 +20,6 @@ export const renderFieldSet = (
   fieldName: string,
   fieldSet: StrapiFieldSet,
   readOnlyFieldNames: string[],
-  showKernUX?: boolean,
 ) => {
   const {
     fieldSetGroup: { formComponents },
@@ -35,16 +33,8 @@ export const renderFieldSet = (
     return null;
   }
 
-  return showKernUX ? (
+  return (
     <KernFieldset
-      key={id}
-      formComponents={formComponents}
-      heading={heading}
-      image={image}
-      readOnlyFieldNames={readOnlyFieldNames}
-    />
-  ) : (
-    <FieldSet
       key={id}
       formComponents={formComponents}
       heading={heading}
