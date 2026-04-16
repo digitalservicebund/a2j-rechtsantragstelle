@@ -26,7 +26,7 @@ export const createBankInformation = (
       : `${vorname} ${nachname}`;
 
   if (iban) {
-    const bankInfo = `Kontoinhaber: ${bankAccountHolder} | IBAN: ${formatIban(iban)}`;
+    const bankInfo = `Konto der klagenden Partei: ${bankAccountHolder} | IBAN: ${formatIban(iban)}`;
 
     if (isLastPage) {
       const bankInfoParagraph = doc.struct("P", {}, () => {
