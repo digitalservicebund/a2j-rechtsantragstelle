@@ -29,15 +29,6 @@ function hasLayoutProperties(
   return "outerBackground" in component || "container" in component;
 }
 
-function getContentBackgroundColor(el: StrapiContentComponent): string {
-  if ("contentBackgroundColor" in el && el.contentBackgroundColor) {
-    return SECTION_BACKGROUND_COLORS[
-      el.contentBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
-    ];
-  }
-  return "";
-}
-
 function getContainerBackgroundColor(el: StrapiContentComponent): string {
   if ("sectionBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
