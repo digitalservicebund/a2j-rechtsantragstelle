@@ -1,5 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import { sb } from "storybook/test";
+
+// eslint-disable-next-line import/no-unassigned-import
 import "../app/styles.kern.css";
 
 document.documentElement.setAttribute("data-kern-theme", "light");
