@@ -71,6 +71,26 @@ describe("index", () => {
       expect(lastStep?.[flowId]).toBe("/step1");
     });
 
+    it("should set the last visited step for multiple flows", async () => {
+      session = reactRouter.createSession({});
+      const flowId: FlowId = "/beratungshilfe/antrag";
+      await sessionServices.initializeMainSession(
+        new Request("http://localhost:3000"),
+        `${flowId}/step1`,
+      );
+      const lastStep = session.get(lastStepKey);
+      expect(lastStep?.[flowId]).toBe("/step1");
+
+      const secondFlowId: FlowId = "/prozesskostenhilfe/formular";
+      await sessionServices.initializeMainSession(
+        new Request("http://localhost:3000"),
+        `${secondFlowId}/step1flow2`,
+      );
+      const updatedLastStep = session.get(lastStepKey);
+      expect(updatedLastStep?.[flowId]).toBe("/step1");
+      expect(updatedLastStep?.[secondFlowId]).toBe("/step1flow2");
+    });
+
     it("should skip setting the last visited state if the user is outside of a flow", async () => {
       session = reactRouter.createSession({});
       await sessionServices.initializeMainSession(

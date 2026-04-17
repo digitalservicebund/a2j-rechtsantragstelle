@@ -137,7 +137,8 @@ export const initializeMainSession = async (
 
   try {
     const { flowId, stepId } = parsePathname(pathname);
-    mainSession.set(lastStepKey, { [flowId]: stepId });
+    const lastSteps = mainSession.get(lastStepKey);
+    mainSession.set(lastStepKey, { ...lastSteps, [flowId]: stepId });
     // oxlint-disable-next-line no-unused-vars
   } catch (err) {} //NOSONAR
 
