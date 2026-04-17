@@ -21,7 +21,7 @@ import {
   useLocation,
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
-import { flowIdFromPathname } from "~/domains/flowIds";
+import { flowIdFromPathname, parsePathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
@@ -68,6 +68,7 @@ import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { cacheControlHeaderKey } from "~/rootHeaders";
 import { randomBytes } from "node:crypto";
+import { lastStepKey } from "~/services/flow/constants";
 
 export { headers } from "./rootHeaders";
 
@@ -143,6 +144,12 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   if (!getCSRFFromSession(mainSession)) {
     mainSession.set(CSRFKey, randomBytes(24).toString("base64"));
   }
+  try {
+    const { flowId, stepId } = parsePathname(pathname);
+    mainSession.set(lastStepKey, { [flowId]: stepId });
+    // oxlint-disable-next-line no-unused-vars
+  } catch (err) {} //NOSONAR
+
   const headers = await getSessionManager("main").commitSession(mainSession);
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(

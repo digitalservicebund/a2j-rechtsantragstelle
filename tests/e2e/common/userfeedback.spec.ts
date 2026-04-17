@@ -1,5 +1,5 @@
 import { expect, type Page } from "@playwright/test";
-import { test } from "tests/e2e/util/fixtures";
+import { test } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { USER_FEEDBACK_ID } from "~/components/content/userFeedback";
 

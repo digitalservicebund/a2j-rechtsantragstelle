@@ -1,9 +1,4 @@
-import {
-  type Page,
-  type Response,
-  expect,
-  test,
-} from "tests/e2e/util/fixtures";
+import { type Page, type Response, expect, test } from "@playwright/test";
 import { BeratungshilfeFormular } from "tests/e2e/domains/beratungshilfe/formular/BeratungshilfeFormular";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { startFinanzielleAngabenPartner } from "tests/e2e/domains/shared/finanzielleAngaben/finanzielleAngabenPartner";

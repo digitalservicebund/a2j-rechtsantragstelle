@@ -1,4 +1,4 @@
-import { test, expect } from "tests/e2e/util/fixtures";
+import { test, expect } from "@playwright/test";
 import { footerLinks, headerLinks } from "../pages/urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 

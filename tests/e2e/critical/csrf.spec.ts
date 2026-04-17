@@ -1,4 +1,4 @@
-import { test, expect } from "tests/e2e/util/fixtures";
+import { test, expect } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { csrfCountMax } from "~/services/security/csrf/csrfKey";
 import { FluggastrechteVorabcheck } from "../domains/fluggastrechte/vorabcheck/FluggastrechteVorabcheck";

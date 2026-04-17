@@ -1,4 +1,4 @@
-import { test } from "tests/e2e/util/fixtures";
+import { test } from "@playwright/test";
 import { CookieSettings } from "tests/e2e/domains/shared/CookieSettings";
 import { GeldEinklagenFormular } from "./GeldEinklagenFormular";
 import { startGerichtPruefen } from "./gerichtPruefen";

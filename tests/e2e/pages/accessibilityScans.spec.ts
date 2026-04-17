@@ -1,4 +1,4 @@
-import { test } from "tests/e2e/util/fixtures";
+import { test } from "@playwright/test";
 import { flowUrls, footerLinks, headerLinks, pageUrls } from "./urlsToCheck";
 import { expectPageToBeAccessible } from "../util/expectPageToBeAccessible";
 
