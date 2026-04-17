@@ -13,13 +13,13 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
-import { lastStepKey } from "~/services/flow/constants";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
 import { getFeedbackData } from "~/services/feedback/getFeedbackData";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { shouldSetCacheControlHeader } from "~/util/shouldSetCacheControlHeader";
 import { cacheControlHeaderKey } from "~/rootHeaders";
+import { lastStepKey } from "~/services/flow/constants";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
 type SessionUserData = (typeof allSessionUserData)[number];
@@ -137,8 +137,7 @@ export const initializeMainSession = async (
 
   try {
     const { flowId, stepId } = parsePathname(pathname);
-    const lastSteps = mainSession.get(lastStepKey);
-    mainSession.set(lastStepKey, { ...lastSteps, [flowId]: stepId });
+    updateSession(mainSession, { [lastStepKey]: { [flowId]: stepId } });
     // oxlint-disable-next-line no-unused-vars
   } catch (err) {} //NOSONAR
 
