@@ -50,23 +50,19 @@ export const createClaimData = (
     }),
   );
 
-  moneyCompensationClaimSection.add(
-    doc.struct("P", {}, () => {
-      addPlaintiffDetails(doc, userData);
-      doc.moveDown();
-    }),
-  );
+  const plaintiffDetailsParagraph = doc.struct("P");
+  addPlaintiffDetails(doc, plaintiffDetailsParagraph, userData);
+  moneyCompensationClaimSection.add(plaintiffDetailsParagraph);
+  doc.moveDown();
 
-  moneyCompensationClaimSection.add(
-    doc.struct("P", {}, () => {
-      addLegalRepresentation(doc, userData);
-      doc.moveDown();
-    }),
-  );
+  const legalRepresentationParagraph = doc.struct("P");
+  addLegalRepresentation(doc, legalRepresentationParagraph, userData);
+  moneyCompensationClaimSection.add(legalRepresentationParagraph);
 
   moneyCompensationClaimSection.add(
     doc.struct("P", {}, () => {
       doc
+        .moveDown()
         .fontSize(14)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(AGAINST, { align: "left" })
