@@ -21,6 +21,8 @@ const trackingCookieValueSpy = vi.spyOn(gdprCookie, "trackingCookieValue");
 const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
 
+const baseUrl = "http://localhost:3000";
+
 describe("index", () => {
   describe("updateSession", () => {
     const mockUserData = { a: 1, b: 2 };
@@ -45,8 +47,7 @@ describe("index", () => {
     it("should set the CSRF token if one doesn't exist", async () => {
       session = reactRouter.createSession({});
       const { csrf } = await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        "",
+        new Request(baseUrl),
       );
       expect(csrf).toBeTypeOf("string");
     });
@@ -54,8 +55,7 @@ describe("index", () => {
     it("should skip setting the CSRF token if one exists", async () => {
       session = reactRouter.createSession({ [CSRFKey]: "existing-token" });
       const { csrf } = await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        "",
+        new Request(baseUrl),
       );
       expect(csrf).toBe("existing-token");
     });
@@ -64,8 +64,7 @@ describe("index", () => {
       session = reactRouter.createSession({});
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        `${flowId}/step1`,
+        new Request(`${baseUrl}${flowId}/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
@@ -75,16 +74,14 @@ describe("index", () => {
       session = reactRouter.createSession({});
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        `${flowId}/step1`,
+        new Request(`${baseUrl}${flowId}/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
 
       const secondFlowId: FlowId = "/prozesskostenhilfe/formular";
       await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        `${secondFlowId}/step1flow2`,
+        new Request(`${baseUrl}${secondFlowId}/step1flow2`),
       );
       const updatedLastStep = session.get(lastStepKey);
       expect(updatedLastStep?.[flowId]).toBe("/step1");
@@ -94,8 +91,7 @@ describe("index", () => {
     it("should skip setting the last visited state if the user is outside of a flow", async () => {
       session = reactRouter.createSession({});
       await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        "non-flow-route/step1",
+        new Request(`${baseUrl}/non-flow-route/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep).toBeUndefined();
@@ -103,21 +99,19 @@ describe("index", () => {
 
     it("should return feedback data if stored in the session", async () => {
       session = reactRouter.createSession({});
+      const routeName = "/some-route";
       const { feedback } = await sessionServices.initializeMainSession(
-        new Request("http://localhost:3000"),
-        "some-route",
+        new Request(`${baseUrl}${routeName}`),
       );
       expect(feedback).toEqual({ result: undefined, state: "showRating" });
 
-      const routeName = "some-route";
       session = reactRouter.createSession({
         bannerState: { [routeName]: "hideRating" },
         wasHelpful: { [routeName]: "positive" },
       });
       const { feedback: feedbackWithData } =
         await sessionServices.initializeMainSession(
-          new Request("http://localhost:3000"),
-          routeName,
+          new Request(`${baseUrl}${routeName}`),
         );
       expect(feedbackWithData).toEqual({
         result: "positive",
@@ -130,12 +124,11 @@ describe("index", () => {
       session = reactRouter.createSession({});
       const { trackingConsent, headers } =
         await sessionServices.initializeMainSession(
-          new Request("http://localhost:3000", {
+          new Request(`${baseUrl}/some-route`, {
             headers: {
               Cookie: "tracking-consent=mock-consent-value",
             },
           }),
-          "some-route",
         );
       expect(trackingCookieValueSpy).toHaveBeenCalledWith(
         expect.objectContaining({

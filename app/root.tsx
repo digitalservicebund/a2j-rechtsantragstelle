@@ -119,7 +119,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
-    initializeMainSession(request, pathname),
+    initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
     isFeatureFlagEnabled("showFGROnlineVerfahren"),
