@@ -6,7 +6,6 @@ import {
 } from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { composePageTitle } from "~/services/meta/composePageTitle";
-import { updateLastVisitedStep } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
@@ -29,8 +28,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   } = resultUserAndFlow.value;
 
   const cmsStepId = stepId.replace("ergebnis/", "");
-  const cookieHeader = request.headers.get("Cookie");
-  const currentFlow = flows[flowId];
 
   const [resultPageContent, parentContentPageMeta] = await Promise.all([
     fetchFlowPage("result-pages", flowId, cmsStepId),
@@ -52,12 +49,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     backDestination: flowController.getPrevious(stepId),
   });
 
-  const { headers } = await updateLastVisitedStep({
-    cookieHeader,
-    flowId,
-    stepId,
-  });
-
   const documents = cmsContent.documents?.element ?? [];
   const nextSteps = cmsContent.nextSteps?.element ?? [];
 
@@ -66,11 +57,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
-  return data(
-    {
-      cmsContent: { ...cmsContent, nextSteps, documents, pageTitle },
-      buttonNavigationProps,
-    },
-    { headers },
-  );
+  return data({
+    cmsContent: { ...cmsContent, nextSteps, documents, pageTitle },
+    buttonNavigationProps,
+  });
 };

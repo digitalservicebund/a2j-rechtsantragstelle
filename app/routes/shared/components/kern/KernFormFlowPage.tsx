@@ -26,7 +26,6 @@ export function KernFormFlowPage() {
     userData,
     buttonNavigationProps,
     cmsContent,
-    // csrf,
     formElements,
     migration,
     navigationProps,
