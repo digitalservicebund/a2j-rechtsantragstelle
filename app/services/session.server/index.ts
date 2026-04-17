@@ -17,6 +17,9 @@ import { lastStepKey } from "~/services/flow/constants";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
 import { getFeedbackData } from "~/services/feedback/getFeedbackData";
+import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
+import { shouldSetCacheControlHeader } from "~/util/shouldSetCacheControlHeader";
+import { cacheControlHeaderKey } from "~/rootHeaders";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
 type SessionUserData = (typeof allSessionUserData)[number];
@@ -121,12 +124,17 @@ export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);
 
 export const initializeMainSession = async (
-  mainSession: Session,
+  request: Request,
   pathname: string,
 ) => {
+  const mainSession = await mainSessionFromCookieHeader(
+    request.headers.get("Cookie"),
+  );
+
   if (!getCSRFFromSession(mainSession)) {
     mainSession.set(CSRFKey, randomBytes(24).toString("base64"));
   }
+
   try {
     const { flowId, stepId } = parsePathname(pathname);
     mainSession.set(lastStepKey, { [flowId]: stepId });
@@ -134,11 +142,19 @@ export const initializeMainSession = async (
   } catch (err) {} //NOSONAR
 
   const headers = await getSessionManager("main").commitSession(mainSession);
+  const trackingConsent = await trackingCookieValue({ request });
+
+  headers.set(
+    cacheControlHeaderKey,
+    String(shouldSetCacheControlHeader(pathname, trackingConsent)),
+  );
+
   const feedback = getFeedbackData(mainSession, pathname);
   const csrf = mainSession.get(CSRFKey);
   return {
     headers,
     feedback,
     csrf,
+    trackingConsent,
   };
 };

@@ -1,11 +1,18 @@
 import { type MergeWithCustomizer } from "lodash";
-import { createSession, type Session, type SessionData } from "react-router";
+import * as reactRouter from "react-router";
 import { type FlowId } from "~/domains/flowIds";
 import { lastStepKey } from "~/services/flow/constants";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import * as sessionServices from "~/services/session.server";
 
 vi.mock("~/services/session.server/redis");
+
+let session: reactRouter.Session;
+vi.spyOn(reactRouter, "createSessionStorage").mockImplementation(() => ({
+  getSession: vi.fn().mockResolvedValue(session),
+  commitSession: vi.fn(),
+  destroySession: vi.fn(),
+}));
 
 const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
@@ -14,13 +21,13 @@ describe("index", () => {
   describe("updateSession", () => {
     const mockUserData = { a: 1, b: 2 };
     it("should update a session with merged context data", () => {
-      const mockSession = createSession(mockUserData);
+      const mockSession = reactRouter.createSession(mockUserData);
       sessionServices.updateSession(mockSession, { a: 2, c: 3 });
       expect(mockSession.data).toEqual({ a: 2, b: 2, c: 3 });
     });
 
     it("should update a session with merged context data using a custom merge strategy", () => {
-      const mockSession = createSession(mockUserData);
+      const mockSession = reactRouter.createSession(mockUserData);
       sessionServices.updateSession(
         mockSession,
         { a: 2, c: 3 },
@@ -32,61 +39,60 @@ describe("index", () => {
 
   describe("initializeMainSession", () => {
     it("should set the CSRF token if one doesn't exist", async () => {
-      const mockSession = createSession({});
+      session = reactRouter.createSession({});
       const { csrf } = await sessionServices.initializeMainSession(
-        mockSession,
+        new Request("http://localhost:3000"),
         "",
       );
       expect(csrf).toBeTypeOf("string");
     });
 
     it("should skip setting the CSRF token if one exists", async () => {
-      const mockSession = createSession({ [CSRFKey]: "existing-token" });
+      session = reactRouter.createSession({ [CSRFKey]: "existing-token" });
       const { csrf } = await sessionServices.initializeMainSession(
-        mockSession,
+        new Request("http://localhost:3000"),
         "",
       );
       expect(csrf).toBe("existing-token");
     });
 
     it("should set the last visited step if inside of a flow", async () => {
-      const mockSession: Session<SessionData, SessionData> = createSession({});
+      session = reactRouter.createSession({});
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
-        mockSession,
+        new Request("http://localhost:3000"),
         `${flowId}/step1`,
       );
-      const lastStep = mockSession.get(lastStepKey);
+      const lastStep = session.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
     });
 
     it("should skip setting the last visited state if the user is outside of a flow", async () => {
-      const mockSession: Session<SessionData, SessionData> = createSession({});
+      session = reactRouter.createSession({});
       await sessionServices.initializeMainSession(
-        mockSession,
+        new Request("http://localhost:3000"),
         "non-flow-route/step1",
       );
-      const lastStep = mockSession.get(lastStepKey);
+      const lastStep = session.get(lastStepKey);
       expect(lastStep).toBeUndefined();
     });
 
     it("should return feedback data if stored in the session", async () => {
-      const mockSession: Session<SessionData, SessionData> = createSession({});
+      session = reactRouter.createSession({});
       const { feedback } = await sessionServices.initializeMainSession(
-        mockSession,
+        new Request("http://localhost:3000"),
         "some-route",
       );
       expect(feedback).toEqual({ result: undefined, state: "showRating" });
 
       const routeName = "some-route";
-      const mockSessionWithFeedback: Session<SessionData, SessionData> =
-        createSession({
-          bannerState: { [routeName]: "hideRating" },
-          wasHelpful: { [routeName]: "positive" },
-        });
+      session = reactRouter.createSession({
+        bannerState: { [routeName]: "hideRating" },
+        wasHelpful: { [routeName]: "positive" },
+      });
       const { feedback: feedbackWithData } =
         await sessionServices.initializeMainSession(
-          mockSessionWithFeedback,
+          new Request("http://localhost:3000"),
           routeName,
         );
       expect(feedbackWithData).toEqual({
