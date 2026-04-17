@@ -3,15 +3,9 @@ import { createSession, type Session, type SessionData } from "react-router";
 import { type FlowId } from "~/domains/flowIds";
 import { lastStepKey } from "~/services/flow/constants";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import {
-  initializeMainSession,
-  updateSession,
-} from "~/services/session.server";
+import * as sessionServices from "~/services/session.server";
 
-vi.mock("~/services/session.server", async () => ({
-  ...(await vi.importActual("~/services/session.server")),
-  getSessionManager: vi.fn(),
-}));
+vi.mock("~/services/session.server/redis");
 
 const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
@@ -21,13 +15,17 @@ describe("index", () => {
     const mockUserData = { a: 1, b: 2 };
     it("should update a session with merged context data", () => {
       const mockSession = createSession(mockUserData);
-      updateSession(mockSession, { a: 2, c: 3 });
+      sessionServices.updateSession(mockSession, { a: 2, c: 3 });
       expect(mockSession.data).toEqual({ a: 2, b: 2, c: 3 });
     });
 
     it("should update a session with merged context data using a custom merge strategy", () => {
       const mockSession = createSession(mockUserData);
-      updateSession(mockSession, { a: 2, c: 3 }, mergeCustomizer);
+      sessionServices.updateSession(
+        mockSession,
+        { a: 2, c: 3 },
+        mergeCustomizer,
+      );
       expect(mockSession.data).toEqual({ a: 1, b: 2, c: 3 });
     });
   });
@@ -35,34 +33,46 @@ describe("index", () => {
   describe("initializeMainSession", () => {
     it("should set the CSRF token if one doesn't exist", async () => {
       const mockSession = createSession({});
-      const { csrf } = await initializeMainSession(mockSession, "");
+      const { csrf } = await sessionServices.initializeMainSession(
+        mockSession,
+        "",
+      );
       expect(csrf).toBeTypeOf("string");
     });
 
     it("should skip setting the CSRF token if one exists", async () => {
       const mockSession = createSession({ [CSRFKey]: "existing-token" });
-      const { csrf } = await initializeMainSession(mockSession, "");
+      const { csrf } = await sessionServices.initializeMainSession(
+        mockSession,
+        "",
+      );
       expect(csrf).toBe("existing-token");
     });
 
     it("should set the last visited step if inside of a flow", async () => {
       const mockSession: Session<SessionData, SessionData> = createSession({});
       const flowId: FlowId = "/beratungshilfe/antrag";
-      await initializeMainSession(mockSession, `${flowId}/step1`);
+      await sessionServices.initializeMainSession(
+        mockSession,
+        `${flowId}/step1`,
+      );
       const lastStep = mockSession.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
     });
 
     it("should skip setting the last visited state if the user is outside of a flow", async () => {
       const mockSession: Session<SessionData, SessionData> = createSession({});
-      await initializeMainSession(mockSession, "non-flow-route/step1");
+      await sessionServices.initializeMainSession(
+        mockSession,
+        "non-flow-route/step1",
+      );
       const lastStep = mockSession.get(lastStepKey);
       expect(lastStep).toBeUndefined();
     });
 
     it("should return feedback data if stored in the session", async () => {
       const mockSession: Session<SessionData, SessionData> = createSession({});
-      const { feedback } = await initializeMainSession(
+      const { feedback } = await sessionServices.initializeMainSession(
         mockSession,
         "some-route",
       );
@@ -74,10 +84,11 @@ describe("index", () => {
           bannerState: { [routeName]: "hideRating" },
           wasHelpful: { [routeName]: "positive" },
         });
-      const { feedback: feedbackWithData } = await initializeMainSession(
-        mockSessionWithFeedback,
-        routeName,
-      );
+      const { feedback: feedbackWithData } =
+        await sessionServices.initializeMainSession(
+          mockSessionWithFeedback,
+          routeName,
+        );
       expect(feedbackWithData).toEqual({
         result: "positive",
         state: "hideRating",
