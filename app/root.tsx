@@ -21,7 +21,7 @@ import {
   useLocation,
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
-import { flowIdFromPathname, parsePathname } from "~/domains/flowIds";
+import { flowIdFromPathname } from "~/domains/flowIds";
 import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
@@ -43,7 +43,6 @@ import Footer from "./components/layout/Footer";
 import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import {
   globalFeatureFlags,
   isFeatureFlagEnabled,
@@ -53,7 +52,7 @@ import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
 import {
-  getSessionManager,
+  initializeMainSession,
   mainSessionFromCookieHeader,
 } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
@@ -64,11 +63,7 @@ import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
 import KernPageHeader from "./components/kern/layout/KernPageHeader";
 import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
-import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { cacheControlHeaderKey } from "~/rootHeaders";
-import { randomBytes } from "node:crypto";
-import { lastStepKey } from "~/services/flow/constants";
 
 export { headers } from "./rootHeaders";
 
@@ -141,16 +136,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
-  if (!getCSRFFromSession(mainSession)) {
-    mainSession.set(CSRFKey, randomBytes(24).toString("base64"));
-  }
-  try {
-    const { flowId, stepId } = parsePathname(pathname);
-    mainSession.set(lastStepKey, { [flowId]: stepId });
-    // oxlint-disable-next-line no-unused-vars
-  } catch (err) {} //NOSONAR
-
-  const headers = await getSessionManager("main").commitSession(mainSession);
+  const { headers, feedback, csrf } = await initializeMainSession(
+    mainSession,
+    pathname,
+  );
 
   const shouldAddCacheControl = shouldSetCacheControlHeader(
     pathname,
@@ -171,13 +160,13 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       context,
       hasAnyUserData,
       accessibilityTranslations,
-      feedback: getFeedbackData(mainSession, pathname),
+      feedback,
       skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
       showKernUX,
-      csrf: mainSession.get(CSRFKey),
+      csrf,
     },
     {
       headers,

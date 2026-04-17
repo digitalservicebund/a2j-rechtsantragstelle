@@ -1,9 +1,9 @@
-import crypto from "node:crypto";
+import crypto, { randomBytes } from "node:crypto";
 import { type MergeWithCustomizer } from "lodash";
 import mergeWith from "lodash/mergeWith";
 import type { Session } from "react-router";
 import { createSessionStorage, createCookie } from "react-router";
-import { flowIds, type FlowId } from "~/domains/flowIds";
+import { flowIds, parsePathname, type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { config } from "~/services/env/env.server";
 import { useSecureCookie } from "~/util/useSecureCookie";
@@ -13,6 +13,10 @@ import {
   setDataForSession,
   updateDataForSession,
 } from "./redis";
+import { lastStepKey } from "~/services/flow/constants";
+import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { getCSRFFromSession } from "~/services/security/csrf/getCSRFFromSession.server";
+import { getFeedbackData } from "~/services/feedback/getFeedbackData";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
 type SessionUserData = (typeof allSessionUserData)[number];
@@ -115,3 +119,26 @@ export const getSessionIdByFlowId = async (
 export type CookieHeader = ReturnType<Headers["get"]>;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);
+
+export const initializeMainSession = async (
+  mainSession: Session,
+  pathname: string,
+) => {
+  if (!getCSRFFromSession(mainSession)) {
+    mainSession.set(CSRFKey, randomBytes(24).toString("base64"));
+  }
+  try {
+    const { flowId, stepId } = parsePathname(pathname);
+    mainSession.set(lastStepKey, { [flowId]: stepId });
+    // oxlint-disable-next-line no-unused-vars
+  } catch (err) {} //NOSONAR
+
+  const headers = await getSessionManager("main").commitSession(mainSession);
+  const feedback = getFeedbackData(mainSession, pathname);
+  const csrf = mainSession.get(CSRFKey);
+  return {
+    headers,
+    feedback,
+    csrf,
+  };
+};
