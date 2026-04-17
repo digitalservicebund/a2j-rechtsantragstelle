@@ -1,16 +1,14 @@
 import { useLoaderData } from "react-router";
-import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
-import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import type { loader } from "../vorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { BACKGROUND_COLORS } from "~/components";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import { KernVorabcheckPage } from "./kern/KernVorabcheckPage";
+import classNames from "classnames";
+import { KernProgress } from "~/components/kern/KernProgressBar";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
 
 export function VorabcheckPage() {
   const {
@@ -24,44 +22,36 @@ export function VorabcheckPage() {
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
-  const showKernUX = useShowKernUX();
-  if (showKernUX) {
-    return <KernVorabcheckPage />;
-  }
 
   return (
-    <GridSection className={BACKGROUND_COLORS.blue}>
+    <GridSection className="bg-kern-neutral-025">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 9 }}
           xlColumn={{ start: 3, span: 9 }}
-          className="pt-40"
+          className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-          <ProgressBar {...progressProps} />
+          <KernProgress {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
-          className="gap-24 flex flex-col"
+          className="gap-kern-space-x-large flex flex-col"
           row={2}
         >
-          <ContentComponents
-            content={cmsContent.pre_form}
-            className="ds-stack ds-stack-16"
-            managedByParent
-          />
+          <ContentComponents content={cmsContent.pre_form} managedByParent />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
           row={3}
-          className="pb-40"
+          className={classNames({ "pb-80": !showReportProblem })}
         >
-          <ValidatedFlowForm
+          <KernValidatedFlowForm
             stepData={stepData}
             csrf={csrf}
             formElements={formElements}
@@ -73,10 +63,10 @@ export function VorabcheckPage() {
             mdColumn={{ start: 1, span: 8 }}
             lgColumn={{ start: 1, span: 12 }}
             xlColumn={{ start: 1, span: 12 }}
-            className="pb-40 flex justify-end"
+            className="pb-80 pt-kern-space-x-large flex justify-end"
             row={4}
           >
-            <ReportProblem />
+            <KernReportProblem />
           </GridItem>
         )}
       </Grid>

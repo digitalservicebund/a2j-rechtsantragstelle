@@ -1,5 +1,5 @@
 import { normalizeURL } from "~/util/strings";
-import { StandaloneLink } from "./common/StandaloneLink";
+import KernHeading from "./kern/KernHeading";
 
 type CourtDetailsProps = {
   name: string;
@@ -23,35 +23,35 @@ const CourtDetails = ({
   phoneLabel,
 }: CourtDetailsProps) => {
   return (
-    <address className="not-italic ds-stack ds-stack-16">
-      <h2 className="ds-heading-03-reg">{name}</h2>
-      <ul className="list-none pl-0 ds-stack ds-stack-16">
-        <li>
-          <h3 className="ds-label-02-bold">{addressLabel}</h3>
-          <p className="ds-label-01-reg">
-            {street}
-            <br />
-            {city}
-          </p>
-        </li>
-        {website && (
-          <li>
-            <h3 className="sr-only">{websiteLabel}</h3>
-            <p>
-              <StandaloneLink
-                url={normalizeURL(website)}
-                text={`${websiteLabel} ${name}`}
-              />
-            </p>
-          </li>
-        )}
-        {phone && (
-          <li>
-            <h3 className="ds-label-02-bold">{phoneLabel}</h3>
-            <StandaloneLink text={phone} url={`tel:${phone}`} />
-          </li>
-        )}
-      </ul>
+    <address className="not-italic flex flex-col gap-kern-space-default">
+      <KernHeading tagName="h2" size="large" text={name} managedByParent />
+      <div className="flex flex-col">
+        <h3 className="kern-body kern-body--bold m-0! p-0!">{addressLabel}</h3>
+        <span className="kern-body m-0! p-0! text-kern-layout-text-default">
+          {street}
+          <br />
+          {city}
+        </span>
+      </div>
+      {website && (
+        <div className="flex flex-col">
+          <h3 className="kern-body kern-body--bold m-0! p-0!">
+            {websiteLabel}
+          </h3>
+          <a
+            className="kern-link p-0!"
+            href={normalizeURL(website)}
+          >{`${websiteLabel} ${name}`}</a>
+        </div>
+      )}
+      {phone && (
+        <div className="flex flex-col">
+          <h3 className="kern-body kern-body--bold m-0! p-0!">{phoneLabel}</h3>
+          <a className="kern-link p-0!" href={`tel:${phone}`}>
+            {phone}
+          </a>
+        </div>
+      )}
     </address>
   );
 };
