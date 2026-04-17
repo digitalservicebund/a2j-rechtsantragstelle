@@ -60,7 +60,7 @@ export function addDisputeResolution(
     });
 
     legalAssessmentSect.add(
-      doc.struct("P", {}, () => {
+      doc.struct("H4", {}, () => {
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_BOLD)
