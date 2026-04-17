@@ -1,5 +1,5 @@
-import { useLoaderData, useSubmit } from "react-router";
-import { type loader } from "~/routes/shared/formular";
+import { useRouteLoaderData, useSubmit } from "react-router";
+import { type RootLoader } from "~/root";
 import { logError } from "~/services/logging";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
@@ -8,7 +8,7 @@ const handleSubmissionError = (error: unknown) =>
   logError({ message: "An error occurred during form submission:", error });
 
 export function useFileHandler() {
-  const { csrf } = useLoaderData<typeof loader>();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const submit = useSubmit();
   return {
     onFileUpload: (fieldName: string, file: File | undefined) => {

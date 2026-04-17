@@ -28,6 +28,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   } = resultUserAndFlow.value;
 
   const cmsStepId = stepId.replace("ergebnis/", "");
+  const currentFlow = flows[flowId];
 
   const [resultPageContent, parentContentPageMeta] = await Promise.all([
     fetchFlowPage("result-pages", flowId, cmsStepId),
