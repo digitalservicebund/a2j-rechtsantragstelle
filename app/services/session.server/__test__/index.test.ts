@@ -8,6 +8,11 @@ import {
   updateSession,
 } from "~/services/session.server";
 
+vi.mock("~/services/session.server", async () => ({
+  ...(await vi.importActual("~/services/session.server")),
+  getSessionManager: vi.fn(),
+}));
+
 const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
 
