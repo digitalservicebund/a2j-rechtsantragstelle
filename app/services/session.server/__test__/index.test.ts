@@ -1,6 +1,8 @@
 import { type MergeWithCustomizer } from "lodash";
 import * as reactRouter from "react-router";
 import { type FlowId } from "~/domains/flowIds";
+import { cacheControlHeaderKey } from "~/rootHeaders";
+import * as gdprCookie from "~/services/analytics/gdprCookie.server";
 import { lastStepKey } from "~/services/flow/constants";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import * as sessionServices from "~/services/session.server";
@@ -13,6 +15,8 @@ vi.spyOn(reactRouter, "createSessionStorage").mockImplementation(() => ({
   commitSession: vi.fn(),
   destroySession: vi.fn(),
 }));
+
+const trackingCookieValueSpy = vi.spyOn(gdprCookie, "trackingCookieValue");
 
 const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
@@ -99,6 +103,27 @@ describe("index", () => {
         result: "positive",
         state: "hideRating",
       });
+    });
+
+    it("should retrieve the tracking consent cookie from the request", async () => {
+      trackingCookieValueSpy.mockResolvedValue("true");
+      session = reactRouter.createSession({});
+      const { trackingConsent, headers } =
+        await sessionServices.initializeMainSession(
+          new Request("http://localhost:3000", {
+            headers: {
+              Cookie: "tracking-consent=mock-consent-value",
+            },
+          }),
+          "some-route",
+        );
+      expect(trackingCookieValueSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          request: expect.any(Request),
+        }),
+      );
+      expect(trackingConsent).toBe("true");
+      expect(headers.get(cacheControlHeaderKey)).toBe("false");
     });
   });
 });
