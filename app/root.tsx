@@ -22,7 +22,6 @@ import {
 } from "react-router";
 import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
-import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchContentPageMeta,
@@ -43,7 +42,6 @@ import Footer from "./components/layout/Footer";
 import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackData } from "./services/feedback/getFeedbackData";
 import {
   globalFeatureFlags,
   isFeatureFlagEnabled,
@@ -52,10 +50,9 @@ import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import { mainSessionFromCookieHeader } from "./services/session.server";
+import { initializeMainSession } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
-import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 import { KernCookieBanner } from "./components/kern/KernCookieBanner";
 import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
@@ -103,17 +100,15 @@ const STRAPI_P_LEVEL_THREE = 3;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
-  const cookieHeader = request.headers.get("Cookie");
 
   const [
     strapiHeader,
     strapiFooter,
     cookieBannerContent,
-    trackingConsent,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
-    mainSession,
+    { headers, feedback, csrf, trackingConsent },
     breadcrumbs,
     showKernUX,
     showFGROnlineVerfahren,
@@ -121,11 +116,10 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
-    trackingCookieValue({ request }),
     fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
-    mainSessionFromCookieHeader(cookieHeader),
+    initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
     isFeatureFlagEnabled("showFGROnlineVerfahren"),
@@ -133,10 +127,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
-  const shouldAddCacheControl = shouldSetCacheControlHeader(
-    pathname,
-    trackingConsent,
-  );
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
     {
@@ -151,14 +141,17 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       context,
       hasAnyUserData,
       accessibilityTranslations,
-      feedback: getFeedbackData(mainSession, pathname),
+      feedback,
       skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
       showKernUX,
+      csrf,
     },
-    { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
+    {
+      headers,
+    },
   );
 };
 

@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../InputError";
 
-export type KernTimeInputProps = Readonly<{
+type KernTimeInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
