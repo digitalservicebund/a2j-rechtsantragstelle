@@ -18,7 +18,7 @@ import { KernMissingDataList } from "~/components/kern/common/KernMissingDataLis
 import KernMigrationDataOverview from "~/components/kern/KernMigrationDataOverview";
 import KernArraySummary from "~/components/kern/arraySummary/KernArraySummary";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
-import { RootLoader } from "~/root";
+import { type RootLoader } from "~/root";
 
 export function FormFlowPage() {
   const {
