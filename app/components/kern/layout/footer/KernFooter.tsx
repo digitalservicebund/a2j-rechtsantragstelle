@@ -20,8 +20,8 @@ export default function KernFooter({
   ariaLabel,
 }: FooterProps) {
   return (
-    <GridSection>
-      <Grid className="pt-kern-space-x-large flex flex-col gap-y-32 pl-0! pr-0! print:pb-0 border-t-kern-neutral-100">
+    <GridSection className="border-t border-t-[#DFE1EA]">
+      <Grid className="pt-kern-space-x-large flex flex-col gap-y-32 pl-0! pr-0! print:pb-0">
         <GridItem
           row={1}
           ariaLabel={ariaLabel}
@@ -52,8 +52,8 @@ export default function KernFooter({
           </div>
           <KernFooterExternalLinks />
         </GridItem>
-        {showDeletionBanner && <KernFooterDeletePersonalData />}
       </Grid>
+      {showDeletionBanner && <KernFooterDeletePersonalData />}
     </GridSection>
   );
 }
