@@ -24,7 +24,7 @@ const pilotCourt = {
   LEJ: "04838",
   MUC: "85435",
   NUE: "90402",
-  //STR: "70629", enable it later
+  STR: "70629",
 };
 
 function removeDoubleQuotes(value: unknown): string {
