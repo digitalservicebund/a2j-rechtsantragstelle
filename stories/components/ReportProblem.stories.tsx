@@ -9,7 +9,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 
 const meta = {
-  title: "feedback/ReportProblem",
+  title: "components/ReportProblem",
   component: KernReportProblem,
   beforeEach: async () => {
     mocked(fetchSurvey).mockReturnValue({
@@ -32,7 +32,7 @@ const meta = {
     mocked(useAnalytics).mockReturnValue({
       posthogClient: {
         // oxlint-disable-next-line no-empty-function
-        capture: () => {},
+        capture: () => { },
       } as unknown as PostHog,
     });
   },
