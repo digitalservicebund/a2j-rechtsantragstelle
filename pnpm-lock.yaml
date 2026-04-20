@@ -15,15 +15,6 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1031.0
         version: 3.1031.0
-      '@digitalservice4germany/angie':
-        specifier: 2.4.0
-        version: 2.4.0
-      '@digitalservice4germany/style-dictionary':
-        specifier: ^2.0.0
-        version: 2.0.0
-      '@digitalservicebund/icons':
-        specifier: ^2.1.0
-        version: 2.1.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
         version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.2.2)
@@ -247,9 +238,6 @@ importers:
       follow-redirects:
         specifier: ^1.16.0
         version: 1.16.0
-      globals:
-        specifier: ^17.5.0
-        version: 17.5.0
       i18n-iso-countries:
         specifier: ^7.14.0
         version: 7.14.0
@@ -676,18 +664,6 @@ packages:
   '@csstools/css-tokenizer@4.0.0':
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
-
-  '@digitalservice4germany/angie@2.4.0':
-    resolution: {integrity: sha512-2JTj2IQYHQieXca6qocC1n8gqDQrcfmlPfrm8DukcpH96CrFYhW7WlaVQJFMKSYGZK/Q3Cj2DEyYhqQR0KSb5w==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-
-  '@digitalservice4germany/style-dictionary@2.0.0':
-    resolution: {integrity: sha512-P4qRe2OyIZsxtOsX4GY0JP5k0YyDimoeY/eQP5S2Ibr0T1uFoH3/7yOsXeNeAS15H1A4h81apfNakK019F835Q==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-
-  '@digitalservicebund/icons@2.1.0':
-    resolution: {integrity: sha512-YuKVA1ZFXr5iK2HRXiqTn/4XtPVTchz5QplMip1J3opLqNEoHwIn5Vz/1mqLYjDAdd2hZjOROBBimJcXI1/VLQ==}
-    engines: {node: '>=18'}
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0':
     resolution: {integrity: sha512-3Q4MVUd7nrlNyiVj4zImOGe/gStJwOxXgwB7n4yguxiyXrBB5lpwGSnqi1F+Ae6KB5M2olA/3muvAsuLd9WGkg==}
@@ -3423,10 +3399,6 @@ packages:
     resolution: {integrity: sha512-Wjlyrolmm8uDpm/ogGyXZXb1Z+Ca2B8NbJwqBVg0axK9GbBeoS7yGV6vjXnYdGm6X53iehEuxxbyiKp8QmN4Vw==}
     engines: {node: 18 || 20 || >=22}
 
-  globals@17.5.0:
-    resolution: {integrity: sha512-qoV+HK2yFl/366t2/Cb3+xxPUo5BuMynomoDmiaZBIdbs+0pYbjfZU+twLhGKp4uCZ/+NbtpVepH5bGCxRyy2g==}
-    engines: {node: '>=18'}
-
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
@@ -5829,12 +5801,6 @@ snapshots:
       css-tree: 3.2.1
 
   '@csstools/css-tokenizer@4.0.0': {}
-
-  '@digitalservice4germany/angie@2.4.0': {}
-
-  '@digitalservice4germany/style-dictionary@2.0.0': {}
-
-  '@digitalservicebund/icons@2.1.0': {}
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.2.2)':
     dependencies:
@@ -8556,8 +8522,6 @@ snapshots:
       minimatch: 10.2.5
       minipass: 7.1.3
       path-scurry: 2.0.2
-
-  globals@17.5.0: {}
 
   gopd@1.2.0: {}
 
