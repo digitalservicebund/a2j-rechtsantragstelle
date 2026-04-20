@@ -1,10 +1,10 @@
 import { parseFormData } from "@rvf/react-router";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import {
+  emailCaptureConsentName,
   emailCaptureSchema,
   invalidEmailError,
-  emailCaptureConsentName,
-} from "~/components/content/emailCapture/emailCaptureHelpers";
+} from "~/components/kern/emailCapture/emailCaptureHelpers";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { getSessionManager } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
