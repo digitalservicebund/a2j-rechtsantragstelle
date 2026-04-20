@@ -16,7 +16,7 @@ import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
-export type EmailCaptureProps = {
+type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
   errorBanner: InlineNoticeProps;
   label?: string;

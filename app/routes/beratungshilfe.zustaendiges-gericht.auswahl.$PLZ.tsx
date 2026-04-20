@@ -15,7 +15,6 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { KernAutoSuggestInput } from "~/components/kern/formElements/autoSuggest";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
@@ -23,6 +22,7 @@ import KernHeading from "~/components/kern/KernHeading";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",

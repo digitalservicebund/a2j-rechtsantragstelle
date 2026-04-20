@@ -35,9 +35,6 @@ export const ratenzahlungAnteiligYes: FinanzielleAngabenGuard = ({
   return ratenzahlungen?.at(arrayIndex)?.zahlungspflichtiger !== "myself";
 };
 
-export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
-  "hasWeitereUnterhaltszahlungen",
-);
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const { hasWertsacheYes } = yesNoGuards("hasWertsache");
@@ -171,5 +168,5 @@ export const grundeigentumIsBewohnt: FinanzielleAngabenGuard = ({
 };
 export const hasWeitereUnterhaltszahlungenYesAndEmptyArray: FinanzielleAngabenGuard =
   ({ context }) =>
-    hasWeitereUnterhaltszahlungenYes({ context }) &&
+    yesNoGuards("hasWeitereUnterhaltszahlungen") &&
     !arrayIsNonEmpty(context.unterhaltszahlungen);
