@@ -603,7 +603,7 @@
     "iata": "DDR",
     "country_code": "CN",
     "country": "China",
-    "airport": "Rikaze Dingri Flughafen",
+    "airport": "Shigatse Tingri Flughafen",
     "latitude": 28.604567,
     "longitude": 86.798,
     "city": "Xigazê (Dingri)",
@@ -2937,7 +2937,7 @@
     "latitude": 48.689899,
     "longitude": 9.22196,
     "city": "Stuttgart",
-    "zipCodePilotCourt": ""
+    "zipCodePilotCourt": "70629"
   },
   {
     "iata": "HAJ",
@@ -5230,16 +5230,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "MTS",
-    "country_code": "SZ",
-    "country": "Eswatini",
-    "airport": "Matsapha International Flughafen",
-    "latitude": -26.528919,
-    "longitude": 31.307577,
-    "city": "Manzini",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "SHO",
     "country_code": "SZ",
     "country": "Eswatini",
@@ -6660,16 +6650,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "ATR",
-    "country_code": "MR",
-    "country": "Mauretanien",
-    "airport": "Atar International Flughafen",
-    "latitude": 20.505823,
-    "longitude": -13.043744,
-    "city": "Atar",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "NDB",
     "country_code": "MR",
     "country": "Mauretanien",
@@ -6677,6 +6657,16 @@
     "latitude": 20.932404,
     "longitude": -17.030199,
     "city": "Nouadhibou",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "OUZ",
+    "country_code": "MR",
+    "country": "Mauretanien",
+    "airport": "Tazadit Flughafen",
+    "latitude": 22.757345,
+    "longitude": -12.482228,
+    "city": "Zouérate",
     "zipCodePilotCourt": ""
   },
   {
@@ -6843,7 +6833,7 @@
     "iata": "BCO",
     "country_code": "ET",
     "country": "Äthiopien",
-    "airport": "Baco Flughafen",
+    "airport": "Jinka Flughafen",
     "latitude": 5.749655,
     "longitude": 36.560165,
     "city": "Jinka",
@@ -7164,8 +7154,8 @@
     "country_code": "KE",
     "country": "Kenia",
     "airport": "Amboseli Flughafen",
-    "latitude": -2.645050048828125,
-    "longitude": 37.25310134887695,
+    "latitude": -2.644786,
+    "longitude": 37.252922,
     "city": "Amboseli",
     "zipCodePilotCourt": ""
   },
@@ -7234,18 +7224,18 @@
     "country_code": "KE",
     "country": "Kenia",
     "airport": "Mara Serena Lodge Airstrip Flughafen",
-    "latitude": -1.406111,
-    "longitude": 35.008057,
-    "city": "Masai Mara",
+    "latitude": -1.404588,
+    "longitude": 35.008349,
+    "city": "Serena",
     "zipCodePilotCourt": ""
   },
   {
     "iata": "NYK",
     "country_code": "KE",
     "country": "Kenia",
-    "airport": "Nanyuki Flughafen",
-    "latitude": -0.062399,
-    "longitude": 37.041008,
+    "airport": "Nanyuki Civil Flughafen",
+    "latitude": -0.062352,
+    "longitude": 37.041296,
     "city": "Nanyuki",
     "zipCodePilotCourt": ""
   },
@@ -7254,8 +7244,8 @@
     "country_code": "KE",
     "country": "Kenia",
     "airport": "Nairobi Wilson Flughafen",
-    "latitude": -1.321720004081726,
-    "longitude": 36.81480026245117,
+    "latitude": -1.32172,
+    "longitude": 36.8148,
     "city": "Nairobi",
     "zipCodePilotCourt": ""
   },
@@ -7474,8 +7464,8 @@
     "country_code": "TZ",
     "country": "Tansania, Vereinigte Republik",
     "airport": "Dodoma Flughafen",
-    "latitude": -6.17044,
-    "longitude": 35.752602,
+    "latitude": -6.170559,
+    "longitude": 35.756036,
     "city": "Dodoma",
     "zipCodePilotCourt": ""
   },
@@ -7577,6 +7567,16 @@
     "latitude": 1.7276899814605713,
     "longitude": 33.622798919677734,
     "city": "Soroti",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "DHX",
+    "country_code": "ID",
+    "country": "Indonesien",
+    "airport": "Dhoho International Flughafen",
+    "latitude": -7.749527,
+    "longitude": 111.946831,
+    "city": "Kediri",
     "zipCodePilotCourt": ""
   },
   {
@@ -8253,7 +8253,7 @@
     "iata": "BUR",
     "country_code": "US",
     "country": "Vereinigte Staaten von Amerika",
-    "airport": "Hollywood Burbank Flughafen",
+    "airport": "Hollywood Burbank/Bob Hope Flughafen",
     "latitude": 34.202834,
     "longitude": -118.35805,
     "city": "Burbank",
@@ -15353,7 +15353,7 @@
     "iata": "SLW",
     "country_code": "MX",
     "country": "Mexiko",
-    "airport": "Plan De Guadalupe International Flughafen",
+    "airport": "Plan de Guadalupe International Flughafen",
     "latitude": 25.53786,
     "longitude": -100.928346,
     "city": "Saltillo",
@@ -23100,6 +23100,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "UYU",
+    "country_code": "BO",
+    "country": "Bolivien",
+    "airport": "Joya Andina International Flughafen",
+    "latitude": -20.441304,
+    "longitude": -66.857553,
+    "city": "Quijarro",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "VVI",
     "country_code": "BO",
     "country": "Bolivien",
@@ -24024,8 +24034,8 @@
     "country_code": "TT",
     "country": "Trinidad und Tobago",
     "airport": "Piarco International Flughafen",
-    "latitude": 10.597811,
-    "longitude": -61.337463,
+    "latitude": 10.59535,
+    "longitude": -61.337568,
     "city": "Port of Spain",
     "zipCodePilotCourt": ""
   },
@@ -24200,6 +24210,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "IKG",
+    "country_code": "KG",
+    "country": "Kirgisistan",
+    "airport": "Karakol International Flughafen",
+    "latitude": 42.508099,
+    "longitude": 78.407799,
+    "city": "Karakol",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "CIT",
     "country_code": "KZ",
     "country": "Kasachstan",
@@ -24214,8 +24234,8 @@
     "country_code": "KZ",
     "country": "Kasachstan",
     "airport": "Hazrat Sultan International Flughafen",
-    "latitude": 43.311742,
-    "longitude": 68.550185,
+    "latitude": 43.311087,
+    "longitude": 68.550352,
     "city": "Turkistan",
     "zipCodePilotCourt": ""
   },
@@ -25787,6 +25807,16 @@
     "latitude": 37.287261,
     "longitude": 67.311869,
     "city": "Termez",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "TVT",
+    "country_code": "UZ",
+    "country": "Usbekistan",
+    "airport": "Tashkent-Khumo International Flughafen",
+    "latitude": 41.312889,
+    "longitude": 69.395535,
+    "city": "Tashkent",
     "zipCodePilotCourt": ""
   },
   {
@@ -28370,16 +28400,6 @@
     "zipCodePilotCourt": ""
   },
   {
-    "iata": "IVD",
-    "country_code": "ID",
-    "country": "Indonesien",
-    "airport": "Nusantara International Flughafen",
-    "latitude": -1.158611,
-    "longitude": 116.708054,
-    "city": "Nusantara",
-    "zipCodePilotCourt": ""
-  },
-  {
     "iata": "BPN",
     "country_code": "ID",
     "country": "Indonesien",
@@ -28513,7 +28533,7 @@
     "iata": "SOC",
     "country_code": "ID",
     "country": "Indonesien",
-    "airport": "Adisumarmo Flughafen",
+    "airport": "Adisoemarmo International Flughafen",
     "latitude": -7.516044,
     "longitude": 110.757492,
     "city": "Surakarta (Solo)",
@@ -28834,8 +28854,8 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Halim Perdanakusuma International Flughafen",
-    "latitude": -6.267221,
-    "longitude": 106.891733,
+    "latitude": -6.266989,
+    "longitude": 106.890318,
     "city": "Jakarta",
     "zipCodePilotCourt": ""
   },
@@ -28864,8 +28884,8 @@
     "country_code": "ID",
     "country": "Indonesien",
     "airport": "Binaka Flughafen",
-    "latitude": 1.16628,
-    "longitude": 97.704327,
+    "latitude": 1.166275,
+    "longitude": 97.705196,
     "city": "Gunung Sitoli",
     "zipCodePilotCourt": ""
   },
@@ -30310,6 +30330,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "WSI",
+    "country_code": "AU",
+    "country": "Australien",
+    "airport": "(Duplicate)Western Sydney International Flughafen",
+    "latitude": -33.88806,
+    "longitude": 150.71472,
+    "city": "Sydney",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "XTG",
     "country_code": "AU",
     "country": "Australien",
@@ -31120,6 +31150,16 @@
     "zipCodePilotCourt": ""
   },
   {
+    "iata": "HXD",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Haixi Delingha Flughafen",
+    "latitude": 37.125286,
+    "longitude": 97.268658,
+    "city": "Delingha",
+    "zipCodePilotCourt": ""
+  },
+  {
     "iata": "GMQ",
     "country_code": "CN",
     "country": "China",
@@ -31177,6 +31217,16 @@
     "latitude": 38.322758,
     "longitude": 106.393214,
     "city": "Yinchuan",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "JIC",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Jinchang Jinchuan Flughafen",
+    "latitude": 38.542222,
+    "longitude": 102.348333,
+    "city": "Jinchang",
     "zipCodePilotCourt": ""
   },
   {
@@ -32407,6 +32457,16 @@
     "latitude": 43.913584,
     "longitude": 87.479372,
     "city": "Urumqi",
+    "zipCodePilotCourt": ""
+  },
+  {
+    "iata": "YIN",
+    "country_code": "CN",
+    "country": "China",
+    "airport": "Ili Yining International Flughafen",
+    "latitude": 43.955799,
+    "longitude": 81.330299,
+    "city": "Ili (Yining / Ghulja)",
     "zipCodePilotCourt": ""
   },
   {
