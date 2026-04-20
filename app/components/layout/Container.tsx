@@ -17,7 +17,7 @@ export type Padding =
   | "56" // pt-56! pb-56!
   | "64"; // pt-64! pb-64!
 
-export type CommonWrapperProps = {
+type CommonWrapperProps = {
   backgroundColor?: BackgroundColor;
   paddingTop?: Padding;
   paddingBottom?: Padding;
