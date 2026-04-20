@@ -3,7 +3,7 @@ import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
 const meta = {
-  title: "form/ButtonContainer",
+  title: "components/ButtonContainer",
   component: KernButtonContainer,
   tags: ["autodocs"],
   argTypes: {

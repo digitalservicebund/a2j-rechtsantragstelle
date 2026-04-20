@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import KernButton from "~/components/kern/KernButton";
 
 const meta = {
-  title: "form/Button",
+  title: "components/Button",
   component: KernButton,
   tags: ["autodocs"],
   argTypes: {
