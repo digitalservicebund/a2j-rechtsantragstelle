@@ -1,7 +1,7 @@
 import { normalizeURL } from "~/util/strings";
-import KernHeading from "../../components/kern/KernHeading";
+import KernHeading from "./kern/KernHeading";
 
-type KernCourtDetailsProps = {
+type CourtDetailsProps = {
   name: string;
   addressLabel: string;
   street: string;
@@ -12,7 +12,7 @@ type KernCourtDetailsProps = {
   phone?: string;
 };
 
-const KernCourtDetails = ({
+const CourtDetails = ({
   name,
   street,
   city,
@@ -21,7 +21,7 @@ const KernCourtDetails = ({
   addressLabel,
   websiteLabel,
   phoneLabel,
-}: KernCourtDetailsProps) => {
+}: CourtDetailsProps) => {
   return (
     <address className="not-italic flex flex-col gap-kern-space-default">
       <KernHeading tagName="h2" size="large" text={name} managedByParent />
@@ -56,4 +56,4 @@ const KernCourtDetails = ({
   );
 };
 
-export default KernCourtDetails;
+export default CourtDetails;
