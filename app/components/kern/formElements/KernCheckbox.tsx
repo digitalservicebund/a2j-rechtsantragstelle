@@ -4,7 +4,7 @@ import { useState } from "react";
 import InputError from "./InputError";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
-export type CheckboxValue = "on" | "off";
+type CheckboxValue = "on" | "off";
 
 type KernCheckboxProps = Readonly<{
   name: string;

@@ -3,7 +3,7 @@ import { translations } from "~/services/translations/translations";
 import { FileInput } from "../FileInput";
 
 vi.mock("react-router", () => ({
-  useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
+  useRouteLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useSubmit: vi.fn(),
 }));
 

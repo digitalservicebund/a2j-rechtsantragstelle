@@ -8,9 +8,11 @@ export const defaultHeaders = {
     "accelerometer=(),autoplay=(),camera=(),display-capture=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),sync-xhr=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()", // see https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md
 };
 
+export const cacheControlHeaderKey = "shouldAddCacheControl";
+
 export const headers = ({ loaderHeaders }: HeadersArgs) => ({
   ...defaultHeaders,
-  ...(loaderHeaders.get("shouldAddCacheControl") === "true" && {
+  ...(loaderHeaders.get(cacheControlHeaderKey) === "true" && {
     "Cache-Control": "no-store",
   }),
 });
