@@ -1,6 +1,6 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
-import { useLoaderData, useLocation, useRouteLoaderData } from "react-router";
+import { useLoaderData, useLocation } from "react-router";
 import {
   emailCaptureSchema,
   invalidEmailError,
@@ -8,14 +8,13 @@ import {
 import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 import InputError from "~/components/kern/formElements/InputError";
 import { type loader } from "~/routes/shared/formular";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
 import { KernInlineNotice } from "~/components/kern/KernInlineNotice";
 import { mapLookValue } from "~/components/content/ContentComponents";
 import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import { type RootLoader } from "~/root";
+import { Csrf } from "~/components/formElements/Csrf";
 
 type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
@@ -35,7 +34,6 @@ export const KernEmailCapture = ({
   const fieldName = "email";
   const errorId = "email-error";
   const { emailCaptureConsent } = useLoaderData<typeof loader>();
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
@@ -115,7 +113,7 @@ export const KernEmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <Csrf />
           <input type="hidden" name="_url" value={pathname} />
         </div>
       </form>

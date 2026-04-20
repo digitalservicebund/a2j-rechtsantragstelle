@@ -1,11 +1,10 @@
-import { useFetcher, useLocation, useRouteLoaderData } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 import KernButton from "~/components/kern/KernButton";
 import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
-import { type RootLoader } from "~/root";
+import { Csrf } from "~/components/formElements/Csrf";
 
 type Props = {
   readonly itemIndex: number;
@@ -23,7 +22,6 @@ const KernArraySummaryItemActions = ({
   heading,
 }: Props) => {
   const { pathname } = useLocation();
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
   const srHeadingText = heading ? `${heading.text} ` : "";
@@ -44,7 +42,7 @@ const KernArraySummaryItemActions = ({
         </span>
       </a>
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
-        <input type="hidden" name={CSRFKey} value={csrf} />
+        <Csrf />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <KernButton

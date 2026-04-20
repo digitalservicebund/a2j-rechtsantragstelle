@@ -1,6 +1,6 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
-import { useLoaderData, useLocation, useRouteLoaderData } from "react-router";
+import { useLoaderData, useLocation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import RichText from "~/components/common/RichText";
@@ -12,11 +12,10 @@ import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
+import { Csrf } from "~/components/formElements/Csrf";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
-import { type RootLoader } from "~/root";
 import { type loader } from "~/routes/shared/formular";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
 
 export type EmailCaptureProps = {
@@ -37,7 +36,6 @@ export const EmailCapture = ({
   const fieldName = "email";
   const errorId = "email-error";
   const { emailCaptureConsent } = useLoaderData<typeof loader>();
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
@@ -86,7 +84,7 @@ export const EmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <Csrf />
           <input type="hidden" name="_url" value={pathname} />
         </div>
         <ButtonContainer className="h-[4rem]">
