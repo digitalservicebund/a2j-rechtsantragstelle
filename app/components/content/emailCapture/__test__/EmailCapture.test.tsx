@@ -1,5 +1,10 @@
 import { render } from "@testing-library/react";
-import { useLocation, useLoaderData, type Location } from "react-router";
+import {
+  useLocation,
+  type Location,
+  useRouteLoaderData,
+  useLoaderData,
+} from "react-router";
 import {
   EmailCapture,
   type EmailCaptureProps,
@@ -8,7 +13,8 @@ import { invalidEmailError } from "~/components/content/emailCapture/emailCaptur
 import { type InlineNoticeProps } from "../../InlineNotice";
 
 vi.mock("react-router", () => ({
-  useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
+  useLoaderData: vi.fn(() => ({})),
+  useRouteLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: vi.fn(),
   useLocation: vi.fn(() => ({ search: "", pathname: "" })),
 }));
@@ -109,8 +115,10 @@ describe("EmailCapture", () => {
     });
 
     it("should display a success state if a user has previously consented (session storage)", () => {
-      vi.mocked(useLoaderData).mockReturnValue({
+      vi.mocked(useRouteLoaderData).mockReturnValue({
         csrf: "csrf",
+      });
+      vi.mocked(useLoaderData).mockReturnValue({
         emailCaptureConsent: true,
       });
       const { getByText } = renderEmailCapture();

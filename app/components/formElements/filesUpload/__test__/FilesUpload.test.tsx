@@ -21,7 +21,7 @@ const mockSubmit = vi.hoisted(() => vi.fn());
 let actionResponse: ValidationErrorResponseData | UserData | undefined;
 vi.mock("react-router", async () => ({
   ...(await vi.importActual("react-router")),
-  useLoaderData: vi.fn(() => ({ csrf: "csrf" })),
+  useRouteLoaderData: vi.fn(() => ({ csrf: "csrf" })),
   useActionData: () => actionResponse,
   useSubmit: () => mockSubmit.mockResolvedValue(undefined),
 }));
