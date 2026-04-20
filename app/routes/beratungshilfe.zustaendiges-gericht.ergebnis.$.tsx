@@ -11,8 +11,8 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { splatFromParams } from "~/services/params";
 import { KernIcon } from "~/components/kern/common/KernIcon";
-import KernCourtDetails from "./kern/KernCourtDetails";
 import KernHeading from "~/components/kern/KernHeading";
+import CourtDetails from "~/components/CourtDetails";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =
@@ -74,7 +74,7 @@ export const Component = () => {
           xlColumn={{ start: 3, span: 8 }}
           className="py-kern-space-default lg:px-kern-space-default px-kern-space-small"
         >
-          <KernCourtDetails
+          <CourtDetails
             name={court.BEZEICHNUNG}
             street={court.STR_HNR}
             city={`${court.PLZ_ZUSTELLBEZIRK} ${court.ORT}`}
