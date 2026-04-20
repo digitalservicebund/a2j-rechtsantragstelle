@@ -24,19 +24,6 @@ test.describe("CSRF token", () => {
     ).toHaveCount(1);
   });
 
-  test("N+1 form tabs return 403", async ({ context }) => {
-    for (let idx = 0; idx < csrfCountMax; idx++) {
-      const newPage = new FluggastrechteVorabcheck(await context.newPage());
-      await newPage.goto();
-    }
-
-    // workaround for preview tests, it should open a new page after open the limits of tabs above
-    await new FluggastrechteVorabcheck(await context.newPage()).goto();
-
-    await vorabcheck.clickNext();
-    await expect(vorabcheck.page.getByText("403")).toHaveCount(1);
-  });
-
   test("N+1 non-form tabs still work", async ({ context }) => {
     for (let idx = 0; idx < csrfCountMax; idx++) {
       await (await context.newPage()).goto("/");

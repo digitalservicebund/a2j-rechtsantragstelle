@@ -1,6 +1,6 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
-import { useLoaderData, useLocation } from "react-router";
+import { useLoaderData, useLocation, useRouteLoaderData } from "react-router";
 import {
   emailCaptureSchema,
   invalidEmailError,
@@ -15,6 +15,7 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import { type RootLoader } from "~/root";
 
 type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
@@ -33,7 +34,8 @@ export const KernEmailCapture = ({
 }: EmailCaptureProps) => {
   const fieldName = "email";
   const errorId = "email-error";
-  const { csrf, emailCaptureConsent } = useLoaderData<typeof loader>();
+  const { emailCaptureConsent } = useLoaderData<typeof loader>();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
