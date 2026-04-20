@@ -16,7 +16,9 @@ export const flowIds = [
 export type FlowId = (typeof flowIds)[number];
 
 export function flowIdFromPathname(pathname: string) {
-  return flowIds.find((flowId) => pathname.startsWith(flowId));
+  return flowIds.find(
+    (flowId) => pathname === flowId || pathname.startsWith(`${flowId}/`),
+  );
 }
 
 export function parsePathname(pathname: string) {

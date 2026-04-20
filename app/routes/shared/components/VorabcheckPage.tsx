@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 import { ProgressBar } from "~/components/common/ProgressBar";
 import ContentComponents from "~/components/content/ContentComponents";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
@@ -11,10 +11,10 @@ import { BACKGROUND_COLORS } from "~/components";
 import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { KernVorabcheckPage } from "./kern/KernVorabcheckPage";
+import { type RootLoader } from "~/root";
 
 export function VorabcheckPage() {
   const {
-    csrf,
     stepData,
     cmsContent,
     formElements,
@@ -22,6 +22,7 @@ export function VorabcheckPage() {
     buttonNavigationProps,
     showReportProblem,
   } = useLoaderData<typeof loader>();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
 
   useFocusFirstH1();
   const showKernUX = useShowKernUX();

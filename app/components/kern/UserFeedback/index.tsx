@@ -11,7 +11,7 @@ type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
 };
 
-export const USER_FEEDBACK_ID = "user-feedback-banner";
+const USER_FEEDBACK_ID = "user-feedback-banner";
 
 export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();

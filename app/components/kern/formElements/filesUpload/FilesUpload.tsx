@@ -16,7 +16,7 @@ import {
   type KernInlineNoticeProps,
 } from "../../KernInlineNotice";
 
-export type FilesUploadProps = {
+type FilesUploadProps = {
   name: string;
   title?: string;
   description?: string;

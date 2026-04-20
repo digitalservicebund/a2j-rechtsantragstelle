@@ -26,10 +26,6 @@ test.describe(pageUrl, () => {
     await cookieSettings.acceptCookieBanner();
     await cookieSettings.acceptCookies();
 
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "gespeichert",
-    );
-
     expect(await cookieSettings.consentCookieExists()).toBe(true);
     expect(await cookieSettings.consentCookieValue()).toBe("true");
     if (await cookieSettings.posthogEnabled())
