@@ -32,7 +32,7 @@ const meta = {
     mocked(useAnalytics).mockReturnValue({
       posthogClient: {
         // oxlint-disable-next-line no-empty-function
-        capture: () => { },
+        capture: () => {},
       } as unknown as PostHog,
     });
   },
