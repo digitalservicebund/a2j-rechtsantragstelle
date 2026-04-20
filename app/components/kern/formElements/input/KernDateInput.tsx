@@ -4,7 +4,7 @@ import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "~/components/kern/formElements/InputError";
 
-export type KernDateInputProps = Readonly<{
+type KernDateInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;

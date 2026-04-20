@@ -8,14 +8,11 @@ import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
-import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { KernAutoSuggestInput } from "~/components/kern/formElements/autoSuggest";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
@@ -23,6 +20,7 @@ import KernHeading from "~/components/kern/KernHeading";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",
@@ -34,7 +32,7 @@ export const courtFinderSchema = z.object({
   houseNumber: germanHouseNumberSchema,
 });
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");
@@ -43,19 +41,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  const { session } = await createSessionWithCsrf(
-    request.headers.get("Cookie"),
-  );
-
-  const sessionManager = getSessionManager("main");
-
-  return data(
-    {
-      userData: { plz: zipCode },
-      meta: { title: "Amtsgericht finden" },
-    },
-    { headers: await sessionManager.commitSession(session) },
-  );
+  return data({
+    userData: { plz: zipCode },
+    meta: { title: "Amtsgericht finden" },
+  });
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {

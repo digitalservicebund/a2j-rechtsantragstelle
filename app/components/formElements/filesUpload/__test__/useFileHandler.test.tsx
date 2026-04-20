@@ -3,13 +3,13 @@ import { useFileHandler } from "../useFileHandler";
 
 const mockFile = new File([], "mockFile");
 
-const { useLoaderDataMock, submitMock } = vi.hoisted(() => ({
-  useLoaderDataMock: vi.fn(() => ({ csrf: "csrf" })),
+const { useRouteLoaderDataMock, submitMock } = vi.hoisted(() => ({
+  useRouteLoaderDataMock: vi.fn(() => ({ csrf: "csrf" })),
   submitMock: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock("react-router", () => ({
-  useLoaderData: useLoaderDataMock,
+  useRouteLoaderData: useRouteLoaderDataMock,
   useSubmit: () => submitMock,
 }));
 
@@ -22,7 +22,7 @@ describe("fileUploadHelpers", () => {
     it("should return a file upload handler", () => {
       const { onFileUpload } = useFileHandler();
       expect(onFileUpload).toBeDefined();
-      expect(useLoaderDataMock).toHaveBeenCalled();
+      expect(useRouteLoaderDataMock).toHaveBeenCalled();
       const mockFormData = new FormData();
       mockFormData.append("_action", `fileUpload.fieldName`);
       mockFormData.append(CSRFKey, "csrf");
@@ -43,7 +43,7 @@ describe("fileUploadHelpers", () => {
     it("should return a file deletion handler", () => {
       const { onFileDelete } = useFileHandler();
       expect(onFileDelete).toBeDefined();
-      expect(useLoaderDataMock).toHaveBeenCalled();
+      expect(useRouteLoaderDataMock).toHaveBeenCalled();
       const mockFormData = new FormData();
       mockFormData.append("_action", `deleteFile.fieldName`);
       mockFormData.append(CSRFKey, "csrf");

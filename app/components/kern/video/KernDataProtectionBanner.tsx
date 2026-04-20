@@ -12,11 +12,11 @@ const DATA_PROTECTION_TRANSLATION_KEYS = {
   link: "datenschutz-link",
 } as const;
 
-export const DATA_PROTECTION_TRANSLATION_VALUES = Object.values(
+const DATA_PROTECTION_TRANSLATION_VALUES = Object.values(
   DATA_PROTECTION_TRANSLATION_KEYS,
 );
 
-export const videoTranslations = Object.fromEntries(
+const videoTranslations = Object.fromEntries(
   Object.entries(staticTranslations.video).map(([key, value]) => [
     key,
     value[defaultLocale],
