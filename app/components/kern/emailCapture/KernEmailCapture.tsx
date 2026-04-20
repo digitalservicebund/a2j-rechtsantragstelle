@@ -17,7 +17,7 @@ import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import { type RootLoader } from "~/root";
 
-export type EmailCaptureProps = {
+type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
   errorBanner: InlineNoticeProps;
   label?: string;
