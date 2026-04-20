@@ -7,7 +7,7 @@ type NavigationButton = {
   disabled?: boolean;
 };
 
-export type ButtonNavigationProps = {
+type ButtonNavigationProps = {
   readonly back?: NavigationButton;
   readonly next?: NavigationButton;
 };

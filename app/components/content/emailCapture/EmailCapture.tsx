@@ -1,6 +1,6 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
-import { useLoaderData, useLocation } from "react-router";
+import { useLoaderData, useLocation, useRouteLoaderData } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import RichText from "~/components/common/RichText";
@@ -14,6 +14,7 @@ import {
 } from "~/components/content/InlineNotice";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
+import { type RootLoader } from "~/root";
 import { type loader } from "~/routes/shared/formular";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
@@ -35,7 +36,8 @@ export const EmailCapture = ({
 }: EmailCaptureProps) => {
   const fieldName = "email";
   const errorId = "email-error";
-  const { csrf, emailCaptureConsent } = useLoaderData<typeof loader>();
+  const { emailCaptureConsent } = useLoaderData<typeof loader>();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
