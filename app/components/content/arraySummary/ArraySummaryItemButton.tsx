@@ -1,18 +1,18 @@
 import type { HeadingProps } from "~/components/common/Heading";
 import EditButton from "@digitalservicebund/icons/CreateOutlined";
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
-import { useFetcher, useLocation } from "react-router";
+import { useFetcher, useLocation, useRouteLoaderData } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
+import { type RootLoader } from "~/root";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly csrf: string;
   readonly heading?: HeadingProps;
 };
 
@@ -22,11 +22,11 @@ const ArraySummaryItemButton = ({
   itemIndex,
   category,
   editUrl,
-  csrf,
   heading,
 }: Props) => {
   const { pathname } = useLocation();
   const fetcher = useFetcher();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const jsAvailable = useJsAvailable();
   const srHeadingText = heading ? (
     <span className="sr-only">{heading.text}&nbsp;</span>

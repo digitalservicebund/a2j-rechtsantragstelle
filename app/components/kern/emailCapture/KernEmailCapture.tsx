@@ -35,7 +35,7 @@ export const KernEmailCapture = ({
   const fieldName = "email";
   const errorId = "email-error";
   const { emailCaptureConsent } = useLoaderData<typeof loader>();
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,

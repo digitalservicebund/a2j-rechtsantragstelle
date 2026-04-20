@@ -1,16 +1,16 @@
-import { useFetcher, useLocation } from "react-router";
+import { useFetcher, useLocation, useRouteLoaderData } from "react-router";
 import KernButton from "~/components/kern/KernButton";
 import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
+import { type RootLoader } from "~/root";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly csrf: string;
   readonly heading?: KernHeadingProps;
 };
 
@@ -20,10 +20,10 @@ const KernArraySummaryItemActions = ({
   itemIndex,
   category,
   editUrl,
-  csrf,
   heading,
 }: Props) => {
   const { pathname } = useLocation();
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
   const srHeadingText = heading ? `${heading.text} ` : "";

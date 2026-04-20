@@ -1,5 +1,5 @@
 import { ValidatedForm } from "@rvf/react-router";
-import { useLocation } from "react-router";
+import { useLocation, useRouteLoaderData } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
@@ -9,22 +9,21 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { SchemaComponents } from "./SchemaComponents";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
+import { type RootLoader } from "~/root";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
   formElements: StrapiFormComponent[];
   buttonNavigationProps: ButtonNavigationProps;
-  csrf: string;
 };
 
 function ValidatedFlowForm({
   stepData,
   formElements,
   buttonNavigationProps: { back, next },
-  csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
-
+  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
   const readOnlyFieldNames = getReadOnlyFieldNames(pathname, stepData);

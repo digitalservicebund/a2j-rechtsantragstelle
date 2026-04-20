@@ -47,7 +47,6 @@ export const Default: Story = {
   args: {
     category: "unterhaltszahlungen",
     arrayData: mockArrayData,
-    csrf: "csrf-token",
     content: {
       title: {
         text: "Unterhaltszahlungen",
@@ -74,7 +73,7 @@ export const WithDisabledAddButton: Story = {
         disableAddButton: true,
       },
     },
-    csrf: "csrf-token",
+
     content: {
       title: {
         text: "Unterhaltszahlungen",
@@ -113,7 +112,6 @@ export const WithMultipleItems: Story = {
         },
       ],
     },
-    csrf: "csrf-token",
     content: {
       title: {
         text: "Unterhaltszahlungen",
