@@ -5,7 +5,7 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
 import InputError from "./InputError";
 
-export type SelectProps = {
+type SelectProps = {
   name: string;
   options: Array<{ value: string; text: string }>;
   label?: ReactNode;
