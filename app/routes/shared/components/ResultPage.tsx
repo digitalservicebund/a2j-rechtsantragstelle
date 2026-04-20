@@ -1,7 +1,3 @@
-import CheckCircleOutline from "@digitalservicebund/icons/CheckCircleOutline";
-import InfoOutline from "@digitalservicebund/icons/InfoOutline";
-import HighlightOff from "@digitalservicebund/icons/HighlightOff";
-import WarningAmber from "@digitalservicebund/icons/WarningAmber";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import { type loader } from "../result";
@@ -16,25 +12,50 @@ import KernRichText from "~/components/kern/KernRichText";
 
 const iconProps = {
   "aria-hidden": false,
-  className: "inline-block h-[36px]! w-[36px]! min-h-[36px]! min-w-[36px]!",
+  iconClassName:
+    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3 forced-color-adjust-auto",
 };
 
 const boxProps = {
   error: {
-    backgroundColor: "red",
-    icon: <HighlightOff aria-label="Negatives Ergebnis" {...iconProps} />,
+    backgroundColor: "kern-alert--danger",
+    icon: (
+      <KernIcon
+        name="emergency-home"
+        className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
+        aria-label="Negatives Ergebnis"
+      />
+    ),
   },
   success: {
-    backgroundColor: "green",
-    icon: <CheckCircleOutline aria-label="Positives Ergebnis" {...iconProps} />,
+    backgroundColor: "kern-alert--success",
+    icon: (
+      <KernIcon
+        name="check-circle"
+        className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
+        aria-label="Positives Ergebnis"
+      />
+    ),
   },
   warning: {
-    backgroundColor: "yellow",
-    icon: <WarningAmber aria-label="Warnung" {...iconProps} />,
+    backgroundColor: "kern-alert--warning",
+    icon: (
+      <KernIcon
+        name="warning"
+        className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
+        aria-label="Warnung"
+      />
+    ),
   },
   info: {
-    backgroundColor: "midBlue",
-    icon: <InfoOutline aria-label="Information" {...iconProps} />,
+    backgroundColor: "kern-alert--info",
+    icon: (
+      <KernIcon
+        name="info"
+        className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
+        aria-label="Information"
+      />
+    ),
   },
 } as const;
 
@@ -130,7 +151,6 @@ export function ResultPage() {
             content={[element]}
           />
         ))}
-
       <ContentComponents content={nextSteps} />
     </>
   );
