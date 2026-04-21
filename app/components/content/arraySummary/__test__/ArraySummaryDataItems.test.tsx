@@ -38,7 +38,6 @@ describe("ArraySummaryDataItems", () => {
         itemIndex={0}
         itemLabels={itemLabels}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -62,7 +61,6 @@ describe("ArraySummaryDataItems", () => {
         itemIndex={0}
         itemLabels={{}}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -78,7 +76,6 @@ describe("ArraySummaryDataItems", () => {
         subtitle={{ text: "Subtitle" }}
         itemLabels={{}}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -97,7 +94,6 @@ describe("ArraySummaryDataItems", () => {
             subtitle={{ text: "Subtitle {{ indexArray }}" }}
             itemLabels={{}}
             category="unterhaltszahlungen"
-            csrf="csrf"
           />
         ))}
       </>,
@@ -122,7 +118,6 @@ describe("ArraySummaryDataItems", () => {
             itemIndex={itemIndex}
             itemLabels={{}}
             category="unterhaltszahlungen"
-            csrf="csrf"
           />
         ))}
       </>,

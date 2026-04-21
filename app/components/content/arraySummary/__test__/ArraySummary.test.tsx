@@ -45,7 +45,6 @@ describe("ArraySummary", () => {
           description: "Array Summary Description",
         }}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -62,7 +61,6 @@ describe("ArraySummary", () => {
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -96,7 +94,6 @@ describe("ArraySummary", () => {
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 
@@ -132,7 +129,6 @@ describe("ArraySummary", () => {
           buttonLabel: "Add Item",
         }}
         category="unterhaltszahlungen"
-        csrf="csrf"
       />,
     );
 

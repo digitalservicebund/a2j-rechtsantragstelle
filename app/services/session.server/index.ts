@@ -152,7 +152,7 @@ export const initializeMainSession = async (request: Request) => {
   return {
     headers,
     feedback,
-    csrf,
+    csrf: Array.isArray(csrf) ? csrf[0] : csrf,
     trackingConsent,
   };
 };
