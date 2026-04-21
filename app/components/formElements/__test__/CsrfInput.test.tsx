@@ -1,14 +1,14 @@
 import { render } from "@testing-library/react";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 vi.mock("react-router", async () => ({
   useRouteLoaderData: vi.fn().mockReturnValue({ csrf: "mocked-csrf-token" }),
 }));
 
-describe("Csrf", () => {
+describe("CsrfInput", () => {
   it("renders the hidden input with the csrf token", () => {
-    const { getByTestId } = render(<Csrf />);
+    const { getByTestId } = render(<CsrfInput />);
     const csrf = getByTestId(CSRFKey);
     expect(csrf).toBeInTheDocument();
     expect(csrf).toHaveValue("mocked-csrf-token");

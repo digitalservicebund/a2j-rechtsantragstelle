@@ -12,7 +12,7 @@ import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
 import { type loader } from "~/routes/shared/formular";
@@ -84,7 +84,7 @@ export const EmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <Csrf />
+          <CsrfInput />
           <input type="hidden" name="_url" value={pathname} />
         </div>
         <ButtonContainer className="h-[4rem]">

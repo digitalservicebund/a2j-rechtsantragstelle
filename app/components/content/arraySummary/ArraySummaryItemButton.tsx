@@ -6,7 +6,7 @@ import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type Props = {
   readonly itemIndex: number;
@@ -38,7 +38,7 @@ const ArraySummaryItemButton = ({
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
-        <Csrf />
+        <CsrfInput />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <Button

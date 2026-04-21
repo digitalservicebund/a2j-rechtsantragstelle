@@ -14,7 +14,7 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
@@ -113,7 +113,7 @@ export const KernEmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <Csrf />
+          <CsrfInput />
           <input type="hidden" name="_url" value={pathname} />
         </div>
       </form>

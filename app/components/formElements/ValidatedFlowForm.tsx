@@ -8,7 +8,7 @@ import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { SchemaComponents } from "./SchemaComponents";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -37,7 +37,7 @@ function ValidatedFlowForm({
     >
       {(form) => (
         <>
-          <Csrf />
+          <CsrfInput />
           <div className="ds-stack ds-stack-40">
             {pageSchema && (
               <SchemaComponents

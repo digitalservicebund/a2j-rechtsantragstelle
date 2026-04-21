@@ -8,7 +8,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import KernTextarea from "../formElements/Textarea";
 import KernButton from "../KernButton";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 const FEEDBACK_FIELD_NAME = "feedback";
@@ -84,7 +84,7 @@ export const FeedbackFormBox = ({
     >
       {(form) => (
         <div className="flex flex-col gap-kern-space-small!">
-          <Csrf />
+          <CsrfInput />
           <KernTextarea
             backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}

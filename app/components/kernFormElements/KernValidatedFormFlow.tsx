@@ -8,7 +8,7 @@ import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidat
 import { KernSchemaComponents } from "./KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
 import { getReadOnlyFieldNames } from "../formElements/schemaToForm/getReadOnlyFieldNames";
-import { Csrf } from "~/components/formElements/Csrf";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -37,7 +37,7 @@ function KernValidatedFlowForm({
     >
       {(form) => (
         <>
-          <Csrf />
+          <CsrfInput />
           <div className="flex flex-col">
             {pageSchema && (
               <KernSchemaComponents
