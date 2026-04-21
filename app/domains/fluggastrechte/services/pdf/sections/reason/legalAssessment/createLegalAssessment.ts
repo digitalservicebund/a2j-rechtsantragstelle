@@ -1,7 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { getTotalCompensationClaim } from "~/domains/fluggastrechte/formular/services/getTotalCompensationClaim";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import { gerichtskostenFromBetrag } from "~/domains/fluggastrechte/services/gerichtskosten";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
