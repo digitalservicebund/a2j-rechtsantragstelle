@@ -21,13 +21,11 @@ type ArraySummaryProps = Readonly<{
     subtitle?: KernHeadingProps;
     itemLabels: ItemLabels;
   };
-  csrf: string;
 }>;
 
 const KernArraySummary = ({
   category,
   arrayData,
-  csrf,
   content,
 }: ArraySummaryProps) => {
   const nextItemIndex = String(arrayData.data.length);
@@ -54,7 +52,6 @@ const KernArraySummary = ({
           itemIndex={index}
           items={items}
           category={category}
-          csrf={csrf}
           subtitle={content.subtitle}
           itemLabels={content.itemLabels}
         />

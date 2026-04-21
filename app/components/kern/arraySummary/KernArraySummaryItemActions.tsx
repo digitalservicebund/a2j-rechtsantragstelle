@@ -3,14 +3,13 @@ import KernButton from "~/components/kern/KernButton";
 import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly csrf: string;
   readonly heading?: KernHeadingProps;
 };
 
@@ -20,7 +19,6 @@ const KernArraySummaryItemActions = ({
   itemIndex,
   category,
   editUrl,
-  csrf,
   heading,
 }: Props) => {
   const { pathname } = useLocation();
@@ -44,7 +42,7 @@ const KernArraySummaryItemActions = ({
         </span>
       </a>
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
-        <input type="hidden" name={CSRFKey} value={csrf} />
+        <CsrfInput />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <KernButton

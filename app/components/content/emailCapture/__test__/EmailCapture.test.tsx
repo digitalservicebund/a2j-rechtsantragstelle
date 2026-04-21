@@ -1,10 +1,5 @@
 import { render } from "@testing-library/react";
-import {
-  useLocation,
-  type Location,
-  useRouteLoaderData,
-  useLoaderData,
-} from "react-router";
+import { useLocation, type Location, useLoaderData } from "react-router";
 import {
   EmailCapture,
   type EmailCaptureProps,
@@ -115,9 +110,6 @@ describe("EmailCapture", () => {
     });
 
     it("should display a success state if a user has previously consented (session storage)", () => {
-      vi.mocked(useRouteLoaderData).mockReturnValue({
-        csrf: "csrf",
-      });
       vi.mocked(useLoaderData).mockReturnValue({
         emailCaptureConsent: true,
       });
