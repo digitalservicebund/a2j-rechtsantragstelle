@@ -1,4 +1,4 @@
-import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
+import { kontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
