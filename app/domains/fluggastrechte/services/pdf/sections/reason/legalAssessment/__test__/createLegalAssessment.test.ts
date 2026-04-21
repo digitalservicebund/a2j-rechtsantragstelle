@@ -3,18 +3,17 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
-  DISPUTE_RESOLUTION_TITLE_TEXT,
-  CLAIM_FULL_JUSTIFIED_TEXT,
   createLegalAssessment,
   LEGAL_ASSESSMENT_TEXT,
 } from "../createLegalAssessment";
+import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 
 vi.mock("~/services/pdf/addNewPageInCaseMissingVerticalSpace");
+vi.mock("~/domains/shared/services/pdf/addDisputeResolution");
 
 vi.mocked(addNewPageInCaseMissingVerticalSpace).mockImplementation(() =>
   vi.fn(),
@@ -40,113 +39,13 @@ describe("createLegalAssessment", () => {
     );
   });
 
-  it("should render document with claim full justified text", () => {
+  it("should call the addDisputeResolution for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
+
     createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(CLAIM_FULL_JUSTIFIED_TEXT);
-  });
-
-  it("should render document with assumed settlement section text given streitbeilegung yes", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "yes",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.",
-    );
-  });
-
-  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende yes", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "no",
-      streitbeilegungGruende: "yes",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
-    );
-  });
-
-  it("should render updated assumed settlement text when feature flag is enabled", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "no",
-      streitbeilegungGruende: "yes",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE_TEXT);
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
-    );
-  });
-
-  it("should not render assumed settlement title when no settlement content is visible", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "noSpecification",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).not.toHaveBeenCalledWith(
-      DISPUTE_RESOLUTION_TITLE_TEXT,
-    );
-  });
-
-  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende no", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "no",
-      streitbeilegungGruende: "no",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
-    );
-  });
-
-  it("should render document with assumed settlement section text given streitbeilegung no and streitbeilegungGruende noSpecification", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    const mockDataStreitbeilegung = {
-      ...userDataMock,
-      streitbeilegung: "no",
-      streitbeilegungGruende: "noSpecification",
-    } satisfies FluggastrechteUserData;
-
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.",
-    );
+    expect(addDisputeResolution).toHaveBeenCalledTimes(1);
   });
 
   it("should render document with claim person name", () => {
@@ -157,12 +56,12 @@ describe("createLegalAssessment", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("Herr Test-test Test");
   });
 
-  it("should call function addNewPageInCaseMissingVerticalSpace twice", () => {
+  it("should call function addNewPageInCaseMissingVerticalSpace once", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
-    expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(2);
+    expect(addNewPageInCaseMissingVerticalSpace).toHaveBeenCalledOnce();
   });
 });
 
@@ -176,7 +75,7 @@ describe("createLegalAssessment - accessibility", () => {
     const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
       ([tag]) => tag === "P",
     );
-    expect(callsWithP).toHaveLength(3);
+    expect(callsWithP).toHaveLength(2);
   });
 
   it("should call createLegalAssessment with one h3", () => {
