@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { matchSorter } from "match-sorter";
-import { type RefObject, useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useRouteLoaderData } from "react-router";
 import Select, { type InputActionMeta } from "react-select";
 import Creatable from "react-select/creatable";
@@ -23,6 +23,7 @@ import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
 import TextInput from "../input/TextInput";
 import KernFormatOptionLabel from "~/components/kern/formElements/autoSuggest/KernFormatOptionLabel";
+import Fuse from "fuse.js/basic";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -98,6 +99,15 @@ const KernAutoSuggestInput = ({
   const inputId = `input-${name}`;
   const helperId = `${name}-helper`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
+  const fuzzySearchEngine = useMemo(
+    () =>
+      new Fuse(items, {
+        keys: ["label"],
+        threshold: 0.5,
+        minMatchCharLength: MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
+      }),
+    [items],
+  );
 
   const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
@@ -111,9 +121,13 @@ const KernAutoSuggestInput = ({
         setOptions([]);
         return;
       }
-      let filteredOptions = items.filter((item) =>
-        item.label.toLowerCase().includes(value.toLocaleLowerCase()),
-      );
+
+      let filteredOptions =
+        dataList === "streetNames"
+          ? fuzzySearchEngine.search(value).map((result) => result.item)
+          : items.filter((item) =>
+              item.label.toLowerCase().includes(value.toLocaleLowerCase()),
+            );
 
       // In case is the airports list, sorting by the code
       if (dataList === "airports") {
