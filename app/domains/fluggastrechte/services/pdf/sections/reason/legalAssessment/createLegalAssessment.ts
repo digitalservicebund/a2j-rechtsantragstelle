@@ -22,8 +22,6 @@ const DISPUTE_RESOLUTION_OCCURRED_TEXT =
   "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.";
 const DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT =
   "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
-const DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_LEGACY =
-  "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.";
 const DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED =
   "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
@@ -31,54 +29,31 @@ const ADVANCE_COURT_COSTS_FIRST_TEXT =
 const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "Euro anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
 
-type DisputeResolutionContent = {
-  sectionText: string;
-  showTitle: boolean;
-};
-
-const getDisputeResolutionContent = (
-  { streitbeilegung, streitbeilegungGruende }: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
-): DisputeResolutionContent => {
+const getDisputeResolutionContent = ({
+  streitbeilegung,
+  streitbeilegungGruende,
+}: FluggastrechteUserData): string => {
   if (streitbeilegung === "noSpecification") {
-    return { sectionText: "", showTitle: false };
+    return "";
   }
 
   if (streitbeilegung === "yes") {
-    return {
-      sectionText: DISPUTE_RESOLUTION_OCCURRED_TEXT,
-      showTitle: showFGROnlineVerfahren,
-    };
+    return DISPUTE_RESOLUTION_OCCURRED_TEXT;
   }
 
   if (streitbeilegungGruende === "yes") {
-    return {
-      sectionText: showFGROnlineVerfahren
-        ? DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED
-        : DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_LEGACY,
-      showTitle: showFGROnlineVerfahren,
-    };
+    return DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED;
   }
 
-  return {
-    sectionText: DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT,
-    showTitle: showFGROnlineVerfahren,
-  };
+  return DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT;
 };
 
-const getTextsForHeightCalculation = (
-  disputeResolutionSectionText: string,
-  shouldRenderDisputeResolutionTitle: boolean,
-) => {
+const getTextsForHeightCalculation = (disputeResolutionSectionText: string) => {
   if (!disputeResolutionSectionText) {
     return [];
   }
 
-  if (shouldRenderDisputeResolutionTitle) {
-    return [DISPUTE_RESOLUTION_TITLE_TEXT, disputeResolutionSectionText];
-  }
-
-  return [disputeResolutionSectionText];
+  return [DISPUTE_RESOLUTION_TITLE_TEXT, disputeResolutionSectionText];
 };
 
 function checkAndNewPage(
@@ -104,54 +79,44 @@ export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren = false,
 ) => {
-  const disputeResolutionContent = getDisputeResolutionContent(
-    userData,
-    showFGROnlineVerfahren,
-  );
-  const disputeResolutionSectionText = disputeResolutionContent.sectionText;
-  const shouldRenderDisputeResolutionTitle =
-    disputeResolutionContent.showTitle && Boolean(disputeResolutionSectionText);
-
-  const textsForHeightCalculation = getTextsForHeightCalculation(
-    disputeResolutionSectionText,
-    shouldRenderDisputeResolutionTitle,
-  );
-  checkAndNewPage(doc, textsForHeightCalculation);
-
+  const disputeResolutionSectionText = getDisputeResolutionContent(userData);
   const legalAssessmentSect = doc.struct("Sect");
-  legalAssessmentSect.add(
-    doc.struct("H3", {}, () => {
-      doc
-        .fontSize(14)
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(LEGAL_ASSESSMENT_TEXT, PDF_MARGIN_HORIZONTAL);
-      doc.moveDown(1);
-    }),
-  );
 
-  legalAssessmentSect.add(
-    doc.struct("P", {}, () => {
-      doc
-        .fontSize(10)
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text(CLAIM_FULL_JUSTIFIED_TEXT);
+  if (disputeResolutionSectionText) {
+    const textsForHeightCalculation = getTextsForHeightCalculation(
+      disputeResolutionSectionText,
+    );
+    checkAndNewPage(doc, textsForHeightCalculation);
 
-      if (shouldRenderDisputeResolutionTitle) {
+    legalAssessmentSect.add(
+      doc.struct("H3", {}, () => {
+        doc
+          .fontSize(14)
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(LEGAL_ASSESSMENT_TEXT, PDF_MARGIN_HORIZONTAL);
+        doc.moveDown(1);
+      }),
+    );
+
+    legalAssessmentSect.add(
+      doc.struct("P", {}, () => {
+        doc
+          .fontSize(10)
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(CLAIM_FULL_JUSTIFIED_TEXT);
+
         doc
           .moveDown(0.5)
           .font(FONTS_BUNDESSANS_BOLD)
           .text(DISPUTE_RESOLUTION_TITLE_TEXT)
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(disputeResolutionSectionText);
-      } else if (disputeResolutionSectionText) {
-        doc.text(disputeResolutionSectionText);
-      }
 
-      doc.moveDown(4);
-    }),
-  );
+        doc.moveDown(4);
+      }),
+    );
+  }
 
   const compensationByDistance = getTotalCompensationClaim(userData);
 

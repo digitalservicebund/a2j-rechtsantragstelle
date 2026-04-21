@@ -9,7 +9,6 @@ export const createFirstPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
 ) => {
   const amtsgericht = getCourtByStartAndEndAirport(
     userData.startAirport,
@@ -17,12 +16,7 @@ export const createFirstPage = (
   );
   createLocalCourtAndDate(doc, documentStruct, amtsgericht);
   doc.moveDown(2);
-  createFlightCompensationClaim(
-    doc,
-    documentStruct,
-    userData,
-    showFGROnlineVerfahren,
-  );
+  createFlightCompensationClaim(doc, documentStruct, userData);
   doc.moveDown(2);
-  createStatementClaim(doc, documentStruct, userData, showFGROnlineVerfahren);
+  createStatementClaim(doc, documentStruct, userData);
 };

@@ -1,5 +1,4 @@
 import { PDFDocument } from "pdf-lib";
-import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
 import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
@@ -59,29 +58,4 @@ describe("pdfDownloadLoader", () => {
     expect(pdfDoc.getPageCount()).toBe(10);
     expect(nameField.getText()).toBe("Müller, Zoe");
   });
-
-  it.each([true, false])(
-    "passes showFGROnlineVerfahren feature flag to fluggastrechte PDF generator (%s)",
-    async (flagEnabled) => {
-      vi.mocked(isFeatureFlagEnabled).mockResolvedValue(flagEnabled);
-      vi.mocked(fluggastrechtePdfFromUserdata).mockResolvedValue(
-        Buffer.from([1, 2, 3]),
-      );
-
-      const url = "https://mock-url.de/fluggastrechte/formular/download/pdf";
-      const response = await loader(mockRouteArgsFromRequest(new Request(url)));
-
-      expect(response.status).toBe(200);
-      expect(response.headers.get("Content-Type")).toBe("application/pdf");
-      expect(isFeatureFlagEnabled).toHaveBeenCalledWith(
-        "showFGROnlineVerfahren",
-      );
-      expect(fluggastrechtePdfFromUserdata).toHaveBeenCalledWith(
-        expect.objectContaining({ vorname: "Zoe", nachname: "Müller" }),
-        {
-          showFGROnlineVerfahren: flagEnabled,
-        },
-      );
-    },
-  );
 });

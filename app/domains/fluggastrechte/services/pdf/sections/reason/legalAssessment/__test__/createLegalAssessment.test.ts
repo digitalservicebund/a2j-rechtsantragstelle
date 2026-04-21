@@ -77,7 +77,7 @@ describe("createLegalAssessment", () => {
     createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung nach § 253 Abs. 3 Nr. 1 ZPO nicht erreichbar ist.",
+      "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
     );
   });
 
@@ -91,7 +91,7 @@ describe("createLegalAssessment", () => {
       streitbeilegungGruende: "yes",
     } satisfies FluggastrechteUserData;
 
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung, true);
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE_TEXT);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -108,7 +108,7 @@ describe("createLegalAssessment", () => {
       streitbeilegung: "noSpecification",
     } satisfies FluggastrechteUserData;
 
-    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung, true);
+    createLegalAssessment(mockDoc, mockStruct, mockDataStreitbeilegung);
 
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       DISPUTE_RESOLUTION_TITLE_TEXT,

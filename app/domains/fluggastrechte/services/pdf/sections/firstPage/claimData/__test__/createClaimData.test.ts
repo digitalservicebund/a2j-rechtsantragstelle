@@ -31,7 +31,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct, userDataMock, true);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.fontSize).toHaveBeenCalledWith(14);
     expect(mockDoc.text).toHaveBeenCalledWith(IN_THE_MATTER);
@@ -50,7 +50,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct, userDataMock, true);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addPlaintiffDetails).toBeCalledTimes(1);
   });
@@ -59,7 +59,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct, userDataMock, true);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addAirlineDetails).toBeCalledTimes(1);
   });
@@ -68,7 +68,7 @@ describe("createClaimData", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createClaimData(mockDoc, mockStruct, userDataMock, true);
+    createClaimData(mockDoc, mockStruct, userDataMock);
 
     expect(addPlannedFlightDetails).toBeCalledTimes(1);
   });
@@ -80,7 +80,7 @@ describe("createClaimData - accessibility", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
 
-    createClaimData(mockDoc, mockSect, userDataMock, true);
+    createClaimData(mockDoc, mockSect, userDataMock);
     expect(mockDoc.struct).toHaveBeenCalledWith("H1", {}, expect.any(Function));
     const callsWithH1 = (mockDoc.struct as Mock).mock.calls.filter(
       ([tag]) => tag === "H1",
@@ -92,7 +92,7 @@ describe("createClaimData - accessibility", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
 
-    createClaimData(mockDoc, mockSect, userDataMock, true);
+    createClaimData(mockDoc, mockSect, userDataMock);
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
     const callsWithH2 = (mockDoc.struct as Mock).mock.calls.filter(
       ([tag]) => tag === "H2",
@@ -104,7 +104,7 @@ describe("createClaimData - accessibility", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
 
-    createClaimData(mockDoc, mockSect, userDataMock, true);
+    createClaimData(mockDoc, mockSect, userDataMock);
     expect(mockDoc.struct).toHaveBeenCalledWith("P", {}, expect.any(Function));
     const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
       ([tag]) => tag === "P",
