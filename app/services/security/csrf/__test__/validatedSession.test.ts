@@ -78,6 +78,33 @@ describe("validatedSession", () => {
     );
   });
 
+  it("should handle both an array of CSRF tokens, as well as a single token", async () => {
+    const mockSession: Session = createSession();
+    mockSession.set(CSRFKey, ["csrf1", "csrf2"]);
+    mockMainSessionFromCookieHeader(mockSession);
+    const formData = new FormData();
+    formData.append(CSRFKey, "csrf2");
+
+    const request = new Request("http://localhost:3000", {
+      method: "POST",
+      body: formData,
+    });
+
+    const actual = await validatedSession(request);
+    expect(actual.isOk).toBe(true);
+
+    mockSession.set(CSRFKey, "singleCsrf");
+    formData.set(CSRFKey, "singleCsrf");
+
+    const requestSingle = new Request("http://localhost:3000", {
+      method: "POST",
+      body: formData,
+    });
+
+    const actualSingle = await validatedSession(requestSingle);
+    expect(actualSingle.isOk).toBe(true);
+  });
+
   it("should return a result ok in case everything is ok", async () => {
     const mockSession: Session = createSession();
     mockMainSessionFromCookieHeader(mockSession);

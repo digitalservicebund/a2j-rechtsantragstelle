@@ -10,7 +10,6 @@ type ArraySummaryItemProps = {
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly csrf: string;
   readonly subtitle?: KernHeadingProps;
   readonly itemLabels: ItemLabels;
 };
@@ -20,7 +19,6 @@ const KernArraySummaryDataItems = ({
   items,
   category,
   configuration,
-  csrf,
   subtitle,
   itemLabels,
 }: ArraySummaryItemProps) => {
@@ -70,7 +68,6 @@ const KernArraySummaryDataItems = ({
         <KernArraySummaryItemActions
           heading={heading as KernHeadingProps}
           category={category}
-          csrf={csrf}
           itemIndex={itemIndex}
           editUrl={editUrl}
         />

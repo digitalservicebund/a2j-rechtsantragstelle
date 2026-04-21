@@ -60,6 +60,14 @@ describe("index", () => {
       expect(csrf).toBe("existing-token");
     });
 
+    it("should return the first CSRF token if the session contains an array of CSRF tokens", async () => {
+      session = reactRouter.createSession({ [CSRFKey]: ["token1", "token2"] });
+      const { csrf } = await sessionServices.initializeMainSession(
+        new Request(baseUrl),
+      );
+      expect(csrf).toBe("token1");
+    });
+
     it("should set the last visited step if inside of a flow", async () => {
       session = reactRouter.createSession({});
       const flowId: FlowId = "/beratungshilfe/antrag";
