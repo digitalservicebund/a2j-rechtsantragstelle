@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useEffect, useId, useRef } from "react";
-import { useLocation, useRouteLoaderData } from "react-router";
+import { useLocation } from "react-router";
 import { z } from "zod";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
@@ -8,8 +8,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import KernTextarea from "../formElements/Textarea";
 import KernButton from "../KernButton";
-import { type RootLoader } from "~/root";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 const FEEDBACK_FIELD_NAME = "feedback";
@@ -49,7 +48,6 @@ export const FeedbackFormBox = ({
   const location = useLocation();
 
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf;
 
   const feedbackTranslations = useFeedbackTranslations();
   const headingPersonalFeedbackId = useId();
@@ -86,7 +84,7 @@ export const FeedbackFormBox = ({
     >
       {(form) => (
         <div className="flex flex-col gap-kern-space-small!">
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <CsrfInput />
           <KernTextarea
             backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}

@@ -7,7 +7,6 @@ const defaultProps = {
   category: "unterhaltszahlungen",
   editUrl:
     "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person/0/daten",
-  csrf: "test-csrf-token",
 };
 
 vi.mock("react-router", async () => {
@@ -17,6 +16,7 @@ vi.mock("react-router", async () => {
     useFetcher: () => ({
       Form: ({ children, ...props }: any) => <form {...props}>{children}</form>,
     }),
+    useRouteLoaderData: () => ({ csrf: "test-csrf-token" }),
     useLocation: () => ({ pathname: "/test-path" }),
   };
 });
