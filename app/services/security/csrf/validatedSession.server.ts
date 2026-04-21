@@ -22,8 +22,13 @@ async function validateCSRFToken(
   const csrfTokensSession = getCSRFFromSession(session);
   if (!csrfTokensSession) return Result.err(ERROR_MESSAGE_TOKEN_SESSION);
 
-  if (csrfTokensSession !== csrfTokenForm)
+  const isTokenMatch = Array.isArray(csrfTokensSession)
+    ? csrfTokensSession.includes(csrfTokenForm)
+    : csrfTokensSession === csrfTokenForm;
+
+  if (!isTokenMatch) {
     return Result.err(ERROR_MESSAGE_TOKEN_SESSION_NOT_MATCH);
+  }
 
   return Result.ok();
 }
