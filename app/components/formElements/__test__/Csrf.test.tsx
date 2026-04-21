@@ -12,5 +12,6 @@ describe("Csrf", () => {
     const csrf = getByTestId(CSRFKey);
     expect(csrf).toBeInTheDocument();
     expect(csrf).toHaveValue("mocked-csrf-token");
+    expect(csrf).toHaveAttribute("type", "hidden");
   });
 });
