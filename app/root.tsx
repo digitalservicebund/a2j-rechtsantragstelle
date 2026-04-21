@@ -98,7 +98,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     { headers, feedback, csrf, trackingConsent },
     breadcrumbs,
     showKernUX,
-    showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -109,10 +108,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
     isFeatureFlagEnabled("showKernUX"),
-    isFeatureFlagEnabled("showFGROnlineVerfahren"),
   ]);
   globalFeatureFlags.showKernUX = Boolean(showKernUX);
-  globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
