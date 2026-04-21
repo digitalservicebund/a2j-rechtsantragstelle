@@ -4,119 +4,41 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import {
   FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
 import { getFullPlaintiffName } from "../../getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
-import { getHeightOfString } from "~/services/pdf/getHeightOfString";
+import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 
 export const LEGAL_ASSESSMENT_TEXT = "II. Rechtliche Würdigung";
-export const CLAIM_FULL_JUSTIFIED_TEXT =
-  "Die Klage ist vollumfänglich begründet.";
-export const DISPUTE_RESOLUTION_TITLE_TEXT =
-  "Außergerichtliche Streitbeilegung:";
-const DISPUTE_RESOLUTION_OCCURRED_TEXT =
-  "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.";
-const DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT =
-  "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden.";
-const DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED =
-  "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichnen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
 const ADVANCE_COURT_COSTS_SECOND_TEXT =
   "Euro anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
-
-const getDisputeResolutionContent = ({
-  streitbeilegung,
-  streitbeilegungGruende,
-}: FluggastrechteUserData): string => {
-  if (streitbeilegung === "noSpecification") {
-    return "";
-  }
-
-  if (streitbeilegung === "yes") {
-    return DISPUTE_RESOLUTION_OCCURRED_TEXT;
-  }
-
-  if (streitbeilegungGruende === "yes") {
-    return DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED;
-  }
-
-  return DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT;
-};
-
-const getTextsForHeightCalculation = (disputeResolutionSectionText: string) => {
-  if (!disputeResolutionSectionText) {
-    return [];
-  }
-
-  return [DISPUTE_RESOLUTION_TITLE_TEXT, disputeResolutionSectionText];
-};
-
-function checkAndNewPage(
-  doc: typeof PDFDocument,
-  additionalTextsForHeight: string[],
-) {
-  const legalAssessmentTextsHeight = getHeightOfString(
-    [
-      LEGAL_ASSESSMENT_TEXT,
-      CLAIM_FULL_JUSTIFIED_TEXT,
-      ...additionalTextsForHeight,
-    ],
-    doc,
-    PDF_WIDTH_SEIZE,
-  );
-
-  addNewPageInCaseMissingVerticalSpace(doc, {
-    extraYPosition: legalAssessmentTextsHeight,
-  });
-}
 
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
 ) => {
-  const disputeResolutionSectionText = getDisputeResolutionContent(userData);
   const legalAssessmentSect = doc.struct("Sect");
 
-  if (disputeResolutionSectionText) {
-    const textsForHeightCalculation = getTextsForHeightCalculation(
-      disputeResolutionSectionText,
-    );
-    checkAndNewPage(doc, textsForHeightCalculation);
+  legalAssessmentSect.add(
+    doc.struct("H3", {}, () => {
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(LEGAL_ASSESSMENT_TEXT, PDF_MARGIN_HORIZONTAL);
+      doc.moveDown(1);
+    }),
+  );
 
-    legalAssessmentSect.add(
-      doc.struct("H3", {}, () => {
-        doc
-          .fontSize(14)
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text(LEGAL_ASSESSMENT_TEXT, PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(1);
-      }),
-    );
-
-    legalAssessmentSect.add(
-      doc.struct("P", {}, () => {
-        doc
-          .fontSize(10)
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(CLAIM_FULL_JUSTIFIED_TEXT);
-
-        doc
-          .moveDown(0.5)
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text(DISPUTE_RESOLUTION_TITLE_TEXT)
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(disputeResolutionSectionText);
-
-        doc.moveDown(4);
-      }),
-    );
-  }
+  addDisputeResolution(doc, legalAssessmentSect, {
+    streitbeilegung: userData.streitbeilegung,
+    streitbeilegungGruende: userData.streitbeilegungGruende,
+  });
 
   const compensationByDistance = getTotalCompensationClaim(userData);
 
