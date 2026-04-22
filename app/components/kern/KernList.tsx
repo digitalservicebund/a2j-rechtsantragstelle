@@ -28,7 +28,7 @@ const KernList = ({
 
   const base = (
     <div id={identifier}>
-      <div>
+      <div className="flex flex-col gap-kern-space-default">
         {heading && (
           <KernHeading
             {...heading}
