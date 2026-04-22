@@ -13,7 +13,6 @@ import {
   ScrollRestoration,
   useLoaderData,
   useMatches,
-  useRouteLoaderData,
   Outlet,
   useLocation,
 } from "react-router";
