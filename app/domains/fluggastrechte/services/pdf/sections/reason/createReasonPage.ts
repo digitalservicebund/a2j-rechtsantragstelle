@@ -15,7 +15,7 @@ import {
 } from "./factsOfCases/table/tableConfigurations";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
-export const REASON_TITLE_TEXT = "Begründung";
+const REASON_TITLE_TEXT = "Begründung";
 
 export const createReasonPage = (
   doc: typeof PDFDocument,
