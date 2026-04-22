@@ -104,7 +104,7 @@ const KernAutoSuggestInput = ({
       new Fuse(items, {
         keys: ["label"],
         threshold: 0.5,
-        minMatchCharLength: MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
+        minMatchCharLength: 5,
       }),
     [items],
   );
