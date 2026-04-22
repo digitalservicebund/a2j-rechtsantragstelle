@@ -5,7 +5,6 @@ describe("StrapiHero", () => {
     const undefinedHeading = {
       heading: undefined,
       content: null,
-      outerBackground: null,
     };
 
     const actual = StrapiHeroSchema.safeParse(undefinedHeading);
@@ -18,7 +17,7 @@ describe("StrapiHero", () => {
       heading: {
         text: "someText",
         tagName: "h1",
-        look: "default",
+        size: "xLarge",
         __component: "basic.heading",
         id: 10,
       },
@@ -37,7 +36,7 @@ describe("StrapiHero", () => {
       heading: {
         text: "someText",
         tagName: "h1",
-        look: "default",
+        size: "xLarge",
         __component: "basic.heading",
         id: 10,
       },

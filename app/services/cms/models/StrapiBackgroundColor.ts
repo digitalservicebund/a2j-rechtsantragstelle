@@ -1,22 +1,7 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 
-export const StrapiBackgroundColorSchema = z.enum([
-  "default",
-  "white",
-  "blue",
-  "darkBlue",
-  "yellow",
-  "green",
-  "red",
-]);
+const StrapiBackgroundColorSchema = z.enum(["white", "grey", "blue", "yellow"]);
 
-const StrapiKernBackgroundColorSchema = z.enum([
-  "white",
-  "grey",
-  "blue",
-  "yellow",
-]);
-
-export const StrapiKernBackgroundColorOptionalSchema =
-  StrapiKernBackgroundColorSchema.nullable().transform(omitNull).optional();
+export const StrapiBackgroundColorOptionalSchema =
+  StrapiBackgroundColorSchema.nullable().transform(omitNull).optional();
