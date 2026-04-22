@@ -21,15 +21,9 @@ type ArraySummaryProps = Readonly<{
     subtitle?: HeadingProps;
     itemLabels: ItemLabels;
   };
-  csrf: string;
 }>;
 
-const ArraySummary = ({
-  category,
-  arrayData,
-  csrf,
-  content,
-}: ArraySummaryProps) => {
+const ArraySummary = ({ category, arrayData, content }: ArraySummaryProps) => {
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
 
@@ -47,7 +41,6 @@ const ArraySummary = ({
               itemIndex={index}
               items={items}
               category={category}
-              csrf={csrf}
               subtitle={content.subtitle}
               itemLabels={content.itemLabels}
             />
