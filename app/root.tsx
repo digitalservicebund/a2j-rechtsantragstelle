@@ -234,7 +234,7 @@ function App() {
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
-  const loaderData = useRouteLoaderData<RootLoader>("root");
+  const { accessibilityTranslations } = useLoaderData<RootLoader>();
 
   if (error && error instanceof Error) {
     Sentry.captureException(error);
@@ -258,15 +258,12 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <main className="bg-kern-neutral-025">
           <ErrorBox />
         </main>
-        {loaderData && (
-          <KernFooter
-            {...loaderData.footer}
-            ariaLabel={getTranslationByKey(
-              "footer-navigation",
-              loaderData.accessibilityTranslations,
-            )}
-          />
-        )}
+        <KernFooter
+          ariaLabel={getTranslationByKey(
+            "footer-navigation",
+            accessibilityTranslations,
+          )}
+        />
       </body>
     </html>
   );
