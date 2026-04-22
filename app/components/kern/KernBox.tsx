@@ -39,12 +39,12 @@ const KernBox = ({
         {label && (
           <KernLabel
             {...label}
-            className="text-kern-layout-text-muted! font-normal! pt-6! pb-2!"
+            className="text-kern-layout-text-muted! font-normal! pt-0! pb-0!"
             aria-describedby={identifier ? `${identifier}-label` : undefined}
           />
         )}
         {heading && (
-          <KernHeading {...heading} className="pt-9! pb-7!" managedByParent />
+          <KernHeading {...heading} className="pt-0! pb-0!" managedByParent />
         )}
         {subline && <KernHeading {...subline} managedByParent />}
         {content && <KernRichText {...content} />}
@@ -60,7 +60,7 @@ const KernBox = ({
         </div>
       )}
       {arrayIsNonEmpty(buttons) && (
-        <ButtonContainer className="kern-button-group pt-kern-space-x-large">
+        <ButtonContainer className="kern-button-group pt-kern-space-default">
           {buttons.map((button) => (
             <KernButton key={button.text ?? button.href} {...button} />
           ))}
@@ -76,7 +76,7 @@ const KernBox = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small py-kern-space-large px-kern-space-large lg:px-0 xl:px-0">
+      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0">
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
             <div className="shrink-0 max-w-full lg:max-w-[200px]">
