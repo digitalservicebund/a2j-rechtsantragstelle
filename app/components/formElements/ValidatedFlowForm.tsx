@@ -3,12 +3,14 @@ import { useLocation } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { ButtonNavigation } from "../common/ButtonNavigation";
-import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { SchemaComponents } from "./SchemaComponents";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
+import {
+  KernButtonNavigation,
+  type ButtonNavigationProps,
+} from "../kern/KernButtonNavigation";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -46,7 +48,7 @@ function ValidatedFlowForm({
                 readOnlyFieldNames={readOnlyFieldNames}
               />
             )}
-            <ButtonNavigation
+            <KernButtonNavigation
               back={back}
               next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
             />

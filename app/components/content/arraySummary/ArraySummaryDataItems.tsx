@@ -1,16 +1,18 @@
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import ArraySummaryItemButton from "./ArraySummaryItemButton";
+import KernHeading, {
+  type KernHeadingProps,
+} from "~/components/kern/KernHeading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly subtitle?: HeadingProps;
+  readonly subtitle?: KernHeadingProps;
   readonly itemLabels: ItemLabels;
 };
 
@@ -42,15 +44,11 @@ const ArraySummaryDataItems = ({
 
   return (
     <div className="space-y-16 bg-white p-16">
-      {heading && <Heading {...heading} />}
+      {heading && <KernHeading {...heading} />}
 
       {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
         <div key={itemKey} className="first:pt-0 scroll-my-40">
-          <Heading
-            text={itemLabels[itemKey] ?? ""}
-            tagName="p"
-            look="ds-label-02-bold"
-          />
+          <KernHeading text={itemLabels[itemKey] ?? ""} tagName="p" />
           {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
         </div>
       ))}

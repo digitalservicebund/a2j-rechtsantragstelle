@@ -6,8 +6,8 @@ import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/k
 import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "./InputError";
-import RichText from "../common/RichText";
 import { type ErrorMessageProps } from "../common/types";
+import KernRichText from "../kern/KernRichText";
 
 type TextareaProps = Readonly<{
   name: string;
@@ -50,7 +50,10 @@ const Textarea = ({
         </InputLabel>
       )}
       {description && (
-        <RichText className="ds-body-02-reg text-gray-900" html={description} />
+        <KernRichText
+          className="ds-body-02-reg text-gray-900"
+          html={description}
+        />
       )}
       {details && <Details {...details} />}
       <textarea

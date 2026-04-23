@@ -1,6 +1,5 @@
-import Button from "~/components/common/Button";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
+import KernButton from "~/components/kern/KernButton";
+import KernHeading from "~/components/kern/KernHeading";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
@@ -39,20 +38,20 @@ export const DataProtectionBanner = ({
       aria-label="Datenschutz banner"
     >
       <div className="p-16 gap-y-28 flex flex-col flex-wrap">
-        <Heading
+        <KernHeading
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.header]}
-          look="ds-heading-03-reg"
         />
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
-        <StandaloneLink
-          text={translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
-          url="/datenschutzerklaerung"
-        />
-        <Button
+        <a
+          href="/datenschutzerklaerung"
+          className="flex gap-2 ds-link-01-bold items-start"
+        >
+          {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
+        </a>
+        <KernButton
           onClick={onCookiesAccepted}
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.activateVideo]}
           className="max-w-fit"
-          size="large"
         />
       </div>
     </section>

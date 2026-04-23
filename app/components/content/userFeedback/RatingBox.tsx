@@ -1,12 +1,12 @@
 import ThumbDownIcon from "@digitalservicebund/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@digitalservicebund/icons/ThumbUpOutlined";
 import { useFetcher } from "react-router";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading from "~/components/common/Heading";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import KernButton from "~/components/kern/KernButton";
+import KernHeading from "~/components/kern/KernHeading";
 
 export const userRatingFieldname = "wasHelpful";
 
@@ -22,14 +22,14 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
   const feedbackTranslations = useFeedbackTranslations();
   return (
     <>
-      <Heading look="ds-label-01-bold" tagName="h2" text={heading} />
+      <KernHeading tagName="h2" text={heading} />
       <ratingFetcher.Form
         method="post"
         action={`/action/send-rating?url=${url}&js=${String(jsAvailable)}`}
         preventScrollReset={true}
       >
-        <ButtonContainer>
-          <Button
+        <KernButtonContainer>
+          <KernButton
             iconLeft={<ThumbUpIcon />}
             look={"tertiary"}
             name={userRatingFieldname}
@@ -41,8 +41,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
           >
             {feedbackTranslations["yes-rating"]}
-          </Button>
-          <Button
+          </KernButton>
+          <KernButton
             iconLeft={<ThumbDownIcon />}
             look={"tertiary"}
             name={userRatingFieldname}
@@ -54,8 +54,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
             aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
           >
             {feedbackTranslations["no-rating"]}
-          </Button>
-        </ButtonContainer>
+          </KernButton>
+        </KernButtonContainer>
       </ratingFetcher.Form>
     </>
   );

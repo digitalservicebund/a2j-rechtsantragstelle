@@ -1,18 +1,18 @@
-import Button, { type ButtonProps } from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import type { ImageProps } from "~/components/common/Image";
-import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
 import BoxWithImage, { type Variant } from "./BoxWithImage";
 import InfoBox from "./InfoBox";
 import { type InfoBoxItemProps } from "./InfoBoxItem";
+import KernButtonContainer from "../kern/KernButtonContainer";
+import KernButton, { type ButtonProps } from "../kern/KernButton";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
+import KernRichText, { type RichTextProps } from "../kern/KernRichText";
 
 type BoxProps = {
   identifier?: string;
-  label?: HeadingProps;
-  heading?: HeadingProps;
+  label?: KernHeadingProps;
+  heading?: KernHeadingProps;
   content?: RichTextProps;
   buttons?: ButtonProps[];
   image?: ImageProps;
@@ -68,20 +68,20 @@ const Box = ({
     >
       <div className="ds-stack ds-stack-16 scroll-my-40">
         <div className="ds-stack ds-stack-8">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
+          {label && <KernHeading {...label} />}
+          {heading && <KernHeading {...heading} />}
           {content && (
             <div>
-              <RichText {...content} />
+              <KernRichText {...content} />
             </div>
           )}
         </div>
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
+          <KernButtonContainer>
             {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
+              <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
       </div>
     </GridItem>

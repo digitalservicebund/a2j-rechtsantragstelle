@@ -10,7 +10,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import KernLabel, { type KernLabelProps } from "./KernLabel";
 import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
 import KernButton, { type ButtonProps } from "./KernButton";
-import ButtonContainer from "../common/ButtonContainer";
+import KernButtonContainer from "./KernButtonContainer";
 
 type BoxProps = {
   identifier?: string;
@@ -60,11 +60,11 @@ const KernBox = ({
         </div>
       )}
       {arrayIsNonEmpty(buttons) && (
-        <ButtonContainer className="kern-button-group pt-kern-space-default">
+        <KernButtonContainer className="kern-button-group pt-kern-space-default">
           {buttons.map((button) => (
             <KernButton key={button.text ?? button.href} {...button} />
           ))}
-        </ButtonContainer>
+        </KernButtonContainer>
       )}
     </div>
   );

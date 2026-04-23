@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import Accordion from "~/components/common/Accordion";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
-import RichText from "~/components/common/RichText";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { ListVariant, ListItemProps, ListMarkerProps } from "./types";
+import KernAccordion from "~/components/kern/KernAccordion";
+import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import KernHeading from "~/components/kern/KernHeading";
+import KernRichText from "~/components/kern/KernRichText";
 
 const ImageMarker = ({ image }: { image: ImageProps }) => (
   <div className="flex items-start">
@@ -63,17 +63,17 @@ const ListItem = ({
       </div>
       <div className="ds-stack ds-stack-24 pb-48 w-full">
         <div className="ds-stack ds-stack-8">
-          {headline && <Heading {...headline} />}
-          {content && <RichText html={content} />}
+          {headline && <KernHeading {...headline} />}
+          {content && <KernRichText html={content} />}
           {arrayIsNonEmpty(buttons) && (
-            <ButtonContainer className="mt-16">
+            <KernButtonContainer className="mt-16">
               {buttons.map((button) => (
-                <Button key={button.text ?? button.href} {...button} />
+                <KernButton key={button.text ?? button.href} {...button} />
               ))}
-            </ButtonContainer>
+            </KernButtonContainer>
           )}
         </div>
-        {accordion && <Accordion {...accordion} />}
+        {accordion && <KernAccordion {...accordion} />}
       </div>
     </div>
   );

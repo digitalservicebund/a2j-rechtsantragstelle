@@ -1,6 +1,6 @@
-import RichText from "~/components/common/RichText";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import KernRichText from "~/components/kern/KernRichText";
 
 export type ControlledCheckboxProps = {
   name: string;
@@ -45,7 +45,7 @@ export function ControlledCheckbox({
       />
       {label && (
         <label htmlFor={name}>
-          <RichText html={label} />
+          <KernRichText html={label} />
         </label>
       )}
     </div>

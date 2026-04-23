@@ -1,16 +1,18 @@
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
+import KernHeading, {
+  type KernHeadingProps,
+} from "~/components/kern/KernHeading";
 
 type Props = {
-  readonly title: HeadingProps;
+  readonly title: KernHeadingProps;
   readonly boxes: SummaryOverviewBoxWrappedProps[];
 };
 
 const SummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
     <>
-      <Heading {...title} className="mt-20" />
+      <KernHeading {...title} className="mt-20" />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped
           key={id}

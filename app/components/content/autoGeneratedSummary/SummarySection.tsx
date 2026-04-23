@@ -1,7 +1,5 @@
 import KeyboardArrowDownIcon from "@digitalservicebund/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@digitalservicebund/icons/KeyboardArrowUp";
-import EditIcon from "@digitalservicebund/icons/EditOutlined";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import type { SummaryItem } from "~/services/summary/types";
 import { useRef } from "react";
 
@@ -66,12 +64,12 @@ const SummarySection = ({
 
           {field.editUrl && (
             <div>
-              <StandaloneLink
-                url={field.editUrl}
+              <a
+                href={field.editUrl}
                 className="flex gap-2 ds-link-01-bold items-start"
-                icon={<EditIcon className="shrink-0 inline" />}
-                text="Bearbeiten"
-              />
+              >
+                Bearbeiten
+              </a>
             </div>
           )}
         </div>
@@ -110,12 +108,12 @@ const SummarySection = ({
 
               {arrayItem.editUrl && (
                 <div>
-                  <StandaloneLink
-                    url={arrayItem.editUrl}
+                  <a
+                    href={arrayItem.editUrl}
                     className="flex gap-2 ds-link-01-bold items-start"
-                    icon={<EditIcon className="shrink-0 inline" />}
-                    text="Bearbeiten"
-                  />
+                  >
+                    Bearbeiten
+                  </a>
                 </div>
               )}
             </div>

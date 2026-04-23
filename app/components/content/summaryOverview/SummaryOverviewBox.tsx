@@ -1,10 +1,8 @@
-import EditIcon from "@digitalservicebund/icons/EditOutlined";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { useFormFlow } from "~/components/formFlowContext";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
+import KernHeading from "~/components/kern/KernHeading";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -29,7 +27,7 @@ const SummaryOverviewBox = ({
     <div className="bg-white mt-8 p-16 gap-4 flex flex-col sm:flex-row sm:items-start sm:justify-between">
       <div className="flex-1">
         {title && (
-          <Heading
+          <KernHeading
             {...title}
             text={
               arrayPositionTitle
@@ -52,12 +50,12 @@ const SummaryOverviewBox = ({
           ))}
         </dl>
       </div>
-      <StandaloneLink
-        url={`${flowId}${stepId}`}
+      <a
+        href={`${flowId}${stepId}`}
         className="flex basis ml-auto gap-2 pl-2 ds-link-01-bold items-start h-min"
-        icon={<EditIcon className="shrink-0 inline" />}
-        text={"Bearbeiten"}
-      />
+      >
+        Bearbeiten
+      </a>
     </div>
   );
 };

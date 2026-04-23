@@ -1,9 +1,6 @@
 import { useForm } from "@rvf/react-router";
 import classNames from "classnames";
 import { useLoaderData, useLocation } from "react-router";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import RichText from "~/components/common/RichText";
 import {
   emailCaptureSchema,
   invalidEmailError,
@@ -15,6 +12,9 @@ import {
 import { CsrfInput } from "~/components/formElements/CsrfInput";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
+import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import KernRichText from "~/components/kern/KernRichText";
 import { type loader } from "~/routes/shared/formular";
 import { autocompleteMap } from "~/util/autocompleteMap";
 
@@ -57,7 +57,7 @@ export const EmailCapture = ({
   return (
     <div className="ds-stack ds-stack-16">
       {description && (
-        <RichText className="ds-body-01-reg" html={description} />
+        <KernRichText className="ds-body-01-reg" html={description} />
       )}
       {label && <InputLabel id={fieldName}>{label}</InputLabel>}
       <form
@@ -87,9 +87,9 @@ export const EmailCapture = ({
           <CsrfInput />
           <input type="hidden" name="_url" value={pathname} />
         </div>
-        <ButtonContainer className="h-[4rem]">
-          <Button text={buttonLabel} disabled={false} type={"submit"} />
-        </ButtonContainer>
+        <KernButtonContainer className="h-[4rem]">
+          <KernButton text={buttonLabel} disabled={false} type={"submit"} />
+        </KernButtonContainer>
       </form>
     </div>
   );

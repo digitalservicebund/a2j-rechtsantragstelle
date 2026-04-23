@@ -1,29 +1,29 @@
 import classNames from "classnames";
-import Accordion, { type AccordionProps } from "~/components/common/Accordion";
-import Button, { type ButtonProps } from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
-import RichText from "~/components/common/RichText";
 import { Details, type DetailsProps } from "~/components/content/Details";
 import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
 import { arrayIsNonEmpty } from "~/util/array";
+import KernAccordion, { type KernAccordionProps } from "../kern/KernAccordion";
+import KernButtonContainer from "../kern/KernButtonContainer";
+import KernButton, { type ButtonProps } from "../kern/KernButton";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
+import KernRichText from "../kern/KernRichText";
 
 export type InfoBoxItemProps = {
   id: number; // Strapi id
   identifier?: string;
-  label?: HeadingProps;
-  headline?: HeadingProps;
+  label?: KernHeadingProps;
+  headline?: KernHeadingProps;
   image?: ImageProps;
   content?: string;
   details?: DetailsProps[];
   inlineNotices?: InlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
-  accordion?: AccordionProps;
+  accordion?: KernAccordionProps;
 };
 
 const InfoBoxItem = ({
@@ -60,9 +60,9 @@ const InfoBoxItem = ({
           image ? "min-[500px]:ml-16" : ""
         }`}
       >
-        {label && <Heading {...label} />}
-        {headline && <Heading {...headline} />}
-        {content && <RichText html={content} />}
+        {label && <KernHeading {...label} />}
+        {headline && <KernHeading {...headline} />}
+        {content && <KernRichText html={content} />}
         {details?.map((details) => (
           <Details key={details.title} {...details} />
         ))}
@@ -70,15 +70,15 @@ const InfoBoxItem = ({
           <InlineNotice key={inlineNotice.title} {...inlineNotice} nested />
         ))}
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
+          <KernButtonContainer>
             {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
+              <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
         {accordion && (
           <div className="max-w-[630px]">
-            <Accordion {...accordion} />
+            <KernAccordion {...accordion} />
           </div>
         )}
       </div>

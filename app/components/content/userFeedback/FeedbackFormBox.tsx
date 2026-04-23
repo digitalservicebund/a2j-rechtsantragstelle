@@ -2,13 +2,13 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useEffect, useId, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import Textarea from "~/components/formElements/Textarea";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./FeedbackType";
+import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -98,8 +98,8 @@ export const FeedbackFormBox = ({
             innerRef={textAreaReference}
             ariaDescribedby={headingPersonalFeedbackId}
           />
-          <ButtonContainer>
-            <Button
+          <KernButtonContainer>
+            <KernButton
               look="primary"
               name={FEEDBACK_BUTTON_FIELD_NAME}
               value={"submit"}
@@ -107,8 +107,8 @@ export const FeedbackFormBox = ({
               disabled={form.formState.isSubmitting}
             >
               {feedbackTranslations["submit-button-feedback"]}
-            </Button>
-          </ButtonContainer>
+            </KernButton>
+          </KernButtonContainer>
         </div>
       )}
     </ValidatedForm>

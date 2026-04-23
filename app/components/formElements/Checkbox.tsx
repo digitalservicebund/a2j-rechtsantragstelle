@@ -2,8 +2,8 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { useState } from "react";
 import InputError from "./InputError";
-import RichText from "../common/RichText";
 import { useJsAvailable } from "../hooks/useJsAvailable";
+import KernRichText from "../kern/KernRichText";
 
 export type CheckboxValue = "on" | "off";
 
@@ -57,7 +57,7 @@ const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
 
         {label && (
           <label htmlFor={name}>
-            <RichText html={label} />
+            <KernRichText html={label} />
           </label>
         )}
       </div>
