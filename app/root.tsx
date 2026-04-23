@@ -15,6 +15,7 @@ import {
   useMatches,
   Outlet,
   useLocation,
+  useRouteLoaderData,
 } from "react-router";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
@@ -223,7 +224,8 @@ function App() {
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
-  const { accessibilityTranslations } = useLoaderData<RootLoader>();
+  const loaderData = useRouteLoaderData<RootLoader>("root");
+  const accessibilityTranslations = loaderData?.accessibilityTranslations ?? {};
 
   if (error && error instanceof Error) {
     Sentry.captureException(error);
