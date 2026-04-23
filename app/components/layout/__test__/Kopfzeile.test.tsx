@@ -1,15 +1,15 @@
 import { render } from "@testing-library/react";
-import Kopfzeile from "~/components/layout/Kopfzeile";
+import KernKopfzeile from "~/components/kern/layout/KernKopfzeile";
 
 describe("Kopfzeile", () => {
   it("should render the Kopfzeile", () => {
-    const { getByText, getByLabelText } = render(<Kopfzeile />);
+    const { container, getByText } = render(<KernKopfzeile />);
     const textElement = getByText(
-      "Offizielle Website - Bundesrepublik Deutschland",
+      "Offizielle Website – Bundesrepublik Deutschland",
     );
-    const icon = getByLabelText("Bundesflagge");
+    const flagWrapper = container.querySelector(".kern-kopfzeile__flagge");
     expect(textElement).toBeVisible();
-    expect(icon).toBeVisible();
-    expect(icon).toHaveAttribute("aria-hidden");
+    expect(flagWrapper).toBeVisible();
+    expect(flagWrapper).toHaveAttribute("aria-hidden");
   });
 });
