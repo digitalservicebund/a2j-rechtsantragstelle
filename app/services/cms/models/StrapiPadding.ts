@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { Padding } from "~/components/layout/Container";
 import { omitNull } from "~/util/omitNull";
 
 export const strapiPaddingOptions = [
@@ -26,7 +25,7 @@ const strapiPaddingMap = {
   px48: "48",
   px56: "56",
   px64: "64",
-} as const satisfies Record<(typeof strapiPaddingOptions)[number], Padding>;
+} as const satisfies Record<(typeof strapiPaddingOptions)[number], string>;
 
 const paddingOptions = ["auto", "0", "40"] as const;
 

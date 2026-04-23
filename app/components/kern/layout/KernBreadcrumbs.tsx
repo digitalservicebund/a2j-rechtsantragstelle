@@ -3,7 +3,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 
-type KernBreadcrumb = {
+export type KernBreadcrumb = {
   url: string;
   title?: string;
 };
