@@ -84,7 +84,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const [
     strapiHeader,
-    strapiFooter,
     cookieBannerContent,
     meta,
     accessibilityTranslations,
@@ -94,7 +93,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
-    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
@@ -110,7 +108,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     {
       breadcrumbs,
       pageHeaderProps: { ...strapiHeader, hideLinks: isAnyFlowPage },
-      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
