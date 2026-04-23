@@ -1,4 +1,4 @@
-import type { Breadcrumb } from "~/components/layout/Breadcrumbs";
+import { type KernBreadcrumb } from "~/components/kern/layout/KernBreadcrumbs";
 import { fetchContentPageMeta } from "../cms/index.server";
 
 // Splits pathname into its subpaths, ie "/a/b/c" => [/a, /a/b, /a/b/c]
@@ -10,7 +10,7 @@ const buildSubPaths = (pathname: string) =>
 
 export const buildBreadcrumbPromises = (
   pathname: string,
-): Promise<Breadcrumb[]> =>
+): Promise<KernBreadcrumb[]> =>
   Promise.all(
     buildSubPaths(pathname)
       .filter((path) => path !== "/")

@@ -2,7 +2,6 @@ import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import Button from "~/components/common/Button";
 import ContentComponents from "~/components/content/ContentComponents";
-import Container from "~/components/layout/Container";
 import { strapiPageFromRequest } from "~/services/cms/index.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -18,9 +17,9 @@ export default function Index() {
     <div>
       <ContentComponents content={content} />
 
-      <Container>
+      <div>
         {url && <Button href={url}>Zurück, wo Sie gekommen sind</Button>}
-      </Container>
+      </div>
     </div>
   );
 }
