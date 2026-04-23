@@ -23,7 +23,7 @@ export default function KernHero({
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-default"
+      className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0"
     >
       <KernHeading
         {...heading}

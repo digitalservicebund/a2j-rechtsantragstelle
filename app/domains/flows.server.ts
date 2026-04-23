@@ -1,4 +1,4 @@
-import { kontopfaendungWegweiser } from "app/domains/kontopfaendung/wegweiser";
+import { kontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
@@ -14,6 +14,7 @@ import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
 import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
+import { type Session } from "react-router";
 
 type FlowMigration = {
   source: FlowId;
@@ -32,7 +33,11 @@ export type Flow = {
   stringReplacements?: (context: UserData) => Replacements;
   asyncFlowActions?: Record<
     string,
-    (request: Request, userData: UserData) => Promise<void>
+    (
+      request: Request,
+      userData: UserData,
+      flowSession: Session,
+    ) => Promise<void>
   >;
   useStepper?: boolean;
 };

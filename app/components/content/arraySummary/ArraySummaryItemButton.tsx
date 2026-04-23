@@ -5,14 +5,13 @@ import { useFetcher, useLocation } from "react-router";
 import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly csrf: string;
   readonly heading?: HeadingProps;
 };
 
@@ -22,7 +21,6 @@ const ArraySummaryItemButton = ({
   itemIndex,
   category,
   editUrl,
-  csrf,
   heading,
 }: Props) => {
   const { pathname } = useLocation();
@@ -40,7 +38,7 @@ const ArraySummaryItemButton = ({
       </Button>
       {/* form method 'delete' isn't supported without js, see https://github.com/remix-run/remix/discussions/4420 */}
       <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
-        <input type="hidden" name={CSRFKey} value={csrf} />
+        <CsrfInput />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <Button

@@ -15,13 +15,14 @@ describe("createFlightCompensationClaim", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createFlightCompensationClaim(mockDoc, mockStruct, userDataMock);
+    createFlightCompensationClaim(mockDoc, mockStruct, userDataMock, true);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(createClaimData).toHaveBeenCalledWith(
       mockDoc,
       expect.any(Object),
       userDataMock,
+      true,
     );
     expect(mockStruct.add).toHaveBeenCalledWith(expect.any(Object));
   });

@@ -5,7 +5,7 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
 import InputError from "./InputError";
 
-export type SelectProps = {
+type SelectProps = {
   name: string;
   options: Array<{ value: string; text: string }>;
   label?: ReactNode;
@@ -28,11 +28,12 @@ const KernSelect = ({
   return (
     <div className="kern-form-input">
       {label && (
-        <label className="kern-label" htmlFor="select">
+        <label className="kern-label" htmlFor={name}>
           {label}
         </label>
       )}
       <div
+        data-testid="select-wrapper"
         className={classNames(
           "kern-form-input__select-wrapper",
           {
@@ -50,6 +51,7 @@ const KernSelect = ({
           aria-required={
             !!errorMessages?.find((err) => err.code === "required")
           }
+          data-testid="select"
         >
           {placeholder && (
             <option disabled value="">

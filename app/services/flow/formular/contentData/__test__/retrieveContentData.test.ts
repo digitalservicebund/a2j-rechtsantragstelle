@@ -14,7 +14,7 @@ const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
 const mockUserDataWithPageData = {
   startAirport: "BER",
-  pageData: { arrayIndexes: [] },
+  pageData: {},
 };
 
 const mockFormPageContent = {
@@ -110,7 +110,7 @@ describe("retrieveContentData", () => {
     expect(buildCmsContentAndTranslations).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
         replacements: expect.objectContaining({
-          startAirport: "Frankfurt Flughafen (FRA)",
+          startAirport: "Frankfurt Main Flughafen (FRA)",
         }),
       }),
     );

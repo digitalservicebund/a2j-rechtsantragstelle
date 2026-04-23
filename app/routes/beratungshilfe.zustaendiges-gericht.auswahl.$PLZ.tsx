@@ -6,23 +6,21 @@ import {
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading from "~/components/common/Heading";
 import { type ErrorMessageProps } from "~/components/common/types";
-import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
-import Input from "~/components/formElements/Input";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
-import Container from "~/components/layout/Container";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { createSessionWithCsrf } from "~/services/security/csrf/createSessionWithCsrf.server";
-import { getSessionManager } from "~/services/session.server";
 import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
-import KernZuestandigesGerichtPlz from "./kern/kern-beratungshilfe.zustaendiges-gericht.auswahl.$PLZ";
+import { GridSection } from "~/components/layout/grid/GridSection";
+import NumberInput from "~/components/kern/formElements/input/NumberInput";
+import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import KernHeading from "~/components/kern/KernHeading";
+import { KernReportProblem } from "~/components/kern/KernReportProblem";
+import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",
@@ -34,7 +32,7 @@ export const courtFinderSchema = z.object({
   houseNumber: germanHouseNumberSchema,
 });
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");
@@ -43,19 +41,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return redirect(`/beratungshilfe/zustaendiges-gericht/ergebnis/${zipCode}`);
   }
 
-  const { session } = await createSessionWithCsrf(
-    request.headers.get("Cookie"),
-  );
-
-  const sessionManager = getSessionManager("main");
-
-  return data(
-    {
-      userData: { plz: zipCode },
-      meta: { title: "Amtsgericht finden" },
-    },
-    { headers: { "Set-Cookie": await sessionManager.commitSession(session) } },
-  );
+  return data({
+    userData: { plz: zipCode },
+    meta: { title: "Amtsgericht finden" },
+  });
 };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
@@ -76,79 +65,80 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 export default function Index() {
   const { userData } = useLoaderData<typeof loader>();
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernZuestandigesGerichtPlz plz={userData.plz} />;
-  }
 
   return (
-    <div className="flex flex-col grow bg-blue-100">
-      <Container paddingTop="48" backgroundColor="blue">
-        <span className="ds-label-03-reg">Amtsgericht finden</span>
-        <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
-          Im Bereich Ihrer Postleitzahl <strong>{userData.plz}</strong> sind
-          verschiedene Amtsgerichte zuständig.
-        </Heading>
-      </Container>
-      <div className="grow">
-        <Container paddingTop="48">
-          <Heading
-            tagName="h2"
-            look="ds-heading-03-reg"
-            text="Geben Sie bitte Ihre genaue Straße und Hausnummer ein"
-            className="pb-16"
-          />
-          <ValidatedForm
-            method="post"
-            schema={courtFinderSchema}
-            defaultValues={{ street: "", houseNumber: "" }}
-          >
-            <div className="ds-stack ds-stack-32">
-              <div className="flex flex-wrap md:flex-nowrap gap-16">
-                <div className="flex flex-col">
-                  <AutoSuggestInput
+    <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
+      <Grid>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 3, span: 8 }}
+          xlColumn={{ start: 3, span: 8 }}
+        >
+          <div className="gap-kern-space-x-large flex flex-col">
+            <span className="text-kern-static-medium text-kern-layout-text-muted!">
+              Amtsgericht finden
+            </span>
+            <KernHeading
+              tagName="h1"
+              text={`Im Bereich Ihrer Postleitzahl ${userData.plz} sind
+          verschiedene Amtsgerichte zuständig.`}
+              managedByParent
+            />
+            <p className="kern-body">
+              Geben Sie bitte Ihre genaue Straße und Hausnummer ein
+            </p>
+            <ValidatedForm
+              method="post"
+              schema={courtFinderSchema}
+              defaultValues={{ street: "", houseNumber: "" }}
+            >
+              <div className="gap-kern-space-x-large flex flex-col">
+                <div className="flex flex-col gap-kern-space-x-large">
+                  <KernAutoSuggestInput
                     label={translations.gerichtFinder.streetName.de}
+                    helperText={
+                      translations.gerichtFinder.autosuggestInputHelperText.de
+                    }
                     dataList="streetNames"
                     dataListArgument={userData.plz}
                     noSuggestionMessage={
                       translations.gerichtFinder.noResultsFound.de
                     }
-                    width="54"
                     errorMessages={[requiredError]}
                     name="street"
                     isDisabled={false}
                     minSuggestCharacters={0}
                   />
-                  <div className="label-text mt-6">
-                    {translations.gerichtFinder.autosuggestInputHelperText.de}
-                  </div>
+                  <NumberInput
+                    label={translations.gerichtFinder.houseNumber.de}
+                    name="houseNumber"
+                    errorMessages={[requiredError]}
+                  />
                 </div>
-                <Input
-                  label={translations.gerichtFinder.houseNumber.de}
-                  name="houseNumber"
-                  errorMessages={[requiredError]}
-                  width="10"
-                />
+                <KernButtonContainer>
+                  <KernButton
+                    href="/beratungshilfe/zustaendiges-gericht/suche"
+                    look="secondary"
+                    text="Zurück"
+                  />
+                  <KernButton type="submit">
+                    {translations.buttonNavigation.nextButtonDefaultLabel.de}
+                  </KernButton>
+                </KernButtonContainer>
               </div>
-              <ButtonContainer>
-                <Button
-                  href="/beratungshilfe/zustaendiges-gericht/suche"
-                  look="tertiary"
-                  size="large"
-                  text="Zurück"
-                />
-                <Button type="submit" size="large">
-                  {translations.buttonNavigation.nextButtonDefaultLabel.de}
-                </Button>
-              </ButtonContainer>
-            </div>
-          </ValidatedForm>
-        </Container>
-      </div>
-      <div className="flex justify-end w-full p-32 relative">
-        <ReportProblem />
-      </div>
-    </div>
+            </ValidatedForm>
+          </div>
+        </GridItem>
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 1, span: 12 }}
+          xlColumn={{ start: 1, span: 12 }}
+          className="pb-40 pt-kern-space-x-large flex justify-end"
+          row={4}
+        >
+          <KernReportProblem />
+        </GridItem>
+      </Grid>
+    </GridSection>
   );
 }

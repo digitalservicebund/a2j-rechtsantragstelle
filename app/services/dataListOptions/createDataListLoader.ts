@@ -13,6 +13,6 @@ export function createDataListLoader(dataListType: DataListType) {
       throw new Response(null, { status: 403 });
     }
 
-    return Response.json(await getDataListOptions(dataListType, params));
+    return Response.json(getDataListOptions(dataListType, params));
   };
 }

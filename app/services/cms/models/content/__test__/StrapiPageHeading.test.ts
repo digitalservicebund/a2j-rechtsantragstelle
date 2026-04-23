@@ -3,7 +3,7 @@ import { StrapiPageHeadingSchema } from "../StrapiPageHeading";
 const validHeading = {
   text: "someText",
   tagName: "h1",
-  look: "default",
+  size: "xLarge",
   __component: "basic.heading",
   id: 1,
 };
@@ -26,7 +26,7 @@ describe("StrapiPageHeading", () => {
       heading: {
         text: "someText",
         tagName: "h1",
-        look: "default",
+        size: "xLarge",
         __component: "basic.heading",
         id: 1,
       },

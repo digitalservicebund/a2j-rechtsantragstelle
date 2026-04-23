@@ -1,11 +1,11 @@
 import { stepStatesToSubflowDoneStates } from "../stepStatesToSubflowDoneStates";
 
 describe("stepStatesToSubflowDoneStates", () => {
-  it("returns empty object on empty input", () => {
+  it("should return empty object on empty input", () => {
     expect(stepStatesToSubflowDoneStates([])).toEqual({});
   });
 
-  it("maps to stepId as key and isDone as value", () => {
+  it("should return the stepId as key and isDone as value", () => {
     expect(
       stepStatesToSubflowDoneStates([
         {
@@ -24,7 +24,7 @@ describe("stepStatesToSubflowDoneStates", () => {
     ).toEqual({ step1: true, step2: false });
   });
 
-  it("ignores substates", () => {
+  it("should add substates", () => {
     const stepStates = [
       {
         stepId: "step1",
@@ -42,6 +42,42 @@ describe("stepStatesToSubflowDoneStates", () => {
       },
     ];
 
-    expect(stepStatesToSubflowDoneStates(stepStates)).toEqual({ step1: true });
+    expect(stepStatesToSubflowDoneStates(stepStates)).toEqual({
+      step1: true,
+      step1a: false,
+    });
+  });
+
+  it("should add substates of substates", () => {
+    const stepStates = [
+      {
+        stepId: "step1",
+        isReachable: true,
+        isDone: true,
+        url: "/step1",
+        subStates: [
+          {
+            stepId: "step1a",
+            isReachable: false,
+            isDone: false,
+            url: "/step1a",
+            subStates: [
+              {
+                stepId: "step1a1",
+                isReachable: true,
+                isDone: true,
+                url: "/step1a1",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    expect(stepStatesToSubflowDoneStates(stepStates)).toEqual({
+      step1: true,
+      step1a: false,
+      step1a1: true,
+    });
   });
 });

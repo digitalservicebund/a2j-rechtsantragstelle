@@ -2,9 +2,9 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
-import InputError from "~/components/formElements/InputError";
+import InputError from "~/components/kern/formElements/InputError";
 
-export type KernDateInputProps = Readonly<{
+type KernDateInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
@@ -35,7 +35,16 @@ const DateInputBase = function DateInputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <input
         {...field.getInputProps({
           id: name,
@@ -54,7 +63,6 @@ const DateInputBase = function DateInputComponent({
           .join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
-
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}

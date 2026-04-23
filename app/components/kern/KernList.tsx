@@ -27,8 +27,8 @@ const KernList = ({
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
   const base = (
-    <div id={identifier} className="lg:px-kern-space-default">
-      <div>
+    <div id={identifier}>
+      <div className="flex flex-col gap-kern-space-default">
         {heading && (
           <KernHeading
             {...heading}

@@ -27,6 +27,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
+  pageData: {
+    subflowDoneStates: {
+      "/klage-erstellen/prozessfuehrung": true,
+    },
+  },
 };
 
 export const testCasesKlageErstellenProzessfuehrung = [
@@ -90,7 +95,6 @@ export const testCasesKlageErstellenProzessfuehrung = [
       "/klage-erstellen/prozessfuehrung/anwaltskosten",
       "/klage-erstellen/prozessfuehrung/prozesszinsen",
       "/klage-erstellen/prozessfuehrung/streitbeilegung",
-      "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
       "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
       "/klage-erstellen/prozessfuehrung/videoverhandlung",
       "/klage-erstellen/prozessfuehrung/versaeumnisurteil",

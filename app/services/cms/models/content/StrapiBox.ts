@@ -7,11 +7,9 @@ import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
 import { StrapiButtonSchema } from "../StrapiButton";
 import { StrapiImageOptionalSchema } from "../StrapiImage";
 import { StrapiBoxItemSchema } from "./StrapiBoxItem";
-import { StrapiKernBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
 import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
-import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
-import { StrapiContainerSchema } from "../StrapiContainer";
 import { type Variant, variantWidths } from "~/components/content/BoxWithImage";
+import { StrapiBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
 
 // Necessary destructuring for zod enum type
 const [firstWidth, ...widths] = Object.keys(variantWidths).map(
@@ -23,12 +21,10 @@ export const StrapiBoxSchema = z.object({
   heading: StrapiHeadingOptionalSchema,
   subline: StrapiHeadingOptionalSchema,
   content: StrapiParagraphSchema.nullable().transform(omitNull),
-  outerBackground: StrapiBackgroundOptionalSchema, // To be removed after KERN migration
-  container: StrapiContainerSchema.nullable().transform(omitNull).optional(), // To be removed after KERN migration
-  contentBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
+  contentBackgroundColor: StrapiBackgroundColorOptionalSchema,
   paddingTop: StrapiPaddingOptionalSchema,
   paddingBottom: StrapiPaddingOptionalSchema,
-  sectionBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
+  sectionBackgroundColor: StrapiBackgroundColorOptionalSchema,
   buttons: z.array(StrapiButtonSchema).nullable().transform(omitNull),
   image: StrapiImageOptionalSchema,
   variant: z

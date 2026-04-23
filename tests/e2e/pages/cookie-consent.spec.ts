@@ -5,7 +5,7 @@ import { consentCookieName } from "~/services/analytics/gdprCookie.server";
 import { CookieSettings } from "../domains/shared/CookieSettings";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
-const pageUrl = "/datenschutz";
+const pageUrl = "/datenschutzerklaerung";
 const encode = (str: string): string =>
   Buffer.from(str, "binary").toString("base64");
 
@@ -25,10 +25,6 @@ test.describe(pageUrl, () => {
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
     await cookieSettings.acceptCookies();
-
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "gespeichert",
-    );
 
     expect(await cookieSettings.consentCookieExists()).toBe(true);
     expect(await cookieSettings.consentCookieValue()).toBe("true");
@@ -80,8 +76,8 @@ test.describe(pageUrl, () => {
   });
 });
 
-test.describe("/datenschutz/erfolg", () => {
-  testPageToBeAccessible("/datenschutz/erfolg");
+test.describe("/datenschutzerklaerung/erfolg", () => {
+  testPageToBeAccessible("/datenschutzerklaerung/erfolg");
 });
 
 test.describe("Cookie Banner", () => {

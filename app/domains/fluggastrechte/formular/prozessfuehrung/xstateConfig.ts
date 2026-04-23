@@ -1,6 +1,8 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { prozessfuehrungDone } from "./doneFunctions";
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { type FluggastrechteUserData } from "../userData";
+import { type Config } from "~/services/flow/server/types";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
@@ -12,18 +14,36 @@ export const prozessfuehrungXstateConfig = {
       on: {
         BACK: [
           {
-            guard: "isWeiterePersonenYes",
+            guard: ({ context }) => context.isWeiterePersonen === "yes",
             target: steps.weiterePersonenUebersicht.absolute,
           },
           steps.weiterePersonenFrage.absolute,
         ],
+        SUBMIT: [
+          {
+            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.prozessfuehrungVideoverhandlung.relative,
+        ],
+      },
+    },
+    [steps.prozessfuehrungMuendlicheVerhandlung.relative]: {
+      on: {
         SUBMIT: steps.prozessfuehrungVideoverhandlung.relative,
+        BACK: steps.prozessfuehrungZeugen.relative,
       },
     },
     [steps.prozessfuehrungVideoverhandlung.relative]: {
       on: {
         SUBMIT: steps.prozessfuehrungVersaeumnisurteil.relative,
-        BACK: steps.prozessfuehrungZeugen.relative,
+        BACK: [
+          {
+            target: steps.prozessfuehrungMuendlicheVerhandlung.relative,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.prozessfuehrungZeugen.relative,
+        ],
       },
     },
     [steps.prozessfuehrungVersaeumnisurteil.relative]: {
@@ -37,11 +57,13 @@ export const prozessfuehrungXstateConfig = {
         SUBMIT: [
           {
             target: steps.zusammenfassungStart.absolute,
-            guard: prozessfuehrungDone,
+            guard: ({ context }) =>
+              context.pageData?.subflowDoneStates?.["/prozessfuehrung"] ===
+              true,
           },
         ],
         BACK: steps.prozessfuehrungVersaeumnisurteil.relative,
       },
     },
   },
-};
+} satisfies Config<FluggastrechteUserData>;

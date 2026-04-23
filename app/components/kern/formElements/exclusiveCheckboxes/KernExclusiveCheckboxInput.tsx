@@ -1,10 +1,12 @@
+import classNames from "classnames";
 import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
-export type KernExclusiveCheckboxInputProps = {
+type KernExclusiveCheckboxInputProps = {
   name: string;
   label: string;
   value: CheckboxValue;
+  hasError?: boolean;
   onChange: (name: string, checked: CheckboxValue) => void;
 };
 
@@ -12,6 +14,7 @@ export const KernExclusiveCheckboxInput = ({
   name,
   label,
   value,
+  hasError,
   onChange,
 }: Readonly<KernExclusiveCheckboxInputProps>) => {
   const jsAvailable = useJsAvailable();
@@ -34,7 +37,9 @@ export const KernExclusiveCheckboxInput = ({
       )}
       <div className="kern-form-check">
         <input
-          className="kern-form-check__checkbox"
+          className={classNames("kern-form-check__checkbox", {
+            "kern-form-check__checkbox--error": hasError,
+          })}
           type="checkbox"
           id={name}
           name={name}

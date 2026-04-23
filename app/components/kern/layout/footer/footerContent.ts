@@ -1,8 +1,10 @@
+import { translations } from "~/services/translations/translations";
+
 type FooterContentType = "internalLink" | "externalLink" | "deletionBanner";
 
-export type FooterContent = {
+type FooterContent = {
   key: string;
-  type: FooterContentType[];
+  type: FooterContentType;
   sectionName?: string;
   title?: string;
   content: Array<{
@@ -14,86 +16,71 @@ export type FooterContent = {
 export const footerContent: FooterContent[] = [
   {
     key: "rechtlicheHinweise",
-    type: ["internalLink"],
-    sectionName: "Rechtliche Hinweise",
+    type: "internalLink",
+    sectionName: translations.footer.rechtlicheHinweise.de,
     content: [
       {
-        text: "Impressum",
+        text: translations.footer.impressum.de,
         url: "/impressum",
       },
       {
-        text: "Barrierefreiheit",
+        text: translations.footer.barrierefreiheit.de,
         url: "/barrierefreiheit",
       },
-    ],
-  },
-  {
-    key: "datenschutzerklaerungen",
-    type: ["internalLink"],
-    sectionName: "Datenschutzerklärungen",
-    content: [
       {
-        text: "service.justiz.de Datenschutz",
-        url: "/datenschutz",
-      },
-      {
-        text: "Beratungshilfe Datenschutz",
-        url: "/beratungshilfe/datenschutz",
-      },
-      {
-        text: "Prozesskostenhilfe Datenschutz",
-        url: "/prozesskostenhilfe/datenschutz",
-      },
-      {
-        text: "Fluggastrechte Datenschutz",
-        url: "/fluggastrechte/datenschutz",
+        text: translations.footer.datenschutz.de,
+        url: "/datenschutzerklaerung",
       },
     ],
   },
   {
     key: "kontaktUndTeilnahme",
-    type: ["internalLink"],
-    sectionName: "Kontakt und Teilnahme",
+    type: "internalLink",
+    sectionName: translations.footer.kontaktUndTeilnahme.de,
     content: [
       {
-        text: "Kontakt",
+        text: translations.footer.kontakt.de,
         url: "/kontakt",
       },
       {
-        text: "Open Source Code",
+        text: translations.footer.openSourceCode.de,
         url: "/opensource",
+      },
+      {
+        text: translations.footer.feedbackStudien.de,
+        url: "/feedback",
       },
     ],
   },
   {
     key: "persoenlicheDatenLoeschen",
-    type: ["deletionBanner"],
-    sectionName: "Persönliche Daten löschen",
+    type: "deletionBanner",
+    sectionName: translations.footer.persoenlicheDatenLoeschen.de,
     content: [
       {
-        text: "Kontakt",
+        text: translations.footer.persoenlicheDatenLoeschen.de,
         url: "/persoenliche-daten-loeschen",
       },
     ],
   },
   {
     key: "bmjv",
-    type: ["externalLink"],
-    title: "Ein Pilotprojekt des",
+    type: "externalLink",
+    title: translations.footer.pilotProjekt.de,
     content: [
       {
-        text: "Bundesministeriums der Justiz und für Verbraucherschutz",
+        text: translations.footer.bmjv.de,
         url: "https://www.bmjv.de/",
       },
     ],
   },
   {
     key: "digitalService",
-    type: ["externalLink"],
-    title: "Umsetzung und Betrieb durch",
+    type: "externalLink",
+    title: translations.footer.umsetztung.de,
     content: [
       {
-        text: "DigitalService GmbH des Bundes",
+        text: translations.footer.digitalService.de,
         url: "https://digitalservice.bund.de/",
       },
     ],

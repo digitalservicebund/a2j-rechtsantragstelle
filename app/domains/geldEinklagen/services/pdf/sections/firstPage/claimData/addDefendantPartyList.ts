@@ -23,7 +23,7 @@ export const addDefendantPartyList = (
   const defendantPartyList = {
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
     ...(anwaltskosten && {
-      "2. ": `Die beklagte Partei trägt die außergerichtlich angefallenen Anwaltskosten in Höhe von ${anwaltskosten} Euro${interestClause}.`,
+      "2. ": `Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von ${anwaltskosten} Euro${interestClause} zu zahlen.`,
     }),
   };
 

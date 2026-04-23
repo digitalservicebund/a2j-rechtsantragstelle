@@ -8,15 +8,15 @@ import {
 import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 import InputError from "~/components/kern/formElements/InputError";
 import { type loader } from "~/routes/shared/formular";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
 import { KernInlineNotice } from "~/components/kern/KernInlineNotice";
 import { mapLookValue } from "~/components/content/ContentComponents";
 import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
-export type EmailCaptureProps = {
+type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
   errorBanner: InlineNoticeProps;
   label?: string;
@@ -33,7 +33,7 @@ export const KernEmailCapture = ({
 }: EmailCaptureProps) => {
   const fieldName = "email";
   const errorId = "email-error";
-  const { csrf, emailCaptureConsent } = useLoaderData<typeof loader>();
+  const { emailCaptureConsent } = useLoaderData<typeof loader>();
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
@@ -113,7 +113,7 @@ export const KernEmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <CsrfInput />
           <input type="hidden" name="_url" value={pathname} />
         </div>
       </form>

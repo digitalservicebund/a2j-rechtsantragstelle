@@ -2,6 +2,7 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 import type { Config } from "~/services/flow/server/types";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { globalFeatureFlags } from "~/services/isFeatureFlagEnabled.server";
 
 const steps = xStateTargetsFromPagesConfig(fluggastrechteFormularPages);
 
@@ -10,6 +11,13 @@ export const grundvoraussetzungenXstateConfig = {
   initial: steps.grundvoraussetzungenDatenverarbeitung.relative,
   states: {
     [steps.grundvoraussetzungenDatenverarbeitung.relative]: {
+      always: [
+        {
+          target: steps.grundvoraussetzungenStreitbeilegung.relative,
+          guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+        },
+        steps.grundvoraussetzungenDatenverarbeitung.relative,
+      ],
       on: {
         SUBMIT: steps.grundvoraussetzungenStreitbeilegung.relative,
         BACK: steps.intro.absolute,
@@ -20,11 +28,17 @@ export const grundvoraussetzungenXstateConfig = {
         SUBMIT: [
           {
             target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
-            guard: "hasNoStreitbeilegung",
+            guard: ({ context }) => context.streitbeilegung === "no",
           },
           steps.grundvorraussetzungenProzessfaehig.relative,
         ],
-        BACK: steps.grundvoraussetzungenDatenverarbeitung.relative,
+        BACK: [
+          {
+            target: steps.intro.absolute,
+            guard: () => globalFeatureFlags.showFGROnlineVerfahren,
+          },
+          steps.grundvoraussetzungenDatenverarbeitung.relative,
+        ],
       },
     },
     [steps.grundvoraussetzungenStreitbeilegungGruende.relative]: {
@@ -39,7 +53,7 @@ export const grundvoraussetzungenXstateConfig = {
         BACK: [
           {
             target: steps.grundvoraussetzungenStreitbeilegungGruende.relative,
-            guard: "hasNoStreitbeilegung",
+            guard: ({ context }) => context.streitbeilegung === "no",
           },
           steps.grundvoraussetzungenStreitbeilegung.relative,
         ],

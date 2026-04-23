@@ -1,7 +1,7 @@
 import { useState } from "react";
-import RichText from "../common/RichText";
 import { GridItem } from "../layout/grid/GridItem";
 import { KernIcon } from "./common/KernIcon";
+import KernRichText from "./KernRichText";
 
 export type KernDetailsProps = {
   title?: string;
@@ -36,7 +36,7 @@ export const KernDetails = ({ title, content }: KernDetailsProps) => {
           {title}
         </summary>
         <div className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default">
-          {content && <RichText className="leading-[1.5]" html={content} />}
+          {content && <KernRichText className="leading-[1.5]" html={content} />}
         </div>
       </details>
     </GridItem>

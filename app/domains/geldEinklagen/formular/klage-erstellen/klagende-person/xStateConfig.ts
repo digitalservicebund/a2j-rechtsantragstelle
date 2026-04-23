@@ -2,15 +2,13 @@ import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { geldEinklagenKlageErstellenPages } from "../pages";
 import type { Config } from "~/services/flow/server/types";
 import { type GenericGuard } from "~/domains/guards.server";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GeldEinklagenFormularUserData } from "../../userData";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-type GeldEinklagenKlageErstellenDaten =
-  GenericGuard<GeldEinklagenFormularUserData>;
+type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
 
-const hasFilledKlagendePerson: GeldEinklagenKlageErstellenDaten = ({
-  context,
-}) => {
+// Move later to subflowDoneStates, when fix issue related isDone value true when is not reachable
+const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
   const hasFilledKlagendePersonAnwaltschaftData = objectKeysNonEmpty(context, [
     "klagendePersonAnwaltschaftAnrede",
     "klagendePersonAnwaltschaftVorname",

@@ -68,7 +68,10 @@ export function findStepIdForField(
 export function extractOptionsFromComponent(
   formComponent: StrapiFormComponent,
 ): FieldOption[] | undefined {
-  if (!("options" in formComponent) || !Array.isArray(formComponent.options)) {
+  if (
+    formComponent.__component !== "form-elements.checkbox" &&
+    (!("options" in formComponent) || !Array.isArray(formComponent.options))
+  ) {
     return undefined;
   }
 
@@ -80,6 +83,12 @@ export function extractOptionsFromComponent(
         value: opt.value,
       }),
     );
+  } else if (formComponent.__component === "form-elements.checkbox") {
+    // Standalone checkbox e.g. required Datenverarbeitung consent, simple yes/no
+    return [
+      { text: "Ja", value: "on" },
+      { text: "Nein", value: "off" },
+    ];
   } else {
     // Select/dropdown use {text, value} - use directly
     return formComponent.options as FieldOption[];

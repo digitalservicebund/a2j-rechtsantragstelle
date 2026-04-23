@@ -1,10 +1,10 @@
 import { parseFormData } from "@rvf/react-router";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import {
+  emailCaptureConsentName,
   emailCaptureSchema,
   invalidEmailError,
-  emailCaptureConsentName,
-} from "~/components/content/emailCapture/emailCaptureHelpers";
+} from "~/components/kern/emailCapture/emailCaptureHelpers";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { getSessionManager } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
@@ -48,6 +48,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const session = await getSession(request.headers.get("Cookie"));
   session.set(emailCaptureConsentName, true);
-  const headers = { "Set-Cookie": await commitSession(session) };
-  return redirect(`${url}?success`, { headers });
+  return redirect(`${url}?success`, { headers: await commitSession(session) });
 };

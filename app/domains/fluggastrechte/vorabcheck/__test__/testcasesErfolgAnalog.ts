@@ -10,6 +10,8 @@ const baseContext: FluggastrechtVorabcheckUserData = {
   verspaetung: "yes",
   gruende: "yes",
   verjaehrung: "yes",
+  startAirport: "FRA",
+  endAirport: "MUC",
   checkin: "yes",
   kostenlos: "no",
   rabatt: "no",
@@ -78,8 +80,6 @@ export const testcasesFluggastrechteErfolgAnalog = [
   [
     {
       ...baseContext,
-      startAirport: "BER",
-      endAirport: "MUC",
       fluggesellschaft: SONSTIGES_AIRLINE,
     },
     validSteps,
@@ -115,7 +115,6 @@ export const testcasesFluggastrechteErfolgAnalog = [
     {
       ...baseContext,
       startAirport: "AMS",
-      endAirport: "BER",
       fluggesellschaft: SONSTIGES_AIRLINE,
     },
     validSteps,

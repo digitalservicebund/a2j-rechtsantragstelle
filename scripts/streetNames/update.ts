@@ -1,16 +1,15 @@
 // oxlint-disable no-console
 import fs from "node:fs";
 import path from "node:path";
-import { buildStreetNamesDb } from "./postProcess";
 
 const FILE_NAME = "streets.updated.csv";
 const RAW_URL_REMOTE = `https://raw.githubusercontent.com/openpotato/openplzapi.data/main/src/de/osm/${FILE_NAME}`;
-const LOCAL_PATH = ".";
+const LOCAL_PATH = "/scripts/streetNames";
 
-const localFilePath = path.join(__dirname, LOCAL_PATH, FILE_NAME);
+const localFilePath = path.join(process.cwd(), LOCAL_PATH, FILE_NAME);
 const etagFilePath = `${localFilePath}.etag`;
 
-async function syncStreetNamesFile() {
+export async function syncStreetNamesFile() {
   try {
     let validETag: string | null = null;
     try {
@@ -32,7 +31,7 @@ async function syncStreetNamesFile() {
     // If the Etag matches the remote, it returns a '304 Not Modified'
     if (response.status === 304) {
       console.log("✅ Local ETag matches remote, skipping download.");
-      return;
+      return localFilePath;
     }
 
     if (!response.ok) {
@@ -50,12 +49,9 @@ async function syncStreetNamesFile() {
       console.log(`Saved new ETag ${newETag}.`);
     }
 
-    buildStreetNamesDb();
-
     console.log("✅ Download complete and local file updated.");
   } catch (error) {
     console.error("❌ An error occurred:", error);
   }
+  return localFilePath;
 }
-
-syncStreetNamesFile();

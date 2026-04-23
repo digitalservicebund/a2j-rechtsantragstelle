@@ -20,6 +20,7 @@ export function KernIcon({
       fill="currentColor"
       aria-hidden="true"
       viewBox="0 -960 960 960"
+      data-testid={`icon-${name}`}
     >
       {title && <title>{title}</title>}
       <path d={IconPaths[name]} />

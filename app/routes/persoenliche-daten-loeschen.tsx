@@ -1,8 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import ContentComponents from "~/components/content/ContentComponents";
+import KernButton from "~/components/kern/KernButton";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -11,8 +10,6 @@ import {
   strapiPageFromRequest,
 } from "~/services/cms/index.server";
 import { sanitizeReferrer } from "~/services/security/sanitizeReferrer";
-import KernPersoenlicheDatenLoeschen from "./kern/persoenliche-daten-loeschen";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { referrer } = request;
@@ -37,21 +34,8 @@ export default function PersoenlicheDatenLoeschen() {
   const { content, translations, backButton } = useLoaderData<typeof loader>();
   const isSubmitting = useNavigation().state === "submitting";
 
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return (
-      <KernPersoenlicheDatenLoeschen
-        content={content}
-        backButton={backButton}
-        isSubmitting={isSubmitting}
-        translations={translations}
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col grow bg-kern-layout-background-hued">
       <ContentComponents content={content} />
       <GridSection className="pb-40">
         <Grid>
@@ -59,29 +43,26 @@ export default function PersoenlicheDatenLoeschen() {
             mdColumn={{ start: 1, span: 7 }}
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
+            className="px-kern-space-large lg:px-0"
           >
             <Form
               method="post"
-              className="ds-stack ds-stack-24"
               action="/action/delete-data"
+              className="gap-kern-space-default flex flex-row"
             >
-              <ButtonContainer>
-                <Button
-                  type="button"
-                  href={backButton}
-                  look="tertiary"
-                  size="large"
-                  text={translations.back ?? "Zurück ohne zu löschen"}
-                />
-                <Button
-                  type="submit"
-                  look="primary"
-                  size="large"
-                  text={translations.confirm ?? "Ja, Daten löschen"}
-                  id="submitButton"
-                  disabled={isSubmitting}
-                />
-              </ButtonContainer>
+              <KernButton
+                type="button"
+                href={backButton}
+                look="secondary"
+                text={translations.back ?? "Zurück ohne zu löschen"}
+              />
+              <KernButton
+                type="submit"
+                look="primary"
+                text={translations.confirm ?? "Ja, Daten löschen"}
+                id="submitButton"
+                disabled={isSubmitting}
+              />
             </Form>
           </GridItem>
         </Grid>

@@ -16,6 +16,7 @@ export type InputProps = Readonly<{
   helperText?: string;
   charLimit?: number;
   inputRef?: React.Ref<HTMLInputElement>;
+  readonly?: boolean;
 }>;
 
 const TextInput = function InputComponent({
@@ -26,6 +27,7 @@ const TextInput = function InputComponent({
   helperText,
   charLimit = INPUT_CHAR_LIMIT,
   inputRef,
+  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -36,7 +38,16 @@ const TextInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
@@ -48,6 +59,7 @@ const TextInput = function InputComponent({
         type="text"
         placeholder={placeholder}
         maxLength={charLimit}
+        readOnly={readonly}
         aria-invalid={field.error() !== null}
         aria-describedby={[
           field.error() && errorId,
@@ -56,7 +68,6 @@ const TextInput = function InputComponent({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
         ref={inputRef}
       />
-
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}

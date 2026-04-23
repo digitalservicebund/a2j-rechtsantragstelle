@@ -2,7 +2,7 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:24.14.0-alpine AS app-base
+FROM node:24.14.1-alpine AS app-base
 
 WORKDIR /a2j
 
@@ -17,7 +17,6 @@ WORKDIR /a2j-app
 COPY --link --from=app-base /a2j/node_modules ./node_modules/
 # The folder build is generated during the ci pipeline and saves in the artifacts. To run the docker image locally, you need to run `pnpm run build` first.
 COPY ./build ./build/
-COPY ./app/services ./app/services/
 COPY ./data ./data/
 COPY ./public ./public/
 COPY ./server.mjs package.json ./
@@ -28,7 +27,7 @@ COPY ./content.json /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:24.14.0-alpine AS prod
+FROM node:24.14.1-alpine AS prod
 RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
 
 USER 1000

@@ -48,5 +48,8 @@ describe("flowIdFromPathname", () => {
     expect(flowIdFromPathname("asd")).toBeUndefined();
     expect(flowIdFromPathname("asd/")).toBeUndefined();
     expect(flowIdFromPathname("asd/asd")).toBeUndefined();
+    expect(
+      flowIdFromPathname("prozesskostenhilfe/formular-ausfuellen"),
+    ).toBeUndefined();
   });
 });

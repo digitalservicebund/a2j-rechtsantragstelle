@@ -1,4 +1,4 @@
-import { type z, type ZodType } from "zod";
+import { type z } from "zod";
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
@@ -26,26 +26,27 @@ import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSch
 import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
+import { ibanZodDescription } from "~/services/validation/iban";
+import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
+import {
+  extractZodDescription,
+  isSpecialComponentDescriptions,
+  type SpecialComponentDescription,
+} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-  showKernUX?: boolean;
-};
-
-const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
+  readOnlyFieldNames: string[];
 };
 
 const renderSpecialMetaDescriptions = (
   fieldName: string,
-  fieldSchema: ZodType,
+  description: SpecialComponentDescription,
   matchingElement?: StrapiFormComponent,
 ) => {
-  if (fieldSchema.meta()?.description === filesUploadZodDescription) {
+  if (description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
     >;
@@ -66,8 +67,14 @@ const renderSpecialMetaDescriptions = (
     );
   }
 
-  if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
+  if (description === hiddenInputZodDescription) {
     return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (description === ibanZodDescription) {
+    return (
+      <KernIbanInput key={fieldName} name={fieldName} {...matchingElement} />
+    );
   }
 };
 
@@ -75,7 +82,7 @@ export const KernSchemaComponents = ({
   pageSchema,
   formComponents,
   className,
-  showKernUX = true,
+  readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
@@ -93,7 +100,7 @@ export const KernSchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup, showKernUX);
+          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
 
         const matchingElement = formComponents
@@ -103,35 +110,32 @@ export const KernSchemaComponents = ({
           )
           .find(({ name }) => name === fieldName);
 
-        if (isZodSpecialMetaDescription(fieldSchema)) {
+        const description = extractZodDescription(fieldSchema);
+        if (isSpecialComponentDescriptions(description)) {
           return renderSpecialMetaDescriptions(
             fieldName,
-            fieldSchema,
+            description,
             matchingElement,
           );
         }
 
         const nestedSchema = getNestedSchema(fieldSchema);
+        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
 
         if (isZodObject(nestedSchema)) {
           return renderZodObject(
             nestedSchema,
             fieldName,
+            readOnlyFieldNames,
             formComponents,
-            showKernUX,
           );
         }
 
         if (isZodEnum(nestedSchema))
-          return renderZodEnum(
-            nestedSchema,
-            fieldName,
-            matchingElement,
-            showKernUX,
-          );
+          return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement, showKernUX);
+          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
       })}
     </div>
   );

@@ -1,8 +1,10 @@
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
 import { type Jmtd14VTErwerberGerbeh } from "~/services/gerichtsfinder/types";
 import { zustaendigesGerichtDone } from "../doneFunctions";
+import { shouldVisitPilotGerichtAuswahl } from "../../gericht-suchen/guards";
 
 vi.mock("~/domains/geldEinklagen/services/court/getPilotCourts");
+vi.mock("../../gericht-suchen/guards");
 
 const baseCourtData = {
   BEZEICHNUNG: "",
@@ -54,6 +56,7 @@ describe("zustaendigesGerichtDone", () => {
 
   it("should return false when two pilot courts are available but no pilotGerichtAuswahl", () => {
     mockResponsibleCourts([PILOT_COURT_BEKLAGTE, PILOT_COURT_SECONDARY]);
+    vi.mocked(shouldVisitPilotGerichtAuswahl).mockReturnValue(true);
 
     const actual = zustaendigesGerichtDone({
       context: { pilotGerichtAuswahl: undefined },
@@ -64,6 +67,17 @@ describe("zustaendigesGerichtDone", () => {
 
   it("should return true when two pilot courts are available and pilotGerichtAuswahl", () => {
     mockResponsibleCourts([PILOT_COURT_BEKLAGTE, PILOT_COURT_SECONDARY]);
+
+    const actual = zustaendigesGerichtDone({
+      context: { pilotGerichtAuswahl: "beklagteCourt" },
+    });
+
+    expect(actual).toBe(true);
+  });
+
+  it("should return true when two pilot courts are available, but it should not visit two pilot courts", () => {
+    mockResponsibleCourts([PILOT_COURT_BEKLAGTE, PILOT_COURT_SECONDARY]);
+    vi.mocked(shouldVisitPilotGerichtAuswahl).mockReturnValue(false);
 
     const actual = zustaendigesGerichtDone({
       context: { pilotGerichtAuswahl: "beklagteCourt" },

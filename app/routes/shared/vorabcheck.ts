@@ -19,7 +19,6 @@ import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { resolveUserData } from "~/services/session.server/resolveUserData";
-import { updateMainSession } from "~/services/session.server/updateSessionInHeader";
 import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
@@ -47,7 +46,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   } = resultUserAndFlow.value;
 
   const { pathname } = new URL(request.url);
-  const cookieHeader = request.headers.get("Cookie");
   const currentFlow = flows[flowId];
 
   const [vorabcheckPage, parentContentPageMeta] = await Promise.all([
@@ -88,12 +86,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
   const stepData = resolveUserData(userData, fieldNames);
 
-  const { headers, csrf } = await updateMainSession({
-    cookieHeader,
-    flowId,
-    stepId,
-  });
-
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: translations.buttonNavigation.backButtonDefaultLabel.de,
     nextButtonLabel:
@@ -108,18 +100,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     label: translations.vorabcheck.progressBarLabel.de,
   };
 
-  return data(
-    {
-      csrf,
-      stepData,
-      cmsContent: { ...cmsContent, pageTitle },
-      formElements,
-      progressProps,
-      buttonNavigationProps,
-      showReportProblem: shouldShowReportProblem(stepId),
-    },
-    { headers },
-  );
+  return data({
+    stepData,
+    cmsContent: { ...cmsContent, pageTitle },
+    formElements,
+    progressProps,
+    buttonNavigationProps,
+    showReportProblem: shouldShowReportProblem(stepId),
+  });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -153,9 +141,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
 
-  await postValidationFlowAction(request, prunedData);
+  await postValidationFlowAction(request, prunedData, flowSession);
 
   const destination = flowDestination(pathname, prunedData);
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const headers = await commitSession(flowSession);
   return redirectDocument(destination, { headers });
 };

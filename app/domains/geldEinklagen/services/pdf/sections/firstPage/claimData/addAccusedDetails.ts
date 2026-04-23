@@ -27,16 +27,14 @@ export const addAccusedDetails = (
 ) => {
   const accusedPersonName = getFullPlaintiffName(
     beklagteAnrede,
-    beklagteTitle === "none" ? "" : beklagteTitle,
+    beklagteTitle,
     beklagteVorname,
     beklagteNachname,
   );
 
   const legalRepresentativeName = getFullPlaintiffName(
     beklagteGesetzlichenVertretungAnrede,
-    beklagteGesetzlichenVertretungTitle === "none"
-      ? ""
-      : beklagteGesetzlichenVertretungTitle,
+    beklagteGesetzlichenVertretungTitle,
     beklagteGesetzlichenVertretungVorname,
     beklagteGesetzlichenVertretungNachname,
   );

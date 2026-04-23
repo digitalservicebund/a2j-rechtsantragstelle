@@ -1,35 +1,13 @@
 import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { sanitizeHtml } from "./sanitizeHtml";
 import { KernIcon } from "~/components/kern/common/KernIcon";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
-
-const OPEN_NEW_TAB = "öffnet neues Fenster";
-
-const CSS_HEADING_CLASSES = [
-  "ds-heading-01-reg",
-  "ds-heading-02-reg",
-  "ds-heading-03-reg",
-  "ds-label-01-bold",
-];
+import { translations } from "~/services/translations/translations";
 
 const defaultRenderer: Partial<Renderer> = {
-  link({ href, text }) {
-    /* Either renders a Standalone link or Inline link,
-        but we use the StandaloneLink component, because both has the same structure and style */
-    return renderToString(<StandaloneLink text={text} url={href} />);
-  },
-  heading({ depth, text }) {
-    // can't use .at() due to old browsers
-    const cssClass = CSS_HEADING_CLASSES[depth - 1] ?? "ds-label-01-reg";
-    return `<h${depth} class="${cssClass}">${text}</h${depth}>`;
-  },
-} as const;
-
-const kernRenderer: Partial<Renderer> = {
   link({ href: url = "", text }) {
     const shouldOpenNewTab =
       isExternalUrl(url) ||
@@ -43,7 +21,7 @@ const kernRenderer: Partial<Renderer> = {
       }),
       ...(shouldOpenNewTab
         ? {
-            "aria-label": `${text}, ${OPEN_NEW_TAB}`,
+            "aria-label": `${text}, ${translations.navigation.linkOpensNewTab.de}`,
             target: "_blank",
             rel: "noopener noreferrer",
           }
@@ -63,24 +41,14 @@ const kernRenderer: Partial<Renderer> = {
     );
   },
 };
-function getRendererToDisplay(
-  showKernUX: boolean | undefined,
-  renderer?: Partial<Renderer>,
-) {
-  if (showKernUX) {
-    return { ...kernRenderer, ...renderer };
-  }
-  return { ...defaultRenderer, ...renderer };
-}
 
 // TODO: refactor to split into markdown service
 export function parseAndSanitizeMarkdown(
   markdown: string,
   renderer?: Partial<Renderer>,
-  showKernUX?: boolean,
 ) {
   // in case the render is provided, we merge it with the default renderer so it can be used in the markdown parser
-  const rendererWithMarkdown = getRendererToDisplay(showKernUX, renderer);
+  const rendererWithMarkdown = { ...defaultRenderer, ...renderer };
 
   const marked = new Marked({
     renderer: rendererWithMarkdown,

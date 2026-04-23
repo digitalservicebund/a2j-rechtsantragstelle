@@ -5,11 +5,11 @@ import {
   checkedRequired,
   exclusiveCheckboxesSchema,
 } from "~/services/validation/checkedCheckbox";
-import { SchemaComponents } from "../SchemaComponents";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -19,7 +19,7 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
+    props: Readonly<Parameters<typeof KernSchemaComponents>[0]>,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
@@ -31,7 +31,7 @@ describe("SchemaComponents", () => {
         path: "/",
         element: (
           <FormProvider scope={form.scope()}>
-            <SchemaComponents {...props} />
+            <KernSchemaComponents {...props} />
           </FormProvider>
         ),
       },
@@ -43,7 +43,10 @@ describe("SchemaComponents", () => {
   it("should render correct text inputs ", () => {
     const pageSchema = { field1: z.string() };
     const { getByRole } = render(
-      <WrappedSchemaComponents pageSchema={pageSchema} />,
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
     );
     const textInput = getByRole("textbox");
     expect(textInput).toHaveAttribute("name", "field1");
@@ -53,6 +56,7 @@ describe("SchemaComponents", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
+        readOnlyFieldNames={[]}
         formComponents={[
           {
             __component: "form-elements.textarea",
@@ -70,7 +74,10 @@ describe("SchemaComponents", () => {
   it("should render correct radio buttons ", () => {
     const pageSchema = { field1: z.enum(["option1", "option2"]) };
     const { getAllByRole } = render(
-      <WrappedSchemaComponents pageSchema={pageSchema} />,
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
     );
     const radio = getAllByRole("radio");
     expect(radio.length).toBe(2);
@@ -85,7 +92,10 @@ describe("SchemaComponents", () => {
       field1: z.object({ a: z.string(), b: z.string() }),
     };
     const { getAllByRole } = render(
-      <WrappedSchemaComponents pageSchema={pageSchema} />,
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
     );
     const radio = getAllByRole("textbox");
     expect(radio.length).toBe(2);
@@ -99,6 +109,7 @@ describe("SchemaComponents", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
         formComponents={[
           {
             __component: "form-elements.tile-group",
@@ -117,11 +128,16 @@ describe("SchemaComponents", () => {
         ]}
       />,
     );
-    const radio = getByRole("radio");
+    const group = getByRole("group");
+    expect(group).toBeInTheDocument();
+    const radio = group.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+    expect(radio).toBeInTheDocument();
     expect(radio).toHaveAttribute("name", "field1");
     expect(radio).toHaveAttribute("value", "option1");
-    expect(radio.parentElement).toHaveTextContent("option1 title");
-    expect(radio.parentElement).toHaveTextContent("option1 description");
+    expect(group).toHaveTextContent("option1 title");
+    expect(group).toHaveTextContent("option1 description");
   });
 
   it("should render checkboxes ", () => {
@@ -130,6 +146,7 @@ describe("SchemaComponents", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
         formComponents={[
           {
             __component: "form-elements.checkbox",
@@ -154,6 +171,7 @@ describe("SchemaComponents", () => {
     const { getAllByRole } = render(
       <WrappedSchemaComponents
         pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
         formComponents={[
           {
             __component: "form-elements.checkbox",
@@ -181,6 +199,7 @@ describe("SchemaComponents", () => {
   it("should render multiple nested fields ", () => {
     const { getByRole, getAllByRole } = render(
       <WrappedSchemaComponents
+        readOnlyFieldNames={[]}
         pageSchema={{
           field1: z
             .string()
@@ -205,6 +224,7 @@ describe("SchemaComponents", () => {
     const { getByRole, getByLabelText } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
+        readOnlyFieldNames={[]}
         formComponents={[
           {
             name: "field1",
@@ -238,7 +258,11 @@ describe("SchemaComponents", () => {
     const pageSchema = { field1: hiddenInputSchema(z.string()) };
 
     const { getByRole } = render(
-      <WrappedSchemaComponents pageSchema={pageSchema} formComponents={[]} />,
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+        formComponents={[]}
+      />,
     );
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
   });
@@ -284,6 +308,7 @@ describe("SchemaComponents", () => {
 
     const { getAllByRole, getByText } = render(
       <WrappedSchemaComponents
+        readOnlyFieldNames={[]}
         pageSchema={mockPageSchema}
         formComponents={mockFormComponentsWithFieldSet}
       />,
@@ -293,5 +318,25 @@ describe("SchemaComponents", () => {
     expect(inputs.length).toBe(2);
     expect(inputs[0]).toHaveAttribute("name", "field1");
     expect(inputs[1]).toHaveAttribute("name", "field2");
+  });
+
+  it("should render an input with readonly attribute when the field name is in readOnlyFieldNames", () => {
+    const pageSchema = { field1: z.string(), field2: z.string() };
+    const { getAllByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={["field1"]}
+      />,
+    );
+
+    expect(getAllByRole("textbox").length).toBe(2);
+
+    const textInput1 = getAllByRole("textbox")[0];
+    const textInput2 = getAllByRole("textbox")[1];
+
+    expect(textInput1).toHaveAttribute("name", "field1");
+    expect(textInput2).toHaveAttribute("name", "field2");
+    expect(textInput1).toHaveAttribute("readonly");
+    expect(textInput2).not.toHaveAttribute("readonly");
   });
 });

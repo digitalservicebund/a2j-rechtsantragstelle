@@ -61,7 +61,7 @@ export default function KernBreadcrumbs({
                 ) : (
                   <a
                     href={breadcrumb.url ?? ""}
-                    className="increase-tap-area kern-link kern-link--small p-0!"
+                    className="increase-tap-area kern-link text-kern-static-small! p-0!"
                   >
                     {breadcrumb.title ?? ""}
                   </a>

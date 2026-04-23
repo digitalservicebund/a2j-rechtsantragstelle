@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../InputError";
 
-export type InputProps = Readonly<{
+type InputProps = Readonly<{
   name: string;
   label?: string;
   type?: string;
@@ -14,6 +14,7 @@ export type InputProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
   charLimit?: number;
+  readonly?: boolean;
 }>;
 
 const NumberInput = function InputComponent({
@@ -23,6 +24,7 @@ const NumberInput = function InputComponent({
   step,
   errorMessages,
   helperText,
+  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -34,7 +36,16 @@ const NumberInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <div className="kern-label">{label}</div>}
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      {helperText && (
+        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
+          {helperText}
+        </div>
+      )}
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),
@@ -52,8 +63,8 @@ const NumberInput = function InputComponent({
           helperText && helperId,
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
+        readOnly={readonly}
       />
-
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}

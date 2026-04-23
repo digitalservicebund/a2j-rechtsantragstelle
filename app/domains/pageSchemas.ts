@@ -5,7 +5,7 @@ import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { SchemaObject } from "./userData";
+import type { SchemaObject, UserData } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
@@ -67,7 +67,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   return fieldsMap;
 };
 
-export function getPageSchema(pathname: string) {
+const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) return undefined;
 
@@ -77,7 +77,7 @@ export function getPageSchema(pathname: string) {
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array
-    // To return its pageSchema, we need to find the parent first, which should be one or two levels above
+    // To return its pageConfig, we need to find the parent first, which should be one or two levels above
     const stepPathParts = stepIdWithoutLeadingSlash.split("/");
 
     // The arrayParentPage matches our array page and its stepId should match the beginning of the current stepId
@@ -87,19 +87,31 @@ export function getPageSchema(pathname: string) {
 
     if (!parentPageConfig) return undefined;
 
-    // Try to find the array page schema by navigating through the path
-    return arrayPageSchemaFromNestedArrayPages(parentPageConfig, stepPathParts);
+    // Try to find the array page by navigating through the path
+    return arrayPageFromNestedArrayPages(parentPageConfig, stepPathParts);
   }
 
   return Object.values(pagesConfig).find(
     (page) => page.stepId === stepIdWithoutLeadingSlash,
-  )?.pageSchema;
+  );
+};
+
+export function getPageSchema(pathname: string) {
+  const pageConfigOrArrayPage = getPageConfigOrArrayPageByPathname(pathname);
+  return pageConfigOrArrayPage?.pageSchema;
 }
 
-function arrayPageSchemaFromNestedArrayPages(
+export function getReadOnlyFields(pathname: string) {
+  const pageConfigOrArrayPage = getPageConfigOrArrayPageByPathname(pathname);
+  return pageConfigOrArrayPage && "readonlyFields" in pageConfigOrArrayPage
+    ? pageConfigOrArrayPage.readonlyFields
+    : undefined;
+}
+
+function arrayPageFromNestedArrayPages(
   pageConfig: ArrayPage,
   stepPathParts: string[],
-): SchemaObject | undefined {
+): ArrayPage | undefined {
   const finalPageConfig = stepPathParts.reduce<ArrayPage | undefined>(
     (currentPage, part, index) => {
       if (!currentPage?.arrayPages) return undefined;
@@ -124,7 +136,7 @@ function arrayPageSchemaFromNestedArrayPages(
   );
 
   // Return the schema from the final result
-  return finalPageConfig?.pageSchema;
+  return finalPageConfig;
 }
 
 export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
@@ -138,11 +150,23 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 
 export type PagesConfig = Record<string, PageConfig>;
 
-type FlowPage = { stepId: string; pageSchema?: SchemaObject };
+type FlowPage = {
+  stepId: string;
+  pageSchema?: SchemaObject;
+  readonlyFields?: ReadOnlyFields;
+};
+
+type ReadOnlyFields = {
+  fieldNames: string[];
+  shouldMakeReadOnly: (userData: UserData) => boolean;
+};
+
 type ArrayPage = {
   pageSchema?: SchemaObject;
   arrayPages?: Record<string, ArrayPage>;
+  readonlyFields?: ReadOnlyFields;
 };
+
 type ArrayParentPage = {
   stepId: string;
   pageSchema: SchemaObject;

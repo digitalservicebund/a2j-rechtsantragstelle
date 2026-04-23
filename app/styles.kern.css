@@ -28,6 +28,26 @@
     color: var(--color-kern-feedback-danger);
   }
 
+  /* --- 
+  Embeddable High-contrast icons
+  usage: /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
+  --- */
+
+  @media (forced-colors: active) {
+    .app-icon--high-contrast {
+      forced-color-adjust: none;
+      fill: black;
+    }
+  }
+
+  @media (forced-colors: active) and (prefers-color-scheme: dark) {
+    .app-icon--high-contrast {
+      fill: white;
+    }
+  }
+
+  /* ------------------------------- */
+
   .detail-summary:focus-within,
   .kern-tile:focus-within {
     border-radius: var(--kern-metric-border-radius-default, 0.25rem);
@@ -42,7 +62,6 @@
   .kern-form-input input:focus,
   .kern-form-input input:focus-visible {
     box-shadow: none !important;
-    border-radius: 0 !important;
   }
 
   /* remove Kern focus visible from the inner input*/
@@ -50,7 +69,74 @@
   .kern-form-input__input input:focus-visible,
   .kern-form-input__input input:focus {
     box-shadow: none !important;
-    border-radius: 0 !important;
+  }
+
+  .stepper-step::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -1px;
+    right: -14px;
+    border-top: 25px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-left: 14px solid var(--color-kern-neutral-300);
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    z-index: 2;
+    forced-color-adjust: none;
+  }
+
+  .stepper-step::after {
+    content: "";
+    outline: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0px;
+    right: -13px;
+    border-top: 24px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 13px solid
+      var(--stepper-step-bg, var(--color-kern-neutral-025));
+    border-bottom-left-radius: 1px;
+    border-top-left-radius: 1px;
+    z-index: 3;
+    forced-color-adjust: none;
+  }
+
+  @media (forced-colors: active) {
+    .stepper-step {
+      forced-color-adjust: none;
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+
+    .stepper-step::before {
+      border-left: 14px solid ButtonText;
+      right: -14px;
+    }
+
+    .stepper-step::after {
+      border-left: 14px solid Canvas;
+      right: -12px;
+    }
+
+    .stepper-step.active {
+      background: Highlight;
+      color: HighlightText;
+      border-color: Highlight;
+    }
+
+    .stepper-step.active::before {
+      border-left-color: Highlight;
+    }
+
+    .stepper-step.active::after {
+      border-left-color: Highlight;
+      right: -14px;
+    }
   }
 
   .grid-fluid {
@@ -103,14 +189,18 @@
     }
   }
 
+  .kern-body {
+    line-height: 27px;
+  }
+
   .rich-text {
+    p {
+      margin-bottom: 8px;
+    }
+
     ul {
       list-style-type: disc;
       padding-left: 1.5rem;
-
-      li {
-        margin-bottom: 0.5rem;
-      }
     }
 
     ol {

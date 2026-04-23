@@ -14,11 +14,15 @@ import { type StrapiSelectComponentSchema } from "~/services/cms/models/formElem
 import { type StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { z } from "zod";
+import { type StrapiCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiCheckbox";
 
 type StrapiInputComponentOutput = z.output<typeof StrapiInputComponentSchema>;
 type StrapiSelectComponentOutput = z.output<typeof StrapiSelectComponentSchema>;
 type StrapiTileGroupComponentOutput = z.output<
   typeof StrapiTileGroupComponentSchema
+>;
+type StrapiCheckboxComponentOutput = z.output<
+  typeof StrapiCheckboxComponentSchema
 >;
 
 vi.mock("~/domains/flows.server", () => ({
@@ -302,6 +306,24 @@ describe("extractOptionsFromComponent", () => {
     expect(result).toEqual([
       { text: "First Tile", value: "first" },
       { text: "Second Tile", value: "second" },
+    ]);
+  });
+
+  it("should generate default options for a standalone checkbox component", () => {
+    const component: StrapiCheckboxComponentOutput = {
+      __component: "form-elements.checkbox",
+      name: "checkbox",
+      label: "Check me!",
+      id: 1,
+      required: false,
+      errorMessage: undefined,
+    };
+
+    const result = extractOptionsFromComponent(component);
+
+    expect(result).toEqual([
+      { text: "Ja", value: "on" },
+      { text: "Nein", value: "off" },
     ]);
   });
 

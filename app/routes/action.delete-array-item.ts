@@ -32,7 +32,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultDeletion.error.message, { status: 422 });
   }
 
-  const headers = { "Set-Cookie": await commitSession(flowSession) };
+  const headers = await commitSession(flowSession);
 
   const clientJavaScriptAvailable = formData.get("_jsEnabled");
   if (clientJavaScriptAvailable === "false") {

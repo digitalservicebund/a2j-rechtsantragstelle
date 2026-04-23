@@ -31,11 +31,9 @@ export async function validateFlowTransition(
     throw new Error("This property should not be empty");
   }
 
-  const { userData } = await getSessionData(sourceFlowId, cookieHeader);
-
   const sourceFlowController = buildFlowController({
     config: flows[sourceFlowId].config,
-    data: userData,
+    data: await getSessionData(sourceFlowId, cookieHeader),
     guards: flows[sourceFlowId].guards,
   });
 

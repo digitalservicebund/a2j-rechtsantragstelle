@@ -7,7 +7,6 @@ describe("StrapiSummaryOverviewSchema", () => {
       title: {
         text: "text",
         tagName: "h1",
-        look: "default",
         id: 1,
       },
       boxes: [],
@@ -25,7 +24,6 @@ describe("StrapiSummaryOverviewSchema", () => {
       title: {
         text: "text",
         tagName: "h1",
-        look: "default",
         id: 1,
       },
       boxes: [
@@ -49,7 +47,6 @@ describe("StrapiSummaryOverviewSchema", () => {
         __component: "basic.heading",
         text: "text",
         tagName: "h1",
-        look: "default",
         id: 1,
       },
       boxes: [
@@ -76,7 +73,6 @@ describe("StrapiSummaryOverviewSchema", () => {
         __component: "basic.heading",
         text: "text",
         tagName: "h1",
-        look: "default",
         id: 1,
       },
       boxes: [

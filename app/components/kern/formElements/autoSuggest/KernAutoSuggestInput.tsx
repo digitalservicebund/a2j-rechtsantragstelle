@@ -1,8 +1,19 @@
 import { useField } from "@rvf/react-router";
 import { matchSorter } from "match-sorter";
-import { type RefObject, useEffect, useRef, useState } from "react";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useRouteLoaderData } from "react-router";
-import Select, { type InputActionMeta } from "react-select";
+import Select, {
+  type InputProps,
+  type ControlProps,
+  type InputActionMeta,
+} from "react-select";
 import Creatable from "react-select/creatable";
 import classNames from "classnames";
 import {
@@ -16,13 +27,14 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import InputError from "../InputError";
-import { FormatOptionLabel } from "~/components/formElements/autoSuggestInput/customComponents";
 import KernAutoSuggestClearInput from "./KernAutoSuggestClearInput";
 import KernAutoSuggestController from "./KernAutoSuggestController";
 import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
 import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
 import TextInput from "../input/TextInput";
+import KernFormatOptionLabel from "~/components/kern/formElements/autoSuggest/KernFormatOptionLabel";
+import Fuse from "fuse.js/basic";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -98,6 +110,15 @@ const KernAutoSuggestInput = ({
   const inputId = `input-${name}`;
   const helperId = `${name}-helper`;
   const buttonExclusionRef = useRef<HTMLButtonElement>(null);
+  const fuzzySearchEngine = useMemo(
+    () =>
+      new Fuse(items, {
+        keys: ["label"],
+        threshold: 0.5,
+        minMatchCharLength: 5,
+      }),
+    [items],
+  );
 
   const jsAvailable = useJsAvailable();
   const [optionWasSelected, setOptionWasSelected] = useState(false);
@@ -111,9 +132,13 @@ const KernAutoSuggestInput = ({
         setOptions([]);
         return;
       }
-      let filteredOptions = items.filter((item) =>
-        item.label.toLowerCase().includes(value.toLocaleLowerCase()),
-      );
+
+      let filteredOptions =
+        dataList === "streetNames"
+          ? fuzzySearchEngine.search(value).map((result) => result.item)
+          : items.filter((item) =>
+              item.label.toLowerCase().includes(value.toLocaleLowerCase()),
+            );
 
       // In case is the airports list, sorting by the code
       if (dataList === "airports") {
@@ -141,9 +166,28 @@ const KernAutoSuggestInput = ({
     setCurrentItemValue(value);
   }, [defaultValue, items, isCreatable]);
 
+  const MemoizedController = useCallback(
+    (props: ControlProps<DataListOptions, false>) =>
+      KernAutoSuggestController(props, isDisabled),
+    [isDisabled],
+  );
+
+  const MemoizedCustomInput = useCallback(
+    (props: InputProps<DataListOptions, false>) =>
+      KernAutoSuggestCustomInput(props, hasError),
+    [hasError],
+  );
+
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
-    return <TextInput name={name} label={label} placeholder={placeholder} />;
+    return (
+      <TextInput
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        errorMessages={errorMessages}
+      />
+    );
   }
 
   const SelectComponent = isCreatable ? Creatable : Select;
@@ -159,16 +203,13 @@ const KernAutoSuggestInput = ({
         {label && (
           <label
             className="kern-label text-kern-layout-text-default! p-0! m-0!"
-            htmlFor="input-street"
+            htmlFor={inputId}
           >
             {label}
           </label>
         )}
         {helperText && (
-          <div
-            className="kern-body text-kern-layout-text-muted! p-0! m-0!"
-            id={helperId}
-          >
+          <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
             {helperText}
           </div>
         )}
@@ -187,18 +228,20 @@ const KernAutoSuggestInput = ({
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
           )}
-          className="w-full"
+          className={classNames("w-full ph-no-capture", {
+            "option-was-selected": optionWasSelected,
+          })}
           components={{
             ClearIndicator: (props) =>
               KernAutoSuggestClearInput(props, buttonExclusionRef),
-            Control: KernAutoSuggestController,
+            Control: MemoizedController,
             DropdownIndicator: () => null,
             IndicatorSeparator: () => null,
-            Input: KernAutoSuggestCustomInput,
+            Input: MemoizedCustomInput,
             ValueContainer: KernAutoSuggestValueContainer,
           }}
           filterOption={() => true}
-          formatOptionLabel={FormatOptionLabel}
+          formatOptionLabel={KernFormatOptionLabel}
           id={name}
           inputId={inputId}
           instanceId={name}
@@ -243,6 +286,8 @@ const KernAutoSuggestInput = ({
               classNames("kern-form-input__input bg-white!", {
                 "kern-form-input__input--error": hasError,
               }),
+            singleValue: () => "absolute",
+            input: () => "w-full h-full z-50",
           }}
           tabIndex={0}
           value={currentItemValue}

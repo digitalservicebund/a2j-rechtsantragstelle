@@ -3,7 +3,6 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 
 const happyPathSteps = [
   "/intro/start",
-  "/grundvoraussetzungen/datenverarbeitung",
   "/grundvoraussetzungen/streitbeilegung",
   "/grundvoraussetzungen/prozessfaehig",
   "/grundvoraussetzungen/ausgleichszahlung",
@@ -15,7 +14,6 @@ const happyPathSteps = [
 export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
   [
     {
-      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
@@ -25,14 +23,12 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [],
       },
     },
     happyPathSteps,
   ],
   [
     {
-      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
@@ -42,14 +38,12 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [],
       },
     },
     happyPathSteps,
   ],
   [
     {
-      datenverarbeitungZustimmung: "on",
       fluggesellschaft: "TAP",
       bereich: "bereich",
       startAirport: "BER",
@@ -60,12 +54,10 @@ export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
         subflowDoneStates: {
           "/grundvoraussetzungen": true,
         },
-        arrayIndexes: [],
       },
     },
     [
       "/intro/start",
-      "/grundvoraussetzungen/datenverarbeitung",
       "/grundvoraussetzungen/streitbeilegung",
       "/grundvoraussetzungen/streitbeilegung-gruende",
       "/grundvoraussetzungen/prozessfaehig",

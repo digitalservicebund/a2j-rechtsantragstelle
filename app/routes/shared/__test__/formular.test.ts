@@ -166,6 +166,7 @@ describe("formular.server", () => {
         expect(updateSession).toHaveBeenCalledWith(
           expect.anything(),
           expect.objectContaining({ ...userData, pageData: expectedPageData }),
+          expect.anything(),
         );
       });
 
@@ -185,6 +186,7 @@ describe("formular.server", () => {
           expect.objectContaining({
             name: "Migration Name",
           }),
+          expect.anything(),
         );
       });
 
@@ -211,6 +213,7 @@ describe("formular.server", () => {
         expect(postValidationFlowAction).toHaveBeenCalledWith(
           mockDefaultRequest,
           { name: "Valid Name" },
+          expect.anything(),
         );
       });
 

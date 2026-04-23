@@ -10,7 +10,6 @@ type ArraySummaryItemProps = {
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly csrf: string;
   readonly subtitle?: HeadingProps;
   readonly itemLabels: ItemLabels;
 };
@@ -20,7 +19,6 @@ const ArraySummaryDataItems = ({
   items,
   category,
   configuration,
-  csrf,
   subtitle,
   itemLabels,
 }: ArraySummaryItemProps) => {
@@ -59,7 +57,6 @@ const ArraySummaryDataItems = ({
       <ArraySummaryItemButton
         {...(heading ? { heading } : null)}
         category={category}
-        csrf={csrf}
         itemIndex={itemIndex}
         editUrl={`${url}/${itemIndex}/${initialInputUrl}`}
       />

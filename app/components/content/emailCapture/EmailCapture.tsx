@@ -12,10 +12,10 @@ import {
   InlineNotice,
   type InlineNoticeProps,
 } from "~/components/content/InlineNotice";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 import InputError from "~/components/formElements/InputError";
 import InputLabel from "~/components/formElements/InputLabel";
 import { type loader } from "~/routes/shared/formular";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { autocompleteMap } from "~/util/autocompleteMap";
 
 export type EmailCaptureProps = {
@@ -35,7 +35,7 @@ export const EmailCapture = ({
 }: EmailCaptureProps) => {
   const fieldName = "email";
   const errorId = "email-error";
-  const { csrf, emailCaptureConsent } = useLoaderData<typeof loader>();
+  const { emailCaptureConsent } = useLoaderData<typeof loader>();
   const { pathname, search } = useLocation();
   const form = useForm({
     schema: emailCaptureSchema,
@@ -84,7 +84,7 @@ export const EmailCapture = ({
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>
           )}
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <CsrfInput />
           <input type="hidden" name="_url" value={pathname} />
         </div>
         <ButtonContainer className="h-[4rem]">

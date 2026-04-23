@@ -1,6 +1,3 @@
-import BundesSansWebBold from "@digitalservice4germany/angie/fonts/BundesSansWeb-Bold.woff2?url";
-import BundesSansWeb from "@digitalservice4germany/angie/fonts/BundesSansWeb-Regular.woff2?url";
-import fonts from "@digitalservice4germany/angie/fonts.css?url";
 import * as Sentry from "@sentry/react-router";
 import { useEffect } from "react";
 import type {
@@ -16,13 +13,10 @@ import {
   ScrollRestoration,
   useLoaderData,
   useMatches,
-  useRouteLoaderData,
   Outlet,
   useLocation,
 } from "react-router";
-import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
-import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
   fetchContentPageMeta,
@@ -33,26 +27,22 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 import { translations as staticTranslations } from "~/services/translations/translations";
-import styles from "~/styles.css?url";
-import kernStyles from "~/styles.kern.css?url";
+import styles from "~/styles.kern.css?url";
 import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
-import Breadcrumbs from "./components/layout/Breadcrumbs";
-import { CookieBanner } from "./components/layout/cookieBanner/CookieBanner";
-import Footer from "./components/layout/Footer";
-import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import { getFeedbackData } from "./services/feedback/getFeedbackData";
-import { isFeatureFlagEnabled } from "./services/isFeatureFlagEnabled.server";
+import {
+  globalFeatureFlags,
+  isFeatureFlagEnabled,
+} from "./services/isFeatureFlagEnabled.server";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
-import { mainSessionFromCookieHeader } from "./services/session.server";
+import { initializeMainSession } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
-import { shouldSetCacheControlHeader } from "./util/shouldSetCacheControlHeader";
 import { KernCookieBanner } from "./components/kern/KernCookieBanner";
 import KernFooter from "./components/kern/layout/footer/KernFooter";
 import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
@@ -73,15 +63,6 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
-  { rel: "preload", href: BundesSansWeb, as: "font", crossOrigin: "anonymous" },
-  {
-    rel: "preload",
-    href: BundesSansWebBold,
-    as: "font",
-    crossOrigin: "anonymous",
-  },
-  { rel: "preload", href: fonts, as: "style" }, // font css file from angie package
-  { rel: "stylesheet", href: fonts },
 ];
 
 export const meta: MetaFunction<RootLoader> = () => {
@@ -100,42 +81,33 @@ const STRAPI_P_LEVEL_THREE = 3;
 
 export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
-  const cookieHeader = request.headers.get("Cookie");
 
   const [
     strapiHeader,
-    strapiFooter,
     cookieBannerContent,
-    trackingConsent,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
-    mainSession,
+    { headers, feedback, csrf, trackingConsent },
     breadcrumbs,
-    showKernUX,
+    showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
-    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
-    trackingCookieValue({ request }),
-    fetchContentPageMeta({ filterValue: "/" }),
+    fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
-    mainSessionFromCookieHeader(cookieHeader),
+    initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
-    isFeatureFlagEnabled("showKernUX"),
+    isFeatureFlagEnabled("showFGROnlineVerfahren"),
   ]);
+  globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
-  const shouldAddCacheControl = shouldSetCacheControlHeader(
-    pathname,
-    trackingConsent,
-  );
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(
     {
       breadcrumbs,
       pageHeaderProps: { ...strapiHeader, hideLinks: isAnyFlowPage },
-      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -144,28 +116,32 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       context,
       hasAnyUserData,
       accessibilityTranslations,
-      feedback: getFeedbackData(mainSession, pathname),
+      feedback,
       skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
-      showKernUX,
+      csrf,
     },
-    { headers: { shouldAddCacheControl: String(shouldAddCacheControl) } },
+    {
+      headers,
+    },
   );
 };
+
+// Don't accept any mutations on content routes. This safely catches bot POST/PUT spam without crashing or alerting Sentry
+export const action = async () =>
+  new Response("Method Not Allowed", { status: 405 });
 
 function App() {
   const {
     pageHeaderProps,
-    footer,
     cookieBannerContent,
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
     breadcrumbs,
     skipContentLinkTarget,
-    showKernUX,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const { pathname } = useLocation();
@@ -186,7 +162,7 @@ function App() {
   }, [shouldPrint]);
 
   return (
-    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
+    <html lang="de" {...{ "data-kern-theme": "light" }}>
       <head>
         <title>
           {shouldPrint ? generatePrintTitle(title, pathname) : title}
@@ -210,82 +186,40 @@ function App() {
             __html: `window.ENV = ${JSON.stringify(configPublic())}`,
           }}
         />
-        <link rel="stylesheet" href={showKernUX ? kernStyles : styles} />
+        <link rel="stylesheet" href={styles} />
         <Meta />
         <Links />
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          {showKernUX ? (
-            <KernCookieBanner content={cookieBannerContent} />
-          ) : (
-            <CookieBanner content={cookieBannerContent} />
-          )}
-          {showKernUX ? (
-            <KernSkipToContentLink
-              label={getTranslationByKey(
-                SKIP_TO_CONTENT_TRANSLATION_KEY,
-                accessibilityTranslations,
-              )}
-              target={skipContentLinkTarget}
-            />
-          ) : (
-            <SkipToContentLink
-              label={getTranslationByKey(
-                SKIP_TO_CONTENT_TRANSLATION_KEY,
-                accessibilityTranslations,
-              )}
-              target={skipContentLinkTarget}
-            />
-          )}
-          {showKernUX ? (
-            <KernPageHeader {...pageHeaderProps} />
-          ) : (
-            <PageHeader {...pageHeaderProps} />
-          )}
-
-          {showKernUX ? (
-            <KernBreadcrumbs
-              breadcrumbs={breadcrumbs}
-              linkLabel={pageHeaderProps.linkLabel}
-              ariaLabel={getTranslationByKey(
-                "header-breadcrumb",
-                accessibilityTranslations,
-              )}
-            />
-          ) : (
-            <Breadcrumbs
-              breadcrumbs={breadcrumbs}
-              linkLabel={pageHeaderProps.linkLabel}
-              ariaLabel={getTranslationByKey(
-                "header-breadcrumb",
-                accessibilityTranslations,
-              )}
-            />
-          )}
+          <KernCookieBanner content={cookieBannerContent} />
+          <KernSkipToContentLink
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
+            target={skipContentLinkTarget}
+          />
+          <KernPageHeader {...pageHeaderProps} />
+          <KernBreadcrumbs
+            breadcrumbs={breadcrumbs}
+            linkLabel={pageHeaderProps.linkLabel}
+            ariaLabel={getTranslationByKey(
+              "header-breadcrumb",
+              accessibilityTranslations,
+            )}
+          />
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
           <footer>
-            {showKernUX ? (
-              <KernFooter
-                {...footer}
-                showDeletionBanner={hasAnyUserData}
-                ariaLabel={getTranslationByKey(
-                  "footer-navigation",
-                  accessibilityTranslations,
-                )}
-              />
-            ) : (
-              <Footer
-                {...footer}
-                showDeletionBanner={hasAnyUserData}
-                ariaLabel={getTranslationByKey(
-                  "footer-navigation",
-                  accessibilityTranslations,
-                )}
-              />
-            )}
+            <KernFooter
+              showDeletionBanner={hasAnyUserData}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                accessibilityTranslations,
+              )}
+            />
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
@@ -296,66 +230,36 @@ function App() {
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
-  const loaderData = useRouteLoaderData<RootLoader>("root");
-  const showKernUX = loaderData?.showKernUX ?? false;
+  const { accessibilityTranslations } = useLoaderData<RootLoader>();
 
   if (error && error instanceof Error) {
     Sentry.captureException(error);
   }
 
   return (
-    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
+    <html lang="de" {...{ "data-kern-theme": "light" }}>
       <head>
         <title>Justiz Services - Fehler aufgetreten</title>
-        <link
-          rel="stylesheet"
-          href={loaderData?.showKernUX ? kernStyles : styles}
-        />
+        <link rel="stylesheet" href={styles} />
         <Meta />
         <Links />
         <meta name="darkreader-lock" />
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
-        {showKernUX ? (
-          <KernPageHeader
-            hideLinks={false}
-            linkLabel="Zurück zur Startseite"
-            title="Justiz-Services"
-          />
-        ) : (
-          <PageHeader
-            hideLinks={false}
-            linkLabel="Zurück zur Startseite"
-            title="Justiz-Services"
-          />
-        )}
-        {showKernUX ? (
-          <main className="bg-kern-neutral-025">
-            <ErrorBox showKernUX />
-          </main>
-        ) : (
-          <main className="grow">
-            <ErrorBox />
-          </main>
-        )}
-        {loaderData &&
-          (showKernUX ? (
-            <KernFooter
-              {...loaderData.footer}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                loaderData.accessibilityTranslations,
-              )}
-            />
-          ) : (
-            <Footer
-              {...loaderData.footer}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                loaderData.accessibilityTranslations,
-              )}
-            />
-          ))}
+        <KernPageHeader
+          hideLinks={false}
+          linkLabel="Zurück zur Startseite"
+          title="Justiz-Services"
+        />
+        <main className="bg-kern-neutral-025">
+          <ErrorBox />
+        </main>
+        <KernFooter
+          ariaLabel={getTranslationByKey(
+            "footer-navigation",
+            accessibilityTranslations,
+          )}
+        />
       </body>
     </html>
   );

@@ -50,7 +50,7 @@ describe("createDataListLoader", () => {
 
     const mockData = [{ value: "test-value", label: "Test Label" }];
 
-    vi.mocked(getDataListOptions).mockResolvedValue(mockData);
+    vi.mocked(getDataListOptions).mockReturnValue(mockData);
 
     const response = await loader({ request } as LoaderFunctionArgs);
     expect(response).toBeInstanceOf(Response);

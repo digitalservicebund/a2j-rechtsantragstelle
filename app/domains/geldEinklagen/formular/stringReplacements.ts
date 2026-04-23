@@ -1,4 +1,4 @@
-import { gerichtskostenFromBetrag } from "~/domains/geldEinklagen/services/court/getCourtCost";
+import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
@@ -129,5 +129,23 @@ export const hasBeweiseAngebot = (context: GeldEinklagenFormularUserData) => {
 export const hasAnwaltschaft = (context: GeldEinklagenFormularUserData) => {
   return {
     hasAnwaltschaft: context.anwaltschaft === "yes",
+  };
+};
+
+export const hasKlagendePersonStatePrefilled = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    hasKlagendePersonStatePrefilled:
+      context.klagendePersonStatePrefilled === "prefilled",
+  };
+};
+
+export const hasBeklagtePersonStatePrefilled = (
+  context: GeldEinklagenFormularUserData,
+) => {
+  return {
+    hasBeklagtePersonStatePrefilled:
+      context.beklagteStatePrefilled === "prefilled",
   };
 };

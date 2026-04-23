@@ -1,10 +1,12 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { emailSchema } from "~/services/validation/email";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
   buildOptionalMoneyValidationSchema,
   buildMoneyValidationSchema,
+  formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
@@ -18,10 +20,15 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
+const statePrefilled = z
+  .enum(["prefilled", "filledByUser", "unfilled"])
+  .default("filledByUser");
+
 const sharedBeklagteAddress = {
   beklagteStrasseHausnummer: stringRequiredSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
   beklagteOrt: stringRequiredSchema,
+  beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
 export const geldEinklagenKlageErstellenPages = {
@@ -43,11 +50,18 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonNachname: stringRequiredSchema,
       klagendePersonStrasseHausnummer: stringRequiredSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
       klagendePersonOrt: stringRequiredSchema,
       klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
       klagendeEmail: schemaOrEmptyString(emailSchema),
       klagendePersonIban: schemaOrEmptyString(ibanSchema),
       klagendePersonKontoinhaber: stringOptionalSchema,
+    },
+    readonlyFields: {
+      fieldNames: ["klagendePersonPlz", "klagendePersonOrt"],
+      shouldMakeReadOnly: (userData) =>
+        !!userData.klagendePersonStatePrefilled &&
+        userData.klagendePersonStatePrefilled === "prefilled",
     },
   },
   klagendePersonAnwaltschaft: {
@@ -77,6 +91,12 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteNachname: stringRequiredSchema,
       ...sharedBeklagteAddress,
     },
+    readonlyFields: {
+      fieldNames: ["beklagtePlz", "beklagteOrt"],
+      shouldMakeReadOnly: (userData) =>
+        !!userData.beklagteStatePrefilled &&
+        userData.beklagteStatePrefilled === "prefilled",
+    },
   },
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
@@ -92,7 +112,9 @@ export const geldEinklagenKlageErstellenPages = {
   forderungGesamtbetrag: {
     stepId: "klage-erstellen/forderung/gesamtbetrag",
     pageSchema: {
-      forderungGesamtbetrag: buildMoneyValidationSchema({ max: 1000000 }),
+      forderungGesamtbetrag: buildMoneyValidationSchema({
+        max: 1000000,
+      }).meta({ description: formatCurrencyZodDescription }),
     },
   },
   sachverhaltBegruendung: {
@@ -120,7 +142,9 @@ export const geldEinklagenKlageErstellenPages = {
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
-      anwaltskosten: buildOptionalMoneyValidationSchema({ min: 1 }),
+      anwaltskosten: buildOptionalMoneyValidationSchema({
+        min: 1,
+      }).meta({ description: formatCurrencyZodDescription }),
     },
   },
   prozessfuehrungProzesszinsen: {

@@ -9,6 +9,7 @@ import { getPageSchema } from "~/domains/pageSchemas";
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
+    readOnlyFieldNames: string[];
   }
 >;
 
@@ -30,7 +31,12 @@ const getFieldSetPageSchema = (
     : null;
 };
 
-export const FieldSet = ({ heading, formComponents, image }: FieldSetProps) => {
+export const FieldSet = ({
+  heading,
+  formComponents,
+  image,
+  readOnlyFieldNames,
+}: FieldSetProps) => {
   const { pathname } = useLocation();
 
   const pageSchema = getFieldSetPageSchema(pathname, formComponents);
@@ -55,6 +61,7 @@ export const FieldSet = ({ heading, formComponents, image }: FieldSetProps) => {
         pageSchema={pageSchema}
         formComponents={formComponents}
         className={classNames("pt-16 !ds-stack-16", { "md:pl-32": image })}
+        readOnlyFieldNames={readOnlyFieldNames}
       />
     </fieldset>
   );

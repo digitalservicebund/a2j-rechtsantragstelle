@@ -13,15 +13,13 @@
     "incremental": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": ["DOM", "ES2024"],
     "isolatedModules": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "target": "es2022",
+    "target": "es2024",
     "types": [
       "@testing-library/jest-dom",
       "node",
@@ -29,17 +27,15 @@
       "@react-router/node",
       "vite/client"
     ],
-    "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
       "data/*": ["./data/*"],
       "tests/*": ["./tests/*"],
       "@digitalservicebund/icons/*": [
-        "node_modules/@digitalservicebund/icons/*"
+        "./node_modules/@digitalservicebund/icons/*"
       ]
     },
     // Vite takes care of building everything

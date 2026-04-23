@@ -1,11 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect, useLoaderData } from "react-router";
-import { BACKGROUND_COLORS } from "~/components";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import ContentComponents from "~/components/content/ContentComponents";
-import CourtDetails from "~/components/CourtDetails";
-import { useShowKernUX } from "~/components/hooks/useShowKernUX";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -14,8 +9,10 @@ import {
   edgeCasesForPlz,
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import KernZuestandigesGerichErgebnis from "./kern/kern-beratungshilfe.zustaendiges-gericht.ergebnis.$";
 import { splatFromParams } from "~/services/params";
+import { KernIcon } from "~/components/kern/common/KernIcon";
+import KernHeading from "~/components/kern/KernHeading";
+import CourtDetails from "~/components/CourtDetails";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =
@@ -41,41 +38,41 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export const Component = () => {
   const { court, content } = useLoaderData<typeof loader>();
 
-  const showKernUX = useShowKernUX();
-
-  if (showKernUX) {
-    return <KernZuestandigesGerichErgebnis />;
-  }
-
   return (
-    <GridSection className={BACKGROUND_COLORS.blue} pt="48" pb="40">
+    <GridSection pt="48" pb="40" className="bg-kern-neutral-025">
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
           row={1}
+          className="flex flex-col gap-kern-space-default lg:px-kern-space-default"
         >
-          <span className="ds-label-03-reg">Amtsgericht finden</span>
-          <Heading tagName="h1" look="ds-heading-02-reg" className="mt-16">
-            Ihr zuständiges Amtsgericht
-          </Heading>
+          <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
+            Amtsgericht finden
+          </h1>
+          <KernHeading
+            tagName="h2"
+            text="Ihr zuständiges Amtsgericht"
+            size="xLarge"
+            managedByParent
+          />
         </GridItem>
       </Grid>
       <Grid
         className="py-40"
         background={{
-          className: `${BACKGROUND_COLORS.white} rounded-lg`,
           mdColumn: { start: 1, span: 8 },
           lgColumn: { start: 2, span: 10 },
           xlColumn: { start: 2, span: 10 },
+          className: "rounded-lg bg-kern-neutral-050",
         }}
       >
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
-          className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
+          className="py-kern-space-default lg:px-kern-space-default px-kern-space-small"
         >
           <CourtDetails
             name={court.BEZEICHNUNG}
@@ -88,18 +85,20 @@ export const Component = () => {
             phoneLabel="Telefonnummer"
           />
         </GridItem>
-      </Grid>
-      <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
-          row={3}
+          row={2}
+          className="py-kern-space-large lg:px-kern-space-default"
         >
-          <StandaloneLink
-            text="Suche wiederholen"
-            url="/beratungshilfe/zustaendiges-gericht/suche"
-          />
+          <a
+            href="/beratungshilfe/zustaendiges-gericht/suche"
+            className="flex kern-link no-underline!"
+          >
+            <KernIcon name="arrow-forward" />
+            Suche wiederholen
+          </a>
         </GridItem>
       </Grid>
       <ContentComponents content={content} />

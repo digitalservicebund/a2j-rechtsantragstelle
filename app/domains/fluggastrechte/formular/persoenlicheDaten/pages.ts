@@ -4,7 +4,6 @@ import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFl
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
-import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -12,11 +11,11 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDatenSchema = {
   anrede: z.enum(["herr", "frau", "none"]),
-  title: z.enum(["", "dr"]),
+  title: z.enum(["none", "dr"]),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   strasseHausnummer: stringRequiredSchema,
-  plz: stringRequiredSchema.pipe(postcodeSchema),
+  plz: stringRequiredSchema,
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
   telefonnummer: schemaOrEmptyString(phoneNumberSchema),

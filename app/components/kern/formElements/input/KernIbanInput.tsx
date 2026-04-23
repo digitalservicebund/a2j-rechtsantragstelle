@@ -15,10 +15,10 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
 const KernIbanInput = (props: InputProps) => {
   return (
     <MaskedIbanInput
-      {...props}
       mask={"**** **** **** **** **** **** **** **** **"}
       type="number"
       prepareChar={(str) => str.toUpperCase()}
+      {...props}
     />
   );
 };

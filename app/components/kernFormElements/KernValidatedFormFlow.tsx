@@ -3,31 +3,28 @@ import { useLocation } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "./KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
-import { useShowKernUX } from "../hooks/useShowKernUX";
+import { getReadOnlyFieldNames } from "../formElements/schemaToForm/getReadOnlyFieldNames";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
   formElements: StrapiFormComponent[];
   buttonNavigationProps: ButtonNavigationProps;
-  csrf: string;
 };
 
 function KernValidatedFlowForm({
   stepData,
   formElements,
   buttonNavigationProps: { back, next },
-  csrf,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
-
   const pageSchema = getPageSchema(pathname);
   const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
-  const showKernUX = useShowKernUX();
+  const readOnlyFieldNames = getReadOnlyFieldNames(pathname, stepData);
 
   return (
     <ValidatedForm
@@ -40,13 +37,14 @@ function KernValidatedFlowForm({
     >
       {(form) => (
         <>
-          <input type="hidden" name={CSRFKey} value={csrf} />
+          <CsrfInput />
           <div className="flex flex-col">
             {pageSchema && (
               <KernSchemaComponents
                 pageSchema={pageSchema}
                 formComponents={formElements}
-                showKernUX={showKernUX}
+                className="mb-kern-space-x-large"
+                readOnlyFieldNames={readOnlyFieldNames}
               />
             )}
             <KernButtonNavigation

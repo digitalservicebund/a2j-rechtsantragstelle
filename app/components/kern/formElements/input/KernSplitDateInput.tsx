@@ -51,7 +51,7 @@ const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
       </div>
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">
         <div className="kern-form-input">
-          <label className="kern-label" id={day}>
+          <label className="kern-label" htmlFor={day}>
             {translations.splitDateComponent.tagInputLabel.de}
           </label>
           <input
@@ -76,7 +76,7 @@ const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
         </div>
 
         <div className="kern-form-input">
-          <label className="kern-label" id={month}>
+          <label className="kern-label" htmlFor={month}>
             {translations.splitDateComponent.monatInputLabel.de}
           </label>
           <input
@@ -101,7 +101,7 @@ const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
         </div>
 
         <div className="kern-form-input">
-          <label className="kern-label" id={year}>
+          <label className="kern-label" htmlFor={year}>
             {translations.splitDateComponent.jahrInputLabel.de}
           </label>
           <input

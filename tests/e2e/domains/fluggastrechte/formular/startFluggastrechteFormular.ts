@@ -16,9 +16,6 @@ export async function startFluggastrechteFormular(
   await expectPageToBeAccessible({ page });
   await formular.clickNext();
 
-  // /fluggastrechte/formular/grundvoraussetzungen/datenverarbeitung
-  await formular.fillCheckboxesPage("datenverarbeitungZustimmung");
-
   // /fluggastrechte/formular/grundvoraussetzungen/streitbeilegung
   await formular.fillRadioPage("streitbeilegung", "yes");
 
@@ -105,7 +102,7 @@ export async function startFluggastrechteFormular(
   await formular.clickNext();
 
   // /fluggastrechte/formular/persoenliche-daten/person/daten
-  await formular.fillDropdown("title", "");
+  await formular.fillDropdown("title", "none");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
   await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
@@ -121,7 +118,10 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/prozessfuehrung/zeugen
   await formular.fillRadioPage("hasZeugen", "no");
 
-  // /fluggastrechte/formular/streitwert-kosten/videoverhandlung
+  // /fluggastrechte/formular/prozessfuehrung/muendliche-verhandlung
+  await formular.fillRadioPage("muendlicheVerhandlung", "yes");
+
+  // /fluggastrechte/formular/prozessfuehrung/videoverhandlung
   await formular.fillRadioPage("videoverhandlung", "yes");
 
   // /fluggastrechte/formular/prozessfuehrung/versaeumnisurteil

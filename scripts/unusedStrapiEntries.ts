@@ -45,7 +45,7 @@ function partitionPagesByFlowId(pages: MinimalPage[]) {
   return partition(pages, (page) => page.flow_ids.length > 0);
 }
 
-async function unusedStrapiEntry() {
+export default async function unusedStrapiEntry() {
   let content: StrapiSchemasOutput | undefined = undefined;
   try {
     content = await strapiFileSchema.parseAsync(
@@ -94,9 +94,7 @@ async function unusedStrapiEntry() {
 
     console.log(
       `Found ${unusedUrls.length} unused strapi entries with following stepIds: `,
-      unusedUrls.sort(),
+      unusedUrls.toSorted(),
     );
   }
 }
-
-if (process.argv[2] === "unusedStrapiEntry") void unusedStrapiEntry();

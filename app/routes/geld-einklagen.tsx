@@ -20,5 +20,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  return <ContentComponents content={useLoaderData<typeof loader>().content} />;
+  const { content } = useLoaderData<typeof loader>();
+  return <ContentComponents content={content} />;
 }

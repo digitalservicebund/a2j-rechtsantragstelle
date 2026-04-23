@@ -1,72 +1,42 @@
-import type { ZodType, z } from "zod";
-import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import {
   isZodString,
   renderZodString,
 } from "~/components/formElements/schemaToForm/renderZodString";
 import type { SchemaObject } from "~/domains/userData";
-import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 import { getNestedSchema } from "./schemaToForm/getNestedSchema";
 import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
 import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
-import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
-import HiddenInput from "./HiddenInput";
 import {
   getFieldSetByFieldName,
   renderFieldSet,
 } from "./schemaToForm/renderFieldSet";
 import classNames from "classnames";
 import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import {
+  extractZodDescription,
+  isSpecialComponentDescriptions,
+  renderSchemaBasedFormElement,
+} from "./schemaToForm/renderSchemaBasedFormElement";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
-};
-
-const isZodSpecialMetaDescription = (fieldSchema: ZodType) => {
-  return [filesUploadZodDescription, hiddenInputZodDescription].includes(
-    fieldSchema.meta()?.description ?? "",
-  );
-};
-
-const renderSpecialMetaDescriptions = (
-  fieldName: string,
-  fieldSchema: ZodType,
-  matchingElement?: StrapiFormComponent,
-) => {
-  if (fieldSchema.meta()?.description === filesUploadZodDescription) {
-    const filesUploadElement = matchingElement as z.infer<
-      typeof StrapiFilesUploadComponentSchema
-    >;
-    return (
-      <FilesUpload
-        key={fieldName}
-        name={fieldName}
-        title={filesUploadElement.title}
-        description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices}
-        errorMessages={filesUploadElement.errorMessages}
-      />
-    );
-  }
-
-  if (fieldSchema.meta()?.description === hiddenInputZodDescription) {
-    return <HiddenInput key={fieldName} name={fieldName} />;
-  }
+  readOnlyFieldNames: string[];
 };
 
 export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,
+  readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema,
     formComponents,
   );
+
   return (
     <div className={classNames("ds-stack ds-stack-40", className)}>
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
@@ -76,8 +46,10 @@ export const SchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup);
+          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
+
+        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
 
         const matchingElement = formComponents
           ?.filter(
@@ -86,10 +58,11 @@ export const SchemaComponents = ({
           )
           .find(({ name }) => name === fieldName);
 
-        if (isZodSpecialMetaDescription(fieldSchema)) {
-          return renderSpecialMetaDescriptions(
+        const description = extractZodDescription(fieldSchema);
+        if (isSpecialComponentDescriptions(description)) {
+          return renderSchemaBasedFormElement(
             fieldName,
-            fieldSchema,
+            description,
             matchingElement,
           );
         }
@@ -97,14 +70,19 @@ export const SchemaComponents = ({
         const nestedSchema = getNestedSchema(fieldSchema);
 
         if (isZodObject(nestedSchema)) {
-          return renderZodObject(nestedSchema, fieldName, formComponents);
+          return renderZodObject(
+            nestedSchema,
+            fieldName,
+            readOnlyFieldNames,
+            formComponents,
+          );
         }
 
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, matchingElement);
+          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
       })}
     </div>
   );

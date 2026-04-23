@@ -34,7 +34,7 @@ export const sortSchemaOptionsByFormComponents = (
     formComponent.options.map(({ value }, index) => [value, index]),
   );
 
-  return [...schema.options].sort((a, b) => {
+  return schema.options.toSorted((a, b) => {
     const indexA = orderIndex.get(a);
     const indexB = orderIndex.get(b);
 
