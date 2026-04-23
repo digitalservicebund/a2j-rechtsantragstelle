@@ -13,11 +13,9 @@ import {
   ScrollRestoration,
   useLoaderData,
   useMatches,
-  useRouteLoaderData,
   Outlet,
   useLocation,
 } from "react-router";
-import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
 import {
@@ -32,10 +30,6 @@ import { translations as staticTranslations } from "~/services/translations/tran
 import styles from "~/styles.kern.css?url";
 import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
-import Breadcrumbs from "./components/layout/Breadcrumbs";
-import { CookieBanner } from "./components/layout/cookieBanner/CookieBanner";
-import Footer from "./components/layout/Footer";
-import PageHeader from "./components/layout/PageHeader";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
 import {
@@ -90,28 +84,23 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
 
   const [
     strapiHeader,
-    strapiFooter,
     cookieBannerContent,
     meta,
     accessibilityTranslations,
     hasAnyUserData,
     { headers, feedback, csrf, trackingConsent },
     breadcrumbs,
-    showKernUX,
     showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
-    fetchSingleEntry("footer", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
     fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
     initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
-    isFeatureFlagEnabled("showKernUX"),
     isFeatureFlagEnabled("showFGROnlineVerfahren"),
   ]);
-  globalFeatureFlags.showKernUX = Boolean(showKernUX);
   globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
@@ -119,7 +108,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     {
       breadcrumbs,
       pageHeaderProps: { ...strapiHeader, hideLinks: isAnyFlowPage },
-      footer: strapiFooter,
       cookieBannerContent: cookieBannerContent,
       hasTrackingConsent: trackingConsent
         ? trackingConsent === "true"
@@ -133,7 +121,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
       postSubmissionText: parseAndSanitizeMarkdown(
         staticTranslations.feedback["text-post-submission"].de,
       ),
-      showKernUX,
       csrf,
     },
     {
@@ -149,14 +136,12 @@ export const action = async () =>
 function App() {
   const {
     pageHeaderProps,
-    footer,
     cookieBannerContent,
     hasTrackingConsent,
     hasAnyUserData,
     accessibilityTranslations,
     breadcrumbs,
     skipContentLinkTarget,
-    showKernUX,
   } = useLoaderData<RootLoader>();
   const shouldPrint = useShouldPrint();
   const { pathname } = useLocation();
@@ -177,7 +162,7 @@ function App() {
   }, [shouldPrint]);
 
   return (
-    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
+    <html lang="de" {...{ "data-kern-theme": "light" }}>
       <head>
         <title>
           {shouldPrint ? generatePrintTitle(title, pathname) : title}
@@ -207,75 +192,34 @@ function App() {
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          {showKernUX ? (
-            <KernCookieBanner content={cookieBannerContent} />
-          ) : (
-            <CookieBanner content={cookieBannerContent} />
-          )}
-          {showKernUX ? (
-            <KernSkipToContentLink
-              label={getTranslationByKey(
-                SKIP_TO_CONTENT_TRANSLATION_KEY,
-                accessibilityTranslations,
-              )}
-              target={skipContentLinkTarget}
-            />
-          ) : (
-            <SkipToContentLink
-              label={getTranslationByKey(
-                SKIP_TO_CONTENT_TRANSLATION_KEY,
-                accessibilityTranslations,
-              )}
-              target={skipContentLinkTarget}
-            />
-          )}
-          {showKernUX ? (
-            <KernPageHeader {...pageHeaderProps} />
-          ) : (
-            <PageHeader {...pageHeaderProps} />
-          )}
-
-          {showKernUX ? (
-            <KernBreadcrumbs
-              breadcrumbs={breadcrumbs}
-              linkLabel={pageHeaderProps.linkLabel}
-              ariaLabel={getTranslationByKey(
-                "header-breadcrumb",
-                accessibilityTranslations,
-              )}
-            />
-          ) : (
-            <Breadcrumbs
-              breadcrumbs={breadcrumbs}
-              linkLabel={pageHeaderProps.linkLabel}
-              ariaLabel={getTranslationByKey(
-                "header-breadcrumb",
-                accessibilityTranslations,
-              )}
-            />
-          )}
+          <KernCookieBanner content={cookieBannerContent} />
+          <KernSkipToContentLink
+            label={getTranslationByKey(
+              SKIP_TO_CONTENT_TRANSLATION_KEY,
+              accessibilityTranslations,
+            )}
+            target={skipContentLinkTarget}
+          />
+          <KernPageHeader {...pageHeaderProps} />
+          <KernBreadcrumbs
+            breadcrumbs={breadcrumbs}
+            linkLabel={pageHeaderProps.linkLabel}
+            ariaLabel={getTranslationByKey(
+              "header-breadcrumb",
+              accessibilityTranslations,
+            )}
+          />
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
           <footer>
-            {showKernUX ? (
-              <KernFooter
-                showDeletionBanner={hasAnyUserData}
-                ariaLabel={getTranslationByKey(
-                  "footer-navigation",
-                  accessibilityTranslations,
-                )}
-              />
-            ) : (
-              <Footer
-                {...footer}
-                showDeletionBanner={hasAnyUserData}
-                ariaLabel={getTranslationByKey(
-                  "footer-navigation",
-                  accessibilityTranslations,
-                )}
-              />
-            )}
+            <KernFooter
+              showDeletionBanner={hasAnyUserData}
+              ariaLabel={getTranslationByKey(
+                "footer-navigation",
+                accessibilityTranslations,
+              )}
+            />
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
@@ -286,15 +230,14 @@ function App() {
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
-  const loaderData = useRouteLoaderData<RootLoader>("root");
-  const showKernUX = loaderData?.showKernUX ?? false;
+  const { accessibilityTranslations } = useLoaderData<RootLoader>();
 
   if (error && error instanceof Error) {
     Sentry.captureException(error);
   }
 
   return (
-    <html lang="de" {...(showKernUX && { "data-kern-theme": "light" })}>
+    <html lang="de" {...{ "data-kern-theme": "light" }}>
       <head>
         <title>Justiz Services - Fehler aufgetreten</title>
         <link rel="stylesheet" href={styles} />
@@ -303,46 +246,20 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <meta name="darkreader-lock" />
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
-        {showKernUX ? (
-          <KernPageHeader
-            hideLinks={false}
-            linkLabel="Zurück zur Startseite"
-            title="Justiz-Services"
-          />
-        ) : (
-          <PageHeader
-            hideLinks={false}
-            linkLabel="Zurück zur Startseite"
-            title="Justiz-Services"
-          />
-        )}
-        {showKernUX ? (
-          <main className="bg-kern-neutral-025">
-            <ErrorBox />
-          </main>
-        ) : (
-          <main className="grow">
-            <ErrorBox />
-          </main>
-        )}
-        {loaderData &&
-          (showKernUX ? (
-            <KernFooter
-              {...loaderData.footer}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                loaderData.accessibilityTranslations,
-              )}
-            />
-          ) : (
-            <Footer
-              {...loaderData.footer}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                loaderData.accessibilityTranslations,
-              )}
-            />
-          ))}
+        <KernPageHeader
+          hideLinks={false}
+          linkLabel="Zurück zur Startseite"
+          title="Justiz-Services"
+        />
+        <main className="bg-kern-neutral-025">
+          <ErrorBox />
+        </main>
+        <KernFooter
+          ariaLabel={getTranslationByKey(
+            "footer-navigation",
+            accessibilityTranslations,
+          )}
+        />
       </body>
     </html>
   );

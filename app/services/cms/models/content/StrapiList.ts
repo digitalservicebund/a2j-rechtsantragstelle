@@ -3,12 +3,10 @@ import { z } from "zod";
 import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { OptionalStrapiLinkIdentifierSchema } from "../HasStrapiLinkIdentifier";
-import { StrapiBackgroundOptionalSchema } from "../StrapiBackground";
-import { StrapiContainerSchema } from "../StrapiContainer";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
 import { StrapiListItemSchema } from "./StrapiListItem";
-import { StrapiKernBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
 import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
+import { StrapiBackgroundColorOptionalSchema } from "../StrapiBackgroundColor";
 
 export const listRenderer: Partial<Renderer> = {
   paragraph({ tokens }) {
@@ -21,12 +19,9 @@ export const StrapiListSchema = z.object({
   subheading: StrapiRichTextOptionalSchema(listRenderer),
   items: z.array(StrapiListItemSchema),
   variant: z.enum(["unordered", "numbered", "stepByStep"]).default("unordered"),
-  outerBackground: StrapiBackgroundOptionalSchema,
-  contentBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
   paddingTop: StrapiPaddingOptionalSchema,
   paddingBottom: StrapiPaddingOptionalSchema,
-  sectionBackgroundColor: StrapiKernBackgroundColorOptionalSchema,
-  container: StrapiContainerSchema,
+  sectionBackgroundColor: StrapiBackgroundColorOptionalSchema,
   __component: z.literal("page.list"),
   ...HasStrapiIdSchema.shape,
   ...OptionalStrapiLinkIdentifierSchema.shape,

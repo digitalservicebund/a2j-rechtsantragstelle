@@ -1,23 +1,23 @@
-import { getStrapiFooter } from "~/../tests/factories/cmsModels/strapiFooter";
-import {
-  fetchSingleEntry,
-  fetchMultipleTranslations,
-} from "~/services/cms/index.server";
-import { StrapiFooterSchema } from "~/services/cms/models/StrapiFooter";
 import { type StrapiSchemas } from "~/services/cms/schemas";
 import { getStrapiEntry } from "../getStrapiEntry";
+import { StrapiPageHeaderSchema } from "~/services/cms/models/StrapiPageHeader";
+import { getStrapiPageHeader } from "tests/factories/cmsModels/strapiPageHeader";
+import {
+  fetchMultipleTranslations,
+  fetchSingleEntry,
+} from "~/services/cms/index.server";
 
 vi.mock("~/services/cms/getStrapiEntry");
 
 describe("services/cms", () => {
-  beforeEach(() => void vi.clearAllMocks());
+  beforeEach(() => vi.clearAllMocks());
 
   describe("fetchSingleEntry", () => {
-    test("returns a footer entry", async () => {
-      const footerData = getStrapiFooter();
-      vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([footerData]));
-      expect(await fetchSingleEntry("footer")).toEqual(
-        await StrapiFooterSchema.parseAsync(footerData),
+    test("returns a page header entry", async () => {
+      const pageHeader = getStrapiPageHeader();
+      vi.mocked(getStrapiEntry).mockReturnValue(Promise.resolve([pageHeader]));
+      expect(await fetchSingleEntry("page-header")).toEqual(
+        await StrapiPageHeaderSchema.parseAsync(pageHeader),
       );
     });
   });

@@ -1,19 +1,19 @@
 import fs from "node:fs";
 import { getStrapiFlowPage } from "tests/factories/cmsModels/strapiFlowPage";
-import { getStrapiFooter } from "tests/factories/cmsModels/strapiFooter";
-import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 import {
   defaultLocale,
   StrapiLocaleSchema,
 } from "~/services/cms/models/StrapiLocale";
 import { type StrapiPage } from "~/services/cms/models/StrapiPage";
 import type { StrapiSchemas } from "../schemas";
+import { getStrapiPageHeader } from "tests/factories/cmsModels/strapiPageHeader";
+import { getStrapiEntryFromFile } from "~/services/cms/getStrapiEntryFromFile";
 
 vi.mock("node:fs");
 
 describe("services/cms", () => {
   describe("getStrapiEntryFromFile", () => {
-    const footerData = getStrapiFooter();
+    const pageHeader = getStrapiPageHeader();
     const impressumPath = "/impressum";
     const impressum = {
       slug: impressumPath,
@@ -27,8 +27,7 @@ describe("services/cms", () => {
     } satisfies StrapiPage;
 
     const fileContent = {
-      "page-header": [],
-      footer: [footerData],
+      "page-header": [pageHeader],
       pages: [impressum],
       "cookie-banner": [],
       "result-pages": [],
@@ -63,10 +62,10 @@ describe("services/cms", () => {
     test("returns an entry", async () => {
       expect(
         await getStrapiEntryFromFile({
-          apiId: "footer",
+          apiId: "page-header",
           locale: "de",
         }),
-      ).toEqual([footerData]);
+      ).toEqual([pageHeader]);
     });
 
     it("can filter by property", async () => {

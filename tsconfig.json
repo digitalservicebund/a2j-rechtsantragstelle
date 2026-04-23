@@ -13,10 +13,8 @@
     "incremental": true,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2024"],
+    "lib": ["DOM", "ES2024"],
     "isolatedModules": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -29,17 +27,15 @@
       "@react-router/node",
       "vite/client"
     ],
-    "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
       "data/*": ["./data/*"],
       "tests/*": ["./tests/*"],
       "@digitalservicebund/icons/*": [
-        "node_modules/@digitalservicebund/icons/*"
+        "./node_modules/@digitalservicebund/icons/*"
       ]
     },
     // Vite takes care of building everything
