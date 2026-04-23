@@ -19,6 +19,7 @@ type CustomSelectProps = Props<
 
 const KernAutoSuggestCustomInput = (
   props: InputProps<DataListOptions, false>,
+  hasError: boolean,
 ) => {
   const selectProps = props.selectProps as CustomSelectProps;
   const field = useField(props.selectProps.id ?? "");
@@ -35,9 +36,7 @@ const KernAutoSuggestCustomInput = (
       innerRef={field.error() ? field.refs.controlled() : undefined}
       maxLength={INPUT_CHAR_LIMIT}
       aria-describedby={selectProps["aria-describedby"]}
-      aria-required={props.selectProps.className?.includes(
-        "auto-suggest-input-required",
-      )}
+      aria-required={hasError}
     />
   );
 };

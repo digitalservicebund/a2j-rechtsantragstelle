@@ -4,8 +4,9 @@ import type { DataListOptions } from "~/services/dataListOptions/getDataListOpti
 // Control component - KERN classes are applied via the classNames prop on Select
 const KernAutoSuggestController = (
   props: ControlProps<DataListOptions, false>,
+  isDisabled: boolean,
 ) => {
-  return <components.Control {...props} />;
+  return <components.Control {...props} isDisabled={isDisabled} />;
 };
 
 export default KernAutoSuggestController;
