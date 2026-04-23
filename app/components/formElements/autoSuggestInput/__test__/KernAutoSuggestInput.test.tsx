@@ -1,9 +1,9 @@
 import { useField } from "@rvf/react-router";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import AutoSuggestInput from "~/components/formElements/AutoSuggestInput";
 import * as useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
 import * as useLiveMessage from "~/components/formElements/autoSuggestInput/useLiveMessage";
+import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("@rvf/react-router", () => ({
@@ -17,6 +17,16 @@ vi.mock("react-router", () => ({
 }));
 
 vi.mock("~/components/formElements/autoSuggestInput/useLiveMessage");
+
+const mockFuseSearch = vi.fn().mockReturnValue([]);
+
+vi.mock("fuse.js/basic", () => ({
+  default: class {
+    search(pattern: string) {
+      return mockFuseSearch(pattern);
+    }
+  },
+}));
 
 const mockedValidate = vi.fn();
 const mockedAnnounceLiveMessage = vi.fn();
@@ -67,13 +77,13 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  vi.restoreAllMocks(); // This clears all mocks after each test
+  vi.clearAllMocks(); // This clears all mocks after each test
 });
 
-describe("AutoSuggestInput", () => {
+describe("KernAutoSuggestInput", () => {
   it("it should render the component with the placeholder, label and the input name", () => {
     const { getByText, container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -93,7 +103,7 @@ describe("AutoSuggestInput", () => {
 
   it("it should render select the first (BER) input after enter Berlin", async () => {
     const { getByText, getByRole, container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -118,7 +128,7 @@ describe("AutoSuggestInput", () => {
     const noSuggestionMessage = "Not possible to find your input";
 
     const { getByText, getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -140,7 +150,7 @@ describe("AutoSuggestInput", () => {
     const noSuggestionMessage = "No airports found matching your search";
 
     const { getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -165,7 +175,7 @@ describe("AutoSuggestInput", () => {
     const noSuggestionMessage = "No airports found";
 
     const { getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -197,7 +207,7 @@ describe("AutoSuggestInput", () => {
     });
 
     const { container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -217,7 +227,7 @@ describe("AutoSuggestInput", () => {
 
   it("should not announce live message when input is shorter than minimum characters", async () => {
     const { getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -241,7 +251,7 @@ describe("AutoSuggestInput", () => {
 
   it("it should remove the value in case click on clear button", async () => {
     const { getByText, getByRole, container, getByTestId } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -275,7 +285,7 @@ describe("AutoSuggestInput", () => {
 
   it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
     const { container, getByRole, getByText } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
         placeholder="placeholder"
         dataList="airports"
@@ -309,7 +319,7 @@ describe("AutoSuggestInput", () => {
 
   it("should have the testid input-COMPONENT_NAME-loaded", () => {
     const { getByTestId } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -321,31 +331,34 @@ describe("AutoSuggestInput", () => {
     expect(getByTestId(`input-${COMPONENT_NAME}-loaded`)).toBeInTheDocument();
   });
 
-  it("should have className auto-suggest-input-disabled if the component is disabled", () => {
+  it("should have aria-disabled if the component is disabled", () => {
     const { container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
         label="label"
-        isDisabled
+        isDisabled={true}
       />,
     );
 
     expect(
-      container.querySelector(`.auto-suggest-input-disabled`),
+      container.querySelector(`[aria-disabled="true"]`),
     ).toBeInTheDocument();
   });
 
   it("should have the attribute aria-required as true for the input when has an error message for required", async () => {
+    const mockField = getMockUseFieldReturnValue();
+    mockField.error.mockReturnValue("required");
+
+    vi.mocked(useField).mockReturnValue(mockField);
     const { container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
         label="label"
         isDisabled={false}
-        errorMessages={[{ code: "required", text: "error" }]}
       />,
     );
 
@@ -358,7 +371,7 @@ describe("AutoSuggestInput", () => {
 
   it("should have the attribute aria-required as false for the input when does not have error message for required", async () => {
     const { container } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -377,7 +390,7 @@ describe("AutoSuggestInput", () => {
   it("should be focusable and handle keyboard interactions when read-only", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -401,7 +414,7 @@ describe("AutoSuggestInput", () => {
 
     vi.mocked(useField).mockReturnValue(mockField);
     const { getByRole } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -420,7 +433,7 @@ describe("AutoSuggestInput", () => {
 
   it("should allow for free selection when supportsFreeText is true", async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         supportsFreeText
         dataList="airports"
@@ -453,7 +466,7 @@ describe("AutoSuggestInput", () => {
     vi.mocked(useField).mockReturnValue(mockField);
 
     const { getByText } = render(
-      <AutoSuggestInput
+      <KernAutoSuggestInput
         name={COMPONENT_NAME}
         supportsFreeText
         dataList="airports"
@@ -462,5 +475,33 @@ describe("AutoSuggestInput", () => {
       />,
     );
     expect(getByText(freeText)).toBeInTheDocument();
+  });
+
+  it("should use fuzzy search when dealing with streetNames", async () => {
+    const { getByRole } = render(
+      <KernAutoSuggestInput
+        name={COMPONENT_NAME}
+        dataList="streetNames"
+        isDisabled={false}
+      />,
+    );
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "NONEXISTENT" },
+    });
+    await waitFor(() => expect(mockFuseSearch).toHaveBeenCalled());
+  });
+
+  it("should use normal string search for non-streetName dataLists", async () => {
+    const { getByRole } = render(
+      <KernAutoSuggestInput
+        name={COMPONENT_NAME}
+        dataList="airports"
+        isDisabled={false}
+      />,
+    );
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "NONEXISTENT" },
+    });
+    await waitFor(() => expect(mockFuseSearch).not.toHaveBeenCalled());
   });
 });

@@ -1,8 +1,19 @@
 import { useField } from "@rvf/react-router";
 import { matchSorter } from "match-sorter";
-import { type RefObject, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useRouteLoaderData } from "react-router";
-import Select, { type InputActionMeta } from "react-select";
+import Select, {
+  type InputProps,
+  type ControlProps,
+  type InputActionMeta,
+} from "react-select";
 import Creatable from "react-select/creatable";
 import classNames from "classnames";
 import {
@@ -155,6 +166,18 @@ const KernAutoSuggestInput = ({
     setCurrentItemValue(value);
   }, [defaultValue, items, isCreatable]);
 
+  const MemoizedController = useCallback(
+    (props: ControlProps<DataListOptions, false>) =>
+      KernAutoSuggestController(props, isDisabled),
+    [isDisabled],
+  );
+
+  const MemoizedCustomInput = useCallback(
+    (props: InputProps<DataListOptions, false>) =>
+      KernAutoSuggestCustomInput(props, hasError),
+    [hasError],
+  );
+
   // In case user does not have Javascript, it should render the Input as suggestion input
   if (!jsAvailable) {
     return (
@@ -205,14 +228,16 @@ const KernAutoSuggestInput = ({
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
           )}
-          className="w-full"
+          className={classNames("w-full ph-no-capture", {
+            "option-was-selected": optionWasSelected,
+          })}
           components={{
             ClearIndicator: (props) =>
               KernAutoSuggestClearInput(props, buttonExclusionRef),
-            Control: KernAutoSuggestController,
+            Control: MemoizedController,
             DropdownIndicator: () => null,
             IndicatorSeparator: () => null,
-            Input: KernAutoSuggestCustomInput,
+            Input: MemoizedCustomInput,
             ValueContainer: KernAutoSuggestValueContainer,
           }}
           filterOption={() => true}
