@@ -1,18 +1,16 @@
 import { z } from "zod";
 import { type Filter } from "./filters";
 import { StrapiCookieBannerSchema } from "./models/StrapiCookieBannerSchema";
-import { StrapiFooterSchema } from "./models/StrapiFooter";
-import { StrapiFormFlowPageSchema } from "./models/StrapiFormFlowPage";
 import type { StrapiLocale } from "./models/StrapiLocale";
 import { StrapiPageSchema } from "./models/StrapiPage";
 import { StrapiPageHeaderSchema } from "./models/StrapiPageHeader";
 import { StrapiResultPageSchema } from "./models/StrapiResultPage";
 import { StrapiTranslationSchema } from "./models/StrapiTranslations";
 import { StrapiVorabCheckPageSchema } from "./models/StrapiVorabCheckPage";
+import { StrapiFormFlowPageSchema } from "~/services/cms/models/StrapiFormFlowPage";
 
 export const entrySchemas = {
   "page-header": z.array(StrapiPageHeaderSchema),
-  footer: z.array(StrapiFooterSchema),
   "cookie-banner": z.array(StrapiCookieBannerSchema),
 };
 export type SingleEntryId = keyof typeof entrySchemas;

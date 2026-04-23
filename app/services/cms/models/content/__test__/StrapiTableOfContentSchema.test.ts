@@ -7,8 +7,6 @@ describe("StrapiTableOfContentSchema", () => {
       identifier: null,
       heading: null,
       buttons: [],
-      outerBackground: null,
-      container: null,
       links: [],
     };
 
@@ -24,12 +22,6 @@ describe("StrapiTableOfContentSchema", () => {
       label: null,
       heading: null,
       buttons: [],
-      outerBackground: null,
-      container: {
-        backgroundColor: "blue",
-        paddingBottom: "default",
-        paddingTop: "default",
-      },
       links: [],
       __component: "page.table-of-contents",
     };
@@ -42,11 +34,6 @@ describe("StrapiTableOfContentSchema", () => {
       label: undefined,
       heading: undefined,
       buttons: [],
-      container: {
-        backgroundColor: "blue",
-        paddingBottom: "default",
-        paddingTop: "default",
-      },
       links: [],
       __component: "page.table-of-contents",
     });
