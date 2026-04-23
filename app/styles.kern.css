@@ -105,6 +105,14 @@
     forced-color-adjust: none;
   }
 
+  .stepper-step:hover::after {
+    border-left-color: var(--color-kern-neutral-200);
+  }
+
+  .stepper-step--warning:hover::after {
+    border-left-color: var(--color-kern-orange-100);
+  }
+
   @media (forced-colors: active) {
     .stepper-step {
       forced-color-adjust: none;
