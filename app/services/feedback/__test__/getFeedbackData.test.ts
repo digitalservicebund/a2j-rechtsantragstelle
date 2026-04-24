@@ -1,12 +1,12 @@
 import { createSession, type Session } from "react-router";
 import { describe, test, expect } from "vitest";
 import { type BannerState } from "~/components/content/userFeedback/BannerState";
-import { type FeedbackType } from "~/components/content/userFeedback/FeedbackType";
 import {
   bannerStateName,
   userRatingFieldName,
   getFeedbackData,
 } from "../getFeedbackData";
+import { type FeedbackType } from "~/components/content/userFeedback/types";
 
 describe("getFeedbackData", () => {
   test("should return correct banner state and positive feedback result for a given URL", () => {
