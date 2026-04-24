@@ -1,25 +1,29 @@
 import { render } from "@testing-library/react";
-import List, { listItemNotEmpty } from "../List";
 import type { ListItemProps } from "../types";
+import KernList, { listItemNotEmpty } from "~/components/content/list/KernList";
 
 describe("List", () => {
   it("should render subheading when it is given", () => {
     const mockSubheadingText = "subheadingText";
     const { getByText } = render(
-      <List items={[]} variant="unordered" subheading={mockSubheadingText} />,
+      <KernList
+        items={[]}
+        variant="unordered"
+        subheading={mockSubheadingText}
+      />,
     );
     expect(getByText(mockSubheadingText)).toBeInTheDocument();
   });
 
   it("should not render subheading when it is not given", () => {
     const mockSubheadingText = "subheadingText";
-    const { queryByText } = render(<List items={[]} variant="unordered" />);
+    const { queryByText } = render(<KernList items={[]} variant="unordered" />);
     expect(queryByText(mockSubheadingText)).not.toBeInTheDocument();
   });
 
   describe("renders correct list tag", () => {
     it("renders <ul> if variant is 'unordered' and no images", () => {
-      const { container } = render(<List items={[]} variant="unordered" />);
+      const { container } = render(<KernList items={[]} variant="unordered" />);
       expect(container.querySelector("ul")).toBeInTheDocument();
     });
 
@@ -32,7 +36,9 @@ describe("List", () => {
         },
         { id: 11, headline: { text: "Two" } },
       ];
-      const { container } = render(<List items={items} variant="numbered" />);
+      const { container } = render(
+        <KernList items={items} variant="numbered" />,
+      );
       expect(container.querySelector("ul")).toBeInTheDocument();
     });
 
@@ -41,7 +47,9 @@ describe("List", () => {
         { id: 10, headline: { text: "One" } },
         { id: 11, headline: { text: "Two" } },
       ];
-      const { container } = render(<List items={items} variant="numbered" />);
+      const { container } = render(
+        <KernList items={items} variant="numbered" />,
+      );
       expect(container.querySelector("ol")).toBeInTheDocument();
     });
   });

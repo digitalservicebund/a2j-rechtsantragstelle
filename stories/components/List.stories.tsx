@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { faker } from "@faker-js/faker";
-import KernList from "~/components/kern/KernList";
+import KernList from "~/components/content/list/KernList";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import imgUrl from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
