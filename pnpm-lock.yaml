@@ -7,6 +7,7 @@ settings:
 
 overrides:
   qs@<6.14.1: '>=6.14.1'
+  '@xmldom/xmldom': '>=0.8.13'
 
 importers:
 
@@ -75,6 +76,9 @@ importers:
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
+      fuse.js:
+        specifier: ^7.3.0
+        version: 7.3.0
       haversine-distance:
         specifier: 1.2.4
         version: 1.2.4
@@ -2748,10 +2752,9 @@ packages:
     resolution: {integrity: sha512-CJDxIgE5I0FH+ttq/Fxy6nRpxP70+e2O048EPe85J2use3XKdatVM7dDVvFNjQudd9B49NPoZ+8PG49zj4Er8Q==}
     engines: {node: '>= 16'}
 
-  '@xmldom/xmldom@0.8.12':
-    resolution: {integrity: sha512-9k/gHF6n/pAi/9tqr3m3aqkuiNosYTurLLUtc7xQ9sxB/wm7WPygCv8GYa6mS0fLJEHhqMC1ATYhz++U/lRHqg==}
-    engines: {node: '>=10.0.0'}
-    deprecated: this version has critical issues, please update to the latest version
+  '@xmldom/xmldom@0.9.10':
+    resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
+    engines: {node: '>=14.6'}
 
   '@xstate/graph@3.0.4':
     resolution: {integrity: sha512-b12RA7E//+7FJVrD09Td+BhHRJbeKZnK+98xXBd+JmccG360xVP1lyzVhUZPgBgwPdmIGBJqhKzmWYJQ9c8ojQ==}
@@ -3373,6 +3376,10 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  fuse.js@7.3.0:
+    resolution: {integrity: sha512-plz8RVjfcDedTGfVngWH1jmJvBvAwi1v2jecfDerbEnMcmOYUEEwKFTHbNoCiYyzaK2Ws8lABkTCcRSqCY1q4w==}
+    engines: {node: '>=10'}
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -6085,7 +6092,7 @@ snapshots:
       '@types/xml-encryption': 1.2.4
       '@types/xml2js': 0.4.14
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.8.12
+      '@xmldom/xmldom': 0.9.10
       xml-crypto: https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101
       xml-encryption: 3.1.0
       xml2js: 0.6.2
@@ -7884,7 +7891,7 @@ snapshots:
 
   '@xmldom/is-dom-node@1.0.1': {}
 
-  '@xmldom/xmldom@0.8.12': {}
+  '@xmldom/xmldom@0.9.10': {}
 
   '@xstate/graph@3.0.4(xstate@5.30.0)':
     dependencies:
@@ -8487,6 +8494,8 @@ snapshots:
     optional: true
 
   function-bind@1.1.2: {}
+
+  fuse.js@7.3.0: {}
 
   gensync@1.0.0-beta.2: {}
 
@@ -10137,12 +10146,12 @@ snapshots:
   xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101:
     dependencies:
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.8.12
+      '@xmldom/xmldom': 0.9.10
       xpath: 0.0.33
 
   xml-encryption@3.1.0:
     dependencies:
-      '@xmldom/xmldom': 0.8.12
+      '@xmldom/xmldom': 0.9.10
       escape-html: 1.0.3
       xpath: 0.0.32
 

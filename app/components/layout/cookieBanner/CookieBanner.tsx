@@ -5,7 +5,6 @@ import Heading, { type HeadingProps } from "~/components/common/Heading";
 import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import Container from "~/components/layout/Container";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 export const acceptCookiesFieldName = "accept-cookies";
@@ -57,48 +56,46 @@ export function CookieBanner({
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
-        <Container paddingTop="32" paddingBottom="40">
-          <div className="ds-stack ds-stack-16">
-            <Heading
-              tagName={content.heading.tagName}
-              text={content.heading.text}
-              look={content.heading.look}
-            />
-            <div>
-              <div className="ds-stack ds-stack-8">
-                {content.paragraphs.map((paragraph) => (
-                  <RichText key={paragraph.html} html={paragraph.html} />
-                ))}
-              </div>
-            </div>
-            <div className="flex items-end gap-24 flex-wrap">
-              <Button
-                name={acceptCookiesFieldName}
-                value="true"
-                type="submit"
-                look="primary"
-                text={content.acceptButtonLabel}
-                size="large"
-                data-testid={buttonAcceptCookieTestId}
-              />
-              <Button
-                name={acceptCookiesFieldName}
-                value="false"
-                type="submit"
-                look="primary"
-                text={content.declineButtonLabel}
-                size="large"
-                data-testid="decline-cookie"
-              />
-              {content.cookieSettingLinkUrl && (
-                <StandaloneLink
-                  text={content.cookieSettingLinkText}
-                  url={content.cookieSettingLinkUrl}
-                />
-              )}
+        <div className="ds-stack ds-stack-16">
+          <Heading
+            tagName={content.heading.tagName}
+            text={content.heading.text}
+            look={content.heading.look}
+          />
+          <div>
+            <div className="ds-stack ds-stack-8">
+              {content.paragraphs.map((paragraph) => (
+                <RichText key={paragraph.html} html={paragraph.html} />
+              ))}
             </div>
           </div>
-        </Container>
+          <div className="flex items-end gap-24 flex-wrap">
+            <Button
+              name={acceptCookiesFieldName}
+              value="true"
+              type="submit"
+              look="primary"
+              text={content.acceptButtonLabel}
+              size="large"
+              data-testid={buttonAcceptCookieTestId}
+            />
+            <Button
+              name={acceptCookiesFieldName}
+              value="false"
+              type="submit"
+              look="primary"
+              text={content.declineButtonLabel}
+              size="large"
+              data-testid="decline-cookie"
+            />
+            {content.cookieSettingLinkUrl && (
+              <StandaloneLink
+                text={content.cookieSettingLinkText}
+                url={content.cookieSettingLinkUrl}
+              />
+            )}
+          </div>
+        </div>
       </analyticsFetcher.Form>
     </section>
   );
