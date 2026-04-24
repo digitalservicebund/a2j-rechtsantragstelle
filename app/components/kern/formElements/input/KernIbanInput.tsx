@@ -41,6 +41,7 @@ const KernIbanInput = (props: InputProps) => {
         ariaDescribedBy={bankNameBadgeId}
         {...props}
       />
+      {/* Badge display of bank name for sighted users */}
       {bankName && (
         <output
           id={bankNameBadgeId}
@@ -53,6 +54,7 @@ const KernIbanInput = (props: InputProps) => {
         </output>
       )}
 
+      {/* Screenreader-only element used to read out bank name when it changes */}
       <div
         aria-live="polite"
         aria-relevant="all"
