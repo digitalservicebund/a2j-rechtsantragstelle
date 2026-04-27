@@ -19,7 +19,7 @@ export function StepperIcon({
         name="check-circle"
         data-testid="icon-done"
         className="fill-kern-feedback-success forced-color-adjust-auto"
-        aria-label={translations.navigation.navigationItemFinished.de}
+        ariaLabel={translations.navigation.navigationItemFinished.de}
       />
     );
   }
@@ -30,7 +30,7 @@ export function StepperIcon({
         name="warning"
         data-testid="icon-warning"
         className="fill-kern-feedback-warning forced-color-adjust-auto"
-        aria-label={translations.navigation.navigationItemWarning.de}
+        ariaLabel={translations.navigation.navigationItemWarning.de}
       />
     );
   }
