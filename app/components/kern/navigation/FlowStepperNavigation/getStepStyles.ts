@@ -8,6 +8,15 @@ import {
   stateIsOpen,
 } from "~/services/navigation/navState";
 
+function getArrowBg(state: NavState): string {
+  if (stateIsCurrent(state) && !stateIsWarning(state))
+    return "var(--color-kern-neutral-200)";
+  if (stateIsDisabled(state)) return "var(--color-kern-neutral-025)";
+  if (stateIsWarning(state))
+    return "var(--color-kern-feedback-warning-background)";
+  return "var(--color-kern-neutral-025)";
+}
+
 export function getStepStyles(state: NavState) {
   return {
     isCurrent: stateIsCurrent(state),
@@ -30,14 +39,7 @@ export function getStepStyles(state: NavState) {
       },
     ),
 
-    arrowBg:
-      stateIsCurrent(state) && !stateIsWarning(state)
-        ? "var(--color-kern-neutral-200)"
-        : stateIsDisabled(state)
-          ? "var(--color-kern-neutral-025)"
-          : stateIsWarning(state)
-            ? "var(--color-kern-feedback-warning-background)"
-            : "var(--color-kern-neutral-025)",
+    arrowBg: getArrowBg(state),
 
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
