@@ -14,7 +14,6 @@ export const addDefendantPartyList = (
   statementClaimSect: PDFKit.PDFStructureElement,
   prozesszinsen: string,
   streitwert: number,
-  showFGROnlineVerfahren: boolean,
 ) => {
   const interestClause =
     prozesszinsen === "yes"
@@ -25,22 +24,13 @@ export const addDefendantPartyList = (
     "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
   };
 
-  if (!showFGROnlineVerfahren) {
-    defendantPartyList["2. "] =
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits.";
-  }
-
   const statementClaimList = doc.struct("L");
 
   statementClaimList.add(
     doc.struct("Caption", {}, () => {
       doc
         .fontSize(10)
-        .font(
-          showFGROnlineVerfahren
-            ? FONTS_BUNDESSANS_BOLD
-            : FONTS_BUNDESSANS_REGULAR,
-        )
+        .font(FONTS_BUNDESSANS_BOLD)
         .text(STATEMENT_CLAIM_SUBTITLE_TEXT);
     }),
   );

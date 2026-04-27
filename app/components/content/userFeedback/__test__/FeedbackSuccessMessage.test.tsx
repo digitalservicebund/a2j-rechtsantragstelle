@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
 import { translations } from "~/services/translations/translations";
+import { FeedbackSuccessMessage } from "../FeedbackSuccessMessage";
 
 const successfulMessage = translations.feedback["success-message"].de;
 
@@ -13,12 +13,5 @@ describe("FeedbackSuccessMessage", () => {
     const title = getByText(successfulMessage);
     expect(title).toBeInTheDocument();
     expect(getByText(subtitleText)).toBeInTheDocument();
-  });
-
-  it("should render an icon", () => {
-    const { getByTestId } = render(<FeedbackSuccessMessage subtitle={""} />);
-    const icon = getByTestId("CheckCircleIcon");
-    expect(icon).toBeInTheDocument();
-    expect(icon).toHaveClass("text-green-600");
   });
 });

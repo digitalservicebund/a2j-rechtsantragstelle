@@ -33,10 +33,6 @@ import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
 import { useInitPosthog } from "./services/analytics/useInitPosthog";
 import { ErrorBox } from "./services/errorPages/ErrorBox";
-import {
-  globalFeatureFlags,
-  isFeatureFlagEnabled,
-} from "./services/isFeatureFlagEnabled.server";
 import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
@@ -91,7 +87,6 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     hasAnyUserData,
     { headers, feedback, csrf, trackingConsent },
     breadcrumbs,
-    showFGROnlineVerfahren,
   ] = await Promise.all([
     fetchSingleEntry("page-header", defaultLocale, STRAPI_P_LEVEL_TWO),
     fetchSingleEntry("cookie-banner", defaultLocale, STRAPI_P_LEVEL_THREE),
@@ -100,9 +95,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     anyUserData(request),
     initializeMainSession(request),
     buildBreadcrumbPromises(pathname),
-    isFeatureFlagEnabled("showFGROnlineVerfahren"),
   ]);
-  globalFeatureFlags.showFGROnlineVerfahren = Boolean(showFGROnlineVerfahren);
 
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
   return data(

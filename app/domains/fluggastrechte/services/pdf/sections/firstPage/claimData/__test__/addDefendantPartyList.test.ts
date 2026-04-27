@@ -19,7 +19,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, mockStruct, "yes", 600, true);
+    addDefendantPartyList(mockDoc, mockStruct, "yes", 600);
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
@@ -43,7 +43,7 @@ describe("addDefendantPartyList", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDefendantPartyList(mockDoc, mockStruct, "no", 600, true);
+    addDefendantPartyList(mockDoc, mockStruct, "no", 600);
 
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_BOLD);
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -68,7 +68,7 @@ describe("addDefendantPartyList - accessibility", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
 
-    addDefendantPartyList(mockDoc, mockSect, "no", 600, true);
+    addDefendantPartyList(mockDoc, mockSect, "no", 600);
     expect(mockDoc.struct).toHaveBeenCalledWith("L");
     expect(mockDoc.struct).toHaveBeenCalledWith("LI");
     expect(mockDoc.struct).toHaveBeenCalledWith(
@@ -88,27 +88,5 @@ describe("addDefendantPartyList - accessibility", () => {
     expect(callsWithList).toHaveLength(1);
     expect(callsWithListItem).toHaveLength(1);
     expect(callsWithListBody).toHaveLength(1);
-  });
-});
-
-describe("TEMP(feature flag showFGROnlineVerfahren) - remove after rollout", () => {
-  it("should render the non-FGR-online variant when the flag is disabled", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDefendantPartyList(mockDoc, mockStruct, "no", 600, false);
-
-    expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
-    expect(mockDoc.text).toHaveBeenCalledWith(STATEMENT_CLAIM_SUBTITLE_TEXT);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "2. ",
-      PDF_MARGIN_HORIZONTAL + MARGIN_RIGHT,
-      undefined,
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Die beklagte Partei trägt die Kosten des Rechtsstreits.",
-    );
   });
 });
