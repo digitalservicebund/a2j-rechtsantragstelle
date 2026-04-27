@@ -9,6 +9,7 @@ import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import KernHeading from "~/components/kern/KernHeading";
 import KernRichText from "~/components/kern/KernRichText";
+import { translations } from "~/services/translations/translations";
 
 const iconProps = {
   "aria-hidden": false,
@@ -23,7 +24,7 @@ const boxProps = {
       <KernIcon
         name="emergency-home"
         className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
-        aria-label="Negatives Ergebnis"
+        ariaLabel={translations.resultPage.negativeResultIcon.de}
       />
     ),
   },
@@ -33,7 +34,7 @@ const boxProps = {
       <KernIcon
         name="check-circle"
         className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
-        aria-label="Positives Ergebnis"
+        ariaLabel={translations.resultPage.positiveResultIcon.de}
       />
     ),
   },
@@ -43,7 +44,7 @@ const boxProps = {
       <KernIcon
         name="warning"
         className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
-        aria-label="Warnung"
+        ariaLabel={translations.resultPage.warningIcon.de}
       />
     ),
   },
@@ -53,7 +54,7 @@ const boxProps = {
       <KernIcon
         name="info"
         className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
-        aria-label="Information"
+        ariaLabel={translations.resultPage.infoIcon.de}
       />
     ),
   },
