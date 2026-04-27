@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { SECTION_BACKGROUND_COLORS } from "~/components";
-import KernSummaryOverviewSection from "~/components/kern/summaryOverview/SummaryOverviewSection";
+import KernSummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
-import KernList from "../kern/KernList";
+import KernList from "./list/KernList";
 import KernHero from "../kern/KernHero";
 import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
