@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
-import { FEEDBACK_FIELD_NAME, FeedbackFormBox } from "../FeedbackFormBox";
+import { FeedbackFormBox, FEEDBACK_FIELD_NAME } from "../FeedbackFormBox";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
 
-vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations.ts", () => ({
   useFeedbackTranslations: () => ({
     "submit-button-feedback": SUBMIT_BUTTON_FEEDBACK,
   }),
@@ -15,11 +15,19 @@ vi.mock("react-router", async () => {
 
   return {
     ...actual,
+    useRouteLoaderData: () => ({
+      csrfToken: "test-token",
+    }),
     useLocation: () => ({
       pathname: "/",
+      search: "",
     }),
   };
 });
+
+vi.mock("~/components/formElements/CsrfInput", () => ({
+  CsrfInput: () => null,
+}));
 
 function renderFeedbackFormBox() {
   const router = createMemoryRouter(

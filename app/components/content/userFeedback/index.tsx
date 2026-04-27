@@ -1,12 +1,11 @@
 import { useCallback, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router";
-import { BACKGROUND_COLORS } from "~/components";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import type { RootLoader } from "~/root";
-import { type BannerState } from "./BannerState";
 import { FeedbackFormBox } from "./FeedbackFormBox";
 import { PostSubmissionBox } from "./PostSubmissionBox";
 import { type RatingBoxProps, RatingBox } from "./RatingBox";
+import { type BannerState } from "./types";
 
 type UserFeedbackProps = {
   rating: Pick<RatingBoxProps, "heading">;
@@ -14,7 +13,7 @@ type UserFeedbackProps = {
 
 export const USER_FEEDBACK_ID = "user-feedback-banner";
 
-export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
+export default function KernUserFeedback(props: Readonly<UserFeedbackProps>) {
   const { pathname } = useLocation();
   const [shouldFocus, setShouldFocus] = useState(false);
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
@@ -34,39 +33,41 @@ export default function UserFeedback(props: Readonly<UserFeedbackProps>) {
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className={`${BACKGROUND_COLORS.midBlue} rounded-lg py-24 px-16 print:hidden`}
+      className="rounded-lg print:hidden"
     >
-      <div
-        className="ds-stack ds-stack-16"
+      <article
+        className="kern-card kern-card--interactive kern-card--small"
         data-testid={USER_FEEDBACK_ID}
         id={USER_FEEDBACK_ID}
       >
-        {
+        <div className="kern-card__container">
           {
-            ["showRating"]: (
-              <RatingBox
-                url={pathname}
-                heading={props.rating.heading}
-                onSubmit={applyFocus}
-              />
-            ),
-            ["showFeedback"]: (
-              <FeedbackFormBox
-                destination={pathname}
-                shouldFocus={shouldFocus}
-                feedback={feedbackResult}
-                onSubmit={applyFocus}
-              />
-            ),
-            ["feedbackGiven"]: (
-              <PostSubmissionBox
-                shouldFocus={shouldFocus}
-                postSubmissionText={rootLoaderData?.postSubmissionText}
-              />
-            ),
-          }[bannerState]
-        }
-      </div>
+            {
+              ["showRating"]: (
+                <RatingBox
+                  url={pathname}
+                  heading={props.rating.heading}
+                  onSubmit={applyFocus}
+                />
+              ),
+              ["showFeedback"]: (
+                <FeedbackFormBox
+                  destination={pathname}
+                  shouldFocus={shouldFocus}
+                  feedback={feedbackResult}
+                  onSubmit={applyFocus}
+                />
+              ),
+              ["feedbackGiven"]: (
+                <PostSubmissionBox
+                  shouldFocus={shouldFocus}
+                  postSubmissionText={rootLoaderData?.postSubmissionText}
+                />
+              ),
+            }[bannerState]
+          }
+        </div>
+      </article>
     </GridItem>
   );
 }
