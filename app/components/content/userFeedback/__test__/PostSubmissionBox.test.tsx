@@ -4,7 +4,7 @@ import { PostSubmissionBox } from "../PostSubmissionBox";
 const HEADING_POST_SUBMISSION = "Vielen Dank!";
 const FEEDBACK_HELPS = "Feedback helps us";
 
-vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations.ts", () => ({
   useFeedbackTranslations: () => ({
     ["success-message"]: HEADING_POST_SUBMISSION,
     ["feedback-helps"]: FEEDBACK_HELPS,
