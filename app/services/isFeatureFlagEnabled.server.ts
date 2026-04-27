@@ -8,9 +8,6 @@ const localFeatureFlags = {
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
 
-// Potentially temporary for sharing feature flag state across the backend
-type GlobalFeatureFlags = Record<FeatureFlag, boolean>;
-export const globalFeatureFlags: GlobalFeatureFlags = { ...localFeatureFlags };
 
 const posthogDistinctId = "backend";
 
