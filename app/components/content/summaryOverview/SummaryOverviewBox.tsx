@@ -1,10 +1,9 @@
-import EditIcon from "@digitalservicebund/icons/EditOutlined";
-import Heading from "~/components/common/Heading";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { useFormFlow } from "~/components/formFlowContext";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
+import KernHeading from "../../kern/KernHeading";
+import { KernIcon } from "../../kern/common/KernIcon";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -26,38 +25,38 @@ const SummaryOverviewBox = ({
   const { translations, flowId } = useFormFlow();
 
   return (
-    <div className="bg-white mt-8 p-16 gap-4 flex flex-col sm:flex-row sm:items-start sm:justify-between">
-      <div className="flex-1">
-        {title && (
-          <Heading
-            {...title}
-            text={
-              arrayPositionTitle
-                ? `${title.text} ${arrayPositionTitle}`
-                : title.text
-            }
-            className="mb-16"
+    <div className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small ">
+      {title && (
+        <KernHeading
+          {...title}
+          text={
+            arrayPositionTitle
+              ? `${title.text} ${arrayPositionTitle}`
+              : title.text
+          }
+          className="mb-16"
+          type="label"
+          size="large"
+          managedByParent
+        />
+      )}
+      <dl>
+        {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
+          <SummaryOverviewBoxItem
+            // oxlint-disable-next-line react/no-array-index-key
+            key={`${boxId}-${boxItemTitle ?? index}`}
+            title={boxItemTitle}
+            translations={translations}
+            userData={userData}
+            inlineItems={inlineItems}
+            pathname={`${flowId}${stepId}`}
           />
-        )}
-        <dl>
-          {boxItems.map(({ title: boxItemTitle, inlineItems }, index) => (
-            <SummaryOverviewBoxItem
-              // oxlint-disable-next-line react/no-array-index-key
-              key={`${boxId}-${boxItemTitle ?? index}`}
-              title={boxItemTitle}
-              translations={translations}
-              userData={userData}
-              inlineItems={inlineItems}
-            />
-          ))}
-        </dl>
-      </div>
-      <StandaloneLink
-        url={`${flowId}${stepId}`}
-        className="flex basis ml-auto gap-2 pl-2 ds-link-01-bold items-start h-min"
-        icon={<EditIcon className="shrink-0 inline" />}
-        text={"Bearbeiten"}
-      />
+        ))}
+      </dl>
+      <a href={`${flowId}${stepId}`} className="kern-link no-underline!">
+        <KernIcon name="edit" />
+        Bearbeiten
+      </a>
     </div>
   );
 };

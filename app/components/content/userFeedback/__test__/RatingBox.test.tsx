@@ -5,7 +5,7 @@ import { RatingBox } from "../RatingBox";
 const YES_RATING = "yes";
 const NO_RATING = "no";
 
-vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations.ts", () => ({
   useFeedbackTranslations: () => ({
     ["yes-rating"]: YES_RATING,
     ["no-rating"]: NO_RATING,
@@ -17,6 +17,7 @@ describe("RatingBox", () => {
     const RatingBoxWithRouteStub = createRoutesStub([
       {
         path: "/",
+
         Component: () => (
           <RatingBox heading="heading" url="url" onSubmit={vitest.fn()} />
         ),

@@ -33,6 +33,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={""}
       />,
     );
 
@@ -54,6 +55,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={""}
       />,
     );
 
@@ -76,6 +78,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={""}
       />,
     );
 
@@ -97,6 +100,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
+        pathname={""}
       />,
     );
 
@@ -120,6 +124,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        pathname={""}
       />,
     );
 
@@ -140,6 +145,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        pathname={""}
       />,
     );
 
@@ -160,6 +166,7 @@ describe("SummaryOverviewBoxItem", () => {
         userData={userData}
         translations={mockTranslations}
         inlineItems={[{ field: "vorname" }]}
+        pathname={""}
       />,
     );
 

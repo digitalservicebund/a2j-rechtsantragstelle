@@ -1,16 +1,16 @@
 import { render } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
-import UserFeedback from "~/components/content/userFeedback";
+import UserFeedback from "..";
 
-vi.mock("~/components/content/userFeedback/FeedbackFormBox", () => ({
+vi.mock("~/components/content/userFeedback/FeedbackFormBox.tsx", () => ({
   FeedbackFormBox: () => <div>Mock FeedbackFormBox</div>,
 }));
 
-vi.mock("~/components/content/userFeedback/PostSubmissionBox", () => ({
+vi.mock("~/components/content/userFeedback/PostSubmissionBox.tsx", () => ({
   PostSubmissionBox: () => <div>Mock PostSubmissionBox</div>,
 }));
 
-vi.mock("~/components/content/userFeedback/RatingBox", () => ({
+vi.mock("~/components/content/userFeedback/RatingBox.tsx", () => ({
   RatingBox: () => <div>Mock RatingBox</div>,
 }));
 

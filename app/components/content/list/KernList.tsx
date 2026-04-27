@@ -1,9 +1,10 @@
-import Heading, { type HeadingProps } from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import ListItem from "./ListItem";
-import { type ListVariant, type ListItemProps } from "./types";
+import KernListItem from "./KernListItem";
+import { type ListItemProps, type ListVariant } from "./types";
+import KernRichText from "../../kern/KernRichText";
+import KernHeading from "../../kern/KernHeading";
+import { type HeadingProps } from "../../common/Heading";
 
 type ListProps = {
   items: ListItemProps[];
@@ -14,7 +15,7 @@ type ListProps = {
   wrap?: boolean;
 };
 
-const List = ({
+const KernList = ({
   identifier,
   items,
   heading,
@@ -26,18 +27,24 @@ const List = ({
   const ListTag = hasImages || variant === "unordered" ? "ul" : "ol";
 
   const base = (
-    <div className="ds-stack ds-stack-32" id={identifier}>
-      <div className="ds-stack ds-stack-16">
-        {heading && <Heading {...heading} />}
-        {subheading && <RichText html={subheading} />}
+    <div id={identifier}>
+      <div className="flex flex-col gap-kern-space-default">
+        {heading && (
+          <KernHeading
+            {...heading}
+            managedByParent
+            className="kern-heading-large! p-0!"
+          />
+        )}
+        {subheading && <KernRichText html={subheading} />}
       </div>
-      <ListTag className="list-none ps-0">
+      <ListTag className="list-none ps-0 py-kern-space-default">
         {items
           // Need to filter out empty list items when conditionally rendering with mustache templating
           .filter(listItemNotEmpty)
           .map((item, index) => (
-            <li key={item.id} className="group">
-              <ListItem {...item} index={index + 1} variant={variant} />
+            <li key={item.id} className="group list-none">
+              <KernListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
       </ListTag>
@@ -68,4 +75,4 @@ export function listItemNotEmpty(item: ListItemProps): boolean {
   );
 }
 
-export default List;
+export default KernList;

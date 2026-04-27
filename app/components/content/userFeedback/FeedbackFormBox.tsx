@@ -2,13 +2,13 @@ import { ValidatedForm } from "@rvf/react-router";
 import { useEffect, useId, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Textarea from "~/components/formElements/Textarea";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
-import { type FeedbackType } from "./FeedbackType";
+import { type FeedbackType } from "./types";
+import { CsrfInput } from "~/components/formElements/CsrfInput";
+import KernTextarea from "~/components/kern/formElements/Textarea";
+import KernButton from "~/components/kern/KernButton";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -80,16 +80,17 @@ export const FeedbackFormBox = ({
       action={`/action/send-feedback?url=${destination}&js=${String(jsAvailable)}`}
       preventScrollReset={true}
       onSubmit={onSubmit}
+      className="w-full"
     >
       {(form) => (
-        <div className="ds-stack ds-stack-16">
-          <Textarea
+        <div className="flex flex-col gap-kern-space-small!">
+          <CsrfInput />
+          <KernTextarea
+            backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}
             label={
               <>
-                <span className="ds-label-01-bold">
-                  {feedbackTranslations["success-message"]}
-                </span>{" "}
+                <span>{feedbackTranslations["success-message"]}</span>{" "}
                 {feedbackText}
               </>
             }
@@ -98,17 +99,16 @@ export const FeedbackFormBox = ({
             innerRef={textAreaReference}
             ariaDescribedby={headingPersonalFeedbackId}
           />
-          <ButtonContainer>
-            <Button
-              look="primary"
-              name={FEEDBACK_BUTTON_FIELD_NAME}
-              value={"submit"}
-              type="submit"
-              disabled={form.formState.isSubmitting}
-            >
-              {feedbackTranslations["submit-button-feedback"]}
-            </Button>
-          </ButtonContainer>
+          <KernButton
+            look="secondary"
+            name={FEEDBACK_BUTTON_FIELD_NAME}
+            value={"submit"}
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="mt-kern-space-small! w-[154px]"
+          >
+            {feedbackTranslations["submit-button-feedback"]}
+          </KernButton>
         </div>
       )}
     </ValidatedForm>
