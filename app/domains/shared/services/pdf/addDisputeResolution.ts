@@ -17,7 +17,7 @@ const DISPUTE_RESOLUTION_NOT_OCCURRED_TEXT =
 const DISPUTE_RESOLUTION_NOT_OCCURRED_WITH_ASSUMPTION_TEXT_ENABLED =
   "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.";
 
-type DisputeResolution = {
+export type DisputeResolution = {
   streitbeilegung?: "yes" | "no" | "noSpecification";
   streitbeilegungGruende?: "yes" | "no" | "noSpecification";
 };

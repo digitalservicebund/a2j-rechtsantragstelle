@@ -2,7 +2,10 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { addDisputeResolution } from "../addDisputeResolution";
+import {
+  addDisputeResolution,
+  type DisputeResolution,
+} from "../addDisputeResolution";
 
 describe("addDisputeResolution", () => {
   it("should render claim full justified text", () => {
@@ -21,8 +24,8 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "yes" as const,
-    };
+      streitbeilegung: "yes",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -36,9 +39,9 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "noSpecification" as const,
-      streitbeilegungGruende: "no" as const,
-    };
+      streitbeilegung: "noSpecification",
+      streitbeilegungGruende: "no",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -52,8 +55,8 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "yes" as const,
-    };
+      streitbeilegung: "yes",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -67,9 +70,9 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "no" as const,
-      streitbeilegungGruende: "yes" as const,
-    };
+      streitbeilegung: "no",
+      streitbeilegungGruende: "yes",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -83,9 +86,9 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "no" as const,
-      streitbeilegungGruende: "no" as const,
-    };
+      streitbeilegung: "no",
+      streitbeilegungGruende: "no",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -99,9 +102,9 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "noSpecification" as const,
-      streitbeilegungGruende: "no" as const,
-    };
+      streitbeilegung: "noSpecification",
+      streitbeilegungGruende: "no",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -115,9 +118,9 @@ describe("addDisputeResolution", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
-      streitbeilegung: "noSpecification" as const,
-      streitbeilegungGruende: "no" as const,
-    };
+      streitbeilegung: "noSpecification",
+      streitbeilegungGruende: "no",
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
