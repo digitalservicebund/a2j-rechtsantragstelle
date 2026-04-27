@@ -1,18 +1,11 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
-import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const fluggastrechteGrundvoraussetzungenPages = {
-  grundvoraussetzungenDatenverarbeitung: {
-    stepId: "grundvoraussetzungen/datenverarbeitung",
-    pageSchema: {
-      datenverarbeitungZustimmung: checkedRequired,
-    },
-  },
   grundvoraussetzungenStreitbeilegung: {
     stepId: "grundvoraussetzungen/streitbeilegung",
     pageSchema: {

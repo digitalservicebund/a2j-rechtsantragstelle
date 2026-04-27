@@ -1,9 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
 import type { ArrayConfigServer } from "~/services/array";
-import {
-  storeMainPersonConsent,
-  storeMultiplePersonsConsent,
-} from "~/services/externalDataStorage/storeConsentFgrToS3Bucket";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
@@ -52,12 +48,6 @@ import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
   eligibleSourcePages: ["/ergebnis/erfolg"],
-};
-
-const asyncFlowActions = {
-  "/grundvoraussetzungen/datenverarbeitung": storeMainPersonConsent,
-  "/persoenliche-daten/weitere-personen/person/daten":
-    storeMultiplePersonsConsent,
 };
 
 export const fluggastrechtFlow = {
@@ -111,7 +101,7 @@ export const fluggastrechtFlow = {
           url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",
           initialInputUrl: "daten",
           statementKey: "isWeiterePersonen",
-          hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
+          hiddenFields: ["anrede", "title"],
           event: "add-weiterePersonen",
           displayIndexOffset: WEITERE_PERSONEN_START_INDEX,
           shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
@@ -135,5 +125,4 @@ export const fluggastrechtFlow = {
   },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
-  asyncFlowActions,
 } satisfies Flow;

@@ -17,10 +17,6 @@ import {
   STATEMENT_CLAIM_TITLE_TEXT,
 } from "../createStatementClaim";
 
-const LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST =
-  "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.";
-const LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS =
-  "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.";
 const ONLINE_STATEMENT_ORAL_TRIAL_REQUEST =
   "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.";
 const ONLINE_STATEMENT_VIDEO_TRIAL_REQUEST =
@@ -44,7 +40,7 @@ describe("createStatementClaim", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createStatementClaim(mockDoc, mockStruct, userDataMock, true);
+    createStatementClaim(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
     expect(mockDoc.struct).toHaveBeenCalledWith("H2", {}, expect.any(Function));
@@ -57,12 +53,11 @@ describe("createStatementClaim", () => {
       mockStruct,
       userDataMock.prozesszinsen,
       600,
-      true,
     );
   });
 
   describe("createStatementClaim - versaeumnisurteil logic", () => {
-    it("should include online court sentence and title when versaeumnisurteil is yes and feature flag is enabled", () => {
+    it("should include online court sentence and title when versaeumnisurteil is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -75,7 +70,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVersaeumnisurteil,
-        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -83,32 +77,6 @@ describe("createStatementClaim", () => {
         PDF_MARGIN_HORIZONTAL,
       );
       expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
-        PDF_MARGIN_HORIZONTAL,
-      );
-    });
-
-    it("should include legacy court sentence and no title when versaeumnisurteil is yes and feature flag is disabled", () => {
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
-
-      const userDataMockWithVersaeumnisurteil = {
-        ...userDataMock,
-        versaeumnisurteil: "yes",
-      } satisfies FluggastrechteUserData;
-
-      createStatementClaim(
-        mockDoc,
-        mockStruct,
-        userDataMockWithVersaeumnisurteil,
-        false,
-      );
-
-      expect(mockDoc.text).toHaveBeenCalledWith(
-        STATEMENT_CLAIM_COURT_SENTENCE,
-        PDF_MARGIN_HORIZONTAL,
-      );
-      expect(mockDoc.text).not.toHaveBeenCalledWith(
         STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT,
         PDF_MARGIN_HORIZONTAL,
       );
@@ -127,7 +95,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithoutVersaeumnisurteil,
-        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -146,77 +113,7 @@ describe("createStatementClaim", () => {
   });
 
   describe("createStatementClaim - videoverhandlung logic", () => {
-    it("should include legacy videoverhandlung request sentence when feature flag is disabled and videoverhandlung is yes", () => {
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
-
-      const userDataMockWithVideorverhandlungRequest = {
-        ...userDataMock,
-        videoverhandlung: "yes",
-      } satisfies FluggastrechteUserData;
-
-      createStatementClaim(
-        mockDoc,
-        mockStruct,
-        userDataMockWithVideorverhandlungRequest,
-        false,
-      );
-
-      expect(mockDoc.text).toHaveBeenCalledWith(
-        LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST,
-        PDF_MARGIN_HORIZONTAL,
-      );
-    });
-
-    it("should include legacy videoverhandlung concerns sentence when feature flag is disabled and answer is no", () => {
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
-
-      const userDataMockWithVideoTrialConcerns = {
-        ...userDataMock,
-        videoverhandlung: "no",
-      } satisfies FluggastrechteUserData;
-
-      createStatementClaim(
-        mockDoc,
-        mockStruct,
-        userDataMockWithVideoTrialConcerns,
-        false,
-      );
-
-      expect(mockDoc.text).toHaveBeenCalledWith(
-        LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS,
-        PDF_MARGIN_HORIZONTAL,
-      );
-    });
-
-    it("should not include legacy videoverhandlung text when feature flag is disabled and answer is noSpecification", () => {
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
-
-      const userDataMockWithVideoverhandlungNoSpecification = {
-        ...userDataMock,
-        videoverhandlung: "noSpecification",
-      } satisfies FluggastrechteUserData;
-
-      createStatementClaim(
-        mockDoc,
-        mockStruct,
-        userDataMockWithVideoverhandlungNoSpecification,
-        false,
-      );
-
-      expect(mockDoc.text).not.toHaveBeenCalledWith(
-        LEGACY_STATEMENT_VIDEO_TRIAL_REQUEST,
-        PDF_MARGIN_HORIZONTAL,
-      );
-      expect(mockDoc.text).not.toHaveBeenCalledWith(
-        LEGACY_STATEMENT_VIDEO_TRIAL_CONCERNS,
-        PDF_MARGIN_HORIZONTAL,
-      );
-    });
-
-    it("should include videoverhandlung request sentence when feature flag is enabled and answer is yes", () => {
+    it("should include videoverhandlung request sentence when answer is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -229,7 +126,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoTrialRequest,
-        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -238,7 +134,7 @@ describe("createStatementClaim", () => {
       );
     });
 
-    it("should include the sentence about videoverhandlung concerns when feature flag is enabled and answer is no", () => {
+    it("should include the sentence about videoverhandlung concerns when answer is no", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -251,7 +147,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoTrialConcerns,
-        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -273,7 +168,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithVideoverhandlungNoSpecification,
-        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -288,7 +182,7 @@ describe("createStatementClaim", () => {
   });
 
   describe("createStatementClaim - muendliche verhandlung logic", () => {
-    it("should include oral hearing sentence when feature flag is enabled and muendlicheVerhandlung is yes", () => {
+    it("should include oral hearing sentence when muendlicheVerhandlung is yes", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -301,7 +195,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithMuendlicheVerhandlung,
-        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -323,7 +216,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithoutMuendlicheVerhandlung,
-        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -345,7 +237,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithoutMuendlicheVerhandlung,
-        true,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -370,7 +261,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithNegotiationContent,
-        true,
       );
 
       expect(mockDoc.text).toHaveBeenCalledWith(
@@ -394,29 +284,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithoutNegotiationContent,
-        true,
-      );
-
-      expect(mockDoc.text).not.toHaveBeenCalledWith(
-        STATEMENT_NEGOTIATION_TITLE_TEXT,
-      );
-    });
-
-    it("should not include Mündliche Verhandlung title when feature flag is disabled", () => {
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
-
-      const userDataMockWithNegotiationContent = {
-        ...userDataMock,
-        versaeumnisurteil: "no",
-        videoverhandlung: "yes",
-      } satisfies FluggastrechteUserData;
-
-      createStatementClaim(
-        mockDoc,
-        mockStruct,
-        userDataMockWithNegotiationContent,
-        false,
       );
 
       expect(mockDoc.text).not.toHaveBeenCalledWith(
@@ -430,7 +297,7 @@ describe("createStatementClaim", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
-      createStatementClaim(mockDoc, mockStruct, userDataMock, true);
+      createStatementClaim(mockDoc, mockStruct, userDataMock);
       expect(mockDoc.struct).toHaveBeenCalledWith(
         "H2",
         {},
@@ -442,7 +309,7 @@ describe("createStatementClaim", () => {
       expect(callsWithH2).toHaveLength(1);
     });
 
-    it("should call the createStatementClaim with one H3 when negotiation content is visible and feature flag is enabled", () => {
+    it("should call the createStatementClaim with one H3 when negotiation content is visible", () => {
       const mockStruct = mockPdfKitDocumentStructure();
       const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -456,7 +323,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithNegotiationContent,
-        true,
       );
 
       const callsWithH3 = (mockDoc.struct as Mock).mock.calls.filter(
@@ -485,7 +351,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockWithNegotiationAndDefaultJudgment,
-        true,
       );
       const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
         ([tag]) => tag === "P",
@@ -512,7 +377,6 @@ describe("createStatementClaim", () => {
         mockDoc,
         mockStruct,
         userDataMockNoVideoverhandlungNoVersaeumnisurteil,
-        true,
       );
       const callsWithP = (mockDoc.struct as Mock).mock.calls.filter(
         ([tag]) => tag === "P",
@@ -536,7 +400,7 @@ describe("createStatementClaim", () => {
         videoverhandlung: "yes",
       } satisfies FluggastrechteUserData;
 
-      createStatementClaim(mockDoc, mockStruct, userDataMockWithBoth, true);
+      createStatementClaim(mockDoc, mockStruct, userDataMockWithBoth);
 
       const called = (mockDoc.text as Mock).mock.calls.filter(
         ([txt]) =>

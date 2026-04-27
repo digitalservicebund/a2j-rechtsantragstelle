@@ -16,15 +16,6 @@ export const ONLINE_STATEMENT_CLAIM_COURT_SENTENCE =
 export const STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT = "Versäumnisurteil:";
 export const STATEMENT_NEGOTIATION_TITLE_TEXT = "Mündliche Verhandlung:";
 
-const legacyVideoTrialAgreement = (videoverhandlung?: string): string => {
-  const responses: Record<string, string> = {
-    yes: "Die Teilnahme an der mündlichen Verhandlung per Video gemäß § 128a ZPO wird beantragt.",
-    no: "Gegen die Durchführung einer Videoverhandlung bestehen gemäß § 253 Abs. 3 Nr. 4 ZPO Bedenken.",
-    noSpecification: "",
-  };
-  return responses[videoverhandlung ?? ""];
-};
-
 const oralTrialAgreement = (muendlicheVerhandlung?: string): string => {
   const responses: Record<string, string> = {
     yes: "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
@@ -47,7 +38,6 @@ export const createStatementClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
 ) => {
   const {
     prozesszinsen,
@@ -56,9 +46,6 @@ export const createStatementClaim = (
     muendlicheVerhandlung,
   } = userData;
   const compensationByDistance = getTotalCompensationClaim(userData);
-  const getVideoTrialAgreement = showFGROnlineVerfahren
-    ? onlineVerfahrenVideoTrialAgreement
-    : legacyVideoTrialAgreement;
 
   const statementClaimSect = doc.struct("Sect");
   statementClaimSect.add(
@@ -76,32 +63,22 @@ export const createStatementClaim = (
     statementClaimSect,
     prozesszinsen ?? "",
     compensationByDistance,
-    showFGROnlineVerfahren,
   );
 
-  const defaultJudgmentText = showFGROnlineVerfahren
-    ? ONLINE_STATEMENT_CLAIM_COURT_SENTENCE
-    : STATEMENT_CLAIM_COURT_SENTENCE;
-  const negotiationTexts = showFGROnlineVerfahren
-    ? [
-        oralTrialAgreement(muendlicheVerhandlung),
-        getVideoTrialAgreement(videoverhandlung),
-      ].filter((text): text is string => Boolean(text))
-    : [getVideoTrialAgreement(videoverhandlung)].filter(
-        (text): text is string => Boolean(text),
-      );
+  const negotiationTexts = [
+    oralTrialAgreement(muendlicheVerhandlung),
+    onlineVerfahrenVideoTrialAgreement(videoverhandlung),
+  ].filter((text): text is string => Boolean(text));
 
   if (negotiationTexts.length > 0) {
-    if (showFGROnlineVerfahren) {
-      statementClaimSect.add(
-        doc.struct("H3", {}, () => {
-          doc
-            .moveDown(1)
-            .font(FONTS_BUNDESSANS_BOLD)
-            .text(STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
-        }),
-      );
-    }
+    statementClaimSect.add(
+      doc.struct("H3", {}, () => {
+        doc
+          .moveDown(1)
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(STATEMENT_NEGOTIATION_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
+      }),
+    );
 
     statementClaimSect.add(
       doc.struct("P", {}, () => {
@@ -113,22 +90,20 @@ export const createStatementClaim = (
   }
 
   if (versaeumnisurteil === "yes") {
-    if (showFGROnlineVerfahren) {
-      statementClaimSect.add(
-        doc.struct("H3", {}, () => {
-          doc
-            .moveDown(1)
-            .font(FONTS_BUNDESSANS_BOLD)
-            .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
-        }),
-      );
-    }
+    statementClaimSect.add(
+      doc.struct("H3", {}, () => {
+        doc
+          .moveDown(1)
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(STATEMENT_DEFAULT_JUDGMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
+      }),
+    );
 
     statementClaimSect.add(
       doc.struct("P", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(defaultJudgmentText, PDF_MARGIN_HORIZONTAL);
+          .text(ONLINE_STATEMENT_CLAIM_COURT_SENTENCE, PDF_MARGIN_HORIZONTAL);
       }),
     );
   }

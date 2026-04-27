@@ -11,33 +11,23 @@ export const TITLE = "Klage Neueingang";
 export const SUBJECT = "Klageschrift";
 export const KEYWORDS = "Fluggastrechte";
 
-type FluggastrechteFeatureFlags = {
-  showFGROnlineVerfahren: boolean;
-};
-
-const buildFluggastrechtePDFDocument = (
-  showFGROnlineVerfahren: boolean,
-): PDFDocumentBuilder<FluggastrechteUserData> => {
-  return (doc, documentStruct, userData) => {
-    setPdfMetadata(doc, {
-      title: TITLE,
-      subject: SUBJECT,
-      keywords: KEYWORDS,
-    });
-    createFirstPage(doc, documentStruct, userData, showFGROnlineVerfahren);
-    doc.addPage();
-    createReasonPage(doc, documentStruct, userData, showFGROnlineVerfahren);
-    createFooter(doc, documentStruct, userData, createBankInformation);
+const buildFluggastrechtePDFDocument =
+  (): PDFDocumentBuilder<FluggastrechteUserData> => {
+    return (doc, documentStruct, userData) => {
+      setPdfMetadata(doc, {
+        title: TITLE,
+        subject: SUBJECT,
+        keywords: KEYWORDS,
+      });
+      createFirstPage(doc, documentStruct, userData);
+      doc.addPage();
+      createReasonPage(doc, documentStruct, userData);
+      createFooter(doc, documentStruct, userData, createBankInformation);
+    };
   };
-};
 
 export function fluggastrechtePdfFromUserdata(
   userData: FluggastrechteUserData,
-  featureFlags: FluggastrechteFeatureFlags,
 ) {
-  const showFGROnlineVerfahren = featureFlags.showFGROnlineVerfahren;
-  return pdfFromUserData(
-    userData,
-    buildFluggastrechtePDFDocument(showFGROnlineVerfahren),
-  );
+  return pdfFromUserData(userData, buildFluggastrechtePDFDocument());
 }

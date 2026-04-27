@@ -1,9 +1,6 @@
 import type PDFDocument from "pdfkit";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
-import {
-  FONTS_BUNDESSANS_BOLD,
-  FONTS_BUNDESSANS_REGULAR,
-} from "~/services/pdf/createPdfKitDocument";
+import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addAirlineDetails } from "./addAirlineDetails";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
 import { addPlannedFlightDetails } from "./addPlannedFlightDetails";
@@ -13,6 +10,9 @@ export const AGAINST = "gegen";
 
 const MAIN_TITLE = "Klage";
 
+const MAIN_SUBTITLE =
+  "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
+
 export const DUE_REASON_TEXT =
   "Wegen: Ausgleichszahlung nach der Fluggastrechteverordnung (EG) 261/2004";
 
@@ -20,26 +20,14 @@ export const createClaimData = (
   doc: typeof PDFDocument,
   flightCompensationClaimSect: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
 ) => {
-  const MAIN_SUBTITLE = showFGROnlineVerfahren
-    ? "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung"
-    : "Neueingang";
-
   flightCompensationClaimSect.add(
     doc.struct("H1", {}, () => {
       doc
         .fontSize(31)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(MAIN_TITLE, { align: "left" });
-      doc
-        .fontSize(showFGROnlineVerfahren ? 14 : 10)
-        .font(
-          showFGROnlineVerfahren
-            ? FONTS_BUNDESSANS_BOLD
-            : FONTS_BUNDESSANS_REGULAR,
-        )
-        .text(MAIN_SUBTITLE);
+      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(MAIN_SUBTITLE);
       doc.moveDown(2);
     }),
   );
