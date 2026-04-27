@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
 import { useFormFlow } from "~/components/formFlowContext";
-import SummaryOverviewBox from "../SummaryOverviewBox";
+import SummaryOverviewBox from "~/components/content/summaryOverview/SummaryOverviewBox";
 import { type KernHeadingProps } from "~/components/kern/KernHeading";
 
 vi.mock("~/components/formFlowContext", () => ({
@@ -50,7 +50,7 @@ describe("SummaryOverviewBox", () => {
   });
 
   it("should render the heading when title is provided", () => {
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <SummaryOverviewBox
         boxId={boxId}
         stepId={stepId}
@@ -60,11 +60,11 @@ describe("SummaryOverviewBox", () => {
       />,
     );
 
-    expect(getByTestId("heading")).toHaveTextContent(titleMock.text ?? "");
+    expect(getByRole("heading")).toHaveTextContent(titleMock.text ?? "");
   });
 
   it("should render the heading when title is provided with arrayPositionTitle", () => {
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <SummaryOverviewBox
         boxId={boxId}
         stepId={stepId}
@@ -75,7 +75,7 @@ describe("SummaryOverviewBox", () => {
       />,
     );
 
-    expect(getByTestId("heading")).toHaveTextContent(`${titleMock.text} 2`);
+    expect(getByRole("heading")).toHaveTextContent(`${titleMock.text} 2`);
   });
 
   it("should render SummaryOverviewBoxItem for each field", () => {

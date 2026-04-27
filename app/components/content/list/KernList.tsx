@@ -1,9 +1,9 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernListItem from "./KernListItem";
-import { type ListItemProps, type ListVariant } from "../content/list/types";
-import KernRichText from "./KernRichText";
-import KernHeading, { type KernHeadingProps } from "./KernHeading";
+import { type ListItemProps, type ListVariant } from "./types";
+import KernRichText from "../../kern/KernRichText";
+import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
 
 type ListProps = {
   items: ListItemProps[];
@@ -67,7 +67,7 @@ const KernList = ({
   );
 };
 
-function listItemNotEmpty(item: ListItemProps): boolean {
+export function listItemNotEmpty(item: ListItemProps): boolean {
   return (
     removeMarkupTags(item.headline?.text ?? "").length > 0 ||
     removeMarkupTags(item.content ?? "").length > 0

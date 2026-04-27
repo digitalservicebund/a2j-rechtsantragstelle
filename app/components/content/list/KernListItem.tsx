@@ -5,12 +5,12 @@ import {
   type ListItemProps,
   type ListMarkerProps,
   type ListVariant,
-} from "../content/list/types";
-import KernButton from "./KernButton";
-import KernHeading from "./KernHeading";
-import KernRichText from "./KernRichText";
-import KernAccordion from "./KernAccordion";
-import KernButtonContainer from "./KernButtonContainer";
+} from "./types";
+import KernButton from "../../kern/KernButton";
+import KernHeading from "../../kern/KernHeading";
+import KernRichText from "../../kern/KernRichText";
+import KernAccordion from "../../kern/KernAccordion";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
 const ImageMarker = ({ image }: { image: ImageProps }) => (
   <div className="flex items-start">

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState, useEffect } from "react";
-import { RatingBox } from "~/components/kern/UserFeedback/RatingBox";
-import { FeedbackFormBox } from "~/components/kern/UserFeedback/FeedbackFormBox";
-import { PostSubmissionBox } from "~/components/kern/UserFeedback/PostSubmissionBox";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
+import { FeedbackFormBox } from "~/components/content/userFeedback/FeedbackFormBox";
+import { PostSubmissionBox } from "~/components/content/userFeedback/PostSubmissionBox";
+import { RatingBox } from "~/components/content/userFeedback/RatingBox";
 
 type BannerState = "showRating" | "showFeedback" | "feedbackGiven";
 type FeedbackType = "positive" | "negative";

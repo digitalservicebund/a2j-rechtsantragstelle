@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { FeedbackSuccessMessage } from "~/components/content/userFeedback/FeedbackSuccessMessage";
-import { useFeedbackTranslations } from "~/components/content/userFeedback/feedbackTranslations";
+import { useFeedbackTranslations } from "./feedbackTranslations";
+import { FeedbackSuccessMessage } from "./FeedbackSuccessMessage";
 import KernRichText from "~/components/kern/KernRichText";
 
 type Props = {

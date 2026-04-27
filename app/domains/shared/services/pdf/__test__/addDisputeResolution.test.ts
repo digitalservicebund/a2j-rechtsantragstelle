@@ -2,24 +2,36 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   addDisputeResolution,
-  DISPUTE_RESOLUTION_TITLE,
+  type DisputeResolution,
 } from "../addDisputeResolution";
 
 describe("addDisputeResolution", () => {
+  it("should render claim full justified text", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDisputeResolution(mockDoc, mockStruct, {});
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Die Klage ist vollumfänglich begründet.",
+    );
+  });
+
   it("should render dispute resolution title when there is content", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     const mockDataStreitbeilegung = {
       streitbeilegung: "yes",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE);
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Außergerichtliche Streitbeilegung:",
+    );
   });
 
   it("should not render dispute resolution title when there is no content", () => {
@@ -29,11 +41,13 @@ describe("addDisputeResolution", () => {
     const mockDataStreitbeilegung = {
       streitbeilegung: "noSpecification",
       streitbeilegungGruende: "no",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
-    expect(mockDoc.text).not.toHaveBeenCalledWith(DISPUTE_RESOLUTION_TITLE);
+    expect(mockDoc.text).not.toHaveBeenCalledWith(
+      "Außergerichtliche Streitbeilegung:",
+    );
   });
 
   it("should render document with assumed settlement section text given streitbeilegung yes", () => {
@@ -42,7 +56,7 @@ describe("addDisputeResolution", () => {
 
     const mockDataStreitbeilegung = {
       streitbeilegung: "yes",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -58,7 +72,7 @@ describe("addDisputeResolution", () => {
     const mockDataStreitbeilegung = {
       streitbeilegung: "no",
       streitbeilegungGruende: "yes",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -74,7 +88,7 @@ describe("addDisputeResolution", () => {
     const mockDataStreitbeilegung = {
       streitbeilegung: "no",
       streitbeilegungGruende: "no",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -90,7 +104,7 @@ describe("addDisputeResolution", () => {
     const mockDataStreitbeilegung = {
       streitbeilegung: "noSpecification",
       streitbeilegungGruende: "no",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 
@@ -106,7 +120,7 @@ describe("addDisputeResolution", () => {
     const mockDataStreitbeilegung = {
       streitbeilegung: "noSpecification",
       streitbeilegungGruende: "no",
-    } satisfies GeldEinklagenFormularUserData;
+    } satisfies DisputeResolution;
 
     addDisputeResolution(mockDoc, mockStruct, mockDataStreitbeilegung);
 

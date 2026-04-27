@@ -9,10 +9,10 @@ type Props = {
   readonly boxes: SummaryOverviewBoxWrappedProps[];
 };
 
-const SummaryOverviewSection = ({ title, boxes }: Props) => {
+const KernSummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
-    <>
-      <KernHeading {...title} className="mt-20" />
+    <div className="flex flex-col gap-kern-space-default">
+      <KernHeading size="medium" {...title} managedByParent />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped
           key={id}
@@ -22,8 +22,8 @@ const SummaryOverviewSection = ({ title, boxes }: Props) => {
           boxItems={boxItems}
         />
       ))}
-    </>
+    </div>
   );
 };
 
-export default SummaryOverviewSection;
+export default KernSummaryOverviewSection;
