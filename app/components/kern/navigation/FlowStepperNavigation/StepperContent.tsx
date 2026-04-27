@@ -20,7 +20,7 @@ export function StepperContent({
   return (
     <a
       href={href}
-      className="group w-full p-14 flex gap-8 justify-center items-center text-center outline-none no-underline"
+      className="group w-full p-14 flex gap-8 justify-center items-center text-center no-underline outline-none"
       aria-disabled={styles.isDisabled}
       aria-current={styles.isCurrent}
       aria-describedby={styles.isDone || styles.isWarning ? iconId : undefined}

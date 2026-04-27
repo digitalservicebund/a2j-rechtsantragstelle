@@ -113,6 +113,14 @@
     border-left-color: var(--color-kern-orange-100);
   }
 
+  .stepper-step:focus-within {
+    z-index: 100;
+    box-shadow:
+      0 0 0 2px var(--kern-color-action-on-default),
+      0 0 0 4px var(--kern-color-action-focus-border-inside),
+      0 0 0 6px var(--kern-color-action-focus-border-outside);
+  }
+
   @media (forced-colors: active) {
     .stepper-step {
       forced-color-adjust: none;
