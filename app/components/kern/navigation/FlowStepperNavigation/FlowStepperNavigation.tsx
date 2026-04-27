@@ -25,8 +25,8 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
           return (
             <li
               key={label}
-              className={classNames(styles.container, {
-                "border-r-0 stepper-step": !isLast,
+              className={classNames(styles.container, "stepper-step", {
+                "border-r-0": !isLast,
                 "rounded-l-sm": isFirst,
                 "rounded-r-sm": isLast,
               })}
