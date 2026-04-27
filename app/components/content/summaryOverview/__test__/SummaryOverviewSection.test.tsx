@@ -26,7 +26,7 @@ const mockSummaryOverviewProps = {
   ],
 };
 
-vi.mock("~/components/common/Heading", () => ({
+vi.mock("~/components/kern/KernHeading.tsx", () => ({
   default: () => <div>Mock Heading</div>,
 }));
 
