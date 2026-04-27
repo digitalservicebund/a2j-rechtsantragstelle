@@ -33,6 +33,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
               style={{
                 zIndex: steps.length - stepIndex,
                 ["--stepper-step-bg" as string]: styles.arrowBg,
+                ["--stepper-step-hover-bg" as string]: styles.arrowHoverBg,
               }}
             >
               <StepperContent

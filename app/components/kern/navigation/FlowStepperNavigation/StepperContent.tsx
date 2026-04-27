@@ -29,7 +29,7 @@ export function StepperContent({
         <StepperIcon state={state} stepIndex={stepIndex} />
       </span>
 
-      <span className="group-hover:underline underline-offset-4">{label}</span>
+      <span className={styles.label}>{label}</span>
     </a>
   );
 }

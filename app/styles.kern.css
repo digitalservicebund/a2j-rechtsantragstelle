@@ -106,7 +106,7 @@
   }
 
   .stepper-step:hover::after {
-    border-left-color: var(--color-kern-neutral-200);
+    border-left-color: var(--stepper-step-hover-bg);
   }
 
   .stepper-step--warning:hover::after {
