@@ -6,14 +6,8 @@ export const createFlightCompensationClaim = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
 ) => {
   const flightCompensationClaimSect = doc.struct("Sect");
-  createClaimData(
-    doc,
-    flightCompensationClaimSect,
-    userData,
-    showFGROnlineVerfahren,
-  );
+  createClaimData(doc, flightCompensationClaimSect, userData);
   documentStruct.add(flightCompensationClaimSect);
 };

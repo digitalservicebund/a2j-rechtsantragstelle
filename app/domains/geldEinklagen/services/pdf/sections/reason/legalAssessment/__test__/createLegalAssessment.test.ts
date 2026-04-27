@@ -5,12 +5,12 @@ import {
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import { createLegalAssessment } from "../createLegalAssessment";
 import { addRechtlicheWuerdigung } from "../addRechtlicheWuerdigung";
-import { addDisputeResolution } from "../addDisputeResolution";
+import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 import { addAdvanceCourtText } from "../addAdvanceCourtText";
 import { addSignature } from "../addSignature";
 
 vi.mock("../addRechtlicheWuerdigung");
-vi.mock("../addDisputeResolution");
+vi.mock("~/domains/shared/services/pdf/addDisputeResolution");
 vi.mock("../addAdvanceCourtText");
 vi.mock("../addSignature");
 
