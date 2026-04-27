@@ -9,7 +9,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 const testArrayPageSchema: PagesConfig = {
   testArrayPage: {
     stepId: "testArrayPage",
-    pageSchema: {
+    arraySchema: {
       kinder: z.array(
         z.object({
           vorname: stringRequiredSchema,
@@ -17,7 +17,6 @@ const testArrayPageSchema: PagesConfig = {
           geburtsdatum: createDateSchema(),
         }),
       ),
-      hasKinder: z.enum(["yes", "no"]),
     },
     arrayPages: {
       name: {
@@ -34,7 +33,7 @@ const testArrayPageSchema: PagesConfig = {
 const testMultipleArraysSchema: PagesConfig = {
   testArrayPage: {
     stepId: "testArrayPage",
-    pageSchema: {
+    arraySchema: {
       kinder: z.array(
         z.object({
           vorname: stringRequiredSchema,
@@ -49,7 +48,6 @@ const testMultipleArraysSchema: PagesConfig = {
           geburtsdatum: createDateSchema(),
         }),
       ),
-      hasKinder: z.enum(["yes", "no"]),
     },
     arrayPages: {
       name: {
@@ -94,15 +92,7 @@ describe("isStepDone", () => {
 
   it("should return true for a pageSchema without a zod schema", () => {
     expect(
-      isStepDone(
-        {
-          testPage: {
-            stepId: "testPage",
-          },
-        },
-        {},
-        ["/testPage"],
-      ),
+      isStepDone({ testPage: { stepId: "testPage" } }, {}, ["/testPage"]),
     ).toBe(true);
   });
 
@@ -112,9 +102,7 @@ describe("isStepDone", () => {
         {
           testPage: {
             stepId: "testPage",
-            pageSchema: {
-              testField: stringRequiredSchema,
-            },
+            pageSchema: { testField: stringRequiredSchema },
           },
         },
         {},
@@ -126,9 +114,7 @@ describe("isStepDone", () => {
         {
           testPage: {
             stepId: "testPage",
-            pageSchema: {
-              testField: stringRequiredSchema,
-            },
+            pageSchema: { testField: stringRequiredSchema },
           },
         },
         { testField: undefined },
@@ -140,9 +126,7 @@ describe("isStepDone", () => {
         {
           testPage: {
             stepId: "testPage",
-            pageSchema: {
-              testField: stringRequiredSchema,
-            },
+            pageSchema: { testField: stringRequiredSchema },
           },
         },
         { testField: 12345 as unknown as string },

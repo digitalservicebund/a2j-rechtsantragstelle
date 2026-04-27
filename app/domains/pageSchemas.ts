@@ -5,7 +5,7 @@ import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { SchemaObject, UserData } from "./userData";
+import type { ArraySchema, SchemaObject, UserData } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
@@ -33,8 +33,8 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
   const pagesConfig = pages[flowId];
 
   const schemaObjects = Object.values(pagesConfig)
-    .filter(({ pageSchema }) => pageSchema !== undefined)
-    .map(({ pageSchema }) => pageSchema!);
+    .filter((pageConfig) => hasPageSchema(pageConfig))
+    .map(({ pageSchema }) => pageSchema);
 
   return Object.assign({}, ...schemaObjects) as SchemaObject;
 };
@@ -44,7 +44,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const fieldsMap: FormFieldsMap = {};
 
   for (const page of Object.values(pagesConfig)) {
-    if (page.pageSchema && !isArrayParentPage(page)) {
+    if (hasPageSchema(page)) {
       const stepId = `/${page.stepId}`;
       fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
@@ -98,7 +98,8 @@ const getPageConfigOrArrayPageByPathname = (pathname: string) => {
 
 export function getPageSchema(pathname: string) {
   const pageConfigOrArrayPage = getPageConfigOrArrayPageByPathname(pathname);
-  return pageConfigOrArrayPage?.pageSchema;
+  if (hasPageSchema(pageConfigOrArrayPage))
+    return pageConfigOrArrayPage.pageSchema;
 }
 
 export function getReadOnlyFields(pathname: string) {
@@ -169,19 +170,26 @@ type ArrayPage = {
 
 type ArrayParentPage = {
   stepId: string;
-  pageSchema: SchemaObject;
+  arraySchema: ArraySchema;
   arrayPages: Record<string, ArrayPage>;
 };
 
-const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
-  page && "arrayPages" in page;
+export const hasPageSchema = (
+  page?: PageConfig | ArrayPage,
+): page is { pageSchema: SchemaObject } =>
+  page !== undefined && "pageSchema" in page;
+
+const isArrayParentPage = (page?: PageConfig): page is ArrayParentPage =>
+  page !== undefined && "arrayPages" in page;
 
 export type PageConfig = FlowPage | ArrayParentPage;
 
 type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
-    ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
-    : never;
+  [K in keyof T]: T[K] extends { pageSchema: infer P extends SchemaObject }
+    ? z.infer<z.ZodObject<P>>
+    : T[K] extends { arraySchema: infer A extends ArraySchema }
+      ? z.infer<z.ZodObject<A>>
+      : never;
 }[keyof T];
 
 type UnionToIntersection<U> = (
@@ -193,7 +201,7 @@ type UnionToIntersection<U> = (
 export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
   UnionToIntersection<ExtractSchemas<T>>
 >;
-export function getRelevantPageSchemasForStepId(
+export function pagesConfigForStepId(
   flowId: FlowId,
   stepId: string,
 ): PagesConfig {

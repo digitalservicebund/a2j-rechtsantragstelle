@@ -203,7 +203,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumBankkonto: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto",
-    pageSchema: { bankkonten: bankkontenArraySchema },
+    arraySchema: { bankkonten: bankkontenArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
@@ -236,7 +236,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGeldanlage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
-    pageSchema: {
+    arraySchema: {
       geldanlagen: geldanlagenArraySchema,
     },
     arrayPages: {
@@ -317,9 +317,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeug: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
-    pageSchema: {
-      kraftfahrzeuge: kraftfahrzeugeArraySchema,
-    },
+    arraySchema: { kraftfahrzeuge: kraftfahrzeugeArraySchema },
     arrayPages: {
       arbeitsweg: {
         pageSchema: {
@@ -369,9 +367,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumWertgegenstand: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
-    pageSchema: {
-      wertsachen: wertsachenArraySchema,
-    },
+    arraySchema: { wertsachen: wertsachenArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
@@ -397,9 +393,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
-    pageSchema: {
-      grundeigentum: grundeigentumArraySchema,
-    },
+    arraySchema: { grundeigentum: grundeigentumArraySchema },
     arrayPages: {
       "bewohnt-frage": {
         pageSchema: {

@@ -56,7 +56,7 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
   },
   arbeitsausgabe: {
     stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe",
-    pageSchema: {
+    arraySchema: {
       arbeitsausgaben: arbeitsausgabenArraySchema,
     },
     arrayPages: {

@@ -14,9 +14,10 @@ export type ObjectType = {
   [key: string]: BasicTypes | BasicTypes[] | ObjectType;
 };
 export type ArrayData = Array<Record<string, BasicTypes>>;
-export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
-
-export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;
+type PageSchemaTypes = BasicTypes | ObjectType | ArrayData | undefined;
+export type AllowedUserTypes = ArrayData | PageSchemaTypes;
+export type ArraySchema = Record<string, z.ZodType<ArrayData>>;
+export type SchemaObject = Record<string, z.ZodType<PageSchemaTypes>>;
 export type UserData = Record<string, AllowedUserTypes>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;

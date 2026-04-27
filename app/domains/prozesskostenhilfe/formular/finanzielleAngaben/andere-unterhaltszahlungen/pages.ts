@@ -48,7 +48,7 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenPerson: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
-    pageSchema: {
+    arraySchema: {
       unterhaltszahlungen: unterhaltszahlungenArraySchema,
     },
     arrayPages: {

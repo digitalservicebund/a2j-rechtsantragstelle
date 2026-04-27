@@ -199,7 +199,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumBankkonto: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto",
-    pageSchema: { bankkonten: bankkontenArraySchema },
+    arraySchema: { bankkonten: bankkontenArraySchema },
     arrayPages: {
       daten: {
         pageSchema: {
@@ -232,7 +232,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumGeldanlage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
-    pageSchema: {
+    arraySchema: {
       geldanlagen: geldanlagenArraySchema,
     },
     arrayPages: {
@@ -313,7 +313,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeug: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
-    pageSchema: {
+    arraySchema: {
       kraftfahrzeuge: kraftfahrzeugeArraySchema,
     },
     arrayPages: {
@@ -365,7 +365,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumWertgegenstand: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
-    pageSchema: {
+    arraySchema: {
       wertsachen: wertsachenArraySchema,
     },
     arrayPages: {
@@ -395,7 +395,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentumGrundeigentum: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
-    pageSchema: {
+    arraySchema: {
       grundeigentum: grundeigentumArraySchema,
     },
     arrayPages: {

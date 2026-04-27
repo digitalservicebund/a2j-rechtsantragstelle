@@ -213,7 +213,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerArbeitsausgabe: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe",
-    pageSchema: {
+    arraySchema: {
       "partner-arbeitsausgaben": partnerArbeitsausgabenArraySchema,
     },
     arrayPages: {
@@ -297,7 +297,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerWeitereEinkunft: {
     stepId:
       "finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft",
-    pageSchema: {
+    arraySchema: {
       "partner-weitereEinkuenfte": partnerWeitereEinkuenfteArraySchema,
     },
     arrayPages: {

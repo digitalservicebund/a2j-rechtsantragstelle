@@ -45,7 +45,7 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   },
   ausgabenAusgaben: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben",
-    pageSchema: { ausgaben: ausgabenArraySchema },
+    arraySchema: { ausgaben: ausgabenArraySchema },
     arrayPages: {
       art: {
         pageSchema: {

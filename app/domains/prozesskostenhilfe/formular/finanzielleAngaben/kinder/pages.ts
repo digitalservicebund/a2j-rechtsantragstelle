@@ -55,7 +55,7 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
   },
   kinder: {
     stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: { kinder: kinderArraySchema },
+    arraySchema: { kinder: kinderArraySchema },
     arrayPages: {
       name: {
         pageSchema: {

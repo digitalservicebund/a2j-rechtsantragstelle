@@ -102,7 +102,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   },
   einnahme: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme",
-    pageSchema: {
+    arraySchema: {
       einnahmen: einnahmenArraySchema,
     },
     arrayPages: {
@@ -140,7 +140,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   },
   vermoegenEintrag: {
     stepId: "antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag",
-    pageSchema: {
+    arraySchema: {
       vermoegen: vermoegenArraySchema,
     },
     arrayPages: {

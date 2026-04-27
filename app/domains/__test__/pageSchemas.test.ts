@@ -4,11 +4,12 @@ import {
   getPageSchema,
   getAllFieldsFromFlowId,
   xStateTargetsFromPagesConfig,
-  getRelevantPageSchemasForStepId,
+  pagesConfigForStepId,
   filterPageSchemasByReachableSteps,
   type PageConfig,
   getReadOnlyFields,
 } from "../pageSchemas";
+import { ZodType } from "zod";
 
 describe("getPageSchema", () => {
   it("should return the page schema for the current step", () => {
@@ -155,37 +156,49 @@ describe("getAllFieldsFromFlowId", () => {
 
 describe("getRelevantPageSchemasForStepId", () => {
   it("retrieves relevant pageSchemas given a flowId and stepId", () => {
-    expect(
-      getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
-    ).toEqual({
+    expect(pagesConfigForStepId("/beratungshilfe/antrag", "/start")).toEqual({
       start: {
         stepId: "start",
       },
     });
 
-    const { weitereAngaben } = getRelevantPageSchemasForStepId(
+    const { weitereAngaben } = pagesConfigForStepId(
       "/beratungshilfe/antrag",
       "/weitere-angaben",
     );
-    expect(weitereAngaben).toHaveProperty("stepId", "weitere-angaben");
-    expect(weitereAngaben.pageSchema).toHaveProperty("weitereAngaben");
-    const { bereich, situationBeschreibung } = getRelevantPageSchemasForStepId(
+    expect(weitereAngaben).toEqual(
+      expect.objectContaining({
+        stepId: "weitere-angaben",
+        pageSchema: { weitereAngaben: expect.any(ZodType) },
+      }),
+    );
+    const { bereich, situationBeschreibung } = pagesConfigForStepId(
       "/beratungshilfe/antrag",
       "/rechtsproblem",
     );
-    expect(bereich).toHaveProperty("stepId", "rechtsproblem/bereich");
-    expect(bereich.pageSchema).toHaveProperty("bereich");
-    expect(situationBeschreibung).toHaveProperty(
-      "stepId",
-      "rechtsproblem/situation-beschreibung",
+    expect(bereich).toEqual(
+      expect.objectContaining({
+        stepId: "rechtsproblem/bereich",
+        pageSchema: { bereich: expect.any(ZodType) },
+      }),
     );
-    expect(situationBeschreibung.pageSchema).toHaveProperty("gegenseite");
+    expect(situationBeschreibung).toEqual(
+      expect.objectContaining({
+        stepId: "rechtsproblem/situation-beschreibung",
+        pageSchema: {
+          gegenseite: expect.any(ZodType),
+          beschreibung: expect.any(ZodType),
+          ziel: expect.any(ZodType),
+          eigeninitiativeBeschreibung: expect.any(ZodType),
+        },
+      }),
+    );
   });
 
   it("returns an empty object when the given flowId has no pageSchemas", () => {
-    expect(
-      getRelevantPageSchemasForStepId("/fluggastrechte/formular", "/start"),
-    ).toEqual({});
+    expect(pagesConfigForStepId("/fluggastrechte/formular", "/start")).toEqual(
+      {},
+    );
   });
 });
 

@@ -44,13 +44,13 @@ function handlePageWithMultipleArrays(
 }
 
 export const isStepDone = <T extends PagesConfig>(
-  pageSchema: T,
+  pagesConfig: T,
   userData: UserDataFromPagesSchema<T>,
   reachableSteps: string[],
   arrayConfigurations?: ArrayConfigurations,
 ) => {
   // Retrieve only the pageSchemas that are reachable, unless we're on an array page
-  const relevantPageSchemas = Object.values(pageSchema)
+  const relevantPageConfigs = Object.values(pagesConfig)
     .filter(
       filterPageSchemasByReachableSteps(
         userData,
@@ -58,18 +58,28 @@ export const isStepDone = <T extends PagesConfig>(
         arrayConfigurations,
       ),
     )
-    .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {});
-  if (Object.keys(relevantPageSchemas).length === 0) return true;
+    .reduce<SchemaObject>(
+      (acc, v) => ({
+        ...acc,
+        ...("pageSchema" in v
+          ? v.pageSchema
+          : "arraySchema" in v
+            ? v.arraySchema
+            : {}),
+      }),
+      {},
+    );
+  if (Object.keys(relevantPageConfigs).length === 0) return true;
   const shouldHandlePageWithMultipleArrays =
-    Object.values(relevantPageSchemas).filter(
+    Object.values(relevantPageConfigs).filter(
       (schema) => schema.type === "array",
     ).length > 1;
 
   return shouldHandlePageWithMultipleArrays
     ? handlePageWithMultipleArrays(
-        relevantPageSchemas,
+        relevantPageConfigs,
         userData,
         arrayConfigurations,
       )
-    : z.object(relevantPageSchemas).safeParse(userData).success;
+    : z.object(relevantPageConfigs).safeParse(userData).success;
 };

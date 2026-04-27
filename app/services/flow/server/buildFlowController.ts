@@ -18,7 +18,7 @@ import type {
 import { type ArrayConfigServer } from "~/services/array";
 import { isStepDone } from "~/services/flow/server/isStepDone";
 import { type FlowId } from "~/domains/flowIds";
-import { getRelevantPageSchemasForStepId } from "~/domains/pageSchemas";
+import { pagesConfigForStepId } from "~/domains/pageSchemas";
 
 function getInitialSubState(
   machine: FlowStateMachine,
@@ -193,7 +193,7 @@ function stepStates(
           : initialStepId;
 
       const isDone = isStepDone(
-        getRelevantPageSchemasForStepId(flowId, stepId),
+        pagesConfigForStepId(flowId, stepId),
         context,
         reachableSteps,
         state.machine.config.meta?.arrays,
