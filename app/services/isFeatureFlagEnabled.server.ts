@@ -8,7 +8,6 @@ const localFeatureFlags = {
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
 
-
 const posthogDistinctId = "backend";
 
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) =>
