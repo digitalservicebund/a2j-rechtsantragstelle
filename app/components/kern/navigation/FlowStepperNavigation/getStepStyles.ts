@@ -14,7 +14,8 @@ function getArrowBg(state: NavState): string {
   if (state === "Warning")
     return "var(--color-kern-feedback-warning-background)";
   if (state === "DoneCurrent") return "var(--color-kern-neutral-200)";
-  if (state === "Done" || stateIsOpen(state)) return "var(--color-kern-neutral-025)";
+  if (state === "Done" || stateIsOpen(state))
+    return "var(--color-kern-neutral-025)";
   return "var(--color-kern-neutral-100)";
 }
 
@@ -34,22 +35,25 @@ export function getStepStyles(state: NavState) {
         "bg-kern-feedback-warning-background hover:bg-kern-orange-100":
           state === "Warning",
         "bg-kern-orange-100": state === "WarningCurrent",
-        "bg-kern-neutral-025":
-          stateIsOpen(state),
+        "bg-kern-neutral-025": stateIsOpen(state),
         "bg-kern-neutral-100": state === "Current",
         "bg-kern-neutral-200": state === "DoneCurrent",
         "hover:bg-kern-neutral-200":
-          !stateIsWarning(state) && !stateIsDisabled(state) && !stateIsDone(state),
-        "font-semibold": state !== "Done" && state !== "Warning" && !stateIsDisabled(state),
+          !stateIsWarning(state) &&
+          !stateIsDisabled(state) &&
+          !stateIsDone(state),
+        "font-semibold":
+          state !== "Done" && state !== "Warning" && !stateIsDisabled(state),
       },
     ),
 
     arrowBg: getArrowBg(state),
-    arrowHoverBg: stateIsDone(state) || stateIsDisabled(state)
-      ? getArrowBg(state)
-      : stateIsWarning(state)
-        ? "var(--color-kern-orange-100)"
-        : "var(--color-kern-neutral-200)",
+    arrowHoverBg:
+      stateIsDone(state) || stateIsDisabled(state)
+        ? getArrowBg(state)
+        : stateIsWarning(state)
+          ? "var(--color-kern-orange-100)"
+          : "var(--color-kern-neutral-200)",
 
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
