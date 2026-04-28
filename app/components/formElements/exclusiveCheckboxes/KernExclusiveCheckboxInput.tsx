@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { type CheckboxValue } from "~/components/formElements/KernCheckbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
-type KernExclusiveCheckboxInputProps = {
+export type KernExclusiveCheckboxInputProps = {
   name: string;
   label: string;
   value: CheckboxValue;
