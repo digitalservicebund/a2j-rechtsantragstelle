@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernArraySummary from "~/components/kern/arraySummary/KernArraySummary";
+import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
