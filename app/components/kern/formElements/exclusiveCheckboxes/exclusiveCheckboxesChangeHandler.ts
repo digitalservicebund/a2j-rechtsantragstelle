@@ -1,6 +1,6 @@
 import { type FieldApi } from "@rvf/react-router";
-import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { type ControlledCheckboxProps } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
+import { type CheckboxValue } from "~/components/formElements/KernCheckbox";
 import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
 
 /**
