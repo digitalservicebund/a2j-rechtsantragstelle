@@ -14,9 +14,9 @@ export type ArrayConfigServer = {
   hiddenFields?: string[];
 };
 
-export type ArrayConfigClient = Omit<
+export type ArrayConfigClient = Pick<
   ArrayConfigServer,
-  "statementKey" | "shouldDisableAddButton"
+  "url" | "initialInputUrl" | "hiddenFields" | "displayIndexOffset"
 > & {
   disableAddButton: boolean;
 };

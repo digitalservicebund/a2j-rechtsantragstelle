@@ -9,7 +9,7 @@ import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
 import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
 import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
-import KernDateInput from "~/components/kern/formElements/input/KernDateInput";
+import KernDateInput from "~/components/formElements/inputs/KernDateInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
