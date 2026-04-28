@@ -60,7 +60,12 @@ const KernArraySummaryDataItems = ({
                 {getTranslationByKey(itemKey, itemLabels)}
               </dt>
               <dd className="kern-description-list-item__value">
-                {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
+                <pre>
+                  {(itemLabels[`${itemKey}.${itemValue}`] ??
+                  Array.isArray(itemValue)) // workaround for displaying nested array content
+                    ? JSON.stringify(itemValue, null, 2)
+                    : itemValue}
+                </pre>
               </dd>
             </div>
           ))}
