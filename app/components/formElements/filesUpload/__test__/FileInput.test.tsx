@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { translations } from "~/services/translations/translations";
-import { FileInput } from "../FileInput";
+import { KernFileInput } from "../FileInput";
 
 vi.mock("react-router", () => ({
   useRouteLoaderData: vi.fn(() => ({ csrf: "csrf" })),
@@ -15,7 +15,7 @@ describe("FileInput", () => {
   it("should render correctly if javascript is enabled", () => {
     const helperText = "Input a file";
     const { getByText } = render(
-      <FileInput
+      <KernFileInput
         name={inputName}
         selectedFile={undefined}
         jsAvailable={true}
@@ -29,7 +29,7 @@ describe("FileInput", () => {
 
   it("should render correctly without javascript", () => {
     const { getByTestId, getByRole } = render(
-      <FileInput
+      <KernFileInput
         name={inputName}
         selectedFile={undefined}
         jsAvailable={false}

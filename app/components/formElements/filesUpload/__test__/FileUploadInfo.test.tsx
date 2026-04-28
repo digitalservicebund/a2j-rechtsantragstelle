@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
-import { FileUploadInfo } from "~/components/formElements/filesUpload/FileUploadInfo";
 import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
+import { FileUploadInfo } from "../FileUploadInfo";
 
 const fileName = "testfile1.pdf";
 const inputName = "belege[0]";
