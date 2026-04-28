@@ -3,7 +3,6 @@ import KernArraySummary from "~/components/content/arraySummary/KernArraySummary
 import type { ArrayConfigClient } from "~/services/array";
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: true,
