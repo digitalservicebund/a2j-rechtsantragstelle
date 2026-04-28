@@ -8,6 +8,8 @@ import KernRichText from "../KernRichText";
 import InputError from "./InputError";
 import { KernDetails } from "../KernDetails";
 
+export const TEXT_AREA_ROWS = 3;
+
 type TextareaProps = Readonly<{
   name: string;
   backgroundClass?: string;
@@ -23,8 +25,6 @@ type TextareaProps = Readonly<{
   innerRef?: React.Ref<HTMLTextAreaElement>;
   ariaDescribedby?: string;
 }>;
-
-const TEXT_AREA_ROWS = 3;
 
 const KernTextarea = ({
   name,
