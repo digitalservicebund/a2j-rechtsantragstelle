@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Radio from "../Radio";
+import { KernRadioInput } from "~/components/formElements/KernRadioInput";
 
 const getErrorMock = vi.fn();
 
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 describe("Radio", () => {
   it("renders correctly with label and value", () => {
-    render(<Radio {...defaultProps} />);
+    render(<KernRadioInput {...defaultProps} />);
     const radio = screen.getByLabelText("Yes");
     expect(radio).toBeInTheDocument();
     expect(radio).toHaveAttribute("value", "yes");
@@ -31,7 +31,7 @@ describe("Radio", () => {
 
   it("calls onClick when clicked", () => {
     const onClickMock = vi.fn();
-    render(<Radio {...defaultProps} onClick={onClickMock} />);
+    render(<KernRadioInput {...defaultProps} onClick={onClickMock} />);
     const radio = screen.getByLabelText("Yes");
     radio.click();
     expect(onClickMock).toHaveBeenCalled();
