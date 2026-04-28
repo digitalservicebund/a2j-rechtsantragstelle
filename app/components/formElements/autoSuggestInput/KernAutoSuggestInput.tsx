@@ -21,8 +21,8 @@ import {
   screenReaderStatus,
 } from "~/components/formElements/autoSuggestInput/accessibilityConfig/ariaLiveMessages";
 import { type AutoSuggestInputProps } from "~/components/formElements/autoSuggestInput/types";
-import useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
-import useLiveMessage from "~/components/formElements/autoSuggestInput/useLiveMessage";
+import useDataListOptions from "~/components/formElements/autoSuggestInput/hooks/useDataListOptions";
+import useLiveMessage from "~/components/formElements/autoSuggestInput/hooks/useLiveMessage";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
@@ -32,9 +32,10 @@ import KernAutoSuggestController from "./KernAutoSuggestController";
 import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
 import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
 import kernCustomStyles from "./customStyles";
-import TextInput from "../input/TextInput";
-import KernFormatOptionLabel from "~/components/kern/formElements/autoSuggest/KernFormatOptionLabel";
+
 import Fuse from "fuse.js/basic";
+import TextInput from "~/components/kern/formElements/input/TextInput";
+import KernAutoSuggestFormatOptionLabel from "./KernAutoSuggestFormatOptionLabel";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -241,7 +242,7 @@ const KernAutoSuggestInput = ({
             ValueContainer: KernAutoSuggestValueContainer,
           }}
           filterOption={() => true}
-          formatOptionLabel={KernFormatOptionLabel}
+          formatOptionLabel={KernAutoSuggestFormatOptionLabel}
           id={name}
           inputId={inputId}
           instanceId={name}
