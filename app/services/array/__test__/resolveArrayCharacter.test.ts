@@ -6,7 +6,7 @@ describe("resolveArrayCharacter()", () => {
     expect(resolveArrayCharacter("a.b#c#d", [1, 0])).toBe("a.b[1]c[0]d");
   });
 
-  it("throws an error if hashCount and indiciesCount don't match", () => {
-    expect(() => resolveArrayCharacter("a.b", [0])).toThrow();
+  it("throws an error if more hashes than indices exist", () => {
+    expect(() => resolveArrayCharacter("a#b", [])).toThrow();
   });
 });

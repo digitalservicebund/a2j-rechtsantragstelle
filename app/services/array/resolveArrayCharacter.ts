@@ -7,21 +7,18 @@ import { arrayChar } from ".";
 export const resolveArrayCharacter = (
   fieldname: string,
   indices: number | number[],
+  withBrackets: boolean = true,
 ) => {
   const hashCount = (fieldname.match(/#/g) ?? []).length;
   const arrayIndexes = Array.isArray(indices) ? indices : [indices];
   const indexCount = arrayIndexes.length ?? 0;
   invariant(
-    indexCount === hashCount,
-    `${fieldname} number of ${arrayChar} (${hashCount}) doesn't match number of indicies (${indexCount})`,
+    indexCount >= hashCount,
+    `${fieldname} number of ${arrayChar} (${hashCount}) is smaller than number of indicies (${indexCount})`,
   );
-  let updatedFieldname = fieldname;
-  arrayIndexes.forEach(
-    (index) =>
-      (updatedFieldname = updatedFieldname.replace(
-        arrayChar,
-        `[${String(index)}]`,
-      )),
-  );
-  return updatedFieldname;
+  let i = 0;
+  return fieldname.replace(/#/g, () => {
+    const num = arrayIndexes[i++];
+    return withBrackets ? `[${num}]` : num.toString();
+  });
 };
