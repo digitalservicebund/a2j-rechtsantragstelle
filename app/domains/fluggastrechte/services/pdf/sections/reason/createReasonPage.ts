@@ -15,13 +15,12 @@ import {
 } from "./factsOfCases/table/tableConfigurations";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
-export const REASON_TITLE_TEXT = "Begründung";
+const REASON_TITLE_TEXT = "Begründung";
 
 export const createReasonPage = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: FluggastrechteUserData,
-  showFGROnlineVerfahren: boolean,
 ) => {
   const reasonSect = doc.struct("Sect");
   const startY = doc.y;
@@ -46,5 +45,5 @@ export const createReasonPage = (
   addTable(doc, documentStruct, startTableY, userData);
   addCompensationAmount(doc, documentStruct, userData);
   doc.moveDown(MARGIN_BETWEEN_SECTIONS);
-  createLegalAssessment(doc, documentStruct, userData, showFGROnlineVerfahren);
+  createLegalAssessment(doc, documentStruct, userData);
 };

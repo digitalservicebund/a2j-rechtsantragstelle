@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
+import KernArraySummaryItemActions from "~/components/content/arraySummary/KernArraySummaryItemActions";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import ArraySummaryItemButton from "../ArraySummaryItemButton";
 
 const defaultProps = {
   itemIndex: 0,
@@ -21,20 +21,24 @@ vi.mock("react-router", async () => {
   };
 });
 
-describe("ArraySummaryItemButton", () => {
+describe("ArraySummaryItemActions", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("should render edit and delete buttons", () => {
-    const { getByText } = render(<ArraySummaryItemButton {...defaultProps} />);
+    const { getByText } = render(
+      <KernArraySummaryItemActions {...defaultProps} />,
+    );
 
     expect(getByText("Bearbeiten")).toBeInTheDocument();
     expect(getByText("Löschen")).toBeInTheDocument();
   });
 
   it("should render edit button with correct href", () => {
-    const { container } = render(<ArraySummaryItemButton {...defaultProps} />);
+    const { container } = render(
+      <KernArraySummaryItemActions {...defaultProps} />,
+    );
 
     const editButton = container.querySelector(
       `a[href="${defaultProps.editUrl}"]`,
@@ -43,7 +47,9 @@ describe("ArraySummaryItemButton", () => {
   });
 
   it("should render delete form with correct action and hidden inputs", () => {
-    const { container } = render(<ArraySummaryItemButton {...defaultProps} />);
+    const { container } = render(
+      <KernArraySummaryItemActions {...defaultProps} />,
+    );
 
     const form = container.querySelector(
       'form[action="/action/delete-array-item"]',
@@ -63,7 +69,9 @@ describe("ArraySummaryItemButton", () => {
   });
 
   it("should render delete button with correct name and value", () => {
-    const { container } = render(<ArraySummaryItemButton {...defaultProps} />);
+    const { container } = render(
+      <KernArraySummaryItemActions {...defaultProps} />,
+    );
 
     const deleteButton = container.querySelector(
       'button[name="unterhaltszahlungen"][value="0"][type="submit"]',
@@ -71,25 +79,31 @@ describe("ArraySummaryItemButton", () => {
     expect(deleteButton).toBeInTheDocument();
   });
 
-  it("should render screen reader text when heading is provided", () => {
+  it("should set aria-labels with heading text", () => {
     const { container } = render(
-      <ArraySummaryItemButton
+      <KernArraySummaryItemActions
         {...defaultProps}
-        heading={{
-          text: "Person 1",
-          tagName: "h3",
-        }}
+        heading={{ text: "Person 1", tagName: "h3" }}
       />,
     );
 
-    const srOnlyElements = container.querySelectorAll(".sr-only");
-    expect(srOnlyElements).toHaveLength(2);
-    expect(srOnlyElements[0]).toHaveTextContent("Person 1"); // edit button
-    expect(srOnlyElements[1]).toHaveTextContent("Person 1"); // delete button
+    const elements = container.querySelectorAll("[aria-label]");
+
+    expect(elements).toHaveLength(2);
+    expect(elements[0]).toHaveAttribute(
+      "aria-label",
+      expect.stringContaining("Person 1"),
+    );
+    expect(elements[1]).toHaveAttribute(
+      "aria-label",
+      expect.stringContaining("Person 1"),
+    );
   });
 
   it("should not render screen reader text when heading is not provided", () => {
-    const { container } = render(<ArraySummaryItemButton {...defaultProps} />);
+    const { container } = render(
+      <KernArraySummaryItemActions {...defaultProps} />,
+    );
 
     const srOnlyElements = container.querySelectorAll(".sr-only");
     expect(srOnlyElements).toHaveLength(0);

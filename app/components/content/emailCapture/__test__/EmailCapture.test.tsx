@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
 import { useLocation, type Location, useLoaderData } from "react-router";
-import {
-  EmailCapture,
-  type EmailCaptureProps,
-} from "~/components/content/emailCapture/EmailCapture";
-import { invalidEmailError } from "~/components/content/emailCapture/emailCaptureHelpers";
 import { type InlineNoticeProps } from "../../InlineNotice";
+import {
+  type EmailCaptureProps,
+  KernEmailCapture,
+} from "~/components/content/emailCapture/KernEmailCapture";
+import { invalidEmailError } from "../emailCaptureHelpers";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({})),
@@ -47,7 +47,7 @@ const fieldDescription = "Lorem ipsum";
 
 function renderEmailCapture(props?: Partial<EmailCaptureProps>) {
   return render(
-    <EmailCapture
+    <KernEmailCapture
       successBanner={successBanner}
       errorBanner={errorBanner}
       buttonLabel={submitButtonLabel}
@@ -67,11 +67,9 @@ describe("EmailCapture", () => {
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).toHaveTextContent(submitButtonLabel);
 
-    const emailField = getByLabelText(fieldLabel);
+    const emailField = getByLabelText(/email \(optional\)/i);
     expect(emailField).toBeInTheDocument();
-    expect(emailField).toHaveClass(
-      "ds-input forced-colors:border-4 ph-no-capture",
-    );
+    expect(emailField).toHaveClass("kern-form-input__input");
     expect(getByText(fieldDescription)).toBeInTheDocument();
   });
 

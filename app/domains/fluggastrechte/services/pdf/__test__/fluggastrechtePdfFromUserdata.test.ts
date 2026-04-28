@@ -53,52 +53,45 @@ describe("fluggastrechtePdfFromUserdata", () => {
     expect(KEYWORDS).toBe("Fluggastrechte");
   });
 
-  it.each([true, false])(
-    "builds PDF document and forwards showFGROnlineVerfahren=%s",
-    async (showFGROnlineVerfahren) => {
-      const expectedPdf = Buffer.from("test-pdf");
-      vi.mocked(pdfFromUserData).mockResolvedValue(expectedPdf);
+  it("builds PDF document", async () => {
+    const expectedPdf = Buffer.from("test-pdf");
+    vi.mocked(pdfFromUserData).mockResolvedValue(expectedPdf);
 
-      const result = await fluggastrechtePdfFromUserdata(userDataMock, {
-        showFGROnlineVerfahren,
-      });
+    const result = await fluggastrechtePdfFromUserdata(userDataMock);
 
-      expect(result).toBe(expectedPdf);
-      expect(pdfFromUserData).toHaveBeenCalledWith(
-        userDataMock,
-        expect.any(Function),
-      );
+    expect(result).toBe(expectedPdf);
+    expect(pdfFromUserData).toHaveBeenCalledWith(
+      userDataMock,
+      expect.any(Function),
+    );
 
-      const buildPdfDocument = vi.mocked(pdfFromUserData).mock.calls[0][1];
-      const mockStruct = mockPdfKitDocumentStructure();
-      const mockDoc = mockPdfKitDocument(mockStruct);
+    const buildPdfDocument = vi.mocked(pdfFromUserData).mock.calls[0][1];
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
 
-      buildPdfDocument(mockDoc, mockStruct, userDataMock);
+    buildPdfDocument(mockDoc, mockStruct, userDataMock);
 
-      expect(setPdfMetadata).toHaveBeenCalledWith(mockDoc, {
-        title: TITLE,
-        subject: SUBJECT,
-        keywords: KEYWORDS,
-      });
-      expect(createFirstPage).toHaveBeenCalledWith(
-        mockDoc,
-        mockStruct,
-        userDataMock,
-        showFGROnlineVerfahren,
-      );
-      expect(mockDoc.addPage).toHaveBeenCalledTimes(1);
-      expect(createReasonPage).toHaveBeenCalledWith(
-        mockDoc,
-        mockStruct,
-        userDataMock,
-        showFGROnlineVerfahren,
-      );
-      expect(createFooter).toHaveBeenCalledWith(
-        mockDoc,
-        mockStruct,
-        userDataMock,
-        createBankInformation,
-      );
-    },
-  );
+    expect(setPdfMetadata).toHaveBeenCalledWith(mockDoc, {
+      title: TITLE,
+      subject: SUBJECT,
+      keywords: KEYWORDS,
+    });
+    expect(createFirstPage).toHaveBeenCalledWith(
+      mockDoc,
+      mockStruct,
+      userDataMock,
+    );
+    expect(mockDoc.addPage).toHaveBeenCalledTimes(1);
+    expect(createReasonPage).toHaveBeenCalledWith(
+      mockDoc,
+      mockStruct,
+      userDataMock,
+    );
+    expect(createFooter).toHaveBeenCalledWith(
+      mockDoc,
+      mockStruct,
+      userDataMock,
+      createBankInformation,
+    );
+  });
 });

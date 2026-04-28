@@ -49,7 +49,7 @@ const StepStepperLinks = ({
                 <KernIcon
                   name="warning"
                   className="pl-2 fill-kern-feedback-warning!"
-                  aria-label={translations.navigation.navigationItemWarning.de}
+                  ariaLabel={translations.navigation.navigationItemWarning.de}
                 />
               )}
             </div>
