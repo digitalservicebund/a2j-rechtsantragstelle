@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import ArraySummary from "~/components/content/arraySummary/ArraySummary";
+import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 
 const mockArrayConfiguration: ArrayConfigClient = {
@@ -22,9 +22,12 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryDataItems", () => ({
-  default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
-}));
+vi.mock(
+  "~/components/content/arraySummary/KernArraySummaryDataItem.tsx",
+  () => ({
+    default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
+  }),
+);
 
 describe("ArraySummary", () => {
   afterEach(() => {
@@ -33,7 +36,7 @@ describe("ArraySummary", () => {
 
   it("should render title and description when it's available", () => {
     const { getByText } = render(
-      <ArraySummary
+      <KernArraySummary
         arrayData={arrayData}
         content={{
           title: {
@@ -54,7 +57,7 @@ describe("ArraySummary", () => {
 
   it("should render ArraySummaryDataItems for each item in arrayData", () => {
     const { getByText } = render(
-      <ArraySummary
+      <KernArraySummary
         arrayData={arrayData}
         content={{
           itemLabels: {},
@@ -87,7 +90,7 @@ describe("ArraySummary", () => {
     };
 
     const { getByTestId } = render(
-      <ArraySummary
+      <KernArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
           itemLabels: {},
@@ -98,7 +101,7 @@ describe("ArraySummary", () => {
     );
 
     expect(getByTestId(`add-unterhaltszahlungen`)).toHaveClass(
-      "is-disabled pointer-events-none",
+      "kern-btn--disabled pointer-events-none",
     );
   });
 
@@ -122,7 +125,7 @@ describe("ArraySummary", () => {
     };
 
     const { getByTestId } = render(
-      <ArraySummary
+      <KernArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
           itemLabels: {},
