@@ -26,10 +26,10 @@ export const isStepDone = <T extends PagesConfig>(
     )
     .reduce<SchemaObject>((acc, v) => ({ ...acc, ...v.pageSchema }), {});
 
-  const hasNotRelevantPageSchemas =
+  const hasEmptyRelevantPageSchemas =
     Object.keys(relevantPageSchemas).length === 0;
 
-  return hasNotRelevantPageSchemas
+  return hasEmptyRelevantPageSchemas
     ? true
     : z.object(relevantPageSchemas).safeParse(userData).success;
 };
