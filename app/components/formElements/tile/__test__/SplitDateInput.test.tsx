@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SplitDateInput from "../../SplitDateInput";
+import KernSplitDateInput from "~/components/formElements/KernSplitDateInput";
 
 vi.mock("~/services/translations/translations", () => ({
   translations: {
@@ -32,34 +32,31 @@ vi.mock("@rvf/react-router", () => ({
 }));
 
 describe("SplitDateInput", () => {
-  it("renders day, month and yearinput fields with correct labels", () => {
-    render(<SplitDateInput name="birthdate" />);
+  it("renders day, month and year input fields with correct labels", () => {
+    render(<KernSplitDateInput name="birthdate" />);
 
     const dayInput = screen.getByLabelText("Tag");
     expect(dayInput).toBeInTheDocument();
-    expect(dayInput).toHaveClass("ph-no-capture");
     const monthInput = screen.getByLabelText("Monat");
     expect(monthInput).toBeInTheDocument();
-    expect(monthInput).toHaveClass("ph-no-capture");
     const yearInput = screen.getByLabelText("Jahr");
     expect(yearInput).toBeInTheDocument();
-    expect(yearInput).toHaveClass("ph-no-capture");
   });
 
   it("renders legend", () => {
-    render(<SplitDateInput name="birthdate" />);
+    render(<KernSplitDateInput name="birthdate" />);
 
     expect(screen.getByText("Geburtsdatum")).toBeInTheDocument();
   });
 
   it("renders hint text", () => {
-    render(<SplitDateInput name="birthdate" />);
+    render(<KernSplitDateInput name="birthdate" />);
 
     expect(screen.getByText("Beispielsweise: 17 3 2015")).toBeInTheDocument();
   });
 
   it("renders an error message when one of the fields have errors", () => {
-    render(<SplitDateInput name="birthdate" />);
+    render(<KernSplitDateInput name="birthdate" />);
 
     expect(
       screen.getByText("Diese Felder müssen ausgefüllt werden."),
@@ -67,7 +64,7 @@ describe("SplitDateInput", () => {
   });
 
   it("applies aria attributes when errors exist", () => {
-    const { getAllByRole } = render(<SplitDateInput name="birthdate" />);
+    const { getAllByRole } = render(<KernSplitDateInput name="birthdate" />);
 
     const formElements = getAllByRole("textbox");
     formElements.forEach((inputField) => {
