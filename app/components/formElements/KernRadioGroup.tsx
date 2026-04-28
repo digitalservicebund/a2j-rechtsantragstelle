@@ -1,11 +1,12 @@
 import { useField } from "@rvf/react-router";
 import { type ReactNode, useState } from "react";
-import InputError from "./InputError";
-import Radio from "./Radio";
-import { type ErrorMessageProps } from "../common/types";
-import { useJsAvailable } from "../hooks/useJsAvailable";
+import classNames from "classnames";
+import { type ErrorMessageProps } from "~/components/common/types";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import { KernRadioInput } from "./KernRadioInput";
+import InputError from "../kern/formElements/InputError";
 
-type RadioGroupProps = Readonly<{
+type KernRadioGroupProps = Readonly<{
   name: string;
   options: Array<{
     value: string;
@@ -16,15 +17,14 @@ type RadioGroupProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
 }>;
 
-const RadioGroup = ({
+const KernRadioGroup = ({
   name,
   options,
   label,
   altLabel,
   errorMessages,
-}: RadioGroupProps) => {
+}: KernRadioGroupProps) => {
   const field = useField(name);
-
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
   const errorToDisplay =
@@ -39,7 +39,9 @@ const RadioGroup = ({
 
   return (
     <fieldset
-      className="border-0 p-0 m-0"
+      className={classNames("kern-fieldset mt-16 mb-16", {
+        "kern-fieldset--error": hasError,
+      })}
       aria-invalid={hasError}
       aria-errormessage={hasError ? errorId : undefined}
     >
@@ -47,10 +49,10 @@ const RadioGroup = ({
       {(!jsAvailable || renderHiddenField) && (
         <input type="hidden" name={name} />
       )}
-      <div className="ds-stack ds-stack-16">
-        {label && <legend>{label}</legend>}
+      <div className="kern-fieldset__body">
+        {label && <legend className="kern-label">{label}</legend>}
         {options.map((o, index) => (
-          <Radio
+          <KernRadioInput
             key={o.value}
             name={name}
             value={o.value}
@@ -60,12 +62,10 @@ const RadioGroup = ({
             ref={index === 0 && hasError ? field.refs.controlled() : null}
           />
         ))}
-        {errorToDisplay && (
-          <InputError id={errorId}>{errorToDisplay}</InputError>
-        )}
       </div>
+      {errorToDisplay && <InputError id={errorId}>{errorToDisplay}</InputError>}
     </fieldset>
   );
 };
 
-export default RadioGroup;
+export default KernRadioGroup;
