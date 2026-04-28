@@ -6,7 +6,7 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
-import { type KernHeadingProps } from "../KernHeading";
+import { type KernHeadingProps } from "../../kern/KernHeading";
 
 type ArraySummaryProps = Readonly<{
   category: string;
@@ -65,6 +65,7 @@ const KernArraySummary = ({
           }
           href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
           disabled={disableAddButton}
+          data-testid={`add-${category}`}
         >
           {`${content.buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}
         </KernButton>

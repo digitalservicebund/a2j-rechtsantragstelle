@@ -11,7 +11,7 @@ import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import KernHeading from "~/components/kern/KernHeading";
 import { KernMissingDataList } from "~/components/kern/common/KernMissingDataList";
 import KernMigrationDataOverview from "~/components/kern/KernMigrationDataOverview";
-import KernArraySummary from "~/components/kern/arraySummary/KernArraySummary";
+import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
 import FlowNavigation from "~/components/kern/navigation/FlowNavigation";
 import { NavigationList } from "~/components/kern/navigation/NavigationList";
