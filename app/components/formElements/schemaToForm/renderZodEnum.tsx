@@ -5,7 +5,7 @@ import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComp
 import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
 import KernTile from "~/components/kern/formElements/tile/KernTile";
 import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
-import KernSelect from "~/components/kern/formElements/KernSelect";
+import KernSelect from "~/components/formElements/KernSelect";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 

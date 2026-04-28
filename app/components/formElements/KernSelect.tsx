@@ -3,9 +3,9 @@ import classNames from "classnames";
 import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
-import InputError from "./InputError";
+import InputError from "../kern/formElements/InputError";
 
-type SelectProps = {
+export type SelectProps = {
   name: string;
   options: Array<{ value: string; text: string }>;
   label?: ReactNode;
