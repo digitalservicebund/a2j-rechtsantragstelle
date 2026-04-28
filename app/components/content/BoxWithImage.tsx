@@ -1,13 +1,13 @@
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Image, { type ImageProps } from "~/components/common/Image";
-import RichText from "~/components/common/RichText";
 import { GridItem } from "../layout/grid/GridItem";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
+import KernRichText from "../kern/KernRichText";
 
 type BoxWithImageProps = {
   image: ImageProps;
   variant?: Variant;
   identifier?: string;
-  heading?: HeadingProps;
+  heading?: KernHeadingProps;
   content?: string;
   container?: {
     backgroundColor?: string;
@@ -53,8 +53,8 @@ const BoxWithImage = ({
         </div>
         {hasTextContent && (
           <div className="ds-stack ds-stack-8 break-words min-w-[120px] max-w-[696px]">
-            {heading && <Heading {...heading} />}
-            {content && <RichText html={content} />}
+            {heading && <KernHeading {...heading} />}
+            {content && <KernRichText html={content} />}
           </div>
         )}
       </div>

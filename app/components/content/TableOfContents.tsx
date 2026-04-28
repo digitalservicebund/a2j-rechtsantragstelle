@@ -1,15 +1,13 @@
-import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { type ButtonProps } from "../common/Button";
-import ButtonContainer from "../common/ButtonContainer";
-import Heading, { type HeadingProps } from "../common/Heading";
-import { StandaloneLink } from "../common/StandaloneLink";
 import { GridItem } from "../layout/grid/GridItem";
+import KernButton, { type ButtonProps } from "../kern/KernButton";
+import KernButtonContainer from "../kern/KernButtonContainer";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
 
 type Props = {
   identifier?: string;
-  label?: HeadingProps;
-  heading?: HeadingProps;
+  label?: KernHeadingProps;
+  heading?: KernHeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
@@ -31,31 +29,29 @@ const TableOfContents = ({
     >
       <div className="ds-stack ds-stack-16">
         <div className="ds-stack ds-stack-8">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
+          {label && <KernHeading {...label} />}
+          {heading && <KernHeading {...heading} />}
           {links && links.length > 0 && (
             <ul className="list-none pl-0 ds-stack ds-stack-16">
               {links.map((link) => (
                 <li key={link.text ?? link.url}>
-                  <StandaloneLink
+                  <a
                     className="visited:text-black text-black! flex"
-                    url={link.url}
-                    text={link.text ?? ""}
-                    icon={
-                      <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
-                    }
-                  />
+                    href={link.url}
+                  >
+                    {link.text ?? ""}
+                  </a>
                 </li>
               ))}
             </ul>
           )}
         </div>
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
+          <KernButtonContainer>
             {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
+              <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
       </div>
     </GridItem>

@@ -1,7 +1,7 @@
-import { type HeadingProps } from "~/components/common/Heading";
 import type { ArrayData, UserData } from "~/domains/userData";
 import type { ArrayConfigServer, ArrayConfigClient } from ".";
 import { type StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
+import { type KernHeadingProps } from "~/components/kern/KernHeading";
 
 export type ItemLabels = Record<string, string>;
 
@@ -11,9 +11,9 @@ export type ArraySummaryData =
       {
         data: ArrayData;
         configuration: ArrayConfigClient;
-        title?: HeadingProps;
+        title?: KernHeadingProps;
         description?: string;
-        subtitle?: HeadingProps;
+        subtitle?: KernHeadingProps;
         buttonLabel: string;
         itemLabels: ItemLabels;
       }

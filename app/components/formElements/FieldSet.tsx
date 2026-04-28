@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import Image from "../common/Image";
-import RichText from "../common/RichText";
 import { SchemaComponents } from "./SchemaComponents";
 import { useLocation } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
+import KernRichText from "../kern/KernRichText";
 
 type FieldSetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
@@ -55,7 +55,7 @@ export const FieldSet = ({
             ariaHidden={true}
           />
         )}
-        <RichText html={heading} />
+        <KernRichText html={heading} />
       </legend>
       <SchemaComponents
         pageSchema={pageSchema}
