@@ -8,7 +8,7 @@ import { translations as translationProvider } from "~/services/translations/tra
 import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
 import { type KernHeadingProps } from "../../kern/KernHeading";
 
-type ArraySummaryProps = Readonly<{
+export type ArraySummaryProps = Readonly<{
   category: string;
   arrayData: {
     data: ArrayData;
