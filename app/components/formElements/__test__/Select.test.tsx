@@ -1,80 +1,72 @@
 import { render, screen } from "@testing-library/react";
-import type { SelectProps } from "../Select";
-import Select from "../Select";
+import KernSelect from "~/components/formElements/KernSelect";
+
+const getErrorMock = vi.fn();
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     getInputProps: vi.fn().mockReturnValue({
       id: "selectId",
-      placeholder: "Any placeholder",
     }),
-    error: vi.fn(),
+    error: getErrorMock,
   }),
 }));
 
 describe("Select", () => {
-  const cases = [
-    { widthProps: "16", expectedClassWidth: "max-w-[22ch]" },
-    { widthProps: "24", expectedClassWidth: "max-w-[30ch]" },
-    {
-      widthProps: "36",
-      expectedClassWidth: "max-w-[42ch]",
-    },
-    {
-      widthProps: "54",
-      expectedClassWidth: "max-w-[60ch]",
-    },
-  ];
+  it("should render options", () => {
+    const options = [
+      { value: "1", text: "One" },
+      { value: "2", text: "Two" },
+    ];
+    render(<KernSelect name="select" options={options} />);
+    expect(screen.getByText("One")).toBeInTheDocument();
+    expect(screen.getByText("Two")).toBeInTheDocument();
+  });
 
-  test.each(cases)(
-    "should render Select component with width $expectedClassWidth given props width with the value $widthProps",
-    ({ widthProps, expectedClassWidth }) => {
-      const { container } = render(
-        <Select
-          name="select"
-          options={[]}
-          width={widthProps as SelectProps["width"]}
-          label="Test Label"
-        />,
-      );
+  it("should render label when provided", () => {
+    render(<KernSelect name="select" options={[]} label="My Label" />);
+    expect(screen.getByText("My Label")).toBeInTheDocument();
+  });
 
-      expect(container.querySelector("#selectId")).toHaveClass(
-        expectedClassWidth,
-      );
-    },
-  );
+  it("should render placeholder when provided", () => {
+    render(
+      <KernSelect name="select" options={[]} placeholder="Select something" />,
+    );
+    const placeholder = screen.getByText("Select something");
+    expect(placeholder).toBeDisabled();
+    expect(placeholder).toHaveValue("");
+  });
 
-  describe("Select field with aria-required attribute", () => {
-    it("has aria-required attribute set to true if errorMessages contain inputRequired", () => {
-      render(
-        <Select
-          name="select"
-          options={[]}
-          label="Test Label"
-          errorMessages={[{ code: "required", text: "error" }]}
-        />,
-      );
-      const element = screen.getByRole("combobox");
-      expect(element).toHaveAttribute("aria-required", "true");
-    });
+  it("should apply error class when field has error", () => {
+    getErrorMock.mockReturnValue("required");
+    render(<KernSelect name="select" options={[]} />);
+    expect(screen.getByTestId("select-wrapper")).toHaveClass(
+      "kern-form-input__select-wrapper--error",
+    );
+  });
+  it("should have aria-required attribute set to true if errorMessages contain inputRequired", () => {
+    render(
+      <KernSelect
+        name="select"
+        options={[]}
+        label="Test Label"
+        errorMessages={[{ code: "required", text: "error" }]}
+      />,
+    );
+    const element = screen.getByRole("combobox");
+    expect(element).toHaveAttribute("aria-required", "true");
+  });
 
-    it("has aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
-      render(
-        <Select
-          name="select"
-          options={[]}
-          label="Test Label"
-          errorMessages={undefined}
-        />,
-      );
-      const element = screen.getByRole("combobox");
-      expect(element).toHaveAttribute("aria-required", "false");
-    });
-
-    it("should have class name for the high contrast mode", () => {
-      render(<Select name="select" options={[]} label="Test Label" />);
-      const element = screen.getByRole("combobox");
-      expect(element).toHaveClass("forced-colors:border-4");
-    });
+  it("should have aria-required attribute set to false if errorMessages do not contain inputRequired", () => {
+    render(
+      <KernSelect
+        name="select"
+        options={[]}
+        label="Test Label"
+        errorMessages={undefined}
+      />,
+    );
+    const element = screen.getByRole("combobox");
+    expect(element).toHaveAttribute("aria-required", "false");
   });
 });
