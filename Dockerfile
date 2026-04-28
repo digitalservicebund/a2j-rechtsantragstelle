@@ -28,7 +28,9 @@ COPY ./content.json /
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
 FROM node:24.14.1-alpine AS prod
-RUN apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
+# update the latest alpine version and resolve security issues
+RUN apk update && apk upgrade --no-cache && apk add --no-cache dumb-init && rm -rf /var/cache/apk/*
+
 
 USER 1000
 WORKDIR /a2j
