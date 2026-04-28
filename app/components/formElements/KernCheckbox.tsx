@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { useField } from "@rvf/react-router";
 import { useState } from "react";
-import InputError from "./InputError";
+import InputError from "../kern/formElements/InputError";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
-type CheckboxValue = "on" | "off";
+export type CheckboxValue = "on" | "off";
 
 type KernCheckboxProps = Readonly<{
   name: string;
