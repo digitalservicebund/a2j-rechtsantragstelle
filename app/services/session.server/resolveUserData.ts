@@ -1,49 +1,21 @@
-import pick from "lodash/pick";
-import type { UserData } from "~/domains/userData";
+import get from "lodash/get";
+import set from "lodash/set";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
-import { pageDataSchema } from "~/services/flow/pageDataSchema";
-import { arrayIsNonEmpty } from "~/util/array";
+import type { UserData } from "~/domains/userData";
+import type { PageData } from "../flow/pageDataSchema";
 
-function flattenObjectWithArrayKeys(
-  obj: UserData,
-  arrayPage: number,
-  prefix = "",
-): Record<string, UserData> {
-  const result: Record<string, UserData> = {};
+export const resolveUserData = (
+  userData: UserData & { pageData?: PageData },
+  fieldNames: string[],
+) => {
+  const arrayIndexes = userData.pageData?.arrayIndexes ?? [];
+  const result: Record<string, any> = {};
 
-  for (const key in obj) {
-    const value = obj[key];
-    const newKey = prefix ? `${prefix}#${key}` : key;
-
-    if (Array.isArray(value) && typeof value[arrayPage] === "object") {
-      // Flatten first object in array
-      const flattenedChild = flattenObjectWithArrayKeys(
-        value[arrayPage],
-        arrayPage,
-        key,
-      );
-      Object.assign(result, flattenedChild);
-    } else {
-      result[newKey] = (value ?? {}) as UserData;
-    }
+  for (const fieldName of fieldNames) {
+    const resolvedPath = resolveArrayCharacter(fieldName, arrayIndexes);
+    const entry = get(userData, resolvedPath);
+    if (entry !== undefined) set(result, fieldName, entry);
   }
 
   return result;
-}
-
-export const resolveUserData = (userData: UserData, fieldNames: string[]) => {
-  const parsedPageData = pageDataSchema.safeParse(userData?.pageData);
-  const arrayIndexes = parsedPageData.data?.arrayIndexes ?? [];
-
-  const resolvedFieldNames = fieldNames.map((fieldName) =>
-    resolveArrayCharacter(fieldName, arrayIndexes),
-  );
-
-  const object = pick(userData, resolvedFieldNames);
-
-  if (arrayIsNonEmpty(arrayIndexes)) {
-    return flattenObjectWithArrayKeys(object, arrayIndexes[0]) as UserData;
-  }
-
-  return object;
 };
