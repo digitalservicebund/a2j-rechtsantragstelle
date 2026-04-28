@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { KernProgress } from "~/components/kern/KernProgressBar";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
+import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
 
 export function VorabcheckPage() {
   const {
@@ -18,6 +19,7 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
     showReportProblem,
+    arraySummaryData,
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();
@@ -42,6 +44,7 @@ export function VorabcheckPage() {
           row={2}
         >
           <ContentComponents content={cmsContent.pre_form} managedByParent />
+          {arraySummaryData && <KernArraySummary {...arraySummaryData} />}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
