@@ -1,6 +1,6 @@
+import KernRichText from "~/components/kern/KernRichText";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type CheckboxValue } from "../KernCheckbox";
-import KernRichText from "~/components/kern/KernRichText";
 
 export type ControlledCheckboxProps = {
   name: string;
