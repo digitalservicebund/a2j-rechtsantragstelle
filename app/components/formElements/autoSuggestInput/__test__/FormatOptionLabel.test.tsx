@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
-import FormatOptionLabel from "../FormatOptionLabel";
+import AutoSuggestFormatOptionLabel from "../KernAutoSuggestFormatOptionLabel";
 
-describe("FormatOptionLabel", () => {
+describe("AutoSuggestFormatOptionLabel", () => {
   it("it should render the label if the context is a value", () => {
     const dataListOption = [{ label: "Paris", value: " any value" }];
 
     const { getByText } = render(
-      FormatOptionLabel(dataListOption[0], {
+      AutoSuggestFormatOptionLabel(dataListOption[0], {
         context: "value",
         inputValue: "Paris",
         selectValue: dataListOption,
@@ -22,7 +22,7 @@ describe("FormatOptionLabel", () => {
     ];
 
     const { queryByTestId } = render(
-      FormatOptionLabel(dataListOption[0], {
+      AutoSuggestFormatOptionLabel(dataListOption[0], {
         context: "menu",
         inputValue: "any text",
         selectValue: dataListOption,
@@ -50,7 +50,7 @@ describe("FormatOptionLabel", () => {
     const mockInputValue = "Paris";
 
     const { queryByTestId } = render(
-      FormatOptionLabel(dataListOption[0], {
+      AutoSuggestFormatOptionLabel(dataListOption[0], {
         context: "menu",
         inputValue: mockInputValue,
         selectValue: dataListOption,
@@ -85,7 +85,7 @@ describe("FormatOptionLabel", () => {
     const emptySpace = " ";
 
     const { queryByTestId } = render(
-      FormatOptionLabel(dataListOption[0], {
+      AutoSuggestFormatOptionLabel(dataListOption[0], {
         context: "menu",
         inputValue: `${mockInputValue}${emptySpace}`,
         selectValue: dataListOption,
@@ -149,7 +149,7 @@ describe("FormatOptionLabel", () => {
         ];
 
         const { queryByTestId } = render(
-          FormatOptionLabel(dataListOption[0], {
+          AutoSuggestFormatOptionLabel(dataListOption[0], {
             context: "menu",
             inputValue: input,
             selectValue: dataListOption,
