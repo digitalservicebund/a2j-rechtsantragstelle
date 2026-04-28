@@ -1,6 +1,6 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import KernDateInput from "~/components/kern/formElements/input/KernDateInput";
+import KernDateInput from "~/components/formElements/inputs/KernDateInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
