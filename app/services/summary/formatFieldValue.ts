@@ -1,4 +1,9 @@
-import type { AllowedUserTypes, ObjectType } from "~/domains/userData";
+import type {
+  AllowedUserTypes,
+  ObjectType,
+  SchemaObject,
+} from "~/domains/userData";
+import { processSpecialFieldDisplay } from "~/services/processSpecialFieldDisplay";
 
 function formatDateObject(valueObj: Record<string, unknown>): string {
   const day = String(valueObj.day).padStart(2, "0");
@@ -73,6 +78,7 @@ function translateWithOptions(
 export function formatFieldValue(
   value: AllowedUserTypes,
   options?: Array<{ text: string; value: string }>,
+  schema?: SchemaObject[string],
 ): string {
   if (value == null || Array.isArray(value)) {
     return "";
@@ -96,6 +102,8 @@ export function formatFieldValue(
     } else {
       formattedValue = "";
     }
+
+    formattedValue = processSpecialFieldDisplay(formattedValue, schema);
   }
 
   return translateWithOptions(formattedValue, options);

@@ -1,4 +1,5 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import pick from "lodash/pick";
 import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 import {
   type StepState,
@@ -17,7 +18,8 @@ import {
   stateIsCurrent,
 } from "~/services/navigation/navState";
 import { type StepStepper } from "~/components/navigation/types";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { getAllPageSchemaByFlowId, getPageSchema } from "~/domains/pageSchemas";
+import { type FlowId } from "~/domains/flowIds";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -60,12 +62,17 @@ export const getContentData = (
       const arrayCategories = cmsContent.content
         .filter((value) => value.__component === "page.array-summary")
         .map((arraySummary) => arraySummary.category);
+      const relevantPageSchemas = pick(
+        getAllPageSchemaByFlowId(flowController.getConfig()?.id as FlowId),
+        arrayCategories,
+      );
 
       return getArraySummaryData(
         arrayCategories,
         flowController.getRootMeta()?.arrays,
         userDataWithPageData,
         cmsContent.content,
+        relevantPageSchemas,
       );
     },
     getFormElements: () => {
