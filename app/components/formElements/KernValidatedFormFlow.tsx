@@ -5,9 +5,9 @@ import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
-import { KernSchemaComponents } from "./KernSchemaComponents";
+import { KernSchemaComponents } from "../kernFormElements/KernSchemaComponents";
 import { KernButtonNavigation } from "../kern/KernButtonNavigation";
-import { getReadOnlyFieldNames } from "../formElements/schemaToForm/getReadOnlyFieldNames";
+import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
 
 type ValidatedFlowFormProps = {
