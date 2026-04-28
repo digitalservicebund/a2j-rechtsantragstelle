@@ -4,7 +4,7 @@ import { useLoaderData, useLocation } from "react-router";
 import {
   emailCaptureSchema,
   invalidEmailError,
-} from "~/components/kern/emailCapture/emailCaptureHelpers";
+} from "~/components/content/emailCapture/emailCaptureHelpers";
 import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 import InputError from "~/components/kern/formElements/InputError";
 import { type loader } from "~/routes/shared/formular";
@@ -16,7 +16,7 @@ import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
 
-type EmailCaptureProps = {
+export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
   errorBanner: InlineNoticeProps;
   label?: string;

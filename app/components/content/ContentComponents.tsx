@@ -12,7 +12,7 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernVideo from "../kern/video/KernVideo";
-import { KernEmailCapture } from "~/components/kern/emailCapture/KernEmailCapture";
+import { KernEmailCapture } from "~/components/content/emailCapture/KernEmailCapture";
 import { KernDetails } from "../kern/KernDetails";
 import KernUserFeedback from "./userFeedback";
 

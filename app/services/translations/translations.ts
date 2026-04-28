@@ -238,6 +238,34 @@ export const translations = {
       de: "Vorab-Check Fortschritt",
     },
   },
+  resultPage: {
+    negativeResultIcon: {
+      de: "Negatives Ergebnis",
+    },
+    positiveResultIcon: {
+      de: "Positives Ergebnis",
+    },
+    warningIcon: {
+      de: "Positives Ergebnis",
+    },
+    infoIcon: {
+      de: "Information",
+    },
+  },
+  inlineNotice: {
+    warningIcon: {
+      de: "Warnung",
+    },
+    infoIcon: {
+      de: "Information",
+    },
+    errorIcon: {
+      de: "Fehler",
+    },
+    successIcon: {
+      de: "Erfolg",
+    },
+  },
   gerichtFinder: {
     streetName: {
       de: "Straße",
