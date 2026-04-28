@@ -1,8 +1,7 @@
 import type { Session } from "react-router";
+import get from "lodash/get";
 import { Result, type Unit } from "true-myth";
 import { type FlowId, parsePathname } from "~/domains/flowIds";
-import type { UserData } from "~/domains/userData";
-import { updateSession } from "~/services/session.server";
 import { filterFormData } from "~/util/filterFormData";
 
 export function getArrayDataFromFormData(formData: FormData): Result<
@@ -37,14 +36,24 @@ export function getArrayDataFromFormData(formData: FormData): Result<
   return Result.ok({ arrayName, index, flowId, pathname: pathname as string });
 }
 
+const buildParentPath = (fieldName: string, indices: number[]) =>
+  fieldName
+    .split("#")
+    .map((segment, i) =>
+      i < indices.length ? `${segment}[${indices[i]}]` : segment,
+    )
+    .join(".");
+
 export const deleteArrayItem = (
   arrayName: string,
   index: number,
   flowSession: Session,
+  arrayIndexes: number[] = [],
 ): Result<Unit, { message: string }> => {
-  const arrayToMutate = flowSession.get(arrayName) as
-    | UserData[string]
-    | undefined;
+  const topLevelArrayName = arrayName.split("#")[0];
+  const parentPath = buildParentPath(arrayName, arrayIndexes);
+  const newUserData = structuredClone(flowSession.data);
+  const arrayToMutate = get(newUserData, parentPath);
 
   if (!Array.isArray(arrayToMutate)) {
     return Result.err({
@@ -57,7 +66,9 @@ export const deleteArrayItem = (
       message: `Requested array isn't long enough. Deletion request at index ${index}, but array is only of length ${arrayToMutate.length}.`,
     });
   }
+
   arrayToMutate.splice(index, 1);
-  updateSession(flowSession, { [arrayName]: arrayToMutate });
+  flowSession.set(topLevelArrayName, newUserData[topLevelArrayName]);
+
   return Result.ok();
 };
