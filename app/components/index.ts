@@ -9,16 +9,6 @@
 
 import { configureZod } from "~/services/validation/configureZod";
 
-export const BACKGROUND_COLORS = Object.freeze({
-  white: "bg-white", // before:bg-white
-  blue: "bg-blue-100", // before:bg-blue-100
-  midBlue: "bg-blue-300", // before:bg-blue-300
-  darkBlue: "bg-blue-800", // before:bg-blue-800
-  yellow: "bg-yellow-300", // before:bg-yellow-300
-  green: "bg-green-200", // before:bg-green-200
-  red: "bg-[#f9e5ec]", // before:bg-[#f9e5ec]
-});
-
 export const SECTION_BACKGROUND_COLORS = Object.freeze({
   white: "bg-white",
   grey: "bg-kern-neutral-050",
@@ -26,5 +16,4 @@ export const SECTION_BACKGROUND_COLORS = Object.freeze({
   yellow: "bg-kern-feedback-warning-background",
 });
 
-export type BackgroundColor = "default" | keyof typeof BACKGROUND_COLORS;
 configureZod(); // configures custom enum errors & disable CSP warning due to eval
