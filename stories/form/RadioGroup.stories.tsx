@@ -1,6 +1,6 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
+import KernRadioGroup from "~/components/formElements/KernRadioGroup";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

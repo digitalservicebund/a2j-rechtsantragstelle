@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Checkbox from "../Checkbox";
+import KernCheckbox from "~/components/formElements/KernCheckbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
   getInputProps: vi.fn((props) => ({ ...props })),
@@ -40,7 +40,9 @@ describe("Checkbox", () => {
   });
 
   it("renders the checkbox with a label", () => {
-    render(<Checkbox name="checkbox-name" label="Checkbox Label" required />);
+    render(
+      <KernCheckbox name="checkbox-name" label="Checkbox Label" required />,
+    );
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
     expect(checkbox).toBeInTheDocument();
 
@@ -50,7 +52,11 @@ describe("Checkbox", () => {
 
   it("renders the hidden input when the checkbox is not checked", () => {
     render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
+      <KernCheckbox
+        name="checkbox-name"
+        label="Another Checkbox Label"
+        required
+      />,
     );
     const hiddenInput = screen.getByDisplayValue("off");
     expect(hiddenInput).toBeInTheDocument();
@@ -58,7 +64,11 @@ describe("Checkbox", () => {
 
   it("hides the hidden input when the checkbox is checked", () => {
     render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
+      <KernCheckbox
+        name="checkbox-name"
+        label="Another Checkbox Label"
+        required
+      />,
     );
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
@@ -75,7 +85,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <Checkbox
+      <KernCheckbox
         name="checkbox-name"
         label="Checkbox Label"
         required
@@ -89,7 +99,7 @@ describe("Checkbox", () => {
 
   it("sets aria-required to true when required is provided", () => {
     render(
-      <Checkbox
+      <KernCheckbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
@@ -102,17 +112,14 @@ describe("Checkbox", () => {
 
   it("does set aria-required to false when required is false", () => {
     render(
-      <Checkbox name="checkbox-name" label="Checkbox Label" required={false} />,
+      <KernCheckbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        required={false}
+      />,
     );
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "false");
-  });
-
-  it("renders label with RichText component", () => {
-    const htmlLabel = "<span>Rich Text Label</span>";
-    render(<Checkbox name="checkbox-name" label={htmlLabel} required />);
-    const labelElement = screen.getByText("Rich Text Label");
-    expect(labelElement.tagName).toBe("SPAN");
   });
 
   it("calls controlled ref when there is an error", () => {
@@ -130,7 +137,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <Checkbox
+      <KernCheckbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
@@ -149,7 +156,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <Checkbox
+      <KernCheckbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
@@ -158,8 +165,6 @@ describe("Checkbox", () => {
     );
 
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
-    expect(checkbox).toHaveClass(
-      "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]",
-    );
+    expect(checkbox).toHaveClass("kern-form-check__checkbox--error");
   });
 });
