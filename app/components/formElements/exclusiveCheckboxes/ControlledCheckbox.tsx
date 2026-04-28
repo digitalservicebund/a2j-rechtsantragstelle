@@ -1,5 +1,5 @@
-import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import { type CheckboxValue } from "../KernCheckbox";
 import KernRichText from "~/components/kern/KernRichText";
 
 export type ControlledCheckboxProps = {
