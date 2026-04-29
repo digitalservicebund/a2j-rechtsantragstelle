@@ -20,7 +20,7 @@ import KernHeading from "~/components/kern/KernHeading";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
+import KernAutoSuggestInput from "~/components/formElements/autoSuggestInput/KernAutoSuggestInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",

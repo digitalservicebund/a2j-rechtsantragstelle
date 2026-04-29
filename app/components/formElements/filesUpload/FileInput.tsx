@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import KernButton from "~/components/kern/KernButton";
 import InputError from "../../kern/formElements/InputError";
@@ -8,6 +8,7 @@ import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
+import KernButton from "~/components/kern/KernButton";
 
 type FileInputProps = {
   name: string;

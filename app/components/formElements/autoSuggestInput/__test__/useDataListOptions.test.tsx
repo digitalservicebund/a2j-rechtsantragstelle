@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import useDataListOptions from "../useDataListOptions";
+import useDataListOptions from "../hooks/useDataListOptions";
 
 function createFetchResponse(data: DataListOptions[], isOk: boolean) {
   return { json: () => Promise.resolve(data), ok: isOk };
