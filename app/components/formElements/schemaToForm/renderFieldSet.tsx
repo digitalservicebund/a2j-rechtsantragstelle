@@ -1,6 +1,6 @@
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
+import { KernFieldset } from "~/components/formElements/KernFieldset";
 
 export const getFieldSetByFieldName = (
   fieldName: string,
