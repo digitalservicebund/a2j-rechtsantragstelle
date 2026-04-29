@@ -4,6 +4,7 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import KernArraySummaryItemActions from "./KernArraySummaryItemActions";
+import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
@@ -56,7 +57,7 @@ const KernArraySummaryDataItems = ({
           {itemsWithoutHiddenFields.map(([itemKey, itemValue]) => (
             <div className="kern-description-list-item" key={itemKey}>
               <dt className="kern-description-list-item__key">
-                {itemLabels[itemKey] ?? ""}
+                {getTranslationByKey(itemKey, itemLabels)}
               </dt>
               <dd className="kern-description-list-item__value">
                 {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
