@@ -105,7 +105,7 @@ export function renderZodEnum(
         <KernRadioGroup
           key={fieldName}
           name={fieldName}
-          label={label}
+          label={label ?? fieldName} // Fallback to fieldName without matchingElement
           altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
           options={options}

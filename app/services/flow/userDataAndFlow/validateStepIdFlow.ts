@@ -27,7 +27,7 @@ export const validateStepIdFlow = async (
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);
   if (flowTransitionConfig) {
     const eligibilityResult = await validateFlowTransition(
-      flows,
+      flows[flowTransitionConfig.sourceFlowId],
       cookieHeader,
       flowTransitionConfig,
     );
