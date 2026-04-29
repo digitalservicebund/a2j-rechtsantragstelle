@@ -5,7 +5,10 @@ import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "../kernFormElements/KernSchemaComponents";
-import { type ButtonNavigationProps, KernButtonNavigation } from "../kern/KernButtonNavigation";
+import {
+  type ButtonNavigationProps,
+  KernButtonNavigation,
+} from "../kern/KernButtonNavigation";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
 
