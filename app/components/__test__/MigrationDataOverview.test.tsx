@@ -124,6 +124,7 @@ describe("MigrationDataOverview", () => {
     const translations = {
       bereich: "Problem",
       "bereich.verspaetet": "Verspätete Beförderung",
+      migrationButtonText: "Mock Button",
     };
 
     const { queryByText } = render(

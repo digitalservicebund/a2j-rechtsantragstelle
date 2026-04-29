@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { useRef } from "react";
-import Button from "~/components/common/Button";
 import { type ErrorMessageProps } from "~/components/common/types";
-import InputError from "~/components/formElements/InputError";
+import KernButton from "~/components/kern/KernButton";
+import InputError from "../../kern/formElements/InputError";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
@@ -18,7 +18,7 @@ type FileInputProps = {
   errorMessages?: ErrorMessageProps[];
 };
 
-export const FileInput = ({
+export const KernFileInput = ({
   name,
   jsAvailable,
   selectedFile,
@@ -32,29 +32,38 @@ export const FileInput = ({
 
   const FileInput = (
     <input
+      id={name}
       name={jsAvailable ? undefined : name}
       type="file"
       accept=".pdf"
       data-testid={`file-upload-input-${name}`}
       aria-invalid={error !== undefined}
+      aria-label={
+        splitFieldName(name).inputIndex === 0
+          ? translations.fileUpload.select.de
+          : translations.fileUpload.addAnother.de
+      }
       aria-errormessage={error && errorId}
       className={classNames(
+        error && "kern-form-input__input--error",
         jsAvailable
           ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-          : "body-01-reg m-8 ml-0 file:ds-button file:ds-button-tertiary file:ds-button-large w-fit file:cursor-pointer",
+          : "kern-body m-8 ml-0 file:kern-btn file:kern-btn--tertiary file:kern-btn--large w-fit file:cursor-pointer",
       )}
       ref={fileInputRef}
-      onBlur={(event) => {
+      onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
         // Reset the input element once its not relevant anymore (either after upload or deletion), otherwise the stale file reference might interfere with future interactions
         event.target.files = null;
         event.currentTarget.value = "";
       }}
-      onChange={(event) => onFileUpload(name, event.target.files?.[0])}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+        onFileUpload(name, event.target.files?.[0])
+      }
     />
   );
 
   return (
-    <>
+    <div className={classNames(error && "kern-form-input--error")}>
       {selectedFile ? (
         <FileUploadInfo
           inputName={name}
@@ -66,29 +75,35 @@ export const FileInput = ({
       ) : (
         <>
           {jsAvailable ? (
-            <label className="relative inline-flex items-center ds-button ds-button-tertiary ds-button-large cursor-pointer w-fit">
+            <>
+              <KernButton
+                type="button"
+                look="secondary"
+                onClick={() => fileInputRef.current?.click()}
+                text={
+                  splitFieldName(name).inputIndex === 0
+                    ? translations.fileUpload.select.de
+                    : translations.fileUpload.addAnother.de
+                }
+              />
               {FileInput}
-              <span className="ds-button-label">
+            </>
+          ) : (
+            <>
+              <label className="kern-label" htmlFor={name}>
                 {splitFieldName(name).inputIndex === 0
                   ? translations.fileUpload.select.de
                   : translations.fileUpload.addAnother.de}
-              </span>
-            </label>
-          ) : (
-            <div className="flex flex-row">
-              <label>
-                {FileInput}
-                <Button
-                  name="_action"
-                  value={`fileUpload.${name}`}
-                  className="w-fit"
-                  type="submit"
-                  look="primary"
-                  text={translations.fileUpload.upload.de}
-                  size="large"
-                />
               </label>
-            </div>
+              {FileInput}
+              <KernButton
+                name="_action"
+                value={`fileUpload.${name}`}
+                type="submit"
+                look="primary"
+                text={translations.fileUpload.upload.de}
+              />
+            </>
           )}
         </>
       )}
@@ -97,7 +112,7 @@ export const FileInput = ({
           {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
       )}
-      {helperText && <div className="label-text mt-6">{helperText}</div>}
-    </>
+      {helperText && <div className="kern-hint mt-6">{helperText}</div>}
+    </div>
   );
 };

@@ -4,15 +4,14 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import KernButton from "./KernButton";
 import KernRichText, { type RichTextProps } from "./KernRichText";
-import { type HeadingProps } from "../common/Heading";
 import { KernIcon } from "./common/KernIcon";
 import KernButtonContainer from "./KernButtonContainer";
-import KernHeading from "./KernHeading";
+import KernHeading, { type KernHeadingProps } from "./KernHeading";
 
 const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
-  heading: HeadingProps;
+  heading: KernHeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;
   declineButtonLabel: string;

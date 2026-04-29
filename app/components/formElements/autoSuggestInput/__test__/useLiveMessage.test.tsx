@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 import useLiveMessage, {
   DEFAULT_ANNOUNCE_DELAY_MS,
-} from "~/components/formElements/autoSuggestInput/useLiveMessage";
+} from "~/components/formElements/autoSuggestInput/hooks/useLiveMessage";
 
 describe("useLiveMessage", () => {
   beforeEach(() => {

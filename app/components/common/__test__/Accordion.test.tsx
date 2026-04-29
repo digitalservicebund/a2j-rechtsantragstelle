@@ -1,49 +1,52 @@
 import { fireEvent } from "@testing-library/react";
 import { renderWithRouter } from "../../__test__/renderWithRouter";
-import Accordion from "../Accordion";
-import type { AccordionItemProps } from "../AccordionItem";
+import KernAccordion, {
+  type KernAccordionItemProps,
+} from "~/components/kern/KernAccordion";
 
 const dummyItems = [
   { title: "Item 1", description: "Description 1" },
   { title: "Item 2", description: "Description 2" },
   { title: "Item 3", description: "Description 3" },
-] as const satisfies AccordionItemProps[];
+] as const satisfies KernAccordionItemProps[];
 
 describe("Accordion Component", () => {
-  it("renders the correct number of details", () => {
-    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
+  it("should render the correct number of details", () => {
+    const { getAllByRole } = renderWithRouter(
+      <KernAccordion items={dummyItems} />,
+    );
     expect(getAllByRole("group")).toHaveLength(dummyItems.length);
   });
 
-  it("allows toggling so that only one AccordionItem is open at a time", () => {
-    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
-    const details = getAllByRole("group");
-    const summaries = details.map((item) => item.childNodes[0]);
-    const descriptions = details.map((item) => item.childNodes[1]);
+  it("should toggle each accordion item independently", () => {
+    const { getAllByRole } = renderWithRouter(
+      <KernAccordion items={dummyItems} />,
+    );
+    const details = getAllByRole("group") as HTMLDetailsElement[];
+    const summaries = details.map((item) => item.querySelector("summary"));
 
-    descriptions.forEach((desc) => {
-      expect(desc).not.toBeVisible();
+    // accordion is closed
+    details.forEach((item) => {
+      expect(item.open).toBe(false);
     });
 
-    fireEvent.click(summaries[0]);
-    expect(descriptions[0]).toBeVisible();
-    expect(descriptions[1]).not.toBeVisible();
-    expect(descriptions[2]).not.toBeVisible();
+    // open first accordion
+    fireEvent.click(summaries[0]!);
+    expect(details[0].open).toBe(true);
 
-    fireEvent.click(summaries[1]);
-    expect(descriptions[0]).not.toBeVisible();
-    expect(descriptions[1]).toBeVisible();
-    expect(descriptions[2]).not.toBeVisible();
+    // open second accordion
+    fireEvent.click(summaries[1]!);
+    expect(details[0].open).toBe(true);
+    expect(details[1].open).toBe(true);
 
-    fireEvent.click(summaries[1]);
-    expect(descriptions[0]).not.toBeVisible();
-    expect(descriptions[1]).not.toBeVisible();
-    expect(descriptions[2]).not.toBeVisible();
+    // close second accordion
+    fireEvent.click(summaries[1]!);
+    expect(details[1].open).toBe(false);
   });
 
-  it("doesn't rendern empty items", () => {
+  it("should not render empty items", () => {
     const { getAllByRole } = renderWithRouter(
-      <Accordion
+      <KernAccordion
         items={[
           { title: "title1", description: "" },
           { title: "", description: "hallo" },
@@ -55,14 +58,9 @@ describe("Accordion Component", () => {
     expect(details).toHaveLength(2);
   });
 
-  it("applies translations", () => {
-    const { getAllByText } = renderWithRouter(<Accordion items={dummyItems} />);
-    getAllByText("Einblenden").forEach((el) => expect(el).toBeVisible());
-  });
-
-  it("expands details if print url param is set", () => {
+  it("should expand the accordion when print url param is set", () => {
     const { getAllByRole } = renderWithRouter(
-      <Accordion items={dummyItems} />,
+      <KernAccordion items={dummyItems} />,
       "/?print",
     );
     const detailsElements = getAllByRole("group", { hidden: true });
