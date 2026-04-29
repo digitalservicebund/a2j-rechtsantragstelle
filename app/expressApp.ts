@@ -32,9 +32,7 @@ export const expressApp = (
 
   // Enable only in staging
   if (config().ENVIRONMENT === "staging") {
-    app.use(
-      createPrometheusMetricsMiddleware(config().ENVIRONMENT === "production"),
-    );
+    app.use(createPrometheusMetricsMiddleware());
   }
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
