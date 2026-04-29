@@ -6,7 +6,8 @@ import { KernIcon } from "~/components/kern/common/KernIcon";
 import TextInput, {
   type InputProps,
 } from "~/components/kern/formElements/input/TextInput";
-import { bankNameFromIBAN } from "~/services/bankCodes";
+import { useBankData } from "~/components/kern/formElements/input/IbanInput/useBankData";
+import { bankNameFromIBAN } from ".";
 
 type MaskedIbanInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
 
@@ -18,17 +19,20 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
 const KernIbanInput = (props: InputProps) => {
   const field = useField<string | undefined>(props.name);
   const iban = field.value();
-  const [bankName, setBankName] = useState<string | null>(null);
+  const [bankName, setBankName] = useState<string>();
+  const banks = useBankData();
 
   // Debounce needed to not clobber the screen reader while typing
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const matchedBankName = bankNameFromIBAN(iban);
-      setBankName(matchedBankName || null);
+      if (iban && banks) {
+        const matchedBankName = bankNameFromIBAN(iban, banks);
+        setBankName(matchedBankName);
+      }
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [iban]);
+  }, [iban, banks]);
 
   const bankNameBadgeId = "bank-name-badge";
 
