@@ -65,8 +65,8 @@ const KernTileRadio = ({
           />
         </div>
         <KernTileContent
-          tileTitle={tileTitle}
-          tileDescription={tileDescription}
+          title={tileTitle}
+          description={tileDescription}
           image={image}
         />
       </label>
