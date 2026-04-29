@@ -1,9 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import { ProgressBar } from "../ProgressBar";
+import { KernProgress } from "~/components/kern/KernProgressBar";
 
 describe("ProgressBar", () => {
   it("should render a progress bar with correct value and max", () => {
-    render(<ProgressBar progress={2} max={5} fallback="Progress" />);
+    render(
+      <KernProgress
+        progress={2}
+        max={5}
+        fallback="Progress"
+        label="Upload progress"
+      />,
+    );
 
     const progress = screen.getByRole("progressbar");
 
@@ -15,7 +22,14 @@ describe("ProgressBar", () => {
   });
 
   it("should render the fallback as accessible name", () => {
-    render(<ProgressBar progress={1} max={3} fallback="Step progress" />);
+    render(
+      <KernProgress
+        progress={1}
+        max={3}
+        fallback="Step progress"
+        label="Upload progress"
+      />,
+    );
     expect(
       screen.getByRole("progressbar", { name: "Step progress" }),
     ).toBeInTheDocument();
@@ -23,7 +37,7 @@ describe("ProgressBar", () => {
 
   it("should render a label when prop is provided", () => {
     render(
-      <ProgressBar
+      <KernProgress
         progress={3}
         max={4}
         fallback="Progress"
@@ -40,7 +54,7 @@ describe("ProgressBar", () => {
   });
 
   it("should not render a label when prop is not provided", () => {
-    render(<ProgressBar progress={1} max={2} fallback="Progress" />);
+    render(<KernProgress progress={1} max={2} fallback="Progress" />);
     expect(screen.queryByText(/progress/i)).not.toBeInTheDocument();
   });
 });

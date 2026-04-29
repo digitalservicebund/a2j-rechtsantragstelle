@@ -1,6 +1,8 @@
-import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
 import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
+import KernHeading, {
+  type KernHeadingProps,
+} from "~/components/kern/KernHeading";
 
 type Props = {
   readonly title: KernHeadingProps;

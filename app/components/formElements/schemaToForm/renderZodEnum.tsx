@@ -2,10 +2,10 @@ import get from "lodash/get";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
-import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
-import KernTile from "~/components/kern/formElements/tile/KernTile";
-import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
-import KernSelect from "~/components/kern/formElements/KernSelect";
+import KernRadioGroup from "~/components/formElements/KernRadioGroup";
+import KernSelect from "~/components/formElements/KernSelect";
+import KernCheckbox from "~/components/formElements/KernCheckbox";
+import KernTile from "../tile/KernTile";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -105,7 +105,7 @@ export function renderZodEnum(
         <KernRadioGroup
           key={fieldName}
           name={fieldName}
-          label={label}
+          label={label ?? fieldName} // Fallback to fieldName without matchingElement
           altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
           options={options}

@@ -7,23 +7,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3/LICENSE",
     "direct": true
   },
-  "@digitalservice4germany/angie": {
-    "licenses": "MIT",
-    "repository": "https://github.com/digitalservicebund/angie",
-    "publisher": "Joschka de Cuveland",
-    "email": "joschka.decuveland@digitalservice.bund.de",
-    "path": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/angie/LICENSE",
-    "direct": true
-  },
-  "@digitalservice4germany/style-dictionary": {
-    "licenses": "MIT",
-    "publisher": "Joschka de Cuveland",
-    "email": "joschka.decuveland@digitalservice.bund.de",
-    "path": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/style-dictionary",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservice4germany/style-dictionary/LICENSE",
-    "direct": true
-  },
   "@digitalservicebund/icons": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/icons",
@@ -189,6 +172,15 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/fflate/LICENSE",
     "direct": true
   },
+  "fuse.js": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/krisk/Fuse",
+    "publisher": "Kiro Risk",
+    "email": "kirollos@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/fuse.js",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/fuse.js/LICENSE",
+    "direct": true
+  },
   "haversine-distance": {
     "licenses": "MIT",
     "repository": "https://github.com/dcousens/haversine-distance",
@@ -295,7 +287,7 @@
   "posthog-js": {
     "licenses": "Custom: LICENSE",
     "repository": "https://github.com/PostHog/posthog-js",
-    "publisher": "hey@posthog.com",
+    "publisher": "engineering@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-js",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-js/LICENSE",
     "direct": true
@@ -304,7 +296,7 @@
     "licenses": "MIT",
     "repository": "https://github.com/PostHog/posthog-js",
     "publisher": "PostHog",
-    "email": "hey@posthog.com",
+    "email": "engineering@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/LICENSE",
     "direct": true

@@ -3,8 +3,6 @@ import ErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import classNames from "classnames";
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import { MultipleChoiceQuestion } from "~/components/reportProblem/MultipleChoiceQuestion";
 import {
   OpenQuestion,
@@ -12,6 +10,8 @@ import {
 } from "~/components/reportProblem/OpenQuestion";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
+import KernButton from "../kern/KernButton";
+import KernButtonContainer from "../kern/KernButtonContainer";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -145,11 +145,10 @@ export const PosthogSurvey = ({
               })}
             </div>
           )}
-          <ButtonContainer className="flex flex-col sm:flex-row">
+          <KernButtonContainer className="flex flex-col sm:flex-row">
             {wasSubmitted ? (
-              <Button
+              <KernButton
                 ref={closeButtonRef}
-                size="large"
                 look={"primary"}
                 className="justify-center"
                 text={translations.feedback.close.de}
@@ -158,17 +157,15 @@ export const PosthogSurvey = ({
               />
             ) : (
               <>
-                <Button
+                <KernButton
                   look={"tertiary"}
-                  size="large"
                   className="justify-center"
                   text={translations.feedback.cancel.de}
                   onClick={closeSurvey}
                   type="button"
                 />
-                <Button
+                <KernButton
                   look="primary"
-                  size="large"
                   className="justify-center"
                   text={translations.feedback["submit-problem"].de}
                   type="button"
@@ -176,7 +173,7 @@ export const PosthogSurvey = ({
                 />
               </>
             )}
-          </ButtonContainer>
+          </KernButtonContainer>
         </div>
         <div className="flex justify-between items-center">
           <h2 id={dialogLabelId} className="ds-heading-02-reg">
@@ -184,9 +181,8 @@ export const PosthogSurvey = ({
               ? translations.feedback["problem-gemeldet"].de
               : translations.feedback["report-problem"].de}
           </h2>
-          <Button
+          <KernButton
             type="button"
-            size="large"
             look="ghost"
             iconLeft={<Close />}
             aria-label={
