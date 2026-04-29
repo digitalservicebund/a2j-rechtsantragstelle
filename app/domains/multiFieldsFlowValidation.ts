@@ -1,24 +1,17 @@
+import { isKeyOfObject } from "~/util/objects";
 import type { FlowId } from "./flowIds";
 import { fluggastrechtMultiFieldsValidation } from "./fluggastrechte/formular/multiFieldsValidation";
 import { fluggastrechtVorabcheckMultiFieldsValidation } from "./fluggastrechte/vorabcheck/multiFieldsValidation";
 import { type MultiFieldsStepIdValidation } from "./types";
 
 const multiFieldsFlowValidation = {
-  "/beratungshilfe/antrag": undefined,
-  "/beratungshilfe/vorabcheck": undefined,
   "/fluggastrechte/vorabcheck":
     fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/fluggastrechte/formular":
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
-  "/erbschein/wegweiser": undefined,
-  "/erbschein/nachlassgericht": undefined,
-  "/prozesskostenhilfe/formular": undefined,
-  "/kontopfaendung/wegweiser": undefined,
-  "/geld-einklagen/formular": undefined,
-  "/kontopfaendung/pkonto/antrag": undefined,
-} as const satisfies Partial<
-  Record<FlowId, MultiFieldsStepIdValidation | undefined>
->;
+} as const satisfies Partial<Record<FlowId, MultiFieldsStepIdValidation>>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>
-  multiFieldsFlowValidation[flowId];
+  isKeyOfObject(flowId, multiFieldsFlowValidation)
+    ? multiFieldsFlowValidation[flowId]
+    : undefined;
