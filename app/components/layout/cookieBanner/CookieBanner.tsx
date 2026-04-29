@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
-import Button from "~/components/common/Button";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
-import RichText, { type RichTextProps } from "~/components/common/RichText";
-import { StandaloneLink } from "~/components/common/StandaloneLink";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import KernButton from "~/components/kern/KernButton";
+import KernHeading, {
+  type KernHeadingProps,
+} from "~/components/kern/KernHeading";
+import KernRichText, {
+  type RichTextProps,
+} from "~/components/kern/KernRichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
-  heading: HeadingProps;
+  heading: KernHeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;
   declineButtonLabel: string;
@@ -57,42 +60,41 @@ export function CookieBanner({
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <div className="ds-stack ds-stack-16">
-          <Heading
+          <KernHeading
             tagName={content.heading.tagName}
             text={content.heading.text}
-            look={content.heading.look}
           />
           <div>
             <div className="ds-stack ds-stack-8">
               {content.paragraphs.map((paragraph) => (
-                <RichText key={paragraph.html} html={paragraph.html} />
+                <KernRichText key={paragraph.html} html={paragraph.html} />
               ))}
             </div>
           </div>
           <div className="flex items-end gap-24 flex-wrap">
-            <Button
+            <KernButton
               name={acceptCookiesFieldName}
               value="true"
               type="submit"
               look="primary"
               text={content.acceptButtonLabel}
-              size="large"
               data-testid={buttonAcceptCookieTestId}
             />
-            <Button
+            <KernButton
               name={acceptCookiesFieldName}
               value="false"
               type="submit"
               look="primary"
               text={content.declineButtonLabel}
-              size="large"
               data-testid="decline-cookie"
             />
             {content.cookieSettingLinkUrl && (
-              <StandaloneLink
-                text={content.cookieSettingLinkText}
-                url={content.cookieSettingLinkUrl}
-              />
+              <a
+                href={content.cookieSettingLinkUrl}
+                className="flex gap-2 ds-link-01-bold items-start"
+              >
+                {content.cookieSettingLinkText}
+              </a>
             )}
           </div>
         </div>
