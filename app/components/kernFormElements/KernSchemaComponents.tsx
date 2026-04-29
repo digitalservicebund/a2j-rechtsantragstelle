@@ -23,7 +23,7 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
-import KernFileUpload from "../kern/formElements/filesUpload/FilesUpload";
+import KernFileUpload from "../formElements/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
 import { ibanZodDescription } from "~/services/validation/iban";

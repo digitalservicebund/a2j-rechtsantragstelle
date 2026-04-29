@@ -1,5 +1,3 @@
-import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
-import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
 import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
@@ -8,6 +6,7 @@ import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
+import { KernIcon } from "../../kern/common/KernIcon";
 
 type FileUploadInfoProps = {
   inputName: string;
@@ -35,24 +34,22 @@ export const FileUploadInfo = ({
   return (
     <div className={classes} data-testid={`file-upload-info-${inputName}`}>
       <div className="max-w-full grid grid-cols-[24px_1fr_auto] gap-x-12 items-center">
-        <InsertFileIcon className="shrink-0 fill-gray-900" aria-hidden="true" />
-        <span className="ds-body-01-reg text-black truncate">
-          {file.filename}
-        </span>
-        <span className="text-gray-900 ds-body-02-reg">
+        <KernIcon name="draft" className="fill-kern-layout-text-muted" />
+        <span className="kern-body text-black truncate">{file.filename}</span>
+        <span className="text-gray-900 kern-body kern-body--small">
           {formatFileSizeToString(file.fileSize)}
         </span>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
       <KernButton
-        iconLeft={<DeleteIcon className="" aria-hidden="true" />}
         look="ghost"
         onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}
-        className="pl-0 md:pl-12"
+        textClassName="kern-link kern-label text-kern-action-default! font-medium!"
         text={translations.fileUpload.delete.de}
         name="_action"
         value={`deleteFile.${inputName}`}
         type={jsAvailable ? "button" : "submit"}
+        data-testid={`delete-file-button-${inputName}`}
       />
     </div>
   );
