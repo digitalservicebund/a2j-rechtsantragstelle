@@ -14,5 +14,3 @@ export const StrapiParagraphSchema = z
     id: cmsData.id, // set the id, or the schema makes it optional
     html: cmsData.text,
   }));
-
-export type StrapiParagraph = z.input<typeof StrapiParagraphSchema>;

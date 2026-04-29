@@ -4,7 +4,7 @@ import IconExpandMore from "@digitalservicebund/icons/ExpandMore";
 import { GridItem } from "../layout/grid/GridItem";
 import KernRichText from "../kern/KernRichText";
 
-export type DetailsProps = {
+type DetailsProps = {
   title?: string;
   content?: string;
 };
