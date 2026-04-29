@@ -8,7 +8,6 @@ import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
-import KernButton from "~/components/kern/KernButton";
 
 type FileInputProps = {
   name: string;
