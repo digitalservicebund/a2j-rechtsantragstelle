@@ -1,6 +1,5 @@
 import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
 import { useCallback, useMemo, useRef, useState } from "react";
-import Button from "~/components/common/Button";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
@@ -8,6 +7,7 @@ import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 import { type SurveyResponses } from "./OpenQuestion";
 import { PosthogSurvey } from "./Survey";
+import KernButton from "../kern/KernButton";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
@@ -55,7 +55,7 @@ export const ReportProblem = () => {
 
   return (
     <>
-      <Button
+      <KernButton
         look="tertiary"
         aria-haspopup="dialog"
         onClick={onReportProblemClicked}

@@ -3,10 +3,10 @@ import SvgErrorOutline from "@digitalservicebund/icons/ErrorOutline";
 import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
 import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
 import classNames from "classnames";
-import Heading from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
+import KernHeading from "../kern/KernHeading";
+import KernRichText from "../kern/KernRichText";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -70,9 +70,12 @@ export const InlineNotice = ({
     >
       <div className="flex flex-row gap-[4px] items-center">
         <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-        <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
+        <KernHeading tagName={tagName} text={title} />
       </div>
-      <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+      <KernRichText
+        className="tracking-[0.16px] leading-[26px]"
+        html={content}
+      />
     </div>
   );
 

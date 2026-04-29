@@ -1,13 +1,12 @@
 import classNames from "classnames";
-import type { ButtonProps } from "~/components/common/Button";
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
-import RichText, { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
+import KernButtonContainer from "../kern/KernButtonContainer";
+import KernButton, { type ButtonProps } from "../kern/KernButton";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
+import KernRichText, { type RichTextProps } from "../kern/KernRichText";
 
 type Props = Readonly<{
-  heading: HeadingProps;
+  heading: KernHeadingProps;
   content?: RichTextProps;
   button?: ButtonProps;
   outerBackground?: {
@@ -34,14 +33,14 @@ export default function Hero({
         "pt-40 pb-40",
       )}
     >
-      <Heading {...heading} />
+      <KernHeading {...heading} />
       {content && (
-        <RichText className="ds-heading-03-reg" html={content.html} />
+        <KernRichText className="ds-heading-03-reg" html={content.html} />
       )}
       {button && (
-        <ButtonContainer className="pb-64 pt-24">
-          <Button {...button} />
-        </ButtonContainer>
+        <KernButtonContainer className="pb-64 pt-24">
+          <KernButton {...button} />
+        </KernButtonContainer>
       )}
     </GridItem>
   );

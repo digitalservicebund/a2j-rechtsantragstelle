@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import Image, { type ImageProps } from "~/components/common/Image";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
@@ -11,6 +10,7 @@ import KernButton from "../../kern/KernButton";
 import KernHeading from "../../kern/KernHeading";
 import KernRichText from "../../kern/KernRichText";
 import KernAccordion from "../../kern/KernAccordion";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
 
 const ImageMarker = ({ image }: { image: ImageProps }) => (
   <div className="flex items-start">
@@ -75,11 +75,11 @@ const KernListItem = ({
         )}
         {content && <KernRichText className="pt-8!" html={content} />}
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer className="mt-16">
+          <KernButtonContainer className="mt-16">
             {buttons.map((button) => (
               <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
 
         {accordion && (
