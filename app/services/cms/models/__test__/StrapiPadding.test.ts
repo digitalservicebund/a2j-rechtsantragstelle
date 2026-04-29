@@ -1,4 +1,7 @@
-import { strapiPaddingOptions, StrapiPaddingOptionalSchema } from "../StrapiPadding";
+import {
+  strapiPaddingOptions,
+  StrapiPaddingOptionalSchema,
+} from "../StrapiPadding";
 
 describe("StrapiPadding", () => {
   it("converts all valid options", () => {
