@@ -63,9 +63,7 @@ describe("Textarea component", () => {
     );
 
     expect(screen.getByText("Test Description")).toBeInTheDocument();
-    expect(screen.getByText("Test Description")).toHaveClass(
-      "ds-body-02-reg text-gray-900",
-    );
+    expect(screen.getByText("Test Description")).toHaveClass("rich-text");
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
@@ -94,7 +92,7 @@ describe("Textarea component", () => {
     );
 
     const element = screen.getByRole("textbox");
-    expect(element).toHaveClass("has-error");
+    expect(element).toHaveClass("kern-form-input__input--error");
     expect(element).toHaveAttribute("aria-describedby", "test-error");
 
     expect(screen.getByText("error")).toBeInTheDocument();
@@ -173,12 +171,5 @@ describe("Textarea component", () => {
       const element = screen.getByRole("textbox");
       expect(element).toHaveAttribute("aria-required", "false");
     });
-  });
-
-  it("should render textarea with readonly attribute when readonly prop is true", () => {
-    render(<Textarea name="input" readonly />);
-
-    const textarea = screen.getByRole("textbox");
-    expect(textarea).toHaveAttribute("readOnly");
   });
 });

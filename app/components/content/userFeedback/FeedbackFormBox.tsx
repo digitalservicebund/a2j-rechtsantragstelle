@@ -7,7 +7,7 @@ import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
-import KernTextarea from "~/components/kern/formElements/Textarea";
+import KernTextarea from "~/components/formElements/Textarea";
 import KernButton from "~/components/kern/KernButton";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";

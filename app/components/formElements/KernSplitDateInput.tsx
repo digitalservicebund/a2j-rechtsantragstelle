@@ -1,15 +1,14 @@
 import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
-import InputError from "./InputError";
-import InputLabel from "./InputLabel";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
+import InputError from "../kern/formElements/InputError";
 
-type SplitDateInputProps = {
+type KernSplitDateInputProps = {
   name: string;
 };
 
-const sharedClassnames = "ds-input px-16 ph-no-capture" as const;
+const sharedClassnames = "kern-form-input__input bg-white!" as const;
 const sharedAttributes = {
   "aria-required": "true",
   type: "text",
@@ -19,7 +18,7 @@ const sharedAttributes = {
   },
 } as const;
 
-const SplitDateInput = ({ name }: SplitDateInputProps) => {
+const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -39,19 +38,22 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
 
   return (
     <fieldset
-      className="grid-rows-[auto_auto_auto_auto] grid gap-16 gap-y-8 w-full"
+      className={classNames("kern-fieldset", {
+        "kern-fieldset--error": hasError,
+      })}
       {...dateField.getControlProps()}
     >
-      <legend className="ds-body-01-bold">
+      <legend className="kern-label">
         {translations.splitDateComponent.legend.de}
       </legend>
-      <p className="ds-label-01-reg">
+      <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
-      </p>
-
-      <div className="grid grid-rows-subgrid gap-16 grid-cols-[repeat(4,75px)]">
-        <InputLabel id={day} classname="col-start-1 col-span-1">
-          {translations.splitDateComponent.tagInputLabel.de}
+      </div>
+      <div className="kern-fieldset__body kern-fieldset__body--horizontal">
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={day}>
+            {translations.splitDateComponent.tagInputLabel.de}
+          </label>
           <input
             {...dayField.getInputProps({
               id: day,
@@ -61,14 +63,22 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
               ...sharedAttributes,
             })}
             autoComplete={autocompleteMap[day] ?? "off"}
-            className={classNames(sharedClassnames, { "has-error": dayError })}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-2",
+              {
+                "kern-form-input__input--error": dayError,
+              },
+            )}
             aria-invalid={dayError !== null}
             aria-describedby={dayError ? errorId : undefined}
           />
-        </InputLabel>
+        </div>
 
-        <InputLabel id={month} classname="col-start-2 col-span-1">
-          {translations.splitDateComponent.monatInputLabel.de}
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={month}>
+            {translations.splitDateComponent.monatInputLabel.de}
+          </label>
           <input
             {...monthField.getInputProps({
               id: month,
@@ -78,16 +88,22 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
               ...sharedAttributes,
             })}
             autoComplete={autocompleteMap[month] ?? "off"}
-            className={classNames(sharedClassnames, {
-              "has-error": monthError,
-            })}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-2",
+              {
+                "kern-form-input__input--error": monthError,
+              },
+            )}
             aria-invalid={monthError !== null}
             aria-describedby={monthError ? errorId : undefined}
           />
-        </InputLabel>
+        </div>
 
-        <InputLabel id={year} classname="col-start-3 col-span-2">
-          {translations.splitDateComponent.jahrInputLabel.de}
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={year}>
+            {translations.splitDateComponent.jahrInputLabel.de}
+          </label>
           <input
             {...yearField.getInputProps({
               id: year,
@@ -95,11 +111,17 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
               ...sharedAttributes,
             })}
             autoComplete={autocompleteMap[year] ?? "off"}
-            className={classNames(sharedClassnames, { "has-error": yearError })}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-4",
+              {
+                "kern-form-input__input--error": yearError,
+              },
+            )}
             aria-invalid={yearError !== null}
             aria-describedby={yearError ? errorId : undefined}
           />
-        </InputLabel>
+        </div>
       </div>
       {hasError && (
         <InputError id={errorId}>
@@ -110,4 +132,4 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
   );
 };
 
-export default SplitDateInput;
+export default KernSplitDateInput;
