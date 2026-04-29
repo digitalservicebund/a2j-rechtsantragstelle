@@ -3,7 +3,7 @@ import { type StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import mapKeys from "lodash/mapKeys";
 import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
-import KernSplitDateInput from "~/components/kern/formElements/input/KernSplitDateInput";
+import KernSplitDateInput from "~/components/formElements/KernSplitDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
