@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 
-const paddingOptions = ["auto", "0", "40", "80"] as const;
+export const strapiPaddingOptions = ["auto", "0", "40", "80"] as const;
+
+export const StrapiPaddingSchema = z.enum(strapiPaddingOptions);
 
 export const StrapiPaddingOptionalSchema = z
-  .enum(paddingOptions)
+  .enum(strapiPaddingOptions)
   .nullable()
   .transform(omitNull)
   .optional();
