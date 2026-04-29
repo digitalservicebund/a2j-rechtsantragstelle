@@ -3,14 +3,13 @@ import { removeMarkupTags } from "~/util/strings";
 import KernListItem from "./KernListItem";
 import { type ListItemProps, type ListVariant } from "./types";
 import KernRichText from "../../kern/KernRichText";
-import KernHeading from "../../kern/KernHeading";
-import { type HeadingProps } from "../../common/Heading";
+import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
 
 type ListProps = {
   items: ListItemProps[];
   variant: ListVariant;
   identifier?: string;
-  heading?: HeadingProps;
+  heading?: KernHeadingProps;
   subheading?: string;
   wrap?: boolean;
 };

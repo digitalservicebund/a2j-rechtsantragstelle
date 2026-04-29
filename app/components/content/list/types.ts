@@ -1,16 +1,16 @@
-import { type AccordionProps } from "~/components/common/Accordion";
-import { type ButtonProps } from "~/components/common/Button";
-import { type HeadingProps } from "~/components/common/Heading";
 import { type ImageProps } from "~/components/common/Image";
+import { type KernAccordionProps } from "~/components/kern/KernAccordion";
+import { type ButtonProps } from "~/components/kern/KernButton";
+import { type KernHeadingProps } from "~/components/kern/KernHeading";
 
 export type ListItemProps = {
   id: number; // Strapi id
   identifier?: string;
-  headline?: HeadingProps;
+  headline?: KernHeadingProps;
   content?: string;
   buttons?: ButtonProps[];
   index?: number;
-  accordion?: AccordionProps;
+  accordion?: KernAccordionProps;
   image?: ImageProps;
 };
 

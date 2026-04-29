@@ -27,7 +27,7 @@ const renderHighlightText = (
   );
 };
 
-const FormatOptionLabel = (
+const AutoSuggestFormatOptionLabel = (
   { label, subDescription }: DataListOptions,
   { context, inputValue }: FormatOptionLabelMeta<DataListOptions>,
 ) => {
@@ -65,4 +65,4 @@ const FormatOptionLabel = (
   );
 };
 
-export default FormatOptionLabel;
+export default AutoSuggestFormatOptionLabel;

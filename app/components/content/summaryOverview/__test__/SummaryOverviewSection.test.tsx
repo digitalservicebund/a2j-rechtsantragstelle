@@ -1,13 +1,12 @@
 import { render } from "@testing-library/react";
-import { type HeadingProps } from "~/components/common/Heading";
 import SummaryOverviewSection from "../SummaryOverviewSection";
+import { type KernHeadingProps } from "~/components/kern/KernHeading";
 
 const mockSummaryOverviewProps = {
   title: {
     tagName: "h2",
     text: "title",
-    look: "default",
-  } satisfies HeadingProps,
+  } satisfies KernHeadingProps,
   id: 1,
   boxes: [
     {

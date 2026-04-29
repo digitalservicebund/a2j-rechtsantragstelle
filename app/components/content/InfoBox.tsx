@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import InfoBoxItem, { type InfoBoxItemProps } from "./InfoBoxItem";
+import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
 
 export type InfoBoxProps = {
   identifier?: string;
-  heading?: HeadingProps;
+  heading?: KernHeadingProps;
   separator?: boolean;
   items: InfoBoxItemProps[];
 };
@@ -24,7 +24,7 @@ const InfoBox = ({
       className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       id={identifier}
     >
-      {heading && <Heading {...heading} />}
+      {heading && <KernHeading {...heading} />}
       {items.length > 0 && (
         <div
           className={classNames("ps-0 info-box ds-stack py-24", {
