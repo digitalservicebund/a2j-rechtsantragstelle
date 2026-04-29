@@ -30,7 +30,12 @@ export const expressApp = (
     app.use(pinoHttpLogger);
   }
 
-  app.use(createPrometheusMetricsMiddleware());
+  // Enable only in staging
+  if (config().ENVIRONMENT === "staging") {
+    app.use(
+      createPrometheusMetricsMiddleware(config().ENVIRONMENT === "production"),
+    );
+  }
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
   app.disable("x-powered-by");

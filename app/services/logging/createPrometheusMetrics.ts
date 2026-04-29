@@ -99,12 +99,14 @@ const parseUserAgent = (userAgent: string): UserAgentInfo => {
   };
 };
 
-export const createPrometheusMetricsMiddleware = () => {
+export const createPrometheusMetricsMiddleware = (
+  isProductionEnvironment: boolean,
+) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
 
     // Handle metrics endpoint
-    if (req.url === "/metrics") {
+    if (req.url === "/metrics" && !isProductionEnvironment) {
       res.set("Content-Type", register.contentType);
       const metrics = await register.metrics();
       res.end(metrics);
