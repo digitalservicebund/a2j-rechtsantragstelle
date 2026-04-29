@@ -40,6 +40,7 @@ export function VorabcheckPage() {
           xlColumn={{ start: 3, span: 8 }}
           className="gap-kern-space-x-large flex flex-col"
           row={2}
+          id="flow-page-content"
         >
           <ContentComponents content={cmsContent.pre_form} managedByParent />
         </GridItem>

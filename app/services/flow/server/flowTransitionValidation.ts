@@ -21,7 +21,7 @@ export function getFlowTransitionConfig(currentFlow: Flow) {
 }
 
 export async function validateFlowTransition(
-  flows: Record<FlowId, Flow>,
+  sourceFlow: Flow,
   cookieHeader: CookieHeader,
   config: FlowTransitionConfig,
 ): Promise<FlowTransitionResult> {
@@ -32,9 +32,9 @@ export async function validateFlowTransition(
   }
 
   const sourceFlowController = buildFlowController({
-    config: flows[sourceFlowId].config,
+    config: sourceFlow.config,
     data: await getSessionData(sourceFlowId, cookieHeader),
-    guards: flows[sourceFlowId].guards,
+    guards: sourceFlow.guards,
   });
 
   const isEligibleForTransition = eligibleSourcePages.some((page) =>
