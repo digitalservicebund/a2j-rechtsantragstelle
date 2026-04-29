@@ -26,11 +26,11 @@ describe("FileUploadInfo", () => {
       />,
     );
     const fileNameLabel = getByText("testfile1.pdf");
-    const fileIcon = getByTestId("InsertDriveFileIcon");
+    const fileIcon = getByTestId("icon-draft");
     expect(fileNameLabel).toBeInTheDocument();
     expect(fileIcon).toBeInTheDocument();
     expect(getByText(translations.fileUpload.delete.de)).toBeInTheDocument();
-    expect(getByTestId("DeleteOutlineIcon")).toBeInTheDocument();
+    expect(getByTestId("delete-file-button-belege[0]")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();
   });
 
