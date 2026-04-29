@@ -3,10 +3,12 @@ import { useLocation } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import type { ButtonNavigationProps } from "../common/ButtonNavigation";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { KernSchemaComponents } from "../kernFormElements/KernSchemaComponents";
-import { KernButtonNavigation } from "../kern/KernButtonNavigation";
+import {
+  type ButtonNavigationProps,
+  KernButtonNavigation,
+} from "../kern/KernButtonNavigation";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
 import { CsrfInput } from "~/components/formElements/CsrfInput";
 

@@ -1,7 +1,7 @@
 import DeleteIcon from "@digitalservicebund/icons/DeleteOutline";
 import InsertFileIcon from "@digitalservicebund/icons/InsertDriveFile";
 import classNames from "classnames";
-import Button from "~/components/common/Button";
+import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
 import { formatFileSizeToString } from "~/services/upload/formatFileSizeToString";
 import {
@@ -44,7 +44,7 @@ export const FileUploadInfo = ({
         </span>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
-      <Button
+      <KernButton
         iconLeft={<DeleteIcon className="" aria-hidden="true" />}
         look="ghost"
         onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}

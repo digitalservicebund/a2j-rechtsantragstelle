@@ -1,5 +1,3 @@
-import { StandaloneLink } from "../../components/common/StandaloneLink";
-
 type Dependency = {
   licenses: string | string[];
   publisher?: string;
@@ -10,7 +8,9 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
   return (
     <li key={dependencyString}>
       {infos.repository ? (
-        <StandaloneLink url={infos.repository} text={dependencyString} />
+        <a href={infos.repository} className="ds-link-01-bold">
+          {dependencyString}
+        </a>
       ) : (
         dependencyString
       )}

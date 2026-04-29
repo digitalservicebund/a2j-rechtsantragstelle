@@ -1,6 +1,7 @@
+import { useShouldPrint } from "../hooks/useShouldPrint";
 import KernRichText from "./KernRichText";
 
-type KernAccordionItemProps = Readonly<{
+export type KernAccordionItemProps = Readonly<{
   title: string;
   description: string;
 }>;
@@ -9,12 +10,17 @@ export type KernAccordionProps = Readonly<{
 }>;
 
 export default function KernAccordion({ items }: KernAccordionProps) {
+  const shouldPrint = useShouldPrint();
   return (
     <div className="kern-accordion-group">
       {items
         .filter((item) => item.title || item.description)
         .map((item) => (
-          <details key={item.title} className="kern-accordion">
+          <details
+            key={item.title}
+            className="kern-accordion"
+            open={shouldPrint}
+          >
             <summary className="kern-accordion__header">
               <span className="kern-title">{item.title}</span>
             </summary>
