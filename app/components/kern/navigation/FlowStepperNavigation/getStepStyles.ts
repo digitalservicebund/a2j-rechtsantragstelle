@@ -19,6 +19,13 @@ function getArrowBg(state: NavState): string {
   return "var(--color-kern-neutral-100)";
 }
 
+function getArrowHoverBg(state: NavState): string {
+  if (stateIsDisabled(state)) return getArrowBg(state);
+  if (stateIsDone(state)) return "var(--color-kern-neutral-100)";
+  if (stateIsWarning(state)) return "var(--color-kern-orange-100)";
+  return "var(--color-kern-neutral-200)";
+}
+
 export function getStepStyles(state: NavState) {
   return {
     isCurrent: stateIsCurrent(state),
@@ -38,22 +45,17 @@ export function getStepStyles(state: NavState) {
         "bg-kern-neutral-025": stateIsOpen(state),
         "bg-kern-neutral-100": state === "Current",
         "bg-kern-neutral-200": state === "DoneCurrent",
+        "hover:bg-kern-neutral-100": stateIsDone(state),
         "hover:bg-kern-neutral-200":
           !stateIsWarning(state) &&
           !stateIsDisabled(state) &&
           !stateIsDone(state),
-        "font-semibold":
-          state !== "Done" && state !== "Warning" && !stateIsDisabled(state),
+        "font-semibold": stateIsCurrent(state),
       },
     ),
 
     arrowBg: getArrowBg(state),
-    arrowHoverBg:
-      stateIsDone(state) || stateIsDisabled(state)
-        ? getArrowBg(state)
-        : stateIsWarning(state)
-          ? "var(--color-kern-orange-100)"
-          : "var(--color-kern-neutral-200)",
+    arrowHoverBg: getArrowHoverBg(state),
 
     circle: classNames(
       "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
@@ -69,7 +71,7 @@ export function getStepStyles(state: NavState) {
     ),
 
     label: classNames({
-      "group-hover:underline": !stateIsDone(state),
+      "group-hover:underline": true,
     }),
 
     triangle: classNames({
