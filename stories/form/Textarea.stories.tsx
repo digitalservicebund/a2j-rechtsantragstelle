@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { z } from "zod";
-import KernTextarea from "~/components/kern/formElements/Textarea";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
+import KernTextarea from "~/components/formElements/Textarea";
 
 const meta = {
   title: "form/Textarea",
