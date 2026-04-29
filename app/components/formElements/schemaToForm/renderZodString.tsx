@@ -23,6 +23,7 @@ export const renderZodString = (
   const sharedProps = {
     name: fieldName,
     readonly: isFieldReadOnly,
+    label: fieldName, // fallback, will get written if there's a matchingElement
     ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
   };
 

@@ -25,10 +25,6 @@ export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
-  const stepId = pathname
-    .replace(flowId, "")
-    .split("/")
-    .join("/")
-    .replaceAll(/(\/\d+)/g, "");
+  const stepId = pathname.replace(flowId, "").replaceAll(/(\/\d+)/g, "");
   return { flowId, stepId, arrayIndexes };
 }
