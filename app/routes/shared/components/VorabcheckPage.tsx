@@ -8,7 +8,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
 import { KernProgress } from "~/components/kern/KernProgressBar";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
+import KernValidatedFlowForm from "~/components/formElements/KernValidatedFormFlow";
 
 export function VorabcheckPage() {
   const {
@@ -40,6 +40,7 @@ export function VorabcheckPage() {
           xlColumn={{ start: 3, span: 8 }}
           className="gap-kern-space-x-large flex flex-col"
           row={2}
+          id="flow-page-content"
         >
           <ContentComponents content={cmsContent.pre_form} managedByParent />
         </GridItem>

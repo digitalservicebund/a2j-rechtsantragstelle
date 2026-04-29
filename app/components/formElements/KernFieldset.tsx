@@ -1,12 +1,12 @@
-import classNames from "classnames";
-import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import Image from "../common/Image";
-import { SchemaComponents } from "./SchemaComponents";
 import { useLocation } from "react-router";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import KernRichText from "../kern/KernRichText";
+import Image from "../common/Image";
+import classNames from "classnames";
+import { getPageSchema } from "~/domains/pageSchemas";
+import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
 
-type FieldSetProps = Readonly<
+type KernFieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
     readOnlyFieldNames: string[];
@@ -31,12 +31,12 @@ const getFieldSetPageSchema = (
     : null;
 };
 
-export const FieldSet = ({
+export const KernFieldset = ({
   heading,
   formComponents,
   image,
   readOnlyFieldNames,
-}: FieldSetProps) => {
+}: KernFieldsetProps) => {
   const { pathname } = useLocation();
 
   const pageSchema = getFieldSetPageSchema(pathname, formComponents);
@@ -44,25 +44,30 @@ export const FieldSet = ({
   if (!pageSchema) return null;
 
   return (
-    <fieldset>
-      <legend className="md:flex md:gap-8">
+    <fieldset className="kern-fieldset">
+      <legend className="flex gap-kern-space-small items-center m-0! p-0!">
         {image && (
           <Image
             {...image}
-            className="min-h-full min-w-[24px]"
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}
+            className="min-h-full min-w-[26px] forced-color-adjust-auto"
           />
         )}
-        <KernRichText html={heading} />
+        <KernRichText
+          html={heading}
+          className="text-kern-adaptive-medium! kern-label"
+        />
       </legend>
-      <SchemaComponents
-        pageSchema={pageSchema}
-        formComponents={formComponents}
-        className={classNames("pt-16 !ds-stack-16", { "md:pl-32": image })}
-        readOnlyFieldNames={readOnlyFieldNames}
-      />
+      <div className="kern-fieldset__body">
+        <KernSchemaComponents
+          pageSchema={pageSchema}
+          formComponents={formComponents}
+          className={classNames("pt-16", { "md:pl-32": image })}
+          readOnlyFieldNames={readOnlyFieldNames}
+        />
+      </div>
     </fieldset>
   );
 };
