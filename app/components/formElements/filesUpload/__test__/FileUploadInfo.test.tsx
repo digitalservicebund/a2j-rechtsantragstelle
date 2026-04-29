@@ -1,10 +1,10 @@
 import { fireEvent, render } from "@testing-library/react";
-import { FileUploadInfo } from "~/components/formElements/filesUpload/FileUploadInfo";
 import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
+import { FileUploadInfo } from "../FileUploadInfo";
 
 const fileName = "testfile1.pdf";
 const inputName = "belege[0]";
@@ -26,11 +26,11 @@ describe("FileUploadInfo", () => {
       />,
     );
     const fileNameLabel = getByText("testfile1.pdf");
-    const fileIcon = getByTestId("InsertDriveFileIcon");
+    const fileIcon = getByTestId("icon-draft");
     expect(fileNameLabel).toBeInTheDocument();
     expect(fileIcon).toBeInTheDocument();
     expect(getByText(translations.fileUpload.delete.de)).toBeInTheDocument();
-    expect(getByTestId("DeleteOutlineIcon")).toBeInTheDocument();
+    expect(getByTestId("delete-file-button-belege[0]")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();
   });
 

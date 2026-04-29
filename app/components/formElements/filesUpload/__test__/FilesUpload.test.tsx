@@ -2,13 +2,11 @@ import { type ValidationErrorResponseData } from "@rvf/react-router";
 import { fireEvent, render } from "@testing-library/react";
 import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import FilesUpload, {
-  type FilesUploadProps,
-} from "~/components/formElements/filesUpload/FilesUpload";
 import { type UserData } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 import { translations } from "~/services/translations/translations";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
+import FilesUpload, { type FilesUploadProps } from "../FilesUpload";
 
 const deleteLabel = translations.fileUpload.delete.de;
 const selectLabel = translations.fileUpload.select.de;

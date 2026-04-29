@@ -1,5 +1,4 @@
 import z from "zod";
-import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
 import HiddenInput from "~/components/formElements/HiddenInput";
 import IbanInput from "~/components/formElements/IbanInput";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
@@ -7,6 +6,7 @@ import { type StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
+import FilesUpload from "../filesUpload/FilesUpload";
 
 export const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -52,7 +52,6 @@ export const renderSchemaBasedFormElement = (
         name={fieldName}
         title={filesUploadElement.title}
         description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices}
         errorMessages={filesUploadElement.errorMessages}
       />
     );
