@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useRef } from "react";
-import Button from "~/components/common/Button";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "~/components/formElements/InputError";
 import { translations } from "~/services/translations/translations";
@@ -8,6 +7,7 @@ import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
+import KernButton from "~/components/kern/KernButton";
 
 type FileInputProps = {
   name: string;
@@ -78,14 +78,13 @@ export const FileInput = ({
             <div className="flex flex-row">
               <label>
                 {FileInput}
-                <Button
+                <KernButton
                   name="_action"
                   value={`fileUpload.${name}`}
                   className="w-fit"
                   type="submit"
                   look="primary"
                   text={translations.fileUpload.upload.de}
-                  size="large"
                 />
               </label>
             </div>

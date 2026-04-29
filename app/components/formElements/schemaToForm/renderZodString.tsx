@@ -1,15 +1,15 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import KernTextarea from "~/components/kern/formElements/Textarea";
+import KernTextarea from "~/components/formElements/Textarea";
 import TextInput, {
   type InputProps,
 } from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
 import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
-import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 import KernDateInput from "~/components/formElements/inputs/KernDateInput";
+import KernAutoSuggestInput from "../autoSuggestInput/KernAutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,

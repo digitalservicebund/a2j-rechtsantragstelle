@@ -3,7 +3,6 @@ import {
   getTranslationByKey,
   type Translations,
 } from "~/services/translations/getTranslationByKey";
-import { StandaloneLink } from "./common/StandaloneLink";
 import { arrayIsNonEmpty } from "~/util/array";
 
 type MigrationDataProps = {
@@ -77,13 +76,12 @@ export default function MigrationDataOverview({
       </dl>
       {buttonUrl && (
         <div className="mt-32!">
-          <StandaloneLink
-            url={buttonUrl}
-            text={getTranslationByKey(
+          <a href={buttonUrl} className="kern-link">
+            {getTranslationByKey(
               MIGRATION_BUTTON_TEXT_TRANSLATION,
               translations,
             )}
-          />
+          </a>
         </div>
       )}
     </div>

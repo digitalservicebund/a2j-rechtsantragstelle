@@ -1,12 +1,11 @@
-import { type HeadingProps } from "~/components/common/Heading";
-import { type RichTextProps } from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import KernHeading from "./KernHeading";
+import KernHeading, { type KernHeadingProps } from "./KernHeading";
 import classNames from "classnames";
 import KernButton, { type ButtonProps } from "./KernButton";
+import { type RichTextProps } from "./KernRichText";
 
 type Props = Readonly<{
-  heading: HeadingProps;
+  heading: KernHeadingProps;
   content?: RichTextProps;
   sectionBackgroundColor?: string;
   button?: ButtonProps;

@@ -1,10 +1,10 @@
 import { useField } from "@rvf/react-router";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import * as useDataListOptions from "~/components/formElements/autoSuggestInput/useDataListOptions";
-import * as useLiveMessage from "~/components/formElements/autoSuggestInput/useLiveMessage";
-import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
+import * as useDataListOptions from "~/components/formElements/autoSuggestInput/hooks/useDataListOptions";
+import * as useLiveMessage from "~/components/formElements/autoSuggestInput/hooks/useLiveMessage";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import KernAutoSuggestInput from "../KernAutoSuggestInput";
 
 vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
@@ -16,7 +16,7 @@ vi.mock("react-router", () => ({
   })),
 }));
 
-vi.mock("~/components/formElements/autoSuggestInput/useLiveMessage");
+vi.mock("~/components/formElements/autoSuggestInput/hooks/useLiveMessage");
 
 const mockFuseSearch = vi.fn().mockReturnValue([]);
 

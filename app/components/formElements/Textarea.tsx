@@ -1,16 +1,18 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import type { ReactNode } from "react";
-import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
-import InputLabel from "~/components/formElements/InputLabel";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import InputError from "./InputError";
-import RichText from "../common/RichText";
 import { type ErrorMessageProps } from "../common/types";
+import KernRichText from "../kern/KernRichText";
+import InputError from "../kern/formElements/InputError";
+import { KernDetails } from "../kern/KernDetails";
+
+export const TEXT_AREA_ROWS = 3;
 
 type TextareaProps = Readonly<{
   name: string;
+  backgroundClass?: string;
   description?: string;
   label?: ReactNode;
   details?: {
@@ -22,13 +24,11 @@ type TextareaProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
   innerRef?: React.Ref<HTMLTextAreaElement>;
   ariaDescribedby?: string;
-  readonly?: boolean;
 }>;
 
-export const TEXT_AREA_ROWS = 3;
-
-const Textarea = ({
+const KernTextarea = ({
   name,
+  backgroundClass,
   description,
   label,
   details,
@@ -37,22 +37,23 @@ const Textarea = ({
   errorMessages,
   innerRef,
   ariaDescribedby,
-  readonly,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
 
   return (
-    <div className="ds-stack ds-stack-8">
+    <div
+      className={classNames("kern-form-input gap-kern-space-small!", {
+        "kern-form-input--error": field.error(),
+      })}
+    >
       {label && (
-        <InputLabel classname="ds-label-01-reg" id={name}>
+        <label className="kern-label" htmlFor={name}>
           {label}
-        </InputLabel>
+        </label>
       )}
-      {description && (
-        <RichText className="ds-body-02-reg text-gray-900" html={description} />
-      )}
-      {details && <Details {...details} />}
+      {description && <KernRichText html={description} />}
+      {details && <KernDetails {...details} />}
       <textarea
         {...field.getInputProps({
           id: name,
@@ -61,12 +62,13 @@ const Textarea = ({
         maxLength={maxLength}
         rows={getGeldEinklagenTextareaRows(name) ?? TEXT_AREA_ROWS}
         className={classNames(
-          "ds-textarea forced-colors:border-4 ph-no-capture",
+          "kern-form-input__input ph-no-capture h-fit!",
           {
-            "has-error": field.error(),
+            "kern-form-input__input--error": field.error(),
+            "bg-white!": !backgroundClass,
           },
+          backgroundClass,
         )}
-        readOnly={readonly}
         ref={innerRef}
         aria-invalid={field.error() !== null}
         aria-describedby={field.error() ? errorId : ariaDescribedby}
@@ -81,4 +83,4 @@ const Textarea = ({
   );
 };
 
-export default Textarea;
+export default KernTextarea;

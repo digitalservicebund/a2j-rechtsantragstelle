@@ -1,8 +1,8 @@
 import { useState } from "react";
-import RichText from "../common/RichText";
 import IconExpandLess from "@digitalservicebund/icons/ExpandLess";
 import IconExpandMore from "@digitalservicebund/icons/ExpandMore";
 import { GridItem } from "../layout/grid/GridItem";
+import KernRichText from "../kern/KernRichText";
 
 export type DetailsProps = {
   title?: string;
@@ -33,7 +33,7 @@ export const Details = ({ title, content }: DetailsProps) => {
           {title}
         </summary>
         <div className="pl-[32px] pt-4 text-black ds-label-01-reg">
-          {content && <RichText className="leading-[1.5]" html={content} />}
+          {content && <KernRichText className="leading-[1.5]" html={content} />}
         </div>
       </details>
     </GridItem>
