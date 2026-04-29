@@ -3,6 +3,7 @@ import { removeMarkupTags } from "~/util/strings";
 import KernRichText from "./KernRichText";
 import { KernIcon } from "./common/KernIcon";
 import { type IconName } from "./common/utils";
+import { translations } from "~/services/translations/translations";
 
 export type KernInlineNoticeProps = {
   identifier?: string;
@@ -18,25 +19,34 @@ export type KernInlineNoticeProps = {
 // Therefore, it's set in the config.
 const lookConfig: Record<
   KernInlineNoticeProps["look"],
-  { iconName: IconName; iconClassName: string; containerClassName: string }
+  {
+    iconName: IconName;
+    ariaLabel: string;
+    iconClassName: string;
+    containerClassName: string;
+  }
 > = {
   info: {
     iconName: "info",
+    ariaLabel: translations.inlineNotice.infoIcon.de,
     iconClassName: "app-icon--info",
     containerClassName: "kern-alert--info",
   },
   warning: {
     iconName: "warning",
+    ariaLabel: translations.inlineNotice.warningIcon.de,
     iconClassName: "app-icon--warning",
     containerClassName: "kern-alert--warning",
   },
   danger: {
     iconName: "emergency-home",
+    ariaLabel: translations.inlineNotice.errorIcon.de,
     iconClassName: "app-icon--danger",
     containerClassName: "kern-alert--danger",
   },
   success: {
     iconName: "check-circle",
+    ariaLabel: translations.inlineNotice.successIcon.de,
     iconClassName: "app-icon--success",
     containerClassName: "kern-alert--success",
   },
@@ -52,7 +62,8 @@ export const KernInlineNotice = ({
   nested,
 }: KernInlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
-  const { iconName, iconClassName, containerClassName } = lookConfig[look];
+  const { iconName, iconClassName, containerClassName, ariaLabel } =
+    lookConfig[look];
   const Tag = tagName;
 
   const base = (
@@ -64,8 +75,8 @@ export const KernInlineNotice = ({
       <div className="kern-alert__header">
         <KernIcon
           name={iconName}
+          ariaLabel={ariaLabel}
           className={`${iconClassName} mr-8 forced-color-adjust-auto`}
-          aria-hidden="true"
         />
         <Tag className="kern-body kern-body--bold p-0! outline-none!">
           {" "}

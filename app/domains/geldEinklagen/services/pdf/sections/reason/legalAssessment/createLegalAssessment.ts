@@ -6,10 +6,10 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addAdvanceCourtText } from "./addAdvanceCourtText";
 import { addRechtlicheWuerdigung } from "./addRechtlicheWuerdigung";
-import { addDisputeResolution } from "./addDisputeResolution";
 import { addSignature } from "./addSignature";
 import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
+import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 
 const getLegalAssessmentTitle = (hasEvidencesOnFacts: boolean) =>
   `${hasEvidencesOnFacts ? "III" : "II"}. Rechtliche Würdigung`;
@@ -47,7 +47,10 @@ export const createLegalAssessment = (
 
   addRechtlicheWuerdigung(doc, legalAssessmentSect, userData);
 
-  addDisputeResolution(doc, legalAssessmentSect, userData);
+  addDisputeResolution(doc, legalAssessmentSect, {
+    streitbeilegung: userData.streitbeilegung,
+    streitbeilegungGruende: userData.streitbeilegungGruende,
+  });
 
   addAdvanceCourtText(doc, legalAssessmentSect, userData);
 

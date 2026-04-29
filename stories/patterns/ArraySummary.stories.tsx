@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernArraySummary from "~/components/kern/arraySummary/KernArraySummary";
+import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
@@ -15,7 +15,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: false,

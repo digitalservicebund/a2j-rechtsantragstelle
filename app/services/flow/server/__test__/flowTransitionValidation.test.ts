@@ -26,18 +26,7 @@ const createMockFlow = (flowType: FlowType): Flow => ({
 describe("flowTransitionValidation", () => {
   const mockFlowId: FlowId = "/fluggastrechte/vorabcheck";
   const mockCookieHeader = "mock-cookie";
-  const mockFlows: Record<FlowId, Flow> = {
-    "/beratungshilfe/vorabcheck": createMockFlow("formFlow"),
-    "/beratungshilfe/antrag": createMockFlow("formFlow"),
-    "/fluggastrechte/vorabcheck": createMockFlow("vorabCheck"),
-    "/fluggastrechte/formular": createMockFlow("formFlow"),
-    "/erbschein/wegweiser": createMockFlow("vorabCheck"),
-    "/erbschein/nachlassgericht": createMockFlow("vorabCheck"),
-    "/prozesskostenhilfe/formular": createMockFlow("formFlow"),
-    "/kontopfaendung/wegweiser": createMockFlow("vorabCheck"),
-    "/geld-einklagen/formular": createMockFlow("formFlow"),
-    "/kontopfaendung/pkonto/antrag": createMockFlow("formFlow"),
-  };
+  const sourceFlow = createMockFlow("vorabCheck");
   const mockController: FlowController = {
     getMeta: vi.fn().mockReturnValue(undefined),
     getRootMeta: vi.fn().mockReturnValue(undefined),
@@ -69,7 +58,7 @@ describe("flowTransitionValidation", () => {
     vi.mocked(buildFlowController).mockReturnValue(mockController);
 
     const result = await validateFlowTransition(
-      mockFlows,
+      sourceFlow,
       mockCookieHeader,
       config,
     );
@@ -90,7 +79,7 @@ describe("flowTransitionValidation", () => {
     vi.mocked(buildFlowController).mockReturnValue(mockController);
 
     const result = await validateFlowTransition(
-      mockFlows,
+      sourceFlow,
       mockCookieHeader,
       config,
     );
@@ -108,7 +97,7 @@ describe("flowTransitionValidation", () => {
     };
 
     await expect(
-      validateFlowTransition(mockFlows, mockCookieHeader, config),
+      validateFlowTransition(sourceFlow, mockCookieHeader, config),
     ).rejects.toThrow("This property should not be empty");
   });
 });

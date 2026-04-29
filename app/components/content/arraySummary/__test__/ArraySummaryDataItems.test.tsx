@@ -1,9 +1,8 @@
 import { render } from "@testing-library/react";
+import KernArraySummaryDataItems from "~/components/content/arraySummary/KernArraySummaryDataItem";
 import type { ArrayConfigClient } from "~/services/array";
-import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: false,
@@ -15,9 +14,12 @@ const mockDataItem = {
   familyRelationship: "mother",
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryItemButton", () => ({
-  default: () => <div>Mock ArraySummaryItemButton</div>,
-}));
+vi.mock(
+  "~/components/content/arraySummary/KernArraySummaryItemActions",
+  () => ({
+    default: () => <div>Mock ArraySummaryItemActions</div>,
+  }),
+);
 
 describe("ArraySummaryDataItems", () => {
   afterEach(() => {
@@ -32,7 +34,7 @@ describe("ArraySummaryDataItems", () => {
       surname: "Nachname",
     };
     const { getByText } = render(
-      <ArraySummaryDataItems
+      <KernArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
         itemIndex={0}
@@ -41,9 +43,7 @@ describe("ArraySummaryDataItems", () => {
       />,
     );
 
-    Object.entries(itemLabels).forEach(([key, label]) => {
-      const expectedTagName = key.includes(".") ? "DIV" : "P";
-      expect(getByText(label).tagName).toBe(expectedTagName);
+    Object.values(itemLabels).forEach((label) => {
       expect(getByText(label)).toBeInTheDocument();
     });
   });
@@ -55,7 +55,7 @@ describe("ArraySummaryDataItems", () => {
     };
 
     const { container } = render(
-      <ArraySummaryDataItems
+      <KernArraySummaryDataItems
         configuration={mockArrayConfiguratinWithHiddenFields}
         items={mockDataItem}
         itemIndex={0}
@@ -69,7 +69,7 @@ describe("ArraySummaryDataItems", () => {
 
   it("should render ArraySummaryDataItems with subtitle", () => {
     const { getByText } = render(
-      <ArraySummaryDataItems
+      <KernArraySummaryDataItems
         configuration={mockArrayConfiguration}
         items={mockDataItem}
         itemIndex={0}
@@ -86,7 +86,7 @@ describe("ArraySummaryDataItems", () => {
     const { queryByText } = render(
       <>
         {[0, 1].map((itemIndex) => (
-          <ArraySummaryDataItems
+          <KernArraySummaryDataItems
             key={itemIndex}
             configuration={mockArrayConfiguration}
             items={mockDataItem}
@@ -107,7 +107,7 @@ describe("ArraySummaryDataItems", () => {
     const { queryByText } = render(
       <>
         {[0, 1].map((itemIndex) => (
-          <ArraySummaryDataItems
+          <KernArraySummaryDataItems
             key={itemIndex}
             configuration={{
               ...mockArrayConfiguration,

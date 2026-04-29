@@ -19,12 +19,12 @@ type StateIconProps = {
   showWarningIcon?: boolean;
 };
 
-// oxlint-disable-next-line no-unused-vars
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
       <KernIcon
         name="check-circle"
+        id={id}
         className="fill-kern-feedback-success"
         aria-label={translations.navigation.navigationItemFinished.de}
         size={24}
@@ -34,7 +34,8 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
     return (
       <KernIcon
         name="warning"
-        aria-label={translations.navigation.navigationItemWarning.de}
+        id={id}
+        ariaLabel={translations.navigation.navigationItemWarning.de}
         className="fill-kern-feedback-warning"
         size={24}
       />

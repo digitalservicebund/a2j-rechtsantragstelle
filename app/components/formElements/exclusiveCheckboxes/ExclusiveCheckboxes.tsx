@@ -1,12 +1,12 @@
 import { type FieldApi, useField } from "@rvf/react-router";
 import { useState } from "react";
-import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import {
   ControlledCheckbox,
   type ControlledCheckboxProps,
 } from "~/components/formElements/exclusiveCheckboxes/ControlledCheckbox";
 import InputError from "~/components/formElements/InputError";
 import { type ExclusiveCheckboxes as ExclusiveCheckboxesType } from "~/services/validation/checkedCheckbox";
+import { type CheckboxValue } from "../KernCheckbox";
 
 type ExclusiveCheckboxesProps = Readonly<{
   name: string;
