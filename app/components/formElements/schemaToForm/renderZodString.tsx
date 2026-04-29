@@ -1,7 +1,7 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import KernTextarea from "~/components/kern/formElements/Textarea";
+import KernTextarea from "~/components/formElements/Textarea";
 import TextInput, {
   type InputProps,
 } from "~/components/kern/formElements/input/TextInput";

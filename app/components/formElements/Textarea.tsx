@@ -3,10 +3,10 @@ import classNames from "classnames";
 import type { ReactNode } from "react";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import { type ErrorMessageProps } from "../../common/types";
-import KernRichText from "../KernRichText";
-import InputError from "./InputError";
-import { KernDetails } from "../KernDetails";
+import { type ErrorMessageProps } from "../common/types";
+import KernRichText from "../kern/KernRichText";
+import InputError from "../kern/formElements/InputError";
+import { KernDetails } from "../kern/KernDetails";
 
 export const TEXT_AREA_ROWS = 3;
 
