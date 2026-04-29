@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import TileRadio from "~/components/formElements/tile/TileRadio";
+import KernTileRadio from "../KernTileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 const mockErrorMessage = "error-message";
@@ -18,6 +18,8 @@ const mockProps = {
     width: 32,
     height: 32,
   },
+  errorId: `${COMPONENT_NAME}-error`,
+  tileDescription: "Some description",
 };
 
 const getErrorMock = vi.fn();
@@ -43,18 +45,16 @@ beforeEach(() => {
 
 describe("TileRadio", () => {
   it("check if the component renders correct", () => {
-    const { container, queryByRole } = render(<TileRadio {...mockProps} />);
+    const { container, queryByRole } = render(<KernTileRadio {...mockProps} />);
 
-    expect(container.getElementsByClassName("ds-tile-radio-group").length).toBe(
-      1,
-    );
+    expect(container.getElementsByClassName("kern-tile").length).toBe(1);
     expect(queryByRole("radio")).toBeInTheDocument();
   });
 
   it("check if the click works", () => {
     const handleClick = vi.fn();
 
-    render(<TileRadio {...mockProps} onClick={handleClick} />);
+    render(<KernTileRadio {...mockProps} onClick={handleClick} />);
     fireEvent.click(screen.getByRole("radio"));
 
     expect(handleClick).toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe("TileRadio", () => {
     const ref = { current: null };
 
     render(
-      <TileRadio
+      <KernTileRadio
         name={COMPONENT_NAME}
         value="any-value"
         onClick={vi.fn()}
@@ -79,7 +79,7 @@ describe("TileRadio", () => {
   it("sets proper aria attributes when there is an error", () => {
     mockError(mockErrorMessage);
 
-    render(<TileRadio {...mockProps} />);
+    render(<KernTileRadio {...mockProps} />);
 
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute(
@@ -89,7 +89,7 @@ describe("TileRadio", () => {
   });
 
   it("sets proper aria attributes when does not an error and contains a description", () => {
-    render(<TileRadio {...mockProps} />);
+    render(<KernTileRadio {...mockProps} />);
 
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute(

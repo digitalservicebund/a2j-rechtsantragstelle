@@ -3,9 +3,9 @@ import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import KernRadioGroup from "~/components/formElements/KernRadioGroup";
-import KernTile from "~/components/kern/formElements/tile/KernTile";
 import KernSelect from "~/components/formElements/KernSelect";
 import KernCheckbox from "~/components/formElements/KernCheckbox";
+import KernTile from "../tile/KernTile";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 

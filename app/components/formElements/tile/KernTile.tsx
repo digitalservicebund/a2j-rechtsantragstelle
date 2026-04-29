@@ -2,27 +2,27 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import TileRadio, { type TileOptions } from "./TileRadio";
-import { type ErrorMessageProps } from "../../common/types";
-import InputError from "../InputError";
+import { type ErrorMessageProps } from "~/components/common/types";
+import KernTileRadio, { type KernTileOptions } from "./KernTileRadio";
+import InputError from "~/components/kern/formElements/InputError";
 
-type TileGroupProps = Readonly<{
+type KernTileProps = Readonly<{
   name: string;
-  options: TileOptions[];
+  options: KernTileOptions[];
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
 }>;
 
-const TileGroup = ({
+const KernTile = ({
   name,
   options,
   label,
   altLabel,
   errorMessages,
   useTwoColumns,
-}: TileGroupProps) => {
+}: KernTileProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   const errorToDisplay =
@@ -39,8 +39,12 @@ const TileGroup = ({
     <fieldset
       aria-invalid={field.error() !== null}
       aria-errormessage={field.error() ? errorId : undefined}
+      className={classNames("kern-fieldset", {
+        "kern-fieldset--error": field.error() !== null,
+      })}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
+
       {(!jsAvailable || renderHiddenField) && (
         <input type="hidden" name={name} />
       )}
@@ -49,26 +53,24 @@ const TileGroup = ({
           "grid-cols-[repeat(auto-fit,minmax(18.125rem,1fr))]": useTwoColumns,
         })}
       >
-        {label && <legend>{label}</legend>}
-        {options.map(
-          ({ value, description, tagDescription, image, title }, index) => (
-            <TileRadio
-              key={value}
-              name={name}
-              onClick={() => setRenderHiddenField(false)}
-              value={value}
-              description={description}
-              tagDescription={tagDescription}
-              image={image}
-              title={title}
-              ref={
-                index === 0 && field.error() ? field.refs.controlled() : null
-              }
-            />
-          ),
+        {label && (
+          <legend className="kern-label kern-label--large">{label}</legend>
         )}
+        {options.map(({ value, description, image, title }, index) => (
+          <KernTileRadio
+            key={value}
+            name={name}
+            onClick={() => setRenderHiddenField(false)}
+            value={value}
+            tileDescription={description}
+            tileTitle={title}
+            image={image}
+            errorId={errorId}
+            ref={index === 0 && field.error() ? field.refs.controlled() : null}
+          />
+        ))}
       </div>
-      <div className="pt-16">
+      <div className="pt-16 pb-16">
         {errorToDisplay && (
           <InputError id={errorId}>{errorToDisplay}</InputError>
         )}
@@ -77,4 +79,4 @@ const TileGroup = ({
   );
 };
 
-export default TileGroup;
+export default KernTile;

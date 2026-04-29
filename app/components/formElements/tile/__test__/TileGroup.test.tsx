@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen } from "@testing-library/react";
-import TileGroup from "~/components/formElements/tile/TileGroup";
+import KernTile from "../KernTile";
 
 const COMPONENT_NAME = "TileGroup";
 
@@ -43,7 +43,7 @@ const mockErrorMessages = [
   { code: "required", text: "This field is required" },
 ];
 
-describe("TileGroup", () => {
+describe("Tile", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useField).mockImplementation(() => mockUseField());
@@ -51,7 +51,7 @@ describe("TileGroup", () => {
 
   it("renders all tile options", () => {
     render(
-      <TileGroup
+      <KernTile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -67,7 +67,7 @@ describe("TileGroup", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <TileGroup
+      <KernTile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -81,7 +81,7 @@ describe("TileGroup", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <TileGroup
+      <KernTile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -97,7 +97,7 @@ describe("TileGroup", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <TileGroup
+      <KernTile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
