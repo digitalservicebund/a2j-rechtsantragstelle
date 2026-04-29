@@ -3,7 +3,7 @@ import KernTileContent from "../KernTileContent";
 
 describe("TileContent", () => {
   it("should render title and description", () => {
-    render(<KernTileContent tileTitle="Title" tileDescription="Description" />);
+    render(<KernTileContent title="Title" description="Description" />);
     expect(screen.getByText("Title")).toBeInTheDocument();
     expect(screen.getByText("Description")).toBeInTheDocument();
   });

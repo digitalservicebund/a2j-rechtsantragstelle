@@ -5,14 +5,14 @@ const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
 
 export type KernTileContentProps = {
-  readonly tileDescription?: string;
-  readonly tileTitle?: string;
+  readonly description?: string;
+  readonly title?: string;
   readonly image?: ImageProps;
 };
 
 const KernTileContent = ({
-  tileTitle,
-  tileDescription,
+  title,
+  description,
   image,
 }: KernTileContentProps) => {
   return (
@@ -33,15 +33,13 @@ const KernTileContent = ({
         )}
       </div>
       <div>
-        {tileTitle && (
-          <h3 className="kern-body kern-body--bold">{tileTitle}</h3>
-        )}
-        {tileDescription && (
+        {title && <h3 className="kern-body kern-body--bold">{title}</h3>}
+        {description && (
           <p
-            id={tileDescription ? `${tileTitle}-description` : undefined}
+            id={description ? `${title}-description` : undefined}
             className="kern-body kern-body--muted break-words"
           >
-            {tileDescription}
+            {description}
           </p>
         )}
       </div>
