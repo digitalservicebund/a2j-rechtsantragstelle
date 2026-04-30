@@ -10,7 +10,7 @@ import {
 } from "./KernInlineNotice";
 import KernAccordion, { type KernAccordionProps } from "./KernAccordion";
 import KernHeading from "./KernHeading";
-import { KernDetails, type KernDetailsProps } from "./KernDetails";
+import { Details, type DetailsProps } from "../content/Details";
 import KernButtonContainer from "./KernButtonContainer";
 
 export type KernBoxItemProps = {
@@ -20,7 +20,7 @@ export type KernBoxItemProps = {
   headline?: KernHeadlineProps;
   image?: ImageProps;
   content?: string;
-  details?: KernDetailsProps[];
+  details?: DetailsProps[];
   inlineNotices?: KernInlineNoticeProps[];
   buttons?: ButtonProps[];
   separator?: boolean;
@@ -51,7 +51,7 @@ const KernBoxItem = ({
         {headline && <KernHeading managedByParent {...headline} />}
         {content && <KernRichText html={content} />}
         {details?.map((details) => (
-          <KernDetails key={details.title} {...details} />
+          <Details key={details.title} {...details} />
         ))}
         {inlineNotices?.map((inlineNotice) => (
           <KernInlineNotice key={inlineNotice.title} {...inlineNotice} nested />
