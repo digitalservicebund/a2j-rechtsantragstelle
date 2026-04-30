@@ -16,23 +16,23 @@ const getCompiledSchema = <C extends PageConfigMap>(
 };
 
 type Options<C extends PageConfigMap> = {
-  pageNodeMap: C;
+  pageConfigMap: C;
   initialStep: keyof C;
-  flowConfig: TransitionConfigMap<C>;
+  transitionConfigMap: TransitionConfigMap<C>;
   stepIdLeadingSlash?: boolean;
 };
 
 export const compileFlowConfig = <C extends PageConfigMap>({
-  pageNodeMap,
+  pageConfigMap,
   initialStep,
-  flowConfig,
+  transitionConfigMap,
   stepIdLeadingSlash = false,
 }: Options<C>) => {
   const stepIdMap: Record<string, keyof C> = invert(
     // mapValues(config, (obj) => obj.stepId.replaceAll("/#", "")),
-    mapValues(pageNodeMap, "stepId"),
+    mapValues(pageConfigMap, "stepId"),
   );
-  const graphStats = precomputeGraph(flowConfig, initialStep);
+  const graphStats = precomputeGraph(transitionConfigMap, initialStep);
 
   // slice/prepend "/" depending on stepIdLeadingSlash
   const getKeyFromStepId = (stepId: string): keyof C | undefined =>
@@ -42,8 +42,8 @@ export const compileFlowConfig = <C extends PageConfigMap>({
     key ? (stepIdLeadingSlash ? "/" : "") + pageNodeMap[key].stepId : undefined;
 
   return {
-    config: pageNodeMap,
-    flowConfig,
+    pageConfigMap,
+    transitionConfigMap,
     initialStep,
     graphStats,
     arrayInfos: (stepId: string) => {
@@ -80,7 +80,7 @@ export const compileFlowConfig = <C extends PageConfigMap>({
       return { arrayName, arraySchema, entryPoint };
     },
     getSchema: (stepId: string) =>
-      getCompiledSchema(pageNodeMap, getKeyFromStepId(stepId)),
+      getCompiledSchema(pageConfigMap, getKeyFromStepId(stepId)),
     getKeyFromStepId,
     getStepIdFromKey,
     isFinal: (stepId: string) => {

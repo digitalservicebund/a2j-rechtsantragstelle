@@ -3,9 +3,9 @@ import { erbfolgePages } from "./pages";
 import { childrenFlowConfig } from "./childrenFlowConfig";
 
 export const erbfolgeStaticFlow = compileFlowConfig({
-  pageNodeMap: erbfolgePages,
+  pageConfigMap: erbfolgePages,
   initialStep: "start",
-  flowConfig: {
+  transitionConfigMap: {
     start: "hasChildren",
     hasChildren: [
       { target: "childrenArraySummary", guard: (d) => d.hasChildren === "yes" },

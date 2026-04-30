@@ -20,7 +20,7 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
   // 2. Single Simulation Pass
   // Always traverse arrays to ensure deeply nested nodes are populated in the reachableSet and path.
   const simulation = simulatePath(
-    staticFlow.flowConfig,
+    staticFlow.transitionConfigMap,
     staticFlow.initialStep,
     userData,
     true,
@@ -32,7 +32,8 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
 
   // Next: The immediate route evaluating to false explicitly steps OVER arrays, proceeding to the next main branch.
   const nextKey =
-    evaluateRoute(staticFlow.flowConfig[currentKey], userData) ?? undefined;
+    evaluateRoute(staticFlow.transitionConfigMap[currentKey], userData) ??
+    undefined;
 
   return {
     currentKey,
@@ -41,7 +42,7 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
     arrayInfos,
     path: simulation.path,
     isTerminated: simulation.isTerminatedSuccessfully,
-    statusTree: getFlowStatusTree(staticFlow.config, simulation),
+    statusTree: getFlowStatusTree(staticFlow.pageConfigMap, simulation),
     isReachable: (targetStepId: string) => {
       const key = staticFlow.getKeyFromStepId(targetStepId);
       return key && simulation.reachableSet.has(key);
