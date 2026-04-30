@@ -16,6 +16,8 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
   InputProps
 >((props) => <TextInput {...props} />);
 
+const bankNameBadgeId = "bank-name-badge";
+
 const KernIbanInput = (props: InputProps) => {
   const field = useField<string | undefined>(props.name);
   const iban = field.value();
@@ -28,13 +30,13 @@ const KernIbanInput = (props: InputProps) => {
       if (iban && banks) {
         const matchedBankName = bankNameFromIBAN(iban, banks);
         setBankName(matchedBankName);
+      } else {
+        setBankName(undefined);
       }
     }, 1000);
 
     return () => clearTimeout(timeout);
   }, [iban, banks]);
-
-  const bankNameBadgeId = "bank-name-badge";
 
   return (
     <div key={props.name} className="flex flex-col gap-15">

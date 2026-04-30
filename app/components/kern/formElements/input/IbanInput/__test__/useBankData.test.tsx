@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { renderHook, waitFor } from "@testing-library/react";
 import { type BankData } from "~/components/kern/formElements/input/IbanInput";
 import { useBankData } from "~/components/kern/formElements/input/IbanInput/useBankData";
@@ -21,6 +17,17 @@ describe("useBankData", () => {
     const { result } = renderHook(() => useBankData());
     expect(result.current).toBeUndefined();
     expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("should return undefined if response is not ok", async () => {
+    mockFetch.mockImplementation(() => ({
+      ok: false,
+    }));
+
+    const { result } = renderHook(() => useBankData());
+    await waitFor(() => {
+      expect(result.current).toBe(undefined);
+    });
   });
 
   it("should return the bank data if the api call succeeds", async () => {
