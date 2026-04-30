@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernDetails } from "~/components/kern/KernDetails";
+import { Details } from "~/components/content/Details";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/Details",
-  component: KernDetails,
+  component: Details,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -16,7 +16,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernDetails>;
+} satisfies Meta<typeof Details>;
 
 export default meta;
 

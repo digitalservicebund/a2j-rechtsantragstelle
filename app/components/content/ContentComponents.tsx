@@ -13,7 +13,7 @@ import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernVideo from "../kern/video/KernVideo";
 import { KernEmailCapture } from "~/components/content/emailCapture/KernEmailCapture";
-import { KernDetails } from "../kern/KernDetails";
+import { Details } from "./Details";
 import KernUserFeedback from "./userFeedback";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
@@ -84,7 +84,7 @@ function cmsToReact(
         />
       );
     case "page.details-summary":
-      return <KernDetails {...componentProps} />;
+      return <Details {...componentProps} />;
     case "page.video":
       return <KernVideo {...componentProps} />;
     case "page.list":
