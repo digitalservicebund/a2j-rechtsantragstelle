@@ -1,7 +1,7 @@
-import type { RouteDefinition } from "./types";
+import type { TransitionConfig } from "./types";
 
 export const evaluateRoute = <FlowKey, UserData>(
-  route: RouteDefinition<FlowKey, UserData> | undefined,
+  route: TransitionConfig<FlowKey, UserData> | undefined,
   data: UserData,
   traverseArrays = false,
 ): FlowKey | null => {
@@ -21,7 +21,7 @@ export const evaluateRoute = <FlowKey, UserData>(
 
 // Extracts all potential target edges from a route definition
 export const extractEdges = <FlowKey, UserData>(
-  route?: RouteDefinition<FlowKey, UserData>,
+  route?: TransitionConfig<FlowKey, UserData>,
 ): FlowKey[] => {
   if (!route) return [];
   if (Array.isArray(route)) {
@@ -35,7 +35,7 @@ export const extractEdges = <FlowKey, UserData>(
 };
 
 export const evaluateAllBranches = <FlowKey, UserData>(
-  route: RouteDefinition<FlowKey, UserData> | undefined,
+  route: TransitionConfig<FlowKey, UserData> | undefined,
   data: UserData,
 ): FlowKey[] => {
   if (!route) return [];

@@ -11,7 +11,7 @@ import type { ArrayData, UserData } from "~/domains/userData";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import { createFlowSession } from "~/services/flow/newFlowEngine/sessionInterpreter";
+import { evaluateFlowSession } from "~/services/flow/newFlowEngine/evaluateFlowSession";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
@@ -34,16 +34,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const staticFlow = erbfolgeStaticFlow;
   // TODO: pass flowId, stepId, arrayIndexes into createFlowSession?
-  const sessionManager = createFlowSession(staticFlow, fullUserData, stepId);
+  const flowSession = evaluateFlowSession(staticFlow, fullUserData, stepId);
 
-  if (!sessionManager.isReachable(stepId)) {
-    return redirect(flowId + sessionManager.initialStepId);
+  if (!flowSession.isReachable(stepId)) {
+    return redirect(flowId + flowSession.initialStepId);
   }
 
   // TODO: prune inside createFlowSession?
   const prunedUserData = fullUserData;
 
-  const { pageSchema, arrayInfos } = sessionManager;
+  const { pageSchema, arrayInfos } = flowSession;
   const arrayName = arrayInfos?.arrayName;
   const isArraySummaryPage =
     arrayInfos?.arraySchema !== undefined && arrayName !== undefined;
@@ -52,7 +52,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const stepData = resolveUserData(prunedUserData, fieldNames);
   // console.log(prunedUserData, fieldNames);
 
-  const prevStepId = sessionManager.getPrevStep();
+  const prevStepId = flowSession.getPrevStep();
   const backDestination = prevStepId
     ? flowId + resolveArrayCharacter(prevStepId, arrayIndexes, false)
     : undefined;
@@ -131,7 +131,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     arrayIndexes,
   });
 
-  const sessionManager = createFlowSession(
+  const sessionManager = evaluateFlowSession(
     erbfolgeStaticFlow,
     fullUserData,
     stepId,

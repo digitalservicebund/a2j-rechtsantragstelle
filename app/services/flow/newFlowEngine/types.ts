@@ -1,24 +1,19 @@
 import { type z } from "zod";
 import type { PageData } from "../pageDataSchema";
 
-// --- Schema Inference ---
-type RawSchemaShape = Record<string, z.ZodTypeAny>;
-
 type InferSchema<S> = S extends z.ZodTypeAny
   ? z.infer<S>
-  : S extends RawSchemaShape
-    ? { [K in keyof S]: z.infer<S[K]> }
+  : S extends z.ZodRawShape
+    ? z.infer<z.ZodObject<S>>
     : never;
 
-// --- Config Base ---
-export type FlowConfigBase = Record<
-  string,
-  {
-    stepId: string;
-    pageSchema?: z.ZodTypeAny | RawSchemaShape;
-    arraySchema?: z.ZodTypeAny | RawSchemaShape;
-  }
->;
+type PageConfig = {
+  stepId: string;
+  pageSchema?: z.ZodTypeAny | z.ZodRawShape;
+  arraySchema?: z.ZodTypeAny | z.ZodRawShape;
+};
+
+export type PageConfigMap = Record<string, PageConfig>;
 
 // --- User Data Inference ---
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
@@ -27,33 +22,33 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-export type InferredUserData<C extends FlowConfigBase> = Partial<
+export type InferredUserData<C extends PageConfigMap> = Partial<
   UnionToIntersection<
     {
-      [K in keyof C]: C[K] extends
-        | { pageSchema: infer S }
-        | { arraySchema: infer S }
+      [K in keyof C]: C[K] extends { pageSchema: infer S }
         ? InferSchema<S>
-        : {};
+        : C[K] extends { arraySchema: infer S }
+          ? InferSchema<S>
+          : {};
     }[keyof C]
   >
 >;
 
 // --- Routing & Guards ---
-type TransitionGuard<Data> = (data: Data) => boolean;
+type Guard<Data> = (data: Data) => boolean;
 
 type GuardedTransition<Key, Data> = {
   target: Key | null;
-  guard?: TransitionGuard<Data>;
+  guard?: Guard<Data>;
   type?: "addArrayItem";
 };
 
-export type RouteDefinition<Key, Data> =
+export type TransitionConfig<Key, Data> =
   | Key
   | null
   | Array<GuardedTransition<Key, Data>>;
 
-export type FlowRoutingConfig<C extends FlowConfigBase> = Record<
+export type TransitionConfigMap<C extends PageConfigMap> = Record<
   keyof C,
-  RouteDefinition<keyof C, InferredUserData<C> & { pageData: PageData }>
+  TransitionConfig<keyof C, InferredUserData<C> & { pageData: PageData }>
 >;

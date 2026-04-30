@@ -1,4 +1,4 @@
-import { type FlowRoutingConfig } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type ErbfolgePages } from "./pages";
 
 export const childrenFlowConfig = {
@@ -51,4 +51,4 @@ export const childrenFlowConfig = {
     { target: "childChildrenSummary" },
   ],
   childChildChildInfo: "childChildChildrenSummary",
-} satisfies Partial<FlowRoutingConfig<ErbfolgePages>>;
+} satisfies Partial<TransitionConfigMap<ErbfolgePages>>;

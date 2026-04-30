@@ -1,27 +1,27 @@
 import { getFlowStatusTree, simulatePath } from "./flowStatus";
-import type { StaticFlow } from "./staticManager";
+import type { StaticFlow } from "./compileStaticFlow";
 import type {
-  FlowConfigBase,
+  PageConfigMap,
   InferredUserData,
-  RouteDefinition,
+  TransitionConfig,
 } from "./types";
 import type { PageData } from "../pageDataSchema";
 
-export const createFlowSession = <C extends FlowConfigBase>(
-  staticFlowConfig: StaticFlow<C>,
+export const evaluateFlowSession = <C extends PageConfigMap>(
+  staticFlow: StaticFlow<C>,
   userData: InferredUserData<C> & { pageData: PageData },
   stepId: string,
 ) => {
-  const currentKey = staticFlowConfig.getKeyFromStepId(stepId);
+  const currentKey = staticFlow.getKeyFromStepId(stepId);
   if (!currentKey) throw new Error(`Invalid stepId: ${stepId}`);
 
-  const arrayInfos = staticFlowConfig.arrayInfos(stepId);
+  const arrayInfos = staticFlow.arrayInfos(stepId);
 
   // 2. Single Simulation Pass
   // Always traverse arrays to ensure deeply nested nodes are populated in the reachableSet and path.
   const simulation = simulatePath(
-    staticFlowConfig.flowConfig,
-    staticFlowConfig.initialStep,
+    staticFlow.flowConfig,
+    staticFlow.initialStep,
     userData,
     true,
   );
@@ -32,31 +32,28 @@ export const createFlowSession = <C extends FlowConfigBase>(
 
   // Next: The immediate route evaluating to false explicitly steps OVER arrays, proceeding to the next main branch.
   const nextKey =
-    evaluateRoute(staticFlowConfig.flowConfig[currentKey], userData) ??
-    undefined;
+    evaluateRoute(staticFlow.flowConfig[currentKey], userData) ?? undefined;
 
   return {
     currentKey,
-    pageSchema: staticFlowConfig.getSchema(stepId),
-    initialStepId: staticFlowConfig.getStepIdFromKey(
-      staticFlowConfig.initialStep,
-    ),
+    pageSchema: staticFlow.getSchema(stepId),
+    initialStepId: staticFlow.getStepIdFromKey(staticFlow.initialStep),
     arrayInfos,
     path: simulation.path,
     isTerminated: simulation.isTerminatedSuccessfully,
-    statusTree: getFlowStatusTree(staticFlowConfig.config, simulation),
+    statusTree: getFlowStatusTree(staticFlow.config, simulation),
     isReachable: (targetStepId: string) => {
-      const key = staticFlowConfig.getKeyFromStepId(targetStepId);
+      const key = staticFlow.getKeyFromStepId(targetStepId);
       return key && simulation.reachableSet.has(key);
     },
-    getNextStep: () => staticFlowConfig.getStepIdFromKey(nextKey),
-    getPrevStep: () => staticFlowConfig.getStepIdFromKey(prevKey),
+    getNextStep: () => staticFlow.getStepIdFromKey(nextKey),
+    getPrevStep: () => staticFlow.getStepIdFromKey(prevKey),
   };
 };
 
 // Helper function to statically determine the next step over a specific node
 const evaluateRoute = <FlowKey, UserData>(
-  route: RouteDefinition<FlowKey, UserData>,
+  route: TransitionConfig<FlowKey, UserData>,
   data: UserData,
 ): FlowKey | null => {
   if (!route) return null;

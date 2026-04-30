@@ -1,12 +1,12 @@
 import { extractEdges } from "./flowUtils";
 import type {
-  FlowConfigBase,
-  FlowRoutingConfig,
-  RouteDefinition,
+  PageConfigMap,
+  TransitionConfigMap,
+  TransitionConfig,
 } from "./types";
 
 const getTransitions = <FlowKey, UserData>(
-  route?: RouteDefinition<FlowKey, UserData>,
+  route?: TransitionConfig<FlowKey, UserData>,
 ) => {
   if (!route) return [];
   if (Array.isArray(route)) {
@@ -19,8 +19,8 @@ const getTransitions = <FlowKey, UserData>(
   return [{ target: route, isArray: false }];
 };
 
-export const precomputeGraph = <C extends FlowConfigBase>(
-  router: FlowRoutingConfig<C>,
+export const precomputeGraph = <C extends PageConfigMap>(
+  router: TransitionConfigMap<C>,
   initialStep: keyof C,
 ) => {
   type FlowKey = keyof C;

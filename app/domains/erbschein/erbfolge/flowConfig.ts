@@ -1,9 +1,9 @@
-import { createStaticFlow } from "~/services/flow/newFlowEngine/staticManager";
+import { compileFlowConfig } from "~/services/flow/newFlowEngine/compileStaticFlow";
 import { erbfolgePages } from "./pages";
 import { childrenFlowConfig } from "./childrenFlowConfig";
 
-export const erbfolgeStaticFlow = createStaticFlow({
-  config: erbfolgePages,
+export const erbfolgeStaticFlow = compileFlowConfig({
+  pageNodeMap: erbfolgePages,
   initialStep: "start",
   flowConfig: {
     start: "hasChildren",

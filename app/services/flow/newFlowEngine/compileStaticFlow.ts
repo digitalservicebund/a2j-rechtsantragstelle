@@ -1,35 +1,36 @@
 import { precomputeGraph } from "./precomputeGraph";
-import type { FlowConfigBase, FlowRoutingConfig } from "./types";
+import type { PageConfigMap, TransitionConfigMap } from "./types";
 import mapValues from "lodash/mapValues";
 import invert from "lodash/invert";
 import z from "zod";
 import { arrayChar, fieldIsArray } from "~/services/array";
 
-const getCompiledSchema = <C extends FlowConfigBase>(
-  config: C,
+const getCompiledSchema = <C extends PageConfigMap>(
+  pageNodeMap: C,
   key?: keyof C,
 ): z.ZodTypeAny => {
   let pageSchema = {};
-  if (key && config[key].pageSchema) pageSchema = config[key].pageSchema;
+  if (key && pageNodeMap[key].pageSchema)
+    pageSchema = pageNodeMap[key].pageSchema;
   return z.object(pageSchema);
 };
 
-type Options<C extends FlowConfigBase> = {
-  config: C;
+type Options<C extends PageConfigMap> = {
+  pageNodeMap: C;
   initialStep: keyof C;
-  flowConfig: FlowRoutingConfig<C>;
+  flowConfig: TransitionConfigMap<C>;
   stepIdLeadingSlash?: boolean;
 };
 
-export const createStaticFlow = <C extends FlowConfigBase>({
-  config,
+export const compileFlowConfig = <C extends PageConfigMap>({
+  pageNodeMap,
   initialStep,
   flowConfig,
   stepIdLeadingSlash = false,
 }: Options<C>) => {
   const stepIdMap: Record<string, keyof C> = invert(
     // mapValues(config, (obj) => obj.stepId.replaceAll("/#", "")),
-    mapValues(config, "stepId"),
+    mapValues(pageNodeMap, "stepId"),
   );
   const graphStats = precomputeGraph(flowConfig, initialStep);
 
@@ -38,17 +39,17 @@ export const createStaticFlow = <C extends FlowConfigBase>({
     stepIdMap[stepIdLeadingSlash ? stepId.slice(1) : stepId];
 
   const getStepIdFromKey = (key?: keyof C) =>
-    key ? (stepIdLeadingSlash ? "/" : "") + config[key].stepId : undefined;
+    key ? (stepIdLeadingSlash ? "/" : "") + pageNodeMap[key].stepId : undefined;
 
   return {
-    config,
+    config: pageNodeMap,
     flowConfig,
     initialStep,
     graphStats,
     arrayInfos: (stepId: string) => {
       const currentKey = getKeyFromStepId(stepId);
       if (!currentKey) return undefined;
-      const currentConfig = config[currentKey];
+      const currentConfig = pageNodeMap[currentKey];
       const arraySchemas = currentConfig?.arraySchema ?? {};
       const fieldNames = Object.keys(currentConfig?.pageSchema ?? {});
       // extract array Name either from arraySchema (on array summary) or from fieldName (on array pages)
@@ -63,7 +64,7 @@ export const createStaticFlow = <C extends FlowConfigBase>({
       let entryPoint: string | undefined = undefined;
       const currentTransitionConfig = flowConfig[currentKey];
       if (arraySchema && currentTransitionConfig) {
-        const transitions: NonNullable<FlowRoutingConfig<C>[keyof C]> =
+        const transitions: NonNullable<TransitionConfigMap<C>[keyof C]> =
           Array.isArray(currentTransitionConfig)
             ? currentTransitionConfig
             : [currentTransitionConfig];
@@ -71,7 +72,7 @@ export const createStaticFlow = <C extends FlowConfigBase>({
         entryPoint = transitions
           .flatMap((t) =>
             t && t.type === "addArrayItem" && t.target
-              ? [config[t.target].stepId.split("/").at(-1)]
+              ? [pageNodeMap[t.target].stepId.split("/").at(-1)]
               : [],
           )
           .at(0);
@@ -79,7 +80,7 @@ export const createStaticFlow = <C extends FlowConfigBase>({
       return { arrayName, arraySchema, entryPoint };
     },
     getSchema: (stepId: string) =>
-      getCompiledSchema(config, getKeyFromStepId(stepId)),
+      getCompiledSchema(pageNodeMap, getKeyFromStepId(stepId)),
     getKeyFromStepId,
     getStepIdFromKey,
     isFinal: (stepId: string) => {
@@ -93,6 +94,6 @@ export const createStaticFlow = <C extends FlowConfigBase>({
   };
 };
 
-export type StaticFlow<C extends FlowConfigBase> = ReturnType<
-  typeof createStaticFlow<C>
+export type StaticFlow<C extends PageConfigMap> = ReturnType<
+  typeof compileFlowConfig<C>
 >;

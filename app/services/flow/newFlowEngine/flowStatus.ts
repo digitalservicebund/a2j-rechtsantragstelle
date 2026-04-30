@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { evaluateAllBranches, evaluateRoute, extractEdges } from "./flowUtils";
 import type {
-  FlowConfigBase,
-  FlowRoutingConfig,
+  PageConfigMap,
+  TransitionConfigMap,
   InferredUserData,
 } from "./types";
 import type { PageData } from "../pageDataSchema";
@@ -24,8 +24,8 @@ export const createEdgeTracker = <T>() => {
   };
 };
 
-export const simulatePath = <C extends FlowConfigBase>(
-  router: FlowRoutingConfig<C>,
+export const simulatePath = <C extends PageConfigMap>(
+  router: TransitionConfigMap<C>,
   initialStep: keyof C,
   currentData: InferredUserData<C> & { pageData: PageData },
   traverseArrays = false,
@@ -42,7 +42,7 @@ export const simulatePath = <C extends FlowConfigBase>(
   while (currentLinear) {
     path.push(currentLinear);
 
-    const route: FlowRoutingConfig<C>[FlowKey] = router[currentLinear];
+    const route: TransitionConfigMap<C>[FlowKey] = router[currentLinear];
     let next = evaluateRoute(route, currentData, traverseArrays);
 
     if (next && visitedEdges.has(currentLinear, next)) {
@@ -120,7 +120,7 @@ const calcStatus = (
   };
 };
 
-export const getFlowStatusTree = <C extends FlowConfigBase>(
+export const getFlowStatusTree = <C extends PageConfigMap>(
   config: C,
   {
     path,
