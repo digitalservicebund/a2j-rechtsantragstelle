@@ -9,7 +9,7 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { SchemaComponents } from "~/components/formElements/SchemaComponents";
+import { SchemaComponents } from "../SchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 
