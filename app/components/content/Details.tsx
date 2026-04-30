@@ -1,10 +1,9 @@
 import { useState } from "react";
-import IconExpandLess from "@digitalservicebund/icons/ExpandLess";
-import IconExpandMore from "@digitalservicebund/icons/ExpandMore";
 import { GridItem } from "../layout/grid/GridItem";
+import { KernIcon } from "../kern/common/KernIcon";
 import KernRichText from "../kern/KernRichText";
 
-type DetailsProps = {
+export type DetailsProps = {
   title?: string;
   content?: string;
 };
@@ -19,20 +18,24 @@ export const Details = ({ title, content }: DetailsProps) => {
       xlColumn={{ start: 3, span: 9 }}
     >
       <details
-        className="group focus-within:outline-solid focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 text-blue-800 ds-label-01-bold"
+        className="group detail-summary"
         open={isOpen}
         onToggle={(e) => setIsOpen(e.currentTarget.open)}
       >
         <summary
           aria-expanded={isOpen}
-          className="summary-content flex items-center focus:outline-hidden cursor-pointer list-none"
+          className="text-kern-action-default! kern-body kern-body--bold flex items-center focus:outline-hidden cursor-pointer list-none hover:underline"
         >
-          <span className="mr-[8px]">
-            {isOpen ? <IconExpandLess /> : <IconExpandMore />}
+          <span className="mr-kern-space-small">
+            {isOpen ? (
+              <KernIcon name="keyboard-arrow-up" />
+            ) : (
+              <KernIcon name="keyboard-arrow-down" />
+            )}
           </span>
           {title}
         </summary>
-        <div className="pl-[32px] pt-4 text-black ds-label-01-reg">
+        <div className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default">
           {content && <KernRichText className="leading-[1.5]" html={content} />}
         </div>
       </details>
