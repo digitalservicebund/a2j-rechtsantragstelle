@@ -6,7 +6,7 @@ import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "../common/types";
 import KernRichText from "../kern/KernRichText";
 import InputError from "../kern/formElements/InputError";
-import { KernDetails } from "../kern/KernDetails";
+import { Details } from "../content/Details";
 
 export const TEXT_AREA_ROWS = 3;
 
@@ -53,7 +53,7 @@ const KernTextarea = ({
         </label>
       )}
       {description && <KernRichText html={description} />}
-      {details && <KernDetails {...details} />}
+      {details && <Details {...details} />}
       <textarea
         {...field.getInputProps({
           id: name,
