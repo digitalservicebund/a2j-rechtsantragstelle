@@ -27,7 +27,7 @@ import KernFileUpload from "../formElements/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
 import { ibanZodDescription } from "~/services/validation/iban";
-import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
+import KernIbanInput from "~/components/kern/formElements/input/IbanInput/KernIbanInput";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
