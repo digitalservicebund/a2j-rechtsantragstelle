@@ -21,7 +21,6 @@ import {
 } from "~/services/session.server";
 import { resolveUserData } from "~/services/session.server/resolveUserData";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { ArraySummaryProps } from "~/components/content/arraySummary/KernArraySummary";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -65,7 +64,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     backDestination,
   });
 
-  const arraySummaryData: ArraySummaryProps | undefined =
+  const arraySummaryData =
     isArraySummaryPage &&
     arrayInfos &&
     arrayInfos.arrayName &&
