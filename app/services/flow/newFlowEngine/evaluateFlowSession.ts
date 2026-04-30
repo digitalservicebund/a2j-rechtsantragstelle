@@ -15,8 +15,6 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
   const currentKey = staticFlow.getKeyFromStepId(stepId);
   if (!currentKey) throw new Error(`Invalid stepId: ${stepId}`);
 
-  const arrayInfos = staticFlow.arrayInfos(stepId);
-
   // 2. Single Simulation Pass
   // Always traverse arrays to ensure deeply nested nodes are populated in the reachableSet and path.
   const simulation = simulatePath(
@@ -39,7 +37,7 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
     currentKey,
     pageSchema: staticFlow.getSchema(stepId),
     initialStepId: staticFlow.getStepIdFromKey(staticFlow.initialStep),
-    arrayInfos,
+    arraySummary: staticFlow.getArraySummary(stepId),
     path: simulation.path,
     isTerminated: simulation.isTerminatedSuccessfully,
     statusTree: getFlowStatusTree(staticFlow.pageConfigMap, simulation),

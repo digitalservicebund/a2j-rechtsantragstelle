@@ -10,7 +10,10 @@ type InferSchema<S> = S extends z.ZodTypeAny
 type PageConfig = {
   stepId: string;
   pageSchema?: z.ZodTypeAny | z.ZodRawShape;
-  arraySchema?: z.ZodTypeAny | z.ZodRawShape;
+  arraySummary?: {
+    name: string;
+    schema: z.ZodArray;
+  };
 };
 
 export type PageConfigMap = Record<string, PageConfig>;
@@ -22,16 +25,16 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
+type ExtractNodeSchema<Node> = Node extends { pageSchema: infer S }
+  ? InferSchema<S>
+  : Node extends {
+        arraySummary: { name: infer N extends string; schema: infer S };
+      }
+    ? { [Key in N]: InferSchema<S> }
+    : {};
+
 export type InferredUserData<C extends PageConfigMap> = Partial<
-  UnionToIntersection<
-    {
-      [K in keyof C]: C[K] extends { pageSchema: infer S }
-        ? InferSchema<S>
-        : C[K] extends { arraySchema: infer S }
-          ? InferSchema<S>
-          : {};
-    }[keyof C]
-  >
+  UnionToIntersection<ExtractNodeSchema<C[keyof C]>>
 >;
 
 // --- Routing & Guards ---

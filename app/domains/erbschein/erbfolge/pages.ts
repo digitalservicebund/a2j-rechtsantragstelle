@@ -46,7 +46,10 @@ export const erbfolgePages = {
   },
   childrenArraySummary: {
     stepId: "/kinder",
-    arraySchema: { children: childrenArray },
+    arraySummary: {
+      name: "children",
+      schema: childrenArray,
+    },
   },
   childInfo: {
     stepId: "/kinder/#/daten",
@@ -58,7 +61,10 @@ export const erbfolgePages = {
   },
   childChildrenSummary: {
     stepId: "/kinder/#/kinder",
-    arraySchema: { "children#children": childrenArray },
+    arraySummary: {
+      name: "children#children",
+      schema: childrenArray,
+    },
   },
   childChildInfo: {
     stepId: "/kinder/#/kinder/#/daten",
@@ -70,7 +76,10 @@ export const erbfolgePages = {
   },
   childChildChildrenSummary: {
     stepId: "/kinder/#/kinder/#/kinder",
-    arraySchema: { "children#children#children": childrenArray },
+    arraySummary: {
+      name: "children#children#children",
+      schema: childrenArray,
+    },
   },
   childChildChildInfo: {
     stepId: "/kinder/#/kinder/#/kinder/#/daten",
@@ -81,5 +90,5 @@ export const erbfolgePages = {
     },
   },
   end: { stepId: "/end" },
-};
+} as const;
 export type ErbfolgePages = typeof erbfolgePages;

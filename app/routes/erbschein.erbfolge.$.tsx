@@ -43,14 +43,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // TODO: prune inside createFlowSession?
   const prunedUserData = fullUserData;
 
-  const { pageSchema, arrayInfos } = flowSession;
-  const arrayName = arrayInfos?.arrayName;
-  const isArraySummaryPage =
-    arrayInfos?.arraySchema !== undefined && arrayName !== undefined;
+  const { pageSchema, arraySummary } = flowSession;
   const fieldNames = Object.keys(pageSchema.def.shape);
-  if (isArraySummaryPage) fieldNames.push(arrayName);
+  if (arraySummary) fieldNames.push(arraySummary.name);
   const stepData = resolveUserData(prunedUserData, fieldNames);
-  // console.log(prunedUserData, fieldNames);
 
   const prevStepId = flowSession.getPrevStep();
   const backDestination = prevStepId
@@ -65,22 +61,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   });
 
   const arraySummaryData =
-    isArraySummaryPage &&
-    arrayInfos &&
-    arrayInfos.arrayName &&
-    arrayInfos.entryPoint
+    arraySummary?.entryPoint !== undefined
       ? {
-          category: arrayInfos.arrayName,
+          category: arraySummary.name,
           arrayData: {
-            data: (stepData[arrayInfos.arrayName] ?? []) as ArrayData,
+            data: (stepData[arraySummary.name] ?? []) as ArrayData,
             configuration: {
               url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false),
-              initialInputUrl: arrayInfos.entryPoint,
+              initialInputUrl: arraySummary.entryPoint,
               disableAddButton: false,
             },
           },
           content: {
-            buttonLabel: arrayInfos.arrayName,
+            buttonLabel: arraySummary.name,
             itemLabels: { label: "itemLabel" },
           },
         }

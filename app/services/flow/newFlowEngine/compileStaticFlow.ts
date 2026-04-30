@@ -3,7 +3,7 @@ import type { PageConfigMap, TransitionConfigMap } from "./types";
 import mapValues from "lodash/mapValues";
 import invert from "lodash/invert";
 import z from "zod";
-import { arrayChar, fieldIsArray } from "~/services/array";
+import { arrayChar } from "~/services/array";
 
 const getCompiledSchema = <C extends PageConfigMap>(
   pageNodeMap: C,
@@ -20,6 +20,20 @@ type Options<C extends PageConfigMap> = {
   initialStep: keyof C;
   transitionConfigMap: TransitionConfigMap<C>;
   stepIdLeadingSlash?: boolean;
+};
+
+const getArrayEntryPoint = <C extends PageConfigMap>(
+  routes: TransitionConfigMap<C>[keyof C],
+  pageConfigs: C,
+): string | undefined => {
+  if (!Array.isArray(routes)) return undefined;
+  const addTransition = routes.find((route) => route?.type === "addArrayItem");
+  if (addTransition?.target) {
+    return pageConfigs[addTransition.target].stepId
+      .split(arrayChar)
+      .at(-1)
+      ?.slice(1);
+  }
 };
 
 export const compileFlowConfig = <C extends PageConfigMap>({
@@ -39,46 +53,28 @@ export const compileFlowConfig = <C extends PageConfigMap>({
     stepIdMap[stepIdLeadingSlash ? stepId.slice(1) : stepId];
 
   const getStepIdFromKey = (key?: keyof C) =>
-    key ? (stepIdLeadingSlash ? "/" : "") + pageNodeMap[key].stepId : undefined;
+    key
+      ? (stepIdLeadingSlash ? "/" : "") + pageConfigMap[key].stepId
+      : undefined;
+
+  const arrayInfoCache: Record<string, { name: string; entryPoint?: string }> =
+    {};
+
+  for (const [key, pageNode] of Object.entries(pageConfigMap)) {
+    if (pageNode.arraySummary) {
+      arrayInfoCache[pageNode.stepId] = {
+        name: pageNode.arraySummary.name,
+        entryPoint: getArrayEntryPoint(transitionConfigMap[key], pageConfigMap),
+      };
+    }
+  }
 
   return {
     pageConfigMap,
     transitionConfigMap,
     initialStep,
     graphStats,
-    arrayInfos: (stepId: string) => {
-      const currentKey = getKeyFromStepId(stepId);
-      if (!currentKey) return undefined;
-      const currentConfig = pageNodeMap[currentKey];
-      const arraySchemas = currentConfig?.arraySchema ?? {};
-      const fieldNames = Object.keys(currentConfig?.pageSchema ?? {});
-      // extract array Name either from arraySchema (on array summary) or from fieldName (on array pages)
-      const arrayName =
-        Object.keys(arraySchemas).at(0) ??
-        (fieldNames[0] && fieldIsArray(fieldNames[0])
-          ? fieldNames[0]?.split(arrayChar)[0]
-          : undefined);
-      const arraySchema = Object.values(arraySchemas).at(0);
-
-      // Extract array entryPoint from the router structure
-      let entryPoint: string | undefined = undefined;
-      const currentTransitionConfig = flowConfig[currentKey];
-      if (arraySchema && currentTransitionConfig) {
-        const transitions: NonNullable<TransitionConfigMap<C>[keyof C]> =
-          Array.isArray(currentTransitionConfig)
-            ? currentTransitionConfig
-            : [currentTransitionConfig];
-
-        entryPoint = transitions
-          .flatMap((t) =>
-            t && t.type === "addArrayItem" && t.target
-              ? [pageNodeMap[t.target].stepId.split("/").at(-1)]
-              : [],
-          )
-          .at(0);
-      }
-      return { arrayName, arraySchema, entryPoint };
-    },
+    getArraySummary: (stepId: string) => arrayInfoCache[stepId],
     getSchema: (stepId: string) =>
       getCompiledSchema(pageConfigMap, getKeyFromStepId(stepId)),
     getKeyFromStepId,
