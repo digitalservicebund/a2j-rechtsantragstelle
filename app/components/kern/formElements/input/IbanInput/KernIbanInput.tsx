@@ -26,16 +26,15 @@ const KernIbanInput = (props: InputProps) => {
 
   // Debounce needed to not clobber the screen reader while typing
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (iban && banks) {
+    if (iban && banks) {
+      const timeout = setTimeout(() => {
         const matchedBankName = bankNameFromIBAN(iban, banks);
         setBankName(matchedBankName);
-      } else {
-        setBankName(undefined);
-      }
-    }, 1000);
+      }, 1000);
 
-    return () => clearTimeout(timeout);
+      return () => clearTimeout(timeout);
+    }
+    setBankName(undefined);
   }, [iban, banks]);
 
   return (

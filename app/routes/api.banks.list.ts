@@ -2,7 +2,7 @@ import { type LoaderFunctionArgs } from "react-router";
 import { logWarning } from "~/services/logging";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
 import bankCodes from "../../data/bankCodes.json";
-import { bankDataSchema } from "~/components/kern/formElements/input/IbanInput";
+import { type BankData } from "~/components/kern/formElements/input/IbanInput";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const validatedRequest = await validateCsrfSessionFormless(request);
@@ -12,12 +12,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 403 });
   }
 
-  const parsedBankData = await bankDataSchema.safeParseAsync(bankCodes);
-  if (!parsedBankData.success) {
-    throw new Response(
-      `Unable to successfully parse schema: ${parsedBankData.error.message}`,
-      { status: 500 },
-    );
-  }
-  return Response.json(parsedBankData.data);
+  const bankData: BankData = (
+    bankCodes as Array<{ Bankleitzahl: number; Bezeichnung: string }>
+  ).reduce(
+    (prev, curr) => ({
+      ...prev,
+      [curr.Bankleitzahl]: curr.Bezeichnung,
+    }),
+    {},
+  );
+
+  return Response.json(bankData);
 };
