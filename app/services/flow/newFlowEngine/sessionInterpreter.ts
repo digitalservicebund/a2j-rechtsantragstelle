@@ -38,6 +38,9 @@ export const createFlowSession = <C extends FlowConfigBase>(
   return {
     currentKey,
     pageSchema: staticFlowConfig.getSchema(stepId),
+    initialStepId: staticFlowConfig.getStepIdFromKey(
+      staticFlowConfig.initialStep,
+    ),
     arrayInfos,
     path: simulation.path,
     isTerminated: simulation.isTerminatedSuccessfully,

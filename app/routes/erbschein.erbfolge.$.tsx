@@ -3,6 +3,7 @@ import {
   type ActionFunctionArgs,
   redirectDocument,
   type LoaderFunctionArgs,
+  redirect,
 } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
 import { erbfolgeStaticFlow } from "~/domains/erbschein/erbfolge/flowConfig";
@@ -32,12 +33,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     { arrayIndexes },
   );
 
+  const staticFlow = erbfolgeStaticFlow;
   // TODO: pass flowId, stepId, arrayIndexes into createFlowSession?
-  const sessionManager = createFlowSession(
-    erbfolgeStaticFlow,
-    fullUserData,
-    stepId,
-  );
+  const sessionManager = createFlowSession(staticFlow, fullUserData, stepId);
+
+  if (!sessionManager.isReachable(stepId)) {
+    return redirect(flowId + sessionManager.initialStepId);
+  }
 
   // TODO: prune inside createFlowSession?
   const prunedUserData = fullUserData;
