@@ -5,7 +5,7 @@ import { loader } from "~/routes/api.banks.list";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
 
 vi.mock("~/services/security/csrf/validatedSession.server");
-vi.mock("data/bankCodes.json", () => {
+vi.mock("data/bankCodes/data.json", () => {
   return { default: [{ Bankleitzahl: 12345, Bezeichnung: "Testbank" }] };
 });
 

@@ -1,7 +1,7 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { logWarning } from "~/services/logging";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
-import bankCodes from "../../data/bankCodes.json";
+import bankCodes from "../../data/bankCodes/data.json";
 import { type BankData } from "~/components/kern/formElements/input/IbanInput";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
