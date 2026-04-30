@@ -54,9 +54,7 @@ describe("KernIbanInput", () => {
       () => {
         const bankNames = getAllByText(mockBankName);
         expect(bankNames).toHaveLength(2);
-        expect(bankNames[0]).toHaveClass(
-          "kern-label kern-label--small text-nowrap",
-        );
+        expect(bankNames[0]).toHaveClass("kern-label kern-label--small");
       },
       { timeout: 1100 },
     );

@@ -49,12 +49,10 @@ const KernIbanInput = (props: InputProps) => {
       {bankName && (
         <output
           id={bankNameBadgeId}
-          className="kern-badge kern-badge-info border-2 border-kern-feedback-info bg-kern-feedback-info-background w-min"
+          className="kern-badge kern-badge-info border-2 border-kern-feedback-info bg-kern-feedback-info-background min-w-fit w-min"
         >
           <KernIcon name="info" className="fill-kern-feedback-info" />
-          <span className="kern-label kern-label--small text-nowrap">
-            {bankName}
-          </span>
+          <span className="kern-label kern-label--small">{bankName}</span>
         </output>
       )}
 
