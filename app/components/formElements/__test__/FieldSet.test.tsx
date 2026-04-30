@@ -2,10 +2,10 @@ import { render } from "@testing-library/react";
 import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import z from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { KernFieldset } from "~/components/formElements/KernFieldset";
+import { Fieldset } from "~/components/formElements/Fieldset";
 
-vi.mock("~/components/kernFormElements/KernSchemaComponents", () => ({
-  KernSchemaComponents: () => <div>KernSchemaComponents</div>,
+vi.mock("~/components/formElements/SchemaComponents", () => ({
+  SchemaComponents: () => <div>SchemaComponents</div>,
 }));
 
 vi.mock("~/domains/pageSchemas");
@@ -48,7 +48,7 @@ const mockFieldSetGroup: FieldSetGroupType = {
 describe("FieldSet", () => {
   it("should render FieldSetSchema component with correct data", () => {
     const { getByRole, getByText } = render(
-      <KernFieldset
+      <Fieldset
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
         readOnlyFieldNames={[]}
@@ -57,12 +57,12 @@ describe("FieldSet", () => {
 
     expect(getByRole("group")).toBeInTheDocument();
     expect(getByRole("group")).toHaveTextContent("anyHeading");
-    expect(getByText("KernSchemaComponents")).toBeInTheDocument();
+    expect(getByText("SchemaComponents")).toBeInTheDocument();
   });
 
   it("should render FieldSetSchema component with image and properties when is available", () => {
     const { container } = render(
-      <KernFieldset
+      <Fieldset
         heading="anyHeading"
         formComponents={mockFieldSetGroup.formComponents}
         image={{

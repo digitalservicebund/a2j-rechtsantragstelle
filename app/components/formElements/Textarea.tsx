@@ -26,7 +26,7 @@ type TextareaProps = Readonly<{
   ariaDescribedby?: string;
 }>;
 
-const KernTextarea = ({
+const Textarea = ({
   name,
   backgroundClass,
   description,
@@ -83,4 +83,4 @@ const KernTextarea = ({
   );
 };
 
-export default KernTextarea;
+export default Textarea;

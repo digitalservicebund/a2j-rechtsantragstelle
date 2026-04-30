@@ -18,7 +18,7 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
-import KernValidatedFlowForm from "~/components/formElements/KernValidatedFormFlow";
+import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -453,7 +453,7 @@ function renderValidatedFlowForm(
     {
       path: "/",
       element: (
-        <KernValidatedFlowForm
+        <ValidatedFlowForm
           stepData={{}}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
           formElements={formElements}

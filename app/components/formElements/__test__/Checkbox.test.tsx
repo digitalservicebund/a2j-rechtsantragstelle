@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
-import KernCheckbox from "~/components/formElements/KernCheckbox";
+import Checkbox from "~/components/formElements/Checkbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
   getInputProps: vi.fn((props) => ({ ...props })),
@@ -40,9 +40,7 @@ describe("Checkbox", () => {
   });
 
   it("renders the checkbox with a label", () => {
-    render(
-      <KernCheckbox name="checkbox-name" label="Checkbox Label" required />,
-    );
+    render(<Checkbox name="checkbox-name" label="Checkbox Label" required />);
     const checkbox = screen.getByRole("checkbox", { name: "Checkbox Label" });
     expect(checkbox).toBeInTheDocument();
 
@@ -52,11 +50,7 @@ describe("Checkbox", () => {
 
   it("renders the hidden input when the checkbox is not checked", () => {
     render(
-      <KernCheckbox
-        name="checkbox-name"
-        label="Another Checkbox Label"
-        required
-      />,
+      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
     );
     const hiddenInput = screen.getByDisplayValue("off");
     expect(hiddenInput).toBeInTheDocument();
@@ -64,11 +58,7 @@ describe("Checkbox", () => {
 
   it("hides the hidden input when the checkbox is checked", () => {
     render(
-      <KernCheckbox
-        name="checkbox-name"
-        label="Another Checkbox Label"
-        required
-      />,
+      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
     );
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
@@ -85,7 +75,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <KernCheckbox
+      <Checkbox
         name="checkbox-name"
         label="Checkbox Label"
         required
@@ -99,7 +89,7 @@ describe("Checkbox", () => {
 
   it("sets aria-required to true when required is provided", () => {
     render(
-      <KernCheckbox
+      <Checkbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
@@ -112,11 +102,7 @@ describe("Checkbox", () => {
 
   it("does set aria-required to false when required is false", () => {
     render(
-      <KernCheckbox
-        name="checkbox-name"
-        label="Checkbox Label"
-        required={false}
-      />,
+      <Checkbox name="checkbox-name" label="Checkbox Label" required={false} />,
     );
     const checkbox = screen.getByRole("checkbox");
     expect(checkbox).toHaveAttribute("aria-required", "false");
@@ -137,7 +123,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <KernCheckbox
+      <Checkbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"
@@ -156,7 +142,7 @@ describe("Checkbox", () => {
     );
 
     render(
-      <KernCheckbox
+      <Checkbox
         name="checkbox-name"
         label="Checkbox Label"
         errorMessage="some error"

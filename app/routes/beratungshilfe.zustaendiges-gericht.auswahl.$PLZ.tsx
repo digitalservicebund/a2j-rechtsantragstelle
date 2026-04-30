@@ -20,7 +20,7 @@ import KernHeading from "~/components/kern/KernHeading";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import KernAutoSuggestInput from "~/components/formElements/autoSuggestInput/KernAutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",
@@ -94,7 +94,7 @@ export default function Index() {
             >
               <div className="gap-kern-space-x-large flex flex-col">
                 <div className="flex flex-col gap-kern-space-x-large">
-                  <KernAutoSuggestInput
+                  <AutoSuggestInput
                     label={translations.gerichtFinder.streetName.de}
                     helperText={
                       translations.gerichtFinder.autosuggestInputHelperText.de

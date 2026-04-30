@@ -4,7 +4,7 @@ import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "~/components/kern/formElements/InputError";
 
-type KernDateInputProps = Readonly<{
+type DateInputProps = Readonly<{
   name: string;
   label?: string;
   placeholder?: string;
@@ -12,7 +12,7 @@ type KernDateInputProps = Readonly<{
   helperText?: string;
 }>;
 
-type MaskedInputProps = KernDateInputProps & {
+type MaskedInputProps = DateInputProps & {
   readonly mask: string | RegExp;
   readonly eager?: boolean | ("remove" | "append");
 };
@@ -24,7 +24,7 @@ const DateInputBase = function DateInputComponent({
   errorMessages,
   helperText,
   inputRef,
-}: KernDateInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
+}: DateInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
@@ -71,11 +71,11 @@ const DateInputBase = function DateInputComponent({
   );
 };
 
-const MaskedDateInput = IMaskMixin<HTMLInputElement, KernDateInputProps>(
+const MaskedDateInput = IMaskMixin<HTMLInputElement, DateInputProps>(
   ({ inputRef, ...props }) => <DateInputBase {...props} inputRef={inputRef} />,
 );
 
-const KernDateInput = (props: KernDateInputProps) => {
+const DateInput = (props: DateInputProps) => {
   return (
     <MaskedDateInput
       {...props}
@@ -85,4 +85,4 @@ const KernDateInput = (props: KernDateInputProps) => {
   );
 };
 
-export default KernDateInput;
+export default DateInput;

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import KernDateInput from "~/components/formElements/inputs/KernDateInput";
+import DateInput from "~/components/formElements/inputs/DateInput";
 
 const getErrorMock = vi.fn();
 
@@ -12,30 +12,28 @@ vi.mock("@rvf/react-router", () => ({
 
 describe("DateInput", () => {
   it("should render date input", () => {
-    render(<KernDateInput name="birthdate" />);
+    render(<DateInput name="birthdate" />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
   it("should render label if provided", () => {
-    render(<KernDateInput name="birthdate" label="Birthdate" />);
+    render(<DateInput name="birthdate" label="Birthdate" />);
     expect(screen.getByText("Birthdate")).toBeInTheDocument();
   });
 
   it("should render default placeholder", () => {
-    render(<KernDateInput name="birthdate" />);
+    render(<DateInput name="birthdate" />);
     expect(screen.getByPlaceholderText("TT.MM.JJJJ")).toBeInTheDocument();
   });
 
   it("should render helper text if provided", () => {
-    render(
-      <KernDateInput name="birthdate" helperText="Enter your birthdate" />,
-    );
+    render(<DateInput name="birthdate" helperText="Enter your birthdate" />);
     expect(screen.getByText("Enter your birthdate")).toBeInTheDocument();
   });
 
   it("should mark input as invalid when there is an error", () => {
     getErrorMock.mockReturnValue("required");
-    render(<KernDateInput name="birthdate" />);
+    render(<DateInput name="birthdate" />);
     const input = screen.getByRole("textbox");
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveClass("kern-form-input__input--error");
@@ -44,7 +42,7 @@ describe("DateInput", () => {
   it("should show matching error message from errorMessages", () => {
     getErrorMock.mockReturnValue("required");
     render(
-      <KernDateInput
+      <DateInput
         name="birthdate"
         errorMessages={[{ code: "required", text: "This field is required" }]}
       />,

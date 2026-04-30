@@ -9,7 +9,7 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
+import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -19,7 +19,7 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof KernSchemaComponents>[0]>,
+    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
@@ -31,7 +31,7 @@ describe("SchemaComponents", () => {
         path: "/",
         element: (
           <FormProvider scope={form.scope()}>
-            <KernSchemaComponents {...props} />
+            <SchemaComponents {...props} />
           </FormProvider>
         ),
       },

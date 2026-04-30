@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen, fireEvent } from "@testing-library/react";
-import KernRadioGroup from "~/components/formElements/KernRadioGroup";
+import RadioGroup from "~/components/formElements/RadioGroup";
 
 vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
@@ -43,7 +43,7 @@ const mockErrorMessages = [
 
 const renderRadioGroup = (props = {}) => {
   return render(
-    <KernRadioGroup
+    <RadioGroup
       name="test"
       options={mockOptions}
       label="Test Label"

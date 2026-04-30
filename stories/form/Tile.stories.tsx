@@ -5,11 +5,11 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import img1Url from "../assets/nichtbefoerderung.svg?no-inline";
 import img2Url from "../assets/verspaetung.svg?no-inline";
-import KernTile from "~/components/formElements/tile/KernTile";
+import Tile from "~/components/formElements/tile/Tile";
 
 const meta = {
   title: "form/Tile",
-  component: KernTile,
+  component: Tile,
   parameters: {
     controls: {
       exclude: ["title", "name"],
@@ -28,7 +28,7 @@ const meta = {
         </GridSection>,
       ),
   ],
-} satisfies Meta<typeof KernTile>;
+} satisfies Meta<typeof Tile>;
 
 export default meta;
 

@@ -14,7 +14,7 @@ export type SelectProps = {
   placeholder?: string;
 };
 
-const KernSelect = ({
+const Select = ({
   label,
   name,
   errorMessages,
@@ -75,4 +75,4 @@ const KernSelect = ({
   );
 };
 
-export default KernSelect;
+export default Select;
