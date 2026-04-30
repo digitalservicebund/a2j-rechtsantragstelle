@@ -1,8 +1,8 @@
+// oxlint-disable no-console
 import { type LoaderFunctionArgs } from "react-router";
 import { logWarning } from "~/services/logging";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
 import bankCodes from "../../data/bankCodes/data.json";
-import { type BankData } from "~/components/kern/formElements/input/IbanInput";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const validatedRequest = await validateCsrfSessionFormless(request);
@@ -12,15 +12,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 403 });
   }
 
-  const bankData: BankData = (
-    bankCodes as Array<{ Bankleitzahl: number; Bezeichnung: string }>
-  ).reduce(
-    (prev, curr) => ({
-      ...prev,
-      [curr.Bankleitzahl]: curr.Bezeichnung,
-    }),
-    {},
-  );
+  const rawBankData = bankCodes as Array<{
+    Bankleitzahl: number;
+    Bezeichnung: string;
+  }>;
+
+  let bankData: Record<number, string> = {};
+  for (let i = 0, len = rawBankData.length; i < len; i++) {
+    bankData[rawBankData[i].Bankleitzahl] = rawBankData[i].Bezeichnung;
+  }
 
   return Response.json(bankData);
 };
