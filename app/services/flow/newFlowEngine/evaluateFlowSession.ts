@@ -36,6 +36,7 @@ export const evaluateFlowSession = <C extends PageConfigMap>(
   return {
     currentKey,
     pageSchema: staticFlow.getSchema(stepId),
+    fieldNames: staticFlow.getFieldNames(stepId) as string[],
     initialStepId: staticFlow.getStepIdFromKey(staticFlow.initialStep),
     arraySummary: staticFlow.getArraySummary(stepId),
     path: simulation.path,

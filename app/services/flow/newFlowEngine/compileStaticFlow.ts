@@ -1,25 +1,44 @@
 import { precomputeGraph } from "./precomputeGraph";
 import type { PageConfigMap, TransitionConfigMap } from "./types";
-import mapValues from "lodash/mapValues";
-import invert from "lodash/invert";
 import z from "zod";
 import { arrayChar } from "~/services/array";
-
-const getCompiledSchema = <C extends PageConfigMap>(
-  pageNodeMap: C,
-  key?: keyof C,
-): z.ZodTypeAny => {
-  let pageSchema = {};
-  if (key && pageNodeMap[key].pageSchema)
-    pageSchema = pageNodeMap[key].pageSchema;
-  return z.object(pageSchema);
-};
 
 type Options<C extends PageConfigMap> = {
   pageConfigMap: C;
   initialStep: keyof C;
   transitionConfigMap: TransitionConfigMap<C>;
   stepIdLeadingSlash?: boolean;
+};
+
+type NormalizedSchemaInfo = {
+  compiledSchema: z.ZodTypeAny;
+  fieldNames: string[];
+};
+
+const normalizeSchema = (
+  schema?: z.ZodTypeAny | z.ZodRawShape,
+): NormalizedSchemaInfo => {
+  if (!schema) return { compiledSchema: z.object({}), fieldNames: [] };
+
+  if (!(schema instanceof z.ZodType)) {
+    return {
+      compiledSchema: z.object(schema),
+      fieldNames: Object.keys(schema),
+    };
+  }
+
+  let fieldNames: string[] = [];
+  if (schema instanceof z.ZodObject) {
+    fieldNames = Object.keys(schema.shape);
+  } else if ("innerType" in schema && typeof schema.innerType === "function") {
+    // Handles simple ZodEffects (.refine) wrapping an object
+    const inner = schema.innerType();
+    if (inner instanceof z.ZodObject) {
+      fieldNames = Object.keys(inner.shape);
+    }
+  }
+
+  return { compiledSchema: schema, fieldNames };
 };
 
 const getArrayEntryPoint = <C extends PageConfigMap>(
@@ -42,41 +61,72 @@ export const compileFlowConfig = <C extends PageConfigMap>({
   transitionConfigMap,
   stepIdLeadingSlash = false,
 }: Options<C>) => {
-  const stepIdMap: Record<string, keyof C> = invert(
-    // mapValues(config, (obj) => obj.stepId.replaceAll("/#", "")),
-    mapValues(pageConfigMap, "stepId"),
-  );
-  const graphStats = precomputeGraph(transitionConfigMap, initialStep);
+  const stepIdMap: Record<string, keyof C> = {};
+  const schemaCache: Partial<Record<keyof C, z.ZodTypeAny>> = {};
+  const fieldNamesCache: Partial<Record<keyof C, string[]>> = {};
+  const arrayInfoCache: Partial<
+    Record<keyof C, { name: string; entryPoint?: string }>
+  > = {};
 
-  // slice/prepend "/" depending on stepIdLeadingSlash
-  const getKeyFromStepId = (stepId: string): keyof C | undefined =>
-    stepIdMap[stepIdLeadingSlash ? stepId.slice(1) : stepId];
-
-  const getStepIdFromKey = (key?: keyof C) =>
-    key
-      ? (stepIdLeadingSlash ? "/" : "") + pageConfigMap[key].stepId
-      : undefined;
-
-  const arrayInfoCache: Record<string, { name: string; entryPoint?: string }> =
-    {};
-
+  // 1. Single-pass static initialization loop
   for (const [key, pageNode] of Object.entries(pageConfigMap)) {
+    const typedKey = key as keyof C;
+
+    const normalizedStepId = pageNode.stepId.startsWith("/")
+      ? pageNode.stepId
+      : "/" + pageNode.stepId;
+
+    stepIdMap[normalizedStepId] = typedKey;
+
+    // Pre-compile schemas and extract fields for pruning
+    const { compiledSchema, fieldNames } = normalizeSchema(pageNode.pageSchema);
+    schemaCache[typedKey] = compiledSchema;
+    fieldNamesCache[typedKey] = fieldNames;
+
+    // Pre-compute array routing
     if (pageNode.arraySummary) {
-      arrayInfoCache[pageNode.stepId] = {
+      arrayInfoCache[typedKey] = {
         name: pageNode.arraySummary.name,
-        entryPoint: getArrayEntryPoint(transitionConfigMap[key], pageConfigMap),
+        entryPoint: getArrayEntryPoint(
+          transitionConfigMap[typedKey],
+          pageConfigMap,
+        ),
       };
     }
   }
+
+  const graphStats = precomputeGraph(transitionConfigMap, initialStep);
+
+  const getKeyFromStepId = (stepId: string): keyof C | undefined =>
+    stepIdMap[stepId];
+
+  const getStepIdFromKey = (key?: keyof C): string | undefined => {
+    if (!key) return undefined;
+    const rawStepId = pageConfigMap[key].stepId;
+    return stepIdLeadingSlash && !rawStepId.startsWith("/")
+      ? `/${rawStepId}`
+      : rawStepId;
+  };
 
   return {
     pageConfigMap,
     transitionConfigMap,
     initialStep,
     graphStats,
-    getArraySummary: (stepId: string) => arrayInfoCache[stepId],
-    getSchema: (stepId: string) =>
-      getCompiledSchema(pageConfigMap, getKeyFromStepId(stepId)),
+
+    getArraySummary: (stepId: string) => {
+      const key = getKeyFromStepId(stepId);
+      return key ? arrayInfoCache[key] : undefined;
+    },
+    getSchema: (stepId: string) => {
+      const key = getKeyFromStepId(stepId);
+      return key ? schemaCache[key] : undefined;
+    },
+    getFieldNames: (stepId: string) => {
+      const key = getKeyFromStepId(stepId);
+      return key ? fieldNamesCache[key] : [];
+    },
+
     getKeyFromStepId,
     getStepIdFromKey,
     isFinal: (stepId: string) => {

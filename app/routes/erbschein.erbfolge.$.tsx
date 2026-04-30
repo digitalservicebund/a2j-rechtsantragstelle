@@ -43,10 +43,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // TODO: prune inside createFlowSession?
   const prunedUserData = fullUserData;
 
-  const { pageSchema, arraySummary } = flowSession;
-  const fieldNames = Object.keys(pageSchema.def.shape);
-  if (arraySummary) fieldNames.push(arraySummary.name);
-  const stepData = resolveUserData(prunedUserData, fieldNames);
+  const { arraySummary, fieldNames } = flowSession;
+  const fieldNamesForPage = arraySummary
+    ? [...fieldNames, arraySummary.name]
+    : fieldNames;
+  const stepData = resolveUserData(prunedUserData, fieldNamesForPage);
 
   const prevStepId = flowSession.getPrevStep();
   const backDestination = prevStepId
