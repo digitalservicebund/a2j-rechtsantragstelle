@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../InputError";
+import { type InputHTMLAttributes } from "react";
 
 export type InputProps = Readonly<{
   name: string;
@@ -17,6 +18,7 @@ export type InputProps = Readonly<{
   charLimit?: number;
   inputRef?: React.Ref<HTMLInputElement>;
   readonly?: boolean;
+  ariaDescribedBy?: InputHTMLAttributes<HTMLInputElement>["aria-describedby"];
 }>;
 
 const TextInput = function InputComponent({
@@ -28,6 +30,7 @@ const TextInput = function InputComponent({
   charLimit = INPUT_CHAR_LIMIT,
   inputRef,
   readonly,
+  ariaDescribedBy,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -64,6 +67,7 @@ const TextInput = function InputComponent({
         aria-describedby={[
           field.error() && errorId,
           helperText && helperId,
+          ariaDescribedBy,
         ].join(" ")}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
         ref={inputRef}
