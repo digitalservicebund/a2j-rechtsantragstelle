@@ -13,11 +13,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 
   const bankData: BankData = (
-    bankCodes as Array<{ Bankleitzahl: number; Kurzbezeichnung: string }>
+    bankCodes as Array<{ Bankleitzahl: number; Bezeichnung: string }>
   ).reduce(
     (prev, curr) => ({
       ...prev,
-      [curr.Bankleitzahl]: curr.Kurzbezeichnung,
+      [curr.Bankleitzahl]: curr.Bezeichnung,
     }),
     {},
   );
