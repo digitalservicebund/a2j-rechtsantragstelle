@@ -16,7 +16,9 @@ vi.mock("react-router", () => ({
   })),
 }));
 
-vi.mock("~/components/formElements/inputs/autoSuggest/hooks/useLiveMessage.tsx");
+vi.mock(
+  "~/components/formElements/inputs/autoSuggest/hooks/useLiveMessage.tsx",
+);
 
 const mockFuseSearch = vi.fn().mockReturnValue([]);
 
