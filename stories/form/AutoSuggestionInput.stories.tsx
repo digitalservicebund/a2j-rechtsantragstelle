@@ -3,13 +3,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import KernAutoSuggestInput from "~/components/formElements/autoSuggestInput/KernAutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
 
 const meta = {
   title: "form/AutoSuggestionInput",
-  component: KernAutoSuggestInput,
+  component: AutoSuggestInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernAutoSuggestInput>;
+} satisfies Meta<typeof AutoSuggestInput>;
 
 export default meta;
 

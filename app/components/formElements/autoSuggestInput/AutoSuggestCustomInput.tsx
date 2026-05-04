@@ -17,7 +17,7 @@ type CustomSelectProps = Props<
   "aria-describedby": string;
 };
 
-const KernAutoSuggestCustomInput = (
+const AutoSuggestCustomInput = (
   props: InputProps<DataListOptions, false>,
   hasError: boolean,
 ) => {
@@ -41,4 +41,4 @@ const KernAutoSuggestCustomInput = (
   );
 };
 
-export default KernAutoSuggestCustomInput;
+export default AutoSuggestCustomInput;

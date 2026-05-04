@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import AutoSuggestFormatOptionLabel from "../KernAutoSuggestFormatOptionLabel";
+import AutoSuggestFormatOptionLabel from "../AutoSuggestFormatOptionLabel";
 
 describe("AutoSuggestFormatOptionLabel", () => {
   it("it should render the label if the context is a value", () => {

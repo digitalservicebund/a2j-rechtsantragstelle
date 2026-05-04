@@ -27,15 +27,14 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import InputError from "../InputError";
-import KernAutoSuggestClearInput from "./KernAutoSuggestClearInput";
-import KernAutoSuggestController from "./KernAutoSuggestController";
-import KernAutoSuggestCustomInput from "./KernAutoSuggestCustomInput";
-import KernAutoSuggestValueContainer from "./KernAutoSuggestValueContainer";
-import kernCustomStyles from "./customStyles";
-
+import AutoSuggestClearInput from "./AutoSuggestClearInput";
+import AutoSuggestController from "./AutoSuggestController";
+import AutoSuggestCustomInput from "./AutoSuggestCustomInput";
+import customStyles from "./customStyles";
 import Fuse from "fuse.js/basic";
 import TextInput from "~/components/kern/formElements/input/TextInput";
-import KernAutoSuggestFormatOptionLabel from "./KernAutoSuggestFormatOptionLabel";
+import AutoSuggestFormatOptionLabel from "./AutoSuggestFormatOptionLabel";
+import AutoSuggestValueContainer from "./AutoSuggestValueContainer";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -88,7 +87,7 @@ const getSortingAirportsByCode = (
   return filteredOptions;
 };
 
-const KernAutoSuggestInput = ({
+const AutoSuggestInput = ({
   name,
   label,
   placeholder,
@@ -169,13 +168,13 @@ const KernAutoSuggestInput = ({
 
   const MemoizedController = useCallback(
     (props: ControlProps<DataListOptions, false>) =>
-      KernAutoSuggestController(props, isDisabled),
+      AutoSuggestController(props, isDisabled),
     [isDisabled],
   );
 
   const MemoizedCustomInput = useCallback(
     (props: InputProps<DataListOptions, false>) =>
-      KernAutoSuggestCustomInput(props, hasError),
+      AutoSuggestCustomInput(props, hasError),
     [hasError],
   );
 
@@ -234,15 +233,15 @@ const KernAutoSuggestInput = ({
           })}
           components={{
             ClearIndicator: (props) =>
-              KernAutoSuggestClearInput(props, buttonExclusionRef),
+              AutoSuggestClearInput(props, buttonExclusionRef),
             Control: MemoizedController,
             DropdownIndicator: () => null,
             IndicatorSeparator: () => null,
             Input: MemoizedCustomInput,
-            ValueContainer: KernAutoSuggestValueContainer,
+            ValueContainer: AutoSuggestValueContainer,
           }}
           filterOption={() => true}
-          formatOptionLabel={KernAutoSuggestFormatOptionLabel}
+          formatOptionLabel={AutoSuggestFormatOptionLabel}
           id={name}
           inputId={inputId}
           instanceId={name}
@@ -281,7 +280,7 @@ const KernAutoSuggestInput = ({
           screenReaderStatus={screenReaderStatus(
             rootLoaderData?.accessibilityTranslations,
           )}
-          styles={kernCustomStyles()}
+          styles={customStyles()}
           classNames={{
             control: () =>
               classNames("kern-form-input__input bg-white!", {
@@ -308,4 +307,4 @@ const KernAutoSuggestInput = ({
   );
 };
 
-export default KernAutoSuggestInput;
+export default AutoSuggestInput;
