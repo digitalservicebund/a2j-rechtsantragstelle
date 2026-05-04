@@ -1,9 +1,9 @@
 import { useField } from "@rvf/react-router";
 import { useEffect, useState, type FunctionComponent } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
-import { KernIcon } from "~/components/kern/common/KernIcon";
-import { useBankData } from "./useBankData";
+import { Icon } from "~/components/common/Icon";
 import TextInput, { type InputProps } from "../text/TextInput";
+import { useBankData } from "./useBankData";
 import { bankNameFromIBAN } from "./bankNameFromIBAN";
 
 type MaskedIbanInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
@@ -49,7 +49,7 @@ const IbanInput = (props: InputProps) => {
           id={bankNameBadgeId}
           className="kern-badge kern-badge-info border-2 border-kern-feedback-info bg-kern-feedback-info-background min-w-fit w-min"
         >
-          <KernIcon name="info" className="fill-kern-feedback-info" />
+          <Icon name="info" className="fill-kern-feedback-info" />
           <span className="kern-label kern-label--small">{bankName}</span>
         </output>
       )}

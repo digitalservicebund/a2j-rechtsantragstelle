@@ -3,7 +3,7 @@ import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 import KernHeading from "../../kern/KernHeading";
-import { KernIcon } from "../../kern/common/KernIcon";
+import { Icon } from "../../common/Icon";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -54,7 +54,7 @@ const SummaryOverviewBox = ({
         ))}
       </dl>
       <a href={`${flowId}${stepId}`} className="kern-link no-underline!">
-        <KernIcon name="edit" />
+        <Icon name="edit" />
         Bearbeiten
       </a>
     </div>

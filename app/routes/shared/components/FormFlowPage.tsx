@@ -9,9 +9,9 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import KernHeading from "~/components/kern/KernHeading";
-import { KernMissingDataList } from "~/components/kern/common/KernMissingDataList";
+import { MissingDataList } from "~/components/common/MissingDataList";
 import KernMigrationDataOverview from "~/components/kern/KernMigrationDataOverview";
-import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
+import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import FlowNavigation from "~/components/kern/navigation/FlowNavigation";
 import { NavigationList } from "~/components/kern/navigation/NavigationList";
@@ -107,7 +107,7 @@ export function FormFlowPage() {
                   content={cmsContent.content}
                   managedByParent
                 />
-                <KernMissingDataList
+                <MissingDataList
                   // Renders a list of menu entries with missing data on pages that have triggerValidation / expandAll set to true
                   // This is a temporary workaround until this functionality is implemented into the summary page
                   navItems={navigationProps.navItems}
@@ -128,7 +128,7 @@ export function FormFlowPage() {
                 {arraySummaryData &&
                   Object.keys(arraySummaryData).length !== 0 &&
                   Object.entries(arraySummaryData).map(([category, array]) => (
-                    <KernArraySummary
+                    <ArraySummary
                       key={category}
                       category={category}
                       arrayData={{

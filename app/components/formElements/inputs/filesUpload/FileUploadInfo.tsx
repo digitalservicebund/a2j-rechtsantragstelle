@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { Icon } from "~/components/common/Icon";
 import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
 import { formatFileSizeToString } from "~/services/upload/formatFileSizeToString";
@@ -6,7 +7,6 @@ import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
-import { KernIcon } from "../../../kern/common/KernIcon";
 
 type FileUploadInfoProps = {
   inputName: string;
@@ -34,7 +34,7 @@ export const FileUploadInfo = ({
   return (
     <div className={classes} data-testid={`file-upload-info-${inputName}`}>
       <div className="max-w-full grid grid-cols-[24px_1fr_auto] gap-x-12 items-center">
-        <KernIcon name="draft" className="fill-kern-layout-text-muted" />
+        <Icon name="draft" className="fill-kern-layout-text-muted" />
         <span className="kern-body text-black truncate">{file.filename}</span>
         <span className="text-gray-900 kern-body kern-body--small">
           {formatFileSizeToString(file.fileSize)}

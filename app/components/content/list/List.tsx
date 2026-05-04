@@ -1,6 +1,6 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import KernListItem from "./KernListItem";
+import ListItem from "./ListItem";
 import { type ListItemProps, type ListVariant } from "./types";
 import KernRichText from "../../kern/KernRichText";
 import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
@@ -14,7 +14,7 @@ type ListProps = {
   wrap?: boolean;
 };
 
-const KernList = ({
+const List = ({
   identifier,
   items,
   heading,
@@ -43,7 +43,7 @@ const KernList = ({
           .filter(listItemNotEmpty)
           .map((item, index) => (
             <li key={item.id} className="group list-none">
-              <KernListItem {...item} index={index + 1} variant={variant} />
+              <ListItem {...item} index={index + 1} variant={variant} />
             </li>
           ))}
       </ListTag>
@@ -74,4 +74,4 @@ export function listItemNotEmpty(item: ListItemProps): boolean {
   );
 }
 
-export default KernList;
+export default List;

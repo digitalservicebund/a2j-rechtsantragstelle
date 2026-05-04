@@ -3,8 +3,8 @@ import { useLocation, type Location, useLoaderData } from "react-router";
 import { type InlineNoticeProps } from "../../InlineNotice";
 import {
   type EmailCaptureProps,
-  KernEmailCapture,
-} from "~/components/content/emailCapture/KernEmailCapture";
+  EmailCapture,
+} from "~/components/content/emailCapture/EmailCapture";
 import { invalidEmailError } from "../emailCaptureHelpers";
 
 vi.mock("react-router", () => ({
@@ -47,7 +47,7 @@ const fieldDescription = "Lorem ipsum";
 
 function renderEmailCapture(props?: Partial<EmailCaptureProps>) {
   return render(
-    <KernEmailCapture
+    <EmailCapture
       successBanner={successBanner}
       errorBanner={errorBanner}
       buttonLabel={submitButtonLabel}

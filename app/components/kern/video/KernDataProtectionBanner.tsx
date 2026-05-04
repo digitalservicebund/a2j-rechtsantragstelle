@@ -2,7 +2,7 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import KernHeading from "../KernHeading";
-import { KernIcon } from "../common/KernIcon";
+import { Icon } from "../../common/Icon";
 import KernButton from "../KernButton";
 
 const DATA_PROTECTION_TRANSLATION_KEYS = {
@@ -48,7 +48,7 @@ export const KernDataProtectionBanner = ({
       <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
         <a href="/datenschutzerklaerung" className="kern-link">
-          <KernIcon name="arrow-forward" />
+          <Icon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
         </a>
       </div>

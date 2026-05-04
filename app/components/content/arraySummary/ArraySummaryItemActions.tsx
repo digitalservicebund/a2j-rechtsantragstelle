@@ -1,7 +1,7 @@
 import { useFetcher, useLocation } from "react-router";
 import KernButton from "~/components/kern/KernButton";
 import type { KernHeadingProps } from "~/components/kern/KernHeading";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -15,7 +15,7 @@ type Props = {
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
-const KernArraySummaryItemActions = ({
+const ArraySummaryItemActions = ({
   itemIndex,
   category,
   editUrl,
@@ -33,7 +33,7 @@ const KernArraySummaryItemActions = ({
         className="kern-link no-underline! flex align-center gap-kern-space-x-small!"
         aria-label={`${srHeadingText}${translations.arraySummary.arrayEditButtonLabel.de}`}
       >
-        <KernIcon
+        <Icon
           name="edit"
           className="text-kern-action-default self-center! mb-3!"
         />
@@ -47,9 +47,7 @@ const KernArraySummaryItemActions = ({
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <KernButton
           look="tertiary"
-          iconLeft={
-            <KernIcon name="trash" className="text-kern-action-default" />
-          }
+          iconLeft={<Icon name="trash" className="text-kern-action-default" />}
           name={category}
           value={itemIndex}
           textClassName="no-underline! font-normal!"
@@ -63,4 +61,4 @@ const KernArraySummaryItemActions = ({
   );
 };
 
-export default KernArraySummaryItemActions;
+export default ArraySummaryItemActions;

@@ -1,11 +1,11 @@
 import KernButton from "~/components/kern/KernButton";
 import KernRichText from "~/components/kern/KernRichText";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
-import KernArraySummaryDataItems from "./KernArraySummaryDataItem";
+import ArraySummaryDataItems from "./ArraySummaryDataItem";
 import { type KernHeadingProps } from "../../kern/KernHeading";
 
 type ArraySummaryProps = Readonly<{
@@ -23,11 +23,7 @@ type ArraySummaryProps = Readonly<{
   };
 }>;
 
-const KernArraySummary = ({
-  category,
-  arrayData,
-  content,
-}: ArraySummaryProps) => {
+const ArraySummary = ({ category, arrayData, content }: ArraySummaryProps) => {
   const nextItemIndex = String(arrayData.data.length);
   const { url, initialInputUrl, disableAddButton } = arrayData.configuration;
 
@@ -45,7 +41,7 @@ const KernArraySummary = ({
       )}
 
       {arrayData.data.map((items, index) => (
-        <KernArraySummaryDataItems
+        <ArraySummaryDataItems
           // oxlint-disable-next-line react/no-array-index-key
           key={`${content.buttonLabel}_${index}`}
           configuration={arrayData.configuration}
@@ -60,9 +56,7 @@ const KernArraySummary = ({
       <div>
         <KernButton
           look="secondary"
-          iconLeft={
-            <KernIcon name="plus" className="text-kern-action-default" />
-          }
+          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
           href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
           disabled={disableAddButton}
           data-testid={`add-${category}`}
@@ -74,4 +68,4 @@ const KernArraySummary = ({
   );
 };
 
-export default KernArraySummary;
+export default ArraySummary;
