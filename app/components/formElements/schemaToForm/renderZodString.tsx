@@ -1,15 +1,15 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import KernTextarea from "~/components/formElements/Textarea";
+import Textarea from "~/components/formElements/Textarea";
 import TextInput, {
   type InputProps,
 } from "~/components/kern/formElements/input/TextInput";
 import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
 import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
-import KernDateInput from "~/components/formElements/inputs/KernDateInput";
-import KernAutoSuggestInput from "../autoSuggestInput/KernAutoSuggestInput";
+import DateInput from "~/components/formElements/inputs/DateInput";
+import AutoSuggestInput from "../autoSuggestInput/AutoSuggestInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -34,23 +34,19 @@ export const renderZodString = (
 
   if (matchingElement?.__component === "form-elements.textarea")
     return (
-      <KernTextarea
+      <Textarea
         key={fieldName}
         {...sharedProps}
         {...pick(matchingElement, ["details", "description", "maxLength"])}
       />
     );
   if (matchingElement?.__component === "form-elements.date-input")
-    return <KernDateInput key={fieldName} {...inputProps} />;
+    return <DateInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.time-input")
     return <KernTimeInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
     return (
-      <KernAutoSuggestInput
-        key={fieldName}
-        {...matchingElement}
-        {...inputProps}
-      />
+      <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
     );
 
   const inputType =

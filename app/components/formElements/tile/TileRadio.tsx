@@ -1,9 +1,9 @@
 import { useField } from "@rvf/react-router";
-import KernTileContent, { type KernTileContentProps } from "./KernTileContent";
+import TileContent, { type TileContentProps } from "./TileContent";
 import { type ImageProps } from "~/components/common/Image";
 import classNames from "classnames";
 
-export type KernTileOptions = Readonly<{
+export type TileOptions = Readonly<{
   value: string;
   description?: string;
   title?: string;
@@ -13,16 +13,16 @@ export type KernTileOptions = Readonly<{
   errorId?: string;
 }>;
 
-type KernTileRadioProps = KernTileOptions &
+type TileRadioProps = TileOptions &
   Readonly<
     {
       name: string;
       onClick: () => void;
       ref: React.Ref<HTMLInputElement>;
       image?: ImageProps;
-    } & KernTileContentProps
+    } & TileContentProps
   >;
-const KernTileRadio = ({
+const TileRadio = ({
   name,
   tileDescription,
   value,
@@ -31,7 +31,7 @@ const KernTileRadio = ({
   onClick,
   ref,
   errorId,
-}: KernTileRadioProps) => {
+}: TileRadioProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
   const descriptionId = tileDescription ? `${value}-description` : undefined;
@@ -64,7 +64,7 @@ const KernTileRadio = ({
             ref={ref}
           />
         </div>
-        <KernTileContent
+        <TileContent
           title={tileTitle}
           description={tileDescription}
           image={image}
@@ -73,4 +73,4 @@ const KernTileRadio = ({
     </div>
   );
 };
-export default KernTileRadio;
+export default TileRadio;

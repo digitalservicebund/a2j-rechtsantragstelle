@@ -1,7 +1,7 @@
 import { type FieldApi } from "@rvf/react-router";
-import { type CheckboxValue } from "~/components/formElements/KernCheckbox";
-import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
-import { type KernExclusiveCheckboxInputProps } from "./KernExclusiveCheckboxInput";
+import { type CheckboxValue } from "~/components/formElements/Checkbox";
+import { type ExclusiveCheckboxInputProps } from "./ExclusiveCheckboxInput";
+import { type ExclusiveCheckboxesType } from "~/services/validation/checkedCheckbox";
 
 /**
  * Checkbox change handler, handles both normal checkboxes and the special "none" checkbox
@@ -9,14 +9,12 @@ import { type KernExclusiveCheckboxInputProps } from "./KernExclusiveCheckboxInp
  */
 export const onCheckboxChange =
   (
-    parentField: FieldApi<ExclusiveCheckboxes | undefined>,
-    checkboxes: Array<Omit<KernExclusiveCheckboxInputProps, "onChange">>,
+    parentField: FieldApi<ExclusiveCheckboxesType | undefined>,
+    checkboxes: Array<Omit<ExclusiveCheckboxInputProps, "onChange">>,
     noneCheckboxValue: CheckboxValue,
     setNoneCheckboxValue: React.Dispatch<React.SetStateAction<CheckboxValue>>,
     setCheckboxes: React.Dispatch<
-      React.SetStateAction<
-        Array<Omit<KernExclusiveCheckboxInputProps, "onChange">>
-      >
+      React.SetStateAction<Array<Omit<ExclusiveCheckboxInputProps, "onChange">>>
     >,
   ) =>
   (checkboxName: string, checked: CheckboxValue) => {
@@ -40,7 +38,7 @@ export const onCheckboxChange =
       parentField.setValue({
         ...existingParentValues,
         [checkboxName]: checked,
-      } as ExclusiveCheckboxes);
+      } as ExclusiveCheckboxesType);
       setCheckboxes((prev) =>
         prev.map((c) =>
           c?.name.split(".").pop() === checkboxName

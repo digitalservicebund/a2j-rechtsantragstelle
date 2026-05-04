@@ -8,7 +8,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
 import { KernProgress } from "~/components/kern/KernProgressBar";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import KernValidatedFlowForm from "~/components/formElements/KernValidatedFormFlow";
+import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 
 export function VorabcheckPage() {
   const {
@@ -51,7 +51,7 @@ export function VorabcheckPage() {
           row={3}
           className={classNames({ "pb-80": !showReportProblem })}
         >
-          <KernValidatedFlowForm
+          <ValidatedFlowForm
             stepData={stepData}
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}

@@ -4,7 +4,7 @@ import { getPageSchema } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
-import { KernSchemaComponents } from "../kernFormElements/KernSchemaComponents";
+import { SchemaComponents } from "./SchemaComponents";
 import {
   type ButtonNavigationProps,
   KernButtonNavigation,
@@ -18,7 +18,7 @@ type ValidatedFlowFormProps = {
   buttonNavigationProps: ButtonNavigationProps;
 };
 
-function KernValidatedFlowForm({
+function ValidatedFlowForm({
   stepData,
   formElements,
   buttonNavigationProps: { back, next },
@@ -42,7 +42,7 @@ function KernValidatedFlowForm({
           <CsrfInput />
           <div className="flex flex-col">
             {pageSchema && (
-              <KernSchemaComponents
+              <SchemaComponents
                 pageSchema={pageSchema}
                 formComponents={formElements}
                 className="mb-kern-space-x-large"
@@ -60,4 +60,4 @@ function KernValidatedFlowForm({
   );
 }
 
-export default KernValidatedFlowForm;
+export default ValidatedFlowForm;
