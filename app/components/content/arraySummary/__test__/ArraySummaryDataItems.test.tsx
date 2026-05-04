@@ -14,12 +14,9 @@ const mockDataItem = {
   familyRelationship: "mother",
 };
 
-vi.mock(
-  "~/components/content/arraySummary/ArraySummaryItemActions",
-  () => ({
-    default: () => <div>Mock ArraySummaryItemActions</div>,
-  }),
-);
+vi.mock("~/components/content/arraySummary/ArraySummaryItemActions", () => ({
+  default: () => <div>Mock ArraySummaryItemActions</div>,
+}));
 
 describe("ArraySummaryDataItems", () => {
   afterEach(() => {
