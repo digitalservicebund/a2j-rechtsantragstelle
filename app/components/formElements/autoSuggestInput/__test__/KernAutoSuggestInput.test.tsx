@@ -81,7 +81,7 @@ afterEach(() => {
 });
 
 describe("KernAutoSuggestInput", () => {
-  it("it should render the component with the placeholder, label and the input name", () => {
+  it("should render the component with the placeholder, label and the input name", () => {
     const { getByText, container } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -101,7 +101,7 @@ describe("KernAutoSuggestInput", () => {
     expect(inputElement?.parentNode).toHaveClass("ph-no-capture");
   });
 
-  it("it should render select the first (BER) input after enter Berlin", async () => {
+  it("should render select the first (BER) input after enter Berlin", async () => {
     const { getByText, getByRole, container } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -124,7 +124,7 @@ describe("KernAutoSuggestInput", () => {
     });
   });
 
-  it("it should render show an no suggestion message in case enter a not existing input", async () => {
+  it("should render show an no suggestion message in case enter a not existing input", async () => {
     const noSuggestionMessage = "Not possible to find your input";
 
     const { getByText, getByRole } = render(
@@ -249,7 +249,7 @@ describe("KernAutoSuggestInput", () => {
     });
   });
 
-  it("it should remove the value in case click on clear button", async () => {
+  it("should remove the value in case click on clear button", async () => {
     const { getByText, getByRole, container, getByTestId } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -283,7 +283,7 @@ describe("KernAutoSuggestInput", () => {
     });
   });
 
-  it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
+  it("should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
     const { container, getByRole, getByText } = render(
       <AutoSuggestInput
         name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
