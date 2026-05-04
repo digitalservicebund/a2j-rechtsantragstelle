@@ -15,8 +15,8 @@ import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { KernButtonNavigation } from "~/components/kern/KernButtonNavigation";
-import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import KernHeading from "~/components/kern/KernHeading";
+import NumberInput from "~/components/formElements/inputs/number/NumberInput";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 

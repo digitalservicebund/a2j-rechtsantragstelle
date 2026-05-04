@@ -13,14 +13,14 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import NumberInput from "~/components/kern/formElements/input/NumberInput";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import KernHeading from "~/components/kern/KernHeading";
 import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import AutoSuggestInput from "~/components/formElements/autoSuggestInput/AutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
+import NumberInput from "~/components/formElements/inputs/number/NumberInput";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",

@@ -4,7 +4,7 @@ import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
-import { CsrfInput } from "~/components/formElements/CsrfInput";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 
 type Props = {
   readonly itemIndex: number;

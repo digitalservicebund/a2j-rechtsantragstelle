@@ -10,7 +10,7 @@ import classNames from "classnames";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./KernOpenQuestion";
 import { translations } from "~/services/translations/translations";
-import InputError from "~/components/kern/formElements/InputError";
+import InputError from "../formElements/inputs/error/InputError";
 
 type KernMultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;

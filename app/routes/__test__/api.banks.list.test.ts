@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { Result } from "true-myth";
-import { type BankData } from "~/components/kern/formElements/input/IbanInput";
+import { type BankData } from "~/components/formElements/inputs/iban/bankNameFromIBAN";
 import { loader } from "~/routes/api.banks.list";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
 
