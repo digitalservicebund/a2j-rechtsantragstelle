@@ -3,10 +3,10 @@ import { type ReactNode, useState } from "react";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { KernRadioInput } from "./KernRadioInput";
+import { RadioInput } from "./RadioInput";
 import InputError from "../kern/formElements/InputError";
 
-type KernRadioGroupProps = Readonly<{
+type RadioGroupProps = Readonly<{
   name: string;
   options: Array<{
     value: string;
@@ -17,13 +17,13 @@ type KernRadioGroupProps = Readonly<{
   errorMessages?: ErrorMessageProps[];
 }>;
 
-const KernRadioGroup = ({
+const RadioGroup = ({
   name,
   options,
   label,
   altLabel,
   errorMessages,
-}: KernRadioGroupProps) => {
+}: RadioGroupProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
@@ -52,7 +52,7 @@ const KernRadioGroup = ({
       <div className="kern-fieldset__body">
         {label && <legend className="kern-label">{label}</legend>}
         {options.map((o, index) => (
-          <KernRadioInput
+          <RadioInput
             key={o.value}
             name={name}
             value={o.value}
@@ -68,4 +68,4 @@ const KernRadioGroup = ({
   );
 };
 
-export default KernRadioGroup;
+export default RadioGroup;

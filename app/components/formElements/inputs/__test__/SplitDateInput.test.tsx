@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import KernSplitDateInput from "~/components/formElements/KernSplitDateInput";
+import SplitDateInput from "~/components/formElements/SplitDateInput";
 
 vi.mock("~/services/translations/translations", () => ({
   translations: {
@@ -33,7 +33,7 @@ vi.mock("@rvf/react-router", () => ({
 
 describe("SplitDateInput", () => {
   it("renders day, month and year input fields with correct labels", () => {
-    render(<KernSplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" />);
 
     const dayInput = screen.getByLabelText("Tag");
     expect(dayInput).toBeInTheDocument();
@@ -44,19 +44,19 @@ describe("SplitDateInput", () => {
   });
 
   it("renders legend", () => {
-    render(<KernSplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" />);
 
     expect(screen.getByText("Geburtsdatum")).toBeInTheDocument();
   });
 
   it("renders hint text", () => {
-    render(<KernSplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" />);
 
     expect(screen.getByText("Beispielsweise: 17 3 2015")).toBeInTheDocument();
   });
 
   it("renders an error message when one of the fields have errors", () => {
-    render(<KernSplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" />);
 
     expect(
       screen.getByText("Diese Felder müssen ausgefüllt werden."),
@@ -64,7 +64,7 @@ describe("SplitDateInput", () => {
   });
 
   it("applies aria attributes when errors exist", () => {
-    const { getAllByRole } = render(<KernSplitDateInput name="birthdate" />);
+    const { getAllByRole } = render(<SplitDateInput name="birthdate" />);
 
     const formElements = getAllByRole("textbox");
     formElements.forEach((inputField) => {

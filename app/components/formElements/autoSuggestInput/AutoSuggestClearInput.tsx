@@ -9,7 +9,7 @@ import { getTranslationByKey } from "~/services/translations/getTranslationByKey
 const AUTO_SUGGESTION_INPUT_BUTTON_ARIAL_KEY =
   "auto-suggestion-input-button-arial";
 
-const KernAutoSuggestClearInput = (
+const AutoSuggestClearInput = (
   props: ClearIndicatorProps<DataListOptions, false>,
   buttonExclusionRef: RefObject<HTMLButtonElement | null>,
 ) => {
@@ -44,4 +44,4 @@ const KernAutoSuggestClearInput = (
   );
 };
 
-export default KernAutoSuggestClearInput;
+export default AutoSuggestClearInput;

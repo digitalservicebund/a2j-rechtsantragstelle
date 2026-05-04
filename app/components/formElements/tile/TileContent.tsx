@@ -4,17 +4,13 @@ import Image, { type ImageProps } from "~/components/common/Image";
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
 
-export type KernTileContentProps = {
+export type TileContentProps = {
   readonly description?: string;
   readonly title?: string;
   readonly image?: ImageProps;
 };
 
-const KernTileContent = ({
-  title,
-  description,
-  image,
-}: KernTileContentProps) => {
+const TileContent = ({ title, description, image }: TileContentProps) => {
   return (
     <div
       className={classNames("h-full flex flex-col", {
@@ -47,4 +43,4 @@ const KernTileContent = ({
   );
 };
 
-export default KernTileContent;
+export default TileContent;

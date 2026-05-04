@@ -4,7 +4,7 @@ import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../kern/formElements/InputError";
 
-type KernSplitDateInputProps = {
+type SplitDateInputProps = {
   name: string;
 };
 
@@ -18,7 +18,7 @@ const sharedAttributes = {
   },
 } as const;
 
-const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
+const SplitDateInput = ({ name }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -132,4 +132,4 @@ const KernSplitDateInput = ({ name }: KernSplitDateInputProps) => {
   );
 };
 
-export default KernSplitDateInput;
+export default SplitDateInput;

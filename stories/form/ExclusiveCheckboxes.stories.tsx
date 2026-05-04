@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
-import { KernExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
+import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "form/ExclusiveCheckboxes",
-  component: KernExclusiveCheckboxes,
+  component: ExclusiveCheckboxes,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernExclusiveCheckboxes>;
+} satisfies Meta<typeof ExclusiveCheckboxes>;
 
 export default meta;
 

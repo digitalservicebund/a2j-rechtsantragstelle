@@ -1,23 +1,23 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { useState } from "react";
-import { type ExclusiveCheckboxes } from "~/services/validation/checkedCheckbox";
+import { type ExclusiveCheckboxesType } from "~/services/validation/checkedCheckbox";
 import InputError from "../InputError";
-import { KernExclusiveCheckboxInput } from "./KernExclusiveCheckboxInput";
 import { onCheckboxChange } from "./exclusiveCheckboxesChangeHandler";
+import { ExclusiveCheckboxInput } from "./ExclusiveCheckboxInput";
 
-type KernExclusiveCheckboxesProps = Readonly<{
+type ExclusiveCheckboxesProps = Readonly<{
   name: string;
   options: readonly string[];
   labels?: Record<string, string | undefined>;
 }>;
 
-export const KernExclusiveCheckboxes = ({
+export const ExclusiveCheckboxes = ({
   name,
   options,
   labels,
-}: KernExclusiveCheckboxesProps) => {
-  const field = useField<ExclusiveCheckboxes | undefined>(name);
+}: ExclusiveCheckboxesProps) => {
+  const field = useField<ExclusiveCheckboxesType | undefined>(name);
   const [noneCheckboxValue, setNoneCheckboxValue] = useState(
     field.value()?.none ?? "off",
   );
@@ -44,7 +44,7 @@ export const KernExclusiveCheckboxes = ({
           name.split(".").pop() === "none" ? (
             <div key={name}>
               <p className="kern-label mb-24!">oder</p>
-              <KernExclusiveCheckboxInput
+              <ExclusiveCheckboxInput
                 name={name}
                 {...checkbox}
                 onChange={onCheckboxChange(
@@ -59,7 +59,7 @@ export const KernExclusiveCheckboxes = ({
               />
             </div>
           ) : (
-            <KernExclusiveCheckboxInput
+            <ExclusiveCheckboxInput
               name={name}
               key={name}
               onChange={onCheckboxChange(

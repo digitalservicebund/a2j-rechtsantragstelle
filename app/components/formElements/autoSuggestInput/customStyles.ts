@@ -16,7 +16,7 @@ const getOptionBackgroundColor = (
   return undefined;
 };
 
-const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
+const customStyles = (): StylesConfig<DataListOptions, false> => {
   return {
     menuPortal: (base) => ({
       ...base,
@@ -80,4 +80,4 @@ const kernCustomStyles = (): StylesConfig<DataListOptions, false> => {
   };
 };
 
-export default kernCustomStyles;
+export default customStyles;

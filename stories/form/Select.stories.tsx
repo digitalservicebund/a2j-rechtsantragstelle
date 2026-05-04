@@ -1,18 +1,18 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernSelect from "~/components/formElements/KernSelect";
+import Select from "~/components/formElements/Select";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "form/Select",
-  component: KernSelect,
+  component: Select,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernSelect>;
+} satisfies Meta<typeof Select>;
 
 export default meta;
 

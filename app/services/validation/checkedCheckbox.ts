@@ -5,7 +5,7 @@ export const checkedOptional = z.enum(["on", "off"]);
 
 type CheckedOptional = z.infer<typeof checkedOptional>;
 
-export type ExclusiveCheckboxes = {
+export type ExclusiveCheckboxesType = {
   none: CheckedOptional;
   [key: string]: CheckedOptional;
 };

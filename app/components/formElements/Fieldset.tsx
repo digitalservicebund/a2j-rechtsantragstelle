@@ -4,9 +4,9 @@ import KernRichText from "../kern/KernRichText";
 import Image from "../common/Image";
 import classNames from "classnames";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
+import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 
-type KernFieldsetProps = Readonly<
+type FieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
     readOnlyFieldNames: string[];
@@ -31,12 +31,12 @@ const getFieldSetPageSchema = (
     : null;
 };
 
-export const KernFieldset = ({
+export const Fieldset = ({
   heading,
   formComponents,
   image,
   readOnlyFieldNames,
-}: KernFieldsetProps) => {
+}: FieldsetProps) => {
   const { pathname } = useLocation();
 
   const pageSchema = getFieldSetPageSchema(pathname, formComponents);
@@ -61,7 +61,7 @@ export const KernFieldset = ({
         />
       </legend>
       <div className="kern-fieldset__body">
-        <KernSchemaComponents
+        <SchemaComponents
           pageSchema={pageSchema}
           formComponents={formComponents}
           className={classNames("pt-16", { "md:pl-32": image })}

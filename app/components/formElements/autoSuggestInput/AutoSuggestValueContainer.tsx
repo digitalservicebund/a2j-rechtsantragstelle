@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { components, type ValueContainerProps } from "react-select";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
-const KernAutoSuggestValueContainer = (
+const AutoSuggestValueContainer = (
   props: ValueContainerProps<DataListOptions, false>,
 ) => (
   <components.ValueContainer
@@ -15,4 +15,4 @@ const KernAutoSuggestValueContainer = (
   />
 );
 
-export default KernAutoSuggestValueContainer;
+export default AutoSuggestValueContainer;
