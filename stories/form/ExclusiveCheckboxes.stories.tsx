@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
-import { ExclusiveCheckboxes } from "~/components/formElements/exclusiveCheckboxes/ExclusiveCheckboxes";
+import { ExclusiveCheckboxes } from "~/components/formElements/inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

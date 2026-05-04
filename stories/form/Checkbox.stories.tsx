@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-vite";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
-import Checkbox from "~/components/formElements/Checkbox";
+import Checkbox from "~/components/formElements/inputs/checkbox/Checkbox";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

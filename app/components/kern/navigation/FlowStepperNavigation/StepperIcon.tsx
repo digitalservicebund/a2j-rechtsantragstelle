@@ -4,7 +4,7 @@ import {
   stateIsWarning,
 } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
-import { KernIcon } from "../../common/KernIcon";
+import { Icon } from "../../../common/Icon";
 
 export function StepperIcon({
   state,
@@ -15,7 +15,7 @@ export function StepperIcon({
 }>) {
   if (stateIsDone(state)) {
     return (
-      <KernIcon
+      <Icon
         name="check-circle"
         data-testid="icon-done"
         className="fill-kern-feedback-success forced-color-adjust-auto"
@@ -26,7 +26,7 @@ export function StepperIcon({
 
   if (stateIsWarning(state)) {
     return (
-      <KernIcon
+      <Icon
         name="warning"
         data-testid="icon-warning"
         className="fill-kern-feedback-warning forced-color-adjust-auto"

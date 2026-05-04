@@ -1,4 +1,4 @@
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 
 type Dependency = {
   licenses: string | string[];
@@ -14,7 +14,7 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
           className="kern-link inline-block! no-underline! p-0!"
           href={infos.repository}
         >
-          <KernIcon name="open-in-new" className="inline! mr-4" />
+          <Icon name="open-in-new" className="inline! mr-4" />
           {dependencyString}
         </a>
       ) : (

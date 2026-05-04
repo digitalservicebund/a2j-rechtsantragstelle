@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernIcon } from "~/components/kern/common/KernIcon";
-import { type IconName } from "~/components/kern/common/utils";
+import { Icon } from "~/components/common/Icon";
+import { type IconName } from "~/components/common/utils";
 
 const allIconNames: IconName[] = [
   "airplanemode",
@@ -42,7 +42,7 @@ const allIconNames: IconName[] = [
 
 const meta = {
   title: "components/Icon",
-  component: KernIcon,
+  component: Icon,
   tags: ["autodocs"],
   argTypes: {
     name: {
@@ -53,7 +53,7 @@ const meta = {
       control: "number",
     },
   },
-} satisfies Meta<typeof KernIcon>;
+} satisfies Meta<typeof Icon>;
 
 export default meta;
 
@@ -85,7 +85,7 @@ export const AllIcons: Story = {
             borderRadius: "4px",
           }}
         >
-          <KernIcon name={name} size={24} />
+          <Icon name={name} size={24} />
           <span
             style={{ fontSize: "11px", textAlign: "center", color: "#666" }}
           >

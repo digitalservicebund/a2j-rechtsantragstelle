@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
+import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 
 const meta = {
   title: "patterns/ArraySummary",
-  component: KernArraySummary,
+  component: ArraySummary,
   tags: ["autodocs"],
   decorators: [(Story) => reactRouterContext(Story)],
-} satisfies Meta<typeof KernArraySummary>;
+} satisfies Meta<typeof ArraySummary>;
 
 export default meta;
 

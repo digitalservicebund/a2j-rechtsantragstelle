@@ -4,7 +4,7 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import KernButton from "./KernButton";
 import KernRichText, { type RichTextProps } from "./KernRichText";
-import { KernIcon } from "./common/KernIcon";
+import { Icon } from "../common/Icon";
 import KernButtonContainer from "./KernButtonContainer";
 import KernHeading, { type KernHeadingProps } from "./KernHeading";
 
@@ -86,7 +86,7 @@ export function KernCookieBanner({
             />
             {content.cookieSettingLinkUrl && (
               <a href={content.cookieSettingLinkUrl} className="kern-link">
-                <KernIcon name="arrow-forward" />
+                <Icon name="arrow-forward" />
                 {content.cookieSettingLinkText}
               </a>
             )}

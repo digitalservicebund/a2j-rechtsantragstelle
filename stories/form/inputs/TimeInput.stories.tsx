@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { z } from "zod";
-import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
+import TimeInput from "~/components/formElements/inputs/time/TimeInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
@@ -8,7 +8,7 @@ import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 
 const meta = {
   title: "form/inputs/TimeInput",
-  component: KernTimeInput,
+  component: TimeInput,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -26,7 +26,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernTimeInput>;
+} satisfies Meta<typeof TimeInput>;
 
 export default meta;
 

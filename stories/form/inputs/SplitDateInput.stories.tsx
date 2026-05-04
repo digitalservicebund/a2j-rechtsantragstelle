@@ -1,7 +1,7 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import z from "zod";
-import SplitDateInput from "~/components/formElements/SplitDateInput";
+import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

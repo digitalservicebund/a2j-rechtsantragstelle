@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GridItem } from "../layout/grid/GridItem";
-import { KernIcon } from "../kern/common/KernIcon";
+import { Icon } from "../common/Icon";
 import KernRichText from "../kern/KernRichText";
 
 export type DetailsProps = {
@@ -28,9 +28,9 @@ export const Details = ({ title, content }: DetailsProps) => {
         >
           <span className="mr-kern-space-small">
             {isOpen ? (
-              <KernIcon name="keyboard-arrow-up" />
+              <Icon name="keyboard-arrow-up" />
             ) : (
-              <KernIcon name="keyboard-arrow-down" />
+              <Icon name="keyboard-arrow-down" />
             )}
           </span>
           {title}

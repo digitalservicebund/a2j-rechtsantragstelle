@@ -10,7 +10,7 @@ import {
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { splatFromParams } from "~/services/params";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 import KernHeading from "~/components/kern/KernHeading";
 import CourtDetails from "~/components/CourtDetails";
 
@@ -96,7 +96,7 @@ export const Component = () => {
             href="/beratungshilfe/zustaendiges-gericht/suche"
             className="flex kern-link no-underline!"
           >
-            <KernIcon name="arrow-forward" />
+            <Icon name="arrow-forward" />
             Suche wiederholen
           </a>
         </GridItem>

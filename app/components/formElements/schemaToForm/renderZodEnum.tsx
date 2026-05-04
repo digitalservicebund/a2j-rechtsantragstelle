@@ -2,10 +2,10 @@ import get from "lodash/get";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
-import RadioGroup from "~/components/formElements/RadioGroup";
-import Select from "~/components/formElements/Select";
-import Checkbox from "~/components/formElements/Checkbox";
-import Tile from "../tile/Tile";
+import RadioGroup from "~/components/formElements/inputs/radio/RadioGroup";
+import Tile from "../inputs/tile/Tile";
+import Checkbox from "../inputs/checkbox/Checkbox";
+import Select from "../inputs/select/Select";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
