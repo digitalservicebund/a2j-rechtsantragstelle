@@ -51,7 +51,7 @@ importers:
         version: 5.2.0(rollup@4.60.1)
       '@xstate/graph':
         specifier: ^3.0.4
-        version: 3.0.4(xstate@5.30.0)
+        version: 3.0.4(xstate@5.31.0)
       axios:
         specifier: ^1.15.2
         version: 1.15.2
@@ -155,8 +155,8 @@ importers:
         specifier: ^1.0.15
         version: 1.0.15
       xstate:
-        specifier: ^5.30.0
-        version: 5.30.0
+        specifier: ^5.31.0
+        version: 5.31.0
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -2341,6 +2341,7 @@ packages:
   '@smithy/util-retry@4.3.6':
     resolution: {integrity: sha512-p6/FO1n2KxMeQyna067i0uJ6TSbb165ZhnRtCpWh4Foxqbfc6oW+XITaL8QkFJj3KFnDe2URt4gOhgU06EP9ew==}
     engines: {node: '>=18.0.0'}
+    deprecated: '@smithy/util-retry v4.3.6 contains a bug in Adaptive Retry, see https://github.com/smithy-lang/smithy-typescript/issues/1993. Upgrade to 4.3.7+'
 
   '@smithy/util-stream@4.5.25':
     resolution: {integrity: sha512-/PFpG4k8Ze8Ei+mMKj3oiPICYekthuzePZMgZbCqMiXIHHf4n2aZ4Ps0aSRShycFTGuj/J6XldmC0x0DwednIA==}
@@ -5003,8 +5004,8 @@ packages:
     engines: {node: '>= 0.10.0'}
     hasBin: true
 
-  xstate@5.30.0:
-    resolution: {integrity: sha512-mIzIuMjtYVkqXq9dUzYQoag7b/dF1CBS/yhliuPLfR0FwKPC18HiUivb/crcqY2gknhR8gJEhnppLg6ubQ0gGw==}
+  xstate@5.31.0:
+    resolution: {integrity: sha512-5B+0DqC0uNUrcLUEY3pn3iNy+swvK2E0ZpYp5gnV3oxMX5y87vzXkU5YXv9CAtyG5c5FOJ1SzvTWHrwE8fMZNQ==}
 
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
@@ -7830,9 +7831,9 @@ snapshots:
 
   '@xmldom/xmldom@0.9.10': {}
 
-  '@xstate/graph@3.0.4(xstate@5.30.0)':
+  '@xstate/graph@3.0.4(xstate@5.31.0)':
     dependencies:
-      xstate: 5.30.0
+      xstate: 5.31.0
 
   abbrev@2.0.0: {}
 
@@ -10071,7 +10072,7 @@ snapshots:
       commander: 2.20.3
       cssfilter: 0.0.10
 
-  xstate@5.30.0: {}
+  xstate@5.31.0: {}
 
   xtend@4.0.2: {}
 
