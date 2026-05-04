@@ -1,7 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 import AutoSuggestInput from "../AutoSuggestInput";
 import * as useDataListOptions from "../hooks/useDataListOptions";
@@ -17,7 +16,7 @@ vi.mock("react-router", () => ({
   })),
 }));
 
-vi.mock("~/components/formElements/autoSuggestInput/hooks/useLiveMessage");
+vi.mock("~/components/formElements/inputs/autoSuggest/hooks/useLiveMessage.tsx");
 
 const mockFuseSearch = vi.fn().mockReturnValue([]);
 
@@ -81,7 +80,7 @@ afterEach(() => {
   vi.clearAllMocks(); // This clears all mocks after each test
 });
 
-describe("KernAutoSuggestInput", () => {
+describe("AutoSuggestInput", () => {
   it("it should render the component with the placeholder, label and the input name", () => {
     const { getByText, container } = render(
       <AutoSuggestInput

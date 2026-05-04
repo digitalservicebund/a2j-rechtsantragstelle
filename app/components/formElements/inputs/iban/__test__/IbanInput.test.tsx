@@ -23,7 +23,7 @@ vi.mocked(useField).mockImplementation(
     }) as any,
 );
 
-vi.mock("~/components/kern/formElements/input/IbanInput/useBankData", () => ({
+vi.mock("~/components/formElements/inputs/iban/useBankData.ts", () => ({
   useBankData: vi.fn(
     () =>
       ({
