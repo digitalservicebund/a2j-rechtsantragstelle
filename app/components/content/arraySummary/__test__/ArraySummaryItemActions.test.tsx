@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import KernArraySummaryItemActions from "~/components/content/arraySummary/KernArraySummaryItemActions";
+import KernArraySummaryItemActions from "~/components/content/arraySummary/ArraySummaryItemActions";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const defaultProps = {

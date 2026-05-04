@@ -1,6 +1,6 @@
 import type { SummaryItem } from "~/services/summary/types";
 import { useRef } from "react";
-import { KernIcon } from "../../kern/common/KernIcon";
+import { Icon } from "../../common/Icon";
 
 const SummarySection = ({
   item,
@@ -65,7 +65,7 @@ const SummarySection = ({
 
               {field.editUrl && (
                 <a href={field.editUrl} className="kern-link no-underline!">
-                  <KernIcon name="edit" />
+                  <Icon name="edit" />
                   Bearbeiten
                 </a>
               )}
@@ -117,7 +117,7 @@ const SummarySection = ({
                       href={arrayItem.editUrl}
                       className="kern-link no-underline!"
                     >
-                      <KernIcon name="edit" />
+                      <Icon name="edit" />
                       Bearbeiten
                     </a>
                   )}

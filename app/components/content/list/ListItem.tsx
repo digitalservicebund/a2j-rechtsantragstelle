@@ -47,7 +47,7 @@ const ListMarker = ({ index, variant, image }: ListMarkerProps) => {
   );
 };
 
-const KernListItem = ({
+const ListItem = ({
   identifier,
   headline,
   content,
@@ -92,4 +92,4 @@ const KernListItem = ({
   );
 };
 
-export default KernListItem;
+export default ListItem;

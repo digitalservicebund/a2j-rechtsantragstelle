@@ -4,7 +4,7 @@ import KernSummaryOverviewSection from "~/components/content/summaryOverview/Sum
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
-import KernList from "./list/KernList";
+import List from "./list/List";
 import KernHero from "../kern/KernHero";
 import KernTableOfContents from "../kern/KernTableOfContents";
 import KernBox from "../kern/KernBox";
@@ -12,7 +12,7 @@ import KernRichText from "../kern/KernRichText";
 import KernHeading from "../kern/KernHeading";
 import { KernInlineNotice } from "../kern/KernInlineNotice";
 import KernVideo from "../kern/video/KernVideo";
-import { KernEmailCapture } from "~/components/content/emailCapture/KernEmailCapture";
+import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
 import { Details } from "./Details";
 import KernUserFeedback from "./userFeedback";
 
@@ -88,7 +88,7 @@ function cmsToReact(
     case "page.video":
       return <KernVideo {...componentProps} />;
     case "page.list":
-      return <KernList {...componentProps} wrap={opts?.inFlow} />;
+      return <List {...componentProps} wrap={opts?.inFlow} />;
     case "page.table-of-contents":
       return <KernTableOfContents {...componentProps} />;
     case "page.user-feedback":
@@ -104,7 +104,7 @@ function cmsToReact(
         />
       );
     case "page.email-capture":
-      return <KernEmailCapture {...componentProps} />;
+      return <EmailCapture {...componentProps} />;
     case "page.heading":
       return (
         <KernHeading

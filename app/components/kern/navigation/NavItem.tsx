@@ -11,7 +11,7 @@ import {
 import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
-import { KernIcon } from "../common/KernIcon";
+import { Icon } from "../../common/Icon";
 
 type StateIconProps = {
   id: string;
@@ -22,7 +22,7 @@ type StateIconProps = {
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
-      <KernIcon
+      <Icon
         name="check-circle"
         id={id}
         className="fill-kern-feedback-success"
@@ -32,7 +32,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
     );
   } else if (showWarningIcon) {
     return (
-      <KernIcon
+      <Icon
         name="warning"
         id={id}
         ariaLabel={translations.navigation.navigationItemWarning.de}
@@ -115,9 +115,9 @@ export function NavItem({
             <span>{label}</span>
             <div className="flex items-center gap-8 justify-end align-end self-end">
               {collapse.isExpanded ? (
-                <KernIcon name="keyboard-arrow-up" className="ml-auto" />
+                <Icon name="keyboard-arrow-up" className="ml-auto" />
               ) : (
-                <KernIcon name="keyboard-arrow-down" className="ml-auto" />
+                <Icon name="keyboard-arrow-down" className="ml-auto" />
               )}
               <StateIcon
                 id={iconId}

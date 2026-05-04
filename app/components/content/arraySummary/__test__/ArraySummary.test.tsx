@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
+import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 
 const mockArrayConfiguration: ArrayConfigClient = {
@@ -21,12 +21,9 @@ const arrayData = {
   ],
 };
 
-vi.mock(
-  "~/components/content/arraySummary/KernArraySummaryDataItem.tsx",
-  () => ({
-    default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
-  }),
-);
+vi.mock("~/components/content/arraySummary/ArraySummaryDataItem.tsx", () => ({
+  default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
+}));
 
 describe("ArraySummary", () => {
   afterEach(() => {
@@ -35,7 +32,7 @@ describe("ArraySummary", () => {
 
   it("should render title and description when it's available", () => {
     const { getByText } = render(
-      <KernArraySummary
+      <ArraySummary
         arrayData={arrayData}
         content={{
           title: {
@@ -56,7 +53,7 @@ describe("ArraySummary", () => {
 
   it("should render ArraySummaryDataItems for each item in arrayData", () => {
     const { getByText } = render(
-      <KernArraySummary
+      <ArraySummary
         arrayData={arrayData}
         content={{
           itemLabels: {},
@@ -89,7 +86,7 @@ describe("ArraySummary", () => {
     };
 
     const { getByTestId } = render(
-      <KernArraySummary
+      <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
           itemLabels: {},
@@ -124,7 +121,7 @@ describe("ArraySummary", () => {
     };
 
     const { getByTestId } = render(
-      <KernArraySummary
+      <ArraySummary
         arrayData={mockArrayDataDisableAddButton}
         content={{
           itemLabels: {},
