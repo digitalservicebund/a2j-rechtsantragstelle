@@ -1,15 +1,13 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import KernTextarea from "~/components/formElements/Textarea";
-import TextInput, {
-  type InputProps,
-} from "~/components/kern/formElements/input/TextInput";
-import NumberInput from "~/components/kern/formElements/input/NumberInput";
-import TelephoneInput from "~/components/kern/formElements/input/TelephoneInput";
-import KernTimeInput from "~/components/kern/formElements/input/KernTimeInput";
-import KernDateInput from "~/components/formElements/inputs/KernDateInput";
-import KernAutoSuggestInput from "../autoSuggestInput/KernAutoSuggestInput";
+import Textarea from "~/components/formElements/inputs/textarea/Textarea";
+import DateInput from "../inputs/date/DateInput";
+import TimeInput from "../inputs/time/TimeInput";
+import AutoSuggestInput from "../inputs/autoSuggest/AutoSuggestInput";
+import TextInput, { type InputProps } from "../inputs/text/TextInput";
+import NumberInput from "../inputs/number/NumberInput";
+import TelephoneInput from "../inputs/telephone/TelephoneInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -34,23 +32,19 @@ export const renderZodString = (
 
   if (matchingElement?.__component === "form-elements.textarea")
     return (
-      <KernTextarea
+      <Textarea
         key={fieldName}
         {...sharedProps}
         {...pick(matchingElement, ["details", "description", "maxLength"])}
       />
     );
   if (matchingElement?.__component === "form-elements.date-input")
-    return <KernDateInput key={fieldName} {...inputProps} />;
+    return <DateInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.time-input")
-    return <KernTimeInput key={fieldName} {...inputProps} />;
+    return <TimeInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.auto-suggest-input")
     return (
-      <KernAutoSuggestInput
-        key={fieldName}
-        {...matchingElement}
-        {...inputProps}
-      />
+      <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
     );
 
   const inputType =

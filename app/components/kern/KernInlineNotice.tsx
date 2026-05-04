@@ -1,8 +1,8 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import KernRichText from "./KernRichText";
-import { KernIcon } from "./common/KernIcon";
-import { type IconName } from "./common/utils";
+import { Icon } from "../common/Icon";
+import { type IconName } from "../common/utils";
 import { translations } from "~/services/translations/translations";
 
 export type KernInlineNoticeProps = {
@@ -73,7 +73,7 @@ export const KernInlineNotice = ({
       role="note"
     >
       <div className="kern-alert__header">
-        <KernIcon
+        <Icon
           name={iconName}
           ariaLabel={ariaLabel}
           className={`${iconClassName} mr-8 forced-color-adjust-auto`}

@@ -10,7 +10,7 @@ import {
 } from "~/services/navigation/navState";
 import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButtonAreaTitles";
 import classNames from "classnames";
-import { KernIcon } from "../common/KernIcon";
+import { Icon } from "../../common/Icon";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
@@ -42,11 +42,11 @@ const StepStepperLinks = ({
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
-                <KernIcon name="arrow-back" className="inline" />
+                <Icon name="arrow-back" className="inline" />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
-                <KernIcon
+                <Icon
                   name="warning"
                   className="pl-2 fill-kern-feedback-warning!"
                   ariaLabel={translations.navigation.navigationItemWarning.de}
@@ -151,11 +151,11 @@ export default function SideNavMobile({
               </span>
             </div>
           </div>
-          <KernIcon
+          <Icon
             name="keyboard-arrow-up"
             className="hidden! group-open:block! fill-kern-action-default"
           />
-          <KernIcon
+          <Icon
             name="keyboard-arrow-down"
             className="block! group-open:hidden! fill-kern-action-default"
           />

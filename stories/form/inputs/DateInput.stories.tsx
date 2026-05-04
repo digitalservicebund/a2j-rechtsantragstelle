@@ -1,13 +1,13 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import KernDateInput from "~/components/formElements/inputs/KernDateInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import DateInput from "~/components/formElements/inputs/date/DateInput";
 
 const meta = {
   title: "form/inputs/DateInput",
-  component: KernDateInput,
+  component: DateInput,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -20,7 +20,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernDateInput>;
+} satisfies Meta<typeof DateInput>;
 
 export default meta;
 

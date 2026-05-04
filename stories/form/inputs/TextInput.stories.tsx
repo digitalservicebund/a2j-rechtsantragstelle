@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { z } from "zod";
-import TextInput from "~/components/kern/formElements/input/TextInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
+import TextInput from "~/components/formElements/inputs/text/TextInput";
 
 const meta = {
   title: "form/inputs/TextInput",

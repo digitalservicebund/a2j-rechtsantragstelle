@@ -1,13 +1,13 @@
 import { render } from "@testing-library/react";
 import { renderWithRouter } from "~/components/__test__/renderWithRouter";
-import KernListItem from "~/components/content/list/KernListItem";
+import ListItem from "~/components/content/list/ListItem";
 
 const ITEM_ID = 10;
 
 describe("ListItem", () => {
   it("headline and content  should be rendered", () => {
     const { getByText } = render(
-      <KernListItem
+      <ListItem
         id={ITEM_ID}
         content="content"
         headline={{ text: "headlineText" }}
@@ -23,7 +23,7 @@ describe("ListItem", () => {
     variantsWithIndexLabel.forEach((variant) => {
       it(`should render indexLabel for ${variant}`, () => {
         const { getByText } = render(
-          <KernListItem id={ITEM_ID} index={1} variant={variant} />,
+          <ListItem id={ITEM_ID} index={1} variant={variant} />,
         );
         expect(getByText("1")).toBeInTheDocument();
       });
@@ -32,14 +32,14 @@ describe("ListItem", () => {
 
   it("renders no indexLabel for unordered", () => {
     const { queryByText } = render(
-      <KernListItem id={ITEM_ID} index={1} variant="unordered" />,
+      <ListItem id={ITEM_ID} index={1} variant="unordered" />,
     );
     expect(queryByText("1")).not.toBeInTheDocument();
   });
 
   it("should render buttons with labels", () => {
     const { getByText, getByRole } = render(
-      <KernListItem
+      <ListItem
         id={ITEM_ID}
         buttons={[{ text: "label" }]}
         variant="numbered"
@@ -51,14 +51,14 @@ describe("ListItem", () => {
 
   it("should render no buttons for empty array", () => {
     const { queryByRole } = render(
-      <KernListItem id={ITEM_ID} buttons={[]} variant="numbered" />,
+      <ListItem id={ITEM_ID} buttons={[]} variant="numbered" />,
     );
     expect(queryByRole("button")).not.toBeInTheDocument();
   });
 
   it("should render an accordion", () => {
     const { getByRole } = renderWithRouter(
-      <KernListItem
+      <ListItem
         id={ITEM_ID}
         variant="numbered"
         accordion={{
@@ -74,7 +74,7 @@ describe("ListItem", () => {
 
   it("should render vertical line in stepByStep", () => {
     const { container } = render(
-      <KernListItem id={ITEM_ID} variant="stepByStep" />,
+      <ListItem id={ITEM_ID} variant="stepByStep" />,
     );
     expect(container.getElementsByClassName("w-2 h-full")).toHaveLength(1);
   });
@@ -82,7 +82,7 @@ describe("ListItem", () => {
   describe("ImageMarker", () => {
     it("should hide the image marker from screen readers", () => {
       const { container } = render(
-        <KernListItem
+        <ListItem
           id={ITEM_ID}
           variant="unordered"
           image={{
@@ -99,7 +99,7 @@ describe("ListItem", () => {
 
     it("should render a custom image marker when image props are provided", () => {
       const { container } = render(
-        <KernListItem
+        <ListItem
           id={ITEM_ID}
           variant="unordered"
           image={{
@@ -114,7 +114,7 @@ describe("ListItem", () => {
 
     it("should not render the styled marker when image is provided", () => {
       const { container } = render(
-        <KernListItem
+        <ListItem
           id={ITEM_ID}
           variant="numbered"
           index={1}
@@ -131,14 +131,14 @@ describe("ListItem", () => {
   describe("variant styles", () => {
     it("should apply correct classes for unordered variant", () => {
       const { container } = render(
-        <KernListItem id={ITEM_ID} variant="unordered" />,
+        <ListItem id={ITEM_ID} variant="unordered" />,
       );
       expect(container.querySelector(".border-black")).toBeInTheDocument();
     });
 
     it("should apply correct classes for numbered variant", () => {
       const { container } = render(
-        <KernListItem id={ITEM_ID} variant="numbered" />,
+        <ListItem id={ITEM_ID} variant="numbered" />,
       );
       expect(
         container.querySelector(".border-kern-neutral-300"),
@@ -147,7 +147,7 @@ describe("ListItem", () => {
 
     it("should apply correct classes for stepByStep variant", () => {
       const { container } = render(
-        <KernListItem id={ITEM_ID} variant="stepByStep" />,
+        <ListItem id={ITEM_ID} variant="stepByStep" />,
       );
       expect(
         container.querySelector(".border-kern-neutral-300"),
