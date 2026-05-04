@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { render, screen } from "@testing-library/react";
-import KernTile from "../KernTile";
+import Tile from "../Tile";
 
 const COMPONENT_NAME = "TileGroup";
 
@@ -51,7 +51,7 @@ describe("Tile", () => {
 
   it("renders all tile options", () => {
     render(
-      <KernTile
+      <Tile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -67,7 +67,7 @@ describe("Tile", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <KernTile
+      <Tile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -81,7 +81,7 @@ describe("Tile", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <KernTile
+      <Tile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}
@@ -97,7 +97,7 @@ describe("Tile", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
-      <KernTile
+      <Tile
         name={COMPONENT_NAME}
         options={mockOptions}
         errorMessages={mockErrorMessages}

@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { type CheckboxValue } from "~/components/formElements/KernCheckbox";
+import { type CheckboxValue } from "~/components/formElements/Checkbox";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
-export type KernExclusiveCheckboxInputProps = {
+export type ExclusiveCheckboxInputProps = {
   name: string;
   label: string;
   value: CheckboxValue;
@@ -10,13 +10,13 @@ export type KernExclusiveCheckboxInputProps = {
   onChange: (name: string, checked: CheckboxValue) => void;
 };
 
-export const KernExclusiveCheckboxInput = ({
+export const ExclusiveCheckboxInput = ({
   name,
   label,
   value,
   hasError,
   onChange,
-}: Readonly<KernExclusiveCheckboxInputProps>) => {
+}: Readonly<ExclusiveCheckboxInputProps>) => {
   const jsAvailable = useJsAvailable();
   /**
    * HTML Forms do not send unchecked checkboxes.

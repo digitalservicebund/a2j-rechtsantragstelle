@@ -78,7 +78,7 @@ const renderSpecialMetaDescriptions = (
   }
 };
 
-export const KernSchemaComponents = ({
+export const SchemaComponents = ({
   pageSchema,
   formComponents,
   className,

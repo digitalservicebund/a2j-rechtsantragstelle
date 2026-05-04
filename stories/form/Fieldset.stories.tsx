@@ -1,16 +1,16 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernFieldset } from "~/components/formElements/KernFieldset";
+import { Fieldset } from "~/components/formElements/Fieldset";
 import demoImage from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
 
 const meta = {
   title: "form/Fieldset",
-  component: KernFieldset,
+  component: Fieldset,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernFieldset>;
+} satisfies Meta<typeof Fieldset>;
 
 export default meta;
 

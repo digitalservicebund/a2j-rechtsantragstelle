@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import KernTileRadio from "../KernTileRadio";
+import TileRadio from "../TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
 const mockErrorMessage = "error-message";
@@ -45,7 +45,7 @@ beforeEach(() => {
 
 describe("TileRadio", () => {
   it("check if the component renders correct", () => {
-    const { container, queryByRole } = render(<KernTileRadio {...mockProps} />);
+    const { container, queryByRole } = render(<TileRadio {...mockProps} />);
 
     expect(container.getElementsByClassName("kern-tile").length).toBe(1);
     expect(queryByRole("radio")).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("TileRadio", () => {
   it("check if the click works", () => {
     const handleClick = vi.fn();
 
-    render(<KernTileRadio {...mockProps} onClick={handleClick} />);
+    render(<TileRadio {...mockProps} onClick={handleClick} />);
     fireEvent.click(screen.getByRole("radio"));
 
     expect(handleClick).toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe("TileRadio", () => {
     const ref = { current: null };
 
     render(
-      <KernTileRadio
+      <TileRadio
         name={COMPONENT_NAME}
         value="any-value"
         onClick={vi.fn()}
@@ -79,7 +79,7 @@ describe("TileRadio", () => {
   it("sets proper aria attributes when there is an error", () => {
     mockError(mockErrorMessage);
 
-    render(<KernTileRadio {...mockProps} />);
+    render(<TileRadio {...mockProps} />);
 
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute(
@@ -89,7 +89,7 @@ describe("TileRadio", () => {
   });
 
   it("sets proper aria attributes when does not an error and contains a description", () => {
-    render(<KernTileRadio {...mockProps} />);
+    render(<TileRadio {...mockProps} />);
 
     const radio = screen.getByRole("radio");
     expect(radio).toHaveAttribute(

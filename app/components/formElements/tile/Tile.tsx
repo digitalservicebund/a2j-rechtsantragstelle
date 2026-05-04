@@ -3,26 +3,26 @@ import classNames from "classnames";
 import { type ReactNode, useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "~/components/common/types";
-import KernTileRadio, { type KernTileOptions } from "./KernTileRadio";
+import TileRadio, { type TileOptions } from "./TileRadio";
 import InputError from "~/components/kern/formElements/InputError";
 
-type KernTileProps = Readonly<{
+type TileProps = Readonly<{
   name: string;
-  options: KernTileOptions[];
+  options: TileOptions[];
   label?: ReactNode;
   altLabel?: string;
   errorMessages?: ErrorMessageProps[];
   useTwoColumns?: boolean;
 }>;
 
-const KernTile = ({
+const Tile = ({
   name,
   options,
   label,
   altLabel,
   errorMessages,
   useTwoColumns,
-}: KernTileProps) => {
+}: TileProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   const errorToDisplay =
@@ -57,7 +57,7 @@ const KernTile = ({
           <legend className="kern-label kern-label--large">{label}</legend>
         )}
         {options.map(({ value, description, image, title }, index) => (
-          <KernTileRadio
+          <TileRadio
             key={value}
             name={name}
             onClick={() => setRenderHiddenField(false)}
@@ -79,4 +79,4 @@ const KernTile = ({
   );
 };
 
-export default KernTile;
+export default Tile;

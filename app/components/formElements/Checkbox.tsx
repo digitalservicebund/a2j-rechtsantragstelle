@@ -6,19 +6,14 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 export type CheckboxValue = "on" | "off";
 
-type KernCheckboxProps = Readonly<{
+type CheckboxProps = Readonly<{
   name: string;
   label?: string;
   errorMessage?: string;
   required: boolean;
 }>;
 
-const KernCheckbox = ({
-  name,
-  label,
-  errorMessage,
-  required,
-}: KernCheckboxProps) => {
+const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   // HTML Forms do not send unchecked checkboxes.
@@ -71,4 +66,4 @@ const KernCheckbox = ({
   );
 };
 
-export default KernCheckbox;
+export default Checkbox;

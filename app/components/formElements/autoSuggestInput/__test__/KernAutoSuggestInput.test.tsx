@@ -4,7 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import * as useDataListOptions from "~/components/formElements/autoSuggestInput/hooks/useDataListOptions";
 import * as useLiveMessage from "~/components/formElements/autoSuggestInput/hooks/useLiveMessage";
 import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
-import KernAutoSuggestInput from "../KernAutoSuggestInput";
+import AutoSuggestInput from "../AutoSuggestInput";
 
 vi.mock("@rvf/react-router", () => ({
   useField: vi.fn(),
@@ -83,7 +83,7 @@ afterEach(() => {
 describe("KernAutoSuggestInput", () => {
   it("it should render the component with the placeholder, label and the input name", () => {
     const { getByText, container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -103,7 +103,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("it should render select the first (BER) input after enter Berlin", async () => {
     const { getByText, getByRole, container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -128,7 +128,7 @@ describe("KernAutoSuggestInput", () => {
     const noSuggestionMessage = "Not possible to find your input";
 
     const { getByText, getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -150,7 +150,7 @@ describe("KernAutoSuggestInput", () => {
     const noSuggestionMessage = "No airports found matching your search";
 
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -175,7 +175,7 @@ describe("KernAutoSuggestInput", () => {
     const noSuggestionMessage = "No airports found";
 
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -207,7 +207,7 @@ describe("KernAutoSuggestInput", () => {
     });
 
     const { container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -227,7 +227,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should not announce live message when input is shorter than minimum characters", async () => {
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -251,7 +251,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("it should remove the value in case click on clear button", async () => {
     const { getByText, getByRole, container, getByTestId } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -285,7 +285,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
     const { container, getByRole, getByText } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
         placeholder="placeholder"
         dataList="airports"
@@ -319,7 +319,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should have the testid input-COMPONENT_NAME-loaded", () => {
     const { getByTestId } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -333,7 +333,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should have aria-disabled if the component is disabled", () => {
     const { container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -353,7 +353,7 @@ describe("KernAutoSuggestInput", () => {
 
     vi.mocked(useField).mockReturnValue(mockField);
     const { container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -371,7 +371,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should have the attribute aria-required as false for the input when does not have error message for required", async () => {
     const { container } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -390,7 +390,7 @@ describe("KernAutoSuggestInput", () => {
   it("should be focusable and handle keyboard interactions when read-only", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -414,7 +414,7 @@ describe("KernAutoSuggestInput", () => {
 
     vi.mocked(useField).mockReturnValue(mockField);
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         placeholder="placeholder"
         dataList="airports"
@@ -433,7 +433,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should allow for free selection when supportsFreeText is true", async () => {
     const { getByRole, getByText, getByTestId } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         supportsFreeText
         dataList="airports"
@@ -466,7 +466,7 @@ describe("KernAutoSuggestInput", () => {
     vi.mocked(useField).mockReturnValue(mockField);
 
     const { getByText } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         supportsFreeText
         dataList="airports"
@@ -479,7 +479,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should use fuzzy search when dealing with streetNames", async () => {
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         dataList="streetNames"
         isDisabled={false}
@@ -493,7 +493,7 @@ describe("KernAutoSuggestInput", () => {
 
   it("should use normal string search for non-streetName dataLists", async () => {
     const { getByRole } = render(
-      <KernAutoSuggestInput
+      <AutoSuggestInput
         name={COMPONENT_NAME}
         dataList="airports"
         isDisabled={false}

@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { KernExclusiveCheckboxInput } from "../KernExclusiveCheckboxInput";
+import { ExclusiveCheckboxInput } from "../ExclusiveCheckboxInput";
 
 vi.mock("~/components/hooks/useJsAvailable");
 vi.mocked(useJsAvailable).mockReturnValue(true);
@@ -10,7 +10,7 @@ describe("ExclusiveCheckboxInput", () => {
     const name = "checky";
     const label = "A really cool checkbox label.";
     const { getByLabelText, getByRole, queryByTestId } = render(
-      <KernExclusiveCheckboxInput
+      <ExclusiveCheckboxInput
         name={name}
         label={label}
         value={"on"}
@@ -30,7 +30,7 @@ describe("ExclusiveCheckboxInput", () => {
   it("should call the change handler when the value changes", () => {
     const handler = vi.fn();
     const { getByRole } = render(
-      <KernExclusiveCheckboxInput
+      <ExclusiveCheckboxInput
         name={"checky"}
         label={"Cool label"}
         value={"on"}
@@ -45,7 +45,7 @@ describe("ExclusiveCheckboxInput", () => {
   it("should show a hidden input if javascript is not available", () => {
     vi.mocked(useJsAvailable).mockReturnValueOnce(false);
     const { getByRole, getByTestId } = render(
-      <KernExclusiveCheckboxInput
+      <ExclusiveCheckboxInput
         name={"checky"}
         label={"Cool label"}
         value={"on"}
@@ -62,7 +62,7 @@ describe("ExclusiveCheckboxInput", () => {
 
   it('should show a hidden input if the value is "off"', () => {
     const { getByRole, getByTestId } = render(
-      <KernExclusiveCheckboxInput
+      <ExclusiveCheckboxInput
         name={"checky"}
         label={"Cool label"}
         value={"off"}

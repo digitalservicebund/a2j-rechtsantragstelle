@@ -10,7 +10,7 @@ type RadioInputProps = {
   readonly ref: React.Ref<HTMLInputElement>;
 };
 
-export const KernRadioInput = ({
+export const RadioInput = ({
   name,
   value,
   onClick,
