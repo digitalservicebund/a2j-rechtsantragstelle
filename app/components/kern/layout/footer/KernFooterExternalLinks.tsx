@@ -1,5 +1,5 @@
 import { translations } from "~/services/translations/translations";
-import { KernIcon } from "../../common/KernIcon";
+import { Icon } from "../../../common/Icon";
 import { footerContent } from "./footerContent";
 
 export const KernFooterExternalLinks = () => {
@@ -23,10 +23,7 @@ export const KernFooterExternalLinks = () => {
               rel="noopener noreferrer"
               aria-label={`${link.text}, ${translations.navigation.linkOpensNewTab.de}`}
             >
-              <KernIcon
-                name="open-in-new"
-                className="size-[1em] inline! mt-3"
-              />
+              <Icon name="open-in-new" className="size-[1em] inline! mt-3" />
               {link.text}
             </a>
           </p>

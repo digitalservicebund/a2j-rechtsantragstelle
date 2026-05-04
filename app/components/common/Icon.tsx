@@ -1,4 +1,4 @@
-import { IconPaths, type IconName } from "./utils";
+import { type IconName, IconPaths } from "./utils";
 
 type IconProps = {
   name: IconName;
@@ -8,7 +8,7 @@ type IconProps = {
   title?: string;
   ariaLabel?: string;
 };
-export function KernIcon({
+export function Icon({
   name,
   id,
   size = 24,

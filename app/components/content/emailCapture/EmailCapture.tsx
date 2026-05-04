@@ -24,7 +24,7 @@ export type EmailCaptureProps = {
   buttonLabel?: string;
 };
 
-export const KernEmailCapture = ({
+export const EmailCapture = ({
   successBanner,
   errorBanner,
   label,

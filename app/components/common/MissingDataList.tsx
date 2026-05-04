@@ -1,11 +1,11 @@
-import type { NavItem } from "../navigation/types";
+import type { NavItem } from "../kern/navigation/types";
 
-type KernMissingDataListProps = { navItems: NavItem[]; shouldRender?: boolean };
+type MissingDataListProps = { navItems: NavItem[]; shouldRender?: boolean };
 
-export const KernMissingDataList = ({
+export const MissingDataList = ({
   navItems,
   shouldRender,
-}: KernMissingDataListProps) => {
+}: MissingDataListProps) => {
   if (!shouldRender) return null;
   const navItemsWithWarnings = navItems
     .filter((navItem) => navItem.state === "Warning")

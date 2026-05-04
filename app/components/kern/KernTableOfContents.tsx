@@ -2,7 +2,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { GridItem } from "../layout/grid/GridItem";
 import KernButton, { type ButtonProps } from "./KernButton";
 import KernLabel from "./KernLabel";
-import { KernIcon } from "./common/KernIcon";
+import { Icon } from "../common/Icon";
 import KernButtonContainer from "./KernButtonContainer";
 import { type KernHeadingProps } from "./KernHeading";
 
@@ -39,7 +39,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                     className="kern-link no-underline!"
                     aria-label={link.text}
                   >
-                    <KernIcon
+                    <Icon
                       name="arrow-downward"
                       className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
                     />

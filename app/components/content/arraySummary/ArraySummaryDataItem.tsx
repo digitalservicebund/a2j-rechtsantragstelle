@@ -3,7 +3,7 @@ import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
-import KernArraySummaryItemActions from "./KernArraySummaryItemActions";
+import KernArraySummaryItemActions from "./ArraySummaryItemActions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 
 type ArraySummaryItemProps = {
@@ -15,7 +15,7 @@ type ArraySummaryItemProps = {
   readonly itemLabels: ItemLabels;
 };
 
-const KernArraySummaryDataItems = ({
+const ArraySummaryDataItems = ({
   itemIndex,
   items,
   category,
@@ -77,4 +77,4 @@ const KernArraySummaryDataItems = ({
   );
 };
 
-export default KernArraySummaryDataItems;
+export default ArraySummaryDataItems;

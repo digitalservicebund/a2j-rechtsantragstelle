@@ -1,11 +1,9 @@
 import { render } from "@testing-library/react";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 
-describe("KernIcon", () => {
+describe("Icon", () => {
   it("should render an arbitrary icon", () => {
-    const { getByTitle } = render(
-      <KernIcon name="arrow-back" title="testIcon" />,
-    );
+    const { getByTitle } = render(<Icon name="arrow-back" title="testIcon" />);
     const icon = getByTitle("testIcon");
     expect(icon).toBeInTheDocument();
     expect(icon.parentElement).toHaveAttribute("aria-hidden", "true");
@@ -13,7 +11,7 @@ describe("KernIcon", () => {
 
   it("should set the aria-label", () => {
     const { getByTitle } = render(
-      <KernIcon name="arrow-back" ariaLabel="test-label" title="testIcon" />,
+      <Icon name="arrow-back" ariaLabel="test-label" title="testIcon" />,
     );
 
     const icon = getByTitle("testIcon");

@@ -4,7 +4,7 @@ import { type loader } from "../result";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import KernHeading from "~/components/kern/KernHeading";
@@ -21,7 +21,7 @@ const boxProps = {
   error: {
     backgroundColor: "kern-alert--danger",
     icon: (
-      <KernIcon
+      <Icon
         name="emergency-home"
         className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
         ariaLabel={translations.resultPage.negativeResultIcon.de}
@@ -31,7 +31,7 @@ const boxProps = {
   success: {
     backgroundColor: "kern-alert--success",
     icon: (
-      <KernIcon
+      <Icon
         name="check-circle"
         className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
         ariaLabel={translations.resultPage.positiveResultIcon.de}
@@ -41,7 +41,7 @@ const boxProps = {
   warning: {
     backgroundColor: "kern-alert--warning",
     icon: (
-      <KernIcon
+      <Icon
         name="warning"
         className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
         ariaLabel={translations.resultPage.warningIcon.de}
@@ -51,7 +51,7 @@ const boxProps = {
   info: {
     backgroundColor: "kern-alert--info",
     icon: (
-      <KernIcon
+      <Icon
         name="info"
         className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
         ariaLabel={translations.resultPage.infoIcon.de}
@@ -125,7 +125,7 @@ export function ResultPage() {
                   className="kern-link text-kern-static-small! no-underline!"
                   href={back.destination}
                 >
-                  <KernIcon name="arrow-back" />
+                  <Icon name="arrow-back" />
                   {back.label}
                 </a>
               )}
@@ -134,7 +134,7 @@ export function ResultPage() {
                   className="kern-link text-kern-static-small! no-underline!"
                   href={cmsContent.nextLink.url}
                 >
-                  <KernIcon name="keyboard-double-arrow-left" />
+                  <Icon name="keyboard-double-arrow-left" />
                   {next?.label}
                 </a>
               )}
