@@ -4,7 +4,7 @@ import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/for
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
-import HiddenInput from "../formElements/HiddenInput";
+import HiddenInput from "./inputs/hidden/HiddenInput";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
@@ -23,16 +23,16 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
-import KernFileUpload from "../formElements/filesUpload/FilesUpload";
+import KernFileUpload from "./inputs/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
 import { ibanZodDescription } from "~/services/validation/iban";
-import KernIbanInput from "~/components/kern/formElements/input/IbanInput/KernIbanInput";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
   type SpecialComponentDescription,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
+import IbanInput from "./inputs/iban/IbanInput";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -72,9 +72,7 @@ const renderSpecialMetaDescriptions = (
   }
 
   if (description === ibanZodDescription) {
-    return (
-      <KernIbanInput key={fieldName} name={fieldName} {...matchingElement} />
-    );
+    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
   }
 };
 

@@ -6,7 +6,6 @@ import {
   invalidEmailError,
 } from "~/components/content/emailCapture/emailCaptureHelpers";
 import { type InlineNoticeProps } from "~/components/content/InlineNotice";
-import InputError from "~/components/kern/formElements/InputError";
 import { type loader } from "~/routes/shared/formular";
 import { autocompleteMap } from "~/util/autocompleteMap";
 import { KernInlineNotice } from "~/components/kern/KernInlineNotice";
@@ -14,7 +13,8 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import KernRichText from "~/components/kern/KernRichText";
 import KernButton from "~/components/kern/KernButton";
 import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import { CsrfInput } from "~/components/formElements/CsrfInput";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import InputError from "~/components/formElements/inputs/error/InputError";
 
 export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;

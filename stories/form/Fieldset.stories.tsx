@@ -1,7 +1,7 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Fieldset } from "~/components/formElements/Fieldset";
 import demoImage from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
+import { Fieldset } from "~/components/formElements/inputs/fieldset/Fieldset";
 
 const meta = {
   title: "form/Fieldset",

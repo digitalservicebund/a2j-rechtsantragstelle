@@ -6,8 +6,8 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
-import { CsrfInput } from "~/components/formElements/CsrfInput";
-import Textarea from "~/components/formElements/Textarea";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import Textarea from "~/components/formElements/inputs/textarea/Textarea";
 import KernButton from "~/components/kern/KernButton";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";

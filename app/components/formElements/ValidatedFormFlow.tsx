@@ -10,7 +10,7 @@ import {
   KernButtonNavigation,
 } from "../kern/KernButtonNavigation";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
-import { CsrfInput } from "~/components/formElements/CsrfInput";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;

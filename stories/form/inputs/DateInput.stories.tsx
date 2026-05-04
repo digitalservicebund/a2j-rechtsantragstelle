@@ -1,9 +1,9 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import DateInput from "~/components/formElements/inputs/DateInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import DateInput from "~/components/formElements/inputs/date/DateInput";
 
 const meta = {
   title: "form/inputs/DateInput",

@@ -2,8 +2,8 @@ import type { z, ZodObject } from "zod";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import mapKeys from "lodash/mapKeys";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
-import { ExclusiveCheckboxes } from "../exclusiveCheckboxes/ExclusiveCheckboxes";
-import SplitDateInput from "~/components/formElements/SplitDateInput";
+import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
+import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
