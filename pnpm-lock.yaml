@@ -38,8 +38,8 @@ importers:
         specifier: ^7.14.2
         version: 7.14.2(react-router@7.14.2)(typescript@6.0.3)
       '@remix-run/form-data-parser':
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.17.0
+        version: 0.17.0
       '@rvf/react-router':
         specifier: ^8.1.2
         version: 8.1.2(@types/react@19.2.14)(react-dom@19.2.5)(react-router@7.14.2)(react@19.2.5)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
@@ -1731,14 +1731,14 @@ packages:
       typescript:
         optional: true
 
-  '@remix-run/form-data-parser@0.16.0':
-    resolution: {integrity: sha512-k4QCgCyPURpqe+9Rual1GBJ8Ab6ri82Clfh5ooxq03jKQ1TyQZT5xh+XP0R05+Bqg5bzAZl7r2BpmDEvfoRTWw==}
+  '@remix-run/form-data-parser@0.17.0':
+    resolution: {integrity: sha512-012VyeBYzqHxg/c6n882qDdHgR/hLk+bT+Eh9nb2CCfzt5OtkhAIuQOCj1Me9KZs3x23Rfe06ybZZ8k/dp3cxw==}
 
   '@remix-run/headers@0.19.0':
     resolution: {integrity: sha512-+62NbkXuXm9r/NdG6KfH9OCKofCWm8VjkrVPICiHKtRl8Gf2Vi6eFTN4mGgBlZRhd5mmEVRV4hTIn/JUSHDAOw==}
 
-  '@remix-run/multipart-parser@0.15.0':
-    resolution: {integrity: sha512-/Ugo6k2bN7gh7Ybyhe7R/NrkD075fHrEfVf17P+NNC9rlWHBQCOSyJ4V8n4wtoG8umeImagU/AuHuUuTwzvHww==}
+  '@remix-run/multipart-parser@0.16.0':
+    resolution: {integrity: sha512-RZqdkP+jOW3sQSsv/kC9OwaA0eifMEvTwlaIw/VC3HOHgebKgvQO/+gBJsBgH7YecFSbvaZq1/iB5J+1jVhDpg==}
 
   '@remix-run/node-fetch-server@0.13.0':
     resolution: {integrity: sha512-1EsNo0ZpgXu/90AWoRZf/oE3RVTUS80tiTUpt+hv5pjtAkw7icN4WskDwz/KdAw5ARbJLMhZBrO1NqThmy/McA==}
@@ -6691,13 +6691,13 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  '@remix-run/form-data-parser@0.16.0':
+  '@remix-run/form-data-parser@0.17.0':
     dependencies:
-      '@remix-run/multipart-parser': 0.15.0
+      '@remix-run/multipart-parser': 0.16.0
 
   '@remix-run/headers@0.19.0': {}
 
-  '@remix-run/multipart-parser@0.15.0':
+  '@remix-run/multipart-parser@0.16.0':
     dependencies:
       '@remix-run/headers': 0.19.0
 
