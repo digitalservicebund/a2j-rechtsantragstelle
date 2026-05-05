@@ -37,9 +37,7 @@ describe("TextInput", () => {
     const { getByRole, getByText } = render(
       <TextInput name="text" helperText="Enter some text" />,
     );
-    const input = getByRole("textbox");
-    const helperText = getByText("Enter some text");
-    expect(input).toHaveAttribute(
+    expect(getByRole("textbox")).toHaveAttribute(
       "aria-describedby",
       "text-error text-helper ",
     );
