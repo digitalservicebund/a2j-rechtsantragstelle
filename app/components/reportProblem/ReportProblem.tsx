@@ -1,13 +1,13 @@
-import FlagOutlined from "@digitalservicebund/icons/FlagOutlined";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
 import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
+import { PosthogSurvey } from "./PosthogSurvey";
 import { type SurveyResponses } from "./OpenQuestion";
-import { PosthogSurvey } from "./Survey";
-import KernButton from "../kern/KernButton";
+import { Icon } from "../common/Icon";
+import Button from "../formElements/Button";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
@@ -55,13 +55,18 @@ export const ReportProblem = () => {
 
   return (
     <>
-      <KernButton
-        look="tertiary"
+      <Button
+        look="secondary"
         aria-haspopup="dialog"
         onClick={onReportProblemClicked}
-        className="min-w-full justify-center sm:min-w-fit mt-80"
+        className="min-w-full justify-center sm:min-w-fit"
         text={translations.feedback["report-problem"].de}
-        iconLeft={<FlagOutlined />}
+        iconLeft={
+          <Icon
+            name="emergency-home"
+            className="fill-kern-action-default! forced-color-adjust-auto"
+          />
+        }
       />
       <PosthogSurvey
         dialogRef={dialogRef}

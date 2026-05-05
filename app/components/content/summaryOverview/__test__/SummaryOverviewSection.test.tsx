@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 import SummaryOverviewSection from "../SummaryOverviewSection";
-import { type KernHeadingProps } from "~/components/kern/KernHeading";
+import { type HeadingProps } from "~/components/formElements/Heading";
 
 const mockSummaryOverviewProps = {
   title: {
     tagName: "h2",
     text: "title",
-  } satisfies KernHeadingProps,
+  } satisfies HeadingProps,
   id: 1,
   boxes: [
     {
@@ -25,7 +25,7 @@ const mockSummaryOverviewProps = {
   ],
 };
 
-vi.mock("~/components/kern/KernHeading.tsx", () => ({
+vi.mock("~/components/formElements/Heading.tsx", () => ({
   default: () => <div>Mock Heading</div>,
 }));
 

@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, it, vi, expect } from "vitest";
 import { useFormFlow } from "~/components/formFlowContext";
 import SummaryOverviewBox from "~/components/content/summaryOverview/SummaryOverviewBox";
-import { type KernHeadingProps } from "~/components/kern/KernHeading";
+import { type HeadingProps } from "~/components/formElements/Heading";
 
 vi.mock("~/components/formFlowContext", () => ({
   useFormFlow: vi.fn(),
@@ -12,11 +12,11 @@ vi.mock("../SummaryOverviewBoxItem", () => ({
   default: vi.fn(() => <div data-testid="summary-overview-box-item" />),
 }));
 
-vi.mock("~/components/kern/KernHeading.tsx", () => ({
+vi.mock("~/components/formElements/Heading.tsx", () => ({
   default: vi.fn(({ text }) => <h1 data-testid="heading">{text}</h1>),
 }));
 
-vi.mock("~/components/kern/KernButton.tsx", () => ({
+vi.mock("~/components/formElements/Button.tsx", () => ({
   default: vi.fn(({ href }) => (
     <a data-testid="edit-button" href={href}>
       Bearbeiten
@@ -40,7 +40,7 @@ describe("SummaryOverviewBox", () => {
   const titleMock = {
     tagName: "h2",
     text: "title",
-  } satisfies KernHeadingProps;
+  } satisfies HeadingProps;
 
   vi.mocked(useFormFlow).mockReturnValue({
     translations: mockTranslations,

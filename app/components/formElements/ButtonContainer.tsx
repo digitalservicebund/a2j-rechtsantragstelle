@@ -6,7 +6,7 @@ type ButtonContainerProps = PropsWithChildren & {
   readonly className?: string;
 };
 
-const KernButtonContainer = ({
+const ButtonContainer = ({
   children,
   reverseOrder,
   className,
@@ -27,4 +27,4 @@ const KernButtonContainer = ({
   );
 };
 
-export default KernButtonContainer;
+export default ButtonContainer;

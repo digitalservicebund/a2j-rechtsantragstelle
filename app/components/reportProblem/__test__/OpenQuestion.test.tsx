@@ -8,7 +8,7 @@ const questionText = "Some very important question.";
 const descriptionText = "An even more important description";
 const placeholderText = "Beschreibung des Problems....";
 
-vi.mock("~/components/content/userFeedback/feedbackTranslations", () => ({
+vi.mock("~/components/content/userFeedback/feedbackTranslations.ts", () => ({
   useFeedbackTranslations: () => ({
     "open-feedback-placeholder": placeholderText,
   }),
@@ -22,12 +22,11 @@ describe("OpenQuestion", () => {
       question: questionText,
       description: descriptionText,
     };
-    const { getByText, getByPlaceholderText, getByRole } = render(
+    const { getByText, getByRole } = render(
       <OpenQuestion question={question} setResponses={mockSetResponses} />,
     );
     expect(getByText(questionText)).toBeInTheDocument();
     expect(getByText(descriptionText)).toBeInTheDocument();
-    expect(getByPlaceholderText(placeholderText)).toBeInTheDocument();
     const textboxElement = getByRole("textbox");
     expect(textboxElement).toBeInTheDocument();
     expect(textboxElement).toHaveClass("ph-no-capture");

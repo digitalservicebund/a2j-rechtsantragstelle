@@ -11,8 +11,8 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { splatFromParams } from "~/services/params";
 import { Icon } from "~/components/common/Icon";
-import KernHeading from "~/components/kern/KernHeading";
 import CourtDetails from "~/components/CourtDetails";
+import Heading from "~/components/formElements/Heading";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =
@@ -51,7 +51,7 @@ export const Component = () => {
           <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
             Amtsgericht finden
           </h1>
-          <KernHeading
+          <Heading
             tagName="h2"
             text="Ihr zuständiges Amtsgericht"
             size="xLarge"

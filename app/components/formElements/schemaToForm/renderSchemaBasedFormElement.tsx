@@ -3,7 +3,7 @@ import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
 
-export const specialComponentDescriptions = [
+const specialComponentDescriptions = [
   filesUploadZodDescription,
   hiddenInputZodDescription,
   ibanZodDescription,

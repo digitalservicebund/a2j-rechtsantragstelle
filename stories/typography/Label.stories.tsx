@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernLabel from "~/components/kern/KernLabel";
+import Label from "~/components/formElements/Label";
 
 const meta = {
   title: "typography/Label",
-  component: KernLabel,
+  component: Label,
   tags: ["autodocs"],
   argTypes: {
     tagName: {
@@ -11,7 +11,7 @@ const meta = {
       options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"],
     },
   },
-} satisfies Meta<typeof KernLabel>;
+} satisfies Meta<typeof Label>;
 
 export default meta;
 

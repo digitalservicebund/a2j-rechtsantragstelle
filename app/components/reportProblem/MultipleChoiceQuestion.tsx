@@ -1,8 +1,16 @@
 import { type MultipleSurveyQuestion } from "posthog-js";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import classNames from "classnames";
-import { type SurveyResponses } from "./OpenQuestion";
 import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
+import { type SurveyResponses } from "./OpenQuestion";
+import { translations } from "~/services/translations/translations";
+import InputError from "../formElements/inputs/error/InputError";
 
 type MultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -19,26 +27,42 @@ export const MultipleChoiceQuestion = ({
     question.choices.map(() => false),
   );
 
+  const firstCheckboxRef = useRef<HTMLInputElement>(null);
+  const errorId = `${question.id}-error`;
+
+  useEffect(() => {
+    if (hasError) {
+      firstCheckboxRef.current?.focus();
+    }
+  }, [hasError]);
+
   const onCheckboxClicked = (idx: number, choice: string) => {
     const checked = !checkboxStates[idx];
     setCheckboxStates((prev) => prev.map((c, i) => (i === idx ? checked : c)));
-    setResponses((surveyResponses) => {
+    setResponses((prev) => {
       const existingResponses =
-        (surveyResponses?.[questionToAnswerId(question)] as string[]) ?? [];
+        (prev?.[questionToAnswerId(question)] as string[]) ?? [];
       const newAnswers = checked
         ? [...existingResponses, choice]
         : existingResponses.filter((c) => c !== choice);
 
       return {
-        ...surveyResponses,
+        ...prev,
         [questionToAnswerId(question)]: newAnswers,
       };
     });
   };
 
   return (
-    <fieldset>
-      <legend className="ds-body-01-bold mb-16">{question.question}</legend>
+    <fieldset
+      className={classNames("kern-fieldset flex flex-col", {
+        "kern-fieldset--error": hasError,
+      })}
+      aria-invalid={hasError}
+    >
+      <legend className="kern-body font-semibold py-8!">
+        {question.question}
+      </legend>
       <div className="flex flex-col gap-16">
         {question.choices.map((choice, idx) => {
           const choiceName = choice.replaceAll(" ", "_");
@@ -51,20 +75,21 @@ export const MultipleChoiceQuestion = ({
                 type="checkbox"
                 checked={checkboxStates[idx]}
                 name={choiceName}
-                readOnly
-                onClick={() => onCheckboxClicked(idx, choice)}
-                className={classNames(
-                  "ds-checkbox forced-colors:outline-solid forced-colors:border-[ButtonText]",
-                  {
-                    "has-error focus-visible:shadow-[inset_0_0_0_4px_var(--color-red-800)]":
-                      hasError,
-                  },
-                )}
+                onChange={() => onCheckboxClicked(idx, choice)}
+                ref={idx === 0 ? firstCheckboxRef : undefined}
+                className={classNames("kern-form-check__checkbox", {
+                  "kern-form-check__checkbox--error": hasError,
+                })}
               />
               {choice}
             </label>
           );
         })}
+        {hasError && (
+          <InputError id={errorId}>
+            {translations.feedback["validation-error"].de}
+          </InputError>
+        )}
       </div>
     </fieldset>
   );

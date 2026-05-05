@@ -1,15 +1,15 @@
 import { useShouldPrint } from "../hooks/useShouldPrint";
-import KernRichText from "./KernRichText";
+import RichText from "./RichText";
 
-export type KernAccordionItemProps = Readonly<{
+export type AccordionItemProps = Readonly<{
   title: string;
   description: string;
 }>;
-export type KernAccordionProps = Readonly<{
-  items: KernAccordionItemProps[];
+export type AccordionProps = Readonly<{
+  items: AccordionItemProps[];
 }>;
 
-export default function KernAccordion({ items }: KernAccordionProps) {
+export default function Accordion({ items }: AccordionProps) {
   const shouldPrint = useShouldPrint();
   return (
     <div className="kern-accordion-group">
@@ -25,7 +25,7 @@ export default function KernAccordion({ items }: KernAccordionProps) {
               <span className="kern-title">{item.title}</span>
             </summary>
             <section className="kern-accordion__body">
-              <KernRichText html={item.description} />
+              <RichText html={item.description} />
             </section>
           </details>
         ))}

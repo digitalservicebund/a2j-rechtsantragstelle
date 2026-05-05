@@ -3,10 +3,10 @@ import classNames from "classnames";
 import type { ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { Details } from "~/components/content/Details";
-import KernRichText from "~/components/kern/KernRichText";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
+import RichText from "../../RichText";
 
 export const TEXT_AREA_ROWS = 3;
 
@@ -52,7 +52,7 @@ const Textarea = ({
           {label}
         </label>
       )}
-      {description && <KernRichText html={description} />}
+      {description && <RichText html={description} />}
       {details && <Details {...details} />}
       <textarea
         {...field.getInputProps({

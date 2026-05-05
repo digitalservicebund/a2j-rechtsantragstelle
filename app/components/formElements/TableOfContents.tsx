@@ -1,19 +1,19 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { GridItem } from "../layout/grid/GridItem";
-import KernButton, { type ButtonProps } from "./KernButton";
-import KernLabel from "./KernLabel";
+import Button, { type ButtonProps } from "./Button";
+import Label from "./Label";
 import { Icon } from "../common/Icon";
-import KernButtonContainer from "./KernButtonContainer";
-import { type KernHeadingProps } from "./KernHeading";
+import ButtonContainer from "./ButtonContainer";
+import { type HeadingProps } from "./Heading";
 
 type Props = {
   identifier?: string;
-  label?: KernHeadingProps;
+  label?: HeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
 
-const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
+const TableOfContents = ({ identifier, label, links, buttons }: Props) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
@@ -24,9 +24,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
     >
       <nav aria-labelledby="table-of-contents-label">
         <div>
-          {label && (
-            <KernLabel {...label} elementId="table-of-contents-label" />
-          )}
+          {label && <Label {...label} elementId="table-of-contents-label" />}
           {links && links.length > 0 && (
             <ul className="list-none pl-0! mt-10">
               {links.map((link) => (
@@ -51,15 +49,15 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
           )}
         </div>
         {arrayIsNonEmpty(buttons) && (
-          <KernButtonContainer>
+          <ButtonContainer>
             {buttons.map((button) => (
-              <KernButton key={button.text ?? button.href} {...button} />
+              <Button key={button.text ?? button.href} {...button} />
             ))}
-          </KernButtonContainer>
+          </ButtonContainer>
         )}
       </nav>
     </GridItem>
   );
 };
 
-export default KernTableOfContents;
+export default TableOfContents;

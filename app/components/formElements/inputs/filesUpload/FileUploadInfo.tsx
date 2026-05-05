@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { Icon } from "~/components/common/Icon";
-import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
 import { formatFileSizeToString } from "~/services/upload/formatFileSizeToString";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
+import Button from "../../Button";
 
 type FileUploadInfoProps = {
   inputName: string;
@@ -41,7 +41,7 @@ export const FileUploadInfo = ({
         </span>
       </div>
       {!hasError && <HiddenFileInputs inputName={inputName} file={file} />}
-      <KernButton
+      <Button
         look="ghost"
         onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}
         textClassName="kern-link kern-label text-kern-action-default! font-medium!"

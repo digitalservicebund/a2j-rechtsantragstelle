@@ -33,7 +33,7 @@ const onKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
   }
 };
 
-function KernButton({
+function Button({
   children,
   text,
   iconLeft,
@@ -99,4 +99,4 @@ function KernButton({
   );
 }
 
-export default KernButton;
+export default Button;

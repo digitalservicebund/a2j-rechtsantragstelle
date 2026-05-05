@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernVideo from "~/components/kern/video/KernVideo";
+import Video from "~/components/content/video/Video";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/Video",
-  component: KernVideo,
+  component: Video,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -19,7 +19,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernVideo>;
+} satisfies Meta<typeof Video>;
 
 export default meta;
 

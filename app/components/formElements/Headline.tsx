@@ -1,27 +1,24 @@
-import classNames from "classnames";
 import type { allowedHeadingTags } from "./types";
 
-export type KernLabelProps = {
+export type HeadlineProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
   elementId?: string;
-  className?: string;
 };
 
-const KernLabel = ({
+const Headline = ({
   tagName = "h1",
   text,
   tabIndex,
   elementId,
-  className,
-}: KernLabelProps) => {
+}: HeadlineProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
 
   return (
     <Tag
-      className={classNames("kern-label p-0!", className)}
+      className="kern-heading-medium p-0!"
       tabIndex={tabIndex}
       id={elementId}
     >
@@ -30,4 +27,4 @@ const KernLabel = ({
   );
 };
 
-export default KernLabel;
+export default Headline;

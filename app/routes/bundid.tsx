@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData, type LoaderFunctionArgs } from "react-router";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/formElements/Button";
 import { generateSamlRequest } from "~/services/bundid/index.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
@@ -16,7 +16,7 @@ export default function View() {
       <h1>BundID Test</h1>
       <form action={url} method="post">
         <input type="hidden" name="SAMLRequest" value={samlRequest} />
-        <KernButton type={"submit"}>Identifizieren</KernButton>
+        <Button type={"submit"}>Identifizieren</Button>
       </form>
       <Outlet />
     </div>

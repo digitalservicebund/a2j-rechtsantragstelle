@@ -16,7 +16,7 @@ export const SIZES = Object.keys(SIZES_MAP_HEADING) as Array<
   keyof typeof SIZES_MAP_HEADING
 >;
 
-export type KernHeadingProps = {
+export type HeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
   tabIndex?: number;
@@ -27,7 +27,7 @@ export type KernHeadingProps = {
   type?: "heading" | "label";
 };
 
-const KernHeading = ({
+const Heading = ({
   tagName = "h1",
   text,
   tabIndex,
@@ -36,7 +36,7 @@ const KernHeading = ({
   elementId,
   size,
   type = "heading",
-}: KernHeadingProps) => {
+}: HeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
 
@@ -77,4 +77,4 @@ const KernHeading = ({
   );
 };
 
-export default KernHeading;
+export default Heading;

@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
-import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
 import InputError from "../error/InputError";
+import Button from "../../Button";
 
 type FileInputProps = {
   name: string;
@@ -76,7 +76,7 @@ export const FileInput = ({
         <>
           {jsAvailable ? (
             <>
-              <KernButton
+              <Button
                 type="button"
                 look="secondary"
                 onClick={() => fileInputRef.current?.click()}
@@ -96,7 +96,7 @@ export const FileInput = ({
                   : translations.fileUpload.addAnother.de}
               </label>
               {FileInput}
-              <KernButton
+              <Button
                 name="_action"
                 value={`fileUpload.${name}`}
                 type="submit"
