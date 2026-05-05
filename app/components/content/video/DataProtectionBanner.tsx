@@ -1,8 +1,9 @@
-import KernButton from "~/components/kern/KernButton";
-import KernHeading from "~/components/kern/KernHeading";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
+import { Icon } from "../../common/Icon";
+import Button from "~/components/formElements/Button";
+import Heading from "~/components/formElements/Heading";
 
 const DATA_PROTECTION_TRANSLATION_KEYS = {
   header: "datenschutz-header",
@@ -34,24 +35,28 @@ export const DataProtectionBanner = ({
 
   return (
     <section
-      className="border-2 border-blue-800 z-10 bg-blue-300 absolute bottom-0 left-0 right-0"
+      className="kern-dialog absolute bottom-0 left-0 !max-w-full md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[70%]"
       aria-label="Datenschutz banner"
     >
-      <div className="p-16 gap-y-28 flex flex-col flex-wrap">
-        <KernHeading
+      <div className="kern-dialog__header pt-kern-space-default!">
+        <Heading
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.header]}
+          tagName="h2"
+          managedByParent
         />
+      </div>
+      <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
-        <a
-          href="/datenschutzerklaerung"
-          className="flex gap-2 ds-link-01-bold items-start"
-        >
+        <a href="/datenschutzerklaerung" className="kern-link">
+          <Icon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
         </a>
-        <KernButton
+      </div>
+      <div className="kern-dialog__footer">
+        <Button
           onClick={onCookiesAccepted}
           text={translations[DATA_PROTECTION_TRANSLATION_KEYS.activateVideo]}
-          className="max-w-fit"
+          look="secondary"
         />
       </div>
     </section>

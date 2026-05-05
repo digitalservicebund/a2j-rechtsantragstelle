@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernHeading from "~/components/kern/KernHeading";
+import Heading from "~/components/formElements/Heading";
 
 const meta = {
   title: "typography/Heading",
-  component: KernHeading,
+  component: Heading,
   tags: ["autodocs"],
   argTypes: {
     tagName: {
@@ -11,7 +11,7 @@ const meta = {
       options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"],
     },
   },
-} satisfies Meta<typeof KernHeading>;
+} satisfies Meta<typeof Heading>;
 
 export default meta;
 

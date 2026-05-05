@@ -2,14 +2,14 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
 import { type ListItemProps, type ListVariant } from "./types";
-import KernRichText from "../../kern/KernRichText";
-import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
+import Heading, { type HeadingProps } from "~/components/formElements/Heading";
+import RichText from "~/components/formElements/RichText";
 
 type ListProps = {
   items: ListItemProps[];
   variant: ListVariant;
   identifier?: string;
-  heading?: KernHeadingProps;
+  heading?: HeadingProps;
   subheading?: string;
   wrap?: boolean;
 };
@@ -29,13 +29,13 @@ const List = ({
     <div id={identifier}>
       <div className="flex flex-col gap-kern-space-default">
         {heading && (
-          <KernHeading
+          <Heading
             {...heading}
             managedByParent
             className="kern-heading-large! p-0!"
           />
         )}
-        {subheading && <KernRichText html={subheading} />}
+        {subheading && <RichText html={subheading} />}
       </div>
       <ListTag className="list-none ps-0 py-kern-space-default">
         {items

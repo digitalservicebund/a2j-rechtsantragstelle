@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernHero from "~/components/kern/KernHero";
+import Hero from "~/components/formElements/Hero";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/Hero",
-  component: KernHero,
+  component: Hero,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernHero>;
+} satisfies Meta<typeof Hero>;
 
 export default meta;
 

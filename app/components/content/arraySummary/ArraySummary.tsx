@@ -1,12 +1,12 @@
-import KernButton from "~/components/kern/KernButton";
-import KernRichText from "~/components/kern/KernRichText";
 import { Icon } from "~/components/common/Icon";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItem";
-import { type KernHeadingProps } from "../../kern/KernHeading";
+import { type HeadingProps } from "~/components/formElements/Heading";
+import Button from "~/components/formElements/Button";
+import RichText from "~/components/formElements/RichText";
 
 type ArraySummaryProps = Readonly<{
   category: string;
@@ -15,10 +15,10 @@ type ArraySummaryProps = Readonly<{
     configuration: ArrayConfigClient;
   };
   content: {
-    title?: KernHeadingProps;
+    title?: HeadingProps;
     description?: string;
     buttonLabel: string;
-    subtitle?: KernHeadingProps;
+    subtitle?: HeadingProps;
     itemLabels: ItemLabels;
   };
 }>;
@@ -36,7 +36,7 @@ const ArraySummary = ({ category, arrayData, content }: ArraySummaryProps) => {
               {content.title.text}
             </h2>
           )}
-          {content.description && <KernRichText html={content.description} />}
+          {content.description && <RichText html={content.description} />}
         </div>
       )}
 
@@ -54,7 +54,7 @@ const ArraySummary = ({ category, arrayData, content }: ArraySummaryProps) => {
       ))}
 
       <div>
-        <KernButton
+        <Button
           look="secondary"
           iconLeft={<Icon name="plus" className="text-kern-action-default" />}
           href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
@@ -62,7 +62,7 @@ const ArraySummary = ({ category, arrayData, content }: ArraySummaryProps) => {
           data-testid={`add-${category}`}
         >
           {`${content.buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}
-        </KernButton>
+        </Button>
       </div>
     </div>
   );

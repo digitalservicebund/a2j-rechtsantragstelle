@@ -8,7 +8,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import Textarea from "~/components/formElements/inputs/textarea/Textarea";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/formElements/Button";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -99,7 +99,7 @@ export const FeedbackFormBox = ({
             innerRef={textAreaReference}
             ariaDescribedby={headingPersonalFeedbackId}
           />
-          <KernButton
+          <Button
             look="secondary"
             name={FEEDBACK_BUTTON_FIELD_NAME}
             value={"submit"}
@@ -108,7 +108,7 @@ export const FeedbackFormBox = ({
             className="mt-kern-space-small! w-[154px]"
           >
             {feedbackTranslations["submit-button-feedback"]}
-          </KernButton>
+          </Button>
         </div>
       )}
     </ValidatedForm>

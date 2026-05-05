@@ -1,14 +1,14 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import KernTableOfContents from "~/components/kern/KernTableOfContents";
+import TableOfContents from "~/components/formElements/TableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/TableOfContents",
-  component: KernTableOfContents,
+  component: TableOfContents,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernTableOfContents>;
+} satisfies Meta<typeof TableOfContents>;
 
 export default meta;
 

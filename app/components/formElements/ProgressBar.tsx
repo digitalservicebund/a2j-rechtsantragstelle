@@ -1,16 +1,16 @@
-type KernProgressBarProps = {
+type ProgressBarProps = {
   readonly progress: number;
   readonly max: number;
   readonly fallback?: string;
   readonly label?: string;
 };
 
-export function KernProgress({
+export function ProgressBar({
   progress,
   max,
   fallback,
   label,
-}: KernProgressBarProps) {
+}: ProgressBarProps) {
   const id = "progress-bar";
   return (
     <div className="kern-progress pt-kern-space-x-large pb-kern-space-default">

@@ -23,7 +23,6 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
-import KernFileUpload from "./inputs/filesUpload/FilesUpload";
 import classNames from "classnames";
 import { mapLookValue } from "../content/ContentComponents";
 import { ibanZodDescription } from "~/services/validation/iban";
@@ -33,6 +32,7 @@ import {
   type SpecialComponentDescription,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 import IbanInput from "./inputs/iban/IbanInput";
+import FilesUpload from "./inputs/filesUpload/FilesUpload";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -51,7 +51,7 @@ const renderSpecialMetaDescriptions = (
       typeof StrapiFilesUploadComponentSchema
     >;
     return (
-      <KernFileUpload
+      <FilesUpload
         key={fieldName}
         name={fieldName}
         title={filesUploadElement.title}

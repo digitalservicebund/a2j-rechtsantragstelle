@@ -1,21 +1,19 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
-import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import KernHeading, {
-  type KernHeadingProps,
-} from "~/components/kern/KernHeading";
-import KernRichText, {
-  type RichTextProps,
-} from "~/components/kern/KernRichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { Icon } from "../../common/Icon";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
+import Button from "~/components/formElements/Button";
+import RichText, {
+  type RichTextProps,
+} from "~/components/formElements/RichText";
+import Heading, { type HeadingProps } from "~/components/formElements/Heading";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
-  heading: KernHeadingProps;
+  heading: HeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;
   declineButtonLabel: string;
@@ -62,17 +60,17 @@ export function CookieBanner({
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
         <div className="p-kern-space-default! gap-kern-space-default!">
-          <KernHeading
+          <Heading
             managedByParent={true}
             className="kern-heading-medium"
             text={content.heading.text}
           />
           {content.paragraphs.map((paragraph) => (
-            <KernRichText key={paragraph.html} html={paragraph.html} />
+            <RichText key={paragraph.html} html={paragraph.html} />
           ))}
 
-          <KernButtonContainer className="flex! items-center! pt-kern-space-default!">
-            <KernButton
+          <ButtonContainer className="flex! items-center! pt-kern-space-default!">
+            <Button
               name={acceptCookiesFieldName}
               value="false"
               type="submit"
@@ -80,7 +78,7 @@ export function CookieBanner({
               text={content.declineButtonLabel}
               data-testid="decline-cookie"
             />
-            <KernButton
+            <Button
               name={acceptCookiesFieldName}
               value="true"
               type="submit"
@@ -94,7 +92,7 @@ export function CookieBanner({
                 {content.cookieSettingLinkText}
               </a>
             )}
-          </KernButtonContainer>
+          </ButtonContainer>
         </div>
       </analyticsFetcher.Form>
     </section>

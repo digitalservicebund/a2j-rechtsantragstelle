@@ -1,5 +1,5 @@
 import { normalizeURL } from "~/util/strings";
-import KernHeading from "./kern/KernHeading";
+import Heading from "./formElements/Heading";
 
 type CourtDetailsProps = {
   name: string;
@@ -24,7 +24,7 @@ const CourtDetails = ({
 }: CourtDetailsProps) => {
   return (
     <address className="not-italic flex flex-col gap-kern-space-default">
-      <KernHeading tagName="h2" size="large" text={name} managedByParent />
+      <Heading tagName="h2" size="large" text={name} managedByParent />
       <div className="flex flex-col">
         <h3 className="kern-body kern-body--bold m-0! p-0!">{addressLabel}</h3>
         <span className="kern-body m-0! p-0! text-kern-layout-text-default">

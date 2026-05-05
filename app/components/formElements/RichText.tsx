@@ -3,7 +3,7 @@ export type RichTextProps = {
   className?: string;
 };
 
-const KernRichText = ({ html, className }: RichTextProps) => {
+const RichText = ({ html, className }: RichTextProps) => {
   return (
     <div
       className={`kern-body  flex flex-col ${className ?? ""} rich-text`}
@@ -12,4 +12,4 @@ const KernRichText = ({ html, className }: RichTextProps) => {
   );
 };
 
-export default KernRichText;
+export default RichText;

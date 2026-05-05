@@ -1,17 +1,17 @@
-import { type KernHeadingProps } from "~/components/kern/KernHeading";
 import type { BasicTypes } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import KernArraySummaryItemActions from "./ArraySummaryItemActions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
+import { type HeadingProps } from "~/components/formElements/Heading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
   readonly items: Record<string, BasicTypes>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
-  readonly subtitle?: KernHeadingProps;
+  readonly subtitle?: HeadingProps;
   readonly itemLabels: ItemLabels;
 };
 
@@ -67,7 +67,7 @@ const ArraySummaryDataItems = ({
         </dl>
 
         <KernArraySummaryItemActions
-          heading={heading as KernHeadingProps}
+          heading={heading as HeadingProps}
           category={category}
           itemIndex={itemIndex}
           editUrl={editUrl}

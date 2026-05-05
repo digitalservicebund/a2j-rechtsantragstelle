@@ -3,14 +3,14 @@ import { mocked } from "storybook/test";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { SurveyQuestionType, type PostHog, type Survey } from "posthog-js";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 
 const meta = {
   title: "components/ReportProblem",
-  component: KernReportProblem,
+  component: ReportProblem,
   beforeEach: async () => {
     mocked(fetchSurvey).mockReturnValue({
       id: "0",
@@ -37,7 +37,7 @@ const meta = {
     });
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernReportProblem>;
+} satisfies Meta<typeof ReportProblem>;
 
 export default meta;
 

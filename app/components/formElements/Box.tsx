@@ -1,29 +1,25 @@
 import Image, { type ImageProps } from "~/components/common/Image";
-import KernHeading, {
-  type KernHeadingProps,
-} from "~/components/kern/KernHeading";
-import KernRichText, {
-  type RichTextProps,
-} from "~/components/kern/KernRichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import KernLabel, { type KernLabelProps } from "./KernLabel";
-import KernBoxItem, { type KernBoxItemProps } from "./KernBoxItem";
-import KernButton, { type ButtonProps } from "./KernButton";
-import KernButtonContainer from "./KernButtonContainer";
+import Label, { type LabelProps } from "./Label";
+import BoxItem, { type BoxItemProps } from "./BoxItem";
+import Button, { type ButtonProps } from "./Button";
+import ButtonContainer from "./ButtonContainer";
+import Heading, { type HeadingProps } from "./Heading";
+import RichText, { type RichTextProps } from "./RichText";
 
 type BoxProps = {
   identifier?: string;
-  label?: KernLabelProps;
-  heading?: KernHeadingProps;
-  subline?: KernHeadingProps;
+  label?: LabelProps;
+  heading?: HeadingProps;
+  subline?: HeadingProps;
   content?: RichTextProps;
   buttons?: ButtonProps[];
   image?: ImageProps;
-  items?: KernBoxItemProps[];
+  items?: BoxItemProps[];
 };
 
-const KernBox = ({
+const Box = ({
   identifier,
   label,
   heading,
@@ -37,17 +33,17 @@ const KernBox = ({
     <div className="flex flex-col">
       <div className="flex flex-col wrap-break-word gap-kern-space-default">
         {label && (
-          <KernLabel
+          <Label
             {...label}
             className="text-kern-layout-text-muted! font-normal! pt-0! pb-0!"
             aria-describedby={identifier ? `${identifier}-label` : undefined}
           />
         )}
         {heading && (
-          <KernHeading {...heading} className="pt-0! pb-0!" managedByParent />
+          <Heading {...heading} className="pt-0! pb-0!" managedByParent />
         )}
-        {subline && <KernHeading {...subline} managedByParent />}
-        {content && <KernRichText {...content} />}
+        {subline && <Heading {...subline} managedByParent />}
+        {content && <RichText {...content} />}
       </div>
       {arrayIsNonEmpty(items) && (
         <div
@@ -55,16 +51,16 @@ const KernBox = ({
           data-testid="box-item-container"
         >
           {items.map((item) => (
-            <KernBoxItem key={item.id} {...item} />
+            <BoxItem key={item.id} {...item} />
           ))}
         </div>
       )}
       {arrayIsNonEmpty(buttons) && (
-        <KernButtonContainer className="kern-button-group pt-kern-space-default">
+        <ButtonContainer className="kern-button-group pt-kern-space-default">
           {buttons.map((button) => (
-            <KernButton key={button.text ?? button.href} {...button} />
+            <Button key={button.text ?? button.href} {...button} />
           ))}
-        </KernButtonContainer>
+        </ButtonContainer>
       )}
     </div>
   );
@@ -92,4 +88,4 @@ const KernBox = ({
   );
 };
 
-export default KernBox;
+export default Box;

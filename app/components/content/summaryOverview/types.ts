@@ -1,8 +1,8 @@
-import { type KernHeadingProps } from "~/components/kern/KernHeading";
+import { type HeadingProps } from "~/components/formElements/Heading";
 import type { AllowedUserTypes } from "~/domains/userData";
 
 export type SummaryOverviewBoxWrappedProps = {
-  readonly title?: KernHeadingProps;
+  readonly title?: HeadingProps;
   readonly stepId: string;
   readonly id: number;
   readonly boxItems: SummaryOverviewBoxItemType[];
