@@ -1,9 +1,11 @@
-import type { NavItem } from "../navigation/types";
-import { StandaloneLink } from "./StandaloneLink";
+import type { NavItem } from "../kern/navigation/types";
 
-type Props = { navItems: NavItem[]; shouldRender?: boolean };
+type MissingDataListProps = { navItems: NavItem[]; shouldRender?: boolean };
 
-export const MissingDataList = ({ navItems, shouldRender }: Props) => {
+export const MissingDataList = ({
+  navItems,
+  shouldRender,
+}: MissingDataListProps) => {
   if (!shouldRender) return null;
   const navItemsWithWarnings = navItems
     .filter((navItem) => navItem.state === "Warning")
@@ -18,10 +20,12 @@ export const MissingDataList = ({ navItems, shouldRender }: Props) => {
         : navItem,
     );
   return (
-    <ul className="ds-stack ds-stack-8">
+    <ul>
       {navItemsWithWarnings.flatMap((navItem) => (
         <li key={navItem.destination}>
-          <StandaloneLink url={navItem.destination} text={navItem.label} />
+          <a href={navItem.destination} className="kern-link">
+            {navItem.label}
+          </a>
         </li>
       ))}
     </ul>

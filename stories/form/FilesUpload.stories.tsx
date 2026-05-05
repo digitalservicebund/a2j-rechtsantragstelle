@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { type ActionFunctionArgs } from "react-router";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import FilesUpload from "~/components/kern/formElements/filesUpload/FilesUpload";
+import FilesUpload from "~/components/formElements/inputs/filesUpload/FilesUpload";
 import {
   type PDFFileMetadata,
   TEN_MB_IN_BYTES,

@@ -1,7 +1,7 @@
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 
 export type KernBreadcrumb = {
   url: string;
@@ -39,7 +39,7 @@ export default function KernBreadcrumbs({
           >
             {/* Note: can't use <Link> or <NavLink> as we require fresh data from the root loader */}
             <a href="/" aria-label={linkLabel} className="kern-link p-0!">
-              <KernIcon
+              <Icon
                 name="home"
                 className="fill-kern-action-default! forced-color-adjust-auto"
                 title="Startseite"
@@ -50,7 +50,7 @@ export default function KernBreadcrumbs({
                 key={breadcrumb.title}
                 className="kern-body-small flex items-center"
               >
-                <KernIcon
+                <Icon
                   name="chevron-right"
                   className="fill-kern-layout-text-muted! forced-color-adjust-auto"
                 />

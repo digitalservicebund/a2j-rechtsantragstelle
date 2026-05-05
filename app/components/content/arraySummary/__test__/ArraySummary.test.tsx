@@ -3,7 +3,6 @@ import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 import type { ArrayConfigClient } from "~/services/array";
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: true,
@@ -22,7 +21,7 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryDataItems", () => ({
+vi.mock("~/components/content/arraySummary/ArraySummaryDataItem.tsx", () => ({
   default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
 }));
 
@@ -98,7 +97,7 @@ describe("ArraySummary", () => {
     );
 
     expect(getByTestId(`add-unterhaltszahlungen`)).toHaveClass(
-      "is-disabled pointer-events-none",
+      "kern-btn--disabled pointer-events-none",
     );
   });
 

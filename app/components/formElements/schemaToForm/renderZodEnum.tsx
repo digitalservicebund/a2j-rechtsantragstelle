@@ -2,10 +2,10 @@ import get from "lodash/get";
 import type { z } from "zod";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
-import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
-import KernTile from "~/components/kern/formElements/tile/KernTile";
-import KernCheckbox from "~/components/kern/formElements/KernCheckbox";
-import KernSelect from "~/components/kern/formElements/KernSelect";
+import RadioGroup from "~/components/formElements/inputs/radio/RadioGroup";
+import Tile from "../inputs/tile/Tile";
+import Checkbox from "../inputs/checkbox/Checkbox";
+import Select from "../inputs/select/Select";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -29,7 +29,7 @@ export function renderZodEnum(
   switch (matchingElement?.__component) {
     case "form-elements.checkbox":
       return (
-        <KernCheckbox
+        <Checkbox
           key={fieldName}
           name={fieldName}
           label={label}
@@ -43,7 +43,7 @@ export function renderZodEnum(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
       return (
-        <KernTile
+        <Tile
           key={fieldName}
           name={fieldName}
           useTwoColumns={matchingElement.useTwoColumns}
@@ -68,7 +68,7 @@ export function renderZodEnum(
         text: cmsObject[value]?.text ?? text,
       }));
       return (
-        <KernSelect
+        <Select
           name={fieldName}
           key={fieldName}
           label={label}
@@ -91,7 +91,7 @@ export function renderZodEnum(
         }));
       }
       return (
-        <KernRadioGroup
+        <RadioGroup
           key={fieldName}
           name={fieldName}
           label={label}
@@ -102,10 +102,10 @@ export function renderZodEnum(
       );
     default:
       return (
-        <KernRadioGroup
+        <RadioGroup
           key={fieldName}
           name={fieldName}
-          label={label}
+          label={label ?? fieldName} // Fallback to fieldName without matchingElement
           altLabel={get(matchingElement, "altLabel")}
           errorMessages={errorMessages}
           options={options}

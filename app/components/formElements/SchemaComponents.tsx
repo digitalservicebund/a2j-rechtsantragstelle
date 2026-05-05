@@ -1,29 +1,79 @@
-import {
-  isZodString,
-  renderZodString,
-} from "~/components/formElements/schemaToForm/renderZodString";
-import type { SchemaObject } from "~/domains/userData";
-import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { getNestedSchema } from "./schemaToForm/getNestedSchema";
-import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
-import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
+import { type z } from "zod";
+import { type SchemaObject } from "~/domains/userData";
+import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
+import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
+import HiddenInput from "./inputs/hidden/HiddenInput";
+import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
   renderFieldSet,
-} from "./schemaToForm/renderFieldSet";
+} from "../formElements/schemaToForm/renderFieldSet";
+import {
+  isZodEnum,
+  renderZodEnum,
+} from "../formElements/schemaToForm/renderZodEnum";
+import {
+  isZodObject,
+  renderZodObject,
+} from "../formElements/schemaToForm/renderZodObject";
+import {
+  isZodString,
+  renderZodString,
+} from "../formElements/schemaToForm/renderZodString";
+import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
+import KernFileUpload from "./inputs/filesUpload/FilesUpload";
 import classNames from "classnames";
-import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
+import { mapLookValue } from "../content/ContentComponents";
+import { ibanZodDescription } from "~/services/validation/iban";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
-  renderSchemaBasedFormElement,
-} from "./schemaToForm/renderSchemaBasedFormElement";
+  type SpecialComponentDescription,
+} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
+import IbanInput from "./inputs/iban/IbanInput";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
+};
+
+const renderSpecialMetaDescriptions = (
+  fieldName: string,
+  description: SpecialComponentDescription,
+  matchingElement?: StrapiFormComponent,
+) => {
+  if (description === filesUploadZodDescription) {
+    const filesUploadElement = matchingElement as z.infer<
+      typeof StrapiFilesUploadComponentSchema
+    >;
+    return (
+      <KernFileUpload
+        key={fieldName}
+        name={fieldName}
+        title={filesUploadElement.title}
+        description={filesUploadElement.description}
+        inlineNotices={filesUploadElement.inlineNotices?.map(
+          (inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }),
+        )}
+        errorMessages={filesUploadElement.errorMessages}
+      />
+    );
+  }
+
+  if (description === hiddenInputZodDescription) {
+    return <HiddenInput key={fieldName} name={fieldName} />;
+  }
+
+  if (description === ibanZodDescription) {
+    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
+  }
 };
 
 export const SchemaComponents = ({
@@ -38,7 +88,9 @@ export const SchemaComponents = ({
   );
 
   return (
-    <div className={classNames("ds-stack ds-stack-40", className)}>
+    <div
+      className={classNames("flex flex-col gap-kern-space-x-large", className)}
+    >
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
@@ -49,8 +101,6 @@ export const SchemaComponents = ({
           return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
 
-        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
-
         const matchingElement = formComponents
           ?.filter(
             (formComponents) =>
@@ -60,7 +110,7 @@ export const SchemaComponents = ({
 
         const description = extractZodDescription(fieldSchema);
         if (isSpecialComponentDescriptions(description)) {
-          return renderSchemaBasedFormElement(
+          return renderSpecialMetaDescriptions(
             fieldName,
             description,
             matchingElement,
@@ -68,6 +118,7 @@ export const SchemaComponents = ({
         }
 
         const nestedSchema = getNestedSchema(fieldSchema);
+        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
 
         if (isZodObject(nestedSchema)) {
           return renderZodObject(

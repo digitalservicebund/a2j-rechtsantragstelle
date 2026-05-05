@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import { MissingDataList } from "../common/MissingDataList";
 import type { NavItem } from "../navigation/types";
+import { MissingDataList } from "../common/MissingDataList";
 
 const mockNavItems = [
   { label: "label1", destination: "/1", state: "Current" },

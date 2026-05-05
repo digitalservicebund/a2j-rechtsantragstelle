@@ -1,4 +1,4 @@
-import type { ButtonNavigationProps } from "~/components/common/ButtonNavigation";
+import { type ButtonNavigationProps } from "~/components/kern/KernButtonNavigation";
 
 export function getButtonNavigationProps({
   backButtonLabel,

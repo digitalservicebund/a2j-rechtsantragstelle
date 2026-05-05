@@ -1,18 +1,18 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernRadioGroup from "~/components/kern/formElements/KernRadioGroup";
+import RadioGroup from "~/components/formElements/inputs/radio/RadioGroup";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "form/RadioGroup",
-  component: KernRadioGroup,
+  component: RadioGroup,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernRadioGroup>;
+} satisfies Meta<typeof RadioGroup>;
 
 export default meta;
 

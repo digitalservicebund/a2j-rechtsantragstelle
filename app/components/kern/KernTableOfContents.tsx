@@ -1,15 +1,14 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { type ButtonProps } from "../common/Button";
-import ButtonContainer from "../common/ButtonContainer";
-import { type HeadingProps } from "../common/Heading";
 import { GridItem } from "../layout/grid/GridItem";
-import KernButton from "./KernButton";
+import KernButton, { type ButtonProps } from "./KernButton";
 import KernLabel from "./KernLabel";
-import { KernIcon } from "./common/KernIcon";
+import { Icon } from "../common/Icon";
+import KernButtonContainer from "./KernButtonContainer";
+import { type KernHeadingProps } from "./KernHeading";
 
 type Props = {
   identifier?: string;
-  label?: HeadingProps;
+  label?: KernHeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
@@ -40,7 +39,7 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
                     className="kern-link no-underline!"
                     aria-label={link.text}
                   >
-                    <KernIcon
+                    <Icon
                       name="arrow-downward"
                       className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
                     />
@@ -52,11 +51,11 @@ const KernTableOfContents = ({ identifier, label, links, buttons }: Props) => {
           )}
         </div>
         {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
+          <KernButtonContainer>
             {buttons.map((button) => (
               <KernButton key={button.text ?? button.href} {...button} />
             ))}
-          </ButtonContainer>
+          </KernButtonContainer>
         )}
       </nav>
     </GridItem>

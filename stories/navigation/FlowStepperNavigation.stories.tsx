@@ -14,7 +14,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <GridSection>
+      <GridSection className="bg-kern-neutral-025 py-24">
         <Grid>
           <GridItem>{reactRouterContext(Story)}</GridItem>
         </Grid>

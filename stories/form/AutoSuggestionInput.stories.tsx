@@ -1,15 +1,15 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernAutoSuggestInput from "~/components/kern/formElements/autoSuggest/KernAutoSuggestInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 
 const meta = {
   title: "form/AutoSuggestionInput",
-  component: KernAutoSuggestInput,
+  component: AutoSuggestInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernAutoSuggestInput>;
+} satisfies Meta<typeof AutoSuggestInput>;
 
 export default meta;
 

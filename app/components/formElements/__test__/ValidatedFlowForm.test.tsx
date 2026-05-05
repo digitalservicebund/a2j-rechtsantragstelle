@@ -7,7 +7,6 @@ import { getStrapiInputComponent } from "tests/factories/cmsModels/strapiInputCo
 import { getStrapiSelectComponent } from "tests/factories/cmsModels/strapiSelectComponent";
 import { getStrapiTextareaComponent } from "tests/factories/cmsModels/strapiTextareaComponent";
 import { getStrapiTileGroupComponent } from "tests/factories/cmsModels/strapiTileGroupComponent";
-import ValidatedFlowForm from "~/components/formElements/ValidatedFlowForm";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
@@ -19,6 +18,7 @@ import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
+import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");

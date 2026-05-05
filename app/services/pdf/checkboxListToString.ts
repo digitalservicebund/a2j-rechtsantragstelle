@@ -1,4 +1,4 @@
-import { type CheckboxValue } from "~/components/formElements/Checkbox";
+import { type CheckboxValue } from "~/components/formElements/inputs/checkbox/Checkbox";
 
 export function checkboxListToString(
   mapping: Record<string, string>,

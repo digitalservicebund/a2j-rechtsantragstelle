@@ -1,15 +1,15 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernTile from "~/components/kern/formElements/tile/KernTile";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import img1Url from "../assets/nichtbefoerderung.svg?no-inline";
 import img2Url from "../assets/verspaetung.svg?no-inline";
+import Tile from "~/components/formElements/inputs/tile/Tile";
 
 const meta = {
   title: "form/Tile",
-  component: KernTile,
+  component: Tile,
   parameters: {
     controls: {
       exclude: ["title", "name"],
@@ -28,7 +28,7 @@ const meta = {
         </GridSection>,
       ),
   ],
-} satisfies Meta<typeof KernTile>;
+} satisfies Meta<typeof Tile>;
 
 export default meta;
 

@@ -1,9 +1,8 @@
 import { render } from "@testing-library/react";
+import ArraySummaryDataItems from "~/components/content/arraySummary/ArraySummaryDataItem";
 import type { ArrayConfigClient } from "~/services/array";
-import ArraySummaryDataItems from "../ArraySummaryDataItems";
 
 const mockArrayConfiguration: ArrayConfigClient = {
-  event: "add-unterhaltszahlungen",
   initialInputUrl: "daten",
   url: "/beratungshilfe/antrag/finanzielle-angaben/andere-unterhaltszahlungen/person",
   disableAddButton: false,
@@ -15,8 +14,8 @@ const mockDataItem = {
   familyRelationship: "mother",
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryItemButton", () => ({
-  default: () => <div>Mock ArraySummaryItemButton</div>,
+vi.mock("~/components/content/arraySummary/ArraySummaryItemActions", () => ({
+  default: () => <div>Mock ArraySummaryItemActions</div>,
 }));
 
 describe("ArraySummaryDataItems", () => {
@@ -41,9 +40,7 @@ describe("ArraySummaryDataItems", () => {
       />,
     );
 
-    Object.entries(itemLabels).forEach(([key, label]) => {
-      const expectedTagName = key.includes(".") ? "DIV" : "P";
-      expect(getByText(label).tagName).toBe(expectedTagName);
+    Object.values(itemLabels).forEach((label) => {
       expect(getByText(label)).toBeInTheDocument();
     });
   });

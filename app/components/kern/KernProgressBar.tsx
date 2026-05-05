@@ -2,7 +2,7 @@ type KernProgressBarProps = {
   readonly progress: number;
   readonly max: number;
   readonly fallback?: string;
-  readonly label: string;
+  readonly label?: string;
 };
 
 export function KernProgress({
@@ -13,7 +13,7 @@ export function KernProgress({
 }: KernProgressBarProps) {
   const id = "progress-bar";
   return (
-    <div className="kern-progress pt-kern-space-default pb-kern-space-default">
+    <div className="kern-progress pt-kern-space-x-large pb-kern-space-default">
       {label && (
         <label htmlFor={id} className="kern-label sr-only">
           {label}

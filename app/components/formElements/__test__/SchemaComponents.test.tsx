@@ -9,7 +9,7 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
+import { SchemaComponents } from "../SchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -19,7 +19,7 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof KernSchemaComponents>[0]>,
+    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
@@ -31,7 +31,7 @@ describe("SchemaComponents", () => {
         path: "/",
         element: (
           <FormProvider scope={form.scope()}>
-            <KernSchemaComponents {...props} />
+            <SchemaComponents {...props} />
           </FormProvider>
         ),
       },
@@ -40,7 +40,7 @@ describe("SchemaComponents", () => {
     return <RouterProvider router={router} />;
   }
 
-  it("should render correct text inputs ", () => {
+  it("should render correct text inputs", () => {
     const pageSchema = { field1: z.string() };
     const { getByRole } = render(
       <WrappedSchemaComponents
@@ -52,7 +52,7 @@ describe("SchemaComponents", () => {
     expect(textInput).toHaveAttribute("name", "field1");
   });
 
-  it("should render textarea ", () => {
+  it("should render textarea", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
@@ -71,7 +71,7 @@ describe("SchemaComponents", () => {
     expect(textArea).toHaveAttribute("name", "field1");
   });
 
-  it("should render correct radio buttons ", () => {
+  it("should render correct radio buttons", () => {
     const pageSchema = { field1: z.enum(["option1", "option2"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
@@ -103,7 +103,7 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("name", "field1.b");
   });
 
-  it("should render tile group ", () => {
+  it("should render tile group", () => {
     const fieldName = "field1";
     const pageSchema = { [fieldName]: z.enum(["option1"]) };
     const { getByRole } = render(
@@ -140,7 +140,7 @@ describe("SchemaComponents", () => {
     expect(group).toHaveTextContent("option1 description");
   });
 
-  it("should render checkboxes ", () => {
+  it("should render checkboxes", () => {
     const fieldName = "field1";
     const pageSchema = { [fieldName]: checkedRequired };
     const { getByRole } = render(
@@ -166,7 +166,7 @@ describe("SchemaComponents", () => {
     expect(checkbox.parentElement).toHaveTextContent("label");
   });
 
-  it("should render exclusive checkboxes ", () => {
+  it("should render exclusive checkboxes", () => {
     const pageSchema = { field: exclusiveCheckboxesSchema(["option", "none"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
@@ -196,7 +196,7 @@ describe("SchemaComponents", () => {
     expect(checkboxes[1].parentElement).toHaveTextContent("none");
   });
 
-  it("should render multiple nested fields ", () => {
+  it("should render multiple nested fields", () => {
     const { getByRole, getAllByRole } = render(
       <WrappedSchemaComponents
         readOnlyFieldNames={[]}
@@ -220,7 +220,7 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("value", "option2");
   });
 
-  it("should attach correct labels to inputs ", () => {
+  it("should attach correct labels to inputs", () => {
     const { getByRole, getByLabelText } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
