@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { translations } from "~/services/translations/translations";
-import { type StepStepper } from "../types";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getStepStyles } from "./getStepStyles";
 import { StepperContent } from "./StepperContent";
+import { type StepStepper } from "../types";
 
 type Props = {
   steps: StepStepper[];

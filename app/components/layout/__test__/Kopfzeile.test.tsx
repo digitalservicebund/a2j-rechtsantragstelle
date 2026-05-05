@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import KernKopfzeile from "~/components/kern/layout/KernKopfzeile";
+import Kopfzeile from "../Kopfzeile";
 
 describe("Kopfzeile", () => {
   it("should render the Kopfzeile", () => {
-    const { container, getByText } = render(<KernKopfzeile />);
+    const { container, getByText } = render(<Kopfzeile />);
     const textElement = getByText(
       "Offizielle Website – Bundesrepublik Deutschland",
     );

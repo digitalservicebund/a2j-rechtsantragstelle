@@ -4,7 +4,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { translations } from "~/services/translations/translations";
 import { today, toGermanDateString, toGermanTimeString } from "~/util/date";
-import KernKopfzeile from "./KernKopfzeile";
+import Kopfzeile from "./Kopfzeile";
 import { Icon } from "~/components/common/Icon";
 
 type PageHeaderProps = {
@@ -13,7 +13,7 @@ type PageHeaderProps = {
   hideLinks: boolean;
 };
 
-export default function KernPageHeader({
+export default function PageHeader({
   title,
   linkLabel,
   hideLinks,
@@ -37,7 +37,7 @@ export default function KernPageHeader({
             lgColumn={{ start: 1, span: 12 }}
             xlColumn={{ start: 1, span: 12 }}
           >
-            <KernKopfzeile />
+            <Kopfzeile />
           </GridItem>
         </Grid>
       </GridSection>

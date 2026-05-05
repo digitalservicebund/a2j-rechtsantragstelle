@@ -64,6 +64,6 @@ describe("NavigationList", () => {
       },
     ];
     render(<NavigationList navItems={navItems} expandAll={true} />);
-    expect(screen.getAllByTestId("ExpandLessIcon")).toHaveLength(3);
+    expect(screen.getAllByTestId("icon-keyboard-arrow-up")).toHaveLength(3);
   });
 });
