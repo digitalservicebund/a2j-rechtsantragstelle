@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernFooter from "~/components/kern/layout/footer/KernFooter";
+import Footer from "~/components/layout/footer/Footer";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "layout/Footer",
-  component: KernFooter,
+  component: Footer,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -13,7 +13,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernFooter>;
+} satisfies Meta<typeof Footer>;
 
 export default meta;
 

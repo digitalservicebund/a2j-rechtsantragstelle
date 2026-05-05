@@ -1,8 +1,8 @@
 import { translations } from "~/services/translations/translations";
-import { Icon } from "../../../common/Icon";
 import { footerContent } from "./footerContent";
+import { Icon } from "~/components/common/Icon";
 
-export const KernFooterExternalLinks = () => {
+export const FooterExternalLinks = () => {
   const externalLinksSections = footerContent.filter((section) =>
     section.type.includes("externalLink"),
   );

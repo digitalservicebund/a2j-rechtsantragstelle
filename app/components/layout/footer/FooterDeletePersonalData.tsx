@@ -2,7 +2,7 @@ import { translations } from "~/services/translations/translations";
 import { footerContent } from "./footerContent";
 import { Icon } from "~/components/common/Icon";
 
-export const KernFooterDeletePersonalData = () => {
+export const FooterDeletePersonalData = () => {
   const personalDataDeleteLink = footerContent.find((section) =>
     section.type.includes("deletionBanner"),
   )?.content[0];

@@ -1,6 +1,6 @@
 import { stateIsCurrent } from "~/services/navigation/navState";
-import type { NavItem, StepStepper } from "./types";
 import { arrayIsNonEmpty } from "~/util/array";
+import { type NavItem, type StepStepper } from "./types";
 
 export const getMobileButtonAreaTitles = (
   navItems: NavItem[],
