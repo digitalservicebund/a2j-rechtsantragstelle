@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import AutoSuggestFormatOptionLabel from "../AutoSuggestFormatOptionLabel";
 
 describe("AutoSuggestFormatOptionLabel", () => {
-  it("it should render the label if the context is a value", () => {
+  it("should render the label if the context is a value", () => {
     const dataListOption = [{ label: "Paris", value: " any value" }];
 
     const { getByText } = render(
@@ -16,7 +16,7 @@ describe("AutoSuggestFormatOptionLabel", () => {
     expect(getByText(dataListOption[0].label)).toBeInTheDocument();
   });
 
-  it("it should render the label and the subDescription without highlight if the context is a menu", () => {
+  it("should render the label and the subDescription without highlight if the context is a menu", () => {
     const dataListOption = [
       { label: "Paris", subDescription: "Paris, France", value: " any value" },
     ];
@@ -38,7 +38,7 @@ describe("AutoSuggestFormatOptionLabel", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("it should render the label and the subDescription with highlight if the context is a menu", () => {
+  it("should render the label and the subDescription with highlight if the context is a menu", () => {
     const dataListOption = [
       {
         label: "Paris Charles de Gaulle",
@@ -72,7 +72,7 @@ describe("AutoSuggestFormatOptionLabel", () => {
     ).toBe(mockInputValue);
   });
 
-  it("it should render the label and the subDescription with highlight if the context is a menu even with empty space", () => {
+  it("should render the label and the subDescription with highlight if the context is a menu even with empty space", () => {
     const dataListOption = [
       {
         label: "Paris Charles de Gaulle",

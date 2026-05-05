@@ -62,7 +62,7 @@ describe("addWitnessesInfo", () => {
     expect(mockDoc.text).not.toHaveBeenCalledWith(WITNESS_EVIDENCE_TEXT);
   });
 
-  it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes ", () => {
+  it("should call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is yes", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
@@ -76,7 +76,7 @@ describe("addWitnessesInfo", () => {
     expect(addNewPageInCaseMissingVerticalSpace).toBeCalledTimes(1);
   });
 
-  it("should not call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is no ", () => {
+  it("should not call addNewPageInCaseMissingVerticalSpace in case the hasZeugen is no", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");
