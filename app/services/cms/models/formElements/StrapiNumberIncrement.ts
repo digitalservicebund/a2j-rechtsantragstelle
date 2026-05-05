@@ -2,7 +2,7 @@ import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
-export const StrapiIncrementSchema = z
+export const StrapiIncrementComponentSchema = z
   .object({
     __component: z.literal("form-elements.number-increment"),
     name: stringRequiredSchema,

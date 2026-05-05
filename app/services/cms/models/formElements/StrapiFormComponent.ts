@@ -11,7 +11,7 @@ import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
-import { StrapiIncrementSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
+import { StrapiIncrementComponentSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
@@ -26,7 +26,7 @@ export const StrapiFormComponentSchema = z.union([
   StrapiAutoSuggestInputComponentSchema,
   StrapiHiddenInputComponentSchema,
   StrapiFieldSetComponentSchema,
-  StrapiIncrementSchema,
+  StrapiIncrementComponentSchema,
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;
