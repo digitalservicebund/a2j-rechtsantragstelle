@@ -34,7 +34,7 @@ describe("TextInput", () => {
   });
 
   it("should render helper text linked with aria-describedby", () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <TextInput name="text" helperText="Enter some text" />,
     );
     expect(getByRole("textbox")).toHaveAttribute(

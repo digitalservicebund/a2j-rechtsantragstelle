@@ -38,12 +38,13 @@ describe("TelephoneInput", () => {
   });
 
   it("should render helper text linked with aria-describedby", () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <TelephoneInput name="tel" helperText="Enter telephone number" />,
     );
-    const input = getByRole("textbox");
-    const helperText = getByText("Enter telephone number");
-    expect(input).toHaveAttribute("aria-describedby", "tel-error tel-helper");
+    expect(getByRole("textbox")).toHaveAttribute(
+      "aria-describedby",
+      "tel-error tel-helper",
+    );
   });
 
   it("should mark input as invalid when there is an error", () => {

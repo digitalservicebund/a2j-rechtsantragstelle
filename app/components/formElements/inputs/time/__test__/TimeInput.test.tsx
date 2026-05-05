@@ -1,6 +1,5 @@
 import { render } from "@testing-library/react";
 import TimeInput from "../TimeInput";
-import TextInput from "../../text/TextInput";
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
@@ -38,7 +37,7 @@ describe("TimeInput", () => {
   });
 
   it("should render helper text linked with aria-describedby", () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <TimeInput name="time" helperText="Enter time in HH:MM format" />,
     );
     expect(getByRole("textbox")).toHaveAttribute(

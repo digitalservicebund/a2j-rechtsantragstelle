@@ -37,12 +37,10 @@ describe("NumberInput", () => {
   });
 
   it("should render helper text linked with aria-describedby", () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <NumberInput name="amount" helperText="Enter an amount" />,
     );
-    const input = getByRole("textbox");
-    const helperText = getByText("Enter an amount");
-    expect(input).toHaveAttribute(
+    expect(getByRole("textbox")).toHaveAttribute(
       "aria-describedby",
       "amount-error amount-helper",
     );
