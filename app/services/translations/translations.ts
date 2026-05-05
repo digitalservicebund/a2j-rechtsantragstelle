@@ -314,4 +314,12 @@ export const translations = {
       de: "Beispielsweise: 17 3 2015",
     },
   },
+  numberIncrementComponent: {
+    incrementButtonLabel: {
+      de: "Erhöhen",
+    },
+    decrementButtonLabel: {
+      de: "Reduzieren",
+    },
+  },
 } satisfies TranslationRecord;
