@@ -17,6 +17,9 @@
     "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
     "@typescript-eslint/array-type": ["warn", { "default": "array-simple" }],
     "@typescript-eslint/only-throw-error": "off",
+    "eslint/no-underscore-dangle": "off",
+    "vitest/no-conditional-expect": "off",
+    "vitest/valid-title": "off",
     // We are currently failing the following rules. Examine one-by-one and fix or more above this line
     "eslint/no-shadow": "off",
     "import/no-named-as-default": "off",
