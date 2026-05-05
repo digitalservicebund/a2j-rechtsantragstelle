@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { decode } from "html-entities";
 import { useShouldPrint } from "../../hooks/useShouldPrint";
-import KernPageHeader from "~/components/kern/layout/KernPageHeader";
+import PageHeader from "../PageHeader";
 
 vi.mock("~/components/hooks/useShouldPrint");
 
@@ -12,7 +12,7 @@ beforeEach(() => {
 describe("PageHeader", () => {
   it("should render the page header with correct title and header links", () => {
     render(
-      <KernPageHeader
+      <PageHeader
         title={"Justiz-Services"}
         linkLabel={"Zurück zur Startseite"}
         hideLinks={false}
@@ -31,7 +31,7 @@ describe("PageHeader", () => {
 
   it("should be able to hide the header links", () => {
     render(
-      <KernPageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
+      <PageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
     );
     expect(screen.queryByText("Leichte Sprache")).not.toBeInTheDocument();
     expect(screen.queryByText("Gebärdensprache")).not.toBeInTheDocument();
@@ -40,7 +40,7 @@ describe("PageHeader", () => {
   it("should render print information when shouldPrint is true", () => {
     vi.mocked(useShouldPrint).mockReturnValue(true);
     const { container } = render(
-      <KernPageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
+      <PageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
     );
     expect(container.innerHTML).toContain(
       "Diese Seite wurde heruntergeladen am",
@@ -49,7 +49,7 @@ describe("PageHeader", () => {
 
   it("should render not print information when shouldPrint is false", () => {
     const { container } = render(
-      <KernPageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
+      <PageHeader title={"Test Page"} linkLabel={"Test Page"} hideLinks />,
     );
     expect(container.innerHTML).not.toContain(
       "Diese Seite wurde heruntergeladen am",

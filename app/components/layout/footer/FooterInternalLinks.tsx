@@ -1,7 +1,7 @@
 import { translations } from "~/services/translations/translations";
 import { footerContent } from "./footerContent";
 
-export const KernFooterInternalLinks = () => {
+export const FooterInternalLinks = () => {
   const internalLinksSections = footerContent.filter((section) =>
     section.type.includes("internalLink"),
   );

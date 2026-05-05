@@ -1,9 +1,9 @@
 import Image from "~/components/common/Image";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
-import { KernFooterExternalLinks } from "./KernFooterExternalLinks";
-import { KernFooterDeletePersonalData } from "./KernFooterDeletePersonalData";
-import { KernFooterInternalLinks } from "./KernFooterInternalLinks";
+import { FooterExternalLinks } from "./FooterExternalLinks";
+import { FooterDeletePersonalData } from "./FooterDeletePersonalData";
+import { FooterInternalLinks } from "./FooterInternalLinks";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
 import { translations } from "~/services/translations/translations";
@@ -15,7 +15,7 @@ type FooterProps = Readonly<{
 
 export const logoAltText = "Logo des BMJVs";
 
-export default function KernFooter({
+export default function Footer({
   showDeletionBanner = false,
   ariaLabel,
 }: FooterProps) {
@@ -35,7 +35,7 @@ export default function KernFooter({
               {translations.footer.onlineDienste.de}
             </p>
           </div>
-          <KernFooterInternalLinks />
+          <FooterInternalLinks />
         </GridItem>
         <GridItem
           row={2}
@@ -50,10 +50,10 @@ export default function KernFooter({
               alternativeText={logoAltText}
             />
           </div>
-          <KernFooterExternalLinks />
+          <FooterExternalLinks />
         </GridItem>
       </Grid>
-      {showDeletionBanner && <KernFooterDeletePersonalData />}
+      {showDeletionBanner && <FooterDeletePersonalData />}
     </GridSection>
   );
 }

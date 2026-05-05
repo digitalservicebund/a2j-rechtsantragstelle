@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
+import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import KernButton from "~/components/kern/KernButton";
+import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import KernHeading, {
   type KernHeadingProps,
 } from "~/components/kern/KernHeading";
@@ -51,7 +53,7 @@ export function CookieBanner({
 
   return (
     <section
-      className="right-16 left-16 border-b-2 border-blue-800 z-50 bg-blue-300"
+      className="right-16 left-16 z-50 border-b border-kern-layout-border!"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -59,19 +61,25 @@ export function CookieBanner({
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
-        <div className="ds-stack ds-stack-16">
+        <div className="p-kern-space-default! gap-kern-space-default!">
           <KernHeading
-            tagName={content.heading.tagName}
+            managedByParent={true}
+            className="kern-heading-medium"
             text={content.heading.text}
           />
-          <div>
-            <div className="ds-stack ds-stack-8">
-              {content.paragraphs.map((paragraph) => (
-                <KernRichText key={paragraph.html} html={paragraph.html} />
-              ))}
-            </div>
-          </div>
-          <div className="flex items-end gap-24 flex-wrap">
+          {content.paragraphs.map((paragraph) => (
+            <KernRichText key={paragraph.html} html={paragraph.html} />
+          ))}
+
+          <KernButtonContainer className="flex! items-center! pt-kern-space-default!">
+            <KernButton
+              name={acceptCookiesFieldName}
+              value="false"
+              type="submit"
+              look="secondary"
+              text={content.declineButtonLabel}
+              data-testid="decline-cookie"
+            />
             <KernButton
               name={acceptCookiesFieldName}
               value="true"
@@ -80,23 +88,13 @@ export function CookieBanner({
               text={content.acceptButtonLabel}
               data-testid={buttonAcceptCookieTestId}
             />
-            <KernButton
-              name={acceptCookiesFieldName}
-              value="false"
-              type="submit"
-              look="primary"
-              text={content.declineButtonLabel}
-              data-testid="decline-cookie"
-            />
             {content.cookieSettingLinkUrl && (
-              <a
-                href={content.cookieSettingLinkUrl}
-                className="flex gap-2 ds-link-01-bold items-start"
-              >
+              <a href={content.cookieSettingLinkUrl} className="kern-link">
+                <Icon name="arrow-forward" />
                 {content.cookieSettingLinkText}
               </a>
             )}
-          </div>
+          </KernButtonContainer>
         </div>
       </analyticsFetcher.Form>
     </section>

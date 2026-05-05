@@ -3,22 +3,22 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Icon } from "~/components/common/Icon";
 
-export type KernBreadcrumb = {
+export type Breadcrumb = {
   url: string;
   title?: string;
 };
 
-type KernBreadcrumbsProps = {
-  readonly breadcrumbs: KernBreadcrumb[];
+type BreadcrumbsProps = {
+  readonly breadcrumbs: Breadcrumb[];
   readonly ariaLabel?: string;
   readonly linkLabel?: string;
 };
 
-export default function KernBreadcrumbs({
+export default function Breadcrumbs({
   ariaLabel,
   breadcrumbs,
   linkLabel,
-}: KernBreadcrumbsProps) {
+}: BreadcrumbsProps) {
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
