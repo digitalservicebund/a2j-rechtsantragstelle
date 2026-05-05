@@ -4,7 +4,6 @@ import { buildKidsCountValidationSchema } from "~/services/validation/kidsCount/
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { kidsSchema } from "./kidsSchema";
-import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 
 export const beratungshilfeVorabcheckPages = {
   start: {
@@ -12,10 +11,7 @@ export const beratungshilfeVorabcheckPages = {
   },
   rechtsschutzversicherung: {
     stepId: "rechtsschutzversicherung",
-    pageSchema: {
-      rechtsschutzversicherung: YesNoAnswer,
-      numberOfThings: createNumberIncrementSchema(0, 20),
-    },
+    pageSchema: { rechtsschutzversicherung: YesNoAnswer },
   },
   rechtsschutzversicherungDetails: {
     stepId: "rechtsschutzversicherung-details",

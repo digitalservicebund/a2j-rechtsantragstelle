@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { Icon } from "~/components/common/Icon";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/formElements/Button";
 import { translations } from "~/services/translations/translations";
 
 type InputProps = Readonly<{
@@ -15,15 +15,16 @@ type InputProps = Readonly<{
 const IncrementDecrementButton: React.FC<{
   onClick: () => void;
   type: "decrement" | "increment";
-}> = ({ onClick, type }) => {
+  label?: string;
+}> = ({ onClick, type, label }) => {
   return (
-    <KernButton
+    <Button
       className="p-10! min-h-min! rounded-none!"
       type="button"
       aria-label={
         type === "decrement"
-          ? translations.numberIncrementComponent.decrementButtonLabel.de
-          : translations.numberIncrementComponent.incrementButtonLabel.de
+          ? `${label} ${translations.numberIncrementComponent.decrementButtonLabel.de}`
+          : `${label} ${translations.numberIncrementComponent.incrementButtonLabel.de}`
       }
       onClick={onClick}
       iconLeft={
@@ -46,12 +47,12 @@ const NumberIncrement = function InputComponent({
   const errorId = `${name}-error`;
 
   const increment = () => {
-    field.setValue(field.value() + 1);
+    field.setValue((field.value() ?? 0) + 1);
     field.validate();
   };
 
   const decrement = () => {
-    field.setValue(field.value() - 1);
+    field.setValue((field.value() ?? 0) - 1);
     field.validate();
   };
 
@@ -71,7 +72,11 @@ const NumberIncrement = function InputComponent({
           "kern-form-input__input--error": field.error(),
         })}
       >
-        <IncrementDecrementButton type="decrement" onClick={decrement} />
+        <IncrementDecrementButton
+          type="decrement"
+          onClick={decrement}
+          label={label}
+        />
         <input
           className={classNames(
             "bg-white max-w-52 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
@@ -81,7 +86,7 @@ const NumberIncrement = function InputComponent({
           )}
           id={name}
           {...field.getInputProps()}
-          value={field.value()}
+          value={field.value() ?? 0}
           defaultValue={undefined}
           name={name}
           type="number"
@@ -91,7 +96,11 @@ const NumberIncrement = function InputComponent({
             !!errorMessages?.find((err) => err.code === "required")
           }
         />
-        <IncrementDecrementButton type="increment" onClick={increment} />
+        <IncrementDecrementButton
+          type="increment"
+          onClick={increment}
+          label={label}
+        />
       </div>
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
