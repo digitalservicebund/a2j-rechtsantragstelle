@@ -6,9 +6,9 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
-import { KernProgress } from "~/components/kern/KernProgressBar";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
+import { ProgressBar } from "~/components/formElements/ProgressBar";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 
 export function VorabcheckPage() {
   const {
@@ -32,7 +32,7 @@ export function VorabcheckPage() {
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-          <KernProgress {...progressProps} />
+          <ProgressBar {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -65,7 +65,7 @@ export function VorabcheckPage() {
             className="pb-80 pt-kern-space-x-large flex justify-end"
             row={4}
           >
-            <KernReportProblem />
+            <ReportProblem />
           </GridItem>
         )}
       </Grid>

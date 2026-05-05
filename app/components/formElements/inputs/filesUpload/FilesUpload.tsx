@@ -10,17 +10,14 @@ import {
 } from "~/services/validation/pdfFileSchema";
 import { FileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import {
-  KernInlineNotice,
-  type KernInlineNoticeProps,
-} from "../../../kern/KernInlineNotice";
 import InputError from "../error/InputError";
+import { InlineNotice, type InlineNoticeProps } from "../../InlineNotice";
 
 export type FilesUploadProps = {
   name: string;
   title?: string;
   description?: string;
-  inlineNotices?: KernInlineNoticeProps[];
+  inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -113,7 +110,7 @@ const FilesUpload = ({
           </div>
           {items.length === fileUploadLimit &&
             inlineNotices?.map((inlineNotice) => (
-              <KernInlineNotice key={inlineNotice.title} {...inlineNotice} />
+              <InlineNotice key={inlineNotice.title} {...inlineNotice} />
             ))}
         </div>
         {shouldSubmitEmptyArray && (

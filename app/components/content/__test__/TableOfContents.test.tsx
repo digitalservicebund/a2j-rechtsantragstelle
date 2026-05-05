@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import TableOfContents from "../TableOfContents";
+import TableOfContents from "~/components/formElements/TableOfContents";
 
 describe("TableOfContents", () => {
   it("render component with identifier", () => {
@@ -20,7 +20,7 @@ describe("TableOfContents", () => {
 
   it("render component with heading", () => {
     const { queryByText } = render(
-      <TableOfContents heading={{ text: "someHeading" }} />,
+      <TableOfContents label={{ text: "someHeading" }} />,
     );
 
     expect(queryByText("someHeading")).toBeInTheDocument();

@@ -2,8 +2,8 @@ import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import Button from "~/components/formElements/Button";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
 
 export const userRatingFieldname = "wasHelpful";
 
@@ -26,8 +26,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
           action={`/action/send-rating?url=${url}&js=${String(jsAvailable)}`}
           preventScrollReset={true}
         >
-          <KernButtonContainer>
-            <KernButton
+          <ButtonContainer>
+            <Button
               look="secondary"
               name={userRatingFieldname}
               value="yes"
@@ -39,8 +39,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
               aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
             >
               {feedbackTranslations["yes-rating"]}
-            </KernButton>
-            <KernButton
+            </Button>
+            <Button
               look="secondary"
               name={userRatingFieldname}
               value="no"
@@ -52,8 +52,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
               aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
             >
               {feedbackTranslations["no-rating"]}
-            </KernButton>
-          </KernButtonContainer>
+            </Button>
+          </ButtonContainer>
         </ratingFetcher.Form>
       </footer>
     </>

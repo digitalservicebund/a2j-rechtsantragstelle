@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import Video from "~/components/content/video/Video";
+import Video from "../Video";
 
 const VIDEO_URL = "https://www.youtube.com/watch?v=ZZ0o6NFCJeI";
 
@@ -8,7 +8,7 @@ describe("Video Component", () => {
     const { getByRole } = render(
       <Video title={"Test Video"} url={VIDEO_URL} />,
     );
-    const cookieConsentHeader = getByRole("heading", { level: 1 });
+    const cookieConsentHeader = getByRole("heading", { level: 2 });
     expect(cookieConsentHeader).toBeInTheDocument();
 
     const cookieConsentButton = getByRole("button");

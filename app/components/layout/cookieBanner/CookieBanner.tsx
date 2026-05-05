@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import KernButton from "~/components/kern/KernButton";
-import KernHeading, {
-  type KernHeadingProps,
-} from "~/components/kern/KernHeading";
-import KernRichText, {
-  type RichTextProps,
-} from "~/components/kern/KernRichText";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
+import { Icon } from "../../common/Icon";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
+import Button from "~/components/formElements/Button";
+import RichText, {
+  type RichTextProps,
+} from "~/components/formElements/RichText";
+import Heading, { type HeadingProps } from "~/components/formElements/Heading";
 
 export const acceptCookiesFieldName = "accept-cookies";
 
 type CookieBannerContentProps = {
-  heading: KernHeadingProps;
+  heading: HeadingProps;
   paragraphs: RichTextProps[];
   acceptButtonLabel: string;
   declineButtonLabel: string;
@@ -51,7 +51,7 @@ export function CookieBanner({
 
   return (
     <section
-      className="right-16 left-16 border-b-2 border-blue-800 z-50 bg-blue-300"
+      className="right-16 left-16 z-50 border-b border-kern-layout-border!"
       aria-label="Cookie banner"
       data-testid="cookie-banner"
     >
@@ -59,20 +59,26 @@ export function CookieBanner({
         method="post"
         action={`/action/set-analytics${jsAvailable ? "?js=1" : ""}`}
       >
-        <div className="ds-stack ds-stack-16">
-          <KernHeading
-            tagName={content.heading.tagName}
+        <div className="p-kern-space-default! gap-kern-space-default!">
+          <Heading
+            managedByParent={true}
+            className="kern-heading-medium"
             text={content.heading.text}
           />
-          <div>
-            <div className="ds-stack ds-stack-8">
-              {content.paragraphs.map((paragraph) => (
-                <KernRichText key={paragraph.html} html={paragraph.html} />
-              ))}
-            </div>
-          </div>
-          <div className="flex items-end gap-24 flex-wrap">
-            <KernButton
+          {content.paragraphs.map((paragraph) => (
+            <RichText key={paragraph.html} html={paragraph.html} />
+          ))}
+
+          <ButtonContainer className="flex! items-center! pt-kern-space-default!">
+            <Button
+              name={acceptCookiesFieldName}
+              value="false"
+              type="submit"
+              look="secondary"
+              text={content.declineButtonLabel}
+              data-testid="decline-cookie"
+            />
+            <Button
               name={acceptCookiesFieldName}
               value="true"
               type="submit"
@@ -80,23 +86,13 @@ export function CookieBanner({
               text={content.acceptButtonLabel}
               data-testid={buttonAcceptCookieTestId}
             />
-            <KernButton
-              name={acceptCookiesFieldName}
-              value="false"
-              type="submit"
-              look="primary"
-              text={content.declineButtonLabel}
-              data-testid="decline-cookie"
-            />
             {content.cookieSettingLinkUrl && (
-              <a
-                href={content.cookieSettingLinkUrl}
-                className="flex gap-2 ds-link-01-bold items-start"
-              >
+              <a href={content.cookieSettingLinkUrl} className="kern-link">
+                <Icon name="arrow-forward" />
                 {content.cookieSettingLinkText}
               </a>
             )}
-          </div>
+          </ButtonContainer>
         </div>
       </analyticsFetcher.Form>
     </section>

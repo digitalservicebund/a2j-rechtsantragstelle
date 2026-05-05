@@ -1,3 +1,4 @@
+// oxlint-disable jest/expect-expect
 import { z } from "zod";
 import type { AllStrapiData } from "tests/integration/util";
 import {

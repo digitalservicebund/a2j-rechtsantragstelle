@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernBox from "~/components/kern/KernBox";
+import Box from "~/components/formElements/Box";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/Box",
-  component: KernBox,
+  component: Box,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -23,7 +23,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernBox>;
+} satisfies Meta<typeof Box>;
 
 export default meta;
 

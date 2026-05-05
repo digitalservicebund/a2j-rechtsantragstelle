@@ -2,9 +2,9 @@ import { z } from "zod";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StringWithHtmlEntities } from "../StringWithHtmlEntities";
-import { SIZES } from "~/components/kern/KernHeading";
 import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
-import { allowedHeadingTags } from "~/components/kern/types";
+import { allowedHeadingTags } from "~/components/formElements/types";
+import { SIZES } from "~/components/formElements/Heading";
 
 export const StrapiHeadingSchema = z
   .object({

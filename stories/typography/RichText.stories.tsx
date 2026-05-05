@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernRichText from "~/components/kern/KernRichText";
+import RichText from "~/components/formElements/RichText";
 
 const meta = {
   title: "typography/RichText",
-  component: KernRichText,
+  component: RichText,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernRichText>;
+} satisfies Meta<typeof RichText>;
 
 export default meta;
 

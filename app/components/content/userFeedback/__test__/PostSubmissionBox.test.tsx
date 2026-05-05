@@ -19,7 +19,7 @@ describe("PostSubmissionBox", () => {
     expect(getByText(FEEDBACK_HELPS)).toBeInTheDocument();
   });
 
-  it("should render the component with the focus on the heading ", () => {
+  it("should render the component with the focus on the heading", () => {
     const { getByText } = render(<PostSubmissionBox shouldFocus />);
 
     expect(getByText(HEADING_POST_SUBMISSION)).toHaveFocus();

@@ -1,8 +1,8 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
-import SideNavMobile from "../SideNavMobile";
-import { type NavItem } from "../types";
 import { translations } from "~/services/translations/translations";
+import { type NavItem } from "../types";
+import SideNavMobile from "../SideNavMobile";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: "Current" as NavState },
@@ -34,12 +34,14 @@ const dummyStepsStepper = [
 ];
 
 describe("SideNavMobile", () => {
-  it("clicking the summary element opens the menu", () => {
-    const { getByText, getByTestId } = render(
+  it("clicking the summary element opens the menu", async () => {
+    const { findAllByText, getByTestId } = render(
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
 
-    const summaryElement = getByText("Page 1", { selector: "span" });
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
     const detailsElement = getByTestId("side-nav-details");
     expect(summaryElement).toBeInTheDocument();
     expect(detailsElement).toBeInTheDocument();
@@ -48,11 +50,13 @@ describe("SideNavMobile", () => {
     expect(detailsElement).toHaveProperty("open", true);
   });
 
-  it("clicking the overlay closes the menu", () => {
-    const { getByText, getByTestId } = render(
+  it("clicking the overlay closes the menu", async () => {
+    const { getByTestId, findAllByText } = render(
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
-    const summaryElement = getByText("Page 1", { selector: "span" });
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
     const detailsElement = getByTestId("side-nav-details");
     expect(detailsElement).not.toHaveProperty("open", true);
     fireEvent.click(summaryElement);

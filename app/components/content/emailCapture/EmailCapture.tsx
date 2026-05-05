@@ -5,16 +5,18 @@ import {
   emailCaptureSchema,
   invalidEmailError,
 } from "~/components/content/emailCapture/emailCaptureHelpers";
-import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 import { type loader } from "~/routes/shared/formular";
 import { autocompleteMap } from "~/util/autocompleteMap";
-import { KernInlineNotice } from "~/components/kern/KernInlineNotice";
-import { mapLookValue } from "~/components/content/ContentComponents";
-import KernRichText from "~/components/kern/KernRichText";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import InputError from "~/components/formElements/inputs/error/InputError";
+import {
+  InlineNotice,
+  type InlineNoticeProps,
+} from "~/components/formElements/InlineNotice";
+import { mapLookValue } from "../ContentComponents";
+import RichText from "~/components/formElements/RichText";
+import Button from "~/components/formElements/Button";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
 
 export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;
@@ -48,23 +50,20 @@ export const EmailCapture = ({
 
   if (emailCaptureConsent || searchArg === "success") {
     return (
-      <KernInlineNotice
+      <InlineNotice
         {...successBanner}
         look={mapLookValue(successBanner.look)}
       />
     );
   } else if (searchArg === "error") {
     return (
-      <KernInlineNotice
-        {...errorBanner}
-        look={mapLookValue(errorBanner.look)}
-      />
+      <InlineNotice {...errorBanner} look={mapLookValue(errorBanner.look)} />
     );
   }
 
   return (
     <div className="flex flex-col gap-kern-space-large">
-      {description && <KernRichText className="kern-body" html={description} />}
+      {description && <RichText className="kern-body" html={description} />}
       <form
         {...form.getFormProps()}
         data-testid="email-capture-form"
@@ -100,15 +99,15 @@ export const EmailCapture = ({
                 name="email"
               />
             </div>
-            <KernButtonContainer className="max-h-min">
-              <KernButton
+            <ButtonContainer className="max-h-min">
+              <Button
                 text={buttonLabel}
                 look="secondary"
                 disabled={false}
                 type={"submit"}
                 textClassName="mb-0!"
               />
-            </KernButtonContainer>
+            </ButtonContainer>
           </div>
           {invalidEmail && (
             <InputError id={errorId}>{invalidEmailError.text}</InputError>

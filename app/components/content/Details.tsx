@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
-import KernRichText from "../kern/KernRichText";
+import RichText from "../formElements/RichText";
 
 export type DetailsProps = {
   title?: string;
@@ -36,7 +36,7 @@ export const Details = ({ title, content }: DetailsProps) => {
           {title}
         </summary>
         <div className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default">
-          {content && <KernRichText className="leading-[1.5]" html={content} />}
+          {content && <RichText className="leading-[1.5]" html={content} />}
         </div>
       </details>
     </GridItem>

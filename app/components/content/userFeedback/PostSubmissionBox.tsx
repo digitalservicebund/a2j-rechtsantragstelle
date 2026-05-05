@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { FeedbackSuccessMessage } from "./FeedbackSuccessMessage";
-import KernRichText from "~/components/kern/KernRichText";
+import RichText from "~/components/formElements/RichText";
 
 type Props = {
   readonly shouldFocus: boolean;
@@ -27,7 +27,7 @@ export const PostSubmissionBox = ({
         innerRef={headingReference}
         subtitle={feedbackTranslations["feedback-helps"]}
       />
-      {postSubmissionText && <KernRichText html={postSubmissionText} />}
+      {postSubmissionText && <RichText html={postSubmissionText} />}
     </div>
   );
 };

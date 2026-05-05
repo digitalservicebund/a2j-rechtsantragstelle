@@ -325,7 +325,7 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return true given an EU airports ", () => {
+    it("should return true given an EU airports", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: NON_GERMAN_AIRPORTS[1],
         endAirport: NON_GERMAN_AIRPORTS[0],
@@ -340,7 +340,7 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(true);
     });
 
-    it("should return false given an EU destination airport, non EU departure airport and airline ", () => {
+    it("should return false given an EU destination airport, non EU departure airport and airline", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: NON_EU_AIRPORT,
         endAirport: NON_GERMAN_AIRPORTS[0],
@@ -355,7 +355,7 @@ describe("fluggastrechteGuard", () => {
       expect(actual).toBe(false);
     });
 
-    it("should return true given an EU destination airport and airline, non EU departure airport ", () => {
+    it("should return true given an EU destination airport and airline, non EU departure airport", () => {
       const context: FluggastrechtVorabcheckUserData = {
         startAirport: NON_EU_AIRPORT,
         endAirport: NON_GERMAN_AIRPORTS[0],

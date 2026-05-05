@@ -1,5 +1,5 @@
 import { render, screen, type RenderResult } from "@testing-library/react";
-import { InlineNotice } from "~/components/content/InlineNotice";
+import { InlineNotice } from "~/components/formElements/InlineNotice";
 
 describe("InlineNotice Component", () => {
   let component: RenderResult;
@@ -21,32 +21,32 @@ describe("InlineNotice Component", () => {
     expect(note).toBeVisible();
     expect(note).toHaveTextContent(mockProps.title);
     expect(note).toHaveTextContent(mockProps.content);
-    expect(note).toContainElement(screen.getByTestId("WarningAmberIcon"));
+    expect(note).toContainElement(screen.getByTestId("icon-warning"));
   });
 
   it("should renders a success notice correctly", () => {
     component = render(<InlineNotice look="success" {...mockProps} />);
     const note = screen.getByRole("note");
-    expect(note).toContainElement(screen.getByTestId("CheckCircleIcon"));
-    expect(note).toHaveClass("bg-green-100 border-green-700");
+    expect(note).toContainElement(screen.getByTestId("icon-check-circle"));
+    expect(note).toHaveClass("kern-alert kern-alert--success");
   });
 
   it("should renders an error notice correctly", () => {
-    component = render(<InlineNotice look="error" {...mockProps} />);
+    component = render(<InlineNotice look="danger" {...mockProps} />);
     const note = screen.getByRole("note");
-    expect(note).toContainElement(screen.getByTestId("ErrorOutlineIcon"));
-    expect(note).toHaveClass("bg-red-200 border-red-900");
+    expect(note).toContainElement(screen.getByTestId("icon-emergency-home"));
+    expect(note).toHaveClass("kern-alert kern-alert--danger");
   });
 
-  it("renders tips icon", () => {
-    component = render(<InlineNotice look="tips" {...mockProps} />);
+  it("renders info icon", () => {
+    component = render(<InlineNotice look="info" {...mockProps} />);
     expect(screen.getByRole("note")).toContainElement(
-      screen.getByTestId("LightbulbOutlinedIcon"),
+      screen.getByTestId("icon-info"),
     );
   });
 
   it("doesn't render without content", () => {
-    component = render(<InlineNotice look="tips" {...mockProps} content="" />);
+    component = render(<InlineNotice look="info" {...mockProps} content="" />);
     expect(screen.queryByRole("note")).not.toBeInTheDocument();
   });
 });

@@ -2,8 +2,8 @@ import { useFormFlow } from "~/components/formFlowContext";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import KernHeading from "../../kern/KernHeading";
 import { Icon } from "../../common/Icon";
+import Heading from "~/components/formElements/Heading";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -27,7 +27,7 @@ const SummaryOverviewBox = ({
   return (
     <div className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small ">
       {title && (
-        <KernHeading
+        <Heading
           {...title}
           text={
             arrayPositionTitle

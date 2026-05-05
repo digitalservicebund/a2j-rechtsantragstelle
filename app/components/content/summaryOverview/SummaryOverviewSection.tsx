@@ -1,18 +1,16 @@
+import Heading, { type HeadingProps } from "~/components/formElements/Heading";
 import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import KernHeading, {
-  type KernHeadingProps,
-} from "~/components/kern/KernHeading";
 
 type Props = {
-  readonly title: KernHeadingProps;
+  readonly title: HeadingProps;
   readonly boxes: SummaryOverviewBoxWrappedProps[];
 };
 
-const KernSummaryOverviewSection = ({ title, boxes }: Props) => {
+const SummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
     <div className="flex flex-col gap-kern-space-default">
-      <KernHeading size="medium" {...title} managedByParent />
+      <Heading size="medium" {...title} managedByParent />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped
           key={id}
@@ -26,4 +24,4 @@ const KernSummaryOverviewSection = ({ title, boxes }: Props) => {
   );
 };
 
-export default KernSummaryOverviewSection;
+export default SummaryOverviewSection;

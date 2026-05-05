@@ -40,11 +40,11 @@ import { useNonce } from "./services/security/nonce";
 import { initializeMainSession } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
-import { KernCookieBanner } from "./components/kern/KernCookieBanner";
-import KernFooter from "./components/kern/layout/footer/KernFooter";
-import KernBreadcrumbs from "./components/kern/layout/KernBreadcrumbs";
-import KernPageHeader from "./components/kern/layout/KernPageHeader";
-import { KernSkipToContentLink } from "./components/kern/navigation/SkipToContentLink";
+import { CookieBanner } from "./components/layout/cookieBanner/CookieBanner";
+import { SkipToContentLink } from "./components/navigation/SkipToContentLink";
+import PageHeader from "./components/layout/PageHeader";
+import Breadcrumbs from "./components/layout/Breadcrumbs";
+import Footer from "./components/layout/footer/Footer";
 
 export { headers } from "./rootHeaders";
 
@@ -186,16 +186,16 @@ function App() {
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
-          <KernCookieBanner content={cookieBannerContent} />
-          <KernSkipToContentLink
+          <CookieBanner content={cookieBannerContent} />
+          <SkipToContentLink
             label={getTranslationByKey(
               SKIP_TO_CONTENT_TRANSLATION_KEY,
               accessibilityTranslations,
             )}
             target={skipContentLinkTarget}
           />
-          <KernPageHeader {...pageHeaderProps} />
-          <KernBreadcrumbs
+          <PageHeader {...pageHeaderProps} />
+          <Breadcrumbs
             breadcrumbs={breadcrumbs}
             linkLabel={pageHeaderProps.linkLabel}
             ariaLabel={getTranslationByKey(
@@ -207,7 +207,7 @@ function App() {
             <Outlet />
           </main>
           <footer>
-            <KernFooter
+            <Footer
               showDeletionBanner={hasAnyUserData}
               ariaLabel={getTranslationByKey(
                 "footer-navigation",
@@ -241,7 +241,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <meta name="darkreader-lock" />
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
-        <KernPageHeader
+        <PageHeader
           hideLinks={false}
           linkLabel="Zurück zur Startseite"
           title="Justiz-Services"
@@ -249,7 +249,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <main className="bg-kern-neutral-025">
           <ErrorBox />
         </main>
-        <KernFooter
+        <Footer
           ariaLabel={getTranslationByKey(
             "footer-navigation",
             accessibilityTranslations,

@@ -10,6 +10,7 @@ import { config } from "./services/env/public";
 import { createPinoHttpLogger } from "./services/logging/createPinoHttpLogger";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
 import { getRedisInstance, quitRedis } from "./services/redis/redisClient";
+import { createPrometheusMetricsMiddleware } from "./services/logging/createPrometheusMetrics";
 
 // expressApp() itself is not hot reloaded
 export const expressApp = (
@@ -27,6 +28,11 @@ export const expressApp = (
   if (config().ENVIRONMENT !== "development") {
     const pinoHttpLogger = createPinoHttpLogger();
     app.use(pinoHttpLogger);
+  }
+
+  // Enable only in staging
+  if (config().ENVIRONMENT === "staging") {
+    app.use(createPrometheusMetricsMiddleware());
   }
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
