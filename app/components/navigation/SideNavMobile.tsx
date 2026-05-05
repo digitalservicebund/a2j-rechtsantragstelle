@@ -1,5 +1,4 @@
 import { type RefObject, useEffect, useRef } from "react";
-import { NavigationList } from "~/components/navigation/NavigationList";
 import { translations } from "~/services/translations/translations";
 import type { StepStepper, NavItem } from "./types";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -8,11 +7,10 @@ import {
   stateIsActive,
   stateIsWarning,
 } from "~/services/navigation/navState";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButtonAreaTitles";
 import classNames from "classnames";
-import KeyboardArrowDown from "@digitalservicebund/icons/KeyboardArrowDown";
-import KeyboardArrowUp from "@digitalservicebund/icons/KeyboardArrowUp";
+import { Icon } from "../common/Icon";
+import { NavigationList } from "./NavigationList";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
@@ -26,7 +24,7 @@ const StepStepperLinks = ({
   }
 
   return (
-    <div>
+    <>
       {stepsStepper
         .map((step, index) => {
           return { ...step, stepIndex: index + 1 };
@@ -40,24 +38,24 @@ const StepStepperLinks = ({
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <a
                 href={step.href}
-                className="ds-link-02-bold truncate text-left mw-[70vw]"
+                className="truncate flex kern-link text-left mw-[70vw] pt-0!"
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
+                <Icon name="arrow-back" className="inline" />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
-                <SvgWarningAmber
-                  data-testid="icon-warning"
-                  className="pl-2"
-                  id={step.href}
-                  aria-label={translations.navigation.navigationItemWarning.de}
+                <Icon
+                  name="warning"
+                  className="pl-2 fill-kern-feedback-warning!"
+                  ariaLabel={translations.navigation.navigationItemWarning.de}
                 />
               )}
             </div>
           );
         })}
-    </div>
+    </>
   );
 };
 
@@ -125,7 +123,7 @@ export default function SideNavMobile({
       onToggle={focusFirstItem}
     >
       <summary
-        className="flex flex-col cursor-pointer w-full outline-none group/summary"
+        className="flex flex-col cursor-pointer outline-none group/summary"
         aria-label={translations.navigationMobile.toggleMenu.de}
         data-testid="side-nav-summary"
         ref={summaryRef}
@@ -136,32 +134,38 @@ export default function SideNavMobile({
         ></div>
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row w-full justify-between border border-blue-400 not-group-open:active:bg-blue-400 group-focus-within/summary:shadow-[inset_0_0_0_4px_#004b76] forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "flex bg-white items-center py-8 px-16 flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200!  forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
-              "not-group-open:bg-yellow-200 not-group-open:active:bg-yellow-300":
+              "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,
             },
           )}
         >
           <div className="flex flex-row gap-8">
             <div className="flex flex-col items-start">
-              <span className="ds-label-02-bold truncate text-left w-[70vw]">
+              <span className="kern-body--bold truncate text-left w-[70vw]">
                 {currentAreaTitle}
               </span>
-              <span className="ds-body-03-reg text-gray-900">
+              <span className=" text-kern-layout-text-muted">
                 {currentNavTitle}
               </span>
             </div>
           </div>
-          <KeyboardArrowUp className="hidden group-open:block h-[24px] text-blue-800 forced-colors:text-white" />
-          <KeyboardArrowDown className="block group-open:hidden h-[24px] text-blue-800 forced-colors:text-white" />
+          <Icon
+            name="keyboard-arrow-up"
+            className="hidden! group-open:block! fill-kern-action-default"
+          />
+          <Icon
+            name="keyboard-arrow-down"
+            className="block! group-open:hidden! fill-kern-action-default"
+          />
         </div>
       </summary>
-      <div className="max-h-[80vh] overflow-auto bg-white">
-        <div className="pb-10 flex flex-col">
+      <div className="max-h-[80vh] bg-white overflow-auto">
+        <div className="flex flex-col p-16">
           <NavigationList
             navItems={navItems}
-            className="border border-blue-400 mx-16 mb-10 overflow-auto"
+            className="border border-kern-neutral-200 overflow-auto rounded-sm"
             firstItemRef={firstItemRef}
           />
         </div>

@@ -1,10 +1,10 @@
+import { Icon } from "~/components/common/Icon";
 import {
   type NavState,
   stateIsDone,
   stateIsWarning,
 } from "~/services/navigation/navState";
 import { translations } from "~/services/translations/translations";
-import { Icon } from "../../../common/Icon";
 
 export function StepperIcon({
   state,

@@ -1,4 +1,4 @@
-export default function KernKopfzeile() {
+export default function Kopfzeile() {
   return (
     <div className="kern-kopfzeile">
       <div className="kern-kopfzeile__content">

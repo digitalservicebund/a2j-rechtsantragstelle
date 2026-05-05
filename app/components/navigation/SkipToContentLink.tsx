@@ -1,6 +1,5 @@
-import KernButton from "../KernButton";
-
-export function KernSkipToContentLink({
+import KernButton from "../kern/KernButton";
+export function SkipToContentLink({
   label,
   target,
 }: Readonly<{
