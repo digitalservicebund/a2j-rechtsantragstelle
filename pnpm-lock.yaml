@@ -7,7 +7,6 @@ settings:
 
 overrides:
   qs@<6.14.1: '>=6.14.1'
-  '@xmldom/xmldom': '>=0.8.13'
 
 importers:
 
@@ -2743,9 +2742,9 @@ packages:
     resolution: {integrity: sha512-CJDxIgE5I0FH+ttq/Fxy6nRpxP70+e2O048EPe85J2use3XKdatVM7dDVvFNjQudd9B49NPoZ+8PG49zj4Er8Q==}
     engines: {node: '>= 16'}
 
-  '@xmldom/xmldom@0.9.10':
-    resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
-    engines: {node: '>=14.6'}
+  '@xmldom/xmldom@0.8.13':
+    resolution: {integrity: sha512-KRYzxepc14G/CEpEGc3Yn+JKaAeT63smlDr+vjB8jRfgTBBI9wRj/nkQEO+ucV8p8I9bfKLWp37uHgFrbntPvw==}
+    engines: {node: '>=10.0.0'}
 
   '@xstate/graph@3.0.4':
     resolution: {integrity: sha512-b12RA7E//+7FJVrD09Td+BhHRJbeKZnK+98xXBd+JmccG360xVP1lyzVhUZPgBgwPdmIGBJqhKzmWYJQ9c8ojQ==}
@@ -6056,7 +6055,7 @@ snapshots:
       '@types/xml-encryption': 1.2.4
       '@types/xml2js': 0.4.14
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.9.10
+      '@xmldom/xmldom': 0.8.13
       xml-crypto: https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101
       xml-encryption: 3.1.0
       xml2js: 0.6.2
@@ -7834,7 +7833,7 @@ snapshots:
 
   '@xmldom/is-dom-node@1.0.1': {}
 
-  '@xmldom/xmldom@0.9.10': {}
+  '@xmldom/xmldom@0.8.13': {}
 
   '@xstate/graph@3.0.4(xstate@5.31.0)':
     dependencies:
@@ -10055,12 +10054,12 @@ snapshots:
   xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101:
     dependencies:
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.9.10
+      '@xmldom/xmldom': 0.8.13
       xpath: 0.0.33
 
   xml-encryption@3.1.0:
     dependencies:
-      '@xmldom/xmldom': 0.9.10
+      '@xmldom/xmldom': 0.8.13
       escape-html: 1.0.3
       xpath: 0.0.32
 
