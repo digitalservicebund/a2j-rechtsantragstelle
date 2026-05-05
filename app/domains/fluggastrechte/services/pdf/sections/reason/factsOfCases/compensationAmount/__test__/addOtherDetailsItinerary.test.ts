@@ -10,7 +10,7 @@ import {
 } from "../addOtherDetailsItinerary";
 
 describe("addOtherDetailsItinerary", () => {
-  it("should have the text for other details itinerary in case the zusaetzlicheAngaben is defined ", () => {
+  it("should have the text for other details itinerary in case the zusaetzlicheAngaben is defined", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockSect = mockDoc.struct("Sect");

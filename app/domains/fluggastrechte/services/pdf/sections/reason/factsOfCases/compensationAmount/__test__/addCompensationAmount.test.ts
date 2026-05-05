@@ -55,7 +55,7 @@ describe("addCompensationAmount", () => {
     expect(addDistanceInfo).toBeCalledTimes(1);
   });
 
-  it("should have the text for demanded compensation payment in case claim is for one person ", () => {
+  it("should have the text for demanded compensation payment in case claim is for one person", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
@@ -66,7 +66,7 @@ describe("addCompensationAmount", () => {
     );
   });
 
-  it("should have the text for other passengers demanded compensation payment in case claim is multiple persons ", () => {
+  it("should have the text for other passengers demanded compensation payment in case claim is multiple persons", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
