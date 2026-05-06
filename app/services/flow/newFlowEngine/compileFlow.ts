@@ -8,7 +8,7 @@ const ARRAY_WILDCARD = "#";
 
 type Options<C extends PageConfigMap> = {
   pages: C;
-  initialStep: keyof C;
+  initialStep: NodeKey<C>;
   transitions: TransitionConfigMap<C>;
 };
 
@@ -44,7 +44,7 @@ const normalizeSchema = (
 };
 
 const getArrayEntryPoint = <C extends PageConfigMap>(
-  routes: TransitionConfigMap<C>[keyof C],
+  routes: TransitionConfigMap<C>[NodeKey<C>],
   pages: C,
 ): string | undefined => {
   if (!Array.isArray(routes)) return undefined;

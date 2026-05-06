@@ -1,19 +1,26 @@
 import _ from "lodash";
 import { evaluateAllBranches, evaluateRoute, extractEdges } from "./routing";
 import type {
+  NodeKey,
   PageConfigMap,
   TransitionConfigMap,
   InferredUserData,
 } from "./types";
 import type { PageData } from "../pageDataSchema";
 
-export type StatusNode = {
+type StatusNode = {
   isDone: boolean;
   isReachable: boolean;
   children?: Record<string, StatusNode>;
 };
 
-export const createEdgeTracker = <T>() => {
+type SimulationResult = {
+  path: string[];
+  reachableSet: Set<string>;
+  isTerminatedSuccessfully: boolean;
+};
+
+const createEdgeTracker = <T>() => {
   const edges = new Map<T, Set<T>>();
   return {
     has: (from: T, to: T): boolean => edges.get(from)?.has(to) ?? false,
@@ -26,11 +33,11 @@ export const createEdgeTracker = <T>() => {
 
 export const simulate = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
-  initialStep: keyof C,
+  initialStep: NodeKey<C>,
   currentData: InferredUserData<C> & { pageData: PageData },
   traverseArrays = false,
-) => {
-  type FlowKey = keyof C;
+): SimulationResult & { parentMap: Map<NodeKey<C>, NodeKey<C>> } => {
+  type FlowKey = NodeKey<C>;
 
   // Pass 1: Edge-Tracking Linear Evaluation
   const path: FlowKey[] = [];
@@ -119,13 +126,9 @@ const calcStatus = (
   };
 };
 
-export const buildStatusTree = <C extends PageConfigMap>(
-  config: C,
-  {
-    path,
-    reachableSet,
-    isTerminatedSuccessfully: isTerm,
-  }: ReturnType<typeof simulate<C>>,
+export const buildStatusTree = (
+  config: Record<string, { stepId: string }>,
+  { path, reachableSet, isTerminatedSuccessfully: isTerm }: SimulationResult,
 ): Record<string, StatusNode> => {
   const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
     getPrefixes(path).map((prefix) => ({ prefix, key: key as string })),
@@ -143,12 +146,7 @@ export const buildStatusTree = <C extends PageConfigMap>(
   Object.keys(prefixMap)
     .sort((a, b) => a.length - b.length)
     .forEach((prefix) => {
-      const status = calcStatus(
-        prefixMap[prefix],
-        path as string[],
-        reachableSet as Set<string>,
-        isTerm,
-      );
+      const status = calcStatus(prefixMap[prefix], path, reachableSet, isTerm);
 
       const lodashPath = prefix
         .split("/")

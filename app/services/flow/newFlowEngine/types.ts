@@ -18,7 +18,7 @@ type PageConfig = {
 };
 
 export type PageConfigMap = Record<string, PageConfig>;
-export type NodeKey<C extends PageConfigMap> = keyof C;
+export type NodeKey<C extends PageConfigMap> = Extract<keyof C, string>;
 
 // --- User Data Inference ---
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (

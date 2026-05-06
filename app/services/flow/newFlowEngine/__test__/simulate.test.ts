@@ -1,6 +1,6 @@
 import z from "zod";
 import { compileFlow } from "../compileFlow";
-import { simulate, buildStatusTree, createEdgeTracker } from "../simulate";
+import { simulate, buildStatusTree } from "../simulate";
 
 const noData = { pageData: { arrayIndexes: [] } };
 
@@ -22,7 +22,10 @@ describe("simulate", () => {
   describe("guarded transitions", () => {
     const flow = compileFlow({
       pages: {
-        start: { stepId: "/start", pageSchema: { flag: z.boolean().optional() } },
+        start: {
+          stepId: "/start",
+          pageSchema: { flag: z.boolean().optional() },
+        },
         "yes-path": { stepId: "/yes-path" },
         "no-path": { stepId: "/no-path" },
       },
@@ -85,7 +88,10 @@ describe("simulate", () => {
     it("includes all nodes reachable under any guard outcome", () => {
       const flow = compileFlow({
         pages: {
-          start: { stepId: "/start", pageSchema: { go: z.boolean().optional() } },
+          start: {
+            stepId: "/start",
+            pageSchema: { go: z.boolean().optional() },
+          },
           conditional: { stepId: "/conditional" },
           always: { stepId: "/always" },
         },
@@ -142,87 +148,80 @@ describe("simulate", () => {
 
 describe("buildStatusTree", () => {
   describe("flat paths (single segment)", () => {
-    const flow = compileFlow({
-      pages: { start: { stepId: "/start" } },
-      initialStep: "start",
-      transitions: { start: null },
-    });
+    const pages = { start: { stepId: "/start" } };
 
     it("single-segment stepId produces a top-level tree entry", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
+      const tree = buildStatusTree(pages, {
+        path: ["start"],
+        reachableSet: new Set(["start"]),
+        isTerminatedSuccessfully: true,
+      });
       expect(tree).toHaveProperty("/start");
     });
 
     it("flat path entry has isReachable true", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
+      const tree = buildStatusTree(pages, {
+        path: ["start"],
+        reachableSet: new Set(["start"]),
+        isTerminatedSuccessfully: true,
+      });
       expect(tree["/start"].isReachable).toBe(true);
     });
 
     it("flat path entry has isDone true when flow terminates", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
+      const tree = buildStatusTree(pages, {
+        path: ["start"],
+        reachableSet: new Set(["start"]),
+        isTerminatedSuccessfully: true,
+      });
       expect(tree["/start"].isDone).toBe(true);
     });
   });
 
   describe("two-level nested paths", () => {
-    const flow = compileFlow({
-      pages: {
-        name: { stepId: "/personal/name" },
-        addr: { stepId: "/personal/address" },
-      },
-      initialStep: "name",
-      transitions: { name: "addr", addr: null },
-    });
+    const pages = {
+      name: { stepId: "/personal/name" },
+      addr: { stepId: "/personal/address" },
+    };
+    const sim = {
+      path: ["name", "addr"],
+      reachableSet: new Set(["name", "addr"]),
+      isTerminatedSuccessfully: true,
+    };
 
     it("creates a section entry at the first segment", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
-      expect(tree).toHaveProperty("/personal");
+      expect(buildStatusTree(pages, sim)).toHaveProperty("/personal");
     });
 
     it("section isDone is true when the flow has terminated inside it", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
-      expect(tree["/personal"].isDone).toBe(true);
+      expect(buildStatusTree(pages, sim)["/personal"].isDone).toBe(true);
     });
 
     it("section isReachable is true when any node in it is reachable", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
-      expect(tree["/personal"].isReachable).toBe(true);
+      expect(buildStatusTree(pages, sim)["/personal"].isReachable).toBe(true);
     });
 
-    it("section isDone is false when flow has not yet entered it", () => {
-      const earlyFlow = compileFlow({
-        pages: {
-          pre: { stepId: "/pre" },
-          name: { stepId: "/personal/name" },
-        },
-        initialStep: "pre",
-        transitions: {
-          pre: [{ target: "name", guard: () => false }],
-          name: null,
-        },
+    it("section isDone is false when no nodes in it have been visited", () => {
+      // path only visited "pre"; the /personal section was never entered
+      const tree = buildStatusTree(pages, {
+        path: ["pre"],
+        reachableSet: new Set(["pre"]),
+        isTerminatedSuccessfully: false,
       });
-      const sim = simulate(earlyFlow.transitions, earlyFlow.initialStep, noData);
-      const tree = buildStatusTree(earlyFlow.pages, sim);
       expect(tree["/personal"]?.isDone).toBe(false);
     });
   });
 
   describe("three-level nesting", () => {
-    const flow = compileFlow({
-      pages: { deep: { stepId: "/a/b/c" } },
-      initialStep: "deep",
-      transitions: { deep: null },
-    });
-
     it("creates a parent section and a nested child section", () => {
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
+      const tree = buildStatusTree(
+        { deep: { stepId: "/a/b/c" } },
+        {
+          path: ["deep"],
+          reachableSet: new Set(["deep"]),
+          isTerminatedSuccessfully: true,
+        },
+      );
       expect(tree).toHaveProperty("/a");
       expect(tree["/a"].children).toHaveProperty("/b");
     });
@@ -230,46 +229,17 @@ describe("buildStatusTree", () => {
 
   describe("isReachable reflects the BFS reachableSet", () => {
     it("isReachable is false for sections not reached by BFS", () => {
-      const flow = compileFlow({
-        pages: {
-          start: { stepId: "/start" },
-          other: { stepId: "/other" },
-        },
-        initialStep: "start",
-        // "other" is not reachable from "start"
-        transitions: { start: null, other: null },
+      const pages = {
+        start: { stepId: "/start" },
+        other: { stepId: "/other" },
+      };
+      // "other" not in reachableSet
+      const tree = buildStatusTree(pages, {
+        path: ["start"],
+        reachableSet: new Set(["start"]),
+        isTerminatedSuccessfully: true,
       });
-      const sim = simulate(flow.transitions, flow.initialStep, noData);
-      const tree = buildStatusTree(flow.pages, sim);
       expect(tree["/other"]?.isReachable).toBe(false);
     });
-  });
-});
-
-describe("createEdgeTracker", () => {
-  it("has returns false for a non-existent edge", () => {
-    const tracker = createEdgeTracker<string>();
-    expect(tracker.has("a", "b")).toBe(false);
-  });
-
-  it("has returns true after adding an edge", () => {
-    const tracker = createEdgeTracker<string>();
-    tracker.add("a", "b");
-    expect(tracker.has("a", "b")).toBe(true);
-  });
-
-  it("edges are directional", () => {
-    const tracker = createEdgeTracker<string>();
-    tracker.add("a", "b");
-    expect(tracker.has("b", "a")).toBe(false);
-  });
-
-  it("tracks multiple edges from the same node independently", () => {
-    const tracker = createEdgeTracker<string>();
-    tracker.add("a", "b");
-    tracker.add("a", "c");
-    expect(tracker.has("a", "b")).toBe(true);
-    expect(tracker.has("a", "c")).toBe(true);
-    expect(tracker.has("a", "d")).toBe(false);
   });
 });

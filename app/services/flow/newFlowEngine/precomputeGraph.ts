@@ -1,5 +1,6 @@
 import { extractEdges } from "./routing";
 import type {
+  NodeKey,
   PageConfigMap,
   TransitionConfigMap,
   TransitionConfig,
@@ -21,9 +22,9 @@ const getTransitions = <FlowKey, UserData>(
 
 export const precomputeGraph = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
-  initialStep: keyof C,
+  initialStep: NodeKey<C>,
 ) => {
-  type FlowKey = keyof C;
+  type FlowKey = NodeKey<C>;
 
   const nodeDepths = new Map<FlowKey, number>();
   let maxOverallProgress = 0;
