@@ -21,8 +21,9 @@ export const Default: Story = {
   args: {
     name: "numberIncrement",
     label: "NumberIncrement",
+    min: 0,
+    max: 20,
     errorMessages: [
-      { code: "required", text: "Please enter a number" },
       { code: "too_low", text: "Number too low" },
       { code: "too_high", text: "Number too high" },
     ],
@@ -37,7 +38,7 @@ export const Default: Story = {
             </GridItem>
           </Grid>
         </GridSection>,
-        z.object({ numberIncrement: createNumberIncrementSchema(0, 5) }),
+        z.object({ numberIncrement: createNumberIncrementSchema(0, 20) }),
       ),
   ],
 };

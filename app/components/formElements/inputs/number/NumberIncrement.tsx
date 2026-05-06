@@ -56,17 +56,6 @@ const NumberIncrement = function InputComponent({
   const jsAvailable = useJsAvailable();
   const errorId = `${name}-error`;
 
-  // if (!jsAvailable)
-  //   return (
-  //     <NumberIncrementNoJS
-  //       name={name}
-  //       min={min}
-  //       max={max}
-  //       label={label}
-  //       errorMessages={errorMessages}
-  //     />
-  //   );
-
   const increment = () => {
     field.setValue((field.value() ?? 0) + 1);
     field.validate();
@@ -125,7 +114,7 @@ const NumberIncrement = function InputComponent({
             <IncrementDecrementButton
               type="increment"
               onClick={increment}
-              disabled={field.value() === max}
+              disabled={field.value() >= (max ?? Number.MAX_SAFE_INTEGER)}
               label={label}
             />
           </div>
