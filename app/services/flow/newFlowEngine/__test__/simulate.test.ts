@@ -14,8 +14,8 @@ describe("simulate", () => {
     });
 
     it("terminates successfully when it reaches a null transition", () => {
-      const { isTerminatedSuccessfully } = simulate(router, "a", noData);
-      expect(isTerminatedSuccessfully).toBe(true);
+      const { isComplete } = simulate(router, "a", noData);
+      expect(isComplete).toBe(true);
     });
   });
 
@@ -68,12 +68,12 @@ describe("simulate", () => {
           next: null,
         },
       });
-      const { isTerminatedSuccessfully } = simulate(
+      const { isComplete } = simulate(
         blockedFlow.transitions,
         blockedFlow.initialStep,
         noData,
       );
-      expect(isTerminatedSuccessfully).toBe(false);
+      expect(isComplete).toBe(false);
     });
   });
 
@@ -154,7 +154,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(pages, {
         path: ["start"],
         reachableSet: new Set(["start"]),
-        isTerminatedSuccessfully: true,
+        isComplete: true,
       });
       expect(tree).toHaveProperty("/start");
     });
@@ -163,7 +163,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(pages, {
         path: ["start"],
         reachableSet: new Set(["start"]),
-        isTerminatedSuccessfully: true,
+        isComplete: true,
       });
       expect(tree["/start"].isReachable).toBe(true);
     });
@@ -172,7 +172,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(pages, {
         path: ["start"],
         reachableSet: new Set(["start"]),
-        isTerminatedSuccessfully: true,
+        isComplete: true,
       });
       expect(tree["/start"].isDone).toBe(true);
     });
@@ -186,7 +186,7 @@ describe("buildStatusTree", () => {
     const sim = {
       path: ["name", "addr"],
       reachableSet: new Set(["name", "addr"]),
-      isTerminatedSuccessfully: true,
+      isComplete: true,
     };
 
     it("creates a section entry at the first segment", () => {
@@ -206,7 +206,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(pages, {
         path: ["pre"],
         reachableSet: new Set(["pre"]),
-        isTerminatedSuccessfully: false,
+        isComplete: false,
       });
       expect(tree["/personal"]?.isDone).toBe(false);
     });
@@ -219,7 +219,7 @@ describe("buildStatusTree", () => {
         {
           path: ["deep"],
           reachableSet: new Set(["deep"]),
-          isTerminatedSuccessfully: true,
+          isComplete: true,
         },
       );
       expect(tree).toHaveProperty("/a");
@@ -237,7 +237,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(pages, {
         path: ["start"],
         reachableSet: new Set(["start"]),
-        isTerminatedSuccessfully: true,
+        isComplete: true,
       });
       expect(tree["/other"]?.isReachable).toBe(false);
     });

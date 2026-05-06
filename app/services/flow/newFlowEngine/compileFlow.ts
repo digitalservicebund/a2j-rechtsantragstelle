@@ -107,7 +107,7 @@ export const compileFlow = <C extends PageConfigMap>({
     pages,
     transitions,
     initialStep,
-    graphStats,
+    initialPath: pages[initialStep].stepId,
 
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);

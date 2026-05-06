@@ -49,7 +49,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     : fieldNames;
   const stepData = resolveUserData(prunedUserData, fieldNamesForPage);
 
-  const prevStepId = flowSession.getPrevStep();
+  const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
     ? flowId + resolveArrayCharacter(prevStepId, arrayIndexes, false)
     : undefined;
@@ -132,7 +132,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     stepId,
   );
 
-  const nextStepId = sessionManager.getNextStep();
+  const nextStepId = sessionManager.nextPath;
   if (!nextStepId) throw new Error("no nextStepId");
   const destination =
     flowId + resolveArrayCharacter(nextStepId, arrayIndexes, false);

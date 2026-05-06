@@ -95,15 +95,15 @@ describe("createFlowSession", () => {
     });
   });
 
-  describe("getNextStep", () => {
+  describe("nextPath", () => {
     it("returns the next step path", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.getNextStep()).toBe("/middle");
+      expect(session.nextPath).toBe("/middle");
     });
 
     it("returns undefined at the terminal step", () => {
       const session = createFlowSession(flow, noData, "/end");
-      expect(session.getNextStep()).toBeUndefined();
+      expect(session.nextPath).toBeUndefined();
     });
 
     it("skips addArrayItem transitions to return the next main-branch step", () => {
@@ -129,19 +129,19 @@ describe("createFlowSession", () => {
         transitions: arrayTransitions,
       });
       const session = createFlowSession(arrayFlow, noData, "/list");
-      expect(session.getNextStep()).toBe("/done");
+      expect(session.nextPath).toBe("/done");
     });
   });
 
-  describe("getPrevStep", () => {
+  describe("prevPath", () => {
     it("returns the previous step path via BFS parentMap", () => {
       const session = createFlowSession(flow, noData, "/middle");
-      expect(session.getPrevStep()).toBe("/start");
+      expect(session.prevPath).toBe("/start");
     });
 
     it("returns undefined at the initial step", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.getPrevStep()).toBeUndefined();
+      expect(session.prevPath).toBeUndefined();
     });
   });
 

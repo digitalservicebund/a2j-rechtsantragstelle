@@ -17,7 +17,7 @@ type StatusNode = {
 type SimulationResult = {
   path: string[];
   reachableSet: Set<string>;
-  isTerminatedSuccessfully: boolean;
+  isComplete: boolean;
 };
 
 const createEdgeTracker = <T>() => {
@@ -44,7 +44,7 @@ export const simulate = <C extends PageConfigMap>(
   let currentLinear: FlowKey | null = initialStep;
 
   const visitedEdges = createEdgeTracker<FlowKey>();
-  let isTerminatedSuccessfully = false;
+  let isComplete = false;
 
   while (currentLinear) {
     path.push(currentLinear);
@@ -58,7 +58,7 @@ export const simulate = <C extends PageConfigMap>(
     }
 
     if (!next) {
-      if (extractEdges(route).length === 0) isTerminatedSuccessfully = true;
+      if (extractEdges(route).length === 0) isComplete = true;
       break;
     }
 
@@ -89,7 +89,7 @@ export const simulate = <C extends PageConfigMap>(
     }
   }
 
-  return { path, isTerminatedSuccessfully, reachableSet, parentMap };
+  return { path, isComplete, reachableSet, parentMap };
 };
 
 // --- Pure Logic Helpers ---
@@ -110,7 +110,7 @@ const calcStatus = (
   keys: Set<string>,
   path: string[],
   reachableSet: Set<string>,
-  isTerminated: boolean,
+  isComplete: boolean,
 ) => {
   // Reachable if the simulation found ANY valid route into this folder
   const isReachable = Array.from(keys).some((node) => reachableSet.has(node));
@@ -122,13 +122,13 @@ const calcStatus = (
     isDone:
       visited.length > 0 &&
       // If the user's active node is no longer inside this prefix's keys, they've exited the folder
-      (!keys.has(activeNode) || isTerminated),
+      (!keys.has(activeNode) || isComplete),
   };
 };
 
 export const buildStatusTree = (
   config: Record<string, { stepId: string }>,
-  { path, reachableSet, isTerminatedSuccessfully: isTerm }: SimulationResult,
+  { path, reachableSet, isComplete }: SimulationResult,
 ): Record<string, StatusNode> => {
   const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
     getPrefixes(path).map((prefix) => ({ prefix, key: key as string })),
@@ -146,7 +146,12 @@ export const buildStatusTree = (
   Object.keys(prefixMap)
     .sort((a, b) => a.length - b.length)
     .forEach((prefix) => {
-      const status = calcStatus(prefixMap[prefix], path, reachableSet, isTerm);
+      const status = calcStatus(
+        prefixMap[prefix],
+        path,
+        reachableSet,
+        isComplete,
+      );
 
       const lodashPath = prefix
         .split("/")

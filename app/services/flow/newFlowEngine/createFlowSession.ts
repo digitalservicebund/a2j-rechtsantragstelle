@@ -29,18 +29,18 @@ export const createFlowSession = <C extends PageConfigMap>(
   return {
     nodeKey,
     pageSchema: compiledFlow.getSchema(currentPath),
-    fieldNames: compiledFlow.getFieldNames(currentPath) as string[],
-    initialPath: compiledFlow.getPathFromNodeKey(compiledFlow.initialStep),
+    fieldNames: compiledFlow.getFieldNames(currentPath),
+    initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
     path: simulation.path,
-    isTerminated: simulation.isTerminatedSuccessfully,
+    isTerminated: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation),
     isReachable: (targetPath: string): boolean => {
       const key = compiledFlow.getNodeKeyFromPath(targetPath);
       return key != null && simulation.reachableSet.has(key);
     },
-    getNextStep: () => compiledFlow.getPathFromNodeKey(nextNodeKey),
-    getPrevStep: () => compiledFlow.getPathFromNodeKey(prevNodeKey),
+    nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
+    prevPath: compiledFlow.getPathFromNodeKey(prevNodeKey),
   };
 };
 
