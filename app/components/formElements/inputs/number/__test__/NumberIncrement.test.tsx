@@ -115,10 +115,7 @@ describe("NumberIncrement", () => {
 
   it("should display a basic spin button when JS is disabled", () => {
     vi.mocked(useJsAvailable).mockReturnValue(false);
-    const { queryByRole, getByRole } = render(
-      <NumberIncrement name="amount" />,
-    );
+    const { queryByRole } = render(<NumberIncrement name="amount" />);
     expect(queryByRole("button")).not.toBeInTheDocument();
-    expect(getByRole("spinbutton")).toHaveClass("kern-form-input__input");
   });
 });

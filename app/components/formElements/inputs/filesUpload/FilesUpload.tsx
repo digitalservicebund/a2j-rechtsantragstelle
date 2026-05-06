@@ -12,6 +12,7 @@ import { FileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import InputError from "../error/InputError";
 import { InlineNotice, type InlineNoticeProps } from "../../InlineNotice";
+import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 
 export type FilesUploadProps = {
   name: string;
@@ -124,13 +125,5 @@ const FilesUpload = ({
     </NoscriptWrapper>
   );
 };
-
-const NoscriptWrapper = ({
-  jsAvailable,
-  children,
-}: {
-  jsAvailable: boolean;
-  children: React.ReactNode;
-}) => (jsAvailable ? <div>{children}</div> : <noscript>{children}</noscript>);
 
 export default FilesUpload;

@@ -6,6 +6,7 @@ import { Icon } from "~/components/common/Icon";
 import Button from "~/components/formElements/Button";
 import { translations } from "~/services/translations/translations";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 
 type InputProps = Readonly<{
   name: string;
@@ -55,16 +56,16 @@ const NumberIncrement = function InputComponent({
   const jsAvailable = useJsAvailable();
   const errorId = `${name}-error`;
 
-  if (!jsAvailable)
-    return (
-      <NumberIncrementNoJS
-        name={name}
-        min={min}
-        max={max}
-        label={label}
-        errorMessages={errorMessages}
-      />
-    );
+  // if (!jsAvailable)
+  //   return (
+  //     <NumberIncrementNoJS
+  //       name={name}
+  //       min={min}
+  //       max={max}
+  //       label={label}
+  //       errorMessages={errorMessages}
+  //     />
+  //   );
 
   const increment = () => {
     field.setValue((field.value() ?? 0) + 1);
@@ -77,60 +78,72 @@ const NumberIncrement = function InputComponent({
   };
 
   return (
-    <div
-      className={classNames("kern-form-input", {
-        "kern-form-input--error": field.error(),
-      })}
-    >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
-      <div
-        className={classNames("p-4 bg-white gap-5 flex", {
-          "kern-form-input__input--error": field.error(),
-        })}
-      >
-        <IncrementDecrementButton
-          type="decrement"
-          onClick={decrement}
-          label={label}
-          disabled={field.value() === min || !field.value()}
-        />
-        <input
-          className={classNames(
-            "bg-white min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
-            {
-              "bg-kern-feedback-danger-background!": field.error(),
-            },
+    <NoscriptWrapper jsAvailable={jsAvailable}>
+      {jsAvailable ? (
+        <div
+          className={classNames("kern-form-input", {
+            "kern-form-input--error": field.error(),
+          })}
+        >
+          {label && (
+            <label className="kern-label" htmlFor={name}>
+              {label}
+            </label>
           )}
-          id={name}
-          {...field.getInputProps()}
-          value={field.value() ?? min ?? 0}
+          <div
+            className={classNames("p-4 bg-white gap-5 flex", {
+              "kern-form-input__input--error": field.error(),
+            })}
+          >
+            <IncrementDecrementButton
+              type="decrement"
+              onClick={decrement}
+              label={label}
+              disabled={field.value() === min || !field.value()}
+            />
+            <input
+              className={classNames(
+                "bg-white min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
+                {
+                  "bg-kern-feedback-danger-background!": field.error(),
+                },
+              )}
+              id={name}
+              {...field.getInputProps()}
+              value={field.value() ?? min ?? 0}
+              min={min}
+              max={max}
+              defaultValue={undefined}
+              name={name}
+              type="number"
+              aria-invalid={field.error() !== null}
+              aria-describedby={[field.error() && errorId].join(" ")}
+              aria-required={
+                !!errorMessages?.find((err) => err.code === "required")
+              }
+            />
+            <IncrementDecrementButton
+              type="increment"
+              onClick={increment}
+              disabled={field.value() === max}
+              label={label}
+            />
+          </div>
+          <InputError id={errorId}>
+            {errorMessages?.find((err) => err.code === field.error())?.text ??
+              field.error()}
+          </InputError>
+        </div>
+      ) : (
+        <NumberIncrementNoJS
+          name={name}
           min={min}
           max={max}
-          defaultValue={undefined}
-          name={name}
-          type="number"
-          aria-invalid={field.error() !== null}
-          aria-describedby={[field.error() && errorId].join(" ")}
-          aria-required={
-            !!errorMessages?.find((err) => err.code === "required")
-          }
-        />
-        <IncrementDecrementButton
-          type="increment"
-          onClick={increment}
-          disabled={field.value() === max}
           label={label}
+          errorMessages={errorMessages}
         />
-      </div>
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === field.error())?.text ??
-          field.error()}
-      </InputError>
-    </div>
+      )}
+    </NoscriptWrapper>
   );
 };
 
