@@ -10,6 +10,8 @@ import { type StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { SchemaComponents } from "../SchemaComponents";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
+import { ibanSchema } from "~/services/validation/iban";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -338,5 +340,37 @@ describe("SchemaComponents", () => {
     expect(textInput2).toHaveAttribute("name", "field2");
     expect(textInput1).toHaveAttribute("readonly");
     expect(textInput2).not.toHaveAttribute("readonly");
+  });
+
+  it("should render an iban input when the schema is ibanSchema", () => {
+    const pageSchema = {
+      field1: ibanSchema,
+    };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
+    );
+    const ibanInput = getByRole("textbox");
+    expect(ibanInput).toHaveAttribute("name", "field1");
+    expect(ibanInput.getAttribute("aria-describedby")).toContain(
+      "bank-name-badge",
+    );
+  });
+
+  it("should render a telephone input when the schema is phoneNumberSchema", () => {
+    const pageSchema = {
+      field1: phoneNumberSchema,
+    };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
+    );
+    const telInput = getByRole("textbox");
+    expect(telInput).toHaveAttribute("name", "field1");
+    expect(telInput).toHaveAttribute("inputmode", "tel");
   });
 });
