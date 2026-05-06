@@ -75,7 +75,7 @@ export const compileFlow = <C extends PageConfigMap>({
 
     if (!pageNode.stepId.startsWith("/")) {
       throw new Error(
-        `Page path must start with "/": "${pageNode.stepId}" (key: "${key}")`,
+        `StepId must start with "/": "${pageNode.stepId}" (nodeKey: "${key}")`,
       );
     }
 

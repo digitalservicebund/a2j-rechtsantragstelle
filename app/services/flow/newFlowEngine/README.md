@@ -59,7 +59,7 @@ session.statusTree;         // → section-level done/reachable tree (for sideba
 The engine has a hard split between what happens **once** (at module load / app startup) and **per request**.
 
 **Static (`compileFlow`)** — runs once:
-- Normalizes all `stepId` values to have a leading `/`
+- Validates that all `stepId` values start with `/` (throws at compile time if any are missing)
 - Compiles `pageSchema` (raw shape or `ZodType`) into a single `ZodObject`
 - Extracts and caches `fieldNames` per page (used for pruning)
 - Extracts array metadata (`name`, `entryPoint`) from `arraySummary` config
@@ -93,8 +93,8 @@ Array pages have an `arraySummary` config and a transition with `type: "addArray
 
 `statusTree` is a nested record of `StatusNode` objects, representing **section-level** navigation state (e.g., for a sidebar). It is derived automatically from the URL path segments of `stepId` values:
 
-- A `stepId` of `"grundvoraussetzungen/versicherung"` contributes to a `"grundvoraussetzungen"` section node.
-- A `stepId` of `"start"` (flat, single segment) contributes no section node.
+- A `stepId` of `"/grundvoraussetzungen/versicherung"` contributes to a `"grundvoraussetzungen"` section node.
+- A `stepId` of `"/start"` (flat, single segment) contributes no section node.
 
 **Consequence:** For flows with flat stepIds (no `/` in paths), `statusTree` will be empty. Per-step reachability is always available via `session.isReachable(stepId)` regardless of URL structure.
 
