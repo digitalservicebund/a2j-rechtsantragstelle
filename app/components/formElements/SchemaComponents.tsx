@@ -1,10 +1,5 @@
-import { type z } from "zod";
 import { type SchemaObject } from "~/domains/userData";
-import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
-import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
-import HiddenInput from "./inputs/hidden/HiddenInput";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
@@ -24,56 +19,17 @@ import {
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
 import classNames from "classnames";
-import { mapLookValue } from "../content/ContentComponents";
-import { ibanZodDescription } from "~/services/validation/iban";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
-  type SpecialComponentDescription,
+  renderSpecialMetaDescriptions,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
-import IbanInput from "./inputs/iban/IbanInput";
-import FilesUpload from "./inputs/filesUpload/FilesUpload";
 
 type Props = {
   pageSchema: SchemaObject;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
-};
-
-const renderSpecialMetaDescriptions = (
-  fieldName: string,
-  description: SpecialComponentDescription,
-  matchingElement?: StrapiFormComponent,
-) => {
-  if (description === filesUploadZodDescription) {
-    const filesUploadElement = matchingElement as z.infer<
-      typeof StrapiFilesUploadComponentSchema
-    >;
-    return (
-      <FilesUpload
-        key={fieldName}
-        name={fieldName}
-        title={filesUploadElement.title}
-        description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices?.map(
-          (inlineNotice) => ({
-            ...inlineNotice,
-            look: mapLookValue(inlineNotice.look),
-          }),
-        )}
-        errorMessages={filesUploadElement.errorMessages}
-      />
-    );
-  }
-
-  if (description === hiddenInputZodDescription) {
-    return <HiddenInput key={fieldName} name={fieldName} />;
-  }
-
-  if (description === ibanZodDescription) {
-    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
-  }
 };
 
 export const SchemaComponents = ({

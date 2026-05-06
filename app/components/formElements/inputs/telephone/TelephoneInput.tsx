@@ -6,14 +6,9 @@ import InputError from "../error/InputError";
 type InputProps = Readonly<{
   name: string;
   label?: string;
-  type?: string;
-  step?: string | number;
   placeholder?: string;
-  prefix?: string;
-  suffix?: string;
   errorMessages?: ErrorMessageProps[];
   helperText?: string;
-  charLimit?: number;
   readonly?: boolean;
 }>;
 
