@@ -5,6 +5,7 @@ import InputError from "../error/InputError";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/formElements/Button";
 import { translations } from "~/services/translations/translations";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 type InputProps = Readonly<{
   name: string;
@@ -44,7 +45,17 @@ const NumberIncrement = function InputComponent({
   errorMessages,
 }: InputProps) {
   const field = useField<number>(name);
+  const jsAvailable = useJsAvailable();
   const errorId = `${name}-error`;
+
+  if (!jsAvailable)
+    return (
+      <NumberIncrementNoJS
+        name={name}
+        label={label}
+        errorMessages={errorMessages}
+      />
+    );
 
   const increment = () => {
     field.setValue((field.value() ?? 0) + 1);
@@ -102,6 +113,46 @@ const NumberIncrement = function InputComponent({
           label={label}
         />
       </div>
+      <InputError id={errorId}>
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
+      </InputError>
+    </div>
+  );
+};
+
+const NumberIncrementNoJS = function InputComponent({
+  name,
+  label,
+  errorMessages,
+}: InputProps) {
+  const field = useField<number>(name);
+  const errorId = `${name}-error`;
+
+  return (
+    <div
+      className={classNames("kern-form-input", {
+        "kern-form-input--error": field.error(),
+      })}
+    >
+      {label && (
+        <label className="kern-label" htmlFor={name}>
+          {label}
+        </label>
+      )}
+      <input
+        className={classNames("kern-form-input__input", {
+          "kern-form-input__input--error": field.error(),
+        })}
+        id={name}
+        {...field.getInputProps()}
+        value={field.value() ?? 0}
+        name={name}
+        type="number"
+        aria-invalid={field.error() !== null}
+        aria-describedby={[field.error() && errorId].join(" ")}
+        aria-required={!!errorMessages?.find((err) => err.code === "required")}
+      />
       <InputError id={errorId}>
         {errorMessages?.find((err) => err.code === field.error())?.text ??
           field.error()}

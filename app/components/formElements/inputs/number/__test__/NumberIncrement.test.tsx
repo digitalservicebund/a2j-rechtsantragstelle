@@ -1,6 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
 import NumberIncrement from "~/components/formElements/inputs/number/NumberIncrement";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 const mockError = vi.fn();
 const mockSetValue = vi.fn();
@@ -15,9 +16,15 @@ vi.mock("@rvf/react-router", () => ({
   }),
 }));
 
+vi.mock("~/components/hooks/useJsAvailable");
+
 describe("NumberIncrement", () => {
+  beforeEach(() => {
+    vi.mocked(useJsAvailable).mockReturnValue(true);
+  });
+
   afterEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it("should render input with correct attributes", () => {
@@ -78,5 +85,14 @@ describe("NumberIncrement", () => {
     expect(getByRole("spinbutton")).toHaveValue(0);
     fireEvent.click(decrementButton);
     expect(mockSetValue).toHaveBeenCalledWith(-1);
+  });
+
+  it("should display a basic spin button when JS is disabled", () => {
+    vi.mocked(useJsAvailable).mockReturnValue(false);
+    const { queryByRole, getByRole } = render(
+      <NumberIncrement name="amount" />,
+    );
+    expect(queryByRole("button")).not.toBeInTheDocument();
+    expect(getByRole("spinbutton")).toHaveClass("kern-form-input__input");
   });
 });

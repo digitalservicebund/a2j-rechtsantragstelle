@@ -33,6 +33,10 @@ import {
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 import IbanInput from "./inputs/iban/IbanInput";
 import FilesUpload from "./inputs/filesUpload/FilesUpload";
+import {
+  isZodNumber,
+  renderZodNumber,
+} from "~/components/formElements/schemaToForm/renderZodNumber";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -131,6 +135,9 @@ export const SchemaComponents = ({
 
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
+
+        if (isZodNumber(nestedSchema))
+          return renderZodNumber(fieldName, nestedSchema, matchingElement);
 
         if (isZodString(nestedSchema))
           return renderZodString(fieldName, isFieldReadOnly, matchingElement);
