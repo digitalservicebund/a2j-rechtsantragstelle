@@ -1,5 +1,5 @@
-import KernButton from "./KernButton";
-import KernButtonContainer from "./KernButtonContainer";
+import Button from "./Button";
+import ButtonContainer from "./ButtonContainer";
 
 type NavigationButton = {
   destination?: string;
@@ -12,24 +12,24 @@ export type ButtonNavigationProps = {
   readonly next?: NavigationButton;
 };
 
-export function KernButtonNavigation({ back, next }: ButtonNavigationProps) {
+export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
-    <KernButtonContainer
+    <ButtonContainer
       reverseOrder={true}
       className="pt-kern-space-x-large pb-kern-space-x-large"
     >
       {back?.destination && (
-        <KernButton
+        <Button
           href={back.destination}
           look="secondary"
           className="w-fit print:hidden"
           disabled={back.disabled}
         >
           {back.label}
-        </KernButton>
+        </Button>
       )}
       {next && (
-        <KernButton
+        <Button
           type={next.destination ? undefined : "submit"}
           name={next.destination ? undefined : "_action"}
           href={next.destination}
@@ -38,8 +38,8 @@ export function KernButtonNavigation({ back, next }: ButtonNavigationProps) {
           disabled={next.disabled}
         >
           {next.label}
-        </KernButton>
+        </Button>
       )}
-    </KernButtonContainer>
+    </ButtonContainer>
   );
 }

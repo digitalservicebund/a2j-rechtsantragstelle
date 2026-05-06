@@ -1,17 +1,17 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
-import KernHeading, { type KernHeadingProps } from "./KernHeading";
+import Heading, { type HeadingProps } from "./Heading";
 import classNames from "classnames";
-import KernButton, { type ButtonProps } from "./KernButton";
-import { type RichTextProps } from "./KernRichText";
+import Button, { type ButtonProps } from "./Button";
+import { type RichTextProps } from "./RichText";
 
 type Props = Readonly<{
-  heading: KernHeadingProps;
+  heading: HeadingProps;
   content?: RichTextProps;
   sectionBackgroundColor?: string;
   button?: ButtonProps;
 }>;
 
-export default function KernHero({
+export default function Hero({
   heading,
   content,
   sectionBackgroundColor,
@@ -24,7 +24,7 @@ export default function KernHero({
       xlColumn={{ start: 3, span: 8 }}
       className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0"
     >
-      <KernHeading
+      <Heading
         {...heading}
         className={classNames({
           "text-white!": sectionBackgroundColor === "blue",
@@ -41,7 +41,7 @@ export default function KernHero({
       )}
       {button && (
         <div>
-          <KernButton {...button} />
+          <Button {...button} />
         </div>
       )}
     </GridItem>

@@ -1,14 +1,14 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import { KernProgress } from "~/components/kern/KernProgressBar";
+import { ProgressBar } from "~/components/formElements/ProgressBar";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
-  title: "layout/Progress",
-  component: KernProgress,
+  title: "layout/ProgressBar",
+  component: ProgressBar,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernProgress>;
+} satisfies Meta<typeof ProgressBar>;
 
 export default meta;
 

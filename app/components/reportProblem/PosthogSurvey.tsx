@@ -2,12 +2,12 @@ import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
-import KernButton from "./KernButton";
-import { KernOpenQuestion, type SurveyResponses } from "./KernOpenQuestion";
-import { KernMultipleChoiceQuestion } from "./KernMultipleChoiceQuestion";
+import { OpenQuestion, type SurveyResponses } from "./OpenQuestion";
+import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { Icon } from "../common/Icon";
+import Button from "../formElements/Button";
 
-type KernPosthogSurveyProps = {
+type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
   wasSubmitted: boolean;
   submitFeedback: (responses: SurveyResponses) => void;
@@ -17,20 +17,20 @@ type KernPosthogSurveyProps = {
 };
 
 const questionTypes: Record<string, ElementType> = {
-  [SurveyQuestionType.Open]: KernOpenQuestion,
-  [SurveyQuestionType.MultipleChoice]: KernMultipleChoiceQuestion,
+  [SurveyQuestionType.Open]: OpenQuestion,
+  [SurveyQuestionType.MultipleChoice]: MultipleChoiceQuestion,
   [SurveyQuestionType.SingleChoice]: () => <></>,
   [SurveyQuestionType.Rating]: () => <></>,
   [SurveyQuestionType.Link]: () => <></>,
 };
 
-export const KernPosthogSurvey = ({
+export const PosthogSurvey = ({
   survey,
   wasSubmitted,
   submitFeedback,
   closeSurvey,
   dialogRef,
-}: KernPosthogSurveyProps) => {
+}: PosthogSurveyProps) => {
   const [responses, setResponses] = useState<SurveyResponses>();
   const [showValidationError, setShowValidationError] = useState(false);
   const isCompletelyFilled = isCompleted(survey, responses);
@@ -101,7 +101,7 @@ export const KernPosthogSurvey = ({
             ? translations.feedback["problem-gemeldet"].de
             : translations.feedback["report-problem"].de}
         </h2>
-        <KernButton
+        <Button
           type="button"
           look="ghost"
           iconLeft={
@@ -147,17 +147,17 @@ export const KernPosthogSurvey = ({
       </section>
       <footer className="kern-dialog__footer">
         {wasSubmitted ? (
-          <KernButton
+          <Button
             ref={closeButtonRef}
             className="kern-btn kern-btn--secondary kern-btn--large"
             onClick={closeSurvey}
             type="button"
           >
             <span className="kern-label">{translations.feedback.close.de}</span>
-          </KernButton>
+          </Button>
         ) : (
           <>
-            <KernButton
+            <Button
               className="kern-btn kern-btn--secondary kern-btn--large"
               type="button"
               onClick={closeSurvey}
@@ -165,9 +165,9 @@ export const KernPosthogSurvey = ({
               <span className="kern-label">
                 {translations.feedback.cancel.de}
               </span>
-            </KernButton>
+            </Button>
 
-            <KernButton
+            <Button
               className="kern-btn kern-btn--primary kern-btn--large"
               type="button"
               onClick={onSubmitClicked}
@@ -175,7 +175,7 @@ export const KernPosthogSurvey = ({
               <span className="kern-label">
                 {translations.feedback["submit-problem"].de}
               </span>
-            </KernButton>
+            </Button>
           </>
         )}
       </footer>

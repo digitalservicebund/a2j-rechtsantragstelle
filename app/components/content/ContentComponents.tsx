@@ -1,20 +1,20 @@
 import classNames from "classnames";
 import { SECTION_BACKGROUND_COLORS } from "~/components";
-import KernSummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
+import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
 import List from "./list/List";
-import KernHero from "../kern/KernHero";
-import KernTableOfContents from "../kern/KernTableOfContents";
-import KernBox from "../kern/KernBox";
-import KernRichText from "../kern/KernRichText";
-import KernHeading from "../kern/KernHeading";
-import { KernInlineNotice } from "../kern/KernInlineNotice";
-import KernVideo from "../kern/video/KernVideo";
-import { EmailCapture } from "~/components/content/emailCapture/EmailCapture";
+import Video from "./video/Video";
 import { Details } from "./Details";
-import KernUserFeedback from "./userFeedback";
+import Box from "../formElements/Box";
+import Heading from "../formElements/Heading";
+import RichText from "../formElements/RichText";
+import UserFeedback from "./userFeedback";
+import Hero from "../formElements/Hero";
+import TableOfContents from "../formElements/TableOfContents";
+import { InlineNotice } from "../formElements/InlineNotice";
+import { EmailCapture } from "./emailCapture/EmailCapture";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
@@ -65,14 +65,14 @@ function cmsToReact(
 ) {
   switch (componentProps.__component) {
     case "basic.heading":
-      return <KernHeading managedByParent {...componentProps} />;
+      return <Heading managedByParent {...componentProps} />;
     case "basic.paragraph":
-      return <KernRichText {...componentProps} />;
+      return <RichText {...componentProps} />;
     case "page.hero":
-      return <KernHero {...componentProps} />;
+      return <Hero {...componentProps} />;
     case "page.box":
       return (
-        <KernBox
+        <Box
           {...componentProps}
           items={componentProps.items?.map((item) => ({
             ...item,
@@ -86,28 +86,43 @@ function cmsToReact(
     case "page.details-summary":
       return <Details {...componentProps} />;
     case "page.video":
-      return <KernVideo {...componentProps} />;
+      return <Video {...componentProps} />;
     case "page.list":
       return <List {...componentProps} wrap={opts?.inFlow} />;
     case "page.table-of-contents":
-      return <KernTableOfContents {...componentProps} />;
+      return <TableOfContents {...componentProps} />;
     case "page.user-feedback":
-      return <KernUserFeedback {...componentProps} />;
+      return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
-      return <KernSummaryOverviewSection {...componentProps} />;
+      return <SummaryOverviewSection {...componentProps} />;
     case "page.inline-notice":
       return (
-        <KernInlineNotice
+        <InlineNotice
           {...componentProps}
           look={mapLookValue(componentProps.look)}
           wrap={opts?.inFlow}
         />
       );
-    case "page.email-capture":
-      return <EmailCapture {...componentProps} />;
+    case "page.email-capture": {
+      const { successBanner, errorBanner, ...rest } = componentProps;
+
+      return (
+        <EmailCapture
+          {...rest}
+          successBanner={{
+            ...successBanner,
+            look: mapLookValue(successBanner.look),
+          }}
+          errorBanner={{
+            ...errorBanner,
+            look: mapLookValue(errorBanner.look),
+          }}
+        />
+      );
+    }
     case "page.heading":
       return (
-        <KernHeading
+        <Heading
           {...componentProps.heading}
           elementId={componentProps.identifier}
         />

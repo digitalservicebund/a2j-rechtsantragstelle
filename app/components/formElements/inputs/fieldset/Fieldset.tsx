@@ -4,7 +4,7 @@ import Image from "~/components/common/Image.tsx";
 import classNames from "classnames";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
-import KernRichText from "~/components/kern/KernRichText";
+import RichText from "../../RichText";
 
 type FieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {
@@ -55,7 +55,7 @@ export const Fieldset = ({
             className="min-h-full min-w-[26px] forced-color-adjust-auto"
           />
         )}
-        <KernRichText
+        <RichText
           html={heading}
           className="text-kern-adaptive-medium! kern-label"
         />

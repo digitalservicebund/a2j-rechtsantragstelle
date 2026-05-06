@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernInlineNotice } from "~/components/kern/KernInlineNotice";
+import { InlineNotice } from "~/components/formElements/InlineNotice";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
 const meta = {
   title: "components/InlineNotice",
-  component: KernInlineNotice,
+  component: InlineNotice,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -16,7 +16,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernInlineNotice>;
+} satisfies Meta<typeof InlineNotice>;
 
 export default meta;
 

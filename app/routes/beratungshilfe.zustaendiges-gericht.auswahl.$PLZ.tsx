@@ -13,14 +13,14 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import KernHeading from "~/components/kern/KernHeading";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
+import Button from "~/components/formElements/Button";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
+import Heading from "~/components/formElements/Heading";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",
@@ -78,7 +78,7 @@ export default function Index() {
             <span className="text-kern-static-medium text-kern-layout-text-muted!">
               Amtsgericht finden
             </span>
-            <KernHeading
+            <Heading
               tagName="h1"
               text={`Im Bereich Ihrer Postleitzahl ${userData.plz} sind
           verschiedene Amtsgerichte zuständig.`}
@@ -115,16 +115,16 @@ export default function Index() {
                     errorMessages={[requiredError]}
                   />
                 </div>
-                <KernButtonContainer>
-                  <KernButton
+                <ButtonContainer>
+                  <Button
                     href="/beratungshilfe/zustaendiges-gericht/suche"
                     look="secondary"
                     text="Zurück"
                   />
-                  <KernButton type="submit">
+                  <Button type="submit">
                     {translations.buttonNavigation.nextButtonDefaultLabel.de}
-                  </KernButton>
-                </KernButtonContainer>
+                  </Button>
+                </ButtonContainer>
               </div>
             </ValidatedForm>
           </div>
@@ -136,7 +136,7 @@ export default function Index() {
           className="pb-40 pt-kern-space-x-large flex justify-end"
           row={4}
         >
-          <KernReportProblem />
+          <ReportProblem />
         </GridItem>
       </Grid>
     </GridSection>

@@ -5,12 +5,12 @@ import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
 import { SchemaComponents } from "./SchemaComponents";
-import {
-  type ButtonNavigationProps,
-  KernButtonNavigation,
-} from "../kern/KernButtonNavigation";
 import { getReadOnlyFieldNames } from "./schemaToForm/getReadOnlyFieldNames";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import {
+  ButtonNavigation,
+  type ButtonNavigationProps,
+} from "./ButtonNavigation";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -49,7 +49,7 @@ function ValidatedFlowForm({
                 readOnlyFieldNames={readOnlyFieldNames}
               />
             )}
-            <KernButtonNavigation
+            <ButtonNavigation
               back={back}
               next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
             />

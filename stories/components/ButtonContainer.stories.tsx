@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import Button from "~/components/formElements/Button";
+import ButtonContainer from "~/components/formElements/ButtonContainer";
 
 const meta = {
   title: "components/ButtonContainer",
-  component: KernButtonContainer,
+  component: ButtonContainer,
   tags: ["autodocs"],
   argTypes: {
     children: {
@@ -13,7 +13,7 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof KernButton>;
+} satisfies Meta<typeof ButtonContainer>;
 
 export default meta;
 
@@ -23,8 +23,8 @@ export const TwoButtons: Story = {
   args: {
     children: (
       <>
-        <KernButton>Button 1</KernButton>
-        <KernButton look="secondary">Button 2</KernButton>
+        <Button>Button 1</Button>
+        <Button look="secondary">Button 2</Button>
       </>
     ),
   },

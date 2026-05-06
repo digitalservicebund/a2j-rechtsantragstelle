@@ -1,27 +1,23 @@
 import { fireEvent } from "@testing-library/react";
 import { renderWithRouter } from "../../__test__/renderWithRouter";
-import KernAccordion, {
-  type KernAccordionItemProps,
-} from "~/components/kern/KernAccordion";
+import Accordion, {
+  type AccordionItemProps,
+} from "~/components/formElements/Accordion";
 
 const dummyItems = [
   { title: "Item 1", description: "Description 1" },
   { title: "Item 2", description: "Description 2" },
   { title: "Item 3", description: "Description 3" },
-] as const satisfies KernAccordionItemProps[];
+] as const satisfies AccordionItemProps[];
 
 describe("Accordion Component", () => {
   it("should render the correct number of details", () => {
-    const { getAllByRole } = renderWithRouter(
-      <KernAccordion items={dummyItems} />,
-    );
+    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
     expect(getAllByRole("group")).toHaveLength(dummyItems.length);
   });
 
   it("should toggle each accordion item independently", () => {
-    const { getAllByRole } = renderWithRouter(
-      <KernAccordion items={dummyItems} />,
-    );
+    const { getAllByRole } = renderWithRouter(<Accordion items={dummyItems} />);
     const details = getAllByRole("group") as HTMLDetailsElement[];
     const summaries = details.map((item) => item.querySelector("summary"));
 
@@ -46,7 +42,7 @@ describe("Accordion Component", () => {
 
   it("should not render empty items", () => {
     const { getAllByRole } = renderWithRouter(
-      <KernAccordion
+      <Accordion
         items={[
           { title: "title1", description: "" },
           { title: "", description: "hallo" },
@@ -60,7 +56,7 @@ describe("Accordion Component", () => {
 
   it("should expand the accordion when print url param is set", () => {
     const { getAllByRole } = renderWithRouter(
-      <KernAccordion items={dummyItems} />,
+      <Accordion items={dummyItems} />,
       "/?print",
     );
     const detailsElements = getAllByRole("group", { hidden: true });

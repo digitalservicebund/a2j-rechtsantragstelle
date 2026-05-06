@@ -13,10 +13,10 @@ import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import { KernButtonNavigation } from "~/components/kern/KernButtonNavigation";
-import KernHeading from "~/components/kern/KernHeading";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
+import { ButtonNavigation } from "~/components/formElements/ButtonNavigation";
+import Heading from "~/components/formElements/Heading";
+import { ReportProblem } from "~/components/reportProblem/ReportProblem";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
@@ -69,7 +69,7 @@ export default function Index() {
             <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
               Zuständiges Amtsgericht finden
             </h1>
-            <KernHeading
+            <Heading
               tagName="h2"
               text="Wie ist Ihre Postleitzahl"
               size="large"
@@ -104,7 +104,7 @@ export default function Index() {
                     },
                   ]}
                 />
-                <KernButtonNavigation
+                <ButtonNavigation
                   back={{ destination: backURL, label: "Zurück" }}
                   next={{ label: "Weiter" }}
                 />
@@ -119,7 +119,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={4}
         >
-          <KernReportProblem />
+          <ReportProblem />
         </GridItem>
       </Grid>
     </GridSection>

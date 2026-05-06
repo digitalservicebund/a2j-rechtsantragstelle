@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
 import { useLocation, type Location, useLoaderData } from "react-router";
-import { type InlineNoticeProps } from "../../InlineNotice";
 import {
   type EmailCaptureProps,
   EmailCapture,
 } from "~/components/content/emailCapture/EmailCapture";
 import { invalidEmailError } from "../emailCaptureHelpers";
+import { type InlineNoticeProps } from "~/components/formElements/InlineNotice";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({})),
@@ -38,7 +38,7 @@ const successBanner: InlineNoticeProps = {
 const errorBanner: InlineNoticeProps = {
   title: "Error Title",
   tagName: "h1",
-  look: "error",
+  look: "danger",
   content: "Error message",
 };
 const submitButtonLabel = "Teilnehmen";

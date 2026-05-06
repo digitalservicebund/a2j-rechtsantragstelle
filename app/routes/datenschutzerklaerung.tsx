@@ -14,8 +14,8 @@ import {
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
-import KernButton from "~/components/kern/KernButton";
-import KernHeading from "~/components/kern/KernHeading";
+import Heading from "~/components/formElements/Heading";
+import Button from "~/components/formElements/Button";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const [{ content, pageMeta }, trackingConsent, cookieTranslations] =
@@ -69,7 +69,7 @@ export default function Index() {
               method="post"
               className="flex flex-col gap-kern-space-x-large"
             >
-              <KernHeading
+              <Heading
                 tagName="h2"
                 text={cookieTranslations?.heading}
                 elementId="cookieSetting"
@@ -112,7 +112,7 @@ export default function Index() {
                 </div>
               </fieldset>
               <div className="px-kern-space-default">
-                <KernButton
+                <Button
                   type="submit"
                   look="primary"
                   text="Speichern"

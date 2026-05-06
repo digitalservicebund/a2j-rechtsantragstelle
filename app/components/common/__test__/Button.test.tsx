@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/formElements/Button";
 
 describe("Button Component", () => {
   test("works for button click event", () => {
     const handleClick = vi.fn();
-    render(<KernButton onClick={handleClick}>Click Me</KernButton>);
+    render(<Button onClick={handleClick}>Click Me</Button>);
     fireEvent.click(screen.getByRole("button"));
 
     expect(handleClick).toHaveBeenCalled();
@@ -12,7 +12,7 @@ describe("Button Component", () => {
 
   test("works for button space keydown event", () => {
     const handleKeydown = vi.fn();
-    render(<KernButton onKeyDown={handleKeydown} />);
+    render(<Button onKeyDown={handleKeydown} />);
     fireEvent.keyDown(screen.getByRole("button"), {
       key: "Space",
       code: "Space",
@@ -22,12 +22,12 @@ describe("Button Component", () => {
   });
 
   test("renders button without any additional props", () => {
-    render(<KernButton />);
+    render(<Button />);
     expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
   test("renders button with full width prop", () => {
-    render(<KernButton fullWidth />);
+    render(<Button fullWidth />);
 
     expect(screen.getByRole("button")).toHaveClass(
       "kern-btn kern-btn--primary kern-btn--block",
@@ -35,7 +35,7 @@ describe("Button Component", () => {
   });
 
   test("renders button as a link with href prop", () => {
-    render(<KernButton href="mockHref">Download</KernButton>);
+    render(<Button href="mockHref">Download</Button>);
 
     expect(screen.getByText("Download").closest("a")).toHaveAttribute(
       "href",
@@ -45,7 +45,7 @@ describe("Button Component", () => {
 
   test("renders button with iconLeft and iconRight props", () => {
     const { container } = render(
-      <KernButton
+      <Button
         iconLeft={<div className="icon-left" />}
         iconRight={<div className="icon-right" />}
       />,
@@ -56,7 +56,7 @@ describe("Button Component", () => {
   });
 
   test("Full URL renders link with blank target", () => {
-    render(<KernButton href="https://www.test.com">Download</KernButton>);
+    render(<Button href="https://www.test.com">Download</Button>);
     const buttonElem = screen.getByText("Download");
     expect(buttonElem.closest("a")).toHaveAttribute("target", "_blank");
     expect(buttonElem.closest("a")).toHaveAttribute(
@@ -67,9 +67,9 @@ describe("Button Component", () => {
 
   test("renders button with data-testid from props", () => {
     render(
-      <KernButton data-testid="anyTestId" href="mockHref">
+      <Button data-testid="anyTestId" href="mockHref">
         Download
-      </KernButton>,
+      </Button>,
     );
     expect(screen.getByTestId("anyTestId")).toBeInTheDocument();
   });

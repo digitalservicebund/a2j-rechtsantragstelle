@@ -1,11 +1,11 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import KernRichText from "./KernRichText";
+import RichText from "./RichText";
 import { Icon } from "../common/Icon";
 import { type IconName } from "../common/utils";
 import { translations } from "~/services/translations/translations";
 
-export type KernInlineNoticeProps = {
+export type InlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
@@ -18,7 +18,7 @@ export type KernInlineNoticeProps = {
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
 // Therefore, it's set in the config.
 const lookConfig: Record<
-  KernInlineNoticeProps["look"],
+  InlineNoticeProps["look"],
   {
     iconName: IconName;
     ariaLabel: string;
@@ -52,7 +52,7 @@ const lookConfig: Record<
   },
 };
 
-export const KernInlineNotice = ({
+export const InlineNotice = ({
   identifier,
   title,
   tagName,
@@ -60,7 +60,7 @@ export const KernInlineNotice = ({
   content,
   wrap,
   nested,
-}: KernInlineNoticeProps) => {
+}: InlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
   const { iconName, iconClassName, containerClassName, ariaLabel } =
     lookConfig[look];
@@ -84,7 +84,7 @@ export const KernInlineNotice = ({
         </Tag>
       </div>
       <div className="kern-alert__body">
-        <KernRichText html={content} />
+        <RichText html={content} />
       </div>
     </div>
   );

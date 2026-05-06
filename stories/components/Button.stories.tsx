@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/formElements/Button";
 
 const meta = {
   title: "components/Button",
-  component: KernButton,
+  component: Button,
   tags: ["autodocs"],
   argTypes: {
     look: {
@@ -17,7 +17,7 @@ const meta = {
       control: "boolean",
     },
   },
-} satisfies Meta<typeof KernButton>;
+} satisfies Meta<typeof Button>;
 
 export default meta;
 

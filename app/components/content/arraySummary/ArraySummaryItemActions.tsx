@@ -1,16 +1,16 @@
 import { useFetcher, useLocation } from "react-router";
-import KernButton from "~/components/kern/KernButton";
-import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import { type HeadingProps } from "~/components/formElements/Heading";
+import Button from "~/components/formElements/Button";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly heading?: KernHeadingProps;
+  readonly heading?: HeadingProps;
 };
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
@@ -45,7 +45,7 @@ const ArraySummaryItemActions = ({
         <CsrfInput />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
-        <KernButton
+        <Button
           look="tertiary"
           iconLeft={<Icon name="trash" className="text-kern-action-default" />}
           name={category}
@@ -55,7 +55,7 @@ const ArraySummaryItemActions = ({
           aria-label={`${srHeadingText}${translations.arraySummary.arrayDeleteButtonLabel.de}`}
         >
           {translations.arraySummary.arrayDeleteButtonLabel.de}
-        </KernButton>
+        </Button>
       </fetcher.Form>
     </div>
   );
