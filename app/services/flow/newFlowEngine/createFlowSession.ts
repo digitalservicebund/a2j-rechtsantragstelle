@@ -33,7 +33,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
     path: simulation.path,
-    isTerminated: simulation.isComplete,
+    isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation),
     isReachable: (targetPath: string): boolean => {
       const key = compiledFlow.getNodeKeyFromPath(targetPath);

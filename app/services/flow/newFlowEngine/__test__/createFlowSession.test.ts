@@ -46,10 +46,10 @@ describe("createFlowSession", () => {
     });
   });
 
-  describe("isTerminated", () => {
+  describe("isComplete", () => {
     it("is true when the simulation reaches a null transition", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.isTerminated).toBe(true);
+      expect(session.isComplete).toBe(true);
     });
 
     it("is false when guards block all forward progress", () => {
@@ -67,7 +67,7 @@ describe("createFlowSession", () => {
         transitions: blockedTransitions,
       });
       const session = createFlowSession(blockedFlow, noData, "/a");
-      expect(session.isTerminated).toBe(false);
+      expect(session.isComplete).toBe(false);
     });
   });
 
