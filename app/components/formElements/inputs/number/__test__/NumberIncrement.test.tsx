@@ -5,11 +5,12 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 const mockError = vi.fn();
 const mockSetValue = vi.fn();
+const mockValue = vi.fn();
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
     error: mockError,
-    value: vi.fn(),
+    value: mockValue,
     getInputProps: vi.fn(),
     setValue: mockSetValue,
     validate: vi.fn(),
@@ -68,6 +69,7 @@ describe("NumberIncrement", () => {
   });
 
   it("should allow the user to increment the value with the increment button", () => {
+    mockValue.mockReturnValue(0);
     const { getByRole, getAllByRole } = render(
       <NumberIncrement name="amount" />,
     );
@@ -77,14 +79,38 @@ describe("NumberIncrement", () => {
     expect(mockSetValue).toHaveBeenCalledWith(1);
   });
 
+  it("should disable the increment button if the value is at a given maximum", () => {
+    mockValue.mockReturnValue(18);
+    const { getByRole, getAllByRole } = render(
+      <NumberIncrement name="amount" max={18} />,
+    );
+    const incrementButton = getAllByRole("button")[1];
+    expect(incrementButton).toBeDisabled();
+    expect(getByRole("spinbutton")).toHaveValue(18);
+    fireEvent.click(incrementButton);
+    expect(mockSetValue).not.toHaveBeenCalledWith(19);
+  });
+
   it("should allow the user to decrement the value with the decrement button", () => {
+    mockValue.mockReturnValue(1);
     const { getByRole, getAllByRole } = render(
       <NumberIncrement name="amount" />,
     );
     const decrementButton = getAllByRole("button")[0];
-    expect(getByRole("spinbutton")).toHaveValue(0);
+    expect(getByRole("spinbutton")).toHaveValue(1);
     fireEvent.click(decrementButton);
-    expect(mockSetValue).toHaveBeenCalledWith(-1);
+    expect(mockSetValue).toHaveBeenCalledWith(0);
+  });
+
+  it("should disable the decrement button if the value is at a given minimum", () => {
+    const { getByRole, getAllByRole } = render(
+      <NumberIncrement name="amount" min={10} />,
+    );
+    const decrementButton = getAllByRole("button")[0];
+    expect(decrementButton).toBeDisabled();
+    expect(getByRole("spinbutton")).toHaveValue(10);
+    fireEvent.click(decrementButton);
+    expect(mockSetValue).not.toHaveBeenCalledWith(9);
   });
 
   it("should display a basic spin button when JS is disabled", () => {

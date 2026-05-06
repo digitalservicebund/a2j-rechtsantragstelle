@@ -9,7 +9,7 @@ export const isZodNumber = (
 
 export const renderZodNumber = (
   fieldName: string,
-  _fieldSchema: z.ZodNumber,
+  fieldSchema: z.ZodNumber,
   matchingElement?: StrapiFormComponent,
 ) => {
   const inputProps = {
@@ -18,6 +18,13 @@ export const renderZodNumber = (
     ...pick(matchingElement, ["label", "errorMessages"]),
   };
   if (matchingElement?.__component === "form-elements.number-increment") {
-    return <NumberIncrement key={fieldName} {...inputProps} />;
+    return (
+      <NumberIncrement
+        key={fieldName}
+        min={fieldSchema.minValue ?? undefined}
+        max={fieldSchema.maxValue ?? undefined}
+        {...inputProps}
+      />
+    );
   }
 };

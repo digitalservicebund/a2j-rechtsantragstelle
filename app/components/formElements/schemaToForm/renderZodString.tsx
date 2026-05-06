@@ -8,7 +8,6 @@ import AutoSuggestInput from "../inputs/autoSuggest/AutoSuggestInput";
 import TextInput, { type InputProps } from "../inputs/text/TextInput";
 import NumberInput from "../inputs/number/NumberInput";
 import TelephoneInput from "../inputs/telephone/TelephoneInput";
-import NumberIncrement from "~/components/formElements/inputs/number/NumberIncrement";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -47,8 +46,6 @@ export const renderZodString = (
     return (
       <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
     );
-  if (matchingElement?.__component === "form-elements.number-increment")
-    return <NumberIncrement key={fieldName} {...inputProps} />;
 
   const inputType =
     ((inputProps as InputProps).type as

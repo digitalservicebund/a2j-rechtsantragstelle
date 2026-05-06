@@ -9,6 +9,8 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 type InputProps = Readonly<{
   name: string;
+  min?: number;
+  max?: number;
   label?: string;
   errorMessages?: ErrorMessageProps[];
 }>;
@@ -16,12 +18,15 @@ type InputProps = Readonly<{
 const IncrementDecrementButton: React.FC<{
   onClick: () => void;
   type: "decrement" | "increment";
+  disabled?: boolean;
   label?: string;
-}> = ({ onClick, type, label }) => {
+}> = ({ onClick, type, disabled, label }) => {
   return (
     <Button
       className="p-10! min-h-min! rounded-none!"
       type="button"
+      disabled={disabled}
+      aria-disabled={disabled}
       aria-label={
         type === "decrement"
           ? `${label} ${translations.numberIncrementComponent.decrementButtonLabel.de}`
@@ -41,6 +46,8 @@ const IncrementDecrementButton: React.FC<{
 
 const NumberIncrement = function InputComponent({
   name,
+  min,
+  max,
   label,
   errorMessages,
 }: InputProps) {
@@ -52,6 +59,8 @@ const NumberIncrement = function InputComponent({
     return (
       <NumberIncrementNoJS
         name={name}
+        min={min}
+        max={max}
         label={label}
         errorMessages={errorMessages}
       />
@@ -87,17 +96,20 @@ const NumberIncrement = function InputComponent({
           type="decrement"
           onClick={decrement}
           label={label}
+          disabled={field.value() === min || !field.value()}
         />
         <input
           className={classNames(
-            "bg-white max-w-52 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
+            "bg-white min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
             {
               "bg-kern-feedback-danger-background!": field.error(),
             },
           )}
           id={name}
           {...field.getInputProps()}
-          value={field.value() ?? 0}
+          value={field.value() ?? min ?? 0}
+          min={min}
+          max={max}
           defaultValue={undefined}
           name={name}
           type="number"
@@ -110,6 +122,7 @@ const NumberIncrement = function InputComponent({
         <IncrementDecrementButton
           type="increment"
           onClick={increment}
+          disabled={field.value() === max}
           label={label}
         />
       </div>
@@ -123,6 +136,8 @@ const NumberIncrement = function InputComponent({
 
 const NumberIncrementNoJS = function InputComponent({
   name,
+  min,
+  max,
   label,
   errorMessages,
 }: InputProps) {
@@ -146,8 +161,10 @@ const NumberIncrementNoJS = function InputComponent({
         })}
         id={name}
         {...field.getInputProps()}
-        value={field.value() ?? 0}
+        value={field.value() ?? min ?? 0}
         name={name}
+        min={min}
+        max={max ?? Number.MAX_SAFE_INTEGER}
         type="number"
         aria-invalid={field.error() !== null}
         aria-describedby={[field.error() && errorId].join(" ")}
