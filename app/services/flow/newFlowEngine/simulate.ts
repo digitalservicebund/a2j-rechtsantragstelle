@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { evaluateAllBranches, evaluateRoute, extractEdges } from "./flowUtils";
+import { evaluateAllBranches, evaluateRoute, extractEdges } from "./routing";
 import type {
   PageConfigMap,
   TransitionConfigMap,
@@ -24,7 +24,7 @@ export const createEdgeTracker = <T>() => {
   };
 };
 
-export const simulatePath = <C extends PageConfigMap>(
+export const simulate = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
   initialStep: keyof C,
   currentData: InferredUserData<C> & { pageData: PageData },
@@ -51,8 +51,7 @@ export const simulatePath = <C extends PageConfigMap>(
     }
 
     if (!next) {
-      if (extractEdges(route as any).length === 0)
-        isTerminatedSuccessfully = true;
+      if (extractEdges(route).length === 0) isTerminatedSuccessfully = true;
       break;
     }
 
@@ -120,16 +119,16 @@ const calcStatus = (
   };
 };
 
-export const getFlowStatusTree = <C extends PageConfigMap>(
+export const buildStatusTree = <C extends PageConfigMap>(
   config: C,
   {
     path,
     reachableSet,
     isTerminatedSuccessfully: isTerm,
-  }: ReturnType<typeof simulatePath<C>>,
+  }: ReturnType<typeof simulate<C>>,
 ): Record<string, StatusNode> => {
-  const prefixPairs = _.flatMap(config, ({ stepId }, key) =>
-    getPrefixes(stepId).map((prefix) => ({ prefix, key: key as string })),
+  const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
+    getPrefixes(path).map((prefix) => ({ prefix, key: key as string })),
   );
 
   // Results in: { "kinder": Set(["key1", "key2"]), "kinder/spielzeuge": Set(["key3"]) }

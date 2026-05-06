@@ -1,11 +1,11 @@
-import { compileFlowConfig } from "~/services/flow/newFlowEngine/compileStaticFlow";
+import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { erbfolgePages } from "./pages";
 import { childrenFlowConfig } from "./childrenFlowConfig";
 
-export const erbfolgeStaticFlow = compileFlowConfig({
-  pageConfigMap: erbfolgePages,
+export const erbfolgeStaticFlow = compileFlow({
+  pages: erbfolgePages,
   initialStep: "start",
-  transitionConfigMap: {
+  transitions: {
     start: "hasChildren",
     hasChildren: [
       { target: "childrenArraySummary", guard: (d) => d.hasChildren === "yes" },

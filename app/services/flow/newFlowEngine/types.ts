@@ -8,6 +8,7 @@ type InferSchema<S> = S extends z.ZodTypeAny
     : never;
 
 type PageConfig = {
+  // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
   pageSchema?: z.ZodTypeAny | z.ZodRawShape;
   arraySummary?: {
@@ -17,6 +18,7 @@ type PageConfig = {
 };
 
 export type PageConfigMap = Record<string, PageConfig>;
+export type NodeKey<C extends PageConfigMap> = keyof C;
 
 // --- User Data Inference ---
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
@@ -52,6 +54,6 @@ export type TransitionConfig<Key, Data> =
   | Array<GuardedTransition<Key, Data>>;
 
 export type TransitionConfigMap<C extends PageConfigMap> = Record<
-  keyof C,
-  TransitionConfig<keyof C, InferredUserData<C> & { pageData: PageData }>
+  NodeKey<C>,
+  TransitionConfig<NodeKey<C>, InferredUserData<C> & { pageData: PageData }>
 >;

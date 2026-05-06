@@ -1,4 +1,4 @@
-import { extractEdges } from "./flowUtils";
+import { extractEdges } from "./routing";
 import type {
   PageConfigMap,
   TransitionConfigMap,

@@ -11,7 +11,7 @@ import type { ArrayData, UserData } from "~/domains/userData";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import { evaluateFlowSession } from "~/services/flow/newFlowEngine/evaluateFlowSession";
+import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import {
@@ -34,18 +34,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const staticFlow = erbfolgeStaticFlow;
   // TODO: pass flowId, stepId, arrayIndexes into createFlowSession?
-  const flowSession = evaluateFlowSession(staticFlow, fullUserData, stepId);
+  const flowSession = createFlowSession(staticFlow, fullUserData, stepId);
 
   if (!flowSession.isReachable(stepId)) {
-    return redirect(flowId + flowSession.initialStepId);
+    return redirect(flowId + flowSession.initialPath);
   }
 
   // TODO: prune inside createFlowSession?
   const prunedUserData = fullUserData;
 
-  const { arraySummary, fieldNames } = flowSession;
-  const fieldNamesForPage = arraySummary
-    ? [...fieldNames, arraySummary.name]
+  const { arrayInfo, fieldNames } = flowSession;
+  const fieldNamesForPage = arrayInfo
+    ? [...fieldNames, arrayInfo.name]
     : fieldNames;
   const stepData = resolveUserData(prunedUserData, fieldNamesForPage);
 
@@ -62,19 +62,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   });
 
   const arraySummaryData =
-    arraySummary?.entryPoint !== undefined
+    arrayInfo?.entryPoint !== undefined
       ? {
-          category: arraySummary.name,
+          category: arrayInfo.name,
           arrayData: {
-            data: (stepData[arraySummary.name] ?? []) as ArrayData,
+            data: (stepData[arrayInfo.name] ?? []) as ArrayData,
             configuration: {
               url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false),
-              initialInputUrl: arraySummary.entryPoint,
+              initialInputUrl: arrayInfo.entryPoint,
               disableAddButton: false,
             },
           },
           content: {
-            buttonLabel: arraySummary.name,
+            buttonLabel: arrayInfo.name,
             itemLabels: { label: "itemLabel" },
           },
         }
@@ -111,6 +111,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     Array.from(formData.entries()).filter(([key]) => !key.startsWith("_")),
   );
   const pageSchema = erbfolgeStaticFlow.getSchema(stepId);
+  if (!pageSchema) return;
   const validatedFormSubmission = pageSchema.safeParse(submittedData);
   if (!validatedFormSubmission.success) return;
 
@@ -125,7 +126,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     arrayIndexes,
   });
 
-  const sessionManager = evaluateFlowSession(
+  const sessionManager = createFlowSession(
     erbfolgeStaticFlow,
     fullUserData,
     stepId,
