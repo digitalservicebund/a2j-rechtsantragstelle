@@ -7,15 +7,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3/LICENSE",
     "direct": true
   },
-  "@digitalservicebund/icons": {
-    "licenses": "MIT",
-    "repository": "https://github.com/digitalservicebund/icons",
-    "publisher": "Joschka de Cuveland",
-    "email": "joschka.decuveland@digitalservice.bund.de",
-    "path": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/icons/README.md",
-    "direct": true
-  },
   "@digitalservicebund/kern-ux-tailwind-theme": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/kern-ux-tailwind-theme",
@@ -237,7 +228,7 @@
     "repository": "https://github.com/markedjs/marked",
     "publisher": "Christopher Jeffrey",
     "path": "a2j-rechtsantragstelle/node_modules/marked",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/marked/LICENSE.md",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/marked/LICENSE",
     "direct": true
   },
   "match-sorter": {
@@ -299,6 +290,14 @@
     "email": "engineering@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/LICENSE",
+    "direct": true
+  },
+  "prom-client": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/siimon/prom-client",
+    "publisher": "Simon Nyberg",
+    "path": "a2j-rechtsantragstelle/node_modules/prom-client",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/prom-client/LICENSE",
     "direct": true
   },
   "rate-limit-redis": {
