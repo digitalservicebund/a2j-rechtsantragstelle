@@ -29,6 +29,16 @@ const Box = ({
   image,
   items,
 }: BoxProps) => {
+  const getLabelDescriptor = () => {
+    if (heading) {
+      return "box-heading";
+    }
+    if (subline) {
+      return "box-subline";
+    }
+    return undefined;
+  };
+
   const contentBlock = (
     <div className="flex flex-col">
       <div className="flex flex-col wrap-break-word gap-kern-space-default">
@@ -36,13 +46,20 @@ const Box = ({
           <Label
             {...label}
             className="text-kern-layout-text-muted! font-normal! pt-0! pb-0!"
-            aria-describedby={identifier ? `${identifier}-label` : undefined}
+            ariaDescribedby={getLabelDescriptor()}
           />
         )}
         {heading && (
-          <Heading {...heading} className="pt-0! pb-0!" managedByParent />
+          <Heading
+            {...heading}
+            elementId="box-heading"
+            className="pt-0! pb-0!"
+            managedByParent
+          />
         )}
-        {subline && <Heading {...subline} managedByParent />}
+        {subline && (
+          <Heading {...subline} elementId="box-subline" managedByParent />
+        )}
         {content && <RichText {...content} />}
       </div>
       {arrayIsNonEmpty(items) && (
