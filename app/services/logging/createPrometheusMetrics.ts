@@ -14,6 +14,9 @@ const IGNORED_PATHS = [
   "/apple",
   "/__manifest",
   "/.well-known/",
+  "/ENV",
+  "/actuator",
+  "/admin",
 ];
 
 // Prometheus histogram metric for HTTP requests
