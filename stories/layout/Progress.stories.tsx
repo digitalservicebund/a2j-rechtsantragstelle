@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import { ProgressBar } from "~/components/formElements/ProgressBar";
+import { ProgressBar } from "~/components/layout/ProgressBar";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

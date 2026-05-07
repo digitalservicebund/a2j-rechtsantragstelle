@@ -7,10 +7,10 @@ import {
   type SetStateAction,
 } from "react";
 import classNames from "classnames";
-import { questionToAnswerId } from "../../services/analytics/surveys/questionToAnswerId";
+import { questionToAnswerId } from "~/services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./OpenQuestion";
 import { translations } from "~/services/translations/translations";
-import InputError from "../formElements/inputs/error/InputError";
+import InputError from "~/components/formElements/inputs/error/InputError";
 
 type MultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;

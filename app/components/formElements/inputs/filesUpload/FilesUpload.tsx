@@ -11,7 +11,10 @@ import {
 import { FileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
 import InputError from "../error/InputError";
-import { InlineNotice, type InlineNoticeProps } from "../../InlineNotice";
+import {
+  InlineNotice,
+  type InlineNoticeProps,
+} from "~/components/content/InlineNotice";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 
 export type FilesUploadProps = {

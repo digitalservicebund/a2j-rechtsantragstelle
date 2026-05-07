@@ -1,4 +1,4 @@
-import { shouldShowReportProblem } from "~/components/reportProblem/showReportProblem";
+import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 
 describe("shouldShowReportProblem", () => {
   it("should return false if the stepId ends with /start", () => {

@@ -1,9 +1,9 @@
-import { useFormFlow } from "~/components/formFlowContext";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 import { Icon } from "../../common/Icon";
-import Heading from "~/components/formElements/Heading";
+import Heading from "~/components/common/Heading";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,

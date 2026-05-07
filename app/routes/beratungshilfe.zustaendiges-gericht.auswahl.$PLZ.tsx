@@ -17,10 +17,10 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
-import Button from "~/components/formElements/Button";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
-import Heading from "~/components/formElements/Heading";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading from "~/components/common/Heading";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",

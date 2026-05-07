@@ -1,12 +1,12 @@
 import Image, { type ImageProps } from "~/components/common/Image";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import Label, { type LabelProps } from "./Label";
+import Label, { type LabelProps } from "~/components/common/Label";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading, { type HeadingProps } from "../common/Heading";
+import RichText, { type RichTextProps } from "~/components/common/RichText";
 import BoxItem, { type BoxItemProps } from "./BoxItem";
-import Button, { type ButtonProps } from "./Button";
-import ButtonContainer from "./ButtonContainer";
-import Heading, { type HeadingProps } from "./Heading";
-import RichText, { type RichTextProps } from "./RichText";
 
 type BoxProps = {
   identifier?: string;

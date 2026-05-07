@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { SurveyQuestionType, type PostHog, type Survey } from "posthog-js";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { translations } from "~/services/translations/translations";

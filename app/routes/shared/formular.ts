@@ -20,7 +20,7 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
-import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
+import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";

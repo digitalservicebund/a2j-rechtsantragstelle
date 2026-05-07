@@ -4,7 +4,7 @@ import Image from "~/components/common/Image.tsx";
 import classNames from "classnames";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
-import RichText from "../../RichText";
+import RichText from "../../../common/RichText";
 
 type FieldsetProps = Readonly<
   Pick<StrapiFieldSet, "heading" | "image"> & {

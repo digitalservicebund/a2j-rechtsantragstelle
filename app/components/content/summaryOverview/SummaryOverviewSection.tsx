@@ -1,4 +1,4 @@
-import Heading, { type HeadingProps } from "~/components/formElements/Heading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 

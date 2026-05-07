@@ -12,11 +12,11 @@ import InputError from "~/components/formElements/inputs/error/InputError";
 import {
   InlineNotice,
   type InlineNoticeProps,
-} from "~/components/formElements/InlineNotice";
+} from "~/components/content/InlineNotice";
 import { mapLookValue } from "../ContentComponents";
-import RichText from "~/components/formElements/RichText";
-import Button from "~/components/formElements/Button";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
+import RichText from "~/components/common/RichText";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 
 export type EmailCaptureProps = {
   successBanner: InlineNoticeProps;

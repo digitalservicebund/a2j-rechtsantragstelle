@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Form, useLoaderData, useNavigation } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import Button from "~/components/formElements/Button";
+import Button from "~/components/common/Button";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

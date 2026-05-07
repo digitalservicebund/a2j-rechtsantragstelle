@@ -7,7 +7,7 @@ import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
 import InputError from "../error/InputError";
-import Button from "../../Button";
+import Button from "../../../common/Button";
 
 type FileInputProps = {
   name: string;

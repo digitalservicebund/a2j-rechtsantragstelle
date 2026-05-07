@@ -1,14 +1,14 @@
 import Image, { type ImageProps } from "~/components/common/Image";
 import { arrayIsNonEmpty } from "~/util/array";
-import RichText from "./RichText";
-import Button, { type ButtonProps } from "./Button";
-import { type HeadlineProps } from "./Headline";
-import Label, { type LabelProps } from "./Label";
+import RichText from "../common/RichText";
+import Button, { type ButtonProps } from "../common/Button";
+import { type HeadlineProps } from "../formElements/Headline";
+import Label, { type LabelProps } from "../common/Label";
 import { InlineNotice, type InlineNoticeProps } from "./InlineNotice";
-import Accordion, { type AccordionProps } from "./Accordion";
-import Heading from "./Heading";
-import { Details, type DetailsProps } from "../content/Details";
-import ButtonContainer from "./ButtonContainer";
+import Accordion, { type AccordionProps } from "../common/Accordion";
+import Heading from "../common/Heading";
+import { Details, type DetailsProps } from "./Details";
+import ButtonContainer from "../common/ButtonContainer";
 
 export type BoxItemProps = {
   id: number; // Strapi id

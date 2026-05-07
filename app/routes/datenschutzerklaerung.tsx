@@ -14,8 +14,8 @@ import {
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
-import Heading from "~/components/formElements/Heading";
-import Button from "~/components/formElements/Button";
+import Heading from "~/components/common/Heading";
+import Button from "~/components/common/Button";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const [{ content, pageMeta }, trackingConsent, cookieTranslations] =

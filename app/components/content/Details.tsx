@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
-import RichText from "../formElements/RichText";
+import RichText from "../common/RichText";
 
 export type DetailsProps = {
   title?: string;

@@ -3,7 +3,7 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
-import Accordion from "~/components/formElements/Accordion";
+import Accordion from "~/components/common/Accordion";
 
 const meta = {
   title: "components/Accordion",

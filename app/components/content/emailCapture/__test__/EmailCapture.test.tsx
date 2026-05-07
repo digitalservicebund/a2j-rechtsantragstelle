@@ -5,7 +5,7 @@ import {
   EmailCapture,
 } from "~/components/content/emailCapture/EmailCapture";
 import { invalidEmailError } from "../emailCaptureHelpers";
-import { type InlineNoticeProps } from "~/components/formElements/InlineNotice";
+import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({})),

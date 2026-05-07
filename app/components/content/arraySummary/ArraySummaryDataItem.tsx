@@ -4,7 +4,7 @@ import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import KernArraySummaryItemActions from "./ArraySummaryItemActions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { type HeadingProps } from "~/components/formElements/Heading";
+import { type HeadingProps } from "~/components/common/Heading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;

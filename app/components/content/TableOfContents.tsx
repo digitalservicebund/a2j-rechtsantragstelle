@@ -1,10 +1,10 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { GridItem } from "../layout/grid/GridItem";
-import Button, { type ButtonProps } from "./Button";
-import Label from "./Label";
+import Button, { type ButtonProps } from "~/components/common/Button";
 import { Icon } from "../common/Icon";
-import ButtonContainer from "./ButtonContainer";
-import { type HeadingProps } from "./Heading";
+import ButtonContainer from "~/components/common//ButtonContainer";
+import { type HeadingProps } from "~/components/common/Heading";
+import Label from "../common/Label";
 
 type Props = {
   identifier?: string;

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { Icon } from "~/components/common/Icon";
-import Button from "~/components/formElements/Button";
+import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";

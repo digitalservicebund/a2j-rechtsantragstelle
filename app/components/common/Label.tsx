@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { allowedHeadingTags } from "./types";
+import type { allowedHeadingTags } from "../formElements/types";
 
 export type LabelProps = {
   tagName?: (typeof allowedHeadingTags)[number];

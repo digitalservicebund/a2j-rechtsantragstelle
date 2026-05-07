@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import SummaryOverviewSection from "../SummaryOverviewSection";
-import { type HeadingProps } from "~/components/formElements/Heading";
+import { type HeadingProps } from "~/components/common/Heading";
 
 const mockSummaryOverviewProps = {
   title: {
@@ -25,7 +25,7 @@ const mockSummaryOverviewProps = {
   ],
 };
 
-vi.mock("~/components/formElements/Heading.tsx", () => ({
+vi.mock("~/components/common/Heading.tsx", () => ({
   default: () => <div>Mock Heading</div>,
 }));
 

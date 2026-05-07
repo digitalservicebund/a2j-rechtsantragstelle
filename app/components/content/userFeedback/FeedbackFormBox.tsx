@@ -8,7 +8,7 @@ import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import Textarea from "~/components/formElements/inputs/textarea/Textarea";
-import Button from "~/components/formElements/Button";
+import Button from "~/components/common/Button";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
