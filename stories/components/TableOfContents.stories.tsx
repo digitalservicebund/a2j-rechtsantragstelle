@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import TableOfContents from "~/components/formElements/TableOfContents";
+import TableOfContents from "~/components/content/TableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";

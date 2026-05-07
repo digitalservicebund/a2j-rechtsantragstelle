@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import RichText from "~/components/formElements/RichText";
+import RichText from "~/components/common/RichText";
 
 const meta = {
   title: "typography/RichText",

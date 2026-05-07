@@ -1,4 +1,4 @@
-import Button from "../formElements/Button";
+import Button from "../common/Button";
 
 export function SkipToContentLink({
   label,

@@ -6,7 +6,7 @@ import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
-import RichText from "../../RichText";
+import RichText from "../../../common/RichText";
 
 export const TEXT_AREA_ROWS = 3;
 

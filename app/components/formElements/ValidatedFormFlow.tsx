@@ -10,7 +10,7 @@ import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import {
   ButtonNavigation,
   type ButtonNavigationProps,
-} from "./ButtonNavigation";
+} from "../common/ButtonNavigation";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;

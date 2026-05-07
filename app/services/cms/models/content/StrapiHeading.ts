@@ -4,7 +4,7 @@ import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StringWithHtmlEntities } from "../StringWithHtmlEntities";
 import { StrapiPaddingOptionalSchema } from "../StrapiPadding";
 import { allowedHeadingTags } from "~/components/formElements/types";
-import { SIZES } from "~/components/formElements/Heading";
+import { SIZES } from "~/components/common/Heading";
 
 export const StrapiHeadingSchema = z
   .object({
