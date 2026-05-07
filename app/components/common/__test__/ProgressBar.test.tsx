@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { ProgressBar } from "~/components/formElements/ProgressBar";
+import { ProgressBar } from "~/components/layout/ProgressBar";
 
 describe("ProgressBar", () => {
   it("should render a progress bar with correct value and max", () => {

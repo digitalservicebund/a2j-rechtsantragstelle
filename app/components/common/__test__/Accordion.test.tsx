@@ -2,7 +2,7 @@ import { fireEvent } from "@testing-library/react";
 import { renderWithRouter } from "../../__test__/renderWithRouter";
 import Accordion, {
   type AccordionItemProps,
-} from "~/components/formElements/Accordion";
+} from "~/components/common/Accordion";
 
 const dummyItems = [
   { title: "Item 1", description: "Description 1" },

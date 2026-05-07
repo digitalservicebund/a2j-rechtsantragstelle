@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Heading from "~/components/formElements/Heading";
+import Heading from "~/components/common/Heading";
 
 describe("Heading", () => {
   [undefined, "", "  "].forEach((text) => {
