@@ -1,4 +1,4 @@
-import { type HeadingProps } from "~/components/formElements/Heading";
+import { type HeadingProps } from "~/components/common/Heading";
 import type { AllowedUserTypes } from "~/domains/userData";
 
 export type SummaryOverviewBoxWrappedProps = {

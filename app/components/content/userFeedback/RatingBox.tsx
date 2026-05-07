@@ -2,8 +2,8 @@ import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
-import Button from "~/components/formElements/Button";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 
 export const userRatingFieldname = "wasHelpful";
 

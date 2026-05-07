@@ -4,9 +4,9 @@ import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItem";
-import { type HeadingProps } from "~/components/formElements/Heading";
-import Button from "~/components/formElements/Button";
-import RichText from "~/components/formElements/RichText";
+import { type HeadingProps } from "~/components/common/Heading";
+import Button from "~/components/common/Button";
+import RichText from "~/components/common/RichText";
 
 type ArraySummaryProps = Readonly<{
   category: string;

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useShouldPrint } from "~/components/hooks/useShouldPrint";
 import type { SummaryItem } from "~/services/summary/types";
 import SummarySection from "./SummarySection";
-import Button from "~/components/formElements/Button";
+import Button from "~/components/common/Button";
 
 type CollapsibleProps = {
   items: SummaryItem[];

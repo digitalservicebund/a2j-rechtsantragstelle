@@ -2,8 +2,8 @@ import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import { Icon } from "../../common/Icon";
-import Button from "~/components/formElements/Button";
-import Heading from "~/components/formElements/Heading";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
 
 const DATA_PROTECTION_TRANSLATION_KEYS = {
   header: "datenschutz-header",
