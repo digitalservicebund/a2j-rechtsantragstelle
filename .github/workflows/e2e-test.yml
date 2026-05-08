@@ -51,11 +51,15 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: pnpm playwright install --with-deps chromium
 
       - name: Fetch published image app from registry
         if: inputs.require-published-app == true
         run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
+
+      - name: Install again dependencies
+        if: inputs.require-published-app == true
+        run: pnpm i --prod=false # force to install dev dependencies as well, since they are needed for e2e tests
 
       - name: Run Playwright e2e tests
         env:
@@ -109,7 +113,7 @@ jobs:
           path: playwright-blob-reports
 
       - name: Merge into HTML Report
-        run: npx playwright merge-reports --reporter html ./playwright-blob-reports
+        run: pnpm playwright merge-reports --reporter html ./playwright-blob-reports
 
       - name: Upload Playwright test results
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
