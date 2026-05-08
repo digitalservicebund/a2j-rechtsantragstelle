@@ -57,6 +57,10 @@ jobs:
         if: inputs.require-published-app == true
         run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
 
+      - name: Install again dependencies
+        if: inputs.require-published-app == true
+        run: pnpm i --prod=false # force to install dev dependencies as well, since they are needed for e2e tests
+
       - name: Run Playwright e2e tests
         env:
           GERICHTSFINDER_ENCRYPTION_KEY: "${{ secrets.GERICHTSFINDER_ENCRYPTION_KEY }}"
@@ -64,7 +68,6 @@ jobs:
           E2E_USE_EXISTING_SERVER: "${{ inputs.use-existing-server }}"
           CMS: FILE
           REDIS_URI: "rediss://localhost:6380"
-          NODE_ENV: "test"
         run: pnpm run test:e2e ${{ inputs.e2e-target == 'preview' && '--project=critical' || '' }} --shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload Playwright blob report
