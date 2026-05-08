@@ -52,14 +52,110 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         },
       },
       {
-        stepId: "/verstorbene/auslaendischeAdresse",
+        stepId: "/verstorbene/auslaendische-adresse",
         userInput: {
           verstorbeneAuslaendischeAdresseStrasse: "Musterstraße",
           verstorbeneAuslaendischeAdresseHausnummer: "1",
-          verstorbeneAuslaendischeAdressePLZ: "12345",
+          verstorbeneAuslaendischeAdressePLZ: "10969",
           verstorbeneAuslaendischeAdresseOrt: "Musterstadt",
           verstorbeneAuslaendischeAdresseLand: "Deutschland",
         },
+      },
+      {
+        stepId: "/verstorbene/testament",
+      },
+    ],
+    pflegeheim: [
+      {
+        stepId: "/verstorbene/lebensmittelpunkt",
+        userInput: {
+          verstorbeneLebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/verstorbene/pflegeheim",
+        userInput: {
+          livedInNursingHome: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/pflegeheim-plz",
+        userInput: {
+          pflegeheimPLZ: "10969",
+        },
+      },
+      {
+        stepId: "/verstorbene/adresse",
+        userInput: {
+          verstorbeneAdresseStrasse: "Musterstraße",
+          verstorbeneAdresseHausnummer: "1",
+          verstorbeneAdresseOrt: "Musterstadt",
+        },
+      },
+      {
+        stepId: "/verstorbene/testament",
+      },
+    ],
+    hospiz: [
+      {
+        stepId: "/verstorbene/pflegeheim",
+        userInput: {
+          livedInNursingHome: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/hospiz",
+        userInput: {
+          livedInHospice: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/plz-vor-hospiz",
+        userInput: {
+          plzBeforeHospiz: "10969",
+        },
+      },
+      {
+        stepId: "/verstorbene/adresse",
+        userInput: {
+          verstorbeneAdresseStrasse: "Musterstraße",
+          verstorbeneAdresseHausnummer: "1",
+          verstorbeneAdresseOrt: "Musterstadt",
+        },
+      },
+      {
+        stepId: "/verstorbene/testament",
+      },
+    ],
+    noPflegeheimOrHospiz: [
+      {
+        stepId: "/verstorbene/pflegeheim",
+        userInput: {
+          livedInNursingHome: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/hospiz",
+        userInput: {
+          livedInHospice: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/plz",
+        userInput: {
+          verstorbenePLZ: "10969",
+        },
+      },
+      {
+        stepId: "/verstorbene/adresse",
+        userInput: {
+          verstorbeneAdresseStrasse: "Musterstraße",
+          verstorbeneAdresseHausnummer: "1",
+          verstorbeneAdresseOrt: "Musterstadt",
+        },
+      },
+      {
+        stepId: "/verstorbene/testament",
       },
     ],
   } satisfies FlowTestCases<NachlassErbausschlagungAnfrageUserData>,

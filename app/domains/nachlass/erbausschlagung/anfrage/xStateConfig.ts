@@ -59,8 +59,66 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
                   context.verstorbeneLebensmittelpunkt === "ausland",
                 target: stepIds.verstorbeneAuslaendischeAdresse.relative,
               },
-              "", // TODO: ask about hospice/nursing home
+              stepIds.pflegeheim.relative,
             ],
+          },
+        },
+        [stepIds.pflegeheim.relative]: {
+          on: {
+            BACK: stepIds.verstorbeneLebensmittelpunkt.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.livedInNursingHome === "yes",
+                target: stepIds.pflegeheimPLZ.relative,
+              },
+              stepIds.hospiz.relative,
+            ],
+          },
+        },
+        [stepIds.hospiz.relative]: {
+          on: {
+            BACK: stepIds.pflegeheim.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.livedInHospice === "yes",
+                target: stepIds.plzBeforeHospiz.relative,
+              },
+              stepIds.verstorbenePlz.relative,
+            ],
+          },
+        },
+        [stepIds.plzBeforeHospiz.relative]: {
+          on: {
+            BACK: stepIds.hospiz.relative,
+            SUBMIT: stepIds.verstorbeneAdresse.relative,
+          },
+        },
+        [stepIds.pflegeheimPLZ.relative]: {
+          on: {
+            BACK: stepIds.pflegeheim.relative,
+            SUBMIT: stepIds.verstorbeneAdresse.relative,
+          },
+        },
+        [stepIds.verstorbenePlz.relative]: {
+          on: {
+            BACK: stepIds.hospiz.relative,
+            SUBMIT: stepIds.verstorbeneAdresse.relative,
+          },
+        },
+        [stepIds.verstorbeneAdresse.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.livedInNursingHome === "yes",
+                target: stepIds.pflegeheimPLZ.relative,
+              },
+              {
+                guard: ({ context }) => context.livedInHospice === "yes",
+                target: stepIds.plzBeforeHospiz.relative,
+              },
+              stepIds.verstorbenePlz.relative,
+            ],
+            SUBMIT: stepIds.testament.relative,
           },
         },
         [stepIds.verstorbeneAuslaendischeAdresse.relative]: {
@@ -77,7 +135,7 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
                   context.verstorbeneLebensmittelpunkt === "ausland",
                 target: stepIds.verstorbeneAuslaendischeAdresse.relative,
               },
-              "", // TODO: redirect from weitere adressdaten
+              stepIds.verstorbeneAdresse.relative,
             ],
           },
         },

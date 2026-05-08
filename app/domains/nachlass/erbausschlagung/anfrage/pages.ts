@@ -6,6 +6,7 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
 export const nachlassErbausschlagungAnfragePages = {
@@ -50,8 +51,47 @@ export const nachlassErbausschlagungAnfragePages = {
       verstorbeneLebensmittelpunkt: z.enum(["deutschland", "ausland"]),
     },
   },
+  pflegeheim: {
+    stepId: "verstorbene/pflegeheim",
+    pageSchema: {
+      livedInNursingHome: YesNoAnswer,
+    },
+  },
+  hospiz: {
+    stepId: "verstorbene/hospiz",
+    pageSchema: {
+      livedInHospice: YesNoAnswer,
+    },
+  },
+  plzBeforeHospiz: {
+    stepId: "verstorbene/plz-vor-hospiz",
+    pageSchema: {
+      plzBeforeHospiz: postcodeSchema,
+    },
+  },
+  pflegeheimPLZ: {
+    stepId: "verstorbene/pflegeheim-plz",
+    pageSchema: {
+      pflegeheimPLZ: postcodeSchema,
+    },
+  },
+  verstorbenePlz: {
+    stepId: "verstorbene/plz",
+    pageSchema: {
+      verstorbenePLZ: postcodeSchema,
+    },
+  },
+  verstorbeneAdresse: {
+    stepId: "verstorbene/adresse",
+    pageSchema: {
+      verstorbeneAdresseStrasse: stringRequiredSchema,
+      verstorbeneAdresseHausnummer: germanHouseNumberSchema,
+      verstorbeneAdresseOrt: stringRequiredSchema,
+      verstorbeneAdresseZusatz: stringOptionalSchema,
+    },
+  },
   verstorbeneAuslaendischeAdresse: {
-    stepId: "verstorbene/auslaendischeAdresse",
+    stepId: "verstorbene/auslaendische-adresse",
     pageSchema: {
       verstorbeneAuslaendischeAdresseStrasse: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseHausnummer: germanHouseNumberSchema,
