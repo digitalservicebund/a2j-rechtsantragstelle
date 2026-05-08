@@ -69,7 +69,11 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer:
     process.env.E2E_USE_EXISTING_SERVER === "true"
-      ? []
+      ? [
+          {
+            command: "pnpm i",
+          },
+        ]
       : [
           {
             command: "docker compose up",
