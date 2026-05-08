@@ -15,6 +15,7 @@ import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
 import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
 import { type Session } from "react-router";
+import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 
 type FlowMigration = {
   source: FlowId;
@@ -50,6 +51,7 @@ export const flows = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/erbschein/wegweiser": erbscheinWegweiser,
   "/erbschein/nachlassgericht": erbscheinNachlassgericht,
+  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
