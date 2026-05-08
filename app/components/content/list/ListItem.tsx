@@ -6,11 +6,11 @@ import {
   type ListMarkerProps,
   type ListVariant,
 } from "./types";
-import Accordion from "~/components/formElements/Accordion";
-import Button from "~/components/formElements/Button";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
-import Heading from "~/components/formElements/Heading";
-import RichText from "~/components/formElements/RichText";
+import Accordion from "~/components/common/Accordion";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 const ImageMarker = ({ image }: { image: ImageProps }) => (
   <div className="flex items-start">

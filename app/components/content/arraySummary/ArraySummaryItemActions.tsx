@@ -3,8 +3,8 @@ import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
-import { type HeadingProps } from "~/components/formElements/Heading";
-import Button from "~/components/formElements/Button";
+import { type HeadingProps } from "~/components/common/Heading";
+import Button from "~/components/common/Button";
 
 type Props = {
   readonly itemIndex: number;

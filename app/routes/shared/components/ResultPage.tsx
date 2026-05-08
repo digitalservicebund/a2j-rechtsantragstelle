@@ -7,10 +7,10 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { Icon } from "~/components/common/Icon";
 
 import { translations } from "~/services/translations/translations";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
-import Button from "~/components/formElements/Button";
-import Heading from "~/components/formElements/Heading";
-import RichText from "~/components/formElements/RichText";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 const iconProps = {
   "aria-hidden": false,

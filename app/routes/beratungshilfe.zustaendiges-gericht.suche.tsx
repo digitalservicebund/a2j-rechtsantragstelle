@@ -14,9 +14,9 @@ import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
-import { ButtonNavigation } from "~/components/formElements/ButtonNavigation";
-import Heading from "~/components/formElements/Heading";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { ButtonNavigation } from "~/components/common/ButtonNavigation";
+import Heading from "~/components/common/Heading";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 

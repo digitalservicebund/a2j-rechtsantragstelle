@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Hero from "~/components/formElements/Hero";
+import Hero from "~/components/content/Hero";
 
 describe("Hero", () => {
   it("should render the component with the heading", () => {

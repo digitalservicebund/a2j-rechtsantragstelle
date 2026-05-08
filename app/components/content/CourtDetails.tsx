@@ -1,5 +1,5 @@
 import { normalizeURL } from "~/util/strings";
-import Heading from "./formElements/Heading";
+import Heading from "../common/Heading";
 
 type CourtDetailsProps = {
   name: string;

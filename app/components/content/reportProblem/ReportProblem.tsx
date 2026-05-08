@@ -6,8 +6,8 @@ import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 import { PosthogSurvey } from "./PosthogSurvey";
 import { type SurveyResponses } from "./OpenQuestion";
-import { Icon } from "../common/Icon";
-import Button from "../formElements/Button";
+import { Icon } from "~/components/common/Icon";
+import Button from "~/components/common/Button";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",

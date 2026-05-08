@@ -1,8 +1,8 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
-import Heading, { type HeadingProps } from "./Heading";
+import Heading, { type HeadingProps } from "../common/Heading";
 import classNames from "classnames";
-import Button, { type ButtonProps } from "./Button";
-import { type RichTextProps } from "./RichText";
+import Button, { type ButtonProps } from "../common/Button";
+import { type RichTextProps } from "../common/RichText";
 
 type Props = Readonly<{
   heading: HeadingProps;

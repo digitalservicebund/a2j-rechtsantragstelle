@@ -7,13 +7,13 @@ import { Grid } from "../layout/grid/Grid";
 import List from "./list/List";
 import Video from "./video/Video";
 import { Details } from "./Details";
-import Box from "../formElements/Box";
-import Heading from "../formElements/Heading";
-import RichText from "../formElements/RichText";
+import Box from "../content/Box";
+import Heading from "../common/Heading";
+import RichText from "../common/RichText";
 import UserFeedback from "./userFeedback";
-import Hero from "../formElements/Hero";
-import TableOfContents from "../formElements/TableOfContents";
-import { InlineNotice } from "../formElements/InlineNotice";
+import Hero from "./Hero";
+import TableOfContents from "../content/TableOfContents";
+import { InlineNotice } from "../content/InlineNotice";
 import { EmailCapture } from "./emailCapture/EmailCapture";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {

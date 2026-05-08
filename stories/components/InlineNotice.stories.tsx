@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { InlineNotice } from "~/components/formElements/InlineNotice";
+import { InlineNotice } from "~/components/content/InlineNotice";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 

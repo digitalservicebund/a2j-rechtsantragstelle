@@ -13,6 +13,7 @@ import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
+import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -25,6 +26,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
+  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;

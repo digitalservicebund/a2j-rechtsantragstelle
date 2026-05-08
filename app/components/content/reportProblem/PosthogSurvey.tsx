@@ -4,8 +4,8 @@ import { isCompleted } from "~/services/analytics/surveys/isCompleted";
 import { translations } from "~/services/translations/translations";
 import { OpenQuestion, type SurveyResponses } from "./OpenQuestion";
 import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
-import { Icon } from "../common/Icon";
-import Button from "../formElements/Button";
+import { Icon } from "~/components/common/Icon";
+import Button from "~/components/common/Button";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;

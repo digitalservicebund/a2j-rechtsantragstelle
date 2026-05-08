@@ -1,6 +1,6 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
-import RichText from "./RichText";
+import RichText from "../common/RichText";
 import { Icon } from "../common/Icon";
 import { type IconName } from "../common/utils";
 import { translations } from "~/services/translations/translations";

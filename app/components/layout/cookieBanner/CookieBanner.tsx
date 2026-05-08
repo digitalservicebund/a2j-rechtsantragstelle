@@ -3,12 +3,10 @@ import { useFetcher } from "react-router";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { Icon } from "../../common/Icon";
-import ButtonContainer from "~/components/formElements/ButtonContainer";
-import Button from "~/components/formElements/Button";
-import RichText, {
-  type RichTextProps,
-} from "~/components/formElements/RichText";
-import Heading, { type HeadingProps } from "~/components/formElements/Heading";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Button from "~/components/common/Button";
+import RichText, { type RichTextProps } from "~/components/common/RichText";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 
 export const acceptCookiesFieldName = "accept-cookies";
 

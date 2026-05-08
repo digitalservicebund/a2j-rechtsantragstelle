@@ -6,7 +6,7 @@ import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
-import Button from "../../Button";
+import Button from "../../../common/Button";
 
 type FileUploadInfoProps = {
   inputName: string;

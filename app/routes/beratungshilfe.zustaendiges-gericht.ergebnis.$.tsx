@@ -11,8 +11,8 @@ import {
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { splatFromParams } from "~/services/params";
 import { Icon } from "~/components/common/Icon";
-import CourtDetails from "~/components/CourtDetails";
-import Heading from "~/components/formElements/Heading";
+import CourtDetails from "~/components/content/CourtDetails";
+import Heading from "~/components/common/Heading";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =

@@ -2,8 +2,8 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
 import ListItem from "./ListItem";
 import { type ListItemProps, type ListVariant } from "./types";
-import Heading, { type HeadingProps } from "~/components/formElements/Heading";
-import RichText from "~/components/formElements/RichText";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 type ListProps = {
   items: ListItemProps[];

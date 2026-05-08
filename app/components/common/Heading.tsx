@@ -1,5 +1,5 @@
 import { GridItem } from "../layout/grid/GridItem";
-import type { allowedHeadingTags } from "./types";
+import type { allowedHeadingTags } from "../formElements/types";
 
 const SIZES_MAP_HEADING = {
   medium: "kern-heading-medium",

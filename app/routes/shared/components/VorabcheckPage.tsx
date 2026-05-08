@@ -7,8 +7,8 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
-import { ProgressBar } from "~/components/formElements/ProgressBar";
-import { ReportProblem } from "~/components/reportProblem/ReportProblem";
+import { ProgressBar } from "~/components/layout/ProgressBar";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 
 export function VorabcheckPage() {
   const {
