@@ -1,7 +1,6 @@
 import { useField } from "@rvf/react-router";
 import { useEffect, useState, type FunctionComponent } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
-import { Icon } from "~/components/common/Icon";
 import TextInput, { type InputProps } from "../text/TextInput";
 import { useBankData } from "./useBankData";
 import { bankNameFromIBAN } from "./bankNameFromIBAN";
@@ -16,8 +15,9 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
 const bankNameBadgeId = "bank-name-badge";
 
 const IbanInput = (props: InputProps) => {
-  const field = useField<string | undefined>(props.name);
-  const iban = field.value();
+  const ibanField = useField<string | undefined>(props.name);
+  const bankNameField = useField<string | undefined>("bankName");
+  const iban = ibanField.value();
   const [bankName, setBankName] = useState<string>();
   const banks = useBankData();
 
@@ -32,7 +32,7 @@ const IbanInput = (props: InputProps) => {
       return () => clearTimeout(timeout);
     }
     setBankName(undefined);
-  }, [iban, banks]);
+  }, [iban, banks, bankNameField]);
 
   return (
     <div key={props.name} className="flex flex-col gap-15">
@@ -43,26 +43,13 @@ const IbanInput = (props: InputProps) => {
         ariaDescribedBy={bankNameBadgeId}
         {...props}
       />
-      {/* Badge display of bank name for sighted users */}
-      {bankName && (
-        <output
-          id={bankNameBadgeId}
-          className="kern-badge kern-badge-info border-2 border-kern-feedback-info bg-kern-feedback-info-background min-w-fit w-min"
-        >
-          <Icon name="info" className="fill-kern-feedback-info" />
-          <span className="kern-label kern-label--small">{bankName}</span>
-        </output>
-      )}
-
-      {/* Screenreader-only element used to read out bank name when it changes */}
-      <div
-        aria-live="polite"
-        aria-relevant="all"
-        aria-atomic="true"
-        className="sr-only"
-      >
-        <span key={bankName}>{bankName}</span>
-      </div>
+      {/* <BankNameBadge bankNameBadgeId={bankNameBadgeId} bankName={bankName} /> */}
+      <input
+        type="text"
+        {...bankNameField.getInputProps()}
+        value={bankName ?? ""}
+        defaultValue={undefined}
+      />
     </div>
   );
 };

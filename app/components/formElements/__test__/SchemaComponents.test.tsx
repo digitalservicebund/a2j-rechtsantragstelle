@@ -369,13 +369,24 @@ describe("SchemaComponents", () => {
     const pageSchema = {
       field1: ibanSchema,
     };
-    const { getByRole } = render(
+    const { getByLabelText } = render(
       <WrappedSchemaComponents
         pageSchema={pageSchema}
         readOnlyFieldNames={[]}
+        formComponents={[
+          {
+            name: "field1",
+            label: "label",
+            errorMessages: undefined,
+            type: "text",
+            width: "10",
+            id: 76,
+            __component: "form-elements.input",
+          },
+        ]}
       />,
     );
-    const ibanInput = getByRole("textbox");
+    const ibanInput = getByLabelText("label");
     expect(ibanInput).toHaveAttribute("name", "field1");
     expect(ibanInput.getAttribute("aria-describedby")).toContain(
       "bank-name-badge",

@@ -43,18 +43,4 @@ describe("KernIbanInput", () => {
       expect(input).toHaveValue(formatIban(mockIBAN));
     });
   });
-
-  it("should display the matching bank name if found", async () => {
-    mockValue.mockReturnValue(mockIBAN);
-    const { getAllByText } = render(<IbanInput name="iban" label="IBAN" />);
-
-    await waitFor(
-      () => {
-        const bankNames = getAllByText(mockBankName);
-        expect(bankNames).toHaveLength(2);
-        expect(bankNames[0]).toHaveClass("kern-label kern-label--small");
-      },
-      { timeout: 1100 },
-    );
-  });
 });
