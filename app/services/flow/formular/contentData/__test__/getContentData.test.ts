@@ -11,6 +11,8 @@ import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepS
 import { type SchemaObject } from "~/domains/userData";
 import { getPageSchema } from "~/domains/pageSchemas";
 import z from "zod";
+import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
+import { type SummaryItem } from "~/services/summary/types";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -67,6 +69,7 @@ const callContentData = getContentData(
 
 vi.mock("~/services/array/getArraySummaryData");
 vi.mock("~/util/buttonProps");
+vi.mock("~/services/summary/autoGenerateSummary");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -290,6 +293,46 @@ describe("getContentData", () => {
         ],
         expandAll: undefined,
       });
+    });
+  });
+
+  describe("getAutoSummarySections", () => {
+    it("should return empty array if pathname does not end with /abgabe/zusammenfassung", async () => {
+      const actual = await callContentData.getAutoSummarySections(
+        "/somePath",
+        mockBuildFlowController,
+        "/beratungshilfe/antrag",
+      );
+
+      expect(actual).toEqual([]);
+    });
+
+    it("should call generateSummaryFromUserData with the correct parameters and return its result", async () => {
+      const mockSummarySections: SummaryItem[] = [
+        {
+          id: "section1",
+          title: "Section 1",
+          fields: [],
+        },
+      ];
+
+      vi.mocked(generateSummaryFromUserData).mockResolvedValue(
+        mockSummarySections,
+      );
+
+      const actual = await callContentData.getAutoSummarySections(
+        "/somePath/abgabe/zusammenfassung",
+        mockBuildFlowController,
+        "/beratungshilfe/antrag",
+      );
+
+      expect(generateSummaryFromUserData).toHaveBeenCalledWith(
+        mockUserData,
+        "/beratungshilfe/antrag",
+        mockBuildFlowController.stepStates(),
+        mockTranslations,
+      );
+      expect(actual).toEqual(mockSummarySections);
     });
   });
 });

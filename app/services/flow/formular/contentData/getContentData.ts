@@ -18,6 +18,8 @@ import {
 } from "~/services/navigation/navState";
 import { type StepStepper } from "~/components/navigation/types";
 import { getPageSchema } from "~/domains/pageSchemas";
+import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
+import { type FlowId } from "~/domains/flowIds";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -150,6 +152,23 @@ export const getContentData = (
         })) as StepStepper[],
         expandAll,
       };
+    },
+    getAutoSummarySections: async (
+      pathname: string,
+      flowController: ReturnType<typeof buildFlowController>,
+      flowId: FlowId,
+    ) => {
+      if (!pathname.endsWith("/abgabe/zusammenfassung")) {
+        return [];
+      }
+
+      const stepStates = flowController.stepStates();
+      return await generateSummaryFromUserData(
+        userDataWithPageData,
+        flowId,
+        stepStates,
+        translations,
+      );
     },
   };
 };
