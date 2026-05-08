@@ -1,4 +1,3 @@
-import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
 import type { StrapiDropdownComponentSchema } from "~/services/cms/models/formElements/StrapiDropdown";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
@@ -7,7 +6,6 @@ export function getStrapiDropdownComponent(
   errorCode: z.infer<typeof StrapiFieldErrorSchema>,
 ): {
   component: Partial<z.infer<typeof StrapiDropdownComponentSchema>>;
-  expectDropdownErrorToExist: () => Promise<void>;
 } {
   return {
     component: {
@@ -29,16 +27,6 @@ export function getStrapiDropdownComponent(
         },
       ],
       errorMessages: [errorCode],
-    },
-    expectDropdownErrorToExist: async function () {
-      await waitFor(() => {
-        expect(screen.getByText(errorCode.text)).toBeInTheDocument();
-        expect(screen.getByTestId("select-wrapper")).toHaveClass(
-          "kern-form-input__select-wrapper--error",
-        );
-        expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
-      });
     },
   };
 }
