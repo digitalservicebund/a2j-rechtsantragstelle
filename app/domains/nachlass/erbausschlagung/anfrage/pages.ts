@@ -1,5 +1,12 @@
+import { z } from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
+import { postcodeSchema } from "~/services/validation/postcode";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { addYears, today } from "~/util/date";
 
 export const nachlassErbausschlagungAnfragePages = {
   start: {
@@ -9,6 +16,61 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "start/datenverarbeitung",
     pageSchema: {
       datenverarbeitungZustimmung: checkedRequired,
+    },
+  },
+  verstorbeneName: {
+    stepId: "verstorbene/name",
+    pageSchema: {
+      verstorbeneVorname: stringRequiredSchema,
+      verstorbeneNachname: stringRequiredSchema,
+      verstorbeneGeburtsname: stringOptionalSchema,
+    },
+  },
+  verstorbeneGeburtsdatum: {
+    stepId: "verstorbene/geburtsdatum",
+    pageSchema: {
+      verstorbeneGeburtsdatum: createSplitDateSchema({
+        earliest: () => addYears(today(), -150),
+        latest: () => today(),
+      }),
+    },
+  },
+  verstorbeneSterbedatum: {
+    stepId: "verstorbene/sterbedatum",
+    pageSchema: {
+      verstorbeneSterbedatum: createSplitDateSchema({
+        earliest: () => addYears(today(), -150),
+        latest: () => today(),
+      }),
+    },
+  },
+  verstorbeneLebensmittelpunkt: {
+    stepId: "verstorbene/lebensmittelpunkt",
+    pageSchema: {
+      verstorbeneLebensmittelpunkt: z.enum(["deutschland", "ausland"]),
+    },
+  },
+  verstorbeneAuslaendischeAdresse: {
+    stepId: "verstorbene/auslaendischeAdresse",
+    pageSchema: {
+      verstorbeneAuslaendischeAdresseStrasse: stringRequiredSchema,
+      verstorbeneAuslaendischeAdresseHausnummer: germanHouseNumberSchema,
+      verstorbeneAuslaendischeAdressePLZ: postcodeSchema,
+      verstorbeneAuslaendischeAdresseOrt: stringRequiredSchema,
+      verstorbeneAuslaendischeAdresseZusatz: stringOptionalSchema,
+      verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,
+    },
+  },
+  testament: {
+    stepId: "verstorbene/testament",
+    pageSchema: {
+      testament: z.enum([
+        "none",
+        "handwritten",
+        "notarized",
+        "erbvertrag",
+        "unknown",
+      ]),
     },
   },
 } as const satisfies PagesConfig;
