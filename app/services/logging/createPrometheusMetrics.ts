@@ -23,15 +23,23 @@ const IGNORED_PATHS = [
 const httpRequestHistogram = new Histogram({
   name: "a2j_http_request_duration_seconds",
   help: "A2J - HTTP request latency in seconds",
-  labelNames: ["method", "path", "statusCode", "browser", "device"],
+  labelNames: ["method", "path"],
   registers: [register],
 });
 
 // Prometheus counter metric for total HTTP requests
-const httpRequestCounter = new Counter({
-  name: "a2j_http_requests_total",
-  help: "A2J - Total HTTP requests",
-  labelNames: ["method", "path", "statusCode", "browser", "device"],
+const httpRequestCounterByClient = new Counter({
+  name: "a2j_http_requests_by_client_total",
+  help: "A2J - Total HTTP requests by client",
+  labelNames: ["statusCode", "browser", "device"],
+  registers: [register],
+});
+
+// Prometheus counter metric for total HTTP requests
+const httpRequestCounterByPath = new Counter({
+  name: "a2j_http_requests_by_path_total",
+  help: "A2J - Total HTTP requests by path",
+  labelNames: ["statusCode", "method", "path"],
   registers: [register],
 });
 
@@ -139,23 +147,12 @@ export const createPrometheusMetricsMiddleware = () => {
         device: userAgentInfo.device,
       };
 
-      httpRequestHistogram
-        .labels(
-          labels.method,
-          labels.path,
-          labels.statusCode,
-          labels.browser,
-          labels.device,
-        )
-        .observe(duration);
-      httpRequestCounter
-        .labels(
-          labels.method,
-          labels.path,
-          labels.statusCode,
-          labels.browser,
-          labels.device,
-        )
+      httpRequestHistogram.labels(labels.method, labels.path).observe(duration);
+      httpRequestCounterByClient
+        .labels(labels.statusCode, labels.browser, labels.device)
+        .inc();
+      httpRequestCounterByPath
+        .labels(labels.statusCode, labels.method, labels.path)
         .inc();
     });
 
