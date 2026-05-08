@@ -21,6 +21,7 @@ import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexe
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
 import { erbscheinWegweiserTestCases } from "~/domains/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { erbscheinNachlassgerichtTestCases } from "~/domains/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -30,6 +31,7 @@ const flowSchemaTests = {
   erbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
+  nachlassErbausschlagungAnfrageTestCases,
 };
 
 type VisitedSteps = Record<

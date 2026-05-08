@@ -1,8 +1,11 @@
 import { nachlassErbausschlagungAnfrageXStateConfig } from "~/domains/nachlass/erbausschlagung/anfrage/xStateConfig";
 import type { Flow } from "~/domains/flows.server";
+import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 
 export const nachlassErbausschlagungAnfrage = {
   flowType: "formFlow",
   config: nachlassErbausschlagungAnfrageXStateConfig,
-  stringReplacements: undefined,
+  stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
+    verstorbeneName: `${context.verstorbeneVorname} ${context.verstorbeneNachname}`,
+  }),
 } satisfies Flow;
