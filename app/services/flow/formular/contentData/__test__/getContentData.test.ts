@@ -65,6 +65,7 @@ const callContentData = getContentData(
     translations: mockTranslations,
   },
   mockUserData,
+  "/",
 );
 
 vi.mock("~/services/array/getArraySummaryData");
@@ -132,14 +133,14 @@ describe("getContentData", () => {
   describe("getStepData", () => {
     it("should return correctly the step data", () => {
       mockGetPageSchema({ name: z.string() });
-      const actual = callContentData.getStepData("");
+      const actual = callContentData.getStepData();
 
       expect(actual).toEqual({ name: "testName" });
     });
 
     it("should return empty in case page schema is empty", () => {
       mockGetPageSchema(undefined);
-      const actual = callContentData.getStepData("");
+      const actual = callContentData.getStepData();
 
       expect(actual).toEqual({});
     });
@@ -161,7 +162,6 @@ describe("getContentData", () => {
 
       const actual = callContentData.getButtonNavigation(
         mockBuildFlowController,
-        "/",
         "/",
         [],
       );
@@ -299,7 +299,6 @@ describe("getContentData", () => {
   describe("getAutoSummarySections", () => {
     it("should return empty array if pathname does not end with /abgabe/zusammenfassung", async () => {
       const actual = await callContentData.getAutoSummarySections(
-        "/somePath",
         mockBuildFlowController,
         "/beratungshilfe/antrag",
       );
@@ -320,8 +319,16 @@ describe("getContentData", () => {
         mockSummarySections,
       );
 
-      const actual = await callContentData.getAutoSummarySections(
+      const callContentDataOnSummaryPage = getContentData(
+        {
+          cmsContent: mockCmsElement,
+          translations: mockTranslations,
+        },
+        mockUserData,
         "/somePath/abgabe/zusammenfassung",
+      );
+
+      const actual = await callContentDataOnSummaryPage.getAutoSummarySections(
         mockBuildFlowController,
         "/beratungshilfe/antrag",
       );

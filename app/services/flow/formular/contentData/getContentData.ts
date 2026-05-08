@@ -54,6 +54,7 @@ function buildStepsStepper(
 export const getContentData = (
   { cmsContent, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
+  pathname: string,
 ) => {
   return {
     arraySummaryData: (
@@ -79,7 +80,7 @@ export const getContentData = (
     getCMSContent: () => {
       return cmsContent;
     },
-    getStepData: (pathname: string) => {
+    getStepData: () => {
       const pageSchema = getPageSchema(pathname);
       const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
 
@@ -87,7 +88,6 @@ export const getContentData = (
     },
     getButtonNavigation: (
       flowController: ReturnType<typeof buildFlowController>,
-      pathname: string,
       stepId: string,
       arrayIndexes: number[] | undefined = [],
     ) => {
@@ -154,7 +154,6 @@ export const getContentData = (
       };
     },
     getAutoSummarySections: async (
-      pathname: string,
       flowController: ReturnType<typeof buildFlowController>,
       flowId: FlowId,
     ) => {
