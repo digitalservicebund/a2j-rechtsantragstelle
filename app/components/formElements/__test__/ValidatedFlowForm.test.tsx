@@ -302,11 +302,10 @@ describe("ValidatedFlowForm", () => {
         myDropdown: z.enum(["option1", "option2", "option3"]),
       });
     });
-    const { component, expectDropdownErrorToExist } =
-      getStrapiDropdownComponent({
-        code: "required",
-        text: "Please select a value.",
-      });
+    const { component } = getStrapiDropdownComponent({
+      code: "required",
+      text: "Please select a value.",
+    });
 
     it("should display an error if the user doesn't select an option", async () => {
       const { getByText, getByTestId } = renderValidatedFlowForm([component]);
@@ -315,7 +314,14 @@ describe("ValidatedFlowForm", () => {
       fireEvent.change(select, { target: { value: "" } });
       const nextButton = getByText("NEXT");
       fireEvent.click(nextButton);
-      await expectDropdownErrorToExist();
+      await waitFor(() => {
+        expect(getByText("Please select a value.")).toBeInTheDocument();
+        expect(getByTestId("select-wrapper")).toHaveClass(
+          "kern-form-input__select-wrapper--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
     });
 
     it("should not display an error if the user has selected an option", async () => {
@@ -400,22 +406,25 @@ describe("ValidatedFlowForm", () => {
         myTileGroup: z.enum(["firstTile", "secondTile"]),
       });
     });
-    const { component, expectTileGroupErrorToExist } =
-      getStrapiTileGroupComponent(
-        {
-          code: "required",
-          text: "Selection required.",
-        },
-        ["firstTile", "secondTile"],
-      );
+    const { component } = getStrapiTileGroupComponent(
+      {
+        code: "required",
+        text: "Selection required.",
+      },
+      ["firstTile", "secondTile"],
+    );
 
     it("should display an error if the user doesn't select a tile", async () => {
-      const { getByText } = renderValidatedFlowForm([component]);
+      const { getByText, getByTestId } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
       expect(nextButton).toBeInTheDocument();
       fireEvent.click(nextButton);
-      await expectTileGroupErrorToExist();
+      await waitFor(() => {
+        expect(getByText("Selection required.")).toBeInTheDocument();
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
     });
 
     it("should not display an error if the user has selected a tile", async () => {
