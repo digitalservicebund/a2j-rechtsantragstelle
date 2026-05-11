@@ -133,7 +133,7 @@
     "oxlint": "^1.63.0",
     "p-map": "^7.0.4",
     "prettier": "^3.8.3",
-    "react-router-dom": "^7.14.2",
+    "react-router-dom": "^7.15.0",
     "size-limit": "^12.1.0",
     "storybook": "^10.3.6",
     "tailwindcss": "^4.2.4",
