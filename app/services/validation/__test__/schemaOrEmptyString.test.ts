@@ -14,7 +14,7 @@ describe("optionalOrSchema", () => {
 
   invalidCases.forEach((invalidCase) => {
     it(`throws with '${invalidCase}' as input`, () => {
-      expect(() => schema.parse(invalidCase)).toThrow();
+      expect(() => schema.parse(invalidCase)).toThrow(expect.anything());
     });
   });
 });
