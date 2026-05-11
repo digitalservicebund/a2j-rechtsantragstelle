@@ -93,7 +93,9 @@ describe("stripTrailingSlashFromURL", () => {
   });
 
   it("throws if input isn't valid URL", () => {
-    expect(() => stripTrailingSlashFromURL("www.test.url/test/")).toThrow();
+    expect(() => stripTrailingSlashFromURL("www.test.url/test/")).toThrow(
+      expect.anything(),
+    );
   });
 
   describe("removeDecimalsFromCurrencyString", () => {
