@@ -19,7 +19,7 @@ describe("Banks API", () => {
       loader({
         request: new Request("https://a2j.forever/banks"),
       } as LoaderFunctionArgs),
-    ).rejects.toThrow();
+    ).rejects.toThrow(expect.anything());
   });
 
   it("returns bank data from bankCodes.json", async () => {

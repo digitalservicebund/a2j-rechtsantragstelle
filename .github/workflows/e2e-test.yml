@@ -57,9 +57,9 @@ jobs:
         if: inputs.require-published-app == true
         run: ./docker.sh --appFromImage && rsync -a ./a2j-app/* ./
 
-      - name: Install again dependencies
+      - name: Install again dependencies when running with image app
         if: inputs.require-published-app == true
-        run: pnpm i --prod=false # force to install dev dependencies as well, since they are needed for e2e tests
+        run: pnpm i --prod=false # force to install dev dependencies as well, since they are needed for e2e tests with docker image
 
       - name: Run Playwright e2e tests
         env:
