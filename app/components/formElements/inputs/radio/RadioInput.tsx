@@ -33,7 +33,7 @@ export const RadioInput = ({
         onClick={onClick}
         ref={ref}
       />
-      <InputLabel name={id} label={text} suffix={suffix}/>
+      <InputLabel name={id} label={text} suffix={suffix} />
     </div>
   );
 };

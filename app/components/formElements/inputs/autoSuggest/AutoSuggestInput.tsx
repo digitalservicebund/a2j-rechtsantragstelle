@@ -204,7 +204,7 @@ const AutoSuggestInput = ({
       })}
     >
       <div className="flex flex-col gap-kern-space-small pb-kern-space-small">
-        {label && <InputLabel name={name} label={label} suffix={suffix}/>}
+        {label && <InputLabel name={name} label={label} suffix={suffix} />}
 
         {helperText && (
           <InputHelperText helperText={helperText} helperId={helperId} />

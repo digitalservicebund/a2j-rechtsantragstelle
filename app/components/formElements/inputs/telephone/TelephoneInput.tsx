@@ -34,7 +34,7 @@ const TelephoneInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <InputLabel name={name} label={label} suffix={suffix}/>}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
 
       {helperText && (
         <InputHelperText helperText={helperText} helperId={helperId} />

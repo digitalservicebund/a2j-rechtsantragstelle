@@ -53,7 +53,7 @@ const NumberIncrement = function InputComponent({
   max,
   label,
   errorMessages,
-  suffix
+  suffix,
 }: InputProps) {
   const field = useField<number>(name);
   const jsAvailable = useJsAvailable();

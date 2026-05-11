@@ -15,7 +15,13 @@ type CheckboxProps = Readonly<{
   errorMessage?: string;
 }>;
 
-const Checkbox = ({ name, label, errorMessage, required, suffix }: CheckboxProps) => {
+const Checkbox = ({
+  name,
+  label,
+  errorMessage,
+  required,
+  suffix,
+}: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   // HTML Forms do not send unchecked checkboxes.
