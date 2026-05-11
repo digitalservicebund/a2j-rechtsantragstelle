@@ -60,7 +60,7 @@ describe("throw404IfFeatureFlagDisabled", () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
 
     try {
-      await throw404IfFeatureFlagDisabled("showBundID");
+      await throw404IfFeatureFlagDisabled("showErbausschlagungFlow");
     } catch (error) {
       assertResponse(error);
       expect(error.status).toBe(404);
@@ -71,15 +71,17 @@ describe("throw404IfFeatureFlagDisabled", () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
 
     await expect(
-      throw404IfFeatureFlagDisabled("showBundID"),
+      throw404IfFeatureFlagDisabled("showErbausschlagungFlow"),
     ).resolves.not.toThrow();
   });
 
   it("should call isFeatureFlagEnabled with the correct feature flag", async () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
 
-    await throw404IfFeatureFlagDisabled("showBundID");
+    await throw404IfFeatureFlagDisabled("showErbausschlagungFlow");
 
-    expect(isFeatureFlagEnabled).toHaveBeenCalledWith("showBundID");
+    expect(isFeatureFlagEnabled).toHaveBeenCalledWith(
+      "showErbausschlagungFlow",
+    );
   });
 });
