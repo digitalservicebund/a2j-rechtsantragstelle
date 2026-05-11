@@ -27,7 +27,7 @@ describe("link loader", () => {
   it("should throw a 404 response when no params are provided", () => {
     const mockArgs = mockRouteArgsFromRequest(new Request("https://test.com"));
 
-    expect(() => loader(mockArgs)).toThrowError();
+    expect(() => loader(mockArgs)).toThrow(expect.anything());
 
     try {
       loader(mockArgs);
@@ -43,7 +43,7 @@ describe("link loader", () => {
       { "*": "unknown-site" },
     );
 
-    expect(() => loader(mockArgs)).toThrowError();
+    expect(() => loader(mockArgs)).toThrow(expect.anything());
 
     try {
       loader(mockArgs);
