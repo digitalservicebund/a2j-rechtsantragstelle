@@ -1,9 +1,9 @@
-import { precomputeGraph } from "../precomputeGraph";
+import { precomputeProgress } from "../precomputeProgress";
 
 describe("precomputeGraph", () => {
   describe("linear flow", () => {
     const router = { a: "b", b: "c", c: null } as const;
-    const graph = precomputeGraph(router, "a");
+    const graph = precomputeProgress(router, "a");
 
     it("initial node has progress less than max", () => {
       const { progress, max } = graph.getProgress("a");
@@ -41,14 +41,11 @@ describe("precomputeGraph", () => {
 
   describe("branching flow", () => {
     const router = {
-      start: [
-        { target: "left" as const },
-        { target: "right" as const },
-      ],
+      start: [{ target: "left" as const }, { target: "right" as const }],
       left: null,
       right: null,
     };
-    const graph = precomputeGraph(router, "start");
+    const graph = precomputeProgress(router, "start");
 
     it("sibling branch nodes get the same depth", () => {
       expect(graph.getProgress("left").progress).toBe(
@@ -72,7 +69,7 @@ describe("precomputeGraph", () => {
       item: "done" as const,
       done: null,
     };
-    const graph = precomputeGraph(router, "list");
+    const graph = precomputeProgress(router, "list");
 
     it("array item node gets the same depth as its parent list node", () => {
       expect(graph.getProgress("item").progress).toBe(
@@ -89,7 +86,7 @@ describe("precomputeGraph", () => {
 
   describe("single-node flow", () => {
     const router = { only: null } as const;
-    const graph = precomputeGraph(router, "only");
+    const graph = precomputeProgress(router, "only");
 
     it("returns max progress for the sole node", () => {
       const { progress, max } = graph.getProgress("only");
@@ -104,7 +101,7 @@ describe("precomputeGraph", () => {
   describe("progress normalization", () => {
     it("non-final nodes have progress at most 99", () => {
       const router = { a: "b", b: null } as const;
-      const graph = precomputeGraph(router, "a");
+      const graph = precomputeProgress(router, "a");
       expect(graph.getProgress("a").progress).toBeLessThanOrEqual(99);
     });
   });

@@ -1,9 +1,5 @@
-import { precomputeGraph } from "./precomputeGraph";
-import type {
-  NodeKey,
-  PageConfigMap,
-  TransitionConfigMap,
-} from "./types";
+import { precomputeProgress } from "./precomputeProgress";
+import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
 import z from "zod";
 
 // The "#" wildcard used in array stepId paths (e.g. "/kinder/#/daten").
@@ -70,7 +66,10 @@ export const compileFlow = <C extends PageConfigMap>({
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
   const fieldNamesCache: Partial<Record<NodeKey<C>, string[]>> = {};
   const arrayInfoCache: Partial<
-    Record<NodeKey<C>, { name: string; entryPoint?: string; entryNodeKey?: NodeKey<C> }>
+    Record<
+      NodeKey<C>,
+      { name: string; entryPoint?: string; entryNodeKey?: NodeKey<C> }
+    >
   > = {};
 
   // Single-pass static initialization
@@ -102,7 +101,7 @@ export const compileFlow = <C extends PageConfigMap>({
     }
   }
 
-  const graphStats = precomputeGraph(transitions, initialStep);
+  const graphStats = precomputeProgress(transitions, initialStep);
 
   const getNodeKeyFromPath = (path: string): NodeKey<C> | undefined =>
     pathMap[path];

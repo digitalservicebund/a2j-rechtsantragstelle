@@ -20,7 +20,7 @@ const getTransitions = <FlowKey, UserData>(
   return [{ target: route, isArray: false }];
 };
 
-export const precomputeGraph = <C extends PageConfigMap>(
+export const precomputeProgress = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
 ) => {
