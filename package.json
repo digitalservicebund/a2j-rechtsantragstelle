@@ -69,7 +69,7 @@
     "fuse.js": "^7.3.0",
     "haversine-distance": "1.2.4",
     "html-entities": "^2.6.0",
-    "html-react-parser": "^6.0.1",
+    "html-react-parser": "^6.1.0",
     "ioredis": "^5.10.1",
     "isbot": "^5.1.40",
     "lodash": "^4.18.1",
