@@ -19,6 +19,7 @@ export type InputProps = Readonly<{
   inputRef?: React.Ref<HTMLInputElement>;
   readonly?: boolean;
   ariaDescribedBy?: InputHTMLAttributes<HTMLInputElement>["aria-describedby"];
+  controlled?: boolean;
 }>;
 
 const TextInput = function InputComponent({
@@ -31,10 +32,12 @@ const TextInput = function InputComponent({
   inputRef,
   readonly,
   ariaDescribedBy,
+  controlled = true,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
+
   return (
     <div
       className={classNames("kern-form-input", {
@@ -58,6 +61,12 @@ const TextInput = function InputComponent({
         {...field.getInputProps({
           id: name,
         })}
+        {...(controlled
+          ? {
+              value: field.value() as string,
+              defaultValue: undefined,
+            }
+          : {})}
         name={name}
         type="text"
         placeholder={placeholder}
