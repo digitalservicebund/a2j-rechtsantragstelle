@@ -83,7 +83,7 @@ const SummarySection = ({
 
               {arrayGroup.items.map((arrayItem, itemIndex) => (
                 <div
-                  // oxlint-disable-next-line react/no-array-index-keys
+                  // oxlint-disable-next-line react/no-array-index-key
                   key={`array-item-${arrayGroup.id}-${itemIndex}`}
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >

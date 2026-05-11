@@ -31,6 +31,8 @@ describe("resolveUserData()", () => {
   });
 
   it("throws an error for invalid lookup", () => {
-    expect(() => resolveUserData({ a: [{ b: 1 }] }, ["a#b"])).toThrow();
+    expect(() => resolveUserData({ a: [{ b: 1 }] }, ["a#b"])).toThrow(
+      expect.anything(),
+    );
   });
 });
