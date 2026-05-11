@@ -102,7 +102,7 @@
     "@fast-csv/parse": "^5.0.7",
     "@playwright/test": "^1.59.1",
     "@react-router/dev": "^7.14.2",
-    "@react-router/fs-routes": "^7.14.2",
+    "@react-router/fs-routes": "^7.15.0",
     "@rvf/react": "^8.1.2",
     "@size-limit/file": "^12.1.0",
     "@storybook/addon-a11y": "^10.3.6",
