@@ -23,6 +23,8 @@ import { resolveUserData } from "~/services/session.server/resolveUserData";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 
+const staticFlow = erbfolgeStaticFlow;
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
@@ -32,32 +34,33 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     { arrayIndexes },
   );
 
-  const staticFlow = erbfolgeStaticFlow;
-  // TODO: pass flowId, stepId, arrayIndexes into createFlowSession?
+  // TODO: pass flowId, arrayIndexes into createFlowSession?
   const flowSession = createFlowSession(staticFlow, fullUserData, stepId);
 
   if (!flowSession.isReachable(stepId)) {
     return redirect(flowId + flowSession.initialPath);
   }
 
-  // TODO: prune inside createFlowSession?
-  const prunedUserData = fullUserData;
-
   const { arrayInfo, fieldNames } = flowSession;
-  const fieldNamesForPage = arrayInfo
+
+  const fieldNamesForPage = arrayInfo // TODO: Add arrayInfo.name into flowSession.fieldnames?
     ? [...fieldNames, arrayInfo.name]
     : fieldNames;
-  const stepData = resolveUserData(prunedUserData, fieldNamesForPage);
+
+  const stepData = resolveUserData(
+    flowSession.prunedUserData,
+    fieldNamesForPage,
+  );
 
   const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
-    ? flowId + resolveArrayCharacter(prevStepId, arrayIndexes, false)
+    ? flowId + resolveArrayCharacter(prevStepId, arrayIndexes, false) // TODO: move resolveArrayCharacter(prevPath) into flowSession
     : undefined;
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: "Zurück",
     nextButtonLabel: "Weiter",
-    isFinal: erbfolgeStaticFlow.isFinal(stepId),
+    isFinal: erbfolgeStaticFlow.isFinal(stepId), //move into flowSession
     backDestination,
   });
 
@@ -68,7 +71,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           arrayData: {
             data: (stepData[arrayInfo.name] ?? []) as ArrayData,
             configuration: {
-              url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false),
+              url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false), // TODO: move into flowSession, exposed resolvedStepId
               initialInputUrl: arrayInfo.entryPoint,
               disableAddButton: false,
             },
@@ -87,7 +90,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       pre_form: [{ text: stepId, __component: "basic.heading" }],
     },
     formElements: [],
-    progressProps: erbfolgeStaticFlow.getProgress(stepId),
+    progressProps: erbfolgeStaticFlow.getProgress(stepId), // TODO: replace by flowSession.progress
     buttonNavigationProps,
     // showReportProblem: shouldShowReportProblem(stepId),
   });
