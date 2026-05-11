@@ -9,6 +9,6 @@ export const mockRouteArgsFromRequest = (request: Request, params = {}) =>
     request,
     params,
     context: new RouterContextProvider(),
-    unstable_pattern: "",
-    unstable_url: new URL(request.url),
+    pattern: "",
+    url: new URL(request.url),
   }) satisfies LoaderFunctionArgs | ActionFunctionArgs;
