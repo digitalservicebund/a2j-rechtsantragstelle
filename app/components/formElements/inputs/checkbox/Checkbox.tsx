@@ -3,6 +3,7 @@ import { useField } from "@rvf/react-router";
 import { useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
 
 export type CheckboxValue = "on" | "off";
 
@@ -14,13 +15,7 @@ type CheckboxProps = Readonly<{
   errorMessage?: string;
 }>;
 
-const Checkbox = ({
-  name,
-  label,
-  errorMessage,
-  required,
-  suffix,
-}: CheckboxProps) => {
+const Checkbox = ({ name, label, errorMessage, required, suffix }: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   // HTML Forms do not send unchecked checkboxes.
@@ -59,12 +54,7 @@ const Checkbox = ({
             ref={hasError ? field.refs.controlled() : null}
           />
 
-          {label && (
-            <label className="kern-label" htmlFor={name}>
-              {label}
-              {suffix && <span className="kern-label__optional">{suffix}</span>}
-            </label>
-          )}
+          {label && <InputLabel label={label} name={name} suffix={suffix} />}
         </div>
       </div>
       {field.error() && (

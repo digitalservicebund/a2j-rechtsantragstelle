@@ -36,6 +36,8 @@ import {
   ariaLiveMessages,
   screenReaderStatus,
 } from "./accessibilityConfig/ariaLiveMessages";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -98,6 +100,7 @@ const AutoSuggestInput = ({
   dataListArgument,
   noSuggestionMessage,
   isDisabled,
+  suffix,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
@@ -201,18 +204,10 @@ const AutoSuggestInput = ({
       })}
     >
       <div className="flex flex-col gap-kern-space-small pb-kern-space-small">
-        {label && (
-          <label
-            className="kern-label text-kern-layout-text-default! p-0! m-0!"
-            htmlFor={inputId}
-          >
-            {label}
-          </label>
-        )}
+        {label && <InputLabel name={name} label={label} suffix={suffix}/>}
+
         {helperText && (
-          <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-            {helperText}
-          </div>
+          <InputHelperText helperText={helperText} helperId={helperId} />
         )}
       </div>
 

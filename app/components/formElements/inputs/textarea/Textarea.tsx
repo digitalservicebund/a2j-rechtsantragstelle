@@ -7,6 +7,7 @@ import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/k
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
 import RichText from "../../../common/RichText";
+import { InputLabel } from "../label/InputLabel";
 
 export const TEXT_AREA_ROWS = 3;
 
@@ -49,12 +50,7 @@ const Textarea = ({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-          {suffix && <span className="kern-label__optional">{suffix}</span>}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {description && <RichText html={description} />}
       {details && <Details {...details} />}
       <textarea

@@ -3,6 +3,7 @@ import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
 
 type SplitDateInputProps = {
   name: string;
@@ -44,10 +45,11 @@ const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
       })}
       {...dateField.getControlProps()}
     >
-      <legend className="kern-label">
-        {translations.splitDateComponent.legend.de}
-        {suffix && <span className="kern-label__optional">{suffix}</span>}
-      </legend>
+      <InputLabel
+        name={name}
+        label={translations.splitDateComponent.legend.de}
+        suffix={suffix}
+      />
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
       </div>

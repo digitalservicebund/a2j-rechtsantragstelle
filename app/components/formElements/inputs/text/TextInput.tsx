@@ -4,6 +4,8 @@ import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { type InputHTMLAttributes } from "react";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 export type InputProps = Readonly<{
   name: string;
@@ -42,16 +44,9 @@ const TextInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-          {suffix && <span className="kern-label__optional">{suffix}</span>}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix}/>}
       {helperText && (
-        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-          {helperText}
-        </div>
+        <InputHelperText helperText={helperText} helperId={helperId} />
       )}
       <input
         className={classNames("kern-form-input__input bg-white!", {

@@ -3,6 +3,8 @@ import { IMaskMixin } from "react-imask";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 type TimeInputProps = Readonly<{
   name: string;
@@ -37,16 +39,9 @@ const TimeInputBase = function TimeInputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-          {suffix && <span className="kern-label__optional">{suffix}</span>}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {helperText && (
-        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-          {helperText}
-        </div>
+        <InputHelperText helperText={helperText} helperId={helperId} />
       )}
       <input
         {...field.getInputProps({
