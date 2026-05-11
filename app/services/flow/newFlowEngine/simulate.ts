@@ -36,7 +36,19 @@ export const simulate = <C extends PageConfigMap>(
   initialStep: NodeKey<C>,
   currentData: InferredUserData<C> & { pageData: PageData },
   traverseArrays = false,
-): SimulationResult & { parentMap: Map<NodeKey<C>, NodeKey<C>> } => {
+  getArrayFanOut?: (
+    nodeKey: NodeKey<C>,
+    scopeData: Record<string, unknown>,
+  ) => { name: string; count: number } | undefined,
+): SimulationResult & {
+  parentMap: Map<NodeKey<C>, NodeKey<C>>;
+  visitedContexts: Array<{
+    key: NodeKey<C>;
+    pageData: PageData;
+    scopeData: Record<string, unknown>;
+    arrayPath: string[];
+  }>;
+} => {
   type FlowKey = NodeKey<C>;
 
   // Pass 1: Edge-Tracking Linear Evaluation
@@ -66,30 +78,90 @@ export const simulate = <C extends PageConfigMap>(
     currentLinear = next;
   }
 
-  // Pass 2: BFS Exhaustive Graph Traversal & Parent Mapping
+  // Pass 2: BFS with per-item context.
+  // Each queue item carries:
+  //   pageData   – passed to guards so they can navigate userData by index
+  //   scopeData  – the data object at the current array nesting level, used
+  //                to count sub-array items without needing global navigation
+  //   arrayPath  – names of ancestor arrays (e.g. ["children", "toys"]),
+  //                used by pruneUserData to reconstruct the nested output path
+  // De-duplication is by (nodeKey, arrayIndexes) so the same page can be
+  // visited once per array entry while the same top-level page is visited once.
+  type BfsItem = {
+    key: FlowKey;
+    pageData: PageData;
+    scopeData: Record<string, unknown>;
+    arrayPath: string[];
+  };
   const reachableSet = new Set<FlowKey>();
   const parentMap = new Map<FlowKey, FlowKey>();
-  const queue: FlowKey[] = [initialStep];
+  const visitedSet = new Set<string>(); // "${key}:${arrayIndexes}"
+  const visitedContexts: Array<{
+    key: FlowKey;
+    pageData: PageData;
+    scopeData: Record<string, unknown>;
+    arrayPath: string[];
+  }> = [];
+  const queue: BfsItem[] = [
+    {
+      key: initialStep,
+      pageData: currentData.pageData,
+      scopeData: currentData as unknown as Record<string, unknown>,
+      arrayPath: [],
+    },
+  ];
 
   while (queue.length > 0) {
-    const current = queue.shift()!;
-    if (reachableSet.has(current)) continue;
+    const { key: current, pageData, scopeData, arrayPath } = queue.shift()!;
+    const visitId = `${current}:${(pageData.arrayIndexes ?? []).join(",")}`;
+    if (visitedSet.has(visitId)) continue;
+    visitedSet.add(visitId);
+
     reachableSet.add(current);
+    visitedContexts.push({ key: current, pageData, scopeData, arrayPath });
 
     const route = router[current];
-    const branches = evaluateAllBranches(route, currentData);
+    const itemData = { ...currentData, pageData };
 
-    for (const nextBranch of branches) {
-      if (!reachableSet.has(nextBranch)) {
-        if (!parentMap.has(nextBranch)) {
-          parentMap.set(nextBranch, current);
+    // Regular (non-array) branches — propagate the current scope unchanged.
+    for (const branch of evaluateAllBranches(route, itemData, {
+      excludeArrayTransitions: true,
+    })) {
+      if (!parentMap.has(branch)) parentMap.set(branch, current);
+      queue.push({ key: branch, pageData, scopeData, arrayPath });
+    }
+
+    // Array branches: fan out once per item. scopeData is narrowed to the
+    // specific array item so nested arrays can be counted and pruned correctly.
+    if (getArrayFanOut && Array.isArray(route)) {
+      const addTransition = route.find((t) => t?.type === "addArrayItem");
+      if (addTransition?.target != null) {
+        const fanOut = getArrayFanOut(current, scopeData);
+        if (fanOut) {
+          const { name, count } = fanOut;
+          const items = scopeData[name];
+          for (let i = 0; i < count; i++) {
+            const itemScopeData = (
+              Array.isArray(items) ? items[i] : {}
+            ) as Record<string, unknown>;
+            const itemPageData: PageData = {
+              arrayIndexes: [...(pageData.arrayIndexes ?? []), i],
+            };
+            if (!parentMap.has(addTransition.target))
+              parentMap.set(addTransition.target, current);
+            queue.push({
+              key: addTransition.target,
+              pageData: itemPageData,
+              scopeData: itemScopeData,
+              arrayPath: [...arrayPath, name],
+            });
+          }
         }
-        queue.push(nextBranch);
       }
     }
   }
 
-  return { path, isComplete, reachableSet, parentMap };
+  return { path, isComplete, reachableSet, parentMap, visitedContexts };
 };
 
 // --- Pure Logic Helpers ---

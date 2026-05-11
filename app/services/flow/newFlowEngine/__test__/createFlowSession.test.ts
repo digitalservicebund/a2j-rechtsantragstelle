@@ -239,4 +239,240 @@ describe("createFlowSession", () => {
       expect(session.statusTree).toHaveProperty("/section");
     });
   });
+
+  describe("prunedUserData", () => {
+    it("keeps fields belonging to reachable pages", () => {
+      const session = createFlowSession(
+        flow,
+        { answer: "hello", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      expect(session.prunedUserData).toEqual({ answer: "hello" });
+    });
+
+    it("removes fields belonging to unreachable pages", () => {
+      const guardedFlow = compileFlow({
+        pages: {
+          start: { stepId: "/start" },
+          yes: { stepId: "/yes", pageSchema: { yesField: z.string() } },
+          no: { stepId: "/no", pageSchema: { noField: z.string() } },
+        },
+        initialStep: "start",
+        transitions: {
+          start: [
+            { target: "yes", guard: (d) => d.yesField === "y" },
+            { target: "no" },
+          ],
+          yes: null,
+          no: null,
+        },
+      });
+      // Guard fails → "yes" is unreachable → yesField should be pruned
+      const session = createFlowSession(
+        guardedFlow,
+        { yesField: "no", noField: "n", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      expect(session.prunedUserData).toEqual({ noField: "n" });
+    });
+
+    it("keeps the top-level array field when the array summary page is reachable", () => {
+      const arrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: { name: "items", schema: z.array(z.object({ val: z.string() })) },
+          },
+          item: { stepId: "/items/#/daten", pageSchema: { val: z.string() } },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "item" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          item: "done" as const,
+          done: null,
+        },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(arrayFlow, { items: [{ val: "a" }], pageData: { arrayIndexes: [] } } as any, "/list");
+      expect(session.prunedUserData).toEqual({ items: [{ val: "a" }] });
+    });
+
+    it("prunes stale fields within each array item based on per-item BFS traversal", () => {
+      // Each item asks isAdult first, then branches:
+      //   isAdult=yes → name page
+      //   isAdult=no  → birthday page
+      // If an item previously had isAdult=yes+name, then the user changed to isAdult=no+birthday,
+      // the name field should be pruned even though 'name' is reachable for other items.
+      const arrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "people",
+              schema: z.array(
+                z.object({
+                  isAdult: z.string(),
+                  name: z.string().optional(),
+                  birthday: z.string().optional(),
+                }),
+              ),
+            },
+          },
+          adultCheck: {
+            stepId: "/people/#/adult-check",
+            pageSchema: { isAdult: z.string() },
+          },
+          namePage: {
+            stepId: "/people/#/name",
+            pageSchema: { name: z.string() },
+          },
+          birthdayPage: {
+            stepId: "/people/#/birthday",
+            pageSchema: { birthday: z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "adultCheck" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          adultCheck: [
+            {
+              target: "namePage" as const,
+              guard: (d) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (d as any).people?.[(d as any).pageData?.arrayIndexes?.[0]]
+                  ?.isAdult === "yes",
+            },
+            { target: "birthdayPage" as const },
+          ],
+          namePage: "list" as const,
+          birthdayPage: "list" as const,
+          done: null,
+        },
+      });
+
+      // item 0: adult (isAdult=yes) → name reachable, birthday unreachable
+      // item 1: minor (isAdult=no) → birthday reachable, name unreachable
+      // item 1 also has a stale 'name' from a previous answer that should be pruned
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(arrayFlow, {
+        people: [
+          { isAdult: "yes", name: "Alice" },
+          { isAdult: "no", birthday: "1990-01-01", name: "stale" },
+        ],
+        pageData: { arrayIndexes: [] },
+      } as any, "/list");
+
+      expect(session.prunedUserData).toEqual({
+        people: [
+          { isAdult: "yes", name: "Alice" },
+          { isAdult: "no", birthday: "1990-01-01" },
+        ],
+      });
+    });
+
+    it("does not include pageData in prunedUserData", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.prunedUserData).not.toHaveProperty("pageData");
+    });
+
+    it("prunes stale fields in nested array items based on per-item traversal", () => {
+      // Flow: childrenList → childEntry (name) → toyList → toyEntry (toyName + isFavorite)
+      //       → toyColor (if isFavorite=yes) → toyList → childrenList → done
+      // Toy 0: isFavorite=yes → color kept
+      // Toy 1: isFavorite=no  → stale color pruned
+      const nestedFlow = compileFlow({
+        pages: {
+          childrenList: {
+            stepId: "/children",
+            arraySummary: {
+              name: "children",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          childEntry: {
+            stepId: "/children/#/name",
+            pageSchema: { name: z.string() },
+          },
+          toyList: {
+            stepId: "/children/#/toys",
+            arraySummary: {
+              name: "toys",
+              schema: z.array(z.object({ toyName: z.string() })),
+            },
+          },
+          toyEntry: {
+            stepId: "/children/#/toys/#/entry",
+            pageSchema: { toyName: z.string(), isFavorite: z.string() },
+          },
+          toyColor: {
+            stepId: "/children/#/toys/#/color",
+            pageSchema: { color: z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "childrenList",
+        transitions: {
+          childrenList: [
+            { target: "childEntry" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          childEntry: "toyList" as const,
+          toyList: [
+            { target: "toyEntry" as const, type: "addArrayItem" as const },
+            { target: "childrenList" as const },
+          ],
+          toyEntry: [
+            {
+              target: "toyColor" as const,
+              guard: (d) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (d as any).children?.[(d as any).pageData?.arrayIndexes?.[0]]
+                  ?.toys?.[(d as any).pageData?.arrayIndexes?.[1]]
+                  ?.isFavorite === "yes",
+            },
+            { target: "toyList" as const },
+          ],
+          toyColor: "toyList" as const,
+          done: null,
+        },
+      });
+
+      // Child 0 "Alice" has two toys:
+      //   toy 0: isFavorite=yes → color="red" is kept
+      //   toy 1: isFavorite=no  → color="stale" should be pruned
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(nestedFlow, {
+        children: [
+          {
+            name: "Alice",
+            toys: [
+              { toyName: "Lego", isFavorite: "yes", color: "red" },
+              { toyName: "Ball", isFavorite: "no", color: "stale" },
+            ],
+          },
+        ],
+        pageData: { arrayIndexes: [] },
+      } as any, "/children");
+
+      expect(session.prunedUserData).toEqual({
+        children: [
+          {
+            name: "Alice",
+            toys: [
+              { toyName: "Lego", isFavorite: "yes", color: "red" },
+              { toyName: "Ball", isFavorite: "no" },
+            ],
+          },
+        ],
+      });
+    });
+  });
 });

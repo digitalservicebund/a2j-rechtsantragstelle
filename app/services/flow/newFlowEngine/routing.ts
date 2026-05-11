@@ -37,6 +37,7 @@ export const extractEdges = <FlowKey, UserData>(
 export const evaluateAllBranches = <FlowKey, UserData>(
   route: TransitionConfig<FlowKey, UserData> | undefined,
   data: UserData,
+  options?: { excludeArrayTransitions?: boolean },
 ): FlowKey[] => {
   if (!route) return [];
   if (typeof route === "string") return [route];
@@ -44,6 +45,8 @@ export const evaluateAllBranches = <FlowKey, UserData>(
   if (Array.isArray(route)) {
     const branches: FlowKey[] = [];
     for (const transition of route) {
+      if (options?.excludeArrayTransitions && transition.type === "addArrayItem")
+        continue;
       // Evaluate all guards. If there is no guard, or it passes, it is a valid branch.
       if (!transition.guard || transition.guard(data)) {
         if (transition.target) branches.push(transition.target);

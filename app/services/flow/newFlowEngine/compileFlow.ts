@@ -1,10 +1,14 @@
 import { precomputeGraph } from "./precomputeGraph";
-import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
+import type {
+  NodeKey,
+  PageConfigMap,
+  TransitionConfigMap,
+} from "./types";
 import z from "zod";
 
 // The "#" wildcard used in array stepId paths (e.g. "/kinder/#/daten").
 // Defined locally to keep the engine decoupled from the app's array service.
-const ARRAY_WILDCARD = "#";
+export const ARRAY_WILDCARD = "#";
 
 type Options<C extends PageConfigMap> = {
   pages: C;
@@ -66,7 +70,7 @@ export const compileFlow = <C extends PageConfigMap>({
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
   const fieldNamesCache: Partial<Record<NodeKey<C>, string[]>> = {};
   const arrayInfoCache: Partial<
-    Record<NodeKey<C>, { name: string; entryPoint?: string }>
+    Record<NodeKey<C>, { name: string; entryPoint?: string; entryNodeKey?: NodeKey<C> }>
   > = {};
 
   // Single-pass static initialization
@@ -86,9 +90,14 @@ export const compileFlow = <C extends PageConfigMap>({
     fieldNamesCache[nodeKey] = fieldNames;
 
     if (pageNode.arraySummary) {
+      const arrayTransitions = transitions[nodeKey];
+      const addTransition = Array.isArray(arrayTransitions)
+        ? arrayTransitions.find((t) => t?.type === "addArrayItem")
+        : undefined;
       arrayInfoCache[nodeKey] = {
         name: pageNode.arraySummary.name,
-        entryPoint: getArrayEntryPoint(transitions[nodeKey], pages),
+        entryPoint: getArrayEntryPoint(arrayTransitions, pages),
+        entryNodeKey: addTransition?.target ?? undefined,
       };
     }
   }
@@ -123,6 +132,7 @@ export const compileFlow = <C extends PageConfigMap>({
     },
     getFieldNamesByNodeKey: (nodeKey: NodeKey<C>): string[] =>
       fieldNamesCache[nodeKey] ?? [],
+    getArrayInfoByNodeKey: (nodeKey: NodeKey<C>) => arrayInfoCache[nodeKey],
 
     getNodeKeyFromPath,
     getPathFromNodeKey,
