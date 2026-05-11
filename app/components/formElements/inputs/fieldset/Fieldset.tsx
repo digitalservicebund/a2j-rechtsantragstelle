@@ -7,14 +7,17 @@ import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import RichText from "../../../common/RichText";
 
 type FieldsetProps = Readonly<
-  Pick<StrapiFieldSet, "heading" | "image"> & {
+  Pick<StrapiFieldSet, "heading" | "image" | "helperText"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
     readOnlyFieldNames: string[];
+    isStorybook?: boolean;
   }
 >;
 
 const IMAGE_HEIGHT = 24;
 const IMAGE_WIDTH = 24;
+const PATHNAME_FOR_STORYBOOK =
+  "/fluggastrechte/formular/flugdaten/geplanter-flug";
 
 const getFieldSetPageSchema = (
   pathname: string,
@@ -35,11 +38,16 @@ export const Fieldset = ({
   heading,
   formComponents,
   image,
+  helperText,
   readOnlyFieldNames,
+  isStorybook = false,
 }: FieldsetProps) => {
   const { pathname } = useLocation();
 
-  const pageSchema = getFieldSetPageSchema(pathname, formComponents);
+  const pageSchema = getFieldSetPageSchema(
+    isStorybook ? PATHNAME_FOR_STORYBOOK : pathname, // workaround to render the Fieldset in Storybook, because useLocation returns "/" in Storybook
+    formComponents,
+  );
 
   if (!pageSchema) return null;
 
@@ -60,6 +68,11 @@ export const Fieldset = ({
           className="text-kern-adaptive-medium! kern-label"
         />
       </legend>
+      {helperText && (
+        <div className={classNames("kern-hint", { "md:pl-32!": image })}>
+          {helperText}
+        </div>
+      )}
       <div className="kern-fieldset__body">
         <SchemaComponents
           pageSchema={pageSchema}
