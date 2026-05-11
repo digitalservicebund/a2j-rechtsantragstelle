@@ -49,10 +49,16 @@ export const Fieldset = ({
     formComponents,
   );
 
+  const hasHelperText = !!helperText;
+  const helperTextId = `fieldset-helper-text-${formComponents[0].id}`;
+
   if (!pageSchema) return null;
 
   return (
-    <fieldset className="kern-fieldset">
+    <fieldset
+      className="kern-fieldset"
+      aria-describedby={hasHelperText ? helperTextId : undefined}
+    >
       <legend className="flex gap-kern-space-small items-center m-0! p-0!">
         {image && (
           <Image
@@ -68,8 +74,11 @@ export const Fieldset = ({
           className="text-kern-adaptive-medium! kern-label"
         />
       </legend>
-      {helperText && (
-        <div className={classNames("kern-hint", { "md:pl-32!": image })}>
+      {hasHelperText && (
+        <div
+          className={classNames("kern-hint", { "md:pl-32!": image })}
+          id={helperTextId}
+        >
           {helperText}
         </div>
       )}
