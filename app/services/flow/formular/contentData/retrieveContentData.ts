@@ -51,5 +51,9 @@ export const retrieveContentData = async (
     parentMeta: parentContentPageMeta,
   });
 
-  return getContentData({ cmsContent, translations }, userDataWithPageData);
+  return getContentData(
+    { cmsContent, translations },
+    userDataWithPageData,
+    pathname,
+  );
 };
