@@ -18,6 +18,8 @@ import {
 } from "~/services/navigation/navState";
 import { type StepStepper } from "~/components/navigation/types";
 import { getPageSchema } from "~/domains/pageSchemas";
+import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
+import { type FlowId } from "~/domains/flowIds";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -52,6 +54,7 @@ function buildStepsStepper(
 export const getContentData = (
   { cmsContent, translations }: ContentParameters,
   userDataWithPageData: UserDataWithPageData,
+  pathname: string,
 ) => {
   return {
     arraySummaryData: (
@@ -77,7 +80,7 @@ export const getContentData = (
     getCMSContent: () => {
       return cmsContent;
     },
-    getStepData: (pathname: string) => {
+    getStepData: () => {
       const pageSchema = getPageSchema(pathname);
       const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
 
@@ -85,7 +88,6 @@ export const getContentData = (
     },
     getButtonNavigation: (
       flowController: ReturnType<typeof buildFlowController>,
-      pathname: string,
       stepId: string,
       arrayIndexes: number[] | undefined = [],
     ) => {
@@ -150,6 +152,22 @@ export const getContentData = (
         })) as StepStepper[],
         expandAll,
       };
+    },
+    getAutoSummarySections: async (
+      flowController: ReturnType<typeof buildFlowController>,
+      flowId: FlowId,
+    ) => {
+      if (!pathname.endsWith("/abgabe/zusammenfassung")) {
+        return [];
+      }
+
+      const stepStates = flowController.stepStates();
+      return await generateSummaryFromUserData(
+        userDataWithPageData,
+        flowId,
+        stepStates,
+        translations,
+      );
     },
   };
 };
