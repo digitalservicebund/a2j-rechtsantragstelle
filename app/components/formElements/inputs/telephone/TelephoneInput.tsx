@@ -6,19 +6,21 @@ import InputError from "../error/InputError";
 type InputProps = Readonly<{
   name: string;
   label?: string;
+  suffix?: string;
+  readonly?: boolean;
+  helperText?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-  helperText?: string;
-  readonly?: boolean;
 }>;
 
 const TelephoneInput = function InputComponent({
   name,
   label,
+  suffix,
+  readonly,
+  helperText,
   placeholder,
   errorMessages,
-  helperText,
-  readonly,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -33,6 +35,7 @@ const TelephoneInput = function InputComponent({
       {label && (
         <label className="kern-label" htmlFor={name}>
           {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
         </label>
       )}
       {helperText && (

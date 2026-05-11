@@ -7,20 +7,22 @@ import InputError from "../error/InputError";
 
 type SelectProps = {
   name: string;
-  options: Array<{ value: string; text: string }>;
   label?: ReactNode;
-  errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
+  options: Array<{ value: string; text: string }>;
+  suffix?: string;
   placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
 };
 
 const Select = ({
-  label,
   name,
-  errorMessages,
-  options,
+  label,
   width,
+  suffix,
+  options,
   placeholder,
+  errorMessages,
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -30,6 +32,7 @@ const Select = ({
       {label && (
         <label className="kern-label" htmlFor={name}>
           {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
         </label>
       )}
       <div

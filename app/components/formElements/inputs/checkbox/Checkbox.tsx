@@ -9,11 +9,18 @@ export type CheckboxValue = "on" | "off";
 type CheckboxProps = Readonly<{
   name: string;
   label?: string;
-  errorMessage?: string;
+  suffix?: string;
   required: boolean;
+  errorMessage?: string;
 }>;
 
-const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
+const Checkbox = ({
+  name,
+  label,
+  errorMessage,
+  required,
+  suffix,
+}: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
   // HTML Forms do not send unchecked checkboxes.
@@ -55,6 +62,7 @@ const Checkbox = ({ name, label, errorMessage, required }: CheckboxProps) => {
           {label && (
             <label className="kern-label" htmlFor={name}>
               {label}
+              {suffix && <span className="kern-label__optional">{suffix}</span>}
             </label>
           )}
         </div>

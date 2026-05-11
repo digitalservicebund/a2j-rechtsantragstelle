@@ -6,6 +6,7 @@ import InputError from "../error/InputError";
 
 type SplitDateInputProps = {
   name: string;
+  suffix?: string;
 };
 
 const sharedClassnames = "kern-form-input__input bg-white!" as const;
@@ -18,7 +19,7 @@ const sharedAttributes = {
   },
 } as const;
 
-const SplitDateInput = ({ name }: SplitDateInputProps) => {
+const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -45,6 +46,7 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
     >
       <legend className="kern-label">
         {translations.splitDateComponent.legend.de}
+        {suffix && <span className="kern-label__optional">{suffix}</span>}
       </legend>
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}

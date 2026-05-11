@@ -5,8 +5,9 @@ import { type CheckboxValue } from "../checkbox/Checkbox";
 export type ExclusiveCheckboxInputProps = {
   name: string;
   label: string;
-  value: CheckboxValue;
+  suffix?: string;
   hasError?: boolean;
+  value: CheckboxValue;
   onChange: (name: string, checked: CheckboxValue) => void;
 };
 
@@ -14,6 +15,7 @@ export const ExclusiveCheckboxInput = ({
   name,
   label,
   value,
+  suffix,
   hasError,
   onChange,
 }: Readonly<ExclusiveCheckboxInputProps>) => {
@@ -55,6 +57,7 @@ export const ExclusiveCheckboxInput = ({
         {label && (
           <label className="kern-label" htmlFor={name}>
             {label}
+            {suffix && <span className="kern-label__optional">{suffix}</span>}
           </label>
         )}
       </div>

@@ -7,9 +7,10 @@ import InputError from "../error/InputError";
 type TimeInputProps = Readonly<{
   name: string;
   label?: string;
+  suffix?: string;
+  helperText?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-  helperText?: string;
 }>;
 
 type MaskedInputProps = TimeInputProps & {
@@ -20,10 +21,11 @@ type MaskedInputProps = TimeInputProps & {
 const TimeInputBase = function TimeInputComponent({
   name,
   label,
+  suffix,
+  inputRef,
+  helperText,
   placeholder,
   errorMessages,
-  helperText,
-  inputRef,
 }: TimeInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -38,6 +40,7 @@ const TimeInputBase = function TimeInputComponent({
       {label && (
         <label className="kern-label" htmlFor={name}>
           {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
         </label>
       )}
       {helperText && (

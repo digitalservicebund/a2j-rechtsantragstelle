@@ -36,6 +36,14 @@ describe("TimeInput", () => {
     );
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <TimeInput name="time" label="Time" suffix="(e.g., 14:30)" />,
+    );
+    expect(getByText("Time")).toBeInTheDocument();
+    expect(getByText("(e.g., 14:30)")).toBeInTheDocument();
+  });
+
   it("should render helper text linked with aria-describedby", () => {
     const { getByRole } = render(
       <TimeInput name="time" helperText="Enter time in HH:MM format" />,

@@ -3,19 +3,21 @@ import classNames from "classnames";
 import { type ReactNode } from "react";
 
 type RadioInputProps = {
+  readonly ref: React.Ref<HTMLInputElement>;
   readonly name: string;
   readonly value: string;
-  readonly onClick?: () => void;
   readonly text?: ReactNode;
-  readonly ref: React.Ref<HTMLInputElement>;
+  readonly suffix?: string;
+  readonly onClick?: () => void;
 };
 
 export const RadioInput = ({
+  ref,
+  text,
   name,
   value,
+  suffix,
   onClick,
-  text,
-  ref,
 }: RadioInputProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
@@ -31,6 +33,7 @@ export const RadioInput = ({
       />
       <label className="kern-label" htmlFor={id}>
         {text}
+        {suffix && <span className="kern-label__optional">{suffix}</span>}
       </label>
     </div>
   );

@@ -12,31 +12,33 @@ export const TEXT_AREA_ROWS = 3;
 
 type TextareaProps = Readonly<{
   name: string;
-  backgroundClass?: string;
-  description?: string;
   label?: ReactNode;
   details?: {
     title: string;
     content: string;
   };
-  placeholder?: string;
-  maxLength?: number;
-  errorMessages?: ErrorMessageProps[];
+  suffix?: string;
   innerRef?: React.Ref<HTMLTextAreaElement>;
+  maxLength?: number;
+  description?: string;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
+  backgroundClass?: string;
   ariaDescribedby?: string;
 }>;
 
 const Textarea = ({
   name,
-  backgroundClass,
-  description,
   label,
+  suffix,
   details,
-  placeholder,
-  maxLength = TEXTAREA_CHAR_LIMIT,
-  errorMessages,
   innerRef,
+  description,
+  placeholder,
+  errorMessages,
   ariaDescribedby,
+  backgroundClass,
+  maxLength = TEXTAREA_CHAR_LIMIT,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -50,6 +52,7 @@ const Textarea = ({
       {label && (
         <label className="kern-label" htmlFor={name}>
           {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
         </label>
       )}
       {description && <RichText html={description} />}
