@@ -5,7 +5,6 @@ import { StrapiDateInputComponentSchema } from "./StrapiDateInput";
 import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
 import { StrapiFieldSetComponentSchema } from "./StrapiFieldSet";
 import { StrapiFilesUploadComponentSchema } from "./StrapiFilesUpload";
-import { StrapiHiddenInputComponentSchema } from "./StrapiHiddenInput";
 import { StrapiInputComponentSchema } from "./StrapiInput";
 import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
@@ -24,7 +23,6 @@ export const StrapiFormComponentSchema = z.union([
   StrapiCheckboxComponentSchema,
   StrapiTileGroupComponentSchema,
   StrapiAutoSuggestInputComponentSchema,
-  StrapiHiddenInputComponentSchema,
   StrapiFieldSetComponentSchema,
   StrapiIncrementComponentSchema,
 ]);
