@@ -121,8 +121,8 @@ importers:
         specifier: ^15.1.3
         version: 15.1.3
       rate-limit-redis:
-        specifier: ^4.3.1
-        version: 4.3.1(express-rate-limit@8.5.1)
+        specifier: ^5.0.0
+        version: 5.0.0(express-rate-limit@8.5.1)
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -4185,11 +4185,11 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
 
-  rate-limit-redis@4.3.1:
-    resolution: {integrity: sha512-+a1zU8+D7L8siDK9jb14refQXz60vq427VuiplgnaLk9B2LnvGe/APLTfhwb4uNIL7eWVknh8GnRp/unCj+lMA==}
+  rate-limit-redis@5.0.0:
+    resolution: {integrity: sha512-+M9el8KZjZ2HXM6/E38jFGmozBbN4C200iLE8+80TgS+8PzSfAAvD1zkx2oWu6YEgSrdiJJNrd4LCFm5vjVJkg==}
     engines: {node: '>= 16'}
     peerDependencies:
-      express-rate-limit: '>= 6'
+      express-rate-limit: '>= 8.5.0'
 
   raw-body@3.0.2:
     resolution: {integrity: sha512-K5zQjDllxWkf7Z5xJdV0/B0WTNqx6vxG70zJE4N0kBs4LovmEYWJzQGxC9bS9RAKu3bgM40lrd5zoLJ12MQ5BA==}
@@ -9255,7 +9255,7 @@ snapshots:
 
   range-parser@1.2.1: {}
 
-  rate-limit-redis@4.3.1(express-rate-limit@8.5.1):
+  rate-limit-redis@5.0.0(express-rate-limit@8.5.1):
     dependencies:
       express-rate-limit: 8.5.1(express@5.2.1)
 
