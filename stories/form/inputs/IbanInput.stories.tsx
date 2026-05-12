@@ -1,6 +1,7 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import IbanInput from "~/components/formElements/inputs/iban/IbanInput";
+import { kontopfaendungPkontoAntragPages } from "~/domains/kontopfaendung/pkonto/antrag/pages";
 
 const meta = {
   title: "form/inputs/IbanInput",
@@ -18,6 +19,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "iban",
+    pageConfig: {
+      controlledFieldConfig:
+        kontopfaendungPkontoAntragPages.bankdatenKontodaten
+          .controlledFieldConfig,
+    },
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

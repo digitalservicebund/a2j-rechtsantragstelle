@@ -31,10 +31,6 @@ vi.mock("@rvf/react-router", async () => ({
   }),
 }));
 
-vi.mock("react", async () => ({
-  ...(await vi.importActual("react")),
-}));
-
 vi.mock("~/components/formElements/inputs/iban/fetchBanks.ts", () => ({
   fetchBanks: vi.fn(
     () =>
