@@ -53,7 +53,7 @@ const SummaryOverviewBox = ({
           />
         ))}
       </dl>
-      <a href={`${flowId}${stepId}`} className="kern-link no-underline!">
+      <a href={`${flowId}${stepId}`} className="kern-link no-underline! hover:underline!">
         <Icon name="edit" />
         Bearbeiten
       </a>
