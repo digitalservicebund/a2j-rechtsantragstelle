@@ -5,7 +5,7 @@ import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { SchemaObject, UserData } from "./userData";
+import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
@@ -14,6 +14,9 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { type MaybePromise } from "p-map";
+import { type FieldApi } from "@rvf/react";
+import { type Dispatch, type SetStateAction } from "react";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -69,7 +72,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   return fieldsMap;
 };
 
-const getPageConfigOrArrayPageByPathname = (pathname: string) => {
+export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) return undefined;
 
@@ -152,9 +155,25 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 
 export type PagesConfig = Record<string, PageConfig>;
 
+export type FieldValueChangeHandlerProps = {
+  fieldValue: AllowedUserTypes;
+  originalFieldValue: AllowedUserTypes;
+  controlledField: FieldApi<any>;
+  setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
+};
+
+export type ControlledFieldConfig = {
+  controlledFieldName: string;
+  handleFieldValueChange: (
+    props: FieldValueChangeHandlerProps,
+  ) => MaybePromise<void | (() => void)>;
+  getScreenreaderAnnouncementText: (controlledFieldSrValue: string) => string;
+};
+
 type FlowPage = {
   stepId: string;
   pageSchema?: SchemaObject;
+  controlledFieldConfig?: ControlledFieldConfig;
   readonlyFields?: ReadOnlyFields;
 };
 
@@ -163,15 +182,17 @@ type ReadOnlyFields = {
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 
-type ArrayPage = {
+export type ArrayPage = {
   pageSchema?: SchemaObject;
   arrayPages?: Record<string, ArrayPage>;
+  controlledFieldConfig?: ControlledFieldConfig;
   readonlyFields?: ReadOnlyFields;
 };
 
 type ArrayParentPage = {
   stepId: string;
   pageSchema: SchemaObject;
+  controlledFieldConfig?: ControlledFieldConfig;
   arrayPages: Record<string, ArrayPage>;
 };
 

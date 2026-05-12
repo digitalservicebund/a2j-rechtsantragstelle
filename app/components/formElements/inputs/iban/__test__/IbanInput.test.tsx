@@ -7,6 +7,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { FormProvider, useForm } from "@rvf/react";
 import { z } from "zod";
 import { userEvent } from "@testing-library/user-event";
+import { kontopfaendungPkontoAntragPages } from "~/domains/kontopfaendung/pkonto/antrag/pages";
 
 const mockIBAN = "DE02120300000000202051";
 /**
@@ -34,8 +35,8 @@ vi.mock("react", async () => ({
   ...(await vi.importActual("react")),
 }));
 
-vi.mock("~/components/formElements/inputs/iban/useBankData.ts", () => ({
-  useBankData: vi.fn(
+vi.mock("~/components/formElements/inputs/iban/fetchBanks.ts", () => ({
+  fetchBanks: vi.fn(
     () =>
       ({
         [Number(mockIBAN.substring(4, 12))]: mockBankName,
@@ -71,6 +72,9 @@ const RVFWrapper = ({
 
 const user = userEvent.setup();
 
+const controlledFieldConfig =
+  kontopfaendungPkontoAntragPages.bankdatenKontodaten.controlledFieldConfig;
+
 describe("IbanInput", () => {
   beforeEach(() => {
     /**
@@ -90,7 +94,11 @@ describe("IbanInput", () => {
   it("should render a user-entered IBAN with masked spaces between digit groups", async () => {
     const { getByLabelText } = render(
       <RVFWrapper>
-        <IbanInput name="iban" label="IBAN" />
+        <IbanInput
+          name="iban"
+          label="IBAN"
+          pageConfig={{ controlledFieldConfig }}
+        />
       </RVFWrapper>,
     );
     const input = getByLabelText("IBAN");
@@ -108,7 +116,11 @@ describe("IbanInput", () => {
   it("should accessibly announce to the user if the bank name is identified", async () => {
     const { getByLabelText, getByText } = render(
       <RVFWrapper>
-        <IbanInput name="iban" label="IBAN" />
+        <IbanInput
+          name="iban"
+          label="IBAN"
+          pageConfig={{ controlledFieldConfig }}
+        />
       </RVFWrapper>,
     );
     const input = getByLabelText("IBAN");
@@ -130,6 +142,7 @@ describe("IbanInput", () => {
         <IbanInput
           name="iban"
           label="IBAN"
+          pageConfig={{ controlledFieldConfig }}
           errorMessages={[{ code: "invalid", text: "Invalid IBAN" }]}
         />
       </RVFWrapper>,
@@ -149,7 +162,11 @@ describe("IbanInput", () => {
     it("should update the bankName field if the iban changes and it matches an existing bank", async () => {
       const { getByLabelText } = render(
         <RVFWrapper>
-          <IbanInput name="iban" label="IBAN" />
+          <IbanInput
+            name="iban"
+            label="IBAN"
+            pageConfig={{ controlledFieldConfig }}
+          />
         </RVFWrapper>,
       );
       const input = getByLabelText("IBAN");
@@ -168,7 +185,11 @@ describe("IbanInput", () => {
     it("should only take action if the current iban differs from the intially-rendered iban", async () => {
       const { getByLabelText } = render(
         <RVFWrapper defaultValues={{ iban: "existing" }}>
-          <IbanInput name="iban" label="IBAN" />
+          <IbanInput
+            name="iban"
+            label="IBAN"
+            pageConfig={{ controlledFieldConfig }}
+          />
         </RVFWrapper>,
       );
       const input = getByLabelText("IBAN");
@@ -187,7 +208,11 @@ describe("IbanInput", () => {
     it("should set the bank name field to an empty string if the iban becomes erased", async () => {
       const { getByLabelText } = render(
         <RVFWrapper defaultValues={{ iban: mockIBAN }}>
-          <IbanInput name="iban" label="IBAN" />
+          <IbanInput
+            name="iban"
+            label="IBAN"
+            pageConfig={{ controlledFieldConfig }}
+          />
         </RVFWrapper>,
       );
       const input = getByLabelText("IBAN");
@@ -205,7 +230,11 @@ describe("IbanInput", () => {
     it("should set the bank name field to an empty string if the iban changes but no bank matches", async () => {
       const { getByLabelText } = render(
         <RVFWrapper>
-          <IbanInput name="iban" label="IBAN" />
+          <IbanInput
+            name="iban"
+            label="IBAN"
+            pageConfig={{ controlledFieldConfig }}
+          />
         </RVFWrapper>,
       );
       const input = getByLabelText("IBAN");

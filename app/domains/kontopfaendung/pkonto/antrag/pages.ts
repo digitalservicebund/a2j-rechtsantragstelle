@@ -1,4 +1,9 @@
-import type { PagesConfig } from "~/domains/pageSchemas";
+import { bankNameFromIBAN } from "~/components/formElements/inputs/iban/bankNameFromIBAN";
+import { fetchBanks } from "~/components/formElements/inputs/iban/fetchBanks";
+import type {
+  FieldValueChangeHandlerProps,
+  PagesConfig,
+} from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { ibanSchema } from "~/services/validation/iban";
@@ -33,6 +38,46 @@ export const kontopfaendungPkontoAntragPages = {
     pageSchema: {
       iban: ibanSchema,
       bankName: stringRequiredSchema,
+    },
+    controlledFieldConfig: {
+      controlledFieldName: "bankName",
+      handleFieldValueChange: async ({
+        originalFieldValue,
+        fieldValue,
+        controlledField,
+        setControlledFieldSrValue,
+      }: FieldValueChangeHandlerProps) => {
+        const banks = await fetchBanks();
+
+        // needed to ensure value isn't automatically set upon initial render
+        if (originalFieldValue !== fieldValue) {
+          if (
+            fieldValue &&
+            typeof fieldValue === "string" &&
+            fieldValue.length > 0 &&
+            banks
+          ) {
+            // Debounce needed to not clobber the screen reader while typing
+            const timeout = setTimeout(() => {
+              const matchedBankName = bankNameFromIBAN(fieldValue, banks);
+              if (matchedBankName) {
+                setControlledFieldSrValue(matchedBankName);
+                controlledField.setValue(matchedBankName);
+                controlledField.validate();
+              } else {
+                setControlledFieldSrValue("");
+                controlledField.setValue("");
+              }
+            }, 1000);
+
+            return () => clearTimeout(timeout);
+          }
+          setControlledFieldSrValue("");
+          controlledField?.setValue("");
+        }
+      },
+      getScreenreaderAnnouncementText: (controlledFieldSrValue: string) =>
+        `Bank identifiziert: ${controlledFieldSrValue}`,
     },
   },
   kontoinhaberName: {

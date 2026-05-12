@@ -10,6 +10,7 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import HiddenInput from "../inputs/hidden/HiddenInput";
 import IbanInput from "../inputs/iban/IbanInput";
 import TelephoneInput from "../inputs/telephone/TelephoneInput";
+import { type ArrayPage, type PageConfig } from "~/domains/pageSchemas";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -44,6 +45,7 @@ export const isSpecialComponentDescriptions = (
 export const renderSpecialMetaDescriptions = (
   fieldName: string,
   description: SpecialComponentDescription,
+  pageConfig?: ArrayPage | PageConfig,
   matchingElement?: StrapiFormComponent,
 ) => {
   if (description === filesUploadZodDescription) {
@@ -72,7 +74,14 @@ export const renderSpecialMetaDescriptions = (
   }
 
   if (description === ibanZodDescription) {
-    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
+    return (
+      <IbanInput
+        key={fieldName}
+        name={fieldName}
+        pageConfig={pageConfig}
+        {...matchingElement}
+      />
+    );
   }
 
   if (description === phoneNumberZodDescription) {

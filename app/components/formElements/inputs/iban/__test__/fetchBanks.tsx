@@ -1,21 +1,19 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { useBankData } from "../useBankData";
 import { type BankData } from "../bankNameFromIBAN";
+import { fetchBanks } from "~/components/formElements/inputs/iban/fetchBanks";
 
 const mockFetch = vi.fn();
 globalThis.fetch = mockFetch;
 
-describe("useBankData", () => {
+describe("fetchBanks", () => {
   afterEach(() => {
     vi.resetAllMocks();
   });
 
-  it("should return undefined if the api call fails", () => {
+  it("should return undefined if the api call fails", async () => {
     mockFetch.mockImplementation(() => {
       throw new Error("API broken :(");
     });
-    const { result } = renderHook(() => useBankData());
-    expect(result.current).toBeUndefined();
+    expect(await fetchBanks()).toBeUndefined();
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
@@ -24,10 +22,7 @@ describe("useBankData", () => {
       ok: false,
     }));
 
-    const { result } = renderHook(() => useBankData());
-    await waitFor(() => {
-      expect(result.current).toBe(undefined);
-    });
+    expect(await fetchBanks()).toBeUndefined();
   });
 
   it("should return the bank data if the api call succeeds", async () => {
@@ -39,9 +34,6 @@ describe("useBankData", () => {
       json: () => Promise.resolve(mockBankData),
     }));
 
-    const { result } = renderHook(() => useBankData());
-    await waitFor(() => {
-      expect(result.current).toBe(mockBankData);
-    });
+    expect(await fetchBanks()).toBe(mockBankData);
   });
 });

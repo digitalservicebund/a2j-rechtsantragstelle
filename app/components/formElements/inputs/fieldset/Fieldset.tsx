@@ -84,7 +84,7 @@ export const Fieldset = ({
       )}
       <div className="kern-fieldset__body">
         <SchemaComponents
-          pageSchema={pageSchema}
+          pageConfig={{ pageSchema }}
           formComponents={formComponents}
           className={classNames("pt-16", { "md:pl-32": image })}
           readOnlyFieldNames={readOnlyFieldNames}

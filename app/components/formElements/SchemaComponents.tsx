@@ -1,4 +1,3 @@
-import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
@@ -28,22 +27,23 @@ import {
   isZodNumber,
   renderZodNumber,
 } from "~/components/formElements/schemaToForm/renderZodNumber";
+import { type ArrayPage, type PageConfig } from "~/domains/pageSchemas";
 
 type Props = {
-  pageSchema: SchemaObject;
+  pageConfig?: ArrayPage | PageConfig;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
 };
 
 export const SchemaComponents = ({
-  pageSchema,
+  pageConfig,
   formComponents,
   className,
   readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
-    pageSchema,
+    pageConfig?.pageSchema ?? {},
     formComponents,
   );
 
@@ -73,6 +73,7 @@ export const SchemaComponents = ({
           return renderSpecialMetaDescriptions(
             fieldName,
             description,
+            pageConfig,
             matchingElement,
           );
         }
