@@ -1,4 +1,3 @@
-// oxlint-disable no-console
 import { type FunctionComponent, useEffect, useRef } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
 import TextInput, { type InputProps } from "../text/TextInput";
@@ -23,11 +22,11 @@ const IbanInput = (props: InputProps) => {
   const originalIbanValue = useRef(iban).current;
   const banks = useBankData();
 
-  // Debounce needed to not clobber the screen reader while typing
   useEffect(() => {
     // needed to ensure value isn't automatically set upon initial render
     if (originalIbanValue !== iban) {
       if (iban && iban.length > 0 && banks) {
+        // Debounce needed to not clobber the screen reader while typing
         const timeout = setTimeout(() => {
           const matchedBankName = bankNameFromIBAN(iban, banks);
           if (matchedBankName) {
