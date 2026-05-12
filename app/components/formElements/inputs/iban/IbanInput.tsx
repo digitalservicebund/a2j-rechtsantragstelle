@@ -1,4 +1,4 @@
-import { type FunctionComponent, useEffect, useRef } from "react";
+import { type FunctionComponent, useEffect, useRef, useState } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
 import TextInput, { type InputProps } from "../text/TextInput";
 import { useBankData } from "./useBankData";
@@ -15,8 +15,6 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
   return <TextInput {...props} controlled={false} />;
 });
 
-// const bankNameBadgeId = "bank-name-badge";
-
 const IbanInput = (props: InputProps) => {
   const ibanField = useField<string | undefined>(props.name);
   const form = useFormContext<any>();
@@ -24,6 +22,7 @@ const IbanInput = (props: InputProps) => {
   const iban = ibanField.value();
   const originalIbanValue = useRef(iban).current;
   const banks = useBankData();
+  const [srBankName, setSrBankName] = useState<string>();
 
   useEffect(() => {
     // needed to ensure value isn't automatically set upon initial render
@@ -33,15 +32,18 @@ const IbanInput = (props: InputProps) => {
         const timeout = setTimeout(() => {
           const matchedBankName = bankNameFromIBAN(iban, banks);
           if (matchedBankName) {
+            setSrBankName(matchedBankName);
             bankNameField.setValue(matchedBankName);
             bankNameField.validate();
           } else {
+            setSrBankName("");
             bankNameField.setValue("");
           }
         }, 1000);
 
         return () => clearTimeout(timeout);
       }
+      setSrBankName("");
       bankNameField?.setValue("");
     }
   }, [iban, banks, bankNameField, originalIbanValue]);
@@ -52,10 +54,21 @@ const IbanInput = (props: InputProps) => {
         mask={"**** **** **** **** **** **** **** **** **"}
         type="number"
         prepareChar={(str) => str.toUpperCase()}
-        // ariaDescribedBy={bankNameBadgeId}
+        ariaDescribedBy="bankName"
         {...props}
       />
-      {/* <BankNameBadge bankNameBadgeId={bankNameBadgeId} bankName={bankName} /> */}
+
+      {/* Screenreader-only element used to read out bank name when it changes */}
+      <div
+        aria-live="polite"
+        aria-relevant="all"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        <span key={srBankName}>
+          {srBankName && `Bank identifiziert: ${srBankName}`}
+        </span>
+      </div>
     </div>
   );
 };

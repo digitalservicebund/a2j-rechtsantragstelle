@@ -30,6 +30,10 @@ vi.mock("@rvf/react-router", async () => ({
   }),
 }));
 
+vi.mock("react", async () => ({
+  ...(await vi.importActual("react")),
+}));
+
 vi.mock("~/components/formElements/inputs/iban/useBankData.ts", () => ({
   useBankData: vi.fn(
     () =>
@@ -96,6 +100,25 @@ describe("IbanInput", () => {
     await waitFor(
       () => {
         expect(input).toHaveValue(formatIban(mockIBAN));
+      },
+      { timeout: 2000 },
+    );
+  });
+
+  it("should accessibly announce to the user if the bank name is identified", async () => {
+    const { getByLabelText, getByText } = render(
+      <RVFWrapper>
+        <IbanInput name="iban" label="IBAN" />
+      </RVFWrapper>,
+    );
+    const input = getByLabelText("IBAN");
+
+    user.type(input, mockIBAN);
+    await waitFor(
+      () => {
+        expect(
+          getByText(`Bank identifiziert: ${mockBankName}`),
+        ).toBeInTheDocument();
       },
       { timeout: 2000 },
     );
