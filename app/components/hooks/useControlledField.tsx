@@ -5,24 +5,24 @@ import { type AllowedUserTypes } from "~/domains/userData";
 
 export const useControlledField = (
   fieldName: string,
-  controlledFieldConfig: ControlledFieldConfig,
+  controlledFieldConfig?: ControlledFieldConfig,
 ) => {
   const {
     controlledFieldName,
     getScreenreaderAnnouncementText,
     handleFieldValueChange,
-  } = controlledFieldConfig;
+  } = controlledFieldConfig ?? {};
   const field = useField<AllowedUserTypes>(fieldName);
   const fieldValue = field.value();
   const originalFieldValue = useRef(fieldValue).current;
   const form = useFormContext<any>();
-  const controlledField = form?.field(controlledFieldName);
+  const controlledField = form?.field(controlledFieldName ?? "");
   const [controlledFieldSrValue, setControlledFieldSrValue] =
     useState<string>();
 
   useEffect(() => {
     async function fieldValueChangeHandler() {
-      await handleFieldValueChange({
+      await handleFieldValueChange?.({
         originalFieldValue: originalFieldValue,
         fieldValue,
         controlledField,
@@ -35,7 +35,7 @@ export const useControlledField = (
   const MemoizedScreenreaderAnnouncement = useMemo(
     () =>
       ScreenreaderAnnouncement(
-        getScreenreaderAnnouncementText(controlledFieldSrValue ?? "") ?? "",
+        getScreenreaderAnnouncementText?.(controlledFieldSrValue ?? "") ?? "",
         controlledFieldSrValue,
       ),
     [controlledFieldSrValue, getScreenreaderAnnouncementText],

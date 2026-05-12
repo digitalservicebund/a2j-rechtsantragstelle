@@ -2,11 +2,7 @@ import { type FunctionComponent } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
 import TextInput, { type InputProps } from "../text/TextInput";
 import { useControlledField } from "~/components/hooks/useControlledField";
-import {
-  type ControlledFieldConfig,
-  type ArrayPage,
-  type PageConfig,
-} from "~/domains/pageSchemas";
+import { type ArrayPage, type PageConfig } from "~/domains/pageSchemas";
 
 type MaskedIbanInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
 
@@ -25,7 +21,7 @@ const IbanInput = (
 ) => {
   const { SrAnnouncementComponent } = useControlledField(
     props.name,
-    props.pageConfig?.controlledFieldConfig ?? ({} as ControlledFieldConfig),
+    props.pageConfig?.controlledFieldConfig,
   );
 
   return (
