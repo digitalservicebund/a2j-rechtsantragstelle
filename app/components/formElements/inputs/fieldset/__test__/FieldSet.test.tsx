@@ -80,4 +80,18 @@ describe("FieldSet", () => {
     expect(img).toHaveAttribute("height", "24");
     expect(img).toHaveAttribute("width", "24");
   });
+
+  it("should render helper text when it is available", () => {
+    const helperText = "This is some helper text for the fieldset.";
+    const { getByText } = render(
+      <Fieldset
+        heading="anyHeading"
+        formComponents={mockFieldSetGroup.formComponents}
+        helperText={helperText}
+        readOnlyFieldNames={[]}
+      />,
+    );
+
+    expect(getByText(helperText)).toBeInTheDocument();
+  });
 });

@@ -41,7 +41,7 @@ type ErrorResult = {
 };
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
-  "/kontopfaendung/pkonto/antrag": "showErbausschlagungFlow",
+  "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
 } as const;
 
 export const getUserDataAndFlow = async (
