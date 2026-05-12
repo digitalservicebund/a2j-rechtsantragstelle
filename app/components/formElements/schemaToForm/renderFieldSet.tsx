@@ -26,6 +26,7 @@ export const renderFieldSet = (
     image,
     heading,
     id,
+    helperText,
   } = fieldSet;
 
   // Avoid rendering the FieldSet if the fieldName is not the first field in the FieldSet
@@ -39,6 +40,7 @@ export const renderFieldSet = (
       formComponents={formComponents}
       heading={heading}
       image={image}
+      helperText={helperText}
       readOnlyFieldNames={readOnlyFieldNames}
     />
   );
