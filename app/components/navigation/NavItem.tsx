@@ -85,11 +85,11 @@ export function NavItem({
     "kern-body kern-body--small w-full p-16! flex justify-between items-center",
     "hover:underline hover:bg-kern-neutral-200",
     "active:bg-kern-neutral-200",
-    "relative focus-visible:z-10",
+    "relative",
     "focus-visible:outline-none",
     "focus-visible:bg-white",
     "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
-    "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-border-inside),0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
+    "focus-visible:shadow-[inset_0_0_0_4px_var(--kern-color-action-focus-border-outside)]",
     {
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
