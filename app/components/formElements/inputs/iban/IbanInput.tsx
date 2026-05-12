@@ -10,9 +10,12 @@ type MaskedIbanInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
 const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
   HTMLInputElement,
   InputProps
->((props) => <TextInput {...props} controlled={false} />);
+>((props) => {
+  // Needs to be uncontrolled, so that the value gets masked on page load
+  return <TextInput {...props} controlled={false} />;
+});
 
-const bankNameBadgeId = "bank-name-badge";
+// const bankNameBadgeId = "bank-name-badge";
 
 const IbanInput = (props: InputProps) => {
   const ibanField = useField<string | undefined>(props.name);
@@ -49,7 +52,7 @@ const IbanInput = (props: InputProps) => {
         mask={"**** **** **** **** **** **** **** **** **"}
         type="number"
         prepareChar={(str) => str.toUpperCase()}
-        ariaDescribedBy={bankNameBadgeId}
+        // ariaDescribedBy={bankNameBadgeId}
         {...props}
       />
       {/* <BankNameBadge bankNameBadgeId={bankNameBadgeId} bankName={bankName} /> */}

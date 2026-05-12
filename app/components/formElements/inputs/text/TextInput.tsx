@@ -19,6 +19,10 @@ export type InputProps = Readonly<{
   inputRef?: React.Ref<HTMLInputElement>;
   readonly?: boolean;
   ariaDescribedBy?: InputHTMLAttributes<HTMLInputElement>["aria-describedby"];
+  /**
+   * Any TextInput could theoretically be controlled by another input on the same page,
+   * for example, the IbanInput and bank name.
+   */
   controlled?: boolean;
 }>;
 
