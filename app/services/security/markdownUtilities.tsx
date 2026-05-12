@@ -17,7 +17,7 @@ const defaultRenderer: Partial<Renderer> = {
     const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
       href: url,
       className: classNames("kern-link inline-block! p-0!", {
-        "no-underline! hover:underline!" : shouldOpenNewTab,
+        "no-underline! hover:underline!": shouldOpenNewTab,
       }),
       ...(shouldOpenNewTab
         ? {
