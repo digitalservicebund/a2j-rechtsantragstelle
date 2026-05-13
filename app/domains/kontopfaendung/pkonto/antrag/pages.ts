@@ -15,6 +15,8 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
+const banks = await fetchBanks();
+
 export const kontopfaendungPkontoAntragPages = {
   grundvoraussetzungenDatenverarbeitung: {
     stepId: "grundvoraussetzungen/datenverarbeitung",
@@ -48,8 +50,6 @@ export const kontopfaendungPkontoAntragPages = {
         controlledField,
         setControlledFieldSrValue,
       }: FieldValueChangeHandlerProps) => {
-        const banks = await fetchBanks();
-
         // needed to ensure value isn't automatically set upon initial render
         if (originalValue !== value) {
           if (value && typeof value === "string" && value.length > 0 && banks) {

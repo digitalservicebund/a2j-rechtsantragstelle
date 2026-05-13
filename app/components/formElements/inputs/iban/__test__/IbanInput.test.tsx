@@ -1,6 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { formatIban, ibanSchema } from "~/services/validation/iban";
-import { type BankData } from "../bankNameFromIBAN";
 import IbanInput from "../IbanInput";
 import { type JSX } from "react";
 import { createMemoryRouter, RouterProvider } from "react-router";
@@ -9,12 +8,15 @@ import { z } from "zod";
 import { userEvent } from "@testing-library/user-event";
 import { kontopfaendungPkontoAntragPages } from "~/domains/kontopfaendung/pkonto/antrag/pages";
 
-const mockIBAN = "DE02120300000000202051";
+const { mockIBAN, mockBankName } = vi.hoisted(() => ({
+  mockIBAN: "DE02120300000000202051",
+  mockBankName: "Deutsche Kreditbank Suhl",
+}));
+
 /**
  * This swiss IBAN is valid, but doesn't match the German bank name database.
  */
 const mockNonMatchingIBAN = "CH0209000000100013997";
-const mockBankName = "Deutsche Kreditbank Suhl";
 
 const { mockFieldSetValue, mockFieldValidate } = vi.hoisted(() => ({
   mockFieldSetValue: vi.fn().mockName("mockFieldSetValue"),
@@ -32,12 +34,9 @@ vi.mock("@rvf/react-router", async () => ({
 }));
 
 vi.mock("~/components/formElements/inputs/iban/fetchBanks.ts", () => ({
-  fetchBanks: vi.fn(
-    () =>
-      ({
-        [Number(mockIBAN.substring(4, 12))]: mockBankName,
-      }) as BankData,
-  ),
+  fetchBanks: vi.fn(() => ({
+    [Number(mockIBAN.substring(4, 12))]: mockBankName,
+  })),
 }));
 
 const RVFWrapper = ({
