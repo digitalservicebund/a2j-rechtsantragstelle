@@ -92,7 +92,7 @@ describe("IbanInput", () => {
         <IbanInput
           name="iban"
           label="IBAN"
-          pageConfig={{ controlledFieldConfig }}
+          controlledFieldConfig={controlledFieldConfig}
         />
       </RVFWrapper>,
     );
@@ -114,7 +114,7 @@ describe("IbanInput", () => {
         <IbanInput
           name="iban"
           label="IBAN"
-          pageConfig={{ controlledFieldConfig }}
+          controlledFieldConfig={controlledFieldConfig}
         />
       </RVFWrapper>,
     );
@@ -137,7 +137,7 @@ describe("IbanInput", () => {
         <IbanInput
           name="iban"
           label="IBAN"
-          pageConfig={{ controlledFieldConfig }}
+          controlledFieldConfig={controlledFieldConfig}
           errorMessages={[{ code: "invalid", text: "Invalid IBAN" }]}
         />
       </RVFWrapper>,
@@ -160,7 +160,7 @@ describe("IbanInput", () => {
           <IbanInput
             name="iban"
             label="IBAN"
-            pageConfig={{ controlledFieldConfig }}
+            controlledFieldConfig={controlledFieldConfig}
           />
         </RVFWrapper>,
       );
@@ -183,7 +183,7 @@ describe("IbanInput", () => {
           <IbanInput
             name="iban"
             label="IBAN"
-            pageConfig={{ controlledFieldConfig }}
+            controlledFieldConfig={controlledFieldConfig}
           />
         </RVFWrapper>,
       );
@@ -206,7 +206,7 @@ describe("IbanInput", () => {
           <IbanInput
             name="iban"
             label="IBAN"
-            pageConfig={{ controlledFieldConfig }}
+            controlledFieldConfig={controlledFieldConfig}
           />
         </RVFWrapper>,
       );
@@ -228,7 +228,7 @@ describe("IbanInput", () => {
           <IbanInput
             name="iban"
             label="IBAN"
-            pageConfig={{ controlledFieldConfig }}
+            controlledFieldConfig={controlledFieldConfig}
           />
         </RVFWrapper>,
       );

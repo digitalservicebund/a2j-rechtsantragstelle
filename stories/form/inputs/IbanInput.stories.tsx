@@ -19,11 +19,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "iban",
-    pageConfig: {
-      controlledFieldConfig:
-        kontopfaendungPkontoAntragPages.bankdatenKontodaten
-          .controlledFieldConfig,
-    },
+    controlledFieldConfig:
+      kontopfaendungPkontoAntragPages.bankdatenKontodaten.controlledFieldConfig,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

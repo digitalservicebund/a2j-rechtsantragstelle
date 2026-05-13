@@ -78,7 +78,7 @@ export const renderSpecialMetaDescriptions = (
       <IbanInput
         key={fieldName}
         name={fieldName}
-        pageConfig={pageConfig}
+        controlledFieldConfig={pageConfig?.controlledFieldConfig}
         {...matchingElement}
       />
     );
