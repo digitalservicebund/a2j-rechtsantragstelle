@@ -94,7 +94,7 @@ export const Component = () => {
         >
           <a
             href="/beratungshilfe/zustaendiges-gericht/suche"
-            className="flex kern-link no-underline!"
+            className="flex kern-link no-underline! hover:underline!"
           >
             <Icon name="arrow-forward" />
             Suche wiederholen

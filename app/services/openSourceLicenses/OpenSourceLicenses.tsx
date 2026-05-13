@@ -11,7 +11,7 @@ const renderLicenseEntry = (dependencyString: string, infos: Dependency) => {
     <li key={dependencyString}>
       {infos.repository ? (
         <a
-          className="kern-link inline-block! no-underline! p-0!"
+          className="kern-link inline-block! no-underline! hover:underline! p-0!"
           href={infos.repository}
         >
           <Icon name="open-in-new" className="inline! mr-4" />
@@ -44,7 +44,7 @@ type LicenseListProps = {
   };
 };
 
-const KernLicenseList = ({ dependencies }: LicenseListProps) => (
+const LicenseList = ({ dependencies }: LicenseListProps) => (
   <div className="px-kern-space-default pb-40">
     <ul>
       {Object.entries(dependencies.directDependencies).map(
@@ -64,4 +64,4 @@ const KernLicenseList = ({ dependencies }: LicenseListProps) => (
   </div>
 );
 
-export default KernLicenseList;
+export default LicenseList;

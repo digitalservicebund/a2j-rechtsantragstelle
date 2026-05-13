@@ -123,7 +123,7 @@ export function ResultPage() {
             <ButtonContainer>
               {back.destination && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={back.destination}
                 >
                   <Icon name="arrow-back" />
@@ -132,7 +132,7 @@ export function ResultPage() {
               )}
               {cmsContent.nextLink?.url && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={cmsContent.nextLink.url}
                 >
                   <Icon name="keyboard-double-arrow-left" />
