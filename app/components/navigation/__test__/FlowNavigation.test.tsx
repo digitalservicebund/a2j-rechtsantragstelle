@@ -18,7 +18,7 @@ describe("FlowNavigation", () => {
 
   it("renders the correct aria-label", () => {
     const { getByRole } = render(<FlowNavigation />);
-    expect(getByRole("complementary")).toHaveAttribute(
+    expect(getByRole("navigation")).toHaveAttribute(
       "aria-label",
       "Main Menu",
     );
