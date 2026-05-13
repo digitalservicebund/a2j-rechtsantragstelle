@@ -2,8 +2,8 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { type InputHTMLAttributes } from "react";
 import InputError from "../error/InputError";
+import { type InputHTMLAttributes } from "react";
 
 export type InputProps = Readonly<{
   name: string;
@@ -67,7 +67,7 @@ const TextInput = function InputComponent({
         })}
         {...(controlled
           ? {
-              value: field.value() as string,
+              value: (field.value() as string | number | undefined) ?? "",
               defaultValue: undefined,
             }
           : {})}

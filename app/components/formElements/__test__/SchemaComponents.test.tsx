@@ -13,7 +13,6 @@ import { SchemaComponents } from "../SchemaComponents";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { ibanSchema } from "~/services/validation/iban";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
-import { kontopfaendungPkontoAntragPages } from "~/domains/kontopfaendung/pkonto/antrag/pages";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -376,9 +375,6 @@ describe("SchemaComponents", () => {
       <WrappedSchemaComponents
         pageConfig={{
           pageSchema,
-          controlledFieldConfig:
-            kontopfaendungPkontoAntragPages.bankdatenKontodaten
-              .controlledFieldConfig,
         }}
         readOnlyFieldNames={[]}
         formComponents={[
