@@ -64,7 +64,10 @@ const TextInput = function InputComponent({
         })}
         {...(controlled
           ? {
-              value: (field.value() as string | number | undefined) ?? "",
+              value:
+                field.getInputProps().value ??
+                (field.value() as string | number | undefined) ??
+                "",
               defaultValue: undefined,
             }
           : {})}
