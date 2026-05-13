@@ -162,11 +162,13 @@ export type FieldValueChangeHandlerProps = {
   setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
 };
 
+export type FieldValueChangeHandler = (
+  props: FieldValueChangeHandlerProps,
+) => MaybePromise<void | (() => void)>;
+
 export type ControlledFieldConfig = {
   fieldName: string;
-  handleFieldValueChange: (
-    props: FieldValueChangeHandlerProps,
-  ) => MaybePromise<void | (() => void)>;
+  handleFieldValueChange: FieldValueChangeHandler;
   getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
 };
 
