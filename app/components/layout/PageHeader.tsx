@@ -63,7 +63,7 @@ export default function PageHeader({
               <div className="flex  md:flex-row gap-kern-space-default md:gap-kern-space-x-large">
                 <a
                   href={"/leichtesprache"}
-                  className="flex items-center! kern-link text-kern-static-small! no-underline!"
+                  className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline!"
                 >
                   <Icon name="local-library" />
                   {translations.pageHeader.leichtesprache.de}
@@ -71,7 +71,7 @@ export default function PageHeader({
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="flex items-center! kern-link text-kern-static-small! no-underline! hyphens-auto"
+                  className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline! hyphens-auto"
                 >
                   <Icon name="sign-language" />
                   {translations.pageHeader.gebaerdensprache.de}

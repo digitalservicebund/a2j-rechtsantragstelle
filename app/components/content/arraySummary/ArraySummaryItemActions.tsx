@@ -30,7 +30,7 @@ const ArraySummaryItemActions = ({
     <div className="flex gap-kern-space-small">
       <a
         href={editUrl}
-        className="kern-link no-underline! flex align-center gap-kern-space-x-small!"
+        className="kern-link no-underline! hover:underline! flex align-center gap-kern-space-x-small!"
         aria-label={`${srHeadingText}${translations.arraySummary.arrayEditButtonLabel.de}`}
       >
         <Icon

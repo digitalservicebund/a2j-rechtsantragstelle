@@ -18,7 +18,7 @@ export const FooterExternalLinks = () => {
             {section.title}
             <a
               href={link.url}
-              className="kern-link inline-block p-0! no-underline! wrap-anywhere"
+              className="kern-link inline-block p-0! no-underline! hover:underline! wrap-anywhere"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${link.text}, ${translations.navigation.linkOpensNewTab.de}`}
