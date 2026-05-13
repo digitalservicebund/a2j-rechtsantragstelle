@@ -1,24 +1,28 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode } from "react";
+import { InputLabel } from "../label/InputLabel";
 
 type RadioInputProps = {
+  readonly ref: React.Ref<HTMLInputElement>;
   readonly name: string;
   readonly value: string;
-  readonly onClick?: () => void;
   readonly text?: ReactNode;
-  readonly ref: React.Ref<HTMLInputElement>;
+  readonly suffix?: string;
+  readonly onClick?: () => void;
 };
 
 export const RadioInput = ({
+  ref,
+  text,
   name,
   value,
+  suffix,
   onClick,
-  text,
-  ref,
 }: RadioInputProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
+
   return (
     <div className="kern-form-check">
       <input
@@ -29,9 +33,7 @@ export const RadioInput = ({
         onClick={onClick}
         ref={ref}
       />
-      <label className="kern-label" htmlFor={id}>
-        {text}
-      </label>
+      <InputLabel name={id} label={text} suffix={suffix} />
     </div>
   );
 };

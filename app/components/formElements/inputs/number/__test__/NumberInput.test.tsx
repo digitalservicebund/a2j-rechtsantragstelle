@@ -36,6 +36,13 @@ describe("NumberInput", () => {
     expect(getByText("Enter an amount")).toBeInTheDocument();
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <NumberInput name="amount" label="Amount" suffix="Optional" />,
+    );
+    expect(getByText("Optional")).toBeInTheDocument();
+  });
+
   it("should render helper text linked with aria-describedby", () => {
     const { getByRole } = render(
       <NumberInput name="amount" helperText="Enter an amount" />,

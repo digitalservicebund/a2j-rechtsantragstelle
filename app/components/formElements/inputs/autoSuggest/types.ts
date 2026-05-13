@@ -15,4 +15,5 @@ export type AutoSuggestInputProps = Readonly<{
   isDisabled: boolean;
   minSuggestCharacters?: number;
   supportsFreeText?: boolean;
+  suffix?: string;
 }>;
