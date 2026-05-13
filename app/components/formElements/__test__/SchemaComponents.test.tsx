@@ -226,7 +226,7 @@ describe("SchemaComponents", () => {
   });
 
   it("should attach correct labels to inputs", () => {
-    const { getByRole, getByLabelText } = render(
+    const { getByRole, getByLabelText, getByText } = render(
       <WrappedSchemaComponents
         pageConfig={{ pageSchema: { field1: z.string() } }}
         readOnlyFieldNames={[]}
@@ -254,9 +254,11 @@ describe("SchemaComponents", () => {
       />,
     );
     const textInput = getByRole("textbox");
-    const textByLabel = getByLabelText("label");
+    const textByLabel = getByLabelText(/label/i);
+    const suffix = getByText("suffix");
     expect(textInput).toHaveAttribute("name", "field1");
     expect(textInput).toBe(textByLabel);
+    expect(suffix).toBeInTheDocument();
   });
 
   it("should render a hidden input", () => {

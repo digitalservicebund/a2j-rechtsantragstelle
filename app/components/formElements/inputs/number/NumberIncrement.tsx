@@ -7,6 +7,7 @@ import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
+import { InputLabel } from "../label/InputLabel";
 
 type InputProps = Readonly<{
   name: string;
@@ -14,6 +15,7 @@ type InputProps = Readonly<{
   max?: number;
   label?: string;
   errorMessages?: ErrorMessageProps[];
+  suffix?: string;
 }>;
 
 const IncrementDecrementButton: React.FC<{
@@ -51,6 +53,7 @@ const NumberIncrement = function InputComponent({
   max,
   label,
   errorMessages,
+  suffix,
 }: InputProps) {
   const field = useField<number>(name);
   const jsAvailable = useJsAvailable();
@@ -74,11 +77,7 @@ const NumberIncrement = function InputComponent({
             "kern-form-input--error": field.error(),
           })}
         >
-          {label && (
-            <label className="kern-label" htmlFor={name}>
-              {label}
-            </label>
-          )}
+          {label && <InputLabel name={name} label={label} suffix={suffix} />}
           <div
             className={classNames("p-4 bg-white gap-5 flex", {
               "kern-form-input__input--error": field.error(),

@@ -33,6 +33,13 @@ describe("TextInput", () => {
     expect(getByText("Text")).toBeInTheDocument();
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <TextInput name="text" label="Text" suffix="(e.g., John Doe)" />,
+    );
+    expect(getByText("(e.g., John Doe)")).toBeInTheDocument();
+  });
+
   it("should apply max length when charLimit is provided", () => {
     const { getByRole } = render(<TextInput name="text" charLimit={10} />);
     expect(getByRole("textbox")).toHaveAttribute("maxlength", "10");

@@ -2,29 +2,32 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 type InputProps = Readonly<{
   name: string;
   label?: string;
   type?: string;
   step?: string | number;
-  placeholder?: string;
   prefix?: string;
   suffix?: string;
-  errorMessages?: ErrorMessageProps[];
-  helperText?: string;
-  charLimit?: number;
   readonly?: boolean;
+  charLimit?: number;
+  helperText?: string;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
 }>;
 
 const NumberInput = function InputComponent({
+  step,
   name,
   label,
-  placeholder,
-  step,
-  errorMessages,
-  helperText,
+  suffix,
   readonly,
+  helperText,
+  placeholder,
+  errorMessages,
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -36,16 +39,12 @@ const NumberInput = function InputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
+
       {helperText && (
-        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-          {helperText}
-        </div>
+        <InputHelperText helperText={helperText} helperId={helperId} />
       )}
+
       <input
         className={classNames("kern-form-input__input bg-white!", {
           "kern-form-input__input--error": field.error(),

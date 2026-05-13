@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 export const StrapiIncrementComponentSchema = z
   .object({
@@ -8,6 +9,7 @@ export const StrapiIncrementComponentSchema = z
     name: stringRequiredSchema,
     label: z.string(),
     errors: StrapiErrorRelationSchema,
+    suffix: StrapiStringOptionalSchema,
   })
   .transform(({ errors, ...cmsData }) => ({
     ...cmsData,

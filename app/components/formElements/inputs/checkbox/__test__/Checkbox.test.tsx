@@ -48,6 +48,19 @@ describe("Checkbox", () => {
     expect(label).toBeInTheDocument();
   });
 
+  it("renders the suffix when provided", () => {
+    render(
+      <Checkbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        suffix="Optional"
+        required
+      />,
+    );
+    const suffix = screen.getByText("Optional");
+    expect(suffix).toBeInTheDocument();
+  });
+
   it("renders the hidden input when the checkbox is not checked", () => {
     render(
       <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
