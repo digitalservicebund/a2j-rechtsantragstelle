@@ -156,18 +156,18 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 export type PagesConfig = Record<string, PageConfig>;
 
 export type FieldValueChangeHandlerProps = {
-  fieldValue: AllowedUserTypes;
-  originalFieldValue: AllowedUserTypes;
+  value: AllowedUserTypes;
+  originalValue: AllowedUserTypes;
   controlledField: FieldApi<any>;
   setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
 };
 
 export type ControlledFieldConfig = {
-  controlledFieldName: string;
+  fieldName: string;
   handleFieldValueChange: (
     props: FieldValueChangeHandlerProps,
   ) => MaybePromise<void | (() => void)>;
-  getScreenreaderAnnouncementText: (controlledFieldSrValue: string) => string;
+  getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
 };
 
 type FlowPage = {

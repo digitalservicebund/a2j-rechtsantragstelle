@@ -4,6 +4,7 @@ import type {
   FieldValueChangeHandlerProps,
   PagesConfig,
 } from "~/domains/pageSchemas";
+import { translations } from "~/services/translations/translations";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { ibanSchema } from "~/services/validation/iban";
@@ -40,26 +41,21 @@ export const kontopfaendungPkontoAntragPages = {
       bankName: stringRequiredSchema,
     },
     controlledFieldConfig: {
-      controlledFieldName: "bankName",
+      fieldName: "bankName",
       handleFieldValueChange: async ({
-        originalFieldValue,
-        fieldValue,
+        originalValue,
+        value,
         controlledField,
         setControlledFieldSrValue,
       }: FieldValueChangeHandlerProps) => {
         const banks = await fetchBanks();
 
         // needed to ensure value isn't automatically set upon initial render
-        if (originalFieldValue !== fieldValue) {
-          if (
-            fieldValue &&
-            typeof fieldValue === "string" &&
-            fieldValue.length > 0 &&
-            banks
-          ) {
+        if (originalValue !== value) {
+          if (value && typeof value === "string" && value.length > 0 && banks) {
             // Debounce needed to not clobber the screen reader while typing
             const timeout = setTimeout(() => {
-              const matchedBankName = bankNameFromIBAN(fieldValue, banks);
+              const matchedBankName = bankNameFromIBAN(value, banks);
               if (matchedBankName) {
                 setControlledFieldSrValue(matchedBankName);
                 controlledField.setValue(matchedBankName);
@@ -76,8 +72,8 @@ export const kontopfaendungPkontoAntragPages = {
           controlledField?.setValue("");
         }
       },
-      getScreenreaderAnnouncementText: (controlledFieldSrValue: string) =>
-        `Bank identifiziert: ${controlledFieldSrValue}`,
+      getScreenReaderAnnouncementText: (controlledFieldSrValue: string) =>
+        `${translations.iban.bankIdentified.de}: ${controlledFieldSrValue}`,
     },
   },
   kontoinhaberName: {

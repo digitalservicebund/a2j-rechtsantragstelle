@@ -8,13 +8,13 @@ export const useControlledField = (
   controlledFieldConfig?: ControlledFieldConfig,
 ) => {
   const {
-    controlledFieldName,
-    getScreenreaderAnnouncementText,
+    fieldName: controlledFieldName,
+    getScreenReaderAnnouncementText,
     handleFieldValueChange,
   } = controlledFieldConfig ?? {};
   const field = useField<AllowedUserTypes>(fieldName);
-  const fieldValue = field.value();
-  const originalFieldValue = useRef(fieldValue).current;
+  const value = field.value();
+  const originalValue = useRef(value).current;
   const form = useFormContext<any>();
   const controlledField = form?.field(controlledFieldName ?? "");
   const [controlledFieldSrValue, setControlledFieldSrValue] =
@@ -23,22 +23,22 @@ export const useControlledField = (
   useEffect(() => {
     async function fieldValueChangeHandler() {
       await handleFieldValueChange?.({
-        originalFieldValue: originalFieldValue,
-        fieldValue,
+        originalValue,
+        value,
         controlledField,
         setControlledFieldSrValue,
       });
     }
     fieldValueChangeHandler();
-  }, [fieldValue, controlledField, originalFieldValue, handleFieldValueChange]);
+  }, [value, controlledField, originalValue, handleFieldValueChange]);
 
   const MemoizedScreenreaderAnnouncement = useMemo(
     () =>
       ScreenreaderAnnouncement(
-        getScreenreaderAnnouncementText?.(controlledFieldSrValue ?? "") ?? "",
+        getScreenReaderAnnouncementText?.(controlledFieldSrValue ?? "") ?? "",
         controlledFieldSrValue,
       ),
-    [controlledFieldSrValue, getScreenreaderAnnouncementText],
+    [controlledFieldSrValue, getScreenReaderAnnouncementText],
   );
 
   return {
