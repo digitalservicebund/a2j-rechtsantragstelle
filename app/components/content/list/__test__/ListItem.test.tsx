@@ -141,7 +141,7 @@ describe("ListItem", () => {
         <ListItem id={ITEM_ID} variant="numbered" />,
       );
       expect(
-        container.querySelector(".border-kern-neutral-300"),
+        container.querySelector(".bg-kern-layout-text-default"),
       ).toBeInTheDocument();
     });
 
