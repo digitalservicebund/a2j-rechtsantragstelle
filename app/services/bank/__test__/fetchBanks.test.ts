@@ -1,5 +1,5 @@
-import { type BankData } from "../bankNameFromIBAN";
-import { fetchBanks } from "~/components/formElements/inputs/iban/fetchBanks";
+import { type BankData } from "~/services/bank/bankNameFromIBAN";
+import { fetchBanks } from "~/services/bank/fetchBanks";
 
 const mockFetch = vi.fn();
 globalThis.fetch = mockFetch;

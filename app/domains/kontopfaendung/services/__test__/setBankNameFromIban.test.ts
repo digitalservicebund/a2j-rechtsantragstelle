@@ -21,7 +21,7 @@ const mockControlledField = {
 
 const mockSetControlledFieldSrValue = vi.fn();
 
-vi.mock("~/components/formElements/inputs/iban/fetchBanks.ts", () => ({
+vi.mock("~/services/bank/fetchBanks.ts", () => ({
   fetchBanks: vi.fn(() => ({
     [Number(mockIBAN.substring(4, 12))]: mockBankName,
   })),

@@ -1,8 +1,8 @@
 import {
   type BankData,
   bankNameFromIBAN,
-} from "~/components/formElements/inputs/iban/bankNameFromIBAN";
-import { fetchBanks } from "~/components/formElements/inputs/iban/fetchBanks";
+} from "~/services/bank/bankNameFromIBAN";
+import { fetchBanks } from "~/services/bank/fetchBanks";
 import { type FieldValueChangeHandler } from "~/domains/pageSchemas";
 
 let banks: BankData | undefined = undefined;
