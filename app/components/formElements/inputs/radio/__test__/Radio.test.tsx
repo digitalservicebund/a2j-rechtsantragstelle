@@ -29,6 +29,11 @@ describe("Radio", () => {
     expect(radio).toHaveAttribute("value", "yes");
   });
 
+  it("renders suffix when provided", () => {
+    render(<RadioInput {...defaultProps} suffix="Optional" />);
+    expect(screen.getByText("Optional")).toBeInTheDocument();
+  });
+
   it("calls onClick when clicked", () => {
     const onClickMock = vi.fn();
     render(<RadioInput {...defaultProps} onClick={onClickMock} />);

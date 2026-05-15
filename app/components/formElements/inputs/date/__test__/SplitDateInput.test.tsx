@@ -48,6 +48,11 @@ describe("SplitDateInput", () => {
 
     expect(screen.getByText("Geburtsdatum")).toBeInTheDocument();
   });
+  it("renders suffix when provided", () => {
+    render(<SplitDateInput name="birthdate" suffix="Optional" />);
+
+    expect(screen.getByText("Optional")).toBeInTheDocument();
+  });
 
   it("renders hint text", () => {
     render(<SplitDateInput name="birthdate" />);

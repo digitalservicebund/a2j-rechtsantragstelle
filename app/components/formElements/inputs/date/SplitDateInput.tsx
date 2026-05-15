@@ -3,9 +3,11 @@ import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
 
 type SplitDateInputProps = {
   name: string;
+  suffix?: string;
 };
 
 const sharedClassnames = "kern-form-input__input bg-white!" as const;
@@ -18,7 +20,7 @@ const sharedAttributes = {
   },
 } as const;
 
-const SplitDateInput = ({ name }: SplitDateInputProps) => {
+const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -43,9 +45,11 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
       })}
       {...dateField.getControlProps()}
     >
-      <legend className="kern-label">
-        {translations.splitDateComponent.legend.de}
-      </legend>
+      <InputLabel
+        name={name}
+        label={translations.splitDateComponent.legend.de}
+        suffix={suffix}
+      />
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
       </div>

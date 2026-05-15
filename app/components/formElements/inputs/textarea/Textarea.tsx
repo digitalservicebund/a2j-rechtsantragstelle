@@ -7,36 +7,39 @@ import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/k
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
 import RichText from "../../../common/RichText";
+import { InputLabel } from "../label/InputLabel";
 
 export const TEXT_AREA_ROWS = 3;
 
 type TextareaProps = Readonly<{
   name: string;
-  backgroundClass?: string;
-  description?: string;
   label?: ReactNode;
   details?: {
     title: string;
     content: string;
   };
-  placeholder?: string;
-  maxLength?: number;
-  errorMessages?: ErrorMessageProps[];
+  suffix?: string;
   innerRef?: React.Ref<HTMLTextAreaElement>;
+  maxLength?: number;
+  description?: string;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
+  backgroundClass?: string;
   ariaDescribedby?: string;
 }>;
 
 const Textarea = ({
   name,
-  backgroundClass,
-  description,
   label,
+  suffix,
   details,
-  placeholder,
-  maxLength = TEXTAREA_CHAR_LIMIT,
-  errorMessages,
   innerRef,
+  description,
+  placeholder,
+  errorMessages,
   ariaDescribedby,
+  backgroundClass,
+  maxLength = TEXTAREA_CHAR_LIMIT,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -47,11 +50,7 @@ const Textarea = ({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {description && <RichText html={description} />}
       {details && <Details {...details} />}
       <textarea

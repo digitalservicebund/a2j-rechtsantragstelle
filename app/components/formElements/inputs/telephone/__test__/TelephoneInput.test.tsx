@@ -30,6 +30,13 @@ describe("TelephoneInput", () => {
     expect(getByText("Telephone")).toBeInTheDocument();
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <TelephoneInput name="tel" label="Telephone" suffix="Optional" />,
+    );
+    expect(getByText("Optional")).toBeInTheDocument();
+  });
+
   it("should render helper text when provided", () => {
     const { getByText } = render(
       <TelephoneInput name="tel" helperText="Enter telephone number" />,
