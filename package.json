@@ -100,7 +100,7 @@
     "@axe-core/playwright": "^4.11.3",
     "@faker-js/faker": "^10.4.0",
     "@fast-csv/parse": "^5.0.7",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.60.0",
     "@react-router/dev": "^7.15.0",
     "@react-router/fs-routes": "^7.15.0",
     "@rvf/react": "^8.1.2",
