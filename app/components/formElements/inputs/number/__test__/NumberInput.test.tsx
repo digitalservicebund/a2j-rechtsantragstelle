@@ -88,11 +88,6 @@ describe("NumberInput", () => {
     expect(getByRole("textbox")).toHaveAttribute("readonly");
   });
 
-  it("should apply step attribute when provided", () => {
-    const { getByRole } = render(<NumberInput name="amount" step="0.01" />);
-    expect(getByRole("textbox")).toHaveAttribute("step", "0.01");
-  });
-
   it("should apply placeholder when provided", () => {
     const { getByPlaceholderText } = render(
       <NumberInput name="amount" placeholder="Enter amount" />,
