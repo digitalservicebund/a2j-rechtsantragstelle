@@ -10,8 +10,7 @@ const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
   HTMLInputElement,
   InputProps
 >((props) => {
-  // Needs to be uncontrolled, so that the value gets masked on page load
-  return <TextInput {...props} controlled={false} />;
+  return <TextInput {...props} />;
 });
 
 const IbanInput = (

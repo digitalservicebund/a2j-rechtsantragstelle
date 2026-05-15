@@ -172,6 +172,13 @@ export type ControlledFieldConfig = {
   getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
 };
 
+export const hasControlledFieldConfig = (
+  fieldName: string,
+  controlledFieldConfig: ControlledFieldConfig | undefined,
+) => {
+  return controlledFieldConfig?.fieldName === fieldName;
+};
+
 type FlowPage = {
   stepId: string;
   pageSchema?: SchemaObject;

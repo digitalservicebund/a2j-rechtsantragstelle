@@ -27,23 +27,27 @@ import {
   isZodNumber,
   renderZodNumber,
 } from "~/components/formElements/schemaToForm/renderZodNumber";
-import { type ArrayPage, type PageConfig } from "~/domains/pageSchemas";
+import {
+  hasControlledFieldConfig,
+  type ArrayPage,
+  type PageConfig,
+} from "~/domains/pageSchemas";
 
 type Props = {
-  pageConfig?: ArrayPage | PageConfig;
+  pageConfig: ArrayPage | PageConfig;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
 };
 
 export const SchemaComponents = ({
-  pageConfig,
+  pageConfig: { pageSchema, controlledFieldConfig },
   formComponents,
   className,
   readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
-    pageConfig?.pageSchema ?? {},
+    pageSchema ?? {},
     formComponents,
   );
 
@@ -55,6 +59,10 @@ export const SchemaComponents = ({
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
           formComponents ?? [],
+        );
+        const hasControlledField = hasControlledFieldConfig(
+          fieldName,
+          controlledFieldConfig,
         );
 
         if (fieldSetGroup !== undefined) {
@@ -73,7 +81,7 @@ export const SchemaComponents = ({
           return renderSpecialMetaDescriptions(
             fieldName,
             description,
-            pageConfig,
+            controlledFieldConfig,
             matchingElement,
           );
         }
@@ -97,7 +105,12 @@ export const SchemaComponents = ({
           return renderZodNumber(fieldName, nestedSchema, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
+          return renderZodString(
+            fieldName,
+            isFieldReadOnly,
+            matchingElement,
+            hasControlledField,
+          );
       })}
     </div>
   );
