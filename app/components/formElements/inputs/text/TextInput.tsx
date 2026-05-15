@@ -10,9 +10,6 @@ import { InputHelperText } from "../helperText/InputHelperText";
 export type InputProps = Readonly<{
   name: string;
   label?: string;
-  type?: string;
-  step?: string | number;
-  prefix?: string;
   suffix?: string;
   inputRef?: React.Ref<HTMLInputElement>;
   readonly?: boolean;
@@ -66,8 +63,7 @@ const TextInput = function InputComponent({
           ? {
               value:
                 field.getInputProps().value ??
-                (field.value() as string | number | undefined) ??
-                "",
+                (field.value() as string | number | undefined),
               defaultValue: undefined,
             }
           : {})}

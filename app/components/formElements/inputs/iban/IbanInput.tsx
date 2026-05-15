@@ -28,7 +28,6 @@ const IbanInput = (
     <div key={props.name} className="flex flex-col gap-15">
       <MaskedIbanInput
         mask={"**** **** **** **** **** **** **** **** **"}
-        type="number"
         prepareChar={(str) => str.toUpperCase()}
         ariaDescribedBy="bankName"
         {...props}
