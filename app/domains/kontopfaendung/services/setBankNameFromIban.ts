@@ -1,8 +1,17 @@
-import { bankNameFromIBAN } from "~/components/formElements/inputs/iban/bankNameFromIBAN";
+import {
+  type BankData,
+  bankNameFromIBAN,
+} from "~/components/formElements/inputs/iban/bankNameFromIBAN";
 import { fetchBanks } from "~/components/formElements/inputs/iban/fetchBanks";
 import { type FieldValueChangeHandler } from "~/domains/pageSchemas";
 
-const banks = await fetchBanks();
+let banks: BankData | undefined = undefined;
+
+const getBanks = async () => {
+  banks ??= await fetchBanks();
+
+  return banks;
+};
 
 export const setBankNameFromIban: FieldValueChangeHandler = async ({
   originalValue,
@@ -11,6 +20,7 @@ export const setBankNameFromIban: FieldValueChangeHandler = async ({
   setControlledFieldSrValue,
 }) => {
   if (originalValue !== value) {
+    const banks = await getBanks();
     if (value && typeof value === "string" && value.length > 0 && banks) {
       // Debounce needed to not clobber the screen reader while typing
       const timeout = setTimeout(() => {
