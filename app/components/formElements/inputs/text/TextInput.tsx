@@ -1,4 +1,4 @@
-import { useField } from "@rvf/react-router";
+import { type FieldApi, useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { INPUT_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { type ErrorMessageProps } from "~/components/common/types";
@@ -25,6 +25,23 @@ export type InputProps = Readonly<{
   controlled?: boolean;
 }>;
 
+const getInputValue = (field: FieldApi<unknown>, controlled: boolean) => {
+  if (field.getInputProps().value !== undefined) {
+    return field.getInputProps().value;
+  }
+
+  /** For controlled fields we want to use field.value() because can be modified by another input, e.g. the bank name is modified by the IbanInput.
+   * In case the value is undefined, we return an empty string to avoid uncontrolled input warnings.
+   * */
+
+  if (controlled) {
+    return (field.value() as string | number | undefined) ?? "";
+  }
+
+  // For uncontrolled fields we want to always return undefined
+  return undefined;
+};
+
 const TextInput = function InputComponent({
   name,
   label,
@@ -35,7 +52,7 @@ const TextInput = function InputComponent({
   placeholder,
   errorMessages,
   ariaDescribedBy,
-  controlled = true,
+  controlled = false,
   charLimit = INPUT_CHAR_LIMIT,
 }: InputProps) {
   const field = useField(name);
@@ -59,14 +76,11 @@ const TextInput = function InputComponent({
         {...field.getInputProps({
           id: name,
         })}
-        {...(controlled
-          ? {
-              value:
-                field.getInputProps().value ??
-                (field.value() as string | number | undefined),
-              defaultValue: undefined,
-            }
-          : {})}
+        value={getInputValue(field, controlled)}
+        // Always have a defaultValue for uncontrolled inputs to avoid React warnings about switching between controlled and uncontrolled
+        defaultValue={
+          controlled ? undefined : field.getInputProps().defaultValue
+        }
         name={name}
         type="text"
         placeholder={placeholder}

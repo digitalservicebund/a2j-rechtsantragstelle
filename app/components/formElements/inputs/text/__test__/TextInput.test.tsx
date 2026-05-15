@@ -91,6 +91,64 @@ describe("TextInput", () => {
     expect(ref.current).toBe(getByRole("textbox"));
   });
 
+  it("should set value when getInputProps.value() is provided", () => {
+    vi.mocked(useField).mockReturnValue({
+      error: () => "required",
+      getInputProps: () => ({
+        id: "text",
+        name: "text",
+        inputMode: "text",
+        value: "value existing",
+        defaultValue: "default",
+        placeholder: "Enter text",
+        onChange: vi.fn(),
+      }),
+    } as any);
+    const { getByRole } = render(<TextInput name="text" controlled={false} />);
+
+    expect(getByRole("textbox")).toHaveAttribute("value", "value existing");
+  });
+
+  it("should set value when as undefined when input is not controlled and getInputProps.value() is not provided ", () => {
+    vi.mocked(useField).mockReturnValue({
+      error: () => "required",
+      getInputProps: () => ({
+        id: "text",
+        name: "text",
+        inputMode: "text",
+        value: undefined,
+        defaultValue: "default",
+        placeholder: "Enter text",
+        onChange: vi.fn(),
+      }),
+    } as any);
+    const { getByRole } = render(<TextInput name="text" controlled={false} />);
+
+    expect(getByRole("textbox")).toHaveAttribute("value", undefined);
+  });
+
+  it("should set value from value() function when input is controlled and getInputProps.value() is not provided", () => {
+    vi.mocked(useField).mockReturnValue({
+      error: () => "required",
+      getInputProps: () => ({
+        id: "text",
+        name: "text",
+        inputMode: "text",
+        value: undefined,
+        defaultValue: "default",
+        placeholder: "Enter text",
+        onChange: vi.fn(),
+      }),
+      value: () => "some value from function",
+    } as any);
+    const { getByRole } = render(<TextInput name="text" controlled={true} />);
+
+    expect(getByRole("textbox")).toHaveAttribute(
+      "value",
+      "some value from function",
+    );
+  });
+
   it("should set the default value when not controlled", () => {
     vi.mocked(useField).mockReturnValue({
       error: () => "required",
@@ -105,10 +163,13 @@ describe("TextInput", () => {
       }),
     } as any);
     const { getByRole } = render(<TextInput name="text" controlled={false} />);
-    expect(getByRole("textbox")).toHaveAttribute("value", "default");
+
+    expect((getByRole("textbox") as HTMLInputElement).defaultValue).toBe(
+      "default",
+    );
   });
 
-  it("should set defaultValue to undefined when controlled", () => {
+  it("should not set defaultValue when controlled", () => {
     vi.mocked(useField).mockReturnValue({
       error: () => "required",
       getInputProps: () => ({
@@ -116,12 +177,13 @@ describe("TextInput", () => {
         name: "text",
         inputMode: "text",
         value: undefined,
-        defaultValue: undefined,
+        defaultValue: "default",
         placeholder: "Enter text",
         onChange: vi.fn(),
       }),
+      value: () => "",
     } as any);
-    const { getByRole } = render(<TextInput name="text" controlled={false} />);
-    expect(getByRole("textbox")).not.toHaveAttribute("value");
+    const { getByRole } = render(<TextInput name="text" controlled={true} />);
+    expect((getByRole("textbox") as HTMLInputElement).defaultValue).toBe("");
   });
 });
