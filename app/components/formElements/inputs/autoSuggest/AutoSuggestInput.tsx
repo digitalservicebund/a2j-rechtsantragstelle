@@ -137,16 +137,20 @@ const AutoSuggestInput = ({
         return;
       }
 
-      let filteredOptions =
-        dataList === "streetNames"
-          ? fuzzySearchEngine.search(value).map((result) => result.item)
-          : items.filter((item) =>
-              item.label.toLowerCase().includes(value.toLocaleLowerCase()),
-            );
+      let filteredOptions = items.filter((item) =>
+        item.label.toLowerCase().includes(value.toLocaleLowerCase()),
+      );
 
       // In case is the airports list, sorting by the code
       if (dataList === "airports") {
         filteredOptions = getSortingAirportsByCode(filteredOptions, value);
+      }
+
+      // In case no match is found and the list is street names, it will try to find a match with the fuzzy search
+      if (filteredOptions.length === 0 && dataList === "streetNames") {
+        filteredOptions = fuzzySearchEngine
+          .search(value)
+          .map((result) => result.item);
       }
 
       setOptions(filteredOptions);
