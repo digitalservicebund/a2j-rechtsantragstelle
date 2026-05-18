@@ -2,6 +2,7 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -23,7 +24,11 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
         [stepIds.datenverarbeitung.relative]: {
           on: {
             BACK: stepIds.start.relative,
-            SUBMIT: "#verstorbene",
+            SUBMIT: {
+              guard: ({ context }) =>
+                context.datenverarbeitungZustimmung === "on",
+              target: "#verstorbene",
+            },
           },
         },
       },
@@ -137,6 +142,124 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
               },
               stepIds.verstorbeneAdresse.relative,
             ],
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.testament === "none" ||
+                  context.testament === "unknown",
+                target: stepIds.awarenessDate.relative,
+              },
+              stepIds.namedInTestament.relative,
+            ],
+          },
+        },
+        [stepIds.namedInTestament.relative]: {
+          on: {
+            BACK: stepIds.testament.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) => context.namedInTestament === "no",
+                target: stepIds.ausschlagungNotNecessary.relative,
+              },
+              {
+                guard: ({ context }) =>
+                  context.namedInTestament === "yes" &&
+                  context.testament === "handwritten",
+                target: stepIds.letterReceivedFromNachlassgericht.relative,
+              },
+              {
+                guard: ({ context }) =>
+                  context.namedInTestament === "yes" &&
+                  (context.testament === "notarized" ||
+                    context.testament === "erbvertrag"),
+                target: stepIds.letterReceivedFromCourt.relative,
+              },
+            ],
+          },
+        },
+        [stepIds.letterReceivedFromNachlassgericht.relative]: {
+          on: {
+            BACK: stepIds.namedInTestament.relative,
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  context.letterReceivedFromNachlassgericht === "no",
+                target: stepIds.awarenessDate.relative,
+              },
+              stepIds.letterReceivedFromCourt.relative,
+            ],
+          },
+        },
+        [stepIds.letterReceivedFromCourt.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) =>
+                  context.letterReceivedFromNachlassgericht === "yes",
+                target: stepIds.letterReceivedFromNachlassgericht.relative,
+              },
+              stepIds.namedInTestament.relative,
+            ],
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context.dateOfReceipt, [
+                  "day",
+                  "month",
+                  "year",
+                ]),
+              target: "#ausschlagende-person",
+            },
+          },
+        },
+        [stepIds.ausschlagungNotNecessary.relative]: {
+          on: {
+            BACK: stepIds.namedInTestament.relative,
+          },
+        },
+        [stepIds.awarenessDate.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) =>
+                  context.testament === "handwritten" &&
+                  context.namedInTestament === "yes" &&
+                  context.letterReceivedFromNachlassgericht === "no",
+                target: stepIds.letterReceivedFromNachlassgericht.relative,
+              },
+              stepIds.testament.relative,
+            ],
+            SUBMIT: {
+              guard: ({ context }) =>
+                objectKeysNonEmpty(context.awarenessDate, [
+                  "day",
+                  "month",
+                  "year",
+                ]),
+              target: "#ausschlagende-person",
+            },
+          },
+        },
+      },
+    },
+    "ausschlagende-person": {
+      id: "ausschlagende-person",
+      initial: stepIds.ausschlagendePersonName.relative,
+      states: {
+        [stepIds.ausschlagendePersonName.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) =>
+                  objectKeysNonEmpty(context.dateOfReceipt, [
+                    "day",
+                    "month",
+                    "year",
+                  ]),
+                target: stepIds.letterReceivedFromCourt.absolute,
+              },
+              stepIds.awarenessDate.absolute,
+            ],
+            SUBMIT: "",
           },
         },
       },
