@@ -30,14 +30,8 @@ describe("Button Component", () => {
     render(<Button fullWidth />);
 
     expect(screen.getByRole("button")).toHaveClass(
-      "ds-button ds-button-full-width",
+      "kern-btn kern-btn--primary kern-btn--block",
     );
-  });
-
-  test("renders button with different size prop", () => {
-    render(<Button size="large" />);
-
-    expect(screen.getByRole("button")).toHaveClass("ds-button-large");
   });
 
   test("renders button as a link with href prop", () => {

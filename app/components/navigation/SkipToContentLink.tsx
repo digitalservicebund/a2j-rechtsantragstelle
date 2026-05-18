@@ -1,4 +1,4 @@
-import SvgArrowDownward from "@digitalservicebund/icons/ArrowDownward.js";
+import Button from "../common/Button";
 
 export function SkipToContentLink({
   label,
@@ -8,13 +8,11 @@ export function SkipToContentLink({
   target: string;
 }>) {
   return (
-    <a
-      href={target}
-      className="bg-yellow-300 px-8 flex py-6 text-blue-800 ds-label-01-reg absolute transform -translate-y-full focus:translate-y-0 focus:relative"
+    <div
       id="skip-to-content-link"
+      className="flex justify-center absolute pt-kern-space-default left-1/2 -translate-x-1/2 -translate-y-full focus-within:translate-y-0 z-11"
     >
-      <SvgArrowDownward />
-      {label}
-    </a>
+      <Button href={target} text={label} />
+    </div>
   );
 }

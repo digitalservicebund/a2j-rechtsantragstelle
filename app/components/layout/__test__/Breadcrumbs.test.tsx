@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import KernBreadcrumbs from "~/components/kern/layout/KernBreadcrumbs";
+import Breadcrumbs from "../Breadcrumbs";
 
 const breadcrumbs = [
   {
@@ -14,7 +14,7 @@ const breadcrumbs = [
 
 describe("Breadcrumbs", () => {
   it("should have the correct classNames for the parent html tags", () => {
-    const { getByText } = render(<KernBreadcrumbs breadcrumbs={breadcrumbs} />);
+    const { getByText } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
 
     expect(getByText(breadcrumbs[0].title).parentElement).toHaveClass(
       "kern-body-small",
@@ -26,7 +26,7 @@ describe("Breadcrumbs", () => {
 
   it("should have the correct aria label if provided", () => {
     const { container } = render(
-      <KernBreadcrumbs
+      <Breadcrumbs
         ariaLabel="header-breadcrumb"
         breadcrumbs={breadcrumbs}
         linkLabel="Zurück zur Startseite"
@@ -40,7 +40,7 @@ describe("Breadcrumbs", () => {
   });
 
   it("should be null if not provided", () => {
-    const { container } = render(<KernBreadcrumbs breadcrumbs={breadcrumbs} />);
+    const { container } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
     const link = container.querySelector("a");
     const nav = container.querySelector("nav");
 

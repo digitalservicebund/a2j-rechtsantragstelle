@@ -1,16 +1,16 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernFieldset } from "~/components/kern/formElements/KernFieldset";
 import demoImage from "../assets/Rechtliche_Unterstuetzung.svg?no-inline";
+import { Fieldset } from "~/components/formElements/inputs/fieldset/Fieldset";
 
 const meta = {
   title: "form/Fieldset",
-  component: KernFieldset,
+  component: Fieldset,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernFieldset>;
+} satisfies Meta<typeof Fieldset>;
 
 export default meta;
 
@@ -36,6 +36,7 @@ export const Default: Story = {
       },
     ],
     readOnlyFieldNames: [],
+    isStorybook: true,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
@@ -66,6 +67,33 @@ export const FieldsetWithImage: Story = {
       height: 24,
     },
     readOnlyFieldNames: [],
+    isStorybook: true,
+  },
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
+};
+
+export const FieldsetWithHelperText: Story = {
+  args: {
+    heading: "Heading",
+    formComponents: [
+      {
+        name: "direktAbflugsDatum",
+        label: "Datum geplanter Abflug (z.B. 10.03.2024) ",
+        errorMessages: [],
+        id: 76,
+        __component: "form-elements.date-input",
+      },
+      {
+        name: "direktAbflugsZeit",
+        label: "Zeit geplanter Abflug (z.B. 09:08)",
+        errorMessages: [],
+        id: 40,
+        __component: "form-elements.time-input",
+      },
+    ],
+    helperText: "This is some helper text for the fieldset.",
+    readOnlyFieldNames: [],
+    isStorybook: true,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

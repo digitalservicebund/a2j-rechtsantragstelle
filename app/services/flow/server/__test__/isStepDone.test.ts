@@ -1,0 +1,231 @@
+import z from "zod";
+import { isStepDone } from "~/services/flow/server/isStepDone";
+import { type PagesConfig } from "~/domains/pageSchemas";
+import { type ArrayConfigServer } from "~/services/array";
+import { createDateSchema } from "~/services/validation/dateString";
+import { integerSchema } from "~/services/validation/integer";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
+
+const testArrayPageSchema: PagesConfig = {
+  testArrayPage: {
+    stepId: "testArrayPage",
+    pageSchema: {
+      kinder: z.array(
+        z.object({
+          vorname: stringRequiredSchema,
+          nachname: stringRequiredSchema,
+          geburtsdatum: createDateSchema(),
+        }),
+      ),
+      hasKinder: z.enum(["yes", "no"]),
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinder#vorname": stringRequiredSchema,
+          "kinder#nachname": stringRequiredSchema,
+          "kinder#geburtsdatum": createDateSchema(),
+        },
+      },
+    },
+  },
+};
+
+const testArrayConfig: Record<string, ArrayConfigServer> = {
+  testArrayPage: {
+    event: "add-kinder",
+    url: "/testArrayPage",
+    initialInputUrl: "",
+    statementKey: "hasKinder",
+  },
+};
+
+describe("isStepDone", () => {
+  it("should return true when no relevant pageSchemas are found", () => {
+    expect(isStepDone({}, {}, [])).toBe(true);
+  });
+
+  it("should return true for a pageSchema without a zod schema", () => {
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+          },
+        },
+        {},
+        ["/testPage"],
+      ),
+    ).toBe(true);
+  });
+
+  it("should return false if the given context doesn't conform to the pageSchema", () => {
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+        },
+        {},
+        ["/testPage"],
+      ),
+    ).toBe(false);
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+        },
+        { testField: undefined },
+        ["/testPage"],
+      ),
+    ).toBe(false);
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+        },
+        { testField: 12345 as unknown as string },
+        ["/testPage"],
+      ),
+    ).toBe(false);
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+          testPage2: {
+            stepId: "testPage2",
+            pageSchema: {
+              testField2: integerSchema,
+            },
+          },
+        },
+        {
+          testField: "string",
+        },
+        ["/testPage", "/testPage2"],
+      ),
+    ).toBe(false);
+  });
+
+  it("should filter out unreachable pageSchemas", () => {
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+          unreachableTestPage: {
+            stepId: "unreachable",
+            pageSchema: {
+              testField2: integerSchema,
+            },
+          },
+        },
+        {
+          testField: "string",
+        },
+        ["/testPage"],
+      ),
+    ).toBe(true);
+  });
+
+  it("should filter out pageSchemas without actual schemas", () => {
+    expect(
+      isStepDone(
+        {
+          testPage: {
+            stepId: "testPage",
+            pageSchema: {
+              testField: stringRequiredSchema,
+            },
+          },
+          noPageSchema: {
+            stepId: "noPageSchema",
+          },
+        },
+        {
+          testField: "string",
+        },
+        ["/testPage"],
+      ),
+    ).toBe(true);
+  });
+
+  it("should correctly validate against arrays", () => {
+    expect(
+      isStepDone(
+        testArrayPageSchema,
+        {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/testArrayPage"],
+        testArrayConfig,
+      ),
+    ).toBe(true);
+
+    // Step is done -- array irrelevant because hasKinder === 'no'
+    expect(
+      isStepDone(
+        testArrayPageSchema,
+        {
+          hasKinder: "no",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: "01.01.2005",
+            },
+          ],
+        },
+        ["/testArrayPage"],
+        testArrayConfig,
+      ),
+    ).toBe(true);
+    expect(
+      isStepDone(
+        testArrayPageSchema,
+        {
+          hasKinder: "yes",
+          kinder: [
+            {
+              vorname: "Clara",
+              nachname: "Mustermann",
+              geburtsdatum: undefined as unknown as string,
+            },
+          ],
+        },
+        ["/testArrayPage"],
+        testArrayConfig,
+      ),
+    ).toBe(false);
+  });
+});

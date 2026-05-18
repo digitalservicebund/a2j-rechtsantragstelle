@@ -1,7 +1,7 @@
 import { Marked, type Renderer } from "marked";
 import { renderToString } from "react-dom/server";
 import { sanitizeHtml } from "./sanitizeHtml";
-import { KernIcon } from "~/components/kern/common/KernIcon";
+import { Icon } from "~/components/common/Icon";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
@@ -17,7 +17,7 @@ const defaultRenderer: Partial<Renderer> = {
     const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
       href: url,
       className: classNames("kern-link inline-block! p-0!", {
-        "no-underline!": shouldOpenNewTab,
+        "no-underline! hover:underline!": shouldOpenNewTab,
       }),
       ...(shouldOpenNewTab
         ? {
@@ -31,7 +31,7 @@ const defaultRenderer: Partial<Renderer> = {
     return renderToString(
       <a {...anchorProps}>
         {shouldOpenNewTab && (
-          <KernIcon
+          <Icon
             name="open-in-new"
             className="size-[1em] mb-[3.5px]! inline! mr-4"
           />

@@ -14,6 +14,7 @@ export const StrapiSelectComponentSchema = z
     __component: z.literal("form-elements.select"),
     label: StrapiStringOptionalSchema,
     altLabel: StrapiStringOptionalSchema,
+    suffix: StrapiStringOptionalSchema,
     options: z.array(StrapiSelectOptionSchema),
     errors: StrapiErrorRelationSchema,
     ...HasStrapiIdSchema.shape,

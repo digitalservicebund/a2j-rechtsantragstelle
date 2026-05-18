@@ -21,6 +21,9 @@ export default [
     ...prefix("wegweiser", vorabcheckRoutes("ESW")),
     ...prefix("nachlassgericht", vorabcheckRoutes("ESN")),
   ]),
+  ...prefix("nachlass", [
+    ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
+  ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),

@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { FlowStepperNavigation } from "../FlowStepperNavigation";
+import { FlowStepperNavigation } from "../FlowStepperNavigation/FlowStepperNavigation";
 
 describe("FlowStepperNavigation", () => {
   it("should render three steps", () => {
@@ -46,9 +46,11 @@ describe("FlowStepperNavigation", () => {
         <FlowStepperNavigation steps={currentSteps} />,
       );
 
-      expect(getByRole("listitem")).toHaveClass("bg-blue-400 ds-label-03-bold");
+      expect(getByRole("listitem")).toHaveClass(
+        "border-kern-neutral-300 bg-kern-neutral-100",
+      );
       expect(getByRole("link").children[0]).toHaveClass(
-        "bg-blue-800 text-white",
+        "bg-kern-action-default text-white",
       );
     });
 
@@ -78,13 +80,9 @@ describe("FlowStepperNavigation", () => {
     ];
 
     it("should have the correct styles", () => {
-      const { getByRole, getByTestId } = render(
-        <FlowStepperNavigation steps={doneSteps} />,
-      );
+      const { getByRole } = render(<FlowStepperNavigation steps={doneSteps} />);
 
-      expect(getByRole("listitem")).toHaveClass("bg-blue-100");
-      expect(getByRole("listitem")).toHaveClass("ds-label-03-reg");
-      expect(getByTestId("triangle")).toHaveClass("text-gray-100");
+      expect(getByRole("listitem")).toHaveClass("border-kern-neutral-300");
     });
 
     it("should have an icon done", () => {
@@ -92,7 +90,7 @@ describe("FlowStepperNavigation", () => {
         <FlowStepperNavigation steps={doneSteps} />,
       );
 
-      expect(getByTestId("icon-done")).toBeInTheDocument();
+      expect(getByTestId("icon-check-circle")).toBeInTheDocument();
     });
 
     it("should have an attribute aria-describedby for the link", () => {
@@ -116,7 +114,9 @@ describe("FlowStepperNavigation", () => {
         <FlowStepperNavigation steps={doneCurrentSteps} />,
       );
 
-      expect(getByRole("listitem")).toHaveClass("bg-blue-400 ds-label-03-bold");
+      expect(getByRole("listitem")).toHaveClass(
+        "bg-kern-neutral-200 font-semibold",
+      );
     });
 
     it("should have a done icon", () => {
@@ -124,7 +124,7 @@ describe("FlowStepperNavigation", () => {
         <FlowStepperNavigation steps={doneCurrentSteps} />,
       );
 
-      expect(getByTestId("icon-done")).toBeInTheDocument();
+      expect(getByTestId("icon-check-circle")).toBeInTheDocument();
     });
 
     it("should have aria-current for the link as true", () => {
@@ -153,15 +153,12 @@ describe("FlowStepperNavigation", () => {
     ];
 
     it("should have the correct styles", () => {
-      const { getByRole, getByTestId } = render(
-        <FlowStepperNavigation steps={openSteps} />,
-      );
+      const { getByRole } = render(<FlowStepperNavigation steps={openSteps} />);
 
-      expect(getByRole("listitem")).toHaveClass("bg-blue-100");
+      expect(getByRole("listitem")).toHaveClass("bg-kern-neutral-025");
       expect(getByRole("link").children[0]).toHaveClass(
-        "bg-blue-800 text-white",
+        "bg-kern-action-default text-white",
       );
-      expect(getByTestId("triangle")).toHaveClass("text-gray-100");
     });
 
     it("should have the step number", () => {
@@ -186,10 +183,10 @@ describe("FlowStepperNavigation", () => {
       );
 
       expect(getByRole("listitem")).toHaveClass(
-        "bg-blue-100 text-gray-600 curser-not-allowed pointer-events-none",
+        "bg-kern-neutral-025 text-kern-neutral-400 pointer-events-none",
       );
       expect(getByRole("link").children[0]).toHaveClass(
-        "bg-gray-600 text-white",
+        "bg-kern-neutral-400 text-white",
       );
     });
 
@@ -225,7 +222,7 @@ describe("FlowStepperNavigation", () => {
       );
 
       expect(getByRole("listitem")).toHaveClass(
-        "bg-yellow-200 active:bg-yellow-300 arrow-step-warning",
+        "bg-kern-feedback-warning-background hover:bg-kern-orange-100 stepper-step",
       );
     });
 
@@ -261,7 +258,7 @@ describe("FlowStepperNavigation", () => {
       );
 
       expect(getByRole("listitem")).toHaveClass(
-        "bg-blue-400 ds-label-03-bold bg-yellow-200 active:bg-yellow-300 arrow-step-warning",
+        "bg-kern-orange-100 font-semibold stepper-step",
       );
     });
 

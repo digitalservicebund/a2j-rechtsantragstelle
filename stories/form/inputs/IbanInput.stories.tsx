@@ -1,15 +1,15 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernIbanInput from "~/components/kern/formElements/input/KernIbanInput";
+import IbanInput from "~/components/formElements/inputs/iban/IbanInput";
 
 const meta = {
   title: "form/inputs/IbanInput",
-  component: KernIbanInput,
+  component: IbanInput,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof KernIbanInput>;
+} satisfies Meta<typeof IbanInput>;
 
 export default meta;
 

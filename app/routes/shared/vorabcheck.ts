@@ -26,7 +26,7 @@ import {
 } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
-import { shouldShowReportProblem } from "../../components/reportProblem/showReportProblem";
+import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";

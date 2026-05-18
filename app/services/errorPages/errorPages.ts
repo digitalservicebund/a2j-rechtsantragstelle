@@ -20,7 +20,6 @@ const errorPage403: StrapiContentComponent = {
     id: 363,
   },
   buttons: [],
-  variant: undefined,
   id: 121,
 };
 
@@ -44,7 +43,6 @@ const errorPage404: StrapiContentComponent = {
     id: 362,
   },
   buttons: [],
-  variant: undefined,
   id: 120,
 };
 
@@ -68,7 +66,6 @@ const errorPage500: StrapiContentComponent = {
     id: 364,
   },
   buttons: [],
-  variant: undefined,
   id: 122,
 };
 

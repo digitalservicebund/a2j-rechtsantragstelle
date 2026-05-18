@@ -4,12 +4,13 @@ import { type loader } from "../result";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { KernIcon } from "~/components/kern/common/KernIcon";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import KernHeading from "~/components/kern/KernHeading";
-import KernRichText from "~/components/kern/KernRichText";
+import { Icon } from "~/components/common/Icon";
+
 import { translations } from "~/services/translations/translations";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 const iconProps = {
   "aria-hidden": false,
@@ -21,7 +22,7 @@ const boxProps = {
   error: {
     backgroundColor: "kern-alert--danger",
     icon: (
-      <KernIcon
+      <Icon
         name="emergency-home"
         className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
         ariaLabel={translations.resultPage.negativeResultIcon.de}
@@ -31,7 +32,7 @@ const boxProps = {
   success: {
     backgroundColor: "kern-alert--success",
     icon: (
-      <KernIcon
+      <Icon
         name="check-circle"
         className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
         ariaLabel={translations.resultPage.positiveResultIcon.de}
@@ -41,7 +42,7 @@ const boxProps = {
   warning: {
     backgroundColor: "kern-alert--warning",
     icon: (
-      <KernIcon
+      <Icon
         name="warning"
         className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
         ariaLabel={translations.resultPage.warningIcon.de}
@@ -51,7 +52,7 @@ const boxProps = {
   info: {
     backgroundColor: "kern-alert--info",
     icon: (
-      <KernIcon
+      <Icon
         name="info"
         className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
         ariaLabel={translations.resultPage.infoIcon.de}
@@ -92,21 +93,21 @@ export function ResultPage() {
             <div className="flex sm:flex-row flex-col gap-16">
               {boxProps[cmsContent.pageType].icon}
               <div className="flex flex-col gap-16" id="flow-page-content">
-                <KernHeading
+                <Heading
                   tagName={cmsContent.heading.tagName}
                   text={cmsContent.heading.text}
                   className="kern-heading-large p-0!"
                   managedByParent
                 />
                 {cmsContent.hintText && (
-                  <KernRichText
+                  <RichText
                     className="font-medium! text-kern-static-large!"
                     html={cmsContent.hintText.html}
                   />
                 )}
                 {cmsContent.hintButton && (
                   <div className="flex flex-wrap mt-16">
-                    <KernButton {...cmsContent.hintButton} />
+                    <Button {...cmsContent.hintButton} />
                   </div>
                 )}
               </div>
@@ -119,26 +120,26 @@ export function ResultPage() {
             className="py-24"
             row={2}
           >
-            <KernButtonContainer>
+            <ButtonContainer>
               {back.destination && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={back.destination}
                 >
-                  <KernIcon name="arrow-back" />
+                  <Icon name="arrow-back" />
                   {back.label}
                 </a>
               )}
               {cmsContent.nextLink?.url && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={cmsContent.nextLink.url}
                 >
-                  <KernIcon name="keyboard-double-arrow-left" />
+                  <Icon name="keyboard-double-arrow-left" />
                   {next?.label}
                 </a>
               )}
-            </KernButtonContainer>
+            </ButtonContainer>
           </GridItem>
         </Grid>
       </GridSection>

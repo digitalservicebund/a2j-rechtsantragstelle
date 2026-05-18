@@ -6,10 +6,10 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
-import { KernProgress } from "~/components/kern/KernProgressBar";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import KernValidatedFlowForm from "~/components/kernFormElements/KernValidatedFormFlow";
-import KernArraySummary from "~/components/content/arraySummary/KernArraySummary";
+import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
+import { ProgressBar } from "~/components/layout/ProgressBar";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
+import ArraySummary from "~/components/content/arraySummary/ArraySummary";
 
 export function VorabcheckPage() {
   const {
@@ -34,7 +34,7 @@ export function VorabcheckPage() {
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-          <KernProgress {...progressProps} />
+          <ProgressBar {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -42,9 +42,10 @@ export function VorabcheckPage() {
           xlColumn={{ start: 3, span: 8 }}
           className="gap-kern-space-x-large flex flex-col"
           row={2}
+          id="flow-page-content"
         >
           <ContentComponents content={cmsContent.pre_form} managedByParent />
-          {arraySummaryData && <KernArraySummary {...arraySummaryData} />}
+          {arraySummaryData && <ArraySummary {...arraySummaryData} />}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -53,7 +54,7 @@ export function VorabcheckPage() {
           row={3}
           className={classNames({ "pb-80": !showReportProblem })}
         >
-          <KernValidatedFlowForm
+          <ValidatedFlowForm
             stepData={stepData}
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}
@@ -67,7 +68,7 @@ export function VorabcheckPage() {
             className="pb-80 pt-kern-space-x-large flex justify-end"
             row={4}
           >
-            <KernReportProblem />
+            <ReportProblem />
           </GridItem>
         )}
       </Grid>

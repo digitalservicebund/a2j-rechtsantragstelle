@@ -1,20 +1,24 @@
 import z from "zod";
-import FilesUpload from "~/components/formElements/filesUpload/FilesUpload";
-import HiddenInput from "~/components/formElements/HiddenInput";
-import IbanInput from "~/components/formElements/IbanInput";
 import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
 import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
+import { phoneNumberZodDescription } from "~/services/validation/phoneNumber";
+import FilesUpload from "../inputs/filesUpload/FilesUpload";
+import { mapLookValue } from "~/components/content/ContentComponents";
+import HiddenInput from "../inputs/hidden/HiddenInput";
+import IbanInput from "../inputs/iban/IbanInput";
+import TelephoneInput from "../inputs/telephone/TelephoneInput";
 
-export const specialComponentDescriptions = [
+const specialComponentDescriptions = [
   filesUploadZodDescription,
   hiddenInputZodDescription,
   ibanZodDescription,
+  phoneNumberZodDescription,
 ] as const;
 
-export type SpecialComponentDescription =
+type SpecialComponentDescription =
   (typeof specialComponentDescriptions)[number];
 
 export const extractZodDescription = (schema: z.ZodType) => {
@@ -37,7 +41,7 @@ export const isSpecialComponentDescriptions = (
 ): val is SpecialComponentDescription =>
   specialComponentDescriptions.includes(val);
 
-export const renderSchemaBasedFormElement = (
+export const renderSpecialMetaDescriptions = (
   fieldName: string,
   description: SpecialComponentDescription,
   matchingElement?: StrapiFormComponent,
@@ -52,7 +56,12 @@ export const renderSchemaBasedFormElement = (
         name={fieldName}
         title={filesUploadElement.title}
         description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices}
+        inlineNotices={filesUploadElement.inlineNotices?.map(
+          (inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }),
+        )}
         errorMessages={filesUploadElement.errorMessages}
       />
     );
@@ -64,5 +73,11 @@ export const renderSchemaBasedFormElement = (
 
   if (description === ibanZodDescription) {
     return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
+  }
+
+  if (description === phoneNumberZodDescription) {
+    return (
+      <TelephoneInput key={fieldName} name={fieldName} {...matchingElement} />
+    );
   }
 };

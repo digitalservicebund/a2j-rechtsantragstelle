@@ -14,6 +14,7 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
 import { erbfolgePages } from "./erbschein/erbfolge/pages";
+import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -27,6 +28,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/erbschein/erbfolge": erbfolgePages,
+  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;

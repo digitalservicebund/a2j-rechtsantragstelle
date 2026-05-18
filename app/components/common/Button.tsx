@@ -7,11 +7,11 @@ type ReactElementWithClassname = ReactElement<{ className: string }>;
 export type ButtonProps = {
   text?: string;
   look?: "primary" | "secondary" | "tertiary" | "ghost";
-  size?: "large" | "medium" | "small";
   href?: string;
   iconLeft?: ReactElementWithClassname;
   iconRight?: ReactElementWithClassname;
   fullWidth?: boolean;
+  textClassName?: string;
   type?: HTMLButtonElement["type"];
 };
 
@@ -19,7 +19,7 @@ type LinkProps = React.ComponentPropsWithoutRef<"a">;
 
 function formatIcon(icon?: ReactElementWithClassname) {
   if (!icon) return undefined;
-  const className = `ds-button-icon ${icon.props.className ?? ""}`;
+  const className = `${icon.props.className ?? ""}`;
   return cloneElement(icon, { className });
 }
 
@@ -40,28 +40,31 @@ function Button({
   iconRight,
   fullWidth,
   look,
-  size,
   href,
+  textClassName,
+  disabled,
   ...props
 }: ButtonProps & LinkProps & React.ComponentPropsWithRef<"button">) {
   const buttonClasses = classNames(
-    "ds-button",
+    "kern-btn",
     {
-      "ds-button-tertiary": look == "tertiary" || look === "secondary",
-      "ds-button-ghost": look == "ghost",
-      "ds-button-large": size == "large",
-      "ds-button-small": size == "small",
-      "ds-button-with-icon": iconLeft ?? iconRight,
-      "ds-button-with-icon-only": (iconLeft ?? iconRight) && !children && !text,
-      "ds-button-full-width": fullWidth,
-      "is-disabled": props.disabled,
+      "kern-btn--primary": !look || look === "primary",
+      "kern-btn--secondary": look === "secondary",
+      "kern-btn--tertiary": look === "tertiary",
+      "kern-btn--block": fullWidth,
+      "kern-btn--disabled pointer-events-none": disabled,
     },
-    "contrast-more:border-4 forced-colors:border-4 border-solid contrast-more:border-black",
     props.className,
   );
 
-  const textSpan = text ? <span className="ds-button-label">{text}</span> : "";
-  const childrenSpan = <span className="ds-button-label">{children}</span>;
+  const textSpan = text ? (
+    <span className={classNames("kern-label", textClassName)}>{text}</span>
+  ) : (
+    ""
+  );
+  const childrenSpan = (
+    <span className={classNames("kern-label", textClassName)}>{children}</span>
+  );
   iconLeft = formatIcon(iconLeft);
   iconRight = formatIcon(iconRight);
 
@@ -75,7 +78,7 @@ function Button({
     return (
       <a
         {...(props as LinkProps)}
-        href={props.disabled ? undefined : href}
+        href={disabled ? undefined : href}
         className={buttonClasses}
         onKeyDown={onKeyDown}
         {...opts}
@@ -86,7 +89,11 @@ function Button({
   }
 
   return (
-    <button {...(props as ButtonProps)} className={buttonClasses}>
+    <button
+      {...(props as ButtonProps)}
+      className={buttonClasses}
+      disabled={disabled}
+    >
       {iconLeft} {children ? childrenSpan : textSpan} {iconRight}
     </button>
   );

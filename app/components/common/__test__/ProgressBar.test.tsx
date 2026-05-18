@@ -1,9 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import { ProgressBar } from "../ProgressBar";
+import { ProgressBar } from "~/components/layout/ProgressBar";
 
 describe("ProgressBar", () => {
   it("should render a progress bar with correct value and max", () => {
-    render(<ProgressBar progress={2} max={5} fallback="Progress" />);
+    render(
+      <ProgressBar
+        progress={2}
+        max={5}
+        fallback="Progress"
+        label="Upload progress"
+      />,
+    );
 
     const progress = screen.getByRole("progressbar");
 
@@ -15,7 +22,14 @@ describe("ProgressBar", () => {
   });
 
   it("should render the fallback as accessible name", () => {
-    render(<ProgressBar progress={1} max={3} fallback="Step progress" />);
+    render(
+      <ProgressBar
+        progress={1}
+        max={3}
+        fallback="Step progress"
+        label="Upload progress"
+      />,
+    );
     expect(
       screen.getByRole("progressbar", { name: "Step progress" }),
     ).toBeInTheDocument();

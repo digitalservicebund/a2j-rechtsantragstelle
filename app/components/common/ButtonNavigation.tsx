@@ -1,5 +1,5 @@
-import Button from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
+import Button from "./Button";
+import ButtonContainer from "./ButtonContainer";
 
 type NavigationButton = {
   destination?: string;
@@ -14,12 +14,14 @@ export type ButtonNavigationProps = {
 
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
-    <ButtonContainer reverseOrder={true}>
+    <ButtonContainer
+      reverseOrder={true}
+      className="pt-kern-space-x-large pb-kern-space-x-large"
+    >
       {back?.destination && (
         <Button
           href={back.destination}
-          look="tertiary"
-          size="large"
+          look="secondary"
           className="w-fit print:hidden"
           disabled={back.disabled}
         >
@@ -32,7 +34,6 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
           name={next.destination ? undefined : "_action"}
           href={next.destination}
           value="next"
-          size="large"
           className="w-fit"
           disabled={next.disabled}
         >

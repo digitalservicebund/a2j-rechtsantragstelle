@@ -1,50 +1,48 @@
-import ArrowDownward from "@digitalservicebund/icons/ArrowDownward";
 import { arrayIsNonEmpty } from "~/util/array";
-import Button, { type ButtonProps } from "../common/Button";
-import ButtonContainer from "../common/ButtonContainer";
-import Heading, { type HeadingProps } from "../common/Heading";
-import { StandaloneLink } from "../common/StandaloneLink";
 import { GridItem } from "../layout/grid/GridItem";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import { Icon } from "../common/Icon";
+import ButtonContainer from "~/components/common//ButtonContainer";
+import { type HeadingProps } from "~/components/common/Heading";
+import Label from "../common/Label";
 
 type Props = {
   identifier?: string;
   label?: HeadingProps;
-  heading?: HeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
 };
 
-const TableOfContents = ({
-  identifier,
-  label,
-  heading,
-  links,
-  buttons,
-}: Props) => {
+const TableOfContents = ({ identifier, label, links, buttons }: Props) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="py-24"
       id={identifier}
+      className="px-kern-space-large lg:px-0 xl:px-0"
     >
-      <div className="ds-stack ds-stack-16">
-        <div className="ds-stack ds-stack-8">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
+      <nav aria-labelledby="table-of-contents-label">
+        <div>
+          {label && <Label {...label} elementId="table-of-contents-label" />}
           {links && links.length > 0 && (
-            <ul className="list-none pl-0 ds-stack ds-stack-16">
+            <ul className="list-none pl-0! mt-10">
               {links.map((link) => (
-                <li key={link.text ?? link.url}>
-                  <StandaloneLink
-                    className="visited:text-black text-black! flex"
-                    url={link.url}
-                    text={link.text ?? ""}
-                    icon={
-                      <ArrowDownward className="h-[1em] w-[1em] shrink-0 my-[0.25em]" />
-                    }
-                  />
+                <li
+                  key={link.text ?? link.url}
+                  className="list-none flex mb-10"
+                >
+                  <a
+                    href={link.url}
+                    className="kern-link no-underline! hover:underline!"
+                    aria-label={link.text}
+                  >
+                    <Icon
+                      name="arrow-downward"
+                      className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
+                    />
+                    {link.text ?? ""}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -57,7 +55,7 @@ const TableOfContents = ({
             ))}
           </ButtonContainer>
         )}
-      </div>
+      </nav>
     </GridItem>
   );
 };

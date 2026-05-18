@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
 import { useLocation, type Location, useLoaderData } from "react-router";
-import { type InlineNoticeProps } from "../../InlineNotice";
 import {
   type EmailCaptureProps,
-  KernEmailCapture,
-} from "~/components/content/emailCapture/KernEmailCapture";
+  EmailCapture,
+} from "~/components/content/emailCapture/EmailCapture";
 import { invalidEmailError } from "../emailCaptureHelpers";
+import { type InlineNoticeProps } from "~/components/content/InlineNotice";
 
 vi.mock("react-router", () => ({
   useLoaderData: vi.fn(() => ({})),
@@ -38,7 +38,7 @@ const successBanner: InlineNoticeProps = {
 const errorBanner: InlineNoticeProps = {
   title: "Error Title",
   tagName: "h1",
-  look: "error",
+  look: "danger",
   content: "Error message",
 };
 const submitButtonLabel = "Teilnehmen";
@@ -47,7 +47,7 @@ const fieldDescription = "Lorem ipsum";
 
 function renderEmailCapture(props?: Partial<EmailCaptureProps>) {
   return render(
-    <KernEmailCapture
+    <EmailCapture
       successBanner={successBanner}
       errorBanner={errorBanner}
       buttonLabel={submitButtonLabel}

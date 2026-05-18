@@ -6,7 +6,7 @@ export type RichTextProps = {
 const RichText = ({ html, className }: RichTextProps) => {
   return (
     <div
-      className={`rich-text ds-stack ds-stack-8 ${className}`}
+      className={`kern-body flex flex-col rich-text ${className ?? ""}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

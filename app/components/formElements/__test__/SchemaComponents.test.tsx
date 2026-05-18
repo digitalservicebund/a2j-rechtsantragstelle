@@ -9,7 +9,10 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
-import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
+import { SchemaComponents } from "../SchemaComponents";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
+import { ibanSchema } from "~/services/validation/iban";
+import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -19,7 +22,7 @@ const mockGetPageSchema = (pageSchema: any) => {
 
 describe("SchemaComponents", () => {
   function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof KernSchemaComponents>[0]>,
+    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
   ) {
     const form = useForm({
       schema: z.object(props.pageSchema),
@@ -31,7 +34,7 @@ describe("SchemaComponents", () => {
         path: "/",
         element: (
           <FormProvider scope={form.scope()}>
-            <KernSchemaComponents {...props} />
+            <SchemaComponents {...props} />
           </FormProvider>
         ),
       },
@@ -40,7 +43,7 @@ describe("SchemaComponents", () => {
     return <RouterProvider router={router} />;
   }
 
-  it("should render correct text inputs ", () => {
+  it("should render correct text inputs", () => {
     const pageSchema = { field1: z.string() };
     const { getByRole } = render(
       <WrappedSchemaComponents
@@ -52,7 +55,7 @@ describe("SchemaComponents", () => {
     expect(textInput).toHaveAttribute("name", "field1");
   });
 
-  it("should render textarea ", () => {
+  it("should render textarea", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
@@ -71,7 +74,7 @@ describe("SchemaComponents", () => {
     expect(textArea).toHaveAttribute("name", "field1");
   });
 
-  it("should render correct radio buttons ", () => {
+  it("should render correct radio buttons", () => {
     const pageSchema = { field1: z.enum(["option1", "option2"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
@@ -103,7 +106,7 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("name", "field1.b");
   });
 
-  it("should render tile group ", () => {
+  it("should render tile group", () => {
     const fieldName = "field1";
     const pageSchema = { [fieldName]: z.enum(["option1"]) };
     const { getByRole } = render(
@@ -140,7 +143,7 @@ describe("SchemaComponents", () => {
     expect(group).toHaveTextContent("option1 description");
   });
 
-  it("should render checkboxes ", () => {
+  it("should render checkboxes", () => {
     const fieldName = "field1";
     const pageSchema = { [fieldName]: checkedRequired };
     const { getByRole } = render(
@@ -166,7 +169,7 @@ describe("SchemaComponents", () => {
     expect(checkbox.parentElement).toHaveTextContent("label");
   });
 
-  it("should render exclusive checkboxes ", () => {
+  it("should render exclusive checkboxes", () => {
     const pageSchema = { field: exclusiveCheckboxesSchema(["option", "none"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
@@ -196,7 +199,7 @@ describe("SchemaComponents", () => {
     expect(checkboxes[1].parentElement).toHaveTextContent("none");
   });
 
-  it("should render multiple nested fields ", () => {
+  it("should render multiple nested fields", () => {
     const { getByRole, getAllByRole } = render(
       <WrappedSchemaComponents
         readOnlyFieldNames={[]}
@@ -220,8 +223,8 @@ describe("SchemaComponents", () => {
     expect(radio[1]).toHaveAttribute("value", "option2");
   });
 
-  it("should attach correct labels to inputs ", () => {
-    const { getByRole, getByLabelText } = render(
+  it("should attach correct labels to inputs", () => {
+    const { getByRole, getByLabelText, getByText } = render(
       <WrappedSchemaComponents
         pageSchema={{ field1: z.string() }}
         readOnlyFieldNames={[]}
@@ -249,9 +252,11 @@ describe("SchemaComponents", () => {
       />,
     );
     const textInput = getByRole("textbox");
-    const textByLabel = getByLabelText("label");
+    const textByLabel = getByLabelText(/label/i);
+    const suffix = getByText("suffix");
     expect(textInput).toHaveAttribute("name", "field1");
     expect(textInput).toBe(textByLabel);
+    expect(suffix).toBeInTheDocument();
   });
 
   it("should render a hidden input", () => {
@@ -265,6 +270,28 @@ describe("SchemaComponents", () => {
       />,
     );
     expect(getByRole("textbox", { hidden: true })).toBeInTheDocument();
+  });
+
+  it("should render a numeric increment component", () => {
+    const fieldName = "field1";
+    const pageSchema = { [fieldName]: createNumberIncrementSchema(-2, 18) };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+        formComponents={[
+          {
+            __component: "form-elements.number-increment",
+            label: "label",
+            errorMessages: undefined,
+            name: fieldName,
+          },
+        ]}
+      />,
+    );
+    const inputElement = getByRole("spinbutton");
+    expect(inputElement).toBeInTheDocument();
+    expect(inputElement).toHaveAttribute("type", "number");
   });
 
   it("should render a fieldset component with two input components", () => {
@@ -338,5 +365,37 @@ describe("SchemaComponents", () => {
     expect(textInput2).toHaveAttribute("name", "field2");
     expect(textInput1).toHaveAttribute("readonly");
     expect(textInput2).not.toHaveAttribute("readonly");
+  });
+
+  it("should render an iban input when the schema is ibanSchema", () => {
+    const pageSchema = {
+      field1: ibanSchema,
+    };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
+    );
+    const ibanInput = getByRole("textbox");
+    expect(ibanInput).toHaveAttribute("name", "field1");
+    expect(ibanInput.getAttribute("aria-describedby")).toContain(
+      "bank-name-badge",
+    );
+  });
+
+  it("should render a telephone input when the schema is phoneNumberSchema", () => {
+    const pageSchema = {
+      field1: phoneNumberSchema,
+    };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageSchema={pageSchema}
+        readOnlyFieldNames={[]}
+      />,
+    );
+    const telInput = getByRole("textbox");
+    expect(telInput).toHaveAttribute("name", "field1");
+    expect(telInput).toHaveAttribute("inputmode", "tel");
   });
 });

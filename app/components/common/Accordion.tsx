@@ -1,46 +1,34 @@
-import { useRef } from "react";
-import {
-  AccordionItem,
-  type AccordionItemProps,
-} from "~/components/common/AccordionItem";
-import { translations } from "~/services/translations/translations";
 import { useShouldPrint } from "../hooks/useShouldPrint";
+import RichText from "./RichText";
 
+export type AccordionItemProps = Readonly<{
+  title: string;
+  description: string;
+}>;
 export type AccordionProps = Readonly<{
   items: AccordionItemProps[];
 }>;
 
 export default function Accordion({ items }: AccordionProps) {
   const shouldPrint = useShouldPrint();
-  const itemsRef = useRef<HTMLDetailsElement[]>([]);
-  const labels = {
-    show: translations.accordion.show.de,
-    hide: translations.accordion.hide.de,
-  };
-
   return (
-    <section>
+    <div className="kern-accordion-group">
       {items
         .filter((item) => item.title || item.description)
-        .map((item, index) => (
-          <AccordionItem
+        .map((item) => (
+          <details
             key={item.title}
-            title={item.title}
-            description={item.description}
-            labels={labels}
-            startOpened={shouldPrint}
-            ref={(el) => {
-              if (el) itemsRef.current[index] = el;
-            }}
-            onSummaryClick={(event) =>
-              itemsRef.current
-                .filter((item) => item !== event.currentTarget.parentElement)
-                .forEach((item) => {
-                  item.open = false;
-                })
-            }
-          />
+            className="kern-accordion"
+            open={shouldPrint}
+          >
+            <summary className="kern-accordion__header">
+              <span className="kern-title">{item.title}</span>
+            </summary>
+            <section className="kern-accordion__body">
+              <RichText html={item.description} />
+            </section>
+          </details>
         ))}
-    </section>
+    </div>
   );
 }

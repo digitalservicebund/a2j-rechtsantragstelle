@@ -1,20 +1,20 @@
 import classNames from "classnames";
 import { SECTION_BACKGROUND_COLORS } from "~/components";
-import KernSummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
+import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
-import KernList from "./list/KernList";
-import KernHero from "../kern/KernHero";
-import KernTableOfContents from "../kern/KernTableOfContents";
-import KernBox from "../kern/KernBox";
-import KernRichText from "../kern/KernRichText";
-import KernHeading from "../kern/KernHeading";
-import { KernInlineNotice } from "../kern/KernInlineNotice";
-import KernVideo from "../kern/video/KernVideo";
-import { KernEmailCapture } from "~/components/content/emailCapture/KernEmailCapture";
-import { KernDetails } from "../kern/KernDetails";
-import KernUserFeedback from "./userFeedback";
+import List from "./list/List";
+import Video from "./video/Video";
+import { Details } from "./Details";
+import Box from "../content/Box";
+import Heading from "../common/Heading";
+import RichText from "../common/RichText";
+import UserFeedback from "./userFeedback";
+import Hero from "./Hero";
+import TableOfContents from "../content/TableOfContents";
+import { InlineNotice } from "../content/InlineNotice";
+import { EmailCapture } from "./emailCapture/EmailCapture";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
@@ -65,14 +65,14 @@ function cmsToReact(
 ) {
   switch (componentProps.__component) {
     case "basic.heading":
-      return <KernHeading managedByParent {...componentProps} />;
+      return <Heading managedByParent {...componentProps} />;
     case "basic.paragraph":
-      return <KernRichText {...componentProps} />;
+      return <RichText {...componentProps} />;
     case "page.hero":
-      return <KernHero {...componentProps} />;
+      return <Hero {...componentProps} />;
     case "page.box":
       return (
-        <KernBox
+        <Box
           {...componentProps}
           items={componentProps.items?.map((item) => ({
             ...item,
@@ -84,30 +84,45 @@ function cmsToReact(
         />
       );
     case "page.details-summary":
-      return <KernDetails {...componentProps} />;
+      return <Details {...componentProps} />;
     case "page.video":
-      return <KernVideo {...componentProps} />;
+      return <Video {...componentProps} />;
     case "page.list":
-      return <KernList {...componentProps} wrap={opts?.inFlow} />;
+      return <List {...componentProps} wrap={opts?.inFlow} />;
     case "page.table-of-contents":
-      return <KernTableOfContents {...componentProps} />;
+      return <TableOfContents {...componentProps} />;
     case "page.user-feedback":
-      return <KernUserFeedback {...componentProps} />;
+      return <UserFeedback {...componentProps} />;
     case "page.summary-overview-section":
-      return <KernSummaryOverviewSection {...componentProps} />;
+      return <SummaryOverviewSection {...componentProps} />;
     case "page.inline-notice":
       return (
-        <KernInlineNotice
+        <InlineNotice
           {...componentProps}
           look={mapLookValue(componentProps.look)}
           wrap={opts?.inFlow}
         />
       );
-    case "page.email-capture":
-      return <KernEmailCapture {...componentProps} />;
+    case "page.email-capture": {
+      const { successBanner, errorBanner, ...rest } = componentProps;
+
+      return (
+        <EmailCapture
+          {...rest}
+          successBanner={{
+            ...successBanner,
+            look: mapLookValue(successBanner.look),
+          }}
+          errorBanner={{
+            ...errorBanner,
+            look: mapLookValue(errorBanner.look),
+          }}
+        />
+      );
+    }
     case "page.heading":
       return (
-        <KernHeading
+        <Heading
           {...componentProps.heading}
           elementId={componentProps.identifier}
         />

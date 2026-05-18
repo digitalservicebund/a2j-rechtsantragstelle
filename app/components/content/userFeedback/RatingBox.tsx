@@ -1,9 +1,9 @@
 import { useFetcher } from "react-router";
-import ButtonContainer from "~/components/common/ButtonContainer";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
-import KernButton from "~/components/kern/KernButton";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
 
 export const userRatingFieldname = "wasHelpful";
 
@@ -27,7 +27,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
           preventScrollReset={true}
         >
           <ButtonContainer>
-            <KernButton
+            <Button
               look="secondary"
               name={userRatingFieldname}
               value="yes"
@@ -39,8 +39,8 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
               aria-label={`${heading}, ${feedbackTranslations["yes-rating"]}`}
             >
               {feedbackTranslations["yes-rating"]}
-            </KernButton>
-            <KernButton
+            </Button>
+            <Button
               look="secondary"
               name={userRatingFieldname}
               value="no"
@@ -52,7 +52,7 @@ export const RatingBox = ({ heading, url, onSubmit }: RatingBoxProps) => {
               aria-label={`${heading}, ${feedbackTranslations["no-rating"]}`}
             >
               {feedbackTranslations["no-rating"]}
-            </KernButton>
+            </Button>
           </ButtonContainer>
         </ratingFetcher.Form>
       </footer>

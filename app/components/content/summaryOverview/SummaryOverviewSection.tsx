@@ -1,16 +1,16 @@
-import KernHeading, { type KernHeadingProps } from "../../kern/KernHeading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
 import SummaryOverviewBoxWrapped from "./SummaryOverviewBoxWrapped";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 
 type Props = {
-  readonly title: KernHeadingProps;
+  readonly title: HeadingProps;
   readonly boxes: SummaryOverviewBoxWrappedProps[];
 };
 
-const KernSummaryOverviewSection = ({ title, boxes }: Props) => {
+const SummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
     <div className="flex flex-col gap-kern-space-default">
-      <KernHeading size="medium" {...title} managedByParent />
+      <Heading size="medium" {...title} managedByParent />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped
           key={id}
@@ -24,4 +24,4 @@ const KernSummaryOverviewSection = ({ title, boxes }: Props) => {
   );
 };
 
-export default KernSummaryOverviewSection;
+export default SummaryOverviewSection;

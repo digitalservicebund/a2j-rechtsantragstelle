@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernHeadline from "~/components/kern/KernHeadline";
+import Headline from "~/components/formElements/Headline";
 
 const meta = {
   title: "typography/Headline",
-  component: KernHeadline,
+  component: Headline,
   tags: ["autodocs"],
   argTypes: {
     tagName: {
@@ -11,7 +11,7 @@ const meta = {
       options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "div"],
     },
   },
-} satisfies Meta<typeof KernHeadline>;
+} satisfies Meta<typeof Headline>;
 
 export default meta;
 

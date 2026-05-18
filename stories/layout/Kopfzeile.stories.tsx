@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernKopfzeile from "~/components/kern/layout/KernKopfzeile";
+import Kopfzeile from "~/components/layout/Kopfzeile";
 
 const meta = {
   title: "layout/Kopfzeile",
-  component: KernKopfzeile,
+  component: Kopfzeile,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof KernKopfzeile>;
+} satisfies Meta<typeof Kopfzeile>;
 
 export default meta;
 

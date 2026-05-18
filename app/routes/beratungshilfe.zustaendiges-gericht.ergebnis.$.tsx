@@ -10,9 +10,9 @@ import {
   findCourt,
 } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { splatFromParams } from "~/services/params";
-import { KernIcon } from "~/components/kern/common/KernIcon";
-import KernHeading from "~/components/kern/KernHeading";
-import CourtDetails from "~/components/CourtDetails";
+import { Icon } from "~/components/common/Icon";
+import CourtDetails from "~/components/content/CourtDetails";
+import Heading from "~/components/common/Heading";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =
@@ -51,7 +51,7 @@ export const Component = () => {
           <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
             Amtsgericht finden
           </h1>
-          <KernHeading
+          <Heading
             tagName="h2"
             text="Ihr zuständiges Amtsgericht"
             size="xLarge"
@@ -94,9 +94,9 @@ export const Component = () => {
         >
           <a
             href="/beratungshilfe/zustaendiges-gericht/suche"
-            className="flex kern-link no-underline!"
+            className="flex kern-link no-underline! hover:underline!"
           >
-            <KernIcon name="arrow-forward" />
+            <Icon name="arrow-forward" />
             Suche wiederholen
           </a>
         </GridItem>

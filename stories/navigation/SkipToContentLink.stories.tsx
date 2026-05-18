@@ -1,13 +1,13 @@
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { KernSkipToContentLink } from "~/components/kern/navigation/SkipToContentLink";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { SkipToContentLink } from "~/components/navigation/SkipToContentLink";
 
 const meta = {
   title: "navigation/SkipToContentLink",
-  component: KernSkipToContentLink,
+  component: SkipToContentLink,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
@@ -21,7 +21,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernSkipToContentLink>;
+} satisfies Meta<typeof SkipToContentLink>;
 
 export default meta;
 

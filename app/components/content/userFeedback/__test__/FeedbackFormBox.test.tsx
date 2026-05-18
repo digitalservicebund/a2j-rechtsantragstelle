@@ -62,7 +62,7 @@ describe("FeedbackFormBox", () => {
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
   });
 
-  it("should render the component with the focus on the text area ", () => {
+  it("should render the component with the focus on the text area", () => {
     const { container } = renderFeedbackFormBox();
 
     expect(container.querySelector(`#${FEEDBACK_FIELD_NAME}`)).toHaveFocus();

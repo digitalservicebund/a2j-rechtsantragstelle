@@ -1,10 +1,18 @@
-import { strapiPaddingOptions, StrapiPaddingSchema } from "../StrapiPadding";
+import {
+  strapiPaddingOptions,
+  StrapiPaddingOptionalSchema,
+} from "../StrapiPadding";
 
 describe("StrapiPadding", () => {
-  it("converts all valid options", () => {
+  it("accepts all valid padding values", () => {
     strapiPaddingOptions.forEach((option) => {
-      const parsed = StrapiPaddingSchema.safeParse(option);
+      const parsed = StrapiPaddingOptionalSchema.safeParse(option);
       expect(parsed.success).toBe(true);
     });
+  });
+
+  it("rejects invalid padding values", () => {
+    const parsed = StrapiPaddingOptionalSchema.safeParse("invalid");
+    expect(parsed.success).toBe(false);
   });
 });

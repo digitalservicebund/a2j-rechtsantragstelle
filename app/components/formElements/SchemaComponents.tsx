@@ -1,23 +1,33 @@
-import {
-  isZodString,
-  renderZodString,
-} from "~/components/formElements/schemaToForm/renderZodString";
-import type { SchemaObject } from "~/domains/userData";
-import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { getNestedSchema } from "./schemaToForm/getNestedSchema";
-import { isZodEnum, renderZodEnum } from "./schemaToForm/renderZodEnum";
-import { isZodObject, renderZodObject } from "./schemaToForm/renderZodObject";
+import { type SchemaObject } from "~/domains/userData";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
   renderFieldSet,
-} from "./schemaToForm/renderFieldSet";
+} from "../formElements/schemaToForm/renderFieldSet";
+import {
+  isZodEnum,
+  renderZodEnum,
+} from "../formElements/schemaToForm/renderZodEnum";
+import {
+  isZodObject,
+  renderZodObject,
+} from "../formElements/schemaToForm/renderZodObject";
+import {
+  isZodString,
+  renderZodString,
+} from "../formElements/schemaToForm/renderZodString";
+import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
 import classNames from "classnames";
-import { sortSchemaByFormComponents } from "./schemaToForm/sortSchemaByFormComponents";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
-  renderSchemaBasedFormElement,
-} from "./schemaToForm/renderSchemaBasedFormElement";
+  renderSpecialMetaDescriptions,
+} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
+import {
+  isZodNumber,
+  renderZodNumber,
+} from "~/components/formElements/schemaToForm/renderZodNumber";
 
 type Props = {
   pageSchema: SchemaObject;
@@ -38,7 +48,9 @@ export const SchemaComponents = ({
   );
 
   return (
-    <div className={classNames("ds-stack ds-stack-40", className)}>
+    <div
+      className={classNames("flex flex-col gap-kern-space-x-large", className)}
+    >
       {Object.entries(sortedFieldsSchema).map(([fieldName, fieldSchema]) => {
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
@@ -49,8 +61,6 @@ export const SchemaComponents = ({
           return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
         }
 
-        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
-
         const matchingElement = formComponents
           ?.filter(
             (formComponents) =>
@@ -60,7 +70,7 @@ export const SchemaComponents = ({
 
         const description = extractZodDescription(fieldSchema);
         if (isSpecialComponentDescriptions(description)) {
-          return renderSchemaBasedFormElement(
+          return renderSpecialMetaDescriptions(
             fieldName,
             description,
             matchingElement,
@@ -68,6 +78,7 @@ export const SchemaComponents = ({
         }
 
         const nestedSchema = getNestedSchema(fieldSchema);
+        const isFieldReadOnly = readOnlyFieldNames.includes(fieldName);
 
         if (isZodObject(nestedSchema)) {
           return renderZodObject(
@@ -80,6 +91,9 @@ export const SchemaComponents = ({
 
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
+
+        if (isZodNumber(nestedSchema))
+          return renderZodNumber(fieldName, nestedSchema, matchingElement);
 
         if (isZodString(nestedSchema))
           return renderZodString(fieldName, isFieldReadOnly, matchingElement);

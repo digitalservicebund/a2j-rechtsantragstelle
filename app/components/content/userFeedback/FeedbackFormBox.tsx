@@ -6,9 +6,9 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import { useFeedbackTranslations } from "./feedbackTranslations";
 import { type FeedbackType } from "./types";
-import { CsrfInput } from "~/components/formElements/CsrfInput";
-import KernTextarea from "~/components/kern/formElements/Textarea";
-import KernButton from "~/components/kern/KernButton";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import Textarea from "~/components/formElements/inputs/textarea/Textarea";
+import Button from "~/components/common/Button";
 
 const FEEDBACK_BUTTON_FIELD_NAME = "feedbackButton";
 export const FEEDBACK_FIELD_NAME = "feedback";
@@ -85,7 +85,7 @@ export const FeedbackFormBox = ({
       {(form) => (
         <div className="flex flex-col gap-kern-space-small!">
           <CsrfInput />
-          <KernTextarea
+          <Textarea
             backgroundClass="bg-kern-form-input-background!"
             name={FEEDBACK_FIELD_NAME}
             label={
@@ -99,7 +99,7 @@ export const FeedbackFormBox = ({
             innerRef={textAreaReference}
             ariaDescribedby={headingPersonalFeedbackId}
           />
-          <KernButton
+          <Button
             look="secondary"
             name={FEEDBACK_BUTTON_FIELD_NAME}
             value={"submit"}
@@ -108,7 +108,7 @@ export const FeedbackFormBox = ({
             className="mt-kern-space-small! w-[154px]"
           >
             {feedbackTranslations["submit-button-feedback"]}
-          </KernButton>
+          </Button>
         </div>
       )}
     </ValidatedForm>

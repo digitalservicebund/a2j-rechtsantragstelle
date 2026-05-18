@@ -107,7 +107,7 @@ describe("legalCourts", () => {
   });
 
   describe("getResponsibleCourt", () => {
-    it("should return court data ", () => {
+    it("should return court data", () => {
       vi.mocked(getCourtByStartAndEndAirport).mockReturnValue({
         BEZEICHNUNG: "Amtsgericht",
         STR_HNR: "Strasse 5",

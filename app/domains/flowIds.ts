@@ -8,6 +8,7 @@ export const flowIds = [
   "/fluggastrechte/formular",
   "/erbschein/wegweiser",
   "/erbschein/nachlassgericht",
+  "/nachlass/erbausschlagung/anfrage",
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",

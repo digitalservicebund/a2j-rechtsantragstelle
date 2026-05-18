@@ -1,6 +1,6 @@
 import { Result } from "true-myth";
 import { emailCaptureConsentName } from "~/components/content/emailCapture/emailCaptureHelpers";
-import { type ValidFlowPagesType } from "~/components/formFlowContext";
+import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { userVisitedValidationPageKey } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
@@ -41,7 +41,7 @@ type ErrorResult = {
 };
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
-  "/geld-einklagen/formular": "showGeldEinklagenFlow",
+  "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
 } as const;
 
 export const getUserDataAndFlow = async (

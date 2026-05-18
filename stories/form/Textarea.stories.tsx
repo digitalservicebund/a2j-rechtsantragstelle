@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { z } from "zod";
-import KernTextarea from "~/components/kern/formElements/Textarea";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
+import Textarea from "~/components/formElements/inputs/textarea/Textarea";
 
 const meta = {
   title: "form/Textarea",
-  component: KernTextarea,
+  component: Textarea,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
@@ -26,7 +26,7 @@ const meta = {
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof KernTextarea>;
+} satisfies Meta<typeof Textarea>;
 
 export default meta;
 

@@ -1,0 +1,51 @@
+import classNames from "classnames";
+import { translations } from "~/services/translations/translations";
+import { arrayIsNonEmpty } from "~/util/array";
+import { getStepStyles } from "./getStepStyles";
+import { StepperContent } from "./StepperContent";
+import { type StepStepper } from "../types";
+
+type Props = {
+  steps: StepStepper[];
+};
+export const FlowStepperNavigation = ({ steps }: Props) => {
+  if (!arrayIsNonEmpty(steps)) {
+    return null;
+  }
+  return (
+    <nav
+      aria-label={translations.navigation.navigationStepper.de}
+      className="w-full print:hidden"
+    >
+      <ol className="flex max-w-full! pl-0">
+        {steps.map(({ state, href, label }, stepIndex) => {
+          const isFirst = stepIndex === 0;
+          const isLast = stepIndex === steps.length - 1;
+          const styles = getStepStyles(state);
+          return (
+            <li
+              key={label}
+              className={classNames(styles.container, "stepper-step", {
+                "border-r-0": !isLast,
+                "rounded-l-sm": isFirst,
+                "rounded-r-sm": isLast,
+              })}
+              style={{
+                zIndex: steps.length - stepIndex,
+                ["--stepper-step-bg" as string]: styles.arrowBg,
+                ["--stepper-step-hover-bg" as string]: styles.arrowHoverBg,
+              }}
+            >
+              <StepperContent
+                href={href}
+                stepIndex={stepIndex}
+                label={label}
+                state={state}
+              />
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+};

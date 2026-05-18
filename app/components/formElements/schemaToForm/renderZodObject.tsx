@@ -1,9 +1,9 @@
 import type { z, ZodObject } from "zod";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import mapKeys from "lodash/mapKeys";
-import { KernSchemaComponents } from "~/components/kernFormElements/KernSchemaComponents";
-import { KernExclusiveCheckboxes } from "~/components/kern/formElements/exclusiveCheckboxes/KernExclusiveCheckboxes";
-import KernSplitDateInput from "~/components/kern/formElements/input/KernSplitDateInput";
+import { SchemaComponents } from "~/components/formElements/SchemaComponents";
+import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
+import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -20,7 +20,7 @@ export const renderZodObject = (
     );
 
     return (
-      <KernExclusiveCheckboxes
+      <ExclusiveCheckboxes
         key={fieldName}
         name={fieldName}
         options={Object.keys(nestedSchema.shape)}
@@ -29,7 +29,7 @@ export const renderZodObject = (
     );
   }
   if (nestedSchema.meta()?.description === "split_date") {
-    return <KernSplitDateInput key={fieldName} name={fieldName} />;
+    return <SplitDateInput key={fieldName} name={fieldName} />;
   }
   // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
   const innerSchema = mapKeys(
@@ -37,7 +37,7 @@ export const renderZodObject = (
     (_, key) => `${fieldName}.${key}`,
   );
   return (
-    <KernSchemaComponents
+    <SchemaComponents
       key={fieldName}
       pageSchema={innerSchema}
       formComponents={formComponents}

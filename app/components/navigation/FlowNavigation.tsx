@@ -13,7 +13,7 @@ export default function FlowNavigation({
     >
       <nav
         className={
-          "fixed left-0 bottom-0 z-50 w-full lg:border lg:static lg:z-auto lg:border-blue-400 print:hidden"
+          "fixed left-0 bottom-0 z-50 w-full lg:border lg:static lg:z-auto lg:border-kern-neutral-200 print:hidden rounded overflow-hidden"
         }
       >
         {children}

@@ -1,18 +1,15 @@
-import SvgCheckCircle from "@digitalservicebund/icons/CheckCircle";
-import SvgErrorOutline from "@digitalservicebund/icons/ErrorOutline";
-import LightbulbOutlinedIcon from "@digitalservicebund/icons/LightbulbOutlined";
-import WarningAmberIcon from "@digitalservicebund/icons/WarningAmber";
-import classNames from "classnames";
-import Heading from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { removeMarkupTags } from "~/util/strings";
+import RichText from "../common/RichText";
+import { Icon } from "../common/Icon";
+import { type IconName } from "../common/utils";
+import { translations } from "~/services/translations/translations";
 
 export type InlineNoticeProps = {
   identifier?: string;
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
-  look: "warning" | "tips" | "success" | "error";
+  look: "info" | "warning" | "danger" | "success";
   content?: string;
   wrap?: boolean;
   nested?: boolean;
@@ -20,26 +17,38 @@ export type InlineNoticeProps = {
 
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
 // Therefore, it's set in the config.
-const lookConfig = {
-  warning: {
-    backgroundColor: "bg-yellow-200",
-    borderColor: "border-[#E5CE5C]",
-    IconComponent: WarningAmberIcon,
+const lookConfig: Record<
+  InlineNoticeProps["look"],
+  {
+    iconName: IconName;
+    ariaLabel: string;
+    iconClassName: string;
+    containerClassName: string;
+  }
+> = {
+  info: {
+    iconName: "info",
+    ariaLabel: translations.inlineNotice.infoIcon.de,
+    iconClassName: "app-icon--info",
+    containerClassName: "kern-alert--info",
   },
-  tips: {
-    backgroundColor: "bg-gray-100",
-    borderColor: "border-[#B8BDC3]",
-    IconComponent: LightbulbOutlinedIcon,
+  warning: {
+    iconName: "warning",
+    ariaLabel: translations.inlineNotice.warningIcon.de,
+    iconClassName: "app-icon--warning",
+    containerClassName: "kern-alert--warning",
+  },
+  danger: {
+    iconName: "emergency-home",
+    ariaLabel: translations.inlineNotice.errorIcon.de,
+    iconClassName: "app-icon--danger",
+    containerClassName: "kern-alert--danger",
   },
   success: {
-    backgroundColor: "bg-green-100",
-    borderColor: "border-green-700",
-    IconComponent: () => SvgCheckCircle({ style: { color: "#01854A" } }),
-  },
-  error: {
-    backgroundColor: "bg-red-200",
-    borderColor: "border-red-900",
-    IconComponent: () => SvgErrorOutline({ style: { color: "#8E001B" } }),
+    iconName: "check-circle",
+    ariaLabel: translations.inlineNotice.successIcon.de,
+    iconClassName: "app-icon--success",
+    containerClassName: "kern-alert--success",
   },
 };
 
@@ -53,26 +62,30 @@ export const InlineNotice = ({
   nested,
 }: InlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
-  const { backgroundColor, borderColor, IconComponent } = lookConfig[look];
+  const { iconName, iconClassName, containerClassName, ariaLabel } =
+    lookConfig[look];
+  const Tag = tagName;
 
   const base = (
     <div
-      className={classNames(
-        "ds-stack ds-stack-8 scroll-my-40 p-16",
-        backgroundColor,
-        "border",
-        borderColor,
-        "border-2 border-l-8",
-        nested || wrap ? "md:max-w-[630px]" : "",
-      )}
+      className={`kern-alert ${containerClassName}`}
       id={identifier}
       role="note"
     >
-      <div className="flex flex-row gap-[4px] items-center">
-        <IconComponent style={{ width: 24, height: 24, flexShrink: 0 }} />
-        <Heading tagName={tagName} look="ds-label-01-bold" text={title} />
+      <div className="kern-alert__header">
+        <Icon
+          name={iconName}
+          ariaLabel={ariaLabel}
+          className={`${iconClassName} mr-8 forced-color-adjust-auto`}
+        />
+        <Tag className="kern-body kern-body--bold p-0! outline-none!">
+          {" "}
+          {title}
+        </Tag>
       </div>
-      <RichText className="tracking-[0.16px] leading-[26px]" html={content} />
+      <div className="kern-alert__body">
+        <RichText html={content} />
+      </div>
     </div>
   );
 
@@ -83,8 +96,8 @@ export const InlineNotice = ({
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
-      lgColumn={{ start: 3, span: 7 }}
-      xlColumn={{ start: 3, span: 7 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
     >
       {base}
     </GridItem>

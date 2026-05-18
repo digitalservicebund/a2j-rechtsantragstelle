@@ -16,48 +16,40 @@ describe("NavigationItem", () => {
     expect(screen.getByRole("link")).toHaveAttribute("href", destination);
     expect(screen.getByRole("listitem")).toBeInstanceOf(HTMLLIElement);
   });
+
   it("renders navigation item with a checkmark icon when state is done", () => {
     render(<NavItem destination={destination} label={label} state={"Done"} />);
 
-    const checkCircle = screen.getByTestId("CheckCircleIcon");
-    expect(checkCircle).toHaveClass("shrink-0 fill-green-700");
-    expect(checkCircle).toHaveAttribute(
-      "aria-label",
-      translations.navigation.navigationItemFinished.de,
-    );
+    const checkCircle = screen.getByTestId("icon-check-circle");
+    expect(checkCircle).toHaveClass("fill-kern-feedback-success flex-shrink-0");
   });
 
   it("renders an incomplete navigation item with a warning icon when the state is warning", () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <NavItem destination={destination} label={label} state={"Warning"} />,
     );
-    const warningIcon = getByTestId("WarningAmberRoundedIcon");
+    const warningIcon = getByTestId("icon-warning");
     expect(warningIcon).toBeInTheDocument();
     expect(warningIcon).toHaveAttribute(
       "aria-label",
       translations.navigation.navigationItemWarning.de,
     );
-    const navItem = getByText(label);
-    expect(navItem).toHaveClass("bg-yellow-200");
   });
 
   it("renders an incomplete navigation item with a warning icon when the state is warning current", () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <NavItem
         destination={destination}
         label={label}
         state={"WarningCurrent"}
       />,
     );
-    const warningIcon = getByTestId("WarningAmberRoundedIcon");
+    const warningIcon = getByTestId("icon-warning");
     expect(warningIcon).toBeInTheDocument();
     expect(warningIcon).toHaveAttribute(
       "aria-label",
       translations.navigation.navigationItemWarning.de,
     );
-    const navItem = getByText(label);
-    expect(navItem).toHaveClass("bg-yellow-200");
-    expect(navItem).toHaveClass("bg-yellow-300");
   });
 
   it("renders navigation item with the correct classNames when state is disabled", () => {
@@ -69,7 +61,7 @@ describe("NavigationItem", () => {
       .getAllByRole<HTMLAnchorElement>("link")
       .forEach((link) => expect(link).toHaveAttribute("aria-disabled", "true"));
     expect(screen.getByRole("listitem")).toHaveClass(
-      "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none",
+      "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none",
     );
   });
 
@@ -79,7 +71,7 @@ describe("NavigationItem", () => {
     );
 
     expect(screen.getByRole("listitem")).toHaveClass(
-      "border-b border-blue-400 last:border-0 min-w-full",
+      "border-b border-kern-neutral-200 last:border-0",
     );
   });
 
@@ -94,7 +86,7 @@ describe("NavigationItem", () => {
     );
 
     expect(screen.getByRole("listitem")).toHaveClass(
-      "border-transparent last:border-transparent",
+      "border-kern-neutral-200 last:border-0 border-none",
     );
   });
 
@@ -120,7 +112,7 @@ describe("NavigationItem", () => {
       />,
     );
 
-    const subflow1 = screen.getByText("subflowLabel1");
+    const subflow1 = screen.getByRole("link", { name: "subflowLabel1" });
     expect(subflow1).toHaveAttribute("href", "/subflow1");
     const subflow2 = screen.queryByText("subflowLabel2");
     expect(subflow2).not.toBeInTheDocument();
@@ -142,7 +134,7 @@ describe("NavigationItem", () => {
         subflows={subflows}
       />,
     );
-    expect(screen.getByText("subflowLabel")).toHaveClass("pl-24");
+    expect(screen.getByText("subflowLabel").closest("a")).toHaveClass("pl-24!");
   });
 
   it("renders expanded when expanded is set", () => {
@@ -162,16 +154,14 @@ describe("NavigationItem", () => {
         subflows={subflows}
       />,
     );
-    expect(screen.getByTestId("ExpandLessIcon")).toBeInTheDocument();
+    expect(screen.getByTestId("icon-keyboard-arrow-up")).toBeInTheDocument();
   });
 
   it("renders items with correct classNames when the state is current and item doesn't have subflows", () => {
     render(
       <NavItem destination={destination} label={label} state={"Current"} />,
     );
-    expect(screen.getByRole("link")).toHaveClass(
-      "ds-label-02-bold bg-blue-400",
-    );
+    expect(screen.getByRole("link")).toHaveClass(" kern-body kern-body--small");
   });
 
   it("should not render aria-describedby for the link given state isDone false", () => {

@@ -1,87 +1,104 @@
-import Button, { type ButtonProps } from "~/components/common/Button";
-import ButtonContainer from "~/components/common/ButtonContainer";
-import Heading, { type HeadingProps } from "~/components/common/Heading";
-import type { ImageProps } from "~/components/common/Image";
-import RichText, { type RichTextProps } from "~/components/common/RichText";
+import Image, { type ImageProps } from "~/components/common/Image";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { arrayIsNonEmpty } from "~/util/array";
-import BoxWithImage, { type Variant } from "./BoxWithImage";
-import InfoBox from "./InfoBox";
-import { type InfoBoxItemProps } from "./InfoBoxItem";
+import Label, { type LabelProps } from "~/components/common/Label";
+import Button, { type ButtonProps } from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading, { type HeadingProps } from "../common/Heading";
+import RichText, { type RichTextProps } from "~/components/common/RichText";
+import BoxItem, { type BoxItemProps } from "./BoxItem";
 
 type BoxProps = {
   identifier?: string;
-  label?: HeadingProps;
+  label?: LabelProps;
   heading?: HeadingProps;
+  subline?: HeadingProps;
   content?: RichTextProps;
   buttons?: ButtonProps[];
   image?: ImageProps;
-  variant?: Variant;
-  items?: InfoBoxItemProps[];
-  separator?: boolean;
-  container?: {
-    backgroundColor?: string;
-  };
+  items?: BoxItemProps[];
 };
 
 const Box = ({
   identifier,
   label,
   heading,
+  subline,
   content,
   buttons,
   image,
-  variant,
   items,
-  separator,
 }: BoxProps) => {
-  if (image && !arrayIsNonEmpty(items)) {
-    return (
-      <BoxWithImage
-        identifier={identifier}
-        heading={heading}
-        image={image}
-        content={content?.html}
-        variant={variant}
-      />
-    );
-  }
+  const getLabelDescriptor = () => {
+    if (heading) {
+      return "box-heading";
+    }
+    if (subline) {
+      return "box-subline";
+    }
+    return undefined;
+  };
 
-  if (arrayIsNonEmpty(items)) {
-    return (
-      <InfoBox
-        identifier={identifier}
-        heading={heading}
-        separator={separator}
-        items={items}
-      />
-    );
-  }
+  const contentBlock = (
+    <div className="flex flex-col">
+      <div className="flex flex-col wrap-break-word gap-kern-space-default">
+        {label && (
+          <Label
+            {...label}
+            className="text-kern-layout-text-muted! font-normal! pt-0! pb-0!"
+            ariaDescribedby={getLabelDescriptor()}
+          />
+        )}
+        {heading && (
+          <Heading
+            {...heading}
+            elementId="box-heading"
+            className="pt-0! pb-0!"
+            managedByParent
+          />
+        )}
+        {subline && (
+          <Heading {...subline} elementId="box-subline" managedByParent />
+        )}
+        {content && <RichText {...content} />}
+      </div>
+      {arrayIsNonEmpty(items) && (
+        <div
+          className="flex flex-col justify-start align-start gap-kern-space-x-large pt-kern-space-x-large"
+          data-testid="box-item-container"
+        >
+          {items.map((item) => (
+            <BoxItem key={item.id} {...item} />
+          ))}
+        </div>
+      )}
+      {arrayIsNonEmpty(buttons) && (
+        <ButtonContainer className="kern-button-group pt-kern-space-default">
+          {buttons.map((button) => (
+            <Button key={button.text ?? button.href} {...button} />
+          ))}
+        </ButtonContainer>
+      )}
+    </div>
+  );
 
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
       lgColumn={{ start: 3, span: 8 }}
       xlColumn={{ start: 3, span: 8 }}
-      className="py-24 px-16 md:px-16 lg:px-0 xl:px-0"
       id={identifier}
     >
-      <div className="ds-stack ds-stack-16 scroll-my-40">
-        <div className="ds-stack ds-stack-8">
-          {label && <Heading {...label} />}
-          {heading && <Heading {...heading} />}
-          {content && (
-            <div>
-              <RichText {...content} />
+      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0">
+        {image ? (
+          <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
+            <div className="shrink-0 max-w-full lg:max-w-[200px]">
+              <Image {...image} />
             </div>
-          )}
-        </div>
-        {arrayIsNonEmpty(buttons) && (
-          <ButtonContainer>
-            {buttons.map((button) => (
-              <Button key={button.text ?? button.href} {...button} />
-            ))}
-          </ButtonContainer>
+            <div className="flex-1 min-w-0">{contentBlock}</div>
+          </div>
+        ) : (
+          contentBlock
         )}
       </div>
     </GridItem>

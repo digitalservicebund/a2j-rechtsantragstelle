@@ -1,72 +1,64 @@
-import classNames from "classnames";
-import type { ReactNode } from "react";
 import { GridItem } from "../layout/grid/GridItem";
+import type { allowedHeadingTags } from "../formElements/types";
 
-export const allowedHeadingTags = [
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "p",
-  "div",
-] as const;
+const SIZES_MAP_HEADING = {
+  medium: "kern-heading-medium",
+  large: "kern-heading-large",
+  xLarge: "kern-heading-x-large",
+};
 
-export const allowedHeadingLooks = [
-  "default",
-  "ds-heading-01-reg",
-  "ds-heading-02-reg",
-  "ds-heading-03-reg",
-  "ds-heading-03-bold",
-  "ds-subhead",
-  "ds-label-01-reg",
-  "ds-label-01-bold",
-  "ds-label-02-reg",
-  "ds-label-02-bold",
-  "ds-label-03-reg",
-  "ds-label-03-bold",
-  "ds-label-section",
-  "ds-body-01-reg",
-  "ds-body-02-reg",
-] as const;
+const SIZES_MAP_LABEL = {
+  small: "kern-label kern-label--small",
+  large: "kern-label kern-label--large",
+};
 
-export type HeadingProps = Readonly<{
+export const SIZES = Object.keys(SIZES_MAP_HEADING) as Array<
+  keyof typeof SIZES_MAP_HEADING
+>;
+
+export type HeadingProps = {
   tagName?: (typeof allowedHeadingTags)[number];
   text?: string;
-  look?: (typeof allowedHeadingLooks)[number];
-  className?: string;
-  children?: ReactNode;
   tabIndex?: number;
-  innerRef?: React.Ref<HTMLHeadingElement>; // to be removed?
+  className?: string;
   elementId?: string;
+  size?: keyof typeof SIZES_MAP_HEADING | keyof typeof SIZES_MAP_LABEL;
   managedByParent?: boolean;
-}>;
+  type?: "heading" | "label";
+};
 
-function Heading({
+const Heading = ({
   tagName = "h1",
   text,
-  className,
-  look,
-  children,
   tabIndex,
-  innerRef,
+  managedByParent = false,
+  className,
   elementId,
-  managedByParent = true,
-}: HeadingProps) {
-  if ((!text || text?.trim() === "") && !children) return null;
+  size,
+  type = "heading",
+}: HeadingProps) => {
+  if (!text || text?.trim() === "") return null;
   const Tag = tagName;
+
+  const sizeClass =
+    type === "label"
+      ? (SIZES_MAP_LABEL[(size as keyof typeof SIZES_MAP_LABEL) ?? "large"] ??
+        SIZES_MAP_LABEL["large"])
+      : (SIZES_MAP_HEADING[
+          (size as keyof typeof SIZES_MAP_HEADING) ?? "large"
+        ] ?? SIZES_MAP_HEADING["large"]);
+
   if (!managedByParent) {
     return (
       <GridItem
         mdColumn={{ start: 1, span: 8 }}
         lgColumn={{ start: 3, span: 8 }}
         xlColumn={{ start: 3, span: 8 }}
+        className="px-kern-space-large lg:px-0 xl:px-0"
       >
         <Tag
-          ref={innerRef}
+          className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
           tabIndex={tabIndex}
-          className={classNames(look === "default" ? null : look, className)}
           id={elementId}
         >
           {text}
@@ -76,14 +68,13 @@ function Heading({
   }
   return (
     <Tag
-      ref={innerRef}
+      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none`}
       tabIndex={tabIndex}
-      className={classNames(look === "default" ? null : look, className)}
       id={elementId}
     >
-      {children ?? text}
+      {text}
     </Tag>
   );
-}
+};
 
 export default Heading;
