@@ -32,9 +32,9 @@ export const useControlledField = (
     fieldValueChangeHandler();
   }, [value, controlledField, originalValue, handleFieldValueChange]);
 
-  const MemoizedScreenreaderAnnouncement = useMemo(
+  const MemoizedScreenReaderAnnouncement = useMemo(
     () =>
-      ScreenreaderAnnouncement(
+      ScreenReaderAnnouncement(
         getScreenReaderAnnouncementText?.(controlledFieldSrValue ?? "") ?? "",
         controlledFieldSrValue,
       ),
@@ -42,14 +42,14 @@ export const useControlledField = (
   );
 
   return {
-    SrAnnouncementComponent: MemoizedScreenreaderAnnouncement,
+    SrAnnouncementComponent: MemoizedScreenReaderAnnouncement,
   };
 };
 
 /**
- * Screenreader-only element used to read out controlled field changes
+ * ScreenReader-only element used to read out controlled field changes
  */
-function ScreenreaderAnnouncement(
+function ScreenReaderAnnouncement(
   srText: string,
   controlledFieldSrValue?: string,
 ) {

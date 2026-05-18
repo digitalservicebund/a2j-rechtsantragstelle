@@ -1,6 +1,6 @@
 import { render, renderHook, waitFor } from "@testing-library/react";
 import { useControlledField } from "~/components/hooks/useControlledField";
-import { kontopfaendungPkontoAntragPages } from "~/domains/kontopfaendung/pkonto/antrag/pages";
+import { type FieldValueChangeHandler } from "~/domains/pageSchemas";
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({
@@ -11,27 +11,34 @@ vi.mock("@rvf/react-router", () => ({
   }),
 }));
 
+const mockHandleFieldValueChange: FieldValueChangeHandler = ({
+  setControlledFieldSrValue,
+}) => {
+  setControlledFieldSrValue("value");
+};
+
 describe("useControlledField", () => {
-  it("should return a screenreader announcement component", () => {
+  it("should return a screenReader announcement component", () => {
     const { result } = renderHook(() =>
-      useControlledField(
-        "iban",
-        kontopfaendungPkontoAntragPages.bankdatenKontodaten
-          .controlledFieldConfig,
-      ),
+      useControlledField("iban", {
+        fieldName: "bankName",
+        handleFieldValueChange: mockHandleFieldValueChange,
+        getScreenReaderAnnouncementText: () => "Bank name updated",
+      }),
     );
     const { container } = render(result.current.SrAnnouncementComponent);
     const srComponent = container.querySelector("div");
     expect(srComponent).toBeDefined();
     expect(srComponent).toHaveAttribute("aria-live", "polite");
+    expect(srComponent).toHaveTextContent("Bank name updated");
   });
 
   it("should call the field value change handler", async () => {
     const mockValueChangeHandler = vi.fn();
     renderHook(() =>
       useControlledField("iban", {
-        ...kontopfaendungPkontoAntragPages.bankdatenKontodaten
-          .controlledFieldConfig,
+        fieldName: "bankName",
+        getScreenReaderAnnouncementText: vi.fn(),
         handleFieldValueChange: mockValueChangeHandler,
       }),
     );
