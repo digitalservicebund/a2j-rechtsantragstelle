@@ -185,8 +185,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0(size-limit@12.1.0)
       '@storybook/addon-a11y':
-        specifier: ^10.3.6
-        version: 10.3.6(storybook@10.3.6)
+        specifier: ^10.4.0
+        version: 10.4.0(storybook@10.3.6)
       '@storybook/addon-docs':
         specifier: ^10.3.6
         version: 10.3.6(@types/react@19.2.14)(esbuild@0.27.7)(rollup@4.60.4)(storybook@10.3.6)(vite@8.0.13)
@@ -2157,10 +2157,10 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@storybook/addon-a11y@10.3.6':
-    resolution: {integrity: sha512-cbwXIT5CeHZ9AFbTKQ6YB7Ct6TAl/kKOgALbvzzVtFfRvm51JYygGaiJaB7PbPWn9wgJP2olJcFt+erlEc6cRw==}
+  '@storybook/addon-a11y@10.4.0':
+    resolution: {integrity: sha512-N1QRmh+PMe5O81KDf8oPDv/csdLAmDCRCYLByukqdUXpTNlcULHDFUJNXl00/rFpbt7PbOZqzRzs72JJt6nWPA==}
     peerDependencies:
-      storybook: ^10.3.6
+      storybook: ^10.4.0
 
   '@storybook/addon-docs@10.3.6':
     resolution: {integrity: sha512-TvIdADVPtauxW0LzXIpIv7X6GxwetorhyNh+6+7MHC27XSBCWVxxRUwL63YeLlHTuXsIk0quG3b1xgwVRzWOJA==}
@@ -6746,7 +6746,7 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@storybook/addon-a11y@10.3.6(storybook@10.3.6)':
+  '@storybook/addon-a11y@10.4.0(storybook@10.3.6)':
     dependencies:
       '@storybook/global': 5.0.0
       axe-core: 4.11.4
