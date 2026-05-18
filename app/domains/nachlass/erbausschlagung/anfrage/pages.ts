@@ -113,4 +113,46 @@ export const nachlassErbausschlagungAnfragePages = {
       ]),
     },
   },
+  namedInTestament: {
+    stepId: "verstorbene/im-testament-genannt",
+    pageSchema: {
+      namedInTestament: YesNoAnswer,
+    },
+  },
+  letterReceivedFromNachlassgericht: {
+    stepId: "verstorbene/brief-vom-nachlassgericht",
+    pageSchema: {
+      letterReceivedFromNachlassgericht: YesNoAnswer,
+    },
+  },
+  letterReceivedFromCourt: {
+    stepId: "verstorbene/brief-vom-gericht",
+    pageSchema: {
+      dateOfReceipt: createSplitDateSchema({
+        earliest: () => addYears(today(), -1),
+        latest: () => today(),
+      }),
+      weitereAngaben: stringOptionalSchema,
+    },
+  },
+  awarenessDate: {
+    stepId: "verstorbene/kenntnisdatum",
+    pageSchema: {
+      awarenessDate: createSplitDateSchema({
+        earliest: () => addYears(today(), -1),
+        latest: () => today(),
+      }),
+    },
+  },
+  ausschlagungNotNecessary: {
+    stepId: "verstorbene/ausschlagung-nicht-notwendig",
+  },
+  ausschlagendePersonName: {
+    stepId: "ausschlagende-person/name",
+    pageSchema: {
+      ausschlagendePersonVorname: stringRequiredSchema,
+      ausschlagendePersonNachname: stringRequiredSchema,
+      ausschlagendePersonGeburtsname: stringOptionalSchema,
+    },
+  },
 } as const satisfies PagesConfig;
