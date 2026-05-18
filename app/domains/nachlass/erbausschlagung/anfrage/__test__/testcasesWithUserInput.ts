@@ -4,6 +4,224 @@ import type {
 } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfrageXStateConfig } from "~/domains/nachlass/erbausschlagung/anfrage/xStateConfig";
+import { today } from "~/util/date";
+
+const testamentTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
+  {
+    noTestament: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "none",
+        },
+      },
+      {
+        stepId: "/verstorbene/kenntnisdatum",
+        userInput: {
+          awarenessDate: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+    unknownTestament: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "unknown",
+        },
+      },
+      {
+        stepId: "/verstorbene/kenntnisdatum",
+        userInput: {
+          awarenessDate: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+    handwrittenTestamentNotNamed: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "handwritten",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/ausschlagung-nicht-notwendig",
+      },
+    ],
+    handwrittenTestamentNamedNoLetterReceived: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "handwritten",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/brief-vom-nachlassgericht",
+        userInput: {
+          letterReceivedFromNachlassgericht: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/kenntnisdatum",
+        userInput: {
+          awarenessDate: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+    handwrittenTestamentNamedLetterReceived: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "handwritten",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/brief-vom-nachlassgericht",
+        userInput: {
+          letterReceivedFromNachlassgericht: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/brief-vom-gericht",
+        userInput: {
+          dateOfReceipt: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+    notarizedTestamentNotNamed: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "notarized",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/ausschlagung-nicht-notwendig",
+      },
+    ],
+    notarizedTestamentNamed: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "notarized",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/brief-vom-gericht",
+        userInput: {
+          dateOfReceipt: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+    erbvertragNotNamed: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "erbvertrag",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "no",
+        },
+      },
+      {
+        stepId: "/verstorbene/ausschlagung-nicht-notwendig",
+      },
+    ],
+    erbvertragNamed: [
+      {
+        stepId: "/verstorbene/testament",
+        userInput: {
+          testament: "erbvertrag",
+        },
+      },
+      {
+        stepId: "/verstorbene/im-testament-genannt",
+        userInput: {
+          namedInTestament: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/brief-vom-gericht",
+        userInput: {
+          dateOfReceipt: {
+            day: "01",
+            month: (today().getMonth() - 1).toString(),
+            year: today().getFullYear().toString(),
+          },
+        },
+      },
+      {
+        stepId: "/ausschlagende-person/name",
+      },
+    ],
+  };
 
 export const nachlassErbausschlagungAnfrageTestCases = {
   xstateConfig: nachlassErbausschlagungAnfrageXStateConfig,
@@ -158,5 +376,6 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         stepId: "/verstorbene/testament",
       },
     ],
+    ...testamentTestCases,
   } satisfies FlowTestCases<NachlassErbausschlagungAnfrageUserData>,
 } satisfies FlowTestConfig<NachlassErbausschlagungAnfrageUserData>;
