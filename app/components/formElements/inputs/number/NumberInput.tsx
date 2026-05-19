@@ -8,9 +8,6 @@ import { InputHelperText } from "../helperText/InputHelperText";
 type InputProps = Readonly<{
   name: string;
   label?: string;
-  type?: string;
-  step?: string | number;
-  prefix?: string;
   suffix?: string;
   readonly?: boolean;
   charLimit?: number;
@@ -20,7 +17,6 @@ type InputProps = Readonly<{
 }>;
 
 const NumberInput = function InputComponent({
-  step,
   name,
   label,
   suffix,
@@ -50,12 +46,12 @@ const NumberInput = function InputComponent({
           "kern-form-input__input--error": field.error(),
         })}
         {...field.getInputProps({
-          step,
           id: name,
           inputMode: "decimal",
           placeholder,
         })}
         name={name}
+        type="text"
         aria-invalid={field.error() !== null}
         aria-describedby={[
           field.error() && errorId,

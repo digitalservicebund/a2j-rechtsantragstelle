@@ -46,7 +46,6 @@ export const WithStep: Story = {
     name: "number-input-step",
     label: "Number Input with Step",
     placeholder: "Zahl eingeben...",
-    step: 0.01,
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

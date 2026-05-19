@@ -25,7 +25,7 @@ describe("SchemaComponents", () => {
     props: Readonly<Parameters<typeof SchemaComponents>[0]>,
   ) {
     const form = useForm({
-      schema: z.object(props.pageSchema),
+      schema: z.object(props.pageConfig?.pageSchema),
       defaultValues: {},
     });
 
@@ -47,7 +47,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { field1: z.string() };
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
       />,
     );
@@ -58,7 +58,7 @@ describe("SchemaComponents", () => {
   it("should render textarea", () => {
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={{ field1: z.string() }}
+        pageConfig={{ pageSchema: { field1: z.string() } }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -78,7 +78,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { field1: z.enum(["option1", "option2"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
       />,
     );
@@ -96,7 +96,7 @@ describe("SchemaComponents", () => {
     };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
       />,
     );
@@ -111,7 +111,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { [fieldName]: z.enum(["option1"]) };
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -148,7 +148,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { [fieldName]: checkedRequired };
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -173,7 +173,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { field: exclusiveCheckboxesSchema(["option", "none"]) };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -203,12 +203,14 @@ describe("SchemaComponents", () => {
     const { getByRole, getAllByRole } = render(
       <WrappedSchemaComponents
         readOnlyFieldNames={[]}
-        pageSchema={{
-          field1: z
-            .string()
-            .min(1)
-            .transform((val) => val.toUpperCase()),
-          field2: z.enum(["option1", "option2"]),
+        pageConfig={{
+          pageSchema: {
+            field1: z
+              .string()
+              .min(1)
+              .transform((val) => val.toUpperCase()),
+            field2: z.enum(["option1", "option2"]),
+          },
         }}
       />,
     );
@@ -226,7 +228,7 @@ describe("SchemaComponents", () => {
   it("should attach correct labels to inputs", () => {
     const { getByRole, getByLabelText, getByText } = render(
       <WrappedSchemaComponents
-        pageSchema={{ field1: z.string() }}
+        pageConfig={{ pageSchema: { field1: z.string() } }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -264,7 +266,7 @@ describe("SchemaComponents", () => {
 
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         formComponents={[]}
       />,
@@ -277,7 +279,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { [fieldName]: createNumberIncrementSchema(-2, 18) };
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         formComponents={[
           {
@@ -336,7 +338,7 @@ describe("SchemaComponents", () => {
     const { getAllByRole, getByText } = render(
       <WrappedSchemaComponents
         readOnlyFieldNames={[]}
-        pageSchema={mockPageSchema}
+        pageConfig={{ pageSchema: mockPageSchema }}
         formComponents={mockFormComponentsWithFieldSet}
       />,
     );
@@ -351,7 +353,7 @@ describe("SchemaComponents", () => {
     const pageSchema = { field1: z.string(), field2: z.string() };
     const { getAllByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={["field1"]}
       />,
     );
@@ -371,17 +373,27 @@ describe("SchemaComponents", () => {
     const pageSchema = {
       field1: ibanSchema,
     };
-    const { getByRole } = render(
+    const { getByLabelText } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{
+          pageSchema,
+        }}
         readOnlyFieldNames={[]}
+        formComponents={[
+          {
+            name: "field1",
+            label: "label",
+            errorMessages: undefined,
+            type: "text",
+            width: "10",
+            id: 76,
+            __component: "form-elements.input",
+          },
+        ]}
       />,
     );
-    const ibanInput = getByRole("textbox");
+    const ibanInput = getByLabelText("label");
     expect(ibanInput).toHaveAttribute("name", "field1");
-    expect(ibanInput.getAttribute("aria-describedby")).toContain(
-      "bank-name-badge",
-    );
   });
 
   it("should render a telephone input when the schema is phoneNumberSchema", () => {
@@ -390,7 +402,7 @@ describe("SchemaComponents", () => {
     };
     const { getByRole } = render(
       <WrappedSchemaComponents
-        pageSchema={pageSchema}
+        pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
       />,
     );

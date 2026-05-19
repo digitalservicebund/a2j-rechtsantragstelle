@@ -39,7 +39,7 @@ export const renderZodObject = (
   return (
     <SchemaComponents
       key={fieldName}
-      pageSchema={innerSchema}
+      pageConfig={{ pageSchema: innerSchema }}
       formComponents={formComponents}
       readOnlyFieldNames={readOnlyFieldNames}
     />

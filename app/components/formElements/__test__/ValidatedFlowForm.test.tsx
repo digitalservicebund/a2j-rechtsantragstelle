@@ -12,7 +12,7 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
 import { createDateSchema } from "~/services/validation/dateString";
 import { integerSchema } from "~/services/validation/integer";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -38,8 +38,10 @@ vi.mock("~/services/params", () => ({
 
 vi.mock("~/domains/pageSchemas");
 
-const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
-  vi.mocked(getPageSchema).mockReturnValue(pageSchema);
+const mockGetPageConfigOrArrayPageByPathname = (
+  pageSchema: SchemaObject | undefined,
+) => {
+  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({ pageSchema });
 };
 
 vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
@@ -54,14 +56,14 @@ describe("ValidatedFlowForm", () => {
   });
 
   it("should render", () => {
-    mockGetPageSchema(undefined);
+    mockGetPageConfigOrArrayPageByPathname(undefined);
     const { getByText } = renderValidatedFlowForm([]);
     expect(getByText("NEXT")).toBeInTheDocument();
   });
 
   describe("Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: integerSchema });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: integerSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
       code: "invalidInteger",
@@ -108,7 +110,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Date Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: createDateSchema() });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: createDateSchema() });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -158,7 +160,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Time Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: timeSchema });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: timeSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -208,7 +210,9 @@ describe("ValidatedFlowForm", () => {
 
   describe("Textarea Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ myTextarea: stringRequiredSchema });
+      mockGetPageConfigOrArrayPageByPathname({
+        myTextarea: stringRequiredSchema,
+      });
     });
     const { component, expectTextareaErrorToExist } =
       getStrapiTextareaComponent({
@@ -253,7 +257,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Select Component (Radio)", () => {
     beforeAll(() => {
-      mockGetPageSchema({ mySelect: YesNoAnswer });
+      mockGetPageConfigOrArrayPageByPathname({ mySelect: YesNoAnswer });
     });
     const { component, expectSelectErrorToExist } = getStrapiSelectComponent({
       code: "required",
@@ -298,7 +302,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Dropdown Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         myDropdown: z.enum(["option1", "option2", "option3"]),
       });
     });
@@ -338,7 +342,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Checkbox Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         checkbox1: checkedRequired,
         checkbox2: checkedRequired,
       });
@@ -402,7 +406,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("TileGroup Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         myTileGroup: z.enum(["firstTile", "secondTile"]),
       });
     });

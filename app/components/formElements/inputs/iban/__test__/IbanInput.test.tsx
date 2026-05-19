@@ -1,60 +1,82 @@
-import { useField } from "@rvf/react-router";
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import { formatIban } from "~/services/validation/iban";
-import { type BankData } from "../bankNameFromIBAN";
+import { formatIban, ibanSchema } from "~/services/validation/iban";
 import IbanInput from "../IbanInput";
+import { userEvent } from "@testing-library/user-event";
+import { fireEvent, render, waitFor } from "@testing-library/react";
+import { z } from "zod";
+import { type JSX } from "react";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import { FormProvider, useForm } from "@rvf/react";
 
-const mockValue = vi.fn();
 const mockIBAN = "DE02120300000000202051";
-const mockBankName = "Deutsche Kreditbank Suhl";
 
-vi.mock("@rvf/react-router");
-vi.mocked(useField).mockImplementation(
-  () =>
-    ({
-      value: mockValue,
-      error: vi.fn(),
-      getInputProps: vi.fn(
-        () =>
-          ({
-            id: "iban",
-          }) as any,
-      ),
-    }) as any,
-);
-
-vi.mock("~/components/formElements/inputs/iban/useBankData.ts", () => ({
-  useBankData: vi.fn(
-    () =>
-      ({
-        [Number(mockIBAN.substring(4, 12))]: mockBankName,
-      }) as BankData,
-  ),
+vi.mock("~/components/hooks/useControlledField.tsx", () => ({
+  useControlledField: () => ({
+    SrAnnouncementComponent: null,
+  }),
 }));
 
-describe("KernIbanInput", () => {
+const user = userEvent.setup();
+
+const RVFWrapper = ({
+  children,
+  defaultValues = { iban: "" },
+}: {
+  children: JSX.Element;
+  defaultValues?: { iban: string };
+}) => {
+  const form = useForm({
+    schema: z.object({ iban: ibanSchema }),
+    defaultValues,
+  });
+
+  const router = createMemoryRouter([
+    {
+      path: "/",
+      element: (
+        <FormProvider scope={form.scope()}>
+          <form {...form.getFormProps()}>{children}</form>
+        </FormProvider>
+      ),
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
+
+describe("IbanInput", () => {
   it("should render a user-entered IBAN with masked spaces between digit groups", async () => {
-    const { getByLabelText } = render(<IbanInput name="iban" label="IBAN" />);
+    const { getByLabelText } = render(
+      <RVFWrapper>
+        <IbanInput name="iban" label="IBAN" />
+      </RVFWrapper>,
+    );
     const input = getByLabelText("IBAN");
 
     expect(input).toHaveValue("");
-    fireEvent.input(input, { target: { value: mockIBAN } });
+    user.type(input, mockIBAN);
     await waitFor(() => {
       expect(input).toHaveValue(formatIban(mockIBAN));
     });
   });
 
-  it("should display the matching bank name if found", async () => {
-    mockValue.mockReturnValue(mockIBAN);
-    const { getAllByText } = render(<IbanInput name="iban" label="IBAN" />);
-
-    await waitFor(
-      () => {
-        const bankNames = getAllByText(mockBankName);
-        expect(bankNames).toHaveLength(2);
-        expect(bankNames[0]).toHaveClass("kern-label kern-label--small");
-      },
-      { timeout: 1100 },
+  it("should display an error if an invalid IBAN is entered", async () => {
+    const { getByLabelText } = render(
+      <RVFWrapper>
+        <IbanInput
+          name="iban"
+          label="IBAN"
+          errorMessages={[{ code: "invalid", text: "Invalid IBAN" }]}
+        />
+      </RVFWrapper>,
     );
+    const input = getByLabelText("IBAN");
+
+    user.type(input, "invalid iban");
+    fireEvent.blur(input);
+
+    await waitFor(() => {
+      expect(input.parentElement).toHaveClass("kern-form-input--error");
+      expect(input).toHaveAttribute("aria-invalid", "true");
+    });
   });
 });
