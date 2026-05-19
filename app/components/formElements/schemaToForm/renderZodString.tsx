@@ -16,17 +16,19 @@ export const renderZodString = (
   fieldName: string,
   isFieldReadOnly: boolean,
   matchingElement?: StrapiFormComponent,
+  isControlled: boolean = false,
 ) => {
   const sharedProps = {
     name: fieldName,
     readonly: isFieldReadOnly,
     label: fieldName, // fallback, will get written if there's a matchingElement
     ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
+    controlled: isControlled,
   };
 
   const inputProps = {
     ...sharedProps,
-    ...pick(matchingElement, ["type", "suffix", "width", "helperText"]),
+    ...pick(matchingElement, ["suffix", "width", "helperText"]),
   } satisfies InputProps;
 
   if (matchingElement?.__component === "form-elements.textarea")
@@ -47,15 +49,13 @@ export const renderZodString = (
     );
 
   const inputType =
-    ((inputProps as InputProps).type as "text" | "number" | undefined) ??
-    "text";
+    matchingElement && "type" in matchingElement
+      ? matchingElement.type
+      : "text";
 
-  switch (inputType) {
-    case "text":
-      return <TextInput key={fieldName} {...inputProps} />;
-    case "number":
-      return <NumberInput key={fieldName} {...inputProps} />;
-    default:
-      return <TextInput key={fieldName} {...inputProps} />;
-  }
+  return inputType === "text" ? (
+    <TextInput key={fieldName} {...inputProps} />
+  ) : (
+    <NumberInput key={fieldName} {...inputProps} />
+  );
 };
