@@ -4,10 +4,12 @@ import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
+import { type ErrorMessageProps } from "~/components/common/types";
 
 type SplitDateInputProps = {
   name: string;
   suffix?: string;
+  errorMessages?: ErrorMessageProps[];
 };
 
 const sharedClassnames = "kern-form-input__input bg-white!" as const;
@@ -20,7 +22,11 @@ const sharedAttributes = {
   },
 } as const;
 
-const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
+const SplitDateInput = ({
+  name,
+  suffix,
+  errorMessages,
+}: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -34,8 +40,9 @@ const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
   const dayError = dayField.error();
   const monthError = monthField.error();
   const yearError = yearField.error();
+  const fieldError = dayError ?? monthError ?? yearError ?? dateError;
 
-  const hasError = Boolean(dayError ?? monthError ?? yearError ?? dateError);
+  const hasError = Boolean(fieldError);
   const errorId = `${name}-error`;
 
   return (
@@ -129,7 +136,8 @@ const SplitDateInput = ({ name, suffix }: SplitDateInputProps) => {
       </div>
       {hasError && (
         <InputError id={errorId}>
-          {dayError ?? monthError ?? yearError ?? dateError}
+          {errorMessages?.find((err) => err.code === fieldError)?.text ??
+            fieldError}
         </InputError>
       )}
     </fieldset>
