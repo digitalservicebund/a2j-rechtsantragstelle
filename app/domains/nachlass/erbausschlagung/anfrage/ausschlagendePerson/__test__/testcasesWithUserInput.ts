@@ -46,6 +46,11 @@ export const ausschlagendePersonTestCases: FlowTestCases<NachlassErbausschlagung
         stepId: "/ausschlagende-person/beziehung-zum-erblasser",
         userInput: {
           ausschlagendePersonBeziehungZumErblasser: "mother-father",
+          pageData: {
+            subflowDoneStates: {
+              "/ausschlagende-person": true,
+            },
+          },
         },
       },
       {
