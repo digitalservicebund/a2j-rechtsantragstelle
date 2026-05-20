@@ -15,8 +15,7 @@ const hasFilledAusschlagendePerson: NachlassErbausschlagungAnfrageDaten = ({
   context,
 }) => {
   return (
-    context.pageData?.subflowDoneStates?.["/ausschlagende-person/adresse"] ===
-    true
+    context.pageData?.subflowDoneStates?.["/ausschlagende-person"] === true
   );
 };
 

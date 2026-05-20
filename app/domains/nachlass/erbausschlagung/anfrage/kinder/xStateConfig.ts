@@ -14,7 +14,6 @@ export const kinderXStateConfig = {
     [stepIds.kinderHasKid.relative]: {
       on: {
         BACK: stepIds.ausschlagendePersonRelationToErblasser.absolute,
-        SUBMIT: "",
       },
     },
   },

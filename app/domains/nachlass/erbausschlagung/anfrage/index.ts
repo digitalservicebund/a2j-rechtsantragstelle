@@ -7,5 +7,6 @@ export const nachlassErbausschlagungAnfrage = {
   config: nachlassErbausschlagungAnfrageXStateConfig,
   stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
     verstorbeneName: `${context.verstorbeneVorname} ${context.verstorbeneNachname}`,
+    ausschlagendePersonVorname: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
   }),
 } satisfies Flow;
