@@ -20,29 +20,29 @@ const mockGetPageSchema = (pageSchema: any) => {
   vi.mocked(getPageSchema).mockReturnValue(pageSchema);
 };
 
+function WrappedSchemaComponents(
+  props: Readonly<Parameters<typeof SchemaComponents>[0]>,
+) {
+  const form = useForm({
+    schema: z.object(props.pageConfig?.pageSchema),
+    defaultValues: {},
+  });
+
+  const router = createMemoryRouter([
+    {
+      path: "/",
+      element: (
+        <FormProvider scope={form.scope()}>
+          <SchemaComponents {...props} />
+        </FormProvider>
+      ),
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+}
+
 describe("SchemaComponents", () => {
-  function WrappedSchemaComponents(
-    props: Readonly<Parameters<typeof SchemaComponents>[0]>,
-  ) {
-    const form = useForm({
-      schema: z.object(props.pageConfig?.pageSchema),
-      defaultValues: {},
-    });
-
-    const router = createMemoryRouter([
-      {
-        path: "/",
-        element: (
-          <FormProvider scope={form.scope()}>
-            <SchemaComponents {...props} />
-          </FormProvider>
-        ),
-      },
-    ]);
-
-    return <RouterProvider router={router} />;
-  }
-
   it("should render correct text inputs", () => {
     const pageSchema = { field1: z.string() };
     const { getByRole } = render(
