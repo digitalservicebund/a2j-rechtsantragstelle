@@ -32,7 +32,8 @@
     "unicorn/no-array-sort": "off",
     "unicorn/no-useless-spread": "off",
     "vitest/expect-expect": "off",
-    "vitest/require-mock-type-parameters": "off"
+    "vitest/require-mock-type-parameters": "off",
+    "jsx-a11y/control-has-associated-label": "off" // Oxlint will fix it soon
   },
   "ignorePatterns": ["data/xml/**"]
 }
