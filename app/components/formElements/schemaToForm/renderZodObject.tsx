@@ -41,10 +41,16 @@ export const renderZodObject = (
         ? matchingElement.errorMessages
         : undefined;
 
+    const label =
+      matchingElement && "label" in matchingElement
+        ? matchingElement.label
+        : undefined;
+
     return (
       <SplitDateInput
         key={fieldName}
         name={fieldName}
+        label={label}
         errorMessages={errorMessages}
       />
     );

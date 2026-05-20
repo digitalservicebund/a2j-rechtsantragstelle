@@ -8,6 +8,7 @@ import { type ErrorMessageProps } from "~/components/common/types";
 
 type SplitDateInputProps = {
   name: string;
+  label?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
 };
@@ -24,6 +25,7 @@ const sharedAttributes = {
 
 const SplitDateInput = ({
   name,
+  label,
   suffix,
   errorMessages,
 }: SplitDateInputProps) => {
@@ -52,11 +54,7 @@ const SplitDateInput = ({
       })}
       {...dateField.getControlProps()}
     >
-      <InputLabel
-        name={name}
-        label={translations.splitDateComponent.legend.de}
-        suffix={suffix}
-      />
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
       </div>
