@@ -8,5 +8,6 @@ export const nachlassErbausschlagungAnfrage = {
   stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
     verstorbeneName: `${context.verstorbeneVorname} ${context.verstorbeneNachname}`,
     ausschlagendePersonVorname: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
+    isTestamentErbvertrag: context.testament === "erbvertrag",
   }),
 } satisfies Flow;
