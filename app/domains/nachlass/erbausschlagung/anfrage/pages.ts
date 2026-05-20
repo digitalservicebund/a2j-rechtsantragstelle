@@ -132,7 +132,6 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "verstorbene/brief-vom-gericht",
     pageSchema: {
       dateOfReceipt: createSplitDateSchema({
-        earliest: () => addYears(today(), -1),
         latest: () => today(),
       }),
       weitereAngaben: stringOptionalSchema,
@@ -142,7 +141,6 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "verstorbene/kenntnisdatum",
     pageSchema: {
       awarenessDate: createSplitDateSchema({
-        earliest: () => addYears(today(), -1),
         latest: () => today(),
       }),
     },
