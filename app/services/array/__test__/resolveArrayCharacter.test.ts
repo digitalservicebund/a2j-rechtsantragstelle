@@ -9,7 +9,7 @@ describe("resolveArrayCharacter()", () => {
   it("throws an error if more hashes than indices exist", () => {
     expect(() => resolveArrayCharacter("a#b", [])).toThrow();
   });
-  it("throws an error if hashCount and indiciesCount don't match", () => {
-    expect(() => resolveArrayCharacter("a.b", [0])).toThrow(expect.anything());
+  it("throws an error if there are more hashes than indices", () => {
+    expect(() => resolveArrayCharacter("a#b#c", [0])).toThrow(expect.anything());
   });
 });

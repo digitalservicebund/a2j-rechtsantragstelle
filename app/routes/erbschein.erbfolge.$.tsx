@@ -37,6 +37,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // TODO: pass flowId, arrayIndexes into createFlowSession?
   const flowSession = createFlowSession(staticFlow, fullUserData, stepId);
 
+  console.log(`[${stepId}] userData:`, JSON.stringify(fullUserData, null, 2));
+  console.log(`[${stepId}] prunedUserData:`, JSON.stringify(flowSession.prunedUserData, null, 2));
+
   if (!flowSession.isReachable(stepId)) {
     return redirect(flowId + flowSession.initialPath);
   }
@@ -48,9 +51,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     : fieldNames;
 
   const stepData = resolveUserData(
-    flowSession.prunedUserData,
+    { ...flowSession.prunedUserData, pageData: fullUserData.pageData } as Parameters<typeof resolveUserData>[0],
     fieldNamesForPage,
   );
+
 
   const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
@@ -67,20 +71,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const arraySummaryData =
     arrayInfo?.entryPoint !== undefined
       ? {
-          category: arrayInfo.name,
-          arrayData: {
-            data: (stepData[arrayInfo.name] ?? []) as ArrayData,
-            configuration: {
-              url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false), // TODO: move into flowSession, exposed resolvedStepId
-              initialInputUrl: arrayInfo.entryPoint,
-              disableAddButton: false,
-            },
+        category: arrayInfo.name,
+        arrayData: {
+          data: (stepData[arrayInfo.name] ?? []) as ArrayData,
+          configuration: {
+            url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false), // TODO: move into flowSession, exposed resolvedStepId
+            initialInputUrl: arrayInfo.entryPoint,
+            disableAddButton: false,
           },
-          content: {
-            buttonLabel: arrayInfo.name,
-            itemLabels: { label: "itemLabel" },
-          },
-        }
+        },
+        content: {
+          buttonLabel: arrayInfo.name,
+          itemLabels: { label: "itemLabel" },
+        },
+      }
       : undefined;
 
   return data({

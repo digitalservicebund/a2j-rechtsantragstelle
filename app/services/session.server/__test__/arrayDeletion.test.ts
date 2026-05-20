@@ -1,10 +1,5 @@
 import { createSession } from "react-router";
-import { updateSession } from "~/services/session.server";
 import { deleteArrayItem, getArrayDataFromFormData } from "../arrayDeletion";
-
-vi.mock("~/services/session.server", () => ({
-  updateSession: vi.fn(),
-}));
 
 describe("arrayDeletion", () => {
   describe("getArrayDataFromFormData", () => {
@@ -89,10 +84,7 @@ describe("arrayDeletion", () => {
 
       const result = deleteArrayItem("arrayTest", 1, mockSession);
       expect(result.isOk).toBe(true);
-      expect(updateSession).toHaveBeenCalledTimes(1);
-      expect(updateSession).toHaveBeenCalledWith(mockSession, {
-        arrayTest: ["item1"],
-      });
+      expect(mockSession.get("arrayTest")).toEqual(["item1"]);
     });
   });
 });
