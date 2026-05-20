@@ -2,8 +2,11 @@ import { z } from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -72,13 +75,13 @@ export const nachlassErbausschlagungAnfragePages = {
   pflegeheimPLZ: {
     stepId: "verstorbene/pflegeheim-plz",
     pageSchema: {
-      pflegeheimPLZ: postcodeSchema,
+      plzPflegeheim: postcodeSchema,
     },
   },
   verstorbenePlz: {
     stepId: "verstorbene/plz",
     pageSchema: {
-      verstorbenePLZ: postcodeSchema,
+      plzVerstorbene: postcodeSchema,
     },
   },
   verstorbeneAdresse: {
@@ -95,7 +98,7 @@ export const nachlassErbausschlagungAnfragePages = {
     pageSchema: {
       verstorbeneAuslaendischeAdresseStrasse: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseHausnummer: germanHouseNumberSchema,
-      verstorbeneAuslaendischeAdressePLZ: postcodeSchema,
+      verstorbeneAuslaendischeAdressePLZ: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseOrt: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseZusatz: stringOptionalSchema,
       verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,
@@ -153,6 +156,74 @@ export const nachlassErbausschlagungAnfragePages = {
       ausschlagendePersonVorname: stringRequiredSchema,
       ausschlagendePersonNachname: stringRequiredSchema,
       ausschlagendePersonGeburtsname: stringOptionalSchema,
+    },
+  },
+  ausschlagendePersonPlz: {
+    stepId: "ausschlagende-person/plz",
+    pageSchema: {
+      ausschlagendePersonPlz: postcodeSchema,
+    },
+  },
+  ausschlagendePersonAdresse: {
+    stepId: "ausschlagende-person/adresse",
+    pageSchema: {
+      ausschlagendePersonStrasse: stringRequiredSchema,
+      ausschlagendePersonHausnummer: germanHouseNumberSchema,
+      ausschlagendePersonOrt: stringRequiredSchema,
+      ausschlagendePersonZusatz: stringOptionalSchema,
+    },
+  },
+  ausschlagendePersonContact: {
+    stepId: "ausschlagende-person/kontakt",
+    pageSchema: {
+      ausschlagendePersonTelefon: phoneNumberSchema,
+      ausschlagendePersonEmail: schemaOrEmptyString(emailSchema),
+    },
+  },
+  ausschlagendePersonBirthday: {
+    stepId: "ausschlagende-person/geburtsdatum",
+    pageSchema: {
+      ausschlagendePersonGeburtsdatum: createSplitDateSchema({
+        earliest: () => addYears(today(), -150),
+        latest: () => today(),
+      }),
+    },
+  },
+  ausschlagendePersonRelationToErblasser: {
+    stepId: "ausschlagende-person/beziehung-zum-erblasser",
+    pageSchema: {
+      ausschlagendePersonBeziehungZumErblasser: z.enum([
+        "mother-father",
+        "daughter-son",
+        "grandmother-grandfather",
+        "granddaughter-grandson",
+        "great-grandmother-great-grandfather",
+        "sister-brother",
+        "half-sister-half-brother",
+        "niece-nephew",
+        "aunt-uncle",
+        "cousin",
+        "great-aunt-great-uncle",
+        "wife-husband",
+        "life-partner",
+        "mother-in-law-father-in-law",
+        "sister-in-law-brother-in-law",
+        "daughter-in-law-son-in-law",
+        "stepmother-stepfather",
+        "stepdaughter-stepson",
+        "stepsister-stepbrother",
+        "foster-mother-foster-father",
+        "foster-child",
+        "adoptive-mother-adoptive-father",
+        "godmother-godfather",
+        "other",
+      ]),
+    },
+  },
+  kinderHasKid: {
+    stepId: "kinder/haben-sie-kinder",
+    pageSchema: {
+      hasKid: YesNoAnswer,
     },
   },
 } as const satisfies PagesConfig;

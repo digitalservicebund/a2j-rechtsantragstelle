@@ -3,6 +3,25 @@ import type { UserDataWithPageData } from "../../pageData";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { type StrapiAutoSuggestInputComponentSchema } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 
+const getDataListArgumentForVerstorbeneAdresseStrasse = (
+  userDataWithPageData: UserDataWithPageData,
+) => {
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/pflegeheim-plz
+  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+    return userDataWithPageData.plzPflegeheim;
+  }
+
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/plz-vor-hospiz
+  if (typeof userDataWithPageData?.plzBeforeHospiz === "string") {
+    return userDataWithPageData.plzBeforeHospiz;
+  }
+
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/plz
+  if (typeof userDataWithPageData?.plzVerstorbene === "string") {
+    return userDataWithPageData.plzVerstorbene;
+  }
+};
+
 const addDataListArgumentToAutoSuggestionInput = (
   autoSuggestProps: z.infer<typeof StrapiAutoSuggestInputComponentSchema>,
   userDataWithPageData: UserDataWithPageData,
@@ -11,6 +30,18 @@ const addDataListArgumentToAutoSuggestionInput = (
 
   if (typeof userDataWithPageData?.plz === "string") {
     dataListArgument = userDataWithPageData.plz;
+  }
+
+  if (autoSuggestProps.name === "verstorbeneAdresseStrasse") {
+    dataListArgument =
+      getDataListArgumentForVerstorbeneAdresseStrasse(userDataWithPageData);
+  }
+
+  if (
+    autoSuggestProps.name === "ausschlagendePersonStrasse" &&
+    typeof userDataWithPageData?.ausschlagendePersonPlz === "string"
+  ) {
+    dataListArgument = userDataWithPageData.ausschlagendePersonPlz;
   }
 
   // for /erbschein/nachlassgericht/plz-lebensmittelpunkt
