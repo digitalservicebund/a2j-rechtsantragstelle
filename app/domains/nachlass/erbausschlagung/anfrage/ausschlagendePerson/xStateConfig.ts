@@ -2,10 +2,23 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { type GenericGuard } from "~/domains/guards.server";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
 );
+
+type NachlassErbausschlagungAnfrageDaten =
+  GenericGuard<NachlassErbausschlagungAnfrageUserData>;
+
+const hasFilledAusschlagendePerson: NachlassErbausschlagungAnfrageDaten = ({
+  context,
+}) => {
+  return (
+    context.pageData?.subflowDoneStates?.["/ausschlagende-person/adresse"] ===
+    true
+  );
+};
 
 export const ausschlagendePersonXStateConfig = {
   id: "ausschlagende-person",
@@ -53,7 +66,10 @@ export const ausschlagendePersonXStateConfig = {
     [stepIds.ausschlagendePersonRelationToErblasser.relative]: {
       on: {
         BACK: stepIds.ausschlagendePersonBirthday.relative,
-        SUBMIT: stepIds.kinderHasKid.absolute,
+        SUBMIT: {
+          target: stepIds.kinderHasKid.absolute,
+          guard: hasFilledAusschlagendePerson,
+        },
       },
     },
   },
