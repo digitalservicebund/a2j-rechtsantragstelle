@@ -24,10 +24,6 @@ import {
   renderSpecialMetaDescriptions,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 import {
-  isZodNumber,
-  renderZodNumber,
-} from "~/components/formElements/schemaToForm/renderZodNumber";
-import {
   hasControlledFieldConfig,
   type ArrayPage,
   type PageConfig,
@@ -81,6 +77,7 @@ export const SchemaComponents = ({
           return renderSpecialMetaDescriptions(
             fieldName,
             description,
+            fieldSchema,
             controlledFieldConfig,
             matchingElement,
           );
@@ -100,9 +97,6 @@ export const SchemaComponents = ({
 
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
-
-        if (isZodNumber(nestedSchema))
-          return renderZodNumber(fieldName, nestedSchema, matchingElement);
 
         if (isZodString(nestedSchema))
           return renderZodString(
