@@ -41,7 +41,7 @@ const MigrationItems = ({
 }: MigrationItemsProps) => {
   return (
     <>
-      <dt data-testid="migration-field-value" className="ds-label-01-bold mb-0">
+      <dt data-testid="migration-field-value" className="kern-body--bold mb-0">
         {getTranslationByKey(itemKey, translations)}
       </dt>
       <dd>
