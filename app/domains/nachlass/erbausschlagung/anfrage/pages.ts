@@ -75,13 +75,13 @@ export const nachlassErbausschlagungAnfragePages = {
   pflegeheimPLZ: {
     stepId: "verstorbene/pflegeheim-plz",
     pageSchema: {
-      pflegeheimPLZ: postcodeSchema,
+      plzPflegeheim: postcodeSchema,
     },
   },
   verstorbenePlz: {
     stepId: "verstorbene/plz",
     pageSchema: {
-      verstorbenePLZ: postcodeSchema,
+      plzVerstorbene: postcodeSchema,
     },
   },
   verstorbeneAdresse: {
@@ -98,7 +98,7 @@ export const nachlassErbausschlagungAnfragePages = {
     pageSchema: {
       verstorbeneAuslaendischeAdresseStrasse: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseHausnummer: germanHouseNumberSchema,
-      verstorbeneAuslaendischeAdressePLZ: postcodeSchema,
+      verstorbeneAuslaendischeAdressePLZ: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseOrt: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseZusatz: stringOptionalSchema,
       verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,

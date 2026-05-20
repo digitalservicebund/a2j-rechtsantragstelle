@@ -81,7 +81,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim-plz",
         userInput: {
-          pflegeheimPLZ: "10969",
+          plzPflegeheim: "10969",
         },
       },
       {
@@ -143,7 +143,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/plz",
         userInput: {
-          verstorbenePLZ: "10969",
+          plzVerstorbene: "10969",
         },
       },
       {

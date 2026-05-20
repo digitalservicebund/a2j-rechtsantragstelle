@@ -13,6 +13,21 @@ const addDataListArgumentToAutoSuggestionInput = (
     dataListArgument = userDataWithPageData.plz;
   }
 
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/pflegeheim-plz
+  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+    dataListArgument = userDataWithPageData.plzPflegeheim;
+  }
+
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/plz-vor-hospiz
+  if (typeof userDataWithPageData?.plzBeforeHospiz === "string") {
+    dataListArgument = userDataWithPageData.plzBeforeHospiz;
+  }
+
+  // for /nachlass/erbausschlagung/anfrage/verstorbene/plz
+  if (typeof userDataWithPageData?.plzVerstorbene === "string") {
+    dataListArgument = userDataWithPageData.plzVerstorbene;
+  }
+
   // for /erbschein/nachlassgericht/plz-lebensmittelpunkt
   if (typeof userDataWithPageData?.plzLebensmittelpunkt === "string") {
     dataListArgument = userDataWithPageData.plzLebensmittelpunkt;
