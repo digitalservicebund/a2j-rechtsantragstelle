@@ -52,15 +52,12 @@ export const pruneUserData = <C extends PageConfigMap>(
       // Array item page: copy only the fields declared in its schema.
       // scopeData is the item at this nesting level; arrayPath + arrayIndexes
       // give the reconstruction path in the output.
+      // fieldNames use "#" notation (e.g. "children#name") for form resolution,
+      // but scopeData keys and the nested output use the leaf name ("name").
       const indexes = pageData.arrayIndexes ?? [];
       for (const fieldName of compiledFlow.getFieldNamesByNodeKey(nodeKey)) {
-        setNestedField(
-          result,
-          arrayPath,
-          indexes,
-          fieldName,
-          scopeData[fieldName],
-        );
+        const leafKey = fieldName.split("#").at(-1)!;
+        setNestedField(result, arrayPath, indexes, leafKey, scopeData[leafKey]);
       }
     } else {
       // Regular (top-level) page: copy declared fields directly from userData.

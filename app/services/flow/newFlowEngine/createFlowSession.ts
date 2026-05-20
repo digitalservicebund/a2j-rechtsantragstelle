@@ -22,10 +22,17 @@ export const createFlowSession = <C extends PageConfigMap>(
     (key, scopeData) => {
       const info = compiledFlow.getArrayInfoByNodeKey(key);
       if (!info) return undefined;
-      const items = scopeData[info.name];
-      return Array.isArray(items)
-        ? { name: info.name, count: items.length }
-        : undefined;
+      // info.name uses "#" notation (e.g. "children#children") but scopeData
+      // is already scoped to the current item, so the real property key is
+      // just the last segment after "#" (e.g. "children").
+      const leafName = info.name.split("#").at(-1)!;
+      const items = scopeData[leafName];
+      // Treat a missing array the same as an empty one so that the add-target
+      // remains reachable even before the first item has been submitted.
+      return {
+        name: info.name,
+        count: Array.isArray(items) ? items.length : 0,
+      };
     },
   );
 

@@ -98,7 +98,12 @@ export const simulate = <C extends PageConfigMap>(
   const queue: BfsItem[] = [
     {
       key: initialStep,
-      pageData: currentData.pageData,
+      // Reset arrayIndexes so the BFS builds the correct index path through
+      // fan-outs from scratch. Using the current request's arrayIndexes would
+      // contaminate every fan-out path (e.g. starting at [2,0] causes
+      // childrenArraySummary to produce [2,0,0],[2,0,1],[2,0,2], making all
+      // guards read children[2] instead of children[0], children[1], etc.).
+      pageData: { ...currentData.pageData, arrayIndexes: [] },
       scopeData: currentData as unknown as Record<string, unknown>,
       arrayPath: [],
     },
@@ -133,21 +138,30 @@ export const simulate = <C extends PageConfigMap>(
         if (fanOut) {
           const { name, count } = fanOut;
           const items = scopeData[name];
-          for (let i = 0; i < count; i++) {
-            const itemScopeData = (
-              Array.isArray(items) ? items[i] : {}
-            ) as Record<string, unknown>;
-            const itemPageData: PageData = {
-              arrayIndexes: [...(pageData.arrayIndexes ?? []), i],
-            };
+          if (count === 0) {
+            // Empty array: mark the add-target reachable without enqueueing it.
+            // Enqueueing with phantom scopeData would cause infinite BFS expansion
+            // (phantom childInfo → childrenArraySummary:0 → childInfo:0,0 → ...).
             if (!parentMap.has(addTransition.target))
               parentMap.set(addTransition.target, current);
-            queue.push({
-              key: addTransition.target,
-              pageData: itemPageData,
-              scopeData: itemScopeData,
-              arrayPath: [...arrayPath, name],
-            });
+            reachableSet.add(addTransition.target);
+          } else {
+            for (let i = 0; i < count; i++) {
+              const itemScopeData = (
+                Array.isArray(items) ? items[i] : {}
+              ) as Record<string, unknown>;
+              const itemPageData: PageData = {
+                arrayIndexes: [...(pageData.arrayIndexes ?? []), i],
+              };
+              if (!parentMap.has(addTransition.target))
+                parentMap.set(addTransition.target, current);
+              queue.push({
+                key: addTransition.target,
+                pageData: itemPageData,
+                scopeData: itemScopeData,
+                arrayPath: [...arrayPath, name],
+              });
+            }
           }
         }
       }

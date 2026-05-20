@@ -14,7 +14,7 @@ export const resolveArrayCharacter = (
   const indexCount = arrayIndexes.length ?? 0;
   invariant(
     indexCount >= hashCount,
-    `${fieldname} number of ${arrayChar} (${hashCount}) is smaller than number of indicies (${indexCount})`,
+    `${fieldname} number of ${arrayChar} (${hashCount}) is greater than number of indicies (${indexCount})`,
   );
   let i = 0;
   return fieldname.replace(/#/g, () => {
