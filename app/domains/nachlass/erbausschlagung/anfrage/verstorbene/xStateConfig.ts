@@ -177,7 +177,7 @@ export const verstorbeneXStateConfig = {
         SUBMIT: {
           guard: ({ context }) =>
             objectKeysNonEmpty(context.dateOfReceipt, ["day", "month", "year"]),
-          target: "#ausschlagende-person",
+          target: stepIds.ausschlagendePersonName.absolute,
         },
       },
     },
@@ -201,7 +201,7 @@ export const verstorbeneXStateConfig = {
         SUBMIT: {
           guard: ({ context }) =>
             objectKeysNonEmpty(context.awarenessDate, ["day", "month", "year"]),
-          target: "#ausschlagende-person",
+          target: stepIds.ausschlagendePersonName.absolute,
         },
       },
     },

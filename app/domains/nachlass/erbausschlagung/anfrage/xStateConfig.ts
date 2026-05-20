@@ -4,6 +4,7 @@ import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbaussc
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { verstorbeneXStateConfig } from "./verstorbene/xStateConfig";
 import { ausschlagendePersonXStateConfig } from "./ausschlagendePerson/xStateConfig";
+import { kinderXStateConfig } from "./kinder/xStateConfig";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -28,7 +29,7 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
             SUBMIT: {
               guard: ({ context }) =>
                 context.datenverarbeitungZustimmung === "on",
-              target: "#verstorbene",
+              target: stepIds.verstorbeneName.absolute,
             },
           },
         },
@@ -36,5 +37,6 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
     },
     verstorbene: verstorbeneXStateConfig,
     "ausschlagende-person": ausschlagendePersonXStateConfig,
+    kinder: kinderXStateConfig,
   },
 } satisfies Config<NachlassErbausschlagungAnfrageUserData>;
