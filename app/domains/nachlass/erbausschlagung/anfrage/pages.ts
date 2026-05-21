@@ -332,7 +332,7 @@ export const nachlassErbausschlagungAnfragePages = {
       },
       "erbe-ausschlagende": {
         pageSchema: {
-          "kinder#hasRenouncedInheritance":
+          "kinderUnder18#hasRenouncedInheritance":
             kinderUnder18ArraySchema.element.shape.hasRenouncedInheritance,
         },
       },
