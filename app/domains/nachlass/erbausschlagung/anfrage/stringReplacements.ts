@@ -1,5 +1,5 @@
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
-import { NachlassErbausschlagungAnfrageUserData } from "./userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,

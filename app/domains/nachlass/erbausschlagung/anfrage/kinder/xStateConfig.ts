@@ -2,7 +2,7 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { GenericGuard } from "~/domains/guards.server";
+import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 
 const stepIds = xStateTargetsFromPagesConfig(

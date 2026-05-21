@@ -4,6 +4,7 @@ import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/
 import {
   getArrayIndexStrings,
   getAusschlagendePersonVorname,
+  getKinderNameSorgerechtUnder18,
   getKinderNameUnder18,
   getKinderOrganizationNameUnder18,
   getVerstorbeneName,
@@ -22,5 +23,6 @@ export const nachlassErbausschlagungAnfrage = {
     ...getArrayIndexStrings(context),
     ...isKinderUnder18AnotherPerson(context),
     ...getKinderOrganizationNameUnder18(context),
+    ...getKinderNameSorgerechtUnder18(context),
   }),
 } satisfies Flow;

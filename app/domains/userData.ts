@@ -8,7 +8,7 @@ import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/w
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
 import type { ErbscheinNachlassGerichtUserData } from "./erbschein/nachlassgericht/userData";
 import type { ErbscheinWegweiserUserData } from "./erbschein/wegweiser/userData";
-import { NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
