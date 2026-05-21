@@ -11,6 +11,21 @@ const stepIds = xStateTargetsFromPagesConfig(
 );
 
 export const nachlassErbausschlagungAnfrageXStateConfig = {
+  meta: {
+    arrays: {
+      kinderUnder18: {
+        url: "/nachlass/erbausschlagung/anfrage/kinder/kinder-unter-18/kinder",
+        initialInputUrl: "name",
+        statementKey: "hasKid",
+        hiddenFields: [
+          "geburtsdatum",
+          "wohnortBeiAntragsteller",
+          "geburtsnameSorgerecht",
+        ],
+        event: "add-kinderUnder18",
+      },
+    },
+  },
   id: "/nachlass/erbausschlagung/anfrage",
   initial: "start",
   states: {
@@ -38,5 +53,22 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
     verstorbene: verstorbeneXStateConfig,
     "ausschlagende-person": ausschlagendePersonXStateConfig,
     kinder: kinderXStateConfig,
+    abgabe: {
+      id: "abgabe",
+      initial: stepIds.abgabeWeitereInformation.relative,
+      states: {
+        [stepIds.abgabeWeitereInformation.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.hasKid === "no",
+                target: stepIds.kinderHasKid.absolute,
+              },
+              stepIds.kinderUnder18Uebersicht.absolute,
+            ],
+          },
+        },
+      },
+    },
   },
 } satisfies Config<NachlassErbausschlagungAnfrageUserData>;

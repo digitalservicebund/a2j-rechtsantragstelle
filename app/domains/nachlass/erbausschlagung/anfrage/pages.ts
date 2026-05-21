@@ -4,6 +4,7 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
+import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -11,6 +12,47 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
+
+const kinderUnder18ArraySchema = z.array(
+  z
+    .object({
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
+      geburtsdatum: createSplitDateSchema({
+        earliest: () => addYears(today(), -18),
+        latest: () => today(),
+      }),
+      wohnortBeiAntragsteller: YesNoAnswer,
+      strasse: stringRequiredSchema,
+      hausnummer: germanHouseNumberSchema,
+      plz: postcodeSchema,
+      ort: stringRequiredSchema,
+      adresseZusatz: stringOptionalSchema,
+      optionSorgerecht: z.enum([
+        "yes",
+        "shared",
+        "anotherPerson",
+        "anotherOrganization",
+      ]),
+      hasRenouncedInheritance: YesNoAnswer,
+      vornameSorgerecht: stringRequiredSchema,
+      nachnameSorgerecht: stringRequiredSchema,
+      geburtsnameSorgerecht: stringOptionalSchema,
+      hasSorgerechtSameAddress: YesNoAnswer,
+      strasseSorgerecht: stringRequiredSchema,
+      hausnummerSorgerecht: germanHouseNumberSchema,
+      plzSorgerecht: postcodeSchema,
+      ortSorgerecht: stringRequiredSchema,
+      adresseZusatzSorgerecht: stringOptionalSchema,
+      organizationNameSorgerecht: stringRequiredSchema,
+      organizationStrasseSorgerecht: stringRequiredSchema,
+      organizationHausnummerSorgerecht: germanHouseNumberSchema,
+      organizationPlzSorgerecht: postcodeSchema,
+      organizationOrtSorgerecht: stringRequiredSchema,
+      organizationAdressZusatzSorgerecht: stringOptionalSchema,
+    })
+    .partial(),
+);
 
 export const nachlassErbausschlagungAnfragePages = {
   start: {
@@ -222,6 +264,137 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "kinder/haben-sie-kinder",
     pageSchema: {
       hasKid: YesNoAnswer,
+    },
+  },
+  kinderHowManyKids: {
+    stepId: "kinder/wie-viele-kinder",
+    pageSchema: {
+      numberOfKids: createNumberIncrementSchema(1, 20),
+    },
+  },
+  kinderHowManyKidsUnder18: {
+    stepId: "kinder/wie-viele-kinder-unter-18",
+    pageSchema: {
+      numberOfKidsUnder18: createNumberIncrementSchema(0, 20),
+    },
+  },
+  kinderHowManyKidsOlder18: {
+    stepId: "kinder/wie-viele-kinder-alter-18",
+    pageSchema: {
+      numberOfKidsOlder18: createNumberIncrementSchema(0, 20),
+    },
+  },
+  kinderUnder18Uebersicht: {
+    stepId: "kinder/kinder-unter-18/uebersicht",
+  },
+  kinderUnder18Warnung: {
+    stepId: "kinder/kinder-unter-18/warnung",
+  },
+  kinderUnder18: {
+    stepId: "kinder/kinder-unter-18/kinder",
+    pageSchema: {
+      kinderUnder18: kinderUnder18ArraySchema,
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinderUnder18#vorname":
+            kinderUnder18ArraySchema.element.shape.vorname,
+          "kinderUnder18#nachname":
+            kinderUnder18ArraySchema.element.shape.nachname,
+          "kinderUnder18#geburtsdatum":
+            kinderUnder18ArraySchema.element.shape.geburtsdatum,
+        },
+      },
+      wohnort: {
+        pageSchema: {
+          "kinderUnder18#wohnortBeiAntragsteller":
+            kinderUnder18ArraySchema.element.shape.wohnortBeiAntragsteller,
+        },
+      },
+      adresse: {
+        pageSchema: {
+          "kinderUnder18#strasse":
+            kinderUnder18ArraySchema.element.shape.strasse,
+          "kinderUnder18#hausnummer":
+            kinderUnder18ArraySchema.element.shape.hausnummer,
+          "kinderUnder18#plz": kinderUnder18ArraySchema.element.shape.plz,
+          "kinderUnder18#ort": kinderUnder18ArraySchema.element.shape.ort,
+          "kinderUnder18#adresseZusatz":
+            kinderUnder18ArraySchema.element.shape.adresseZusatz,
+        },
+      },
+      sorgerecht: {
+        pageSchema: {
+          "kinderUnder18#optionSorgerecht":
+            kinderUnder18ArraySchema.element.shape.optionSorgerecht,
+        },
+      },
+      "erbe-ausschlagende": {
+        pageSchema: {
+          "kinderUnder18#hasRenouncedInheritance":
+            kinderUnder18ArraySchema.element.shape.hasRenouncedInheritance,
+        },
+      },
+      "sorgerecht-person": {
+        pageSchema: {
+          "kinderUnder18#vornameSorgerecht":
+            kinderUnder18ArraySchema.element.shape.vornameSorgerecht,
+          "kinderUnder18#nachnameSorgerecht":
+            kinderUnder18ArraySchema.element.shape.nachnameSorgerecht,
+          "kinderUnder18#geburtsnameSorgerecht":
+            kinderUnder18ArraySchema.element.shape.geburtsnameSorgerecht,
+        },
+      },
+      "sorgerecht-gleiche-address": {
+        pageSchema: {
+          "kinderUnder18#hasSorgerechtSameAddress":
+            kinderUnder18ArraySchema.element.shape.hasSorgerechtSameAddress,
+        },
+      },
+      "sorgerecht-adresse": {
+        pageSchema: {
+          "kinderUnder18#strasseSorgerecht":
+            kinderUnder18ArraySchema.element.shape.strasseSorgerecht,
+          "kinderUnder18#hausnummerSorgerecht":
+            kinderUnder18ArraySchema.element.shape.hausnummerSorgerecht,
+          "kinderUnder18#plzSorgerecht":
+            kinderUnder18ArraySchema.element.shape.plzSorgerecht,
+          "kinderUnder18#ortSorgerecht":
+            kinderUnder18ArraySchema.element.shape.ortSorgerecht,
+          "kinderUnder18#adresseZusatzSorgerecht":
+            kinderUnder18ArraySchema.element.shape.adresseZusatzSorgerecht,
+        },
+      },
+      "sorgerecht-organisation-name": {
+        pageSchema: {
+          "kinderUnder18#organizationNameSorgerecht":
+            kinderUnder18ArraySchema.element.shape.organizationNameSorgerecht,
+        },
+      },
+      "sorgerecht-organisation-adresse": {
+        pageSchema: {
+          "kinderUnder18#organizationStrasseSorgerecht":
+            kinderUnder18ArraySchema.element.shape
+              .organizationStrasseSorgerecht,
+          "kinderUnder18#organizationHausnummerSorgerecht":
+            kinderUnder18ArraySchema.element.shape
+              .organizationHausnummerSorgerecht,
+          "kinderUnder18#organizationPlzSorgerecht":
+            kinderUnder18ArraySchema.element.shape.organizationPlzSorgerecht,
+          "kinderUnder18#organizationOrtSorgerecht":
+            kinderUnder18ArraySchema.element.shape.organizationOrtSorgerecht,
+          "kinderUnder18#organizationAdressZusatzSorgerecht":
+            kinderUnder18ArraySchema.element.shape
+              .organizationAdressZusatzSorgerecht,
+        },
+      },
+    },
+  },
+  abgabeWeitereInformation: {
+    stepId: "abgabe/weitere-informationen",
+    pageSchema: {
+      weitereInformationen: stringOptionalSchema,
     },
   },
 } as const satisfies PagesConfig;
