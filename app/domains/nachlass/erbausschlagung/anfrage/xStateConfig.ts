@@ -38,5 +38,22 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
     verstorbene: verstorbeneXStateConfig,
     "ausschlagende-person": ausschlagendePersonXStateConfig,
     kinder: kinderXStateConfig,
+    abgabe: {
+      id: "abgabe",
+      initial: stepIds.abgabeWeitereInformation.relative,
+      states: {
+        [stepIds.abgabeWeitereInformation.relative]: {
+          on: {
+            BACK: [
+              {
+                guard: ({ context }) => context.hasKid === "no",
+                target: stepIds.kinderHasKid.absolute,
+              },
+              stepIds.kinderUnder18Uebersicht.absolute,
+            ],
+          },
+        },
+      },
+    },
   },
 } satisfies Config<NachlassErbausschlagungAnfrageUserData>;
