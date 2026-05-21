@@ -1,4 +1,4 @@
-import type { BasicTypes } from "~/domains/userData";
+import type { BasicTypes, ObjectType } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -8,7 +8,7 @@ import { type HeadingProps } from "~/components/common/Heading";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
-  readonly items: Record<string, BasicTypes>;
+  readonly items: Record<string, BasicTypes | ObjectType>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly subtitle?: HeadingProps;
