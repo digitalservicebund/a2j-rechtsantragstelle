@@ -17,21 +17,15 @@ const defaultStepsWithKidsUnderAge: Array<
     },
   },
   {
-    stepId: "/kinder/wie-viele-kinder-unter-18",
-    userInput: {
-      numberOfKidsUnder18: 1,
-    },
+    stepId: "/kinder/uebersicht",
+    addArrayItemEvent: "add-kinder",
   },
   {
-    stepId: "/kinder/kinder-unter-18/uebersicht",
-    addArrayItemEvent: "add-kinderUnder18",
-  },
-  {
-    stepId: "/kinder/kinder-unter-18/kinder/0/name",
+    stepId: "/kinder/kinder/0/name",
     userInput: {
-      "kinderUnder18#vorname": "Clara",
-      "kinderUnder18#nachname": "Mustermann",
-      "kinderUnder18#geburtsdatum": {
+      "kinder#vorname": "Clara",
+      "kinder#nachname": "Mustermann",
+      "kinder#geburtsdatum": {
         day: "01",
         month: "01",
         year: "2024",
@@ -39,9 +33,9 @@ const defaultStepsWithKidsUnderAge: Array<
     },
   },
   {
-    stepId: "/kinder/kinder-unter-18/kinder/0/wohnort",
+    stepId: "/kinder/kinder/0/wohnort",
     userInput: {
-      "kinderUnder18#wohnortBeiAntragsteller": "yes",
+      "kinder#wohnortBeiAntragsteller": "yes",
     },
   },
 ];
@@ -72,15 +66,6 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
           numberOfKids: 1,
         },
       },
-      {
-        stepId: "/kinder/wie-viele-kinder-unter-18",
-        userInput: {
-          numberOfKidsUnder18: 0,
-        },
-      },
-      {
-        stepId: "/kinder/wie-viele-kinder-alter-18",
-      },
     ],
     withKidsAndUnderAgeAndWarning: [
       {
@@ -96,16 +81,10 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/wie-viele-kinder-unter-18",
-        userInput: {
-          numberOfKidsUnder18: 1,
-        },
+        stepId: "/kinder/uebersicht",
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
-      },
-      {
-        stepId: "/kinder/kinder-unter-18/warnung",
+        stepId: "/kinder/warnung",
       },
     ],
     withKidsAndUnderAgeWithoutAdresse: [
@@ -122,21 +101,15 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/wie-viele-kinder-unter-18",
-        userInput: {
-          numberOfKidsUnder18: 1,
-        },
+        stepId: "/kinder/uebersicht",
+        addArrayItemEvent: "add-kinder",
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
-        addArrayItemEvent: "add-kinderUnder18",
-      },
-      {
-        stepId: "/kinder/kinder-unter-18/kinder/0/name",
+        stepId: "/kinder/kinder/0/name",
         userInput: {
-          "kinderUnder18#vorname": "Clara",
-          "kinderUnder18#nachname": "Mustermann",
-          "kinderUnder18#geburtsdatum": {
+          "kinder#vorname": "Clara",
+          "kinder#nachname": "Mustermann",
+          "kinder#geburtsdatum": {
             day: "01",
             month: "01",
             year: "2024",
@@ -144,40 +117,40 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/wohnort",
+        stepId: "/kinder/kinder/0/wohnort",
         userInput: {
-          "kinderUnder18#wohnortBeiAntragsteller": "no",
+          "kinder#wohnortBeiAntragsteller": "no",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/adresse",
+        stepId: "/kinder/kinder/0/adresse",
         userInput: {
-          "kinderUnder18#strasse": "street",
-          "kinderUnder18#hausnummer": "1",
-          "kinderUnder18#plz": "10969",
-          "kinderUnder18#ort": "Musterstadt",
+          "kinder#strasse": "street",
+          "kinder#hausnummer": "1",
+          "kinder#plz": "10969",
+          "kinder#ort": "Musterstadt",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht",
+        stepId: "/kinder/kinder/0/sorgerecht",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtYes: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht",
+        stepId: "/kinder/kinder/0/sorgerecht",
         userInput: {
-          "kinderUnder18#optionSorgerecht": "yes",
+          "kinder#optionSorgerecht": "yes",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/erbe-ausschlagende",
+        stepId: "/kinder/kinder/0/erbe-ausschlagende",
         userInput: {
-          "kinderUnder18#hasRenouncedInheritance": "yes",
+          "kinder#hasRenouncedInheritance": "yes",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
+        stepId: "/kinder/uebersicht",
       },
       {
         stepId: "/kinder/wie-viele-kinder-alter-18",
@@ -186,30 +159,28 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtOrganization: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht",
+        stepId: "/kinder/kinder/0/sorgerecht",
         userInput: {
-          "kinderUnder18#optionSorgerecht": "anotherOrganization",
+          "kinder#optionSorgerecht": "anotherOrganization",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-organisation-name",
+        stepId: "/kinder/kinder/0/sorgerecht-organisation-name",
         userInput: {
-          "kinderUnder18#organizationNameSorgerecht":
-            "organizationNameSorgerecht",
+          "kinder#organizationNameSorgerecht": "organizationNameSorgerecht",
         },
       },
       {
-        stepId:
-          "/kinder/kinder-unter-18/kinder/0/sorgerecht-organisation-adresse",
+        stepId: "/kinder/kinder/0/sorgerecht-organisation-adresse",
         userInput: {
-          "kinderUnder18#organizationStrasseSorgerecht": "Musterstraße",
-          "kinderUnder18#organizationHausnummerSorgerecht": "1",
-          "kinderUnder18#organizationPlzSorgerecht": "10969",
-          "kinderUnder18#organizationOrtSorgerecht": "Musterstadt",
+          "kinder#organizationStrasseSorgerecht": "Musterstraße",
+          "kinder#organizationHausnummerSorgerecht": "1",
+          "kinder#organizationPlzSorgerecht": "10969",
+          "kinder#organizationOrtSorgerecht": "Musterstadt",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
+        stepId: "/kinder/uebersicht",
       },
       {
         stepId: "/kinder/wie-viele-kinder-alter-18",
@@ -218,42 +189,42 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtShared: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht",
+        stepId: "/kinder/kinder/0/sorgerecht",
         userInput: {
-          "kinderUnder18#optionSorgerecht": "shared",
+          "kinder#optionSorgerecht": "shared",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-person",
+        stepId: "/kinder/kinder/0/sorgerecht-person",
         userInput: {
-          "kinderUnder18#vornameSorgerecht": "Clara",
-          "kinderUnder18#nachnameSorgerecht": "Mustermann",
-          "kinderUnder18#geburtsnameSorgerecht": "",
+          "kinder#vornameSorgerecht": "Clara",
+          "kinder#nachnameSorgerecht": "Mustermann",
+          "kinder#geburtsnameSorgerecht": "",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-adresse",
+        stepId: "/kinder/kinder/0/sorgerecht-gleiche-adresse",
         userInput: {
-          "kinderUnder18#hasSorgerechtSameAddress": "no",
+          "kinder#hasSorgerechtSameAddress": "no",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-adresse",
+        stepId: "/kinder/kinder/0/sorgerecht-adresse",
         userInput: {
-          "kinderUnder18#strasseSorgerecht": "Musterstraße",
-          "kinderUnder18#hausnummerSorgerecht": "11",
-          "kinderUnder18#plzSorgerecht": "10969",
-          "kinderUnder18#ortSorgerecht": "Musterstadt",
+          "kinder#strasseSorgerecht": "Musterstraße",
+          "kinder#hausnummerSorgerecht": "11",
+          "kinder#plzSorgerecht": "10969",
+          "kinder#ortSorgerecht": "Musterstadt",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/erbe-ausschlagende",
+        stepId: "/kinder/kinder/0/erbe-ausschlagende",
         userInput: {
-          "kinderUnder18#hasRenouncedInheritance": "yes",
+          "kinder#hasRenouncedInheritance": "yes",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
+        stepId: "/kinder/uebersicht",
       },
       {
         stepId: "/kinder/wie-viele-kinder-alter-18",
@@ -262,36 +233,36 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtAnotherPerson: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht",
+        stepId: "/kinder/kinder/0/sorgerecht",
         userInput: {
-          "kinderUnder18#optionSorgerecht": "anotherPerson",
+          "kinder#optionSorgerecht": "anotherPerson",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-person",
+        stepId: "/kinder/kinder/0/sorgerecht-person",
         userInput: {
-          "kinderUnder18#vornameSorgerecht": "Clara",
-          "kinderUnder18#nachnameSorgerecht": "Mustermann",
-          "kinderUnder18#geburtsnameSorgerecht": "",
+          "kinder#vornameSorgerecht": "Clara",
+          "kinder#nachnameSorgerecht": "Mustermann",
+          "kinder#geburtsnameSorgerecht": "",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-adresse",
+        stepId: "/kinder/kinder/0/sorgerecht-gleiche-adresse",
         userInput: {
-          "kinderUnder18#hasSorgerechtSameAddress": "no",
+          "kinder#hasSorgerechtSameAddress": "no",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-adresse",
+        stepId: "/kinder/kinder/0/sorgerecht-adresse",
         userInput: {
-          "kinderUnder18#strasseSorgerecht": "Musterstraße",
-          "kinderUnder18#hausnummerSorgerecht": "11",
-          "kinderUnder18#plzSorgerecht": "10969",
-          "kinderUnder18#ortSorgerecht": "Musterstadt",
+          "kinder#strasseSorgerecht": "Musterstraße",
+          "kinder#hausnummerSorgerecht": "11",
+          "kinder#plzSorgerecht": "10969",
+          "kinder#ortSorgerecht": "Musterstadt",
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/uebersicht",
+        stepId: "/kinder/uebersicht",
       },
       {
         stepId: "/kinder/wie-viele-kinder-alter-18",
