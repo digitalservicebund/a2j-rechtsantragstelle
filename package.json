@@ -142,10 +142,10 @@
     "vite-env-only": "^3.0.3",
     "vitest": "^4.1.6"
   },
-  "packageManager": "pnpm@11.0.8",
+  "packageManager": "pnpm@11.2.2",
   "engines": {
     "node": "24.15.0",
-    "pnpm": "11.0.8"
+    "pnpm": "11.2.2"
   },
   "engineStrict": true,
   "prettier": {
