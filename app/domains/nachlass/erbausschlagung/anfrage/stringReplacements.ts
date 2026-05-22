@@ -92,6 +92,34 @@ export const isKinderUnder18AnotherPerson = (
     };
 };
 
+export const isKinderUnder18Shared = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  if (
+    arrayIndex === undefined ||
+    !context.kinderUnder18 ||
+    arrayIndex > context.kinderUnder18.length + 1
+  )
+    return { isKinderUnder18Shared: false };
+  if (arrayIndex < context.kinderUnder18.length)
+    return {
+      isKinderUnder18Shared:
+        context.kinderUnder18?.[arrayIndex].optionSorgerecht === "shared",
+    };
+};
+
+export const getNumberOfKids = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    numberOfKidsUnder18Added: (context.kinderUnder18?.length ?? 0).toString(),
+    numberOfKidsUnder18: (context.numberOfKidsUnder18 ?? 0).toString(),
+    numberOfKidsOver18: (context.numberOfKidsOver18 ?? 0).toString(),
+    numberOfKids: (context.numberOfKids ?? 0).toString(),
+  };
+};
+
 export const getArrayIndexStrings = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {

@@ -7,8 +7,10 @@ import {
   getKinderNameSorgerechtUnder18,
   getKinderNameUnder18,
   getKinderOrganizationNameUnder18,
+  getNumberOfKids,
   getVerstorbeneName,
   isKinderUnder18AnotherPerson,
+  isKinderUnder18Shared,
   isTestamentErbvertrag,
 } from "./stringReplacements";
 
@@ -24,5 +26,7 @@ export const nachlassErbausschlagungAnfrage = {
     ...isKinderUnder18AnotherPerson(context),
     ...getKinderOrganizationNameUnder18(context),
     ...getKinderNameSorgerechtUnder18(context),
+    ...isKinderUnder18Shared(context),
+    ...getNumberOfKids(context),
   }),
 } satisfies Flow;

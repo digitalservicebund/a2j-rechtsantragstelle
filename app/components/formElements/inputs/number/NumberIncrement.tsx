@@ -22,8 +22,7 @@ const IncrementDecrementButton: React.FC<{
   onClick: () => void;
   type: "decrement" | "increment";
   disabled?: boolean;
-  label?: string;
-}> = ({ onClick, type, disabled, label }) => {
+}> = ({ onClick, type, disabled }) => {
   return (
     <Button
       className="p-10! min-h-min! rounded-sm!"
@@ -32,8 +31,8 @@ const IncrementDecrementButton: React.FC<{
       aria-disabled={disabled}
       aria-label={
         type === "decrement"
-          ? `${label} ${translations.numberIncrementComponent.decrementButtonLabel.de}`
-          : `${label} ${translations.numberIncrementComponent.incrementButtonLabel.de}`
+          ? translations.numberIncrementComponent.decrementButtonLabel.de
+          : translations.numberIncrementComponent.incrementButtonLabel.de
       }
       look="secondary"
       onClick={onClick}
@@ -83,7 +82,6 @@ const NumberIncrement = function InputComponent({
             <IncrementDecrementButton
               type="decrement"
               onClick={decrement}
-              label={label}
               disabled={field.value() === min || !field.value()}
             />
             <input
@@ -112,7 +110,6 @@ const NumberIncrement = function InputComponent({
               type="increment"
               onClick={increment}
               disabled={field.value() >= (max ?? Number.MAX_SAFE_INTEGER)}
-              label={label}
             />
           </div>
           <InputError id={errorId}>
