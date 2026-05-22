@@ -346,7 +346,7 @@ export const nachlassErbausschlagungAnfragePages = {
             kinderUnder18ArraySchema.element.shape.geburtsnameSorgerecht,
         },
       },
-      "sorgerecht-gleiche-address": {
+      "sorgerecht-gleiche-adresse": {
         pageSchema: {
           "kinderUnder18#hasSorgerechtSameAddress":
             kinderUnder18ArraySchema.element.shape.hasSorgerechtSameAddress,
