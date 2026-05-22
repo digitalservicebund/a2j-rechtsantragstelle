@@ -4,7 +4,6 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { reactRouterFormContext } from "../../.storybook/reactRouterFormContext";
-import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 import { z } from "zod";
 
 const meta = {
@@ -17,15 +16,67 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const errorSchema = z.object({
+  "error-example": z
+    .string()
+    .min(2, { message: "required" })
+    .max(10, { message: "max" }),
+});
+
 export const Default: Story = {
   args: {
     name: "numberIncrement",
-    label: "NumberIncrement",
+    label: "Kinder",
     min: 0,
     max: 20,
+  },
+  decorators: [
+    (Story) =>
+      reactRouterFormContext(
+        <GridSection>
+          <Grid>
+            <GridItem>
+              <Story />
+            </GridItem>
+          </Grid>
+        </GridSection>,
+      ),
+  ],
+};
+
+export const WithSuffix: Story = {
+  args: {
+    name: "numberIncrement",
+    label: "Kinder",
+    min: 0,
+    max: 20,
+    suffix: "- Anzahl",
+  },
+  decorators: [
+    (Story) =>
+      reactRouterFormContext(
+        <GridSection>
+          <Grid>
+            <GridItem>
+              <Story />
+            </GridItem>
+          </Grid>
+        </GridSection>,
+      ),
+  ],
+};
+
+export const WithError: Story = {
+  args: {
+    name: "error-example",
+    label: "Kinder",
+    min: 0,
+    max: 10,
     errorMessages: [
-      { code: "too_low", text: "Number too low" },
-      { code: "too_high", text: "Number too high" },
+      {
+        code: "required",
+        text: "Add at least 10 children",
+      },
     ],
   },
   decorators: [
@@ -38,7 +89,7 @@ export const Default: Story = {
             </GridItem>
           </Grid>
         </GridSection>,
-        z.object({ numberIncrement: createNumberIncrementSchema(0, 20) }),
+        errorSchema,
       ),
   ],
 };

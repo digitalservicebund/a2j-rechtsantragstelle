@@ -1,4 +1,3 @@
-import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
@@ -25,25 +24,26 @@ import {
   renderSpecialMetaDescriptions,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 import {
-  isZodNumber,
-  renderZodNumber,
-} from "~/components/formElements/schemaToForm/renderZodNumber";
+  hasControlledFieldConfig,
+  type ArrayPage,
+  type PageConfig,
+} from "~/domains/pageSchemas";
 
 type Props = {
-  pageSchema: SchemaObject;
+  pageConfig: ArrayPage | PageConfig;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
 };
 
 export const SchemaComponents = ({
-  pageSchema,
+  pageConfig: { pageSchema, controlledFieldConfig },
   formComponents,
   className,
   readOnlyFieldNames,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
-    pageSchema,
+    pageSchema ?? {},
     formComponents,
   );
 
@@ -55,6 +55,10 @@ export const SchemaComponents = ({
         const fieldSetGroup = getFieldSetByFieldName(
           fieldName,
           formComponents ?? [],
+        );
+        const hasControlledField = hasControlledFieldConfig(
+          fieldName,
+          controlledFieldConfig,
         );
 
         if (fieldSetGroup !== undefined) {
@@ -73,6 +77,8 @@ export const SchemaComponents = ({
           return renderSpecialMetaDescriptions(
             fieldName,
             description,
+            fieldSchema,
+            controlledFieldConfig,
             matchingElement,
           );
         }
@@ -92,11 +98,13 @@ export const SchemaComponents = ({
         if (isZodEnum(nestedSchema))
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
-        if (isZodNumber(nestedSchema))
-          return renderZodNumber(fieldName, nestedSchema, matchingElement);
-
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
+          return renderZodString(
+            fieldName,
+            isFieldReadOnly,
+            matchingElement,
+            hasControlledField,
+          );
       })}
     </div>
   );

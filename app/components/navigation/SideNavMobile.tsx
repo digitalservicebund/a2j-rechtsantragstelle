@@ -165,7 +165,7 @@ export default function SideNavMobile({
         <div className="flex flex-col p-16">
           <NavigationList
             navItems={navItems}
-            className="border border-kern-neutral-200 overflow-auto rounded-sm"
+            className="border border-kern-neutral-200 rounded-sm"
             firstItemRef={firstItemRef}
           />
         </div>

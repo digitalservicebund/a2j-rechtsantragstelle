@@ -44,12 +44,18 @@ describe("SplitDateInput", () => {
   });
 
   it("renders legend", () => {
-    render(<SplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" label="Geburtsdatum" />);
 
     expect(screen.getByText("Geburtsdatum")).toBeInTheDocument();
   });
   it("renders suffix when provided", () => {
-    render(<SplitDateInput name="birthdate" suffix="Optional" />);
+    render(
+      <SplitDateInput
+        name="birthdate"
+        label="Geburtsdatum"
+        suffix="Optional"
+      />,
+    );
 
     expect(screen.getByText("Optional")).toBeInTheDocument();
   });

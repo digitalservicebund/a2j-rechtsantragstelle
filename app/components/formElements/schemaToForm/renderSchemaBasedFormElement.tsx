@@ -10,12 +10,16 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import HiddenInput from "../inputs/hidden/HiddenInput";
 import IbanInput from "../inputs/iban/IbanInput";
 import TelephoneInput from "../inputs/telephone/TelephoneInput";
+import { type ControlledFieldConfig } from "~/domains/pageSchemas";
+import { numberIncrementZodDescription } from "~/services/validation/numberIncrement";
+import NumberIncrement from "../inputs/number/NumberIncrement";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
   hiddenInputZodDescription,
   ibanZodDescription,
   phoneNumberZodDescription,
+  numberIncrementZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -44,6 +48,8 @@ export const isSpecialComponentDescriptions = (
 export const renderSpecialMetaDescriptions = (
   fieldName: string,
   description: SpecialComponentDescription,
+  fieldSchema: z.ZodType,
+  controlledFieldConfig?: ControlledFieldConfig,
   matchingElement?: StrapiFormComponent,
 ) => {
   if (description === filesUploadZodDescription) {
@@ -72,7 +78,14 @@ export const renderSpecialMetaDescriptions = (
   }
 
   if (description === ibanZodDescription) {
-    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
+    return (
+      <IbanInput
+        key={fieldName}
+        name={fieldName}
+        controlledFieldConfig={controlledFieldConfig}
+        {...matchingElement}
+      />
+    );
   }
 
   if (description === phoneNumberZodDescription) {
@@ -80,4 +93,28 @@ export const renderSpecialMetaDescriptions = (
       <TelephoneInput key={fieldName} name={fieldName} {...matchingElement} />
     );
   }
+
+  if (description === numberIncrementZodDescription) {
+    const { minValue, maxValue } = getMinMaxValueByFieldSchema(fieldSchema);
+
+    return (
+      <NumberIncrement
+        key={fieldName}
+        name={fieldName}
+        min={minValue}
+        max={maxValue}
+        {...matchingElement}
+      />
+    );
+  }
 };
+
+function getMinMaxValueByFieldSchema(fieldSchema: z.ZodType) {
+  if (!(fieldSchema instanceof z.ZodNumber)) {
+    return { minValue: undefined, maxValue: undefined };
+  }
+
+  const minValue = fieldSchema.minValue ?? undefined;
+  const maxValue = fieldSchema.maxValue ?? undefined;
+  return { minValue, maxValue };
+}

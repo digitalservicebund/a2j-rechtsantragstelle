@@ -48,7 +48,7 @@ const buildFullUserInput = <T extends UserData>(
     let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
 
     // This assignment is useful for injecting pageData, like subflowDoneStates
-    merged.pageData = step.pageData;
+    merged.pageData = { ...merged.pageData, ...step.pageData };
 
     // When adding an array item, increment the last array index or start with 0
     if (step.addArrayItemEvent) {
