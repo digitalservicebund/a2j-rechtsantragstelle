@@ -27,11 +27,11 @@ const StyledMarker = ({
 }) => (
   <div
     className={classNames("shrink-0 flex justify-center items-center", {
-      "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto ":
+      "w-[16px] h-[2px] border border-black mt-[16px] text-black! forced-color-adjust-auto ":
         variant === "unordered",
-      "h-[40px] w-full border-2 bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-medium forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-medium forced-color-adjust-auto":
         variant === "numbered",
-      "h-[40px] w-full border-2 border-kern-neutral-300 text-white rounded-full text-black! forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-neutral-300 text-white rounded-full forced-color-adjust-auto":
         variant === "stepByStep",
     })}
   >
@@ -72,7 +72,7 @@ const ListItem = ({
         {headline && (
           <Heading
             {...headline}
-            className="text-kern-static-large!"
+            className="text-kern-static-large! mt-3!"
             managedByParent
           />
         )}
