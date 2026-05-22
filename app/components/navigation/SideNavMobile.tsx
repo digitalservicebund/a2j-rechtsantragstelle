@@ -42,7 +42,10 @@ const StepStepperLinks = ({
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
-                <Icon name="arrow-back" className="inline forced-color-adjust-auto" />
+                <Icon
+                  name="arrow-back"
+                  className="inline forced-color-adjust-auto"
+                />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (

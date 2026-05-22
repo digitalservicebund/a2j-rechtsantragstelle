@@ -115,7 +115,14 @@ export function NavItem({
           >
             <span>{label}</span>
             <div className="flex items-center gap-8 justify-end align-end self-end">
-              <Icon name={collapse.isExpanded ? "keyboard-arrow-down" : "keyboard-arrow-up"} className="ml-auto forced-color-adjust-auto" />
+              <Icon
+                name={
+                  collapse.isExpanded
+                    ? "keyboard-arrow-down"
+                    : "keyboard-arrow-up"
+                }
+                className="ml-auto forced-color-adjust-auto"
+              />
               <StateIcon
                 id={iconId}
                 isDone={isDone}
