@@ -278,10 +278,10 @@ export const nachlassErbausschlagungAnfragePages = {
       numberOfKidsUnder18: createNumberIncrementSchema(0, 20),
     },
   },
-  kinderHowManyKidsOlder18: {
+  kinderHowManyKidsOver18: {
     stepId: "kinder/wie-viele-kinder-alter-18",
     pageSchema: {
-      numberOfKidsOlder18: createNumberIncrementSchema(0, 20),
+      numberOfKidsOver18: createNumberIncrementSchema(0, 20),
     },
   },
   kinderUnder18Uebersicht: {

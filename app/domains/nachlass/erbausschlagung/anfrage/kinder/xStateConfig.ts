@@ -89,7 +89,7 @@ export const kinderXStateConfig = {
         SUBMIT: [
           {
             guard: ({ context }) => context.numberOfKidsUnder18 === 0,
-            target: stepIds.kinderHowManyKidsOlder18.absolute,
+            target: stepIds.kinderHowManyKidsOver18.absolute,
           },
           stepIds.kinderUnder18Uebersicht.absolute,
         ],
@@ -108,7 +108,7 @@ export const kinderXStateConfig = {
                 guard: kinderUnder18NotFilled,
                 target: stepIds.kinderUnder18Warnung.relative,
               },
-              stepIds.kinderHowManyKidsOlder18.absolute,
+              stepIds.kinderHowManyKidsOver18.absolute,
             ],
             BACK: stepIds.kinderHowManyKidsUnder18.absolute,
             "add-kinderUnder18": "kinder",
@@ -239,7 +239,7 @@ export const kinderXStateConfig = {
         },
       },
     },
-    [stepIds.kinderHowManyKidsOlder18.relative]: {
+    [stepIds.kinderHowManyKidsOver18.relative]: {
       on: {
         SUBMIT: stepIds.abgabeWeitereInformation.absolute,
         BACK: [
