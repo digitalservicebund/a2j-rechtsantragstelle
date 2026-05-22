@@ -118,8 +118,8 @@ export function NavItem({
               <Icon
                 name={
                   collapse.isExpanded
-                    ? "keyboard-arrow-down"
-                    : "keyboard-arrow-up"
+                    ? "keyboard-arrow-up"
+                    : "keyboard-arrow-down"
                 }
                 className="ml-auto forced-color-adjust-auto"
               />
