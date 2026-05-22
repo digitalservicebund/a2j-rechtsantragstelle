@@ -6,11 +6,12 @@ const IMAGE_WIDTH = 32;
 
 export type TileContentProps = {
   readonly description?: string;
+  readonly descriptionId?: string;
   readonly title?: string;
   readonly image?: ImageProps;
 };
 
-const TileContent = ({ title, description, image }: TileContentProps) => {
+const TileContent = ({ title, description, image, descriptionId }: TileContentProps) => {
   return (
     <div
       className={classNames("h-full flex flex-col", {
@@ -32,7 +33,7 @@ const TileContent = ({ title, description, image }: TileContentProps) => {
         {title && <h3 className="kern-body kern-body--bold">{title}</h3>}
         {description && (
           <p
-            id={description ? `${title}-description` : undefined}
+            id={descriptionId}
             className="kern-body kern-body--muted break-words"
           >
             {description}

@@ -68,6 +68,7 @@ const TileRadio = ({
           title={tileTitle}
           description={tileDescription}
           image={image}
+          descriptionId={descriptionId}
         />
       </label>
     </div>
