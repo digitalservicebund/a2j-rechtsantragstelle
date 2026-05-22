@@ -232,7 +232,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-address",
+        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-adresse",
         userInput: {
           "kinderUnder18#hasSorgerechtSameAddress": "no",
         },
@@ -276,7 +276,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-address",
+        stepId: "/kinder/kinder-unter-18/kinder/0/sorgerecht-gleiche-adresse",
         userInput: {
           "kinderUnder18#hasSorgerechtSameAddress": "no",
         },

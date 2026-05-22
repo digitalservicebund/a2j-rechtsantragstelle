@@ -47,7 +47,7 @@ export const footerContent: FooterContent[] = [
         url: "/opensource",
       },
       {
-        text: translations.footer.feedbackStudien.de,
+        text: translations.footer.anBefragungenTeilnehmen.de,
         url: "/feedback",
       },
     ],
