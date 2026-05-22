@@ -4,6 +4,8 @@ import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbaussc
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { toDate } from "~/services/validation/dateObject";
+import { addYears, today } from "~/util/date";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -20,6 +22,22 @@ const kinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten = ({
   const kinderWohnortBeiAntragsteller =
     kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
   return kinderWohnortBeiAntragsteller === "yes";
+};
+
+const kinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const currentKid = kinder?.at(arrayIndex);
+  if (!currentKid?.geburtsdatum) return false;
+
+  const birthDate = toDate(currentKid.geburtsdatum);
+  if (Number.isNaN(birthDate.getTime())) return false;
+
+  const minimum18yearsOld = addYears(today(), -18);
+
+  return birthDate <= minimum18yearsOld;
 };
 
 const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
@@ -118,6 +136,12 @@ export const kinderXStateConfig = {
           on: {
             SUBMIT: [
               {
+                guard: (context) =>
+                  kinderWohnortBeiAntragstellerYes(context) &&
+                  kinderAbove18YearsOld(context),
+                target: "#kinder.uebersicht",
+              },
+              {
                 guard: kinderWohnortBeiAntragstellerYes,
                 target: "sorgerecht",
               },
@@ -128,7 +152,13 @@ export const kinderXStateConfig = {
         },
         adresse: {
           on: {
-            SUBMIT: "sorgerecht",
+            SUBMIT: [
+              {
+                guard: kinderAbove18YearsOld,
+                target: "#kinder.uebersicht",
+              },
+              "sorgerecht",
+            ],
             BACK: "wohnort",
           },
         },

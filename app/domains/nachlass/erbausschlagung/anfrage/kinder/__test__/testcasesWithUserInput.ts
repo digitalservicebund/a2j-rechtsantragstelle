@@ -53,21 +53,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/abgabe/weitere-informationen",
       },
     ],
-    withKidsWithoutUnderAge: [
-      {
-        stepId: "/kinder/haben-sie-kinder",
-        userInput: {
-          hasKid: "yes",
-        },
-      },
-      {
-        stepId: "/kinder/wie-viele-kinder",
-        userInput: {
-          numberOfKids: 1,
-        },
-      },
-    ],
-    withKidsAndUnderAgeAndWarning: [
+    withKidsAndWarning: [
       {
         stepId: "/kinder/haben-sie-kinder",
         userInput: {
@@ -85,6 +71,57 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
       },
       {
         stepId: "/kinder/warnung",
+      },
+    ],
+    withKidsAndOverAgeWithoutAdresse: [
+      {
+        stepId: "/kinder/haben-sie-kinder",
+        userInput: {
+          hasKid: "yes",
+        },
+      },
+      {
+        stepId: "/kinder/wie-viele-kinder",
+        userInput: {
+          numberOfKids: 1,
+        },
+      },
+      {
+        stepId: "/kinder/uebersicht",
+        addArrayItemEvent: "add-kinder",
+      },
+      {
+        stepId: "/kinder/kinder/0/name",
+        userInput: {
+          "kinder#vorname": "Clara",
+          "kinder#nachname": "Mustermann",
+          "kinder#geburtsdatum": {
+            day: "01",
+            month: "01",
+            year: "2000",
+          },
+        },
+      },
+      {
+        stepId: "/kinder/kinder/0/wohnort",
+        userInput: {
+          "kinder#wohnortBeiAntragsteller": "no",
+        },
+      },
+      {
+        stepId: "/kinder/kinder/0/adresse",
+        userInput: {
+          "kinder#strasse": "street",
+          "kinder#hausnummer": "1",
+          "kinder#plz": "10969",
+          "kinder#ort": "Musterstadt",
+        },
+      },
+      {
+        stepId: "/kinder/uebersicht",
+      },
+      {
+        stepId: "/abgabe/weitere-informationen",
       },
     ],
     withKidsAndUnderAgeWithoutAdresse: [
@@ -153,7 +190,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/kinder/uebersicht",
       },
       {
-        stepId: "/kinder/wie-viele-kinder-alter-18",
+        stepId: "/abgabe/weitere-informationen",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtOrganization: [
@@ -183,7 +220,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/kinder/uebersicht",
       },
       {
-        stepId: "/kinder/wie-viele-kinder-alter-18",
+        stepId: "/abgabe/weitere-informationen",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtShared: [
@@ -227,7 +264,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/kinder/uebersicht",
       },
       {
-        stepId: "/kinder/wie-viele-kinder-alter-18",
+        stepId: "/abgabe/weitere-informationen",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtAnotherPerson: [
@@ -265,7 +302,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/kinder/uebersicht",
       },
       {
-        stepId: "/kinder/wie-viele-kinder-alter-18",
+        stepId: "/abgabe/weitere-informationen",
       },
     ],
   };
