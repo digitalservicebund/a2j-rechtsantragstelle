@@ -4,34 +4,33 @@ import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
 
 type SelectProps = {
   name: string;
-  options: Array<{ value: string; text: string }>;
   label?: ReactNode;
-  errorMessages?: ErrorMessageProps[];
   width?: "16" | "24" | "36" | "54";
+  options: Array<{ value: string; text: string }>;
+  suffix?: string;
   placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
 };
 
 const Select = ({
-  label,
   name,
-  errorMessages,
-  options,
+  label,
   width,
+  options,
   placeholder,
+  suffix,
+  errorMessages,
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
 
   return (
     <div className="kern-form-input">
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div
         data-testid="select-wrapper"
         className={classNames(

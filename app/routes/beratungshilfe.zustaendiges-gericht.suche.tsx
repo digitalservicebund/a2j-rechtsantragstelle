@@ -91,7 +91,6 @@ export default function Index() {
                 <NumberInput
                   name="postcode"
                   label="Postleitzahl"
-                  type="number"
                   errorMessages={[
                     {
                       code: "length",

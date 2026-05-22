@@ -85,7 +85,7 @@ export function NavItem({
     "kern-body kern-body--small w-full p-16! flex justify-between items-center",
     "hover:underline hover:bg-kern-neutral-200",
     "active:bg-kern-neutral-200",
-    "relative focus-visible:z-10",
+    "relative",
     "focus-visible:outline-none",
     "focus-visible:bg-white",
     "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",

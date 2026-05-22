@@ -28,6 +28,13 @@ describe("Select", () => {
     expect(screen.getByText("My Label")).toBeInTheDocument();
   });
 
+  it("should render suffix when provided", () => {
+    render(
+      <Select name="select" options={[]} label="My Label" suffix="Optional" />,
+    );
+    expect(screen.getByText("Optional")).toBeInTheDocument();
+  });
+
   it("should render placeholder when provided", () => {
     render(
       <Select name="select" options={[]} placeholder="Select something" />,

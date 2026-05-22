@@ -27,11 +27,11 @@ const StyledMarker = ({
 }) => (
   <div
     className={classNames("shrink-0 flex justify-center items-center", {
-      "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto ":
+      "w-[16px] h-[2px] border border-black mt-[16px] text-black! forced-color-adjust-auto ":
         variant === "unordered",
-      "h-[40px] w-full border-2 border-kern-neutral-300 rounded-full text-black! forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-medium forced-color-adjust-auto":
         variant === "numbered",
-      "h-[40px] w-full border-2 border-kern-neutral-300 text-white rounded-full text-black! forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-neutral-300 text-white rounded-full forced-color-adjust-auto":
         variant === "stepByStep",
     })}
   >
@@ -58,7 +58,10 @@ const ListItem = ({
   image,
 }: ListItemProps & { variant: ListVariant }) => {
   return (
-    <div id={identifier} className="flex flex-row gap-kern-space-default pb-48">
+    <div
+      id={identifier}
+      className="flex lg:flex-row flex-col gap-kern-space-default pb-48"
+    >
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
         <ListMarker index={index} variant={variant} image={image} />
         {variant === "stepByStep" && (
@@ -69,11 +72,11 @@ const ListItem = ({
         {headline && (
           <Heading
             {...headline}
-            className="text-kern-static-large!"
+            className="text-kern-static-large! mt-3!"
             managedByParent
           />
         )}
-        {content && <RichText className="pt-8!" html={content} />}
+        {content && <RichText className="pt-8! leading-24!" html={content} />}
         {arrayIsNonEmpty(buttons) && (
           <ButtonContainer className="mt-16">
             {buttons.map((button) => (

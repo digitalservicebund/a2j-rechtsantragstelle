@@ -64,7 +64,10 @@ const SummarySection = ({
               )}
 
               {field.editUrl && (
-                <a href={field.editUrl} className="kern-link no-underline!">
+                <a
+                  href={field.editUrl}
+                  className="kern-link no-underline! hover:underline!"
+                >
                   <Icon name="edit" />
                   Bearbeiten
                 </a>

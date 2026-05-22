@@ -12,6 +12,7 @@ export const StrapiDropdownComponentSchema = z
     altLabel: StrapiStringOptionalSchema,
     options: z.array(z.object({ value: z.string(), text: z.string() })),
     placeholder: StrapiStringOptionalSchema,
+    suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     width: z
       .enum(["characters16", "characters24", "characters36", "characters54"])

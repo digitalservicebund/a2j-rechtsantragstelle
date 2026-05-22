@@ -7,6 +7,7 @@ import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
+import { InputLabel } from "../label/InputLabel";
 
 type InputProps = Readonly<{
   name: string;
@@ -14,6 +15,7 @@ type InputProps = Readonly<{
   max?: number;
   label?: string;
   errorMessages?: ErrorMessageProps[];
+  suffix?: string;
 }>;
 
 const IncrementDecrementButton: React.FC<{
@@ -24,7 +26,7 @@ const IncrementDecrementButton: React.FC<{
 }> = ({ onClick, type, disabled, label }) => {
   return (
     <Button
-      className="p-10! min-h-min! rounded-none!"
+      className="p-10! min-h-min! rounded-sm!"
       type="button"
       disabled={disabled}
       aria-disabled={disabled}
@@ -33,11 +35,12 @@ const IncrementDecrementButton: React.FC<{
           ? `${label} ${translations.numberIncrementComponent.decrementButtonLabel.de}`
           : `${label} ${translations.numberIncrementComponent.incrementButtonLabel.de}`
       }
+      look="secondary"
       onClick={onClick}
       iconLeft={
         <Icon
           name={type === "decrement" ? "minus" : "plus"}
-          className="fill-white"
+          className="fill-kern-action-default!"
           size={20}
         />
       }
@@ -51,6 +54,7 @@ const NumberIncrement = function InputComponent({
   max,
   label,
   errorMessages,
+  suffix,
 }: InputProps) {
   const field = useField<number>(name);
   const jsAvailable = useJsAvailable();
@@ -74,16 +78,8 @@ const NumberIncrement = function InputComponent({
             "kern-form-input--error": field.error(),
           })}
         >
-          {label && (
-            <label className="kern-label" htmlFor={name}>
-              {label}
-            </label>
-          )}
-          <div
-            className={classNames("p-4 bg-white gap-5 flex", {
-              "kern-form-input__input--error": field.error(),
-            })}
-          >
+          {label && <InputLabel name={name} label={label} suffix={suffix} />}
+          <div className={"p-4 gap-5 flex"}>
             <IncrementDecrementButton
               type="decrement"
               onClick={decrement}
@@ -92,9 +88,10 @@ const NumberIncrement = function InputComponent({
             />
             <input
               className={classNames(
-                "bg-white min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
+                "kern-form-input__input min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
                 {
-                  "bg-kern-feedback-danger-background!": field.error(),
+                  "kern-form-input__input--error": field.error(),
+                  "bg-white!": !field.error(),
                 },
               )}
               id={name}

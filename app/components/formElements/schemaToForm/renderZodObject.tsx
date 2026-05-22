@@ -11,6 +11,13 @@ export const renderZodObject = (
   readOnlyFieldNames: string[],
   formComponents?: StrapiFormComponent[],
 ) => {
+  const matchingElement = formComponents
+    ?.filter(
+      (formComponents) =>
+        formComponents.__component !== "form-elements.fieldset",
+    )
+    .find(({ name }) => name === fieldName);
+
   if (nestedSchema.meta()?.description === "exclusive_checkbox") {
     const labels = Object.fromEntries(
       (formComponents ?? [])
@@ -29,7 +36,24 @@ export const renderZodObject = (
     );
   }
   if (nestedSchema.meta()?.description === "split_date") {
-    return <SplitDateInput key={fieldName} name={fieldName} />;
+    const errorMessages =
+      matchingElement && "errorMessages" in matchingElement
+        ? matchingElement.errorMessages
+        : undefined;
+
+    const label =
+      matchingElement && "label" in matchingElement
+        ? matchingElement.label
+        : undefined;
+
+    return (
+      <SplitDateInput
+        key={fieldName}
+        name={fieldName}
+        label={label}
+        errorMessages={errorMessages}
+      />
+    );
   }
   // ZodObjects are multiple nested schemas, whos keys need to be prepended with the fieldname (e.g. "name.firstName")
   const innerSchema = mapKeys(
@@ -39,7 +63,7 @@ export const renderZodObject = (
   return (
     <SchemaComponents
       key={fieldName}
-      pageSchema={innerSchema}
+      pageConfig={{ pageSchema: innerSchema }}
       formComponents={formComponents}
       readOnlyFieldNames={readOnlyFieldNames}
     />

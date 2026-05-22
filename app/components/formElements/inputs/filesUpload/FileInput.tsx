@@ -8,6 +8,7 @@ import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
 import InputError from "../error/InputError";
 import Button from "../../../common/Button";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 type FileInputProps = {
   name: string;
@@ -28,6 +29,7 @@ export const FileInput = ({
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const FileInput = (
@@ -112,7 +114,9 @@ export const FileInput = ({
           {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
       )}
-      {helperText && <div className="kern-hint mt-6">{helperText}</div>}
+      {helperText && (
+        <InputHelperText helperText={helperText} helperId={helperId} />
+      )}
     </div>
   );
 };

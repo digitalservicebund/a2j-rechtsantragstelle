@@ -61,14 +61,14 @@ describe("retrieveContentData", () => {
       mockUserDataWithPageData,
     );
 
-    expect(fetchFlowPage).toBeCalledTimes(1);
+    expect(fetchFlowPage).toHaveBeenCalledOnce();
     expect(fetchFlowPage).toHaveBeenCalledWith(
       "form-flow-pages",
       "/fluggastrechte/formular",
       "/intro/start",
     );
-    expect(fetchContentPageMeta).toBeCalledTimes(1);
-    expect(fetchMultipleTranslations).toBeCalledTimes(1);
+    expect(fetchContentPageMeta).toHaveBeenCalledOnce();
+    expect(fetchMultipleTranslations).toHaveBeenCalledOnce();
     expect(fetchMultipleTranslations).toHaveBeenCalledWith([
       "/fluggastrechte/formular/menu",
       "/fluggastrechte/formular",

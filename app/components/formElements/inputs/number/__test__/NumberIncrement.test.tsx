@@ -46,7 +46,7 @@ describe("NumberIncrement", () => {
     mockError.mockReturnValue("required");
     const { getByRole } = render(<NumberIncrement name="amount" />);
 
-    expect(getByRole("spinbutton").parentElement).toHaveClass(
+    expect(getByRole("spinbutton")).toHaveClass(
       "kern-form-input__input--error",
     );
   });

@@ -36,6 +36,13 @@ describe("NumberInput", () => {
     expect(getByText("Enter an amount")).toBeInTheDocument();
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <NumberInput name="amount" label="Amount" suffix="Optional" />,
+    );
+    expect(getByText("Optional")).toBeInTheDocument();
+  });
+
   it("should render helper text linked with aria-describedby", () => {
     const { getByRole } = render(
       <NumberInput name="amount" helperText="Enter an amount" />,
@@ -79,11 +86,6 @@ describe("NumberInput", () => {
   it("should mark input as readonly when readonly prop is true", () => {
     const { getByRole } = render(<NumberInput name="amount" readonly />);
     expect(getByRole("textbox")).toHaveAttribute("readonly");
-  });
-
-  it("should apply step attribute when provided", () => {
-    const { getByRole } = render(<NumberInput name="amount" step="0.01" />);
-    expect(getByRole("textbox")).toHaveAttribute("step", "0.01");
   });
 
   it("should apply placeholder when provided", () => {

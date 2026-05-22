@@ -2,12 +2,30 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { verstorbeneXStateConfig } from "./verstorbene/xStateConfig";
+import { ausschlagendePersonXStateConfig } from "./ausschlagendePerson/xStateConfig";
+import { kinderXStateConfig } from "./kinder/xStateConfig";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
 );
 
 export const nachlassErbausschlagungAnfrageXStateConfig = {
+  meta: {
+    arrays: {
+      kinderUnder18: {
+        url: "/nachlass/erbausschlagung/anfrage/kinder/kinder-unter-18/kinder",
+        initialInputUrl: "name",
+        statementKey: "hasKid",
+        hiddenFields: [
+          "geburtsdatum",
+          "wohnortBeiAntragsteller",
+          "geburtsnameSorgerecht",
+        ],
+        event: "add-kinderUnder18",
+      },
+    },
+  },
   id: "/nachlass/erbausschlagung/anfrage",
   initial: "start",
   states: {
@@ -23,119 +41,30 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
         [stepIds.datenverarbeitung.relative]: {
           on: {
             BACK: stepIds.start.relative,
-            SUBMIT: "#verstorbene",
+            SUBMIT: {
+              guard: ({ context }) =>
+                context.datenverarbeitungZustimmung === "on",
+              target: stepIds.verstorbeneName.absolute,
+            },
           },
         },
       },
     },
-    verstorbene: {
-      id: "verstorbene",
-      initial: stepIds.verstorbeneName.relative,
+    verstorbene: verstorbeneXStateConfig,
+    "ausschlagende-person": ausschlagendePersonXStateConfig,
+    kinder: kinderXStateConfig,
+    abgabe: {
+      id: "abgabe",
+      initial: stepIds.abgabeWeitereInformation.relative,
       states: {
-        [stepIds.verstorbeneName.relative]: {
-          on: {
-            BACK: stepIds.datenverarbeitung.absolute,
-            SUBMIT: stepIds.verstorbeneGeburtsdatum.relative,
-          },
-        },
-        [stepIds.verstorbeneGeburtsdatum.relative]: {
-          on: {
-            BACK: stepIds.verstorbeneName.relative,
-            SUBMIT: stepIds.verstorbeneSterbedatum.relative,
-          },
-        },
-        [stepIds.verstorbeneSterbedatum.relative]: {
-          on: {
-            BACK: stepIds.verstorbeneGeburtsdatum.relative,
-            SUBMIT: stepIds.verstorbeneLebensmittelpunkt.relative,
-          },
-        },
-        [stepIds.verstorbeneLebensmittelpunkt.relative]: {
-          on: {
-            BACK: stepIds.verstorbeneSterbedatum.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) =>
-                  context.verstorbeneLebensmittelpunkt === "ausland",
-                target: stepIds.verstorbeneAuslaendischeAdresse.relative,
-              },
-              stepIds.pflegeheim.relative,
-            ],
-          },
-        },
-        [stepIds.pflegeheim.relative]: {
-          on: {
-            BACK: stepIds.verstorbeneLebensmittelpunkt.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) => context.livedInNursingHome === "yes",
-                target: stepIds.pflegeheimPLZ.relative,
-              },
-              stepIds.hospiz.relative,
-            ],
-          },
-        },
-        [stepIds.hospiz.relative]: {
-          on: {
-            BACK: stepIds.pflegeheim.relative,
-            SUBMIT: [
-              {
-                guard: ({ context }) => context.livedInHospice === "yes",
-                target: stepIds.plzBeforeHospiz.relative,
-              },
-              stepIds.verstorbenePlz.relative,
-            ],
-          },
-        },
-        [stepIds.plzBeforeHospiz.relative]: {
-          on: {
-            BACK: stepIds.hospiz.relative,
-            SUBMIT: stepIds.verstorbeneAdresse.relative,
-          },
-        },
-        [stepIds.pflegeheimPLZ.relative]: {
-          on: {
-            BACK: stepIds.pflegeheim.relative,
-            SUBMIT: stepIds.verstorbeneAdresse.relative,
-          },
-        },
-        [stepIds.verstorbenePlz.relative]: {
-          on: {
-            BACK: stepIds.hospiz.relative,
-            SUBMIT: stepIds.verstorbeneAdresse.relative,
-          },
-        },
-        [stepIds.verstorbeneAdresse.relative]: {
+        [stepIds.abgabeWeitereInformation.relative]: {
           on: {
             BACK: [
               {
-                guard: ({ context }) => context.livedInNursingHome === "yes",
-                target: stepIds.pflegeheimPLZ.relative,
+                guard: ({ context }) => context.hasKid === "no",
+                target: stepIds.kinderHasKid.absolute,
               },
-              {
-                guard: ({ context }) => context.livedInHospice === "yes",
-                target: stepIds.plzBeforeHospiz.relative,
-              },
-              stepIds.verstorbenePlz.relative,
-            ],
-            SUBMIT: stepIds.testament.relative,
-          },
-        },
-        [stepIds.verstorbeneAuslaendischeAdresse.relative]: {
-          on: {
-            BACK: stepIds.verstorbeneLebensmittelpunkt.relative,
-            SUBMIT: stepIds.testament.relative,
-          },
-        },
-        [stepIds.testament.relative]: {
-          on: {
-            BACK: [
-              {
-                guard: ({ context }) =>
-                  context.verstorbeneLebensmittelpunkt === "ausland",
-                target: stepIds.verstorbeneAuslaendischeAdresse.relative,
-              },
-              stepIds.verstorbeneAdresse.relative,
+              stepIds.kinderUnder18Uebersicht.absolute,
             ],
           },
         },
