@@ -11,7 +11,12 @@ export type TileContentProps = {
   readonly image?: ImageProps;
 };
 
-const TileContent = ({ title, description, image, descriptionId }: TileContentProps) => {
+const TileContent = ({
+  title,
+  description,
+  image,
+  descriptionId,
+}: TileContentProps) => {
   return (
     <div
       className={classNames("h-full flex flex-col", {
