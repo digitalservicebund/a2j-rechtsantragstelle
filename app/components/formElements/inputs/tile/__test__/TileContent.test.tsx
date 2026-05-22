@@ -3,7 +3,13 @@ import TileContent from "../TileContent";
 
 describe("TileContent", () => {
   it("should render title and description", () => {
-    render(<TileContent title="Title" description="Description" descriptionId="description" />);
+    render(
+      <TileContent
+        title="Title"
+        description="Description"
+        descriptionId="description"
+      />,
+    );
     expect(screen.getByText("Title")).toBeInTheDocument();
     expect(screen.getByText("Description")).toBeInTheDocument();
   });
