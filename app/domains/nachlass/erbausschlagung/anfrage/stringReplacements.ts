@@ -114,6 +114,8 @@ export const getNumberOfKids = (
   return {
     numberOfKidsAdded: (context.kinder?.length ?? 0).toString(),
     numberOfKids: (context.numberOfKids ?? 0).toString(),
+    hasOneKid: context.numberOfKids === 1,
+    hasOneKidAdded: context.kinder?.length === 1,
   };
 };
 
