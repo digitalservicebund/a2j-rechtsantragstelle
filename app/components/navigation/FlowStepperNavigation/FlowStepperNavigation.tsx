@@ -41,6 +41,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
                 stepIndex={stepIndex}
                 label={label}
                 state={state}
+                totalSteps={steps.length}
               />
             </li>
           );
