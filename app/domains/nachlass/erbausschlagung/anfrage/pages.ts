@@ -371,7 +371,13 @@ export const nachlassErbausschlagungAnfragePages = {
   abgabeWeitereInformation: {
     stepId: "abgabe/weitere-informationen",
     pageSchema: {
-      weitereInformationen: stringOptionalSchema,
+      weitereInformationen: schemaOrEmptyString(stringRequiredSchema),
     },
+  },
+  abgabeZusammenfassung: {
+    stepId: "abgabe/zusammenfassung",
+  },
+  abgabeEnde: {
+    stepId: "abgabe/ende",
   },
 } as const satisfies PagesConfig;
