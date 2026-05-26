@@ -44,11 +44,13 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   return undefined;
 };
 
+const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
+
 export function NavItem({
   destination,
   label,
   state,
-  subflows = [],
+  subflows = DEFAULT_EMPTY_SUBFLOWS,
   forceExpanded,
   isChild = false,
   firstItemRef,
