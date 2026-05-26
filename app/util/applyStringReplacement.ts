@@ -3,7 +3,7 @@ import type { Flow } from "~/domains/flows.server";
 import type { UserData } from "~/domains/userData";
 import { logError } from "~/services/logging";
 
-export type Replacements = Record<string, string | boolean | undefined>;
+export type Replacements = Record<string, string | number | boolean | undefined>;
 
 export const replacementsFromFlowConfig = (
   stringReplacements: Flow["stringReplacements"],

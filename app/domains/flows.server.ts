@@ -56,4 +56,5 @@ export const flows = {
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
   "/erbschein/erbfolge": {} as Flow, // dummy entry
+  "/nachlass/erbschein/erbfolge": {} as Flow, // dummy entry
 } satisfies Record<FlowId, Flow>;
