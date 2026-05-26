@@ -35,8 +35,8 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="warning"
         id={id}
+        className="fill-kern-feedback-warning forced-color-adjust-auto"
         aria-label={translations.navigation.navigationItemWarning.de}
-        className="fill-kern-feedback-warning"
         size={24}
       />
     );
