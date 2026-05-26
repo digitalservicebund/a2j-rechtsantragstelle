@@ -25,7 +25,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="check-circle"
         id={id}
-        className="fill-kern-feedback-success"
+        className="fill-kern-feedback-success forced-color-adjust-auto"
         aria-label={translations.navigation.navigationItemFinished.de}
         size={24}
       />
@@ -44,11 +44,13 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   return undefined;
 };
 
+const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
+
 export function NavItem({
   destination,
   label,
   state,
-  subflows = [],
+  subflows = DEFAULT_EMPTY_SUBFLOWS,
   forceExpanded,
   isChild = false,
   firstItemRef,
@@ -121,11 +123,14 @@ export function NavItem({
           >
             <span>{label}</span>
             <div className="flex items-center gap-8 justify-end align-end self-end">
-              {collapse.isExpanded ? (
-                <Icon name="keyboard-arrow-up" className="ml-auto" />
-              ) : (
-                <Icon name="keyboard-arrow-down" className="ml-auto" />
-              )}
+              <Icon
+                name={
+                  collapse.isExpanded
+                    ? "keyboard-arrow-up"
+                    : "keyboard-arrow-down"
+                }
+                className="ml-auto forced-color-adjust-auto"
+              />
               <StateIcon
                 id={iconId}
                 isDone={isDone}

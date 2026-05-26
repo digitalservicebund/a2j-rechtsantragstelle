@@ -25,87 +25,86 @@ export const isTestamentErbvertrag = (
   };
 };
 
-export const getKinderNameUnder18 = (
+export const getKinderName = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
-    !context.kinderUnder18 ||
-    arrayIndex > context.kinderUnder18.length + 1
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
   )
     return {};
-  if (arrayIndex < context.kinderUnder18.length)
+  if (arrayIndex < context.kinder.length)
     return {
-      kinderNameUnder18: `${context.kinderUnder18?.[arrayIndex].vorname} ${context.kinderUnder18?.[arrayIndex].nachname}`,
+      kinderName: `${context.kinder?.[arrayIndex].vorname} ${context.kinder?.[arrayIndex].nachname}`,
     };
 };
 
-export const getKinderOrganizationNameUnder18 = (
+export const getKinderOrganizationName = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
-    !context.kinderUnder18 ||
-    arrayIndex > context.kinderUnder18.length + 1
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
   )
     return {};
-  if (arrayIndex < context.kinderUnder18.length)
+  if (arrayIndex < context.kinder.length)
     return {
-      kinderOrganizationUnder18:
-        context.kinderUnder18?.[arrayIndex].organizationNameSorgerecht,
+      kinderOrganization:
+        context.kinder?.[arrayIndex].organizationNameSorgerecht,
     };
 };
 
-export const getKinderNameSorgerechtUnder18 = (
+export const getKinderNameSorgerecht = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
-    !context.kinderUnder18 ||
-    arrayIndex > context.kinderUnder18.length + 1
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
   )
     return {};
-  if (arrayIndex < context.kinderUnder18.length)
+  if (arrayIndex < context.kinder.length)
     return {
-      kinderNameSorgerechtUnder18: `${context.kinderUnder18?.[arrayIndex].vornameSorgerecht} ${context.kinderUnder18?.[arrayIndex].nachnameSorgerecht}`,
+      kinderNameSorgerecht: `${context.kinder?.[arrayIndex].vornameSorgerecht} ${context.kinder?.[arrayIndex].nachnameSorgerecht}`,
     };
 };
 
-export const isKinderUnder18AnotherPerson = (
+export const isKinderAnotherPerson = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
-    !context.kinderUnder18 ||
-    arrayIndex > context.kinderUnder18.length + 1
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
   )
-    return { isKinderUnder18AnotherPerson: false };
-  if (arrayIndex < context.kinderUnder18.length)
+    return { isKinderAnotherPerson: false };
+  if (arrayIndex < context.kinder.length)
     return {
-      isKinderUnder18AnotherPerson:
-        context.kinderUnder18?.[arrayIndex].optionSorgerecht ===
-        "anotherPerson",
+      isKinderAnotherPerson:
+        context.kinder?.[arrayIndex].optionSorgerecht === "anotherPerson",
     };
 };
 
-export const isKinderUnder18Shared = (
+export const isKinderShared = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
-    !context.kinderUnder18 ||
-    arrayIndex > context.kinderUnder18.length + 1
+    !context.kinder ||
+    arrayIndex > context.kinder.length + 1
   )
-    return { isKinderUnder18Shared: false };
-  if (arrayIndex < context.kinderUnder18.length)
+    return { isKinderShared: false };
+  if (arrayIndex < context.kinder.length)
     return {
-      isKinderUnder18Shared:
-        context.kinderUnder18?.[arrayIndex].optionSorgerecht === "shared",
+      isKinderShared:
+        context.kinder?.[arrayIndex].optionSorgerecht === "shared",
     };
 };
 
@@ -113,9 +112,7 @@ export const getNumberOfKids = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   return {
-    numberOfKidsUnder18Added: (context.kinderUnder18?.length ?? 0).toString(),
-    numberOfKidsUnder18: (context.numberOfKidsUnder18 ?? 0).toString(),
-    numberOfKidsOver18: (context.numberOfKidsOver18 ?? 0).toString(),
+    numberOfKidsAdded: (context.kinder?.length ?? 0).toString(),
     numberOfKids: (context.numberOfKids ?? 0).toString(),
   };
 };

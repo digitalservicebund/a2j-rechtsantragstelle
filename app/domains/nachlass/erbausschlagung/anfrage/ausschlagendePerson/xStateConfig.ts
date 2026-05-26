@@ -66,7 +66,7 @@ export const ausschlagendePersonXStateConfig = {
       on: {
         BACK: stepIds.ausschlagendePersonBirthday.relative,
         SUBMIT: {
-          target: stepIds.kinderHasKid.absolute,
+          target: "#kinder",
           guard: hasFilledAusschlagendePerson,
         },
       },
