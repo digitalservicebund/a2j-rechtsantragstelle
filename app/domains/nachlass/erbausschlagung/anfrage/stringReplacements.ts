@@ -137,7 +137,6 @@ export const getAusschlagendePersonCourtData = (
     zipCode: context.ausschlagendePersonPlz,
     streetName: context.ausschlagendePersonStrasse,
     houseNumber: context.ausschlagendePersonHausnummer,
-    angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
   });
 
   return {
