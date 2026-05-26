@@ -10,21 +10,27 @@ import {
   replacementsFromFlowConfig,
 } from "~/util/applyStringReplacement";
 import { getUserDataFieldLabel } from "./getUserDataFieldLabel";
+import { addPageDataToUserData } from "../flow/pageData";
 
 const applyStringReplacementToContent = (
   content: string,
   stepId: string,
   userData: UserData,
+  arrayIndexes: number[] | undefined = undefined,
 ) => {
   if (!content.includes("{{")) {
     return content;
   }
 
+  const userDataWithPageData = addPageDataToUserData(userData, {
+    arrayIndexes,
+  });
+
   const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
 
   const replacements = replacementsFromFlowConfig(
     currentFlow.stringReplacements,
-    userData,
+    userDataWithPageData,
   );
 
   return applyStringReplacement(content, replacements);
@@ -41,9 +47,9 @@ export function createFieldEntry(
 ): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
+  const actualFieldName = fieldName;
 
   let value: AllowedUserTypes;
-  let actualFieldName = fieldName;
   let arrayIndex: number | undefined;
   let arrayBaseField: string | undefined;
 
@@ -61,7 +67,6 @@ export function createFieldEntry(
       arrayItem && fieldInfo.subFieldName
         ? arrayItem[fieldInfo.subFieldName]
         : undefined;
-    actualFieldName = fieldName;
   } else {
     value = userData[fieldName];
   }
@@ -91,10 +96,14 @@ export function createFieldEntry(
       question,
       representativeStepId,
       userData,
+      arrayIndex ? [arrayIndex] : undefined,
     ),
-    answer: isArrayItem
-      ? answer
-      : applyStringReplacementToContent(answer, representativeStepId, userData),
+    answer: applyStringReplacementToContent(
+      answer,
+      representativeStepId,
+      userData,
+      arrayIndex ? [arrayIndex] : undefined,
+    ),
     editUrl,
     isArrayItem,
     arrayIndex,
