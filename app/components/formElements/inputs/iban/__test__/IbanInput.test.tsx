@@ -16,10 +16,11 @@ vi.mock("~/components/hooks/useControlledField.tsx", () => ({
 }));
 
 const user = userEvent.setup();
+const DEFAULT_EMPTY_IBAN = { iban: "" };
 
 const RVFWrapper = ({
   children,
-  defaultValues = { iban: "" },
+  defaultValues = DEFAULT_EMPTY_IBAN,
 }: {
   children: JSX.Element;
   defaultValues?: { iban: string };

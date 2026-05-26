@@ -12,9 +12,11 @@ type Props = {
   triggerValidationOnMount?: boolean;
 };
 
+const DEFAULT_EMPTY_VALUES: Record<string, AllowedUserTypes> = { name: "" };
+
 const RVFProvider = ({
   schema = z.object({ name: z.string().optional() }),
-  defaultValues = { name: "" },
+  defaultValues = DEFAULT_EMPTY_VALUES,
   children,
   triggerValidationOnMount = false,
 }: Props) => {
