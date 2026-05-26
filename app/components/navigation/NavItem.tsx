@@ -35,7 +35,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="warning"
         id={id}
-        ariaLabel={translations.navigation.navigationItemWarning.de}
+        aria-label={translations.navigation.navigationItemWarning.de}
         className="fill-kern-feedback-warning"
         size={24}
       />
@@ -100,6 +100,12 @@ export function NavItem({
   );
   const iconId = useId();
 
+  const statusText = isDone
+    ? translations.navigation.navigationItemFinished.de
+    : isWarning
+      ? translations.navigation.navigationItemWarning.de
+      : "";
+
   return (
     <li className={liClassNames}>
       {hasSubflows ? (
@@ -147,6 +153,7 @@ export function NavItem({
           ref={firstItemRef}
           data-testid={"nav-item-link"}
           aria-describedby={isDone || isWarning ? iconId : undefined}
+          aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
         >
           <span>{label}</span>
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
