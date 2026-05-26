@@ -10,15 +10,15 @@ type NavigationListProps = Readonly<{
 }>;
 
 export const NavigationList = ({ navItems, ...props }: NavigationListProps) => (
-  <ul
-    className={`pl-0 bg-white ${props.className ?? ""} rounded overflow-hidden`}
-  >
+  <ul className={`pl-0 bg-white ${props.className ?? ""} rounded`}>
     {navItems.map((navItem, index) => (
       <NavItem
         key={navItem.destination}
         {...navItem}
         forceExpanded={props.expandAll}
         {...props}
+        isFirst={index === 0}
+        isLast={index === navItems.length - 1}
         firstItemRef={index === 0 ? props.firstItemRef : undefined}
       />
     ))}
