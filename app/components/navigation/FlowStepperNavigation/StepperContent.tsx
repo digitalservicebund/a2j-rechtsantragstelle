@@ -31,7 +31,7 @@ export function StepperContent({
   const currentText = styles.isCurrent ? "current" : "";
 
   const ariaLabel = [
-    `Step ${stepNumber} of ${totalSteps}`,
+    `Schritt ${stepNumber} von ${totalSteps}`,
     label,
     statusText,
     currentText,
