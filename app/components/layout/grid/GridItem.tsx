@@ -15,9 +15,11 @@ type GridItemProps = PropsWithChildren<{
   ariaLabel?: string;
 }>;
 
+const DEFAULT_SM_COLUMN: Column = { start: 1, span: 12 };
+
 export function GridItem({
   children,
-  smColumn = { start: 1, span: 12 },
+  smColumn = DEFAULT_SM_COLUMN,
   mdColumn,
   lgColumn,
   xlColumn,

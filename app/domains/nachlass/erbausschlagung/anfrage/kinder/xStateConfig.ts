@@ -172,11 +172,11 @@ export const kinderXStateConfig = {
             },
             "sorgerecht-person": {
               on: {
-                SUBMIT: "sorgerecht-gleiche-address",
+                SUBMIT: "sorgerecht-gleiche-adresse",
                 BACK: "sorgerecht",
               },
             },
-            "sorgerecht-gleiche-address": {
+            "sorgerecht-gleiche-adresse": {
               on: {
                 SUBMIT: [
                   {
@@ -203,7 +203,7 @@ export const kinderXStateConfig = {
                   },
                   "erbe-ausschlagende",
                 ],
-                BACK: "sorgerecht-gleiche-address",
+                BACK: "sorgerecht-gleiche-adresse",
               },
             },
             "sorgerecht-organisation-name": {
@@ -229,7 +229,7 @@ export const kinderXStateConfig = {
                   {
                     guard: ({ context }) =>
                       getOptionSorgerecht(context) === "shared",
-                    target: "sorgerecht-gleiche-address",
+                    target: "sorgerecht-gleiche-adresse",
                   },
                   "sorgerecht",
                 ],
