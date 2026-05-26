@@ -21,7 +21,7 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryDataItem.tsx", () => ({
+vi.mock("~/components/content/arraySummary/ArraySummaryDataItems.tsx", () => ({
   default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
 }));
 

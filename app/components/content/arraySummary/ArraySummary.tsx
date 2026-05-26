@@ -3,7 +3,7 @@ import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { translations as translationProvider } from "~/services/translations/translations";
-import ArraySummaryDataItems from "./ArraySummaryDataItem";
+import ArraySummaryDataItems from "./ArraySummaryDataItems";
 import { type HeadingProps } from "~/components/common/Heading";
 import Button from "~/components/common/Button";
 import RichText from "~/components/common/RichText";

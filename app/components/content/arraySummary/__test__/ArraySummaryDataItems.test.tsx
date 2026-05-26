@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import ArraySummaryDataItems from "~/components/content/arraySummary/ArraySummaryDataItem";
+import ArraySummaryDataItems from "~/components/content/arraySummary/ArraySummaryDataItems";
 import type { ArrayConfigClient } from "~/services/array";
 
 const mockArrayConfiguration: ArrayConfigClient = {
@@ -123,5 +123,31 @@ describe("ArraySummaryDataItems", () => {
     expect(queryByText("Subtitle 1")).not.toBeInTheDocument();
     expect(queryByText("Subtitle 2")).toBeInTheDocument();
     expect(queryByText("Subtitle 3")).toBeInTheDocument();
+  });
+
+  it("should render ArraySummaryDataItems with a date split object", () => {
+    const mockDateItem = {
+      birthdate: {
+        day: "01",
+        month: "01",
+        year: "2000",
+      },
+    };
+    const itemLabels = {
+      birthdate: "Geburtsdatum",
+    };
+
+    const { getByText } = render(
+      <ArraySummaryDataItems
+        configuration={mockArrayConfiguration}
+        items={mockDateItem}
+        itemIndex={0}
+        itemLabels={itemLabels}
+        category="unterhaltszahlungen"
+      />,
+    );
+
+    expect(getByText("01.01.2000")).toBeInTheDocument();
+    expect(getByText("Geburtsdatum")).toBeInTheDocument();
   });
 });
