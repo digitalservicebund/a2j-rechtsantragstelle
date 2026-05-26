@@ -33,7 +33,7 @@ describe("StepperContent", () => {
     render(<StepperContent {...baseProps} state="Current" />);
     expect(screen.getByRole("link")).toHaveAttribute(
       "aria-label",
-      expect.stringContaining("Step 1 of 3"),
+      expect.stringContaining("Schritt 1 von 3"),
     );
   });
 });
