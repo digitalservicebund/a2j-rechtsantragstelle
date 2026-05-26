@@ -4,7 +4,6 @@ import {
   stateIsDone,
   stateIsWarning,
 } from "~/services/navigation/navState";
-import { translations } from "~/services/translations/translations";
 
 export function StepperIcon({
   state,
@@ -19,7 +18,6 @@ export function StepperIcon({
         name="check-circle"
         data-testid="icon-done"
         className="fill-kern-feedback-success forced-color-adjust-auto"
-        ariaLabel={translations.navigation.navigationItemFinished.de}
       />
     );
   }
@@ -30,7 +28,6 @@ export function StepperIcon({
         name="warning"
         data-testid="icon-warning"
         className="fill-kern-feedback-warning forced-color-adjust-auto"
-        ariaLabel={translations.navigation.navigationItemWarning.de}
       />
     );
   }
