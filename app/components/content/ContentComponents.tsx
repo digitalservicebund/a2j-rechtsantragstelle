@@ -138,8 +138,10 @@ type PageContentProps = {
   readonly managedByParent?: boolean;
 };
 
+const DEFAULT_EMPTY_CONTENT: StrapiContentComponent[] = [];
+
 function ContentComponents({
-  content = [],
+  content = DEFAULT_EMPTY_CONTENT,
   managedByParent,
   className,
 }: PageContentProps) {
