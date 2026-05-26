@@ -21,15 +21,11 @@ const arrayData = {
   ],
 };
 
-vi.mock("~/components/content/arraySummary/ArraySummaryDataItem.tsx", () => ({
+vi.mock("~/components/content/arraySummary/ArraySummaryDataItems.tsx", () => ({
   default: vi.fn(() => <div> Mock ArraySummaryDataItems</div>),
 }));
 
 describe("ArraySummary", () => {
-  afterEach(() => {
-    vi.restoreAllMocks(); // This clears all mocks after each test
-  });
-
   it("should render title and description when it's available", () => {
     const { getByText } = render(
       <ArraySummary
