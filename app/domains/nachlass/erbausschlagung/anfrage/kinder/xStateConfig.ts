@@ -14,17 +14,16 @@ const stepIds = xStateTargetsFromPagesConfig(
 type NachlassErbausschlagungAnfrageDaten =
   GenericGuard<NachlassErbausschlagungAnfrageUserData>;
 
-const kinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  const kinderWohnortBeiAntragsteller =
-    kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
-  return kinderWohnortBeiAntragsteller === "yes";
-};
+const isKinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten =
+  ({ context: { pageData, kinder } }) => {
+    const arrayIndex = firstArrayIndex(pageData);
+    if (arrayIndex === undefined) return false;
+    const kinderWohnortBeiAntragsteller =
+      kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
+    return kinderWohnortBeiAntragsteller === "yes";
+  };
 
-const kinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
+const isKinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
@@ -35,9 +34,9 @@ const kinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
   const birthDate = toDate(currentKid.geburtsdatum);
   if (Number.isNaN(birthDate.getTime())) return false;
 
-  const minimum18yearsOld = addYears(today(), -18);
+  const eighteenYearsAgo = addYears(today(), -18);
 
-  return birthDate <= minimum18yearsOld;
+  return birthDate <= eighteenYearsAgo;
 };
 
 const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
@@ -50,7 +49,7 @@ const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
   return numberOfKids !== kinder?.length;
 };
 
-const kinderHasSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten = ({
+const hasKinderSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
@@ -60,18 +59,19 @@ const kinderHasSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten = ({
   return kinderHasSorgerechtSameAddress === "no";
 };
 
-const kinderShouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
+const shouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
 
-    const optionSorgerecht = getOptionSorgerecht({ pageData, kinder });
+  const optionSorgerecht = getOptionSorgerecht({ pageData, kinder });
 
-    return (
-      kinder?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
-      optionSorgerecht === "shared"
-    );
-  };
+  return (
+    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
+    optionSorgerecht === "shared"
+  );
+};
 
 const getOptionSorgerecht = ({
   pageData,
@@ -137,12 +137,12 @@ export const kinderXStateConfig = {
             SUBMIT: [
               {
                 guard: (context) =>
-                  kinderWohnortBeiAntragstellerYes(context) &&
-                  kinderAbove18YearsOld(context),
+                  isKinderWohnortBeiAntragstellerYes(context) &&
+                  isKinderAbove18YearsOld(context),
                 target: "#kinder.uebersicht",
               },
               {
-                guard: kinderWohnortBeiAntragstellerYes,
+                guard: isKinderWohnortBeiAntragstellerYes,
                 target: "sorgerecht",
               },
               "adresse",
@@ -154,7 +154,7 @@ export const kinderXStateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: kinderAbove18YearsOld,
+                guard: isKinderAbove18YearsOld,
                 target: "#kinder.uebersicht",
               },
               "sorgerecht",
@@ -178,7 +178,7 @@ export const kinderXStateConfig = {
             ],
             BACK: [
               {
-                guard: kinderWohnortBeiAntragstellerYes,
+                guard: isKinderWohnortBeiAntragstellerYes,
                 target: "wohnort",
               },
               "adresse",
@@ -195,7 +195,7 @@ export const kinderXStateConfig = {
           on: {
             SUBMIT: [
               {
-                guard: kinderHasSorgerechtSameAddressNo,
+                guard: hasKinderSorgerechtSameAddressNo,
                 target: "sorgerecht-adresse",
               },
               {
@@ -238,7 +238,7 @@ export const kinderXStateConfig = {
             SUBMIT: "#kinder.uebersicht",
             BACK: [
               {
-                guard: kinderShouldBackSorgerechtAddress,
+                guard: shouldBackSorgerechtAddress,
                 target: "sorgerecht-adresse",
               },
               {
