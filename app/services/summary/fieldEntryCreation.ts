@@ -1,10 +1,34 @@
 import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
-import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
+import { getPageAndFlowDataFromPathname } from "../flow/getPageAndFlowDataFromPathname";
+import {
+  applyStringReplacement,
+  replacementsFromFlowConfig,
+} from "~/util/applyStringReplacement";
+import { getUserDataFieldLabel } from "./getUserDataFieldLabel";
+
+const applyStringReplacementToContent = (
+  content: string,
+  stepId: string,
+  userData: UserData,
+) => {
+  if (!content.includes("{{")) {
+    return content;
+  }
+
+  const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
+
+  const replacements = replacementsFromFlowConfig(
+    currentFlow.stringReplacements,
+    userData,
+  );
+
+  return applyStringReplacement(content, replacements);
+};
 
 export function createFieldEntry(
   fieldName: string,
@@ -63,8 +87,14 @@ export function createFieldEntry(
 
   return {
     id: crypto.randomUUID().split("-")[0],
-    question,
-    answer,
+    question: applyStringReplacementToContent(
+      question,
+      representativeStepId,
+      userData,
+    ),
+    answer: isArrayItem
+      ? answer
+      : applyStringReplacementToContent(answer, representativeStepId, userData),
     editUrl,
     isArrayItem,
     arrayIndex,
