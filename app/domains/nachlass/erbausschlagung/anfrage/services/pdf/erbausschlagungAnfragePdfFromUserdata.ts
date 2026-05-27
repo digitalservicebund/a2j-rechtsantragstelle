@@ -3,6 +3,7 @@ import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { type NachlassErbausschlagungAnfrageUserData } from "../../userData";
+import { createHeaderAndSubject } from "./sections/createHeaderAndSubject";
 
 const TITLE = "Datenblatt zur Vorbereitung einer Erbausschlagung";
 const SUBJECT = "Erbausschlagung";
@@ -12,6 +13,7 @@ const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
   NachlassErbausschlagungAnfrageUserData
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
+  createHeaderAndSubject(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData);
 };
 
