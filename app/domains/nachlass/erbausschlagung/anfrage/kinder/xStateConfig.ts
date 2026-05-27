@@ -111,7 +111,11 @@ export const kinderXStateConfig = {
             guard: kinderNotFilled,
             target: stepIds.kinderWarnung.relative,
           },
-          stepIds.abgabeWeitereInformation.absolute,
+          {
+            guard: ({ context }) =>
+              context.numberOfKids === context.kinder?.length,
+            target: stepIds.abgabeWeitereInformation.absolute,
+          },
         ],
         BACK: stepIds.kinderHowManyKids.relative,
         "add-kinder": "kinder",
