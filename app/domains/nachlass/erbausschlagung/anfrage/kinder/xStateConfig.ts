@@ -113,6 +113,7 @@ export const kinderXStateConfig = {
           },
           {
             guard: ({ context }) =>
+              context.numberOfKids !== undefined &&
               context.numberOfKids === context.kinder?.length,
             target: stepIds.abgabeWeitereInformation.absolute,
           },
