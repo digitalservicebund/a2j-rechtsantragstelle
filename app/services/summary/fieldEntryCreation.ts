@@ -22,18 +22,26 @@ const applyStringReplacementToContent = (
     return content;
   }
 
+  if (!stepId) {
+    return content;
+  }
+
   const userDataWithPageData = addPageDataToUserData(userData, {
     arrayIndexes,
   });
 
-  const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
+  try {
+    const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
 
-  const replacements = replacementsFromFlowConfig(
-    currentFlow.stringReplacements,
-    userDataWithPageData,
-  );
+    const replacements = replacementsFromFlowConfig(
+      currentFlow.stringReplacements,
+      userDataWithPageData,
+    );
 
-  return applyStringReplacement(content, replacements);
+    return applyStringReplacement(content, replacements);
+  } catch {
+    return content;
+  }
 };
 
 export function createFieldEntry(
