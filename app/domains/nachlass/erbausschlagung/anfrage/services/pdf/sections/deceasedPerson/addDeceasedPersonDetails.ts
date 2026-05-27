@@ -39,7 +39,7 @@ export const addDeceasedPersonDetails = (
       if (userData.verstorbeneGeburtsname) {
         doc
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text("Geburtsname:", { continued: true })
+          .text("Geburtsname: ", { continued: true })
           .font(FONTS_BUNDESSANS_BOLD)
           .text(userData.verstorbeneGeburtsname ?? "");
       }

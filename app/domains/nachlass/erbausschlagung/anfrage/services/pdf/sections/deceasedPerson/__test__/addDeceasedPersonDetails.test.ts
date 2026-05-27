@@ -47,7 +47,7 @@ describe("addDeceasedPersonDetails", () => {
       verstorbeneGeburtsname: "Musterfrau",
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsname:", {
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsname: ", {
       continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith("Musterfrau");
