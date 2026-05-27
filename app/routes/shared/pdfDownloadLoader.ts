@@ -9,6 +9,8 @@ import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/pdf/geldEinklagenPdfFromUserdata";
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
+import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/erbausschlagung/anfrage/services/pdf/erbausschlagungAnfragePdfFromUserdata";
+import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
@@ -25,7 +27,9 @@ type PdfFlowContexts =
   | BeratungshilfeFormularUserData
   | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularUserData
-  | GeldEinklagenFormularUserData;
+  | GeldEinklagenFormularUserData
+  | NachlassErbausschlagungAnfrageUserData
+  | KontopfaendungPkontoAntragUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
   ? T extends PdfFlowContexts
@@ -74,6 +78,11 @@ const pdfConfigs = {
     pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
       await geldEinklagenPdfFromUserdata(userData),
     name: `Geld_Einklagen_Klage`,
+  },
+  "/nachlass/erbausschlagung/anfrage": {
+    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
+      await erbausschlagungAnfragePdfFromUserdata(userData),
+    name: `Erbausschlagung_Anfrage`,
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
