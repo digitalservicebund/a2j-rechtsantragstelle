@@ -3,7 +3,7 @@ import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { type NachlassErbausschlagungAnfrageUserData } from "../../userData";
-import { createHeaderAndSubject } from "./sections/createHeaderAndSubject";
+import { createHeaderAndSubject } from "./sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "./sections/deceasedPerson/createDeceasedPerson";
 
 const TITLE = "Datenblatt zur Vorbereitung einer Erbausschlagung";
