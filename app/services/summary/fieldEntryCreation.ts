@@ -1,10 +1,48 @@
 import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
-import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
+import { getPageAndFlowDataFromPathname } from "../flow/getPageAndFlowDataFromPathname";
+import {
+  applyStringReplacement,
+  replacementsFromFlowConfig,
+} from "~/util/applyStringReplacement";
+import { getUserDataFieldLabel } from "./getUserDataFieldLabel";
+import { addPageDataToUserData } from "../flow/pageData";
+
+const applyStringReplacementToContent = (
+  content: string,
+  stepId: string,
+  userData: UserData,
+  arrayIndexes: number[] | undefined = undefined,
+) => {
+  if (!content.includes("{{")) {
+    return content;
+  }
+
+  if (!stepId) {
+    return content;
+  }
+
+  const userDataWithPageData = addPageDataToUserData(userData, {
+    arrayIndexes,
+  });
+
+  try {
+    const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
+
+    const replacements = replacementsFromFlowConfig(
+      currentFlow.stringReplacements,
+      userDataWithPageData,
+    );
+
+    return applyStringReplacement(content, replacements);
+  } catch {
+    return content;
+  }
+};
 
 export function createFieldEntry(
   fieldName: string,
@@ -17,9 +55,9 @@ export function createFieldEntry(
 ): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
+  const actualFieldName = fieldName;
 
   let value: AllowedUserTypes;
-  let actualFieldName = fieldName;
   let arrayIndex: number | undefined;
   let arrayBaseField: string | undefined;
 
@@ -37,7 +75,6 @@ export function createFieldEntry(
       arrayItem && fieldInfo.subFieldName
         ? arrayItem[fieldInfo.subFieldName]
         : undefined;
-    actualFieldName = fieldName;
   } else {
     value = userData[fieldName];
   }
@@ -63,8 +100,18 @@ export function createFieldEntry(
 
   return {
     id: crypto.randomUUID().split("-")[0],
-    question,
-    answer,
+    question: applyStringReplacementToContent(
+      question,
+      representativeStepId,
+      userData,
+      arrayIndex === undefined ? undefined : [arrayIndex],
+    ),
+    answer: applyStringReplacementToContent(
+      answer,
+      representativeStepId,
+      userData,
+      arrayIndex === undefined ? undefined : [arrayIndex],
+    ),
     editUrl,
     isArrayItem,
     arrayIndex,
