@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "../../../../userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addDeceasedPersonDetails } from "./addDeceasedPersonDetails";
 import { addDeceasedPersonLastStay } from "./addDeceasedPersonLastStay";
