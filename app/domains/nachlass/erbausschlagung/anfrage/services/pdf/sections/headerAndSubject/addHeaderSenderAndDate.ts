@@ -10,7 +10,7 @@ import {
 export const CREATION_PDF_TEXT = "Erstellt am:";
 export const SENDER_TEXT = "Absender";
 
-export const createHeaderSenderAndDate = (
+export const addHeaderSenderAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: NachlassErbausschlagungAnfrageUserData,

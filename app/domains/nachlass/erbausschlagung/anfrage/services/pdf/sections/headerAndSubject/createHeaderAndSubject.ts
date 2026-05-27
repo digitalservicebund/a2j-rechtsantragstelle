@@ -5,7 +5,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { createHeaderSenderAndDate } from "./createHeaderSenderAndDate";
+import { addHeaderSenderAndDate } from "./addHeaderSenderAndDate";
 
 const MAIN_TITLE = "Datenblatt zur Vorbereitung einer Erbausschlagung";
 const SUBJECT_TEXT =
@@ -26,7 +26,7 @@ export const createHeaderAndSubject = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: NachlassErbausschlagungAnfrageUserData,
 ) => {
-  createHeaderSenderAndDate(doc, documentStruct, userData);
+  addHeaderSenderAndDate(doc, documentStruct, userData);
 
   const titleSubjectSection = doc.struct("Sect");
 
