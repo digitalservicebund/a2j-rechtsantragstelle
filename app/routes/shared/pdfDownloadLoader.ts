@@ -28,7 +28,8 @@ type PdfFlowContexts =
   | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularUserData
   | GeldEinklagenFormularUserData
-  | NachlassErbausschlagungAnfrageUserData;
+  | NachlassErbausschlagungAnfrageUserData
+  | KontopfaendungPkontoAntragUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
   ? T extends PdfFlowContexts
