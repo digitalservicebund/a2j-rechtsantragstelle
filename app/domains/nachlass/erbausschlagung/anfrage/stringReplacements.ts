@@ -1,5 +1,7 @@
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
+import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -114,6 +116,8 @@ export const getNumberOfKids = (
   return {
     numberOfKidsAdded: (context.kinder?.length ?? 0).toString(),
     numberOfKids: (context.numberOfKids ?? 0).toString(),
+    hasOneKid: context.numberOfKids === 1,
+    hasOneKidAdded: context.kinder?.length === 1,
   };
 };
 
@@ -124,4 +128,50 @@ export const getArrayIndexStrings = (
   return arrayIndex === undefined
     ? {}
     : { "array#index": String(arrayIndex + 1) };
+};
+
+export const getAusschlagendePersonCourtData = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  const ausschlagendePersonCourt = findCourt({
+    zipCode: context.ausschlagendePersonPlz,
+    streetName: context.ausschlagendePersonStrasse,
+    houseNumber: context.ausschlagendePersonHausnummer,
+  });
+
+  return {
+    ausschlagendePersonCourtName: ausschlagendePersonCourt?.BEZEICHNUNG,
+    ausschlagendePersonCourtStreetNumber: ausschlagendePersonCourt?.STR_HNR,
+    ausschlagendePersonCourtPlz: ausschlagendePersonCourt?.PLZ_ZUSTELLBEZIRK,
+    ausschlagendePersonCourtOrt: ausschlagendePersonCourt?.ORT,
+    ausschlagendePersonCourtWebsite: ausschlagendePersonCourt?.URL1,
+    ausschlagendePersonCourtTelephone: ausschlagendePersonCourt?.TEL,
+  };
+};
+
+export const getVerstorbenenPersonCourtData = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (context.verstorbeneLebensmittelpunkt === "ausland") {
+    return {};
+  }
+
+  const verstorbenePersonCourt = findCourt({
+    zipCode:
+      context.plzBeforeHospiz ??
+      context.plzPflegeheim ??
+      context.plzVerstorbene,
+    streetName: context.verstorbeneAdresseStrasse,
+    houseNumber: context.verstorbeneAdresseHausnummer,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+  });
+
+  return {
+    verstorbenePersonCourtName: verstorbenePersonCourt?.BEZEICHNUNG,
+    verstorbenePersonCourtStreetNumber: verstorbenePersonCourt?.STR_HNR,
+    verstorbenePersonCourtPlz: verstorbenePersonCourt?.PLZ_ZUSTELLBEZIRK,
+    verstorbenePersonCourtOrt: verstorbenePersonCourt?.ORT,
+    verstorbenePersonCourtWebsite: verstorbenePersonCourt?.URL1,
+    verstorbenePersonCourtTelephone: verstorbenePersonCourt?.TEL,
+  };
 };

@@ -28,5 +28,19 @@ export const nachlassErbausschlagungAnfrageTestCases = {
     ...verstorbeneTestCases,
     ...ausschlagendePersonTestCases,
     ...kinderTestCases,
+    abgabe: [
+      {
+        stepId: "/abgabe/weitere-informationen",
+        userInput: {
+          weitereInformationen: "Hier sind weitere Informationen.",
+        },
+      },
+      {
+        stepId: "/abgabe/zusammenfassung",
+      },
+      {
+        stepId: "/abgabe/ende",
+      },
+    ],
   } satisfies FlowTestCases<NachlassErbausschlagungAnfrageUserData>,
 } satisfies FlowTestConfig<NachlassErbausschlagungAnfrageUserData>;

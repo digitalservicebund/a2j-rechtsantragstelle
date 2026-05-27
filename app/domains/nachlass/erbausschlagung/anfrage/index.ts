@@ -12,6 +12,8 @@ import {
   isKinderAnotherPerson,
   isKinderShared,
   isTestamentErbvertrag,
+  getAusschlagendePersonCourtData,
+  getVerstorbenenPersonCourtData,
 } from "./stringReplacements";
 
 export const nachlassErbausschlagungAnfrage = {
@@ -28,5 +30,7 @@ export const nachlassErbausschlagungAnfrage = {
     ...getKinderNameSorgerecht(context),
     ...isKinderShared(context),
     ...getNumberOfKids(context),
+    ...getAusschlagendePersonCourtData(context),
+    ...getVerstorbenenPersonCourtData(context),
   }),
 } satisfies Flow;
