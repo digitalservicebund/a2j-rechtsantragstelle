@@ -137,7 +137,7 @@ export default function SideNavMobile({
         />
         <div
           className={classNames(
-            "flex bg-white items-center py-8! px-16! flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "flex bg-white h-[80px] items-center py-8! px-16! flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
               "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,
