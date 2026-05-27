@@ -53,10 +53,14 @@ export function NavItem({
   subflows = DEFAULT_EMPTY_SUBFLOWS,
   forceExpanded,
   isChild = false,
+  isFirst = false,
+  isLast = false,
   firstItemRef,
 }: Readonly<
   NavItem & {
     isChild?: boolean;
+    isFirst?: boolean;
+    isLast?: boolean;
     firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
   }
 >) {
@@ -76,6 +80,7 @@ export function NavItem({
   const liClassNames = classNames(
     "flex w-full flex-col list-none",
     "border-b border-kern-neutral-200 last:border-0",
+    "relative focus-within:z-10",
     {
       "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
@@ -93,6 +98,8 @@ export function NavItem({
     "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
     "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-border-inside),0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
     {
+      "rounded-t": isFirst,
+      "rounded-b": isLast,
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
