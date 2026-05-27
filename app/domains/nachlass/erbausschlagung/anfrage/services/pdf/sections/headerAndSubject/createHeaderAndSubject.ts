@@ -18,7 +18,7 @@ const TEXT_BULLETS = [
 ];
 
 const APPOINTMENT_TEXT =
-  "Ich mich zur Terminabsprache mit Ihnen in Verbindung setzen, falls noch nicht geschehen.";
+  "Ich werde mich zur Terminabsprache mit Ihnen in Verbindung setzen, falls noch nicht geschehen.";
 const BEST_REGARDS_TEXT = "Mit freundlichen Grüßen";
 
 export const createHeaderAndSubject = (

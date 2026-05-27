@@ -10,7 +10,7 @@ vi.mock("../addHeaderSenderAndDate");
 vi.mocked(addHeaderSenderAndDate).mockImplementation(() => vi.fn());
 
 beforeEach(() => {
-  vi.resetAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("createHeaderAndSubject", () => {
@@ -62,5 +62,22 @@ describe("createHeaderAndSubject", () => {
       "• Ich muss für die Ausschlagung persönlich beim Gericht erscheinen.",
       expect.any(Number),
     );
+  });
+
+  it("should create the appointment text and best regards text", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    createHeaderAndSubject(mockDoc, mockStruct, {
+      ausschlagendePersonVorname: "Max",
+      ausschlagendePersonNachname: "Mustermann",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Ich werde mich zur Terminabsprache mit Ihnen in Verbindung setzen, falls noch nicht geschehen.",
+      expect.any(Number),
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Mit freundlichen Grüßen");
+    expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
   });
 });
