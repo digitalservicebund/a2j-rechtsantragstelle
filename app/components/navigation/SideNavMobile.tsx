@@ -38,13 +38,13 @@ const StepStepperLinks = ({
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <a
                 href={step.href}
-                className="truncate flex kern-link text-left mw-[70vw] pt-0!"
+                className="flex text-ellipsis max-w-[80vw] kern-link text-left pt-0!"
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
                 <Icon
                   name="arrow-back"
-                  className="inline forced-color-adjust-auto"
+                  className="w-[1.2em] h-[1.2em] mt-2 forced-color-adjust-auto"
                 />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
@@ -134,10 +134,10 @@ export default function SideNavMobile({
         <div
           className="not-group-open:hidden min-h-screen flex bg-black opacity-70"
           data-testid="close-overlay"
-        ></div>
+        />
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200!  forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "flex bg-white items-center py-8! px-16! flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
               "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,

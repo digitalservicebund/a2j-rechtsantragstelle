@@ -16,7 +16,6 @@ export function StepperIcon({
     return (
       <Icon
         name="check-circle"
-        data-testid="icon-done"
         className="fill-kern-feedback-success forced-color-adjust-auto"
       />
     );
@@ -26,11 +25,10 @@ export function StepperIcon({
     return (
       <Icon
         name="warning"
-        data-testid="icon-warning"
         className="fill-kern-feedback-warning forced-color-adjust-auto"
       />
     );
   }
 
-  return <>{stepIndex + 1}</>;
+  return <span>{stepIndex + 1}</span>;
 }
