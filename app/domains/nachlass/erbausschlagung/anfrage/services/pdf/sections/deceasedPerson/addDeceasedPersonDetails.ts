@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { toDateString } from "~/services/validation/dateObject";
-import { type NachlassErbausschlagungAnfrageUserData } from "../../../../userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
