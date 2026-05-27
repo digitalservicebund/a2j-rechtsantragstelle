@@ -72,15 +72,16 @@ describe("addDeceasedPersonLastStay", () => {
     addDeceasedPersonLastStay(mockDoc, mockStruct, {
       ...userDataMock,
       verstorbeneLebensmittelpunkt: "ausland",
-      verstorbeneAdresseStrasse: "Österreichstraße",
-      verstorbeneAdresseHausnummer: "1",
+      verstorbeneAuslaendischeAdresseStrasse: "Österreichstraße",
+      verstorbeneAuslaendischeAdresseHausnummer: "1",
+      verstorbeneAuslaendischeAdresseOrt: "Wien",
       verstorbeneAuslaendischeAdressePLZ: "54321",
       verstorbeneAuslaendischeAdresseLand: "Österreich",
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith("Anschrift:");
     expect(mockDoc.text).toHaveBeenCalledWith("Österreichstraße 1");
-    expect(mockDoc.text).toHaveBeenCalledWith("54321 Musterstadt");
+    expect(mockDoc.text).toHaveBeenCalledWith("54321 Wien");
     expect(mockDoc.text).toHaveBeenCalledWith("Österreich");
   });
 

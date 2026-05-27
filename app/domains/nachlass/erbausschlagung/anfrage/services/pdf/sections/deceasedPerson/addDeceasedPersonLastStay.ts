@@ -10,9 +10,9 @@ const LAST_RESIDENCE_TITLE = "Letzter gewöhnlicher Aufenthalt";
 const getAddress = (userData: NachlassErbausschlagungAnfrageUserData) => {
   if (userData.verstorbeneLebensmittelpunkt === "ausland") {
     return {
-      streetAndNumber: `${userData.verstorbeneAdresseStrasse ?? ""} ${userData.verstorbeneAdresseHausnummer ?? ""}`,
-      postalCodeAndCity: `${userData.verstorbeneAuslaendischeAdressePLZ ?? ""} ${userData.verstorbeneAdresseOrt ?? ""}`,
-      additionalAddress: userData.verstorbeneAdresseZusatz ?? "",
+      streetAndNumber: `${userData.verstorbeneAuslaendischeAdresseStrasse ?? ""} ${userData.verstorbeneAuslaendischeAdresseHausnummer ?? ""}`,
+      postalCodeAndCity: `${userData.verstorbeneAuslaendischeAdressePLZ ?? ""} ${userData.verstorbeneAuslaendischeAdresseOrt ?? ""}`,
+      additionalAddress: userData.verstorbeneAuslaendischeAdresseZusatz ?? "",
       country: userData.verstorbeneAuslaendischeAdresseLand ?? "",
     };
   }
