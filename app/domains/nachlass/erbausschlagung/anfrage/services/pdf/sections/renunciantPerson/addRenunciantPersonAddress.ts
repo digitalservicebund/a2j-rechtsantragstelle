@@ -9,30 +9,22 @@ export const addRenunciantPersonAddress = (
   doc: typeof PDFDocument,
   userData: NachlassErbausschlagungAnfrageUserData,
 ) => {
-  doc.moveDown();
+  doc
+    .moveDown()
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text("Anschrift")
+    .font(FONTS_BUNDESSANS_BOLD);
 
   if (userData.ausschlagendePersonZusatz) {
-    doc
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text("Adresszusatz: ", { continued: true })
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(userData.ausschlagendePersonZusatz);
+    doc.text(userData.ausschlagendePersonZusatz);
   }
 
   doc
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Straße und Hausnummer: ", { continued: true })
-    .font(FONTS_BUNDESSANS_BOLD)
     .text(
       `${userData.ausschlagendePersonStrasse ?? ""} ${userData.ausschlagendePersonHausnummer ?? ""}`,
     )
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Postleitzahl: ", { continued: true })
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(userData.ausschlagendePersonPlz ?? "")
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Ort: ", { continued: true })
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(userData.ausschlagendePersonOrt ?? "")
+    .text(
+      `${userData.ausschlagendePersonPlz ?? ""} ${userData.ausschlagendePersonOrt ?? ""}`,
+    )
     .moveDown();
 };

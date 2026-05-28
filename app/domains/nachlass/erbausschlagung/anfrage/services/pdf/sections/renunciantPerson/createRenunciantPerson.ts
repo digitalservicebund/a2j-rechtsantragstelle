@@ -92,9 +92,7 @@ export const createRenunciantPerson = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Familienverhältnis zum Erblasser: ", { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(
-          `Erblasser ist mein(e) ${testatorText(userData.ausschlagendePersonBeziehungZumErblasser)}`,
-        );
+        .text(testatorText(userData.ausschlagendePersonBeziehungZumErblasser));
 
       addAcknowledgmentDetails(doc, userData);
 
