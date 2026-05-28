@@ -32,7 +32,7 @@ const addAcknowledgmentDetails = (
 };
 
 const testatorText = (
-  testament: NachlassErbausschlagungAnfrageUserData["ausschlagendePersonBeziehungZumErblasser"],
+  ausschlagendePersonBeziehungZumErblasser: NachlassErbausschlagungAnfrageUserData["ausschlagendePersonBeziehungZumErblasser"],
 ): string => {
   const responses: Record<string, string> = {
     "mother-father": "Mutter/Vater",
@@ -59,7 +59,7 @@ const testatorText = (
     "godmother-godfather": "Patentante/Patenonkel",
     other: "Sonstiges",
   };
-  return responses[testament ?? ""] ?? "";
+  return responses[ausschlagendePersonBeziehungZumErblasser ?? ""] ?? "";
 };
 
 export const createRenunciantPerson = (
