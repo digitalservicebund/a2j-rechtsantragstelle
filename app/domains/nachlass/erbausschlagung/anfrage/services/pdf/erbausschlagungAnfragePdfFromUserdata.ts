@@ -6,6 +6,8 @@ import { type NachlassErbausschlagungAnfrageUserData } from "../../userData";
 import { createHeaderAndSubject } from "./sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "./sections/deceasedPerson/createDeceasedPerson";
 import { createRenunciantPerson } from "./sections/renunciantPerson/createRenunciantPerson";
+import { createChildrenOfRenunciantPerson } from "./sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
+import { createNoteForJudge } from "./sections/createNoteForJudge";
 
 const TITLE = "Datenblatt zur Vorbereitung einer Erbausschlagung";
 const SUBJECT = "Erbausschlagung";
@@ -19,6 +21,8 @@ const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
   createDeceasedPerson(doc, documentStruct, userData);
   doc.addPage();
   createRenunciantPerson(doc, documentStruct, userData);
+  createChildrenOfRenunciantPerson(doc, documentStruct, userData);
+  createNoteForJudge(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData);
 };
 

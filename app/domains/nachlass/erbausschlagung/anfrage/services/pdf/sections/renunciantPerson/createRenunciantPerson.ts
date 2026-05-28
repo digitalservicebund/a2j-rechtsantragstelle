@@ -65,4 +65,6 @@ export const createRenunciantPerson = (
   addRenunciantPersonContactDetails(doc, renunciantPersonSection, userData);
 
   documentStruct.add(renunciantPersonSection);
+
+  doc.moveDown();
 };
