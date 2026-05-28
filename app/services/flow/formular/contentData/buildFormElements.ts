@@ -2,6 +2,7 @@ import type z from "zod";
 import type { UserDataWithPageData } from "../../pageData";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { type StrapiAutoSuggestInputComponentSchema } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { type FlowId } from "~/domains/flowIds";
 
 const getDataListArgumentForVerstorbeneAdresseStrasse = (
   userDataWithPageData: UserDataWithPageData,
@@ -44,6 +45,7 @@ const getDataListArgumentForErbscheinNachlassgericht = (
 const addDataListArgumentToAutoSuggestionInput = (
   autoSuggestProps: z.infer<typeof StrapiAutoSuggestInputComponentSchema>,
   userDataWithPageData: UserDataWithPageData,
+  flowId: FlowId,
 ) => {
   let dataListArgument = undefined;
 
@@ -51,19 +53,26 @@ const addDataListArgumentToAutoSuggestionInput = (
     dataListArgument = userDataWithPageData.plz;
   }
 
-  if (autoSuggestProps.name === "verstorbeneAdresseStrasse") {
+  if (
+    flowId === "/nachlass/erbausschlagung/anfrage" &&
+    autoSuggestProps.name === "verstorbeneAdresseStrasse"
+  ) {
     dataListArgument =
       getDataListArgumentForVerstorbeneAdresseStrasse(userDataWithPageData);
   }
 
   if (
+    flowId === "/nachlass/erbausschlagung/anfrage" &&
     autoSuggestProps.name === "ausschlagendePersonStrasse" &&
     typeof userDataWithPageData?.ausschlagendePersonPlz === "string"
   ) {
     dataListArgument = userDataWithPageData.ausschlagendePersonPlz;
   }
 
-  if (autoSuggestProps.name === "strasse-hausnummer") {
+  if (
+    flowId === "/erbschein/nachlassgericht" &&
+    autoSuggestProps.name === "strasse"
+  ) {
     dataListArgument =
       getDataListArgumentForErbscheinNachlassgericht(userDataWithPageData);
   }
@@ -91,6 +100,7 @@ const addDataListArgumentToAutoSuggestionInput = (
 export const buildFormElements = (
   { formContent, heading }: CMSContent,
   userDataWithPageData: UserDataWithPageData,
+  flowId: FlowId,
 ) =>
   formContent.map((element) => {
     if (element.__component === "form-elements.select" && heading)
@@ -99,7 +109,11 @@ export const buildFormElements = (
       element.__component === "form-elements.auto-suggest-input" &&
       element.dataList === "streetNames"
     ) {
-      addDataListArgumentToAutoSuggestionInput(element, userDataWithPageData);
+      addDataListArgumentToAutoSuggestionInput(
+        element,
+        userDataWithPageData,
+        flowId,
+      );
     }
 
     return element;
