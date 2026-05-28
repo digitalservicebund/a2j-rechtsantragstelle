@@ -34,15 +34,14 @@ export const addDeceasedPersonDetails = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Nachname: ", { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(userData.verstorbeneNachname ?? "");
-
-      if (userData.verstorbeneGeburtsname) {
-        doc
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text("Geburtsname: ", { continued: true })
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text(userData.verstorbeneGeburtsname ?? "");
-      }
+        .text(userData.verstorbeneNachname ?? "")
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text("Geburtsname: ", { continued: true })
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(
+          (userData.verstorbeneGeburtsname || userData.verstorbeneNachname) ??
+            "",
+        );
 
       doc
         .moveDown()
