@@ -65,6 +65,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const formElements = buildFormElements(
     structureCmsContent(cmsContent),
     userData,
+    flowId,
   ).map((strapiFormElement) => {
     if (
       isStrapiSelectComponent(strapiFormElement) &&
