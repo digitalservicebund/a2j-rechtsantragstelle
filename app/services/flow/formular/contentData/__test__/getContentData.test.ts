@@ -77,7 +77,14 @@ beforeEach(() => {
   vi.resetAllMocks();
 });
 
-vi.mock("~/domains/pageSchemas");
+vi.mock("~/domains/pageSchemas", async () => {
+  const actual = await vi.importActual("~/domains/pageSchemas");
+
+  return {
+    ...actual,
+    getPageSchema: vi.fn(),
+  };
+});
 
 const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
   vi.mocked(getPageSchema).mockReturnValue(pageSchema);
