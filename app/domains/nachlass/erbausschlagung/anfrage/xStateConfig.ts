@@ -55,6 +55,11 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
       states: {
         [stepIds.abgabeWeitereInformation.relative]: {
           on: {
+            SUBMIT: {
+              guard: ({ context }) =>
+                context.weitereInformationen !== undefined,
+              target: stepIds.abgabeZusammenfassung.absolute,
+            },
             BACK: [
               {
                 guard: ({ context }) => context.hasKid === "no",
@@ -62,6 +67,17 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
               },
               stepIds.kinderUebersicht.absolute,
             ],
+          },
+        },
+        [stepIds.abgabeZusammenfassung.relative]: {
+          on: {
+            SUBMIT: stepIds.abgabeEnde.relative,
+            BACK: stepIds.abgabeWeitereInformation.relative,
+          },
+        },
+        [stepIds.abgabeEnde.relative]: {
+          on: {
+            BACK: stepIds.abgabeZusammenfassung.relative,
           },
         },
       },
