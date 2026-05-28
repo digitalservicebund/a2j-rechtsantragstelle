@@ -7,20 +7,59 @@ import {
 import { addRenunciantPersonAddress } from "./addRenunciantPersonAddress";
 import { addRenunciantPersonDetails } from "./addRenunciantPersonDetails";
 import { addRenunciantPersonContactDetails } from "./addRenunciantPersonContactDetails";
+import { toDateString } from "~/services/validation/dateObject";
 
 const TITLE = "II. Ausschlagende Person";
 
-const addAcknowledgmentDetails = (doc: typeof PDFDocument) => {
+const addAcknowledgmentDetails = (
+  doc: typeof PDFDocument,
+  { dateOfReceipt, weitereAngaben }: NachlassErbausschlagungAnfrageUserData,
+) => {
   doc
     .moveDown()
     .font(FONTS_BUNDESSANS_REGULAR)
     .text("Kenntnisnahme der Erbenstellung am: ", { continued: true })
     .font(FONTS_BUNDESSANS_BOLD)
-    .text(" ")
-    .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Anmerkung zur Kenntnisnahme: ", { continued: true })
-    .font(FONTS_BUNDESSANS_BOLD)
-    .text(" ");
+    .text(dateOfReceipt ? toDateString(dateOfReceipt) : " ");
+
+  if (weitereAngaben && weitereAngaben?.length > 0) {
+    doc
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text("Anmerkung zur Kenntnisnahme: ", { continued: true })
+      .font(FONTS_BUNDESSANS_BOLD)
+      .text(weitereAngaben);
+  }
+};
+
+const testatorText = (
+  testament: NachlassErbausschlagungAnfrageUserData["ausschlagendePersonBeziehungZumErblasser"],
+): string => {
+  const responses: Record<string, string> = {
+    "mother-father": "Mutter/Vater",
+    "daughter-son": "Tochter/Sohn",
+    "grandmother-grandfather": "Großmutter/Großvater",
+    "granddaughter-grandson": "Enkelin/Enkel",
+    "great-grandmother-great-grandfather": "Urgroßmutter/Urgroßvater",
+    "sister-brother": "Schwester/Bruder",
+    "half-sister-half-brother": "Halbschwester/Halbbruder",
+    "niece-nephew": "Nichte/Neffe",
+    "aunt-uncle": "Tante/Onkel",
+    cousin: "Cousin/Cousine",
+    "great-aunt-great-uncle": "Großtante/Großonkel",
+    "wife-husband": "Ehefrau/Ehemann",
+    "life-partner": "Lebenspartner*in",
+    "mother-in-law-father-in-law": "Schwiegermutter/Schwiegervater",
+    "sister-in-law-brother-in-law": "Schwägerin/Schwager",
+    "daughter-in-law-son-in-law": "Schwiegertochter/Schwiegersohn",
+    "stepmother-stepfather": "Stiefmutter/Stiefvater",
+    "stepdaughter-stepson": "Stieftochter/Stiefsohn",
+    "stepsister-stepbrother": "Stiefschwester/Stiefbruder",
+    "foster-child": "Pflegekind",
+    "adoptive-mother-adoptive-father": "Pflegemutter/Pflegevater",
+    "godmother-godfather": "Patentante/Patenonkel",
+    other: "Sonstiges",
+  };
+  return responses[testament ?? ""] ?? "";
 };
 
 export const createRenunciantPerson = (
@@ -53,9 +92,11 @@ export const createRenunciantPerson = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Familienverhältnis zum Erblasser: ", { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(userData.ausschlagendePersonBeziehungZumErblasser ?? "");
+        .text(
+          `Erblasser ist mein(e) ${testatorText(userData.ausschlagendePersonBeziehungZumErblasser)}`,
+        );
 
-      addAcknowledgmentDetails(doc);
+      addAcknowledgmentDetails(doc, userData);
 
       addRenunciantPersonAddress(doc, userData);
     }),
