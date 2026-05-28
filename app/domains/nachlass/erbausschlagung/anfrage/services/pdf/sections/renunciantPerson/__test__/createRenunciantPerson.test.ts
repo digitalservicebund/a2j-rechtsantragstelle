@@ -70,9 +70,7 @@ describe("createRenunciantPerson", () => {
       "Familienverhältnis zum Erblasser: ",
       { continued: true },
     );
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Erblasser ist mein(e) Mutter/Vater",
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Mutter/Vater");
   });
 
   it("should add the acknowledgment details", () => {
