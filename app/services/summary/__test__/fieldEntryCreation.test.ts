@@ -103,6 +103,32 @@ describe("fieldEntryCreation", () => {
         "/beratungshilfe/antrag/finanzielle-angaben/einkommen/einkommen",
       );
     });
+
+    it("should apply string replacements in question and answer", () => {
+      const userData: UserData = { staatlicheLeistungen: "buergergeld" };
+
+      const result = createFieldEntry(
+        "staatlicheLeistungen",
+        userData,
+        {
+          staatlicheLeistungen: {
+            question:
+              "Do you have buergergeld? {{#hasBuergergeld}}Yes{{/hasBuergergeld}}{{^hasBuergergeld}}No{{/hasBuergergeld}}",
+            options: [
+              {
+                text: "Bürgergeld with {{#hasBuergergeld}}Yes{{/hasBuergergeld}}{{^hasBuergergeld}}No{{/hasBuergergeld}}",
+                value: "buergergeld",
+              },
+              { text: "Grundsicherung", value: "grundsicherung" },
+            ],
+          },
+        },
+        "/beratungshilfe/antrag/persoenliche-daten/name",
+      );
+
+      expect(result.question).toBe("Do you have buergergeld? Yes");
+      expect(result.answer).toBe("Bürgergeld with Yes");
+    });
   });
 
   describe("processBoxFields", () => {

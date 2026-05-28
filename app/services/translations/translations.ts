@@ -200,8 +200,8 @@ export const translations = {
     openSourceCode: {
       de: "Open Source Code",
     },
-    feedbackStudien: {
-      de: "Feedback-Studien",
+    anBefragungenTeilnehmen: {
+      de: "An Befragungen teilnehmen",
     },
     persoenlicheDatenLoeschen: {
       de: "Persönliche Daten löschen",

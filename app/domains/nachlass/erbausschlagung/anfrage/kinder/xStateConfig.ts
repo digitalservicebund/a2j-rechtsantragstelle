@@ -4,6 +4,8 @@ import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbaussc
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { toDate } from "~/services/validation/dateObject";
+import { addYears, today } from "~/util/date";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -12,54 +14,72 @@ const stepIds = xStateTargetsFromPagesConfig(
 type NachlassErbausschlagungAnfrageDaten =
   GenericGuard<NachlassErbausschlagungAnfrageUserData>;
 
-const kinderUnder18WohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinderUnder18 } }) => {
+const isKinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten =
+  ({ context: { pageData, kinder } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
     const kinderWohnortBeiAntragsteller =
-      kinderUnder18?.at(arrayIndex)?.wohnortBeiAntragsteller;
+      kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
     return kinderWohnortBeiAntragsteller === "yes";
   };
 
-const kinderUnder18NotFilled: NachlassErbausschlagungAnfrageDaten = ({
-  context: { hasKid, numberOfKidsUnder18, kinderUnder18 },
+const isKinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
 }) => {
-  if (hasKid === "no" || numberOfKidsUnder18 === 0) {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const currentKid = kinder?.at(arrayIndex);
+  if (!currentKid?.geburtsdatum) return false;
+
+  const birthDate = toDate(currentKid.geburtsdatum);
+  if (Number.isNaN(birthDate.getTime())) return false;
+
+  const eighteenYearsAgo = addYears(today(), -18);
+
+  return birthDate <= eighteenYearsAgo;
+};
+
+const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
+  context: { hasKid, numberOfKids, kinder },
+}) => {
+  if (hasKid === "no" || numberOfKids === 0) {
     return false;
   }
 
-  return numberOfKidsUnder18 !== kinderUnder18?.length;
+  return numberOfKids !== kinder?.length;
 };
 
-const kinderUnder18HasSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinderUnder18 } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    const kinderHasSorgerechtSameAddress =
-      kinderUnder18?.at(arrayIndex)?.hasSorgerechtSameAddress;
-    return kinderHasSorgerechtSameAddress === "no";
-  };
+const hasKinderSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kinderHasSorgerechtSameAddress =
+    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress;
+  return kinderHasSorgerechtSameAddress === "no";
+};
 
-const kinderUnder18ShouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinderUnder18 } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
+const shouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
 
-    const optionSorgerecht = getOptionSorgerecht({ pageData, kinderUnder18 });
+  const optionSorgerecht = getOptionSorgerecht({ pageData, kinder });
 
-    return (
-      kinderUnder18?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
-      optionSorgerecht === "shared"
-    );
-  };
+  return (
+    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
+    optionSorgerecht === "shared"
+  );
+};
 
 const getOptionSorgerecht = ({
   pageData,
-  kinderUnder18,
+  kinder,
 }: NachlassErbausschlagungAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return undefined;
-  return kinderUnder18?.at(arrayIndex)?.optionSorgerecht;
+  return kinder?.at(arrayIndex)?.optionSorgerecht;
 };
 
 export const kinderXStateConfig = {
@@ -80,177 +100,161 @@ export const kinderXStateConfig = {
     },
     [stepIds.kinderHowManyKids.relative]: {
       on: {
-        SUBMIT: stepIds.kinderHowManyKidsUnder18.relative,
+        SUBMIT: stepIds.kinderUebersicht.relative,
         BACK: stepIds.kinderHasKid.relative,
       },
     },
-    [stepIds.kinderHowManyKidsUnder18.relative]: {
+    [stepIds.kinderUebersicht.relative]: {
       on: {
         SUBMIT: [
           {
-            guard: ({ context }) => context.numberOfKidsUnder18 === 0,
-            target: stepIds.kinderHowManyKidsOver18.absolute,
+            guard: kinderNotFilled,
+            target: stepIds.kinderWarnung.relative,
           },
-          stepIds.kinderUnder18Uebersicht.absolute,
+          {
+            guard: ({ context }) =>
+              context.numberOfKids !== undefined &&
+              context.numberOfKids === context.kinder?.length,
+            target: stepIds.abgabeWeitereInformation.absolute,
+          },
         ],
         BACK: stepIds.kinderHowManyKids.relative,
+        "add-kinder": "kinder",
       },
     },
-    "kinder-unter-18": {
-      id: "kinder-unter-18",
-      initial: stepIds.kinderUnder18Uebersicht.relative,
+    [stepIds.kinderWarnung.relative]: {
+      on: {
+        BACK: stepIds.kinderUebersicht.relative,
+      },
+    },
+    [stepIds.kinder.relative]: {
+      initial: "name",
       meta: { shouldAppearAsMenuNavigation: false },
       states: {
-        [stepIds.kinderUnder18Uebersicht.relative]: {
+        name: {
+          on: {
+            BACK: "#kinder.uebersicht",
+            SUBMIT: "wohnort",
+          },
+        },
+        wohnort: {
           on: {
             SUBMIT: [
               {
-                guard: kinderUnder18NotFilled,
-                target: stepIds.kinderUnder18Warnung.relative,
+                guard: (context) =>
+                  isKinderWohnortBeiAntragstellerYes(context) &&
+                  isKinderAbove18YearsOld(context),
+                target: "#kinder.uebersicht",
               },
-              stepIds.kinderHowManyKidsOver18.absolute,
+              {
+                guard: isKinderWohnortBeiAntragstellerYes,
+                target: "sorgerecht",
+              },
+              "adresse",
             ],
-            BACK: stepIds.kinderHowManyKidsUnder18.absolute,
-            "add-kinderUnder18": "kinder",
+            BACK: "name",
           },
         },
-        warnung: {
+        adresse: {
           on: {
-            BACK: stepIds.kinderUnder18Uebersicht.relative,
+            SUBMIT: [
+              {
+                guard: isKinderAbove18YearsOld,
+                target: "#kinder.uebersicht",
+              },
+              "sorgerecht",
+            ],
+            BACK: "wohnort",
           },
         },
-        [stepIds.kinderUnder18.relative]: {
-          initial: "name",
-          states: {
-            name: {
-              on: {
-                BACK: stepIds.kinderUnder18Uebersicht.absolute,
-                SUBMIT: "wohnort",
+        sorgerecht: {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) => getOptionSorgerecht(context) === "yes",
+                target: "erbe-ausschlagende",
               },
-            },
-            wohnort: {
-              on: {
-                SUBMIT: [
-                  {
-                    guard: kinderUnder18WohnortBeiAntragstellerYes,
-                    target: "sorgerecht",
-                  },
-                  "adresse",
-                ],
-                BACK: "name",
+              {
+                guard: ({ context }) =>
+                  getOptionSorgerecht(context) === "anotherOrganization",
+                target: "sorgerecht-organisation-name",
               },
-            },
-            adresse: {
-              on: {
-                SUBMIT: "sorgerecht",
-                BACK: "wohnort",
+              "sorgerecht-person",
+            ],
+            BACK: [
+              {
+                guard: isKinderWohnortBeiAntragstellerYes,
+                target: "wohnort",
               },
-            },
-            sorgerecht: {
-              on: {
-                SUBMIT: [
-                  {
-                    guard: ({ context }) =>
-                      getOptionSorgerecht(context) === "yes",
-                    target: "erbe-ausschlagende",
-                  },
-                  {
-                    guard: ({ context }) =>
-                      getOptionSorgerecht(context) === "anotherOrganization",
-                    target: "sorgerecht-organisation-name",
-                  },
-                  "sorgerecht-person",
-                ],
-                BACK: [
-                  {
-                    guard: kinderUnder18WohnortBeiAntragstellerYes,
-                    target: "wohnort",
-                  },
-                  "adresse",
-                ],
-              },
-            },
-            "sorgerecht-person": {
-              on: {
-                SUBMIT: "sorgerecht-gleiche-address",
-                BACK: "sorgerecht",
-              },
-            },
-            "sorgerecht-gleiche-address": {
-              on: {
-                SUBMIT: [
-                  {
-                    guard: kinderUnder18HasSorgerechtSameAddressNo,
-                    target: "sorgerecht-adresse",
-                  },
-                  {
-                    guard: ({ context }) =>
-                      getOptionSorgerecht(context) === "anotherPerson",
-                    target: stepIds.kinderUnder18Uebersicht.absolute,
-                  },
-                  "erbe-ausschlagende",
-                ],
-                BACK: "sorgerecht-person",
-              },
-            },
-            "sorgerecht-adresse": {
-              on: {
-                SUBMIT: [
-                  {
-                    guard: ({ context }) =>
-                      getOptionSorgerecht(context) === "anotherPerson",
-                    target: stepIds.kinderUnder18Uebersicht.absolute,
-                  },
-                  "erbe-ausschlagende",
-                ],
-                BACK: "sorgerecht-gleiche-address",
-              },
-            },
-            "sorgerecht-organisation-name": {
-              on: {
-                SUBMIT: "sorgerecht-organisation-adresse",
-                BACK: "sorgerecht",
-              },
-            },
-            "sorgerecht-organisation-adresse": {
-              on: {
-                SUBMIT: stepIds.kinderUnder18Uebersicht.absolute,
-                BACK: "sorgerecht-organisation-name",
-              },
-            },
-            "erbe-ausschlagende": {
-              on: {
-                SUBMIT: stepIds.kinderUnder18Uebersicht.absolute,
-                BACK: [
-                  {
-                    guard: kinderUnder18ShouldBackSorgerechtAddress,
-                    target: "sorgerecht-adresse",
-                  },
-                  {
-                    guard: ({ context }) =>
-                      getOptionSorgerecht(context) === "shared",
-                    target: "sorgerecht-gleiche-address",
-                  },
-                  "sorgerecht",
-                ],
-              },
-            },
+              "adresse",
+            ],
           },
         },
-      },
-    },
-    [stepIds.kinderHowManyKidsOver18.relative]: {
-      on: {
-        SUBMIT: stepIds.abgabeWeitereInformation.absolute,
-        BACK: [
-          {
-            guard: ({ context }) =>
-              context.numberOfKidsUnder18 !== undefined &&
-              context.numberOfKidsUnder18 > 0,
-            target: stepIds.kinderUnder18Uebersicht.absolute,
+        "sorgerecht-person": {
+          on: {
+            SUBMIT: "sorgerecht-gleiche-adresse",
+            BACK: "sorgerecht",
           },
-          stepIds.kinderHowManyKidsUnder18.relative,
-        ],
+        },
+        "sorgerecht-gleiche-adresse": {
+          on: {
+            SUBMIT: [
+              {
+                guard: hasKinderSorgerechtSameAddressNo,
+                target: "sorgerecht-adresse",
+              },
+              {
+                guard: ({ context }) =>
+                  getOptionSorgerecht(context) === "anotherPerson",
+                target: "#kinder.uebersicht",
+              },
+              "erbe-ausschlagende",
+            ],
+            BACK: "sorgerecht-person",
+          },
+        },
+        "sorgerecht-adresse": {
+          on: {
+            SUBMIT: [
+              {
+                guard: ({ context }) =>
+                  getOptionSorgerecht(context) === "anotherPerson",
+                target: "#kinder.uebersicht",
+              },
+              "erbe-ausschlagende",
+            ],
+            BACK: "sorgerecht-gleiche-adresse",
+          },
+        },
+        "sorgerecht-organisation-name": {
+          on: {
+            SUBMIT: "sorgerecht-organisation-adresse",
+            BACK: "sorgerecht",
+          },
+        },
+        "sorgerecht-organisation-adresse": {
+          on: {
+            SUBMIT: "#kinder.uebersicht",
+            BACK: "sorgerecht-organisation-name",
+          },
+        },
+        "erbe-ausschlagende": {
+          on: {
+            SUBMIT: "#kinder.uebersicht",
+            BACK: [
+              {
+                guard: shouldBackSorgerechtAddress,
+                target: "sorgerecht-adresse",
+              },
+              {
+                guard: ({ context }) =>
+                  getOptionSorgerecht(context) === "shared",
+                target: "sorgerecht-gleiche-adresse",
+              },
+              "sorgerecht",
+            ],
+          },
+        },
       },
     },
   },

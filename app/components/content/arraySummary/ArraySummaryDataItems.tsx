@@ -4,7 +4,11 @@ import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
 import ArraySummaryItemActions from "./ArraySummaryItemActions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { type HeadingProps } from "~/components/common/Heading";
+import Heading, { type HeadingProps } from "~/components/common/Heading";
+import {
+  type DateObject,
+  toDateString,
+} from "~/services/validation/dateObject";
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
@@ -13,6 +17,17 @@ type ArraySummaryItemProps = {
   readonly configuration: ArrayConfigClient;
   readonly subtitle?: HeadingProps;
   readonly itemLabels: ItemLabels;
+};
+
+const isItemValueDateObject = (
+  itemValue: BasicTypes | ObjectType,
+): itemValue is DateObject => {
+  return (
+    typeof itemValue === "object" &&
+    "day" in itemValue &&
+    "month" in itemValue &&
+    "year" in itemValue
+  );
 };
 
 const ArraySummaryDataItems = ({
@@ -47,9 +62,11 @@ const ArraySummaryDataItems = ({
     <div className="kern-summary">
       <div className="kern-summary__header gap-kern-space-small!">
         {heading && (
-          <h3 className="kern-title kern-title--small" id={heading.elementId}>
-            {heading.text}
-          </h3>
+          <Heading
+            {...heading}
+            managedByParent
+            className="kern-title kern-title--small"
+          />
         )}
       </div>
       <div className="kern-summary__body bg-white!">
@@ -60,7 +77,9 @@ const ArraySummaryDataItems = ({
                 {getTranslationByKey(itemKey, itemLabels)}
               </dt>
               <dd className="kern-description-list-item__value">
-                {itemLabels[`${itemKey}.${itemValue}`] ?? itemValue}
+                {isItemValueDateObject(itemValue)
+                  ? toDateString(itemValue)
+                  : (itemLabels[`${itemKey}.${itemValue}`] ?? itemValue)}
               </dd>
             </div>
           ))}

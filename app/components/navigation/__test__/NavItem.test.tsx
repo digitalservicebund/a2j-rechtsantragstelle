@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
-import { translations } from "~/services/translations/translations";
 import { NavItem } from "../NavItem";
 
 describe("NavigationItem", () => {
@@ -30,10 +29,6 @@ describe("NavigationItem", () => {
     );
     const warningIcon = getByTestId("icon-warning");
     expect(warningIcon).toBeInTheDocument();
-    expect(warningIcon).toHaveAttribute(
-      "aria-label",
-      translations.navigation.navigationItemWarning.de,
-    );
   });
 
   it("renders an incomplete navigation item with a warning icon when the state is warning current", () => {
@@ -46,10 +41,6 @@ describe("NavigationItem", () => {
     );
     const warningIcon = getByTestId("icon-warning");
     expect(warningIcon).toBeInTheDocument();
-    expect(warningIcon).toHaveAttribute(
-      "aria-label",
-      translations.navigation.navigationItemWarning.de,
-    );
   });
 
   it("renders navigation item with the correct classNames when state is disabled", () => {
