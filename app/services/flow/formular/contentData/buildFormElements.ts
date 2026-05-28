@@ -22,6 +22,25 @@ const getDataListArgumentForVerstorbeneAdresseStrasse = (
   }
 };
 
+const getDataListArgumentForErbscheinNachlassgericht = (
+  userDataWithPageData: UserDataWithPageData,
+) => {
+  // for /erbschein/nachlassgericht/plz-lebensmittelpunkt
+  if (typeof userDataWithPageData?.plzLebensmittelpunkt === "string") {
+    return userDataWithPageData.plzLebensmittelpunkt;
+  }
+
+  // for /erbschein/nachlassgericht/plz-hospiz
+  if (typeof userDataWithPageData?.plzHospiz === "string") {
+    return userDataWithPageData.plzHospiz;
+  }
+
+  // for /erbschein/nachlassgericht/plz-pflegeheim
+  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+    return userDataWithPageData.plzPflegeheim;
+  }
+};
+
 const addDataListArgumentToAutoSuggestionInput = (
   autoSuggestProps: z.infer<typeof StrapiAutoSuggestInputComponentSchema>,
   userDataWithPageData: UserDataWithPageData,
@@ -44,19 +63,9 @@ const addDataListArgumentToAutoSuggestionInput = (
     dataListArgument = userDataWithPageData.ausschlagendePersonPlz;
   }
 
-  // for /erbschein/nachlassgericht/plz-lebensmittelpunkt
-  if (typeof userDataWithPageData?.plzLebensmittelpunkt === "string") {
-    dataListArgument = userDataWithPageData.plzLebensmittelpunkt;
-  }
-
-  // for /erbschein/nachlassgericht/plz-hospiz
-  if (typeof userDataWithPageData?.plzHospiz === "string") {
-    dataListArgument = userDataWithPageData.plzHospiz;
-  }
-
-  // for /erbschein/nachlassgericht/plz-pflegeheim
-  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
-    dataListArgument = userDataWithPageData.plzPflegeheim;
+  if (autoSuggestProps.name === "strasse-hausnummer") {
+    dataListArgument =
+      getDataListArgumentForErbscheinNachlassgericht(userDataWithPageData);
   }
 
   // for /geld-einklagen/formular/gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person
