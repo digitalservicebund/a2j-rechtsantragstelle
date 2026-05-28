@@ -5,6 +5,7 @@ import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { type NachlassErbausschlagungAnfrageUserData } from "../../userData";
 import { createHeaderAndSubject } from "./sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "./sections/deceasedPerson/createDeceasedPerson";
+import { createRenunciantPerson } from "./sections/renunciantPerson/createRenunciantPerson";
 
 const TITLE = "Datenblatt zur Vorbereitung einer Erbausschlagung";
 const SUBJECT = "Erbausschlagung";
@@ -16,6 +17,8 @@ const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createHeaderAndSubject(doc, documentStruct, userData);
   createDeceasedPerson(doc, documentStruct, userData);
+  doc.addPage();
+  createRenunciantPerson(doc, documentStruct, userData);
   createFooter(doc, documentStruct, userData);
 };
 
