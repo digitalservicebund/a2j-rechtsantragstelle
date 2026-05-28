@@ -46,4 +46,22 @@ describe("addRenunciantPersonDetails", () => {
     });
     expect(mockDoc.text).toHaveBeenCalledWith("Musterfrau");
   });
+
+  it("should call surname twice if birth name is not provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const textSpy = vi.spyOn(mockDoc, "text");
+
+    addRenunciantPersonDetails(mockDoc, {
+      ...userDataMock,
+      ausschlagendePersonGeburtsname: "",
+    });
+
+    const mustermannCalls = textSpy.mock.calls.filter(
+      ([firstArg]) => firstArg === "Mustermann",
+    );
+
+    expect(mustermannCalls.length).toBe(2);
+  });
 });

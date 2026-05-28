@@ -18,15 +18,15 @@ export const addRenunciantPersonDetails = (
     .font(FONTS_BUNDESSANS_REGULAR)
     .text("Nachname: ", { continued: true })
     .font(FONTS_BUNDESSANS_BOLD)
-    .text(userData.ausschlagendePersonNachname ?? "");
-
-  if (userData.ausschlagendePersonGeburtsname) {
-    doc
-      .font(FONTS_BUNDESSANS_REGULAR)
-      .text("Geburtsname: ", { continued: true })
-      .font(FONTS_BUNDESSANS_BOLD)
-      .text(userData.ausschlagendePersonGeburtsname ?? "");
-  }
+    .text(userData.ausschlagendePersonNachname ?? "")
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text("Geburtsname: ", { continued: true })
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(
+      (userData.ausschlagendePersonGeburtsname ||
+        userData.ausschlagendePersonNachname) ??
+        "",
+    );
 
   doc
     .moveDown()
