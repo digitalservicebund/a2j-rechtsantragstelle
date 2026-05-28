@@ -58,7 +58,7 @@ export function getStepStyles(state: NavState) {
     arrowHoverBg: getArrowHoverBg(state),
 
     circle: classNames(
-      "flex justify-center items-center w-[20px] h-[20px] rounded-full mr-3",
+      "flex justify-center items-center w-[1.2em] h-[1.2em] rounded-full mr-3",
       {
         "bg-kern-action-default text-white":
           (stateIsCurrent(state) || stateIsOpen(state)) &&
