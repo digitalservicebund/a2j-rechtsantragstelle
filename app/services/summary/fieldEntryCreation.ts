@@ -80,16 +80,15 @@ export function createFieldEntry(
 ): FieldItem {
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
-  const actualFieldName = fieldName;
 
   const { value, arrayIndex, arrayBaseField } = getValueAndArrayData(
     fieldInfo,
     userData,
-    actualFieldName,
+    fieldName,
   );
 
   const question = fieldQuestions[fieldName]?.question ?? fieldName;
-  const fieldQuestion = fieldQuestions[actualFieldName];
+  const fieldQuestion = fieldQuestions[fieldName];
 
   const answer =
     value == undefined || value === ""
