@@ -61,14 +61,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       "Ausschlagende Person teilt sich das Sorgerecht mit einer anderen Person",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Name der weiteren Person mit dem Sorgerecht: ",
+      "Name der weiteren sorgeberechtigten Person: ",
       {
         continued: true,
       },
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Anschrift der weiteren Person mit dem Sorgerecht: ",
+      "Anschrift der weiteren sorgeberechtigten Person: ",
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Musterstraße 1");
     expect(mockDoc.text).toHaveBeenCalledWith("12345 Musterstadt");
@@ -92,14 +92,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       "Ausschlagende Person teilt sich das Sorgerecht mit einer anderen Person",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Name der weiteren Person mit dem Sorgerecht: ",
+      "Name der weiteren sorgeberechtigten Person: ",
       {
         continued: true,
       },
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Anschrift der weiteren Person mit dem Sorgerecht: ",
+      "Anschrift der weiteren sorgeberechtigten Person: ",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Wohnt zusammen mit der ausschlagenden Person",
@@ -124,14 +124,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       "Sorgerecht liegt bei einer anderen Person",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Name der Person mit dem Sorgerecht: ",
+      "Name der sorgeberechtigten Person: ",
       {
         continued: true,
       },
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Anschrift der Person mit dem Sorgerecht: ",
+      "Anschrift der sorgeberechtigten Person: ",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Wohnt zusammen mit der ausschlagenden Person",
@@ -160,14 +160,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       "Sorgerecht liegt bei einer anderen Person",
     );
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Name der Person mit dem Sorgerecht: ",
+      "Name der sorgeberechtigten Person: ",
       {
         continued: true,
       },
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Anschrift der Person mit dem Sorgerecht: ",
+      "Anschrift der sorgeberechtigten Person: ",
     );
     expect(mockDoc.text).toHaveBeenCalledWith("Musterstraße 1");
     expect(mockDoc.text).toHaveBeenCalledWith("12345 Musterstadt");

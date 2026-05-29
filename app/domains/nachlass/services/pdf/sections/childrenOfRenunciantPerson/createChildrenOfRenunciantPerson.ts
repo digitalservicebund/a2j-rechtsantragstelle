@@ -56,7 +56,12 @@ export const createChildrenOfRenunciantPerson = (
   for (const [index, kind] of sortedKinder.entries()) {
     childrenOfRenunciantPersonSection.add(
       doc.struct("H3", {}, () => {
-        doc.fontSize(12).text(getSubtitle(index)).fontSize(10).moveDown();
+        doc
+          .fontSize(14)
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(getSubtitle(index))
+          .fontSize(10)
+          .moveDown();
       }),
     );
 
