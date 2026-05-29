@@ -3,7 +3,6 @@ import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
-  PDF_HEIGHT_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addChildOfRenunciantPersonDetails } from "./addChildOfRenunciantPersonDetails";
 import { addChildOfRenunciantPersonAddress } from "./addChildOfRenunciantPersonAddress";
@@ -59,10 +58,6 @@ export const createChildrenOfRenunciantPerson = (
   for (const [index, kind] of kinder.entries()) {
     childrenOfRenunciantPersonSection.add(
       doc.struct("H3", {}, () => {
-        if (doc.y > PDF_HEIGHT_SEIZE - 150) {
-          doc.addPage();
-        }
-
         doc
           .fontSize(12)
           .text(getSubtitle(index), {
