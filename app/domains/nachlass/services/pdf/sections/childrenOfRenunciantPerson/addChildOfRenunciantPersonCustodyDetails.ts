@@ -10,13 +10,13 @@ const NAME_ORGANIZATION_CUSTODY_TEXT =
 const ADDRESS_ORGANIZATION_CUSTODY_TEXT =
   "Anschrift der Organisation mit dem Sorgerecht:";
 const NAME_PERSON_SHARED_CUSTODY_TEXT =
-  "Name der weiteren Person mit dem Sorgerecht: ";
+  "Name der weiteren sorgeberechtigten Person: ";
 const ADDRESS_PERSON_SHARED_CUSTODY_TEXT =
-  "Anschrift der weiteren Person mit dem Sorgerecht: ";
+  "Anschrift der weiteren sorgeberechtigten Person: ";
 const NAME_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
-  "Name der Person mit dem Sorgerecht: ";
+  "Name der sorgeberechtigten Person: ";
 const ADDRESS_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
-  "Anschrift der Person mit dem Sorgerecht: ";
+  "Anschrift der sorgeberechtigten Person: ";
 const SAME_ADDRESS_CUSTODY_TEXT =
   "Wohnt zusammen mit der ausschlagenden Person";
 
