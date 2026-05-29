@@ -17,6 +17,8 @@ const NAME_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
   "Name der Person mit dem Sorgerecht: ";
 const ADDRESS_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
   "Anschrift der Person mit dem Sorgerecht: ";
+const SAME_ADDRESS_CUSTODY_TEXT =
+  "Wohnt zusammen mit der ausschlagenden Person";
 
 const getCustodyText = (
   optionSorgerecht: NachlassErbausschlagungAnfrageKind["optionSorgerecht"],
@@ -70,7 +72,7 @@ const addCustodySharedOrAnotherPersonDetails = (
     .font(FONTS_BUNDESSANS_BOLD);
 
   if (hasSorgerechtSameAddress === "yes") {
-    doc.text("Wohnt zusammen mit der ausschlagenden Person");
+    doc.text(SAME_ADDRESS_CUSTODY_TEXT);
     return;
   }
 
