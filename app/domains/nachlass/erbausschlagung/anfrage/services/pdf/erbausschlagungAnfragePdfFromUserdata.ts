@@ -16,6 +16,10 @@ const KEYWORDS = "Erbausschlagung";
 const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
   NachlassErbausschlagungAnfrageUserData
 > = (doc, documentStruct, userData) => {
+  doc.page.margins.bottom = 70;
+  doc.on("pageAdded", () => {
+    doc.page.margins.bottom = 70;
+  });
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createHeaderAndSubject(doc, documentStruct, userData);
   createDeceasedPerson(doc, documentStruct, userData);
