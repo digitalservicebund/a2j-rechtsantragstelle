@@ -49,7 +49,7 @@ describe("createChildrenOfRenunciantPerson", () => {
     expect(mockDoc.struct).not.toHaveBeenCalledWith("Sect");
   });
 
-  it("should not add the section if there kinder array is empty", () => {
+  it("should not add the section if the kinder array is empty", () => {
     const documentStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(documentStruct);
 
