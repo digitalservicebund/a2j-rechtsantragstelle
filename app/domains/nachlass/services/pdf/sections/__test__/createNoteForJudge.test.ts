@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { createNoteForJudge } from "../createNoteForJudge";
-import { type NachlassErbausschlagungAnfrageUserData } from "../../../../userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 
 describe("createNoteForJudge", () => {
   it("should not add note for judge section if there is no weitereInformationen", () => {
