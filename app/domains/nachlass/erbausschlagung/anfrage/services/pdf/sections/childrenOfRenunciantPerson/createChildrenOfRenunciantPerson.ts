@@ -45,9 +45,7 @@ export const createChildrenOfRenunciantPerson = (
       doc
         .fontSize(16)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(TITLE, {
-          align: "left",
-        })
+        .text(TITLE)
         .fontSize(10)
         .moveDown(1);
     }),
@@ -58,13 +56,7 @@ export const createChildrenOfRenunciantPerson = (
   for (const [index, kind] of sortedKinder.entries()) {
     childrenOfRenunciantPersonSection.add(
       doc.struct("H3", {}, () => {
-        doc
-          .fontSize(12)
-          .text(getSubtitle(index), {
-            align: "left",
-          })
-          .fontSize(10)
-          .moveDown();
+        doc.fontSize(12).text(getSubtitle(index)).fontSize(10).moveDown();
       }),
     );
 
