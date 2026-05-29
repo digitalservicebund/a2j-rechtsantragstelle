@@ -5,6 +5,19 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
 
+const NAME_ORGANIZATION_CUSTODY_TEXT =
+  "Name der Organisation mit dem Sorgerecht: ";
+const ADDRESS_ORGANIZATION_CUSTODY_TEXT =
+  "Anschrift der Organisation mit dem Sorgerecht:";
+const NAME_PERSON_SHARED_CUSTODY_TEXT =
+  "Name der weiteren Person mit dem Sorgerecht: ";
+const ADDRESS_PERSON_SHARED_CUSTODY_TEXT =
+  "Anschrift der weiteren Person mit dem Sorgerecht: ";
+const NAME_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
+  "Name der Person mit dem Sorgerecht: ";
+const ADDRESS_PERSON_ANOTHER_PERSON_CUSTODY_TEXT =
+  "Anschrift der Person mit dem Sorgerecht: ";
+
 const getCustodyText = (
   optionSorgerecht: NachlassErbausschlagungAnfrageKind["optionSorgerecht"],
 ) => {
@@ -22,9 +35,56 @@ const getCustodyText = (
   }
 };
 
+const addCustodySharedOrAnotherPersonDetails = (
+  doc: typeof PDFDocument,
+  {
+    strasseSorgerecht,
+    hausnummerSorgerecht,
+    plzSorgerecht,
+    ortSorgerecht,
+    adresseZusatzSorgerecht,
+    nachnameSorgerecht,
+    vornameSorgerecht,
+    optionSorgerecht,
+    hasSorgerechtSameAddress,
+  }: NachlassErbausschlagungAnfrageKind,
+) => {
+  doc
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text(
+      optionSorgerecht === "shared"
+        ? NAME_PERSON_SHARED_CUSTODY_TEXT
+        : NAME_PERSON_ANOTHER_PERSON_CUSTODY_TEXT,
+      {
+        continued: true,
+      },
+    )
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(`${vornameSorgerecht ?? ""} ${nachnameSorgerecht ?? ""}`)
+    .font(FONTS_BUNDESSANS_REGULAR)
+    .text(
+      optionSorgerecht === "shared"
+        ? ADDRESS_PERSON_SHARED_CUSTODY_TEXT
+        : ADDRESS_PERSON_ANOTHER_PERSON_CUSTODY_TEXT,
+    )
+    .font(FONTS_BUNDESSANS_BOLD);
+
+  if (hasSorgerechtSameAddress === "yes") {
+    doc.text("Wohnt zusammen mit der ausschlagenden Person");
+    return;
+  }
+
+  if (adresseZusatzSorgerecht) {
+    doc.text(adresseZusatzSorgerecht);
+  }
+
+  doc
+    .text(`${strasseSorgerecht ?? ""} ${hausnummerSorgerecht ?? ""}`)
+    .text(`${plzSorgerecht ?? ""} ${ortSorgerecht ?? ""}`);
+};
+
 const addCustodyOrganizationDetails = (
   doc: typeof PDFDocument,
-  childOfRenunciantPersonSection: PDFKit.PDFStructureElement,
   {
     organizationNameSorgerecht,
     organizationAdressZusatzSorgerecht,
@@ -36,13 +96,13 @@ const addCustodyOrganizationDetails = (
 ) => {
   doc
     .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Name der Organisation mit dem Sorgerecht: ", {
+    .text(NAME_ORGANIZATION_CUSTODY_TEXT, {
       continued: true,
     })
     .font(FONTS_BUNDESSANS_BOLD)
     .text(organizationNameSorgerecht ?? "")
     .font(FONTS_BUNDESSANS_REGULAR)
-    .text("Anschrift der Organisation mit dem Sorgerecht:")
+    .text(ADDRESS_ORGANIZATION_CUSTODY_TEXT)
     .font(FONTS_BUNDESSANS_BOLD);
 
   if (organizationAdressZusatzSorgerecht) {
@@ -72,11 +132,14 @@ export const addChildOfRenunciantPersonCustodyDetails = (
         .text(getCustodyText(kind.optionSorgerecht));
 
       if (kind.optionSorgerecht === "anotherOrganization") {
-        addCustodyOrganizationDetails(
-          doc,
-          childOfRenunciantPersonSection,
-          kind,
-        );
+        addCustodyOrganizationDetails(doc, kind);
+      }
+
+      if (
+        kind.optionSorgerecht === "anotherPerson" ||
+        kind.optionSorgerecht === "shared"
+      ) {
+        addCustodySharedOrAnotherPersonDetails(doc, kind);
       }
 
       doc.moveDown();
