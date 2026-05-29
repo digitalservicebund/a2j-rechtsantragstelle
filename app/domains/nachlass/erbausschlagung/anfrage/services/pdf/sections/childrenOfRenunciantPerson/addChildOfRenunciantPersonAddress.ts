@@ -10,7 +10,7 @@ const LIVE_SAME_PLACE_RENUNCIANT_PERSON_TEXT =
 
 export const addChildOfRenunciantPersonAddress = (
   doc: typeof PDFDocument,
-  childOfRenunciantPersonSection: PDFKit.PDFStructureElement,
+  childrenOfRenunciantPersonSection: PDFKit.PDFStructureElement,
   {
     adresseZusatz,
     strasse,
@@ -20,8 +20,8 @@ export const addChildOfRenunciantPersonAddress = (
     wohnortBeiAntragsteller,
   }: NachlassErbausschlagungAnfrageKind,
 ) => {
-  childOfRenunciantPersonSection.add(
-    doc.struct("Span", {}, () => {
+  childrenOfRenunciantPersonSection.add(
+    doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Anschrift:")

@@ -8,11 +8,11 @@ import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenun
 
 export const addChildOfRenunciantPersonDetails = (
   doc: typeof PDFDocument,
-  childOfRenunciantPersonSection: PDFKit.PDFStructureElement,
+  childrenOfRenunciantPersonSection: PDFKit.PDFStructureElement,
   { vorname, nachname, geburtsdatum }: NachlassErbausschlagungAnfrageKind,
 ) => {
-  childOfRenunciantPersonSection.add(
-    doc.struct("Span", {}, () => {
+  childrenOfRenunciantPersonSection.add(
+    doc.struct("P", {}, () => {
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text("Vornamen: ", { continued: true })
