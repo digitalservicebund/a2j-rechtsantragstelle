@@ -58,7 +58,12 @@ const ArraySummary = ({
       <div>
         <Button
           look="secondary"
-          iconLeft={<Icon name="plus" className="text-kern-action-default forced-color-adjust-auto!" />}
+          iconLeft={
+            <Icon
+              name="plus"
+              className="text-kern-action-default forced-color-adjust-auto!"
+            />
+          }
           href={`${url}/${Number(nextItemIndex)}/${initialInputUrl}`}
           disabled={disableAddButton}
           data-testid={`add-${category}`}

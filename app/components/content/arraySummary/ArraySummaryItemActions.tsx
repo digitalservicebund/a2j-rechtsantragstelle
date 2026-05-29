@@ -47,7 +47,12 @@ const ArraySummaryItemActions = ({
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <Button
           look="tertiary"
-          iconLeft={<Icon name="trash" className="text-kern-action-default forced-color-adjust-auto"/>}
+          iconLeft={
+            <Icon
+              name="trash"
+              className="text-kern-action-default forced-color-adjust-auto"
+            />
+          }
           name={category}
           value={itemIndex}
           textClassName="no-underline! font-normal!"
