@@ -61,7 +61,7 @@ describe("createChildrenOfRenunciantPerson", () => {
     expect(mockDoc.struct).not.toHaveBeenCalledWith("Sect");
   });
 
-  it("should add the title and subtiles", () => {
+  it("should add the title and subtitles", () => {
     const documentStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(documentStruct);
 
