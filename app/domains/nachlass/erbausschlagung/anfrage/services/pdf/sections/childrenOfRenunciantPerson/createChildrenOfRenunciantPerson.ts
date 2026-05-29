@@ -7,8 +7,8 @@ import {
 import { addChildOfRenunciantPersonDetails } from "./addChildOfRenunciantPersonDetails";
 import { addChildOfRenunciantPersonAddress } from "./addChildOfRenunciantPersonAddress";
 import { addChildOfRenunciantPersonCustodyDetails } from "./addChildOfRenunciantPersonCustodyDetails";
-import { toDate } from "~/services/validation/dateObject";
 import { addYears, today } from "~/util/date";
+import { getChildBirthDate, getSortedChildren } from "./getSortedChildren";
 
 const TITLE = "III. Kinder der ausschlagenden Person";
 const getSubtitle = (index: number) => `Kind ${index + 1}`;
@@ -16,11 +16,8 @@ const RENUNCIANT_CHILD_TEXT =
   "Das Erbe soll auch für das Kind ausgeschlagen werden: ";
 
 const isChildUnder18YearsOld = (child: NachlassErbausschlagungAnfrageKind) => {
-  if (!child.geburtsdatum) {
-    return false;
-  }
-  const birthDate = toDate(child.geburtsdatum);
-  if (Number.isNaN(birthDate.getTime())) return false;
+  const birthDate = getChildBirthDate(child);
+  if (birthDate === undefined) return false;
 
   const eighteenYearsAgo = addYears(today(), -18);
 
@@ -40,6 +37,7 @@ export const createChildrenOfRenunciantPerson = (
   if (hasKid === "no" || !kinder || kinder.length === 0) {
     return;
   }
+
   const childrenOfRenunciantPersonSection = doc.struct("Sect");
 
   childrenOfRenunciantPersonSection.add(
@@ -55,7 +53,9 @@ export const createChildrenOfRenunciantPerson = (
     }),
   );
 
-  for (const [index, kind] of kinder.entries()) {
+  const sortedKinder = getSortedChildren(kinder);
+
+  for (const [index, kind] of sortedKinder.entries()) {
     childrenOfRenunciantPersonSection.add(
       doc.struct("H3", {}, () => {
         doc
