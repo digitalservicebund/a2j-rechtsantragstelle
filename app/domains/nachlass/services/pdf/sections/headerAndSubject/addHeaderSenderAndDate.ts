@@ -7,8 +7,8 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
-export const CREATION_PDF_TEXT = "Erstellt am:";
-export const SENDER_TEXT = "Absender";
+const CREATION_PDF_TEXT = "Erstellt am:";
+const SENDER_TEXT = "Absender";
 
 export const addHeaderSenderAndDate = (
   doc: typeof PDFDocument,
