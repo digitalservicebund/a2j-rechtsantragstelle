@@ -1,5 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -17,6 +18,8 @@ export const createNoteForJudge = (
   if (!objectKeysNonEmpty(userData, ["weitereInformationen"])) {
     return;
   }
+
+  addNewPageInCaseMissingVerticalSpace(doc);
 
   const noteForJudgeSection = doc.struct("Sect");
 
