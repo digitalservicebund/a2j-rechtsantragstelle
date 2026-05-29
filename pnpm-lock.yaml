@@ -145,8 +145,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       true-myth:
-        specifier: ^9.3.1
-        version: 9.3.1
+        specifier: ^9.4.0
+        version: 9.4.0
       validator:
         specifier: ^13.15.35
         version: 13.15.35
@@ -4664,8 +4664,8 @@ packages:
     resolution: {integrity: sha512-1m4RA7xVAJrSGrrXGs0L3YTwyvBs2S8PbRHaLZAkFw7JR8oIFwYtysxlBZhYIa7xSyiYJKZ3iGrrk55cGA3i9A==}
     engines: {node: '>=0.6'}
 
-  true-myth@9.3.1:
-    resolution: {integrity: sha512-a+u2L3y6XF3HLBJrSox8pRmod2o/3k28hpXX8OD56mLnffmXOwzQFBDBT0gy8ROIReLvdVvMPtQYtCsgFldfMw==}
+  true-myth@9.4.0:
+    resolution: {integrity: sha512-NQP/xMI25jtwk7mDBgA0VS+xdVWUqDaxrTofvx1gfhc5PQwMyA1V39oERLvPrCbI3+6S29fIkivy2ZXdzNY3kQ==}
     engines: {node: 18.* || >= 20.*}
 
   ts-dedent@2.2.0:
@@ -9538,7 +9538,7 @@ snapshots:
 
   treeify@1.1.0: {}
 
-  true-myth@9.3.1: {}
+  true-myth@9.4.0: {}
 
   ts-dedent@2.2.0: {}
 
