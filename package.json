@@ -129,7 +129,7 @@
     "jsdom": "^29.1.1",
     "knip": "^6.14.2",
     "lefthook": "^2.1.9",
-    "license-checker-rseidelsohn": "^4.4.2",
+    "license-checker-rseidelsohn": "^5.0.1",
     "oxlint": "^1.67.0",
     "p-map": "^7.0.4",
     "prettier": "^3.8.3",
