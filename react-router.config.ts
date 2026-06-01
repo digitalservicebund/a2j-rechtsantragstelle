@@ -7,6 +7,7 @@ export default {
     v8_splitRouteModules: true,
     v8_viteEnvironmentApi: true,
     v8_middleware: true,
+    v8_trailingSlashAwareDataRequests: true,
   },
   allowedActionOrigins: ["id.bund.de", "int.id.bund.de"],
 } satisfies Config;
