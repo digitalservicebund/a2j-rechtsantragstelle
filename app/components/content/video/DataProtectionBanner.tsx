@@ -8,6 +8,7 @@ import Heading from "~/components/common/Heading";
 const DATA_PROTECTION_TRANSLATION_KEYS = {
   header: "datenschutz-header",
   content: "datenschutz",
+  zustimmung: "zustimmung",
   activateVideo: "video-aktivieren",
   link: "datenschutz-link",
 } as const;
@@ -35,7 +36,7 @@ export const DataProtectionBanner = ({
 
   return (
     <section
-      className="kern-dialog absolute bottom-0 left-0 !max-w-full md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[70%]"
+      className="kern-dialog absolute bottom-0 left-0 max-w-full! md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[70%]"
       aria-label="Datenschutz banner"
     >
       <div className="kern-dialog__header pt-kern-space-default!">
@@ -47,6 +48,7 @@ export const DataProtectionBanner = ({
       </div>
       <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
+        <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.zustimmung]}</p>
         <a href="/datenschutzerklaerung" className="kern-link">
           <Icon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
