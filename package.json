@@ -14,7 +14,7 @@
     "build:airports-data": "node ./scripts/airports.ts",
     "build:airlines-data": "node ./scripts/airlines.ts",
     "build:app": "react-router build",
-    "build:licenses": "node ./scripts/vite-runner.ts generateLicenseFile",
+    "build:licenses": "node ./scripts/generateLicenseFile.ts",
     "build:localContent": "node ./scripts/vite-runner.ts dumpCmsToFile",
     "build:pdf": "node ./scripts/pdf.generator.ts",
     "build:storybook": "storybook build --output-dir ./build/client/storybook",
