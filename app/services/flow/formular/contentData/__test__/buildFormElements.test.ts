@@ -40,7 +40,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementWithRadio,
+      mockUserData,
+      "/beratungshilfe/antrag",
+    );
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
   });
@@ -63,10 +67,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      plz: "12345",
-      pageData: {},
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        plz: "12345",
+        pageData: {},
+      },
+      "/beratungshilfe/antrag",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -89,10 +97,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      postleitzahlBeklagtePerson: "12345",
-      pageData: {},
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        postleitzahlBeklagtePerson: "12345",
+        pageData: {},
+      },
+      "/geld-einklagen/formular",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -115,10 +127,14 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithAutoComplete, {
-      postleitzahlSecondary: "12345",
-      pageData: {},
-    });
+    const actual = buildFormElements(
+      mockCmsElementWithAutoComplete,
+      {
+        postleitzahlSecondary: "12345",
+        pageData: {},
+      },
+      "/geld-einklagen/formular",
+    );
 
     expect(actual[0]).toMatchObject({ dataListArgument: "12345" });
   });
@@ -139,7 +155,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementWithRadio, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementWithRadio,
+      mockUserData,
+      "/beratungshilfe/antrag",
+    );
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("old alt label");
   });
@@ -160,7 +180,11 @@ describe("buildFormElements", () => {
       ],
     } satisfies CMSContent;
 
-    const actual = buildFormElements(mockCmsElementCheckbox, mockUserData);
+    const actual = buildFormElements(
+      mockCmsElementCheckbox,
+      mockUserData,
+      "/beratungshilfe/antrag",
+    );
 
     expect(actual[0]).toBe(mockCmsElementCheckbox.formContent[0]);
   });
