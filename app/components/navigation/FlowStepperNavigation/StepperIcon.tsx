@@ -13,21 +13,11 @@ export function StepperIcon({
   stepIndex: number;
 }>) {
   if (stateIsDone(state)) {
-    return (
-      <Icon
-        name="check-circle"
-        className="fill-kern-feedback-success forced-color-adjust-auto"
-      />
-    );
+    return <Icon name="check-circle" className="fill-kern-feedback-success" />;
   }
 
   if (stateIsWarning(state)) {
-    return (
-      <Icon
-        name="warning"
-        className="fill-kern-feedback-warning forced-color-adjust-auto"
-      />
-    );
+    return <Icon name="warning" className="fill-kern-feedback-warning" />;
   }
 
   return <span>{stepIndex + 1}</span>;

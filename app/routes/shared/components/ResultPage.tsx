@@ -15,7 +15,7 @@ import RichText from "~/components/common/RichText";
 const iconProps = {
   "aria-hidden": false,
   iconClassName:
-    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3 forced-color-adjust-auto",
+    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3",
 };
 
 const boxProps = {

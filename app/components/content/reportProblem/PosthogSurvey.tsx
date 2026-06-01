@@ -104,12 +104,7 @@ export const PosthogSurvey = ({
         <Button
           type="button"
           look="ghost"
-          iconLeft={
-            <Icon
-              name="close"
-              className="fill-kern-action-default! forced-color-adjust-auto"
-            />
-          }
+          iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
           aria-label={
             wasSubmitted
               ? translations.feedback.close.de
