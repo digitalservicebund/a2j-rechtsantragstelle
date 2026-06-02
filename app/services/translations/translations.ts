@@ -127,7 +127,7 @@ export const translations = {
       de: "An dieser Stelle ist ein externer Inhalt eingebunden. Wir benötigen Ihre Zustimmung, damit Sie diesen anschauen können.",
     },
     zustimmung: {
-      de: "Wir benötigen Ihre Zustimmung, damit Sie diesen anschauen können.Wir weisen Sie darauf hin, dass nach der Aktivierung Daten an Dritte übermittelt werden.",
+      de: "Wir weisen Sie darauf hin, dass nach der Aktivierung Daten an Dritte übermittelt werden.",
     },
     "datenschutz-link": {
       de: "Datenschutzerklärung",
