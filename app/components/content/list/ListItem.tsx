@@ -29,9 +29,9 @@ const StyledMarker = ({
     className={classNames("shrink-0 flex justify-center items-center", {
       "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto":
         variant === "unordered",
-      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-medium forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-semibold forced-color-adjust-auto":
         variant === "numbered",
-      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default text-kern-layout-text-inverse! rounded-full forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default text-kern-layout-text-inverse! font-semibold rounded-full forced-color-adjust-auto":
         variant === "stepByStep",
     })}
   >

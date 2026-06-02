@@ -62,10 +62,7 @@ export const ReportProblem = () => {
         className="min-w-full justify-center sm:min-w-fit"
         text={translations.feedback["report-problem"].de}
         iconLeft={
-          <Icon
-            name="emergency-home"
-            className="fill-kern-action-default! forced-color-adjust-auto"
-          />
+          <Icon name="emergency-home" className="fill-kern-action-default!" />
         }
       />
       <PosthogSurvey
