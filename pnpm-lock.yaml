@@ -34,8 +34,8 @@ importers:
         specifier: ^7.16.0
         version: 7.16.0(react-router@7.16.0)(typescript@6.0.3)
       '@remix-run/form-data-parser':
-        specifier: ^0.17.2
-        version: 0.17.2
+        specifier: ^0.17.3
+        version: 0.17.3
       '@rvf/react-router':
         specifier: ^8.1.2
         version: 8.1.2(@types/react@19.2.15)(react-dom@19.2.6)(react-router@7.16.0)(react@19.2.6)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
@@ -1769,14 +1769,14 @@ packages:
       typescript:
         optional: true
 
-  '@remix-run/form-data-parser@0.17.2':
-    resolution: {integrity: sha512-6V9XffMkADkCHa/zLZQI2NVx1jDPiGtuiJ5cv9tmYzDn4KXjEJfqwHo6Fj8l95MThfoz5BTkkk2DOW2HEnuYkA==}
+  '@remix-run/form-data-parser@0.17.3':
+    resolution: {integrity: sha512-K23ImS2P+Gl4ZEK00dEa2GAuhQJkxocvMsnF5SafcRh4aoKINUcdiCQraBDP+929c3VxnP3nUj5UYzBtGuGIIw==}
 
-  '@remix-run/headers@0.21.0':
-    resolution: {integrity: sha512-jlVE0GGxTaLqZ8cfB/sBDQYkKHXJxhWlLY836A7kjnHmy2oHET8J3/4+7+JgTqFBEBvK+ZiiqJKZElj+/zp5Cg==}
+  '@remix-run/headers@0.21.1':
+    resolution: {integrity: sha512-DRhRveigepAQDUIi0MrOFhpcl3/KTv/fkpIhulv7Asv1pUwM8RpY2ENjdI8lfii6Z3MEsWtYhGt6If8bi6bYpQ==}
 
-  '@remix-run/multipart-parser@0.16.2':
-    resolution: {integrity: sha512-3B36kyAa/bKGzciNWFQM8MBQT291059Q6vjkqgmDPgENFfaejORIVKYpUHJGLHtTI62xrnLXxgL89kXE/nVzSQ==}
+  '@remix-run/multipart-parser@0.16.3':
+    resolution: {integrity: sha512-XvMYPIyDTuquR7s1YF4wo4CqMPDrBkpWY0zHSa7SpX0F+t9awg7FWd5mJywc6vTn4oWeS7nQYQQarZ9CuoC/RQ==}
 
   '@remix-run/node-fetch-server@0.13.1':
     resolution: {integrity: sha512-dOL+A/C84EA47gO/ps52KGrVSiYy96512rwtbXmJfWKYFm1FbrbjA3jao1hcIfao+jwVNEaZ1kTMwFjiino+HQ==}
@@ -6572,15 +6572,15 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  '@remix-run/form-data-parser@0.17.2':
+  '@remix-run/form-data-parser@0.17.3':
     dependencies:
-      '@remix-run/multipart-parser': 0.16.2
+      '@remix-run/multipart-parser': 0.16.3
 
-  '@remix-run/headers@0.21.0': {}
+  '@remix-run/headers@0.21.1': {}
 
-  '@remix-run/multipart-parser@0.16.2':
+  '@remix-run/multipart-parser@0.16.3':
     dependencies:
-      '@remix-run/headers': 0.21.0
+      '@remix-run/headers': 0.21.1
 
   '@remix-run/node-fetch-server@0.13.1': {}
 
