@@ -13,6 +13,7 @@ import { splatFromParams } from "~/services/params";
 import { Icon } from "~/components/common/Icon";
 import CourtDetails from "~/components/content/CourtDetails";
 import Heading from "~/components/common/Heading";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const [zipCode, streetName, ...houseNumberSplit] =
@@ -102,6 +103,15 @@ export const Component = () => {
         </GridItem>
       </Grid>
       <ContentComponents content={content} />
+      <GridItem
+        mdColumn={{ start: 1, span: 8 }}
+        lgColumn={{ start: 3, span: 8 }}
+        xlColumn={{ start: 3, span: 8 }}
+        row={4}
+        className="flex justify-end gap-kern-space-default px-kern-space-default"
+      >
+        <ReportProblem />
+      </GridItem>
     </GridSection>
   );
 };
