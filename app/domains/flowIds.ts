@@ -12,6 +12,8 @@ export const flowIds = [
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",
+  "/nachlass/erbschein/wegweiser",
+  "/nachlass/erbschein/nachlassgericht",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];

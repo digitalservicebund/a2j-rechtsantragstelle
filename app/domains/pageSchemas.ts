@@ -30,6 +30,8 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
+  "/nachlass/erbschein/wegweiser": erbscheinWegweiserPages,
+  "/nachlass/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
