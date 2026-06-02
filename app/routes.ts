@@ -19,8 +19,8 @@ export default [
   ]),
   ...prefix("nachlass", [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
-    ...prefix("erbschein/wegweiser", flowRoutes("NESW")),
-    ...prefix("erbschein/nachlassgericht", flowRoutes("NESN")),
+    ...prefix("erbschein/wegweiser", vorabcheckRoutes("NESW")),
+    ...prefix("erbschein/nachlassgericht", vorabcheckRoutes("NESN")),
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
