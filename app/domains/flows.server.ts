@@ -55,4 +55,6 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
+  "/erbschein/wegweiser": nachlassErbscheinWegweiser, // delete after migration
+  "/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht, // delete after migration
 } satisfies Record<FlowId, Flow>;
