@@ -6,8 +6,8 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
-import type { ErbscheinNachlassGerichtUserData } from "./erbschein/nachlassgericht/userData";
-import type { ErbscheinWegweiserUserData } from "./erbschein/wegweiser/userData";
+import type { NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import type { NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import { type NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
@@ -29,7 +29,7 @@ export type AllUserDataKeys = KeysOfUnion<
   | ProzesskostenhilfeFormularUserData
   | KontopfaendungWegweiserUserData
   | KontopfaendungPkontoAntragUserData
-  | ErbscheinWegweiserUserData
-  | ErbscheinNachlassGerichtUserData
+  | NachlassErbscheinWegweiserUserData
+  | NachlassErbscheinNachlassGerichtUserData
   | NachlassErbausschlagungAnfrageUserData
 >;

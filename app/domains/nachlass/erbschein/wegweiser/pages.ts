@@ -2,7 +2,7 @@ import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const erbscheinWegweiserPages = {
+export const nachlassErbscheinWegweiserPages = {
   start: {
     stepId: "start",
   },

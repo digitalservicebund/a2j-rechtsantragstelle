@@ -1,9 +1,9 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
-import { erbscheinWegweiserXstateConfig } from "~/domains/erbschein/wegweiser/xStateConfig";
+import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
+import { nachlassErbscheinWegweiserXstateConfig } from "~/domains/nachlass/erbschein/wegweiser/xStateConfig";
 
-export const erbscheinWegweiserTestCases = {
-  xstateConfig: erbscheinWegweiserXstateConfig,
+export const nachlassErbscheinWegweiserTestCases = {
+  xstateConfig: nachlassErbscheinWegweiserXstateConfig,
   testcases: {
     severalNationalities: [
       {
@@ -173,4 +173,4 @@ export const erbscheinWegweiserTestCases = {
       },
     ],
   },
-} satisfies FlowTestConfig<ErbscheinWegweiserUserData>;
+} satisfies FlowTestConfig<NachlassErbscheinWegweiserUserData>;
