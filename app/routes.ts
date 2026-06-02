@@ -17,12 +17,10 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
-  ...prefix("erbschein", [
-    ...prefix("wegweiser", vorabcheckRoutes("ESW")),
-    ...prefix("nachlassgericht", vorabcheckRoutes("ESN")),
-  ]),
   ...prefix("nachlass", [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
+    ...prefix("erbschein/wegweiser", flowRoutes("NESW")),
+    ...prefix("erbschein/nachlassgericht", flowRoutes("NESN")),
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
