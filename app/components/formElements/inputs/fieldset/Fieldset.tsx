@@ -66,7 +66,7 @@ export const Fieldset = ({
             height={IMAGE_HEIGHT}
             width={IMAGE_WIDTH}
             ariaHidden={true}
-            className="min-h-full min-w-[26px] forced-color-adjust-auto"
+            className="min-h-full min-w-[26px]"
           />
         )}
         <RichText

@@ -38,20 +38,17 @@ const StepStepperLinks = ({
             <div className="flex flex-row pl-16 pr-0 pb-16" key={step.label}>
               <a
                 href={step.href}
-                className="truncate flex kern-link text-left mw-[70vw] pt-0!"
+                className="flex text-ellipsis max-w-[80vw] kern-link text-left pt-0!"
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
-                <Icon
-                  name="arrow-back"
-                  className="inline forced-color-adjust-auto"
-                />
+                <Icon name="arrow-back" className="w-[1.2em] h-[1.2em] mt-2" />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
                 <Icon
                   name="warning"
-                  className="pl-2 fill-kern-feedback-warning! forced-color-adjust-auto"
+                  className="pl-2 fill-kern-feedback-warning!"
                   ariaLabel={translations.navigation.navigationItemWarning.de}
                 />
               )}
@@ -134,10 +131,10 @@ export default function SideNavMobile({
         <div
           className="not-group-open:hidden min-h-screen flex bg-black opacity-70"
           data-testid="close-overlay"
-        ></div>
+        />
         <div
           className={classNames(
-            "flex bg-white items-center py-8 px-16 flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200!  forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "flex bg-white h-[80px] items-center py-8! px-16! flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
             {
               "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,
@@ -156,11 +153,11 @@ export default function SideNavMobile({
           </div>
           <Icon
             name="keyboard-arrow-up"
-            className="hidden! group-open:block! fill-kern-action-default forced-color-adjust-auto"
+            className="hidden! group-open:block! fill-kern-action-default"
           />
           <Icon
             name="keyboard-arrow-down"
-            className="block! group-open:hidden! fill-kern-action-default forced-color-adjust-auto"
+            className="block! group-open:hidden! fill-kern-action-default"
           />
         </div>
       </summary>

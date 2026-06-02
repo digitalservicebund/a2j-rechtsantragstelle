@@ -53,6 +53,24 @@ describe("addDeceasedPersonDetails", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("Musterfrau");
   });
 
+  it("should call surname twice if birth name is not provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const textSpy = vi.spyOn(mockDoc, "text");
+
+    addDeceasedPersonDetails(mockDoc, mockStruct, {
+      ...userDataMock,
+      verstorbeneGeburtsname: "",
+    });
+
+    const mustermannCalls = textSpy.mock.calls.filter(
+      ([firstArg]) => firstArg === "Mustermann",
+    );
+
+    expect(mustermannCalls.length).toBe(2);
+  });
+
   it("should add testament when it is none", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
