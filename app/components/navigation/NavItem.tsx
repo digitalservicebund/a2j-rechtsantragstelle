@@ -25,7 +25,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="check-circle"
         id={id}
-        className="fill-kern-feedback-success forced-color-adjust-auto"
+        className="fill-kern-feedback-success"
         aria-label={translations.navigation.navigationItemFinished.de}
         size={24}
       />
@@ -35,7 +35,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="warning"
         id={id}
-        className="fill-kern-feedback-warning forced-color-adjust-auto"
+        className="fill-kern-feedback-warning"
         aria-label={translations.navigation.navigationItemWarning.de}
         size={24}
       />
@@ -136,7 +136,7 @@ export function NavItem({
                     ? "keyboard-arrow-up"
                     : "keyboard-arrow-down"
                 }
-                className="ml-auto forced-color-adjust-auto"
+                className="ml-auto"
               />
               <StateIcon
                 id={iconId}

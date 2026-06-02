@@ -18,7 +18,7 @@ export function Icon({
 }: Readonly<IconProps>) {
   return (
     <svg
-      className={`app-icon ${className} flex-shrink-0`}
+      className={`app-icon ${className} flex-shrink-0 forced-color-adjust-auto!`}
       width={size}
       height={size}
       id={id}

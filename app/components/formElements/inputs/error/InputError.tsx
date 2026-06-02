@@ -16,7 +16,7 @@ const InputError = ({ id, children }: InputErrorProps) => {
     >
       <Icon
         name="emergency-home"
-        className="w-[1.2em]! h-[1.2em]! mt-2! fill-kern-feedback-danger! forced-color-adjust-auto"
+        className="w-[1.2em]! h-[1.2em]! mt-2! fill-kern-feedback-danger!"
       />
       <span className="text-kern-feedback-danger!">{children}</span>
     </p>
