@@ -35,7 +35,7 @@ const ArraySummaryItemActions = ({
       >
         <Icon
           name="edit"
-          className="text-kern-action-default self-center! mb-3! forced-color-adjust-auto"
+          className="text-kern-action-default self-center! mb-3!"
         />
         <span className="kern-body text-kern-action-default!">
           {translations.arraySummary.arrayEditButtonLabel.de}
@@ -47,12 +47,7 @@ const ArraySummaryItemActions = ({
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
         <Button
           look="tertiary"
-          iconLeft={
-            <Icon
-              name="trash"
-              className="text-kern-action-default forced-color-adjust-auto"
-            />
-          }
+          iconLeft={<Icon name="trash" className="text-kern-action-default" />}
           name={category}
           value={itemIndex}
           textClassName="no-underline! font-normal!"
