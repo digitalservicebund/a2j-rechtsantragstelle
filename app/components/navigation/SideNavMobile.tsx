@@ -42,16 +42,13 @@ const StepStepperLinks = ({
                 data-testid={DATA_TESTID_STEP_STEPPER_LINK}
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
-                <Icon
-                  name="arrow-back"
-                  className="w-[1.2em] h-[1.2em] mt-2 forced-color-adjust-auto"
-                />
+                <Icon name="arrow-back" className="w-[1.2em] h-[1.2em] mt-2" />
                 {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
                 <Icon
                   name="warning"
-                  className="pl-2 fill-kern-feedback-warning! forced-color-adjust-auto"
+                  className="pl-2 fill-kern-feedback-warning!"
                   ariaLabel={translations.navigation.navigationItemWarning.de}
                 />
               )}
@@ -156,11 +153,11 @@ export default function SideNavMobile({
           </div>
           <Icon
             name="keyboard-arrow-up"
-            className="hidden! group-open:block! fill-kern-action-default forced-color-adjust-auto"
+            className="hidden! group-open:block! fill-kern-action-default"
           />
           <Icon
             name="keyboard-arrow-down"
-            className="block! group-open:hidden! fill-kern-action-default forced-color-adjust-auto"
+            className="block! group-open:hidden! fill-kern-action-default"
           />
         </div>
       </summary>
