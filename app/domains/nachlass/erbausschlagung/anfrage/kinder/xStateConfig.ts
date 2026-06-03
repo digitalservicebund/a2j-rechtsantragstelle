@@ -6,6 +6,7 @@ import {
   getOptionSorgerecht,
   hasKinderSorgerechtSameAddressNo,
   isKinderAbove18YearsOld,
+  isKinderUebersichtFilled,
   isKinderWohnortBeiAntragstellerYes,
   kinderNotFilled,
   shouldBackSorgerechtAddress,
@@ -45,9 +46,7 @@ export const kinderXStateConfig = {
             target: stepIds.kinderWarnung.relative,
           },
           {
-            guard: ({ context }) =>
-              context.numberOfKids !== undefined &&
-              context.numberOfKids === context.kinder?.length,
+            guard: isKinderUebersichtFilled,
             target: stepIds.abgabeWeitereInformation.absolute,
           },
         ],
