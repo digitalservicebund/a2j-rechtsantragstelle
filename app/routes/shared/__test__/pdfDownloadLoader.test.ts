@@ -31,7 +31,10 @@ describe("pdfDownloadLoader", () => {
 
   it("generates correct PDF for Beratungshilfe", async () => {
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
-    const response = await loader(mockRouteArgsFromRequest(new Request(url)));
+    const mockURLObject = new URL(url);
+    const response = await loader(
+      mockRouteArgsFromRequest(new Request(url), mockURLObject),
+    );
 
     const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc
@@ -46,7 +49,10 @@ describe("pdfDownloadLoader", () => {
 
   it("generates correct PDF for Prozesskostenhilfe", async () => {
     const url = "https://mock-url.de/prozesskostenhilfe/formular/download/pdf";
-    const response = await loader(mockRouteArgsFromRequest(new Request(url)));
+    const mockURLObject = new URL(url);
+    const response = await loader(
+      mockRouteArgsFromRequest(new Request(url), mockURLObject),
+    );
 
     const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
     const nameField = pdfDoc

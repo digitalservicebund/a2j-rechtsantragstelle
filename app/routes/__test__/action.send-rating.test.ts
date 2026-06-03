@@ -31,7 +31,10 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       options,
     );
-    const response = await action(mockRouteArgsFromRequest(request));
+    const url = new URL(
+      "http://localhost:3000/action/send-rating?url=/asd&js=true",
+    );
+    const response = await action(mockRouteArgsFromRequest(request, url));
     invariant(
       !isResponse(response) && "success" in response.data,
       "Expected success field in data",
@@ -46,8 +49,11 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
       options,
     );
+    const url = new URL(
+      `http://localhost:3000/action/send-rating?url=${ratingPath}&js=false`,
+    );
 
-    const response = await action(mockRouteArgsFromRequest(request));
+    const response = await action(mockRouteArgsFromRequest(request, url));
     assertResponse(response);
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(expectedPath);
@@ -58,8 +64,11 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=http://external.com&js=false`,
       options,
     );
+    const url = new URL(
+      `http://localhost:3000/action/send-rating?url=http://external.com&js=false`,
+    );
 
-    const response = await action(mockRouteArgsFromRequest(request));
+    const response = await action(mockRouteArgsFromRequest(request, url));
     invariant(!isResponse(response), "Expected success field in data");
     expect(response.init?.status).toBe(400);
   });
@@ -71,8 +80,11 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=/asd&js=true`,
       optionsWithoutBody,
     );
+    const url = new URL(
+      `http://localhost:3000/action/send-rating?url=/asd&js=true`,
+    );
 
-    const response = await action(mockRouteArgsFromRequest(request));
+    const response = await action(mockRouteArgsFromRequest(request, url));
     assertValidationError(response);
     expect(response.init?.status).toBe(422);
   });

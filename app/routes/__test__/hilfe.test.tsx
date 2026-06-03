@@ -5,7 +5,10 @@ import { assertResponse } from "./isResponse";
 describe("/hilfe route", () => {
   it("should redirect to /kontakt page", async () => {
     const request = new Request("http://localhost:3000/hilfe");
-    const mockArgs = mockRouteArgsFromRequest(request);
+    const mockArgs = mockRouteArgsFromRequest(
+      request,
+      new URL("http://localhost:3000/hilfe"),
+    );
     const response = await loader(mockArgs);
     assertResponse(response);
     expect(response.status).toBe(302);

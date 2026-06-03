@@ -40,6 +40,7 @@ const mockDefaultOptions = {
   method: "POST",
   body: new FormData(),
 };
+const mockDefaultURL = new URL(mockRequestUrl);
 
 const mockPrunerData = (userDataMock?: Record<string, string>) => {
   vi.mocked(pruneIrrelevantData).mockReturnValue({
@@ -89,7 +90,10 @@ describe("vorabcheck.server", () => {
         mockRequestUrl,
         mockDefaultOptions,
       );
-      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
+      const routeArgs = mockRouteArgsFromRequest(
+        mockDefaultRequest,
+        mockDefaultURL,
+      );
       const response = await action(routeArgs);
       assertValidationError(response);
       expect(response.init?.status).toBe(422);
@@ -112,7 +116,9 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
+      await action(
+        mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
+      );
 
       expect(updateSession).toHaveBeenCalledTimes(1);
       expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
@@ -141,13 +147,16 @@ describe("vorabcheck.server", () => {
         mockDefaultOptions,
       );
 
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
+      await action(
+        mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
+      );
 
       expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
       expect(postValidationFlowAction).toHaveBeenCalledWith(
         mockDefaultRequest,
         { name: "Valid Name" },
         expect.anything(),
+        mockDefaultURL,
       );
     });
 
@@ -163,7 +172,10 @@ describe("vorabcheck.server", () => {
         mockRequestUrl,
         mockDefaultOptions,
       );
-      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
+      const routeArgs = mockRouteArgsFromRequest(
+        mockDefaultRequest,
+        mockDefaultURL,
+      );
       const response = await action(routeArgs);
       assertResponse(response);
       expect(response.status).toEqual(302);
@@ -190,7 +202,9 @@ describe("vorabcheck.server", () => {
         .mocked(flowDestination)
         .mockResolvedValue("/next-step");
 
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
+      await action(
+        mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
+      );
 
       expect(pruneIrrelevantData).toBeCalledTimes(1);
       expect(flowDestinationMock).toHaveBeenCalledWith(

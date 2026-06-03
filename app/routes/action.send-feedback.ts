@@ -14,15 +14,15 @@ import { getSessionManager } from "~/services/session.server";
 
 export const loader = () => redirect("/");
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, url }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get("url") ?? "";
-  const redirectNonRelative = getRedirectForNonRelativeUrl(url);
+  const { searchParams } = url;
+  const urlBySearchParams = searchParams.get("url") ?? "";
+  const redirectNonRelative = getRedirectForNonRelativeUrl(urlBySearchParams);
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
@@ -36,17 +36,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const userRatingsWasHelpful =
     (session.get(userRatingFieldname) as Record<string, boolean>) ?? {};
 
-  updateBannerState(session, "feedbackGiven", url);
+  updateBannerState(session, "feedbackGiven", urlBySearchParams);
 
   if (result.data?.feedback && result.data.feedback !== "") {
     sendCustomAnalyticsEvent({
       eventName: "feedback given",
       request,
       properties: {
-        wasHelpful: userRatingsWasHelpful[url],
+        wasHelpful: userRatingsWasHelpful[urlBySearchParams],
         feedback: result.data.feedback,
-        url,
-        flowId: flowIdFromPathname(url) ?? "",
+        url: urlBySearchParams,
+        flowId: flowIdFromPathname(urlBySearchParams) ?? "",
       },
     });
   }
@@ -54,7 +54,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const clientJavaScriptAvailable = searchParams.get("js") === "true";
 
   const userFeedbackPath = clientJavaScriptAvailable
-    ? url
-    : `${url}#${USER_FEEDBACK_ID}`;
+    ? urlBySearchParams
+    : `${urlBySearchParams}#${USER_FEEDBACK_ID}`;
   return redirect(userFeedbackPath, { headers: await commitSession(session) });
 };

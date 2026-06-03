@@ -25,10 +25,10 @@ const updateRatingWasHepful = (
   session.set(userRatingFieldname, userRatingsWasHelpful);
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get("url") ?? "";
-  const redirectNonRelative = getRedirectForNonRelativeUrl(url);
+export const action = async ({ request, url }: ActionFunctionArgs) => {
+  const { searchParams } = url;
+  const urlBySearchParams = searchParams.get("url") ?? "";
+  const redirectNonRelative = getRedirectForNonRelativeUrl(urlBySearchParams);
   if (redirectNonRelative) return redirectNonRelative;
 
   const formData = await request.formData();
@@ -43,17 +43,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { getSession, commitSession } = getSessionManager("main");
   const session = await getSession(request.headers.get("Cookie"));
-  updateRatingWasHepful(session, feedbackData.wasHelpful, url);
-  updateBannerState(session, "showFeedback", url);
+  updateRatingWasHepful(session, feedbackData.wasHelpful, urlBySearchParams);
+  updateBannerState(session, "showFeedback", urlBySearchParams);
 
   sendCustomAnalyticsEvent({
     eventName: "rating given",
     request,
     properties: {
       wasHelpful: feedbackData.wasHelpful === "yes",
-      url,
-      flowId: flowIdFromPathname(url) ?? "",
+      urlBySearchParams,
+      flowId: flowIdFromPathname(urlBySearchParams) ?? "",
     },
+    url,
   });
 
   searchParams.set("wasHelpful", feedbackData.wasHelpful);
@@ -65,7 +66,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   return redirect(
-    `${url}?wasHelpful=${feedbackData?.wasHelpful}#${USER_FEEDBACK_ID}`,
+    `${urlBySearchParams}?wasHelpful=${feedbackData?.wasHelpful}#${USER_FEEDBACK_ID}`,
     { headers },
   );
 };

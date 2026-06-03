@@ -9,6 +9,7 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 
 const mockUrl = "https://fake.idp.example.com/sso";
 const mockSamlRequest = "FAKE_SAML_REQUEST";
+const mockURLObject = new URL("http://localhost:3000/");
 
 vi.mock("~/services/bundid/index.server", () => ({
   generateSamlRequest: vi.fn(() => ({
@@ -24,7 +25,9 @@ vi.mock("~/services/bundid/index.server", () => ({
 describe("BundID loader", () => {
   it("should return url and samlRequest", async () => {
     const request = new Request("https://app.example.com");
-    const result = await loader(mockRouteArgsFromRequest(request));
+    const result = await loader(
+      mockRouteArgsFromRequest(request, mockURLObject),
+    );
     expect(result).toEqual({ url: mockUrl, samlRequest: mockSamlRequest });
   });
 });
@@ -39,7 +42,9 @@ describe("BundID action", () => {
       body: form,
     });
 
-    const result = await action(mockRouteArgsFromRequest(request));
+    const result = await action(
+      mockRouteArgsFromRequest(request, mockURLObject),
+    );
 
     expect(result).toEqual({
       givenName: "Erika",
@@ -53,8 +58,8 @@ describe("BundID action", () => {
       body: new FormData(),
     });
 
-    await expect(action(mockRouteArgsFromRequest(request))).rejects.toThrow(
-      expect.anything(),
-    );
+    await expect(
+      action(mockRouteArgsFromRequest(request, mockURLObject)),
+    ).rejects.toThrow(expect.anything());
   });
 });

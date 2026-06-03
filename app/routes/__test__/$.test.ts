@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { action, loader } from "../$";
-import { type LoaderFunctionArgs } from "react-router";
 import { redirectMap } from "~/services/routing/redirects";
 import { faker } from "@faker-js/faker";
 import invariant from "tiny-invariant";
 import * as cmsModule from "~/services/cms/index.server";
+import { mockRouteArgsFromRequest } from "./mockRouteArgsFromRequest";
 
 describe("Generic route", () => {
   describe("loader", () => {
@@ -16,8 +16,10 @@ describe("Generic route", () => {
         locale: "de",
         slug: "/",
       });
+
       const request = new Request("http://localhost");
-      const resp = await loader({ request } as LoaderFunctionArgs);
+      const url = new URL("http://localhost");
+      const resp = await loader(mockRouteArgsFromRequest(request, url));
       expect(resp).toHaveProperty("content");
       expect(resp).toEqual(expect.objectContaining({ meta: pageMeta }));
     });
@@ -25,7 +27,8 @@ describe("Generic route", () => {
     it("returns redirect if pathname in redirectMap", async () => {
       const [src, destination] = faker.helpers.objectEntry(redirectMap);
       const request = new Request("http://localhost" + src);
-      const resp = await loader({ request } as LoaderFunctionArgs);
+      const url = new URL("http://localhost" + src);
+      const resp = await loader(mockRouteArgsFromRequest(request, url));
       const expectedHeaders = new Headers();
       expectedHeaders.append("Location", destination);
       invariant(resp instanceof Response);
@@ -35,10 +38,13 @@ describe("Generic route", () => {
 
     it("throws 404 if not found", async () => {
       const request = new Request("http://localhost/settings");
+      const url = new URL("http://localhost/settings");
       vi.spyOn(cmsModule, "fetchPage").mockThrowOnce({
         name: "StrapiPageNotFound",
       });
-      const resp = async () => await loader({ request } as LoaderFunctionArgs);
+
+      const resp = async () =>
+        await loader(mockRouteArgsFromRequest(request, url));
       await expect(resp).rejects.toThrow(
         expect.objectContaining({ status: 404 }),
       );

@@ -132,6 +132,3 @@ export const fetchFlowPage = <T extends FlowPageId>(
     { field: "stepId", value: stepId },
     { field: "flow_ids", nestedField: "flowId", value: flowId },
   ]);
-
-export const strapiPageFromRequest = ({ request }: { request: Request }) =>
-  fetchPage(new URL(request.url).pathname);
