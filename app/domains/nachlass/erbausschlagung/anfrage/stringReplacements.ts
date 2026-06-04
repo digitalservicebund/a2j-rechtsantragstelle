@@ -150,13 +150,13 @@ export const getAusschlagendePersonCourtData = (
   };
 };
 
-export const getMissingFilledKids = (
+export const getMissingFilledKidNames = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   if (!context.kinder || context.kinder.length === 0) return {};
 
   return {
-    missingFilledKids: context.kinder
+    missingFilledKidNames: context.kinder
       .filter((kid) => !isKidFilled(kid))
       .map((kid) => `${kid.vorname} ${kid.nachname}`),
   };
