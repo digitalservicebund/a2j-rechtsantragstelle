@@ -268,9 +268,6 @@ importers:
       prettier:
         specifier: ^3.8.3
         version: 3.8.3
-      react-router-dom:
-        specifier: ^7.16.0
-        version: 7.16.0(react-dom@19.2.6)(react@19.2.6)
       size-limit:
         specifier: ^12.1.0
         version: 12.1.0(jiti@2.7.0)
@@ -4360,13 +4357,6 @@ packages:
   react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
-
-  react-router-dom@7.16.0:
-    resolution: {integrity: sha512-kMUAbimWB5FVbF4Bce4bJsiKJWLIUHq/mEG8+CFDnCSgltptBiG5nguducmsJeGKytlCvQud9Qhzpn49iduTlA==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
 
   react-router@7.16.0:
     resolution: {integrity: sha512-wArC8lVyJb3+jM9OpDyW6hLCizACWkvQR/sSGqSs+o5uEXEtGlqdZ4v8hENR3Jad6i+LRkK93q/+bQAcvl6V1A==}
@@ -9301,12 +9291,6 @@ snapshots:
   react-property@2.0.2: {}
 
   react-refresh@0.14.2: {}
-
-  react-router-dom@7.16.0(react-dom@19.2.6)(react@19.2.6):
-    dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-      react-router: 7.16.0(react-dom@19.2.6)(react@19.2.6)
 
   react-router@7.16.0(react-dom@19.2.6)(react@19.2.6):
     dependencies:
