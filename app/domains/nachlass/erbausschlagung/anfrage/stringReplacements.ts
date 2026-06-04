@@ -2,6 +2,7 @@ import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
+import { isKidFilled } from "./kinder/guards";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -146,6 +147,18 @@ export const getAusschlagendePersonCourtData = (
     ausschlagendePersonCourtOrt: ausschlagendePersonCourt?.ORT,
     ausschlagendePersonCourtWebsite: ausschlagendePersonCourt?.URL1,
     ausschlagendePersonCourtTelephone: ausschlagendePersonCourt?.TEL,
+  };
+};
+
+export const getMissingFilledKidNames = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.kinder || context.kinder.length === 0) return {};
+
+  return {
+    missingFilledKidNames: context.kinder
+      .filter((kid) => !isKidFilled(kid))
+      .map((kid) => `${kid.vorname} ${kid.nachname}`),
   };
 };
 
