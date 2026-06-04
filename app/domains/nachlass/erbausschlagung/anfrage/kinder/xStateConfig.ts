@@ -49,12 +49,18 @@ export const kinderXStateConfig = {
             guard: isKinderUebersichtFilled,
             target: stepIds.abgabeWeitereInformation.absolute,
           },
+          stepIds.kinderWarnungNichtAusgefuellt.relative,
         ],
         BACK: stepIds.kinderHowManyKids.relative,
         "add-kinder": "kinder",
       },
     },
     [stepIds.kinderWarnung.relative]: {
+      on: {
+        BACK: stepIds.kinderUebersicht.relative,
+      },
+    },
+    [stepIds.kinderWarnungNichtAusgefuellt.relative]: {
       on: {
         BACK: stepIds.kinderUebersicht.relative,
       },
