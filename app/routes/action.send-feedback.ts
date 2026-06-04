@@ -48,6 +48,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
         url: urlBySearchParams,
         flowId: flowIdFromPathname(urlBySearchParams) ?? "",
       },
+      url,
     });
   }
 

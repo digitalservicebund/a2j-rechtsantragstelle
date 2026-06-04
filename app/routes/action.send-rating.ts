@@ -51,7 +51,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     request,
     properties: {
       wasHelpful: feedbackData.wasHelpful === "yes",
-      urlBySearchParams,
+      url: urlBySearchParams,
       flowId: flowIdFromPathname(urlBySearchParams) ?? "",
     },
     url,
