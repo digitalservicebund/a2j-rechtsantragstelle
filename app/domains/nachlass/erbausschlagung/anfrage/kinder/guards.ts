@@ -127,6 +127,38 @@ const isKidCustodyOrganizationDone = (
   ]);
 };
 
+export const isKidFilled = (
+  kid: NachlassErbausschlagungAnfrageKind,
+): boolean => {
+  const hasRequiredBaseFields = objectKeysNonEmpty(kid, [
+    "vorname",
+    "nachname",
+    "geburtsdatum",
+    "wohnortBeiAntragsteller",
+  ]);
+
+  const hasKidAddressData =
+    kid.wohnortBeiAntragsteller === "yes" ||
+    objectKeysNonEmpty(kid, ["strasse", "hausnummer", "plz", "ort"]);
+
+  if (!hasRequiredBaseFields || !hasKidAddressData) return false;
+
+  const isAbove18YearsOld = isBirthDateAbove18Years(kid.geburtsdatum);
+  if (isAbove18YearsOld) return true;
+
+  switch (kid.optionSorgerecht) {
+    case "yes":
+      return objectKeysNonEmpty(kid, ["hasRenouncedInheritance"]);
+    case "shared":
+    case "anotherPerson":
+      return isKidCustodySharedOrAnotherPersonDone(kid);
+    case "anotherOrganization":
+      return isKidCustodyOrganizationDone(kid);
+    default:
+      return false;
+  }
+};
+
 export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
   context: { numberOfKids, kinder },
 }) => {
@@ -134,33 +166,5 @@ export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
 
   if (numberOfKids !== kinder.length) return false;
 
-  return kinder.every((kid) => {
-    const hasRequiredBaseFields = objectKeysNonEmpty(kid, [
-      "vorname",
-      "nachname",
-      "geburtsdatum",
-      "wohnortBeiAntragsteller",
-    ]);
-
-    const hasKidAddressData =
-      kid.wohnortBeiAntragsteller === "yes" ||
-      objectKeysNonEmpty(kid, ["strasse", "hausnummer", "plz", "ort"]);
-
-    if (!hasRequiredBaseFields || !hasKidAddressData) return false;
-
-    const isAbove18YearsOld = isBirthDateAbove18Years(kid.geburtsdatum);
-    if (isAbove18YearsOld) return true;
-
-    switch (kid.optionSorgerecht) {
-      case "yes":
-        return objectKeysNonEmpty(kid, ["hasRenouncedInheritance"]);
-      case "shared":
-      case "anotherPerson":
-        return isKidCustodySharedOrAnotherPersonDone(kid);
-      case "anotherOrganization":
-        return isKidCustodyOrganizationDone(kid);
-      default:
-        return false;
-    }
-  });
+  return kinder.every(isKidFilled);
 };
