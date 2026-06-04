@@ -4,15 +4,11 @@ import {
   RouterContextProvider,
 } from "react-router";
 
-export const mockRouteArgsFromRequest = (
-  request: Request,
-  url: URL,
-  params = {},
-) =>
+export const mockRouteArgsFromRequest = (request: Request, params = {}) =>
   ({
     request,
     params,
     context: new RouterContextProvider(),
     pattern: "",
-    url,
+    url: new URL(request.url),
   }) satisfies LoaderFunctionArgs | ActionFunctionArgs;

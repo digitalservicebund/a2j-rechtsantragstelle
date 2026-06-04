@@ -10,13 +10,10 @@ vi.mocked(sendCustomAnalyticsEvent).mockImplementation(
   mockSendCustomAnalyticsEvent,
 );
 
-const mockURLObject = new URL("http://localhost:3000/");
-
 describe("link loader", () => {
   it('should redirect "pkh" to the correct path', () => {
     const mockArgs = mockRouteArgsFromRequest(
       new Request("https://test.com/pkh"),
-      mockURLObject,
       { "*": "pkh" },
     );
 
@@ -28,10 +25,7 @@ describe("link loader", () => {
   });
 
   it("should throw a 404 response when no params are provided", () => {
-    const mockArgs = mockRouteArgsFromRequest(
-      new Request("https://test.com"),
-      mockURLObject,
-    );
+    const mockArgs = mockRouteArgsFromRequest(new Request("https://test.com"));
 
     expect(() => loader(mockArgs)).toThrow(expect.anything());
 
@@ -46,7 +40,6 @@ describe("link loader", () => {
   it("should throw a 404 response for an unknown site", () => {
     const mockArgs = mockRouteArgsFromRequest(
       new Request("https://test.com/unknown-site"),
-      mockURLObject,
       { "*": "unknown-site" },
     );
 
@@ -63,7 +56,6 @@ describe("link loader", () => {
   it("should capture a custom pageview event before redirect", () => {
     const mockArgs = mockRouteArgsFromRequest(
       new Request("https://test.com/pkh"),
-      mockURLObject,
       { "*": "pkh" },
     );
 
@@ -71,7 +63,7 @@ describe("link loader", () => {
 
     expect(mockSendCustomAnalyticsEvent).toHaveBeenCalledWith({
       request: mockArgs.request,
-      url: mockURLObject,
+      url: expect.anything(),
       eventName: "$pageview",
     });
   });

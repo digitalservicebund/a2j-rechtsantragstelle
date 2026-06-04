@@ -18,8 +18,7 @@ describe("Generic route", () => {
       });
 
       const request = new Request("http://localhost");
-      const url = new URL("http://localhost");
-      const resp = await loader(mockRouteArgsFromRequest(request, url));
+      const resp = await loader(mockRouteArgsFromRequest(request));
       expect(resp).toHaveProperty("content");
       expect(resp).toEqual(expect.objectContaining({ meta: pageMeta }));
     });
@@ -27,8 +26,7 @@ describe("Generic route", () => {
     it("returns redirect if pathname in redirectMap", async () => {
       const [src, destination] = faker.helpers.objectEntry(redirectMap);
       const request = new Request("http://localhost" + src);
-      const url = new URL("http://localhost" + src);
-      const resp = await loader(mockRouteArgsFromRequest(request, url));
+      const resp = await loader(mockRouteArgsFromRequest(request));
       const expectedHeaders = new Headers();
       expectedHeaders.append("Location", destination);
       invariant(resp instanceof Response);
@@ -38,13 +36,11 @@ describe("Generic route", () => {
 
     it("throws 404 if not found", async () => {
       const request = new Request("http://localhost/settings");
-      const url = new URL("http://localhost/settings");
       vi.spyOn(cmsModule, "fetchPage").mockThrowOnce({
         name: "StrapiPageNotFound",
       });
 
-      const resp = async () =>
-        await loader(mockRouteArgsFromRequest(request, url));
+      const resp = async () => await loader(mockRouteArgsFromRequest(request));
       await expect(resp).rejects.toThrow(
         expect.objectContaining({ status: 404 }),
       );

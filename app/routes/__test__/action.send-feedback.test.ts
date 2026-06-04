@@ -45,10 +45,7 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=http://external.com&js=false`,
       options,
     );
-    const url = new URL(
-      "http://localhost:3000/action/send-feedback?url=http://external.com&js=false",
-    );
-    const response = await action(mockRouteArgsFromRequest(request, url));
+    const response = await action(mockRouteArgsFromRequest(request));
     invariant(!isResponse(response), "Shouldn't be response");
     expect(response.init?.status).toBe(400);
   });
@@ -61,10 +58,7 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
       { method: "POST", body: bodyWithoutFeedback },
     );
-    const url = new URL(
-      "http://localhost:3000/action/send-feedback?url=/asd&js=true",
-    );
-    const response = await action(mockRouteArgsFromRequest(request, url));
+    const response = await action(mockRouteArgsFromRequest(request));
     assertValidationError(response);
     expect(response.init?.status).toBe(422);
   });
@@ -77,10 +71,7 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
       { method: "POST", body: bodyWithoutCsrf },
     );
-    const url = new URL(
-      "http://localhost:3000/action/send-feedback?url=/asd&js=true",
-    );
-    const response = await action(mockRouteArgsFromRequest(request, url)).catch(
+    const response = await action(mockRouteArgsFromRequest(request)).catch(
       (err) => err,
     );
     expect(response).toBeInstanceOf(Response);
@@ -94,10 +85,7 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
       options,
     );
-    const url = new URL(
-      `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=true`,
-    );
-    const response = await action(mockRouteArgsFromRequest(request, url));
+    const response = await action(mockRouteArgsFromRequest(request));
     assertResponse(response);
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(feedbackPath);
@@ -109,10 +97,7 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=false`,
       options,
     );
-    const url = new URL(
-      `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=false`,
-    );
-    const response = await action(mockRouteArgsFromRequest(request, url));
+    const response = await action(mockRouteArgsFromRequest(request));
     assertResponse(response);
     expect(response.status).toEqual(302);
     expect(response.headers.get("location")).toEqual(

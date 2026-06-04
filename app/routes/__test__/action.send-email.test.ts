@@ -23,7 +23,6 @@ const redirFunc = vi.fn();
 const fetchMock = vi.fn();
 globalThis.fetch = fetchMock;
 const mockUrl = "/flowId/stepId";
-const mockURLObject = new URL("http://localhost:3000/flowId/stepId");
 
 describe("/action/send-email route", () => {
   beforeEach(() => {
@@ -38,7 +37,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action(mockRouteArgsFromRequest(request, mockURLObject));
+    await action(mockRouteArgsFromRequest(request));
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?invalid`);
   });
 
@@ -51,7 +50,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action(mockRouteArgsFromRequest(request, mockURLObject));
+    await action(mockRouteArgsFromRequest(request));
     expect(fetchMock).toHaveBeenCalled();
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?success`, {
       headers: undefined,
@@ -67,7 +66,7 @@ describe("/action/send-email route", () => {
       method: "post",
       body: formData,
     });
-    await action(mockRouteArgsFromRequest(request, mockURLObject));
+    await action(mockRouteArgsFromRequest(request));
     expect(redirFunc).toHaveBeenCalledWith(`${mockUrl}?error`);
   });
 });

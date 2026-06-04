@@ -9,7 +9,6 @@ const mockGetSession = vi
   .fn()
   .mockReturnValue({ get: () => ({}), set: vi.fn() });
 const mockDestroySession = vi.fn();
-const mockURLObject = new URL("http://localhost:3000/");
 
 vi.mocked(getSessionManager).mockReturnValue({
   getSession: mockGetSession,
@@ -22,10 +21,7 @@ describe("fluggastrechte/formular/redirect-to-vorabcheck route", () => {
     const request = new Request(
       "http://localhost:3000/fluggastrechte/formular/redirect-to-vorabcheck",
     );
-    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(
-      request,
-      mockURLObject,
-    );
+    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(request);
     await loader(mockArgs);
     expect(mockGetSession).toHaveBeenCalled();
     expect(mockDestroySession).toHaveBeenCalled();
@@ -36,10 +32,7 @@ describe("fluggastrechte/formular/redirect-to-vorabcheck route", () => {
     const request = new Request(
       "http://localhost:3000/fluggastrechte/formular/redirect-to-vorabcheck",
     );
-    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(
-      request,
-      mockURLObject,
-    );
+    const mockArgs: LoaderFunctionArgs = mockRouteArgsFromRequest(request);
     const response = await loader(mockArgs);
 
     expect(response).toBeInstanceOf(Response);

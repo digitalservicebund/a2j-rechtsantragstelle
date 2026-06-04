@@ -46,7 +46,6 @@ const mockDefaultOptions = {
 };
 
 const mockDefaultRequest = new Request(mockRequestUrl, mockDefaultOptions);
-const mockDefaultURL = new URL(mockRequestUrl);
 
 const mockPrunerData = (userDataMock?: Record<string, string>) => {
   vi.mocked(pruneIrrelevantData).mockReturnValue({
@@ -95,9 +94,7 @@ describe("formular.server", () => {
 
         const request = new Request(mockRequestUrl, options);
 
-        const response = await action(
-          mockRouteArgsFromRequest(request, mockDefaultURL),
-        );
+        const response = await action(mockRouteArgsFromRequest(request));
         invariant(!isResponse(response), "Expected success field in data");
         expect(response.init?.status).toBe(422);
         expect(response.data.fieldErrors).toEqual({
@@ -119,9 +116,7 @@ describe("formular.server", () => {
           body: formData,
         });
 
-        const response = await action(
-          mockRouteArgsFromRequest(request, mockDefaultURL),
-        );
+        const response = await action(mockRouteArgsFromRequest(request));
         invariant(!isResponse(response), "Expected success field in data");
         expect(response.init?.status).toBe(200);
         expect(updateSession).toHaveBeenCalledTimes(1);
@@ -141,7 +136,7 @@ describe("formular.server", () => {
         );
 
         const response = await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
+          mockRouteArgsFromRequest(mockDefaultRequest),
         );
         assertValidationError(response);
         expect(response.init?.status).toBe(422);
@@ -165,9 +160,7 @@ describe("formular.server", () => {
           Result.ok({ userData, migrationData: undefined }),
         );
 
-        await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
-        );
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(updateSession).toHaveBeenCalledTimes(1);
         expect(updateSession).toHaveBeenCalledWith(
@@ -185,9 +178,7 @@ describe("formular.server", () => {
           }),
         );
 
-        await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
-        );
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(updateSession).toHaveBeenCalledTimes(1);
         expect(updateSession).toHaveBeenCalledWith(
@@ -216,16 +207,14 @@ describe("formular.server", () => {
 
         mockPrunerData({ name: "Valid Name" });
 
-        await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
-        );
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
 
         expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
         expect(postValidationFlowAction).toHaveBeenCalledWith(
           mockDefaultRequest,
           { name: "Valid Name" },
           expect.anything(),
-          mockDefaultURL,
+          expect.anything(),
         );
       });
 
@@ -239,7 +228,7 @@ describe("formular.server", () => {
         vi.mocked(flowDestination).mockReturnValue("/next-step");
 
         const response = await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
+          mockRouteArgsFromRequest(mockDefaultRequest),
         );
         assertResponse(response);
         expect(response.status).toEqual(302);
@@ -261,9 +250,7 @@ describe("formular.server", () => {
           .mocked(flowDestination)
           .mockResolvedValue("/next-step");
 
-        await action(
-          mockRouteArgsFromRequest(mockDefaultRequest, mockDefaultURL),
-        );
+        await action(mockRouteArgsFromRequest(mockDefaultRequest));
         expect(pruneIrrelevantData).toBeCalledTimes(1);
         expect(flowDestinationMock).toHaveBeenCalledWith(
           "/fluggastrechte/formular/abgabe/start",
