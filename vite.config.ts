@@ -36,7 +36,10 @@ export default defineConfig((config) => ({
     sourcemap: useSentry,
     target: config.isSsrBuild ? "esnext" : undefined, // Allows top-level await in server-only files
   },
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    ...(isVitest ? { conditions: ["module-sync"] } : {}),
+  },
   ssr: { noExternal: ["@digitalservicebund/icons"] },
   test: {
     globals: true,
