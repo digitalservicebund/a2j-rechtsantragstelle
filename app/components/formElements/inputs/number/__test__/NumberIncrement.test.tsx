@@ -118,4 +118,14 @@ describe("NumberIncrement", () => {
     const { queryByRole } = render(<NumberIncrement name="amount" />);
     expect(queryByRole("button")).not.toBeInTheDocument();
   });
+
+  it("should add increment correctly when min value is 1", () => {
+    const { getByRole, getAllByRole } = render(
+      <NumberIncrement name="amount" min={1} />,
+    );
+    const incrementButton = getAllByRole("button")[1];
+    expect(getByRole("spinbutton")).toHaveValue(1);
+    fireEvent.click(incrementButton);
+    expect(mockSetValue).toHaveBeenCalledWith(2);
+  });
 });
