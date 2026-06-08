@@ -58,7 +58,6 @@ describe("/action/send-rating route", () => {
       `http://localhost:3000/action/send-rating?url=http://external.com&js=false`,
       options,
     );
-
     const response = await action(mockRouteArgsFromRequest(request));
     invariant(!isResponse(response), "Expected success field in data");
     expect(response.init?.status).toBe(400);

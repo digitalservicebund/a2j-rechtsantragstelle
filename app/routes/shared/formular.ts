@@ -25,8 +25,8 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request);
+export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -46,7 +46,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     emailCaptureConsent,
   } = resultUserAndFlow.value;
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData] = await Promise.all([
@@ -97,14 +97,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, url }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -184,7 +184,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const { prunedData } = pruneIrrelevantData(userDataToSave, flowId);
 
-  await postValidationFlowAction(request, prunedData, flowSession);
+  await postValidationFlowAction(request, prunedData, flowSession, url);
 
   const headers = await commitSession(flowSession);
   const destination = flowDestination(pathname, prunedData);
