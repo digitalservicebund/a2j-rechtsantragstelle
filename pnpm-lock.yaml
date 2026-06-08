@@ -28,8 +28,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@react-router/express':
-        specifier: ^7.16.0
-        version: 7.16.0(express@5.2.1)(react-router@7.16.0)(typescript@6.0.3)
+        specifier: ^7.17.0
+        version: 7.17.0(express@5.2.1)(react-router@7.16.0)(typescript@6.0.3)
       '@react-router/node':
         specifier: ^7.16.0
         version: 7.16.0(react-router@7.16.0)(typescript@6.0.3)
@@ -1835,12 +1835,12 @@ packages:
       wrangler:
         optional: true
 
-  '@react-router/express@7.16.0':
-    resolution: {integrity: sha512-nE+yZ9J8fJjVR7UrnAYzOWcvAdI0HxHKjzizOxpDREcNCt38EFoMqc2gi4vEbQUVvj67Uygv/iACuc/AAAfj3Q==}
+  '@react-router/express@7.17.0':
+    resolution: {integrity: sha512-/onhRWlfCRTq0bI7t06d2KGRUr+Gy12+CHLZDaHkdtkHJxsUFPGlnfomBMQXQLIPW544I5ykKAY8Z2d/1J6+bQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       express: ^4.17.1 || ^5
-      react-router: 7.16.0
+      react-router: 7.17.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -1861,6 +1861,16 @@ packages:
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react-router: 7.16.0
+      typescript: ^5.1.0 || ^6.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@react-router/node@7.17.0':
+    resolution: {integrity: sha512-RYR47qM9gJ8zV8Ntial5Rkgcst2YnwWXt0Ai34FezzkDK6AILpxpVatEzFEhNRwbSh6JO6iweY7XhfM4/K5dBA==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react-router: 7.17.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -6702,9 +6712,9 @@ snapshots:
       - tsx
       - yaml
 
-  '@react-router/express@7.16.0(express@5.2.1)(react-router@7.16.0)(typescript@6.0.3)':
+  '@react-router/express@7.17.0(express@5.2.1)(react-router@7.16.0)(typescript@6.0.3)':
     dependencies:
-      '@react-router/node': 7.16.0(react-router@7.16.0)(typescript@6.0.3)
+      '@react-router/node': 7.17.0(react-router@7.16.0)(typescript@6.0.3)
       express: 5.2.1
       react-router: 7.16.0(react-dom@19.2.7)(react@19.2.7)
     optionalDependencies:
@@ -6718,6 +6728,13 @@ snapshots:
       typescript: 6.0.3
 
   '@react-router/node@7.16.0(react-router@7.16.0)(typescript@6.0.3)':
+    dependencies:
+      '@mjackson/node-fetch-server': 0.2.0
+      react-router: 7.16.0(react-dom@19.2.7)(react@19.2.7)
+    optionalDependencies:
+      typescript: 6.0.3
+
+  '@react-router/node@7.17.0(react-router@7.16.0)(typescript@6.0.3)':
     dependencies:
       '@mjackson/node-fetch-server': 0.2.0
       react-router: 7.16.0(react-dom@19.2.7)(react@19.2.7)
