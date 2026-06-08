@@ -2,13 +2,13 @@ import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import Button from "~/components/common/Button";
-import { strapiPageFromRequest } from "~/services/cms/index.server";
+import { fetchPage } from "~/services/cms/index.server";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get("url") ?? "";
-  const { content, pageMeta } = await strapiPageFromRequest({ request });
-  return { content, meta: pageMeta, url };
+export const loader = async ({ url }: LoaderFunctionArgs) => {
+  const { searchParams, pathname } = url;
+  const urlParam = searchParams.get("url") ?? "";
+  const { content, pageMeta } = await fetchPage(pathname);
+  return { content, meta: pageMeta, url: urlParam };
 };
 
 export default function Index() {
