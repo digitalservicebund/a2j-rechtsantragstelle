@@ -86,8 +86,8 @@ const pdfConfigs = {
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { pathname } = new URL(request.url);
+export async function loader({ request, url }: LoaderFunctionArgs) {
+  const { pathname } = url;
   const { flowId } = parsePathname(pathname);
   if (!(flowId in pdfConfigs))
     return new Response(`No pdf config for flowId: ${flowId}`, { status: 501 });
