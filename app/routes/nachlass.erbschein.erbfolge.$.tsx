@@ -35,7 +35,7 @@ import { GridItem } from "~/components/layout/grid/GridItem";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
-
+import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
 function NachlassErbfolgePage() {
   const {
     stepData,
@@ -68,8 +68,14 @@ function NachlassErbfolgePage() {
           row={2}
           id="flow-page-content"
         >
-          <ContentComponents content={cmsContent.pre_form} managedByParent />
-          {arraySummaryData && (
+          <ContentComponents content={cmsContent && "pre_form" in cmsContent ? cmsContent.pre_form : []} managedByParent />
+          {arraySummaryData && arraySummaryData.category === "elternteile" && (
+            <ElternteilSummary
+              data={arraySummaryData.arrayData.data as ArrayData}
+              configuration={arraySummaryData.arrayData.configuration}
+            />
+          )}
+          {arraySummaryData && arraySummaryData.category !== "elternteile" && (
             <KinderSummary
               data={arraySummaryData.arrayData.data as ArrayData}
               configuration={arraySummaryData.arrayData.configuration}
@@ -108,7 +114,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     { arrayIndexes },
   );
 
-  const flowSession = createFlowSession(staticFlow, fullUserData, stepId);
+  const flowSession = createFlowSession(staticFlow, fullUserData as Parameters<typeof createFlowSession>[1], stepId);
 
   if (!flowSession.isReachable(stepId)) {
     return redirect(flowId + flowSession.initialPath);
@@ -127,9 +133,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Resolve parent array item name fields (e.g. kinder#name for /kinder/#/enkelkinder)
   // so Strapi content can use {{kinder#name}} in headings on nested pages.
+  // Also include arrayInfo.name so array summary pages (which have no pageSchema fieldNames)
+  // can still get their ancestor names (e.g. kinder#name on /kinder/#/kinder).
+  const sourceFields = [
+    ...fieldNames,
+    ...(arrayInfo?.name.includes("#") ? [arrayInfo.name] : []),
+  ];
   const parentNameFields = [
     ...new Set(
-      fieldNames
+      sourceFields
         .filter((f) => f.includes("#"))
         .flatMap((f) => {
           const parts = f.split("#");
@@ -143,28 +155,31 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const parentNameData =
     parentNameFields.length > 0
       ? resolveUserData(
-          { ...flowSession.prunedUserData, pageData: fullUserData.pageData } as Parameters<typeof resolveUserData>[0],
-          parentNameFields,
-        )
+        { ...flowSession.prunedUserData, pageData: fullUserData.pageData } as Parameters<typeof resolveUserData>[0],
+        parentNameFields,
+      )
       : {};
 
-  const cmsContent = applyStringReplacement(
-    await fetchFlowPage("vorab-check-pages", flowId, stepId.replaceAll("/#", "")),
-    { ...flowSession.prunedUserData, ...parentNameData } as Replacements,
-  );
-  const formElements = buildFormElements(structureCmsContent(cmsContent), {
-    ...stepData,
-    pageData: fullUserData.pageData,
-  });
+  const cmsStepId = stepId.replaceAll("/#", "");
+  const replacements = { ...flowSession.prunedUserData, ...parentNameData } as Replacements;
 
   const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
     ? flowId + resolveArrayCharacter(prevStepId, arrayIndexes, false)
     : undefined;
 
+  const vorabPage = applyStringReplacement(
+    await fetchFlowPage("vorab-check-pages", flowId, cmsStepId),
+    replacements,
+  );
+  const formElements = buildFormElements(structureCmsContent(vorabPage), {
+    ...stepData,
+    pageData: fullUserData.pageData,
+  });
+
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: "Zurück",
-    nextButtonLabel: cmsContent.nextButtonLabel ?? "Weiter",
+    nextButtonLabel: vorabPage.nextButtonLabel ?? "Weiter",
     isFinal: staticFlow.isFinal(stepId),
     backDestination,
   });
@@ -191,7 +206,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return data({
     arraySummaryData,
     stepData,
-    cmsContent,
+    cmsContent: vorabPage,
     formElements,
     progressProps: staticFlow.getProgress(stepId),
     buttonNavigationProps,
@@ -227,7 +242,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   updateSession(flowSession, resolvedData);
 
   const fullUserData = addPageDataToUserData(flowSession.data, { arrayIndexes });
-  const sessionManager = createFlowSession(staticFlow, fullUserData, stepId);
+  const sessionManager = createFlowSession(staticFlow, fullUserData as Parameters<typeof createFlowSession>[1], stepId);
 
   const nextStepId = sessionManager.nextPath;
   if (!nextStepId) throw new Error("no nextStepId");
