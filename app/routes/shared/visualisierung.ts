@@ -86,9 +86,8 @@ const getVisualizationString = (
   return mermaidFlowchart(digraph, showBacklinks);
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ url }: LoaderFunctionArgs) => {
   throw404OnProduction();
-  const url = new URL(request.url);
   const { flowId } = parsePathname(url.pathname);
   const flow = flows[flowId];
   const showBacklinks = url.searchParams.get("showBacklinks") !== null;

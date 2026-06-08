@@ -7,20 +7,19 @@ import {
   consentCookieFromRequest,
   trackingCookieValue,
 } from "~/services/analytics/gdprCookie.server";
-import {
-  fetchTranslations,
-  strapiPageFromRequest,
-} from "~/services/cms/index.server";
+import { fetchPage, fetchTranslations } from "~/services/cms/index.server";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import Heading from "~/components/common/Heading";
 import Button from "~/components/common/Button";
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request, url }: LoaderFunctionArgs) {
+  const { pathname } = url;
+
   const [{ content, pageMeta }, trackingConsent, cookieTranslations] =
     await Promise.all([
-      strapiPageFromRequest({ request }),
+      fetchPage(pathname),
       trackingCookieValue({ request }),
       fetchTranslations("cookieSetting"),
     ]);

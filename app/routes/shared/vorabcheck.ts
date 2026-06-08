@@ -32,8 +32,8 @@ import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";
 import { structureCmsContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request);
+export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -45,7 +45,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     page: { stepId },
   } = resultUserAndFlow.value;
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const currentFlow = flows[flowId];
 
   const [vorabcheckPage, parentContentPageMeta] = await Promise.all([
@@ -111,14 +111,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, url }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const { flowId } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -142,7 +142,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
 
-  await postValidationFlowAction(request, prunedData, flowSession);
+  await postValidationFlowAction(request, prunedData, flowSession, url);
 
   const destination = flowDestination(pathname, prunedData);
   const headers = await commitSession(flowSession);

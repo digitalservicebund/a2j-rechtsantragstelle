@@ -46,8 +46,9 @@ const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
 
 export const getUserDataAndFlow = async (
   request: Request,
+  url: URL,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const { flowId, stepId, arrayIndexes, currentFlow } =
@@ -77,6 +78,7 @@ export const getUserDataAndFlow = async (
     request,
     flowController,
     currentFlow,
+    url,
   );
 
   if (validationFlowResult.isErr) {

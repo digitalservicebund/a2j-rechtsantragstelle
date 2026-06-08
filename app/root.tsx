@@ -76,8 +76,8 @@ export type RootLoader = typeof loader;
 const STRAPI_P_LEVEL_TWO = 2;
 const STRAPI_P_LEVEL_THREE = 3;
 
-export const loader = async ({ request, context }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
+  const { pathname } = url;
 
   const [
     strapiHeader,
@@ -93,7 +93,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     fetchContentPageMeta({ filterValue: "/", locale: defaultLocale }),
     fetchTranslations("accessibility"),
     anyUserData(request),
-    initializeMainSession(request),
+    initializeMainSession(request, url),
     buildBreadcrumbPromises(pathname),
   ]);
 
