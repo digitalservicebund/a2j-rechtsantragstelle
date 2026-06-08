@@ -22,6 +22,7 @@ const mergeCustomizer: MergeWithCustomizer = (objValue, _srcValue, key) =>
   key === "a" ? objValue : undefined;
 
 const baseUrl = "http://localhost:3000";
+const mockURL = new URL(baseUrl);
 
 describe("index", () => {
   describe("updateSession", () => {
@@ -48,6 +49,7 @@ describe("index", () => {
       session = reactRouter.createSession({});
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
+        mockURL,
       );
       expect(csrf).toBeTypeOf("string");
     });
@@ -56,6 +58,7 @@ describe("index", () => {
       session = reactRouter.createSession({ [CSRFKey]: "existing-token" });
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
+        mockURL,
       );
       expect(csrf).toBe("existing-token");
     });
@@ -64,6 +67,7 @@ describe("index", () => {
       session = reactRouter.createSession({ [CSRFKey]: ["token1", "token2"] });
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
+        mockURL,
       );
       expect(csrf).toBe("token1");
     });
@@ -73,6 +77,7 @@ describe("index", () => {
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${flowId}/step1`),
+        new URL(`${baseUrl}${flowId}/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
@@ -83,6 +88,7 @@ describe("index", () => {
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${flowId}/step1`),
+        new URL(`${baseUrl}${flowId}/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep?.[flowId]).toBe("/step1");
@@ -90,6 +96,7 @@ describe("index", () => {
       const secondFlowId: FlowId = "/prozesskostenhilfe/formular";
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${secondFlowId}/step1flow2`),
+        new URL(`${baseUrl}${secondFlowId}/step1flow2`),
       );
       const updatedLastStep = session.get(lastStepKey);
       expect(updatedLastStep?.[flowId]).toBe("/step1");
@@ -100,6 +107,7 @@ describe("index", () => {
       session = reactRouter.createSession({});
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}/non-flow-route/step1`),
+        new URL(`${baseUrl}/non-flow-route/step1`),
       );
       const lastStep = session.get(lastStepKey);
       expect(lastStep).toBeUndefined();
@@ -110,6 +118,7 @@ describe("index", () => {
       const routeName = "/some-route";
       const { feedback } = await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${routeName}`),
+        new URL(`${baseUrl}${routeName}`),
       );
       expect(feedback).toEqual({ result: undefined, state: "showRating" });
 
@@ -120,6 +129,7 @@ describe("index", () => {
       const { feedback: feedbackWithData } =
         await sessionServices.initializeMainSession(
           new Request(`${baseUrl}${routeName}`),
+          new URL(`${baseUrl}${routeName}`),
         );
       expect(feedbackWithData).toEqual({
         result: "positive",
@@ -137,6 +147,7 @@ describe("index", () => {
               Cookie: "tracking-consent=mock-consent-value",
             },
           }),
+          new URL(`${baseUrl}/some-route`),
         );
       expect(trackingCookieValueSpy).toHaveBeenCalledWith(
         expect.objectContaining({

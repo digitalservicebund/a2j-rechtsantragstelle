@@ -58,7 +58,6 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=/asd&js=true`,
       { method: "POST", body: bodyWithoutFeedback },
     );
-
     const response = await action(mockRouteArgsFromRequest(request));
     assertValidationError(response);
     expect(response.init?.status).toBe(422);
@@ -98,7 +97,6 @@ describe("/action/send-feedback route", () => {
       `http://localhost:3000/action/send-feedback?url=${feedbackPath}&js=false`,
       options,
     );
-
     const response = await action(mockRouteArgsFromRequest(request));
     assertResponse(response);
     expect(response.status).toEqual(302);
