@@ -12,7 +12,7 @@ type BuildCmsContentAndTranslations = {
   flowTranslations: Translations;
   flowMenuTranslations: Translations;
   overviewTranslations: Translations;
-  formPageContent: StrapiFormFlowPage;
+  formPageContent: StrapiFormFlowPage | StrapiVorabCheckPage;
   replacements?: Replacements;
   parentMeta: StrapiMeta | null;
 };

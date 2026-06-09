@@ -1,4 +1,4 @@
-import { type CMSContent } from "../../buildCmsContentAndTranslations";
+import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { buildFormElements } from "../buildFormElements";
 
 const mockCmsElement: CMSContent = {

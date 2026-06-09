@@ -1,8 +1,8 @@
 import type z from "zod";
-import type { UserDataWithPageData } from "../../pageData";
-import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { type StrapiAutoSuggestInputComponentSchema } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { type FlowId } from "~/domains/flowIds";
+import { type UserDataWithPageData } from "../pageData";
+import { type CMSContent } from "./buildCmsContentAndTranslations";
 
 const getDataListArgumentForVerstorbeneAdresseStrasse = (
   userDataWithPageData: UserDataWithPageData,

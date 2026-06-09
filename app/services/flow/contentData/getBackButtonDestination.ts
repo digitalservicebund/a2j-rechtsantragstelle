@@ -1,5 +1,5 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { insertIndexesIntoPath } from "../../stepIdConverter";
+import { insertIndexesIntoPath } from "../stepIdConverter";
 
 export const getBackButtonDestination = (
   backDestination: string | undefined,
