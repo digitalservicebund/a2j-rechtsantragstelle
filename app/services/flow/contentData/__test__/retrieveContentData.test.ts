@@ -35,7 +35,7 @@ const mockTranslations = {
 };
 
 vi.mock("~/services/cms/index.server");
-vi.mock("~/services/flow/formular/buildCmsContentAndTranslations");
+vi.mock("~/services/flow/contentData/buildCmsContentAndTranslations");
 
 const mockFetchData = () => {
   vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPageContent);
