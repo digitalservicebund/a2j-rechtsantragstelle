@@ -2,7 +2,7 @@ import { parseFormData } from "@remix-run/form-data-parser";
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
-import { retrieveContentData } from "~/services/flow/formular/retrieveContentData";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { setUserVisitedValidationPage } from "~/services/flow/formular/setUserVisitedValidationPage";
 import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
@@ -50,7 +50,13 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData] = await Promise.all([
-    retrieveContentData(pathname, params, userData, migration.userData),
+    retrieveContentData(
+      "form-flow-pages",
+      pathname,
+      params,
+      userData,
+      migration.userData,
+    ),
     setUserVisitedValidationPage(
       flowController.getMeta(stepId)?.triggerValidation,
       flowId,

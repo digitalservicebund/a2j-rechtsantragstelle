@@ -12,7 +12,7 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
-import { retrieveContentData } from "~/services/flow/vorabcheck/retrieveContentData";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 
 export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request, url);
@@ -29,7 +29,12 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
 
   const { pathname } = url;
 
-  const contentData = await retrieveContentData(pathname, params, userData);
+  const contentData = await retrieveContentData(
+    "vorab-check-pages",
+    pathname,
+    params,
+    userData,
+  );
 
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements(flowId);

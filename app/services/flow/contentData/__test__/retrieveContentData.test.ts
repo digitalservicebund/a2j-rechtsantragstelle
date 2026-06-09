@@ -7,7 +7,7 @@ import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import {
   buildCmsContentAndTranslations,
   type CMSContent,
-} from "../../contentData/buildCmsContentAndTranslations";
+} from "../buildCmsContentAndTranslations";
 import { retrieveContentData } from "../retrieveContentData";
 
 const mockPathname = "/fluggastrechte/formular/intro/start";
@@ -56,6 +56,7 @@ describe("retrieveContentData", () => {
 
   it("should call once flow page, parent meta and translations", async () => {
     await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
@@ -78,6 +79,7 @@ describe("retrieveContentData", () => {
 
   it("should call buildCmsContentAndTranslations with replacements and return content data functions", async () => {
     const actual = await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
@@ -101,6 +103,7 @@ describe("retrieveContentData", () => {
 
   it("should call buildCmsContentAndTranslations with migrationData", async () => {
     await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,

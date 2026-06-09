@@ -13,6 +13,7 @@ import { replacementsFromFlowConfig } from "~/util/applyStringReplacement";
 import { getContentData } from "../contentData/getContentData";
 
 export const retrieveContentData = async (
+  flowPageId: "vorab-check-pages" | "form-flow-pages",
   pathname: string,
   params: Params<string>,
   userDataWithPageData: UserDataWithPageData,
@@ -23,7 +24,7 @@ export const retrieveContentData = async (
 
   const [formPageContent, parentContentPageMeta, cmsTranslations] =
     await Promise.all([
-      fetchFlowPage("form-flow-pages", flowId, stepId),
+      fetchFlowPage(flowPageId, flowId, stepId),
       fetchContentPageMeta({ filterValue: parentFromParams(pathname, params) }),
       fetchMultipleTranslations([
         `${flowId}/menu`,
