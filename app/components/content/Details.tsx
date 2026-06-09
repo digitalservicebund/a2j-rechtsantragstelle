@@ -8,6 +8,10 @@ export type DetailsProps = {
   content?: string;
 };
 
+function stripHtml(content: string): string {
+  return content.replace(/<[^>]+>/g, "");
+}
+
 export const Details = ({ title, content }: DetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,16 +39,16 @@ export const Details = ({ title, content }: DetailsProps) => {
           </span>
           {title}
         </summary>
-        <section
+        <div
           id="content"
           aria-labelledby="summary"
-          aria-live="polite"
           className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default"
         >
-          {isOpen && content && (
-            <RichText className="leading-[1.5]" html={content} />
-          )}
-        </section>
+          {content && <RichText className="leading-[1.5]" html={content} />}
+          <div className="sr-only" aria-live="polite" aria-atomic="true">
+            {isOpen && content && `Textbeispiele: ${stripHtml(content)}`}
+          </div>
+        </div>
       </details>
     </GridItem>
   );
