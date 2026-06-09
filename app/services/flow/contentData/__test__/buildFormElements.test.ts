@@ -10,6 +10,12 @@ const mockCmsElement: CMSContent = {
       html: "someText",
       id: 10,
     },
+    {
+      __component: "basic.heading",
+      text: "some heading",
+      tagName: "h2",
+      id: 11,
+    },
   ],
   preHeading: undefined,
   nextButtonLabel: undefined,
@@ -47,6 +53,32 @@ describe("buildFormElements", () => {
     );
 
     expect((actual[0] as { altLabel: string }).altLabel).toBe("new heading");
+  });
+
+  it("should overwrite the altLabel for the heading of the content if heading is undefined in case the component is select", () => {
+    const mockCmsElementWithRadio = {
+      ...mockCmsElement,
+      heading: undefined,
+      preHeading: "pre heading",
+      formContent: [
+        {
+          __component: "form-elements.select",
+          name: "someSelect",
+          altLabel: "old alt label",
+          options: [],
+          errorMessages: [],
+          id: 10,
+        },
+      ],
+    } satisfies CMSContent;
+
+    const actual = buildFormElements(
+      mockCmsElementWithRadio,
+      mockUserData,
+      "/beratungshilfe/antrag",
+    );
+
+    expect((actual[0] as { altLabel: string }).altLabel).toBe("some heading");
   });
 
   it("should enrich streetNames auto-suggest-input with plz", () => {
