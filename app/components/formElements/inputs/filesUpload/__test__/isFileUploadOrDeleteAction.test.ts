@@ -1,4 +1,4 @@
-import { isFileUploadOrDeleteAction } from "../isFileUploadOrDeleteAction";
+import { isFileUploadOrDeleteAction } from "../../../../../components/formElements/inputs/filesUpload/isFileUploadOrDeleteAction";
 
 describe("isFileUploadOrDeleteAction", () => {
   it("should return true for file upload fileUpload actions", () => {
