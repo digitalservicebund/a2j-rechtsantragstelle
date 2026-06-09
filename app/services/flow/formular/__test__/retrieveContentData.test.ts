@@ -7,7 +7,7 @@ import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import {
   buildCmsContentAndTranslations,
   type CMSContent,
-} from "../../buildCmsContentAndTranslations";
+} from "../../contentData/buildCmsContentAndTranslations";
 import { retrieveContentData } from "../retrieveContentData";
 
 const mockPathname = "/fluggastrechte/formular/intro/start";

@@ -5,12 +5,12 @@ import {
   fetchContentPageMeta,
   fetchMultipleTranslations,
 } from "~/services/cms/index.server";
-import { buildCmsContentAndTranslations } from "~/services/flow/formular/buildCmsContentAndTranslations";
+import { buildCmsContentAndTranslations } from "~/services/flow/contentData/buildCmsContentAndTranslations";
 import { parentFromParams } from "~/services/params";
-import { getContentData } from "./getContentData";
-import { getPageAndFlowDataFromPathname } from "../../getPageAndFlowDataFromPathname";
-import { type UserDataWithPageData } from "../../pageData";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { type UserDataWithPageData } from "../pageData";
 import { replacementsFromFlowConfig } from "~/util/applyStringReplacement";
+import { getContentData } from "../contentData/getContentData";
 
 export const retrieveContentData = async (
   pathname: string,
