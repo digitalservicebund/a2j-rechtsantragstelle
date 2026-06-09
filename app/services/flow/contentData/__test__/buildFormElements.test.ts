@@ -10,12 +10,6 @@ const mockCmsElement: CMSContent = {
       html: "someText",
       id: 10,
     },
-    {
-      __component: "basic.heading",
-      text: "some heading",
-      tagName: "h2",
-      id: 11,
-    },
   ],
   preHeading: undefined,
   nextButtonLabel: undefined,
@@ -59,7 +53,14 @@ describe("buildFormElements", () => {
     const mockCmsElementWithRadio = {
       ...mockCmsElement,
       heading: undefined,
-      preHeading: "pre heading",
+      content: [
+        {
+          __component: "basic.heading",
+          text: "some heading",
+          tagName: "h2",
+          id: 11,
+        },
+      ],
       formContent: [
         {
           __component: "form-elements.select",
