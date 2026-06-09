@@ -2,15 +2,12 @@ import { useState } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
 import RichText from "../common/RichText";
+import { stripHtml } from "~/util/stripHtml";
 
 export type DetailsProps = {
   title?: string;
   content?: string;
 };
-
-function stripHtml(content: string): string {
-  return content.replace(/[<>]/g, "");
-}
 
 export const Details = ({ title, content }: DetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
