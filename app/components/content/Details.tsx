@@ -23,6 +23,7 @@ export const Details = ({ title, content }: DetailsProps) => {
         onToggle={(e) => setIsOpen(e.currentTarget.open)}
       >
         <summary
+          id="summary"
           aria-expanded={isOpen}
           className="text-kern-action-default! kern-body kern-body--bold flex items-center focus:outline-hidden cursor-pointer list-none hover:underline"
         >
@@ -34,9 +35,16 @@ export const Details = ({ title, content }: DetailsProps) => {
           </span>
           {title}
         </summary>
-        <div className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default">
-          {content && <RichText className="leading-[1.5]" html={content} />}
-        </div>
+        <section
+          id="content"
+          aria-labelledby="summary"
+          aria-live="polite"
+          className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default"
+        >
+          {isOpen && content && (
+            <RichText className="leading-[1.5]" html={content} />
+          )}
+        </section>
       </details>
     </GridItem>
   );
