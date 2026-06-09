@@ -13,6 +13,7 @@ import Select, {
   type InputProps,
   type ControlProps,
   type InputActionMeta,
+  type Options,
 } from "react-select";
 import Creatable from "react-select/creatable";
 import classNames from "classnames";
@@ -118,7 +119,7 @@ const AutoSuggestInput = ({
     () =>
       new Fuse(items, {
         keys: ["label"],
-        threshold: 0.5,
+        threshold: 0.4,
         minMatchCharLength: 5,
       }),
     [items],
@@ -224,6 +225,13 @@ const AutoSuggestInput = ({
           aria-invalid={field.error() !== null}
           {...(isCreatable && {
             formatCreateLabel: (creatableValue) => creatableValue,
+            isValidNewOption: (
+              input,
+              _value: Options<DataListOptions>,
+              selectOptions,
+            ) =>
+              selectOptions.length === 0 &&
+              input.length >= minSuggestCharacters,
           })}
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
