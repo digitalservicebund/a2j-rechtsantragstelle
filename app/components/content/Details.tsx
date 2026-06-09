@@ -9,7 +9,7 @@ export type DetailsProps = {
 };
 
 function stripHtml(content: string): string {
-  return content.replace(/<[^>]+>/g, "");
+  return content.replace(/[<>]/g, "");
 }
 
 export const Details = ({ title, content }: DetailsProps) => {
