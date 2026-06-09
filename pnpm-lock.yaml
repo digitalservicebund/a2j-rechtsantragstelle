@@ -251,8 +251,8 @@ importers:
         specifier: ^29.1.1
         version: 29.1.1(@noble/hashes@1.8.0)
       knip:
-        specifier: ^6.15.0
-        version: 6.15.0
+        specifier: ^6.16.0
+        version: 6.16.0
       lefthook:
         specifier: ^2.1.9
         version: 2.1.9
@@ -3465,8 +3465,8 @@ packages:
   just-diff@6.0.2:
     resolution: {integrity: sha512-S59eriX5u3/QhMNq3v/gm8Kd0w8OS6Tz2FS1NG4blv+z0MuQcBRJyFWjdovM0Rad4/P4aUPFtnkNjMjyMlMSYA==}
 
-  knip@6.15.0:
-    resolution: {integrity: sha512-uBaKFEGcu/HG4EY2gWFBMr+fBF43Jftoc2riJX51TKME1Z46C8UQIbNEusenYbEWihphxe2PY0Kns0yPvPYz4A==}
+  knip@6.16.0:
+    resolution: {integrity: sha512-znPEmwYmkGHp57VxCQ/k983bVWls74DpRKh/EgYojyssgV2h2dZDvjN3+7WU034LzObjElUVRPoBHq9w/fG1ng==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -8142,13 +8142,12 @@ snapshots:
 
   just-diff@6.0.2: {}
 
-  knip@6.15.0:
+  knip@6.16.0:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       formatly: 0.3.0
       get-tsconfig: 4.14.0
       jiti: 2.7.0
-      minimist: 1.2.8
       oxc-parser: 0.133.0
       oxc-resolver: 11.20.0
       picomatch: 4.0.4
