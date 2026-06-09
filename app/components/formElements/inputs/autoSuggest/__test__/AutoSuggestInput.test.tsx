@@ -34,6 +34,7 @@ const mockedValidate = vi.fn();
 const mockedAnnounceLiveMessage = vi.fn();
 const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
+const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
 function getMockUseFieldReturnValue() {
   return {
@@ -67,9 +68,7 @@ function getMockUseFieldReturnValue() {
 beforeEach(() => {
   vi.mocked(useField).mockReturnValue(getMockUseFieldReturnValue());
 
-  vi.spyOn(useDataListOptions, "default").mockReturnValue(
-    getDataListOptions("airports"),
-  );
+  dataListSpy.mockReturnValue(getDataListOptions("airports"));
 
   vi.mocked(useLiveMessage.default).mockReturnValue({
     liveMessage: "",
@@ -454,6 +453,28 @@ describe("AutoSuggestInput", () => {
 
     await waitFor(() => {
       expect(getByText(freeTextOption.value)).toBeInTheDocument();
+      expect(getByTestId(`auto-suggest-input-menu-item`)).toBeInTheDocument();
+    });
+  });
+
+  it("should only show the free text option when no options exist and the user has entered text", async () => {
+    dataListSpy.mockReturnValue([]);
+    const { getByRole, getByText, getByTestId } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        supportsFreeText
+        dataList="streetNames"
+        errorMessages={[{ code: "required", text: "Field is required" }]}
+        isDisabled={false}
+      />,
+    );
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "Nonexistent" },
+    });
+
+    await waitFor(() => {
+      expect(getByText("Nonexistent")).toBeInTheDocument();
       expect(getByTestId(`auto-suggest-input-menu-item`)).toBeInTheDocument();
     });
   });
