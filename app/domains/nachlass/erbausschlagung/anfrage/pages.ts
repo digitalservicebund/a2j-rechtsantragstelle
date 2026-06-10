@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { kinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
@@ -12,47 +13,6 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
-
-const kinderArraySchema = z.array(
-  z
-    .object({
-      vorname: stringRequiredSchema,
-      nachname: stringRequiredSchema,
-      geburtsdatum: createSplitDateSchema({
-        earliest: () => addYears(today(), -150),
-        latest: () => today(),
-      }),
-      wohnortBeiAntragsteller: YesNoAnswer,
-      strasse: stringRequiredSchema,
-      hausnummer: germanHouseNumberSchema,
-      plz: postcodeSchema,
-      ort: stringRequiredSchema,
-      adresseZusatz: stringOptionalSchema,
-      optionSorgerecht: z.enum([
-        "yes",
-        "shared",
-        "anotherPerson",
-        "anotherOrganization",
-      ]),
-      hasRenouncedInheritance: YesNoAnswer,
-      vornameSorgerecht: stringRequiredSchema,
-      nachnameSorgerecht: stringRequiredSchema,
-      geburtsnameSorgerecht: stringOptionalSchema,
-      hasSorgerechtSameAddress: YesNoAnswer,
-      strasseSorgerecht: stringRequiredSchema,
-      hausnummerSorgerecht: germanHouseNumberSchema,
-      plzSorgerecht: postcodeSchema,
-      ortSorgerecht: stringRequiredSchema,
-      adresseZusatzSorgerecht: stringOptionalSchema,
-      organizationNameSorgerecht: stringRequiredSchema,
-      organizationStrasseSorgerecht: stringRequiredSchema,
-      organizationHausnummerSorgerecht: germanHouseNumberSchema,
-      organizationPlzSorgerecht: postcodeSchema,
-      organizationOrtSorgerecht: stringRequiredSchema,
-      organizationAdressZusatzSorgerecht: stringOptionalSchema,
-    })
-    .partial(),
-);
 
 export const nachlassErbausschlagungAnfragePages = {
   start: {
