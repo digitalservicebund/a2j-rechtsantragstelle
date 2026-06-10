@@ -57,7 +57,7 @@ const Heading = ({
         className="px-kern-space-large lg:px-0 xl:px-0"
       >
         <Tag
-          className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
+          className={`${sizeClass} p-0! ${className ?? ""} outline-none break-words`}
           tabIndex={tabIndex}
           id={elementId}
         >
@@ -68,7 +68,7 @@ const Heading = ({
   }
   return (
     <Tag
-      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none`}
+      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none break-words`}
       tabIndex={tabIndex}
       id={elementId}
     >
