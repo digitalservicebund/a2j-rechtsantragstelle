@@ -14,23 +14,20 @@ export const commonErbausschlagungKinderFields = {
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
-  wohnortBeiAntragsteller: YesNoAnswer,
+  wohnortBeiAntragsteller: YesNoAnswer.optional(),
   strasse: stringOptionalSchema,
   hausnummer: germanHouseNumberSchema.optional(),
   plz: postcodeSchema.optional(),
   ort: stringOptionalSchema,
   adresseZusatz: stringOptionalSchema,
-  optionSorgerecht: z.enum([
-    "yes",
-    "shared",
-    "anotherPerson",
-    "anotherOrganization",
-  ]),
-  hasRenouncedInheritance: YesNoAnswer,
+  optionSorgerecht: z
+    .enum(["yes", "shared", "anotherPerson", "anotherOrganization"])
+    .optional(),
+  hasRenouncedInheritance: YesNoAnswer.optional(),
   vornameSorgerecht: stringOptionalSchema,
   nachnameSorgerecht: stringOptionalSchema,
   geburtsnameSorgerecht: stringOptionalSchema,
-  hasSorgerechtSameAddress: YesNoAnswer,
+  hasSorgerechtSameAddress: YesNoAnswer.optional(),
   strasseSorgerecht: stringOptionalSchema,
   hausnummerSorgerecht: germanHouseNumberSchema.optional(),
   plzSorgerecht: postcodeSchema.optional(),
@@ -106,7 +103,7 @@ const minorLivesWithApplicant = {
   ...livesWithApplicant,
 };
 
-export const kinderArraySchema = z
+export const erbausschlagungKinderArraySchema = z
   .union([
     // Situation 1: Adult child
     z.object({
@@ -127,19 +124,19 @@ export const kinderArraySchema = z
     // Situation 2: Minor child living separately from applicant
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("yes"),
+      optionSorgerecht: z.literal("yes"),
       hasRenouncedInheritance: YesNoAnswer,
     }),
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("shared"),
+      optionSorgerecht: z.literal("shared"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("yes"),
       hasRenouncedInheritance: YesNoAnswer,
     }),
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("shared"),
+      optionSorgerecht: z.literal("shared"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("no"),
       ...sorgerechtPersonAdresseRequired,
@@ -147,38 +144,38 @@ export const kinderArraySchema = z
     }),
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("anotherPerson"),
+      optionSorgerecht: z.literal("anotherPerson"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("yes"),
     }),
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("anotherPerson"),
+      optionSorgerecht: z.literal("anotherPerson"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("no"),
       ...sorgerechtPersonAdresseRequired,
     }),
     z.object({
       ...minorLivesSeparately,
-      optionSorgeRecht: z.literal("anotherOrganization"),
+      optionSorgerecht: z.literal("anotherOrganization"),
       ...sorgerechtOrganizationRequired,
     }),
     // Situation 3: Minor child living with applicant
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("yes"),
+      optionSorgerecht: z.literal("yes"),
       hasRenouncedInheritance: YesNoAnswer,
     }),
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("shared"),
+      optionSorgerecht: z.literal("shared"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("yes"),
       hasRenouncedInheritance: YesNoAnswer,
     }),
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("shared"),
+      optionSorgerecht: z.literal("shared"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("no"),
       ...sorgerechtPersonAdresseRequired,
@@ -186,20 +183,20 @@ export const kinderArraySchema = z
     }),
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("anotherPerson"),
+      optionSorgerecht: z.literal("anotherPerson"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("yes"),
     }),
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("anotherPerson"),
+      optionSorgerecht: z.literal("anotherPerson"),
       ...sorgerechtPersonRequired,
       hasSorgerechtSameAddress: z.literal("no"),
       ...sorgerechtPersonAdresseRequired,
     }),
     z.object({
       ...minorLivesWithApplicant,
-      optionSorgeRecht: z.literal("anotherOrganization"),
+      optionSorgerecht: z.literal("anotherOrganization"),
       ...sorgerechtOrganizationRequired,
     }),
   ])

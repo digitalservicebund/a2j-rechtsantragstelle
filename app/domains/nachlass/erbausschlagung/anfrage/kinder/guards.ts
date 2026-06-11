@@ -1,10 +1,9 @@
-import { type NachlassErbausschlagungAnfrageKind } from "~/domains/nachlass/services/pdf/sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type DateObject, toDate } from "~/services/validation/dateObject";
 import { addYears, today } from "~/util/date";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 
 type NachlassErbausschlagungAnfrageDaten =
   GenericGuard<NachlassErbausschlagungAnfrageUserData>;
@@ -79,86 +78,6 @@ export const getOptionSorgerecht = ({
   return kinder?.at(arrayIndex)?.optionSorgerecht;
 };
 
-const isKidCustodySharedOrAnotherPersonDone = (
-  kid: NachlassErbausschlagungAnfrageKind,
-) => {
-  const hasCustodyAddressData =
-    kid.hasSorgerechtSameAddress === "yes" ||
-    objectKeysNonEmpty(kid, [
-      "strasseSorgerecht",
-      "hausnummerSorgerecht",
-      "plzSorgerecht",
-      "ortSorgerecht",
-    ]);
-
-  const hasRequiredCustodianFieldsShared = objectKeysNonEmpty(kid, [
-    "vornameSorgerecht",
-    "nachnameSorgerecht",
-    "hasSorgerechtSameAddress",
-    "hasRenouncedInheritance",
-  ]);
-
-  const hasRequiredCustodianFieldsAnotherPerson = objectKeysNonEmpty(kid, [
-    "vornameSorgerecht",
-    "nachnameSorgerecht",
-    "hasSorgerechtSameAddress",
-  ]);
-
-  if (kid.optionSorgerecht === "shared") {
-    return hasRequiredCustodianFieldsShared && hasCustodyAddressData;
-  }
-
-  if (kid.optionSorgerecht === "anotherPerson") {
-    return hasRequiredCustodianFieldsAnotherPerson && hasCustodyAddressData;
-  }
-
-  return false;
-};
-
-const isKidCustodyOrganizationDone = (
-  kid: NachlassErbausschlagungAnfrageKind,
-) => {
-  return objectKeysNonEmpty(kid, [
-    "organizationNameSorgerecht",
-    "organizationStrasseSorgerecht",
-    "organizationHausnummerSorgerecht",
-    "organizationPlzSorgerecht",
-    "organizationOrtSorgerecht",
-  ]);
-};
-
-export const isKidFilled = (
-  kid: NachlassErbausschlagungAnfrageKind,
-): boolean => {
-  const hasRequiredBaseFields = objectKeysNonEmpty(kid, [
-    "vorname",
-    "nachname",
-    "geburtsdatum",
-    "wohnortBeiAntragsteller",
-  ]);
-
-  const hasKidAddressData =
-    kid.wohnortBeiAntragsteller === "yes" ||
-    objectKeysNonEmpty(kid, ["strasse", "hausnummer", "plz", "ort"]);
-
-  if (!hasRequiredBaseFields || !hasKidAddressData) return false;
-
-  const isAbove18YearsOld = isBirthDateAbove18Years(kid.geburtsdatum);
-  if (isAbove18YearsOld) return true;
-
-  switch (kid.optionSorgerecht) {
-    case "yes":
-      return objectKeysNonEmpty(kid, ["hasRenouncedInheritance"]);
-    case "shared":
-    case "anotherPerson":
-      return isKidCustodySharedOrAnotherPersonDone(kid);
-    case "anotherOrganization":
-      return isKidCustodyOrganizationDone(kid);
-    default:
-      return false;
-  }
-};
-
 export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
   context: { numberOfKids, kinder },
 }) => {
@@ -166,5 +85,5 @@ export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
 
   if (numberOfKids !== kinder.length) return false;
 
-  return kinder.every(isKidFilled);
+  return erbausschlagungKinderArraySchema.safeParse(kinder).success;
 };

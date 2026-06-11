@@ -1,7 +1,7 @@
 import { z } from "zod";
 import {
   commonErbausschlagungKinderFields,
-  kinderArraySchema,
+  erbausschlagungKinderArraySchema,
   sorgerechtOrganizationRequired,
   sorgerechtPersonAdresseRequired,
   sorgerechtPersonRequired,
@@ -250,7 +250,7 @@ export const nachlassErbausschlagungAnfragePages = {
   kinder: {
     stepId: "kinder/kinder",
     pageSchema: {
-      kinder: kinderArraySchema,
+      kinder: erbausschlagungKinderArraySchema,
     },
     arrayPages: {
       name: {

@@ -2,7 +2,7 @@ import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
-import { isKidFilled } from "./kinder/guards";
+import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -157,7 +157,9 @@ export const getMissingFilledKidNames = (
 
   return {
     missingFilledKidNames: context.kinder
-      .filter((kid) => !isKidFilled(kid))
+      .filter(
+        (kid) => !erbausschlagungKinderArraySchema.safeParse([kid]).success,
+      )
       .map((kid) => `${kid.vorname} ${kid.nachname}`),
   };
 };
