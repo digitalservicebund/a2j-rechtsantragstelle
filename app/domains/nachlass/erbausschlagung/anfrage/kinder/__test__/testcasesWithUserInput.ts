@@ -109,7 +109,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/adresse",
+        stepId: "/kinder/kinder/0/adresse-optional",
       },
       {
         stepId: "/kinder/uebersicht",
@@ -154,7 +154,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/adresse",
+        stepId: "/kinder/kinder/0/adresse-optional",
         userInput: {
           "kinder#strasse": "street",
           "kinder#hausnummer": "1",

@@ -146,49 +146,14 @@ export const nachlassErbausschlagungAnfragePages = {
       verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,
     },
   },
-  testament: {
-    stepId: "verstorbene/testament",
-    pageSchema: {
-      testament: z.enum([
-        "none",
-        "handwritten",
-        "notarized",
-        "erbvertrag",
-        "unknown",
-      ]),
-    },
-  },
-  namedInTestament: {
-    stepId: "verstorbene/im-testament-genannt",
-    pageSchema: {
-      namedInTestament: YesNoAnswer,
-    },
-  },
-  letterReceivedFromNachlassgericht: {
-    stepId: "verstorbene/brief-vom-nachlassgericht",
-    pageSchema: {
-      letterReceivedFromNachlassgericht: YesNoAnswer,
-    },
-  },
-  letterReceivedFromCourt: {
-    stepId: "verstorbene/brief-vom-gericht",
-    pageSchema: {
-      dateOfReceipt: createSplitDateSchema({
-        latest: () => today(),
-      }),
-      weitereAngaben: stringOptionalSchema,
-    },
-  },
   awarenessDate: {
-    stepId: "verstorbene/kenntnisdatum",
+    stepId: "ausschlagende-person/kenntnisdatum",
     pageSchema: {
       awarenessDate: createSplitDateSchema({
         latest: () => today(),
       }),
+      awarenessDateRemarks: stringOptionalSchema,
     },
-  },
-  ausschlagungNotNecessary: {
-    stepId: "verstorbene/ausschlagung-nicht-notwendig",
   },
   ausschlagendePersonName: {
     stepId: "ausschlagende-person/name",
@@ -233,29 +198,22 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "ausschlagende-person/beziehung-zum-erblasser",
     pageSchema: {
       ausschlagendePersonBeziehungZumErblasser: z.enum([
-        "mother-father",
+        "not-related",
+        "wife-husband",
+        "life-partner",
         "daughter-son",
-        "grandmother-grandfather",
         "granddaughter-grandson",
-        "great-grandmother-great-grandfather",
+        "mother-father",
         "sister-brother",
         "half-sister-half-brother",
         "niece-nephew",
+        "grandmother-grandfather",
         "aunt-uncle",
         "cousin",
+        "great-grandmother-great-grandfather",
         "great-aunt-great-uncle",
-        "wife-husband",
-        "life-partner",
-        "mother-in-law-father-in-law",
-        "sister-in-law-brother-in-law",
-        "daughter-in-law-son-in-law",
-        "stepmother-stepfather",
-        "stepdaughter-stepson",
-        "stepsister-stepbrother",
-        "foster-mother-foster-father",
-        "foster-child",
         "adoptive-mother-adoptive-father",
-        "godmother-godfather",
+        "adoptive-daughter-adoptive-son",
         "other",
       ]),
     },
@@ -307,6 +265,15 @@ export const nachlassErbausschlagungAnfragePages = {
           "kinder#plz": kinderArraySchema.element.shape.plz,
           "kinder#ort": kinderArraySchema.element.shape.ort,
           "kinder#adresseZusatz": kinderArraySchema.element.shape.adresseZusatz,
+        },
+      },
+      "adresse-optional": {
+        pageSchema: {
+          "kinder#strasse": stringOptionalSchema,
+          "kinder#hausnummer": germanHouseNumberSchema.optional(),
+          "kinder#plz": postcodeSchema.optional(),
+          "kinder#ort": stringOptionalSchema,
+          "kinder#adresseZusatz": stringOptionalSchema,
         },
       },
       sorgerecht: {

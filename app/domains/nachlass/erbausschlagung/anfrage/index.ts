@@ -3,7 +3,7 @@ import type { Flow } from "~/domains/flows.server";
 import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   getArrayIndexStrings,
-  getAusschlagendePersonVorname,
+  getAusschlagendePersonName,
   getKinderNameSorgerecht,
   getKinderName,
   getKinderOrganizationName,
@@ -11,10 +11,12 @@ import {
   getVerstorbeneName,
   isKinderAnotherPerson,
   isKinderShared,
-  isTestamentErbvertrag,
   getAusschlagendePersonCourtData,
   getVerstorbenenPersonCourtData,
   getMissingFilledKidNames,
+  awarenessDateGreaterThan6Weeks,
+  awarenessDateGreater5WeeksLessThan6Weeks,
+  erblasserOutsideGermany,
 } from "./stringReplacements";
 
 export const nachlassErbausschlagungAnfrage = {
@@ -22,8 +24,7 @@ export const nachlassErbausschlagungAnfrage = {
   config: nachlassErbausschlagungAnfrageXStateConfig,
   stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
     ...getVerstorbeneName(context),
-    ...getAusschlagendePersonVorname(context),
-    ...isTestamentErbvertrag(context),
+    ...getAusschlagendePersonName(context),
     ...getKinderName(context),
     ...getArrayIndexStrings(context),
     ...isKinderAnotherPerson(context),
@@ -34,5 +35,8 @@ export const nachlassErbausschlagungAnfrage = {
     ...getAusschlagendePersonCourtData(context),
     ...getVerstorbenenPersonCourtData(context),
     ...getMissingFilledKidNames(context),
+    ...awarenessDateGreaterThan6Weeks(context),
+    ...awarenessDateGreater5WeeksLessThan6Weeks(context),
+    ...erblasserOutsideGermany(context),
   }),
 } satisfies Flow;

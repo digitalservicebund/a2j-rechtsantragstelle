@@ -17,7 +17,7 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
         url: "/nachlass/erbausschlagung/anfrage/kinder/kinder",
         initialInputUrl: "name",
         statementKey: "hasKid",
-        hiddenFields: ["wohnortBeiAntragsteller", "geburtsnameSorgerecht"],
+        hiddenFields: ["geburtsnameSorgerecht"],
         event: "add-kinder",
       },
     },

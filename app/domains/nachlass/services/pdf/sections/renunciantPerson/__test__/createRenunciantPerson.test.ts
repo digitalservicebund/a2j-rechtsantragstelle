@@ -78,8 +78,8 @@ describe("createRenunciantPerson", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     createRenunciantPerson(mockDoc, mockStruct, {
-      dateOfReceipt: { day: "01", month: "01", year: "2020" },
-      weitereAngaben: "Some additional info",
+      awarenessDate: { day: "01", month: "01", year: "2020" },
+      awarenessDateRemarks: "Some additional info",
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe("createRenunciantPerson", () => {
       { continued: true },
     );
     expect(mockDoc.text).toHaveBeenCalledWith("01.01.2020");
-    expect(mockDoc.text).toHaveBeenCalledWith("Anmerkung zur Kenntnisnahme: ", {
+    expect(mockDoc.text).toHaveBeenCalledWith("Anmerkung zum Datum: ", {
       continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith("Some additional info");

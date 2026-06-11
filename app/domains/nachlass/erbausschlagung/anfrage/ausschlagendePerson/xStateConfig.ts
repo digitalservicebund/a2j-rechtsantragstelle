@@ -3,6 +3,7 @@ import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import { type GenericGuard } from "~/domains/guards.server";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -23,18 +24,26 @@ export const ausschlagendePersonXStateConfig = {
   id: "ausschlagende-person",
   initial: stepIds.ausschlagendePersonName.relative,
   states: {
-    [stepIds.ausschlagendePersonName.relative]: {
+    [stepIds.awarenessDate.relative]: {
       on: {
         BACK: [
           {
             guard: ({ context }) =>
-              context.letterReceivedFromNachlassgericht === "yes" ||
-              context.testament === "erbvertrag" ||
-              context.testament === "notarized",
-            target: stepIds.letterReceivedFromCourt.absolute,
+              context.verstorbeneLebensmittelpunkt === "ausland",
+            target: stepIds.verstorbeneAuslaendischeAdresse.absolute,
           },
-          stepIds.awarenessDate.absolute,
+          stepIds.verstorbeneAdresse.absolute,
         ],
+        SUBMIT: {
+          guard: ({ context }) =>
+            objectKeysNonEmpty(context.awarenessDate, ["day", "month", "year"]),
+          target: stepIds.ausschlagendePersonName.relative,
+        },
+      },
+    },
+    [stepIds.ausschlagendePersonName.relative]: {
+      on: {
+        BACK: stepIds.awarenessDate.relative,
         SUBMIT: stepIds.ausschlagendePersonPlz.relative,
       },
     },
