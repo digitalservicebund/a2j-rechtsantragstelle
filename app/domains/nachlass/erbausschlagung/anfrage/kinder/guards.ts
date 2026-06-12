@@ -17,7 +17,7 @@ export const isKinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageD
     return kinderWohnortBeiAntragsteller === "yes";
   };
 
-const isBirthDateAbove18Years = (birthDateObject: DateObject) => {
+export const isBirthDateAbove18Years = (birthDateObject: DateObject) => {
   const birthDate = toDate(birthDateObject);
   if (Number.isNaN(birthDate.getTime())) return false;
 

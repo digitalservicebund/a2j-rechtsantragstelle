@@ -47,7 +47,8 @@ export const addDeceasedPersonDetails = (
           userData.verstorbeneSterbedatum
             ? toDateString(userData.verstorbeneSterbedatum)
             : "",
-        );
+        )
+        .moveDown(1);
     }),
   );
 };

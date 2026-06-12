@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -16,8 +17,8 @@ export const commonErbausschlagungKinderFields = {
   }),
   wohnortBeiAntragsteller: YesNoAnswer.optional(),
   strasse: stringOptionalSchema,
-  hausnummer: germanHouseNumberSchema.optional(),
-  plz: postcodeSchema.optional(),
+  hausnummer: schemaOrEmptyStringOptional(germanHouseNumberSchema),
+  plz: schemaOrEmptyStringOptional(postcodeSchema),
   ort: stringOptionalSchema,
   adresseZusatz: stringOptionalSchema,
   optionSorgerecht: z
@@ -29,14 +30,16 @@ export const commonErbausschlagungKinderFields = {
   geburtsnameSorgerecht: stringOptionalSchema,
   hasSorgerechtSameAddress: YesNoAnswer.optional(),
   strasseSorgerecht: stringOptionalSchema,
-  hausnummerSorgerecht: germanHouseNumberSchema.optional(),
-  plzSorgerecht: postcodeSchema.optional(),
+  hausnummerSorgerecht: schemaOrEmptyStringOptional(germanHouseNumberSchema),
+  plzSorgerecht: schemaOrEmptyStringOptional(postcodeSchema),
   ortSorgerecht: stringOptionalSchema,
   adresseZusatzSorgerecht: stringOptionalSchema,
   organizationNameSorgerecht: stringOptionalSchema,
   organizationStrasseSorgerecht: stringOptionalSchema,
-  organizationHausnummerSorgerecht: germanHouseNumberSchema.optional(),
-  organizationPlzSorgerecht: postcodeSchema.optional(),
+  organizationHausnummerSorgerecht: schemaOrEmptyStringOptional(
+    germanHouseNumberSchema,
+  ),
+  organizationPlzSorgerecht: schemaOrEmptyStringOptional(postcodeSchema),
   organizationOrtSorgerecht: stringOptionalSchema,
   organizationAdressZusatzSorgerecht: stringOptionalSchema,
 };

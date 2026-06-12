@@ -5,6 +5,7 @@ import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import { toDate } from "~/services/validation/dateObject";
 import { addDays, today } from "~/util/date";
+import { isBirthDateAbove18Years } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/guards";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -115,6 +116,33 @@ export const getNumberOfKids = (
     hasOneKidAdded: context.kinder?.length === 1,
   };
 };
+export const hasAnyKids = (context: NachlassErbausschlagungAnfrageUserData) => {
+  return {
+    hasAnyKids: context.kinder !== undefined && context.kinder.length > 0,
+  };
+};
+
+export const hasAnyMinorKids = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    hasAnyMinorKids:
+      context.kinder?.some(
+        (kid) => !isBirthDateAbove18Years(kid.geburtsdatum),
+      ) ?? false,
+  };
+};
+
+export const hasAnyAdultKids = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    hasAnyAdultKids:
+      context.kinder?.some((kid) =>
+        isBirthDateAbove18Years(kid.geburtsdatum),
+      ) ?? false,
+  };
+};
 
 export const getArrayIndexStrings = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -182,6 +210,19 @@ export const getVerstorbenenPersonCourtData = (
     verstorbenePersonCourtOrt: verstorbenePersonCourt?.ORT,
     verstorbenePersonCourtWebsite: verstorbenePersonCourt?.URL1,
     verstorbenePersonCourtTelephone: verstorbenePersonCourt?.TEL,
+  };
+};
+
+export const awarenessDate = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDate: toDate(context.awarenessDate).toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    }),
   };
 };
 
