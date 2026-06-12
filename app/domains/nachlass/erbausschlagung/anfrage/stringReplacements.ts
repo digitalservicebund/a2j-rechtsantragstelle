@@ -3,6 +3,8 @@ import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
+import { toDate } from "~/services/validation/dateObject";
+import { addDays, today } from "~/util/date";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -12,19 +14,11 @@ export const getVerstorbeneName = (
   };
 };
 
-export const getAusschlagendePersonVorname = (
+export const getAusschlagendePersonName = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   return {
-    ausschlagendePersonVorname: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
-  };
-};
-
-export const isTestamentErbvertrag = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
-  return {
-    isTestamentErbvertrag: context.testament === "erbvertrag",
+    ausschlagendePersonName: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
   };
 };
 
@@ -188,5 +182,34 @@ export const getVerstorbenenPersonCourtData = (
     verstorbenePersonCourtOrt: verstorbenePersonCourt?.ORT,
     verstorbenePersonCourtWebsite: verstorbenePersonCourt?.URL1,
     verstorbenePersonCourtTelephone: verstorbenePersonCourt?.TEL,
+  };
+};
+
+export const awarenessDateGreaterThan6Weeks = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDateGreaterThan6Weeks:
+      today() >= addDays(toDate(context.awarenessDate), 42),
+  };
+};
+
+export const awarenessDateGreater5WeeksLessThan6Weeks = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDateGreater5WeeksLessThan6Weeks:
+      today() >= addDays(toDate(context.awarenessDate), 32) &&
+      today() < addDays(toDate(context.awarenessDate), 42),
+  };
+};
+
+export const erblasserOutsideGermany = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    erblasserOutsideGermany: context.verstorbeneLebensmittelpunkt === "ausland",
   };
 };

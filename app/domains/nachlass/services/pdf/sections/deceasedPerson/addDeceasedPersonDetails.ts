@@ -6,19 +6,6 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 
-const testamentText = (
-  testament: NachlassErbausschlagungAnfrageUserData["testament"],
-): string => {
-  const responses: Record<string, string> = {
-    none: "Nein",
-    handwritten: "Ja, handschriftliches Testament",
-    notarized: "Ja, notarielles Testament",
-    erbvertrag: "Ja, Erbvertrag",
-    unknown: "Ich weiß es nicht",
-  };
-  return responses[testament ?? ""] ?? "";
-};
-
 export const addDeceasedPersonDetails = (
   doc: typeof PDFDocument,
   deceasedPersonParagraph: PDFKit.PDFStructureElement,
@@ -61,14 +48,6 @@ export const addDeceasedPersonDetails = (
             ? toDateString(userData.verstorbeneSterbedatum)
             : "",
         );
-
-      doc
-        .moveDown()
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text("Testament oder Erbvertrag vorhanden: ", { continued: true })
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(testamentText(userData.testament))
-        .moveDown();
     }),
   );
 };
