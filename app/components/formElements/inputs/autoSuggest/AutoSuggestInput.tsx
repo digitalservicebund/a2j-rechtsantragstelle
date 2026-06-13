@@ -230,8 +230,7 @@ const AutoSuggestInput = ({
               _value: Options<DataListOptions>,
               selectOptions,
             ) =>
-              selectOptions.length === 0 &&
-              input.length >= minSuggestCharacters,
+              selectOptions.length < 2 && input.length >= minSuggestCharacters,
           })}
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,

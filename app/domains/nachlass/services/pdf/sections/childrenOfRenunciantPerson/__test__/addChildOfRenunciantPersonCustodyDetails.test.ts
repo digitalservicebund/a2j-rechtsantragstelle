@@ -11,6 +11,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "anotherOrganization",
       organizationNameSorgerecht: "Sorgerechtsorganisation",
       organizationStrasseSorgerecht: "Sorgerechtsstraße",
@@ -44,6 +52,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "shared",
       hasSorgerechtSameAddress: "no",
       vornameSorgerecht: "Max",
@@ -79,6 +95,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Maximilian",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "shared",
       hasSorgerechtSameAddress: "yes",
       vornameSorgerecht: "Max",
@@ -111,6 +135,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "anotherPerson",
       hasSorgerechtSameAddress: "yes",
       vornameSorgerecht: "Max",
@@ -143,6 +175,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "anotherPerson",
       hasSorgerechtSameAddress: "no",
       vornameSorgerecht: "Max",
@@ -178,6 +218,14 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
 
     addChildOfRenunciantPersonCustodyDetails(mockDoc, mockStruct, {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: {
+        day: "01",
+        month: "01",
+        year: "2020",
+      },
+      wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "yes",
     } satisfies NachlassErbausschlagungAnfrageKind);
 

@@ -10,7 +10,6 @@ const userDataMock = {
   verstorbeneNachname: "Mustermann",
   verstorbeneGeburtsdatum: { day: "01", month: "01", year: "1990" },
   verstorbeneSterbedatum: { day: "01", month: "01", year: "2020" },
-  testament: "none",
 } satisfies NachlassErbausschlagungAnfrageUserData;
 
 describe("addDeceasedPersonDetails", () => {
@@ -69,84 +68,5 @@ describe("addDeceasedPersonDetails", () => {
     );
 
     expect(mustermannCalls.length).toBe(2);
-  });
-
-  it("should add testament when it is none", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDeceasedPersonDetails(mockDoc, mockStruct, userDataMock);
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Testament oder Erbvertrag vorhanden: ",
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith("Nein");
-  });
-
-  it("should add testament when it is unknown", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDeceasedPersonDetails(mockDoc, mockStruct, {
-      ...userDataMock,
-      testament: "unknown",
-    });
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Testament oder Erbvertrag vorhanden: ",
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith("Ich weiß es nicht");
-  });
-
-  it("should add testament when it is handwritten", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDeceasedPersonDetails(mockDoc, mockStruct, {
-      ...userDataMock,
-      testament: "handwritten",
-    });
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Testament oder Erbvertrag vorhanden: ",
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Ja, handschriftliches Testament",
-    );
-  });
-
-  it("should add testament when it is notarized", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDeceasedPersonDetails(mockDoc, mockStruct, {
-      ...userDataMock,
-      testament: "notarized",
-    });
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Testament oder Erbvertrag vorhanden: ",
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith("Ja, notarielles Testament");
-  });
-
-  it("should add testament when it is erbvertrag", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    addDeceasedPersonDetails(mockDoc, mockStruct, {
-      ...userDataMock,
-      testament: "erbvertrag",
-    });
-
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Testament oder Erbvertrag vorhanden: ",
-      { continued: true },
-    );
-    expect(mockDoc.text).toHaveBeenCalledWith("Ja, Erbvertrag");
   });
 });
