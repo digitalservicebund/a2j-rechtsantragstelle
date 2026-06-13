@@ -36,7 +36,12 @@ export const renderZodString = (
       <Textarea
         key={fieldName}
         {...sharedProps}
-        {...pick(matchingElement, ["details", "description", "maxLength"])}
+        {...pick(matchingElement, [
+          "suffix",
+          "details",
+          "description",
+          "maxLength",
+        ])}
       />
     );
   if (matchingElement?.__component === "form-elements.date-input")

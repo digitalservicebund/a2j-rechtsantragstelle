@@ -13,21 +13,24 @@ const TITLE = "II. Ausschlagende Person";
 
 const addAcknowledgmentDetails = (
   doc: typeof PDFDocument,
-  { dateOfReceipt, weitereAngaben }: NachlassErbausschlagungAnfrageUserData,
+  {
+    awarenessDate,
+    awarenessDateRemarks,
+  }: NachlassErbausschlagungAnfrageUserData,
 ) => {
   doc
     .moveDown()
     .font(FONTS_BUNDESSANS_REGULAR)
     .text("Kenntnisnahme der Erbenstellung am: ", { continued: true })
     .font(FONTS_BUNDESSANS_BOLD)
-    .text(dateOfReceipt ? toDateString(dateOfReceipt) : " ");
+    .text(awarenessDate ? toDateString(awarenessDate) : " ");
 
-  if (weitereAngaben && weitereAngaben?.length > 0) {
+  if (awarenessDateRemarks && awarenessDateRemarks?.length > 0) {
     doc
       .font(FONTS_BUNDESSANS_REGULAR)
-      .text("Anmerkung zur Kenntnisnahme: ", { continued: true })
+      .text("Anmerkung zum Datum: ", { continued: true })
       .font(FONTS_BUNDESSANS_BOLD)
-      .text(weitereAngaben);
+      .text(awarenessDateRemarks);
   }
 };
 
@@ -35,28 +38,22 @@ const testatorText = (
   ausschlagendePersonBeziehungZumErblasser: NachlassErbausschlagungAnfrageUserData["ausschlagendePersonBeziehungZumErblasser"],
 ): string => {
   const responses: Record<string, string> = {
-    "mother-father": "Mutter/Vater",
+    "not-related": "Nicht verwandt",
+    "wife-husband": "Ehefrau/Ehemann",
+    "life-partner": "Lebenspartner*in",
     "daughter-son": "Tochter/Sohn",
-    "grandmother-grandfather": "Großmutter/Großvater",
     "granddaughter-grandson": "Enkelin/Enkel",
-    "great-grandmother-great-grandfather": "Urgroßmutter/Urgroßvater",
+    "mother-father": "Mutter/Vater",
     "sister-brother": "Schwester/Bruder",
     "half-sister-half-brother": "Halbschwester/Halbbruder",
     "niece-nephew": "Nichte/Neffe",
+    "grandmother-grandfather": "Großmutter/Großvater",
     "aunt-uncle": "Tante/Onkel",
     cousin: "Cousin/Cousine",
+    "great-grandmother-great-grandfather": "Urgroßmutter/Urgroßvater",
     "great-aunt-great-uncle": "Großtante/Großonkel",
-    "wife-husband": "Ehefrau/Ehemann",
-    "life-partner": "Lebenspartner*in",
-    "mother-in-law-father-in-law": "Schwiegermutter/Schwiegervater",
-    "sister-in-law-brother-in-law": "Schwägerin/Schwager",
-    "daughter-in-law-son-in-law": "Schwiegertochter/Schwiegersohn",
-    "stepmother-stepfather": "Stiefmutter/Stiefvater",
-    "stepdaughter-stepson": "Stieftochter/Stiefsohn",
-    "stepsister-stepbrother": "Stiefschwester/Stiefbruder",
-    "foster-child": "Pflegekind",
     "adoptive-mother-adoptive-father": "Pflegemutter/Pflegevater",
-    "godmother-godfather": "Patentante/Patenonkel",
+    "adoptive-daughter-adoptive-son": "Adoptivtochter/Adoptivsohn",
     other: "Sonstiges",
   };
   return responses[ausschlagendePersonBeziehungZumErblasser ?? ""] ?? "";
