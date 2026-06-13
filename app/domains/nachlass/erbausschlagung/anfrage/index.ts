@@ -17,6 +17,10 @@ import {
   awarenessDateGreaterThan6Weeks,
   awarenessDateGreater5WeeksLessThan6Weeks,
   erblasserOutsideGermany,
+  hasAnyKids,
+  hasAnyAdultKids,
+  hasAnyMinorKids,
+  awarenessDate,
 } from "./stringReplacements";
 
 export const nachlassErbausschlagungAnfrage = {
@@ -26,6 +30,9 @@ export const nachlassErbausschlagungAnfrage = {
     ...getVerstorbeneName(context),
     ...getAusschlagendePersonName(context),
     ...getKinderName(context),
+    ...hasAnyKids(context),
+    ...hasAnyMinorKids(context),
+    ...hasAnyAdultKids(context),
     ...getArrayIndexStrings(context),
     ...isKinderAnotherPerson(context),
     ...getKinderOrganizationName(context),
@@ -35,6 +42,7 @@ export const nachlassErbausschlagungAnfrage = {
     ...getAusschlagendePersonCourtData(context),
     ...getVerstorbenenPersonCourtData(context),
     ...getMissingFilledKidNames(context),
+    ...awarenessDate(context),
     ...awarenessDateGreaterThan6Weeks(context),
     ...awarenessDateGreater5WeeksLessThan6Weeks(context),
     ...erblasserOutsideGermany(context),

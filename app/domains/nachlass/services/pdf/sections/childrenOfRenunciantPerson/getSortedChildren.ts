@@ -19,9 +19,9 @@ export const getChildBirthDate = (
 };
 
 export const getSortedChildren = (
-  kinder: Exclude<NachlassErbausschlagungAnfrageUserData["kinder"], undefined>,
+  kinder: NachlassErbausschlagungAnfrageUserData["kinder"],
 ) => {
-  return kinder.toSorted((leftChild, rightChild) => {
+  return (kinder ?? []).toSorted((leftChild, rightChild) => {
     const leftBirthTimestamp = getChildBirthDate(leftChild)?.getTime();
     const rightBirthTimestamp = getChildBirthDate(rightChild)?.getTime();
 

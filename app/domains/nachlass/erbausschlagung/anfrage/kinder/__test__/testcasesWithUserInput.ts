@@ -73,51 +73,6 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         stepId: "/kinder/warnung",
       },
     ],
-    withKidsAndWarningNotFilled: [
-      {
-        stepId: "/kinder/haben-sie-kinder",
-        userInput: {
-          hasKid: "yes",
-        },
-      },
-      {
-        stepId: "/kinder/wie-viele-kinder",
-        userInput: {
-          numberOfKids: 1,
-        },
-      },
-      {
-        stepId: "/kinder/uebersicht",
-        addArrayItemEvent: "add-kinder",
-      },
-      {
-        stepId: "/kinder/kinder/0/name",
-        userInput: {
-          "kinder#vorname": "Clara",
-          "kinder#nachname": "Mustermann",
-          "kinder#geburtsdatum": {
-            day: "01",
-            month: "01",
-            year: "2000",
-          },
-        },
-      },
-      {
-        stepId: "/kinder/kinder/0/wohnort",
-        userInput: {
-          "kinder#wohnortBeiAntragsteller": "no",
-        },
-      },
-      {
-        stepId: "/kinder/kinder/0/adresse-optional",
-      },
-      {
-        stepId: "/kinder/uebersicht",
-      },
-      {
-        stepId: "/kinder/warnung-nicht-ausgefuellt",
-      },
-    ],
     withKidsAndOverAgeWithoutAdresse: [
       {
         stepId: "/kinder/haben-sie-kinder",

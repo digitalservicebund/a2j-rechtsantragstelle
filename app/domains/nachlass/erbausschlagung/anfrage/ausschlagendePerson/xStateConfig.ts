@@ -22,7 +22,7 @@ const hasFilledAusschlagendePerson: NachlassErbausschlagungAnfrageDaten = ({
 
 export const ausschlagendePersonXStateConfig = {
   id: "ausschlagende-person",
-  initial: stepIds.ausschlagendePersonName.relative,
+  initial: stepIds.awarenessDate.relative,
   states: {
     [stepIds.awarenessDate.relative]: {
       on: {
