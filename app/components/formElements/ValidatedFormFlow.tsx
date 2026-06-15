@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useLocation } from "react-router";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import type { UserData } from "~/domains/userData";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildStepSchemaWithPageSchema } from "~/services/validation/stepValidator/buildStepSchemaWithPageSchema";
@@ -24,8 +24,11 @@ function ValidatedFlowForm({
   buttonNavigationProps: { back, next },
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
-  const pageSchema = getPageSchema(pathname);
-  const formSchema = buildStepSchemaWithPageSchema(pathname, pageSchema);
+  const pageConfig = getPageConfigOrArrayPageByPathname(pathname);
+  const formSchema = buildStepSchemaWithPageSchema(
+    pathname,
+    pageConfig?.pageSchema,
+  );
   const readOnlyFieldNames = getReadOnlyFieldNames(pathname, stepData);
 
   return (
@@ -41,9 +44,9 @@ function ValidatedFlowForm({
         <>
           <CsrfInput />
           <div className="flex flex-col">
-            {pageSchema && (
+            {pageConfig && (
               <SchemaComponents
-                pageSchema={pageSchema}
+                pageConfig={pageConfig}
                 formComponents={formElements}
                 className="mb-kern-space-x-large"
                 readOnlyFieldNames={readOnlyFieldNames}

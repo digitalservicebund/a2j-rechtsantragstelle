@@ -2,39 +2,20 @@ import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
 import { parsePathname } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
-import { getPageSchema } from "~/domains/pageSchemas";
-import {
-  fetchFlowPage,
-  fetchContentPageMeta,
-} from "~/services/cms/index.server";
-import { isStrapiSelectComponent } from "~/services/cms/models/formElements/isStrapiSelectComponent";
-import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
 import { logWarning } from "~/services/logging";
-import { parentFromParams } from "~/services/params";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { resolveUserData } from "~/services/session.server/resolveUserData";
-import { translations } from "~/services/translations/translations";
-import {
-  applyStringReplacement,
-  replacementsFromFlowConfig,
-} from "~/util/applyStringReplacement";
-import { getButtonNavigationProps } from "~/util/buttonProps";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
-import { composePageTitle } from "~/services/meta/composePageTitle";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
-import { buildFormElements } from "~/services/flow/formular/contentData/buildFormElements";
-import { structureCmsContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
-import { ArraySummaryProps } from "~/components/content/arraySummary/KernArraySummary";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request);
+export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -43,67 +24,31 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const {
     userData,
     flow: { id: flowId, controller: flowController },
-    page: { stepId },
+    page: { stepId, arrayIndexes },
   } = resultUserAndFlow.value;
 
-  const { pathname } = new URL(request.url);
-  const currentFlow = flows[flowId];
+  const { pathname } = url;
 
-  const [vorabcheckPage, parentContentPageMeta] = await Promise.all([
-    fetchFlowPage("vorab-check-pages", flowId, stepId),
-    fetchContentPageMeta({ filterValue: parentFromParams(pathname, params) }),
-  ]);
-
-  // Do string replacement in content if necessary
-  const cmsContent = applyStringReplacement(
-    vorabcheckPage,
-    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
-  );
-
-  // Inject heading into <legend> inside radio groups
-  // TODO: only do for pages with *one* select?
-  const headings = cmsContent.pre_form.filter(isStrapiHeadingComponent);
-  const formElements = buildFormElements(
-    structureCmsContent(cmsContent),
+  const contentData = await retrieveContentData(
+    "vorab-check-pages",
+    pathname,
+    params,
     userData,
-  ).map((strapiFormElement) => {
-    if (
-      isStrapiSelectComponent(strapiFormElement) &&
-      !strapiFormElement.label &&
-      headings.length > 0
-    ) {
-      strapiFormElement.altLabel = headings[0].text;
-    }
-    return strapiFormElement;
-  });
-
-  const pageTitle = applyStringReplacement(
-    composePageTitle(vorabcheckPage.pageTitle, parentContentPageMeta),
-    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
   );
 
-  // filter user data for current step
-  const pageSchema = getPageSchema(pathname);
-  const fieldNames = pageSchema ? Object.keys(pageSchema) : [];
-  const stepData = resolveUserData(userData, fieldNames);
-
-  const buttonNavigationProps = getButtonNavigationProps({
-    backButtonLabel: translations.buttonNavigation.backButtonDefaultLabel.de,
-    nextButtonLabel:
-      vorabcheckPage.nextButtonLabel ??
-      translations.buttonNavigation.nextButtonDefaultLabel.de,
-    isFinal: flowController.isFinal(stepId),
-    backDestination: flowController.getPrevious(stepId),
-  });
-
-  const progressProps = {
-    ...flowController.getProgress(stepId),
-    label: translations.vorabcheck.progressBarLabel.de,
-  };
+  const cmsContent = contentData.getCMSContent();
+  const formElements = contentData.getFormElements(flowId);
+  const stepData = contentData.getStepData();
+  const buttonNavigationProps = contentData.getButtonNavigation(
+    flowController,
+    stepId,
+    arrayIndexes,
+  );
+  const progressProps = contentData.getProgress(flowController, stepId);
 
   return data({
     stepData,
-    cmsContent: { ...cmsContent, pageTitle },
+    cmsContent,
     formElements,
     progressProps,
     buttonNavigationProps,
@@ -112,14 +57,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, url }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const { flowId } = parsePathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -143,7 +88,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { prunedData } = pruneIrrelevantData(flowSession.data, flowId);
 
-  await postValidationFlowAction(request, prunedData, flowSession);
+  await postValidationFlowAction(request, prunedData, flowSession, url);
 
   const destination = flowDestination(pathname, prunedData);
   const headers = await commitSession(flowSession);

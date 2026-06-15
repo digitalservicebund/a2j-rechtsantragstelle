@@ -41,7 +41,7 @@ export default function Breadcrumbs({
             <a href="/" aria-label={linkLabel} className="kern-link p-0!">
               <Icon
                 name="home"
-                className="fill-kern-action-default! forced-color-adjust-auto"
+                className="fill-kern-action-default!"
                 title="Startseite"
               />
             </a>
@@ -52,7 +52,7 @@ export default function Breadcrumbs({
               >
                 <Icon
                   name="chevron-right"
-                  className="fill-kern-layout-text-muted! forced-color-adjust-auto"
+                  className="fill-kern-layout-text-muted!"
                 />
                 {idx === arr.length - 1 ? (
                   <span className="text-kern-layout-text-default kern-body kern-body--small p-0!">

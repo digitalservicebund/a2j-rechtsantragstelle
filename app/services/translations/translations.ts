@@ -40,6 +40,11 @@ export const translations = {
       de: "Ausblenden",
     },
   },
+  iban: {
+    bankIdentified: {
+      de: "Bank identifiziert",
+    },
+  },
   feedback: {
     heading: {
       de: "Haben Sie Fragen oder Anmerkungen?",
@@ -113,16 +118,19 @@ export const translations = {
       de: "Vorschlau für Gebärdensprache",
     },
     "video-aktivieren": {
-      de: "Aktivieren",
+      de: "Zustimmen",
     },
     "datenschutz-header": {
-      de: "Aktivierung erforderlich!",
+      de: "Zustimmung für externen Inhalt erforderlich",
     },
     datenschutz: {
+      de: "An dieser Stelle ist ein externer Inhalt eingebunden. Wir benötigen Ihre Zustimmung, damit Sie diesen anschauen können.",
+    },
+    zustimmung: {
       de: "Wir weisen Sie darauf hin, dass nach der Aktivierung Daten an Dritte übermittelt werden.",
     },
     "datenschutz-link": {
-      de: "Link zum Datenschutz",
+      de: "Datenschutzerklärung",
     },
   },
   pageHeader: {
@@ -195,8 +203,8 @@ export const translations = {
     openSourceCode: {
       de: "Open Source Code",
     },
-    feedbackStudien: {
-      de: "Feedback-Studien",
+    anBefragungenTeilnehmen: {
+      de: "An Befragungen teilnehmen",
     },
     persoenlicheDatenLoeschen: {
       de: "Persönliche Daten löschen",

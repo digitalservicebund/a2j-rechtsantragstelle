@@ -27,10 +27,10 @@ const ArraySummaryItemActions = ({
   const srHeadingText = heading ? `${heading.text} ` : "";
 
   return (
-    <div className="flex gap-kern-space-small">
+    <div className="flex md:flex-row flex-col gap-kern-space-small">
       <a
         href={editUrl}
-        className="kern-link no-underline! hover:underline! flex align-center gap-kern-space-x-small!"
+        className="kern-link no-underline! hover:underline! flex align-center gap-kern-space-x-small! pr-16!"
         aria-label={`${srHeadingText}${translations.arraySummary.arrayEditButtonLabel.de}`}
       >
         <Icon
@@ -52,6 +52,7 @@ const ArraySummaryItemActions = ({
           value={itemIndex}
           textClassName="no-underline! font-normal!"
           type="submit"
+          className="p-0!"
           aria-label={`${srHeadingText}${translations.arraySummary.arrayDeleteButtonLabel.de}`}
         >
           {translations.arraySummary.arrayDeleteButtonLabel.de}

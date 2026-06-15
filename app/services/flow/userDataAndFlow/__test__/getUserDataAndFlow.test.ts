@@ -18,6 +18,10 @@ const mockRequest = new Request(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
 );
 
+const mockURL = new URL(
+  "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+);
+
 const mockBuildFlowController = vi.fn() as unknown as ReturnType<
   typeof buildFlowController
 >;
@@ -56,7 +60,7 @@ describe("getUserDataAndFlow", () => {
       Result.err({ redirectTo: "redirectToPage" }),
     );
 
-    const result = await getUserDataAndFlow(mockRequest);
+    const result = await getUserDataAndFlow(mockRequest, mockURL);
 
     expect(result.isErr).toBe(true);
     expect(result.isErr ? result.error.redirectTo : "").toBe("redirectToPage");
@@ -66,6 +70,7 @@ describe("getUserDataAndFlow", () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
     const result = await getUserDataAndFlow(
       new Request("http://example.com/nachlass/erbausschlagung/anfrage"),
+      new URL("http://example.com/nachlass/erbausschlagung/anfrage"),
     );
 
     expect(result.isErr).toBe(true);
@@ -76,7 +81,7 @@ describe("getUserDataAndFlow", () => {
     vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
     vi.mocked(getMigrationData).mockResolvedValue(undefined);
 
-    const result = await getUserDataAndFlow(mockRequest);
+    const result = await getUserDataAndFlow(mockRequest, mockURL);
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({
@@ -98,7 +103,7 @@ describe("getUserDataAndFlow", () => {
     vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
     vi.mocked(getMigrationData).mockResolvedValue(mockMigrationUserData);
 
-    const result = await getUserDataAndFlow(mockRequest);
+    const result = await getUserDataAndFlow(mockRequest, mockURL);
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({

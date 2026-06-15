@@ -35,8 +35,8 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
       <Icon
         name="warning"
         id={id}
-        ariaLabel={translations.navigation.navigationItemWarning.de}
         className="fill-kern-feedback-warning"
+        aria-label={translations.navigation.navigationItemWarning.de}
         size={24}
       />
     );
@@ -44,17 +44,23 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   return undefined;
 };
 
+const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
+
 export function NavItem({
   destination,
   label,
   state,
-  subflows = [],
+  subflows = DEFAULT_EMPTY_SUBFLOWS,
   forceExpanded,
   isChild = false,
+  isFirst = false,
+  isLast = false,
   firstItemRef,
 }: Readonly<
   NavItem & {
     isChild?: boolean;
+    isFirst?: boolean;
+    isLast?: boolean;
     firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
   }
 >) {
@@ -74,6 +80,7 @@ export function NavItem({
   const liClassNames = classNames(
     "flex w-full flex-col list-none",
     "border-b border-kern-neutral-200 last:border-0",
+    "relative focus-within:z-10",
     {
       "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
@@ -85,12 +92,14 @@ export function NavItem({
     "kern-body kern-body--small w-full p-16! flex justify-between items-center",
     "hover:underline hover:bg-kern-neutral-200",
     "active:bg-kern-neutral-200",
-    "relative focus-visible:z-10",
+    "relative",
     "focus-visible:outline-none",
     "focus-visible:bg-white",
     "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
     "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-border-inside),0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
     {
+      "rounded-t": isFirst,
+      "rounded-b": isLast,
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
@@ -99,6 +108,12 @@ export function NavItem({
     },
   );
   const iconId = useId();
+
+  const statusText = isDone
+    ? translations.navigation.navigationItemFinished.de
+    : isWarning
+      ? translations.navigation.navigationItemWarning.de
+      : "";
 
   return (
     <li className={liClassNames}>
@@ -115,11 +130,14 @@ export function NavItem({
           >
             <span>{label}</span>
             <div className="flex items-center gap-8 justify-end align-end self-end">
-              {collapse.isExpanded ? (
-                <Icon name="keyboard-arrow-up" className="ml-auto" />
-              ) : (
-                <Icon name="keyboard-arrow-down" className="ml-auto" />
-              )}
+              <Icon
+                name={
+                  collapse.isExpanded
+                    ? "keyboard-arrow-up"
+                    : "keyboard-arrow-down"
+                }
+                className="ml-auto"
+              />
               <StateIcon
                 id={iconId}
                 isDone={isDone}
@@ -147,6 +165,7 @@ export function NavItem({
           ref={firstItemRef}
           data-testid={"nav-item-link"}
           aria-describedby={isDone || isWarning ? iconId : undefined}
+          aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
         >
           <span>{label}</span>
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />

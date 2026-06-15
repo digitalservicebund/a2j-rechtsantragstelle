@@ -9,7 +9,7 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 import { InputLabel } from "../label/InputLabel";
 
-type InputProps = Readonly<{
+type Props = Readonly<{
   name: string;
   min?: number;
   max?: number;
@@ -22,24 +22,24 @@ const IncrementDecrementButton: React.FC<{
   onClick: () => void;
   type: "decrement" | "increment";
   disabled?: boolean;
-  label?: string;
-}> = ({ onClick, type, disabled, label }) => {
+}> = ({ onClick, type, disabled }) => {
   return (
     <Button
-      className="p-10! min-h-min! rounded-none!"
+      className="p-10! min-h-min! rounded-sm!"
       type="button"
       disabled={disabled}
       aria-disabled={disabled}
       aria-label={
         type === "decrement"
-          ? `${label} ${translations.numberIncrementComponent.decrementButtonLabel.de}`
-          : `${label} ${translations.numberIncrementComponent.incrementButtonLabel.de}`
+          ? translations.numberIncrementComponent.decrementButtonLabel.de
+          : translations.numberIncrementComponent.incrementButtonLabel.de
       }
+      look="secondary"
       onClick={onClick}
       iconLeft={
         <Icon
           name={type === "decrement" ? "minus" : "plus"}
-          className="fill-white"
+          className="fill-kern-action-default!"
           size={20}
         />
       }
@@ -54,18 +54,21 @@ const NumberIncrement = function InputComponent({
   label,
   errorMessages,
   suffix,
-}: InputProps) {
+}: Props) {
   const field = useField<number>(name);
   const jsAvailable = useJsAvailable();
   const errorId = `${name}-error`;
+  const inputProps = field.getInputProps() ?? {};
+  const hasOnChange = typeof inputProps.onChange === "function";
+  const currentNumber = Number(field.value() ?? min ?? 0);
 
   const increment = () => {
-    field.setValue((field.value() ?? 0) + 1);
+    field.setValue(currentNumber + 1);
     field.validate();
   };
 
   const decrement = () => {
-    field.setValue((field.value() ?? 0) - 1);
+    field.setValue(currentNumber - 1);
     field.validate();
   };
 
@@ -78,30 +81,28 @@ const NumberIncrement = function InputComponent({
           })}
         >
           {label && <InputLabel name={name} label={label} suffix={suffix} />}
-          <div
-            className={classNames("p-4 bg-white gap-5 flex", {
-              "kern-form-input__input--error": field.error(),
-            })}
-          >
+          <div className={"p-4 gap-5 flex"}>
             <IncrementDecrementButton
               type="decrement"
               onClick={decrement}
-              label={label}
-              disabled={field.value() === min || !field.value()}
+              disabled={currentNumber === min || !currentNumber}
             />
             <input
               className={classNames(
-                "bg-white min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
+                "kern-form-input__input min-w-50 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none",
                 {
-                  "bg-kern-feedback-danger-background!": field.error(),
+                  "kern-form-input__input--error": field.error(),
+                  "bg-white!": !field.error(),
                 },
               )}
               id={name}
-              {...field.getInputProps()}
-              value={field.value() ?? min ?? 0}
+              {...inputProps}
+              value={currentNumber}
+              defaultValue={undefined}
               min={min}
               max={max}
-              defaultValue={undefined}
+              onChange={inputProps.onChange}
+              readOnly={!hasOnChange}
               name={name}
               type="number"
               aria-invalid={field.error() !== null}
@@ -113,8 +114,7 @@ const NumberIncrement = function InputComponent({
             <IncrementDecrementButton
               type="increment"
               onClick={increment}
-              disabled={field.value() >= (max ?? Number.MAX_SAFE_INTEGER)}
-              label={label}
+              disabled={currentNumber >= (max ?? Number.MAX_SAFE_INTEGER)}
             />
           </div>
           <InputError id={errorId}>
@@ -141,9 +141,11 @@ const NumberIncrementNoJS = function InputComponent({
   max,
   label,
   errorMessages,
-}: InputProps) {
+}: Props) {
   const field = useField<number>(name);
   const errorId = `${name}-error`;
+  const inputProps = field.getInputProps() ?? {};
+  const hasOnChange = typeof inputProps.onChange === "function";
 
   return (
     <div
@@ -161,8 +163,10 @@ const NumberIncrementNoJS = function InputComponent({
           "kern-form-input__input--error": field.error(),
         })}
         id={name}
-        {...field.getInputProps()}
+        {...inputProps}
         value={field.value() ?? min ?? 0}
+        onChange={inputProps.onChange}
+        readOnly={!hasOnChange}
         name={name}
         min={min}
         max={max ?? Number.MAX_SAFE_INTEGER}

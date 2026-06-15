@@ -4,11 +4,14 @@ import type {
 } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfrageXStateConfig } from "~/domains/nachlass/erbausschlagung/anfrage/xStateConfig";
+import { verstorbeneTestCases } from "../verstorbene/__test__/testcasesWithUserInput";
+import { ausschlagendePersonTestCases } from "../ausschlagendePerson/__test__/testcasesWithUserInput";
+import { kinderTestCases } from "../kinder/__test__/testcasesWithUserInput";
 
 export const nachlassErbausschlagungAnfrageTestCases = {
   xstateConfig: nachlassErbausschlagungAnfrageXStateConfig,
   testcases: {
-    auslaendischerLebensmittelpunkt: [
+    defaultStartNachlassErbausschlagungAnfrage: [
       {
         stepId: "/start/start",
       },
@@ -20,142 +23,23 @@ export const nachlassErbausschlagungAnfrageTestCases = {
       },
       {
         stepId: "/verstorbene/name",
-        userInput: {
-          verstorbeneVorname: "Max",
-          verstorbeneNachname: "Mustermann",
-        },
-      },
-      {
-        stepId: "/verstorbene/geburtsdatum",
-        userInput: {
-          verstorbeneGeburtsdatum: {
-            day: "01",
-            month: "01",
-            year: "1900",
-          },
-        },
-      },
-      {
-        stepId: "/verstorbene/sterbedatum",
-        userInput: {
-          verstorbeneSterbedatum: {
-            day: "01",
-            month: "01",
-            year: "2020",
-          },
-        },
-      },
-      {
-        stepId: "/verstorbene/lebensmittelpunkt",
-        userInput: {
-          verstorbeneLebensmittelpunkt: "ausland",
-        },
-      },
-      {
-        stepId: "/verstorbene/auslaendische-adresse",
-        userInput: {
-          verstorbeneAuslaendischeAdresseStrasse: "Musterstraße",
-          verstorbeneAuslaendischeAdresseHausnummer: "1",
-          verstorbeneAuslaendischeAdressePLZ: "10969",
-          verstorbeneAuslaendischeAdresseOrt: "Musterstadt",
-          verstorbeneAuslaendischeAdresseLand: "Deutschland",
-        },
-      },
-      {
-        stepId: "/verstorbene/testament",
       },
     ],
-    pflegeheim: [
+    ...verstorbeneTestCases,
+    ...ausschlagendePersonTestCases,
+    ...kinderTestCases,
+    abgabe: [
       {
-        stepId: "/verstorbene/lebensmittelpunkt",
+        stepId: "/abgabe/weitere-informationen",
         userInput: {
-          verstorbeneLebensmittelpunkt: "deutschland",
+          weitereInformationen: "Hier sind weitere Informationen.",
         },
       },
       {
-        stepId: "/verstorbene/pflegeheim",
-        userInput: {
-          livedInNursingHome: "yes",
-        },
+        stepId: "/abgabe/zusammenfassung",
       },
       {
-        stepId: "/verstorbene/pflegeheim-plz",
-        userInput: {
-          pflegeheimPLZ: "10969",
-        },
-      },
-      {
-        stepId: "/verstorbene/adresse",
-        userInput: {
-          verstorbeneAdresseStrasse: "Musterstraße",
-          verstorbeneAdresseHausnummer: "1",
-          verstorbeneAdresseOrt: "Musterstadt",
-        },
-      },
-      {
-        stepId: "/verstorbene/testament",
-      },
-    ],
-    hospiz: [
-      {
-        stepId: "/verstorbene/pflegeheim",
-        userInput: {
-          livedInNursingHome: "no",
-        },
-      },
-      {
-        stepId: "/verstorbene/hospiz",
-        userInput: {
-          livedInHospice: "yes",
-        },
-      },
-      {
-        stepId: "/verstorbene/plz-vor-hospiz",
-        userInput: {
-          plzBeforeHospiz: "10969",
-        },
-      },
-      {
-        stepId: "/verstorbene/adresse",
-        userInput: {
-          verstorbeneAdresseStrasse: "Musterstraße",
-          verstorbeneAdresseHausnummer: "1",
-          verstorbeneAdresseOrt: "Musterstadt",
-        },
-      },
-      {
-        stepId: "/verstorbene/testament",
-      },
-    ],
-    noPflegeheimOrHospiz: [
-      {
-        stepId: "/verstorbene/pflegeheim",
-        userInput: {
-          livedInNursingHome: "no",
-        },
-      },
-      {
-        stepId: "/verstorbene/hospiz",
-        userInput: {
-          livedInHospice: "no",
-        },
-      },
-      {
-        stepId: "/verstorbene/plz",
-        userInput: {
-          verstorbenePLZ: "10969",
-        },
-      },
-      {
-        stepId: "/verstorbene/adresse",
-        userInput: {
-          verstorbeneAdresseStrasse: "Musterstraße",
-          verstorbeneAdresseHausnummer: "1",
-          verstorbeneAdresseOrt: "Musterstadt",
-        },
-      },
-      {
-        stepId: "/verstorbene/testament",
+        stepId: "/abgabe/ende",
       },
     ],
   } satisfies FlowTestCases<NachlassErbausschlagungAnfrageUserData>,

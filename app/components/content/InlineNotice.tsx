@@ -76,7 +76,7 @@ export const InlineNotice = ({
         <Icon
           name={iconName}
           ariaLabel={ariaLabel}
-          className={`${iconClassName} mr-8 forced-color-adjust-auto`}
+          className={`${iconClassName} mr-8`}
         />
         <Tag className="kern-body kern-body--bold p-0! outline-none!">
           {" "}

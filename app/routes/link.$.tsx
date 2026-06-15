@@ -10,11 +10,12 @@ const redirectionMap = {
     "https://app.formbricks.com/s/cmf2nqcww661jtl01u8a5uo4n",
 };
 
-export function loader({ request, params }: LoaderFunctionArgs) {
+export function loader({ request, params, url }: LoaderFunctionArgs) {
   const requestedSite = params["*"];
   sendCustomAnalyticsEvent({
     request,
     eventName: "$pageview",
+    url,
   });
   if (!requestedSite || !(requestedSite in redirectionMap)) {
     throw new Response(null, { status: 404 });

@@ -1,9 +1,20 @@
 import { z } from "zod";
+import {
+  commonErbausschlagungKinderFields,
+  erbausschlagungKinderArraySchema,
+  sorgerechtOrganizationRequired,
+  sorgerechtPersonAdresseRequired,
+  sorgerechtPersonRequired,
+} from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
+import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -72,13 +83,13 @@ export const nachlassErbausschlagungAnfragePages = {
   pflegeheimPLZ: {
     stepId: "verstorbene/pflegeheim-plz",
     pageSchema: {
-      pflegeheimPLZ: postcodeSchema,
+      plzPflegeheim: postcodeSchema,
     },
   },
   verstorbenePlz: {
     stepId: "verstorbene/plz",
     pageSchema: {
-      verstorbenePLZ: postcodeSchema,
+      plzVerstorbene: postcodeSchema,
     },
   },
   verstorbeneAdresse: {
@@ -95,22 +106,215 @@ export const nachlassErbausschlagungAnfragePages = {
     pageSchema: {
       verstorbeneAuslaendischeAdresseStrasse: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseHausnummer: germanHouseNumberSchema,
-      verstorbeneAuslaendischeAdressePLZ: postcodeSchema,
+      verstorbeneAuslaendischeAdressePLZ: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseOrt: stringRequiredSchema,
       verstorbeneAuslaendischeAdresseZusatz: stringOptionalSchema,
       verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,
     },
   },
-  testament: {
-    stepId: "verstorbene/testament",
+  awarenessDate: {
+    stepId: "ausschlagende-person/kenntnisdatum",
     pageSchema: {
-      testament: z.enum([
-        "none",
-        "handwritten",
-        "notarized",
-        "erbvertrag",
-        "unknown",
+      awarenessDate: createSplitDateSchema({
+        latest: () => today(),
+      }),
+      awarenessDateRemarks: stringOptionalSchema,
+    },
+  },
+  ausschlagendePersonName: {
+    stepId: "ausschlagende-person/name",
+    pageSchema: {
+      ausschlagendePersonVorname: stringRequiredSchema,
+      ausschlagendePersonNachname: stringRequiredSchema,
+      ausschlagendePersonGeburtsname: stringOptionalSchema,
+    },
+  },
+  ausschlagendePersonPlz: {
+    stepId: "ausschlagende-person/plz",
+    pageSchema: {
+      ausschlagendePersonPlz: postcodeSchema,
+    },
+  },
+  ausschlagendePersonAdresse: {
+    stepId: "ausschlagende-person/adresse",
+    pageSchema: {
+      ausschlagendePersonStrasse: stringRequiredSchema,
+      ausschlagendePersonHausnummer: germanHouseNumberSchema,
+      ausschlagendePersonOrt: stringRequiredSchema,
+      ausschlagendePersonZusatz: stringOptionalSchema,
+    },
+  },
+  ausschlagendePersonContact: {
+    stepId: "ausschlagende-person/kontakt",
+    pageSchema: {
+      ausschlagendePersonTelefon: phoneNumberSchema,
+      ausschlagendePersonEmail: schemaOrEmptyString(emailSchema),
+    },
+  },
+  ausschlagendePersonBirthday: {
+    stepId: "ausschlagende-person/geburtsdatum",
+    pageSchema: {
+      ausschlagendePersonGeburtsdatum: createSplitDateSchema({
+        earliest: () => addYears(today(), -150),
+        latest: () => today(),
+      }),
+    },
+  },
+  ausschlagendePersonRelationToErblasser: {
+    stepId: "ausschlagende-person/beziehung-zum-erblasser",
+    pageSchema: {
+      ausschlagendePersonBeziehungZumErblasser: z.enum([
+        "not-related",
+        "wife-husband",
+        "life-partner",
+        "daughter-son",
+        "granddaughter-grandson",
+        "mother-father",
+        "sister-brother",
+        "half-sister-half-brother",
+        "niece-nephew",
+        "grandmother-grandfather",
+        "aunt-uncle",
+        "cousin",
+        "great-grandmother-great-grandfather",
+        "great-aunt-great-uncle",
+        "adoptive-mother-adoptive-father",
+        "adoptive-daughter-adoptive-son",
+        "other",
       ]),
     },
+  },
+  kinderHasKid: {
+    stepId: "kinder/haben-sie-kinder",
+    pageSchema: {
+      hasKid: YesNoAnswer,
+    },
+  },
+  kinderHowManyKids: {
+    stepId: "kinder/wie-viele-kinder",
+    pageSchema: {
+      numberOfKids: createNumberIncrementSchema(1, 20),
+    },
+  },
+  kinderUebersicht: {
+    stepId: "kinder/uebersicht",
+  },
+  kinderWarnung: {
+    stepId: "kinder/warnung",
+  },
+  kinderWarnungNichtAusgefuellt: {
+    stepId: "kinder/warnung-nicht-ausgefuellt",
+  },
+  kinder: {
+    stepId: "kinder/kinder",
+    pageSchema: {
+      kinder: erbausschlagungKinderArraySchema,
+    },
+    arrayPages: {
+      name: {
+        pageSchema: {
+          "kinder#vorname": commonErbausschlagungKinderFields.vorname,
+          "kinder#nachname": commonErbausschlagungKinderFields.nachname,
+          "kinder#geburtsdatum": commonErbausschlagungKinderFields.geburtsdatum,
+        },
+      },
+      wohnort: {
+        pageSchema: {
+          "kinder#wohnortBeiAntragsteller":
+            commonErbausschlagungKinderFields.wohnortBeiAntragsteller,
+        },
+      },
+      adresse: {
+        pageSchema: {
+          "kinder#strasse": stringRequiredSchema,
+          "kinder#hausnummer": germanHouseNumberSchema,
+          "kinder#plz": postcodeSchema,
+          "kinder#ort": stringRequiredSchema,
+          "kinder#adresseZusatz": stringOptionalSchema,
+        },
+      },
+      "adresse-optional": {
+        pageSchema: {
+          "kinder#strasse": commonErbausschlagungKinderFields.strasse,
+          "kinder#hausnummer": commonErbausschlagungKinderFields.hausnummer,
+          "kinder#plz": commonErbausschlagungKinderFields.plz,
+          "kinder#ort": commonErbausschlagungKinderFields.ort,
+          "kinder#adresseZusatz":
+            commonErbausschlagungKinderFields.adresseZusatz,
+        },
+      },
+      sorgerecht: {
+        pageSchema: {
+          "kinder#optionSorgerecht":
+            commonErbausschlagungKinderFields.optionSorgerecht,
+        },
+      },
+      "erbe-ausschlagende": {
+        pageSchema: {
+          "kinder#hasRenouncedInheritance":
+            commonErbausschlagungKinderFields.hasRenouncedInheritance,
+        },
+      },
+      "sorgerecht-person": {
+        pageSchema: {
+          "kinder#vornameSorgerecht":
+            sorgerechtPersonRequired.vornameSorgerecht,
+          "kinder#nachnameSorgerecht":
+            sorgerechtPersonRequired.nachnameSorgerecht,
+          "kinder#geburtsnameSorgerecht":
+            sorgerechtPersonRequired.geburtsnameSorgerecht,
+        },
+      },
+      "sorgerecht-gleiche-adresse": {
+        pageSchema: {
+          "kinder#hasSorgerechtSameAddress":
+            commonErbausschlagungKinderFields.hasSorgerechtSameAddress,
+        },
+      },
+      "sorgerecht-adresse": {
+        pageSchema: {
+          "kinder#strasseSorgerecht":
+            sorgerechtPersonAdresseRequired.strasseSorgerecht,
+          "kinder#hausnummerSorgerecht":
+            sorgerechtPersonAdresseRequired.hausnummerSorgerecht,
+          "kinder#plzSorgerecht": sorgerechtPersonAdresseRequired.plzSorgerecht,
+          "kinder#ortSorgerecht": sorgerechtPersonAdresseRequired.ortSorgerecht,
+          "kinder#adresseZusatzSorgerecht":
+            sorgerechtPersonAdresseRequired.adresseZusatzSorgerecht,
+        },
+      },
+      "sorgerecht-organisation-name": {
+        pageSchema: {
+          "kinder#organizationNameSorgerecht":
+            commonErbausschlagungKinderFields.organizationNameSorgerecht,
+        },
+      },
+      "sorgerecht-organisation-adresse": {
+        pageSchema: {
+          "kinder#organizationStrasseSorgerecht":
+            sorgerechtOrganizationRequired.organizationStrasseSorgerecht,
+          "kinder#organizationHausnummerSorgerecht":
+            sorgerechtOrganizationRequired.organizationHausnummerSorgerecht,
+          "kinder#organizationPlzSorgerecht":
+            sorgerechtOrganizationRequired.organizationPlzSorgerecht,
+          "kinder#organizationOrtSorgerecht":
+            sorgerechtOrganizationRequired.organizationOrtSorgerecht,
+          "kinder#organizationAdressZusatzSorgerecht":
+            sorgerechtOrganizationRequired.organizationAdressZusatzSorgerecht,
+        },
+      },
+    },
+  },
+  abgabeWeitereInformation: {
+    stepId: "abgabe/weitere-informationen",
+    pageSchema: {
+      weitereInformationen: schemaOrEmptyString(stringRequiredSchema),
+    },
+  },
+  abgabeZusammenfassung: {
+    stepId: "abgabe/zusammenfassung",
+  },
+  abgabeEnde: {
+    stepId: "abgabe/ende",
   },
 } as const satisfies PagesConfig;

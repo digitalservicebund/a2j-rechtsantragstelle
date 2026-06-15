@@ -206,10 +206,12 @@
   }
 
   .kern-body {
-    line-height: 27px;
+    line-height: 1.5em;
   }
 
   .rich-text {
+    word-break: break-word;
+
     p {
       margin-bottom: 8px;
     }
