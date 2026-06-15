@@ -383,6 +383,63 @@ describe("createFlowSession", () => {
       expect(session.prunedUserData).not.toHaveProperty("pageData");
     });
 
+    it("keeps nested array data when the nested array name uses #-notation", () => {
+      // Regression test: arraySummary.name like "parents#children" must use the
+      // leaf segment ("children") as the scopeData key and arrayPath segment —
+      // not the full #-notation string.
+      const nestedHashFlow = compileFlow({
+        pages: {
+          parentList: {
+            stepId: "/parents",
+            arraySummary: {
+              name: "parents",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          parentEntry: {
+            stepId: "/parents/#/name",
+            pageSchema: { "parents#name": z.string() },
+          },
+          childList: {
+            stepId: "/parents/#/children",
+            arraySummary: {
+              name: "parents#children",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          childEntry: {
+            stepId: "/parents/#/children/#/name",
+            pageSchema: { "parents#children#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "parentList",
+        transitions: {
+          parentList: [
+            { target: "parentEntry" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          parentEntry: "childList" as const,
+          childList: [
+            { target: "childEntry" as const, type: "addArrayItem" as const },
+            { target: "parentList" as const },
+          ],
+          childEntry: "childList" as const,
+          done: null,
+        },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(nestedHashFlow, {
+        parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
+        pageData: { arrayIndexes: [] },
+      } as any, "/parents");
+
+      expect(session.prunedUserData).toEqual({
+        parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
+      });
+    });
+
     it("prunes stale fields in nested array items based on per-item traversal", () => {
       // Flow: childrenList → childEntry (name) → toyList → toyEntry (toyName + isFavorite)
       //       → toyColor (if isFavorite=yes) → toyList → childrenList → done

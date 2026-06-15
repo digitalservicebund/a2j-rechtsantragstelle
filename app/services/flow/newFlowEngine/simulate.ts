@@ -137,7 +137,11 @@ export const simulate = <C extends PageConfigMap>(
         const fanOut = getArrayFanOut(current, scopeData);
         if (fanOut) {
           const { name, count } = fanOut;
-          const items = scopeData[name];
+          // name uses "#" notation (e.g. "elternteile#kinder") but scopeData is
+          // already scoped to the current item, so the real property key and the
+          // arrayPath segment are both the last "#"-segment ("kinder").
+          const leafName = name.split("#").at(-1)!;
+          const items = scopeData[leafName];
           if (count === 0) {
             // Empty array: mark the add-target reachable without enqueueing it.
             // Enqueueing with phantom scopeData would cause infinite BFS expansion
@@ -159,7 +163,7 @@ export const simulate = <C extends PageConfigMap>(
                 key: addTransition.target,
                 pageData: itemPageData,
                 scopeData: itemScopeData,
-                arrayPath: [...arrayPath, name],
+                arrayPath: [...arrayPath, leafName],
               });
             }
           }

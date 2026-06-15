@@ -65,6 +65,7 @@ export const compileFlow = <C extends PageConfigMap>({
   const pathMap: Record<string, NodeKey<C>> = {};
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
   const fieldNamesCache: Partial<Record<NodeKey<C>, string[]>> = {};
+  const collectionCache: Partial<Record<NodeKey<C>, "vorab-check-pages" | "result-pages">> = {};
   const arrayInfoCache: Partial<
     Record<
       NodeKey<C>,
@@ -87,6 +88,7 @@ export const compileFlow = <C extends PageConfigMap>({
     const { compiledSchema, fieldNames } = normalizeSchema(pageNode.pageSchema);
     schemaCache[nodeKey] = compiledSchema;
     fieldNamesCache[nodeKey] = fieldNames;
+    collectionCache[nodeKey] = pageNode.collection ?? "vorab-check-pages";
 
     if (pageNode.arraySummary) {
       const arrayTransitions = transitions[nodeKey];
@@ -120,6 +122,10 @@ export const compileFlow = <C extends PageConfigMap>({
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
       return nodeKey != null ? arrayInfoCache[nodeKey] : undefined;
+    },
+    getCollection: (path: string): "vorab-check-pages" | "result-pages" => {
+      const nodeKey = getNodeKeyFromPath(path);
+      return (nodeKey != null ? collectionCache[nodeKey] : undefined) ?? "vorab-check-pages";
     },
     getSchema: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
