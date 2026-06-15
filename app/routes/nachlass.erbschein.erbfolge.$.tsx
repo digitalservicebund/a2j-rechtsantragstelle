@@ -118,7 +118,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
+  const { flowId, stepId, arrayIndexes } = parsePathname(
+    pathname.replace(/\.data$/, ""),
+  );
   const fullUserData = addPageDataToUserData(
     await getSessionData(flowId, cookieHeader),
     { arrayIndexes },
@@ -195,10 +197,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     await fetchFlowPage("vorab-check-pages", flowId, cmsStepId),
     replacements,
   );
-  const formElements = buildFormElements(structureCmsContent(vorabPage), {
-    ...stepData,
-    pageData: fullUserData.pageData,
-  });
+  const formElements = buildFormElements(
+    structureCmsContent(vorabPage),
+    {
+      ...stepData,
+      pageData: fullUserData.pageData,
+    },
+    flowId,
+  );
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel: "Zurück",
@@ -245,7 +251,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
+  const { flowId, stepId, arrayIndexes } = parsePathname(
+    pathname.replace(/\.data$/, ""),
+  );
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);

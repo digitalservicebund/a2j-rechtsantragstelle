@@ -107,7 +107,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const { pathname } = new URL(request.url);
-  const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
+  const { flowId, stepId, arrayIndexes } = parsePathname(
+    pathname.replace(/\.data$/, ""),
+  );
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);

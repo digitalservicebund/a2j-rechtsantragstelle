@@ -17,7 +17,7 @@ type BuildCmsContentAndTranslations = {
   parentMeta: StrapiMeta | null;
 };
 
-const structureCmsContent = (
+export const structureCmsContent = (
   formPageContent: StrapiFormFlowPage | StrapiVorabCheckPage,
 ) => {
   return {
