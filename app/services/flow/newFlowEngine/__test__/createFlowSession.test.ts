@@ -281,7 +281,10 @@ describe("createFlowSession", () => {
         pages: {
           list: {
             stepId: "/list",
-            arraySummary: { name: "items", schema: z.array(z.object({ val: z.string() })) },
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ val: z.string() })),
+            },
           },
           item: { stepId: "/items/#/daten", pageSchema: { val: z.string() } },
           done: { stepId: "/done" },
@@ -297,7 +300,11 @@ describe("createFlowSession", () => {
         },
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const session = createFlowSession(arrayFlow, { items: [{ val: "a" }], pageData: { arrayIndexes: [] } } as any, "/list");
+      const session = createFlowSession(
+        arrayFlow,
+        { items: [{ val: "a" }], pageData: { arrayIndexes: [] } } as any,
+        "/list",
+      );
       expect(session.prunedUserData).toEqual({ items: [{ val: "a" }] });
     });
 
@@ -362,13 +369,17 @@ describe("createFlowSession", () => {
       // item 1: minor (isAdult=no) → birthday reachable, name unreachable
       // item 1 also has a stale 'name' from a previous answer that should be pruned
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const session = createFlowSession(arrayFlow, {
-        people: [
-          { isAdult: "yes", name: "Alice" },
-          { isAdult: "no", birthday: "1990-01-01", name: "stale" },
-        ],
-        pageData: { arrayIndexes: [] },
-      } as any, "/list");
+      const session = createFlowSession(
+        arrayFlow,
+        {
+          people: [
+            { isAdult: "yes", name: "Alice" },
+            { isAdult: "no", birthday: "1990-01-01", name: "stale" },
+          ],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/list",
+      );
 
       expect(session.prunedUserData).toEqual({
         people: [
@@ -430,10 +441,14 @@ describe("createFlowSession", () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const session = createFlowSession(nestedHashFlow, {
-        parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
-        pageData: { arrayIndexes: [] },
-      } as any, "/parents");
+      const session = createFlowSession(
+        nestedHashFlow,
+        {
+          parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/parents",
+      );
 
       expect(session.prunedUserData).toEqual({
         parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
@@ -506,18 +521,22 @@ describe("createFlowSession", () => {
       //   toy 0: isFavorite=yes → color="red" is kept
       //   toy 1: isFavorite=no  → color="stale" should be pruned
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const session = createFlowSession(nestedFlow, {
-        children: [
-          {
-            name: "Alice",
-            toys: [
-              { toyName: "Lego", isFavorite: "yes", color: "red" },
-              { toyName: "Ball", isFavorite: "no", color: "stale" },
-            ],
-          },
-        ],
-        pageData: { arrayIndexes: [] },
-      } as any, "/children");
+      const session = createFlowSession(
+        nestedFlow,
+        {
+          children: [
+            {
+              name: "Alice",
+              toys: [
+                { toyName: "Lego", isFavorite: "yes", color: "red" },
+                { toyName: "Ball", isFavorite: "no", color: "stale" },
+              ],
+            },
+          ],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/children",
+      );
 
       expect(session.prunedUserData).toEqual({
         children: [

@@ -84,7 +84,10 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (flowId === "/erbschein/erbfolge" || flowId === "/nachlass/erbschein/erbfolge") {
+  if (
+    flowId === "/erbschein/erbfolge" ||
+    flowId === "/nachlass/erbschein/erbfolge"
+  ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }
 

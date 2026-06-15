@@ -61,8 +61,12 @@ describe("evaluateRoute", () => {
       },
       { target: "no" },
     ];
-    expect(evaluateRoute(route, { flag: true, pageData: { arrayIndexes: [] } })).toBe("yes");
-    expect(evaluateRoute(route, { flag: false, pageData: { arrayIndexes: [] } })).toBe("no");
+    expect(
+      evaluateRoute(route, { flag: true, pageData: { arrayIndexes: [] } }),
+    ).toBe("yes");
+    expect(
+      evaluateRoute(route, { flag: false, pageData: { arrayIndexes: [] } }),
+    ).toBe("no");
   });
 });
 
@@ -129,10 +133,7 @@ describe("evaluateAllBranches", () => {
   });
 
   it("filters null targets even when guard passes", () => {
-    const route = [
-      { target: null, guard: () => true },
-      { target: "a" },
-    ];
+    const route = [{ target: null, guard: () => true }, { target: "a" }];
     expect(evaluateAllBranches(route, noData)).toEqual(["a"]);
   });
 });

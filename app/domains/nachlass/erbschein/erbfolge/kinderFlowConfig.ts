@@ -42,7 +42,8 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         return kind1.kinder[arrayIndexes[1]].isAlive === "no";
       },
     },
@@ -55,7 +56,8 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         const kind2 = kind1.kinder[arrayIndexes[1]];
         if (kind2.isAlive !== "no") return false;
         return kind2.hatteKinder === "yes";
@@ -75,10 +77,12 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         const kind2 = kind1.kinder[arrayIndexes[1]];
         if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2]) return false;
+        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
+          return false;
         return kind2.kinder[arrayIndexes[2]].isAlive === "no";
       },
     },
@@ -91,10 +95,12 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         const kind2 = kind1.kinder[arrayIndexes[1]];
         if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2]) return false;
+        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
+          return false;
         const kind3 = kind2.kinder[arrayIndexes[2]];
         if (kind3.isAlive !== "no") return false;
         return kind3.hatteKinder === "yes";
@@ -114,13 +120,16 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         const kind2 = kind1.kinder[arrayIndexes[1]];
         if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2]) return false;
+        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
+          return false;
         const kind3 = kind2.kinder[arrayIndexes[2]];
         if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-        if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3]) return false;
+        if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
+          return false;
         return kind3.kinder[arrayIndexes[3]].isAlive === "no";
       },
     },
@@ -133,13 +142,16 @@ export const kinderFlowConfig = {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1]) return false;
+        if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
+          return false;
         const kind2 = kind1.kinder[arrayIndexes[1]];
         if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2]) return false;
+        if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
+          return false;
         const kind3 = kind2.kinder[arrayIndexes[2]];
         if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-        if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3]) return false;
+        if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
+          return false;
         const kind4 = kind3.kinder[arrayIndexes[3]];
         if (kind4.isAlive !== "no") return false;
         return kind4.hatteKinder === "yes";

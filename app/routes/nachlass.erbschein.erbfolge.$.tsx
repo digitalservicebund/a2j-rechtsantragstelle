@@ -59,7 +59,10 @@ function NachlassErbfolgePage() {
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-          <ProgressBar progress={progressProps?.progress ?? 0} max={progressProps?.max ?? 0} />
+          <ProgressBar
+            progress={progressProps?.progress ?? 0}
+            max={progressProps?.max ?? 0}
+          />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -69,7 +72,12 @@ function NachlassErbfolgePage() {
           row={2}
           id="flow-page-content"
         >
-          <ContentComponents content={cmsContent && "pre_form" in cmsContent ? cmsContent.pre_form : []} managedByParent />
+          <ContentComponents
+            content={
+              cmsContent && "pre_form" in cmsContent ? cmsContent.pre_form : []
+            }
+            managedByParent
+          />
           {arraySummaryData && arraySummaryData.category === "elternteile" && (
             <ElternteilSummary
               data={arraySummaryData.arrayData.data as ArrayData}
@@ -116,7 +124,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     { arrayIndexes },
   );
 
-  const flowSession = createFlowSession(staticFlow, fullUserData as Parameters<typeof createFlowSession>[1], stepId);
+  const flowSession = createFlowSession(
+    staticFlow,
+    fullUserData as Parameters<typeof createFlowSession>[1],
+    stepId,
+  );
 
   if (!flowSession.isReachable(stepId)) {
     return redirect(flowId + flowSession.initialPath);
@@ -129,7 +141,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     : fieldNames;
 
   const stepData = resolveUserData(
-    { ...flowSession.prunedUserData, pageData: fullUserData.pageData } as Parameters<typeof resolveUserData>[0],
+    {
+      ...flowSession.prunedUserData,
+      pageData: fullUserData.pageData,
+    } as Parameters<typeof resolveUserData>[0],
     fieldNamesForPage,
   );
 
@@ -147,9 +162,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         .filter((f) => f.includes("#"))
         .flatMap((f) => {
           const parts = f.split("#");
-          return parts.slice(0, -1).map((_, i) =>
-            parts.slice(0, i + 1).join("#") + "#name",
-          );
+          return parts
+            .slice(0, -1)
+            .map((_, i) => parts.slice(0, i + 1).join("#") + "#name");
         })
         .filter((f) => !fieldNamesForPage.includes(f)),
     ),
@@ -157,13 +172,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const parentNameData =
     parentNameFields.length > 0
       ? resolveUserData(
-        { ...flowSession.prunedUserData, pageData: fullUserData.pageData } as Parameters<typeof resolveUserData>[0],
-        parentNameFields,
-      )
+          {
+            ...flowSession.prunedUserData,
+            pageData: fullUserData.pageData,
+          } as Parameters<typeof resolveUserData>[0],
+          parentNameFields,
+        )
       : {};
 
   const cmsStepId = stepId.replaceAll("/#", "");
-  const replacements = { ...flowSession.prunedUserData, ...parentNameData } as Replacements;
+  const replacements = {
+    ...flowSession.prunedUserData,
+    ...parentNameData,
+  } as Replacements;
 
   const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
@@ -189,20 +210,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const arraySummaryData =
     arrayInfo?.entryPoint !== undefined
       ? {
-        category: arrayInfo.name,
-        arrayData: {
-          data: (stepData[arrayInfo.name] ?? []) as ArrayData,
-          configuration: {
-            url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false),
-            initialInputUrl: arrayInfo.entryPoint,
-            disableAddButton: false,
+          category: arrayInfo.name,
+          arrayData: {
+            data: (stepData[arrayInfo.name] ?? []) as ArrayData,
+            configuration: {
+              url: flowId + resolveArrayCharacter(stepId, arrayIndexes, false),
+              initialInputUrl: arrayInfo.entryPoint,
+              disableAddButton: false,
+            },
           },
-        },
-        content: {
-          buttonLabel: arrayInfo.name.split("#").at(-1)!,
-          itemLabels: { label: "itemLabel" },
-        },
-      }
+          content: {
+            buttonLabel: arrayInfo.name.split("#").at(-1)!,
+            itemLabels: { label: "itemLabel" },
+          },
+        }
       : undefined;
 
   return data({
@@ -244,8 +265,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   updateSession(flowSession, resolvedData);
 
-  const fullUserData = addPageDataToUserData(flowSession.data, { arrayIndexes });
-  const sessionManager = createFlowSession(staticFlow, fullUserData as Parameters<typeof createFlowSession>[1], stepId);
+  const fullUserData = addPageDataToUserData(flowSession.data, {
+    arrayIndexes,
+  });
+  const sessionManager = createFlowSession(
+    staticFlow,
+    fullUserData as Parameters<typeof createFlowSession>[1],
+    stepId,
+  );
 
   const nextStepId = sessionManager.nextPath;
   if (!nextStepId) throw new Error("no nextStepId");

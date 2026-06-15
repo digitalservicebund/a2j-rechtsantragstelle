@@ -58,13 +58,17 @@ function KindCard({
   const name = String(item.name ?? "");
   const isAlive = String(item.isAlive ?? "yes");
   const editUrl = `${url}/${index}/${initialInputUrl}`;
-  const grandchildren = Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [];
+  const grandchildren = Array.isArray(item.kinder)
+    ? (item.kinder as KindItem[])
+    : [];
 
   return (
     <div className="kern-summary">
       <div className="kern-summary__body bg-white!">
         <h3 className="kern-title">{name}</h3>
-        <p className="kern-body">{isAlive === "no" ? "verstorben" : "lebend"}</p>
+        <p className="kern-body">
+          {isAlive === "no" ? "verstorben" : "lebend"}
+        </p>
         <div className="flex gap-kern-space-small flex-wrap items-center">
           <ArraySummaryItemActions
             category="kinder"
@@ -155,7 +159,9 @@ export function KinderSummary({
   const enkelkinderSections = items
     .map((item, index) => ({
       childIndex: index,
-      grandchildren: Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [],
+      grandchildren: Array.isArray(item.kinder)
+        ? (item.kinder as KindItem[])
+        : [],
     }))
     .filter(({ grandchildren }) => grandchildren.length > 0);
 

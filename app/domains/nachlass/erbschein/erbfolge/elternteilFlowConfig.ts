@@ -6,7 +6,8 @@ export const elternteilFlowConfig = {
     {
       target: "elternteilHatteKinder",
       guard: ({ elternteile, pageData: { arrayIndexes } }) => {
-        if (!elternteile || !arrayIndexes || arrayIndexes.length < 1) return false;
+        if (!elternteile || !arrayIndexes || arrayIndexes.length < 1)
+          return false;
         if (elternteile.length <= arrayIndexes[0]) return false;
         return elternteile[arrayIndexes[0]].isAlive === "no";
       },
@@ -17,7 +18,8 @@ export const elternteilFlowConfig = {
     {
       target: "elternteilKinderAnzahl",
       guard: ({ elternteile, pageData: { arrayIndexes } }) => {
-        if (!elternteile || !arrayIndexes || arrayIndexes.length < 1) return false;
+        if (!elternteile || !arrayIndexes || arrayIndexes.length < 1)
+          return false;
         if (elternteile.length <= arrayIndexes[0]) return false;
         const el = elternteile[arrayIndexes[0]];
         if (el.isAlive !== "no") return false;
@@ -35,7 +37,8 @@ export const elternteilFlowConfig = {
     {
       target: "elternteilKindHatteKinder",
       guard: ({ elternteile, pageData: { arrayIndexes } }) => {
-        if (!elternteile || !arrayIndexes || arrayIndexes.length < 2) return false;
+        if (!elternteile || !arrayIndexes || arrayIndexes.length < 2)
+          return false;
         const el = elternteile[arrayIndexes[0]];
         if (el.isAlive !== "no" || el.hatteKinder !== "yes") return false;
         if (!el.kinder || el.kinder.length <= arrayIndexes[1]) return false;
@@ -48,7 +51,8 @@ export const elternteilFlowConfig = {
     {
       target: "elternteilKindKinderAnzahl",
       guard: ({ elternteile, pageData: { arrayIndexes } }) => {
-        if (!elternteile || !arrayIndexes || arrayIndexes.length < 2) return false;
+        if (!elternteile || !arrayIndexes || arrayIndexes.length < 2)
+          return false;
         const el = elternteile[arrayIndexes[0]];
         if (el.isAlive !== "no" || el.hatteKinder !== "yes") return false;
         if (!el.kinder || el.kinder.length <= arrayIndexes[1]) return false;
@@ -75,7 +79,8 @@ export const elternteilFlowConfig = {
     {
       target: "gemeinsameKindHatteKinder",
       guard: ({ gemeinsameKinder, pageData: { arrayIndexes } }) => {
-        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1) return false;
+        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1)
+          return false;
         if (gemeinsameKinder.length <= arrayIndexes[0]) return false;
         return gemeinsameKinder[arrayIndexes[0]].isAlive === "no";
       },
@@ -86,7 +91,8 @@ export const elternteilFlowConfig = {
     {
       target: "gemeinsameKindKinderAnzahl",
       guard: ({ gemeinsameKinder, pageData: { arrayIndexes } }) => {
-        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1) return false;
+        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1)
+          return false;
         if (gemeinsameKinder.length <= arrayIndexes[0]) return false;
         const kind = gemeinsameKinder[arrayIndexes[0]];
         if (kind.isAlive !== "no") return false;

@@ -10,6 +10,8 @@ describe("resolveArrayCharacter()", () => {
     expect(() => resolveArrayCharacter("a#b", [])).toThrow();
   });
   it("throws an error if there are more hashes than indices", () => {
-    expect(() => resolveArrayCharacter("a#b#c", [0])).toThrow(expect.anything());
+    expect(() => resolveArrayCharacter("a#b#c", [0])).toThrow(
+      expect.anything(),
+    );
   });
 });

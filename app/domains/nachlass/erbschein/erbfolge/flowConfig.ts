@@ -47,7 +47,9 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
         target: "gemeinsameKinderAnzahl",
         guard: ({ elternteile }) => {
           if (!elternteile || elternteile.length < 2) return false;
-          return elternteile[0].isAlive === "no" && elternteile[1].isAlive === "no";
+          return (
+            elternteile[0].isAlive === "no" && elternteile[1].isAlive === "no"
+          );
         },
       },
       { target: null },

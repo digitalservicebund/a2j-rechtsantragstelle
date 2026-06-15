@@ -63,7 +63,9 @@ export function ElternteilSummary({
           <div key={index} className="kern-summary">
             <div className="kern-summary__body bg-white!">
               <h3 className="kern-title">{name}</h3>
-              <p className="kern-body">{isAlive === "no" ? "verstorben" : "lebend"}</p>
+              <p className="kern-body">
+                {isAlive === "no" ? "verstorben" : "lebend"}
+              </p>
               <div className="flex gap-kern-space-small flex-wrap items-center">
                 <ArraySummaryItemActions
                   category="elternteile"

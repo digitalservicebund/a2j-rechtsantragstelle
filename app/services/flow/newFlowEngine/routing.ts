@@ -45,7 +45,10 @@ export const evaluateAllBranches = <FlowKey, UserData>(
   if (Array.isArray(route)) {
     const branches: FlowKey[] = [];
     for (const transition of route) {
-      if (options?.excludeArrayTransitions && transition.type === "addArrayItem")
+      if (
+        options?.excludeArrayTransitions &&
+        transition.type === "addArrayItem"
+      )
         continue;
       // Evaluate all guards. If there is no guard, or it passes, it is a valid branch.
       if (!transition.guard || transition.guard(data)) {
