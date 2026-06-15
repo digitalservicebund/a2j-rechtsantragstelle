@@ -106,15 +106,32 @@ describe("gerbeh data conversions", () => {
     ).toEqual({ [gerbehAmtsgerichtKey]: gerbehAmtsgericht });
   });
 
-  it("filters non-amtsgericht Gerbeh content", () => {
-    const nonAmtsgericht = { ...gerbehAmtsgericht };
-    nonAmtsgericht.TYP_INFO = "Arbeitsgericht";
+  it("filters non-amtsgericht and non-nachlassgericht Gerbeh content", () => {
+    const nonAmtsgericht = { ...gerbehAmtsgericht, TYP_INFO: "Arbeitsgericht" };
+    const nachlassGericht = {
+      ...gerbehAmtsgericht,
+      TYP_INFO: "Nachlassgericht" as TypInfo,
+    };
+    const nachlassGerichtIndex = gerbehIndex({
+      LKZ: nachlassGericht.LKZ,
+      OLG: nachlassGericht.OLG,
+      LG: nachlassGericht.LG,
+      AG: nachlassGericht.AG,
+      typInfo: nachlassGericht.TYP_INFO,
+    });
 
     expect(
       conversions["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"]({
-        JMTD14_VT_ERWERBER_GERBEH: [gerbehAmtsgericht, nonAmtsgericht],
+        JMTD14_VT_ERWERBER_GERBEH: [
+          gerbehAmtsgericht,
+          nachlassGericht,
+          nonAmtsgericht,
+        ],
       }),
-    ).toEqual({ [gerbehAmtsgerichtKey]: gerbehAmtsgericht });
+    ).toEqual({
+      [gerbehAmtsgerichtKey]: gerbehAmtsgericht,
+      [nachlassGerichtIndex]: nachlassGericht,
+    });
   });
 });
 
