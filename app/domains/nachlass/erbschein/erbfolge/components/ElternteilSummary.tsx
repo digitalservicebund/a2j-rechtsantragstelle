@@ -60,7 +60,7 @@ export function ElternteilSummary({
         const editUrl = `${url}/${index}/${initialInputUrl}`;
 
         return (
-          <div key={index} className="kern-summary">
+          <div key={name} className="kern-summary">
             <div className="kern-summary__body bg-white!">
               <h3 className="kern-title">{name}</h3>
               <p className="kern-body">

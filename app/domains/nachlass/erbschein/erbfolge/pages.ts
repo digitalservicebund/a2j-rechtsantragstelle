@@ -51,7 +51,7 @@ type ElternteilKind =
       name: string;
       isAlive: "no";
       hatteKinder: "yes";
-      kinder?: { name: string; isAlive: "yes" | "no" }[];
+      kinder?: Array<{ name: string; isAlive: "yes" | "no" }>;
     };
 
 const elternteilKindSchema: z.ZodType<ElternteilKind> = z.union([

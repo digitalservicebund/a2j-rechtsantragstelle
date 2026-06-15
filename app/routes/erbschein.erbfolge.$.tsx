@@ -37,12 +37,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // TODO: pass flowId, arrayIndexes into createFlowSession?
   const flowSession = createFlowSession(staticFlow, fullUserData, stepId);
 
-  console.log(`[${stepId}] userData:`, JSON.stringify(fullUserData, null, 2));
-  console.log(
-    `[${stepId}] prunedUserData:`,
-    JSON.stringify(flowSession.prunedUserData, null, 2),
-  );
-
   if (!flowSession.isReachable(stepId)) {
     return redirect(flowId + flowSession.initialPath);
   }

@@ -111,7 +111,7 @@ function EnkelkinderSection({
         const editUrl = `${grandchildSummaryUrl}/${j}/${initialInputUrl}`;
 
         return (
-          <div key={j} className="kern-summary">
+          <div key={name} className="kern-summary">
             <div className="kern-summary__body bg-white!">
               <h3 className="kern-title">{name}</h3>
               <p className="kern-body">

@@ -9,8 +9,6 @@ import classNames from "classnames";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
-import ArraySummary from "~/components/content/arraySummary/ArraySummary";
-
 export function VorabcheckPage() {
   const {
     stepData,
@@ -19,7 +17,6 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
     showReportProblem,
-    arraySummaryData,
   } = useLoaderData<typeof loader>();
 
   useFocusFirstH1();

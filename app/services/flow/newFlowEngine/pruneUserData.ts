@@ -20,7 +20,7 @@ const setNestedField = (
     const arrayName = arrayPath[i];
     const index = indexes[i];
     if (!Array.isArray(target[arrayName])) target[arrayName] = [];
-    const arr = target[arrayName] as Record<string, unknown>[];
+    const arr = target[arrayName] as Array<Record<string, unknown>>;
     if (arr[index] === undefined) arr[index] = {};
     target = arr[index];
   }

@@ -20,7 +20,7 @@ const flow = compileFlow({ pages, initialStep: "start", transitions });
 describe("compileFlow", () => {
   describe("path round-trip", () => {
     it("getNodeKeyFromPath(getPathFromNodeKey(key)) === key for all nodes", () => {
-      for (const key of Object.keys(pages) as (keyof typeof pages)[]) {
+      for (const key of Object.keys(pages) as Array<keyof typeof pages>) {
         const path = flow.getPathFromNodeKey(key);
         expect(flow.getNodeKeyFromPath(path!)).toBe(key);
       }
