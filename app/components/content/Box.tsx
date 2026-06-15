@@ -71,7 +71,11 @@ const Box = ({
       {arrayIsNonEmpty(buttons) && (
         <ButtonContainer className="kern-button-group pt-kern-space-default">
           {buttons.map((button) => (
-            <Button key={button.text ?? button.href} {...button} />
+            <Button
+              key={button.text ?? button.href}
+              textClassName="break-all"
+              {...button}
+            />
           ))}
         </ButtonContainer>
       )}
