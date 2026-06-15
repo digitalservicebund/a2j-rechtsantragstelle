@@ -5,6 +5,7 @@ import {
   type LoaderFunctionArgs,
   redirect,
 } from "react-router";
+import { throw404OnProduction } from "~/services/errorPages/throw404";
 import { parsePathname } from "~/domains/flowIds";
 import { nachlassErbfolgeStaticFlow } from "~/domains/nachlass/erbschein/erbfolge/flowConfig";
 import type { ArrayData, UserData } from "~/domains/userData";
@@ -106,6 +107,7 @@ export default NachlassErbfolgePage;
 const staticFlow = nachlassErbfolgeStaticFlow;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  throw404OnProduction();
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
@@ -214,6 +216,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  throw404OnProduction();
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);

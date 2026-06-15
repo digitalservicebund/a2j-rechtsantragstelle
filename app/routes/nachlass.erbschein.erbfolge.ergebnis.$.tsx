@@ -1,4 +1,5 @@
 import { data, type LoaderFunctionArgs, redirect } from "react-router";
+import { throw404OnProduction } from "~/services/errorPages/throw404";
 import { parsePathname } from "~/domains/flowIds";
 import { nachlassErbfolgeStaticFlow } from "~/domains/nachlass/erbschein/erbfolge/flowConfig";
 import type { Replacements } from "~/util/applyStringReplacement";
@@ -14,6 +15,7 @@ export { ResultPage as default } from "~/routes/shared/components/ResultPage";
 const staticFlow = nachlassErbfolgeStaticFlow;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  throw404OnProduction();
   const { pathname } = new URL(request.url);
   const cookieHeader = request.headers.get("Cookie");
   const { flowId, stepId, arrayIndexes } = parsePathname(pathname);
