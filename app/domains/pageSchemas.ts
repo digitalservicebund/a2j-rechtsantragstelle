@@ -13,7 +13,6 @@ import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
-import { erbfolgePages } from "./erbschein/erbfolge/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
@@ -31,7 +30,6 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
-  "/erbschein/erbfolge": erbfolgePages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
 } as const;
@@ -84,10 +82,7 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (
-    flowId === "/erbschein/erbfolge" ||
-    flowId === "/nachlass/erbschein/erbfolge"
-  ) {
+  if (flowId === "/nachlass/erbschein/erbfolge") {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }
 
