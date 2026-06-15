@@ -183,6 +183,23 @@ describe("SideNavMobile", () => {
     });
   });
 
+  it("should focus in the last link after reverse-tabbing from the summary", async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const summaryElement = getByTestId("side-nav-summary");
+    //Open toggle
+    fireEvent.click(summaryElement);
+
+    const lastAnchorElement = getAllByTestId("nav-item-link")[2];
+
+    fireEvent.keyDown(summaryElement, { key: "Tab", shiftKey: true });
+
+    await waitFor(() => {
+      expect(lastAnchorElement).toHaveFocus();
+    });
+  });
+
   it("should focus in the summary after leave the last steps stepper link", async () => {
     const { getByTestId, getAllByTestId } = render(
       <SideNavMobile
