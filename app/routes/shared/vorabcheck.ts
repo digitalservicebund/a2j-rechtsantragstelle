@@ -11,6 +11,7 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
+import type { ArraySummaryProps } from "~/components/content/arraySummary/ArraySummary";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 
