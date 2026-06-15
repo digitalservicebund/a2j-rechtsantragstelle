@@ -2,9 +2,9 @@ import { parseFormData } from "@remix-run/form-data-parser";
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
-import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
-import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
-import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
+import { setUserVisitedValidationPage } from "~/services/flow/server/setUserVisitedValidationPage";
+import { isFileUploadOrDeleteAction } from "~/components/formElements/inputs/filesUpload/isFileUploadOrDeleteAction";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -50,7 +50,13 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData] = await Promise.all([
-    retrieveContentData(pathname, params, userData, migration.userData),
+    retrieveContentData(
+      "form-flow-pages",
+      pathname,
+      params,
+      userData,
+      migration.userData,
+    ),
     setUserVisitedValidationPage(
       flowController.getMeta(stepId)?.triggerValidation,
       flowId,

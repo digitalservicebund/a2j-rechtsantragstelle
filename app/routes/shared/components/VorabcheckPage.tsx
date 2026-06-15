@@ -42,7 +42,7 @@ export function VorabcheckPage() {
           row={2}
           id="flow-page-content"
         >
-          <ContentComponents content={cmsContent.pre_form} managedByParent />
+          <ContentComponents content={cmsContent.content} managedByParent />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}

@@ -7,7 +7,7 @@ import { type StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPag
 import {
   buildCmsContentAndTranslations,
   type CMSContent,
-} from "../../buildCmsContentAndTranslations";
+} from "../buildCmsContentAndTranslations";
 import { retrieveContentData } from "../retrieveContentData";
 
 const mockPathname = "/fluggastrechte/formular/intro/start";
@@ -35,7 +35,7 @@ const mockTranslations = {
 };
 
 vi.mock("~/services/cms/index.server");
-vi.mock("~/services/flow/formular/buildCmsContentAndTranslations");
+vi.mock("~/services/flow/contentData/buildCmsContentAndTranslations");
 
 const mockFetchData = () => {
   vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPageContent);
@@ -56,6 +56,7 @@ describe("retrieveContentData", () => {
 
   it("should call once flow page, parent meta and translations", async () => {
     await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
@@ -78,6 +79,7 @@ describe("retrieveContentData", () => {
 
   it("should call buildCmsContentAndTranslations with replacements and return content data functions", async () => {
     const actual = await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,
@@ -101,6 +103,7 @@ describe("retrieveContentData", () => {
 
   it("should call buildCmsContentAndTranslations with migrationData", async () => {
     await retrieveContentData(
+      "form-flow-pages",
       mockPathname,
       mockParams,
       mockUserDataWithPageData,

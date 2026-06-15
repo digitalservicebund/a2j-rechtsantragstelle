@@ -1,8 +1,9 @@
 import type z from "zod";
-import type { UserDataWithPageData } from "../../pageData";
-import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { type StrapiAutoSuggestInputComponentSchema } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { type FlowId } from "~/domains/flowIds";
+import { type UserDataWithPageData } from "../pageData";
+import { type CMSContent } from "./buildCmsContentAndTranslations";
+import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
 
 const getDataListArgumentForVerstorbeneAdresseStrasse = (
   userDataWithPageData: UserDataWithPageData,
@@ -98,13 +99,16 @@ const addDataListArgumentToAutoSuggestionInput = (
 };
 
 export const buildFormElements = (
-  { formContent, heading }: CMSContent,
+  { formContent, heading, content }: CMSContent,
   userDataWithPageData: UserDataWithPageData,
   flowId: FlowId,
-) =>
-  formContent.map((element) => {
-    if (element.__component === "form-elements.select" && heading)
-      element.altLabel = heading;
+) => {
+  const contentHeading = content.find(isStrapiHeadingComponent);
+  const replaceAltLabel = heading ?? contentHeading?.text;
+
+  return formContent.map((element) => {
+    if (element.__component === "form-elements.select" && replaceAltLabel)
+      element.altLabel = replaceAltLabel;
     if (
       element.__component === "form-elements.auto-suggest-input" &&
       element.dataList === "streetNames"
@@ -118,3 +122,4 @@ export const buildFormElements = (
 
     return element;
   });
+};
