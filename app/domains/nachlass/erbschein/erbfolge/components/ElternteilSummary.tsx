@@ -15,10 +15,10 @@ type ElternteilItem = Record<string, BasicTypes>;
 function DeleteButton({
   itemIndex,
   pathnameArrayItem,
-}: {
+}: Readonly<{
   itemIndex: number;
   pathnameArrayItem: string;
-}) {
+}>) {
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
 
@@ -44,10 +44,10 @@ function DeleteButton({
 export function ElternteilSummary({
   data,
   configuration,
-}: {
+}: Readonly<{
   data: ArrayData;
   configuration: ArrayConfigClient;
-}) {
+}>) {
   const { url, initialInputUrl, disableAddButton } = configuration;
   const items = data as ElternteilItem[];
 

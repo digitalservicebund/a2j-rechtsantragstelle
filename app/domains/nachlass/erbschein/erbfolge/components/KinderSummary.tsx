@@ -18,11 +18,11 @@ function DeleteButton({
   category,
   itemIndex,
   pathnameArrayItem,
-}: {
+}: Readonly<{
   category: string;
   itemIndex: number;
   pathnameArrayItem: string;
-}) {
+}>) {
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
 
@@ -49,11 +49,11 @@ function KindCard({
   item,
   index,
   configuration,
-}: {
+}: Readonly<{
   item: KindItem;
   index: number;
   configuration: ArrayConfigClient;
-}) {
+}>) {
   const { url, initialInputUrl } = configuration;
   const name = String(item.name ?? "");
   const isAlive = String(item.isAlive ?? "yes");
@@ -94,11 +94,11 @@ function EnkelkinderSection({
   grandchildren,
   childIndex,
   configuration,
-}: {
+}: Readonly<{
   grandchildren: KindItem[];
   childIndex: number;
   configuration: ArrayConfigClient;
-}) {
+}>) {
   const { url, initialInputUrl } = configuration;
   const grandchildSummaryUrl = `${url}/${childIndex}/kinder`;
 
@@ -148,11 +148,11 @@ export function KinderSummary({
   data,
   configuration,
   category,
-}: {
+}: Readonly<{
   data: ArrayData;
   configuration: ArrayConfigClient;
   category: string;
-}) {
+}>) {
   const { url, initialInputUrl, disableAddButton } = configuration;
   const items = data as KindItem[];
 

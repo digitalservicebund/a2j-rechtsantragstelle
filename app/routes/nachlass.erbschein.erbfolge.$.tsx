@@ -78,7 +78,7 @@ function NachlassErbfolgePage() {
             }
             managedByParent
           />
-          {arraySummaryData && arraySummaryData.category === "elternteile" && (
+          {arraySummaryData?.category === "elternteile" && (
             <ElternteilSummary
               data={arraySummaryData.arrayData.data as ArrayData}
               configuration={arraySummaryData.arrayData.configuration}

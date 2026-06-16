@@ -41,7 +41,7 @@ const buildParentPath = (fieldName: string, indices: number[]) =>
   fieldName
     .split(arrayChar)
     .map((segment, i) =>
-      indices[i] !== undefined ? `${segment}[${indices[i]}]` : segment,
+      indices[i] === undefined ? segment : `${segment}[${indices[i]}]`,
     )
     .join(".");
 
