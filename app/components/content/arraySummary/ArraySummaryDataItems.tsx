@@ -1,4 +1,4 @@
-import type { BasicTypes, ObjectType } from "~/domains/userData";
+import type { ArrayData, BasicTypes, ObjectType } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -12,7 +12,7 @@ import {
 
 type ArraySummaryItemProps = {
   readonly itemIndex: number;
-  readonly items: Record<string, BasicTypes | ObjectType>;
+  readonly items: Record<string, BasicTypes | ObjectType | ArrayData>;
   readonly category: string;
   readonly configuration: ArrayConfigClient;
   readonly subtitle?: HeadingProps;
@@ -20,7 +20,7 @@ type ArraySummaryItemProps = {
 };
 
 const isItemValueDateObject = (
-  itemValue: BasicTypes | ObjectType,
+  itemValue: BasicTypes | ObjectType | ArrayData,
 ): itemValue is DateObject => {
   return (
     typeof itemValue === "object" &&

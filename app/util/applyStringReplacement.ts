@@ -5,7 +5,7 @@ import { logError } from "~/services/logging";
 
 export type Replacements = Record<
   string,
-  string | number | boolean | undefined
+  string | number | boolean | string[] | undefined
 >;
 
 export const replacementsFromFlowConfig = (
