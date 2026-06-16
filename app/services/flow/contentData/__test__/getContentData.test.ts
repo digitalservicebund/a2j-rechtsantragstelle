@@ -5,7 +5,7 @@ import {
 } from "~/services/array/getArraySummaryData";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getButtonNavigationProps } from "~/util/buttonProps";
-import { type CMSContent } from "../../buildCmsContentAndTranslations";
+import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
 import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepStates";
 import { type SchemaObject } from "~/domains/userData";

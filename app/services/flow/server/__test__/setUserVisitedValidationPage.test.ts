@@ -1,7 +1,7 @@
 import {
   setUserVisitedValidationPage,
   userVisitedValidationPageKey,
-} from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
+} from "~/services/flow/server/setUserVisitedValidationPage";
 import { getSessionManager } from "~/services/session.server";
 
 vi.mock("~/services/session.server");

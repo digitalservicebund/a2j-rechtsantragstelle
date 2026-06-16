@@ -88,6 +88,10 @@ export const kinderXStateConfig = {
                 guard: isKinderWohnortBeiAntragstellerYes,
                 target: "sorgerecht",
               },
+              {
+                guard: isKinderAbove18YearsOld,
+                target: "adresse-optional",
+              },
               "adresse",
             ],
             BACK: "name",
@@ -95,13 +99,13 @@ export const kinderXStateConfig = {
         },
         adresse: {
           on: {
-            SUBMIT: [
-              {
-                guard: isKinderAbove18YearsOld,
-                target: "#kinder.uebersicht",
-              },
-              "sorgerecht",
-            ],
+            SUBMIT: "sorgerecht",
+            BACK: "wohnort",
+          },
+        },
+        "adresse-optional": {
+          on: {
+            SUBMIT: "#kinder.uebersicht",
             BACK: "wohnort",
           },
         },

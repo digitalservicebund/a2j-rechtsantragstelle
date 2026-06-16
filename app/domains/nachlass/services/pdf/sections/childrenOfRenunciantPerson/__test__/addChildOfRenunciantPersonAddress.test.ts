@@ -8,6 +8,13 @@ import { type NachlassErbausschlagungAnfrageKind } from "../createChildrenOfRenu
 const childrenOfRenunciantPersonMock = {
   adresseZusatz: "c/o Max Mustermann",
   strasse: "Musterstraße",
+  vorname: "Max",
+  nachname: "Mustermann",
+  geburtsdatum: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
   hausnummer: "1",
   plz: "12345",
   ort: "Musterstadt",

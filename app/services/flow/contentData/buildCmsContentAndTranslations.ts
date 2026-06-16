@@ -12,12 +12,12 @@ type BuildCmsContentAndTranslations = {
   flowTranslations: Translations;
   flowMenuTranslations: Translations;
   overviewTranslations: Translations;
-  formPageContent: StrapiFormFlowPage;
+  formPageContent: StrapiFormFlowPage | StrapiVorabCheckPage;
   replacements?: Replacements;
   parentMeta: StrapiMeta | null;
 };
 
-export const structureCmsContent = (
+const structureCmsContent = (
   formPageContent: StrapiFormFlowPage | StrapiVorabCheckPage,
 ) => {
   return {
