@@ -13,8 +13,8 @@ export const resolveArrayCharacter = (
   const arrayIndexes = Array.isArray(indices) ? indices : [indices];
   const indexCount = arrayIndexes.length ?? 0;
   invariant(
-    indexCount === hashCount,
-    `${fieldname} number of ${arrayChar} (${hashCount}) doesn't match number of indicies (${indexCount})`,
+    indexCount >= hashCount,
+    `${fieldname} number of ${arrayChar} (${hashCount}) is greater than number of indicies (${indexCount})`,
   );
   let updatedFieldname = fieldname;
   arrayIndexes.forEach(

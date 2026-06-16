@@ -27,7 +27,7 @@ describe("resolveArraysFromKeys()", () => {
       a: expectedArray,
     });
   });
-  it("throws an error if hashCount and indiciesCount don't match", () => {
-    expect(() => resolveArrayCharacter("a.b", [0])).toThrow(expect.anything());
+  it("throws an error if more hashes than indices", () => {
+    expect(() => resolveArrayCharacter("a#b", [])).toThrow(expect.anything());
   });
 });

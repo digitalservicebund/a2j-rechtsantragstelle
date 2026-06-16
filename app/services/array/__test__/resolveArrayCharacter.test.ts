@@ -11,6 +11,10 @@ describe("resolveArrayCharacter()", () => {
     expect(resolveArrayCharacter("a/#/b/#/c", [1, 0], false)).toBe("a/1/b/0/c");
   });
 
+  it("allows more indices than hashes, using only the first N", () => {
+    expect(resolveArrayCharacter("a#b", [0, 1])).toBe("a[0]b");
+  });
+
   it("throws an error if more hashes than indices exist", () => {
     expect(() => resolveArrayCharacter("a#b", [])).toThrow(expect.anything());
   });
