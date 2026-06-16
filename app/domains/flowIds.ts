@@ -12,6 +12,7 @@ export const flowIds = [
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",
+  "/nachlass/erbschein/erbfolge",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
@@ -26,6 +27,10 @@ export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
-  const stepId = pathname.replace(flowId, "").replaceAll(/(\/\d+)/g, "");
+  const arrayFlows: FlowId[] = ["/nachlass/erbschein/erbfolge"];
+  const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
+  const stepId = pathname
+    .replace(flowId, "")
+    .replaceAll(/(\/\d+)/g, numSubstitute);
   return { flowId, stepId, arrayIndexes };
 }

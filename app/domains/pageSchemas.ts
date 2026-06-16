@@ -14,6 +14,7 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
@@ -30,6 +31,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
@@ -79,6 +81,10 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
+
+  if (flowId === "/nachlass/erbschein/erbfolge") {
+    return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
+  }
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array

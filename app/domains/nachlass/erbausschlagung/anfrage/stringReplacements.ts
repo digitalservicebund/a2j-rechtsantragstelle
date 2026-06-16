@@ -182,7 +182,8 @@ export const getMissingFilledKidNames = (
       .filter(
         (kid) => !erbausschlagungKinderArraySchema.safeParse([kid]).success,
       )
-      .map((kid) => `${kid.vorname} ${kid.nachname}`),
+      .map((kid) => `${kid.vorname} ${kid.nachname}`)
+      .join(", "),
   };
 };
 
