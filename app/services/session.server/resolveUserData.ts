@@ -9,7 +9,7 @@ export const resolveUserData = (
   fieldNames: string[],
 ) => {
   const arrayIndexes = userData.pageData?.arrayIndexes ?? [];
-  const result: Record<string, any> = {};
+  const result: UserData = {};
 
   for (const fieldName of fieldNames) {
     const resolvedPath = resolveArrayCharacter(fieldName, arrayIndexes);

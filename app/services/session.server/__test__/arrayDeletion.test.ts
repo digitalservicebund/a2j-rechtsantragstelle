@@ -86,5 +86,23 @@ describe("arrayDeletion", () => {
       expect(result.isOk).toBe(true);
       expect(mockSession.get("arrayTest")).toEqual(["item1"]);
     });
+
+    it("should delete a nested array item using arrayIndexes", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Parent 1",
+          kinder: [{ name: "Child A" }, { name: "Child B" }],
+        },
+        { name: "Parent 2", kinder: [{ name: "Child C" }] },
+      ]);
+
+      const result = deleteArrayItem("elternteile#kinder", 0, mockSession, [0]);
+      expect(result.isOk).toBe(true);
+      expect(mockSession.get("elternteile")).toEqual([
+        { name: "Parent 1", kinder: [{ name: "Child B" }] },
+        { name: "Parent 2", kinder: [{ name: "Child C" }] },
+      ]);
+    });
   });
 });

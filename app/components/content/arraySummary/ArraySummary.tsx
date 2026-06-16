@@ -8,7 +8,7 @@ import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Button from "~/components/common/Button";
 import RichText from "~/components/common/RichText";
 
-export type ArraySummaryProps = Readonly<{
+type ArraySummaryProps = Readonly<{
   category: string;
   arrayData: {
     data: ArrayData;
