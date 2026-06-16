@@ -9,6 +9,7 @@ export const flowIds = [
   "/erbschein/wegweiser",
   "/erbschein/nachlassgericht",
   "/nachlass/erbausschlagung/anfrage",
+  "/nachlass/erbausschlagung/gericht-finden",
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",

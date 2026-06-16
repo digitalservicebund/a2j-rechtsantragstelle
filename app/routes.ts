@@ -23,6 +23,7 @@ export default [
   ]),
   ...prefix("nachlass", [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
+    ...prefix("erbausschlagung/gericht-finden", vorabcheckRoutes("NAGF")),
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),

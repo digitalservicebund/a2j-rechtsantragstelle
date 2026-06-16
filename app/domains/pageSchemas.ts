@@ -18,6 +18,7 @@ import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
+import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -32,6 +33,8 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
+  "/nachlass/erbausschlagung/gericht-finden":
+    nachlassErbausschlagungGerichtFindenPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
