@@ -142,9 +142,14 @@ export const erbscheinWegweiserXstateConfig = {
             guard: ({ context }) => context.bankRequestedErbschein === "no",
             target: stepIds.erbscheinNotRequired,
           },
-          stepIds.erbscheinRequiredNoTestament,
+          stepIds.erbscheinRequiredAndRequested,
         ],
         BACK: stepIds.unternehmen,
+      },
+    },
+    [stepIds.erbscheinRequiredAndRequested]: {
+      on: {
+        BACK: stepIds.bankRequestedErbschein,
       },
     },
     [stepIds.erbscheinNotRequired]: {
