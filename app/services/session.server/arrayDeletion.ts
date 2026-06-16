@@ -11,6 +11,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     index: number;
     flowId: FlowId;
     pathname: string;
+    arrayIndexes: number[];
   },
   { message: string }
 > {
@@ -32,9 +33,15 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     });
   }
 
-  const { flowId } = parsePathname(pathname as string);
+  const { flowId, arrayIndexes } = parsePathname(pathname as string);
 
-  return Result.ok({ arrayName, index, flowId, pathname: pathname as string });
+  return Result.ok({
+    arrayName,
+    index,
+    flowId,
+    pathname: pathname as string,
+    arrayIndexes,
+  });
 }
 
 const buildParentPath = (fieldName: string, indices: number[]) =>

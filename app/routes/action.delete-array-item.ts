@@ -1,5 +1,4 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
-import { parsePathname } from "~/domains/flowIds";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -22,7 +21,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultFormData.error.message, { status: 422 });
   }
 
-  const { arrayName, index, flowId, pathname } = resultFormData.value;
+  const { arrayName, index, flowId, pathname, arrayIndexes } =
+    resultFormData.value;
 
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -32,7 +32,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     arrayName,
     index,
     flowSession,
-    parsePathname(pathname).arrayIndexes,
+    arrayIndexes,
   );
   if (resultDeletion.isErr) {
     return new Response(resultDeletion.error.message, { status: 422 });
