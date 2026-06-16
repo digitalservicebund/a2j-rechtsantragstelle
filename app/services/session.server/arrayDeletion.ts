@@ -2,6 +2,7 @@ import type { Session } from "react-router";
 import get from "lodash/get";
 import { Result, type Unit } from "true-myth";
 import { type FlowId, parsePathname } from "~/domains/flowIds";
+import { arrayChar } from "~/services/array";
 import { filterFormData } from "~/util/filterFormData";
 
 export function getArrayDataFromFormData(formData: FormData): Result<
@@ -38,9 +39,9 @@ export function getArrayDataFromFormData(formData: FormData): Result<
 
 const buildParentPath = (fieldName: string, indices: number[]) =>
   fieldName
-    .split("#")
+    .split(arrayChar)
     .map((segment, i) =>
-      i < indices.length ? `${segment}[${indices[i]}]` : segment,
+      indices[i] !== undefined ? `${segment}[${indices[i]}]` : segment,
     )
     .join(".");
 
@@ -50,7 +51,7 @@ export const deleteArrayItem = (
   flowSession: Session,
   arrayIndexes: number[] = [],
 ): Result<Unit, { message: string }> => {
-  const topLevelArrayName = arrayName.split("#")[0];
+  const topLevelArrayName = arrayName.split(arrayChar)[0];
   const parentPath = buildParentPath(arrayName, arrayIndexes);
   const newUserData = structuredClone(flowSession.data);
   const arrayToMutate = get(newUserData, parentPath);
