@@ -48,10 +48,12 @@ function DeleteButton({
 function KindCard({
   item,
   index,
+  category,
   configuration,
 }: Readonly<{
   item: KindItem;
   index: number;
+  category: string;
   configuration: ArrayConfigClient;
 }>) {
   const { url, initialInputUrl } = configuration;
@@ -71,7 +73,7 @@ function KindCard({
         </p>
         <div className="flex gap-kern-space-small flex-wrap items-center">
           <ArraySummaryItemActions
-            category="kinder"
+            category={category}
             itemIndex={index}
             editUrl={editUrl}
           />
@@ -93,10 +95,12 @@ function KindCard({
 function EnkelkinderSection({
   grandchildren,
   childIndex,
+  category,
   configuration,
 }: Readonly<{
   grandchildren: KindItem[];
   childIndex: number;
+  category: string;
   configuration: ArrayConfigClient;
 }>) {
   const { url, initialInputUrl } = configuration;
@@ -131,7 +135,7 @@ function EnkelkinderSection({
                   </span>
                 </a>
                 <DeleteButton
-                  category="kinder#kinder"
+                  category={`${category}#kinder`}
                   itemIndex={j}
                   pathnameArrayItem={grandchildSummaryUrl}
                 />
@@ -175,6 +179,7 @@ export function KinderSummary({
             key={index}
             item={item}
             index={index}
+            category={category}
             configuration={configuration}
           />
         ))}
@@ -197,6 +202,7 @@ export function KinderSummary({
           key={childIndex}
           grandchildren={grandchildren}
           childIndex={childIndex}
+          category={`${category}#kinder`}
           configuration={configuration}
         />
       ))}
