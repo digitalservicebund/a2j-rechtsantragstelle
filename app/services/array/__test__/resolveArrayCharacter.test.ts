@@ -6,6 +6,11 @@ describe("resolveArrayCharacter()", () => {
     expect(resolveArrayCharacter("a.b#c#d", [1, 0])).toBe("a.b[1]c[0]d");
   });
 
+  it("interpolates hashes without brackets when withBrackets is false", () => {
+    expect(resolveArrayCharacter("a/#/b", [1], false)).toBe("a/1/b");
+    expect(resolveArrayCharacter("a/#/b/#/c", [1, 0], false)).toBe("a/1/b/0/c");
+  });
+
   it("throws an error if more hashes than indices exist", () => {
     expect(() => resolveArrayCharacter("a#b", [])).toThrow(expect.anything());
   });
