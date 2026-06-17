@@ -2,13 +2,22 @@ import { type NachlassErbausschlagungGerichtFindenUserData } from "~/domains/nac
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
+export const shouldUseApplicantsCourt = (
+  userData: NachlassErbausschlagungGerichtFindenUserData,
+) => ({
+  shouldUseApplicantsCourt:
+    userData.lebensmittelpunkt === "ausland" ||
+    userData.ausschlagungsOrt === "courtNearMe",
+});
+
 export const getAmtsgerichtStrings = (
   userData: NachlassErbausschlagungGerichtFindenUserData,
 ) => {
-  const zipCode = userData.plz; /* ??
+  const zipCode =
+    userData.plz ??
     userData.plzLebensmittelpunkt ??
     userData.plzHospiz ??
-    userData.plzPflegeheim; */
+    userData.plzPflegeheim;
   if (!zipCode) return {};
   const court = findCourt({
     zipCode,
@@ -30,7 +39,7 @@ export const getPlzStrings = (
   userData: NachlassErbausschlagungGerichtFindenUserData,
 ) => ({
   plz: userData.plz,
-  // plzPflegeheim: userData.plzPflegeheim,
-  // plzHospiz: userData.plzHospiz,
-  // plzLebensmittelpunkt: userData.plzLebensmittelpunkt,
+  plzPflegeheim: userData.plzPflegeheim,
+  plzHospiz: userData.plzHospiz,
+  plzLebensmittelpunkt: userData.plzLebensmittelpunkt,
 });

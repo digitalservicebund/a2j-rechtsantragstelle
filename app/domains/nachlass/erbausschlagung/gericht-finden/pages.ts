@@ -40,6 +40,30 @@ export const nachlassErbausschlagungGerichtFindenPages = {
       pflegeheim: YesNoAnswer,
     },
   },
+  plzPflegeheim: {
+    stepId: "plz-pflegeheim",
+    pageSchema: {
+      plzPflegeheim: postcodeSchema,
+    },
+  },
+  hospiz: {
+    stepId: "hospiz",
+    pageSchema: {
+      hospiz: YesNoAnswer,
+    },
+  },
+  plzHospiz: {
+    stepId: "plz-hospiz",
+    pageSchema: {
+      plzHospiz: postcodeSchema,
+    },
+  },
+  plzLebensmittelpunkt: {
+    stepId: "plz-lebensmittelpunkt",
+    pageSchema: {
+      plzLebensmittelpunkt: postcodeSchema,
+    },
+  },
   gerichtErmitteltWohnsitz: {
     stepId: "ergebnis/gericht-ermittelt-wohnsitz",
   },

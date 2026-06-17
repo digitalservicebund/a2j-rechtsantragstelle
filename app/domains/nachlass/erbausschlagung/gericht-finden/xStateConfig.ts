@@ -44,7 +44,73 @@ export const nachlassErbausschlagungGerichtFindenXstateConfig = {
     [stepIds.pflegeheim]: {
       on: {
         BACK: stepIds.ausschlagungsOrt,
-        SUBMIT: "", // TODO: add pflegeheim/edge case logic and result page
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.pflegeheim === "yes",
+            target: stepIds.plzPflegeheim,
+          },
+          stepIds.hospiz,
+        ],
+      },
+    },
+    [stepIds.plzPflegeheim]: {
+      on: {
+        BACK: stepIds.pflegeheim,
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              edgeCasesForPlz(
+                context.plzPflegeheim,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          stepIds.gerichtErmitteltWohnsitz,
+        ],
+      },
+    },
+    [stepIds.hospiz]: {
+      on: {
+        BACK: stepIds.pflegeheim,
+        SUBMIT: [
+          {
+            guard: ({ context }) => context.hospiz === "yes",
+            target: stepIds.plzHospiz,
+          },
+          stepIds.plzLebensmittelpunkt,
+        ],
+      },
+    },
+    [stepIds.plzHospiz]: {
+      on: {
+        BACK: stepIds.hospiz,
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              edgeCasesForPlz(
+                context.plzHospiz,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          stepIds.gerichtErmitteltWohnsitz,
+        ],
+      },
+    },
+    [stepIds.plzLebensmittelpunkt]: {
+      on: {
+        BACK: stepIds.hospiz,
+        SUBMIT: [
+          {
+            guard: ({ context }) =>
+              edgeCasesForPlz(
+                context.plzLebensmittelpunkt,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          stepIds.gerichtErmitteltWohnsitz,
+        ],
       },
     },
     [stepIds.plz]: {
@@ -69,13 +135,71 @@ export const nachlassErbausschlagungGerichtFindenXstateConfig = {
     },
     [stepIds.strasseHausnummer]: {
       on: {
-        BACK: [stepIds.plz], // TODO: return to plz/pflegeheim/hospiz/lebensmittelpunkt
+        BACK: [
+          {
+            guard: ({ context }) => context.pflegeheim === "yes",
+            target: stepIds.plzPflegeheim,
+          },
+          {
+            guard: ({ context }) => context.hospiz === "yes",
+            target: stepIds.plzHospiz,
+          },
+          {
+            guard: ({ context }) =>
+              context.lebensmittelpunkt === "deutschland" &&
+              context.ausschlagungsOrt === "courtNearDeceased",
+            target: stepIds.plzLebensmittelpunkt,
+          },
+          stepIds.plz,
+        ],
         SUBMIT: stepIds.gerichtErmitteltWohnsitz,
       },
     },
     [stepIds.gerichtErmitteltWohnsitz]: {
       on: {
         BACK: [
+          {
+            guard: ({ context }) =>
+              context.pflegeheim === "yes" &&
+              edgeCasesForPlz(
+                context.plzPflegeheim,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          {
+            guard: ({ context }) => context.pflegeheim === "yes",
+            target: stepIds.plzPflegeheim,
+          },
+          {
+            guard: ({ context }) =>
+              context.hospiz === "yes" &&
+              edgeCasesForPlz(
+                context.plzHospiz,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          {
+            guard: ({ context }) => context.hospiz === "yes",
+            target: stepIds.plzHospiz,
+          },
+          {
+            guard: ({ context }) =>
+              context.lebensmittelpunkt === "deutschland" &&
+              context.ausschlagungsOrt === "courtNearDeceased" &&
+              edgeCasesForPlz(
+                context.plzLebensmittelpunkt,
+                ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+              ).length > 0,
+            target: stepIds.strasseHausnummer,
+          },
+          {
+            guard: ({ context }) =>
+              context.lebensmittelpunkt === "deutschland" &&
+              context.ausschlagungsOrt === "courtNearDeceased",
+            target: stepIds.plzLebensmittelpunkt,
+          },
           {
             guard: ({ context }) =>
               edgeCasesForPlz(context.plz, ANGELEGENHEIT_INFO.NACHLASSSACHEN)

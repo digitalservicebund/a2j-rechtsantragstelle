@@ -132,6 +132,223 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
       },
       {
         stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "yes",
+        },
+      },
+      {
+        stepId: "/plz-pflegeheim",
+        userInput: {
+          plzPflegeheim: "12437",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+      },
+    ],
+    pflegeheimEdgeCase: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/wo-ausschlagen",
+        userInput: {
+          ausschlagungsOrt: "courtNearDeceased",
+        },
+      },
+      {
+        stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "yes",
+        },
+      },
+      {
+        stepId: "/plz-pflegeheim",
+        userInput: {
+          plzPflegeheim: "20457",
+        },
+      },
+      {
+        stepId: "/verschiedene-zustaendige-gerichte",
+        userInput: {
+          strasse: "Teststraße",
+          hausnummer: "1",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+      },
+    ],
+    hospiz: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/wo-ausschlagen",
+        userInput: {
+          ausschlagungsOrt: "courtNearDeceased",
+        },
+      },
+      {
+        stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "no",
+        },
+      },
+      {
+        stepId: "/hospiz",
+        userInput: {
+          hospiz: "yes",
+        },
+      },
+      {
+        stepId: "/plz-hospiz",
+        userInput: {
+          plzHospiz: "12437",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+      },
+    ],
+    hospizEdgeCase: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/wo-ausschlagen",
+        userInput: {
+          ausschlagungsOrt: "courtNearDeceased",
+        },
+      },
+      {
+        stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "no",
+        },
+      },
+      {
+        stepId: "/hospiz",
+        userInput: {
+          hospiz: "yes",
+        },
+      },
+      {
+        stepId: "/plz-hospiz",
+        userInput: {
+          plzHospiz: "20457",
+        },
+      },
+      {
+        stepId: "/verschiedene-zustaendige-gerichte",
+        userInput: {
+          strasse: "Teststraße",
+          hausnummer: "1",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+      },
+    ],
+    lebensmittelpunkt: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/wo-ausschlagen",
+        userInput: {
+          ausschlagungsOrt: "courtNearDeceased",
+        },
+      },
+      {
+        stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "no",
+        },
+      },
+      {
+        stepId: "/hospiz",
+        userInput: {
+          hospiz: "no",
+        },
+      },
+      {
+        stepId: "/plz-lebensmittelpunkt",
+        userInput: {
+          plzLebensmittelpunkt: "12437",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+      },
+    ],
+    lebensmittelpunktEdgeCase: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/wo-ausschlagen",
+        userInput: {
+          ausschlagungsOrt: "courtNearDeceased",
+        },
+      },
+      {
+        stepId: "/pflegeheim",
+        userInput: {
+          pflegeheim: "no",
+        },
+      },
+      {
+        stepId: "/hospiz",
+        userInput: {
+          hospiz: "no",
+        },
+      },
+      {
+        stepId: "/plz-lebensmittelpunkt",
+        userInput: {
+          plzLebensmittelpunkt: "20457",
+        },
+      },
+      {
+        stepId: "/verschiedene-zustaendige-gerichte",
+        userInput: {
+          strasse: "Teststraße",
+          hausnummer: "1",
+        },
+      },
+      {
+        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
       },
     ],
   } satisfies FlowTestCases<NachlassErbausschlagungGerichtFindenUserData>,

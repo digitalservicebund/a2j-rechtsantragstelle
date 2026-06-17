@@ -4,6 +4,7 @@ import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server"
 const localFeatureFlags = {
   showBundID: false,
   showErbausschlagungFlow: true,
+  showErbausschlagungGerichtFindenVorabcheck: true,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
