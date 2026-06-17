@@ -20,6 +20,7 @@ import { getPageSchema } from "~/domains/pageSchemas";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
+import { type createFlowSession } from "../newFlowEngine/createFlowSession";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -103,6 +104,31 @@ export const getContentData = (
         isFinal: flowController.isFinal(stepId),
         backDestination: getBackButtonDestination(
           flowController.getPrevious(stepId),
+          pathname,
+          arrayIndexes,
+        ),
+      });
+    },
+    getButtonNavigationNewEngine: (
+      flowId: FlowId,
+      flowSessionEngine: ReturnType<typeof createFlowSession>,
+      arrayIndexes: number[] | undefined = [],
+    ) => {
+      const buttonNavigationTranslation = translationCode.buttonNavigation;
+      const backDestination = flowSessionEngine.prevPath
+        ? flowId + flowSessionEngine.prevPath
+        : undefined;
+
+      return getButtonNavigationProps({
+        backButtonLabel:
+          cmsContent.backButtonLabel ??
+          buttonNavigationTranslation.backButtonDefaultLabel.de,
+        nextButtonLabel:
+          cmsContent.nextButtonLabel ??
+          buttonNavigationTranslation.nextButtonDefaultLabel.de,
+        isFinal: flowSessionEngine.isFinal,
+        backDestination: getBackButtonDestination(
+          backDestination,
           pathname,
           arrayIndexes,
         ),
