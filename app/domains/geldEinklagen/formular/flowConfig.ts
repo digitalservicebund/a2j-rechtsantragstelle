@@ -1,24 +1,14 @@
 import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { gerichtPruefenIntroFlowConfig } from "./gericht-pruefen/intro/flowConfig";
+import { gerichtPruefenSachgebietFlowConfig } from "./gericht-pruefen/sachgebiet/flowConfig";
 
 export const geldEinklagenFlowConfig = compileFlow({
   pages: geldEinklagenFormularPages,
   initialStep: "introAnwaltschaft",
   transitions: {
-    introAnwaltschaft: [
-      {
-        guard: (context) => context.anwaltschaft === "yes",
-        target: "introVoraussetzungenAnwaltschaft",
-      },
-      { target: "introVoraussetzungen" },
-    ],
-    introVoraussetzungenAnwaltschaft: "introStart",
-    introVoraussetzungen: "introStart",
-    introStart: [{
-      guard: (context) => objectKeysNonEmpty(context, ["anwaltschaft"]),
-      target: "forderungWas",
-    }],
+    ...gerichtPruefenIntroFlowConfig,
     forderungWas: [
       {
         guard: (context) => context.forderung === "etwasAnderes",
@@ -30,16 +20,7 @@ export const geldEinklagenFlowConfig = compileFlow({
       },
     ],
     forderungErrorEtwasAnderes: null,
-    sachgebietInfo: null,
-    sachgebietAusgeschlossen: null,
-    sachgebietBesondere: null,
-    sachgebietMietePachtVertrag: null,
-    sachgebietMietePachtRaum: null,
-    sachgebietVersicherungVertrag: null,
-    sachgebietVersicherungVersicherungsnehmer: null,
-    sachgebietReiseArt: null,
-    sachgebietReiseInfoFlug: null,
-    sachgebietVerkehrsunfallStrassenverkehr: null,
+    ...gerichtPruefenSachgebietFlowConfig,
     klagendePersonFuerWen: null,
     klagendePersonErrorAbbruch: null,
     klagendePersonVerbraucher: null,
@@ -82,6 +63,6 @@ export const geldEinklagenFlowConfig = compileFlow({
     prozessfuehrungZahlungNachKlageeinreichung: null,
     rechtlicherZusatzWeitereAntraege: null,
     rechtlicherZusatzRechtlicheWuerdigung: null,
-    zusammenfassungUebersicht: null
+    zusammenfassungUebersicht: null,
   },
 });

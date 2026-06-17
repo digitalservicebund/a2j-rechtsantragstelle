@@ -39,6 +39,9 @@ export const geldEinklagenGerichtPruefenPages = {
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
   },
+  sachgebietAbbruch: {
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/abbruch",
+  },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
     pageSchema: { ausgeschlossen: YesNoAnswer },
@@ -179,3 +182,6 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
   },
 } as const satisfies PagesConfig;
+
+export type GeldEinklagenGerichtPruefenPages =
+  typeof geldEinklagenGerichtPruefenPages;
