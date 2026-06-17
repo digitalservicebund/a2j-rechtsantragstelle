@@ -12,8 +12,10 @@ export const gerichtPruefenIntroFlowConfig = {
   ],
   introVoraussetzungenAnwaltschaft: "introStart",
   introVoraussetzungen: "introStart",
-  introStart: [{
-    guard: (context) => objectKeysNonEmpty(context, ["anwaltschaft"]),
-    target: "forderungWas",
-  }],
+  introStart: [
+    {
+      guard: (context) => objectKeysNonEmpty(context, ["anwaltschaft"]),
+      target: "forderungWas",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenGerichtPruefenPages>>;
