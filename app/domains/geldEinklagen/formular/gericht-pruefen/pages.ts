@@ -40,7 +40,7 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/sachgebiet/info",
   },
   sachgebietAbbruch: {
-    stepId: "gericht-pruefen/sachgebiet/ergebnis/abbruch",
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/sachgebiet-abbruch",
   },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
