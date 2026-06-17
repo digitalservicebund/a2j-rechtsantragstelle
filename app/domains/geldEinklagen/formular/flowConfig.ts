@@ -8,6 +8,8 @@ import { gerichtPruefenBeklagtePersonFlowConfig } from "./gericht-pruefen/beklag
 import { gerichtPruefenGerichtSuchenFlowConfig } from "./gericht-pruefen/gericht-suchen/flowConfig";
 import { zustaendigesGerichtDone } from "./gericht-pruefen/zustaendiges-gericht/doneFunctions";
 import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStateConfig";
+import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
+import { hasOptionalString } from "~/domains/guards.server";
 
 export const geldEinklagenFlowConfig = compileFlow({
   pages: geldEinklagenFormularPages,
@@ -94,16 +96,26 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "prozessfuehrungAnwaltskosten",
       },
     ],
-    prozessfuehrungAnwaltskosten: null,
-    prozessfuehrungProzesszinsen: null,
-    prozessfuehrungStreitbeilegung: null,
-    prozessfuehrungStreitbeilegungGruende: null,
-    prozessfuehrungMuendlicheVerhandlung: null,
-    prozessfuehrungVideoVerhandlung: null,
-    prozessfuehrungVersaeumnisurteil: null,
-    prozessfuehrungZahlungNachKlageeinreichung: null,
-    rechtlicherZusatzWeitereAntraege: null,
-    rechtlicherZusatzRechtlicheWuerdigung: null,
-    zusammenfassungUebersicht: null,
+    ...klageErstellenProzessfuehrungFlowConfig,
+    rechtlicherZusatzWeitereAntraege: "rechtlicherZusatzRechtlicheWuerdigung",
+    rechtlicherZusatzRechtlicheWuerdigung: [
+      {
+        guard: (context) =>
+          hasOptionalString(context.weitereAntraege) &&
+          hasOptionalString(context.rechtlicheWuerdigung),
+        target: "zusammenfassungUebersicht",
+      },
+    ],
+    zusammenfassungUebersicht: [
+      {
+        guard: (context) => context.anwaltschaft === "yes",
+        target: "klageHerunterladenIntroStartAnwaltschaft",
+      },
+      {
+        target: "klageHerunterladenIntroStart",
+      },
+    ],
+    klageHerunterladenIntroStartAnwaltschaft: null,
+    klageHerunterladenIntroStart: null,
   },
 });
