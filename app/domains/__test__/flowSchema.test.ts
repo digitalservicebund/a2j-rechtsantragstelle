@@ -22,6 +22,7 @@ import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/an
 import { erbscheinWegweiserTestCases } from "~/domains/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { erbscheinNachlassgerichtTestCases } from "~/domains/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
+import { nachlassErbausschlagungGerichtFindenTestCases } from "~/domains/nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -32,6 +33,7 @@ const flowSchemaTests = {
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
   nachlassErbausschlagungAnfrageTestCases,
+  nachlassErbausschlagungGerichtFindenTestCases,
 };
 
 type VisitedSteps = Record<

@@ -15,7 +15,6 @@ type PageConfig = {
     name: string;
     schema: z.ZodArray;
   };
-  collection?: "vorab-check-pages" | "result-pages";
 };
 
 export type PageConfigMap = Record<string, PageConfig>;

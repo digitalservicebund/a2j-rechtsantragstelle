@@ -42,6 +42,8 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/nachlass/erbausschlagung/gericht-finden":
+    "showErbausschlagungGerichtFindenVorabcheck",
 } as const;
 
 export const getUserDataAndFlow = async (

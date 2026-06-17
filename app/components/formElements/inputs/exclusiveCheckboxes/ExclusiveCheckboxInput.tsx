@@ -55,7 +55,14 @@ export const ExclusiveCheckboxInput = ({
             )
           }
         />
-        {label && <InputLabel name={name} label={label} suffix={suffix} />}
+        {label && (
+          <InputLabel
+            name={name}
+            label={label}
+            suffix={suffix}
+            className="hyphens-auto!"
+          />
+        )}
       </div>
     </div>
   );
