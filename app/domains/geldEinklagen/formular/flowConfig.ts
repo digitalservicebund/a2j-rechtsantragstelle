@@ -5,6 +5,7 @@ import { gerichtPruefenIntroFlowConfig } from "./gericht-pruefen/intro/flowConfi
 import { gerichtPruefenSachgebietFlowConfig } from "./gericht-pruefen/sachgebiet/flowConfig";
 import { gerichtPruefenKlagendePersonFlowConfig } from "./gericht-pruefen/klagendePerson/flowConfig";
 import { gerichtPruefenBeklagtePersonFlowConfig } from "./gericht-pruefen/beklagtePerson/flowConfig";
+import { gerichtPruefenGerichtSuchenFlowConfig } from "./gericht-pruefen/gericht-suchen/flowConfig";
 
 export const geldEinklagenFlowConfig = compileFlow({
   pages: geldEinklagenFormularPages,
@@ -25,14 +26,7 @@ export const geldEinklagenFlowConfig = compileFlow({
     ...gerichtPruefenSachgebietFlowConfig,
     ...gerichtPruefenKlagendePersonFlowConfig,
     ...gerichtPruefenBeklagtePersonFlowConfig,
-    gerichtSuchenPostleitzahlBeklagtePerson: null,
-    gerichtSuchenStrasseNummerBeklagtePerson: null,
-    gerichtSuchenPostleitzahlWohnraum: null,
-    gerichtSuchenPostleitzahlKlagendePerson: null,
-    gerichtSuchenPostleitzahlUnerlaubtePerson: null,
-    gerichtSuchenPostleitzahlVerkehrsunfall: null,
-    gerichtSuchenPostleitzahlGerichtsstandsvereinbarung: null,
-    gerichtSuchenStrasseNummer: null,
+    ...gerichtPruefenGerichtSuchenFlowConfig,
     zustaendigesGerichtPilotGericht: null,
     zustaendigesGerichtPilotGerichtAuswahl: null,
     zustaendigesGerichtGerichtAbbruch: null,
