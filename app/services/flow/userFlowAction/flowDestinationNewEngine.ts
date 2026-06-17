@@ -1,26 +1,21 @@
 import { type createFlowSession } from "../newFlowEngine/createFlowSession";
-import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { insertIndexesIntoPath } from "../stepIdConverter";
 import { arrayIsNonEmpty } from "~/util/array";
+import { type FlowId } from "~/domains/flowIds";
 
 export const flowDestinationNewEngine = (
+  flowId: FlowId,
+  arrayIndexes: number[],
+  pathname: string,
   flowSessionEngine: ReturnType<typeof createFlowSession>,
 ) => {
   const nextStepId =
     flowSessionEngine.nextPath ?? flowSessionEngine.initialPath;
 
-  const { arrayIndexes, flowId } = getPageAndFlowDataFromPathname(
-    flowSessionEngine.currentPath,
-  );
-
   const destination = flowId + nextStepId;
 
   if (arrayIsNonEmpty(arrayIndexes)) {
-    return insertIndexesIntoPath(
-      flowSessionEngine.currentPath,
-      destination,
-      arrayIndexes,
-    );
+    return insertIndexesIntoPath(pathname, destination, arrayIndexes);
   }
 
   return destination;
