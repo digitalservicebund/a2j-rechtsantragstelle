@@ -4,7 +4,7 @@ import {
   fetchFlowPage,
   fetchContentPageMeta,
 } from "~/services/cms/index.server";
-import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import { translations } from "~/services/translations/translations";
 import {
@@ -15,7 +15,7 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 export { ResultPage as default } from "./components/ResultPage";
 
 export const loader = async ({ request, url }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request, url);
+  const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -23,7 +23,7 @@ export const loader = async ({ request, url }: LoaderFunctionArgs) => {
 
   const {
     userData,
-    flow: { id: flowId, controller: flowController },
+    flow: { id: flowId, flowSessionEngine },
     page: { stepId },
   } = resultUserAndFlow.value;
 
@@ -47,7 +47,9 @@ export const loader = async ({ request, url }: LoaderFunctionArgs) => {
     nextButtonLabel:
       cmsContent.nextLink?.text ??
       translations.buttonNavigation.nextButtonDefaultLabel.de,
-    backDestination: flowController.getPrevious(stepId),
+    backDestination: flowSessionEngine.prevPath
+      ? flowId + flowSessionEngine.prevPath
+      : undefined,
   });
 
   const documents = cmsContent.documents?.element ?? [];
