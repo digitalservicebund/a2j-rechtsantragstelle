@@ -63,6 +63,11 @@ export const createFlowSession = <C extends PageConfigMap>(
     },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
     prevPath: compiledFlow.getPathFromNodeKey(prevNodeKey),
+    currentPath: currentPath,
+    isArrayPage: (path: string): boolean => {
+      return compiledFlow.getArrayInfo(path) !== undefined;
+    },
+    isFinal: compiledFlow.isFinal(currentPath) ?? false,
   };
 };
 
