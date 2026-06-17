@@ -3,7 +3,7 @@ import { emailCaptureConsentName } from "~/components/content/emailCapture/email
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
-import { getSessionData, getSessionManager } from "~/services/session.server";
+import { getSessionManager } from "~/services/session.server";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { addPageDataToUserData, type UserDataWithPageData } from "../pageData";
 import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
@@ -85,12 +85,11 @@ export const getUserDataAndFlowNewEngine = async (
     throw new Response(null, { status: 404 });
   }
 
-  const [fullUserData, flowSession] = await Promise.all([
-    addPageDataToUserData(await getSessionData(flowId, cookieHeader), {
-      arrayIndexes,
-    }),
-    getSessionManager(flowId).getSession(cookieHeader),
-  ]);
+  const flowSession = await getSessionManager(flowId).getSession(cookieHeader);
+
+  const fullUserData = addPageDataToUserData(flowSession.data, {
+    arrayIndexes,
+  });
 
   const flowSessionEngine = createFlowSession(
     compiledStaticFlow,
