@@ -38,6 +38,10 @@ import { ProgressBar } from "~/components/layout/ProgressBar";
 import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
 function NachlassErbfolgePage() {
+  const loaderData = useLoaderData<typeof loader>();
+
+  useFocusFirstH1();
+
   const {
     stepData,
     cmsContent,
@@ -45,9 +49,7 @@ function NachlassErbfolgePage() {
     progressProps,
     buttonNavigationProps,
     arraySummaryData,
-  } = useLoaderData<typeof loader>();
-
-  useFocusFirstH1();
+  } = loaderData;
 
   return (
     <GridSection className="bg-kern-neutral-025">
@@ -258,9 +260,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
   const formData = await request.formData();
-  const submittedData = Object.fromEntries(
-    [...formData].filter(([key]) => !key.startsWith("_")),
-  );
+  const submittedData: Record<string, FormDataEntryValue> = {};
+  formData.forEach((value, key) => {
+    if (!key.startsWith("_")) submittedData[key] = value;
+  });
   const pageSchema = staticFlow.getSchema(stepId);
   if (!pageSchema) return;
   const validatedFormSubmission = pageSchema.safeParse(submittedData);

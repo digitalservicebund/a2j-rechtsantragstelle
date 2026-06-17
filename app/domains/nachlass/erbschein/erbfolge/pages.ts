@@ -129,7 +129,6 @@ export const nachlassErbfolgePages = {
   },
   auslandsbezug: {
     stepId: "/ergebnis/auslandsbezug",
-    collection: "result-pages" as const,
   },
   inDeutschlandGeheiratet: {
     stepId: "/inDeutschlandGeheiratet",
