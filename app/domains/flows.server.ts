@@ -26,9 +26,10 @@ type FlowMigration = {
 
 export type FlowType = "vorabCheck" | "formFlow";
 
-export type Flow = {
+export type Flow<TNewEngineConfig = unknown> = {
   flowType: FlowType;
   config: Config;
+  newEngineConfig?: TNewEngineConfig;
   guards?: Guards;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
