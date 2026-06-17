@@ -30,11 +30,9 @@ export default [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
     ...prefix("erbausschlagung/gericht-finden", vorabcheckRoutes("NAGF")),
     ...prefix("erbschein/erbfolge", [
-      route(
-        "ergebnis/*",
-        "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx",
-        { id: "nachlassErbfolgeResult" },
-      ),
+      route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
+        id: "nachlassErbfolgeResult",
+      }),
       route("*", "routes/nachlass.erbschein.erbfolge.$.tsx", {
         id: "nachlassErbfolgeFlow",
       }),
