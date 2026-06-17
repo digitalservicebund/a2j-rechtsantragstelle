@@ -4,6 +4,7 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { gerichtPruefenIntroFlowConfig } from "./gericht-pruefen/intro/flowConfig";
 import { gerichtPruefenSachgebietFlowConfig } from "./gericht-pruefen/sachgebiet/flowConfig";
 import { gerichtPruefenKlagendePersonFlowConfig } from "./gericht-pruefen/klagendePerson/flowConfig";
+import { gerichtPruefenBeklagtePersonFlowConfig } from "./gericht-pruefen/beklagtePerson/flowConfig";
 
 export const geldEinklagenFlowConfig = compileFlow({
   pages: geldEinklagenFormularPages,
@@ -23,10 +24,7 @@ export const geldEinklagenFlowConfig = compileFlow({
     forderungErrorEtwasAnderes: null,
     ...gerichtPruefenSachgebietFlowConfig,
     ...gerichtPruefenKlagendePersonFlowConfig,
-    beklagtePersonGegenWen: null,
-    beklagtePersonGeldVerdienen: null,
-    beklagtePersonKaufmann: null,
-    beklagtePersonGerichtsstandsvereinbarung: null,
+    ...gerichtPruefenBeklagtePersonFlowConfig,
     gerichtSuchenPostleitzahlBeklagtePerson: null,
     gerichtSuchenStrasseNummerBeklagtePerson: null,
     gerichtSuchenPostleitzahlWohnraum: null,
