@@ -11,8 +11,27 @@ import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStat
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
 
+const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
+  Object.entries(geldEinklagenFormularPages).map(([key, pageConfig]) => [
+    key,
+    {
+      ...pageConfig,
+      stepId: pageConfig.stepId.startsWith("/")
+        ? pageConfig.stepId
+        : `/${pageConfig.stepId}`,
+    },
+  ]),
+) as {
+  [K in keyof typeof geldEinklagenFormularPages]: Omit<
+    (typeof geldEinklagenFormularPages)[K],
+    "stepId"
+  > & {
+    stepId: string;
+  };
+};
+
 export const geldEinklagenFlowConfig = compileFlow({
-  pages: geldEinklagenFormularPages,
+  pages: geldEinklagenFormularPagesWithLeadingSlash,
   initialStep: "introAnwaltschaft",
   transitions: {
     ...gerichtPruefenIntroFlowConfig,
