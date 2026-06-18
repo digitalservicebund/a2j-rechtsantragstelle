@@ -134,7 +134,7 @@ describe("createFlowSession", () => {
   });
 
   describe("prevPath", () => {
-    it("returns the previous step path via BFS parentMap", () => {
+    it("returns the previous step path via the linear breadcrumb", () => {
       const session = createFlowSession(flow, noData, "/middle");
       expect(session.prevPath).toBe("/start");
     });
@@ -142,6 +142,42 @@ describe("createFlowSession", () => {
     it("returns undefined at the initial step", () => {
       const session = createFlowSession(flow, noData, "/start");
       expect(session.prevPath).toBeUndefined();
+    });
+
+    it("retraces the linear path, not the BFS shortcut, when branches converge", () => {
+      const convergingFlow = compileFlow({
+        pages: {
+          gegenWen: {
+            stepId: "/gericht-pruefen/beklagte-person/gegen-wen",
+            pageSchema: { gegenWenBeklagen: z.string() },
+          },
+          kaufmann: {
+            stepId: "/gericht-pruefen/beklagte-person/kaufmann",
+          },
+          postleitzahl: {
+            stepId:
+              "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+          },
+        },
+        initialStep: "gegenWen",
+        transitions: {
+          gegenWen: [
+            {
+              target: "kaufmann" as const,
+              guard: (ctx) => ctx.gegenWenBeklagen === "person",
+            },
+            { target: "postleitzahl" as const },
+          ],
+          kaufmann: "postleitzahl" as const,
+          postleitzahl: null,
+        },
+      });
+      const session = createFlowSession(
+        convergingFlow,
+        { gegenWenBeklagen: "person", pageData: { arrayIndexes: [] } },
+        "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      );
+      expect(session.prevPath).toBe("/gericht-pruefen/beklagte-person/kaufmann");
     });
   });
 

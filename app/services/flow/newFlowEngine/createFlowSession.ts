@@ -36,8 +36,13 @@ export const createFlowSession = <C extends PageConfigMap>(
     },
   );
 
-  // Prev: The BFS parent guarantees a direct, chronological Back step.
-  const prevNodeKey = simulation.parentMap.get(nodeKey);
+  // Prev: use the linear breadcrumb so Back returns to the page the user came
+  // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
+  const pathIndex = simulation.path.indexOf(nodeKey);
+  const prevNodeKey =
+    pathIndex > 0
+      ? simulation.path[pathIndex - 1]
+      : simulation.parentMap.get(nodeKey);
 
   // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
   const nextNodeKey =
