@@ -1,7 +1,4 @@
-import {
-  buildStatusTree,
-  type StatusSimulationResult,
-} from "../statusTree";
+import { buildStatusTree, type StatusSimulationResult } from "../statusTree";
 
 const simulation = (): StatusSimulationResult => ({
   path: [],

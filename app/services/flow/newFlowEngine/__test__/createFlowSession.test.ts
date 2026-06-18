@@ -177,7 +177,9 @@ describe("createFlowSession", () => {
         { gegenWenBeklagen: "person", pageData: { arrayIndexes: [] } },
         "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
       );
-      expect(session.prevPath).toBe("/gericht-pruefen/beklagte-person/kaufmann");
+      expect(session.prevPath).toBe(
+        "/gericht-pruefen/beklagte-person/kaufmann",
+      );
     });
   });
 
