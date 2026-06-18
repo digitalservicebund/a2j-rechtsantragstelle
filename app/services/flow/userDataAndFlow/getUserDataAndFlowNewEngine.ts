@@ -92,6 +92,7 @@ export const getUserDataAndFlowNewEngine = async (
   );
 
   const validationFlowResult = await validateStepIdFlowNewEngine(
+    flowId,
     stepId,
     flowSessionEngine,
     url,
