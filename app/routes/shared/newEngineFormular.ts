@@ -24,11 +24,13 @@ import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { type SummaryItem } from "~/services/summary/types";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 const hasNewEngineConfig = (
-  flow: Flow,
-): flow is Flow<CompiledFlow<any>> & { newEngineConfig: CompiledFlow<any> } =>
-  flow.newEngineConfig !== undefined;
+  flow: Flow<PageConfigMap>,
+): flow is Flow<PageConfigMap> & {
+  newEngineConfig: CompiledFlow<PageConfigMap>;
+} => flow.newEngineConfig !== undefined;
 
 export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);

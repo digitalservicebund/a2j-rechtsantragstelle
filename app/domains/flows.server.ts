@@ -17,6 +17,8 @@ import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
 import { type Session } from "react-router";
 import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 type FlowMigration = {
   source: FlowId;
@@ -26,10 +28,10 @@ type FlowMigration = {
 
 export type FlowType = "vorabCheck" | "formFlow";
 
-export type Flow<TNewEngineConfig = unknown> = {
+export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config: Config;
-  newEngineConfig?: TNewEngineConfig;
+  newEngineConfig?: CompiledFlow<C>;
   guards?: Guards;
   migration?: FlowMigration;
   flowTransitionConfig?: FlowTransitionConfig;
@@ -59,5 +61,5 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": {} as Flow,
-} satisfies Record<FlowId, Flow>;
+  "/nachlass/erbschein/erbfolge": {} as Flow<PageConfigMap>,
+} satisfies Record<FlowId, Flow<PageConfigMap>>;

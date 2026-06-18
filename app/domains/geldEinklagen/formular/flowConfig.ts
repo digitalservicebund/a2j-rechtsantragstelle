@@ -1,4 +1,7 @@
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import {
+  type CompiledFlow,
+  compileFlow,
+} from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { gerichtPruefenIntroFlowConfig } from "./gericht-pruefen/intro/flowConfig";
@@ -10,6 +13,7 @@ import { zustaendigesGerichtDone } from "./gericht-pruefen/zustaendiges-gericht/
 import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStateConfig";
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
   Object.entries(geldEinklagenFormularPages).map(([key, pageConfig]) => [
@@ -137,4 +141,4 @@ export const geldEinklagenFlowConfig = compileFlow({
     klageHerunterladenIntroStartAnwaltschaft: null,
     klageHerunterladenIntroStart: null,
   },
-});
+}) as CompiledFlow<PageConfigMap>;

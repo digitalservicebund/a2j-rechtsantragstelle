@@ -72,4 +72,4 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
   },
-} satisfies Flow<typeof geldEinklagenFlowConfig>;
+} satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

@@ -9,15 +9,10 @@ import { addPageDataToUserData, type UserDataWithPageData } from "../pageData";
 import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import { type Flow } from "~/domains/flows.server";
-import { type CompiledFlow } from "../newFlowEngine/compileFlow";
 import { createFlowSession } from "../newFlowEngine/createFlowSession";
 import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
-
-const hasNewEngineConfig = (
-  flow: Flow,
-): flow is Flow<CompiledFlow<any>> & { newEngineConfig: CompiledFlow<any> } =>
-  flow.newEngineConfig !== undefined;
+import { type PageConfigMap } from "../newFlowEngine/types";
 
 const buildValidFlowPaths = (
   flowSessionEngine: ReturnType<typeof createFlowSession>,
@@ -77,9 +72,8 @@ export const getUserDataAndFlowNewEngine = async (
     await throw404IfFeatureFlagDisabled(featureFlag);
   }
 
-  const compiledStaticFlow = hasNewEngineConfig(currentFlow)
-    ? currentFlow.newEngineConfig
-    : undefined;
+  const compiledStaticFlow =
+    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
 
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });
@@ -115,7 +109,7 @@ export const getUserDataAndFlowNewEngine = async (
       userVisitedValidationPage: flowSession.get(userVisitedValidationPageKey),
       useStepper:
         "useStepper" in currentFlow
-          ? ((currentFlow as Flow).useStepper ?? false)
+          ? ((currentFlow as Flow<PageConfigMap>).useStepper ?? false)
           : false,
       flowSessionEngine,
     },
