@@ -18,19 +18,10 @@ import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
-import { type Flow } from "~/domains/flows.server";
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { type SummaryItem } from "~/services/summary/types";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-
-const hasNewEngineConfig = (
-  flow: Flow<PageConfigMap>,
-): flow is Flow<PageConfigMap> & {
-  newEngineConfig: CompiledFlow<PageConfigMap>;
-} => flow.newEngineConfig !== undefined;
+import { saveUserDataAndReturnEngineSession } from "~/services/flow/userFlowAction/saveUserDataAndReturnEngineSession";
 
 export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
@@ -101,9 +92,8 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
   const { flowId, currentFlow, stepId, arrayIndexes } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const compiledStaticFlow = hasNewEngineConfig(currentFlow)
-    ? currentFlow.newEngineConfig
-    : undefined;
+  const compiledStaticFlow =
+    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
 
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });
@@ -170,17 +160,17 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     resultFormUserData.value.migrationData,
   );
 
-  updateSession(flowSession, updatedUserData);
-
-  const flowSessionEngine = createFlowSession(
-    compiledStaticFlow,
-    updatedUserData as Parameters<typeof createFlowSession>[1],
+  const flowSessionEngineSaved = saveUserDataAndReturnEngineSession(
     stepId,
+    updatedUserData,
+    flowId,
+    compiledStaticFlow,
+    flowSession,
   );
 
   await postValidationFlowAction(
     request,
-    flowSessionEngine.prunedUserData,
+    flowSessionEngineSaved.prunedUserData,
     flowSession,
     url,
   );
@@ -190,7 +180,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     flowId,
     arrayIndexes,
     pathname,
-    flowSessionEngine,
+    flowSessionEngineSaved,
   );
   return redirectDocument(destination, { headers });
 };
