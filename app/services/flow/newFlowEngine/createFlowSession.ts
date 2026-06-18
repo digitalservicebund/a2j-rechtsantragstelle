@@ -67,7 +67,9 @@ export const createFlowSession = <C extends PageConfigMap>(
       return key != null && simulation.reachableSet.has(key);
     },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
-    prevPath: compiledFlow.getPathFromNodeKey(prevNodeKey),
+    prevPath: compiledFlow.getPathFromNodeKey(
+      prevNodeKey as Extract<keyof C, string>,
+    ),
   };
 };
 
