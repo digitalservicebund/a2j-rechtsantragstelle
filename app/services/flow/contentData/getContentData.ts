@@ -21,11 +21,36 @@ import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSumm
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
 import { type createFlowSession } from "../newFlowEngine/createFlowSession";
+import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
 };
+
+function buildStepsStepperNewEngine(
+  stepStates: StepState[],
+  translations: Translations,
+  stepId: string,
+  userVisitedValidationPage: boolean | undefined,
+) {
+  return stepStates
+    .map((stepState) => ({
+      label: translations[stepState.stepId] ?? stepState.stepId,
+      href: stepState.url,
+      navItems:
+        navItemsFromStepStates(
+          stepId,
+          stepState.subStates,
+          translations,
+          userVisitedValidationPage,
+        ) ?? [],
+    }))
+    .map((stepStepper) => ({
+      ...stepStepper,
+      state: navStateStepper(stepStepper.navItems.map(({ state }) => state)),
+    }));
+}
 
 function buildStepsStepper(
   stepStates: StepState[],
@@ -177,6 +202,46 @@ export const getContentData = (
           state,
         })) as StepStepper[],
         expandAll,
+      };
+    },
+    getNavPropsNewEngine: (
+      flowId: FlowId,
+      flowSessionEngine: ReturnType<typeof createFlowSession>,
+      useStepper: boolean,
+      stepId: string,
+    ) => {
+      const statusTree = flowSessionEngine.statusTree;
+      const stepStates = buildStepStatesFromStatusTree(statusTree, flowId);
+
+      if (!useStepper) {
+        return {
+          navItems:
+            navItemsFromStepStates(stepId, stepStates, translations, false) ??
+            [],
+          stepsStepper: [],
+          expandAll: false,
+        };
+      }
+
+      const stepsStepper = buildStepsStepperNewEngine(
+        stepStates,
+        translations,
+        stepId,
+        false,
+      );
+
+      const currentNavItems =
+        stepsStepper.find((stepStepper) => stateIsCurrent(stepStepper.state))
+          ?.navItems ?? [];
+
+      return {
+        navItems: currentNavItems,
+        stepsStepper: stepsStepper.map(({ href, label, state }) => ({
+          label,
+          href,
+          state,
+        })) as StepStepper[],
+        expandAll: false,
       };
     },
     getAutoSummarySections: async (
