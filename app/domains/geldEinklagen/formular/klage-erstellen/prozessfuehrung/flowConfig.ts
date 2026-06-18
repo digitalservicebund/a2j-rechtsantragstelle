@@ -16,17 +16,7 @@ export const klageErstellenProzessfuehrungFlowConfig = {
     },
   ],
   prozessfuehrungStreitbeilegungGruende: "prozessfuehrungMuendlicheVerhandlung",
-  prozessfuehrungMuendlicheVerhandlung: [
-    {
-      guard: (context) =>
-        context.streitbeilegung === "yes" ||
-        context.streitbeilegung === "noSpecification",
-      target: "prozessfuehrungStreitbeilegung",
-    },
-    {
-      target: "prozessfuehrungStreitbeilegungGruende",
-    },
-  ],
+  prozessfuehrungMuendlicheVerhandlung: "prozessfuehrungVideoVerhandlung",
   prozessfuehrungVideoVerhandlung: "prozessfuehrungVersaeumnisurteil",
   prozessfuehrungVersaeumnisurteil:
     "prozessfuehrungZahlungNachKlageeinreichung",
