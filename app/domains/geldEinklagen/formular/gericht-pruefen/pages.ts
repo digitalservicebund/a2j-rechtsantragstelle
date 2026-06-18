@@ -34,7 +34,7 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { forderung: z.enum(["maximal10000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
-    stepId: "gericht-pruefen/forderung/ergebnis/etwas-anderes",
+    stepId: "gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
   },
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
