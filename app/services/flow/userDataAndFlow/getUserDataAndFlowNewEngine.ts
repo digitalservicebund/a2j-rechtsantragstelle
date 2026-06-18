@@ -3,16 +3,14 @@ import { emailCaptureConsentName } from "~/components/content/emailCapture/email
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
 import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
-import { getSessionManager } from "~/services/session.server";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { addPageDataToUserData, type UserDataWithPageData } from "../pageData";
+import { type UserDataWithPageData } from "../pageData";
 import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { type Flow } from "~/domains/flows.server";
-import { createFlowSession } from "../newFlowEngine/createFlowSession";
+import { type createFlowSession } from "../newFlowEngine/createFlowSession";
 import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
-import { type PageConfigMap } from "../newFlowEngine/types";
+import { getSessionAndEngine } from "./getSessionAndEngine";
 
 const buildValidFlowPaths = (
   flowSessionEngine: ReturnType<typeof createFlowSession>,
@@ -72,24 +70,19 @@ export const getUserDataAndFlowNewEngine = async (
     await throw404IfFeatureFlagDisabled(featureFlag);
   }
 
-  const compiledStaticFlow =
-    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
+  const sessionEngineResult = await getSessionAndEngine(
+    flowId,
+    currentFlow,
+    cookieHeader ?? "",
+    stepId,
+    arrayIndexes,
+  );
 
-  if (!compiledStaticFlow) {
-    throw new Response(null, { status: 404 });
+  if (sessionEngineResult.isErr) {
+    return Result.err({ redirectTo: sessionEngineResult.error.redirectTo });
   }
 
-  const flowSession = await getSessionManager(flowId).getSession(cookieHeader);
-
-  const fullUserData = addPageDataToUserData(flowSession.data, {
-    arrayIndexes,
-  });
-
-  const flowSessionEngine = createFlowSession(
-    compiledStaticFlow,
-    fullUserData as Parameters<typeof createFlowSession>[1],
-    stepId,
-  );
+  const { flowSession, flowSessionEngine } = sessionEngineResult.value;
 
   const validationFlowResult = await validateStepIdFlowNewEngine(
     flowId,
@@ -103,14 +96,14 @@ export const getUserDataAndFlowNewEngine = async (
   }
 
   return Result.ok({
-    userData: flowSessionEngine.prunedUserData as UserDataWithPageData,
+    userData: flowSessionEngine.prunedUserData as UserDataWithPageData, // NOSONAR
     flow: {
       id: flowId,
       validFlowPaths: buildValidFlowPaths(flowSessionEngine),
       userVisitedValidationPage: flowSession.get(userVisitedValidationPageKey),
       useStepper:
-        "useStepper" in currentFlow
-          ? ((currentFlow as Flow<PageConfigMap>).useStepper ?? false)
+        "useStepper" in currentFlow && currentFlow.useStepper !== undefined
+          ? currentFlow.useStepper
           : false,
       flowSessionEngine,
     },
