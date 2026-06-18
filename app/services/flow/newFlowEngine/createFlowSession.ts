@@ -61,6 +61,9 @@ export const createFlowSession = <C extends PageConfigMap>(
       const key = compiledFlow.getNodeKeyFromPath(targetPath);
       return key != null && simulation.reachableSet.has(key);
     },
+    getPathFromNodeKey: (key: string): string | undefined => {
+      return compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>);
+    },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
     prevPath: compiledFlow.getPathFromNodeKey(prevNodeKey),
     isArrayPage: (path: string): boolean => {

@@ -18,8 +18,14 @@ const buildValidFlowPaths = (
   const validFlowPaths: ValidFlowPagesType = {};
 
   for (const path of flowSessionEngine.path) {
-    validFlowPaths[path] = {
-      isArrayPage: flowSessionEngine.isArrayPage(path),
+    const realPath = flowSessionEngine.getPathFromNodeKey(path);
+
+    if (realPath === undefined) {
+      continue;
+    }
+
+    validFlowPaths[realPath] = {
+      isArrayPage: flowSessionEngine.isArrayPage(realPath),
     };
   }
   return validFlowPaths;
