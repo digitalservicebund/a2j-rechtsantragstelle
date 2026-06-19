@@ -6,6 +6,7 @@
 import { isPresent } from "~/util/omitNull";
 import { bucketUrl } from "../cms/bucketUrl";
 import { config } from "../env/public";
+import { POSTHOG_API_HOST } from "~/services/analytics/config";
 
 const { BUNDID_IDP_ENTRY_POINT } = config();
 
@@ -22,7 +23,7 @@ export const cspHeader = (args: {
       "https:",
       `'nonce-${args.nonce}'`,
       "'strict-dynamic'",
-      "eu-assets.i.posthog.com", // see https://posthog.com/docs/session-replay/troubleshooting#3-content-security-policy
+      POSTHOG_API_HOST,
     ],
     "frame-src": ["www.youtube-nocookie.com"],
     "style-src": ["'self'", "'unsafe-inline'"],
@@ -30,8 +31,8 @@ export const cspHeader = (args: {
     "connect-src": [
       "'self'",
       "openplzapi.org",
-      "eu.i.posthog.com",
       bucketUrl,
+      POSTHOG_API_HOST,
       ...(args.additionalConnectSrc ?? []),
     ].filter(isPresent),
     "img-src": [
