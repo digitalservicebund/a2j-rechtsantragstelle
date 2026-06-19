@@ -43,6 +43,27 @@ const getDataListArgumentForErbscheinNachlassgericht = (
   }
 };
 
+const getDataListArgumentForNachlassErbausschlagungGerichtFinden = (
+  userDataWithPageData: UserDataWithPageData,
+) => {
+  // for /nachlass/erbausschlagung/gericht-finden/plz-lebensmittelpunkt
+  if (typeof userDataWithPageData?.plzLebensmittelpunkt === "string") {
+    return userDataWithPageData.plzLebensmittelpunkt;
+  }
+
+  // for /nachlass/erbausschlagung/gericht-finden/plz-hospiz
+  if (typeof userDataWithPageData?.plzHospiz === "string") {
+    return userDataWithPageData.plzHospiz;
+  }
+
+  // for /nachlass/erbausschlagung/gericht-finden/plz-pflegeheim
+  if (typeof userDataWithPageData?.plzPflegeheim === "string") {
+    return userDataWithPageData.plzPflegeheim;
+  }
+
+  return userDataWithPageData.plz as string | undefined;
+};
+
 const addDataListArgumentToAutoSuggestionInput = (
   autoSuggestProps: z.infer<typeof StrapiAutoSuggestInputComponentSchema>,
   userDataWithPageData: UserDataWithPageData,
@@ -68,6 +89,16 @@ const addDataListArgumentToAutoSuggestionInput = (
     typeof userDataWithPageData?.ausschlagendePersonPlz === "string"
   ) {
     dataListArgument = userDataWithPageData.ausschlagendePersonPlz;
+  }
+
+  if (
+    flowId === "/nachlass/erbausschlagung/gericht-finden" &&
+    autoSuggestProps.name === "strasse"
+  ) {
+    dataListArgument =
+      getDataListArgumentForNachlassErbausschlagungGerichtFinden(
+        userDataWithPageData,
+      );
   }
 
   if (

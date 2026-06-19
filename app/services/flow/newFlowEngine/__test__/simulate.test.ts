@@ -8,9 +8,9 @@ describe("simulate", () => {
   describe("linear flow", () => {
     const router = { a: "b", b: "c", c: null } as const;
 
-    it("returns the full linear path in order", () => {
-      const { path } = simulate(router, "a", noData);
-      expect(path).toEqual(["a", "b", "c"]);
+    it("returns the full linear keys in order", () => {
+      const { keys } = simulate(router, "a", noData);
+      expect(keys).toEqual(["a", "b", "c"]);
     });
 
     it("terminates successfully when it reaches a null transition", () => {
@@ -41,19 +41,19 @@ describe("simulate", () => {
     });
 
     it("follows the passing guard branch", () => {
-      const { path } = simulate(flow.transitions, flow.initialStep, {
+      const { keys } = simulate(flow.transitions, flow.initialStep, {
         flag: true,
         pageData: { arrayIndexes: [] },
       });
-      expect(path).toEqual(["start", "yes-path"]);
+      expect(keys).toEqual(["start", "yes-path"]);
     });
 
     it("follows the fallback when the guard fails", () => {
-      const { path } = simulate(flow.transitions, flow.initialStep, {
+      const { keys } = simulate(flow.transitions, flow.initialStep, {
         flag: false,
         pageData: { arrayIndexes: [] },
       });
-      expect(path).toEqual(["start", "no-path"]);
+      expect(keys).toEqual(["start", "no-path"]);
     });
 
     it("does not terminate successfully when all guards fail", () => {

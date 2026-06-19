@@ -25,7 +25,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     auslandLebensmittelpunktEdgeCase: [
@@ -52,7 +52,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     deutschlandLebensmittelpunktCourtNearMe: [
@@ -78,7 +78,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     deutschlandLebensmittelpunktCourtNearMeEdgeCase: [
@@ -111,7 +111,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     pflegeheim: [
@@ -143,7 +143,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     pflegeheimEdgeCase: [
@@ -182,7 +182,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     hospiz: [
@@ -220,7 +220,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     hospizEdgeCase: [
@@ -265,7 +265,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     lebensmittelpunkt: [
@@ -303,7 +303,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
     lebensmittelpunktEdgeCase: [
@@ -348,7 +348,7 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/gericht-ermittelt-wohnsitz",
+        stepId: "/ergebnis/gericht-ermittelt",
       },
     ],
   } satisfies FlowTestCases<NachlassErbausschlagungGerichtFindenUserData>,

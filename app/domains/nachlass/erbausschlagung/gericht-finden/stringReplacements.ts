@@ -35,11 +35,19 @@ export const getAmtsgerichtStrings = (
   };
 };
 
-export const getPlzStrings = (
-  userData: NachlassErbausschlagungGerichtFindenUserData,
-) => ({
-  plz: userData.plz,
-  plzPflegeheim: userData.plzPflegeheim,
-  plzHospiz: userData.plzHospiz,
-  plzLebensmittelpunkt: userData.plzLebensmittelpunkt,
-});
+export const plz = (userData: NachlassErbausschlagungGerichtFindenUserData) => {
+  if (
+    userData.lebensmittelpunkt === "ausland" ||
+    userData.ausschlagungsOrt === "courtNearMe"
+  ) {
+    return { plz: userData.plz };
+  }
+
+  if (userData.pflegeheim === "yes") {
+    return { plz: userData.plzPflegeheim };
+  } else if (userData.hospiz === "yes") {
+    return { plz: userData.plzHospiz };
+  } else {
+    return { plz: userData.plzLebensmittelpunkt };
+  }
+};
