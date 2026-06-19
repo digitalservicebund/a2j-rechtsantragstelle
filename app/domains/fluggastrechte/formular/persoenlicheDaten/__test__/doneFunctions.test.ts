@@ -3,7 +3,8 @@ import { personDone, weiterePersonenDone } from "../doneFunctions";
 const DEFAULT_WEITERE_PERSONEN_DATA = {
   vorname: "vorname",
   nachname: "nachname",
-  strasseHausnummer: "strasseHausnummer",
+  strasse: "strasse",
+  hausnummer: "1",
   ort: "ort",
   plz: "plz",
 };
@@ -11,7 +12,8 @@ const DEFAULT_WEITERE_PERSONEN_DATA = {
 const PERSONEN_DATA = {
   vorname: "vorname",
   nachname: "nachname",
-  strasseHausnummer: "strasseHausnummer",
+  strasse: "strasse",
+  hausnummer: "1",
   plz: "plz",
   ort: "ort",
 };

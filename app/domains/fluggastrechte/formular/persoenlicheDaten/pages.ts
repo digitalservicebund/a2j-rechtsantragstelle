@@ -6,6 +6,7 @@ import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -14,7 +15,8 @@ const persoenlicheDatenSchema = {
   title: z.enum(["none", "dr"]),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
-  strasseHausnummer: stringRequiredSchema,
+  strasse: stringRequiredSchema,
+  hausnummer: germanHouseNumberSchema,
   plz: stringRequiredSchema,
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
@@ -67,8 +69,10 @@ export const fluggastrechtePersoenlicheDatenPages = {
             weiterePersonenArraySchema.element.shape.vorname,
           "weiterePersonen#nachname":
             weiterePersonenArraySchema.element.shape.nachname,
-          "weiterePersonen#strasseHausnummer":
-            weiterePersonenArraySchema.element.shape.strasseHausnummer,
+          "weiterePersonen#strasse":
+            weiterePersonenArraySchema.element.shape.strasse,
+          "weiterePersonen#hausnummer":
+            weiterePersonenArraySchema.element.shape.hausnummer,
           "weiterePersonen#plz": weiterePersonenArraySchema.element.shape.plz,
           "weiterePersonen#ort": weiterePersonenArraySchema.element.shape.ort,
           "weiterePersonen#land": weiterePersonenArraySchema.element.shape.land,

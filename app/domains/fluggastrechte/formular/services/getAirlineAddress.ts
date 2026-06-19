@@ -4,7 +4,8 @@ import { type FluggastrechteUserData } from "../userData";
 export const getAirlineAddress = ({
   fluggesellschaftAuswahlAdresse,
   fluggesellschaft,
-  fluggesellschaftStrasseHausnummer,
+  fluggesellschaftStrasse,
+  fluggesellschaftHausnummer,
   fluggesellschaftPostleitzahl,
   fluggesellschaftOrt,
   fluggesellschaftLand,
@@ -22,7 +23,9 @@ export const getAirlineAddress = ({
 
   return {
     addressSource: "manualInput",
-    streetAndNumber: fluggesellschaftStrasseHausnummer ?? "",
+    streetAndNumber: [fluggesellschaftStrasse, fluggesellschaftHausnummer]
+      .filter(Boolean)
+      .join(" "),
     zipCode: fluggesellschaftPostleitzahl ?? "",
     city: fluggesellschaftOrt ?? "",
     country: fluggesellschaftLand ?? "",
