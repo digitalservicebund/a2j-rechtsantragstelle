@@ -72,7 +72,7 @@ describe("evaluateRoute", () => {
 
 describe("extractEdges", () => {
   it("returns empty array for undefined", () => {
-    expect(extractEdges(undefined)).toEqual([]);
+    expect(extractEdges()).toEqual([]);
   });
 
   it("returns empty array for null", () => {
