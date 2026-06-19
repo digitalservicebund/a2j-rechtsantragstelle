@@ -5,6 +5,7 @@ import { type StatusNode } from "../flow/newFlowEngine/statusTree";
 export function buildStepStatesFromStatusTree(
   statusTree: Record<string, StatusNode>,
   flowId: FlowId,
+  validFlowPaths: string[],
 ): StepState[] {
   const toStepStates = (
     nodes: Record<string, StatusNode>,
@@ -25,11 +26,15 @@ export function buildStepStatesFromStatusTree(
         ? toStepStates(nodeChildrenWithoutResultPage, fullPath)
         : [];
 
+      // Get the first valid path that starts with the fullPath
+      const targetStepId =
+        validFlowPaths.find((path) => path.startsWith(fullPath)) ?? fullPath;
+
       return {
         stepId: fullPath,
         isDone: node.isDone,
         isReachable: node.isReachable,
-        url: `${flowId}${fullPath}`,
+        url: `${flowId}${targetStepId}`,
         subStates: subStates.length > 0 ? subStates : undefined,
       };
     });

@@ -23,7 +23,7 @@ export const saveUserDataAndReturnEngineSession = <C extends PageConfigMap>(
   const statusTree = flowSessionEngine.statusTree;
 
   const subflowDoneStates = stepStatesToSubflowDoneStates(
-    buildStepStatesFromStatusTree(statusTree, flowId),
+    buildStepStatesFromStatusTree(statusTree, flowId, flowSessionEngine.paths),
   );
 
   const userDataToSave = {

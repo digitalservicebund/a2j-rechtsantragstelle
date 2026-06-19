@@ -211,7 +211,11 @@ export const getContentData = (
       stepId: string,
     ) => {
       const statusTree = flowSessionEngine.statusTree;
-      const stepStates = buildStepStatesFromStatusTree(statusTree, flowId);
+      const stepStates = buildStepStatesFromStatusTree(
+        statusTree,
+        flowId,
+        flowSessionEngine.paths,
+      );
 
       if (!useStepper) {
         return {
