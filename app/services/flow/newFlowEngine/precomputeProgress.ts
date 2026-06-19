@@ -12,9 +12,9 @@ const getTransitions = <FlowKey, UserData>(
   if (!route) return [];
   if (Array.isArray(route)) {
     return route.flatMap((t) =>
-      t.target !== null
-        ? [{ target: t.target, isArray: t.type === "addArrayItem" }]
-        : [],
+      t.target === null
+        ? []
+        : [{ target: t.target, isArray: t.type === "addArrayItem" }],
     );
   }
   return [{ target: route, isArray: false }];
