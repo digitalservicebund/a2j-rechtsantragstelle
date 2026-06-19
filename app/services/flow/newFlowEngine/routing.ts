@@ -51,8 +51,8 @@ export const evaluateAllBranches = <FlowKey, UserData>(
       )
         continue;
       // Evaluate all guards. If there is no guard, or it passes, it is a valid branch.
-      if (!transition.guard || transition.guard(data)) {
-        if (transition.target) branches.push(transition.target);
+      if (transition.target && (!transition.guard || transition.guard(data))) {
+        branches.push(transition.target);
       }
     }
     return branches;
