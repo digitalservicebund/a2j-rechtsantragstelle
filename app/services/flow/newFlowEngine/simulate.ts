@@ -7,8 +7,8 @@ import type {
 } from "./types";
 import type { PageData } from "../pageDataSchema";
 
-type SimulationResult = {
-  path: string[];
+export type SimulationResult = {
+  keys: string[];
   reachableSet: Set<string>;
   isComplete: boolean;
 };
@@ -45,14 +45,14 @@ export const simulate = <C extends PageConfigMap>(
   type FlowKey = NodeKey<C>;
 
   // Pass 1: Edge-Tracking Linear Evaluation
-  const path: FlowKey[] = [];
+  const keys: FlowKey[] = [];
   let currentLinear: FlowKey | null = initialStep;
 
   const visitedEdges = createEdgeTracker<FlowKey>();
   let isComplete = false;
 
   while (currentLinear) {
-    path.push(currentLinear);
+    keys.push(currentLinear);
 
     const route: TransitionConfigMap<C>[FlowKey] = router[currentLinear];
     let next = evaluateRoute(route, currentData, traverseArrays);
@@ -104,7 +104,7 @@ export const simulate = <C extends PageConfigMap>(
       // childrenArraySummary to produce [2,0,0],[2,0,1],[2,0,2], making all
       // guards read children[2] instead of children[0], children[1], etc.).
       pageData: { ...currentData.pageData, arrayIndexes: [] },
-      scopeData: currentData as unknown as Record<string, unknown>,
+      scopeData: currentData,
       arrayPath: [],
     },
   ];
@@ -172,5 +172,5 @@ export const simulate = <C extends PageConfigMap>(
     }
   }
 
-  return { path, isComplete, reachableSet, parentMap, visitedContexts };
+  return { keys, isComplete, reachableSet, parentMap, visitedContexts };
 };
