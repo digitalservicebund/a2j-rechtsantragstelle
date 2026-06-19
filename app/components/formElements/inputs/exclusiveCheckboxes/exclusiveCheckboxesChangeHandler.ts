@@ -34,7 +34,7 @@ export const onCheckboxChange =
       if (checked === "on") {
         setCheckboxes((prev) => prev.map((c) => c && { ...c, value: "off" }));
         setAnnouncement(
-          `${checkboxName} checked, all other checkboxes unchecked.`,
+          `${checkboxName} aktiviert, alle anderen Optionen deaktiviert.`,
         );
       }
       parentField.validate();
@@ -52,9 +52,6 @@ export const onCheckboxChange =
       );
       if (noneCheckboxValue && checked === "on") {
         setNoneCheckboxValue("off");
-        setAnnouncement(
-          `${checkboxName} checked, "None of the above" unchecked.`,
-        );
       }
       parentField.validate();
     }
