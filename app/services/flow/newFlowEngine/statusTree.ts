@@ -61,8 +61,10 @@ export const buildStatusTree = (
   // Calculate status and build tree using Lodash
   const tree: Record<string, StatusNode> = {};
 
+  // Sort by depth (not string length) so parents precede children; the stable
+  // sort keeps siblings in their flow-definition order.
   Object.keys(prefixMap)
-    .sort((a, b) => a.length - b.length)
+    .sort((a, b) => a.split("/").length - b.split("/").length)
     .forEach((prefix) => {
       const status = calcStatus(
         prefixMap[prefix],
