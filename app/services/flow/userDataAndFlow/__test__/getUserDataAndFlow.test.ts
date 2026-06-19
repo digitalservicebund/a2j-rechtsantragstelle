@@ -66,7 +66,7 @@ describe("getUserDataAndFlow", () => {
     expect(result.isErr ? result.error.redirectTo : "").toBe("redirectToPage");
   });
 
-  it("should return a 404 when the requsted FlowId is feature flagged and false", async () => {
+  it("should return a 404 when the requested FlowId is feature flagged and false", async () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
     const result = await getUserDataAndFlow(
       new Request("http://example.com/nachlass/erbausschlagung/anfrage"),
