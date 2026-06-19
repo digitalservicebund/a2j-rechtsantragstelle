@@ -1,7 +1,7 @@
 import type { Flow } from "~/domains/flows.server";
 import {
   getAmtsgerichtStrings,
-  getPlzStrings,
+  plz,
   shouldUseApplicantsCourt,
 } from "~/domains/nachlass/erbausschlagung/gericht-finden/stringReplacements";
 import { type NachlassErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
@@ -14,7 +14,7 @@ export const nachlassErbausschlagungGerichtFinden = {
     context: NachlassErbausschlagungGerichtFindenUserData,
   ) => ({
     ...shouldUseApplicantsCourt(context),
-    ...getPlzStrings(context),
+    ...plz(context),
     ...getAmtsgerichtStrings(context),
   }),
 } satisfies Flow;
