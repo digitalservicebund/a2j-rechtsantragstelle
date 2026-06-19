@@ -59,7 +59,7 @@ export const simulate = <C extends PageConfigMap>(
 
     if (next && visitedEdges.has(currentLinear, next)) {
       const branches = evaluateAllBranches(route, currentData);
-      next = branches.find((b) => !visitedEdges.has(currentLinear!, b)) || null;
+      next = branches.find((b) => !visitedEdges.has(currentLinear!, b)) ?? null;
     }
 
     if (!next) {
