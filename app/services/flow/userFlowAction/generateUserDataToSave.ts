@@ -5,7 +5,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { type PageConfigMap } from "../newFlowEngine/types";
 import { type CompiledFlow } from "../newFlowEngine/compileFlow";
 import { type UserData } from "~/domains/userData";
-import { merge } from "lodash";
+import merge from "lodash/merge";
 import { type SessionData } from "react-router";
 
 type UpcomingUserData = {
