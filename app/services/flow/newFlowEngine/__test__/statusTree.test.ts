@@ -1,7 +1,8 @@
-import { buildStatusTree, type StatusSimulationResult } from "../statusTree";
+import { type SimulationResult } from "../simulate";
+import { buildStatusTree } from "../statusTree";
 
-const simulation = (): StatusSimulationResult => ({
-  path: [],
+const simulation = (): SimulationResult => ({
+  keys: [],
   reachableSet: new Set(),
   isComplete: false,
 });

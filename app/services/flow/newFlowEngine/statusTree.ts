@@ -1,15 +1,10 @@
 import _ from "lodash";
+import { type SimulationResult } from "./simulate";
 
 export type StatusNode = {
   isDone: boolean;
   isReachable: boolean;
   children?: Record<string, StatusNode>;
-};
-
-export type StatusSimulationResult = {
-  path: string[];
-  reachableSet: Set<string>;
-  isComplete: boolean;
 };
 
 // 1. Strip leading slashes (empty strings) and array wildcards ("#")
@@ -26,14 +21,14 @@ const getPrefixes = (id: string, includeFlat: boolean = true) => {
 
 const calcStatus = (
   keys: Set<string>,
-  path: string[],
+  simulationKeys: string[],
   reachableSet: Set<string>,
   isComplete: boolean,
 ) => {
   // Reachable if the simulation found ANY valid route into this folder
   const isReachable = Array.from(keys).some((node) => reachableSet.has(node));
-  const visited = path.filter((node) => keys.has(node));
-  const activeNode = path[path.length - 1];
+  const visited = simulationKeys.filter((node) => keys.has(node));
+  const activeNode = simulationKeys.at(-1) ?? "";
 
   return {
     isReachable,
@@ -46,10 +41,10 @@ const calcStatus = (
 
 export const buildStatusTree = (
   config: Record<string, { stepId: string }>,
-  { path, reachableSet, isComplete }: StatusSimulationResult,
+  { keys, reachableSet, isComplete }: SimulationResult,
 ): Record<string, StatusNode> => {
   const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
-    getPrefixes(path).map((prefix) => ({ prefix, key: key as string })),
+    getPrefixes(path).map((prefix) => ({ prefix, key: key })),
   );
 
   // Results in: { "kinder": Set(["key1", "key2"]), "kinder/spielzeuge": Set(["key3"]) }
@@ -68,7 +63,7 @@ export const buildStatusTree = (
     .forEach((prefix) => {
       const status = calcStatus(
         prefixMap[prefix],
-        path,
+        keys,
         reachableSet,
         isComplete,
       );

@@ -254,10 +254,10 @@ describe("createFlowSession", () => {
     });
   });
 
-  describe("path", () => {
-    it("contains the simulation path from initial to terminal step", () => {
+  describe("simulationKeys", () => {
+    it("contains the simulation keys from initial to terminal step", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.path).toEqual(["start", "middle", "end"]);
+      expect(session.simulationKeys).toEqual(["start", "middle", "end"]);
     });
   });
 

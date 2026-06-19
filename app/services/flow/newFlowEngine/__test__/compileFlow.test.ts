@@ -27,7 +27,7 @@ describe("compileFlow", () => {
     });
 
     it("getPathFromNodeKey returns undefined for undefined input", () => {
-      expect(flow.getPathFromNodeKey(undefined)).toBeUndefined();
+      expect(flow.getPathFromNodeKey()).toBeUndefined();
     });
 
     it("getNodeKeyFromPath returns undefined for an unknown path", () => {

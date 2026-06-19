@@ -118,15 +118,15 @@ export const compileFlow = <C extends PageConfigMap>({
 
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
-      return nodeKey != null ? arrayInfoCache[nodeKey] : undefined;
+      return nodeKey == null ? undefined : arrayInfoCache[nodeKey];
     },
     getSchema: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
-      return nodeKey != null ? schemaCache[nodeKey] : undefined;
+      return nodeKey == null ? undefined : schemaCache[nodeKey];
     },
     getFieldNames: (path: string): string[] => {
       const nodeKey = getNodeKeyFromPath(path);
-      return nodeKey != null ? (fieldNamesCache[nodeKey] ?? []) : [];
+      return nodeKey == null ? [] : (fieldNamesCache[nodeKey] ?? []);
     },
     getFieldNamesByNodeKey: (nodeKey: NodeKey<C>): string[] =>
       fieldNamesCache[nodeKey] ?? [],
@@ -136,11 +136,11 @@ export const compileFlow = <C extends PageConfigMap>({
     getPathFromNodeKey,
     isFinal: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
-      return nodeKey != null ? graphStats.isFinal(nodeKey) : undefined;
+      return nodeKey == null ? undefined : graphStats.isFinal(nodeKey);
     },
     getProgress: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
-      return nodeKey != null ? graphStats.getProgress(nodeKey) : undefined;
+      return nodeKey == null ? undefined : graphStats.getProgress(nodeKey);
     },
   };
 };

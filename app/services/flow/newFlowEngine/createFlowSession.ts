@@ -38,10 +38,10 @@ export const createFlowSession = <C extends PageConfigMap>(
 
   // Prev: use the linear breadcrumb so Back returns to the page the user came
   // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
-  const pathIndex = simulation.path.indexOf(nodeKey);
+  const keyIndex = simulation.keys.indexOf(nodeKey);
   const prevNodeKey =
-    pathIndex > 0
-      ? simulation.path[pathIndex - 1]
+    keyIndex > 0
+      ? simulation.keys[keyIndex - 1]
       : simulation.parentMap.get(nodeKey);
 
   // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
@@ -54,7 +54,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     fieldNames: compiledFlow.getFieldNames(currentPath),
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
-    path: simulation.path,
+    simulationKeys: simulation.keys,
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation),
     prunedUserData: pruneUserData(

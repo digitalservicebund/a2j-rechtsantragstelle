@@ -6,25 +6,25 @@ describe("buildStatusTree", () => {
 
     it("single-segment stepId produces a top-level tree entry", () => {
       const tree = buildStatusTree(pages, {
-        path: ["start"],
+        keys: ["start"],
         reachableSet: new Set(["start"]),
         isComplete: true,
       });
       expect(tree).toHaveProperty("/start");
     });
 
-    it("flat path entry has isReachable true", () => {
+    it("flat keys entry has isReachable true", () => {
       const tree = buildStatusTree(pages, {
-        path: ["start"],
+        keys: ["start"],
         reachableSet: new Set(["start"]),
         isComplete: true,
       });
       expect(tree["/start"].isReachable).toBe(true);
     });
 
-    it("flat path entry has isDone true when flow terminates", () => {
+    it("flat keys entry has isDone true when flow terminates", () => {
       const tree = buildStatusTree(pages, {
-        path: ["start"],
+        keys: ["start"],
         reachableSet: new Set(["start"]),
         isComplete: true,
       });
@@ -38,7 +38,7 @@ describe("buildStatusTree", () => {
       addr: { stepId: "/personal/address" },
     };
     const sim = {
-      path: ["name", "addr"],
+      keys: ["name", "addr"],
       reachableSet: new Set(["name", "addr"]),
       isComplete: true,
     };
@@ -56,9 +56,9 @@ describe("buildStatusTree", () => {
     });
 
     it("section isDone is false when no nodes in it have been visited", () => {
-      // path only visited "pre"; the /personal section was never entered
+      // keys only visited "pre"; the /personal section was never entered
       const tree = buildStatusTree(pages, {
-        path: ["pre"],
+        keys: ["pre"],
         reachableSet: new Set(["pre"]),
         isComplete: false,
       });
@@ -71,7 +71,7 @@ describe("buildStatusTree", () => {
       const tree = buildStatusTree(
         { deep: { stepId: "/a/b/c" } },
         {
-          path: ["deep"],
+          keys: ["deep"],
           reachableSet: new Set(["deep"]),
           isComplete: true,
         },
@@ -89,7 +89,7 @@ describe("buildStatusTree", () => {
       };
       // "other" not in reachableSet
       const tree = buildStatusTree(pages, {
-        path: ["start"],
+        keys: ["start"],
         reachableSet: new Set(["start"]),
         isComplete: true,
       });
