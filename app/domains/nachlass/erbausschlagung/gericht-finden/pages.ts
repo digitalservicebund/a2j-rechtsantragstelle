@@ -65,6 +65,6 @@ export const nachlassErbausschlagungGerichtFindenPages = {
     },
   },
   gerichtErmitteltWohnsitz: {
-    stepId: "ergebnis/gericht-ermittelt-wohnsitz",
+    stepId: "ergebnis/gericht-ermittelt",
   },
 } as const satisfies PagesConfig;
