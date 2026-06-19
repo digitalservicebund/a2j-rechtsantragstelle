@@ -12,6 +12,7 @@ import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import {
   stringRequiredSchema,
   stringRequiredMaxSchema,
@@ -25,7 +26,8 @@ const statePrefilled = z
   .default("filledByUser");
 
 const sharedBeklagteAddress = {
-  beklagteStrasseHausnummer: stringRequiredSchema,
+  beklagteStrasse: stringRequiredSchema,
+  beklagteHausnummer: germanHouseNumberSchema,
   beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
   beklagteOrt: stringRequiredSchema,
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
@@ -48,7 +50,8 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonTitle: z.enum(["none", "dr"]),
       klagendePersonVorname: stringRequiredSchema,
       klagendePersonNachname: stringRequiredSchema,
-      klagendePersonStrasseHausnummer: stringRequiredSchema,
+      klagendePersonStrasse: stringRequiredSchema,
+      klagendePersonHausnummer: germanHouseNumberSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
       klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
       klagendePersonOrt: stringRequiredSchema,
@@ -69,7 +72,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
       klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
-      klagendePersonAnwaltschaftStrasseHausnummer: stringRequiredSchema,
+      klagendePersonAnwaltschaftStrasse: stringRequiredSchema,
+      klagendePersonAnwaltschaftHausnummer: germanHouseNumberSchema,
       klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
       klagendePersonAnwaltschaftOrt: stringRequiredSchema,
       klagendePersonAnwaltschaftAnrede: z.enum(["herr", "frau", "none"]),

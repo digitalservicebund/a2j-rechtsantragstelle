@@ -13,7 +13,8 @@ const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
     "klagendePersonAnwaltschaftAnrede",
     "klagendePersonAnwaltschaftVorname",
     "klagendePersonAnwaltschaftNachname",
-    "klagendePersonAnwaltschaftStrasseHausnummer",
+    "klagendePersonAnwaltschaftStrasse",
+    "klagendePersonAnwaltschaftHausnummer",
     "klagendePersonAnwaltschaftPlz",
     "klagendePersonAnwaltschaftOrt",
   ]);
@@ -22,7 +23,8 @@ const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
     "klagendePersonAnrede",
     "klagendePersonVorname",
     "klagendePersonNachname",
-    "klagendePersonStrasseHausnummer",
+    "klagendePersonStrasse",
+    "klagendePersonHausnummer",
     "klagendePersonPlz",
     "klagendePersonOrt",
   ]);

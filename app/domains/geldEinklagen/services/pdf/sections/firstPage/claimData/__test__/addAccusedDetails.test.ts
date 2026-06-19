@@ -27,7 +27,7 @@ describe("addAccusedDetails", () => {
     addAccusedDetails(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.beklagteStrasseHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
+      `${userDataMock.beklagteStrasse} ${userDataMock.beklagteHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
     );
   });
 
