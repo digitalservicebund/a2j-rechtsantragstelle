@@ -1,5 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const gerichtPruefenKlagendePersonFlowConfig = {
   klagendePersonFuerWen: [
@@ -11,8 +12,9 @@ export const gerichtPruefenKlagendePersonFlowConfig = {
       guard: (context) =>
         context.sachgebiet === "miete" &&
         context.mietePachtVertrag === "yes" &&
-        context.mietePachtRaum === "yes",
-      target: "klagendePersonHaustuergeschaeft",
+        context.mietePachtRaum === "yes" &&
+        objectKeysNonEmpty(context, ["fuerWenKlagen"]),
+      target: "beklagtePersonGegenWen",
     },
     {
       guard: (context) =>
