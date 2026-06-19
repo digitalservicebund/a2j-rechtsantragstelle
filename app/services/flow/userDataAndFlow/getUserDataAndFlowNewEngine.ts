@@ -90,7 +90,7 @@ export const getUserDataAndFlowNewEngine = async (
 
   const { flowSession, flowSessionEngine } = sessionEngineResult.value;
 
-  const validationFlowResult = await validateStepIdFlowNewEngine(
+  const validationFlowResult = validateStepIdFlowNewEngine(
     flowId,
     stepId,
     flowSessionEngine,

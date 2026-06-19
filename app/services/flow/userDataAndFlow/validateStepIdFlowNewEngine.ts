@@ -3,12 +3,12 @@ import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { type createFlowSession } from "../newFlowEngine/createFlowSession";
 import { type FlowId } from "~/domains/flowIds";
 
-export const validateStepIdFlowNewEngine = async (
+export const validateStepIdFlowNewEngine = (
   flowId: FlowId,
   stepId: string,
   flowSessionEngine: ReturnType<typeof createFlowSession>,
   url: URL,
-): Promise<Result<Unit, { redirectTo: string }>> => {
+): Result<Unit, { redirectTo: string }> => {
   const { searchParams } = url;
 
   if (
