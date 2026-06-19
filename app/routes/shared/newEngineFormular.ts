@@ -89,7 +89,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
   }
 
   const { pathname } = url;
-  const { flowId, currentFlow, stepId, arrayIndexes } =
+  const { flowId, currentFlow, stepId } =
     getPageAndFlowDataFromPathname(pathname);
 
   const compiledStaticFlow =
@@ -177,8 +177,6 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
 
   const headers = await commitSession(flowSession);
   const destination = flowDestinationNewEngine(
-    flowId,
-    arrayIndexes,
     pathname,
     flowSessionEngineSaved,
   );
