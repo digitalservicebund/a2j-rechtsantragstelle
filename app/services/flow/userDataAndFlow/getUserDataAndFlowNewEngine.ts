@@ -15,20 +15,12 @@ import { getSessionAndEngine } from "./getSessionAndEngine";
 const buildValidFlowPaths = (
   flowSessionEngine: ReturnType<typeof createFlowSession>,
 ): ValidFlowPagesType => {
-  const validFlowPaths: ValidFlowPagesType = {};
-
-  for (const keys of flowSessionEngine.simulationKeys) {
-    const path = flowSessionEngine.getPathFromNodeKey(keys);
-
-    if (path === undefined) {
-      continue;
-    }
-
-    validFlowPaths[path] = {
-      isArrayPage: flowSessionEngine.isArrayPage(path),
-    };
-  }
-  return validFlowPaths;
+  return Object.fromEntries(
+    flowSessionEngine.paths.map((path) => [
+      path,
+      { isArrayPage: flowSessionEngine.isArrayPage(path) },
+    ]),
+  ) as ValidFlowPagesType;
 };
 
 type OkResult = {
