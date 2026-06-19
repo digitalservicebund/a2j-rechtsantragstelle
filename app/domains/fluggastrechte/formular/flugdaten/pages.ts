@@ -3,7 +3,6 @@ import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/dateString";
-import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -29,7 +28,7 @@ export const fluggastrechteFlugdatenPages = {
     pageSchema: {
       fluggesellschaft: schemaOrEmptyString(z.string()),
       fluggesellschaftStrasse: stringRequiredSchema,
-      fluggesellschaftHausnummer: germanHouseNumberSchema,
+      fluggesellschaftHausnummer: stringRequiredSchema,
       fluggesellschaftPostleitzahl: stringRequiredSchema,
       fluggesellschaftOrt: stringRequiredSchema,
       fluggesellschaftLand: stringRequiredSchema,

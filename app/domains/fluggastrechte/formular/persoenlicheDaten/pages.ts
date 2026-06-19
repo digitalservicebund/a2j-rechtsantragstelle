@@ -6,7 +6,6 @@ import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -16,7 +15,7 @@ const persoenlicheDatenSchema = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   strasse: stringRequiredSchema,
-  hausnummer: germanHouseNumberSchema,
+  hausnummer: stringRequiredSchema,
   plz: stringRequiredSchema,
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
