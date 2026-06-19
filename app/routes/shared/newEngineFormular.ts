@@ -9,7 +9,6 @@ import { validateFormUserData } from "~/services/flow/userFlowAction/validateFor
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import merge from "lodash/merge";
 import {
   deleteUserFile,
   uploadUserFile,
@@ -21,7 +20,8 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { type SummaryItem } from "~/services/summary/types";
-import { saveUserDataAndReturnEngineSession } from "~/services/flow/userFlowAction/saveUserDataAndReturnEngineSession";
+import { generateUserDataToSave } from "~/services/flow/userFlowAction/generateUserDataToSave";
+import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 
 export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
@@ -95,6 +95,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
   const compiledStaticFlow =
     "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
 
+  // TODO - Remove this check later, once we migrated all the flows to the new engine
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });
   }
@@ -153,19 +154,25 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     );
   }
 
-  const updatedUserData = merge(
-    {},
-    flowSession.data,
-    resultFormUserData.value.userData,
-    resultFormUserData.value.migrationData,
-  );
-
-  const flowSessionEngineSaved = saveUserDataAndReturnEngineSession(
+  const userDataToSave = generateUserDataToSave(
     stepId,
-    updatedUserData,
+    {
+      sessionUserData: flowSession.data,
+      formUserData: resultFormUserData.value.userData,
+      migrationData: resultFormUserData.value.migrationData,
+    },
     flowId,
     compiledStaticFlow,
-    flowSession,
+  );
+
+  updateSession(flowSession, userDataToSave, (_, newData, key) =>
+    key === "pageData" ? newData : undefined,
+  );
+
+  const flowSessionEngineSaved = createFlowSession(
+    compiledStaticFlow,
+    userDataToSave as Parameters<typeof createFlowSession>[1],
+    stepId,
   );
 
   await postValidationFlowAction(

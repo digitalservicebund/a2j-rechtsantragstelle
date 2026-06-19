@@ -1,19 +1,32 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
-import { updateSession } from "~/services/session.server";
 import { type FlowId } from "~/domains/flowIds";
 import { type PageConfigMap } from "../newFlowEngine/types";
 import { type CompiledFlow } from "../newFlowEngine/compileFlow";
-import type { Session, SessionData } from "react-router";
+import { type UserData } from "~/domains/userData";
+import { merge } from "lodash";
+import { type SessionData } from "react-router";
 
-export const saveUserDataAndReturnEngineSession = <C extends PageConfigMap>(
+type UpcomingUserData = {
+  sessionUserData: SessionData;
+  formUserData: UserData;
+  migrationData: UserData | undefined;
+};
+
+export const generateUserDataToSave = <C extends PageConfigMap>(
   stepId: string,
-  updatedUserData: any,
+  upcomingUserData: UpcomingUserData,
   flowId: FlowId,
   compiledFlow: CompiledFlow<C>,
-  flowSession: Session<SessionData, SessionData>,
 ) => {
+  const updatedUserData = merge(
+    {},
+    upcomingUserData.sessionUserData,
+    upcomingUserData.formUserData,
+    upcomingUserData.migrationData,
+  );
+
   const flowSessionEngine = createFlowSession(
     compiledFlow,
     updatedUserData as Parameters<typeof createFlowSession>[1], //NOSONAR
@@ -30,13 +43,6 @@ export const saveUserDataAndReturnEngineSession = <C extends PageConfigMap>(
     ...updatedUserData,
     pageData: { ...updatedUserData.pageData, subflowDoneStates },
   };
-  updateSession(flowSession, userDataToSave, (_, newData, key) =>
-    key === "pageData" ? newData : undefined,
-  );
 
-  return createFlowSession(
-    compiledFlow,
-    userDataToSave as Parameters<typeof createFlowSession>[1],
-    stepId,
-  );
+  return userDataToSave;
 };
