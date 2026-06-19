@@ -17,16 +17,13 @@ type ErrorResult = {
 
 export const getSessionAndEngine = async (
   flowId: FlowId,
-  currentFlow: Flow,
+  newEngineConfig: Flow["newEngineConfig"],
   cookieHeader: string,
   stepId: string,
   arrayIndexes?: number[],
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const compiledStaticFlow =
-    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
-
   // TODO - Remove this later, once we migrated all the flows to the new engine
-  if (!compiledStaticFlow) {
+  if (!newEngineConfig) {
     throw new Response(null, { status: 404 });
   }
 
@@ -38,13 +35,13 @@ export const getSessionAndEngine = async (
 
   try {
     const flowSessionEngine = createFlowSession(
-      compiledStaticFlow,
+      newEngineConfig,
       fullUserData as Parameters<typeof createFlowSession>[1],
       stepId,
     );
     return Result.ok({ flowSession, flowSessionEngine });
   } catch {
     // In case the engine throws an error during creation, we want to catch it and redirect the user to the initial page of the flow, instead of showing an error page.
-    return Result.err({ redirectTo: flowId + compiledStaticFlow.initialPath });
+    return Result.err({ redirectTo: flowId + newEngineConfig.initialPath });
   }
 };

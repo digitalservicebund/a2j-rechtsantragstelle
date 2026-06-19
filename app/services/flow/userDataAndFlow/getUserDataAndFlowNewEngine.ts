@@ -68,9 +68,12 @@ export const getUserDataAndFlowNewEngine = async (
     await throw404IfFeatureFlagDisabled(featureFlag);
   }
 
+  const newEngineConfig =
+    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
+
   const sessionEngineResult = await getSessionAndEngine(
     flowId,
-    currentFlow,
+    newEngineConfig,
     cookieHeader ?? "",
     stepId,
     arrayIndexes,
