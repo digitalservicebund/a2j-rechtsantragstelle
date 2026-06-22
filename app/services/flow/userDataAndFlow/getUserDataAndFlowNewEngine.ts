@@ -17,7 +17,7 @@ const buildValidFlowPaths = (
 ): ValidFlowPagesType => {
   const validFlowPaths: ValidFlowPagesType = {};
 
-  for (const path of flowSessionEngine.path) {
+  for (const path of flowSessionEngine.simulationKeys) {
     const realPath = flowSessionEngine.getPathFromNodeKey(path);
 
     if (realPath === undefined) {

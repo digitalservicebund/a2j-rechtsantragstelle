@@ -2,6 +2,8 @@ import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager } from "~/services/session.server";
 import { addPageDataToUserData } from "../pageData";
 import { createFlowSession } from "../newFlowEngine/createFlowSession";
+import { type CompiledFlow } from "../newFlowEngine/compileFlow";
+import { type PageConfigMap } from "../newFlowEngine/types";
 import { type Flow } from "~/domains/flows.server";
 import { Result } from "true-myth";
 import type { Session, SessionData } from "react-router";
@@ -13,6 +15,25 @@ type OkResult = {
 
 type ErrorResult = {
   redirectTo: string;
+};
+
+const findFirstPageInSection = (
+  compiledFlow: CompiledFlow<PageConfigMap>,
+  userData: Parameters<typeof createFlowSession>[1],
+  sectionPrefix: string,
+): string | undefined => {
+  try {
+    const session = createFlowSession(
+      compiledFlow,
+      userData,
+      compiledFlow.initialPath,
+    );
+    return session.simulationKeys
+      .map((k) => compiledFlow.getPathFromNodeKey(k))
+      .find((path) => path?.startsWith(`${sectionPrefix}/`));
+  } catch {
+    return undefined;
+  }
 };
 
 export const getSessionAndEngine = async (
@@ -44,7 +65,14 @@ export const getSessionAndEngine = async (
     );
     return Result.ok({ flowSession, flowSessionEngine });
   } catch {
-    // In case the engine throws an error during creation, we want to catch it and redirect the user to the initial page of the flow, instead of showing an error page.
-    return Result.err({ redirectTo: flowId + compiledStaticFlow.initialPath });
+    // stepId may be a section-prefix URL (e.g. "/gericht-pruefen/forderung")
+    // with no corresponding page. Find the first matching page and redirect.
+    const firstPageInSection = findFirstPageInSection(
+      compiledStaticFlow,
+      fullUserData as Parameters<typeof createFlowSession>[1],
+      stepId,
+    );
+    const redirectPath = firstPageInSection ?? compiledStaticFlow.initialPath;
+    return Result.err({ redirectTo: flowId + redirectPath });
   }
 };
