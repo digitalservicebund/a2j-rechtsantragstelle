@@ -59,7 +59,7 @@ const Heading = ({
         className="px-kern-space-large lg:px-0 xl:px-0"
       >
         <Tag
-          className={`${sizeClass} p-0! ${className ?? ""} outline-none break-words`}
+          className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
           tabIndex={tabIndex}
           id={elementId}
           aria-describedby={ariaDescribedby}
@@ -71,7 +71,7 @@ const Heading = ({
   }
   return (
     <Tag
-      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none break-words`}
+      className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
       tabIndex={tabIndex}
       id={elementId}
       aria-describedby={ariaDescribedby}

@@ -71,7 +71,7 @@ export default function PageHeader({
 
                 <a
                   href={"/gebaerdensprache"}
-                  className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline! hyphens-auto"
+                  className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline!"
                 >
                   <Icon name="sign-language" />
                   {translations.pageHeader.gebaerdensprache.de}

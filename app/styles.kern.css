@@ -48,6 +48,11 @@
 
   /* ------------------------------- */
 
+  body {
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
   .detail-summary:focus-within,
   .kern-tile:focus-within {
     border-radius: var(--kern-metric-border-radius-large, 0.25rem);
