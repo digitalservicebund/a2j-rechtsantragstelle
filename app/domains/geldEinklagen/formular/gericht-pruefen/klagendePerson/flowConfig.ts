@@ -13,7 +13,7 @@ export const gerichtPruefenKlagendePersonFlowConfig = {
         context.sachgebiet === "miete" &&
         context.mietePachtVertrag === "yes" &&
         context.mietePachtRaum === "yes",
-      target: "klagendePersonHaustuergeschaeft",
+      target: "beklagtePersonGegenWen",
     },
     {
       guard: (context) =>
