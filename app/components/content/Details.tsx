@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useId, useState, useEffect } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
 import RichText from "../common/RichText";
-import { stripHtml } from "~/util/stripHtml";
 
 export type DetailsProps = {
   title?: string;
   content?: string;
+  onContentId?: (id: string) => void;
 };
 
-export const Details = ({ title, content }: DetailsProps) => {
+export const Details = ({ title, content, onContentId }: DetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const id = useId();
+
+  const summaryId = `${id}-summary`;
+  const contentId = `${id}-content`;
+
+  useEffect(() => {
+    onContentId?.(contentId);
+  }, [contentId]);
 
   return (
     <GridItem
@@ -24,7 +32,7 @@ export const Details = ({ title, content }: DetailsProps) => {
         onToggle={(e) => setIsOpen(e.currentTarget.open)}
       >
         <summary
-          id="summary"
+          id={summaryId}
           aria-expanded={isOpen}
           className="text-kern-action-default! kern-body kern-body--bold flex items-center focus:outline-hidden cursor-pointer list-none hover:underline"
         >
@@ -37,14 +45,15 @@ export const Details = ({ title, content }: DetailsProps) => {
           {title}
         </summary>
         <div
-          id="content"
-          aria-labelledby="summary"
+          id={contentId}
+          aria-labelledby={summaryId}
           className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default"
         >
+          <span id={contentId} className="sr-only">
+            Textbeispiele
+          </span>
+
           {content && <RichText className="leading-[1.5]" html={content} />}
-          <div className="sr-only" aria-live="polite" aria-atomic="true">
-            {isOpen && content && `Textbeispiele: ${stripHtml(content)}`}
-          </div>
         </div>
       </details>
     </GridItem>
