@@ -47,10 +47,12 @@ const Textarea = ({
   const [detailsId, setDetailsId] = useState<string | undefined>();
 
   const describedByIds = [
-  field.error() ? errorId : null,
-  ariaDescribedby,
-  detailsId,
-].filter(Boolean).join(" ");
+    field.error() ? errorId : null,
+    ariaDescribedby,
+    detailsId,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
