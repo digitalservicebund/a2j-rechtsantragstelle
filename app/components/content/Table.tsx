@@ -1,4 +1,4 @@
-import z from "zod";
+import type z from "zod";
 import { type StrapiTableSchema } from "~/services/cms/models/content/StrapiTable";
 
 type TableProps = z.infer<typeof StrapiTableSchema>;

@@ -47,11 +47,9 @@ describe("Table", () => {
         columns={[
           {
             label: "Column 1",
-            id: 0,
           },
           {
             label: "Column 2",
-            id: 0,
           },
         ]}
         rows={[]}
@@ -75,11 +73,9 @@ describe("Table", () => {
         columns={[
           {
             label: "Column 1",
-            id: 0,
           },
           {
             label: "Column 2",
-            id: 0,
           },
         ]}
         rows={[
@@ -87,27 +83,21 @@ describe("Table", () => {
             cells: [
               {
                 content: "Row 1, Cell 1",
-                id: 0,
               },
               {
                 content: "Row 1, Cell 2",
-                id: 0,
               },
             ],
-            id: 0,
           },
           {
             cells: [
               {
                 content: "Row 2, Cell 1",
-                id: 0,
               },
               {
                 content: "Row 2, Cell 2",
-                id: 0,
               },
             ],
-            id: 0,
           },
         ]}
         __component={"page.table"}
@@ -126,7 +116,6 @@ describe("Table", () => {
         columns={[
           {
             label: "Column 1",
-            id: 0,
           },
         ]}
         rows={[
@@ -134,10 +123,8 @@ describe("Table", () => {
             cells: [
               {
                 content: "Row Header",
-                id: 0,
               },
             ],
-            id: 0,
           },
         ]}
         __component={"page.table"}
@@ -155,7 +142,6 @@ describe("Table", () => {
         columns={[
           {
             label: "Column 1",
-            id: 0,
           },
         ]}
         rows={[
@@ -164,15 +150,12 @@ describe("Table", () => {
               {
                 content: "Normal",
                 isHeader: false,
-                id: 0,
               },
               {
                 content: "Header",
                 isHeader: true,
-                id: 0,
               },
             ],
-            id: 0,
           },
         ]}
         __component={"page.table"}
