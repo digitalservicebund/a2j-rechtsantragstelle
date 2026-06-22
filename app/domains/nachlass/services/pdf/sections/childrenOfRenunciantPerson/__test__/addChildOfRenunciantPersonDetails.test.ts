@@ -8,6 +8,7 @@ import { type NachlassErbausschlagungAnfrageKind } from "../createChildrenOfRenu
 const childrenOfRenunciantPersonMock = {
   vorname: "Max",
   nachname: "Mustermann",
+  wohnortBeiAntragsteller: "yes",
   geburtsdatum: { day: "01", month: "01", year: "2000" },
 } satisfies NachlassErbausschlagungAnfrageKind;
 

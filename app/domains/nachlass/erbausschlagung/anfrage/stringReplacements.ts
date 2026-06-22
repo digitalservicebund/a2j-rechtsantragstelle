@@ -2,7 +2,10 @@ import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
-import { isKidFilled } from "./kinder/guards";
+import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
+import { toDate } from "~/services/validation/dateObject";
+import { addDays, today } from "~/util/date";
+import { isBirthDateAbove18Years } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/guards";
 
 export const getVerstorbeneName = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -12,19 +15,11 @@ export const getVerstorbeneName = (
   };
 };
 
-export const getAusschlagendePersonVorname = (
+export const getAusschlagendePersonName = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   return {
-    ausschlagendePersonVorname: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
-  };
-};
-
-export const isTestamentErbvertrag = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
-  return {
-    isTestamentErbvertrag: context.testament === "erbvertrag",
+    ausschlagendePersonName: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
   };
 };
 
@@ -121,6 +116,33 @@ export const getNumberOfKids = (
     hasOneKidAdded: context.kinder?.length === 1,
   };
 };
+export const hasAnyKids = (context: NachlassErbausschlagungAnfrageUserData) => {
+  return {
+    hasAnyKids: context.kinder !== undefined && context.kinder.length > 0,
+  };
+};
+
+export const hasAnyMinorKids = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    hasAnyMinorKids:
+      context.kinder?.some(
+        (kid) => !isBirthDateAbove18Years(kid.geburtsdatum),
+      ) ?? false,
+  };
+};
+
+export const hasAnyAdultKids = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    hasAnyAdultKids:
+      context.kinder?.some((kid) =>
+        isBirthDateAbove18Years(kid.geburtsdatum),
+      ) ?? false,
+  };
+};
 
 export const getArrayIndexStrings = (
   context: NachlassErbausschlagungAnfrageUserData,
@@ -157,8 +179,11 @@ export const getMissingFilledKidNames = (
 
   return {
     missingFilledKidNames: context.kinder
-      .filter((kid) => !isKidFilled(kid))
-      .map((kid) => `${kid.vorname} ${kid.nachname}`),
+      .filter(
+        (kid) => !erbausschlagungKinderArraySchema.safeParse([kid]).success,
+      )
+      .map((kid) => `${kid.vorname} ${kid.nachname}`)
+      .join(", "),
   };
 };
 
@@ -186,5 +211,47 @@ export const getVerstorbenenPersonCourtData = (
     verstorbenePersonCourtOrt: verstorbenePersonCourt?.ORT,
     verstorbenePersonCourtWebsite: verstorbenePersonCourt?.URL1,
     verstorbenePersonCourtTelephone: verstorbenePersonCourt?.TEL,
+  };
+};
+
+export const awarenessDate = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDate: toDate(context.awarenessDate).toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    }),
+  };
+};
+
+export const awarenessDateGreaterThan6Weeks = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDateGreaterThan6Weeks:
+      today() >= addDays(toDate(context.awarenessDate), 42),
+  };
+};
+
+export const awarenessDateGreater5WeeksLessThan6Weeks = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  if (!context.awarenessDate) return {};
+  return {
+    awarenessDateGreater5WeeksLessThan6Weeks:
+      today() >= addDays(toDate(context.awarenessDate), 32) &&
+      today() < addDays(toDate(context.awarenessDate), 42),
+  };
+};
+
+export const erblasserOutsideGermany = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    erblasserOutsideGermany: context.verstorbeneLebensmittelpunkt === "ausland",
   };
 };

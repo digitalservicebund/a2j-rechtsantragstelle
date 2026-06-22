@@ -1,4 +1,11 @@
 import { z } from "zod";
+import {
+  commonErbausschlagungKinderFields,
+  erbausschlagungKinderArraySchema,
+  sorgerechtOrganizationRequired,
+  sorgerechtPersonAdresseRequired,
+  sorgerechtPersonRequired,
+} from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
@@ -12,47 +19,6 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
-
-const kinderArraySchema = z.array(
-  z
-    .object({
-      vorname: stringRequiredSchema,
-      nachname: stringRequiredSchema,
-      geburtsdatum: createSplitDateSchema({
-        earliest: () => addYears(today(), -150),
-        latest: () => today(),
-      }),
-      wohnortBeiAntragsteller: YesNoAnswer,
-      strasse: stringRequiredSchema,
-      hausnummer: germanHouseNumberSchema,
-      plz: postcodeSchema,
-      ort: stringRequiredSchema,
-      adresseZusatz: stringOptionalSchema,
-      optionSorgerecht: z.enum([
-        "yes",
-        "shared",
-        "anotherPerson",
-        "anotherOrganization",
-      ]),
-      hasRenouncedInheritance: YesNoAnswer,
-      vornameSorgerecht: stringRequiredSchema,
-      nachnameSorgerecht: stringRequiredSchema,
-      geburtsnameSorgerecht: stringOptionalSchema,
-      hasSorgerechtSameAddress: YesNoAnswer,
-      strasseSorgerecht: stringRequiredSchema,
-      hausnummerSorgerecht: germanHouseNumberSchema,
-      plzSorgerecht: postcodeSchema,
-      ortSorgerecht: stringRequiredSchema,
-      adresseZusatzSorgerecht: stringOptionalSchema,
-      organizationNameSorgerecht: stringRequiredSchema,
-      organizationStrasseSorgerecht: stringRequiredSchema,
-      organizationHausnummerSorgerecht: germanHouseNumberSchema,
-      organizationPlzSorgerecht: postcodeSchema,
-      organizationOrtSorgerecht: stringRequiredSchema,
-      organizationAdressZusatzSorgerecht: stringOptionalSchema,
-    })
-    .partial(),
-);
 
 export const nachlassErbausschlagungAnfragePages = {
   start: {
@@ -146,49 +112,14 @@ export const nachlassErbausschlagungAnfragePages = {
       verstorbeneAuslaendischeAdresseLand: stringRequiredSchema,
     },
   },
-  testament: {
-    stepId: "verstorbene/testament",
-    pageSchema: {
-      testament: z.enum([
-        "none",
-        "handwritten",
-        "notarized",
-        "erbvertrag",
-        "unknown",
-      ]),
-    },
-  },
-  namedInTestament: {
-    stepId: "verstorbene/im-testament-genannt",
-    pageSchema: {
-      namedInTestament: YesNoAnswer,
-    },
-  },
-  letterReceivedFromNachlassgericht: {
-    stepId: "verstorbene/brief-vom-nachlassgericht",
-    pageSchema: {
-      letterReceivedFromNachlassgericht: YesNoAnswer,
-    },
-  },
-  letterReceivedFromCourt: {
-    stepId: "verstorbene/brief-vom-gericht",
-    pageSchema: {
-      dateOfReceipt: createSplitDateSchema({
-        latest: () => today(),
-      }),
-      weitereAngaben: stringOptionalSchema,
-    },
-  },
   awarenessDate: {
-    stepId: "verstorbene/kenntnisdatum",
+    stepId: "ausschlagende-person/kenntnisdatum",
     pageSchema: {
       awarenessDate: createSplitDateSchema({
         latest: () => today(),
       }),
+      awarenessDateRemarks: stringOptionalSchema,
     },
-  },
-  ausschlagungNotNecessary: {
-    stepId: "verstorbene/ausschlagung-nicht-notwendig",
   },
   ausschlagendePersonName: {
     stepId: "ausschlagende-person/name",
@@ -233,29 +164,22 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "ausschlagende-person/beziehung-zum-erblasser",
     pageSchema: {
       ausschlagendePersonBeziehungZumErblasser: z.enum([
-        "mother-father",
+        "not-related",
+        "wife-husband",
+        "life-partner",
         "daughter-son",
-        "grandmother-grandfather",
         "granddaughter-grandson",
-        "great-grandmother-great-grandfather",
+        "mother-father",
         "sister-brother",
         "half-sister-half-brother",
         "niece-nephew",
+        "grandmother-grandfather",
         "aunt-uncle",
         "cousin",
+        "great-grandmother-great-grandfather",
         "great-aunt-great-uncle",
-        "wife-husband",
-        "life-partner",
-        "mother-in-law-father-in-law",
-        "sister-in-law-brother-in-law",
-        "daughter-in-law-son-in-law",
-        "stepmother-stepfather",
-        "stepdaughter-stepson",
-        "stepsister-stepbrother",
-        "foster-mother-foster-father",
-        "foster-child",
         "adoptive-mother-adoptive-father",
-        "godmother-godfather",
+        "adoptive-daughter-adoptive-son",
         "other",
       ]),
     },
@@ -284,89 +208,99 @@ export const nachlassErbausschlagungAnfragePages = {
   kinder: {
     stepId: "kinder/kinder",
     pageSchema: {
-      kinder: kinderArraySchema,
+      kinder: erbausschlagungKinderArraySchema,
     },
     arrayPages: {
       name: {
         pageSchema: {
-          "kinder#vorname": kinderArraySchema.element.shape.vorname,
-          "kinder#nachname": kinderArraySchema.element.shape.nachname,
-          "kinder#geburtsdatum": kinderArraySchema.element.shape.geburtsdatum,
+          "kinder#vorname": commonErbausschlagungKinderFields.vorname,
+          "kinder#nachname": commonErbausschlagungKinderFields.nachname,
+          "kinder#geburtsdatum": commonErbausschlagungKinderFields.geburtsdatum,
         },
       },
       wohnort: {
         pageSchema: {
           "kinder#wohnortBeiAntragsteller":
-            kinderArraySchema.element.shape.wohnortBeiAntragsteller,
+            commonErbausschlagungKinderFields.wohnortBeiAntragsteller,
         },
       },
       adresse: {
         pageSchema: {
-          "kinder#strasse": kinderArraySchema.element.shape.strasse,
-          "kinder#hausnummer": kinderArraySchema.element.shape.hausnummer,
-          "kinder#plz": kinderArraySchema.element.shape.plz,
-          "kinder#ort": kinderArraySchema.element.shape.ort,
-          "kinder#adresseZusatz": kinderArraySchema.element.shape.adresseZusatz,
+          "kinder#strasse": stringRequiredSchema,
+          "kinder#hausnummer": germanHouseNumberSchema,
+          "kinder#plz": postcodeSchema,
+          "kinder#ort": stringRequiredSchema,
+          "kinder#adresseZusatz": stringOptionalSchema,
+        },
+      },
+      "adresse-optional": {
+        pageSchema: {
+          "kinder#strasse": commonErbausschlagungKinderFields.strasse,
+          "kinder#hausnummer": commonErbausschlagungKinderFields.hausnummer,
+          "kinder#plz": commonErbausschlagungKinderFields.plz,
+          "kinder#ort": commonErbausschlagungKinderFields.ort,
+          "kinder#adresseZusatz":
+            commonErbausschlagungKinderFields.adresseZusatz,
         },
       },
       sorgerecht: {
         pageSchema: {
           "kinder#optionSorgerecht":
-            kinderArraySchema.element.shape.optionSorgerecht,
+            commonErbausschlagungKinderFields.optionSorgerecht,
         },
       },
       "erbe-ausschlagende": {
         pageSchema: {
           "kinder#hasRenouncedInheritance":
-            kinderArraySchema.element.shape.hasRenouncedInheritance,
+            commonErbausschlagungKinderFields.hasRenouncedInheritance,
         },
       },
       "sorgerecht-person": {
         pageSchema: {
           "kinder#vornameSorgerecht":
-            kinderArraySchema.element.shape.vornameSorgerecht,
+            sorgerechtPersonRequired.vornameSorgerecht,
           "kinder#nachnameSorgerecht":
-            kinderArraySchema.element.shape.nachnameSorgerecht,
+            sorgerechtPersonRequired.nachnameSorgerecht,
           "kinder#geburtsnameSorgerecht":
-            kinderArraySchema.element.shape.geburtsnameSorgerecht,
+            sorgerechtPersonRequired.geburtsnameSorgerecht,
         },
       },
       "sorgerecht-gleiche-adresse": {
         pageSchema: {
           "kinder#hasSorgerechtSameAddress":
-            kinderArraySchema.element.shape.hasSorgerechtSameAddress,
+            commonErbausschlagungKinderFields.hasSorgerechtSameAddress,
         },
       },
       "sorgerecht-adresse": {
         pageSchema: {
           "kinder#strasseSorgerecht":
-            kinderArraySchema.element.shape.strasseSorgerecht,
+            sorgerechtPersonAdresseRequired.strasseSorgerecht,
           "kinder#hausnummerSorgerecht":
-            kinderArraySchema.element.shape.hausnummerSorgerecht,
-          "kinder#plzSorgerecht": kinderArraySchema.element.shape.plzSorgerecht,
-          "kinder#ortSorgerecht": kinderArraySchema.element.shape.ortSorgerecht,
+            sorgerechtPersonAdresseRequired.hausnummerSorgerecht,
+          "kinder#plzSorgerecht": sorgerechtPersonAdresseRequired.plzSorgerecht,
+          "kinder#ortSorgerecht": sorgerechtPersonAdresseRequired.ortSorgerecht,
           "kinder#adresseZusatzSorgerecht":
-            kinderArraySchema.element.shape.adresseZusatzSorgerecht,
+            sorgerechtPersonAdresseRequired.adresseZusatzSorgerecht,
         },
       },
       "sorgerecht-organisation-name": {
         pageSchema: {
           "kinder#organizationNameSorgerecht":
-            kinderArraySchema.element.shape.organizationNameSorgerecht,
+            commonErbausschlagungKinderFields.organizationNameSorgerecht,
         },
       },
       "sorgerecht-organisation-adresse": {
         pageSchema: {
           "kinder#organizationStrasseSorgerecht":
-            kinderArraySchema.element.shape.organizationStrasseSorgerecht,
+            sorgerechtOrganizationRequired.organizationStrasseSorgerecht,
           "kinder#organizationHausnummerSorgerecht":
-            kinderArraySchema.element.shape.organizationHausnummerSorgerecht,
+            sorgerechtOrganizationRequired.organizationHausnummerSorgerecht,
           "kinder#organizationPlzSorgerecht":
-            kinderArraySchema.element.shape.organizationPlzSorgerecht,
+            sorgerechtOrganizationRequired.organizationPlzSorgerecht,
           "kinder#organizationOrtSorgerecht":
-            kinderArraySchema.element.shape.organizationOrtSorgerecht,
+            sorgerechtOrganizationRequired.organizationOrtSorgerecht,
           "kinder#organizationAdressZusatzSorgerecht":
-            kinderArraySchema.element.shape.organizationAdressZusatzSorgerecht,
+            sorgerechtOrganizationRequired.organizationAdressZusatzSorgerecht,
         },
       },
     },

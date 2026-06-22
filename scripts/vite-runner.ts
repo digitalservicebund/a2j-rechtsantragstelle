@@ -10,6 +10,7 @@ async function runner() {
     console.error("Please specify a script to run.");
     process.exit(1);
   }
+  const scriptArgs = process.argv.slice(3);
   const targetPath = resolve(process.cwd(), "scripts", `${scriptName}.ts`);
 
   const server = await createServer({
@@ -25,7 +26,7 @@ async function runner() {
     const module = await environment.runner.import(targetPath);
     console.log(`Executing script: ${scriptName}\n`);
     console.time("Execution time");
-    if (module.default) await module.default();
+    if (module.default) await module.default(...scriptArgs);
     process.exitCode = 0;
     console.log(`\n✅ Script ${scriptName} finished successfully`);
     console.timeEnd("Execution time");

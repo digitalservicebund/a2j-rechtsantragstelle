@@ -3,7 +3,7 @@ import { emailCaptureConsentName } from "~/components/content/emailCapture/email
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
-import { userVisitedValidationPageKey } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
+import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/getMigrationData";
@@ -42,6 +42,8 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/nachlass/erbausschlagung/gericht-finden":
+    "showErbausschlagungGerichtFindenVorabcheck",
 } as const;
 
 export const getUserDataAndFlow = async (

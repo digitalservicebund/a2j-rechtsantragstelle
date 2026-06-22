@@ -1,5 +1,5 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
-import { type CMSContent } from "~/services/flow/formular/buildCmsContentAndTranslations";
+import { type CMSContent } from "~/services/flow/contentData/buildCmsContentAndTranslations";
 import {
   type StepState,
   type buildFlowController,
@@ -11,7 +11,6 @@ import { translations as translationCode } from "~/services/translations/transla
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
-import { type UserDataWithPageData } from "../../pageData";
 import {
   navStateStepper,
   stateIsCurrent,
@@ -20,6 +19,7 @@ import { type StepStepper } from "~/components/navigation/types";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { type FlowId } from "~/domains/flowIds";
+import { type UserDataWithPageData } from "../pageData";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -168,6 +168,16 @@ export const getContentData = (
         stepStates,
         translations,
       );
+    },
+    getProgress: (
+      flowController: ReturnType<typeof buildFlowController>,
+      stepId: string,
+    ) => {
+      const progress = flowController.getProgress(stepId);
+      return {
+        ...progress,
+        label: translationCode.vorabcheck.progressBarLabel.de,
+      };
     },
   };
 };

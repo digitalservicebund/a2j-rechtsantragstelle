@@ -101,12 +101,10 @@ export async function fetchMultipleTranslations(scopes: string[]) {
   const translationsParsed = strapiSchemas.translations.safeParse(strapiEntry);
 
   if (translationsParsed?.data?.length === 0) {
-    const error = new Error(
-      `CMS lookup for translations failed (filters: ${JSON.stringify(scopes)})`,
-    );
-    error.name = "StrapiPageNotFound";
-    throw error;
-  } else if (!translationsParsed.success) {
+    return {};
+  }
+
+  if (!translationsParsed.success) {
     const error = new Error(
       `Unable to successfully parse schema: ${translationsParsed.error.message}`,
     );

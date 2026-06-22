@@ -16,6 +16,7 @@ import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
 import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
 import { type Session } from "react-router";
 import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
+import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 
 type FlowMigration = {
   source: FlowId;
@@ -52,7 +53,10 @@ export const flows = {
   "/erbschein/wegweiser": erbscheinWegweiser,
   "/erbschein/nachlassgericht": erbscheinNachlassgericht,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
+  "/nachlass/erbausschlagung/gericht-finden":
+    nachlassErbausschlagungGerichtFinden,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
+  "/nachlass/erbschein/erbfolge": {} as Flow,
 } satisfies Record<FlowId, Flow>;

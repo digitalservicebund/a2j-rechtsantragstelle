@@ -45,6 +45,9 @@ export const erbscheinWegweiserPages = {
   erbscheinRequiredNoTestament: {
     stepId: "ergebnis/erbschein-erforderlich-kein-testament",
   },
+  erbscheinRequiredAndRequested: {
+    stepId: "ergebnis/erbschein-erforderlich-verlangt",
+  },
   unternehmen: {
     stepId: "unternehmen",
     pageSchema: {
