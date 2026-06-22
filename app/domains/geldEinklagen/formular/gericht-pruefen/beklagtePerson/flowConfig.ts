@@ -5,6 +5,7 @@ import {
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../gericht-suchen/guards";
+import { isBeklagtePersonDone } from "../../subflowDoneGuards";
 
 export const gerichtPruefenBeklagtePersonFlowConfig = {
   beklagtePersonGegenWen: [
@@ -51,6 +52,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "gerichtSuchenPostleitzahlWohnraum",
     },
     {
+      guard: isBeklagtePersonDone,
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -63,6 +65,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "beklagtePersonKaufmann",
     },
     {
+      guard: isBeklagtePersonDone,
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -72,6 +75,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "beklagtePersonGerichtsstandsvereinbarung",
     },
     {
+      guard: isBeklagtePersonDone,
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -82,6 +86,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "gerichtSuchenPostleitzahlGerichtsstandsvereinbarung",
     },
     {
+      guard: isBeklagtePersonDone,
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],

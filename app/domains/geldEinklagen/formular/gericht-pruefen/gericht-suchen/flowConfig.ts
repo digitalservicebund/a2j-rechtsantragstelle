@@ -4,6 +4,7 @@ import type {
   TransitionConfig,
   TransitionConfigMap,
 } from "~/services/flow/newFlowEngine/types";
+import { type PageData } from "~/services/flow/pageDataSchema";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
 import {
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
@@ -12,22 +13,29 @@ import {
 } from "../gericht-suchen/guards";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
+import { isGerichtSuchenDone } from "../../subflowDoneGuards";
 
-const submitButtonZustaendigesGerichtFlow: TransitionConfig<
-  NodeKey<GeldEinklagenGerichtPruefenPages>,
-  InferredUserData<GeldEinklagenGerichtPruefenPages>
+const submitButtonZustaendigesGerichtFlow: Extract<
+  TransitionConfig<
+    NodeKey<GeldEinklagenGerichtPruefenPages>,
+    InferredUserData<GeldEinklagenGerichtPruefenPages> & { pageData: PageData }
+  >,
+  unknown[]
 > = [
   {
-    guard: (context) => getPilotCourts(context).length === 0,
+    guard: (context) =>
+      getPilotCourts(context).length === 0 && isGerichtSuchenDone(context),
     target: "zustaendigesGerichtGerichtAbbruch",
   },
   {
     guard: (context) =>
       shouldVisitPilotGerichtAuswahl({ context }) &&
-      getPilotCourts(context).length === 2,
+      getPilotCourts(context).length === 2 &&
+      isGerichtSuchenDone(context),
     target: "zustaendigesGerichtPilotGerichtAuswahl",
   },
   {
+    guard: isGerichtSuchenDone,
     target: "zustaendigesGerichtPilotGericht",
   },
 ];

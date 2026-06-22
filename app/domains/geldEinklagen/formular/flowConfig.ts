@@ -14,6 +14,10 @@ import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStat
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import {
+  isKlageErstellenBeklagtePersonDone,
+  isProzessfuehrungDone,
+} from "./subflowDoneGuards";
 
 const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
   Object.entries(geldEinklagenFormularPages).map(([key, pageConfig]) => [
@@ -86,8 +90,18 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "beklagtePersonOrganisation",
       },
     ],
-    beklagtePersonMenschen: "forderungGesamtbetrag",
-    beklagtePersonOrganisation: "forderungGesamtbetrag",
+    beklagtePersonMenschen: [
+      {
+        guard: isKlageErstellenBeklagtePersonDone,
+        target: "forderungGesamtbetrag",
+      },
+    ],
+    beklagtePersonOrganisation: [
+      {
+        guard: isKlageErstellenBeklagtePersonDone,
+        target: "forderungGesamtbetrag",
+      },
+    ],
     forderungGesamtbetrag: [
       {
         guard: (context) =>
@@ -120,7 +134,12 @@ export const geldEinklagenFlowConfig = compileFlow({
       },
     ],
     ...klageErstellenProzessfuehrungFlowConfig,
-    rechtlicherZusatzWeitereAntraege: "rechtlicherZusatzRechtlicheWuerdigung",
+    rechtlicherZusatzWeitereAntraege: [
+      {
+        guard: isProzessfuehrungDone,
+        target: "rechtlicherZusatzRechtlicheWuerdigung",
+      },
+    ],
     rechtlicherZusatzRechtlicheWuerdigung: [
       {
         guard: (context) =>

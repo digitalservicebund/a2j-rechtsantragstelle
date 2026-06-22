@@ -1,5 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
+import { isKlagendePersonDone } from "../../subflowDoneGuards";
 
 export const gerichtPruefenKlagendePersonFlowConfig = {
   klagendePersonFuerWen: [
@@ -44,18 +45,30 @@ export const gerichtPruefenKlagendePersonFlowConfig = {
       target: "klagendePersonVertrag",
     },
     {
+      guard: isKlagendePersonDone,
       target: "beklagtePersonGegenWen",
     },
   ],
-  klagendePersonKaufmann: "beklagtePersonGegenWen",
+  klagendePersonKaufmann: [
+    {
+      guard: isKlagendePersonDone,
+      target: "beklagtePersonGegenWen",
+    },
+  ],
   klagendePersonVertrag: [
     {
       guard: (context) => context.klagendeVertrag === "yes",
       target: "klagendePersonHaustuergeschaeft",
     },
     {
+      guard: isKlagendePersonDone,
       target: "beklagtePersonGegenWen",
     },
   ],
-  klagendePersonHaustuergeschaeft: "beklagtePersonGegenWen",
+  klagendePersonHaustuergeschaeft: [
+    {
+      guard: isKlagendePersonDone,
+      target: "beklagtePersonGegenWen",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenGerichtPruefenPages>>;
