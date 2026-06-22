@@ -18,7 +18,7 @@ export const Details = ({ title, content, onContentId }: DetailsProps) => {
 
   useEffect(() => {
     onContentId?.(contentId);
-  }, [contentId]);
+  }, [contentId, onContentId]);
 
   return (
     <GridItem
