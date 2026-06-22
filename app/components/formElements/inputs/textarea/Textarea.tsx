@@ -62,7 +62,7 @@ const Textarea = ({
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {description && <RichText html={description} />}
-      {details && <Details {...details} onContentId={setDetailsId} />}
+      {details && <Details {...details} setDetailsId={setDetailsId} />}
       <textarea
         {...field.getInputProps({
           id: name,

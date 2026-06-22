@@ -2,14 +2,15 @@ import { useId, useState, useEffect } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
 import RichText from "../common/RichText";
+import { translations } from "~/services/translations/translations";
 
 export type DetailsProps = {
-  title?: string;
-  content?: string;
-  onContentId?: (id: string) => void;
+  title: string;
+  content: string;
+  setDetailsId?: (id: string) => void;
 };
 
-export const Details = ({ title, content, onContentId }: DetailsProps) => {
+export const Details = ({ title, content, setDetailsId }: DetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const id = useId();
 
@@ -17,8 +18,8 @@ export const Details = ({ title, content, onContentId }: DetailsProps) => {
   const contentId = `${id}-content`;
 
   useEffect(() => {
-    onContentId?.(contentId);
-  }, [contentId, onContentId]);
+    setDetailsId?.(contentId);
+  }, [contentId, setDetailsId]);
 
   return (
     <GridItem
@@ -50,7 +51,7 @@ export const Details = ({ title, content, onContentId }: DetailsProps) => {
           className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default"
         >
           <span id={contentId} className="sr-only">
-            Textbeispiele
+            {translations.details.textExample.de}
           </span>
 
           {content && <RichText className="leading-[1.5]" html={content} />}
