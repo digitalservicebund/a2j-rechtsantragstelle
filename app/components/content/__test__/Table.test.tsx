@@ -15,7 +15,9 @@ describe("Table", () => {
         heading="Table Heading"
         description="Table Description"
         columns={[]}
-        rows={[]} __component={"page.table"}      />,
+        rows={[]}
+        __component={"page.table"}
+      />,
     );
 
     expect(
@@ -25,7 +27,14 @@ describe("Table", () => {
   });
 
   it("should render caption when heading exists", () => {
-    render(<Table heading="Table Heading" columns={[]} rows={[]} __component={"page.table"} />);
+    render(
+      <Table
+        heading="Table Heading"
+        columns={[]}
+        rows={[]}
+        __component={"page.table"}
+      />,
+    );
     const caption = screen.getByText("Table Heading", {
       selector: "caption",
     });
@@ -35,14 +44,19 @@ describe("Table", () => {
   it("should render column headers", () => {
     render(
       <Table
-        columns={[{
-          label: "Column 1",
-          id: 0
-        }, {
-          label: "Column 2",
-          id: 0
-        }]}
-        rows={[]} __component={"page.table"}      />,
+        columns={[
+          {
+            label: "Column 1",
+            id: 0,
+          },
+          {
+            label: "Column 2",
+            id: 0,
+          },
+        ]}
+        rows={[]}
+        __component={"page.table"}
+      />,
     );
 
     expect(screen.getByText("Column 1")).toBeInTheDocument();
@@ -58,35 +72,46 @@ describe("Table", () => {
   it("should render rows and cells", () => {
     render(
       <Table
-        columns={[{
-          label: "Column 1",
-          id: 0
-        }, {
-          label: "Column 2",
-          id: 0
-        }]}
+        columns={[
+          {
+            label: "Column 1",
+            id: 0,
+          },
+          {
+            label: "Column 2",
+            id: 0,
+          },
+        ]}
         rows={[
           {
-            cells: [{
-              content: "Row 1, Cell 1",
-              id: 0
-            }, {
-              content: "Row 1, Cell 2",
-              id: 0
-            }],
-            id: 0
+            cells: [
+              {
+                content: "Row 1, Cell 1",
+                id: 0,
+              },
+              {
+                content: "Row 1, Cell 2",
+                id: 0,
+              },
+            ],
+            id: 0,
           },
           {
-            cells: [{
-              content: "Row 2, Cell 1",
-              id: 0
-            }, {
-              content: "Row 2, Cell 2",
-              id: 0
-            }],
-            id: 0
+            cells: [
+              {
+                content: "Row 2, Cell 1",
+                id: 0,
+              },
+              {
+                content: "Row 2, Cell 2",
+                id: 0,
+              },
+            ],
+            id: 0,
           },
-        ]} __component={"page.table"}      />,
+        ]}
+        __component={"page.table"}
+      />,
     );
 
     expect(screen.getByText("Row 1, Cell 1")).toBeInTheDocument();
@@ -98,17 +123,25 @@ describe("Table", () => {
   it("shoudl render first cell as row header by default", () => {
     render(
       <Table
-        columns={[{
-          label: "Column 1",
-          id: 0
-        }]}
-        rows={[{
-          cells: [{
-            content: "Row Header",
-            id: 0
-          }],
-          id: 0
-        }]} __component={"page.table"}      />,
+        columns={[
+          {
+            label: "Column 1",
+            id: 0,
+          },
+        ]}
+        rows={[
+          {
+            cells: [
+              {
+                content: "Row Header",
+                id: 0,
+              },
+            ],
+            id: 0,
+          },
+        ]}
+        __component={"page.table"}
+      />,
     );
 
     const cell = screen.getByText("Row Header");
@@ -119,25 +152,31 @@ describe("Table", () => {
   it("should render correctly according to isHeader flag", () => {
     render(
       <Table
-        columns={[{
-          label: "Column 1",
-          id: 0
-        }]}
+        columns={[
+          {
+            label: "Column 1",
+            id: 0,
+          },
+        ]}
         rows={[
           {
             cells: [
               {
-                content: "Normal", isHeader: false,
-                id: 0
+                content: "Normal",
+                isHeader: false,
+                id: 0,
               },
               {
-                content: "Header", isHeader: true,
-                id: 0
+                content: "Header",
+                isHeader: true,
+                id: 0,
               },
             ],
-            id: 0
+            id: 0,
           },
-        ]} __component={"page.table"}      />,
+        ]}
+        __component={"page.table"}
+      />,
     );
 
     const headerCell = screen.getByText("Header");
