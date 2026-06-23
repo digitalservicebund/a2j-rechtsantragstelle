@@ -44,17 +44,17 @@ describe("validateStepIdFlowNewEngine", () => {
     expect(result.isOk).toBe(true);
   });
 
-  it("should return ok if in case the page is not reachable and the url contains skipFlowId in the search parameter", async () => {
+  it("should return ok if in case the page is not reachable and the url contains skipFlow in the search parameter", async () => {
     const mockFlowEngineSession = getMockFlowEngineSession(false);
-    const mockURLWithSkipFlowId = new URL(
-      "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg&skipFlowId=true",
+    const mockURLWithSkipFlow = new URL(
+      "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg&skipFlow=true",
     );
 
     const result = validateStepIdFlowNewEngine(
       "/fluggastrechte/formular",
       "/",
       mockFlowEngineSession,
-      mockURLWithSkipFlowId,
+      mockURLWithSkipFlow,
     );
 
     expect(result.isOk).toBe(true);
