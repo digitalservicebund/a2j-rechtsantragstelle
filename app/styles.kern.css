@@ -49,8 +49,8 @@
   /* ------------------------------- */
 
   body {
-    hyphens: auto;
-    overflow-wrap: break-word;
+    @apply hyphens-auto;
+    @apply wrap-break-word;
   }
 
   .detail-summary:focus-within,
