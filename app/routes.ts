@@ -1,8 +1,8 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 import {
+  flowAndResultRoutes,
   flowRoutes,
-  newEngineFlowAndResultRoutes,
   vorabcheckRoutes,
 } from "./services/routing/flowRoutes";
 
@@ -43,6 +43,6 @@ export default [
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
-    ...prefix("formular", newEngineFlowAndResultRoutes("GEF")),
+    ...prefix("formular", flowAndResultRoutes("GEF")),
   ]),
 ] satisfies RouteConfig;
