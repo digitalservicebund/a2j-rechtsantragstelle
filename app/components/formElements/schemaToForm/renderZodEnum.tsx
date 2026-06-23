@@ -63,19 +63,18 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      options = options.map(({ value, text }) => ({
-        value,
-        text: cmsObject[value]?.text ?? text,
-      }));
       return (
         <Select
           name={fieldName}
           key={fieldName}
           label={label}
-          options={options}
+          options={options.map(({ value, text }) => ({
+            value,
+            text: cmsObject[value]?.text ?? text,
+            preSelected: cmsObject[value]?.preSelected,
+          }))}
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
-          placeholder={get(matchingElement, "placeholder")}
         />
       );
     }
