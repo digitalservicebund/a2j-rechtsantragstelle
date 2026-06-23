@@ -33,7 +33,7 @@ const Box = ({
 
   const contentBlock = (
     <div className="flex flex-col">
-      <div className="flex flex-col wrap-break-word gap-kern-space-default">
+      <div className="flex flex-col gap-kern-space-default">
         {label && (
           <Label
             {...label}
