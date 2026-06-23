@@ -40,6 +40,11 @@ export const translations = {
       de: "Ausblenden",
     },
   },
+  details: {
+    textExample: {
+      de: "Textbeispiele",
+    },
+  },
   iban: {
     bankIdentified: {
       de: "Bank identifiziert",

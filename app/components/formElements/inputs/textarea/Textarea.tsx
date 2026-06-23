@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
@@ -44,6 +44,16 @@ const Textarea = ({
   const field = useField(name);
   const errorId = `${name}-error`;
 
+  const [detailsId, setDetailsId] = useState<string | undefined>();
+
+  const describedByIds = [
+    field.error() ? errorId : null,
+    ariaDescribedby,
+    detailsId,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div
       className={classNames("kern-form-input gap-kern-space-small!", {
@@ -52,7 +62,7 @@ const Textarea = ({
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {description && <RichText html={description} />}
-      {details && <Details {...details} />}
+      {details && <Details {...details} setDetailsId={setDetailsId} />}
       <textarea
         {...field.getInputProps({
           id: name,
@@ -70,7 +80,7 @@ const Textarea = ({
         )}
         ref={innerRef}
         aria-invalid={field.error() !== null}
-        aria-describedby={field.error() ? errorId : ariaDescribedby}
+        aria-describedby={describedByIds || undefined}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
