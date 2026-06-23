@@ -9,12 +9,14 @@ import * as sessionServices from "~/services/session.server";
 
 vi.mock("~/services/session.server/redis");
 
-let session: reactRouter.Session;
-vi.spyOn(reactRouter, "createSessionStorage").mockImplementation(() => ({
-  getSession: vi.fn().mockResolvedValue(session),
-  commitSession: vi.fn(),
-  destroySession: vi.fn(),
-}));
+vi.mock("react-router", { spy: true });
+const mockSessionData = (session: reactRouter.Session) => {
+  vi.mocked(reactRouter.createSessionStorage).mockImplementation(() => ({
+    getSession: vi.fn().mockResolvedValue(session),
+    commitSession: vi.fn(),
+    destroySession: vi.fn(),
+  }));
+};
 
 const trackingCookieValueSpy = vi.spyOn(gdprCookie, "trackingCookieValue");
 
@@ -46,7 +48,8 @@ describe("index", () => {
 
   describe("initializeMainSession", () => {
     it("should set the CSRF token if one doesn't exist", async () => {
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
         mockURL,
@@ -55,7 +58,10 @@ describe("index", () => {
     });
 
     it("should skip setting the CSRF token if one exists", async () => {
-      session = reactRouter.createSession({ [CSRFKey]: "existing-token" });
+      const mockSession = reactRouter.createSession({
+        [CSRFKey]: "existing-token",
+      });
+      mockSessionData(mockSession);
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
         mockURL,
@@ -64,7 +70,10 @@ describe("index", () => {
     });
 
     it("should return the first CSRF token if the session contains an array of CSRF tokens", async () => {
-      session = reactRouter.createSession({ [CSRFKey]: ["token1", "token2"] });
+      const mockSession = reactRouter.createSession({
+        [CSRFKey]: ["token1", "token2"],
+      });
+      mockSessionData(mockSession);
       const { csrf } = await sessionServices.initializeMainSession(
         new Request(baseUrl),
         mockURL,
@@ -73,24 +82,26 @@ describe("index", () => {
     });
 
     it("should set the last visited step if inside of a flow", async () => {
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${flowId}/step1`),
         new URL(`${baseUrl}${flowId}/step1`),
       );
-      const lastStep = session.get(lastStepKey);
+      const lastStep = mockSession.get(lastStepKey as never);
       expect(lastStep?.[flowId]).toBe("/step1");
     });
 
     it("should set the last visited step for multiple flows", async () => {
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       const flowId: FlowId = "/beratungshilfe/antrag";
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${flowId}/step1`),
         new URL(`${baseUrl}${flowId}/step1`),
       );
-      const lastStep = session.get(lastStepKey);
+      const lastStep = mockSession.get(lastStepKey as never);
       expect(lastStep?.[flowId]).toBe("/step1");
 
       const secondFlowId: FlowId = "/prozesskostenhilfe/formular";
@@ -98,23 +109,25 @@ describe("index", () => {
         new Request(`${baseUrl}${secondFlowId}/step1flow2`),
         new URL(`${baseUrl}${secondFlowId}/step1flow2`),
       );
-      const updatedLastStep = session.get(lastStepKey);
+      const updatedLastStep = mockSession.get(lastStepKey as never);
       expect(updatedLastStep?.[flowId]).toBe("/step1");
       expect(updatedLastStep?.[secondFlowId]).toBe("/step1flow2");
     });
 
     it("should skip setting the last visited state if the user is outside of a flow", async () => {
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       await sessionServices.initializeMainSession(
         new Request(`${baseUrl}/non-flow-route/step1`),
         new URL(`${baseUrl}/non-flow-route/step1`),
       );
-      const lastStep = session.get(lastStepKey);
+      const lastStep = mockSession.get(lastStepKey as never);
       expect(lastStep).toBeUndefined();
     });
 
     it("should return feedback data if stored in the session", async () => {
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       const routeName = "/some-route";
       const { feedback } = await sessionServices.initializeMainSession(
         new Request(`${baseUrl}${routeName}`),
@@ -122,10 +135,11 @@ describe("index", () => {
       );
       expect(feedback).toEqual({ result: undefined, state: "showRating" });
 
-      session = reactRouter.createSession({
+      const mockSessionWithData = reactRouter.createSession({
         bannerState: { [routeName]: "hideRating" },
         wasHelpful: { [routeName]: "positive" },
       });
+      mockSessionData(mockSessionWithData);
       const { feedback: feedbackWithData } =
         await sessionServices.initializeMainSession(
           new Request(`${baseUrl}${routeName}`),
@@ -139,7 +153,8 @@ describe("index", () => {
 
     it("should retrieve the tracking consent cookie from the request", async () => {
       trackingCookieValueSpy.mockResolvedValue("true");
-      session = reactRouter.createSession({});
+      const mockSession = reactRouter.createSession({});
+      mockSessionData(mockSession);
       const { trackingConsent, headers } =
         await sessionServices.initializeMainSession(
           new Request(`${baseUrl}/some-route`, {
