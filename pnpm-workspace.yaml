@@ -11,6 +11,7 @@ allowBuilds: # https://pnpm.io/settings#allowbuilds
 
 overrides:
   qs@<6.14.1: ">=6.14.1"
+  undici@<6.27.0: ">=6.27.0" # solved undici vulnerability by upgrading to above 6.27.0, see https://github.com/advisories/GHSA-g8m3-5g58-fq7m
 
 dedupePeers: true
 preferFrozenLockfile: true
