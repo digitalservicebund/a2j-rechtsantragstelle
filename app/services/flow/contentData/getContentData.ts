@@ -20,8 +20,9 @@ import { getPageSchema } from "~/domains/pageSchemas";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
-import { type createFlowSession } from "../newFlowEngine/createFlowSession";
+import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
+import { type PageConfigMap } from "../newFlowEngine/types";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -136,7 +137,7 @@ export const getContentData = (
     },
     getButtonNavigationNewEngine: (
       flowId: FlowId,
-      flowSessionEngine: ReturnType<typeof createFlowSession>,
+      flowSessionEngine: FlowSession<PageConfigMap>,
       arrayIndexes: number[] | undefined = [],
     ) => {
       const buttonNavigationTranslation = translationCode.buttonNavigation;
@@ -206,7 +207,7 @@ export const getContentData = (
     },
     getNavPropsNewEngine: (
       flowId: FlowId,
-      flowSessionEngine: ReturnType<typeof createFlowSession>,
+      flowSessionEngine: FlowSession<PageConfigMap>,
       useStepper: boolean,
       stepId: string,
     ) => {

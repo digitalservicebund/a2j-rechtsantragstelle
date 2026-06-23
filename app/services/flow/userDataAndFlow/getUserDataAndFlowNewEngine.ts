@@ -7,13 +7,14 @@ import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathnam
 import { type UserDataWithPageData } from "../pageData";
 import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { type createFlowSession } from "../newFlowEngine/createFlowSession";
+import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { getSessionAndEngine } from "./getSessionAndEngine";
+import { type PageConfigMap } from "../newFlowEngine/types";
 
 const buildValidFlowPaths = (
-  flowSessionEngine: ReturnType<typeof createFlowSession>,
+  flowSessionEngine: FlowSession<PageConfigMap>,
 ): ValidFlowPagesType => {
   return Object.fromEntries(
     flowSessionEngine.paths.map((path) => [
@@ -30,7 +31,7 @@ type OkResult = {
     validFlowPaths: ValidFlowPagesType;
     userVisitedValidationPage?: boolean;
     useStepper: boolean;
-    flowSessionEngine: ReturnType<typeof createFlowSession>;
+    flowSessionEngine: FlowSession<PageConfigMap>;
   };
   page: {
     stepId: string;

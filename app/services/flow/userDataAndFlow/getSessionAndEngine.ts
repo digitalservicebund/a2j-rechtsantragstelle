@@ -1,14 +1,18 @@
 import { type FlowId } from "~/domains/flowIds";
 import { getSessionManager } from "~/services/session.server";
 import { addPageDataToUserData } from "../pageData";
-import { createFlowSession } from "../newFlowEngine/createFlowSession";
+import {
+  createFlowSession,
+  type FlowSession,
+} from "../newFlowEngine/createFlowSession";
 import { type Flow } from "~/domains/flows.server";
 import { Result } from "true-myth";
 import type { Session, SessionData } from "react-router";
+import { type PageConfigMap } from "../newFlowEngine/types";
 
 type OkResult = {
   flowSession: Session<SessionData, SessionData>;
-  flowSessionEngine: ReturnType<typeof createFlowSession>;
+  flowSessionEngine: FlowSession<PageConfigMap>;
 };
 
 type ErrorResult = {
