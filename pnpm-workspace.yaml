@@ -1,5 +1,6 @@
-allowBuilds: # https://pnpm.io/settings#allowbuilds
-  esbuild: true
+allowBuilds:
+  # https://pnpm.io/settings#allowbuilds
+  esbuild: false
   lefthook: true
   unrs-resolver: true
   "@sentry/cli": false
@@ -11,7 +12,7 @@ allowBuilds: # https://pnpm.io/settings#allowbuilds
 
 overrides:
   qs@<6.14.1: ">=6.14.1"
-  undici@<6.27.0: ">=6.27.0" # solved undici vulnerability by upgrading to above 6.27.0, see https://github.com/advisories/GHSA-g8m3-5g58-fq7m
+  undici@<7.28.0: ">=7.28.0" # solved undici vulnerability by upgrading to above 6.27.0, see https://github.com/advisories/GHSA-g8m3-5g58-fq7m https://github.com/advisories/GHSA-p88m-4jfj-68fv
 
 dedupePeers: true
 preferFrozenLockfile: true
