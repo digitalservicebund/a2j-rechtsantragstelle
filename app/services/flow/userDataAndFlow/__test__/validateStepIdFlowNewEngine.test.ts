@@ -45,8 +45,7 @@ describe("validateStepIdFlowNewEngine", () => {
   });
 
   it("should return ok if in case the page is not reachable and the url contains skipFlowId in the search parameter", async () => {
-    const mockFlowEngineSession = getMockFlowEngineSession(true);
-
+    const mockFlowEngineSession = getMockFlowEngineSession(false);
     const mockURLWithSkipFlowId = new URL(
       "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg&skipFlowId=true",
     );
