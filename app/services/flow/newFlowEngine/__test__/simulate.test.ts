@@ -85,7 +85,7 @@ describe("simulate", () => {
   });
 
   describe("BFS reachableSet", () => {
-    it("includes all nodes reachable under any guard outcome", () => {
+    it("uses first-match-wins: matched guard blocks lower-priority branches", () => {
       const flow = compileFlow({
         pages: {
           start: {
@@ -105,14 +105,14 @@ describe("simulate", () => {
           always: null,
         },
       });
-      // Data only activates one branch, but BFS should include both
+      // BFS is first-match-wins: guard passes → conditional reachable, always is not
       const { reachableSet } = simulate(flow.transitions, flow.initialStep, {
         go: true,
         pageData: { arrayIndexes: [] },
       });
       expect(reachableSet.has("start")).toBe(true);
       expect(reachableSet.has("conditional")).toBe(true);
-      expect(reachableSet.has("always")).toBe(true);
+      expect(reachableSet.has("always")).toBe(false);
     });
 
     it("excludes nodes guarded by always-false guards", () => {
