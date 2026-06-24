@@ -48,7 +48,8 @@ export const addLegalRepresentation = (
 
   const representationName = getRepresentationName(userData);
   const address = formatAddress(
-    userData.klagendePersonAnwaltschaftStrasseHausnummer,
+    userData.klagendePersonAnwaltschaftStrasse,
+    userData.klagendePersonAnwaltschaftHausnummer,
     userData.klagendePersonAnwaltschaftPlz,
     userData.klagendePersonAnwaltschaftOrt,
   );

@@ -6,7 +6,8 @@ export const testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse =
     [
       {
         fluggesellschaftAuswahlAdresse: "filledByUser",
-        fluggesellschaftStrasseHausnummer: "Musterstr. 30",
+        fluggesellschaftStrasse: "Musterstr.",
+        fluggesellschaftHausnummer: "30",
         fluggesellschaftPostleitzahl: "10970",
         fluggesellschaftOrt: "Frankfurt",
         fluggesellschaftLand: "Deutschland",

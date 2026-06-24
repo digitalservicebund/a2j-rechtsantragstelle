@@ -12,7 +12,8 @@ const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
   const hasFilledKlagendePersonAnwaltschaftData = objectKeysNonEmpty(context, [
     "klagendePersonAnwaltschaftVorname",
     "klagendePersonAnwaltschaftNachname",
-    "klagendePersonAnwaltschaftStrasseHausnummer",
+    "klagendePersonAnwaltschaftStrasse",
+    "klagendePersonAnwaltschaftHausnummer",
     "klagendePersonAnwaltschaftPlz",
     "klagendePersonAnwaltschaftOrt",
   ]);
@@ -20,7 +21,8 @@ const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
   const hasFilledKlagendePersonKontaktdaten = objectKeysNonEmpty(context, [
     "klagendePersonVorname",
     "klagendePersonNachname",
-    "klagendePersonStrasseHausnummer",
+    "klagendePersonStrasse",
+    "klagendePersonHausnummer",
     "klagendePersonPlz",
     "klagendePersonOrt",
   ]);

@@ -14,7 +14,8 @@ export const addAccusedDetails = (
     beklagteTitle,
     beklagteVorname,
     beklagteNachname,
-    beklagteStrasseHausnummer,
+    beklagteStrasse,
+    beklagteHausnummer,
     beklagteOrt,
     beklagtePlz,
     beklagteNameOrganisation,
@@ -51,7 +52,7 @@ export const addAccusedDetails = (
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(SEPARATOR, { continued: true })
     .text(
-      `${beklagteStrasseHausnummer}, ${beklagtePlz} ${beklagteOrt}, Deutschland`,
+      `${beklagteStrasse} ${beklagteHausnummer}, ${beklagtePlz} ${beklagteOrt}, Deutschland`,
     )
     .text("- Beklagte Partei -");
 };
