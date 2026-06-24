@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Select from "../Select";
+import { translations } from "~/services/translations/translations";
 
 const getErrorMock = vi.fn();
 
@@ -15,12 +16,22 @@ vi.mock("@rvf/react-router", () => ({
 describe("Select", () => {
   it("should render options", () => {
     const options = [
-      { value: "1", text: "One" },
-      { value: "2", text: "Two" },
+      { value: "1", text: "One", preSelected: false },
+      { value: "2", text: "Two", preSelected: true },
     ];
     render(<Select name="select" options={options} />);
     expect(screen.getByText("One")).toBeInTheDocument();
     expect(screen.getByText("Two")).toBeInTheDocument();
+  });
+
+  it("should set default value to preSelected option", () => {
+    const options = [
+      { value: "1", text: "One", preSelected: false },
+      { value: "2", text: "Two", preSelected: true },
+    ];
+    render(<Select name="select" options={options} />);
+    const selectElement = screen.getByRole("combobox");
+    expect(selectElement).toHaveValue("2");
   });
 
   it("should render label when provided", () => {
@@ -35,12 +46,9 @@ describe("Select", () => {
     expect(screen.getByText("Optional")).toBeInTheDocument();
   });
 
-  it("should render placeholder when provided", () => {
-    render(
-      <Select name="select" options={[]} placeholder="Select something" />,
-    );
-    const placeholder = screen.getByText("Select something");
-    expect(placeholder).toBeDisabled();
+  it("should render placeholder", () => {
+    render(<Select name="select" options={[]} />);
+    const placeholder = screen.getByText(translations.select.placeholder.de);
     expect(placeholder).toHaveValue("");
   });
 

@@ -1,8 +1,16 @@
-import { z } from "zod";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 import { strapiWidthLookupMap } from "../StrapiWidth";
+import { z } from "zod";
+
+const StrapiOptionSchema = z.object({
+  value: z.string(),
+  text: z.string(),
+  preSelected: z.boolean().default(false),
+});
+
+export type DropdownOption = z.infer<typeof StrapiOptionSchema>;
 
 export const StrapiDropdownComponentSchema = z
   .object({
@@ -10,7 +18,7 @@ export const StrapiDropdownComponentSchema = z
     name: z.string(),
     label: StrapiStringOptionalSchema,
     altLabel: StrapiStringOptionalSchema,
-    options: z.array(z.object({ value: z.string(), text: z.string() })),
+    options: z.array(StrapiOptionSchema),
     placeholder: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
