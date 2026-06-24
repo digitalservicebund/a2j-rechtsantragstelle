@@ -76,6 +76,7 @@ describe("guards", () => {
           ...baseContext,
           sachgebiet: "reisen",
           klagendeVertrag: "yes",
+          klagendeVerbraucher: "yes",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -90,6 +91,7 @@ describe("guards", () => {
           ...baseContext,
           sachgebiet: "anderesRechtsproblem",
           klagendeVertrag: "yes",
+          klagendeVerbraucher: "yes",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({

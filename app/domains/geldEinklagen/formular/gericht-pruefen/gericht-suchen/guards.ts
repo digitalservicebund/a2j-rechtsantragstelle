@@ -10,6 +10,7 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
       klagendeHaustuergeschaeft,
       mietePachtVertrag,
       mietePachtRaum,
+      klagendeVerbraucher,
       klagendeVertrag,
       sachgebiet,
       gegenWenBeklagen,
@@ -23,6 +24,7 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
     if (klagendeHaustuergeschaeft === "yes") {
       const isRelevantSachgebiet =
         ["reisen", "anderesRechtsproblem"].includes(sachgebiet ?? "") &&
+        klagendeVerbraucher === "yes" &&
         klagendeVertrag === "yes";
       const isRelevantUrheberrecht =
         sachgebiet === "urheberrecht" &&
