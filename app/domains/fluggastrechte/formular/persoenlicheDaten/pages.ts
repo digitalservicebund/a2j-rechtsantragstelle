@@ -10,8 +10,8 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDatenSchema = {
-  anrede: z.enum(["herr", "frau", "none"]),
-  title: z.enum(["none", "dr"]),
+  anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
+  title: schemaOrEmptyString(z.enum(["none", "dr"])),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   strasse: stringRequiredSchema,

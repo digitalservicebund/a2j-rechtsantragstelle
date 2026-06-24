@@ -1,11 +1,11 @@
 import capitalize from "lodash/capitalize";
 
-const mapTitle = (title?: "none" | "dr") => {
+const mapTitle = (title?: "none" | "dr" | "") => {
   if (title === "dr") {
     return "Dr.";
   }
 
-  if (title === "none" || title === undefined) {
+  if (title === "none" || title === undefined || title === "") {
     return "";
   }
 
@@ -14,7 +14,7 @@ const mapTitle = (title?: "none" | "dr") => {
 
 export const getFullPlaintiffName = (
   anrede?: string,
-  title?: "none" | "dr",
+  title?: "none" | "dr" | "",
   vorname?: string,
   nachname?: string,
 ) => {
