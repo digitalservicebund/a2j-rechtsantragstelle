@@ -24,9 +24,10 @@ export const gerichtPruefenSachgebietFlowConfig = {
   sachgebietBesondere: [
     {
       guard: (context) =>
-        context.sachgebiet === "schaden" ||
-        context.sachgebiet === "anderesRechtsproblem" ||
-        context.sachgebiet === "urheberrecht",
+        (context.sachgebiet === "schaden" ||
+          context.sachgebiet === "anderesRechtsproblem" ||
+          context.sachgebiet === "urheberrecht") &&
+        isSachgebietDone(context),
       target: "klagendePersonFuerWen",
     },
     {
@@ -67,7 +68,12 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "klagendePersonFuerWen",
     },
   ],
-  sachgebietVersicherungVersicherungsnehmer: "klagendePersonFuerWen",
+  sachgebietVersicherungVersicherungsnehmer: [
+    {
+      guard: (context) => isSachgebietDone(context),
+      target: "klagendePersonFuerWen",
+    },
+  ],
   sachgebietReiseArt: [
     {
       guard: (context) => context.reiseArt === "flug",
@@ -78,6 +84,16 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "klagendePersonFuerWen",
     },
   ],
-  sachgebietReiseInfoFlug: "klagendePersonFuerWen",
-  sachgebietVerkehrsunfallStrassenverkehr: "klagendePersonFuerWen",
+  sachgebietReiseInfoFlug: [
+    {
+      guard: (context) => isSachgebietDone(context),
+      target: "klagendePersonFuerWen",
+    },
+  ],
+  sachgebietVerkehrsunfallStrassenverkehr: [
+    {
+      guard: (context) => isSachgebietDone(context),
+      target: "klagendePersonFuerWen",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenGerichtPruefenPages>>;
