@@ -8,6 +8,9 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
   ({ context }) => {
     const {
       klagendeHaustuergeschaeft,
+      mietePachtVertrag,
+      mietePachtRaum,
+      klagendeVertrag,
       sachgebiet,
       gegenWenBeklagen,
       beklagtePersonGeldVerdienen,
@@ -18,18 +21,21 @@ export const shouldVisitGerichtSuchenPostleitzahlKlagendePerson: GeldEinklagenGe
     } = context;
 
     if (klagendeHaustuergeschaeft === "yes") {
-      const isRelevantSachgebiet = [
-        "miete",
-        "reisen",
-        "anderesRechtsproblem",
-      ].includes(sachgebiet ?? "");
+      const isRelevantSachgebiet =
+        ["reisen", "anderesRechtsproblem"].includes(sachgebiet ?? "") &&
+        klagendeVertrag === "yes";
       const isRelevantUrheberrecht =
         sachgebiet === "urheberrecht" &&
         (gegenWenBeklagen === "organisation" ||
           (gegenWenBeklagen === "person" &&
             beklagtePersonGeldVerdienen === "yes"));
 
-      if (isRelevantSachgebiet || isRelevantUrheberrecht) {
+      const isRelevantMiete =
+        sachgebiet === "miete" &&
+        mietePachtVertrag === "yes" &&
+        mietePachtRaum === "no";
+
+      if (isRelevantSachgebiet || isRelevantUrheberrecht || isRelevantMiete) {
         return true;
       }
     }
