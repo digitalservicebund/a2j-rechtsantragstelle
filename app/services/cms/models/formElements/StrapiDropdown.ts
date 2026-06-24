@@ -7,7 +7,7 @@ import { z } from "zod";
 const StrapiOptionSchema = z.object({
   value: z.string(),
   text: z.string(),
-  preSelected: z.boolean(),
+  preSelected: z.boolean().default(false),
 });
 
 export type DropdownOption = z.infer<typeof StrapiOptionSchema>;
