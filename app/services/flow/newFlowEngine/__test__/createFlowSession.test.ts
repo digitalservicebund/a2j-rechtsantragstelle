@@ -276,6 +276,108 @@ describe("createFlowSession", () => {
       const session = createFlowSession(nestedFlow, noData, "/section/a");
       expect(session.statusTree).toHaveProperty("/section");
     });
+
+    it("marks a section isDone when all reachable pages have their schema fields filled", () => {
+      const session = createFlowSession(
+        flow,
+        { answer: "hello", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      // "middle" has stepId "/middle" — 1-level path appears as top-level tree key
+      expect(session.statusTree["/middle"]?.isDone).toBe(true);
+    });
+
+    it("marks a section isDone false when a reachable page has unfilled required fields", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.statusTree["/middle"]?.isDone).toBe(false);
+    });
+
+    it("marks info pages (no schema) as done regardless of user data", () => {
+      const infoFlow = compileFlow({
+        pages: {
+          info: { stepId: "/section/info" },
+          form: {
+            stepId: "/section/form",
+            pageSchema: { name: z.string().min(1) },
+          },
+        },
+        initialStep: "info",
+        transitions: { info: "form", form: null } as const,
+      });
+      const session = createFlowSession(infoFlow, noData, "/section/info");
+      // "info" has no schema → always done; "form" has unfilled field → not done
+      // section isDone requires ALL reachable pages to be done → false
+      expect(session.statusTree["/section"]?.isDone).toBe(false);
+
+      const filledSession = createFlowSession(
+        infoFlow,
+        { name: "Alice", pageData: { arrayIndexes: [] } },
+        "/section/info",
+      );
+      expect(filledSession.statusTree["/section"]?.isDone).toBe(true);
+    });
+
+    it("section boundary guard: section becomes reachable after subflowDoneStates is set", () => {
+      const gatedFlow = compileFlow({
+        pages: {
+          aPage: {
+            stepId: "/section-a/page",
+            pageSchema: { name: z.string().min(1) },
+          },
+          bPage: {
+            stepId: "/section-b/page",
+            pageSchema: { value: z.string().min(1) },
+          },
+        },
+        initialStep: "aPage",
+        transitions: {
+          aPage: [
+            {
+              guard: (ctx) =>
+                ctx.pageData?.subflowDoneStates?.["/section-a"] === true,
+              target: "bPage" as const,
+            },
+          ],
+          bPage: null,
+        },
+      });
+
+      // Fields unfilled and no subflowDoneStates: section-b not reachable, section-a not done
+      const emptySession = createFlowSession(
+        gatedFlow,
+        noData,
+        "/section-a/page",
+      );
+      expect(emptySession.statusTree["/section-a"]?.isDone).toBe(false);
+      expect(emptySession.statusTree["/section-b"]?.isReachable).toBe(false);
+
+      // Fields filled but subflowDoneStates not yet set: section-a is done but section-b
+      // still not reachable (guard hasn't fired yet — needs the persisted flag)
+      const filledNoFlag = createFlowSession(
+        gatedFlow,
+        { name: "Alice", pageData: { arrayIndexes: [] } },
+        "/section-a/page",
+      );
+      expect(filledNoFlag.statusTree["/section-a"]?.isDone).toBe(true);
+      expect(filledNoFlag.statusTree["/section-b"]?.isReachable).toBe(false);
+
+      // After subflowDoneStates is persisted (e.g. by saveUserDataAndReturnEngineSession),
+      // the guard passes and section-b becomes reachable
+      const withFlag = createFlowSession(
+        gatedFlow,
+        {
+          name: "Alice",
+          pageData: {
+            arrayIndexes: [],
+            subflowDoneStates: { "/section-a": true },
+          },
+        },
+        "/section-a/page",
+      );
+      expect(withFlag.statusTree["/section-a"]?.isDone).toBe(true);
+      expect(withFlag.statusTree["/section-b"]?.isReachable).toBe(true);
+      expect(withFlag.statusTree["/section-b"]?.isDone).toBe(false);
+    });
   });
 
   describe("prunedUserData", () => {
