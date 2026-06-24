@@ -45,6 +45,11 @@ export const translations = {
       de: "Textbeispiele",
     },
   },
+  select: {
+    placeholder: {
+      de: "Bitte auswählen",
+    },
+  },
   iban: {
     bankIdentified: {
       de: "Bank identifiziert",
