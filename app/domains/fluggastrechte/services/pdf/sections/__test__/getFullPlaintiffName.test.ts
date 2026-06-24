@@ -7,6 +7,12 @@ describe("getFullPlaintiffName", () => {
     expect(actual).toEqual("Test Test");
   });
 
+  it("should return the full plaintiff name given the vorname and nachname and title is an empty string", () => {
+    const actual = getFullPlaintiffName(undefined, "", "Test", "Test");
+
+    expect(actual).toEqual("Test Test");
+  });
+
   it("should return the full plaintiff name with capitalized vorname given the vorname lower case and nachname", () => {
     const actual = getFullPlaintiffName(undefined, undefined, "test", "Test");
 
