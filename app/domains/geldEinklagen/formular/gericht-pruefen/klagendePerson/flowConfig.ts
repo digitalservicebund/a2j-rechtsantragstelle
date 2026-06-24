@@ -1,6 +1,15 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+
+const isKlagendePersonDone = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/gericht-pruefen/klagende-person"
+    ] === true
+  );
+};
 
 export const gerichtPruefenKlagendePersonFlowConfig = {
   klagendePersonFuerWen: [
@@ -46,18 +55,30 @@ export const gerichtPruefenKlagendePersonFlowConfig = {
       target: "klagendePersonVertrag",
     },
     {
+      guard: (context) => isKlagendePersonDone(context),
       target: "beklagtePersonGegenWen",
     },
   ],
-  klagendePersonKaufmann: "beklagtePersonGegenWen",
+  klagendePersonKaufmann: [
+    {
+      guard: (context) => isKlagendePersonDone(context),
+      target: "beklagtePersonGegenWen",
+    },
+  ],
   klagendePersonVertrag: [
     {
       guard: (context) => context.klagendeVertrag === "yes",
       target: "klagendePersonHaustuergeschaeft",
     },
     {
+      guard: (context) => isKlagendePersonDone(context),
       target: "beklagtePersonGegenWen",
     },
   ],
-  klagendePersonHaustuergeschaeft: "beklagtePersonGegenWen",
+  klagendePersonHaustuergeschaeft: [
+    {
+      guard: (context) => isKlagendePersonDone(context),
+      target: "beklagtePersonGegenWen",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenGerichtPruefenPages>>;

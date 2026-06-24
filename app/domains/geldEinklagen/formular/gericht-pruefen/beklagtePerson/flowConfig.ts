@@ -5,6 +5,15 @@ import {
   shouldVisitGerichtSuchenGerichtsstandsvereinbarung,
   shouldVisitGerichtSuchenPostleitzahlWohnraum,
 } from "../gericht-suchen/guards";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+
+const isBeklagteDone = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/gericht-pruefen/beklagte-person"
+    ] === true
+  );
+};
 
 export const gerichtPruefenBeklagtePersonFlowConfig = {
   beklagtePersonGegenWen: [
@@ -51,6 +60,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "gerichtSuchenPostleitzahlWohnraum",
     },
     {
+      guard: (context) => isBeklagteDone(context),
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -63,6 +73,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "beklagtePersonKaufmann",
     },
     {
+      guard: (context) => isBeklagteDone(context),
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -72,6 +83,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "beklagtePersonGerichtsstandsvereinbarung",
     },
     {
+      guard: (context) => isBeklagteDone(context),
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],
@@ -82,6 +94,7 @@ export const gerichtPruefenBeklagtePersonFlowConfig = {
       target: "gerichtSuchenPostleitzahlGerichtsstandsvereinbarung",
     },
     {
+      guard: (context) => isBeklagteDone(context),
       target: "gerichtSuchenPostleitzahlBeklagtePerson",
     },
   ],

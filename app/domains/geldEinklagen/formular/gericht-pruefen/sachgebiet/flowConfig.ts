@@ -1,5 +1,13 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+
+const isSachgebietDone = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.["/gericht-pruefen/sachgebiet"] ===
+    true
+  );
+};
 
 export const gerichtPruefenSachgebietFlowConfig = {
   sachgebietInfo: "sachgebietAusgeschlossen",
@@ -44,6 +52,7 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "sachgebietMietePachtRaum",
     },
     {
+      guard: (context) => isSachgebietDone(context),
       target: "klagendePersonFuerWen",
     },
   ],
@@ -54,6 +63,7 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "sachgebietVersicherungVersicherungsnehmer",
     },
     {
+      guard: (context) => isSachgebietDone(context),
       target: "klagendePersonFuerWen",
     },
   ],
@@ -64,6 +74,7 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "sachgebietReiseInfoFlug",
     },
     {
+      guard: (context) => isSachgebietDone(context),
       target: "klagendePersonFuerWen",
     },
   ],

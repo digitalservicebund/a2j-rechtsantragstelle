@@ -12,22 +12,33 @@ import {
 } from "../gericht-suchen/guards";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getPilotCourts } from "~/domains/geldEinklagen/services/court/getPilotCourts";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+
+const isGerichtSuchenDone = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.["/gericht-pruefen/gericht-suchen"] ===
+    true
+  );
+};
 
 const submitButtonZustaendigesGerichtFlow: TransitionConfig<
   NodeKey<GeldEinklagenGerichtPruefenPages>,
   InferredUserData<GeldEinklagenGerichtPruefenPages>
 > = [
   {
-    guard: (context) => getPilotCourts(context).length === 0,
+    guard: (context) =>
+      getPilotCourts(context).length === 0 && isGerichtSuchenDone(context),
     target: "zustaendigesGerichtGerichtAbbruch",
   },
   {
     guard: (context) =>
       shouldVisitPilotGerichtAuswahl({ context }) &&
-      getPilotCourts(context).length === 2,
+      getPilotCourts(context).length === 2 &&
+      isGerichtSuchenDone(context),
     target: "zustaendigesGerichtPilotGerichtAuswahl",
   },
   {
+    guard: (context) => isGerichtSuchenDone(context),
     target: "zustaendigesGerichtPilotGericht",
   },
 ];
