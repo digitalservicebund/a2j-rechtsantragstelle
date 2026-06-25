@@ -24,6 +24,7 @@ describe("StrapiTableSchema", () => {
 
   it("should parse with heading, description and title", () => {
     const data = {
+      id: 1,
       __component: "page.table",
       heading: { text: "Table Heading", tagName: "h1", id: 1 },
       description: "Table Description",
