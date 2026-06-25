@@ -4,7 +4,15 @@ import Table from "../Table";
 
 describe("Table", () => {
   it("should render table", () => {
-    render(<Table columns={[]} rows={[]} __component={"page.table"} />);
+    render(
+      <Table
+        heading={{ text: "" }}
+        description=""
+        title=""
+        columns={[]}
+        rows={[]}
+      />,
+    );
 
     expect(screen.getByRole("table")).toBeInTheDocument();
   });
@@ -12,11 +20,11 @@ describe("Table", () => {
   it("should render table with heading and description", () => {
     render(
       <Table
-        heading="Table Heading"
+        heading={{ text: "Table Heading" }}
         description="Table Description"
+        title="Table Title"
         columns={[]}
         rows={[]}
-        __component={"page.table"}
       />,
     );
 
@@ -29,13 +37,14 @@ describe("Table", () => {
   it("should render caption when heading exists", () => {
     render(
       <Table
-        heading="Table Heading"
+        heading={{ text: "Table Heading" }}
+        description="Table Description"
+        title="Table Title"
         columns={[]}
         rows={[]}
-        __component={"page.table"}
       />,
     );
-    const caption = screen.getByText("Table Heading", {
+    const caption = screen.getByText("Table Title", {
       selector: "caption",
     });
     expect(caption).toBeInTheDocument();
@@ -44,16 +53,20 @@ describe("Table", () => {
   it("should render column headers", () => {
     render(
       <Table
+        heading={{ text: "Table Heading" }}
+        description="Table Description"
+        title="Table Title"
         columns={[
           {
-            label: "Column 1",
+            header: "Column 1",
+            id: 1,
           },
           {
-            label: "Column 2",
+            header: "Column 2",
+            id: 2,
           },
         ]}
         rows={[]}
-        __component={"page.table"}
       />,
     );
 
@@ -62,107 +75,96 @@ describe("Table", () => {
   });
 
   it("should not render thead when columns are empty", () => {
-    render(<Table columns={[]} rows={[]} __component={"page.table"} />);
-
-    expect(screen.queryByRole("thead")).toBeNull();
-  });
-
-  it("should render rows and cells", () => {
     render(
       <Table
+        heading={{ text: "Table Heading" }}
+        description="Table Description"
+        title="Table Title"
+        columns={[]}
+        rows={[]}
+      />,
+    );
+
+    expect(screen.queryAllByRole("columnheader")).toHaveLength(0);
+  });
+
+  it("should render first cell as row header and the following as data cells", () => {
+    render(
+      <Table
+        heading={{ text: "Table Heading" }}
+        description="Table Description"
+        title="Table Title"
         columns={[
           {
-            label: "Column 1",
-          },
-          {
-            label: "Column 2",
+            id: 1,
+            header: "Column 1",
           },
         ]}
         rows={[
           {
+            id: 1,
             cells: [
               {
-                content: "Row 1, Cell 1",
+                id: 1,
+                header: "Row Header",
+                content: "Row Content",
               },
               {
-                content: "Row 1, Cell 2",
-              },
-            ],
-          },
-          {
-            cells: [
-              {
-                content: "Row 2, Cell 1",
-              },
-              {
-                content: "Row 2, Cell 2",
+                id: 2,
+                header: "Ignored Row Header",
+                content: "Row Content",
               },
             ],
           },
         ]}
-        __component={"page.table"}
       />,
     );
 
-    expect(screen.getByText("Row 1, Cell 1")).toBeInTheDocument();
-    expect(screen.getByText("Row 1, Cell 2")).toBeInTheDocument();
-    expect(screen.getByText("Row 2, Cell 1")).toBeInTheDocument();
-    expect(screen.getByText("Row 2, Cell 2")).toBeInTheDocument();
+    const rowHeader = screen.getByText("Row Header");
+    const rowContent = screen.getByText("Row Content");
+
+    expect(rowHeader.tagName).toBe("TH");
+    expect(rowHeader).toHaveAttribute("scope", "row");
+
+    expect(rowContent.tagName).toBe("TD");
   });
 
-  it("shoudl render first cell as row header by default", () => {
+  it("should render the correct cell type for each position", () => {
     render(
       <Table
+        heading={{ text: "Table Heading" }}
+        description="Table Description"
+        title="Table Title"
         columns={[
           {
-            label: "Column 1",
+            id: 1,
+            header: "Column 1",
           },
         ]}
         rows={[
           {
+            id: 1,
             cells: [
               {
-                content: "Row Header",
+                id: 1,
+                header: "Row Header",
+                content: "Row Content",
+              },
+              {
+                id: 2,
+                header: "Row Header",
+                content: "Row Content",
               },
             ],
           },
         ]}
-        __component={"page.table"}
       />,
     );
 
-    const cell = screen.getByText("Row Header");
-    expect(cell.tagName).toBe("TH");
-    expect(cell).toHaveAttribute("scope", "row");
-  });
+    const cells = screen.getAllByRole("cell");
+    const headers = screen.getAllByRole("rowheader");
 
-  it("should render correctly according to isHeader flag", () => {
-    render(
-      <Table
-        columns={[
-          {
-            label: "Column 1",
-          },
-        ]}
-        rows={[
-          {
-            cells: [
-              {
-                content: "Normal",
-                isHeader: false,
-              },
-              {
-                content: "Header",
-                isHeader: true,
-              },
-            ],
-          },
-        ]}
-        __component={"page.table"}
-      />,
-    );
-
-    const headerCell = screen.getByText("Header");
-    expect(headerCell.tagName).toBe("TH");
+    expect(headers[0]).toHaveTextContent("Row Header");
+    expect(cells[0]).toHaveTextContent("Row Content");
   });
 });

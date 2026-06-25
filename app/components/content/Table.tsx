@@ -1,23 +1,59 @@
-import type z from "zod";
-import { type StrapiTableSchema } from "~/services/cms/models/content/StrapiTable";
+import Heading, { type HeadingProps } from "../common/Heading";
+import RichText from "../common/RichText";
+import { GridItem } from "../layout/grid/GridItem";
 
-type TableProps = z.infer<typeof StrapiTableSchema>;
+type TableProps = {
+  heading: HeadingProps;
+  title?: string;
+  description?: string;
 
-const Table = ({ heading, description, columns, rows }: TableProps) => {
+  columns: Array<{
+    id: number;
+    header: string;
+  }>;
+
+  rows: Array<{
+    id: number;
+    cells: Array<{
+      id: number;
+      header: string;
+      content: string;
+    }>;
+  }>;
+};
+
+const Table = ({ heading, title, description, columns, rows }: TableProps) => {
   return (
-    <div>
-      {heading && <h2 className="kern-title">{heading}</h2>}
-      {description && <p className="kern-text">{description}</p>}
+    <GridItem
+      mdColumn={{ start: 1, span: 9 }}
+      lgColumn={{ start: 3, span: 9 }}
+      xlColumn={{ start: 3, span: 9 }}
+      className="flex flex-col gap-kern-space-default"
+    >
+      {heading && (
+        <Heading
+          {...heading}
+          tagName="h1"
+          className="kern-heading-large"
+          managedByParent
+        />
+      )}
+      {description && <RichText className="kern-text" html={description} />}
 
       <table className="kern-table">
-        {heading && <caption className="kern-title">{heading}</caption>}
-
+        <caption className="kern-title kern-heading-medium flex justify-start">
+          {title}
+        </caption>
         {columns.length > 0 && (
           <thead className="kern-table__head">
             <tr className="kern-table__row">
               {columns.map((column) => (
-                <th key={column.id} scope="col" className="kern-table__header">
-                  {column.label}
+                <th
+                  key={String(column.id)}
+                  scope="col"
+                  className="kern-table__header"
+                >
+                  {column.header}
                 </th>
               ))}
             </tr>
@@ -26,15 +62,18 @@ const Table = ({ heading, description, columns, rows }: TableProps) => {
 
         <tbody className="kern-table__body">
           {rows.map((row) => (
-            <tr key={row.id} className="kern-table__row">
-              {row.cells.map((cell, cellIndex) => {
-                const isHeader = cell.isHeader || cellIndex === 0;
-                return isHeader ? (
-                  <th key={cell.id} scope="row" className="kern-table__header">
-                    {cell.content}
+            <tr key={String(row.id)} className="kern-table__row">
+              {row.cells.map((cell, index) => {
+                return index === 0 ? (
+                  <th
+                    key={String(cell.id)}
+                    scope="row"
+                    className="kern-table__header"
+                  >
+                    {cell.header}
                   </th>
                 ) : (
-                  <td key={cell.id} className="kern-table__cell">
+                  <td key={String(cell.id)} className="kern-table__cell">
                     {cell.content}
                   </td>
                 );
@@ -43,7 +82,7 @@ const Table = ({ heading, description, columns, rows }: TableProps) => {
           ))}
         </tbody>
       </table>
-    </div>
+    </GridItem>
   );
 };
 
