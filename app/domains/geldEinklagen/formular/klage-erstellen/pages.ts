@@ -214,3 +214,6 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/zusammenfassung/uebersicht",
   },
 } as const satisfies PagesConfig;
+
+export type GeldEinklagenKlageErstellenPages =
+  typeof geldEinklagenKlageErstellenPages;
