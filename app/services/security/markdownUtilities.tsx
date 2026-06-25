@@ -1,5 +1,13 @@
 import { Marked, type Renderer } from "marked";
-import { renderToString } from "react-dom/server";
+import parse from "html-react-parser";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { sanitizeHtml } from "./sanitizeHtml";
 import { Icon } from "~/components/common/Icon";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
@@ -28,7 +36,7 @@ const defaultRenderer: Partial<Renderer> = {
         : {}),
     };
 
-    return renderToString(
+    return renderToStaticMarkup(
       <a {...anchorProps}>
         {shouldOpenNewTab && (
           <Icon
@@ -56,7 +64,87 @@ export function parseAndSanitizeMarkdown(
   });
   marked.use({ hooks: { postprocess: handleNestedLists } });
   const htmlContent = marked.parse(markdown) as string;
-  return sanitizeHtml(htmlContent);
+  return removeEmptyTags(sanitizeHtml(htmlContent));
+}
+
+const voidElements = new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]);
+
+/**
+ * After string replacement (i.e. evaluation of conditions), we cannot guarantee
+ * that the markup will be syntactically correct, and free of empty tags. For example, if you have something like
+ *
+ * <p><ul>{{#hasErhoehungsbetrag}}</p>
+ * <li>Sie leisten Unterhalt an Ihren Partner bzw. Ihre Partnerin bzw. fürs Kind
+ * {{/hasErhoehungsbetrag}}</li></ul>
+ *
+ * when hasErhoehungsbetrag is false, you'll end up with
+ *
+ * <p><ul></li></ul>
+ *
+ * and while the browser automatically corrects this markup to be syntactically correct, it leaves empty tags everywhere,
+ * which messes up both the styling and accessibility of the page.
+ */
+function pruneEmptyNodes(node: ReactNode): ReactNode {
+  if (typeof node === "string") {
+    return node.trim() === "" ? null : node;
+  }
+
+  if (typeof node === "number" || typeof node === "boolean" || node == null) {
+    return node;
+  }
+
+  if (Array.isArray(node)) {
+    return node
+      .map(pruneEmptyNodes)
+      .filter(
+        (child): child is Exclude<ReactNode, null | undefined | boolean> =>
+          child !== null && child !== undefined && child !== false,
+      );
+  }
+
+  if (!isValidElement(node)) {
+    return node;
+  }
+
+  const element = node as ReactElement<any>;
+  const elementProps = element.props as { children?: ReactNode };
+  const tagName = typeof node.type === "string" ? node.type : null;
+
+  if (tagName && voidElements.has(tagName)) {
+    return element;
+  }
+
+  const children = Children.toArray(elementProps.children)
+    .map(pruneEmptyNodes)
+    .filter(
+      (child): child is Exclude<ReactNode, null | undefined | boolean> =>
+        child !== null && child !== undefined && child !== false,
+    );
+
+  if (tagName && children.length === 0) {
+    return null;
+  }
+
+  return cloneElement(element, elementProps, children);
+}
+
+export function removeEmptyTags(html: string) {
+  return renderToStaticMarkup(<>{pruneEmptyNodes(parse(html) as ReactNode)}</>);
 }
 
 /**

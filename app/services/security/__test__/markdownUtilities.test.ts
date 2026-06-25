@@ -1,6 +1,7 @@
 import {
   contentExistsBeforeList,
   handleNestedLists,
+  removeEmptyTags,
 } from "~/services/security/markdownUtilities";
 
 describe("markdownUtilities", () => {
@@ -87,6 +88,22 @@ describe("markdownUtilities", () => {
         {{ /variable }}
       `;
       expect(contentExistsBeforeList(htmlString)).toBe(false);
+    });
+  });
+
+  describe("removeEmptyTags", () => {
+    it("should remove empty paragraphs and keep contentful elements", () => {
+      const htmlString = "<ul><p></p><li>Thing 1</li><p>Keep me</p></ul>";
+
+      expect(removeEmptyTags(htmlString)).toBe(
+        "<ul><li>Thing 1</li><p>Keep me</p></ul>",
+      );
+    });
+
+    it("should keep void elements like br without throwing", () => {
+      const htmlString = "<p>Line 1<br>Line 2</p><p></p>";
+
+      expect(removeEmptyTags(htmlString)).toBe("<p>Line 1<br/>Line 2</p>");
     });
   });
 });
