@@ -261,6 +261,45 @@ describe("createFlowSession", () => {
     });
   });
 
+  describe("pageData", () => {
+    it("exposes the pageData from userData on the session", () => {
+      const userData = {
+        pageData: {
+          arrayIndexes: [1],
+          subflowDoneStates: { "/section": true },
+        },
+      };
+      const session = createFlowSession(flow, userData, "/start");
+      expect(session.pageData).toEqual(userData.pageData);
+    });
+
+    it("exposes arrayIndexes", () => {
+      const session = createFlowSession(
+        flow,
+        { pageData: { arrayIndexes: [2, 3] } },
+        "/start",
+      );
+      expect(session.pageData.arrayIndexes).toEqual([2, 3]);
+    });
+
+    it("exposes subflowDoneStates", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          pageData: {
+            arrayIndexes: [],
+            subflowDoneStates: { "/section-a": true, "/section-b": false },
+          },
+        },
+        "/start",
+      );
+      expect(session.pageData.subflowDoneStates).toEqual({
+        "/section-a": true,
+        "/section-b": false,
+      });
+    });
+  });
+
   describe("statusTree", () => {
     it("is populated for flows with nested stepIds", () => {
       const nestedPages = {
