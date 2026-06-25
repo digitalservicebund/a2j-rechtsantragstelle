@@ -1,14 +1,10 @@
-import {
-  contentExistsBeforeList,
-  handleNestedLists,
-  removeEmptyTags,
-} from "~/services/security/markdownUtilities";
+import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
 
-describe("markdownUtilities", () => {
-  describe("handleNestedLists", () => {
+describe("parseAndSanitizeMarkdown", () => {
+  describe("Conditional list handling", () => {
     it("should leave the html unmodified if there are no lists within conditional tags", () => {
       const html = "<p>test</p>";
-      expect(handleNestedLists(html)).toBe(html);
+      expect(parseAndSanitizeMarkdown(html)).toBe(html);
     });
 
     it("should reorder an opening list tag if needed", () => {
@@ -16,12 +12,12 @@ describe("markdownUtilities", () => {
         "{{ #conditional }}<ul><li>item 1</li>{{ /conditional }}</ul>";
       const expectedHtml =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
-      expect(handleNestedLists(htmlNestedList)).toBe(expectedHtml);
+      expect(parseAndSanitizeMarkdown(htmlNestedList)).toBe(expectedHtml);
       const invertedConditionHtml =
         "{{^conditional}}<ul><li>item 1</li>{{/conditional}}</ul>";
       const expectedInvertedConditionHtml =
         "<ul>{{^conditional}}<li>item 1</li>{{/conditional}}</ul>";
-      expect(handleNestedLists(invertedConditionHtml)).toBe(
+      expect(parseAndSanitizeMarkdown(invertedConditionHtml)).toBe(
         expectedInvertedConditionHtml,
       );
     });
@@ -31,14 +27,14 @@ describe("markdownUtilities", () => {
         "{{ #conditional }}<ul><li>item 1</li>{{ /conditional }}</ul>{{ #conditional2 }}<ul><li>item 2</li>{{ /conditional2 }}</ul>";
       const expectedHtmlUnorderedList =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul><ul>{{ #conditional2 }}<li>item 2</li>{{ /conditional2 }}</ul>";
-      expect(handleNestedLists(htmlNestedUnorderedList)).toBe(
+      expect(parseAndSanitizeMarkdown(htmlNestedUnorderedList)).toBe(
         expectedHtmlUnorderedList,
       );
       const htmlNestedOrderedList =
         "{{ #conditional }}<ol><li>item 1</li>{{ /conditional }}</ol>{{ #conditional2 }}<ol><li>item 2</li>{{ /conditional2 }}</ol>";
       const expectedHtmlOrderedList =
         "<ol>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ol><ol>{{ #conditional2 }}<li>item 2</li>{{ /conditional2 }}</ol>";
-      expect(handleNestedLists(htmlNestedOrderedList)).toBe(
+      expect(parseAndSanitizeMarkdown(htmlNestedOrderedList)).toBe(
         expectedHtmlOrderedList,
       );
     });
@@ -46,56 +42,24 @@ describe("markdownUtilities", () => {
     it("shouldn't modify html with correctly formatted lists (not inside conditionals)", () => {
       const htmlWithCorrectList =
         "<ul>{{ #conditional }}<li>item 1</li>{{ /conditional }}</ul>";
-      expect(handleNestedLists(htmlWithCorrectList)).toBe(htmlWithCorrectList);
+      expect(parseAndSanitizeMarkdown(htmlWithCorrectList)).toBe(
+        htmlWithCorrectList,
+      );
     });
 
     it("should leave the html unmodified if a list has contextual content preceding it, inside of a conditional", () => {
-      const htmlString = `
-        {{ #variable }}
-        Please upload the following:
-        <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
-        </ul>
-        {{ /variable }}
-      `;
-      expect(handleNestedLists(htmlString)).toBe(htmlString);
+      const htmlString = `{{ #variable }}Please upload the following:<ul><li>Thing 1</li><li>Thing 2</li></ul>{{ /variable }}`;
+      expect(parseAndSanitizeMarkdown(htmlString)).toBe(
+        "<p>{{ #variable }}Please upload the following:</p><ul><li>Thing 1</li><li>Thing 2</li></ul>{{ /variable }}",
+      );
     });
   });
 
-  describe("contentExistsBeforeList", () => {
-    it("should return true if content appears before the list", () => {
-      const htmlString = `
-        {{ #variable }}
-        Please upload the following:
-        <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
-        </ul>
-        {{ /variable }}
-      `;
-      expect(contentExistsBeforeList(htmlString)).toBe(true);
-    });
-
-    it("should return false if the conditional is purely list content", () => {
-      const htmlString = `
-        Please upload the following:
-        {{ #variable }}
-        <ul>
-        <li>Thing 1</li>
-        <li>Thing 2</li>
-        </ul>
-        {{ /variable }}
-      `;
-      expect(contentExistsBeforeList(htmlString)).toBe(false);
-    });
-  });
-
-  describe("removeEmptyTags", () => {
+  describe("Empty tag removal", () => {
     it("should remove empty paragraphs and keep contentful elements", () => {
       const htmlString = "<ul><p></p><li>Thing 1</li><p>Keep me</p></ul>";
 
-      expect(removeEmptyTags(htmlString)).toBe(
+      expect(parseAndSanitizeMarkdown(htmlString)).toBe(
         "<ul><li>Thing 1</li><p>Keep me</p></ul>",
       );
     });
@@ -103,7 +67,9 @@ describe("markdownUtilities", () => {
     it("should keep void elements like br without throwing", () => {
       const htmlString = "<p>Line 1<br>Line 2</p><p></p>";
 
-      expect(removeEmptyTags(htmlString)).toBe("<p>Line 1<br/>Line 2</p>");
+      expect(parseAndSanitizeMarkdown(htmlString)).toBe(
+        "<p>Line 1<br/>Line 2</p>",
+      );
     });
   });
 });
