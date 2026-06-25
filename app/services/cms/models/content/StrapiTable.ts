@@ -25,4 +25,5 @@ export const StrapiTableSchema = z.object({
   description: z.string().optional(),
   columns: z.array(StrapiTableColumnSchema),
   rows: z.array(StrapiTableRowSchema),
+  ...HasStrapiIdSchema.shape,
 });
