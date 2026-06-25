@@ -6,6 +6,9 @@ import { evaluateRoute } from "./routing";
 import { buildStatusTree } from "./statusTree";
 import { pruneUserData } from "./pruneUserData";
 
+const resolveFieldName = (fieldName: string) =>
+  fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
+
 export const createFlowSession = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
   userData: InferredUserData<C> & { pageData: PageData },
@@ -48,6 +51,33 @@ export const createFlowSession = <C extends PageConfigMap>(
   const nextNodeKey =
     evaluateRoute(compiledFlow.transitions[nodeKey], userData) ?? undefined;
 
+  const isPageDone = (
+    schema: ReturnType<typeof compiledFlow.getSchemaByNodeKey>,
+    fieldNames: string[],
+    scopeData: Record<string, unknown>,
+  ) => {
+    if (fieldNames.length === 0) return true;
+    const candidate = Object.fromEntries(
+      fieldNames.map((fieldName) => [
+        resolveFieldName(fieldName),
+        scopeData[resolveFieldName(fieldName)],
+      ]),
+    );
+    return schema?.safeParse(candidate).success ?? false;
+  };
+
+  const doneNodeKeys = new Set(
+    simulation.visitedContexts
+      .filter(({ key, scopeData }) =>
+        isPageDone(
+          compiledFlow.getSchemaByNodeKey(key),
+          compiledFlow.getFieldNamesByNodeKey(key),
+          scopeData as Record<string, unknown>,
+        ),
+      )
+      .map(({ key }) => key),
+  );
+
   return {
     nodeKey,
     pageSchema: compiledFlow.getSchema(currentPath),
@@ -56,7 +86,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
     simulationKeys: simulation.keys,
     isComplete: simulation.isComplete,
-    statusTree: buildStatusTree(compiledFlow.pages, simulation),
+    statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
     prunedUserData: pruneUserData(
       compiledFlow,
       simulation.visitedContexts,
@@ -66,10 +96,17 @@ export const createFlowSession = <C extends PageConfigMap>(
       const key = compiledFlow.getNodeKeyFromPath(targetPath);
       return key != null && simulation.reachableSet.has(key);
     },
+    getPathFromNodeKey: (key: string): string | undefined => {
+      return compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>);
+    },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
     prevPath: compiledFlow.getPathFromNodeKey(
       prevNodeKey as Extract<keyof C, string>,
     ),
+    isArrayPage: (path: string): boolean => {
+      return compiledFlow.getArrayInfo(path) !== undefined;
+    },
+    isFinal: compiledFlow.isFinal(currentPath) ?? false,
   };
 };
 

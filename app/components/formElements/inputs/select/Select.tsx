@@ -5,14 +5,15 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
+import { translations } from "~/services/translations/translations";
+import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 
 type SelectProps = {
   name: string;
   label?: ReactNode;
   width?: "16" | "24" | "36" | "54";
-  options: Array<{ value: string; text: string }>;
+  options: DropdownOption[];
   suffix?: string;
-  placeholder?: string;
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -21,7 +22,6 @@ const Select = ({
   label,
   width,
   options,
-  placeholder,
   suffix,
   errorMessages,
 }: SelectProps) => {
@@ -29,7 +29,11 @@ const Select = ({
   const errorId = `${name}-error`;
 
   return (
-    <div className="kern-form-input">
+    <div
+      className={classNames("kern-form-input", {
+        "kern-form-input--error": field.error(),
+      })}
+    >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div
         data-testid="select-wrapper"
@@ -45,6 +49,7 @@ const Select = ({
           className="kern-form-input__select bg-white!"
           {...field.getInputProps({ id: name })}
           aria-invalid={field.error() !== null}
+          defaultValue={options.find((option) => option.preSelected)?.value}
           aria-describedby={field.error() ? errorId : undefined}
           aria-errormessage={field.error() ? errorId : undefined}
           aria-required={
@@ -52,11 +57,7 @@ const Select = ({
           }
           data-testid="select"
         >
-          {placeholder && (
-            <option disabled value="">
-              {placeholder}
-            </option>
-          )}
+          <option value="">{translations.select.placeholder.de}</option>
           {options.map((option) => {
             return (
               <option value={option.value} key={option.value}>

@@ -21,27 +21,25 @@ const getPrefixes = (id: string, includeFlat: boolean = true) => {
 
 const calcStatus = (
   keys: Set<string>,
-  simulationKeys: string[],
   reachableSet: Set<string>,
-  isComplete: boolean,
+  doneNodeKeys: Set<string>,
 ) => {
-  // Reachable if the simulation found ANY valid route into this folder
-  const isReachable = Array.from(keys).some((node) => reachableSet.has(node));
-  const visited = simulationKeys.filter((node) => keys.has(node));
-  const activeNode = simulationKeys.at(-1) ?? "";
+  const reachableNodes = Array.from(keys).filter((node) =>
+    reachableSet.has(node),
+  );
+  const isReachable = reachableNodes.length > 0;
 
   return {
     isReachable,
     isDone:
-      visited.length > 0 &&
-      // If the user's active node is no longer inside this prefix's keys, they've exited the folder
-      (!keys.has(activeNode) || isComplete),
+      isReachable && reachableNodes.every((node) => doneNodeKeys.has(node)),
   };
 };
 
 export const buildStatusTree = (
   config: Record<string, { stepId: string }>,
-  { keys, reachableSet, isComplete }: SimulationResult,
+  { reachableSet }: SimulationResult,
+  doneNodeKeys: Set<string>,
 ): Record<string, StatusNode> => {
   const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
     getPrefixes(path).map((prefix) => ({ prefix, key: key })),
@@ -61,12 +59,7 @@ export const buildStatusTree = (
   Object.keys(prefixMap)
     .sort((a, b) => a.split("/").length - b.split("/").length)
     .forEach((prefix) => {
-      const status = calcStatus(
-        prefixMap[prefix],
-        keys,
-        reachableSet,
-        isComplete,
-      );
+      const status = calcStatus(prefixMap[prefix], reachableSet, doneNodeKeys);
 
       const lodashPath = prefix
         .split("/")

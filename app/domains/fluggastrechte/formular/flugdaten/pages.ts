@@ -27,7 +27,8 @@ export const fluggastrechteFlugdatenPages = {
     stepId: "flugdaten/adresse-fluggesellschaft",
     pageSchema: {
       fluggesellschaft: schemaOrEmptyString(z.string()),
-      fluggesellschaftStrasseHausnummer: stringRequiredSchema,
+      fluggesellschaftStrasse: stringRequiredSchema,
+      fluggesellschaftHausnummer: stringRequiredSchema,
       fluggesellschaftPostleitzahl: stringRequiredSchema,
       fluggesellschaftOrt: stringRequiredSchema,
       fluggesellschaftLand: stringRequiredSchema,
@@ -40,7 +41,9 @@ export const fluggastrechteFlugdatenPages = {
       buchungsNummer: bookingNumberFlightSchema,
       direktAbflugsDatum: fourYearsAgoSchema,
       direktAbflugsZeit: timeSchema,
-      zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
+      zwischenstoppAnzahl: schemaOrEmptyString(
+        z.enum(["no", "oneStop", "twoStop", "threeStop"]),
+      ),
       direktAnkunftsDatum: fourYearsAgoSchema,
       direktAnkunftsZeit: timeSchema,
     },

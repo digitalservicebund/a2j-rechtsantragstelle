@@ -130,6 +130,8 @@ export const compileFlow = <C extends PageConfigMap>({
     },
     getFieldNamesByNodeKey: (nodeKey: NodeKey<C>): string[] =>
       fieldNamesCache[nodeKey] ?? [],
+    getSchemaByNodeKey: (nodeKey: NodeKey<C>): z.ZodTypeAny | undefined =>
+      schemaCache[nodeKey],
     getArrayInfoByNodeKey: (nodeKey: NodeKey<C>) => arrayInfoCache[nodeKey],
 
     getNodeKeyFromPath,

@@ -73,7 +73,8 @@ export const addMultiplePersonsText = (
         nachname,
         vorname,
         buchungsnummer,
-        strasseHausnummer,
+        strasse,
+        hausnummer,
         ort,
         plz,
         telefonnummer,
@@ -91,7 +92,7 @@ export const addMultiplePersonsText = (
             })
             .font(FONTS_BUNDESSANS_REGULAR)
             .text(
-              `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${strasseHausnummer}, ${plz} ${ort}, ${land}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
+              `${getFullPlaintiffName(anrede, title, vorname, nachname)}, ${[strasse, hausnummer].filter(Boolean).join(" ")}, ${plz} ${ort}, ${land}${getTextTelefonNumber(telefonnummer)}${getTextBookingNumber(buchungsnummer)}`,
             );
           doc.moveDown(0.5);
         }),
