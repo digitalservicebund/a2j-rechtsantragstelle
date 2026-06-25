@@ -143,7 +143,7 @@ function pruneEmptyNodes(node: ReactNode): ReactNode {
   return cloneElement(element, elementProps, children);
 }
 
-export function removeEmptyTags(html: string) {
+function removeEmptyTags(html: string) {
   return renderToStaticMarkup(<>{pruneEmptyNodes(parse(html) as ReactNode)}</>);
 }
 
@@ -168,7 +168,7 @@ export function removeEmptyTags(html: string) {
  *
  * This function iteratively walks through the input html, swapping the order of opening list tags and opening conditionals.
  */
-export function handleNestedLists(html: string) {
+function handleNestedLists(html: string) {
   const nestedLists = [
     ...html.matchAll(/{{\s*[#|^]\w+\s*}}(?=.*\n*(<ul>|<ol>))/g),
   ];
@@ -200,7 +200,7 @@ export function handleNestedLists(html: string) {
  *
  * In this case, we need to fall back to the default handling and show/hide it all.
  */
-export function contentExistsBeforeList(html: string) {
+function contentExistsBeforeList(html: string) {
   const strippedContentString = html.replaceAll(/(<\/*p+>)|\s+/g, "");
   const openingTagPosition = strippedContentString.search(/<ul>|<ol>/);
   const beforeOpeningTag = strippedContentString.substring(
