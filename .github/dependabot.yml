@@ -1,9 +1,15 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/de/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
+registries:
+  npmjs:
+    type: npm-registry
+    url: https://registry.npmjs.org
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    registries:
+      - npmjs
     schedule:
       interval: "daily"
       # By default, Dependabot checks for new versions at a random set time for the repository.
