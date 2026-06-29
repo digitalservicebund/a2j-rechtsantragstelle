@@ -13,7 +13,7 @@ import {
 } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testcasesWithUserInput";
+import { geldEinklagenFormularTestCases } from "~/domains/geldEinklagen/formular/__test__/testCasesWithUserInput";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
