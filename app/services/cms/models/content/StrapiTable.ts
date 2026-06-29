@@ -15,7 +15,7 @@ const StrapiTableCellSchema = z.object({
 
 const StrapiTableRowSchema = z.object({
   ...HasStrapiIdSchema.shape,
-  cells: z.array(StrapiTableCellSchema),
+  cells: z.array(StrapiTableCellSchema).nonempty(),
 });
 
 export const StrapiTableSchema = z.object({
@@ -23,7 +23,7 @@ export const StrapiTableSchema = z.object({
   heading: StrapiHeadingSchema,
   title: z.string().optional(),
   description: z.string().optional(),
-  columns: z.array(StrapiTableColumnSchema),
-  rows: z.array(StrapiTableRowSchema),
+  columns: z.array(StrapiTableColumnSchema).nonempty(),
+  rows: z.array(StrapiTableRowSchema).nonempty(),
   ...HasStrapiIdSchema.shape,
 });

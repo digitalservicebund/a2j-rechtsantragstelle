@@ -23,6 +23,11 @@ type TableProps = {
 };
 
 const Table = ({ heading, title, description, columns, rows }: TableProps) => {
+  // Do not render the table if there are no rows or columns
+  if (!rows?.length || !columns?.length) {
+    return null;
+  }
+
   return (
     <GridItem
       mdColumn={{ start: 1, span: 9 }}
@@ -30,20 +35,16 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
       xlColumn={{ start: 3, span: 9 }}
       className="flex flex-col gap-kern-space-default"
     >
-      {heading && (
-        <Heading
-          {...heading}
-          tagName="h1"
-          className="kern-heading-large"
-          managedByParent
-        />
-      )}
+      <Heading {...heading} className="kern-heading-large" managedByParent />
+
       {description && <RichText className="kern-text" html={description} />}
 
       <table className="kern-table">
-        <caption className="kern-title kern-heading-medium flex justify-start">
-          {title}
-        </caption>
+        {title && (
+          <caption className="kern-title kern-heading-medium flex justify-start">
+            {title}
+          </caption>
+        )}
         {columns.length > 0 && (
           <thead className="kern-table__head">
             <tr className="kern-table__row">
