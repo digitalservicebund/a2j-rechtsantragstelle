@@ -3,7 +3,7 @@ import RichText from "../common/RichText";
 import { GridItem } from "../layout/grid/GridItem";
 
 type TableProps = {
-  heading: HeadingProps;
+  heading?: HeadingProps;
   title?: string;
   description?: string;
 
@@ -35,7 +35,7 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
       xlColumn={{ start: 3, span: 9 }}
       className="flex flex-col gap-kern-space-default"
     >
-      <Heading {...heading} className="kern-heading-large" managedByParent />
+      {heading && <Heading {...heading} className="kern-heading-large" managedByParent />}
 
       {description && <RichText className="kern-text" html={description} />}
 
