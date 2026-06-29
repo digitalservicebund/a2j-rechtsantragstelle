@@ -113,7 +113,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/compression": "^1.8.1",
+    "@types/compression": "^1.7.2",
     "@types/express": "^5.0.6",
     "@types/follow-redirects": "^1.14.4",
     "@types/lodash": "^4.17.24",
@@ -141,10 +141,10 @@
     "vite-env-only": "^3.0.3",
     "vitest": "^4.1.9"
   },
-  "packageManager": "pnpm@11.5.1",
+  "packageManager": "pnpm@11.9.0",
   "engines": {
-    "node": "24.15.0",
-    "pnpm": "11.5.1"
+    "node": "24.18.0",
+    "pnpm": "11.9.0"
   },
   "engineStrict": true,
   "prettier": {

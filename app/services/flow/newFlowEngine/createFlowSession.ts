@@ -84,7 +84,11 @@ export const createFlowSession = <C extends PageConfigMap>(
     fieldNames: compiledFlow.getFieldNames(currentPath),
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
-    simulationKeys: simulation.keys,
+    paths: simulation.keys
+      .map((key) =>
+        compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>),
+      )
+      .filter((path): path is string => path !== undefined) as string[],
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
     prunedUserData: pruneUserData(

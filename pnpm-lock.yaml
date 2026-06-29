@@ -209,7 +209,7 @@ importers:
         specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.1)
       '@types/compression':
-        specifier: ^1.8.1
+        specifier: ^1.7.2
         version: 1.8.1
       '@types/express':
         specifier: ^5.0.6
