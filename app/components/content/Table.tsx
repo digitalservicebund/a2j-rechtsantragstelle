@@ -51,11 +51,7 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
           <thead className="kern-table__head">
             <tr className="kern-table__row">
               {columns.map((column) => (
-                <th
-                  key={String(column.id)}
-                  scope="col"
-                  className="kern-table__header"
-                >
+                <th key={column.id} scope="col" className="kern-table__header">
                   {column.header}
                 </th>
               ))}
@@ -65,18 +61,14 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
 
         <tbody className="kern-table__body">
           {rows.map((row) => (
-            <tr key={String(row.id)} className="kern-table__row">
+            <tr key={row.id} className="kern-table__row">
               {row.cells.map((cell, index) => {
                 return index === 0 ? (
-                  <th
-                    key={String(cell.id)}
-                    scope="row"
-                    className="kern-table__header"
-                  >
+                  <th key={cell.id} scope="row" className="kern-table__header">
                     {cell.header}
                   </th>
                 ) : (
-                  <td key={String(cell.id)} className="kern-table__cell">
+                  <td key={cell.id} className="kern-table__cell">
                     {cell.content}
                   </td>
                 );

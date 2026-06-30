@@ -63,7 +63,7 @@ describe("StrapiTableSchema", () => {
     const result = StrapiTableSchema.safeParse(data);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.heading.text).toBe("Table Heading");
+      expect(result.data.heading?.text).toBe("Table Heading");
       expect(result.data.description).toBe("Table Description");
     }
   });
