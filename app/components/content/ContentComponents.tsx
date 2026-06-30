@@ -15,6 +15,7 @@ import Hero from "./Hero";
 import TableOfContents from "../content/TableOfContents";
 import { InlineNotice } from "../content/InlineNotice";
 import { EmailCapture } from "./emailCapture/EmailCapture";
+import Table from "./Table";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
@@ -32,14 +33,12 @@ function getSectionBackgroundColor(el: StrapiContentComponent): string {
   }
   return "";
 }
-
 function getPaddingTop(el: StrapiContentComponent): string {
   if ("paddingTop" in el && el.paddingTop) {
     return el.paddingTop;
   }
   return "default";
 }
-
 function getPaddingBottom(el: StrapiContentComponent): string {
   if ("paddingBottom" in el && el.paddingBottom) {
     return el.paddingBottom;
@@ -127,6 +126,8 @@ function cmsToReact(
           elementId={componentProps.identifier}
         />
       );
+    case "page.table":
+      return <Table {...componentProps} />;
     default:
       return <></>;
   }
