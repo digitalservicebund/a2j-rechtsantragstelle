@@ -134,6 +134,67 @@ describe("compileFlow", () => {
     it("returns undefined for unknown path", () => {
       expect(arrayFlow.getArrayInfo("/unknown")).toBeUndefined();
     });
+
+    describe("non-summary node with addArrayItem", () => {
+      const nonSummaryPages = {
+        anzahl: { stepId: "/anzahl" },
+        item: { stepId: "/items/#/daten" },
+        done: { stepId: "/done" },
+      } as const;
+
+      const nonSummaryTransitions = {
+        anzahl: [
+          { target: "item" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        item: "done" as const,
+        done: null,
+      };
+
+      const nonSummaryFlow = compileFlow({
+        pages: nonSummaryPages,
+        initialStep: "anzahl",
+        transitions: nonSummaryTransitions,
+      });
+
+      it("infers the array name from the addArrayItem target stepId", () => {
+        expect(nonSummaryFlow.getArrayInfo("/anzahl")?.name).toBe("items");
+      });
+
+      it("has entryPoint undefined because the node is not a summary page", () => {
+        expect(nonSummaryFlow.getArrayInfo("/anzahl")?.entryPoint).toBeUndefined();
+      });
+
+      it("infers nested array name for a multi-level target stepId", () => {
+        const nestedPages = {
+          parentItem: { stepId: "/parents/#/childrenAnzahl" },
+          child: { stepId: "/parents/#/children/#/daten" },
+          done: { stepId: "/done" },
+        } as const;
+
+        const nestedTransitions = {
+          parentItem: [
+            { target: "child" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          child: "done" as const,
+          done: null,
+        };
+
+        const nestedFlow = compileFlow({
+          pages: nestedPages,
+          initialStep: "parentItem",
+          transitions: nestedTransitions,
+        });
+
+        expect(
+          nestedFlow.getArrayInfo("/parents/#/childrenAnzahl")?.name,
+        ).toBe("parents#children");
+        expect(
+          nestedFlow.getArrayInfo("/parents/#/childrenAnzahl")?.entryPoint,
+        ).toBeUndefined();
+      });
+    });
   });
 
   describe("isFinal", () => {

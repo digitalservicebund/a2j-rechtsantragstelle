@@ -534,6 +534,71 @@ describe("createFlowSession", () => {
       expect(session.prunedUserData).not.toHaveProperty("pageData");
     });
 
+    describe("non-summary addArrayItem fan-out", () => {
+      // Flow: anzahl -[addArrayItem]-> itemDaten -> anzahl (loop)
+      //             -[fallback]-------> done
+      // "anzahl" has no arraySummary — it is a plain form page that also fans out.
+      const fanOutPages = {
+        anzahl: { stepId: "/anzahl" },
+        itemDaten: {
+          stepId: "/items/#/daten",
+          pageSchema: { label: z.string() },
+        },
+        done: { stepId: "/done" },
+      } as const;
+
+      const fanOutTransitions = {
+        anzahl: [
+          { target: "itemDaten" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        itemDaten: "anzahl" as const,
+        done: null,
+      };
+
+      const fanOutFlow = compileFlow({
+        pages: fanOutPages,
+        initialStep: "anzahl",
+        transitions: fanOutTransitions,
+      });
+
+      it("add-target is reachable when the array is empty", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("item page is reachable when the array has existing entries", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { items: [{ label: "a" }, { label: "b" }], pageData: { arrayIndexes: [] } } as any,
+          "/anzahl",
+        );
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("nextPath skips addArrayItem and returns the fallback target", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.nextPath).toBe("/done");
+      });
+
+      it("prunedUserData includes array item data via non-summary fan-out", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { items: [{ label: "a" }], pageData: { arrayIndexes: [] } } as any,
+          "/anzahl",
+        );
+        expect(session.prunedUserData).toEqual({ items: [{ label: "a" }] });
+      });
+
+      it("arrayInfo has name but entryPoint is undefined for non-summary nodes", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.arrayInfo?.name).toBe("items");
+        expect(session.arrayInfo?.entryPoint).toBeUndefined();
+      });
+    });
+
     it("keeps nested array data when the nested array name uses #-notation", () => {
       // Regression test: arraySummary.name like "parents#children" must use the
       // leaf segment ("children") as the scopeData key and arrayPath segment —
