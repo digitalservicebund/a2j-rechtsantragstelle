@@ -15,6 +15,7 @@ import { testCasesWithUserInputGerichtSuchenReisenAnderesRechtsproblem } from ".
 import { testCasesWithUserInputGerichtSuchenEdgeCases } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenEdgeCasesZipCode";
 import { testCasesWithUserInputZustaendigesGericht } from "../gericht-pruefen/zustaendiges-gericht/__test__/testCasesWithUserInput";
 import { testCasesWithUserInputKlagenErstellen } from "../klage-erstellen/__test__/testCasesWithUserInput";
+import { testCasesWithUserInputKlagenErstellenProzessfuehrung } from "../klage-erstellen/prozessfuehrung/__test__/testCasesWithUserInput";
 
 export const geldEinklagenFormularTestCases = {
   xstateConfig: geldEinklagenFormular.config,
@@ -33,6 +34,7 @@ export const geldEinklagenFormularTestCases = {
     ...testCasesWithUserInputGerichtSuchenEdgeCases,
     ...testCasesWithUserInputZustaendigesGericht,
     ...testCasesWithUserInputKlagenErstellen,
+    ...testCasesWithUserInputKlagenErstellenProzessfuehrung,
   },
 } satisfies FlowTestConfig<
   GeldEinklagenFormularUserData,
