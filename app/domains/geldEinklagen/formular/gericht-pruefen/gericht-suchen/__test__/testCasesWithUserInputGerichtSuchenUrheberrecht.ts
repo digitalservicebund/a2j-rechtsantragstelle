@@ -59,7 +59,7 @@ export const testCasesWithUserInputGerichtSuchenUrheberrecht: FlowTestCases<Geld
         stepId: "/gericht-pruefen/zustaendiges-gericht/pilot-gericht",
       },
     ],
-    gerichtSuchenUrheberrechtKlagenKaufmannYesBeklagtePersonGeldVerdienenNo: [
+    gerichtSuchenUrheberrechtKlagenKaufmannYesBeklagtePersonGeldVerdienenYes: [
       {
         stepId: "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
         userInput: {
