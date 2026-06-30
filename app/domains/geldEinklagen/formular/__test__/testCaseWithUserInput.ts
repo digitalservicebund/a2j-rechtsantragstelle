@@ -6,6 +6,13 @@ import { testCasesWithUserInputIntroForderung } from "../gericht-pruefen/__test_
 import { testCasesWithUserInputSachgebiet } from "../gericht-pruefen/sachgebiet/__test__/testCasesWithUserInput";
 import { testCasesWithUserInputKlagendePerson } from "../gericht-pruefen/klagendePerson/__test__/testCasesWithUserInput";
 import { testCasesWithUserInputBeklagtePerson } from "../gericht-pruefen/beklagtePerson/__test__/testCasesWithUserInput";
+import { testCasesWithUserInputGerichtSuchenMiete } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenMiete";
+import { testCasesWithUserInputGerichtSuchenSchaden } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenSchaden";
+import { testCasesWithUserInputGerichtSuchenVersicherung } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenVersicherung";
+import { testCasesWithUserInputGerichtSuchenVerkehrsunfall } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenVerkehrsunfall";
+import { testCasesWithUserInputGerichtSuchenUrheberrecht } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenUrheberrecht";
+import { testCasesWithUserInputGerichtSuchenReisenAnderesRechtsproblem } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenReisenAnderesRechtsproblem";
+import { testCasesWithUserInputGerichtSuchenEdgeCases } from "../gericht-pruefen/gericht-suchen/__test__/testCasesWithUserInputGerichtSuchenEdgeCasesZipCode";
 
 export const geldEinklagenFormularTestCases = {
   xstateConfig: geldEinklagenFormular.config,
@@ -15,6 +22,13 @@ export const geldEinklagenFormularTestCases = {
     ...testCasesWithUserInputSachgebiet,
     ...testCasesWithUserInputKlagendePerson,
     ...testCasesWithUserInputBeklagtePerson,
+    ...testCasesWithUserInputGerichtSuchenMiete,
+    ...testCasesWithUserInputGerichtSuchenSchaden,
+    ...testCasesWithUserInputGerichtSuchenVersicherung,
+    ...testCasesWithUserInputGerichtSuchenVerkehrsunfall,
+    ...testCasesWithUserInputGerichtSuchenUrheberrecht,
+    ...testCasesWithUserInputGerichtSuchenReisenAnderesRechtsproblem,
+    ...testCasesWithUserInputGerichtSuchenEdgeCases,
   },
 } satisfies FlowTestConfig<
   GeldEinklagenFormularUserData,
