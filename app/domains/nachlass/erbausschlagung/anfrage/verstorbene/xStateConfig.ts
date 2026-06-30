@@ -2,6 +2,7 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
@@ -50,7 +51,10 @@ export const verstorbeneXStateConfig = {
             guard: ({ context }) => context.livedInNursingHome === "yes",
             target: stepIds.pflegeheimPLZ.relative,
           },
-          stepIds.hospiz.relative,
+          {
+            guard: ({ context }) => context.livedInNursingHome === "no",
+            target: stepIds.hospiz.relative,
+          },
         ],
       },
     },
@@ -62,26 +66,38 @@ export const verstorbeneXStateConfig = {
             guard: ({ context }) => context.livedInHospice === "yes",
             target: stepIds.plzBeforeHospiz.relative,
           },
-          stepIds.verstorbenePlz.relative,
+          {
+            guard: ({ context }) => context.livedInHospice === "no",
+            target: stepIds.verstorbenePlz.relative,
+          },
         ],
       },
     },
     [stepIds.plzBeforeHospiz.relative]: {
       on: {
         BACK: stepIds.hospiz.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzBeforeHospiz !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.pflegeheimPLZ.relative]: {
       on: {
         BACK: stepIds.pflegeheim.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzPflegeheim !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.verstorbenePlz.relative]: {
       on: {
         BACK: stepIds.hospiz.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzVerstorbene !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.verstorbeneAdresse.relative]: {
@@ -97,13 +113,31 @@ export const verstorbeneXStateConfig = {
           },
           stepIds.verstorbenePlz.relative,
         ],
-        SUBMIT: stepIds.awarenessDate.absolute,
+        SUBMIT: {
+          guard: ({ context }) =>
+            objectKeysNonEmpty(context, [
+              "verstorbeneAdresseStrasse",
+              "verstorbeneAdresseHausnummer",
+              "verstorbeneAdresseOrt",
+            ]),
+          target: stepIds.awarenessDate.absolute,
+        },
       },
     },
     [stepIds.verstorbeneAuslaendischeAdresse.relative]: {
       on: {
         BACK: stepIds.verstorbeneLebensmittelpunkt.relative,
-        SUBMIT: stepIds.awarenessDate.absolute,
+        SUBMIT: {
+          guard: ({ context }) =>
+            objectKeysNonEmpty(context, [
+              "verstorbeneAuslaendischeAdresseStrasse",
+              "verstorbeneAuslaendischeAdresseHausnummer",
+              "verstorbeneAuslaendischeAdressePLZ",
+              "verstorbeneAuslaendischeAdresseOrt",
+              "verstorbeneAuslaendischeAdresseLand",
+            ]),
+          target: stepIds.awarenessDate.absolute,
+        },
       },
     },
   },
