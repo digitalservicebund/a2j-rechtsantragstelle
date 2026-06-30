@@ -52,16 +52,14 @@ const buildFullUserInput = <T extends UserData>(
       if (lastIndex === undefined) return merged;
 
       // Transform array fields like `field[index]` into nested structure `field: [index: value]`
-    // When adding an array item, increment the last array index or start with 0
-    if (step.addArrayItemEvent) {
-      merged.pageData = {
-        ...merged.pageData,
-        arrayIndexes: merged.pageData?.arrayIndexes
-          ? [merged.pageData.arrayIndexes.at(-1)! + 1]
-          : [0],
-      };
-      return merged;
+      const resolvedArraysFromKeys = resolveArraysFromKeys(
+        { ...step.userInput },
+        [lastIndex],
+      );
+      merged = merge(merged, resolvedArraysFromKeys);
     }
+    return merged;
+  }, {});
 };
 
 function testPageSchema<T extends UserData>(
