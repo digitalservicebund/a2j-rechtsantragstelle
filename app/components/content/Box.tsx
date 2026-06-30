@@ -9,6 +9,7 @@ import RichText, { type RichTextProps } from "~/components/common/RichText";
 import BoxItem, { type BoxItemProps } from "./BoxItem";
 
 type BoxProps = {
+  id?: number;
   identifier?: string;
   label?: LabelProps;
   heading?: HeadingProps;
@@ -20,6 +21,7 @@ type BoxProps = {
 };
 
 const Box = ({
+  id,
   identifier,
   label,
   heading,
@@ -29,7 +31,9 @@ const Box = ({
   image,
   items,
 }: BoxProps) => {
-  const labelElementId = label ? "box-label" : undefined;
+  const labelElementId = label
+    ? `box-label-${identifier?.toLowerCase() ?? id}`
+    : undefined;
 
   const contentBlock = (
     <div className="flex flex-col">
