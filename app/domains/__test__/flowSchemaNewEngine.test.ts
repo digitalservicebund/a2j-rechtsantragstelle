@@ -175,6 +175,7 @@ function runTestcases<T extends UserData>(
 describe("flowSchemasNewEngine", { concurrent: false }, () => {
   Object.entries(flowSchemaTests).forEach(
     ([testConfigName, { xstateConfig, testcases, newEngineConfig }]) => {
+      //TODO: Add later the flowId in the Testcase type, so we don't depend of the xstateConfig.id here. This is a temporary solution to get the flowId for the testcases.
       const flowId = xstateConfig.id!;
 
       if (newEngineConfig === undefined) {
