@@ -41,6 +41,7 @@ const buildFullUserInput = <T extends UserData>(
     // When adding an array item, increment the last array index or start with 0
     if (step.addArrayItemEvent) {
       merged.pageData = {
+        ...merged.pageData,
         arrayIndexes: merged.pageData?.arrayIndexes
           ? [merged.pageData?.arrayIndexes.at(-1)! + 1]
           : [0],
@@ -85,7 +86,7 @@ function testPageSchema<T extends UserData>(
   }
 }
 
-function testXstateArrayLinkages(
+function testArrayLinkPages(
   flowSessionEngine: FlowSession<PageConfigMap>,
   stepId: string,
   nextStepId: string,
@@ -161,7 +162,7 @@ function runTestcases<T extends UserData>(
           const nextStepId = expectedSteps[idx + 1]?.stepId;
 
           if (isAddingArrayItem) {
-            testXstateArrayLinkages(
+            testArrayLinkPages(
               flowSessionEngine,
               stepId,
               nextStepId,
