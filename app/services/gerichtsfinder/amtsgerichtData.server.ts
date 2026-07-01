@@ -51,8 +51,7 @@ export const courtForPlz = (
   angelegenheitInfo: AngelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,
 ) => {
   const plzDb = getCourtData()["JMTD14_VT_ERWERBER_PLZORTK_DATA_TABLE.json"] as
-    | PlzOrtkFile
-    | undefined;
+    PlzOrtkFile | undefined;
   if (!PLZ || !plzDb || !(PLZ in plzDb)) return undefined;
   return plzDb[PLZ].find(
     (court) => court.ANGELEGENHEIT_INFO === angelegenheitInfo,
