@@ -113,9 +113,6 @@ export default function SideNavMobile({
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
-  const focusFirstItem = (event: React.ToggleEvent<HTMLDetailsElement>) =>
-    event.currentTarget.open && firstItemRef.current?.focus();
-
   useEffect(() => {
     initializeKeyDownListeners(summaryRef, keyDownSelector);
   });
@@ -124,7 +121,6 @@ export default function SideNavMobile({
     <details
       className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
-      onToggle={focusFirstItem}
     >
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
