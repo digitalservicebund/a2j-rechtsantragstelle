@@ -127,7 +127,7 @@
     "follow-redirects": "^1.16.0",
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^29.1.1",
-    "knip": "^6.21.0",
+    "knip": "^6.22.0",
     "lefthook": "^2.1.9",
     "license-checker-rseidelsohn": "^5.0.1",
     "oxlint": "^1.71.0",
