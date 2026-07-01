@@ -19,6 +19,14 @@ const flowSchemaTests = {
   geldEinklagenFormularTestCases,
 };
 
+type VisitedSteps = Record<
+  string,
+  {
+    visitedSteps: Set<string | undefined>;
+    newEngineConfig: CompiledFlow<PageConfigMap>;
+  }
+>;
+
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = <T extends UserData>(
   expectedSteps: Array<ExpectedStep<T>>,
@@ -102,6 +110,7 @@ function runTestcases<T extends UserData>(
   flowId: string,
   newEngineConfig: CompiledFlow<PageConfigMap>,
   expectedSteps: Array<ExpectedStep<T>>,
+  allVisitedSteps: VisitedSteps,
 ) {
   test(testName, () => {
     let [isAddingArrayItem, summaryPageStepId]: [boolean, string?] = [
@@ -167,12 +176,44 @@ function runTestcases<T extends UserData>(
               expect(flowSessionEngine.prevPath).toBe(previousStepId);
             }
           }
+
+          allVisitedSteps[flowId].visitedSteps.add(removeArrayIndex(stepId));
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndex(nextStepId),
+          );
         },
       );
   });
 }
 
 describe("flowSchemasNewEngine", { concurrent: false }, () => {
+  const allVisitedSteps: VisitedSteps = {};
+
+  afterAll(() => {
+    const missingStepsEntries = Object.entries(allVisitedSteps)
+      .map(([flowId, { newEngineConfig, visitedSteps }]) => {
+        const allPaths = Object.keys(newEngineConfig.pages).map(
+          (pageId) => newEngineConfig.pages[pageId].stepId,
+        );
+        const missingSteps = allPaths.filter((x) => !visitedSteps.has(x));
+        return [flowId, missingSteps];
+      })
+      .filter(([_, missingSteps]) => missingSteps.length > 0);
+
+    const totalMissingStepCount = missingStepsEntries.reduce(
+      (total, [_, missingSteps]) => total + missingSteps.length,
+      0,
+    );
+
+    if (totalMissingStepCount > 0) {
+      // oxlint-disable-next-line no-console
+      console.warn(
+        `Total of ${totalMissingStepCount} untested stepIds: `,
+        Object.fromEntries(missingStepsEntries),
+      );
+    }
+  });
+
   Object.entries(flowSchemaTests).forEach(
     ([testConfigName, { xstateConfig, testcases, newEngineConfig }]) => {
       //TODO: Add later the flowId in the Testcase type, so we don't depend of the xstateConfig.id here. This is a temporary solution to get the flowId for the testcases.
@@ -184,9 +225,22 @@ describe("flowSchemasNewEngine", { concurrent: false }, () => {
         );
       }
 
+      if (!allVisitedSteps[flowId]) {
+        allVisitedSteps[flowId] = {
+          visitedSteps: new Set(),
+          newEngineConfig,
+        };
+      }
+
       describe(testConfigName, () => {
         Object.entries(testcases).forEach(([testName, expectedSteps]) =>
-          runTestcases(testName, flowId, newEngineConfig, expectedSteps),
+          runTestcases(
+            testName,
+            flowId,
+            newEngineConfig,
+            expectedSteps,
+            allVisitedSteps,
+          ),
         );
       });
     },
