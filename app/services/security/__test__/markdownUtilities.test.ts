@@ -64,11 +64,11 @@ describe("parseAndSanitizeMarkdown", () => {
       );
     });
 
-    it("should keep void elements like br without throwing", () => {
-      const htmlString = "<p>Line 1<br>Line 2</p><p></p>";
+    it("should keep void elements like br or svg paths without throwing", () => {
+      const htmlString = "<p>Line 1<br>Line 2</p><svg><path /></svg><p></p>";
 
       expect(parseAndSanitizeMarkdown(htmlString)).toBe(
-        "<p>Line 1<br/>Line 2</p>",
+        "<p>Line 1<br/>Line 2</p><svg><path></path></svg>",
       );
     });
   });
