@@ -49,9 +49,7 @@ type GuardedTransition<Key, Data> = {
 };
 
 export type TransitionConfig<Key, Data> =
-  | Key
-  | null
-  | Array<GuardedTransition<Key, Data>>;
+  Key | null | Array<GuardedTransition<Key, Data>>;
 
 export type TransitionConfigMap<C extends PageConfigMap> = Record<
   NodeKey<C>,
