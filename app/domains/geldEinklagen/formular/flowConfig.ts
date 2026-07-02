@@ -14,6 +14,7 @@ import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStat
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type GeldEinklagenFormularUserData } from "./userData";
 
 const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
   Object.entries(geldEinklagenFormularPages).map(([key, pageConfig]) => [
@@ -32,6 +33,14 @@ const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
   > & {
     stepId: string;
   };
+};
+
+const isBeklagtePersonDone = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/klage-erstellen/beklagte-person"
+    ] === true
+  );
 };
 
 export const geldEinklagenFlowConfig = compileFlow({
@@ -86,8 +95,18 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "beklagtePersonOrganisation",
       },
     ],
-    beklagtePersonMenschen: "forderungGesamtbetrag",
-    beklagtePersonOrganisation: "forderungGesamtbetrag",
+    beklagtePersonMenschen: [
+      {
+        guard: (context) => isBeklagtePersonDone(context),
+        target: "forderungGesamtbetrag",
+      },
+    ],
+    beklagtePersonOrganisation: [
+      {
+        guard: (context) => isBeklagtePersonDone(context),
+        target: "forderungGesamtbetrag",
+      },
+    ],
     forderungGesamtbetrag: [
       {
         guard: (context) =>

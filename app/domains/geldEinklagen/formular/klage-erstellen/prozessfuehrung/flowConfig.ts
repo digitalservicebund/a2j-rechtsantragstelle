@@ -1,5 +1,14 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenKlageErstellenPages } from "../pages";
+import { type GeldEinklagenFormularUserData } from "../../userData";
+
+const hasFilledProzessfuehrung = (context: GeldEinklagenFormularUserData) => {
+  return (
+    context.pageData?.subflowDoneStates?.[
+      "/klage-erstellen/prozessfuehrung"
+    ] === true
+  );
+};
 
 export const klageErstellenProzessfuehrungFlowConfig = {
   prozessfuehrungAnwaltskosten: "prozessfuehrungProzesszinsen",
@@ -20,6 +29,10 @@ export const klageErstellenProzessfuehrungFlowConfig = {
   prozessfuehrungVideoVerhandlung: "prozessfuehrungVersaeumnisurteil",
   prozessfuehrungVersaeumnisurteil:
     "prozessfuehrungZahlungNachKlageeinreichung",
-  prozessfuehrungZahlungNachKlageeinreichung:
-    "rechtlicherZusatzWeitereAntraege",
+  prozessfuehrungZahlungNachKlageeinreichung: [
+    {
+      guard: (context) => hasFilledProzessfuehrung(context),
+      target: "rechtlicherZusatzWeitereAntraege",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenKlageErstellenPages>>;
