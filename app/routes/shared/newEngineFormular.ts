@@ -22,8 +22,19 @@ import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDes
 import { type SummaryItem } from "~/services/summary/types";
 import { generateUserDataToSave } from "~/services/flow/userFlowAction/generateUserDataToSave";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { config } from "~/services/env/public";
+import { loader as loaderFormular, action as actionFormular } from "./formular";
 
-export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
+  if (
+    config().ENVIRONMENT === "production" ||
+    config().ENVIRONMENT === "preview"
+  ) {
+    return await loaderFormular(args);
+  }
+
+  const { params, request, url } = args;
+
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 
   if (resultUserAndFlow.isErr) {
@@ -81,7 +92,16 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request, url }: ActionFunctionArgs) => {
+export const action = async (args: ActionFunctionArgs) => {
+  if (
+    config().ENVIRONMENT === "production" ||
+    config().ENVIRONMENT === "preview"
+  ) {
+    return await actionFormular(args);
+  }
+
+  const { request, url } = args;
+
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
