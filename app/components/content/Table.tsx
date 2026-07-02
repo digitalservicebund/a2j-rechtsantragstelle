@@ -30,9 +30,9 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
 
   return (
     <GridItem
-      mdColumn={{ start: 1, span: 9 }}
-      lgColumn={{ start: 3, span: 9 }}
-      xlColumn={{ start: 3, span: 9 }}
+      mdColumn={{ start: 1, span: 8 }}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
       className="flex flex-col gap-kern-space-default"
     >
       {heading && (
@@ -41,12 +41,12 @@ const Table = ({ heading, title, description, columns, rows }: TableProps) => {
 
       {description && <RichText className="kern-text" html={description} />}
 
+      {title && (
+        <caption className="kern-title kern-heading-medium flex justify-start">
+          {title}
+        </caption>
+      )}
       <table className="kern-table">
-        {title && (
-          <caption className="kern-title kern-heading-medium flex justify-start">
-            {title}
-          </caption>
-        )}
         {columns.length > 0 && (
           <thead className="kern-table__head">
             <tr className="kern-table__row">
