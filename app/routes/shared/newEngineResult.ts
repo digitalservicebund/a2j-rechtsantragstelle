@@ -13,8 +13,19 @@ import {
 } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { ResultPage as default } from "./components/ResultPage";
+import { loader as loaderResult } from "./result";
+import { config } from "~/services/env/public";
 
-export const loader = async ({ request, url }: LoaderFunctionArgs) => {
+export const loader = async (args: LoaderFunctionArgs) => {
+  if (
+    config().ENVIRONMENT === "production" ||
+    config().ENVIRONMENT === "preview"
+  ) {
+    return await loaderResult(args);
+  }
+
+  const { request, url } = args;
+
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 
   if (resultUserAndFlow.isErr) {
