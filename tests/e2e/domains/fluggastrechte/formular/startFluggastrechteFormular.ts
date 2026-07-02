@@ -48,10 +48,8 @@ export async function startFluggastrechteFormular(
 
   // /fluggastrechte/formular/flugdaten/adresse-fluggesellschaft
   await page.waitForSelector("[data-testid=input-fluggesellschaft-loaded]");
-  await formular.fillInput(
-    "fluggesellschaftStrasseHausnummer",
-    "Musterstraße 1",
-  );
+  await formular.fillInput("fluggesellschaftStrasse", "Musterstraße");
+  await formular.fillInput("fluggesellschaftHausnummer", "1");
   await formular.fillInput("fluggesellschaftPostleitzahl", "12345");
   await formular.fillInput("fluggesellschaftOrt", "Musterstadt");
   await formular.fillInput("fluggesellschaftLand", "Musterland");
@@ -105,7 +103,8 @@ export async function startFluggastrechteFormular(
   await formular.fillDropdown("title", "none");
   await formular.fillInput("nachname", "Donatello");
   await formular.fillInput("vorname", "Cowabunga");
-  await formular.fillInput("strasseHausnummer", "Schildkrötenstraße 5");
+  await formular.fillInput("strasse", "Schildkrötenstraße");
+  await formular.fillInput("hausnummer", "5");
   await formular.fillInput("plz", "10119");
   await formular.fillInput("ort", "Mutant Mayhem");
   await formular.fillInput("land", "Musterland");

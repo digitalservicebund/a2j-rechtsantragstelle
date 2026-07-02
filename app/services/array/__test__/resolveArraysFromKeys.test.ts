@@ -1,4 +1,5 @@
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { resolveArrayCharacter } from "../resolveArrayCharacter";
 
 describe("resolveArraysFromKeys()", () => {
   it("should work for flat data", () => {
@@ -25,5 +26,8 @@ describe("resolveArraysFromKeys()", () => {
     expect(resolveArraysFromKeys({ "a#c": 1 }, [1])).toStrictEqual({
       a: expectedArray,
     });
+  });
+  it("throws an error if more hashes than indices", () => {
+    expect(() => resolveArrayCharacter("a#b", [])).toThrow(expect.anything());
   });
 });

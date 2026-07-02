@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [code-quality]
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -37,7 +37,7 @@ jobs:
   get-content-file:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - id: fetchLatestImageContent
         run: ./docker.sh --contentFromImage && mv content_from_image.json content.json
         continue-on-error: true
@@ -63,7 +63,7 @@ jobs:
   #     STRAPI_API: "${{ vars.STRAPI_API }}"
   #     STRAPI_ACCESS_KEY: "${{ secrets.STRAPI_ACCESS_KEY }}"
   #   steps:
-  #     - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+  #     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
   #     - uses: ./.github/actions/cached-checkout-install
   #     - run: pnpm run test:integration
 
@@ -84,7 +84,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: ./.github/actions/cached-checkout-install
       - run: ./docker.sh --build app
         env:
@@ -114,7 +114,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: docker-build
@@ -170,7 +170,7 @@ jobs:
     concurrency: deploy-preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@d13e85a7c5d6ba7cfa3db5a1a254c328a281ba35 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@753647aee2ae99081829cf103e33ca4d7a2266c4 # v1.0.0
         with:
           environment: environments/preview
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -206,7 +206,7 @@ jobs:
     concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@d13e85a7c5d6ba7cfa3db5a1a254c328a281ba35 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@753647aee2ae99081829cf103e33ca4d7a2266c4 # v1.0.0
         with:
           environment: environments/staging
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -234,7 +234,7 @@ jobs:
     concurrency: deploy-production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@d13e85a7c5d6ba7cfa3db5a1a254c328a281ba35 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@753647aee2ae99081829cf103e33ca4d7a2266c4 # v1.0.0
         with:
           environment: environments/production
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}

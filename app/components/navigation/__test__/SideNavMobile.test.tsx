@@ -78,23 +78,6 @@ describe("SideNavMobile", () => {
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
 
-  it("should focus in the first nav item when click in the menu button", async () => {
-    const { getByLabelText, container } = render(
-      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
-    );
-    const toggleElement = getByLabelText(
-      translations.navigationMobile.toggleMenu.de,
-    );
-    fireEvent.click(toggleElement);
-    const firstAnchorElement = container.querySelector(
-      `a[href="${dummyNavItems[0].destination}"]`,
-    );
-
-    await waitFor(() => {
-      expect(firstAnchorElement).toHaveFocus();
-    });
-  });
-
   it("should render the step stepper links correctly", () => {
     const { getAllByTestId } = render(
       <SideNavMobile
@@ -180,6 +163,23 @@ describe("SideNavMobile", () => {
 
     await waitFor(() => {
       expect(summaryElement).toHaveFocus();
+    });
+  });
+
+  it("should focus in the last link after reverse-tabbing from the summary", async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const summaryElement = getByTestId("side-nav-summary");
+    //Open toggle
+    fireEvent.click(summaryElement);
+
+    const lastAnchorElement = getAllByTestId("nav-item-link")[2];
+
+    fireEvent.keyDown(summaryElement, { key: "Tab", shiftKey: true });
+
+    await waitFor(() => {
+      expect(lastAnchorElement).toHaveFocus();
     });
   });
 

@@ -21,13 +21,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultFormData.error.message, { status: 422 });
   }
 
-  const { arrayName, index, flowId, pathname } = resultFormData.value;
+  const { arrayName, index, flowId, pathname, arrayIndexes } =
+    resultFormData.value;
 
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
 
-  const resultDeletion = deleteArrayItem(arrayName, index, flowSession);
+  const resultDeletion = deleteArrayItem(
+    arrayName,
+    index,
+    flowSession,
+    arrayIndexes,
+  );
   if (resultDeletion.isErr) {
     return new Response(resultDeletion.error.message, { status: 422 });
   }

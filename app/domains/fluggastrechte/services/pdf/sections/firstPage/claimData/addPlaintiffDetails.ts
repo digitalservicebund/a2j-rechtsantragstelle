@@ -16,7 +16,8 @@ export const addPlaintiffDetails = (
     title,
     vorname,
     nachname,
-    strasseHausnummer,
+    strasse,
+    hausnummer,
     telefonnummer,
     plz,
     ort,
@@ -24,7 +25,7 @@ export const addPlaintiffDetails = (
   }: FluggastrechteUserData,
 ) => {
   const plaintiffName = getFullPlaintiffName(anrede, title, vorname, nachname);
-  const address = strasseHausnummer ?? "";
+  const address = [strasse, hausnummer].filter(Boolean).join(" ");
   const phoneNumber = telefonnummer ?? "";
   const zipCode = plz ?? "";
   const city = ort ?? "";

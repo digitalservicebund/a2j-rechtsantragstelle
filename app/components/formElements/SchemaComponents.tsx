@@ -62,7 +62,12 @@ export const SchemaComponents = ({
         );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
+          return renderFieldSet(
+            fieldName,
+            fieldSetGroup,
+            readOnlyFieldNames,
+            pageSchema,
+          );
         }
 
         const matchingElement = formComponents

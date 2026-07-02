@@ -25,6 +25,7 @@ export type HeadingProps = {
   size?: keyof typeof SIZES_MAP_HEADING | keyof typeof SIZES_MAP_LABEL;
   managedByParent?: boolean;
   type?: "heading" | "label";
+  ariaDescribedby?: string;
 };
 
 const Heading = ({
@@ -36,6 +37,7 @@ const Heading = ({
   elementId,
   size,
   type = "heading",
+  ariaDescribedby,
 }: HeadingProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
@@ -60,6 +62,7 @@ const Heading = ({
           className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
           tabIndex={tabIndex}
           id={elementId}
+          aria-describedby={ariaDescribedby}
         >
           {text}
         </Tag>
@@ -68,9 +71,10 @@ const Heading = ({
   }
   return (
     <Tag
-      className={`${sizeClass} p-0! ${className ?? ""} hyphens-auto outline-none`}
+      className={`${sizeClass} p-0! ${className ?? ""} outline-none`}
       tabIndex={tabIndex}
       id={elementId}
+      aria-describedby={ariaDescribedby}
     >
       {text}
     </Tag>

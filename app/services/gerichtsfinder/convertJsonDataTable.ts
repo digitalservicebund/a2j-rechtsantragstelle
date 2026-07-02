@@ -34,7 +34,11 @@ export const conversions = {
   "JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json": (object: ConversionInput) => {
     return Object.fromEntries(
       (object.JMTD14_VT_ERWERBER_GERBEH as Jmtd14VTErwerberGerbeh[])
-        .filter((entry) => entry.TYP_INFO == "Zivilgericht - Amtsgericht")
+        .filter(
+          (entry) =>
+            entry.TYP_INFO == "Zivilgericht - Amtsgericht" ||
+            entry.TYP_INFO == "Nachlassgericht",
+        )
         .map((entry) => [
           gerbehIndex({
             LKZ: entry.LKZ,

@@ -6,8 +6,7 @@ import { type ArrayConfigServer } from "~/services/array";
 export type NavigationEvent = "SUBMIT" | "BACK" | ArrayConfigServer["event"];
 
 type FlowStateMachineEvents =
-  | { type: NavigationEvent }
-  | { type: "xstate.route"; to: unknown }; // XState's built-in route event
+  { type: NavigationEvent } | { type: "xstate.route"; to: unknown }; // XState's built-in route event
 
 export type StateMachineTypes = {
   context: UserData;

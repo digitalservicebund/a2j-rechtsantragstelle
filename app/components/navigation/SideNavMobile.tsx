@@ -59,30 +59,34 @@ const StepStepperLinks = ({
   );
 };
 
-const keyDownOnLastLink = (
+const initializeKeyDownListeners = (
   summaryRef: RefObject<HTMLElement | null>,
   selector: string,
 ) => {
+  const summary = summaryRef.current;
+  const details = summary?.parentElement as HTMLDetailsElement | null;
   const links = document.querySelectorAll<HTMLAnchorElement>(selector);
-
-  if (links.length === 0) {
-    return;
-  }
 
   const lastLink = links[links.length - 1];
 
-  if (lastLink) {
-    lastLink.addEventListener("keydown", function (event: KeyboardEvent) {
-      // Only tab without shiftKey
-      if (event.key === "Tab" && !event.shiftKey) {
-        setTimeout(function () {
-          if (summaryRef.current !== null) {
-            summaryRef.current.focus();
-          }
-        }, 10);
-      }
-    });
+  if (!lastLink || summary === null || links.length === 0 || details === null) {
+    return;
   }
+
+  summary.addEventListener("keydown", function (event: KeyboardEvent) {
+    // Only trap focus when the menu is open
+    if (event.key === "Tab" && event.shiftKey && details.open) {
+      event.preventDefault();
+      lastLink.focus();
+    }
+  });
+
+  lastLink.addEventListener("keydown", function (event: KeyboardEvent) {
+    if (event.key === "Tab" && !event.shiftKey) {
+      event.preventDefault();
+      summary.focus();
+    }
+  });
 };
 
 export default function SideNavMobile({
@@ -109,18 +113,14 @@ export default function SideNavMobile({
     ? stepsStepper.some(({ state }) => state === "WarningCurrent")
     : navItems.some(({ state }) => state === "WarningCurrent");
 
-  const focusFirstItem = (event: React.ToggleEvent<HTMLDetailsElement>) =>
-    event.currentTarget.open && firstItemRef.current?.focus();
-
   useEffect(() => {
-    keyDownOnLastLink(summaryRef, keyDownSelector);
+    initializeKeyDownListeners(summaryRef, keyDownSelector);
   });
 
   return (
     <details
       className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
-      onToggle={focusFirstItem}
     >
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
@@ -134,7 +134,9 @@ export default function SideNavMobile({
         />
         <div
           className={classNames(
-            "flex bg-white h-[80px] items-center py-8! px-16! flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! forced-colors:group-focus-within/summary:border-[4px] forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "flex bg-white h-80 items-center py-8! px-16! z-10 flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! overflow-hidden forced-colors:group-focus-within/summary:border-4 forced-colors:group-focus-within/summary:border-[CanvasText]",
+            "group-focus-visible/summary:bg-white",
+            "group-focus-visible/summary:shadow-[inset_0_0_0_2px_var(--kern-color-action-on-default),inset_0_0_0_4px_var(--kern-color-action-focus-border-inside),inset_0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
             {
               "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,

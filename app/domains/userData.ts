@@ -12,9 +12,11 @@ import { type NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbaussc
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
-  [key: string]: BasicTypes | BasicTypes[] | ObjectType;
+  [key: string]: BasicTypes | BasicTypes[] | ObjectType | ArrayData;
 };
-export type ArrayData = Array<Record<string, BasicTypes | ObjectType>>;
+export type ArrayData = Array<
+  Record<string, BasicTypes | ObjectType | ArrayData>
+>;
 export type AllowedUserTypes = BasicTypes | ObjectType | ArrayData | undefined;
 
 export type SchemaObject = Record<string, z.ZodType<AllowedUserTypes>>;

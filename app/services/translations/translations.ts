@@ -40,6 +40,16 @@ export const translations = {
       de: "Ausblenden",
     },
   },
+  details: {
+    textExample: {
+      de: "Textbeispiele",
+    },
+  },
+  select: {
+    placeholder: {
+      de: "Bitte auswählen",
+    },
+  },
   iban: {
     bankIdentified: {
       de: "Bank identifiziert",

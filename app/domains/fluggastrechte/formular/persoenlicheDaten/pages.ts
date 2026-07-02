@@ -10,11 +10,12 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const persoenlicheDatenSchema = {
-  anrede: z.enum(["herr", "frau", "none"]),
-  title: z.enum(["none", "dr"]),
+  anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
+  title: schemaOrEmptyString(z.enum(["none", "dr"])),
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
-  strasseHausnummer: stringRequiredSchema,
+  strasse: stringRequiredSchema,
+  hausnummer: stringRequiredSchema,
   plz: stringRequiredSchema,
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
@@ -67,8 +68,10 @@ export const fluggastrechtePersoenlicheDatenPages = {
             weiterePersonenArraySchema.element.shape.vorname,
           "weiterePersonen#nachname":
             weiterePersonenArraySchema.element.shape.nachname,
-          "weiterePersonen#strasseHausnummer":
-            weiterePersonenArraySchema.element.shape.strasseHausnummer,
+          "weiterePersonen#strasse":
+            weiterePersonenArraySchema.element.shape.strasse,
+          "weiterePersonen#hausnummer":
+            weiterePersonenArraySchema.element.shape.hausnummer,
           "weiterePersonen#plz": weiterePersonenArraySchema.element.shape.plz,
           "weiterePersonen#ort": weiterePersonenArraySchema.element.shape.ort,
           "weiterePersonen#land": weiterePersonenArraySchema.element.shape.land,

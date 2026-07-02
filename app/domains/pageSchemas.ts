@@ -14,9 +14,11 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { nachlassErbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
+import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -32,6 +34,9 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages, // delete after migration
   "/erbschein/wegweiser": nachlassErbscheinWegweiserPages, // delete after migration
+  "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
+  "/nachlass/erbausschlagung/gericht-finden":
+    nachlassErbausschlagungGerichtFindenPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
@@ -81,6 +86,10 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const { stepId, arrayIndexes } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
+
+  if (flowId === "/nachlass/erbschein/erbfolge") {
+    return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
+  }
 
   if (arrayIndexes.length > 0) {
     // An index in the URL tells us we are on a page that belongs to an array

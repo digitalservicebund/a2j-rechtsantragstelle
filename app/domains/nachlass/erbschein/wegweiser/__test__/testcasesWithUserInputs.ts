@@ -169,7 +169,7 @@ export const nachlassErbscheinWegweiserTestCases = {
         },
       },
       {
-        stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
+        stepId: "/ergebnis/erbschein-erforderlich-verlangt",
       },
     ],
   },
