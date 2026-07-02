@@ -12,7 +12,9 @@ describe("getMetaConfigurationByStepId", () => {
   it("returns undefined if no metaConfiguration exists", () => {
     const flow = createFlow();
 
-    expect(getMetaConfigurationByStepId(flow, "/abgabe/check")).toBeUndefined();
+    const actual = getMetaConfigurationByStepId(flow, "/abgabe/check");
+
+    expect(actual).toBeUndefined();
   });
 
   it("merges parent and exact step configuration", () => {
@@ -21,7 +23,9 @@ describe("getMetaConfigurationByStepId", () => {
       "/abgabe/check": { triggerValidation: true },
     });
 
-    expect(getMetaConfigurationByStepId(flow, "/abgabe/check")).toStrictEqual({
+    const actual = getMetaConfigurationByStepId(flow, "/abgabe/check");
+
+    expect(actual).toStrictEqual({
       excludedFromValidation: false,
       triggerValidation: true,
     });
@@ -36,7 +40,9 @@ describe("getMetaConfigurationByStepId", () => {
       },
     });
 
-    expect(getMetaConfigurationByStepId(flow, "/abgabe/check2")).toStrictEqual({
+    const actual = getMetaConfigurationByStepId(flow, "/abgabe/check2");
+
+    expect(actual).toStrictEqual({
       excludedFromValidation: true,
       triggerValidation: true,
     });
@@ -48,9 +54,12 @@ describe("getMetaConfigurationByStepId", () => {
       "/abgabe/check": { triggerValidation: true },
     });
 
-    expect(
-      getMetaConfigurationByStepId(flow, "/abgabe/check/unknown-child"),
-    ).toStrictEqual({
+    const actual = getMetaConfigurationByStepId(
+      flow,
+      "/abgabe/check/unknown-child",
+    );
+
+    expect(actual).toStrictEqual({
       excludedFromValidation: false,
       triggerValidation: true,
     });
@@ -61,7 +70,9 @@ describe("getMetaConfigurationByStepId", () => {
       "/abgabe": { excludedFromValidation: false },
     });
 
-    expect(getMetaConfigurationByStepId(flow, "abgabe")).toStrictEqual({
+    const actual = getMetaConfigurationByStepId(flow, "abgabe");
+
+    expect(actual).toStrictEqual({
       excludedFromValidation: false,
     });
   });

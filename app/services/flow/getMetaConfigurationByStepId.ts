@@ -1,61 +1,65 @@
 import { type Flow } from "~/domains/flows.server";
-import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import mergeWith from "lodash/mergeWith";
 
 type FlowMetaConfiguration = NonNullable<Flow["metaConfiguration"]>[string];
 
-const metaConfigurationBooleanKeys: Array<keyof FlowMetaConfiguration> = [
-  "excludedFromValidation",
-  "triggerValidation",
-  "shouldAppearAsMenuNavigation",
-];
+const getStepHierarchyPaths = (stepId: string): string[] => {
+  const stepIdSegments = stepId.trim().split("/").filter(Boolean);
 
-const mergeMetaConfiguration = (
-  current: FlowMetaConfiguration,
-  incoming: FlowMetaConfiguration,
-): FlowMetaConfiguration => {
-  const merged: FlowMetaConfiguration = { ...current };
+  return stepIdSegments.map(
+    (_, index) => `/${stepIdSegments.slice(0, index + 1).join("/")}`,
+  );
+};
 
-  for (const key of metaConfigurationBooleanKeys) {
-    const incomingValue = incoming[key];
-    if (incomingValue === undefined) {
-      continue;
-    }
-
-    // A `true` flag should always remain enabled for descendants.
-    if (incomingValue || merged[key] !== true) {
-      merged[key] = incomingValue;
-    }
+const mergeStickyBooleanFlags = (
+  currentValue: unknown,
+  incomingValue: unknown,
+) => {
+  if (typeof currentValue === "boolean" && typeof incomingValue === "boolean") {
+    return currentValue || incomingValue;
   }
 
-  return merged;
+  return undefined;
 };
+
+const mergeMetaConfigurations = (
+  current: FlowMetaConfiguration,
+  incoming: FlowMetaConfiguration,
+): FlowMetaConfiguration =>
+  mergeWith(
+    {},
+    current,
+    incoming,
+    mergeStickyBooleanFlags,
+  ) as FlowMetaConfiguration;
 
 export const getMetaConfigurationByStepId = (
   flow: Flow,
   stepId: string,
 ): FlowMetaConfiguration | undefined => {
-  if (!objectKeysNonEmpty(flow, ["metaConfiguration"])) {
+  const flowMetaConfiguration = flow.metaConfiguration;
+  if (
+    !flowMetaConfiguration ||
+    Object.keys(flowMetaConfiguration).length === 0
+  ) {
     return undefined;
   }
 
-  const normalizedStepId = stepId.startsWith("/") ? stepId : `/${stepId}`;
-  const stepIdSegments = normalizedStepId.split("/").filter(Boolean);
+  let mergedMetaConfiguration: FlowMetaConfiguration | undefined;
 
-  const mergedMetaConfiguration = stepIdSegments.reduce<FlowMetaConfiguration>(
-    (result, _, index) => {
-      const path = `/${stepIdSegments.slice(0, index + 1).join("/")}`;
-      const metaConfiguration = flow.metaConfiguration?.[path];
+  for (const path of getStepHierarchyPaths(stepId)) {
+    const currentMetaConfiguration = flowMetaConfiguration[path];
+    if (!currentMetaConfiguration) {
+      continue;
+    }
 
-      if (!metaConfiguration) {
-        return result;
-      }
+    mergedMetaConfiguration = mergedMetaConfiguration
+      ? mergeMetaConfigurations(
+          mergedMetaConfiguration,
+          currentMetaConfiguration,
+        )
+      : { ...currentMetaConfiguration };
+  }
 
-      return mergeMetaConfiguration(result, metaConfiguration);
-    },
-    {},
-  );
-
-  return Object.keys(mergedMetaConfiguration).length > 0
-    ? mergedMetaConfiguration
-    : undefined;
+  return mergedMetaConfiguration;
 };
