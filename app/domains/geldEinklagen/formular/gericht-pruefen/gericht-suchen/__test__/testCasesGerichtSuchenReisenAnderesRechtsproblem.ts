@@ -37,7 +37,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "reisen",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
@@ -52,7 +52,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "reisen",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
@@ -79,7 +79,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "reisen",
-      klagendeVerbraucher: "no",
+      klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
@@ -95,7 +95,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "reisen",
-      klagendeVerbraucher: "no",
+      klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
@@ -124,7 +124,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "yes",
       gerichtsstandsvereinbarung: "no",
@@ -139,7 +139,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "yes",
       beklagtePersonKaufmann: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
@@ -153,7 +153,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "yes",
+      klagendeVerbraucher: "no",
       klagendeKaufmann: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },
@@ -166,7 +166,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "no",
+      klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "yes",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
@@ -182,7 +182,7 @@ export const testCasesGerichtSuchenReisenAnderesRechtsproblem = [
     {
       ...baseContext,
       sachgebiet: "anderesRechtsproblem",
-      klagendeVerbraucher: "no",
+      klagendeVerbraucher: "yes",
       klagendeVertrag: "yes",
       klagendeHaustuergeschaeft: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,

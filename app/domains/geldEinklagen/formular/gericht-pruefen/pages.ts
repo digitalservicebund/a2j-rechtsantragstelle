@@ -34,10 +34,13 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { forderung: z.enum(["maximal10000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
-    stepId: "gericht-pruefen/forderung/ergebnis/etwas-anderes",
+    stepId: "gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
   },
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
+  },
+  sachgebietAbbruch: {
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/sachgebiet-abbruch",
   },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
@@ -179,3 +182,6 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
   },
 } as const satisfies PagesConfig;
+
+export type GeldEinklagenGerichtPruefenPages =
+  typeof geldEinklagenGerichtPruefenPages;

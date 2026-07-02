@@ -14,7 +14,7 @@ describe("buildStatusTree", () => {
         gegenWen: { stepId: "/gericht-pruefen/gegen-wen" },
         kaufmann: { stepId: "/klage-erstellen/kaufmann" },
       };
-      const tree = buildStatusTree(config, simulation());
+      const tree = buildStatusTree(config, simulation(), new Set());
       expect(Object.keys(tree)).toEqual([
         "/gericht-pruefen",
         "/klage-erstellen",
@@ -29,7 +29,7 @@ describe("buildStatusTree", () => {
           stepId: "/klage-erstellen/kaufmann/ergebnis/abbruch",
         },
       };
-      const tree = buildStatusTree(config, simulation());
+      const tree = buildStatusTree(config, simulation(), new Set());
       expect(Object.keys(tree)).toEqual([
         "/klage-erstellen",
         "/gericht-pruefen",
@@ -44,7 +44,7 @@ describe("buildStatusTree", () => {
         kaufmann: { stepId: "/klage-erstellen/kaufmann/ergebnis/abbruch" },
         gegenWen: { stepId: "/gericht-pruefen/gegen-wen" },
       };
-      const tree = buildStatusTree(config, simulation());
+      const tree = buildStatusTree(config, simulation(), new Set());
       expect(Object.keys(tree)).toEqual([
         "/klage-erstellen",
         "/gericht-pruefen",
@@ -62,7 +62,7 @@ describe("buildStatusTree", () => {
           stepId: "/gericht-pruefen/postleitzahl-beklagte-person/start",
         },
       };
-      const tree = buildStatusTree(config, simulation());
+      const tree = buildStatusTree(config, simulation(), new Set());
       expect(Object.keys(tree["/gericht-pruefen"].children ?? {})).toEqual([
         "/gegen-wen",
         "/kaufmann",

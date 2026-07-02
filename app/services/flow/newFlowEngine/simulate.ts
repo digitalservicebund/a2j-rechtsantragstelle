@@ -121,12 +121,11 @@ export const simulate = <C extends PageConfigMap>(
     const route = router[current];
     const itemData = { ...currentData, pageData };
 
-    // Regular (non-array) branches — propagate the current scope unchanged.
-    for (const branch of evaluateAllBranches(route, itemData, {
-      excludeArrayTransitions: true,
-    })) {
-      if (!parentMap.has(branch)) parentMap.set(branch, current);
-      queue.push({ key: branch, pageData, scopeData, arrayPath });
+    // Regular (non-array) branches — first-match-wins.
+    const nextBranch = evaluateRoute(route, itemData);
+    if (nextBranch != null) {
+      if (!parentMap.has(nextBranch)) parentMap.set(nextBranch, current);
+      queue.push({ key: nextBranch, pageData, scopeData, arrayPath });
     }
 
     // Array branches: fan out once per item. scopeData is narrowed to the

@@ -20,11 +20,38 @@ import { getPageSchema } from "~/domains/pageSchemas";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
+import { type FlowSession } from "../newFlowEngine/createFlowSession";
+import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
+import { type PageConfigMap } from "../newFlowEngine/types";
 
 type ContentParameters = {
   cmsContent: CMSContent;
   translations: Translations;
 };
+
+function buildStepsStepperNewEngine(
+  stepStates: StepState[],
+  translations: Translations,
+  stepId: string,
+  userVisitedValidationPage: boolean | undefined,
+) {
+  return stepStates
+    .map((stepState) => ({
+      label: translations[stepState.stepId] ?? stepState.stepId,
+      href: stepState.url,
+      navItems:
+        navItemsFromStepStates(
+          stepId,
+          stepState.subStates,
+          translations,
+          userVisitedValidationPage,
+        ) ?? [],
+    }))
+    .map((stepStepper) => ({
+      ...stepStepper,
+      state: navStateStepper(stepStepper.navItems.map(({ state }) => state)),
+    }));
+}
 
 function buildStepsStepper(
   stepStates: StepState[],
@@ -108,6 +135,31 @@ export const getContentData = (
         ),
       });
     },
+    getButtonNavigationNewEngine: (
+      flowId: FlowId,
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      arrayIndexes: number[] | undefined = [],
+    ) => {
+      const buttonNavigationTranslation = translationCode.buttonNavigation;
+      const backDestination = flowSessionEngine.prevPath
+        ? flowId + flowSessionEngine.prevPath
+        : undefined;
+
+      return getButtonNavigationProps({
+        backButtonLabel:
+          cmsContent.backButtonLabel ??
+          buttonNavigationTranslation.backButtonDefaultLabel.de,
+        nextButtonLabel:
+          cmsContent.nextButtonLabel ??
+          buttonNavigationTranslation.nextButtonDefaultLabel.de,
+        isFinal: flowSessionEngine.isFinal,
+        backDestination: getBackButtonDestination(
+          backDestination,
+          pathname,
+          arrayIndexes,
+        ),
+      });
+    },
     getNavProps: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
@@ -151,6 +203,50 @@ export const getContentData = (
           state,
         })) as StepStepper[],
         expandAll,
+      };
+    },
+    getNavPropsNewEngine: (
+      flowId: FlowId,
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      useStepper: boolean,
+      stepId: string,
+    ) => {
+      const statusTree = flowSessionEngine.statusTree;
+      const stepStates = buildStepStatesFromStatusTree(
+        statusTree,
+        flowId,
+        flowSessionEngine.paths,
+      );
+
+      if (!useStepper) {
+        return {
+          navItems:
+            navItemsFromStepStates(stepId, stepStates, translations, false) ??
+            [],
+          stepsStepper: [],
+          expandAll: false,
+        };
+      }
+
+      const stepsStepper = buildStepsStepperNewEngine(
+        stepStates,
+        translations,
+        stepId,
+        false,
+      );
+
+      const currentNavItems =
+        stepsStepper.find((stepStepper) => stateIsCurrent(stepStepper.state))
+          ?.navItems ?? [];
+
+      return {
+        navItems: currentNavItems,
+        stepsStepper: stepsStepper.map(({ href, label, state }) => ({
+          label,
+          href,
+          state,
+        })) as StepStepper[],
+        expandAll: false,
       };
     },
     getAutoSummarySections: async (
