@@ -51,7 +51,10 @@ export const verstorbeneXStateConfig = {
             guard: ({ context }) => context.livedInNursingHome === "yes",
             target: stepIds.pflegeheimPLZ.relative,
           },
-          stepIds.hospiz.relative,
+          {
+            guard: ({ context }) => context.livedInNursingHome === "no",
+            target: stepIds.hospiz.relative,
+          },
         ],
       },
     },
@@ -63,26 +66,38 @@ export const verstorbeneXStateConfig = {
             guard: ({ context }) => context.livedInHospice === "yes",
             target: stepIds.plzBeforeHospiz.relative,
           },
-          stepIds.verstorbenePlz.relative,
+          {
+            guard: ({ context }) => context.livedInHospice === "no",
+            target: stepIds.verstorbenePlz.relative,
+          },
         ],
       },
     },
     [stepIds.plzBeforeHospiz.relative]: {
       on: {
         BACK: stepIds.hospiz.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzBeforeHospiz !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.pflegeheimPLZ.relative]: {
       on: {
         BACK: stepIds.pflegeheim.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzPflegeheim !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.verstorbenePlz.relative]: {
       on: {
         BACK: stepIds.hospiz.relative,
-        SUBMIT: stepIds.verstorbeneAdresse.relative,
+        SUBMIT: {
+          guard: ({ context }) => context.plzVerstorbene !== undefined,
+          target: stepIds.verstorbeneAdresse.relative,
+        },
       },
     },
     [stepIds.verstorbeneAdresse.relative]: {
@@ -98,110 +113,30 @@ export const verstorbeneXStateConfig = {
           },
           stepIds.verstorbenePlz.relative,
         ],
-        SUBMIT: stepIds.testament.relative,
+        SUBMIT: {
+          guard: ({ context }) =>
+            objectKeysNonEmpty(context, [
+              "verstorbeneAdresseStrasse",
+              "verstorbeneAdresseHausnummer",
+              "verstorbeneAdresseOrt",
+            ]),
+          target: stepIds.awarenessDate.absolute,
+        },
       },
     },
     [stepIds.verstorbeneAuslaendischeAdresse.relative]: {
       on: {
         BACK: stepIds.verstorbeneLebensmittelpunkt.relative,
-        SUBMIT: stepIds.testament.relative,
-      },
-    },
-    [stepIds.testament.relative]: {
-      on: {
-        BACK: [
-          {
-            guard: ({ context }) =>
-              context.verstorbeneLebensmittelpunkt === "ausland",
-            target: stepIds.verstorbeneAuslaendischeAdresse.relative,
-          },
-          stepIds.verstorbeneAdresse.relative,
-        ],
-        SUBMIT: [
-          {
-            guard: ({ context }) =>
-              context.testament === "none" || context.testament === "unknown",
-            target: stepIds.awarenessDate.relative,
-          },
-          stepIds.namedInTestament.relative,
-        ],
-      },
-    },
-    [stepIds.namedInTestament.relative]: {
-      on: {
-        BACK: stepIds.testament.relative,
-        SUBMIT: [
-          {
-            guard: ({ context }) => context.namedInTestament === "no",
-            target: stepIds.ausschlagungNotNecessary.relative,
-          },
-          {
-            guard: ({ context }) =>
-              context.namedInTestament === "yes" &&
-              context.testament === "handwritten",
-            target: stepIds.letterReceivedFromNachlassgericht.relative,
-          },
-          {
-            guard: ({ context }) =>
-              context.namedInTestament === "yes" &&
-              (context.testament === "notarized" ||
-                context.testament === "erbvertrag"),
-            target: stepIds.letterReceivedFromCourt.relative,
-          },
-        ],
-      },
-    },
-    [stepIds.letterReceivedFromNachlassgericht.relative]: {
-      on: {
-        BACK: stepIds.namedInTestament.relative,
-        SUBMIT: [
-          {
-            guard: ({ context }) =>
-              context.letterReceivedFromNachlassgericht === "no",
-            target: stepIds.awarenessDate.relative,
-          },
-          stepIds.letterReceivedFromCourt.relative,
-        ],
-      },
-    },
-    [stepIds.letterReceivedFromCourt.relative]: {
-      on: {
-        BACK: [
-          {
-            guard: ({ context }) =>
-              context.letterReceivedFromNachlassgericht === "yes",
-            target: stepIds.letterReceivedFromNachlassgericht.relative,
-          },
-          stepIds.namedInTestament.relative,
-        ],
         SUBMIT: {
           guard: ({ context }) =>
-            objectKeysNonEmpty(context.dateOfReceipt, ["day", "month", "year"]),
-          target: stepIds.ausschlagendePersonName.absolute,
-        },
-      },
-    },
-    [stepIds.ausschlagungNotNecessary.relative]: {
-      on: {
-        BACK: stepIds.namedInTestament.relative,
-      },
-    },
-    [stepIds.awarenessDate.relative]: {
-      on: {
-        BACK: [
-          {
-            guard: ({ context }) =>
-              context.testament === "handwritten" &&
-              context.namedInTestament === "yes" &&
-              context.letterReceivedFromNachlassgericht === "no",
-            target: stepIds.letterReceivedFromNachlassgericht.relative,
-          },
-          stepIds.testament.relative,
-        ],
-        SUBMIT: {
-          guard: ({ context }) =>
-            objectKeysNonEmpty(context.awarenessDate, ["day", "month", "year"]),
-          target: stepIds.ausschlagendePersonName.absolute,
+            objectKeysNonEmpty(context, [
+              "verstorbeneAuslaendischeAdresseStrasse",
+              "verstorbeneAuslaendischeAdresseHausnummer",
+              "verstorbeneAuslaendischeAdressePLZ",
+              "verstorbeneAuslaendischeAdresseOrt",
+              "verstorbeneAuslaendischeAdresseLand",
+            ]),
+          target: stepIds.awarenessDate.absolute,
         },
       },
     },

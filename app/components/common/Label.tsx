@@ -7,7 +7,6 @@ export type LabelProps = {
   tabIndex?: number;
   elementId?: string;
   className?: string;
-  ariaDescribedby?: string;
 };
 
 const Label = ({
@@ -16,7 +15,6 @@ const Label = ({
   tabIndex,
   elementId,
   className,
-  ariaDescribedby,
 }: LabelProps) => {
   if (!text || text?.trim() === "") return null;
   const Tag = tagName;
@@ -26,7 +24,6 @@ const Label = ({
       className={classNames("kern-label p-0!", className)}
       tabIndex={tabIndex}
       id={elementId}
-      aria-describedby={ariaDescribedby}
     >
       {text}
     </Tag>

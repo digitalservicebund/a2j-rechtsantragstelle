@@ -2,9 +2,9 @@ import { parseFormData } from "@remix-run/form-data-parser";
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { data, redirectDocument } from "react-router";
-import { retrieveContentData } from "~/services/flow/formular/contentData/retrieveContentData";
-import { setUserVisitedValidationPage } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
-import { isFileUploadOrDeleteAction } from "~/services/flow/formular/fileUpload/isFileUploadOrDeleteAction";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
+import { setUserVisitedValidationPage } from "~/services/flow/server/setUserVisitedValidationPage";
+import { isFileUploadOrDeleteAction } from "~/components/formElements/inputs/filesUpload/isFileUploadOrDeleteAction";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -25,8 +25,8 @@ import { buildFlowController } from "~/services/flow/server/buildFlowController"
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request);
+export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -46,11 +46,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     emailCaptureConsent,
   } = resultUserAndFlow.value;
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const [contentData] = await Promise.all([
-    retrieveContentData(pathname, params, userData, migration.userData),
+    retrieveContentData(
+      "form-flow-pages",
+      pathname,
+      params,
+      userData,
+      migration.userData,
+    ),
     setUserVisitedValidationPage(
       flowController.getMeta(stepId)?.triggerValidation,
       flowId,
@@ -66,7 +72,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     userVisitedValidationPage,
   );
   const cmsContent = contentData.getCMSContent();
-  const formElements = contentData.getFormElements();
+  const formElements = contentData.getFormElements(flowId);
   const arraySummaryData = contentData.arraySummaryData(flowController);
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigation(
@@ -97,14 +103,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   });
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, url }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
   if (resultValidatedSession.isErr) {
     logWarning(resultValidatedSession.error);
     throw new Response(null, { status: 403 });
   }
 
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
@@ -184,7 +190,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   );
   const { prunedData } = pruneIrrelevantData(userDataToSave, flowId);
 
-  await postValidationFlowAction(request, prunedData, flowSession);
+  await postValidationFlowAction(request, prunedData, flowSession, url);
 
   const headers = await commitSession(flowSession);
   const destination = flowDestination(pathname, prunedData);

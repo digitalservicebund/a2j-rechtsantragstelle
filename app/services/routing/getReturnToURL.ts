@@ -3,10 +3,11 @@ import type { Session } from "react-router";
 type GetBackURLSchema = {
   request: Request;
   session: Session;
+  url: URL;
 };
 
-export const getReturnToURL = ({ request, session }: GetBackURLSchema) => {
-  const { searchParams, pathname: currentPath } = new URL(request.url);
+export const getReturnToURL = ({ request, session, url }: GetBackURLSchema) => {
+  const { searchParams, pathname: currentPath } = url;
   const referer = request.headers.get("Referer");
 
   if (searchParams.get("returnToHere") !== null && referer) {
@@ -14,6 +15,6 @@ export const getReturnToURL = ({ request, session }: GetBackURLSchema) => {
     const { pathname: refererPath } = new URL(referer);
     session.set(currentPath, refererPath);
   }
-  const url = session.get(currentPath) as string | undefined;
-  return { url, session };
+  const currentUrl = session.get(currentPath) as string | undefined;
+  return { url: currentUrl, session };
 };

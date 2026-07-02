@@ -1,4 +1,5 @@
-allowBuilds: # https://pnpm.io/settings#allowbuilds
+allowBuilds:
+  # https://pnpm.io/settings#allowbuilds
   esbuild: true
   lefthook: true
   unrs-resolver: true
@@ -8,6 +9,8 @@ allowBuilds: # https://pnpm.io/settings#allowbuilds
   "@node-saml/node-saml": true
   xml-crypto: true
   protobufjs: false
+  "@node-saml/node-saml@https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916": true
+  xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101: true
 
 overrides:
   qs@<6.14.1: ">=6.14.1"

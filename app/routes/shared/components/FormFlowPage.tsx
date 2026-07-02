@@ -73,14 +73,6 @@ export function FormFlowPage() {
               </FlowNavigation>
             </div>
           </GridItem>
-          <div className="lg:hidden md:col-span-8 ">
-            <FlowNavigation>
-              <SideNavMobile
-                navItems={navigationProps.navItems}
-                stepsStepper={navigationProps.stepsStepper}
-              />
-            </FlowNavigation>
-          </div>
           <GridItem
             mdColumn={{ start: 1, span: 8 }}
             lgColumn={{ start: 5, span: 7 }}
@@ -167,6 +159,14 @@ export function FormFlowPage() {
               <ReportProblem />
             </GridItem>
           )}
+          <div className="lg:hidden md:col-span-8 ">
+            <FlowNavigation>
+              <SideNavMobile
+                navItems={navigationProps.navItems}
+                stepsStepper={navigationProps.stepsStepper}
+              />
+            </FlowNavigation>
+          </div>
         </Grid>
       </GridSection>
     </FormFlowContext.Provider>

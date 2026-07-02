@@ -9,7 +9,7 @@ import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/pdf/geldEinklagenPdfFromUserdata";
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
-import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/erbausschlagung/anfrage/services/pdf/erbausschlagungAnfragePdfFromUserdata";
+import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagungAnfragePdfFromUserdata";
 import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
@@ -86,8 +86,8 @@ const pdfConfigs = {
   },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { pathname } = new URL(request.url);
+export async function loader({ request, url }: LoaderFunctionArgs) {
+  const { pathname } = url;
   const { flowId } = parsePathname(pathname);
   if (!(flowId in pdfConfigs))
     return new Response(`No pdf config for flowId: ${flowId}`, { status: 501 });

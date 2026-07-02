@@ -16,14 +16,17 @@ export function getStrapiDropdownComponent(
         {
           text: "Option 1",
           value: "option1",
+          preSelected: false,
         },
         {
           text: "Option 2",
           value: "option2",
+          preSelected: false,
         },
         {
           text: "Option 3",
           value: "option3",
+          preSelected: false,
         },
       ],
       errorMessages: [errorCode],

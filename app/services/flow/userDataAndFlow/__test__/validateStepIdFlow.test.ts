@@ -7,6 +7,10 @@ const mockRequest = new Request(
   "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg",
 );
 
+const mockURL = new URL(
+  "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg",
+);
+
 const INITIAL_PAGE_FLOW = "ergebnis/initial";
 
 const getMockFlowController = (isReachable: boolean) => {
@@ -30,6 +34,7 @@ describe("validateStepIdFlow", () => {
       mockRequest,
       mockFlowController,
       currentFlow,
+      mockURL,
     );
 
     expect(result.isErr).toBe(true);
@@ -61,6 +66,7 @@ describe("validateStepIdFlow", () => {
       mockRequest,
       mockFlowController,
       currentFlowNotEligible,
+      mockURL,
     );
 
     expect(result.isErr).toBe(true);
@@ -77,6 +83,7 @@ describe("validateStepIdFlow", () => {
       mockRequest,
       mockFlowController,
       currentFlow,
+      mockURL,
     );
 
     expect(result.isOk).toBe(true);

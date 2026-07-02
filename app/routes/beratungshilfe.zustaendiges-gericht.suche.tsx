@@ -20,11 +20,12 @@ import { ReportProblem } from "~/components/content/reportProblem/ReportProblem"
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request, url }: LoaderFunctionArgs) {
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await sessionManager.getSession(request.headers.get("Cookie")),
+    url,
   });
 
   return data(
@@ -43,14 +44,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request, url }: ActionFunctionArgs) {
   const serverSchema = clientSchema.refine(
     (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
     { path: ["postcode"], message: "notFound" },
   );
   const result = await parseFormData(await request.formData(), serverSchema);
   if (result.error) return validationError(result.error, result.submittedData);
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
   return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);
 }

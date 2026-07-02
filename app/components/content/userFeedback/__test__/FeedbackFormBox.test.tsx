@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { FeedbackFormBox, FEEDBACK_FIELD_NAME } from "../FeedbackFormBox";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";

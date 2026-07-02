@@ -2,85 +2,19 @@ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
-import { type GenericGuard } from "~/domains/guards.server";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
-import { toDate } from "~/services/validation/dateObject";
-import { addYears, today } from "~/util/date";
+import {
+  getOptionSorgerecht,
+  hasKinderSorgerechtSameAddressNo,
+  isKinderAbove18YearsOld,
+  isKinderUebersichtFilled,
+  isKinderWohnortBeiAntragstellerYes,
+  kinderNotFilled,
+  shouldBackSorgerechtAddress,
+} from "./guards";
 
 const stepIds = xStateTargetsFromPagesConfig(
   nachlassErbausschlagungAnfragePages,
 );
-
-type NachlassErbausschlagungAnfrageDaten =
-  GenericGuard<NachlassErbausschlagungAnfrageUserData>;
-
-const isKinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    const kinderWohnortBeiAntragsteller =
-      kinder?.at(arrayIndex)?.wohnortBeiAntragsteller;
-    return kinderWohnortBeiAntragsteller === "yes";
-  };
-
-const isKinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  const currentKid = kinder?.at(arrayIndex);
-  if (!currentKid?.geburtsdatum) return false;
-
-  const birthDate = toDate(currentKid.geburtsdatum);
-  if (Number.isNaN(birthDate.getTime())) return false;
-
-  const eighteenYearsAgo = addYears(today(), -18);
-
-  return birthDate <= eighteenYearsAgo;
-};
-
-const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
-  context: { hasKid, numberOfKids, kinder },
-}) => {
-  if (hasKid === "no" || numberOfKids === 0) {
-    return false;
-  }
-
-  return numberOfKids !== kinder?.length;
-};
-
-const hasKinderSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-  const kinderHasSorgerechtSameAddress =
-    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress;
-  return kinderHasSorgerechtSameAddress === "no";
-};
-
-const shouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten = ({
-  context: { pageData, kinder },
-}) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return false;
-
-  const optionSorgerecht = getOptionSorgerecht({ pageData, kinder });
-
-  return (
-    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
-    optionSorgerecht === "shared"
-  );
-};
-
-const getOptionSorgerecht = ({
-  pageData,
-  kinder,
-}: NachlassErbausschlagungAnfrageUserData) => {
-  const arrayIndex = firstArrayIndex(pageData);
-  if (arrayIndex === undefined) return undefined;
-  return kinder?.at(arrayIndex)?.optionSorgerecht;
-};
 
 export const kinderXStateConfig = {
   id: "kinder",
@@ -112,17 +46,21 @@ export const kinderXStateConfig = {
             target: stepIds.kinderWarnung.relative,
           },
           {
-            guard: ({ context }) =>
-              context.numberOfKids !== undefined &&
-              context.numberOfKids === context.kinder?.length,
+            guard: isKinderUebersichtFilled,
             target: stepIds.abgabeWeitereInformation.absolute,
           },
+          stepIds.kinderWarnungNichtAusgefuellt.relative,
         ],
         BACK: stepIds.kinderHowManyKids.relative,
         "add-kinder": "kinder",
       },
     },
     [stepIds.kinderWarnung.relative]: {
+      on: {
+        BACK: stepIds.kinderUebersicht.relative,
+      },
+    },
+    [stepIds.kinderWarnungNichtAusgefuellt.relative]: {
       on: {
         BACK: stepIds.kinderUebersicht.relative,
       },
@@ -150,6 +88,10 @@ export const kinderXStateConfig = {
                 guard: isKinderWohnortBeiAntragstellerYes,
                 target: "sorgerecht",
               },
+              {
+                guard: isKinderAbove18YearsOld,
+                target: "adresse-optional",
+              },
               "adresse",
             ],
             BACK: "name",
@@ -157,13 +99,13 @@ export const kinderXStateConfig = {
         },
         adresse: {
           on: {
-            SUBMIT: [
-              {
-                guard: isKinderAbove18YearsOld,
-                target: "#kinder.uebersicht",
-              },
-              "sorgerecht",
-            ],
+            SUBMIT: "sorgerecht",
+            BACK: "wohnort",
+          },
+        },
+        "adresse-optional": {
+          on: {
+            SUBMIT: "#kinder.uebersicht",
             BACK: "wohnort",
           },
         },

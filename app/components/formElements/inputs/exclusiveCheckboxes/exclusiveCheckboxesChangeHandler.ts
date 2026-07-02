@@ -16,6 +16,7 @@ export const onCheckboxChange =
     setCheckboxes: React.Dispatch<
       React.SetStateAction<Array<Omit<ExclusiveCheckboxInputProps, "onChange">>>
     >,
+    setAnnouncement: React.Dispatch<React.SetStateAction<string>>,
   ) =>
   (checkboxName: string, checked: CheckboxValue) => {
     const existingParentValues =
@@ -32,6 +33,9 @@ export const onCheckboxChange =
       setNoneCheckboxValue(checked);
       if (checked === "on") {
         setCheckboxes((prev) => prev.map((c) => c && { ...c, value: "off" }));
+        setAnnouncement(
+          `${checkboxName} aktiviert, alle anderen Optionen deaktiviert.`,
+        );
       }
       parentField.validate();
     } else {

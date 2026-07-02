@@ -63,6 +63,7 @@ describe("link loader", () => {
 
     expect(mockSendCustomAnalyticsEvent).toHaveBeenCalledWith({
       request: mockArgs.request,
+      url: expect.anything(),
       eventName: "$pageview",
     });
   });

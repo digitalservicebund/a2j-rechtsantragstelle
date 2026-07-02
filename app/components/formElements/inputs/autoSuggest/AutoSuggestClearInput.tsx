@@ -36,7 +36,7 @@ const AutoSuggestClearInput = (
       }}
       tabIndex={0}
     >
-      <Icon name="close" className="text-blue-800 forced-color-adjust-auto" />
+      <Icon name="close" className="text-blue-800" />
     </button>
   );
 };

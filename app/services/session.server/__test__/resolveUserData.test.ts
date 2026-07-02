@@ -30,6 +30,30 @@ describe("resolveUserData()", () => {
     });
   });
 
+  it("should work for depth-2 nested arrays", () => {
+    expect(
+      resolveUserData(
+        {
+          elternteile: [{ kinder: [{ name: "Child A" }, { name: "Child B" }] }],
+          pageData: { arrayIndexes: [0, 1] },
+        },
+        ["elternteile#kinder#name"],
+      ),
+    ).toStrictEqual({ "elternteile#kinder#name": "Child B" });
+  });
+
+  it("should work for depth-3 nested arrays", () => {
+    expect(
+      resolveUserData(
+        {
+          a: [{ b: [{ c: [{ d: "deep" }] }] }],
+          pageData: { arrayIndexes: [0, 0, 0] },
+        },
+        ["a#b#c#d"],
+      ),
+    ).toStrictEqual({ "a#b#c#d": "deep" });
+  });
+
   it("throws an error for invalid lookup", () => {
     expect(() => resolveUserData({ a: [{ b: 1 }] }, ["a#b"])).toThrow(
       expect.anything(),

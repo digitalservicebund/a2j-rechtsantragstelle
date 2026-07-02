@@ -102,6 +102,4 @@ export type Jmtd14VTErwerberPlzstrn = {
 };
 
 type HnrMerkmalInfo =
-  | "fortlaufende Hausnummern"
-  | "ungerade Hausnummern"
-  | "gerade Hausnummern";
+  "fortlaufende Hausnummern" | "ungerade Hausnummern" | "gerade Hausnummern";

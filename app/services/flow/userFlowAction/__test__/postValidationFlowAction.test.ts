@@ -8,6 +8,9 @@ const mockUserData = { name: "John Doe" };
 const mockRequest = new Request(
   "https://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
 );
+const mockURL = new URL(
+  "https://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+);
 const mockSession: Session = createSession();
 
 describe("postValidationFormUserData", () => {
@@ -21,7 +24,12 @@ describe("postValidationFormUserData", () => {
       stepId: "/test",
     } as unknown as ReturnType<typeof getPageAndFlowDataFromPathname>);
 
-    await postValidationFlowAction(mockRequest, mockUserData, mockSession);
+    await postValidationFlowAction(
+      mockRequest,
+      mockUserData,
+      mockSession,
+      mockURL,
+    );
 
     expect(mockAction1).toHaveBeenCalledWith(
       mockRequest,
@@ -39,7 +47,12 @@ describe("postValidationFormUserData", () => {
 
     expect(
       async () =>
-        await postValidationFlowAction(mockRequest, mockUserData, mockSession),
+        await postValidationFlowAction(
+          mockRequest,
+          mockUserData,
+          mockSession,
+          mockURL,
+        ),
     ).not.toThrow();
   });
 });

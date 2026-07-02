@@ -9,7 +9,6 @@ import classNames from "classnames";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
-
 export function VorabcheckPage() {
   const {
     stepData,
@@ -42,7 +41,7 @@ export function VorabcheckPage() {
           row={2}
           id="flow-page-content"
         >
-          <ContentComponents content={cmsContent.pre_form} managedByParent />
+          <ContentComponents content={cmsContent.content} managedByParent />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}

@@ -56,7 +56,7 @@ describe("SchemaComponents", () => {
   });
 
   it("should render textarea", () => {
-    const { getByRole } = render(
+    const { getByRole, getByText } = render(
       <WrappedSchemaComponents
         pageConfig={{ pageSchema: { field1: z.string() } }}
         readOnlyFieldNames={[]}
@@ -64,6 +64,8 @@ describe("SchemaComponents", () => {
           {
             __component: "form-elements.textarea",
             id: 10,
+            label: "Textarea label",
+            suffix: " - Optional",
             name: "field1",
             errorMessages: [],
           },
@@ -72,6 +74,8 @@ describe("SchemaComponents", () => {
     );
     const textArea = getByRole("textbox");
     expect(textArea).toHaveAttribute("name", "field1");
+    expect(getByText("Textarea label")).toBeInTheDocument();
+    expect(getByText("- Optional")).toBeInTheDocument();
   });
 
   it("should render correct radio buttons", () => {
@@ -315,6 +319,16 @@ describe("SchemaComponents", () => {
             {
               name: "field2",
               label: "Zeit geplanter Abflug (z.B. 09:08)",
+              placeholder: undefined,
+              type: "text",
+              width: "10",
+              errorMessages: [],
+              id: 40,
+              __component: "form-elements.input",
+            },
+            {
+              name: "field3",
+              label: "Field that doesn't exist in the pageSchema",
               placeholder: undefined,
               type: "text",
               width: "10",

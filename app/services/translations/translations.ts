@@ -40,6 +40,16 @@ export const translations = {
       de: "Ausblenden",
     },
   },
+  details: {
+    textExample: {
+      de: "Textbeispiele",
+    },
+  },
+  select: {
+    placeholder: {
+      de: "Bitte auswählen",
+    },
+  },
   iban: {
     bankIdentified: {
       de: "Bank identifiziert",
@@ -118,16 +128,19 @@ export const translations = {
       de: "Vorschlau für Gebärdensprache",
     },
     "video-aktivieren": {
-      de: "Aktivieren",
+      de: "Zustimmen",
     },
     "datenschutz-header": {
-      de: "Aktivierung erforderlich!",
+      de: "Zustimmung für externen Inhalt erforderlich",
     },
     datenschutz: {
+      de: "An dieser Stelle ist ein externer Inhalt eingebunden. Wir benötigen Ihre Zustimmung, damit Sie diesen anschauen können.",
+    },
+    zustimmung: {
       de: "Wir weisen Sie darauf hin, dass nach der Aktivierung Daten an Dritte übermittelt werden.",
     },
     "datenschutz-link": {
-      de: "Link zum Datenschutz",
+      de: "Datenschutzerklärung",
     },
   },
   pageHeader: {

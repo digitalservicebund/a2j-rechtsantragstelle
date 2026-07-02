@@ -9,6 +9,7 @@ import RichText, { type RichTextProps } from "~/components/common/RichText";
 import BoxItem, { type BoxItemProps } from "./BoxItem";
 
 type BoxProps = {
+  id?: number;
   identifier?: string;
   label?: LabelProps;
   heading?: HeadingProps;
@@ -20,6 +21,7 @@ type BoxProps = {
 };
 
 const Box = ({
+  id,
   identifier,
   label,
   heading,
@@ -29,36 +31,34 @@ const Box = ({
   image,
   items,
 }: BoxProps) => {
-  const getLabelDescriptor = () => {
-    if (heading) {
-      return "box-heading";
-    }
-    if (subline) {
-      return "box-subline";
-    }
-    return undefined;
-  };
+  const labelElementId = label
+    ? `box-label-${identifier?.toLowerCase() ?? id}`
+    : undefined;
 
   const contentBlock = (
     <div className="flex flex-col">
-      <div className="flex flex-col wrap-break-word gap-kern-space-default">
+      <div className="flex flex-col gap-kern-space-default">
         {label && (
           <Label
             {...label}
             className="text-kern-layout-text-muted! font-normal! pt-0! pb-0!"
-            ariaDescribedby={getLabelDescriptor()}
+            elementId={labelElementId}
           />
         )}
         {heading && (
           <Heading
             {...heading}
-            elementId="box-heading"
+            ariaDescribedby={labelElementId}
             className="pt-0! pb-0!"
             managedByParent
           />
         )}
         {subline && (
-          <Heading {...subline} elementId="box-subline" managedByParent />
+          <Heading
+            {...subline}
+            ariaDescribedby={labelElementId}
+            managedByParent
+          />
         )}
         {content && <RichText {...content} />}
       </div>
@@ -75,7 +75,11 @@ const Box = ({
       {arrayIsNonEmpty(buttons) && (
         <ButtonContainer className="kern-button-group pt-kern-space-default">
           {buttons.map((button) => (
-            <Button key={button.text ?? button.href} {...button} />
+            <Button
+              key={button.text ?? button.href}
+              textClassName="break-all"
+              {...button}
+            />
           ))}
         </ButtonContainer>
       )}
