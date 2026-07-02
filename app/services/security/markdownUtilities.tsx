@@ -71,6 +71,7 @@ const voidElements = new Set([
   "area",
   "base",
   "br",
+  "path",
   "col",
   "embed",
   "hr",
