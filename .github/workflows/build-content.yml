@@ -59,7 +59,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+      - uses: docker/login-action@c99871dec2022cc055c062a10cc1a1310835ceb4 # v4.3.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -99,13 +99,13 @@ jobs:
     environment: preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@753647aee2ae99081829cf103e33ca4d7a2266c4 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
         with:
           environment: environments/preview
           version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
           app: a2j-preview
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
@@ -128,13 +128,13 @@ jobs:
     concurrency: deploy-production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@753647aee2ae99081829cf103e33ca4d7a2266c4 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
         with:
           environment: environments/production
           version: ${{ needs.build-push-content-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
           app: a2j-production
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
