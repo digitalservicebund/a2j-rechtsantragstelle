@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiHeadingOptionalSchema } from "./StrapiHeading";
+import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 
 const StrapiTableColumnSchema = z.object({
   ...HasStrapiIdSchema.shape,
@@ -21,8 +22,8 @@ const StrapiTableRowSchema = z.object({
 export const StrapiTableSchema = z.object({
   __component: z.literal("page.table"),
   heading: StrapiHeadingOptionalSchema,
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: StrapiStringOptionalSchema,
+  description: StrapiStringOptionalSchema,
   columns: z.array(StrapiTableColumnSchema).nonempty(),
   rows: z.array(StrapiTableRowSchema).nonempty(),
   ...HasStrapiIdSchema.shape,
