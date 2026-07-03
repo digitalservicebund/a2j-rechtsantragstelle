@@ -99,7 +99,7 @@ describe("getUserDataAndFlowNewEngine", () => {
     expect(result.isOk ? result.value : undefined).toMatchObject({
       flow: {
         id: "/beratungshilfe/antrag",
-        userVisitedValidationPage: undefined,
+        userVisitedValidationPage: false,
         useStepper: false,
         flowSessionEngine: mockFlowSessionEngine,
       },
