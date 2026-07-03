@@ -28,20 +28,20 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@react-router/express':
-        specifier: ^8.0.1
-        version: 8.0.1(express@5.2.1)(react-router@8.0.1)(typescript@6.0.3)
+        specifier: ^8.1.0
+        version: 8.1.0(express@5.2.1)(react-router@8.1.0)(typescript@6.0.3)
       '@react-router/node':
-        specifier: ^8.0.1
-        version: 8.0.1(react-router@8.0.1)(typescript@6.0.3)
+        specifier: ^8.1.0
+        version: 8.1.0(react-router@8.1.0)(typescript@6.0.3)
       '@remix-run/form-data-parser':
         specifier: ^0.17.3
         version: 0.17.3
       '@rvf/react-router':
         specifier: ^8.1.2
-        version: 8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react-router@8.0.1)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
+        version: 8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react-router@8.1.0)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
       '@sentry/react-router':
         specifier: ^10.58.0
-        version: 10.58.0(@react-router/node@8.0.1)(react-router@8.0.1)(react@19.2.7)(rollup@4.60.4)
+        version: 10.58.0(@react-router/node@8.1.0)(react-router@8.1.0)(react@19.2.7)(rollup@4.60.4)
       '@sentry/vite-plugin':
         specifier: ^5.3.0
         version: 5.3.0(rollup@4.60.4)
@@ -136,8 +136,8 @@ importers:
         specifier: ^7.6.1
         version: 7.6.1(react@19.2.7)
       react-router:
-        specifier: ^8.0.1
-        version: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+        specifier: ^8.1.0
+        version: 8.1.0(react-dom@19.2.7)(react@19.2.7)
       react-select:
         specifier: ^5.10.2
         version: 5.10.2(@types/react@19.2.17)(react-dom@19.2.7)(react@19.2.7)
@@ -173,11 +173,11 @@ importers:
         specifier: ^1.61.0
         version: 1.61.0
       '@react-router/dev':
-        specifier: ^8.0.1
-        version: 8.0.1(babel-plugin-macros@3.1.0)(react-router@8.0.1)(typescript@6.0.3)(vite@8.0.16)
+        specifier: ^8.1.0
+        version: 8.1.0(babel-plugin-macros@3.1.0)(react-router@8.1.0)(typescript@6.0.3)(vite@8.0.16)
       '@react-router/fs-routes':
-        specifier: ^8.0.1
-        version: 8.0.1(@react-router/dev@8.0.1)(typescript@6.0.3)
+        specifier: ^8.1.0
+        version: 8.1.0(@react-router/dev@8.1.0)(typescript@6.0.3)
       '@rvf/react':
         specifier: ^8.1.2
         version: 8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
@@ -1620,14 +1620,14 @@ packages:
   '@posthog/types@1.390.0':
     resolution: {integrity: sha512-zMjK6nrUWhAlL8ECrM4WldvgawqdoAE5B0ys7eA0lCoWuyzfFoSyh6zYtEuBSDRyN7fQLSfNCK+mQH4ngOl7Zw==}
 
-  '@react-router/dev@8.0.1':
-    resolution: {integrity: sha512-Xc1WfN4Ql9j271iJnvIJqxLvN5cyjUW/X4JsGw2j/0lET12UFnpNTpBLYXmLNci8vfpmfKI06KSixZ4pjIT4Bw==}
+  '@react-router/dev@8.1.0':
+    resolution: {integrity: sha512-0R7g3hPm+vXjfOzA6oInZ3KI/N9hxrtibtue3s1pdHcSPrfRFU2jgmC5I/W0gCJ9wtszLKqisHRet2vzY8USoA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
-      '@react-router/serve': ^8.0.1
+      '@react-router/serve': ^8.1.0
       '@vitejs/plugin-rsc': ~0.5.26
-      react-router: ^8.0.1
+      react-router: ^8.1.0
       react-server-dom-webpack: ^19.2.7
       typescript: ^5.1.0 || ^6.0.0
       vite: ^7.0.0 || ^8.0.0
@@ -1644,32 +1644,32 @@ packages:
       wrangler:
         optional: true
 
-  '@react-router/express@8.0.1':
-    resolution: {integrity: sha512-FWErptC9nFtaRo3SRsHgO60C1bCpUU35ATDvJulQIYXxDsXUdicyhJWCrl5DeEO2pUeqyPA4taP7l7aWkz2qZQ==}
+  '@react-router/express@8.1.0':
+    resolution: {integrity: sha512-SuyQNfxbfphmEjF0joUir5boACNRoD2HUPrIqp56fhG7zwOAR9NQpnu6ZQZ8iA2ox3U013BR8Flijb2tI1jFbg==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
       express: ^4.22.2 || ^5
-      react-router: 8.0.1
+      react-router: 8.1.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/fs-routes@8.0.1':
-    resolution: {integrity: sha512-AvVOgD51NONhWECESN8kATjq7bKRZg/PmHA/vk9DrRIYFxCPFe3xiEvtIIk5q6Ng61lQUHfUzx5e5K95VpIAiA==}
+  '@react-router/fs-routes@8.1.0':
+    resolution: {integrity: sha512-m2TcSWXY/XQL46kXbo/mCoTx9pqzU4/om0aF0C1x/BCdHq9NsXSorUhiL8Jg08RJ+ZVxMbNc0W0WH/HQsKb6yw==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
-      '@react-router/dev': ^8.0.1
+      '@react-router/dev': ^8.1.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
         optional: true
 
-  '@react-router/node@8.0.1':
-    resolution: {integrity: sha512-XUtOdjgOtFXe4XxkO28km51l++AYL7A3mk4Sozm7hr3ROY/9qE+9EoPHw0gEv4FQEgY7a/6XnzDL5dB+zNt7GA==}
+  '@react-router/node@8.1.0':
+    resolution: {integrity: sha512-KgdcDTp+rDFybx4qBaGxBpKEBCSjBT+bmRXRziD3A9TOlQ1AlaqK1sSttYtgA/t4HEgoDsKVa7OO9jaZAacLgg==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
-      react-router: 8.0.1
+      react-router: 8.1.0
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -2611,9 +2611,6 @@ packages:
 
   anynum@1.0.1:
     resolution: {integrity: sha512-N6//FLET/tXYNM/F6ABca1oH6fWB+KlTt909Le28WMDBk8oaT4vY17DCrwg2MvmuqUKt3Ni4N5dGJ/EoBgcO6A==}
-
-  arg@5.0.2:
-    resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
 
   aria-query@5.3.0:
     resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
@@ -4155,8 +4152,8 @@ packages:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
-  react-router@8.0.1:
-    resolution: {integrity: sha512-5EL/fANovVUhRK50NLS8RYfX0BxrimoKsHWUPPy8v5UEl8i6vzF7e4POo3u+AhPItDwccUAJjMfIOmydxBJmQw==}
+  react-router@8.1.0:
+    resolution: {integrity: sha512-Mdfi61uObuvWNN9OhChOC0HV6YWOIfKRzEWOvCHRSuQg8IM+Nv10edaM/2HE8ZixBpUTdQbruyWqC3sDkkh9vw==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
       react: '>=19.2.7'
@@ -6257,7 +6254,7 @@ snapshots:
 
   '@posthog/types@1.390.0': {}
 
-  '@react-router/dev@8.0.1(babel-plugin-macros@3.1.0)(react-router@8.0.1)(typescript@6.0.3)(vite@8.0.16)':
+  '@react-router/dev@8.1.0(babel-plugin-macros@3.1.0)(react-router@8.1.0)(typescript@6.0.3)(vite@8.0.16)':
     dependencies:
       '@babel/core': 7.29.7
       '@babel/generator': 7.29.7
@@ -6266,9 +6263,8 @@ snapshots:
       '@babel/preset-typescript': 7.29.7(@babel/core@7.29.7)
       '@babel/traverse': 7.29.7
       '@babel/types': 7.29.7
-      '@react-router/node': 8.0.1(react-router@8.0.1)(typescript@6.0.3)
+      '@react-router/node': 8.1.0(react-router@8.1.0)(typescript@6.0.3)
       '@remix-run/node-fetch-server': 0.13.3
-      arg: 5.0.2
       babel-dead-code-elimination: 1.0.12
       chokidar: 5.0.0
       dedent: 1.7.2(babel-plugin-macros@3.1.0)
@@ -6283,7 +6279,7 @@ snapshots:
       pkg-types: 2.3.1
       prettier: 3.8.4
       react-refresh: 0.18.0
-      react-router: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+      react-router: 8.1.0(react-dom@19.2.7)(react@19.2.7)
       semver: 7.8.5
       tinyglobby: 0.2.17
       valibot: 1.4.1(typescript@6.0.3)
@@ -6294,25 +6290,25 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  '@react-router/express@8.0.1(express@5.2.1)(react-router@8.0.1)(typescript@6.0.3)':
+  '@react-router/express@8.1.0(express@5.2.1)(react-router@8.1.0)(typescript@6.0.3)':
     dependencies:
-      '@react-router/node': 8.0.1(react-router@8.0.1)(typescript@6.0.3)
+      '@react-router/node': 8.1.0(react-router@8.1.0)(typescript@6.0.3)
       express: 5.2.1
-      react-router: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+      react-router: 8.1.0(react-dom@19.2.7)(react@19.2.7)
     optionalDependencies:
       typescript: 6.0.3
 
-  '@react-router/fs-routes@8.0.1(@react-router/dev@8.0.1)(typescript@6.0.3)':
+  '@react-router/fs-routes@8.1.0(@react-router/dev@8.1.0)(typescript@6.0.3)':
     dependencies:
-      '@react-router/dev': 8.0.1(babel-plugin-macros@3.1.0)(react-router@8.0.1)(typescript@6.0.3)(vite@8.0.16)
+      '@react-router/dev': 8.1.0(babel-plugin-macros@3.1.0)(react-router@8.1.0)(typescript@6.0.3)(vite@8.0.16)
       minimatch: 10.2.5
     optionalDependencies:
       typescript: 6.0.3
 
-  '@react-router/node@8.0.1(react-router@8.0.1)(typescript@6.0.3)':
+  '@react-router/node@8.1.0(react-router@8.1.0)(typescript@6.0.3)':
     dependencies:
       '@remix-run/node-fetch-server': 0.13.3
-      react-router: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+      react-router: 8.1.0(react-dom@19.2.7)(react@19.2.7)
     optionalDependencies:
       typescript: 6.0.3
 
@@ -6475,12 +6471,12 @@ snapshots:
       - scheduler
       - use-sync-external-store
 
-  '@rvf/react-router@8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react-router@8.0.1)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)':
+  '@rvf/react-router@8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react-router@8.1.0)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)':
     dependencies:
       '@rvf/react': 8.1.2(@types/react@19.2.17)(react-dom@19.2.7)(react@19.2.7)(scheduler@0.27.0)(use-sync-external-store@1.6.0)
       '@rvf/set-get': 7.0.2
       react: 19.2.7
-      react-router: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+      react-router: 8.1.0(react-dom@19.2.7)(react@19.2.7)
     transitivePeerDependencies:
       - '@types/react'
       - react-dom
@@ -6614,13 +6610,13 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.41.1
       '@sentry/core': 10.58.0
 
-  '@sentry/react-router@10.58.0(@react-router/node@8.0.1)(react-router@8.0.1)(react@19.2.7)(rollup@4.60.4)':
+  '@sentry/react-router@10.58.0(@react-router/node@8.1.0)(react-router@8.1.0)(react@19.2.7)(rollup@4.60.4)':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/instrumentation': 0.214.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/semantic-conventions': 1.41.1
-      '@react-router/node': 8.0.1(react-router@8.0.1)(typescript@6.0.3)
+      '@react-router/node': 8.1.0(react-router@8.1.0)(typescript@6.0.3)
       '@sentry/browser': 10.58.0
       '@sentry/cli': 2.58.6
       '@sentry/core': 10.58.0
@@ -6629,7 +6625,7 @@ snapshots:
       '@sentry/vite-plugin': 5.3.0(rollup@4.60.4)
       glob: 13.0.6
       react: 19.2.7
-      react-router: 8.0.1(react-dom@19.2.7)(react@19.2.7)
+      react-router: 8.1.0(react-dom@19.2.7)(react@19.2.7)
     transitivePeerDependencies:
       - '@opentelemetry/exporter-trace-otlp-http'
       - encoding
@@ -7227,8 +7223,6 @@ snapshots:
   ansi-styles@5.2.0: {}
 
   anynum@1.0.1: {}
-
-  arg@5.0.2: {}
 
   aria-query@5.3.0:
     dependencies:
@@ -8837,7 +8831,7 @@ snapshots:
 
   react-refresh@0.18.0: {}
 
-  react-router@8.0.1(react-dom@19.2.7)(react@19.2.7):
+  react-router@8.1.0(react-dom@19.2.7)(react@19.2.7):
     dependencies:
       cookie-es: 3.1.1
       react: 19.2.7
