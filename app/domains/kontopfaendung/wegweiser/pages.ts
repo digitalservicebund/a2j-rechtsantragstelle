@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  checkedOptional,
-  exclusiveCheckboxesSchema,
-} from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungWegweiserPages = {
@@ -71,10 +68,7 @@ export const kontopfaendungWegweiserPages = {
   arbeitArt: {
     stepId: "arbeit-art",
     pageSchema: {
-      arbeitArt: z.object({
-        angestellt: checkedOptional,
-        selbstaendig: checkedOptional,
-      }),
+      arbeitArt: z.enum(["angestellt", "selbstaendig", "beides"]),
     },
   },
   nachzahlungArbeitgeber: {

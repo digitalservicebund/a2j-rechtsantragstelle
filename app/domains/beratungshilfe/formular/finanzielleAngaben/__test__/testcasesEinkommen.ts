@@ -103,10 +103,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: "/finanzielle-angaben/einkommen/art",
       userInput: {
-        berufart: {
-          selbststaendig: "on",
-          festangestellt: "off",
-        },
+        berufart: "selbststaendig",
       },
     },
     {
