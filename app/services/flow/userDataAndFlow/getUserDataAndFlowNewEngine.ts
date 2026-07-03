@@ -29,7 +29,7 @@ type OkResult = {
   flow: {
     id: FlowId;
     validFlowPaths: ValidFlowPagesType;
-    userVisitedValidationPage?: boolean;
+    userVisitedValidationPage: boolean;
     useStepper: boolean;
     flowSessionEngine: FlowSession<PageConfigMap>;
   };
@@ -102,7 +102,8 @@ export const getUserDataAndFlowNewEngine = async (
     flow: {
       id: flowId,
       validFlowPaths: buildValidFlowPaths(flowSessionEngine),
-      userVisitedValidationPage: flowSession.get(userVisitedValidationPageKey),
+      userVisitedValidationPage:
+        flowSession.get(userVisitedValidationPageKey) ?? false,
       useStepper:
         "useStepper" in currentFlow && currentFlow.useStepper !== undefined
           ? currentFlow.useStepper

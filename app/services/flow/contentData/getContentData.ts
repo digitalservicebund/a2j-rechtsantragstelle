@@ -34,7 +34,7 @@ function buildStepsStepperNewEngine(
   stepStates: StepState[],
   translations: Translations,
   stepId: string,
-  userVisitedValidationPage: boolean | undefined,
+  userVisitedValidationPage: boolean,
 ) {
   return stepStates
     .map((stepState) => ({
@@ -231,6 +231,7 @@ export const getContentData = (
       flowSessionEngine: FlowSession<PageConfigMap>,
       useStepper: boolean,
       stepId: string,
+      userVisitedValidationPage: boolean,
     ) => {
       const statusTree = flowSessionEngine.statusTree;
       const stepStates = buildStepStatesFromStatusTree(
@@ -242,8 +243,12 @@ export const getContentData = (
       if (!useStepper) {
         return {
           navItems:
-            navItemsFromStepStates(stepId, stepStates, translations, false) ??
-            [],
+            navItemsFromStepStates(
+              stepId,
+              stepStates,
+              translations,
+              userVisitedValidationPage,
+            ) ?? [],
           stepsStepper: [],
           expandAll: false,
         };
@@ -253,7 +258,7 @@ export const getContentData = (
         stepStates,
         translations,
         stepId,
-        false,
+        userVisitedValidationPage,
       );
 
       const currentNavItems =
