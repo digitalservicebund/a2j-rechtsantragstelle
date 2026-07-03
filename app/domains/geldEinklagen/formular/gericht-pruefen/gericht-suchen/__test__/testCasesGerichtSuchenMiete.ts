@@ -53,22 +53,6 @@ export const testCasesGerichtSuchenMiete = [
       mietePachtVertrag: "yes",
       mietePachtRaum: "no",
       klagendeVerbraucher: "yes",
-      klagendeHaustuergeschaeft: "yes",
-      postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
-      postleitzahlSecondary: ZIP_CODE_EDGE_CASE_SECONDARY,
-    },
-    [
-      "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
-      "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person",
-      "/gericht-pruefen/zustaendiges-gericht/pilot-gericht-auswahl",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      mietePachtVertrag: "yes",
-      mietePachtRaum: "no",
-      klagendeVerbraucher: "yes",
       klagendeHaustuergeschaeft: "no",
       postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
     },

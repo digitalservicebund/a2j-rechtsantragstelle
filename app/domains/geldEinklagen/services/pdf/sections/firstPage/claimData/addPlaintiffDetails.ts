@@ -9,11 +9,13 @@ export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
 
 export const formatAddress = (
-  strasseHausnummer?: string,
+  strasse?: string,
+  hausnummer?: string,
   plz?: string,
   ort?: string,
 ): string => {
-  const addressParts = [strasseHausnummer, `${plz} ${ort}`].filter(Boolean);
+  const streetAndNumber = [strasse, hausnummer].filter(Boolean).join(" ");
+  const addressParts = [streetAndNumber, `${plz} ${ort}`].filter(Boolean);
   return (
     addressParts.join(", ") +
     (addressParts.length > 0 ? ", " : "") +
@@ -29,7 +31,8 @@ export const addPlaintiffDetails = (
     klagendePersonTitle,
     klagendePersonVorname,
     klagendePersonNachname,
-    klagendePersonStrasseHausnummer,
+    klagendePersonStrasse,
+    klagendePersonHausnummer,
     klagendePersonPlz,
     klagendePersonOrt,
     klagendeTelefonnummer,
@@ -44,7 +47,8 @@ export const addPlaintiffDetails = (
   );
 
   const address = formatAddress(
-    klagendePersonStrasseHausnummer,
+    klagendePersonStrasse,
+    klagendePersonHausnummer,
     klagendePersonPlz,
     klagendePersonOrt,
   );

@@ -5,30 +5,55 @@ describe("buildStatusTree", () => {
     const pages = { start: { stepId: "/start" } };
 
     it("single-segment stepId produces a top-level tree entry", () => {
-      const tree = buildStatusTree(pages, {
-        keys: ["start"],
-        reachableSet: new Set(["start"]),
-        isComplete: true,
-      });
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["start"],
+          reachableSet: new Set(["start"]),
+          isComplete: true,
+        },
+        new Set(["start"]),
+      );
       expect(tree).toHaveProperty("/start");
     });
 
     it("flat keys entry has isReachable true", () => {
-      const tree = buildStatusTree(pages, {
-        keys: ["start"],
-        reachableSet: new Set(["start"]),
-        isComplete: true,
-      });
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["start"],
+          reachableSet: new Set(["start"]),
+          isComplete: true,
+        },
+        new Set(["start"]),
+      );
       expect(tree["/start"].isReachable).toBe(true);
     });
 
-    it("flat keys entry has isDone true when flow terminates", () => {
-      const tree = buildStatusTree(pages, {
-        keys: ["start"],
-        reachableSet: new Set(["start"]),
-        isComplete: true,
-      });
+    it("flat keys entry has isDone true when node is in doneNodeKeys", () => {
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["start"],
+          reachableSet: new Set(["start"]),
+          isComplete: true,
+        },
+        new Set(["start"]),
+      );
       expect(tree["/start"].isDone).toBe(true);
+    });
+
+    it("flat keys entry has isDone false when node is NOT in doneNodeKeys", () => {
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["start"],
+          reachableSet: new Set(["start"]),
+          isComplete: true,
+        },
+        new Set(),
+      );
+      expect(tree["/start"].isDone).toBe(false);
     });
   });
 
@@ -44,24 +69,40 @@ describe("buildStatusTree", () => {
     };
 
     it("creates a section entry at the first segment", () => {
-      expect(buildStatusTree(pages, sim)).toHaveProperty("/personal");
+      expect(
+        buildStatusTree(pages, sim, new Set(["name", "addr"])),
+      ).toHaveProperty("/personal");
     });
 
-    it("section isDone is true when the flow has terminated inside it", () => {
-      expect(buildStatusTree(pages, sim)["/personal"].isDone).toBe(true);
+    it("section isDone is true when all reachable nodes have their data filled", () => {
+      expect(
+        buildStatusTree(pages, sim, new Set(["name", "addr"]))["/personal"]
+          .isDone,
+      ).toBe(true);
+    });
+
+    it("section isDone is false when any reachable node has missing data", () => {
+      expect(
+        buildStatusTree(pages, sim, new Set(["name"]))["/personal"].isDone,
+      ).toBe(false);
     });
 
     it("section isReachable is true when any node in it is reachable", () => {
-      expect(buildStatusTree(pages, sim)["/personal"].isReachable).toBe(true);
+      expect(
+        buildStatusTree(pages, sim, new Set())["/personal"].isReachable,
+      ).toBe(true);
     });
 
     it("section isDone is false when no nodes in it have been visited", () => {
-      // keys only visited "pre"; the /personal section was never entered
-      const tree = buildStatusTree(pages, {
-        keys: ["pre"],
-        reachableSet: new Set(["pre"]),
-        isComplete: false,
-      });
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["pre"],
+          reachableSet: new Set(["pre"]),
+          isComplete: false,
+        },
+        new Set(),
+      );
       expect(tree["/personal"]?.isDone).toBe(false);
     });
   });
@@ -75,6 +116,7 @@ describe("buildStatusTree", () => {
           reachableSet: new Set(["deep"]),
           isComplete: true,
         },
+        new Set(["deep"]),
       );
       expect(tree).toHaveProperty("/a");
       expect(tree["/a"].children).toHaveProperty("/b");
@@ -88,11 +130,15 @@ describe("buildStatusTree", () => {
         other: { stepId: "/other" },
       };
       // "other" not in reachableSet
-      const tree = buildStatusTree(pages, {
-        keys: ["start"],
-        reachableSet: new Set(["start"]),
-        isComplete: true,
-      });
+      const tree = buildStatusTree(
+        pages,
+        {
+          keys: ["start"],
+          reachableSet: new Set(["start"]),
+          isComplete: true,
+        },
+        new Set(["start"]),
+      );
       expect(tree["/other"]?.isReachable).toBe(false);
     });
   });
