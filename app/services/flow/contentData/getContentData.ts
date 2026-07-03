@@ -265,6 +265,26 @@ export const getContentData = (
         translations,
       );
     },
+    getAutoSummarySectionsNewEngine: async (
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowId: FlowId,
+    ) => {
+      if (!pathname.endsWith("/abgabe/zusammenfassung")) {
+        return [];
+      }
+      const statusTree = flowSessionEngine.statusTree;
+      const stepStates = buildStepStatesFromStatusTree(
+        statusTree,
+        flowId,
+        flowSessionEngine.paths,
+      );
+      return await generateSummaryFromUserData(
+        userDataWithPageData,
+        flowId,
+        stepStates,
+        translations,
+      );
+    },
     getProgress: (
       flowController: ReturnType<typeof buildFlowController>,
       stepId: string,
