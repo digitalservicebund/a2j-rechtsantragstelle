@@ -68,7 +68,14 @@ export const compileFlow = <C extends PageConfigMap>({
   const arrayInfoCache: Partial<
     Record<
       NodeKey<C>,
-      { name: string; entryPoint?: string; entryNodeKey?: NodeKey<C> }
+      {
+        name: string;
+        entryPoint?: string;
+        entryNodeKey?: NodeKey<C>;
+        statementKey?: string;
+        displayIndexOffset?: number;
+        hiddenFields?: string[];
+      }
     >
   > = {};
 
@@ -96,6 +103,9 @@ export const compileFlow = <C extends PageConfigMap>({
         name: pageNode.arraySummary.name,
         entryPoint: getArrayEntryPoint(arrayTransitions, pages),
         entryNodeKey: addTransition?.target ?? undefined,
+        statementKey: pageNode.arraySummary.statementKey,
+        displayIndexOffset: pageNode.arraySummary.displayIndexOffset,
+        hiddenFields: pageNode.arraySummary.hiddenFields,
       };
     }
   }

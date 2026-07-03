@@ -23,6 +23,7 @@ import { type UserDataWithPageData } from "../pageData";
 import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 import { type PageConfigMap } from "../newFlowEngine/types";
+import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -84,6 +85,26 @@ export const getContentData = (
   pathname: string,
 ) => {
   return {
+    arraySummaryDataNewEngine: (
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowId: FlowId,
+    ) => {
+      const arrayCategories = cmsContent.content
+        .filter((value) => value.__component === "page.array-summary")
+        .map((arraySummary) => arraySummary.category);
+
+      const arrayConfigurations = buildArrayConfigServer(
+        flowSessionEngine,
+        flowId,
+      );
+
+      return getArraySummaryData(
+        arrayCategories,
+        arrayConfigurations,
+        userDataWithPageData,
+        cmsContent.content,
+      );
+    },
     arraySummaryData: (
       flowController: ReturnType<typeof buildFlowController>,
     ) => {
