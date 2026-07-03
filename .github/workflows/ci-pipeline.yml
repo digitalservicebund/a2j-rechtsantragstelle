@@ -176,7 +176,7 @@ jobs:
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
           app: a2j-preview
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
@@ -212,7 +212,7 @@ jobs:
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
           app: a2j-staging
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
@@ -240,7 +240,7 @@ jobs:
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
-          github_app_id: ${{ secrets.GITOPS_A2J_APP_ID }}
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
           app: a2j-production
           argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
