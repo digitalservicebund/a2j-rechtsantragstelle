@@ -139,14 +139,16 @@ export const getSelbststaendigStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    isSelbststaendig: userData.arbeitArt?.selbstaendig === "on",
+    isSelbststaendig:
+      userData.arbeitArt === "selbstaendig" || userData.arbeitArt === "beides",
   };
 };
 export const getAngestelltStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
   return {
-    isAngestellt: userData.arbeitArt?.angestellt === "on",
+    isAngestellt:
+      userData.arbeitArt === "angestellt" || userData.arbeitArt === "beides",
   };
 };
 export const getKinderStrings = (userData: KontopfaendungWegweiserUserData) => {
