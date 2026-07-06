@@ -4,12 +4,14 @@ import mapKeys from "lodash/mapKeys";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
   fieldName: string,
   readOnlyFieldNames: string[],
   formComponents?: StrapiFormComponent[],
+  dynamicOptions?: DynamicOptions,
 ) => {
   const matchingElement = formComponents
     ?.filter(
@@ -66,6 +68,7 @@ export const renderZodObject = (
       pageConfig={{ pageSchema: innerSchema }}
       formComponents={formComponents}
       readOnlyFieldNames={readOnlyFieldNames}
+      dynamicOptions={dynamicOptions}
     />
   );
 };
