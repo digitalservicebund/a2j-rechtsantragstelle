@@ -232,4 +232,18 @@
       padding-left: 1.5rem;
     }
   }
+
+  /* styling to make the accordion arrow work on HCM */
+  @media (forced-colors: active) {
+    .kern-accordion .kern-accordion__header::after {
+      background-color: var(--kern-color-white) !important;
+    }
+
+    @media (forced-colors: active) and (prefers-color-scheme: dark) {
+      .kern-accordion[open].kern-title > summary:after,
+      .kern-accordion__header:after {
+        --kern-color-layout-background-inverted: #fff;
+      }
+    }
+  }
 }
