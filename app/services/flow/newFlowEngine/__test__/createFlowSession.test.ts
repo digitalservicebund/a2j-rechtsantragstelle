@@ -18,6 +18,9 @@ const transitions = {
 
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const itemAt = (d: any, i: number) => d.items?.[i];
+
 describe("createFlowSession", () => {
   describe("invalid path", () => {
     it("throws an Error for an unknown path", () => {
@@ -230,8 +233,6 @@ describe("createFlowSession", () => {
       // "subCount" — a node that renders no summary and only exists to fan out. The
       // user reaches the nested daten page via the summary's add button, so Back
       // must return to the summary ("/list"), not the internal fan-out node.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const itemAt = (d: any, i: number) => d.items?.[i];
       const fanOutBackFlow = compileFlow({
         pages: {
           list: {
@@ -648,8 +649,6 @@ describe("createFlowSession", () => {
       // items share the "name" field with the top-level daten page, a scope leak
       // when exiting the sub-flow back to the summary would re-collect them under
       // the parent — this asserts that does not happen.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const itemAt = (d: any, i: number) => d.items?.[i];
       const nestedGuardedFlow = compileFlow({
         pages: {
           list: {
