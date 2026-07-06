@@ -31,7 +31,7 @@ describe("getMetaConfigurationByStepId", () => {
     });
   });
 
-  it("keeps true values enabled even if child sets false", () => {
+  it("prioritizes exact step values over parent values", () => {
     const flow = createFlow({
       "/abgabe": { excludedFromValidation: false, triggerValidation: true },
       "/abgabe/check2": {
@@ -44,7 +44,7 @@ describe("getMetaConfigurationByStepId", () => {
 
     expect(actual).toStrictEqual({
       excludedFromValidation: true,
-      triggerValidation: true,
+      triggerValidation: false,
     });
   });
 
@@ -71,6 +71,19 @@ describe("getMetaConfigurationByStepId", () => {
     });
 
     const actual = getMetaConfigurationByStepId(flow, "abgabe");
+
+    expect(actual).toStrictEqual({
+      excludedFromValidation: false,
+    });
+  });
+
+  it("should return only the parent configuration if it does not have in same level", () => {
+    const flow = createFlow({
+      "/abgabe": { excludedFromValidation: false },
+      "/abgabe/check": { triggerValidation: true },
+    });
+
+    const actual = getMetaConfigurationByStepId(flow, "/abgabe/check2");
 
     expect(actual).toStrictEqual({
       excludedFromValidation: false,

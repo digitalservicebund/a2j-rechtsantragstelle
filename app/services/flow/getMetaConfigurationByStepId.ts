@@ -1,5 +1,5 @@
 import { type Flow } from "~/domains/flows.server";
-import mergeWith from "lodash/mergeWith";
+import merge from "lodash/merge";
 
 type FlowMetaConfiguration = NonNullable<Flow["metaConfiguration"]>[string];
 
@@ -11,27 +11,11 @@ const getStepHierarchyPaths = (stepId: string): string[] => {
   );
 };
 
-const mergeStickyBooleanFlags = (
-  currentValue: unknown,
-  incomingValue: unknown,
-) => {
-  if (typeof currentValue === "boolean" && typeof incomingValue === "boolean") {
-    return currentValue || incomingValue;
-  }
-
-  return undefined;
-};
-
 const mergeMetaConfigurations = (
   current: FlowMetaConfiguration,
   incoming: FlowMetaConfiguration,
 ): FlowMetaConfiguration =>
-  mergeWith(
-    {},
-    current,
-    incoming,
-    mergeStickyBooleanFlags,
-  ) as FlowMetaConfiguration;
+  merge({}, current, incoming) as FlowMetaConfiguration;
 
 export const getMetaConfigurationByStepId = (
   flow: Flow,
