@@ -13,10 +13,7 @@ export async function startFinanzielleAngabenEinkommen(
   await beratungshilfeFormular.fillRadioPage("erwerbstaetig", "yes");
 
   // beratungshilfe/antrag/finanzielle-angaben/einkommen/art
-  await beratungshilfeFormular.fillCheckboxesPage(
-    "berufart.selbststaendig",
-    "berufart.festangestellt",
-  );
+  await beratungshilfeFormular.fillRadioPage("berufart", "beides");
 
   // beratungshilfe/antrag/finanzielle-angaben/einkommen/situation
   await beratungshilfeFormular.fillRadioPage("berufsituation", "student");

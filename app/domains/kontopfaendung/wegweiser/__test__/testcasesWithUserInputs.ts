@@ -79,7 +79,7 @@ export const kontopfaendungWegweiserTestCases = {
       },
       {
         stepId: "/arbeit-art",
-        userInput: { arbeitArt: { angestellt: "on", selbstaendig: "off" } },
+        userInput: { arbeitArt: "angestellt" },
       },
       {
         stepId: "/nachzahlung-arbeitgeber",
