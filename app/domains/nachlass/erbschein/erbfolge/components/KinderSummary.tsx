@@ -389,8 +389,8 @@ export function KinderSummary({
       <div className="flex flex-col gap-kern-space-default">
         <h2 className="kern-title">{SECTION_TITLES[0]}</h2>
         {items.map((item, i) => (
-          // oxlint-disable-next-line react/no-array-index-key
           <KindSummaryItem
+            // oxlint-disable-next-line react/no-array-index-key
             key={i}
             item={item}
             badgeLabel={level1Badge}

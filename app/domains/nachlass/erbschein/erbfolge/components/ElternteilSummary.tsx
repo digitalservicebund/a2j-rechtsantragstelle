@@ -265,8 +265,8 @@ export function ElternteilSummary({
       <div className="flex flex-col gap-kern-space-default">
         <h2 className="kern-title">Elternteile</h2>
         {elternteile.map((elternteil, elternteilIndex) => (
-          // oxlint-disable-next-line react/no-array-index-key
           <PersonSummaryItem
+            // oxlint-disable-next-line react/no-array-index-key
             key={elternteilIndex}
             name={String(elternteil.name ?? "")}
             isAlive={String(elternteil.isAlive ?? "yes")}
