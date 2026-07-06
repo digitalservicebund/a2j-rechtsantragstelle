@@ -162,7 +162,9 @@ describe("compileFlow", () => {
       });
 
       it("has entryPoint undefined because the node is not a summary page", () => {
-        expect(nonSummaryFlow.getArrayInfo("/anzahl")?.entryPoint).toBeUndefined();
+        expect(
+          nonSummaryFlow.getArrayInfo("/anzahl")?.entryPoint,
+        ).toBeUndefined();
       });
 
       it("infers nested array name for a multi-level target stepId", () => {
@@ -187,9 +189,9 @@ describe("compileFlow", () => {
           transitions: nestedTransitions,
         });
 
-        expect(
-          nestedFlow.getArrayInfo("/parents/#/childrenAnzahl")?.name,
-        ).toBe("parents#children");
+        expect(nestedFlow.getArrayInfo("/parents/#/childrenAnzahl")?.name).toBe(
+          "parents#children",
+        );
         expect(
           nestedFlow.getArrayInfo("/parents/#/childrenAnzahl")?.entryPoint,
         ).toBeUndefined();

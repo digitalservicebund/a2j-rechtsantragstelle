@@ -717,7 +717,10 @@ describe("createFlowSession", () => {
       );
 
       expect(session.prunedUserData).toEqual({
-        items: [{ name: "a", gate: "no" }, { name: "b", gate: "yes" }],
+        items: [
+          { name: "a", gate: "no" },
+          { name: "b", gate: "yes" },
+        ],
       });
     });
 
@@ -758,7 +761,10 @@ describe("createFlowSession", () => {
         const session = createFlowSession(
           fanOutFlow,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          { items: [{ label: "a" }, { label: "b" }], pageData: { arrayIndexes: [] } } as any,
+          {
+            items: [{ label: "a" }, { label: "b" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
           "/anzahl",
         );
         expect(session.isReachable("/items/#/daten")).toBe(true);

@@ -138,12 +138,14 @@ export const simulate = <C extends PageConfigMap>(
       const targetDepth = getNodeArrayDepth?.(nextBranch) ?? arrayPath.length;
       if (targetDepth < arrayPath.length) {
         const rewoundPath = arrayPath.slice(0, targetDepth);
-        const rewoundIndexes = (pageData.arrayIndexes ?? []).slice(0, targetDepth);
+        const rewoundIndexes = (pageData.arrayIndexes ?? []).slice(
+          0,
+          targetDepth,
+        );
         let rewoundScope = currentData as Record<string, unknown>;
         for (let level = 0; level < targetDepth; level++) {
           const arr = rewoundScope[rewoundPath[level]] as
-            | Array<Record<string, unknown>>
-            | undefined;
+            Array<Record<string, unknown>> | undefined;
           rewoundScope = arr?.[rewoundIndexes[level]] ?? {};
         }
         queue.push({
