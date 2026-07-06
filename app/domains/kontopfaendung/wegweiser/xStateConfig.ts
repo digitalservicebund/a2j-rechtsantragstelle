@@ -196,11 +196,7 @@ export const kontopfaendungWegweiserXstateConfig = {
         SUBMIT: [
           {
             target: stepIds.sozialleistungen,
-            guard: ({ context }) =>
-              (context.arbeitArt?.selbstaendig === "on" &&
-                context.arbeitArt?.angestellt === "off") ||
-              (context.arbeitArt?.selbstaendig === "off" &&
-                context.arbeitArt?.angestellt === "off"),
+            guard: ({ context }) => context.arbeitArt === "selbstaendig",
           },
           stepIds.nachzahlungArbeitgeber,
         ],
@@ -263,11 +259,7 @@ export const kontopfaendungWegweiserXstateConfig = {
           },
           {
             target: stepIds.arbeitArt,
-            guard: ({ context }) =>
-              (context.arbeitArt?.selbstaendig === "on" &&
-                context.arbeitArt?.angestellt === "off") ||
-              (context.arbeitArt?.selbstaendig === "off" &&
-                context.arbeitArt?.angestellt === "off"),
+            guard: ({ context }) => context.arbeitArt === "selbstaendig",
           },
           stepIds.arbeit,
         ],
