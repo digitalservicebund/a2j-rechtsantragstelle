@@ -12,6 +12,7 @@ import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { getSessionAndEngine } from "./getSessionAndEngine";
 import { type PageConfigMap } from "../newFlowEngine/types";
+import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 
 const buildValidFlowPaths = (
   flowSessionEngine: FlowSession<PageConfigMap>,
@@ -32,6 +33,7 @@ type OkResult = {
     userVisitedValidationPage: boolean;
     useStepper: boolean;
     flowSessionEngine: FlowSession<PageConfigMap>;
+    triggerValidation: boolean;
   };
   page: {
     stepId: string;
@@ -97,18 +99,23 @@ export const getUserDataAndFlowNewEngine = async (
     return Result.err({ redirectTo: validationFlowResult.error.redirectTo });
   }
 
+  const triggerValidation =
+    getMetaConfigurationByStepId(currentFlow, stepId)?.triggerValidation ??
+    false;
+
   return Result.ok({
     userData: flowSessionEngine.prunedUserData as UserDataWithPageData, // NOSONAR
     flow: {
       id: flowId,
       validFlowPaths: buildValidFlowPaths(flowSessionEngine),
       userVisitedValidationPage:
-        flowSession.get(userVisitedValidationPageKey) ?? false,
+        flowSession.get(userVisitedValidationPageKey) ?? triggerValidation,
       useStepper:
         "useStepper" in currentFlow && currentFlow.useStepper !== undefined
           ? currentFlow.useStepper
           : false,
       flowSessionEngine,
+      triggerValidation,
     },
     page: {
       stepId,

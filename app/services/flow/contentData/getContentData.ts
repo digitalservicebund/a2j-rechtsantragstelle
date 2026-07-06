@@ -24,6 +24,8 @@ import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 import { type PageConfigMap } from "../newFlowEngine/types";
 import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer";
+import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -227,18 +229,23 @@ export const getContentData = (
       };
     },
     getNavPropsNewEngine: (
-      flowId: FlowId,
       flowSessionEngine: FlowSession<PageConfigMap>,
       useStepper: boolean,
-      stepId: string,
       userVisitedValidationPage: boolean,
     ) => {
+      const { flowId, stepId, currentFlow } =
+        getPageAndFlowDataFromPathname(pathname);
+
       const statusTree = flowSessionEngine.statusTree;
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
         flowId,
         flowSessionEngine.paths,
       );
+
+      const expandAll =
+        getMetaConfigurationByStepId(currentFlow, stepId)?.triggerValidation ??
+        false;
 
       if (!useStepper) {
         return {
@@ -250,7 +257,7 @@ export const getContentData = (
               userVisitedValidationPage,
             ) ?? [],
           stepsStepper: [],
-          expandAll: false,
+          expandAll,
         };
       }
 
@@ -272,7 +279,7 @@ export const getContentData = (
           href,
           state,
         })) as StepStepper[],
-        expandAll: false,
+        expandAll,
       };
     },
     getAutoSummarySections: async (

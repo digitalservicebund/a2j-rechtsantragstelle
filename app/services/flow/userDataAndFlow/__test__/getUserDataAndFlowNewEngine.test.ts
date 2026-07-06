@@ -6,10 +6,12 @@ import { validateStepIdFlowNewEngine } from "../validateStepIdFlowNewEngine";
 import { createSession } from "react-router";
 import { compileFlow } from "../../newFlowEngine/compileFlow";
 import { createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { getMetaConfigurationByStepId } from "../../getMetaConfigurationByStepId";
 
 vi.mock("~/services/isFeatureFlagEnabled.server");
 vi.mock("../getSessionAndEngine");
 vi.mock("../validateStepIdFlowNewEngine");
+vi.mock("../../getMetaConfigurationByStepId");
 
 const mockRequest = new Request(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
@@ -106,6 +108,64 @@ describe("getUserDataAndFlowNewEngine", () => {
       page: {
         stepId: "/finanzielle-angaben/kinder/uebersicht",
         arrayIndexes: [],
+      },
+    });
+  });
+
+  it("should return ok and with the trigger validation set to true if the meta configuration for the triggerValidation is true", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
+    );
+
+    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(Result.ok());
+    vi.mocked(getMetaConfigurationByStepId).mockReturnValue({
+      triggerValidation: true,
+    });
+
+    const result = await getUserDataAndFlowNewEngine(
+      new Request(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+      new URL(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+    );
+
+    expect(result.isOk).toBe(true);
+    expect(result.isOk ? result.value : undefined).toMatchObject({
+      flow: {
+        triggerValidation: true,
+      },
+    });
+  });
+
+  it("should return ok and with the trigger validation set to false if the meta configuration for the triggerValidation does not exist", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
+    );
+
+    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(Result.ok());
+    vi.mocked(getMetaConfigurationByStepId).mockReturnValue({});
+
+    const result = await getUserDataAndFlowNewEngine(
+      new Request(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+      new URL(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+    );
+
+    expect(result.isOk).toBe(true);
+    expect(result.isOk ? result.value : undefined).toMatchObject({
+      flow: {
+        triggerValidation: false,
       },
     });
   });
