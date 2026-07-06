@@ -28,8 +28,7 @@ export const elternteilFlowConfig = {
     },
     { target: "elternteilSummary", guard: () => true },
   ],
-  elternteilKinderAnzahl: "elternteilKindSummary",
-  elternteilKindSummary: [
+  elternteilKinderAnzahl: [
     { target: "elternteilKindDaten", type: "addArrayItem" },
     { target: "elternteilSummary" },
   ],
@@ -45,7 +44,7 @@ export const elternteilFlowConfig = {
         return el.kinder[arrayIndexes[1]].isAlive === "no";
       },
     },
-    { target: "elternteilKindSummary", guard: () => true },
+    { target: "elternteilSummary", guard: () => true },
   ],
   elternteilKindHatteKinder: [
     {
@@ -61,50 +60,12 @@ export const elternteilFlowConfig = {
         return kind.hatteKinder === "yes";
       },
     },
-    { target: "elternteilKindSummary", guard: () => true },
+    { target: "elternteilSummary", guard: () => true },
   ],
-  elternteilKindKinderAnzahl: "elternteilKindKindSummary",
-  elternteilKindKindSummary: [
+  elternteilKindKinderAnzahl: [
     { target: "elternteilKindKindDaten", type: "addArrayItem" },
-    { target: "elternteilKindSummary" },
+    { target: "elternteilSummary" },
   ],
-  elternteilKindKindDaten: "elternteilKindKindSummary",
+  elternteilKindKindDaten: "elternteilKindKinderAnzahl",
 
-  gemeinsameKinderAnzahl: "gemeinsameKindSummary",
-  gemeinsameKindSummary: [
-    { target: "gemeinsameKindDaten", type: "addArrayItem" },
-    { target: null },
-  ],
-  gemeinsameKindDaten: [
-    {
-      target: "gemeinsameKindHatteKinder",
-      guard: ({ gemeinsameKinder, pageData: { arrayIndexes } }) => {
-        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1)
-          return false;
-        if (gemeinsameKinder.length <= arrayIndexes[0]) return false;
-        return gemeinsameKinder[arrayIndexes[0]].isAlive === "no";
-      },
-    },
-    { target: "gemeinsameKindSummary", guard: () => true },
-  ],
-  gemeinsameKindHatteKinder: [
-    {
-      target: "gemeinsameKindKinderAnzahl",
-      guard: ({ gemeinsameKinder, pageData: { arrayIndexes } }) => {
-        if (!gemeinsameKinder || !arrayIndexes || arrayIndexes.length < 1)
-          return false;
-        if (gemeinsameKinder.length <= arrayIndexes[0]) return false;
-        const kind = gemeinsameKinder[arrayIndexes[0]];
-        if (kind.isAlive !== "no") return false;
-        return kind.hatteKinder === "yes";
-      },
-    },
-    { target: "gemeinsameKindSummary", guard: () => true },
-  ],
-  gemeinsameKindKinderAnzahl: "gemeinsameKindKindSummary",
-  gemeinsameKindKindSummary: [
-    { target: "gemeinsameKindKindDaten", type: "addArrayItem" },
-    { target: "gemeinsameKindSummary" },
-  ],
-  gemeinsameKindKindDaten: "gemeinsameKindKindSummary",
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;

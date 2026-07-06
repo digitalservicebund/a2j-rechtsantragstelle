@@ -1,10 +1,27 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
 
+// Returns true if a kind (and all their descendants) have no living heirs.
+// A living kind or any living grandkid/great-grandkid means this returns false.
+function allDescendantsDead(kind: {
+  isAlive?: string;
+  hatteKinder?: string;
+  kinder?: typeof kind[];
+}): boolean {
+  if (kind.isAlive === "yes") return false;
+  if (kind.hatteKinder !== "yes") return true;
+  return (kind.kinder ?? []).every(allDescendantsDead);
+}
+
 export const kinderFlowConfig = {
   kind1Summary: [
     { target: "kind1Daten", type: "addArrayItem" },
-    { target: "elternteile" },
+    {
+      target: "elternteilSummary",
+      guard: ({ kinder }) =>
+        !!kinder && kinder.length > 0 && kinder.every(allDescendantsDead),
+    },
+    { target: "ergebnis" },
   ],
   kind1Daten: [
     {
@@ -30,8 +47,7 @@ export const kinderFlowConfig = {
     },
     { target: "kind1Summary", guard: () => true },
   ],
-  kind1KinderAnzahl: "kind2Summary",
-  kind2Summary: [
+  kind1KinderAnzahl: [
     { target: "kind2Daten", type: "addArrayItem" },
     { target: "kind1Summary" },
   ],
@@ -47,7 +63,7 @@ export const kinderFlowConfig = {
         return kind1.kinder[arrayIndexes[1]].isAlive === "no";
       },
     },
-    { target: "kind2Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
   kind2HatteKinder: [
     {
@@ -63,12 +79,11 @@ export const kinderFlowConfig = {
         return kind2.hatteKinder === "yes";
       },
     },
-    { target: "kind2Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
-  kind2KinderAnzahl: "kind3Summary",
-  kind3Summary: [
+  kind2KinderAnzahl: [
     { target: "kind3Daten", type: "addArrayItem" },
-    { target: "kind2Summary" },
+    { target: "kind1Summary" },
   ],
   kind3Daten: [
     {
@@ -86,7 +101,7 @@ export const kinderFlowConfig = {
         return kind2.kinder[arrayIndexes[2]].isAlive === "no";
       },
     },
-    { target: "kind3Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
   kind3HatteKinder: [
     {
@@ -106,12 +121,11 @@ export const kinderFlowConfig = {
         return kind3.hatteKinder === "yes";
       },
     },
-    { target: "kind3Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
-  kind3KinderAnzahl: "kind4Summary",
-  kind4Summary: [
+  kind3KinderAnzahl: [
     { target: "kind4Daten", type: "addArrayItem" },
-    { target: "kind3Summary" },
+    { target: "kind1Summary" },
   ],
   kind4Daten: [
     {
@@ -133,7 +147,7 @@ export const kinderFlowConfig = {
         return kind3.kinder[arrayIndexes[3]].isAlive === "no";
       },
     },
-    { target: "kind4Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
   kind4HatteKinder: [
     {
@@ -157,12 +171,11 @@ export const kinderFlowConfig = {
         return kind4.hatteKinder === "yes";
       },
     },
-    { target: "kind4Summary", guard: () => true },
+    { target: "kind1Summary", guard: () => true },
   ],
-  kind4KinderAnzahl: "kind5Summary",
-  kind5Summary: [
+  kind4KinderAnzahl: [
     { target: "kind5Daten", type: "addArrayItem" },
-    { target: "kind4Summary" },
+    { target: "kind1Summary" },
   ],
-  kind5Daten: "kind5Summary",
+  kind5Daten: "kind1Summary",
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;
