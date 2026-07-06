@@ -108,13 +108,11 @@ const getOccupationDetails = (
     description.push("nicht erwerbstätig");
   } else if (userData.berufart) {
     const occupation = "Erwerbstätig";
-    const occupationTypeSelected = checkboxListToString(
-      {
-        selbststaendig: "selbstständig",
-        festangestellt: "festangestellt",
-      },
-      userData.berufart,
-    );
+    const occupationTypeSelected = {
+      selbststaendig: "selbstständig",
+      festangestellt: "festangestellt",
+      beides: "selbstständig und festangestellt",
+    }[userData.berufart];
 
     description.push(
       `${occupation}${
