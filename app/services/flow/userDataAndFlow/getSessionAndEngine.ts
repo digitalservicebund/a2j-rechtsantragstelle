@@ -38,11 +38,19 @@ export const getSessionAndEngine = async (
   });
 
   try {
-    const flowSessionEngine = createFlowSession(
+    const flowSessionEnginePrunedData = createFlowSession(
       newEngineConfig,
       fullUserData as Parameters<typeof createFlowSession>[1],
       stepId,
     );
+
+    // We need to create a new flow session with the pruned user data to get the next step id, because the next step id is determined by the flow engine based on the current state of the user data.
+    const flowSessionEngine = createFlowSession(
+      newEngineConfig,
+      flowSessionEnginePrunedData.prunedUserData,
+      stepId,
+    );
+
     return Result.ok({ flowSession, flowSessionEngine });
   } catch {
     // In case the engine throws an error during creation, we want to catch it and redirect the user to the initial page of the flow, instead of showing an error page.

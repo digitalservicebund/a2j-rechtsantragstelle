@@ -205,7 +205,8 @@ export const action = async (args: ActionFunctionArgs) => {
   const headers = await commitSession(flowSession);
   const destination = flowDestinationNewEngine(
     pathname,
-    flowSessionEngineSaved,
+    compiledStaticFlow,
+    flowSessionEngineSaved.prunedUserData,
   );
   return redirectDocument(destination, { headers });
 };
