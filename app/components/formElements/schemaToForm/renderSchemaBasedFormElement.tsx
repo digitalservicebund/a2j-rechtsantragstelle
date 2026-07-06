@@ -115,6 +115,7 @@ export const renderSpecialMetaDescriptions = (
     );
   }
 
+  // MVP dynamic select implementation. Used currently only in Nachlass Erbfolge
   if (description === dynamicSelectZodDescription) {
     const options = dynamicOptions?.[fieldName] ?? [];
     const label =
