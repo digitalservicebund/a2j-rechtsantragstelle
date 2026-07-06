@@ -69,28 +69,26 @@ const elternteilGrandchildSchema = z.object({
   isAlive: YesNoAnswer,
 });
 
-// Which of the deceased's parents this sibling belongs to: parent index ("0"/"1")
-// or "both" (full sibling). Injected at runtime by the dynamic parent select.
-export type ParentElternteilIndex = string;
-
+// parentElternteilIndex: which of the deceased's parents this sibling belongs to,
+// a parent index ("0"/"1") or "both" (full sibling). Injected by the dynamic parent select.
 export type ElternteilKind =
   | {
       name: string;
       isAlive: "yes";
-      parentElternteilIndex?: ParentElternteilIndex;
+      parentElternteilIndex?: string;
     }
   | {
       name: string;
       isAlive: "no";
       hatteKinder: "no";
-      parentElternteilIndex?: ParentElternteilIndex;
+      parentElternteilIndex?: string;
     }
   | {
       name: string;
       isAlive: "no";
       hatteKinder: "yes";
       kinder?: Array<{ name: string; isAlive: "yes" | "no" }>;
-      parentElternteilIndex?: ParentElternteilIndex;
+      parentElternteilIndex?: string;
     };
 
 const elternteilKindSchema: z.ZodType<ElternteilKind> = z.union([

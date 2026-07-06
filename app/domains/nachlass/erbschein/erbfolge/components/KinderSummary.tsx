@@ -77,32 +77,27 @@ function buildAddUrl(
   count: number,
   inputUrl: string,
 ): string {
-  const segs = [base];
-  parentIndexes.forEach((idx) => {
-    segs.push(String(idx));
-    segs.push("kinder");
-  });
-  segs.push(String(count));
-  segs.push(inputUrl);
-  return segs.join("/");
+  const parentSegments = parentIndexes.flatMap((parentIndex) => [
+    String(parentIndex),
+    "kinder",
+  ]);
+  return [base, ...parentSegments, String(count), inputUrl].join("/");
 }
 
 // Pathname used by delete-array-item to locate the parent array:
 //   [] → base  (top-level kinder)
 //   [i] → base/i/kinder  (grandkinder of kind[i])
 function buildDeletePathname(base: string, parentIndexes: number[]): string {
-  if (parentIndexes.length === 0) return base;
-  const segs = [base];
-  parentIndexes.forEach((idx) => {
-    segs.push(String(idx));
-    segs.push("kinder");
-  });
-  return segs.join("/");
+  const parentSegments = parentIndexes.flatMap((parentIndex) => [
+    String(parentIndex),
+    "kinder",
+  ]);
+  return [base, ...parentSegments].join("/");
 }
 
 // "kinder" | "kinder#kinder" | "kinder#kinder#kinder" …
 function kindCategory(depth: number): string {
-  return Array(depth).fill("kinder").join("#");
+  return Array.from({ length: depth }, () => "kinder").join("#");
 }
 
 type DescendantEntry = {
@@ -280,7 +275,7 @@ function DescendantRow({
   initialInputUrl: string;
   badgeLabel?: string;
 }>) {
-  const itemIndex = indexes[indexes.length - 1];
+  const itemIndex = indexes.at(-1) ?? 0;
   const parentIndexes = indexes.slice(0, -1);
 
   const editUrl = buildEditUrl(baseUrl, indexes, initialInputUrl);
@@ -388,21 +383,23 @@ export function KinderSummary({
       {/* Level 1 — Kinder */}
       <div className="flex flex-col gap-kern-space-default">
         <h2 className="kern-title">{SECTION_TITLES[0]}</h2>
-        {items.map((item, i) => (
-          <KindSummaryItem
-            // oxlint-disable-next-line react/no-array-index-key
-            key={i}
-            item={item}
-            badgeLabel={level1Badge}
-            actions={
-              <ArraySummaryItemActions
-                category={category}
-                itemIndex={i}
-                editUrl={buildEditUrl(url, [i], initialInputUrl)}
-              />
-            }
-          />
-        ))}
+        {items.map((item, itemIndex) => {
+          const editUrl = buildEditUrl(url, [itemIndex], initialInputUrl);
+          return (
+            <KindSummaryItem
+              key={editUrl}
+              item={item}
+              badgeLabel={level1Badge}
+              actions={
+                <ArraySummaryItemActions
+                  category={category}
+                  itemIndex={itemIndex}
+                  editUrl={editUrl}
+                />
+              }
+            />
+          );
+        })}
         <div>
           <Button
             look="secondary"

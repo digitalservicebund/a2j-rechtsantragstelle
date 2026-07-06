@@ -7,27 +7,27 @@ import { Badge } from "~/components/common/Badge";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
-import type { ArrayData, BasicTypes } from "~/domains/userData";
+import type { ArrayData } from "~/domains/userData";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
 type GrandkindItem = {
-  name?: BasicTypes;
-  isAlive?: BasicTypes;
+  name?: string;
+  isAlive?: string;
 };
 
 type ElternteilKindItem = {
-  name?: BasicTypes;
-  isAlive?: BasicTypes;
-  hatteKinder?: BasicTypes;
+  name?: string;
+  isAlive?: string;
+  hatteKinder?: string;
   kinder?: GrandkindItem[];
-  parentElternteilIndex?: BasicTypes;
+  parentElternteilIndex?: string;
 };
 
 type ElternteilItem = {
-  name?: BasicTypes;
-  isAlive?: BasicTypes;
-  hatteKinder?: BasicTypes;
+  name?: string;
+  isAlive?: string;
+  hatteKinder?: string;
   kinder?: ElternteilKindItem[];
 };
 
@@ -264,26 +264,28 @@ export function ElternteilSummary({
       {/* Level 1 — Elternteile */}
       <div className="flex flex-col gap-kern-space-default">
         <h2 className="kern-title">Elternteile</h2>
-        {elternteile.map((elternteil, elternteilIndex) => (
-          <PersonSummaryItem
-            // oxlint-disable-next-line react/no-array-index-key
-            key={elternteilIndex}
-            name={String(elternteil.name ?? "")}
-            isAlive={String(elternteil.isAlive ?? "yes")}
-            badgeLabel={
-              deceasedPersonName
-                ? `Elternteil von ${deceasedPersonName}`
-                : undefined
-            }
-            actions={
-              <ArraySummaryItemActions
-                category="elternteile"
-                itemIndex={elternteilIndex}
-                editUrl={`${url}/${elternteilIndex}/${initialInputUrl}`}
-              />
-            }
-          />
-        ))}
+        {elternteile.map((elternteil, elternteilIndex) => {
+          const editUrl = `${url}/${elternteilIndex}/${initialInputUrl}`;
+          return (
+            <PersonSummaryItem
+              key={editUrl}
+              name={String(elternteil.name ?? "")}
+              isAlive={String(elternteil.isAlive ?? "yes")}
+              badgeLabel={
+                deceasedPersonName
+                  ? `Elternteil von ${deceasedPersonName}`
+                  : undefined
+              }
+              actions={
+                <ArraySummaryItemActions
+                  category="elternteile"
+                  itemIndex={elternteilIndex}
+                  editUrl={editUrl}
+                />
+              }
+            />
+          );
+        })}
         {elternteile.length < 2 && (
           <AddButton href={`${url}/${elternteile.length}/${initialInputUrl}`}>
             Elternteil hinzufügen
@@ -297,7 +299,6 @@ export function ElternteilSummary({
           <h2 className="kern-title">Kinder von Elternteilen</h2>
           {allKinder.map(
             ({ kind, kindIndex, elternteilIndex, badgeLabel, kinderBase }) => (
-              // oxlint-disable-next-line react/no-array-index-key
               <PersonSummaryItem
                 key={`${elternteilIndex}-${kindIndex}`}
                 name={String(kind.name ?? "")}
@@ -333,7 +334,6 @@ export function ElternteilSummary({
               kindName,
               grandkinderBase,
             }) => (
-              // oxlint-disable-next-line react/no-array-index-key
               <PersonSummaryItem
                 key={`${elternteilIndex}-${kindIndex}-${grandkindIndex}`}
                 name={String(grandkind.name ?? "")}
