@@ -1,5 +1,8 @@
 import z from "zod";
-import { extractZodDescription } from "../renderSchemaBasedFormElement";
+import {
+  extractZodDescription,
+  isSpecialComponentDescriptions,
+} from "../renderSchemaBasedFormElement";
 
 describe("extractZodDescription", () => {
   it("returns undefined without description", () => {
@@ -45,5 +48,25 @@ describe("extractZodDescription", () => {
       .pipe(z.string())
       .describe("test1");
     expect(extractZodDescription(pipedSchema)).toBe("test1");
+  });
+
+  it("returns description when .describe() is called after .optional()", () => {
+    expect(
+      extractZodDescription(z.string().optional().describe("dynamic_select")),
+    ).toBe("dynamic_select");
+  });
+});
+
+describe("isSpecialComponentDescriptions", () => {
+  it("returns true for dynamic_select", () => {
+    expect(isSpecialComponentDescriptions("dynamic_select")).toBe(true);
+  });
+
+  it("returns false for unknown values", () => {
+    expect(isSpecialComponentDescriptions("unknown_value")).toBe(false);
+  });
+
+  it("returns false for undefined", () => {
+    expect(isSpecialComponentDescriptions(undefined)).toBe(false);
   });
 });
