@@ -271,10 +271,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     progressProps: staticFlow.getProgress(stepId),
     buttonNavigationProps,
     dynamicOptions,
-    deceasedPersonName:
-      (flowSession.prunedUserData as Record<string, unknown>).name as
-        | string
-        | undefined,
+    deceasedPersonName: (flowSession.prunedUserData as Record<string, unknown>)
+      .name as string | undefined,
   });
 };
 

@@ -132,9 +132,7 @@ describe("resolveParentOptions preselects a single option", () => {
       { kinder: [{ name: "Anna", isAlive: "no", hatteKinder: "yes" }] },
       [0],
     );
-    expect(options).toEqual([
-      { value: "0", text: "Anna", preSelected: true },
-    ]);
+    expect(options).toEqual([{ value: "0", text: "Anna", preSelected: true }]);
   });
 
   it("does not preselect when multiple options exist", () => {

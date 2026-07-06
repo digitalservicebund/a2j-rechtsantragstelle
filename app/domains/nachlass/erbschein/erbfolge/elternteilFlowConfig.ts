@@ -67,5 +67,4 @@ export const elternteilFlowConfig = {
     { target: "elternteilSummary" },
   ],
   elternteilKindKindDaten: "elternteilKindKinderAnzahl",
-
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;

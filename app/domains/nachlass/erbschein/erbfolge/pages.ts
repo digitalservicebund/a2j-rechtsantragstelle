@@ -74,7 +74,11 @@ const elternteilGrandchildSchema = z.object({
 export type ParentElternteilIndex = string;
 
 export type ElternteilKind =
-  | { name: string; isAlive: "yes"; parentElternteilIndex?: ParentElternteilIndex }
+  | {
+      name: string;
+      isAlive: "yes";
+      parentElternteilIndex?: ParentElternteilIndex;
+    }
   | {
       name: string;
       isAlive: "no";

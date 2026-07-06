@@ -27,7 +27,10 @@ const SINGULAR_TITLES = [
   "Ururenurenkel",
 ];
 
-function badgeLabel(depth: number, deceasedPersonName?: string): string | undefined {
+function badgeLabel(
+  depth: number,
+  deceasedPersonName?: string,
+): string | undefined {
   if (!deceasedPersonName) return undefined;
   return `${SINGULAR_TITLES[depth - 1]} von ${deceasedPersonName}`;
 }
@@ -50,7 +53,11 @@ type ItemWithPath = {
 };
 
 // base/i/inputUrl  or  base/i/kinder/j/inputUrl  etc.
-function buildEditUrl(base: string, indexes: number[], inputUrl: string): string {
+function buildEditUrl(
+  base: string,
+  indexes: number[],
+  inputUrl: string,
+): string {
   const segs = [base];
   indexes.forEach((idx, d) => {
     segs.push(String(idx));
@@ -173,11 +180,19 @@ function collectAtDepth(
   path: number[] = [],
 ): ItemWithPath[] {
   if (currentDepth === targetDepth) {
-    return items.map((item, itemIndex) => ({ item, indexes: [...path, itemIndex] }));
+    return items.map((item, itemIndex) => ({
+      item,
+      indexes: [...path, itemIndex],
+    }));
   }
   return items.flatMap((item, itemIndex) => {
-    const children = Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [];
-    return collectAtDepth(children, targetDepth, currentDepth + 1, [...path, itemIndex]);
+    const children = Array.isArray(item.kinder)
+      ? (item.kinder as KindItem[])
+      : [];
+    return collectAtDepth(children, targetDepth, currentDepth + 1, [
+      ...path,
+      itemIndex,
+    ]);
   });
 }
 
@@ -318,7 +333,8 @@ function FlatDescendantSection({
   if (!firstDeadParent) return null;
 
   const descendants = collectDescendantsWithParentName(items, depth);
-  const firstDeadParentChildren = (firstDeadParent.item.kinder ?? []) as KindItem[];
+  const firstDeadParentChildren = (firstDeadParent.item.kinder ??
+    []) as KindItem[];
 
   return (
     <div className="flex flex-col gap-kern-space-default">

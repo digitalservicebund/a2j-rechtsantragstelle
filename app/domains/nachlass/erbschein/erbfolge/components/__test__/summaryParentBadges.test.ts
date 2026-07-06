@@ -92,9 +92,7 @@ describe("collectDescendantsWithParentName", () => {
         name: "Kind 1",
         isAlive: "no",
         hatteKinder: "yes",
-        kinder: [
-          { name: "Enkelkind 1", isAlive: "yes", parentKindIndex: "1" },
-        ],
+        kinder: [{ name: "Enkelkind 1", isAlive: "yes", parentKindIndex: "1" }],
       },
       { name: "Kind 2", isAlive: "yes" },
     ] as unknown as KindItems;

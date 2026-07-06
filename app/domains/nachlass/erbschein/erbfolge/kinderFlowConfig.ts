@@ -6,7 +6,7 @@ import { type NachlassErbfolgePages } from "./pages";
 function allDescendantsDead(kind: {
   isAlive?: string;
   hatteKinder?: string;
-  kinder?: typeof kind[];
+  kinder?: (typeof kind)[];
 }): boolean {
   if (kind.isAlive === "yes") return false;
   if (kind.hatteKinder !== "yes") return true;

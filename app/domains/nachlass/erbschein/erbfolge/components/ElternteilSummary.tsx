@@ -66,7 +66,10 @@ type GrandkindEntry = {
   grandkinderBase: string;
 };
 
-function collectKinder(elternteile: ElternteilItem[], url: string): KindEntry[] {
+function collectKinder(
+  elternteile: ElternteilItem[],
+  url: string,
+): KindEntry[] {
   return elternteile.flatMap((elternteil, elternteilIndex) => {
     if (elternteil.isAlive !== "no" || elternteil.hatteKinder !== "yes")
       return [];
