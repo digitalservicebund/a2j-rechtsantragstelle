@@ -109,7 +109,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryPoint: getArrayEntryPoint(nodeTransitions, pages),
         entryNodeKey: addTransition?.target ?? undefined,
       };
-    } else if (addTransition != null && addTransition.target != null) {
+    } else if (addTransition?.target != null) {
       // Non-summary node with addArrayItem: populate array info so the BFS
       // can fan out items. entryPoint is left undefined so callers know not
       // to render array summary UI for this page.
