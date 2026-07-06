@@ -45,9 +45,15 @@ export const getSessionAndEngine = async (
     );
 
     // We need to create a new flow session with the pruned user data to get the next step id, because the next step id is determined by the flow engine based on the current state of the user data.
+    const prunedUserDataPruned = addPageDataToUserData(
+      flowSessionEnginePrunedData.prunedUserData,
+      {
+        arrayIndexes,
+      },
+    );
     const flowSessionEngine = createFlowSession(
       newEngineConfig,
-      flowSessionEnginePrunedData.prunedUserData,
+      prunedUserDataPruned,
       stepId,
     );
 
