@@ -534,6 +534,18 @@ describe("createFlowSession", () => {
       expect(session.prunedUserData).not.toHaveProperty("pageData");
     });
 
+    it("should include pageData in prunedUserData when subflowDoneStates exist", () => {
+      const noData = {
+        pageData: { arrayIndexes: [], subflowDoneStates: { "/start": true } },
+      };
+
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.prunedUserData).toHaveProperty("pageData");
+      expect(session.prunedUserData.pageData.subflowDoneStates).toEqual({
+        "/start": true,
+      });
+    });
+
     it("keeps nested array data when the nested array name uses #-notation", () => {
       // Regression test: arraySummary.name like "parents#children" must use the
       // leaf segment ("children") as the scopeData key and arrayPath segment —

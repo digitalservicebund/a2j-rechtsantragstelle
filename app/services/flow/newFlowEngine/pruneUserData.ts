@@ -36,7 +36,7 @@ export const pruneUserData = <C extends PageConfigMap>(
     arrayPath: string[];
   }>,
   data: InferredUserData<C> & { pageData: PageData },
-): InferredUserData<C> => {
+): InferredUserData<C> & { pageData: PageData } => {
   const result: Record<string, unknown> = {};
 
   for (const {
@@ -68,5 +68,14 @@ export const pruneUserData = <C extends PageConfigMap>(
     }
   }
 
-  return result as InferredUserData<C>;
+  const resultMerged = {
+    ...result,
+    ...(data.pageData?.subflowDoneStates && {
+      pageData: { subflowDoneStates: data.pageData.subflowDoneStates },
+    }),
+  };
+
+  return resultMerged as unknown as InferredUserData<C> & {
+    pageData: PageData;
+  };
 };
