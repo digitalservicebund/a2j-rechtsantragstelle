@@ -10,9 +10,7 @@ vi.mock("@rvf/react-router", () => ({
   }),
 }));
 
-const makeDropdownElement = (
-  overrides: Record<string, unknown> = {},
-) =>
+const makeDropdownElement = (overrides: Record<string, unknown> = {}) =>
   ({
     __component: "form-elements.dropdown",
     name: "parentField",
@@ -93,7 +91,9 @@ describe("renderSpecialMetaDescriptions — dynamic_select", () => {
   });
 
   it("ignores CMS options array and uses only dynamicOptions", () => {
-    const cmsOptions = [{ value: "cms", text: "CMS Option", preSelected: false }];
+    const cmsOptions = [
+      { value: "cms", text: "CMS Option", preSelected: false },
+    ];
     const runtimeOptions = [{ value: "0", text: "Maria", preSelected: false }];
     render(
       renderSpecialMetaDescriptions(

@@ -472,7 +472,9 @@ describe("SchemaComponents", () => {
         pageConfig={{ pageSchema }}
         readOnlyFieldNames={[]}
         dynamicOptions={{
-          "outer.parentField": [{ value: "0", text: "Maria", preSelected: false }],
+          "outer.parentField": [
+            { value: "0", text: "Maria", preSelected: false },
+          ],
         }}
       />,
     );
