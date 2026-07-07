@@ -21,8 +21,8 @@ describe("buildArrayConfigServer", () => {
       arrayInfo: {
         name: "arrayName",
         entryPoint: "/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten",
-        statementKey: "statementKey",
-        displayIndexOffset: 1,
+        fieldName: "fieldName",
+        indexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
     } as unknown as FlowSession<PageConfigMap>;
@@ -37,7 +37,7 @@ describe("buildArrayConfigServer", () => {
         event: "add-arrayName",
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
         initialInputUrl: "daten",
-        statementKey: "statementKey",
+        statementKey: "fieldName",
         displayIndexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
