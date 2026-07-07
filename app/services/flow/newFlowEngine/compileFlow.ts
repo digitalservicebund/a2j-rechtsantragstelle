@@ -68,7 +68,14 @@ export const compileFlow = <C extends PageConfigMap>({
   const arrayInfoCache: Partial<
     Record<
       NodeKey<C>,
-      { name: string; entryPoint?: string; entryNodeKey?: NodeKey<C> }
+      {
+        name: string;
+        entryPoint?: string;
+        entryNodeKey?: NodeKey<C>;
+        fieldName?: string;
+        indexOffset?: number;
+        hiddenFields?: string[];
+      }
     >
   > = {};
 
@@ -108,6 +115,9 @@ export const compileFlow = <C extends PageConfigMap>({
         name: pageNode.arraySummary.name,
         entryPoint: getArrayEntryPoint(nodeTransitions, pages),
         entryNodeKey: addTransition?.target ?? undefined,
+        fieldName: pageNode.arraySummary.fieldName,
+        indexOffset: pageNode.arraySummary.indexOffset,
+        hiddenFields: pageNode.arraySummary.hiddenFields,
       };
     } else if (addTransition?.target != null) {
       // Non-summary node with addArrayItem: populate array info so the BFS

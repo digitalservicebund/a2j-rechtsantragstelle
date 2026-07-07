@@ -84,4 +84,11 @@ describe("Select", () => {
     const element = screen.getByRole("combobox");
     expect(element).toHaveAttribute("aria-required", "false");
   });
+
+  it("should show the translation placeholder as the empty option", () => {
+    render(<Select name="select" options={[]} />);
+    expect(
+      screen.getByText(translations.select.placeholder.de),
+    ).toBeInTheDocument();
+  });
 });
