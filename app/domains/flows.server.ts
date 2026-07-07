@@ -26,6 +26,12 @@ type FlowMigration = {
   buttonUrl?: string;
 };
 
+type FlowMetaConfiguration = {
+  excludedFromValidation?: boolean;
+  triggerValidation?: boolean;
+  shouldAppearAsMenuNavigation?: boolean;
+};
+
 export type FlowType = "vorabCheck" | "formFlow";
 
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
@@ -45,6 +51,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
     ) => Promise<void>
   >;
   useStepper?: boolean;
+  metaConfiguration?: Record<string, FlowMetaConfiguration>;
 };
 
 export const flows = {

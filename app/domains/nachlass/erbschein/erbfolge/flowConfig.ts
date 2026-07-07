@@ -36,24 +36,15 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     gueterstand: "kinder",
     kinder: [
       { target: "kinderAnzahl", guard: (d) => d.hatteKinder === "yes" },
-      { target: "elternteile" },
+      { target: "elternteilSummary" },
     ],
     kinderAnzahl: "kind1Summary",
     ...kinderFlowConfig,
-    elternteile: "elternteilSummary",
     elternteilSummary: [
       { target: "elternteilDaten", type: "addArrayItem" },
-      {
-        target: "gemeinsameKinderAnzahl",
-        guard: ({ elternteile }) => {
-          if (!elternteile || elternteile.length < 2) return false;
-          return (
-            elternteile[0].isAlive === "no" && elternteile[1].isAlive === "no"
-          );
-        },
-      },
-      { target: null },
+      { target: "ergebnis" },
     ],
     ...elternteilFlowConfig,
+    ergebnis: null,
   },
 });

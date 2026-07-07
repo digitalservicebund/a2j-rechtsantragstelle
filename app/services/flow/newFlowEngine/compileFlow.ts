@@ -72,6 +72,17 @@ export const compileFlow = <C extends PageConfigMap>({
     >
   > = {};
 
+  // Derives the "#"-notation array name from a target node's stepId.
+  // e.g. "/parents/#/children/#/daten" → "parents#children"
+  const inferArrayNameFromStepId = (stepId: string): string => {
+    const parts = stepId.split("/");
+    const names: string[] = [];
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (parts[i + 1] === ARRAY_WILDCARD) names.push(parts[i]);
+    }
+    return names.join("#");
+  };
+
   // Single-pass static initialization
   for (const [key, pageNode] of Object.entries(pages)) {
     const nodeKey = key as NodeKey<C>;
@@ -87,16 +98,30 @@ export const compileFlow = <C extends PageConfigMap>({
     const { compiledSchema, fieldNames } = normalizeSchema(pageNode.pageSchema);
     schemaCache[nodeKey] = compiledSchema;
     fieldNamesCache[nodeKey] = fieldNames;
+    const nodeTransitions = transitions[nodeKey];
+    const addTransition = Array.isArray(nodeTransitions)
+      ? nodeTransitions.find((t) => t?.type === "addArrayItem")
+      : undefined;
+
     if (pageNode.arraySummary) {
-      const arrayTransitions = transitions[nodeKey];
-      const addTransition = Array.isArray(arrayTransitions)
-        ? arrayTransitions.find((t) => t?.type === "addArrayItem")
-        : undefined;
       arrayInfoCache[nodeKey] = {
         name: pageNode.arraySummary.name,
-        entryPoint: getArrayEntryPoint(arrayTransitions, pages),
+        entryPoint: getArrayEntryPoint(nodeTransitions, pages),
         entryNodeKey: addTransition?.target ?? undefined,
       };
+    } else if (addTransition?.target != null) {
+      // Non-summary node with addArrayItem: populate array info so the BFS
+      // can fan out items. entryPoint is left undefined so callers know not
+      // to render array summary UI for this page.
+      const target = addTransition.target;
+      const name = inferArrayNameFromStepId(pages[target].stepId);
+      if (name) {
+        arrayInfoCache[nodeKey] = {
+          name,
+          entryPoint: undefined,
+          entryNodeKey: target,
+        };
+      }
     }
   }
 
