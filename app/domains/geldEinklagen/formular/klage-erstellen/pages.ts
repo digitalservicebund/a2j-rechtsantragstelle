@@ -46,10 +46,8 @@ export const geldEinklagenKlageErstellenPages = {
   klagendePersonKontaktdaten: {
     stepId: "klage-erstellen/klagende-person/kontaktdaten",
     pageSchema: {
-      klagendePersonAnrede: schemaOrEmptyString(
-        z.enum(["herr", "frau", "none"]),
-      ),
-      klagendePersonTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
+      klagendePersonAnrede: z.enum(["herr", "frau", "none"]),
+      klagendePersonTitle: z.enum(["none", "dr"]),
       klagendePersonVorname: stringRequiredSchema,
       klagendePersonNachname: stringRequiredSchema,
       klagendePersonStrasse: stringRequiredSchema,
@@ -78,9 +76,7 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonAnwaltschaftHausnummer: germanHouseNumberSchema,
       klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
       klagendePersonAnwaltschaftOrt: stringRequiredSchema,
-      klagendePersonAnwaltschaftAnrede: schemaOrEmptyString(
-        z.enum(["herr", "frau", "none"]),
-      ),
+      klagendePersonAnwaltschaftAnrede: z.enum(["herr", "frau", "none"]),
       klagendePersonAnwaltschaftTitle: stringOptionalSchema,
       klagendePersonAnwaltschaftVorname: stringRequiredSchema,
       klagendePersonAnwaltschaftNachname: stringRequiredSchema,
@@ -93,8 +89,8 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonMenschen: {
     stepId: "klage-erstellen/beklagte-person/mensch",
     pageSchema: {
-      beklagteAnrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
-      beklagteTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
+      beklagteAnrede: z.enum(["herr", "frau", "none"]),
+      beklagteTitle: z.enum(["none", "dr"]),
       beklagteVorname: stringRequiredSchema,
       beklagteNachname: stringRequiredSchema,
       ...sharedBeklagteAddress,
@@ -111,12 +107,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       beklagteNameOrganisation: stringRequiredSchema,
       ...sharedBeklagteAddress,
-      beklagteGesetzlichenVertretungAnrede: schemaOrEmptyString(
-        z.enum(["herr", "frau", "none"]),
-      ),
-      beklagteGesetzlichenVertretungTitle: schemaOrEmptyString(
-        z.enum(["none", "dr"]),
-      ),
+      beklagteGesetzlichenVertretungAnrede: z.enum(["herr", "frau", "none"]),
+      beklagteGesetzlichenVertretungTitle: z.enum(["none", "dr"]),
       beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
       beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
     },
