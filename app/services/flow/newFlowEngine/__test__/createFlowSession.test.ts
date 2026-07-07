@@ -18,6 +18,9 @@ const transitions = {
 
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const itemAt = (d: any, i: number) => d.items?.[i];
+
 describe("createFlowSession", () => {
   describe("invalid path", () => {
     it("throws an Error for an unknown path", () => {
@@ -180,6 +183,111 @@ describe("createFlowSession", () => {
       expect(session.prevPath).toBe(
         "/gericht-pruefen/beklagte-person/kaufmann",
       );
+    });
+
+    it("returns the summary as Back for a top-level array item page", () => {
+      // Regression guard: a top-level item's daten page is reached directly from
+      // its summary's add button, so Back must return to that summary — the fix for
+      // deeper fan-out nodes must not skip past a real summary.
+      const topLevelArrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: "list" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        topLevelArrayFlow,
+        {
+          items: [{ name: "a" }],
+          pageData: { arrayIndexes: [0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/items/#/daten",
+      );
+
+      expect(session.prevPath).toBe("/list");
+    });
+
+    it("skips a bare fan-out node so Back returns to the summary it exits to", () => {
+      // A nested item's daten page is reached by an addArrayItem fan-out hosted on
+      // "subCount" — a node that renders no summary and only exists to fan out. The
+      // user reaches the nested daten page via the summary's add button, so Back
+      // must return to the summary ("/list"), not the internal fan-out node.
+      const fanOutBackFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ gate: z.string() })),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#gate": z.string() },
+          },
+          subCount: { stepId: "/items/#/count" },
+          subDaten: {
+            stepId: "/items/#/items/#/daten",
+            pageSchema: { "items#items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: [
+            {
+              target: "subCount" as const,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              guard: (d: any) =>
+                itemAt(d, d.pageData?.arrayIndexes?.[0])?.gate === "yes",
+            },
+            { target: "list" as const },
+          ],
+          subCount: [
+            { target: "subDaten" as const, type: "addArrayItem" as const },
+            { target: "list" as const },
+          ],
+          subDaten: "subCount" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        fanOutBackFlow,
+        {
+          items: [{ gate: "yes", items: [{ name: "x" }] }],
+          pageData: { arrayIndexes: [0, 0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/items/#/items/#/daten",
+      );
+
+      expect(session.prevPath).toBe("/list");
     });
   });
 
@@ -532,6 +640,155 @@ describe("createFlowSession", () => {
     it("does not include pageData in prunedUserData", () => {
       const session = createFlowSession(flow, noData, "/start");
       expect(session.prunedUserData).not.toHaveProperty("pageData");
+    });
+
+    it("prunes a nested array under a parent whose guard no longer reaches it", () => {
+      // An item's nested array (same "items" shape, one level down) is only
+      // reachable when the item's gate passes (gate="yes"). When the gate fails,
+      // the nested items are unreachable and must be pruned. Because the nested
+      // items share the "name" field with the top-level daten page, a scope leak
+      // when exiting the sub-flow back to the summary would re-collect them under
+      // the parent — this asserts that does not happen.
+      const nestedGuardedFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(
+                z.object({ name: z.string(), gate: z.string().optional() }),
+              ),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#name": z.string(), "items#gate": z.string() },
+          },
+          subList: {
+            stepId: "/items/#/items",
+            arraySummary: {
+              name: "items#items",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          subDaten: {
+            stepId: "/items/#/items/#/daten",
+            pageSchema: { "items#items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: [
+            {
+              target: "subList" as const,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              guard: (d: any) =>
+                itemAt(d, d.pageData?.arrayIndexes?.[0])?.gate === "yes",
+            },
+            { target: "list" as const },
+          ],
+          subList: [
+            { target: "subDaten" as const, type: "addArrayItem" as const },
+            { target: "list" as const },
+          ],
+          subDaten: "subList" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        nestedGuardedFlow,
+        {
+          items: [
+            // gate="no" → nested "items" unreachable, but stale entries linger.
+            { name: "a", gate: "no", items: [{ name: "x" }, { name: "y" }] },
+            { name: "b", gate: "yes" },
+          ],
+          pageData: { arrayIndexes: [] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/list",
+      );
+
+      expect(session.prunedUserData).toEqual({
+        items: [
+          { name: "a", gate: "no" },
+          { name: "b", gate: "yes" },
+        ],
+      });
+    });
+
+    describe("non-summary addArrayItem fan-out", () => {
+      // Flow: anzahl -[addArrayItem]-> itemDaten -> anzahl (loop)
+      //             -[fallback]-------> done
+      // "anzahl" has no arraySummary — it is a plain form page that also fans out.
+      const fanOutPages = {
+        anzahl: { stepId: "/anzahl" },
+        itemDaten: {
+          stepId: "/items/#/daten",
+          pageSchema: { label: z.string() },
+        },
+        done: { stepId: "/done" },
+      } as const;
+
+      const fanOutTransitions = {
+        anzahl: [
+          { target: "itemDaten" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        itemDaten: "anzahl" as const,
+        done: null,
+      };
+
+      const fanOutFlow = compileFlow({
+        pages: fanOutPages,
+        initialStep: "anzahl",
+        transitions: fanOutTransitions,
+      });
+
+      it("add-target is reachable when the array is empty", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("item page is reachable when the array has existing entries", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {
+            items: [{ label: "a" }, { label: "b" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/anzahl",
+        );
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("nextPath skips addArrayItem and returns the fallback target", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.nextPath).toBe("/done");
+      });
+
+      it("prunedUserData includes array item data via non-summary fan-out", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { items: [{ label: "a" }], pageData: { arrayIndexes: [] } } as any,
+          "/anzahl",
+        );
+        expect(session.prunedUserData).toEqual({ items: [{ label: "a" }] });
+      });
+
+      it("arrayInfo has name but entryPoint is undefined for non-summary nodes", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.arrayInfo?.name).toBe("items");
+        expect(session.arrayInfo?.entryPoint).toBeUndefined();
+      });
     });
 
     it("keeps nested array data when the nested array name uses #-notation", () => {

@@ -13,6 +13,11 @@ import TelephoneInput from "../inputs/telephone/TelephoneInput";
 import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 import { numberIncrementZodDescription } from "~/services/validation/numberIncrement";
 import NumberIncrement from "../inputs/number/NumberIncrement";
+import {
+  dynamicSelectZodDescription,
+  type DynamicOptions,
+} from "~/services/validation/dynamicSelect";
+import Select from "../inputs/select/Select";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -20,6 +25,7 @@ const specialComponentDescriptions = [
   ibanZodDescription,
   phoneNumberZodDescription,
   numberIncrementZodDescription,
+  dynamicSelectZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -51,6 +57,7 @@ export const renderSpecialMetaDescriptions = (
   fieldSchema: z.ZodType,
   controlledFieldConfig?: ControlledFieldConfig,
   matchingElement?: StrapiFormComponent,
+  dynamicOptions?: DynamicOptions,
 ) => {
   if (description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
@@ -104,6 +111,29 @@ export const renderSpecialMetaDescriptions = (
         min={minValue}
         max={maxValue}
         {...matchingElement}
+      />
+    );
+  }
+
+  // MVP dynamic select implementation. Used currently only in Nachlass Erbfolge
+  if (description === dynamicSelectZodDescription) {
+    const options = dynamicOptions?.[fieldName] ?? [];
+    const label =
+      matchingElement && "label" in matchingElement
+        ? matchingElement.label
+        : undefined;
+    const errorMessages =
+      matchingElement && "errorMessages" in matchingElement
+        ? matchingElement.errorMessages
+        : undefined;
+
+    return (
+      <Select
+        key={fieldName}
+        name={fieldName}
+        options={options}
+        label={label}
+        errorMessages={errorMessages}
       />
     );
   }
