@@ -104,5 +104,61 @@ describe("arrayDeletion", () => {
         { name: "Parent 2", kinder: [{ name: "Child C" }] },
       ]);
     });
+
+    it("cascades deletion of kinder when an elternteil is deleted", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Maria",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind A" }, { name: "Kind B" }],
+        },
+        {
+          name: "Hans",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind C" }],
+        },
+      ]);
+
+      const result = deleteArrayItem("elternteile", 0, mockSession);
+      expect(result.isOk).toBe(true);
+      const remaining = mockSession.get("elternteile") as Array<{
+        name: string;
+        kinder?: unknown[];
+      }>;
+      expect(remaining).toHaveLength(1);
+      expect(remaining[0].name).toBe("Hans");
+      expect(remaining[0].kinder).toEqual([{ name: "Kind C" }]);
+    });
+
+    it("leaves other parents' children untouched when deleting the last elternteil", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Maria",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind A" }],
+        },
+        {
+          name: "Hans",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind B" }],
+        },
+      ]);
+
+      const result = deleteArrayItem("elternteile", 1, mockSession);
+      expect(result.isOk).toBe(true);
+      const remaining = mockSession.get("elternteile") as Array<{
+        name: string;
+        kinder?: unknown[];
+      }>;
+      expect(remaining).toHaveLength(1);
+      expect(remaining[0].name).toBe("Maria");
+      expect(remaining[0].kinder).toEqual([{ name: "Kind A" }]);
+    });
   });
 });

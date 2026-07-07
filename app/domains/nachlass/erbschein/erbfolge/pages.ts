@@ -2,11 +2,21 @@ import { z } from "zod";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
+import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
 
-type Kind =
+export type Kind =
   | { name: string; isAlive: "yes" }
   | { name: string; isAlive: "no"; hatteKinder: "no" }
   | { name: string; isAlive: "no"; hatteKinder: "yes"; kinder?: Kind[] };
+
+const gueterstandSchema = z.enum([
+  "communityOfAcquisitions",
+  "separationOfProperty",
+  "communityOfProperty",
+  "other",
+  "unknown",
+]);
+export type Gueterstand = z.infer<typeof gueterstandSchema>;
 
 const kindNameSchema = z.string();
 
@@ -29,6 +39,21 @@ const kindSchema: z.ZodType<Kind> = z.lazy(() =>
 
 const kinderArray = z.array(kindSchema);
 
+// Dynamic parent select values: stringified index, "" or absent. The valid index
+// range is runtime data, so consumers fall back to the physical parent.
+const parentKindIndexSchema = z
+  .string()
+  .regex(/^\d*$/)
+  .optional()
+  .describe(dynamicSelectZodDescription);
+
+// Elternteil variant also allows "both" (full sibling).
+const parentElternteilIndexSchema = z
+  .string()
+  .regex(/^(\d*|both)$/)
+  .optional()
+  .describe(dynamicSelectZodDescription);
+
 const kindDatenSchema = (prefix: string) => ({
   [`${prefix}name`]: kindNameSchema,
   [`${prefix}isAlive`]: YesNoAnswer,
@@ -44,32 +69,50 @@ const elternteilGrandchildSchema = z.object({
   isAlive: YesNoAnswer,
 });
 
-type ElternteilKind =
-  | { name: string; isAlive: "yes" }
-  | { name: string; isAlive: "no"; hatteKinder: "no" }
+// parentElternteilIndex: which of the deceased's parents this sibling belongs to,
+// a parent index ("0"/"1") or "both" (full sibling). Injected by the dynamic parent select.
+export type ElternteilKind =
+  | {
+      name: string;
+      isAlive: "yes";
+      parentElternteilIndex?: string;
+    }
+  | {
+      name: string;
+      isAlive: "no";
+      hatteKinder: "no";
+      parentElternteilIndex?: string;
+    }
   | {
       name: string;
       isAlive: "no";
       hatteKinder: "yes";
       kinder?: Array<{ name: string; isAlive: "yes" | "no" }>;
+      parentElternteilIndex?: string;
     };
 
 const elternteilKindSchema: z.ZodType<ElternteilKind> = z.union([
-  z.object({ name: z.string(), isAlive: z.literal("yes") }),
+  z.object({
+    name: z.string(),
+    isAlive: z.literal("yes"),
+    parentElternteilIndex: z.string().optional(),
+  }),
   z.object({
     name: z.string(),
     isAlive: z.literal("no"),
     hatteKinder: z.literal("no"),
+    parentElternteilIndex: z.string().optional(),
   }),
   z.object({
     name: z.string(),
     isAlive: z.literal("no"),
     hatteKinder: z.literal("yes"),
     kinder: z.array(elternteilGrandchildSchema).optional(),
+    parentElternteilIndex: z.string().optional(),
   }),
 ]);
 
-type Elternteil =
+export type Elternteil =
   | { name: string; isAlive: "yes" }
   | { name: string; isAlive: "no"; hatteKinder: "no" }
   | {
@@ -143,13 +186,7 @@ export const nachlassErbfolgePages = {
   gueterstand: {
     stepId: "/gueterstand",
     pageSchema: {
-      gueterstand: z.enum([
-        "communityOfAcquisitions",
-        "separationOfProperty",
-        "communityOfProperty",
-        "other",
-        "unknown",
-      ]),
+      gueterstand: gueterstandSchema,
     },
   },
   kinder: {
@@ -176,13 +213,12 @@ export const nachlassErbfolgePages = {
     stepId: "/kinder/#/kinderAnzahl",
     pageSchema: { "kinder#kinderAnzahl": createNumberIncrementSchema(1) },
   },
-  kind2Summary: {
-    stepId: "/kinder/#/kinder",
-    arraySummary: { name: "kinder#kinder", schema: kinderArray },
-  },
   kind2Daten: {
     stepId: "/kinder/#/kinder/#/daten",
-    pageSchema: kindDatenSchema("kinder#kinder#"),
+    pageSchema: {
+      ...kindDatenSchema("kinder#kinder#"),
+      "kinder#kinder#parentKindIndex": parentKindIndexSchema,
+    },
   },
   kind2HatteKinder: {
     stepId: "/kinder/#/kinder/#/hatteKinder",
@@ -194,13 +230,12 @@ export const nachlassErbfolgePages = {
       "kinder#kinder#kinderAnzahl": createNumberIncrementSchema(1),
     },
   },
-  kind3Summary: {
-    stepId: "/kinder/#/kinder/#/kinder",
-    arraySummary: { name: "kinder#kinder#kinder", schema: kinderArray },
-  },
   kind3Daten: {
     stepId: "/kinder/#/kinder/#/kinder/#/daten",
-    pageSchema: kindDatenSchema("kinder#kinder#kinder#"),
+    pageSchema: {
+      ...kindDatenSchema("kinder#kinder#kinder#"),
+      "kinder#kinder#kinder#parentKindIndex": parentKindIndexSchema,
+    },
   },
   kind3HatteKinder: {
     stepId: "/kinder/#/kinder/#/kinder/#/hatteKinder",
@@ -212,13 +247,12 @@ export const nachlassErbfolgePages = {
       "kinder#kinder#kinder#kinderAnzahl": createNumberIncrementSchema(1),
     },
   },
-  kind4Summary: {
-    stepId: "/kinder/#/kinder/#/kinder/#/kinder",
-    arraySummary: { name: "kinder#kinder#kinder#kinder", schema: kinderArray },
-  },
   kind4Daten: {
     stepId: "/kinder/#/kinder/#/kinder/#/kinder/#/daten",
-    pageSchema: kindDatenSchema("kinder#kinder#kinder#kinder#"),
+    pageSchema: {
+      ...kindDatenSchema("kinder#kinder#kinder#kinder#"),
+      "kinder#kinder#kinder#kinder#parentKindIndex": parentKindIndexSchema,
+    },
   },
   kind4HatteKinder: {
     stepId: "/kinder/#/kinder/#/kinder/#/kinder/#/hatteKinder",
@@ -231,20 +265,13 @@ export const nachlassErbfolgePages = {
         createNumberIncrementSchema(1),
     },
   },
-  kind5Summary: {
-    stepId: "/kinder/#/kinder/#/kinder/#/kinder/#/kinder",
-    arraySummary: {
-      name: "kinder#kinder#kinder#kinder#kinder",
-      schema: kinderArray,
-    },
-  },
   kind5Daten: {
     stepId: "/kinder/#/kinder/#/kinder/#/kinder/#/kinder/#/daten",
-    pageSchema: kindDatenSchema("kinder#kinder#kinder#kinder#kinder#"),
-  },
-  elternteile: {
-    stepId: "/elternteilAnzahl",
-    pageSchema: { elternteilAnzahl: createNumberIncrementSchema(1, 2) },
+    pageSchema: {
+      ...kindDatenSchema("kinder#kinder#kinder#kinder#kinder#"),
+      "kinder#kinder#kinder#kinder#kinder#parentKindIndex":
+        parentKindIndexSchema,
+    },
   },
   elternteilSummary: {
     stepId: "/elternteile",
@@ -265,16 +292,10 @@ export const nachlassErbfolgePages = {
     stepId: "/elternteile/#/kinderAnzahl",
     pageSchema: { "elternteile#kinderAnzahl": createNumberIncrementSchema(1) },
   },
-  elternteilKindSummary: {
-    stepId: "/elternteile/#/kinder",
-    arraySummary: {
-      name: "elternteile#kinder",
-      schema: z.array(elternteilKindSchema),
-    },
-  },
   elternteilKindDaten: {
     stepId: "/elternteile/#/kinder/#/daten",
     pageSchema: {
+      "elternteile#kinder#parentElternteilIndex": parentElternteilIndexSchema,
       "elternteile#kinder#name": z.string(),
       "elternteile#kinder#isAlive": YesNoAnswer,
     },
@@ -289,13 +310,6 @@ export const nachlassErbfolgePages = {
       "elternteile#kinder#kinderAnzahl": createNumberIncrementSchema(1),
     },
   },
-  elternteilKindKindSummary: {
-    stepId: "/elternteile/#/kinder/#/kinder",
-    arraySummary: {
-      name: "elternteile#kinder#kinder",
-      schema: z.array(elternteilGrandchildSchema),
-    },
-  },
   elternteilKindKindDaten: {
     stepId: "/elternteile/#/kinder/#/kinder/#/daten",
     pageSchema: {
@@ -303,47 +317,8 @@ export const nachlassErbfolgePages = {
       "elternteile#kinder#kinder#isAlive": YesNoAnswer,
     },
   },
-  gemeinsameKinderAnzahl: {
-    stepId: "/gemeinsameKinderAnzahl",
-    pageSchema: { gemeinsameKinderAnzahl: createNumberIncrementSchema(1) },
-  },
-  gemeinsameKindSummary: {
-    stepId: "/gemeinsameKinder",
-    arraySummary: {
-      name: "gemeinsameKinder",
-      schema: z.array(elternteilKindSchema),
-    },
-  },
-  gemeinsameKindDaten: {
-    stepId: "/gemeinsameKinder/#/daten",
-    pageSchema: {
-      "gemeinsameKinder#name": z.string(),
-      "gemeinsameKinder#isAlive": YesNoAnswer,
-    },
-  },
-  gemeinsameKindHatteKinder: {
-    stepId: "/gemeinsameKinder/#/hatteKinder",
-    pageSchema: { "gemeinsameKinder#hatteKinder": YesNoAnswer },
-  },
-  gemeinsameKindKinderAnzahl: {
-    stepId: "/gemeinsameKinder/#/kinderAnzahl",
-    pageSchema: {
-      "gemeinsameKinder#kinderAnzahl": createNumberIncrementSchema(1),
-    },
-  },
-  gemeinsameKindKindSummary: {
-    stepId: "/gemeinsameKinder/#/kinder",
-    arraySummary: {
-      name: "gemeinsameKinder#kinder",
-      schema: z.array(elternteilGrandchildSchema),
-    },
-  },
-  gemeinsameKindKindDaten: {
-    stepId: "/gemeinsameKinder/#/kinder/#/daten",
-    pageSchema: {
-      "gemeinsameKinder#kinder#name": z.string(),
-      "gemeinsameKinder#kinder#isAlive": YesNoAnswer,
-    },
+  ergebnis: {
+    stepId: "/ergebnis/erbfolge",
   },
 } as const;
 

@@ -37,6 +37,11 @@ import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
+import {
+  dynamicSelectZodDescription,
+  type DynamicOptions,
+} from "~/services/validation/dynamicSelect";
+import { resolveParentOptions } from "~/domains/nachlass/erbschein/erbfolge/buildParentOptions";
 function NachlassErbfolgePage() {
   const loaderData = useLoaderData<typeof loader>();
 
@@ -49,6 +54,8 @@ function NachlassErbfolgePage() {
     progressProps,
     buttonNavigationProps,
     arraySummaryData,
+    deceasedPersonName,
+    dynamicOptions,
   } = loaderData;
 
   return (
@@ -84,6 +91,7 @@ function NachlassErbfolgePage() {
             <ElternteilSummary
               data={arraySummaryData.arrayData.data as ArrayData}
               configuration={arraySummaryData.arrayData.configuration}
+              deceasedPersonName={deceasedPersonName}
             />
           )}
           {arraySummaryData && arraySummaryData.category !== "elternteile" && (
@@ -91,6 +99,7 @@ function NachlassErbfolgePage() {
               data={arraySummaryData.arrayData.data as ArrayData}
               configuration={arraySummaryData.arrayData.configuration}
               category={arraySummaryData.category}
+              deceasedPersonName={deceasedPersonName}
             />
           )}
         </GridItem>
@@ -105,6 +114,7 @@ function NachlassErbfolgePage() {
             stepData={stepData}
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}
+            dynamicOptions={dynamicOptions}
           />
         </GridItem>
       </Grid>
@@ -234,6 +244,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         }
       : undefined;
 
+  const pageSchemaShape =
+    (staticFlow.getSchema(stepId) as { shape?: Record<string, unknown> })
+      ?.shape ?? {};
+  const dynamicSelectFields = Object.entries(pageSchemaShape).filter(
+    ([, fieldSchema]) =>
+      (fieldSchema as { description?: string }).description ===
+      dynamicSelectZodDescription,
+  );
+  let dynamicOptions: DynamicOptions | undefined;
+  if (dynamicSelectFields.length > 0) {
+    const userData = fullUserData as Record<string, unknown>;
+    dynamicOptions = Object.fromEntries(
+      dynamicSelectFields.map(([fieldName]) => [
+        fieldName,
+        resolveParentOptions(fieldName, userData, arrayIndexes),
+      ]),
+    );
+  }
+
   return data({
     arraySummaryData,
     stepData,
@@ -241,6 +270,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     formElements,
     progressProps: staticFlow.getProgress(stepId),
     buttonNavigationProps,
+    dynamicOptions,
+    deceasedPersonName: (flowSession.prunedUserData as Record<string, unknown>)
+      .name as string | undefined,
   });
 };
 
