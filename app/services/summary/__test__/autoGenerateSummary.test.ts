@@ -19,10 +19,7 @@ describe("generateSummaryFromUserData", () => {
     nachname: "Mustermann",
     geburtsdatum: { day: "15", month: "01", year: "1990" },
     emptyField: "",
-    berufart: {
-      selbststaendig: "on",
-      festangestellt: "off",
-    },
+    berufart: "selbststaendig",
     kinder: [
       {
         vorname: "Anna",

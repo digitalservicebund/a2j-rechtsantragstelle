@@ -87,7 +87,7 @@ describe("fieldEntryCreation", () => {
 
     it("should handle field with options", () => {
       const userData: UserData = {
-        berufart: { festangestellt: "on", selbststaendig: "off" },
+        berufart: "festangestellt",
       };
 
       const result = createFieldEntry(

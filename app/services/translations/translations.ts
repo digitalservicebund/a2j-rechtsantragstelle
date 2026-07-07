@@ -49,6 +49,9 @@ export const translations = {
     placeholder: {
       de: "Bitte auswählen",
     },
+    bothParents: {
+      de: "Beide Elternteile",
+    },
   },
   iban: {
     bankIdentified: {
