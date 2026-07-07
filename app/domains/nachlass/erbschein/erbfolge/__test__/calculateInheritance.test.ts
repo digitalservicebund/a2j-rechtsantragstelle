@@ -11,8 +11,10 @@ function share(numerator: number, denominator: number): HeirShare["share"] {
 }
 
 // Order-insensitive matcher — useful when multiple heirs accumulate shares from multiple sources
-function containingShares(expected: Partial<HeirShare>[]) {
-  return expect.arrayContaining(expected.map((h) => expect.objectContaining(h)));
+function containingShares(expected: Array<Partial<HeirShare>>) {
+  return expect.arrayContaining(
+    expected.map((h) => expect.objectContaining(h)),
+  );
 }
 
 describe("calculateInheritance", () => {
@@ -635,7 +637,11 @@ describe("calculateInheritance", () => {
             hatteKinder: "yes",
             kinder: [
               { name: "Kind A1", isAlive: "yes" },
-              { name: "Kind von B", isAlive: "yes", parentElternteilIndex: "1" },
+              {
+                name: "Kind von B",
+                isAlive: "yes",
+                parentElternteilIndex: "1",
+              },
             ],
           },
           { name: "Elternteil B", isAlive: "no", hatteKinder: "no" },

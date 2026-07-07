@@ -76,7 +76,12 @@ function distributeStamm(
         depth,
       });
     } else if (kind.hatteKinder === "yes") {
-      distributeStamm(kind.kinder ?? [], stammShare, accumulatedShares, depth + 1);
+      distributeStamm(
+        kind.kinder ?? [],
+        stammShare,
+        accumulatedShares,
+        depth + 1,
+      );
     }
   }
 
@@ -209,7 +214,8 @@ export function calculateInheritance(input: InheritanceInput): HeirShare[] {
   const kinder = reassignKinderByParentIndex(input.kinder ?? []);
   const elternteile = reassignSiblingsByParentIndex(input.elternteile ?? []);
 
-  const has1stOrder = input.hatteKinder === "yes" && kinder.some(hasLivingDescendant);
+  const has1stOrder =
+    input.hatteKinder === "yes" && kinder.some(hasLivingDescendant);
   const has2ndOrder = !has1stOrder && elternteile.some(isParentStammActive);
 
   const result: HeirShare[] = [];
@@ -225,7 +231,12 @@ export function calculateInheritance(input: InheritanceInput): HeirShare[] {
         ? spouseShareAlongside2ndOrder(input.spouse.gueterstand)
         : WHOLE;
     remainingShare = subtractFromWhole(spouseShare);
-    result.push({ name: input.spouse.name, share: spouseShare, order: 0, depth: 0 });
+    result.push({
+      name: input.spouse.name,
+      share: spouseShare,
+      order: 0,
+      depth: 0,
+    });
   }
 
   const heirMap = has1stOrder

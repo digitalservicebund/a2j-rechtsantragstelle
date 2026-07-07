@@ -21,16 +21,86 @@ import {
   type InheritanceInput,
 } from "~/domains/nachlass/erbschein/erbfolge/calculateInheritance";
 import type { Gueterstand } from "~/domains/nachlass/erbschein/erbfolge/pages";
-import { GridSection } from "~/components/layout/grid/GridSection";
-import { Grid } from "~/components/layout/grid/Grid";
-import { GridItem } from "~/components/layout/grid/GridItem";
-import { Icon } from "~/components/common/Icon";
-import Heading from "~/components/common/Heading";
-import RichText from "~/components/common/RichText";
-import ContentComponents from "~/components/content/ContentComponents";
-import ButtonContainer from "~/components/common/ButtonContainer";
+import {
+  collectRequiredDocuments,
+  type PersonDocuments,
+} from "~/domains/nachlass/erbschein/erbfolge/requiredDocuments";
+import { type StrapiListItemSchema } from "~/services/cms/models/content/StrapiListItem";
+import { type z } from "zod";
+import { ResultPageView } from "./shared/components/ResultPage";
 
 const staticFlow = nachlassErbfolgeStaticFlow;
+const ERBFOLGE_STEP_ID = "/ergebnis/erbfolge";
+
+const FIRST_ORDER_LABELS = [
+  "Kind",
+  "Enkelkind",
+  "Urenkel",
+  "Ururgroßenkel",
+  "Urururgroßenkel",
+];
+const SECOND_ORDER_LABELS = ["Elternteil", "Geschwister", "Nichte oder Neffe"];
+
+function relationshipLabel(heir: HeirShare): string {
+  if (heir.order === 0) return "Ehepartner";
+  if (heir.order === 1) {
+    return (
+      FIRST_ORDER_LABELS[heir.depth - 1] ?? `Abkömmling (${heir.depth}. Grad)`
+    );
+  }
+  return SECOND_ORDER_LABELS[heir.depth] ?? `Verwandter (${heir.depth}. Grad)`;
+}
+
+function shareLabel({ numerator, denominator }: HeirShare["share"]): string {
+  if (numerator === denominator) return "das gesamte Erbe";
+  return `${numerator}/${denominator} des Erbes`;
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+const HEIRS_LIST_IDENTIFIER = "heirsList";
+
+type StrapiListItems = Array<z.output<typeof StrapiListItemSchema>>;
+
+// The heirs become the items of the CMS List component whose identifier
+// is "heirsList", so they render with the List's own markers and spacing.
+function buildHeirListItems(
+  heirShares: HeirShare[],
+  deceasedName: string,
+): StrapiListItems {
+  return heirShares.map((heir, index) => ({
+    id: index + 1,
+    headline: {
+      __component: "basic.heading" as const,
+      id: index + 1,
+      text: `${heir.name} (erhält ${shareLabel(heir.share)})`,
+      tagName: "h3" as const,
+    },
+    content: `<p>Erbt als ${relationshipLabel(heir)} von ${escapeHtml(deceasedName)}</p>`,
+    buttons: [],
+    // The parsed type requires the key even though the renderer treats it as optional
+    accordion: undefined as unknown as StrapiListItems[number]["accordion"],
+  }));
+}
+
+// Injected into the CMS content via {{{requiredDocumentsHtml}}} (triple braces: raw HTML).
+function buildRequiredDocumentsHtml(
+  requiredDocuments: PersonDocuments[],
+): string {
+  const rows = requiredDocuments
+    .map(
+      ({ name, documents }) =>
+        `<tr><td class="font-semibold pr-24 pb-kern-space-small align-top">${escapeHtml(name)}</td>` +
+        `<td class="pb-kern-space-small">${documents}</td></tr>`,
+    )
+    .join("");
+  return `<table class="w-full"><tbody>${rows}</tbody></table>`;
+}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   throw404OnProduction();
@@ -55,24 +125,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 
   const cmsStepId = stepId.replace("/ergebnis", "");
-  const replacements = { ...flowSession.prunedUserData } as Replacements;
-
-  let cmsContent = null;
-  try {
-    const rawPage = applyStringReplacement(
-      await fetchFlowPage("result-pages", flowId, cmsStepId),
-      replacements,
-    );
-    cmsContent = {
-      ...rawPage,
-      documents: rawPage.documents?.element ?? [],
-      nextSteps: rawPage.nextSteps?.element ?? [],
-    };
-  } catch {
-    // CMS entry not yet created — heir list still renders
-  }
-
   const { prunedUserData } = flowSession;
+  const deceasedName = (prunedUserData.name as string | undefined) ?? "";
+
   const ehepartnerName = prunedUserData.ehepartnerName as string | undefined;
   const spouse = ehepartnerName
     ? {
@@ -83,10 +138,43 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       }
     : undefined;
 
-  const heirShares = calculateInheritance({
-    ...(prunedUserData as InheritanceInput),
-    spouse,
-  });
+  const isErbfolgeResult = stepId === ERBFOLGE_STEP_ID;
+  const replacements: Replacements = {
+    ...(prunedUserData as Replacements),
+    ...(isErbfolgeResult && {
+      requiredDocumentsHtml: buildRequiredDocumentsHtml(
+        collectRequiredDocuments(prunedUserData),
+      ),
+    }),
+  };
+
+  const rawPage = applyStringReplacement(
+    await fetchFlowPage("result-pages", flowId, cmsStepId),
+    replacements,
+  );
+
+  const heirListItems = isErbfolgeResult
+    ? buildHeirListItems(
+        calculateInheritance({
+          ...(prunedUserData as InheritanceInput),
+          spouse,
+        }),
+        deceasedName,
+      )
+    : null;
+
+  const cmsContent = {
+    ...rawPage,
+    freeZone: rawPage.freeZone.map((component) =>
+      heirListItems &&
+      component.__component === "page.list" &&
+      component.identifier === HEIRS_LIST_IDENTIFIER
+        ? { ...component, items: heirListItems, variant: "unordered" as const }
+        : component,
+    ),
+    documents: rawPage.documents?.element ?? [],
+    nextSteps: rawPage.nextSteps?.element ?? [],
+  };
 
   const prevStepId = flowSession.prevPath;
   const backDestination = prevStepId
@@ -95,173 +183,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   return data({
     cmsContent,
-    heirShares,
     buttonNavigationProps: getButtonNavigationProps({
-      backButtonLabel: cmsContent?.backButtonLabel ?? "Zurück",
-      nextButtonLabel: cmsContent?.nextLink?.text ?? "Weiter",
+      backButtonLabel: cmsContent.backButtonLabel ?? "Zurück",
+      nextButtonLabel: cmsContent.nextLink?.text ?? "Weiter",
       backDestination,
     }),
   });
 };
 
-const FIRST_ORDER_LABELS = [
-  "Kind",
-  "Enkelkind",
-  "Urenkel",
-  "Ururgroßenkel",
-  "Urururgroßenkel",
-];
-const SECOND_ORDER_LABELS = ["Elternteil", "Geschwister", "Nichte oder Neffe"];
-
-function relationshipLabel(heir: HeirShare): string {
-  if (heir.order === 0) return "Ehepartner";
-  if (heir.order === 1) {
-    return (
-      FIRST_ORDER_LABELS[heir.depth - 1] ??
-      `Abkömmling (${heir.depth}. Grad)`
-    );
-  }
-  return SECOND_ORDER_LABELS[heir.depth] ?? `Verwandter (${heir.depth}. Grad)`;
-}
-
-function shareLabel({ numerator, denominator }: HeirShare["share"]): string {
-  if (numerator === denominator) return "das gesamte Erbe";
-  return `${numerator}/${denominator} des Erbes`;
-}
-
 function ErbfolgeResultPage() {
-  const {
-    cmsContent,
-    heirShares,
-    buttonNavigationProps: { back, next },
-  } = useLoaderData<typeof loader>();
-
-  const content = cmsContent?.freeZone ?? [];
-  const documentsList = cmsContent?.documents ?? [];
-  const nextSteps = cmsContent?.nextSteps ?? [];
+  const { cmsContent, buttonNavigationProps } = useLoaderData<typeof loader>();
 
   return (
-    <>
-      <GridSection className="print:hidden" pt="40" pb="24">
-        <Grid
-          rows={2}
-          background={{
-            mdColumn: { start: 1, span: 8 },
-            lgColumn: { start: 2, span: 10 },
-            xlColumn: { start: 2, span: 10 },
-            className: "rounded-lg kern-alert--success border-2 border-kern-alert--success",
-          }}
-        >
-          <GridItem
-            mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 3, span: 8 }}
-            xlColumn={{ start: 3, span: 8 }}
-            className="pt-32 pb-40 py-24 px-16 md:px-16 lg:px-0 xl:px-0"
-            row={1}
-          >
-            <div className="flex sm:flex-row flex-col gap-16" id="flow-page-content">
-              {cmsContent ? (
-                <>
-                  <Heading
-                    tagName={cmsContent.heading.tagName}
-                    text={cmsContent.heading.text}
-                    className="kern-heading-large p-0!"
-                    managedByParent
-                  />
-                  {cmsContent.hintText && (
-                    <RichText
-                      className="font-medium! text-kern-static-large!"
-                      html={cmsContent.hintText.html}
-                    />
-                  )}
-                </>
-              ) : (
-                <Heading
-                  tagName="h1"
-                  text="Erbfolge"
-                  className="kern-heading-large p-0!"
-                  managedByParent
-                />
-              )}
-            </div>
-          </GridItem>
-          <GridItem
-            mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 2, span: 12 }}
-            xlColumn={{ start: 2, span: 12 }}
-            className="py-24"
-            row={2}
-          >
-            <ButtonContainer>
-              {back.destination && (
-                <a
-                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
-                  href={back.destination}
-                >
-                  <Icon name="arrow-back" />
-                  {back.label}
-                </a>
-              )}
-              {cmsContent?.nextLink?.url && (
-                <a
-                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
-                  href={cmsContent.nextLink.url}
-                >
-                  <Icon name="keyboard-double-arrow-left" />
-                  {next?.label}
-                </a>
-              )}
-            </ButtonContainer>
-          </GridItem>
-        </Grid>
-      </GridSection>
-
-      <GridSection pt="32" pb="40">
-        <Grid>
-          <GridItem
-            mdColumn={{ start: 1, span: 8 }}
-            lgColumn={{ start: 2, span: 10 }}
-            xlColumn={{ start: 2, span: 10 }}
-          >
-            {heirShares.length === 0 ? (
-              <p className="kern-label">
-                Auf Basis Ihrer Angaben konnten keine Erben ermittelt werden.
-              </p>
-            ) : (
-              <ul className="flex flex-col gap-16 list-none p-0">
-                {heirShares.map((heir) => (
-                  <li
-                    key={heir.name}
-                    className="kern-summary kern-summary--border p-24 rounded-lg"
-                  >
-                    <div className="flex flex-col gap-4">
-                      <span className="kern-label-small text-kern-static-tertiary">
-                        {relationshipLabel(heir)}
-                      </span>
-                      <span className="kern-label font-semibold">{heir.name}</span>
-                      <span className="kern-label">
-                        erbt {shareLabel(heir.share)}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </GridItem>
-        </Grid>
-      </GridSection>
-
-      {content.length > 0 && <ContentComponents content={content} />}
-
-      {documentsList.length > 0 &&
-        documentsList.map((element) => (
-          <ContentComponents
-            key={`${element.__component}_${element.id}`}
-            content={[element]}
-          />
-        ))}
-      <ContentComponents content={nextSteps} />
-    </>
+    <ResultPageView
+      cmsContent={cmsContent}
+      buttonNavigationProps={buttonNavigationProps}
+    />
   );
 }
 
