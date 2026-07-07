@@ -41,9 +41,7 @@ export const fluggastrechteFlugdatenPages = {
       buchungsNummer: bookingNumberFlightSchema,
       direktAbflugsDatum: fourYearsAgoSchema,
       direktAbflugsZeit: timeSchema,
-      zwischenstoppAnzahl: schemaOrEmptyString(
-        z.enum(["no", "oneStop", "twoStop", "threeStop"]),
-      ),
+      zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
       direktAnkunftsDatum: fourYearsAgoSchema,
       direktAnkunftsZeit: timeSchema,
     },
