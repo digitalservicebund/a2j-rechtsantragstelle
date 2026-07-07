@@ -23,6 +23,9 @@ import { type UserDataWithPageData } from "../pageData";
 import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 import { type PageConfigMap } from "../newFlowEngine/types";
+import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer";
+import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -33,7 +36,7 @@ function buildStepsStepperNewEngine(
   stepStates: StepState[],
   translations: Translations,
   stepId: string,
-  userVisitedValidationPage: boolean | undefined,
+  userVisitedValidationPage: boolean,
 ) {
   return stepStates
     .map((stepState) => ({
@@ -84,6 +87,26 @@ export const getContentData = (
   pathname: string,
 ) => {
   return {
+    arraySummaryDataNewEngine: (
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowId: FlowId,
+    ) => {
+      const arrayCategories = cmsContent.content
+        .filter((value) => value.__component === "page.array-summary")
+        .map((arraySummary) => arraySummary.category);
+
+      const arrayConfigurations = buildArrayConfigServer(
+        flowSessionEngine,
+        flowId,
+      );
+
+      return getArraySummaryData(
+        arrayCategories,
+        arrayConfigurations,
+        userDataWithPageData,
+        cmsContent.content,
+      );
+    },
     arraySummaryData: (
       flowController: ReturnType<typeof buildFlowController>,
     ) => {
@@ -206,11 +229,13 @@ export const getContentData = (
       };
     },
     getNavPropsNewEngine: (
-      flowId: FlowId,
       flowSessionEngine: FlowSession<PageConfigMap>,
       useStepper: boolean,
-      stepId: string,
+      userVisitedValidationPage: boolean,
     ) => {
+      const { flowId, stepId, currentFlow } =
+        getPageAndFlowDataFromPathname(pathname);
+
       const statusTree = flowSessionEngine.statusTree;
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
@@ -218,13 +243,21 @@ export const getContentData = (
         flowSessionEngine.paths,
       );
 
+      const expandAll =
+        getMetaConfigurationByStepId(currentFlow, stepId)?.triggerValidation ??
+        false;
+
       if (!useStepper) {
         return {
           navItems:
-            navItemsFromStepStates(stepId, stepStates, translations, false) ??
-            [],
+            navItemsFromStepStates(
+              stepId,
+              stepStates,
+              translations,
+              userVisitedValidationPage,
+            ) ?? [],
           stepsStepper: [],
-          expandAll: false,
+          expandAll,
         };
       }
 
@@ -232,7 +265,7 @@ export const getContentData = (
         stepStates,
         translations,
         stepId,
-        false,
+        userVisitedValidationPage,
       );
 
       const currentNavItems =
@@ -246,7 +279,7 @@ export const getContentData = (
           href,
           state,
         })) as StepStepper[],
-        expandAll: false,
+        expandAll,
       };
     },
     getAutoSummarySections: async (
@@ -258,6 +291,26 @@ export const getContentData = (
       }
 
       const stepStates = flowController.stepStates();
+      return await generateSummaryFromUserData(
+        userDataWithPageData,
+        flowId,
+        stepStates,
+        translations,
+      );
+    },
+    getAutoSummarySectionsNewEngine: async (
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowId: FlowId,
+    ) => {
+      if (!pathname.endsWith("/abgabe/zusammenfassung")) {
+        return [];
+      }
+      const statusTree = flowSessionEngine.statusTree;
+      const stepStates = buildStepStatesFromStatusTree(
+        statusTree,
+        flowId,
+        flowSessionEngine.paths,
+      );
       return await generateSummaryFromUserData(
         userDataWithPageData,
         flowId,
