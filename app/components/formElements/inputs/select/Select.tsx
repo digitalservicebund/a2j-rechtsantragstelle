@@ -28,6 +28,8 @@ const Select = ({
   const field = useField(name);
   const errorId = `${name}-error`;
 
+  const hasPreSelectedOption = options.some((option) => option.preSelected);
+
   return (
     <div
       className={classNames("kern-form-input", {
@@ -57,7 +59,9 @@ const Select = ({
           }
           data-testid="select"
         >
-          <option value="">{translations.select.placeholder.de}</option>
+          {!hasPreSelectedOption && (
+            <option value="">{translations.select.placeholder.de}</option>
+          )}
           {options.map((option) => {
             return (
               <option value={option.value} key={option.value}>

@@ -34,6 +34,17 @@ describe("Select", () => {
     expect(selectElement).toHaveValue("2");
   });
 
+  it("should not have an empty option if a preSelected option is provided", () => {
+    const options = [
+      { value: "1", text: "One", preSelected: false },
+      { value: "2", text: "Two", preSelected: true },
+    ];
+    render(<Select name="select" options={options} />);
+    expect(
+      screen.queryByText(translations.select.placeholder.de),
+    ).not.toBeInTheDocument();
+  });
+
   it("should render label when provided", () => {
     render(<Select name="select" options={[]} label="My Label" />);
     expect(screen.getByText("My Label")).toBeInTheDocument();
