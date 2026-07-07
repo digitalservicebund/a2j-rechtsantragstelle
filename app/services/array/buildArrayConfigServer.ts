@@ -20,8 +20,8 @@ export const buildArrayConfigServer = (
       event: `add-${arrayInfo.name}` as const,
       url: flowId + targetPath.slice(0, -1).join("/"),
       initialInputUrl: targetPath.at(-1) ?? "",
-      statementKey: arrayInfo.statementKey,
-      displayIndexOffset: arrayInfo.displayIndexOffset,
+      statementKey: arrayInfo.fieldName,
+      displayIndexOffset: arrayInfo.indexOffset,
       hiddenFields: arrayInfo.hiddenFields,
     },
   } as Record<string, ArrayConfigServer>;

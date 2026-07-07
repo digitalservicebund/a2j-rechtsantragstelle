@@ -14,8 +14,8 @@ type PageConfig = {
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
-    statementKey?: string;
-    displayIndexOffset?: number;
+    fieldName?: string;
+    indexOffset?: number;
     hiddenFields?: string[];
   };
 };
