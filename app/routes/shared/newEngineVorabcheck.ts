@@ -7,7 +7,7 @@ import { validateFormUserData } from "~/services/flow/userFlowAction/validateFor
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
+export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
