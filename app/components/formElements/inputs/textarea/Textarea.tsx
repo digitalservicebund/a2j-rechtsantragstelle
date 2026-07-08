@@ -71,7 +71,7 @@ const Textarea = ({
         maxLength={maxLength}
         rows={getGeldEinklagenTextareaRows(name) ?? TEXT_AREA_ROWS}
         className={classNames(
-          "kern-form-input__input ph-no-capture h-fit!",
+          "kern-form-input__input ph-no-capture",
           {
             "kern-form-input__input--error": field.error(),
             "bg-white!": !backgroundClass,
