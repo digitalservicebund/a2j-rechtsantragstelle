@@ -11,17 +11,20 @@ import {
   ButtonNavigation,
   type ButtonNavigationProps,
 } from "../common/ButtonNavigation";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
   formElements: StrapiFormComponent[];
   buttonNavigationProps: ButtonNavigationProps;
+  dynamicOptions?: DynamicOptions;
 };
 
 function ValidatedFlowForm({
   stepData,
   formElements,
   buttonNavigationProps: { back, next },
+  dynamicOptions,
 }: Readonly<ValidatedFlowFormProps>) {
   const { pathname } = useLocation();
   const pageConfig = getPageConfigOrArrayPageByPathname(pathname);
@@ -50,6 +53,7 @@ function ValidatedFlowForm({
                 formComponents={formElements}
                 className="mb-kern-space-x-large"
                 readOnlyFieldNames={readOnlyFieldNames}
+                dynamicOptions={dynamicOptions}
               />
             )}
             <ButtonNavigation

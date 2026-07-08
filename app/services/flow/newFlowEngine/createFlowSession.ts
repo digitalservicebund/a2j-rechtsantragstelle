@@ -1,4 +1,5 @@
 import { simulate } from "./simulate";
+import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
 import type { PageConfigMap, InferredUserData } from "./types";
 import type { PageData } from "../pageDataSchema";
@@ -37,15 +38,55 @@ export const createFlowSession = <C extends PageConfigMap>(
         count: Array.isArray(items) ? items.length : 0,
       };
     },
+    (key) => {
+      const stepId = compiledFlow.pages[key]?.stepId ?? "";
+      return stepId.split(ARRAY_WILDCARD).length - 1;
+    },
   );
 
   // Prev: use the linear breadcrumb so Back returns to the page the user came
   // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
   const keyIndex = simulation.keys.indexOf(nodeKey);
-  const prevNodeKey =
+  const linearPrevNodeKey =
     keyIndex > 0
       ? simulation.keys[keyIndex - 1]
       : simulation.parentMap.get(nodeKey);
+
+  // If the previous page is a bare fan-out node — it hosts the addArrayItem that
+  // reaches the current page but renders no summary of its own — the user never
+  // navigated through it. They used the "add" affordance on the summary that node
+  // exits to (the add button links straight to the item page). Point Back at that
+  // summary instead of the internal fan-out node.
+  const skipFanOutOnlyBack = (candidate: typeof linearPrevNodeKey) => {
+    const seen = new Set<typeof candidate>();
+    let node = candidate;
+    while (node != null && !seen.has(node)) {
+      seen.add(node);
+      const transitions = compiledFlow.transitions[node];
+      if (compiledFlow.pages[node]?.arraySummary || !Array.isArray(transitions))
+        break;
+      const addsCurrent = transitions.some(
+        (t) =>
+          t != null &&
+          typeof t === "object" &&
+          t.type === "addArrayItem" &&
+          t.target === nodeKey,
+      );
+      if (!addsCurrent) break;
+      const fallback = transitions.find(
+        (t) => t != null && typeof t === "object" && t.type !== "addArrayItem",
+      );
+      if (
+        fallback == null ||
+        typeof fallback !== "object" ||
+        fallback.target == null
+      )
+        break;
+      node = fallback.target;
+    }
+    return node;
+  };
+  const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
 
   // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
   const nextNodeKey =

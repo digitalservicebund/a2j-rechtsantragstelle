@@ -33,6 +33,10 @@ export const simulate = <C extends PageConfigMap>(
     nodeKey: NodeKey<C>,
     scopeData: Record<string, unknown>,
   ) => { name: string; count: number } | undefined,
+  // A page's array-nesting depth ("/list" = 0, "/items/#/daten" = 1, …).
+  // Lets the BFS rewind its scope pointer when a transition steps back out
+  // to a shallower page.
+  getNodeArrayDepth?: (nodeKey: NodeKey<C>) => number,
 ): SimulationResult & {
   parentMap: Map<NodeKey<C>, NodeKey<C>>;
   visitedContexts: Array<{
@@ -125,7 +129,34 @@ export const simulate = <C extends PageConfigMap>(
     const nextBranch = evaluateRoute(route, itemData);
     if (nextBranch != null) {
       if (!parentMap.has(nextBranch)) parentMap.set(nextBranch, current);
-      queue.push({ key: nextBranch, pageData, scopeData, arrayPath });
+
+      // If the target sits at a shallower array level than the current page,
+      // the transition steps back out of the current item's sub-flow. Rewind
+      // the scope pointer (arrayPath / arrayIndexes / scopeData) to the target's
+      // level so it isn't treated as a nested item — otherwise a shallower array
+      // page would re-fan-out the current item's own children.
+      const targetDepth = getNodeArrayDepth?.(nextBranch) ?? arrayPath.length;
+      if (targetDepth < arrayPath.length) {
+        const rewoundPath = arrayPath.slice(0, targetDepth);
+        const rewoundIndexes = (pageData.arrayIndexes ?? []).slice(
+          0,
+          targetDepth,
+        );
+        let rewoundScope = currentData as Record<string, unknown>;
+        for (let level = 0; level < targetDepth; level++) {
+          const arr = rewoundScope[rewoundPath[level]] as
+            Array<Record<string, unknown>> | undefined;
+          rewoundScope = arr?.[rewoundIndexes[level]] ?? {};
+        }
+        queue.push({
+          key: nextBranch,
+          pageData: { ...pageData, arrayIndexes: rewoundIndexes },
+          scopeData: rewoundScope,
+          arrayPath: rewoundPath,
+        });
+      } else {
+        queue.push({ key: nextBranch, pageData, scopeData, arrayPath });
+      }
     }
 
     // Array branches: fan out once per item. scopeData is narrowed to the

@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import {
-  checkedOptional,
-  exclusiveCheckboxesSchema,
-} from "~/services/validation/checkedCheckbox";
+import { exclusiveCheckboxesSchema } from "~/services/validation/checkedCheckbox";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
@@ -31,10 +28,7 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
   berufart: {
     stepId: "finanzielle-angaben/einkommen/art",
     pageSchema: {
-      berufart: z.object({
-        selbststaendig: checkedOptional,
-        festangestellt: checkedOptional,
-      }),
+      berufart: z.enum(["selbststaendig", "festangestellt", "beides"]),
     },
   },
   situation: {
