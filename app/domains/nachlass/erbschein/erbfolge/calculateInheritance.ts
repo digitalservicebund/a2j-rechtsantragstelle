@@ -140,6 +140,20 @@ function spouseShareAlongside2ndOrder(gueterstand: Gueterstand): Fraction {
   return gueterstand === "communityOfAcquisitions" ? THREE_QUARTERS : HALF;
 }
 
+// The spouse takes their cut first: alongside living 1st-order Stämme, alongside an
+// active 2nd order, or the whole estate when they are the only heir.
+function spouseShare(
+  gueterstand: Gueterstand,
+  living1stOrderStaemme: number,
+  has2ndOrder: boolean,
+): Fraction {
+  if (living1stOrderStaemme > 0) {
+    return spouseShareAlongside1stOrder(gueterstand, living1stOrderStaemme);
+  }
+  if (has2ndOrder) return spouseShareAlongside2ndOrder(gueterstand);
+  return WHOLE;
+}
+
 // Descendants at any depth are physically stored under the first dead member of the
 // previous level; `parentKindIndex` (from the dynamic parent select) names the sibling-array
 // member they actually belong to. Re-buckets every member's children by that index — falling
@@ -222,28 +236,31 @@ export function calculateInheritance(input: InheritanceInput): HeirShare[] {
   let remainingShare = WHOLE;
 
   if (input.spouse) {
-    const spouseShare = has1stOrder
-      ? spouseShareAlongside1stOrder(
-          input.spouse.gueterstand,
-          kinder.filter(hasLivingDescendant).length,
-        )
-      : has2ndOrder
-        ? spouseShareAlongside2ndOrder(input.spouse.gueterstand)
-        : WHOLE;
-    remainingShare = subtractFromWhole(spouseShare);
+    const living1stOrderStaemme = has1stOrder
+      ? kinder.filter(hasLivingDescendant).length
+      : 0;
+    const share = spouseShare(
+      input.spouse.gueterstand,
+      living1stOrderStaemme,
+      has2ndOrder,
+    );
+    remainingShare = subtractFromWhole(share);
     result.push({
       name: input.spouse.name,
-      share: spouseShare,
+      share,
       order: 0,
       depth: 0,
     });
   }
 
-  const heirMap = has1stOrder
-    ? distributeStamm(kinder, remainingShare)
-    : has2ndOrder
-      ? calculate2ndOrder(elternteile, remainingShare)
-      : new Map<string, HeirEntry>();
+  let heirMap: Map<string, HeirEntry>;
+  if (has1stOrder) {
+    heirMap = distributeStamm(kinder, remainingShare);
+  } else if (has2ndOrder) {
+    heirMap = calculate2ndOrder(elternteile, remainingShare);
+  } else {
+    heirMap = new Map<string, HeirEntry>();
+  }
   const heirOrder = has1stOrder ? 1 : 2;
 
   for (const [name, entry] of heirMap.entries()) {
