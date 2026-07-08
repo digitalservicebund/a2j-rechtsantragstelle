@@ -160,4 +160,5 @@ export const geldEinklagenFlowConfig = compileFlow({
     klageHerunterladenIntroStartAnwaltschaft: null,
     klageHerunterladenIntroStart: null,
   },
+  pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;
