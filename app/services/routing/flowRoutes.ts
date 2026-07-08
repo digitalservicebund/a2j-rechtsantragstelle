@@ -43,3 +43,12 @@ export const newEngineFlowAndResultRoutes = (idPostfix: string) => [
     id: `res${idPostfix}`,
   }),
 ];
+
+export const newEngineVorabcheckRoutes = (idPostfix: string) => [
+  route("*", "routes/shared/newEngineVorabcheck.ts", {
+    id: `flow${idPostfix}`,
+  }),
+  route("ergebnis/*", "routes/shared/newEngineResult.ts", {
+    id: `res${idPostfix}`,
+  }),
+];
