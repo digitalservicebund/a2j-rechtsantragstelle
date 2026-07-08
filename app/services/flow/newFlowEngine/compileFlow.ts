@@ -6,10 +6,15 @@ import z from "zod";
 // Defined locally to keep the engine decoupled from the app's array service.
 export const ARRAY_WILDCARD = "#";
 
+// "singlePass" prunes against the current data once. "cascading" re-prunes
+// until stable, so pages kept alive only by stale fields also fall off.
+type PruningStrategy = "singlePass" | "cascading";
+
 type Options<C extends PageConfigMap> = {
   pages: C;
   initialStep: NodeKey<C>;
   transitions: TransitionConfigMap<C>;
+  pruningStrategy?: PruningStrategy;
 };
 
 type NormalizedSchemaInfo = {
@@ -61,6 +66,7 @@ export const compileFlow = <C extends PageConfigMap>({
   pages,
   initialStep,
   transitions,
+  pruningStrategy = "singlePass",
 }: Options<C>) => {
   const pathMap: Record<string, NodeKey<C>> = {};
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
@@ -150,6 +156,7 @@ export const compileFlow = <C extends PageConfigMap>({
     transitions,
     initialStep,
     initialPath: pages[initialStep].stepId,
+    pruningStrategy,
 
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);

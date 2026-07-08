@@ -33,6 +33,7 @@ export const testCasesWithUserInputKlagendePerson: FlowTestCases<GeldEinklagenFo
         stepId: "/gericht-pruefen/klagende-person/fuer-wen",
         userInput: {
           ...baseContext,
+          sachgebiet: "anderesRechtsproblem",
           fuerWenKlagen: "organisation",
         },
       },
