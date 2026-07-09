@@ -218,7 +218,9 @@ function reassignSiblingsByParentIndex(
       ? {
           ...parent,
           hatteKinder: buckets[index].length > 0 ? "yes" : "no",
-          kinder: buckets[index],
+          // Deeper sibling levels (2+) use parentKindIndex like the kinder line, so
+          // delegate them to the generic recursive reassigner.
+          kinder: reassignKinderByParentIndex(buckets[index]),
         }
       : parent,
   );
