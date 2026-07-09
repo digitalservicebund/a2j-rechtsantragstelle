@@ -17,10 +17,10 @@ importers:
         version: 3.1079.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
-        version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.2)
+        version: 2.0.0(@kern-ux/native@2.6.4)(tailwindcss@4.3.2)
       '@kern-ux/native':
-        specifier: ^2.5.0
-        version: 2.5.0
+        specifier: ^2.6.4
+        version: 2.6.4
       '@node-saml/node-saml':
         specifier: github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916
         version: https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916
@@ -1118,8 +1118,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kern-ux/native@2.5.0':
-    resolution: {integrity: sha512-mKNasZH/zExMAqzEtFS+CjvZwn1AE/HsWe8bFN5sjxPM1F6p4f3eXA8HGZqQZQoUXgACPXNYq3DZGcsAt7wm6Q==}
+  '@kern-ux/native@2.6.4':
+    resolution: {integrity: sha512-h5nmC7KMEeXoj8OB6akVMaUJrtscd3sczDRvGZjfAt2MtZ9/yIDBOMvjN85X711eDSPRVbNwVUnL+ZwFo4fSig==}
 
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
@@ -3154,8 +3154,8 @@ packages:
   electron-to-chromium@1.5.384:
     resolution: {integrity: sha512-g6KAKY1vkYsADvSPWvdJsuYT0ixdcu6lUtD9P/wJKGBEDlZVXh2AX42j1mPqqaQPDluWjara9ziQ7xqAeXCt5A==}
 
-  electron-to-chromium@1.5.388:
-    resolution: {integrity: sha512-Pl/aJaqOOxYxda3vcx1IKSJimwYXHDkEnGn0F+kG2EE68dDtx2uCinaS+Vih8Z91B9t8CSAbiF/HKyWcnXjhzw==}
+  electron-to-chromium@1.5.389:
+    resolution: {integrity: sha512-cEto7aeOqBfU1D+c5py5pE+ooscKE75JifxLBdFUZsqAxRS6y7kebtxAZvICszSl05gPjYHDTjY+lXpyGvpJbg==}
 
   empathic@2.0.1:
     resolution: {integrity: sha512-YGRs8knHhKHVShLkFET/rWAU8kmHbOV5LwN938RHI0pljAJ1Gf6SzXsSmRaEzcXTtOOmVqJ5+WtQPL5uigY50Q==}
@@ -5709,9 +5709,9 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.2)':
+  '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.6.4)(tailwindcss@4.3.2)':
     dependencies:
-      '@kern-ux/native': 2.5.0
+      '@kern-ux/native': 2.6.4
       tailwindcss: 4.3.2
 
   '@emnapi/core@1.11.0':
@@ -6039,7 +6039,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kern-ux/native@2.5.0': {}
+  '@kern-ux/native@2.6.4': {}
 
   '@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.7)':
     dependencies:
@@ -7634,7 +7634,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.42
       caniuse-lite: 1.0.30001803
-      electron-to-chromium: 1.5.388
+      electron-to-chromium: 1.5.389
       node-releases: 2.0.50
       update-browserslist-db: 1.2.3(browserslist@4.28.5)
 
@@ -7878,7 +7878,7 @@ snapshots:
 
   electron-to-chromium@1.5.384: {}
 
-  electron-to-chromium@1.5.388: {}
+  electron-to-chromium@1.5.389: {}
 
   empathic@2.0.1: {}
 
