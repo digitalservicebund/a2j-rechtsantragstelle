@@ -1,7 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import {
   getPKontoStrings,
-  getPrivilegierteForderungStrings,
   getErhoehungsbetragStrings,
   getKindergeldStrings,
   getWohngeldStrings,
@@ -28,14 +27,15 @@ import {
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
 import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
+import { kontopfaendungWegweiserFlowConfig } from "./flowConfig";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
   config: kontopfaendungWegweiserXstateConfig,
+  newEngineConfig: kontopfaendungWegweiserFlowConfig,
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getArbeitStrings(userData),
     ...getPKontoStrings(userData),
-    ...getPrivilegierteForderungStrings(userData),
     ...getErhoehungsbetragStrings(userData),
     ...getKindergeldStrings(userData),
     ...getWohngeldStrings(userData),
