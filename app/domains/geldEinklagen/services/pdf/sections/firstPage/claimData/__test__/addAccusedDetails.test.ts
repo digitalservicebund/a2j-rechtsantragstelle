@@ -50,4 +50,23 @@ describe("addAccusedDetails", () => {
       { continued: true },
     );
   });
+
+  it("should generate document with organisation and no legal representative when gegenWenBeklagen is 'organisation' and no legal representative is provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, {
+      ...userDataMock,
+      gegenWenBeklagen: "organisation",
+      beklagteNameOrganisation: "Muster GmbH",
+      beklagteGesetzlichenVertretungAnrede: "none",
+      beklagteGesetzlichenVertretungTitle: "none",
+      beklagteGesetzlichenVertretungVorname: "",
+      beklagteGesetzlichenVertretungNachname: "",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Muster GmbH", {
+      continued: true,
+    });
+  });
 });
