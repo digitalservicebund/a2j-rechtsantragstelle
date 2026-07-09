@@ -8,35 +8,39 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
+import type { KindItem } from "./types";
+import {
+  buildAddUrl,
+  buildDeletePathname,
+  buildEditUrl,
+  collectAtDepth,
+  collectDescendantsWithParentName,
+  descendantCategory,
+} from "./summaryTree";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
-type GrandkindItem = {
-  name?: string;
-  isAlive?: string;
-};
+// Descendant section titles/labels indexed by (treeDepth - 2): siblings are treeDepth 2.
+const SECTION_TITLES = [
+  "Kinder von Elternteilen",
+  "Enkelkinder von Elternteilen",
+  "Urenkel von Elternteilen",
+  "Ururenkel von Elternteilen",
+  "Ururenurenkel von Elternteilen",
+];
 
-type ElternteilKindItem = {
-  name?: string;
-  isAlive?: string;
-  hatteKinder?: string;
-  kinder?: GrandkindItem[];
-  parentElternteilIndex?: string;
-};
+const ADD_LABELS = [
+  "Kind hinzufügen",
+  "Enkelkind hinzufügen",
+  "Urenkel hinzufügen",
+  "Ururenkel hinzufügen",
+  "Ururenurenkel hinzufügen",
+];
 
-type ElternteilItem = {
-  name?: string;
-  isAlive?: string;
-  hatteKinder?: string;
-  kinder?: ElternteilKindItem[];
-};
-
-type KindEntry = {
-  kind: ElternteilKindItem;
-  kindIndex: number;
-  elternteilIndex: number;
+type SectionEntry = {
+  item: KindItem;
+  indexes: number[];
   badgeLabel: string;
-  kinderBase: string;
 };
 
 // The parent a sibling belongs to comes from its chosen `parentElternteilIndex`
@@ -44,11 +48,11 @@ type KindEntry = {
 // A stale index pointing at a missing or living parent falls back to the physical
 // parent — mirroring the inheritance calc's reassignment.
 export function siblingBadgeLabel(
-  kind: ElternteilKindItem,
-  elternteile: ElternteilItem[],
+  sibling: KindItem,
+  elternteile: readonly KindItem[],
   physicalName: string,
 ): string {
-  const assigned = kind.parentElternteilIndex;
+  const assigned = sibling.parentElternteilIndex;
   if (assigned === "both") return "Kind von beiden Elternteilen";
   const assignedParent =
     assigned != null ? elternteile[Number(assigned)] : undefined;
@@ -57,49 +61,31 @@ export function siblingBadgeLabel(
   return `Kind von ${String(assignedName ?? physicalName)}`;
 }
 
-type GrandkindEntry = {
-  grandkind: GrandkindItem;
-  grandkindIndex: number;
-  elternteilIndex: number;
-  kindIndex: number;
-  kindName: string;
-  grandkinderBase: string;
-};
-
-function collectKinder(
-  elternteile: ElternteilItem[],
-  url: string,
-): KindEntry[] {
-  return elternteile.flatMap((elternteil, elternteilIndex) => {
-    if (elternteil.isAlive !== "no" || elternteil.hatteKinder !== "yes")
-      return [];
-    const elternteilName = String(elternteil.name ?? "");
-    const kinderBase = `${url}/${elternteilIndex}/kinder`;
-    return (elternteil.kinder ?? []).map((kind, kindIndex) => ({
-      kind,
-      kindIndex,
-      elternteilIndex,
-      badgeLabel: siblingBadgeLabel(kind, elternteile, elternteilName),
-      kinderBase,
+// Level-1 siblings: badged by their chosen parent (parentElternteilIndex + "both").
+function collectSiblings(elternteile: KindItem[]): SectionEntry[] {
+  return elternteile.flatMap((parent, elternteilIndex) => {
+    if (parent.isAlive !== "no" || parent.hatteKinder !== "yes") return [];
+    const parentName = String(parent.name ?? "");
+    return (parent.kinder ?? []).map((sibling, siblingIndex) => ({
+      item: sibling,
+      indexes: [elternteilIndex, siblingIndex],
+      badgeLabel: siblingBadgeLabel(sibling, elternteile, parentName),
     }));
   });
 }
 
-function collectGrandkinder(allKinder: KindEntry[]): GrandkindEntry[] {
-  return allKinder.flatMap(
-    ({ kind, kindIndex, elternteilIndex, kinderBase }) => {
-      if (kind.isAlive !== "no" || kind.hatteKinder !== "yes") return [];
-      const kindName = String(kind.name ?? "");
-      const grandkinderBase = `${kinderBase}/${kindIndex}/kinder`;
-      return (kind.kinder ?? []).map((grandkind, grandkindIndex) => ({
-        grandkind,
-        grandkindIndex,
-        elternteilIndex,
-        kindIndex,
-        kindName,
-        grandkinderBase,
-      }));
-    },
+// Deeper levels (nieces/nephews and below): badged by their direct parent, resolved
+// through parentKindIndex like the kinder line.
+function collectDeeper(
+  elternteile: KindItem[],
+  treeDepth: number,
+): SectionEntry[] {
+  return collectDescendantsWithParentName(elternteile, treeDepth).map(
+    ({ item, indexes, directParentName }) => ({
+      item,
+      indexes,
+      badgeLabel: `Kind von ${directParentName}`,
+    }),
   );
 }
 
@@ -223,6 +209,66 @@ function AddButton({
   );
 }
 
+// One flat section for a descendant depth (siblings at treeDepth 2, deeper below).
+// Shown only when a dead parent-with-kids exists at the previous level; the single
+// add button targets that first dead parent's next slot, and the form's parent select
+// lets the user attribute the new person to the right parent.
+function DescendantSection({
+  elternteile,
+  treeDepth,
+  url,
+  initialInputUrl,
+}: Readonly<{
+  elternteile: KindItem[];
+  treeDepth: number;
+  url: string;
+  initialInputUrl: string;
+}>) {
+  const firstDeadParent = collectAtDepth(elternteile, treeDepth - 1).find(
+    ({ item }) => item.isAlive === "no" && item.hatteKinder === "yes",
+  );
+  if (!firstDeadParent) return null;
+
+  const entries =
+    treeDepth === 2
+      ? collectSiblings(elternteile)
+      : collectDeeper(elternteile, treeDepth);
+  const category = descendantCategory("elternteile", treeDepth);
+  const firstDeadParentChildren = firstDeadParent.item.kinder ?? [];
+
+  return (
+    <div className="flex flex-col gap-kern-space-default">
+      <h2 className="kern-title">{SECTION_TITLES[treeDepth - 2]}</h2>
+      {entries.map(({ item, indexes, badgeLabel }) => (
+        <PersonSummaryItem
+          key={indexes.join("-")}
+          name={String(item.name ?? "")}
+          isAlive={String(item.isAlive ?? "yes")}
+          badgeLabel={badgeLabel}
+          actions={
+            <InlineActions
+              editUrl={buildEditUrl(url, indexes, initialInputUrl)}
+              category={category}
+              itemIndex={indexes.at(-1) ?? 0}
+              pathnameArrayItem={buildDeletePathname(url, indexes.slice(0, -1))}
+            />
+          }
+        />
+      ))}
+      <AddButton
+        href={buildAddUrl(
+          url,
+          firstDeadParent.indexes,
+          firstDeadParentChildren.length,
+          initialInputUrl,
+        )}
+      >
+        {ADD_LABELS[treeDepth - 2]}
+      </AddButton>
+    </div>
+  );
+}
+
 export function ElternteilSummary({
   data,
   configuration,
@@ -233,39 +279,15 @@ export function ElternteilSummary({
   deceasedPersonName?: string;
 }>) {
   const { url, initialInputUrl } = configuration;
-  const elternteile = data as ElternteilItem[];
-
-  const allKinder = collectKinder(elternteile, url);
-  const allGrandkinder = collectGrandkinder(allKinder);
-
-  // First dead parent with hatteKinder=yes — drives level-2 section visibility and add-button URL
-  const firstDeadParent = elternteile
-    .map((elternteil, elternteilIndex) => ({ elternteil, elternteilIndex }))
-    .find(
-      ({ elternteil }) =>
-        elternteil.isAlive === "no" && elternteil.hatteKinder === "yes",
-    );
-
-  // First dead kind with hatteKinder=yes — drives level-3 section visibility and add-button URL
-  const firstDeadKind = allKinder.find(
-    ({ kind }) => kind.isAlive === "no" && kind.hatteKinder === "yes",
-  );
-
-  const kinderAddUrl = firstDeadParent
-    ? `${url}/${firstDeadParent.elternteilIndex}/kinder/${(firstDeadParent.elternteil.kinder ?? []).length}/${initialInputUrl}`
-    : null;
-
-  const grandkinderAddUrl = firstDeadKind
-    ? `${firstDeadKind.kinderBase}/${firstDeadKind.kindIndex}/kinder/${(firstDeadKind.kind.kinder ?? []).length}/${initialInputUrl}`
-    : null;
+  const elternteile = data as KindItem[];
 
   return (
     <>
-      {/* Level 1 — Elternteile */}
+      {/* Root — Elternteile (the deceased's two parents) */}
       <div className="flex flex-col gap-kern-space-default">
         <h2 className="kern-title">Elternteile</h2>
         {elternteile.map((elternteil, elternteilIndex) => {
-          const editUrl = `${url}/${elternteilIndex}/${initialInputUrl}`;
+          const editUrl = buildEditUrl(url, [elternteilIndex], initialInputUrl);
           return (
             <PersonSummaryItem
               key={editUrl}
@@ -287,74 +309,24 @@ export function ElternteilSummary({
           );
         })}
         {elternteile.length < 2 && (
-          <AddButton href={`${url}/${elternteile.length}/${initialInputUrl}`}>
+          <AddButton
+            href={buildAddUrl(url, [], elternteile.length, initialInputUrl)}
+          >
             Elternteil hinzufügen
           </AddButton>
         )}
       </div>
 
-      {/* Level 2 — All kinder from all dead parents, flat */}
-      {firstDeadParent && (
-        <div className="flex flex-col gap-kern-space-default">
-          <h2 className="kern-title">Kinder von Elternteilen</h2>
-          {allKinder.map(
-            ({ kind, kindIndex, elternteilIndex, badgeLabel, kinderBase }) => (
-              <PersonSummaryItem
-                key={`${elternteilIndex}-${kindIndex}`}
-                name={String(kind.name ?? "")}
-                isAlive={String(kind.isAlive ?? "yes")}
-                badgeLabel={badgeLabel}
-                actions={
-                  <InlineActions
-                    editUrl={`${kinderBase}/${kindIndex}/${initialInputUrl}`}
-                    category="elternteile#kinder"
-                    itemIndex={kindIndex}
-                    pathnameArrayItem={kinderBase}
-                  />
-                }
-              />
-            ),
-          )}
-          {kinderAddUrl && (
-            <AddButton href={kinderAddUrl}>Kind hinzufügen</AddButton>
-          )}
-        </div>
-      )}
-
-      {/* Level 3 — All grandkinder from all dead kinder, flat */}
-      {firstDeadKind && (
-        <div className="flex flex-col gap-kern-space-default">
-          <h2 className="kern-title">Enkelkinder von Elternteilen</h2>
-          {allGrandkinder.map(
-            ({
-              grandkind,
-              grandkindIndex,
-              elternteilIndex,
-              kindIndex,
-              kindName,
-              grandkinderBase,
-            }) => (
-              <PersonSummaryItem
-                key={`${elternteilIndex}-${kindIndex}-${grandkindIndex}`}
-                name={String(grandkind.name ?? "")}
-                isAlive={String(grandkind.isAlive ?? "yes")}
-                badgeLabel={`Kind von ${kindName}`}
-                actions={
-                  <InlineActions
-                    editUrl={`${grandkinderBase}/${grandkindIndex}/${initialInputUrl}`}
-                    category="elternteile#kinder#kinder"
-                    itemIndex={grandkindIndex}
-                    pathnameArrayItem={grandkinderBase}
-                  />
-                }
-              />
-            ),
-          )}
-          {grandkinderAddUrl && (
-            <AddButton href={grandkinderAddUrl}>Kind hinzufügen</AddButton>
-          )}
-        </div>
-      )}
+      {/* Descendant levels: siblings (treeDepth 2) down to level 5 (treeDepth 6) */}
+      {[2, 3, 4, 5, 6].map((treeDepth) => (
+        <DescendantSection
+          key={treeDepth}
+          elternteile={elternteile}
+          treeDepth={treeDepth}
+          url={url}
+          initialInputUrl={initialInputUrl}
+        />
+      ))}
     </>
   );
 }

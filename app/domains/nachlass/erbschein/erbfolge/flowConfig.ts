@@ -31,7 +31,7 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ],
     ehevertrag: [
       { target: "gueterstand", guard: (d) => d.ehevertrag === "yes" },
-      { target: null },
+      { target: "kinder" },
     ],
     gueterstand: "kinder",
     kinder: [
