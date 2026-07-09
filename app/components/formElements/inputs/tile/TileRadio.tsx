@@ -17,7 +17,6 @@ type TileRadioProps = TileOptions &
   Readonly<
     {
       name: string;
-      onClick: () => void;
       ref: React.Ref<HTMLInputElement>;
       image?: ImageProps;
     } & TileContentProps
@@ -28,7 +27,6 @@ const TileRadio = ({
   value,
   tileTitle,
   image,
-  onClick,
   ref,
   errorId,
 }: TileRadioProps) => {
@@ -60,7 +58,6 @@ const TileRadio = ({
             name={name}
             type="radio"
             aria-describedby={ariaDescribedBy}
-            onClick={onClick}
             ref={ref}
           />
         </div>
