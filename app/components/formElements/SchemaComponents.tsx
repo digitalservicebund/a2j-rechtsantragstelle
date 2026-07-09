@@ -28,12 +28,14 @@ import {
   type ArrayPage,
   type PageConfig,
 } from "~/domains/pageSchemas";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
 type Props = {
   pageConfig: ArrayPage | PageConfig;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
+  dynamicOptions?: DynamicOptions;
 };
 
 export const SchemaComponents = ({
@@ -41,6 +43,7 @@ export const SchemaComponents = ({
   formComponents,
   className,
   readOnlyFieldNames,
+  dynamicOptions,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
     pageSchema ?? {},
@@ -85,6 +88,7 @@ export const SchemaComponents = ({
             fieldSchema,
             controlledFieldConfig,
             matchingElement,
+            dynamicOptions,
           );
         }
 
@@ -97,6 +101,7 @@ export const SchemaComponents = ({
             fieldName,
             readOnlyFieldNames,
             formComponents,
+            dynamicOptions,
           );
         }
 

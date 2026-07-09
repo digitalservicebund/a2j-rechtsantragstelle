@@ -424,4 +424,61 @@ describe("SchemaComponents", () => {
     expect(telInput).toHaveAttribute("name", "field1");
     expect(telInput).toHaveAttribute("inputmode", "tel");
   });
+
+  it("should render a select (not a text input) for a dynamic_select field when dynamicOptions is provided", () => {
+    const pageSchema = {
+      parentField: z.string().optional().describe("dynamic_select"),
+    };
+    const { getByTestId, queryByRole } = render(
+      <WrappedSchemaComponents
+        pageConfig={{ pageSchema }}
+        readOnlyFieldNames={[]}
+        dynamicOptions={{
+          parentField: [
+            { value: "0", text: "Maria", preSelected: false },
+            { value: "1", text: "Hans", preSelected: false },
+          ],
+        }}
+      />,
+    );
+    expect(getByTestId("select")).toBeInTheDocument();
+    expect(queryByRole("textbox")).not.toBeInTheDocument();
+  });
+
+  it("should render an empty select for a dynamic_select field when dynamicOptions is absent", () => {
+    const pageSchema = {
+      parentField: z.string().optional().describe("dynamic_select"),
+    };
+    const { getByTestId } = render(
+      <WrappedSchemaComponents
+        pageConfig={{ pageSchema }}
+        readOnlyFieldNames={[]}
+      />,
+    );
+    const select = getByTestId("select");
+    expect(select).toBeInTheDocument();
+    // only the placeholder option
+    expect(select.querySelectorAll("option").length).toBe(1);
+  });
+
+  it("should pass dynamicOptions through to a dynamic_select field nested inside a ZodObject", () => {
+    const pageSchema = {
+      outer: z.object({
+        parentField: z.string().optional().describe("dynamic_select"),
+      }),
+    };
+    const { getByTestId, getByText } = render(
+      <WrappedSchemaComponents
+        pageConfig={{ pageSchema }}
+        readOnlyFieldNames={[]}
+        dynamicOptions={{
+          "outer.parentField": [
+            { value: "0", text: "Maria", preSelected: false },
+          ],
+        }}
+      />,
+    );
+    expect(getByTestId("select")).toBeInTheDocument();
+    expect(getByText("Maria")).toBeInTheDocument();
+  });
 });

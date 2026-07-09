@@ -61,12 +61,19 @@ const boxProps = {
   },
 } as const;
 
-export function ResultPage() {
-  const {
-    cmsContent,
-    buttonNavigationProps: { back, next },
-  } = useLoaderData<typeof loader>();
+type ResultLoaderData = ReturnType<typeof useLoaderData<typeof loader>>;
 
+type ResultPageViewProps = Readonly<{
+  cmsContent: ResultLoaderData["cmsContent"];
+  buttonNavigationProps: ResultLoaderData["buttonNavigationProps"];
+  children?: React.ReactNode;
+}>;
+
+export function ResultPageView({
+  cmsContent,
+  buttonNavigationProps: { back, next },
+  children,
+}: ResultPageViewProps) {
   const documentsList = cmsContent.documents;
   const nextSteps = cmsContent.nextSteps;
   const content = cmsContent.freeZone;
@@ -144,6 +151,8 @@ export function ResultPage() {
         </Grid>
       </GridSection>
 
+      {children}
+
       {content.length > 0 && <ContentComponents content={content} />}
 
       {documentsList.length > 0 &&
@@ -155,5 +164,15 @@ export function ResultPage() {
         ))}
       <ContentComponents content={nextSteps} />
     </>
+  );
+}
+
+export function ResultPage() {
+  const { cmsContent, buttonNavigationProps } = useLoaderData<typeof loader>();
+  return (
+    <ResultPageView
+      cmsContent={cmsContent}
+      buttonNavigationProps={buttonNavigationProps}
+    />
   );
 }

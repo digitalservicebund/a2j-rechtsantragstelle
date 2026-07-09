@@ -95,6 +95,7 @@ export const testCasesWithUserInputGerichtSuchenUrheberrecht: FlowTestCases<Geld
         stepId: "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
         userInput: {
           ...baseContext,
+          klagendeVerbraucher: "yes",
           klagendeVertrag: "yes",
           klagendeHaustuergeschaeft: "yes",
           beklagtePersonGeldVerdienen: "yes",
@@ -171,6 +172,7 @@ export const testCasesWithUserInputGerichtSuchenUrheberrecht: FlowTestCases<Geld
           userInput: {
             ...baseContext,
             gegenWenBeklagen: "organisation",
+            klagendeVerbraucher: "yes",
             klagendeVertrag: "yes",
             klagendeHaustuergeschaeft: "yes",
             postleitzahlBeklagtePerson: ZIP_CODE_PILOT_COURT,
