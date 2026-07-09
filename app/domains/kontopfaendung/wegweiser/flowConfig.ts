@@ -4,25 +4,10 @@ import {
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { kontopfaendungWegweiserPages } from "./pages";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 
-const kontopfaendungWegweiserPagesWithLeadingSlash = Object.fromEntries(
-  Object.entries(kontopfaendungWegweiserPages).map(([key, pageConfig]) => [
-    key,
-    {
-      ...pageConfig,
-      stepId: pageConfig.stepId.startsWith("/")
-        ? pageConfig.stepId
-        : `/${pageConfig.stepId}`,
-    },
-  ]),
-) as {
-  [K in keyof typeof kontopfaendungWegweiserPages]: Omit<
-    (typeof kontopfaendungWegweiserPages)[K],
-    "stepId"
-  > & {
-    stepId: string;
-  };
-};
+const kontopfaendungWegweiserPagesWithLeadingSlash =
+  addLeadingSlashToPageSchemas(kontopfaendungWegweiserPages);
 
 export const kontopfaendungWegweiserFlowConfig = compileFlow({
   pages: kontopfaendungWegweiserPagesWithLeadingSlash,
