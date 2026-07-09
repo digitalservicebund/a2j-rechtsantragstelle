@@ -13,20 +13,8 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { config } from "~/services/env/public";
-import {
-  loader as loaderVorabcheck,
-  action as actionVorabcheck,
-} from "./vorabcheck";
 
 export const loader = async (args: LoaderFunctionArgs) => {
-  if (
-    config().ENVIRONMENT === "production" ||
-    config().ENVIRONMENT === "preview"
-  ) {
-    return await loaderVorabcheck(args);
-  }
-
   const { params, request, url } = args;
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
@@ -73,13 +61,6 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export const action = async (args: ActionFunctionArgs) => {
-  if (
-    config().ENVIRONMENT === "production" ||
-    config().ENVIRONMENT === "preview"
-  ) {
-    return await actionVorabcheck(args);
-  }
-
   const { request, url } = args;
 
   const resultValidatedSession = await validatedSession(request);

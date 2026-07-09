@@ -125,6 +125,63 @@ describe("buildElternteilParentOptions", () => {
   });
 });
 
+describe("resolveParentOptions for deeper elternteil levels", () => {
+  it("lists eligible siblings for a level-2 parentKindIndex", () => {
+    const options = resolveParentOptions(
+      "elternteile#kinder#kinder#parentKindIndex",
+      {
+        elternteile: [
+          {
+            name: "Elternteil A",
+            isAlive: "no",
+            hatteKinder: "yes",
+            kinder: [
+              { name: "Geschwister 1", isAlive: "no", hatteKinder: "yes" },
+              { name: "Geschwister 2", isAlive: "yes" },
+              { name: "Geschwister 3", isAlive: "no", hatteKinder: "yes" },
+            ],
+          },
+        ],
+      },
+      [0, 0],
+    );
+    expect(options).toEqual([
+      { value: "0", text: "Geschwister 1", preSelected: false },
+      { value: "2", text: "Geschwister 3", preSelected: false },
+    ]);
+  });
+
+  it("navigates one level deeper for a level-3 parentKindIndex", () => {
+    const options = resolveParentOptions(
+      "elternteile#kinder#kinder#kinder#parentKindIndex",
+      {
+        elternteile: [
+          {
+            name: "Elternteil A",
+            isAlive: "no",
+            hatteKinder: "yes",
+            kinder: [
+              {
+                name: "Geschwister 1",
+                isAlive: "no",
+                hatteKinder: "yes",
+                kinder: [
+                  { name: "Nichte X", isAlive: "no", hatteKinder: "yes" },
+                  { name: "Neffe Y", isAlive: "yes" },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      [0, 0, 0],
+    );
+    expect(options).toEqual([
+      { value: "0", text: "Nichte X", preSelected: true },
+    ]);
+  });
+});
+
 describe("resolveParentOptions preselects a single option", () => {
   it("preselects the only kinder-tree option", () => {
     const options = resolveParentOptions(
