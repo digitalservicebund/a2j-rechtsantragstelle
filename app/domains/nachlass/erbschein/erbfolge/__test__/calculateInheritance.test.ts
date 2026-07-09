@@ -405,6 +405,52 @@ describe("calculateInheritance", () => {
       );
     });
 
+    // Deeper sibling levels (nieces/nephews) are re-bucketed by parentKindIndex, just
+    // like the kinder line: the summary stores every new descendant under the first dead
+    // sibling, and the select names the sibling they actually belong to.
+    it("re-buckets a niece/nephew to the chosen sibling via parentKindIndex", () => {
+      const result = calculateInheritance({
+        hatteKinder: "no",
+        elternteile: [
+          {
+            name: "Elternteil A",
+            isAlive: "no",
+            hatteKinder: "yes",
+            kinder: [
+              {
+                name: "Geschwister 1",
+                isAlive: "no",
+                hatteKinder: "yes",
+                kinder: [
+                  { name: "Nichte X", isAlive: "yes", parentKindIndex: "0" },
+                  { name: "Neffe Y", isAlive: "yes", parentKindIndex: "0" },
+                  // physically stored under Geschwister 1, but belongs to Geschwister 2
+                  { name: "Nichte Z", isAlive: "yes", parentKindIndex: "1" },
+                ],
+              },
+              {
+                name: "Geschwister 2",
+                isAlive: "no",
+                hatteKinder: "yes",
+                kinder: [],
+              },
+            ],
+          },
+        ],
+      });
+
+      // Single parent → whole estate. Both Geschwister-Stämme active after reassignment
+      // → 1/2 each. Geschwister 1: X, Y split 1/2 → 1/4 each. Geschwister 2: Z → 1/2.
+      expect(result).toHaveLength(3);
+      expect(result).toEqual(
+        containingShares([
+          { name: "Nichte X", share: share(1, 4) },
+          { name: "Neffe Y", share: share(1, 4) },
+          { name: "Nichte Z", share: share(1, 2) },
+        ]),
+      );
+    });
+
     // Test case 7: both parents dead, full siblings (parentElternteilIndex "both")
     // accumulate shares from both parent lines.
     it("full siblings accumulate shares from both deceased parents", () => {

@@ -5,7 +5,7 @@ import { nachlassErbfolgePages } from "../pages";
 const parentKindIndexSchema =
   nachlassErbfolgePages.kind2Daten.pageSchema["kinder#kinder#parentKindIndex"];
 const parentElternteilIndexSchema =
-  nachlassErbfolgePages.elternteilKindDaten.pageSchema[
+  nachlassErbfolgePages.elternteilKind1Daten.pageSchema[
     "elternteile#kinder#parentElternteilIndex"
   ];
 
