@@ -1,3 +1,4 @@
+import isEqual from "lodash/isEqual";
 import { simulate } from "./simulate";
 import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
@@ -18,31 +19,69 @@ export const createFlowSession = <C extends PageConfigMap>(
   const nodeKey = compiledFlow.getNodeKeyFromPath(currentPath);
   if (nodeKey == null) throw new Error(`Invalid path: ${currentPath}`);
 
-  const simulation = simulate(
-    compiledFlow.transitions,
-    compiledFlow.initialStep,
+  const runSimulation = (data: InferredUserData<C> & { pageData: PageData }) =>
+    simulate(
+      compiledFlow.transitions,
+      compiledFlow.initialStep,
+      data,
+      true,
+      (key, scopeData) => {
+        const info = compiledFlow.getArrayInfoByNodeKey(key);
+        if (!info) return undefined;
+        // info.name uses "#" notation (e.g. "children#children") but scopeData
+        // is already scoped to the current item, so the real property key is
+        // just the last segment after "#" (e.g. "children").
+        const leafName = info.name.split("#").at(-1)!;
+        const items = scopeData[leafName];
+        // Treat a missing array the same as an empty one so that the add-target
+        // remains reachable even before the first item has been submitted.
+        return {
+          name: info.name,
+          count: Array.isArray(items) ? items.length : 0,
+        };
+      },
+      (key) => {
+        const stepId = compiledFlow.pages[key]?.stepId ?? "";
+        return stepId.split(ARRAY_WILDCARD).length - 1;
+      },
+    );
+
+  let simulation = runSimulation(userData);
+  let effectiveUserData = userData;
+
+  let prunedUserData = pruneUserData(
+    compiledFlow,
+    simulation.visitedContexts,
     userData,
-    true,
-    (key, scopeData) => {
-      const info = compiledFlow.getArrayInfoByNodeKey(key);
-      if (!info) return undefined;
-      // info.name uses "#" notation (e.g. "children#children") but scopeData
-      // is already scoped to the current item, so the real property key is
-      // just the last segment after "#" (e.g. "children").
-      const leafName = info.name.split("#").at(-1)!;
-      const items = scopeData[leafName];
-      // Treat a missing array the same as an empty one so that the add-target
-      // remains reachable even before the first item has been submitted.
-      return {
-        name: info.name,
-        count: Array.isArray(items) ? items.length : 0,
-      };
-    },
-    (key) => {
-      const stepId = compiledFlow.pages[key]?.stepId ?? "";
-      return stepId.split(ARRAY_WILDCARD).length - 1;
-    },
   );
+
+  // Cascading pruning re-prunes until stable. Guards evaluated during the
+  // first pass still see the stale data, so a page kept alive only by a stale
+  // field survives one pass, while the branch the clean data selects is not
+  // visited yet. Each iteration re-simulates on the pruned data but re-prunes
+  // from the original data, so fields of newly selected branches are kept.
+  // Guards can in principle oscillate on field presence, so iterations are
+  // capped at the page count. The session then navigates on the stable data,
+  // so the flow behaves as if the stale fields were gone.
+  if (compiledFlow.pruningStrategy === "cascading") {
+    const maxIterations = Object.keys(compiledFlow.pages).length;
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+      const prunedInput = {
+        ...prunedUserData,
+        pageData: userData.pageData,
+      } as InferredUserData<C> & { pageData: PageData };
+      const rerun = runSimulation(prunedInput);
+      const repruned = pruneUserData(
+        compiledFlow,
+        rerun.visitedContexts,
+        userData,
+      );
+      simulation = rerun;
+      effectiveUserData = prunedInput;
+      if (isEqual(repruned, prunedUserData)) break;
+      prunedUserData = repruned;
+    }
+  }
 
   // Prev: use the linear breadcrumb so Back returns to the page the user came
   // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
@@ -90,7 +129,8 @@ export const createFlowSession = <C extends PageConfigMap>(
 
   // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
   const nextNodeKey =
-    evaluateRoute(compiledFlow.transitions[nodeKey], userData) ?? undefined;
+    evaluateRoute(compiledFlow.transitions[nodeKey], effectiveUserData) ??
+    undefined;
 
   const isPageDone = (
     schema: ReturnType<typeof compiledFlow.getSchemaByNodeKey>,
@@ -132,11 +172,7 @@ export const createFlowSession = <C extends PageConfigMap>(
       .filter((path): path is string => path !== undefined) as string[],
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
-    prunedUserData: pruneUserData(
-      compiledFlow,
-      simulation.visitedContexts,
-      userData,
-    ),
+    prunedUserData,
     isReachable: (targetPath: string): boolean => {
       const key = compiledFlow.getNodeKeyFromPath(targetPath);
       return key != null && simulation.reachableSet.has(key);
@@ -152,6 +188,9 @@ export const createFlowSession = <C extends PageConfigMap>(
       return compiledFlow.getArrayInfo(path) !== undefined;
     },
     isFinal: compiledFlow.isFinal(currentPath) ?? false,
+    getProgress(path: string) {
+      return compiledFlow.getProgress(path);
+    },
   };
 };
 

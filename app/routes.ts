@@ -3,6 +3,7 @@ import { flatRoutes } from "@react-router/fs-routes";
 import {
   flowRoutes,
   newEngineFlowAndResultRoutes,
+  newEngineVorabcheckRoutes,
   vorabcheckRoutes,
 } from "./services/routing/flowRoutes";
 
@@ -37,7 +38,7 @@ export default [
     ]),
   ]),
   ...prefix("kontopfaendung", [
-    ...prefix("wegweiser", vorabcheckRoutes("KPW")),
+    ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [

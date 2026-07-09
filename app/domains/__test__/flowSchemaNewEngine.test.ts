@@ -14,9 +14,11 @@ import {
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
+  kontopfaendungWegweiserTestCases,
 };
 
 type VisitedSteps = Record<

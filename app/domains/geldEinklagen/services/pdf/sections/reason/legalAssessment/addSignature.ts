@@ -69,7 +69,6 @@ export const addSignature = (
 
   addNewPageInCaseMissingVerticalSpace(doc, {
     extraYPosition: textHeight,
-    numberOfParagraphs: 2,
   });
 
   const plaintiffNameSect = doc.struct("Sect");

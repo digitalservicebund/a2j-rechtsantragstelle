@@ -15,25 +15,11 @@ import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/proze
 import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenFormularUserData } from "./userData";
+import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 
-const geldEinklagenFormularPagesWithLeadingSlash = Object.fromEntries(
-  Object.entries(geldEinklagenFormularPages).map(([key, pageConfig]) => [
-    key,
-    {
-      ...pageConfig,
-      stepId: pageConfig.stepId.startsWith("/")
-        ? pageConfig.stepId
-        : `/${pageConfig.stepId}`,
-    },
-  ]),
-) as {
-  [K in keyof typeof geldEinklagenFormularPages]: Omit<
-    (typeof geldEinklagenFormularPages)[K],
-    "stepId"
-  > & {
-    stepId: string;
-  };
-};
+const geldEinklagenFormularPagesWithLeadingSlash = addLeadingSlashToPageSchemas(
+  geldEinklagenFormularPages,
+);
 
 const isBeklagtePersonDone = (context: GeldEinklagenFormularUserData) => {
   return (
@@ -160,4 +146,5 @@ export const geldEinklagenFlowConfig = compileFlow({
     klageHerunterladenIntroStartAnwaltschaft: null,
     klageHerunterladenIntroStart: null,
   },
+  pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

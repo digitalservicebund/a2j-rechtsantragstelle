@@ -1,6 +1,13 @@
+import { getMetaConfigurationByStepId } from "~/services/flow/getMetaConfigurationByStepId";
 import { buildStepStatesFromStatusTree } from "../buildStepStatesFromStatusTree";
 
 const flowId = "/beratungshilfe/antrag";
+
+vi.mock("~/services/flow/getMetaConfigurationByStepId");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("buildStepStatesFromStatusTree", () => {
   it("should build step states from status tree", () => {
@@ -122,6 +129,71 @@ describe("buildStepStatesFromStatusTree", () => {
             url: "/beratungshilfe/antrag/step1/step1a/start",
           },
         ],
+      },
+    ]);
+  });
+
+  it("should return step states with excludedFromValidation property if meta configuration exists", () => {
+    const statusTree = {
+      "/step1": {
+        isDone: true,
+        isReachable: true,
+        children: {
+          "/step1a": {
+            isDone: false,
+            isReachable: true,
+            children: {},
+          },
+        },
+      },
+      "/step2": {
+        isDone: false,
+        isReachable: false,
+        children: {},
+      },
+    };
+
+    const validFlowPaths = [
+      "/step1/step1a/start",
+      "/step1/step1a/middle",
+      "/step1/step1a/end",
+      "/step2/start",
+      "/step2/middle",
+      "/step2/end",
+    ];
+
+    vi.mocked(getMetaConfigurationByStepId).mockImplementation((_, stepId) => {
+      if (stepId === "/step1") {
+        return { excludedFromValidation: false };
+      }
+
+      if (stepId === "/step2") {
+        return { excludedFromValidation: true };
+      }
+
+      return undefined;
+    });
+
+    const result = buildStepStatesFromStatusTree(
+      statusTree,
+      flowId,
+      validFlowPaths,
+    );
+
+    expect(result).toMatchObject([
+      {
+        stepId: "/step1",
+        excludedFromValidation: false,
+        subStates: [
+          {
+            stepId: "/step1/step1a",
+            excludedFromValidation: undefined,
+          },
+        ],
+      },
+      {
+        stepId: "/step2",
+        excludedFromValidation: true,
       },
     ]);
   });
