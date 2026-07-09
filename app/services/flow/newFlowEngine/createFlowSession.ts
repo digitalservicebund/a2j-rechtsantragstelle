@@ -188,6 +188,9 @@ export const createFlowSession = <C extends PageConfigMap>(
       return compiledFlow.getArrayInfo(path) !== undefined;
     },
     isFinal: compiledFlow.isFinal(currentPath) ?? false,
+    getProgress(path: string) {
+      return compiledFlow.getProgress(path);
+    },
   };
 };
 

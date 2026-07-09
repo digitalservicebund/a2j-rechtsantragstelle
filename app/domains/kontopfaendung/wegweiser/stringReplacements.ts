@@ -13,14 +13,7 @@ export const getPKontoStrings = (userData: KontopfaendungWegweiserUserData) => {
     hasPKontoNichtAktive: userData.hasPKonto === "nichtAktiv",
   };
 };
-export const getPrivilegierteForderungStrings = (
-  userData: KontopfaendungWegweiserUserData,
-) => {
-  return {
-    isPrivilegierteForderungStrafe: userData.pfaendungStrafe === "yes",
-    isPrivilegierteForderungUnterhalt: userData.pfaendungUnterhalt === "yes",
-  };
-};
+
 export const getErhoehungsbetragStrings = (
   userData: KontopfaendungWegweiserUserData,
 ) => {
@@ -71,7 +64,7 @@ export const getNachzahlungSozialMehr500Strings = (
   return {
     hasNachzahlungSozialMehr500:
       userData.hasSozialleistungNachzahlung === "yes" &&
-      userData.sozialleistungNachzahlungHigherThan === "yes",
+      userData.arbeitgeberNachzahlungHigherThan === "yes",
   };
 };
 export const getNachzahlungArbeitUnter500Strings = (
@@ -214,14 +207,8 @@ export const getInfoZumPKontoStrings = (
 ) => {
   const { hasNoPKonto, hasPKontoNichtAktive, hasPKontoBank } =
     getPKontoStrings(userData);
-  const { isPrivilegierteForderungStrafe, isPrivilegierteForderungUnterhalt } =
-    getPrivilegierteForderungStrings(userData);
   const infoZumPKontoIsVisible =
-    hasNoPKonto ||
-    hasPKontoBank ||
-    hasPKontoNichtAktive ||
-    isPrivilegierteForderungStrafe ||
-    isPrivilegierteForderungUnterhalt;
+    hasNoPKonto || hasPKontoBank || hasPKontoNichtAktive;
   return { infoZumPKontoIsVisible };
 };
 export const getHasErhöhungStrings = (
