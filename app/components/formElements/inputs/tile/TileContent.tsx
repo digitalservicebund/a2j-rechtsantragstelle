@@ -35,7 +35,7 @@ const TileContent = ({
         )}
       </div>
       <div>
-        {title && <h3 className="kern-body kern-body--bold">{title}</h3>}
+        {title && <h2 className="kern-body kern-body--bold">{title}</h2>}
         {description && (
           <p id={descriptionId} className="kern-body kern-body--muted">
             {description}
