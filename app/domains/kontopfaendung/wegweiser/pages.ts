@@ -113,22 +113,6 @@ export const kontopfaendungWegweiserPages = {
       hasSozialleistungenEinmalzahlung: YesNoAnswer,
     },
   },
-  sozialleistungNachzahlungHigherThan: {
-    stepId: "hoehe-nachzahlung-arbeitgeber",
-    pageSchema: { sozialleistungNachzahlungHigherThan: YesNoAnswer },
-  },
-  pfaendungStrafe: {
-    stepId: "pfaendung-strafe",
-    pageSchema: {
-      pfaendungStrafe: YesNoAnswer,
-    },
-  },
-  pfaendungUnterhalt: {
-    stepId: "pfaendung-unterhalt",
-    pageSchema: {
-      pfaendungUnterhalt: YesNoAnswer,
-    },
-  },
   pflegegeld: {
     stepId: "pflegegeld",
     pageSchema: {

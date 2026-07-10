@@ -19,6 +19,7 @@ import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
 import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -33,6 +34,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
+  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
   "/nachlass/erbausschlagung/gericht-finden":
     nachlassErbausschlagungGerichtFindenPages,
 } as const;
@@ -85,7 +87,11 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (flowId === "/nachlass/erbschein/erbfolge") {
+  if (
+    ["/nachlass/erbschein/erbfolge", "/nachlass/erbschein/anfrage"].includes(
+      flowId,
+    )
+  ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }
 

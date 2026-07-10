@@ -57,7 +57,12 @@ export const gerichtPruefenSachgebietFlowConfig = {
       target: "klagendePersonFuerWen",
     },
   ],
-  sachgebietMietePachtRaum: "klagendePersonFuerWen",
+  sachgebietMietePachtRaum: [
+    {
+      guard: (context) => isSachgebietDone(context),
+      target: "klagendePersonFuerWen",
+    },
+  ],
   sachgebietVersicherungVertrag: [
     {
       guard: (context) => context.versicherungVertrag === "yes",

@@ -19,6 +19,7 @@ import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagu
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 
 type FlowMigration = {
   source: FlowId;
@@ -62,6 +63,7 @@ export const flows = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/erbschein/wegweiser": erbscheinWegweiser,
   "/erbschein/nachlassgericht": erbscheinNachlassgericht,
+  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
   "/nachlass/erbausschlagung/gericht-finden":
     nachlassErbausschlagungGerichtFinden,
