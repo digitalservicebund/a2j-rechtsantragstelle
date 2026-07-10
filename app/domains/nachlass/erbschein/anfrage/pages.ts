@@ -1,7 +1,7 @@
+import { antragstellendePersonPages } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/pages";
+import { verstorbenePersonPages } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/pages";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const nachlassErbscheinAnfragePages = {
   start: {
@@ -13,12 +13,9 @@ export const nachlassErbscheinAnfragePages = {
       datenverarbeitungZustimmung: checkedRequired,
     },
   },
-  verstorbeneName: {
-    stepId: "/verstorbene/name",
-    pageSchema: {
-      verstorbeneVorname: stringRequiredSchema,
-      verstorbeneNachname: stringRequiredSchema,
-      verstorbeneGeburtsname: stringOptionalSchema,
-    },
-  },
+  ...verstorbenePersonPages,
+  ...antragstellendePersonPages,
 } satisfies PagesConfig;
+
+export type NachlassErbscheinAnfragePages =
+  typeof nachlassErbscheinAnfragePages;

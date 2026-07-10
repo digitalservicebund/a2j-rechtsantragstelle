@@ -1,6 +1,7 @@
 import { type Params } from "react-router";
 import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
+import nationalities from "data/nationalities/data.json";
 import type { DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { getStreetsNameByZipCode } from "~/services/streetNames";
 
@@ -36,6 +37,12 @@ export function getDataListOptions(
       return getStreetsNameByZipCode(params?.PLZ).map(({ name }) => ({
         value: name,
         label: name,
+      }));
+    }
+    case "nationalities": {
+      return nationalities.map((nationality) => ({
+        value: nationality.nationality,
+        label: nationality.displayName,
       }));
     }
     case undefined:

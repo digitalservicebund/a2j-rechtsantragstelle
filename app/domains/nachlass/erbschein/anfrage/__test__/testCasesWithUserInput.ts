@@ -1,6 +1,7 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
 import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { verstorbenePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/__test__/testCasesWithUserInput";
 
 export const nachlassErbscheinAnfrageTestCases = {
   xstateConfig: {
@@ -20,6 +21,7 @@ export const nachlassErbscheinAnfrageTestCases = {
         stepId: "/verstorbene/name",
       },
     ],
+    ...verstorbenePersonTestCases,
   },
 } satisfies FlowTestConfig<
   NachlassErbscheinAnfrageUserData,
