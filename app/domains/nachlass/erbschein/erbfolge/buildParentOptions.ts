@@ -57,7 +57,7 @@ export function buildElternteilParentOptions(
 // kinder#kinder#parentKindIndex (depth 2) → rootKinder itself (no navigation)
 // kinder#kinder#kinder#parentKindIndex (depth 3) → rootKinder[ancestorIndex].kinder
 // Each extra "kinder#" prefix requires following one more ancestorIndex.
-export function buildKinderParentOptions(
+function buildKinderParentOptions(
   rootKinder: NavigableEntry[] | undefined,
   fieldName: string,
   arrayIndexes: number[],
@@ -69,6 +69,26 @@ export function buildKinderParentOptions(
   const parentKinder = ancestorIndexesToFollow.reduce(
     (kinder, ancestorIndex) => kinder?.[ancestorIndex]?.kinder,
     rootKinder as NavigableEntry[] | undefined,
+  );
+  return buildParentOptions(parentKinder);
+}
+
+// Options for a parentKindIndex select on a deeper elternteil-descendant level
+// (elternteile#kinder#…#parentKindIndex, 2+ "kinder" segments). The candidate parents
+// are the siblings at the previous level under the current elternteil. Navigation
+// mirrors buildKinderParentOptions but is rooted at elternteile[elternteilIndex].kinder.
+// arrayIndexes = [elternteilIndex, sibling1Index, sibling2Index, …].
+function buildElternteilKinderParentOptions(
+  elternteile: NavigableEntry[] | undefined,
+  fieldName: string,
+  arrayIndexes: number[],
+): DropdownOption[] {
+  const siblings = elternteile?.[arrayIndexes[0]]?.kinder;
+  const kinderSegments = fieldName.split("#").length - 2;
+  const ancestorIndexesToFollow = arrayIndexes.slice(1, kinderSegments - 1);
+  const parentKinder = ancestorIndexesToFollow.reduce(
+    (kinder, ancestorIndex) => kinder?.[ancestorIndex]?.kinder,
+    siblings,
   );
   return buildParentOptions(parentKinder);
 }
@@ -103,6 +123,18 @@ export function resolveParentOptions(
     return preselectIfSingle(
       buildElternteilParentOptions(
         userData.elternteile as ParentEntry[] | undefined,
+      ),
+    );
+  }
+  if (
+    fieldName.startsWith("elternteile#") &&
+    fieldName.endsWith("#parentKindIndex")
+  ) {
+    return preselectIfSingle(
+      buildElternteilKinderParentOptions(
+        userData.elternteile as NavigableEntry[] | undefined,
+        fieldName,
+        arrayIndexes,
       ),
     );
   }

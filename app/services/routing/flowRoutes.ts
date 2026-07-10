@@ -43,3 +43,19 @@ export const newEngineFlowAndResultRoutes = (idPostfix: string) => [
     id: `res${idPostfix}`,
   }),
 ];
+
+export const newEngineFlowRoutes = (idPostfix: string) => [
+  route("*", "routes/shared/newEngineFormular.ts", { id: `flow${idPostfix}` }),
+  route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+    id: `pdf${idPostfix}`,
+  }),
+];
+
+export const newEngineVorabcheckRoutes = (idPostfix: string) => [
+  route("*", "routes/shared/newEngineVorabcheck.ts", {
+    id: `flow${idPostfix}`,
+  }),
+  route("ergebnis/*", "routes/shared/newEngineResult.ts", {
+    id: `res${idPostfix}`,
+  }),
+];

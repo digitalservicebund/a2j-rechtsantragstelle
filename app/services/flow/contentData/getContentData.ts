@@ -328,5 +328,15 @@ export const getContentData = (
         label: translationCode.vorabcheck.progressBarLabel.de,
       };
     },
+    getProgressNewEngine: (
+      flowSessionEngine: FlowSession<PageConfigMap>,
+      stepId: string,
+    ) => {
+      const progress = flowSessionEngine.getProgress(stepId);
+      return {
+        ...progress,
+        label: translationCode.vorabcheck.progressBarLabel.de,
+      };
+    },
   };
 };

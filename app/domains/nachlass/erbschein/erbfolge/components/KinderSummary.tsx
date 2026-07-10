@@ -7,7 +7,16 @@ import { Badge } from "~/components/common/Badge";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
-import type { ArrayData, BasicTypes } from "~/domains/userData";
+import type { ArrayData } from "~/domains/userData";
+import type { KindItem } from "./types";
+import {
+  buildAddUrl,
+  buildDeletePathname,
+  buildEditUrl,
+  collectAtDepth,
+  collectDescendantsWithParentName,
+  descendantCategory,
+} from "./summaryTree";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -42,154 +51,6 @@ const ADD_LABELS = [
   "Ururenkel hinzufügen",
   "Ururenurenkel hinzufügen",
 ];
-
-type KindItem = Record<string, BasicTypes> & {
-  kinder?: KindItem[];
-};
-
-type ItemWithPath = {
-  item: KindItem;
-  indexes: number[]; // full ancestor path from root, including own index
-};
-
-// base/i/inputUrl  or  base/i/kinder/j/inputUrl  etc.
-function buildEditUrl(
-  base: string,
-  indexes: number[],
-  inputUrl: string,
-): string {
-  const segs = [base];
-  indexes.forEach((idx, d) => {
-    segs.push(String(idx));
-    if (d < indexes.length - 1) segs.push("kinder");
-  });
-  segs.push(inputUrl);
-  return segs.join("/");
-}
-
-// Add a new child under parentIndexes:
-//   [] → base/count/inputUrl
-//   [i] → base/i/kinder/count/inputUrl
-//   [i,j] → base/i/kinder/j/kinder/count/inputUrl
-function buildAddUrl(
-  base: string,
-  parentIndexes: number[],
-  count: number,
-  inputUrl: string,
-): string {
-  const parentSegments = parentIndexes.flatMap((parentIndex) => [
-    String(parentIndex),
-    "kinder",
-  ]);
-  return [base, ...parentSegments, String(count), inputUrl].join("/");
-}
-
-// Pathname used by delete-array-item to locate the parent array:
-//   [] → base  (top-level kinder)
-//   [i] → base/i/kinder  (grandkinder of kind[i])
-function buildDeletePathname(base: string, parentIndexes: number[]): string {
-  const parentSegments = parentIndexes.flatMap((parentIndex) => [
-    String(parentIndex),
-    "kinder",
-  ]);
-  return [base, ...parentSegments].join("/");
-}
-
-// "kinder" | "kinder#kinder" | "kinder#kinder#kinder" …
-function kindCategory(depth: number): string {
-  return Array.from({ length: depth }, () => "kinder").join("#");
-}
-
-type DescendantEntry = {
-  item: KindItem;
-  indexes: number[];
-  directParentName: string;
-};
-
-// Resolve the array of candidate parents for a descendant at targetDepth from its
-// full index path: navigate `.kinder` down the ancestor path (all but the last two
-// physical indexes). Mirrors buildKinderParentOptions' navigation.
-function parentArrayForDepth(
-  items: KindItem[],
-  indexes: number[],
-  targetDepth: number,
-): KindItem[] {
-  const ancestorPath = indexes.slice(0, targetDepth - 2);
-  return ancestorPath.reduce<KindItem[]>(
-    (arr, idx) =>
-      Array.isArray(arr[idx]?.kinder) ? (arr[idx].kinder as KindItem[]) : [],
-    items,
-  );
-}
-
-// Collect every item at targetDepth, paired with its parent's name. The parent is
-// taken from the item's chosen `parentKindIndex` (authoritative), falling back to the
-// physical tree parent when unset or when the index points at a missing or living
-// member — mirroring the inheritance calc's reassignment.
-export function collectDescendantsWithParentName(
-  items: KindItem[],
-  targetDepth: number,
-): DescendantEntry[] {
-  function traverse(
-    currentItems: KindItem[],
-    currentDepth: number,
-    ancestorIndexes: number[],
-    parentName: string,
-  ): DescendantEntry[] {
-    if (currentDepth === targetDepth) {
-      return currentItems.map((item, itemIndex) => {
-        const indexes = [...ancestorIndexes, itemIndex];
-        const chosenIndex = item.parentKindIndex;
-        const chosenParent =
-          chosenIndex != null
-            ? parentArrayForDepth(items, indexes, targetDepth)[
-                Number(chosenIndex)
-              ]
-            : undefined;
-        const chosenName =
-          chosenParent?.isAlive === "no" ? chosenParent.name : undefined;
-        return {
-          item,
-          indexes,
-          directParentName: String(chosenName ?? parentName),
-        };
-      });
-    }
-    return currentItems.flatMap((item, itemIndex) =>
-      traverse(
-        Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [],
-        currentDepth + 1,
-        [...ancestorIndexes, itemIndex],
-        String(item.name ?? ""),
-      ),
-    );
-  }
-  return traverse(items, 1, [], "");
-}
-
-// Collect every item at targetDepth with its full index path.
-function collectAtDepth(
-  items: KindItem[],
-  targetDepth: number,
-  currentDepth = 1,
-  path: number[] = [],
-): ItemWithPath[] {
-  if (currentDepth === targetDepth) {
-    return items.map((item, itemIndex) => ({
-      item,
-      indexes: [...path, itemIndex],
-    }));
-  }
-  return items.flatMap((item, itemIndex) => {
-    const children = Array.isArray(item.kinder)
-      ? (item.kinder as KindItem[])
-      : [];
-    return collectAtDepth(children, targetDepth, currentDepth + 1, [
-      ...path,
-      itemIndex,
-    ]);
-  });
-}
 
 function DeleteButton({
   category,
@@ -299,7 +160,7 @@ function DescendantRow({
             </span>
           </a>
           <DeleteButton
-            category={kindCategory(depth)}
+            category={descendantCategory("kinder", depth)}
             itemIndex={itemIndex}
             pathnameArrayItem={buildDeletePathname(baseUrl, parentIndexes)}
           />

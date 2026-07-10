@@ -40,7 +40,10 @@ export const addAccusedDetails = (
     beklagteGesetzlichenVertretungNachname,
   );
 
-  const legalRepresentative = `${beklagteNameOrganisation}, vertreten durch ${legalRepresentativeName}`;
+  const legalRepresentative =
+    legalRepresentativeName.length > 0
+      ? `${beklagteNameOrganisation}, vertreten durch ${legalRepresentativeName}`
+      : (beklagteNameOrganisation ?? "");
 
   const accusedName =
     gegenWenBeklagen === "person" ? accusedPersonName : legalRepresentative;

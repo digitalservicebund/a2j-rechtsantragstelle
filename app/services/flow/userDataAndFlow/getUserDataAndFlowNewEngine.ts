@@ -53,6 +53,7 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/nachlass/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
 } as const;
 
 export const getUserDataAndFlowNewEngine = async (

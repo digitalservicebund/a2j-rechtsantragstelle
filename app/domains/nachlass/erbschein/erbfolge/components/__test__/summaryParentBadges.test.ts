@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { siblingBadgeLabel } from "../ElternteilSummary";
-import { collectDescendantsWithParentName } from "../KinderSummary";
+import { collectDescendantsWithParentName } from "../summaryTree";
 
 describe("siblingBadgeLabel", () => {
   const elternteile = [
