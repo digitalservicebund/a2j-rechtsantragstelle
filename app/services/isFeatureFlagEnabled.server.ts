@@ -5,6 +5,7 @@ const localFeatureFlags = {
   showBundID: false,
   showErbausschlagungFlow: true,
   showErbausschlagungGerichtFindenVorabcheck: true,
+  showNachlassErbscheinAnfrageFlow: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
