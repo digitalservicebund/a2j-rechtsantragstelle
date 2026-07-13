@@ -1,4 +1,17 @@
+import { sanitizeHtml } from "~/services/security/sanitizeHtml";
 import type { DescendantEntry, ItemWithPath, KindItem } from "./types";
+
+export const deceasedParentsNoticeTitle =
+  "Geben Sie die Kinder von verstorbenen Angehörigen an";
+
+// Body for the inline notice above a descendant section. Names are user input,
+// so the built HTML is sanitized before it reaches InlineNotice's RichText.
+export function deceasedParentsNoticeContent(names: string[]): string {
+  const listItems = names.map((name) => `<li>${name}</li>`).join("");
+  return sanitizeHtml(
+    `<p>Wenn Angehörige verstorben sind, rücken ihre Kinder in der Erbfolge nach. Geben Sie deswegen bitte die Kinder an von:</p><ul>${listItems}</ul>`,
+  );
+}
 
 // URL/path builders. All person trees nest via `/kinder/`, so a full index path
 // [i, j, k] maps to base/i/kinder/j/kinder/k/… regardless of which tree it is.
@@ -115,6 +128,17 @@ export function collectDescendantsWithParentName(
     );
   }
   return traverse(items, 1, [], "");
+}
+
+// Names of deceased members with children at parentDepth. These are the people
+// whose kinder the user still needs to enter at the next level down.
+export function collectDeceasedParentNames(
+  items: KindItem[],
+  parentDepth: number,
+): string[] {
+  return collectAtDepth(items, parentDepth)
+    .filter(({ item }) => item.isAlive === "no" && item.hatteKinder === "yes")
+    .map(({ item }) => String(item.name ?? ""));
 }
 
 // Collect every item at targetDepth with its full index path.

@@ -1,7 +1,25 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { translations } from "~/services/translations/translations";
 
 export const BOTH_PARENTS_VALUE = "both";
+
+// Fallback form element for a dynamic parent select whose page has no Strapi
+// select entry yet: provides the label above the dropdown.
+export function parentSelectFormElement(
+  fieldName: string,
+): StrapiFormComponent {
+  return {
+    id: 0,
+    name: fieldName,
+    __component: "form-elements.select",
+    label: translations.select.parentSelectLabel.de,
+    options: [],
+    errorMessages: [
+      { code: "required", text: translations.select.parentSelectRequired.de },
+    ],
+  };
+}
 
 type ParentEntry = {
   name?: string;

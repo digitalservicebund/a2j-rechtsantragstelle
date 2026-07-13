@@ -10,11 +10,16 @@ const parentElternteilIndexSchema =
   ];
 
 describe("parentKindIndex schema", () => {
-  it("accepts numeric string indexes, the empty option, and absence", () => {
+  it("accepts numeric string indexes and absence", () => {
     expect(parentKindIndexSchema.safeParse("0").success).toBe(true);
     expect(parentKindIndexSchema.safeParse("12").success).toBe(true);
-    expect(parentKindIndexSchema.safeParse("").success).toBe(true);
     expect(parentKindIndexSchema.safeParse(undefined).success).toBe(true);
+  });
+
+  it("rejects the placeholder empty option with the required code", () => {
+    const result = parentKindIndexSchema.safeParse("");
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.message).toBe("required");
   });
 
   it("rejects values that are not an index", () => {
@@ -30,11 +35,16 @@ describe("parentKindIndex schema", () => {
 });
 
 describe("parentElternteilIndex schema", () => {
-  it("accepts numeric string indexes, 'both', the empty option, and absence", () => {
+  it("accepts numeric string indexes, 'both', and absence", () => {
     expect(parentElternteilIndexSchema.safeParse("0").success).toBe(true);
     expect(parentElternteilIndexSchema.safeParse("both").success).toBe(true);
-    expect(parentElternteilIndexSchema.safeParse("").success).toBe(true);
     expect(parentElternteilIndexSchema.safeParse(undefined).success).toBe(true);
+  });
+
+  it("rejects the placeholder empty option with the required code", () => {
+    const result = parentElternteilIndexSchema.safeParse("");
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.message).toBe("required");
   });
 
   it("rejects values that are not an index or 'both'", () => {
