@@ -52,6 +52,12 @@ export const translations = {
     bothParents: {
       de: "Beide Elternteile",
     },
+    parentSelectLabel: {
+      de: "Die Person ist ein Kind von ...",
+    },
+    parentSelectRequired: {
+      de: "Bitte wählen Sie eine Person aus",
+    },
   },
   iban: {
     bankIdentified: {

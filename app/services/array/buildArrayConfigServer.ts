@@ -21,6 +21,7 @@ export const buildArrayConfigServer = (
       url: flowId + targetPath.slice(0, -1).join("/"),
       initialInputUrl: targetPath.at(-1) ?? "",
       statementKey: arrayInfo.fieldName,
+      isArrayRelevant: arrayInfo.isArrayRelevant,
       displayIndexOffset: arrayInfo.indexOffset,
       hiddenFields: arrayInfo.hiddenFields,
     },
