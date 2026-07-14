@@ -1,5 +1,6 @@
 import { type z } from "zod";
 import type { PageData } from "../pageDataSchema";
+import { type UserData } from "~/domains/userData";
 
 type InferSchema<S> = S extends z.ZodTypeAny
   ? z.infer<S>
@@ -14,7 +15,11 @@ type PageConfig = {
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
+    /**
+     * statementKey
+     */
     fieldName?: string;
+    isArrayRelevant?: (userData: UserData) => boolean;
     indexOffset?: number;
     hiddenFields?: string[];
   };
