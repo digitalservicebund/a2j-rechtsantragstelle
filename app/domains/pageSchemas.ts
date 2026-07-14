@@ -264,7 +264,10 @@ export const filterPageSchemasByReachableSteps =
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof userData;
-      return userData[statementKey] === "yes";
+      return (
+        userData[statementKey] === "yes" ||
+        Boolean(matchingArrayConfig?.isArrayRelevant?.(userData as UserData))
+      );
     }
     return (
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)

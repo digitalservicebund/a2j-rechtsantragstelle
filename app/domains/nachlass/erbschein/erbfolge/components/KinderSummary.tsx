@@ -9,12 +9,16 @@ import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
 import type { KindItem } from "./types";
+import { InlineNotice } from "~/components/content/InlineNotice";
 import {
   buildAddUrl,
   buildDeletePathname,
   buildEditUrl,
   collectAtDepth,
+  collectDeceasedParentNames,
   collectDescendantsWithParentName,
+  deceasedParentsNoticeContent,
+  deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
 
@@ -195,6 +199,15 @@ function FlatDescendantSection({
   return (
     <div className="flex flex-col gap-kern-space-default">
       <h2 className="kern-title">{SECTION_TITLES[depth - 1]}</h2>
+      <InlineNotice
+        title={deceasedParentsNoticeTitle}
+        tagName="p"
+        look="info"
+        nested
+        content={deceasedParentsNoticeContent(
+          collectDeceasedParentNames(items, depth - 1),
+        )}
+      />
       {descendants.map(({ item, indexes, directParentName }) => (
         <DescendantRow
           key={indexes.join("-")}
