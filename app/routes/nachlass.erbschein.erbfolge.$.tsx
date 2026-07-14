@@ -41,7 +41,10 @@ import {
   dynamicSelectZodDescription,
   type DynamicOptions,
 } from "~/services/validation/dynamicSelect";
-import { resolveParentOptions } from "~/domains/nachlass/erbschein/erbfolge/buildParentOptions";
+import {
+  parentSelectFormElement,
+  resolveParentOptions,
+} from "~/domains/nachlass/erbschein/erbfolge/buildParentOptions";
 function NachlassErbfolgePage() {
   const loaderData = useLoaderData<typeof loader>();
 
@@ -263,11 +266,21 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     );
   }
 
+  // Parent selects without a Strapi select entry yet still need their label.
+  const parentSelectFallbacks = dynamicSelectFields
+    .filter(
+      ([fieldName]) =>
+        !formElements.some(
+          (element) => "name" in element && element.name === fieldName,
+        ),
+    )
+    .map(([fieldName]) => parentSelectFormElement(fieldName));
+
   return data({
     arraySummaryData,
     stepData,
     cmsContent: vorabPage,
-    formElements,
+    formElements: [...formElements, ...parentSelectFallbacks],
     progressProps: staticFlow.getProgress(stepId),
     buttonNavigationProps,
     dynamicOptions,
