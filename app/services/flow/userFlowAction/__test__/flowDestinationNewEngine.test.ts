@@ -35,7 +35,7 @@ describe("flowDestinationNewEngine", () => {
 
   it("should return the array next-step if the pathname contains an array", () => {
     const mockFlowEngineSession = getMockFlowEngineSession(
-      "/finanzielle-angaben/kinder/kinder/address",
+      "/finanzielle-angaben/kinder/kinder/#/address",
     );
 
     const actual = flowDestinationNewEngine(
