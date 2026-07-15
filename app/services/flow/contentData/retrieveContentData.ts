@@ -24,7 +24,7 @@ export const retrieveContentData = async (
 
   const [formPageContent, parentContentPageMeta, cmsTranslations] =
     await Promise.all([
-      fetchFlowPage(flowPageId, flowId, stepId),
+      fetchFlowPage(flowPageId, flowId, stepId.replaceAll("/#", "")),
       fetchContentPageMeta({ filterValue: parentFromParams(pathname, params) }),
       fetchMultipleTranslations([
         `${flowId}/menu`,

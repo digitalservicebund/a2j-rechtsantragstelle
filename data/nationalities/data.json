@@ -1,0 +1,774 @@
+[
+  {
+    "displayName": "Afghanisch",
+    "nationality": "afghanisch"
+  },
+  {
+    "displayName": "Ägyptisch",
+    "nationality": "aegyptisch"
+  },
+  {
+    "displayName": "Albanisch",
+    "nationality": "albanisch"
+  },
+  {
+    "displayName": "Algerisch",
+    "nationality": "algerisch"
+  },
+  {
+    "displayName": "Amerikanisch",
+    "nationality": "amerikanisch"
+  },
+  {
+    "displayName": "Andorranisch",
+    "nationality": "andorranisch"
+  },
+  {
+    "displayName": "Angolanisch",
+    "nationality": "angolanisch"
+  },
+  {
+    "displayName": "Antiguanisch",
+    "nationality": "antiguanisch"
+  },
+  {
+    "displayName": "Äquatorialguineisch",
+    "nationality": "aequatorialguineisch"
+  },
+  {
+    "displayName": "Argentinisch",
+    "nationality": "argentinisch"
+  },
+  {
+    "displayName": "Armenisch",
+    "nationality": "armenisch"
+  },
+  {
+    "displayName": "Aserbaidschanisch",
+    "nationality": "aserbaidschanisch"
+  },
+  {
+    "displayName": "Äthiopisch",
+    "nationality": "aethiopisch"
+  },
+  {
+    "displayName": "Australisch",
+    "nationality": "australisch"
+  },
+  {
+    "displayName": "Bahamaisch",
+    "nationality": "bahamaisch"
+  },
+  {
+    "displayName": "Bahrainisch",
+    "nationality": "bahrainisch"
+  },
+  {
+    "displayName": "Bangladeschisch",
+    "nationality": "bangladeschisch"
+  },
+  {
+    "displayName": "Barbadisch",
+    "nationality": "barbadisch"
+  },
+  {
+    "displayName": "Belarussisch",
+    "nationality": "belarussisch"
+  },
+  {
+    "displayName": "Belgisch",
+    "nationality": "belgisch"
+  },
+  {
+    "displayName": "Belizisch",
+    "nationality": "belizisch"
+  },
+  {
+    "displayName": "Beninisch",
+    "nationality": "beninisch"
+  },
+  {
+    "displayName": "Bhutanisch",
+    "nationality": "bhutanisch"
+  },
+  {
+    "displayName": "Bolivianisch",
+    "nationality": "bolivianisch"
+  },
+  {
+    "displayName": "Bosnisch-herzegowinisch",
+    "nationality": "bosnisch-herzegowinisch"
+  },
+  {
+    "displayName": "Botsuanisch",
+    "nationality": "botsuanisch"
+  },
+  {
+    "displayName": "Brasilianisch",
+    "nationality": "brasilianisch"
+  },
+  {
+    "displayName": "Britisch",
+    "nationality": "britisch"
+  },
+  {
+    "displayName": "Bruneiisch",
+    "nationality": "bruneiisch"
+  },
+  {
+    "displayName": "Bulgarisch",
+    "nationality": "bulgarisch"
+  },
+  {
+    "displayName": "Burkinisch",
+    "nationality": "burkinisch"
+  },
+  {
+    "displayName": "Burundisch",
+    "nationality": "burundisch"
+  },
+  {
+    "displayName": "Chilenisch",
+    "nationality": "chilenisch"
+  },
+  {
+    "displayName": "Chinesisch",
+    "nationality": "chinesisch"
+  },
+  {
+    "displayName": "Costa-ricanisch",
+    "nationality": "costa-ricanisch"
+  },
+  {
+    "displayName": "Dänisch",
+    "nationality": "daenisch"
+  },
+  {
+    "displayName": "Deutsch",
+    "nationality": "deutsch"
+  },
+  {
+    "displayName": "Dominikanisch",
+    "nationality": "dominikanisch"
+  },
+  {
+    "displayName": "Dschibutisch",
+    "nationality": "dschibutisch"
+  },
+  {
+    "displayName": "Ecuadorianisch",
+    "nationality": "ecuadorianisch"
+  },
+  {
+    "displayName": "Emiratisch",
+    "nationality": "emiratisch"
+  },
+  {
+    "displayName": "Eritreisch",
+    "nationality": "eritreisch"
+  },
+  {
+    "displayName": "Estnisch",
+    "nationality": "estnisch"
+  },
+  {
+    "displayName": "Eswatinisch",
+    "nationality": "eswatinisch"
+  },
+  {
+    "displayName": "Fidschianisch",
+    "nationality": "fidschianisch"
+  },
+  {
+    "displayName": "Finnisch",
+    "nationality": "finnisch"
+  },
+  {
+    "displayName": "Französisch",
+    "nationality": "franzoesisch"
+  },
+  {
+    "displayName": "Gabunisch",
+    "nationality": "gabunisch"
+  },
+  {
+    "displayName": "Gambisch",
+    "nationality": "gambisch"
+  },
+  {
+    "displayName": "Georgisch",
+    "nationality": "georgisch"
+  },
+  {
+    "displayName": "Ghanaisch",
+    "nationality": "ghanaisch"
+  },
+  {
+    "displayName": "Grenadisch",
+    "nationality": "grenadisch"
+  },
+  {
+    "displayName": "Griechisch",
+    "nationality": "griechisch"
+  },
+  {
+    "displayName": "Guatemaltekisch",
+    "nationality": "guatemaltekisch"
+  },
+  {
+    "displayName": "Guinea-bissauisch",
+    "nationality": "guinea-bissauisch"
+  },
+  {
+    "displayName": "Guineisch",
+    "nationality": "guineisch"
+  },
+  {
+    "displayName": "Guyanisch",
+    "nationality": "guyanisch"
+  },
+  {
+    "displayName": "Haitianisch",
+    "nationality": "haitianisch"
+  },
+  {
+    "displayName": "Honduranisch",
+    "nationality": "honduranisch"
+  },
+  {
+    "displayName": "Indisch",
+    "nationality": "indisch"
+  },
+  {
+    "displayName": "Indonesisch",
+    "nationality": "indonesisch"
+  },
+  {
+    "displayName": "Irakisch",
+    "nationality": "irakisch"
+  },
+  {
+    "displayName": "Iranisch",
+    "nationality": "iranisch"
+  },
+  {
+    "displayName": "Irisch",
+    "nationality": "irisch"
+  },
+  {
+    "displayName": "Isländisch",
+    "nationality": "islaendisch"
+  },
+  {
+    "displayName": "Israelisch",
+    "nationality": "israelisch"
+  },
+  {
+    "displayName": "Italienisch",
+    "nationality": "italienisch"
+  },
+  {
+    "displayName": "Ivorisch",
+    "nationality": "ivorisch"
+  },
+  {
+    "displayName": "Jamaikanisch",
+    "nationality": "jamaikanisch"
+  },
+  {
+    "displayName": "Japanisch",
+    "nationality": "japanisch"
+  },
+  {
+    "displayName": "Jemenitisch",
+    "nationality": "jemenitisch"
+  },
+  {
+    "displayName": "Jordanisch",
+    "nationality": "jordanisch"
+  },
+  {
+    "displayName": "Kambodschanisch",
+    "nationality": "kambodschanisch"
+  },
+  {
+    "displayName": "Kamerunisch",
+    "nationality": "kamerunisch"
+  },
+  {
+    "displayName": "Kanadisch",
+    "nationality": "kanadisch"
+  },
+  {
+    "displayName": "Kapverdisch",
+    "nationality": "kapverdisch"
+  },
+  {
+    "displayName": "Kasachisch",
+    "nationality": "kasachisch"
+  },
+  {
+    "displayName": "Katarisch",
+    "nationality": "katarisch"
+  },
+  {
+    "displayName": "Kenianisch",
+    "nationality": "kenianisch"
+  },
+  {
+    "displayName": "Kirgisisch",
+    "nationality": "kirgisisch"
+  },
+  {
+    "displayName": "Kiribatisch",
+    "nationality": "kiribatisch"
+  },
+  {
+    "displayName": "Kittisch-nevisisch",
+    "nationality": "kittisch-nevisisch"
+  },
+  {
+    "displayName": "Kolumbianisch",
+    "nationality": "kolumbianisch"
+  },
+  {
+    "displayName": "Komorisch",
+    "nationality": "komorisch"
+  },
+  {
+    "displayName": "Kongolesisch",
+    "nationality": "kongolesisch"
+  },
+  {
+    "displayName": "Kroatisch",
+    "nationality": "kroatisch"
+  },
+  {
+    "displayName": "Kubanisch",
+    "nationality": "kubanisch"
+  },
+  {
+    "displayName": "Kuwaitisch",
+    "nationality": "kuwaitisch"
+  },
+  {
+    "displayName": "Laotisch",
+    "nationality": "laotisch"
+  },
+  {
+    "displayName": "Lesothisch",
+    "nationality": "lesothisch"
+  },
+  {
+    "displayName": "Lettisch",
+    "nationality": "lettisch"
+  },
+  {
+    "displayName": "Libanesisch",
+    "nationality": "libanesisch"
+  },
+  {
+    "displayName": "Liberianisch",
+    "nationality": "liberianisch"
+  },
+  {
+    "displayName": "Libysch",
+    "nationality": "libysch"
+  },
+  {
+    "displayName": "Liechtensteinisch",
+    "nationality": "liechtensteinisch"
+  },
+  {
+    "displayName": "Litauisch",
+    "nationality": "litauisch"
+  },
+  {
+    "displayName": "Luxemburgisch",
+    "nationality": "luxemburgisch"
+  },
+  {
+    "displayName": "Madagassisch",
+    "nationality": "madagassisch"
+  },
+  {
+    "displayName": "Malawisch",
+    "nationality": "malawisch"
+  },
+  {
+    "displayName": "Malaysisch",
+    "nationality": "malaysisch"
+  },
+  {
+    "displayName": "Maledivisch",
+    "nationality": "maledivisch"
+  },
+  {
+    "displayName": "Malisch",
+    "nationality": "malisch"
+  },
+  {
+    "displayName": "Maltesisch",
+    "nationality": "maltesisch"
+  },
+  {
+    "displayName": "Marokkanisch",
+    "nationality": "marokkanisch"
+  },
+  {
+    "displayName": "Marshallisch",
+    "nationality": "marshallisch"
+  },
+  {
+    "displayName": "Mauretanisch",
+    "nationality": "mauretanisch"
+  },
+  {
+    "displayName": "Mauritisch",
+    "nationality": "mauritisch"
+  },
+  {
+    "displayName": "Mexikanisch",
+    "nationality": "mexikanisch"
+  },
+  {
+    "displayName": "Mikronesisch",
+    "nationality": "mikronesisch"
+  },
+  {
+    "displayName": "Moldauisch",
+    "nationality": "moldauisch"
+  },
+  {
+    "displayName": "Monegassisch",
+    "nationality": "monegassisch"
+  },
+  {
+    "displayName": "Mongolisch",
+    "nationality": "mongolisch"
+  },
+  {
+    "displayName": "Montenegrinisch",
+    "nationality": "montenegrinisch"
+  },
+  {
+    "displayName": "Mosambikanisch",
+    "nationality": "mosambikanisch"
+  },
+  {
+    "displayName": "Myanmarisch",
+    "nationality": "myanmarisch"
+  },
+  {
+    "displayName": "Namibisch",
+    "nationality": "namibisch"
+  },
+  {
+    "displayName": "Nauruisch",
+    "nationality": "nauruisch"
+  },
+  {
+    "displayName": "Nepalesisch",
+    "nationality": "nepalesisch"
+  },
+  {
+    "displayName": "Neuseeländisch",
+    "nationality": "neuseelaendisch"
+  },
+  {
+    "displayName": "Nicaraguanisch",
+    "nationality": "nicaraguanisch"
+  },
+  {
+    "displayName": "Niederländisch",
+    "nationality": "niederlaendisch"
+  },
+  {
+    "displayName": "Nigerianisch",
+    "nationality": "nigerianisch"
+  },
+  {
+    "displayName": "Nigrisch",
+    "nationality": "nigrisch"
+  },
+  {
+    "displayName": "Nordkoreanisch",
+    "nationality": "nordkoreanisch"
+  },
+  {
+    "displayName": "Nordmazedonisch",
+    "nationality": "nordmazedonisch"
+  },
+  {
+    "displayName": "Norwegisch",
+    "nationality": "norwegisch"
+  },
+  {
+    "displayName": "Omanisch",
+    "nationality": "omanisch"
+  },
+  {
+    "displayName": "Österreichisch",
+    "nationality": "oesterreichisch"
+  },
+  {
+    "displayName": "Pakistanisch",
+    "nationality": "pakistanisch"
+  },
+  {
+    "displayName": "Palästinensisch",
+    "nationality": "palaestinensisch"
+  },
+  {
+    "displayName": "Palaunisch",
+    "nationality": "palaunisch"
+  },
+  {
+    "displayName": "Panamaisch",
+    "nationality": "panamaisch"
+  },
+  {
+    "displayName": "Papua-neuguineisch",
+    "nationality": "papua-neuguineisch"
+  },
+  {
+    "displayName": "Paraguayisch",
+    "nationality": "paraguayisch"
+  },
+  {
+    "displayName": "Peruanisch",
+    "nationality": "peruanisch"
+  },
+  {
+    "displayName": "Philippinisch",
+    "nationality": "philippinisch"
+  },
+  {
+    "displayName": "Polnisch",
+    "nationality": "polnisch"
+  },
+  {
+    "displayName": "Portugiesisch",
+    "nationality": "portugiesisch"
+  },
+  {
+    "displayName": "Ruandisch",
+    "nationality": "ruandisch"
+  },
+  {
+    "displayName": "Rumänisch",
+    "nationality": "rumaenisch"
+  },
+  {
+    "displayName": "Russisch",
+    "nationality": "russisch"
+  },
+  {
+    "displayName": "Salomonisch",
+    "nationality": "salomonisch"
+  },
+  {
+    "displayName": "Salvadorianisch",
+    "nationality": "salvadorianisch"
+  },
+  {
+    "displayName": "Sambisch",
+    "nationality": "sambisch"
+  },
+  {
+    "displayName": "Samoanisch",
+    "nationality": "samoanisch"
+  },
+  {
+    "displayName": "San-marinesisch",
+    "nationality": "san-marinesisch"
+  },
+  {
+    "displayName": "Saotomisch",
+    "nationality": "saotomisch"
+  },
+  {
+    "displayName": "Saudi-arabisch",
+    "nationality": "saudi-arabisch"
+  },
+  {
+    "displayName": "Schwedisch",
+    "nationality": "schwedisch"
+  },
+  {
+    "displayName": "Schweizerisch",
+    "nationality": "schweizerisch"
+  },
+  {
+    "displayName": "Senegalesisch",
+    "nationality": "senegalesisch"
+  },
+  {
+    "displayName": "Serbisch",
+    "nationality": "serbisch"
+  },
+  {
+    "displayName": "Seychellisch",
+    "nationality": "seychellisch"
+  },
+  {
+    "displayName": "Sierra-leonisch",
+    "nationality": "sierra-leonisch"
+  },
+  {
+    "displayName": "Simbabwisch",
+    "nationality": "simbabwisch"
+  },
+  {
+    "displayName": "Singapurisch",
+    "nationality": "singapurisch"
+  },
+  {
+    "displayName": "Slowakisch",
+    "nationality": "slowakisch"
+  },
+  {
+    "displayName": "Slowenisch",
+    "nationality": "slowenisch"
+  },
+  {
+    "displayName": "Somalisch",
+    "nationality": "somalisch"
+  },
+  {
+    "displayName": "Spanisch",
+    "nationality": "spanisch"
+  },
+  {
+    "displayName": "Sri-lankisch",
+    "nationality": "sri-lankisch"
+  },
+  {
+    "displayName": "St.-lucianisch",
+    "nationality": "st.-lucianisch"
+  },
+  {
+    "displayName": "Sudanesisch",
+    "nationality": "sudanesisch"
+  },
+  {
+    "displayName": "Südkoreanisch",
+    "nationality": "suedkoreanisch"
+  },
+  {
+    "displayName": "Südsudanesisch",
+    "nationality": "suedsudanesisch"
+  },
+  {
+    "displayName": "Surinamisch",
+    "nationality": "surinamisch"
+  },
+  {
+    "displayName": "Syrisch",
+    "nationality": "syrisch"
+  },
+  {
+    "displayName": "Tadschikisch",
+    "nationality": "tadschikisch"
+  },
+  {
+    "displayName": "Taiwanisch",
+    "nationality": "taiwanisch"
+  },
+  {
+    "displayName": "Tansanisch",
+    "nationality": "tansanisch"
+  },
+  {
+    "displayName": "Thailändisch",
+    "nationality": "thailaendisch"
+  },
+  {
+    "displayName": "Timoresisch",
+    "nationality": "timoresisch"
+  },
+  {
+    "displayName": "Togoisch",
+    "nationality": "togoisch"
+  },
+  {
+    "displayName": "Tongaisch",
+    "nationality": "tongaisch"
+  },
+  {
+    "displayName": "Trinidadisch-tobagisch",
+    "nationality": "trinidadisch-tobagisch"
+  },
+  {
+    "displayName": "Tschadisch",
+    "nationality": "tschadisch"
+  },
+  {
+    "displayName": "Tschechisch",
+    "nationality": "tschechisch"
+  },
+  {
+    "displayName": "Tunesisch",
+    "nationality": "tunesisch"
+  },
+  {
+    "displayName": "Türkisch",
+    "nationality": "tuerkisch"
+  },
+  {
+    "displayName": "Turkmenisch",
+    "nationality": "turkmenisch"
+  },
+  {
+    "displayName": "Tuvaluisch",
+    "nationality": "tuvaluisch"
+  },
+  {
+    "displayName": "Ugandisch",
+    "nationality": "ugandisch"
+  },
+  {
+    "displayName": "Ukrainisch",
+    "nationality": "ukrainisch"
+  },
+  {
+    "displayName": "Ungarisch",
+    "nationality": "ungarisch"
+  },
+  {
+    "displayName": "Uruguayisch",
+    "nationality": "uruguayisch"
+  },
+  {
+    "displayName": "Usbekisch",
+    "nationality": "usbekisch"
+  },
+  {
+    "displayName": "Vanuatuisch",
+    "nationality": "vanuatuisch"
+  },
+  {
+    "displayName": "Vatikanisch",
+    "nationality": "vatikanisch"
+  },
+  {
+    "displayName": "Venezolanisch",
+    "nationality": "venezolanisch"
+  },
+  {
+    "displayName": "Vietnamesisch",
+    "nationality": "vietnamesisch"
+  },
+  {
+    "displayName": "Vincentisch",
+    "nationality": "vincentisch"
+  },
+  {
+    "displayName": "Zentralafrikanisch",
+    "nationality": "zentralafrikanisch"
+  },
+  {
+    "displayName": "Zyprisch",
+    "nationality": "zyprisch"
+  }
+]

@@ -1,3 +1,4 @@
+import { type UserData } from "~/domains/userData";
 import { precomputeProgress } from "./precomputeProgress";
 import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
 import z from "zod";
@@ -79,6 +80,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryPoint?: string;
         entryNodeKey?: NodeKey<C>;
         fieldName?: string;
+        isArrayRelevant?: (userData: UserData) => boolean;
         indexOffset?: number;
         hiddenFields?: string[];
       }
@@ -122,6 +124,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryPoint: getArrayEntryPoint(nodeTransitions, pages),
         entryNodeKey: addTransition?.target ?? undefined,
         fieldName: pageNode.arraySummary.fieldName,
+        isArrayRelevant: pageNode.arraySummary.isArrayRelevant,
         indexOffset: pageNode.arraySummary.indexOffset,
         hiddenFields: pageNode.arraySummary.hiddenFields,
       };

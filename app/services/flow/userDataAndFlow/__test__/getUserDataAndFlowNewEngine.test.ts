@@ -99,6 +99,11 @@ describe("getUserDataAndFlowNewEngine", () => {
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({
+      userData: {
+        pageData: {
+          arrayIndexes: [],
+        },
+      },
       flow: {
         id: "/beratungshilfe/antrag",
         userVisitedValidationPage: false,
