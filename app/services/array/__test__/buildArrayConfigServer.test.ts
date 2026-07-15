@@ -20,11 +20,12 @@ describe("buildArrayConfigServer", () => {
     const flowSessionEngine = {
       arrayInfo: {
         name: "arrayName",
-        entryPoint: "/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten",
+        entryPoint: "daten",
         fieldName: "fieldName",
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
+      paths: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten"],
     } as unknown as FlowSession<PageConfigMap>;
 
     const result = buildArrayConfigServer(
