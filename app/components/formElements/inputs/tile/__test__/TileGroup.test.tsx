@@ -4,7 +4,7 @@ import Tile from "../Tile";
 
 const COMPONENT_NAME = "TileGroup";
 
-const mockControlledRef = vi.fn();
+const mockTransientRef = vi.fn();
 
 const mockUseField = (error?: string) => ({
   getInputProps: vi.fn((props) => ({ ...props })),
@@ -12,8 +12,8 @@ const mockUseField = (error?: string) => ({
   getControlProps: vi.fn(),
   getHiddenInputProps: vi.fn(),
   refs: {
-    controlled: () => mockControlledRef,
-    transient: vi.fn(),
+    controlled: vi.fn(),
+    transient: () => mockTransientRef,
   },
   name: vi.fn(),
   onChange: vi.fn(),
@@ -77,7 +77,7 @@ describe("Tile", () => {
     expect(screen.getByText("This field is required")).toBeInTheDocument();
   });
 
-  it("passes controlled ref to first tile when there is an error", () => {
+  it("passes transient ref to first tile when there is an error", () => {
     vi.mocked(useField).mockImplementation(() => mockUseField("required"));
 
     render(
@@ -90,7 +90,7 @@ describe("Tile", () => {
 
     const firstRadio = screen.getAllByRole("radio")[0];
     expect(firstRadio).toBeInTheDocument();
-    expect(mockControlledRef).toHaveBeenCalled();
+    expect(mockTransientRef).toHaveBeenCalled();
   });
 
   it("sets aria attributes when error is present", () => {

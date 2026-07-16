@@ -46,18 +46,15 @@ const Checkbox = ({
       <div className="kern-fieldset__body">
         <div className="kern-form-check">
           <input
+            {...field.getInputProps({ type: "checkbox", value: "on" })}
             className={classNames("kern-form-check__checkbox", {
               "kern-form-check__checkbox--error": hasError,
             })}
             id={name}
-            name={name}
-            type="checkbox"
-            defaultChecked={field.defaultValue() === "on"}
-            value={"on"}
             aria-describedby={hasError ? errorId : undefined}
             onClick={() => setRenderHiddenField(!renderHiddenField)}
             aria-required={required}
-            ref={hasError ? field.refs.controlled() : null}
+            ref={hasError ? field.refs.transient() : null}
           />
 
           {label && <InputLabel label={label} name={name} suffix={suffix} />}

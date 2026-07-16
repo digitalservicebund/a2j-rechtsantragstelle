@@ -121,7 +121,7 @@ describe("Checkbox", () => {
     expect(checkbox).toHaveAttribute("aria-required", "false");
   });
 
-  it("calls controlled ref when there is an error", () => {
+  it("calls transient ref when there is an error", () => {
     const controlledRefMock = vi.fn();
     const transientRefMock = vi.fn();
 
@@ -144,7 +144,7 @@ describe("Checkbox", () => {
       />,
     );
 
-    expect(controlledRefMock).toHaveBeenCalled();
+    expect(transientRefMock).toHaveBeenCalled();
   });
 
   it("applies error styling correctly when there is an error", () => {

@@ -55,7 +55,7 @@ const RadioGroup = ({
             value={o.value}
             text={o.text}
             // Only assign the ref to the first radio button (https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
-            ref={index === 0 && hasError ? field.refs.controlled() : null}
+            ref={index === 0 && hasError ? field.refs.transient() : null}
           />
         ))}
       </div>

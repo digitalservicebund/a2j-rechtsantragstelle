@@ -61,7 +61,7 @@ const Tile = ({
             tileTitle={title}
             image={image}
             errorId={errorId}
-            ref={index === 0 && field.error() ? field.refs.controlled() : null}
+            ref={index === 0 && field.error() ? field.refs.transient() : null}
           />
         ))}
       </div>
