@@ -3,6 +3,7 @@ import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -74,7 +75,7 @@ export const antragstellendePersonPages = {
     stepId: "/antragstellende-person/kontaktdaten",
     pageSchema: {
       antragstellendePersonTelefonnummer: phoneNumberSchema,
-      antragstellendePersonEmail: emailSchema.optional(),
+      antragstellendePersonEmail: schemaOrEmptyString(emailSchema),
     },
   },
 } satisfies PagesConfig;

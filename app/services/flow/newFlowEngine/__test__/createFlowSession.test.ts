@@ -1,20 +1,44 @@
 import { createFlowSession } from "../createFlowSession";
 import { compileFlow } from "../compileFlow";
 import z from "zod";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 const noData = { pageData: { arrayIndexes: [] } };
 
 const pages = {
   start: { stepId: "/start" },
   middle: { stepId: "/middle", pageSchema: { answer: z.string() } },
+  array: {
+    stepId: "/array",
+    arraySummary: {
+      name: "items",
+      schema: z.array(
+        z.object({
+          vorname: z.string(),
+          nachname: z.string(),
+        }),
+      ),
+    },
+  },
+  arraySubPage: {
+    stepId: "/array/#/daten",
+    pageSchema: { "items#vorname": z.string(), "items#nachname": z.string() },
+  },
   end: { stepId: "/end" },
 } as const;
 
-const transitions = {
+const transitions: TransitionConfigMap<typeof pages> = {
   start: "middle",
-  middle: "end",
+  middle: "array",
+  array: [
+    { type: "addArrayItem", target: "arraySubPage" },
+    {
+      target: "end",
+    },
+  ],
+  arraySubPage: "array",
   end: null,
-} as const;
+};
 
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
@@ -416,7 +440,14 @@ describe("createFlowSession", () => {
   describe("paths", () => {
     it("contains the paths from initial to terminal step", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.paths).toEqual(["/start", "/middle", "/end"]);
+      expect(session.paths).toEqual([
+        "/start",
+        "/middle",
+        "/array",
+        "/array/#/daten",
+        "/array",
+        "/end",
+      ]);
     });
   });
 
@@ -444,6 +475,18 @@ describe("createFlowSession", () => {
       );
       // "middle" has stepId "/middle" — 1-level path appears as top-level tree key
       expect(session.statusTree["/middle"]?.isDone).toBe(true);
+    });
+
+    it("marks a section isDone when all reachable array subpages have their schema fields filled", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }],
+          pageData: { arrayIndexes: [0] },
+        },
+        "/array",
+      );
+      expect(session.statusTree["/array"]?.isDone).toBe(true);
     });
 
     it("marks a section isDone false when a reachable page has unfilled required fields", () => {
