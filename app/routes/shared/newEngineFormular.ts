@@ -113,7 +113,7 @@ export const action = async (args: ActionFunctionArgs) => {
   }
 
   const { pathname } = url;
-  const { flowId, currentFlow, stepId } =
+  const { flowId, currentFlow, arrayIndexes, stepId } =
     getPageAndFlowDataFromPathname(pathname);
 
   const compiledStaticFlow =
@@ -195,7 +195,14 @@ export const action = async (args: ActionFunctionArgs) => {
 
   const flowSessionEngineSaved = createFlowSession(
     compiledStaticFlow,
-    userDataToSave as Parameters<typeof createFlowSession>[1],
+    {
+      ...(userDataToSave as Parameters<typeof createFlowSession>[1]),
+      pageData: {
+        ...userDataToSave.pageData,
+        // Need to inject arrayIndexes here for index-dependent guards, like conditional routing inside of arrays
+        arrayIndexes,
+      },
+    },
     stepId,
   );
 

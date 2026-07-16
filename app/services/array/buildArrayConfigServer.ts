@@ -15,7 +15,11 @@ export const buildArrayConfigServer = (
   }
 
   const targetPath = flowSessionEngine.paths
-    .at(-1)
+    .find(
+      (path) =>
+        path.includes(`/${ARRAY_WILDCARD}`) &&
+        flowSessionEngine.isReachable(path),
+    )
     ?.split(`/${ARRAY_WILDCARD}`)
     .at(0);
 
