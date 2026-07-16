@@ -43,8 +43,8 @@ importers:
         specifier: ^10.63.0
         version: 10.63.0(@opentelemetry/core@2.9.0)(@react-router/node@7.17.0)(react-router@7.17.0)(react@19.2.7)(rollup@4.60.4)
       '@sentry/vite-plugin':
-        specifier: ^5.3.0
-        version: 5.3.0(rollup@4.60.4)
+        specifier: ^5.4.0
+        version: 5.4.0(rollup@4.60.4)
       '@xstate/graph':
         specifier: ^3.0.4
         version: 3.0.4(xstate@5.32.4)
@@ -112,11 +112,11 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.398.0
-        version: 1.398.0
+        specifier: 1.399.2
+        version: 1.399.2
       posthog-node:
-        specifier: 5.40.0
-        version: 5.40.0
+        specifier: 5.41.0
+        version: 5.41.0
       prom-client:
         specifier: ^15.1.3
         version: 15.1.3
@@ -1711,14 +1711,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@posthog/core@1.40.0':
-    resolution: {integrity: sha512-oGDbIwlTquNwdHbEL5ZLEkuW4UFkkEanfx3QAxDgyVbISv+OAA6YGQwrvo0JD3MUJEbJZvyh8XsX+WYDGw9XHw==}
+  '@posthog/core@1.41.1':
+    resolution: {integrity: sha512-lKjPdeawDSvRhHnP14RwTSI5CofuyluhG3ISHRa+Kj6PyfSrEUyIkoVOpYWicFGgWikeaJCZzFQpo7ngHt9BcA==}
 
-  '@posthog/core@1.40.2':
-    resolution: {integrity: sha512-H12j7O9iHGvpK9t2ko8W4pvfbV1pBDxrsWC1LA6yp2RhzwvC4T3sWhu+AekDQJSRSrJEWlB0t/Ueq9QhPSq7FQ==}
-
-  '@posthog/types@1.393.0':
-    resolution: {integrity: sha512-vzWeEJZ7ERQhFRoQYaP5jzN1JvIu46UJyHXsuv+dTGW2r3sMgREOhNxXLZjmFHwZ8/FOHQoyqqQmXTCXZSfMSg==}
+  '@posthog/types@1.394.0':
+    resolution: {integrity: sha512-ifQ7p8o8hoHErlJmpzCFzHQcuRam0vXk8LBVhBu4BlPYP6S0tog4FSAFItnI/nwN6cHZI0WFQilr7sIqQa7Flg==}
 
   '@react-router/dev@7.17.0':
     resolution: {integrity: sha512-+ITMmv/1xUB+QF6ehCCOIVBNBDuKIEE+3JKCt+kTBvxDTk1s49qHbtCA4TzJYge41pNRGtFIiy5VAksLSVJheg==}
@@ -2052,10 +2049,6 @@ packages:
   '@rvf/set-get@7.0.3':
     resolution: {integrity: sha512-Ky2uOJ5WpgqVev4W+dNlOIJ2R9b6heHD4PHx7NGI98XanfeH8Pl/m5wE0aZU3d/nD79iOUlZHBn0uxJU/DJF7g==}
 
-  '@sentry/babel-plugin-component-annotate@5.3.0':
-    resolution: {integrity: sha512-p4q8gn8wcFqZGP/s2MnJCAAd8fTikaU6A0mM97RDHQgStcrYiaS0Sc5zUNfb1V+UOLPuvdEdL6MwyxfzjYJQTA==}
-    engines: {node: '>= 18'}
-
   '@sentry/browser-utils@10.63.0':
     resolution: {integrity: sha512-DhUGNN+CH8fzAs6qAsueKPU70qShyTX3NxLhIP+l5DbGXDSXpYXBT6s8ubZus0/LhxpLvI0iSyNIDvZRD/gZaA==}
     engines: {node: '>=18'}
@@ -2064,9 +2057,17 @@ packages:
     resolution: {integrity: sha512-0mi56YOkwgyjdLOcN5cB1//EcYzEOt3NZ2GLygE92B3zAAwVM1WgbmibZCXToKFClH7z1uH3VWVfBffmkwIMYw==}
     engines: {node: '>=18'}
 
-  '@sentry/bundler-plugin-core@5.3.0':
-    resolution: {integrity: sha512-L5T60sWdAI3qWwdg3Ptwek/0TY59PERrxyqp4XMUkroayQvGd9r5dIW9Q1kSeXX9iJ442nXbFZKAOyCKV4Z13Q==}
+  '@sentry/bundler-plugins@10.65.0':
+    resolution: {integrity: sha512-AYgv31l4wY/CwYAD/2Og59RT+TNjvhatcLOrEe5tFOpi9VcPAQ4xfPZIM6fXYGawofT52p6LhUECNSfNkNnc7Q==}
     engines: {node: '>= 18'}
+    peerDependencies:
+      rollup: '>=3.2.0'
+      webpack: '>=5.0.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      webpack:
+        optional: true
 
   '@sentry/cli-darwin@2.58.6':
     resolution: {integrity: sha512-udAVvcyfNa0R+95GvPz/+43/N3TC0TYKdkQ7D7jhPSzbcMc7l2fxRNN5yB3UpCA5fWFnW4toeaqwDBhb/Wh3LA==}
@@ -2124,8 +2125,16 @@ packages:
     resolution: {integrity: sha512-z1JQrl/1SLY+8wpzvork6vl+fpsg/oCCxM7HWWhUnI/R+OGNyoIzieQuggX3uUMY7NBtp8UWCQx6FeFazzOF9g==}
     engines: {node: '>=14'}
 
+  '@sentry/conventions@0.15.1':
+    resolution: {integrity: sha512-ZLP8bRdMON3prWE2tJyImuYscCxdcJeIPIhrOs/rgyFm3C1nCh1B6gdvPj3AZ5zW08oSFFCsq7T+tYEW3h8MNA==}
+    engines: {node: '>=14'}
+
   '@sentry/core@10.63.0':
     resolution: {integrity: sha512-OtUbsrnbEHffOF2S2+M5zXa3HIM0U2b4CDVLKMY1dgS0J3ivRF8XvkjvyIcEG/y8JXnwXbnprLyjhG+AqMdUZQ==}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.65.0':
+    resolution: {integrity: sha512-3aqtmM5NgNGo45BNaaBzi0LPQZAw//NEL4HKS5fXm12pJMa4KEkze8DEKnkTEIrGnWaOJKamecHKlnNg/Mqf/Q==}
     engines: {node: '>=18'}
 
   '@sentry/feedback@10.63.0':
@@ -2187,21 +2196,12 @@ packages:
     resolution: {integrity: sha512-u4fDaLbd4QmJbU0qGzV5g2B2hjw5utdeZzpTrmq565AS5o6mfaZdCz30zF9R2Unkn0g9SJr90piTN2RMwvDrkw==}
     engines: {node: '>=18'}
 
-  '@sentry/rollup-plugin@5.3.0':
-    resolution: {integrity: sha512-hgPGPYdQJ/G1cGYOxAb7d4z3V+/k/E5/P/5TFPEEBLuIbFFk+JG0CISUDJdzXJjO382Lb99PBJuXGbueBmO79w==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      rollup: '>=3.2.0'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
   '@sentry/server-utils@10.63.0':
     resolution: {integrity: sha512-7NN//DG9Yak8t2+6WiEcNmN269iHRVdtZtZIwucEd0OXyZ3FEBBDaBF+bT9V6H/kPtUvVMkHQ72Bn2Xs5JYGxg==}
     engines: {node: '>=18'}
 
-  '@sentry/vite-plugin@5.3.0':
-    resolution: {integrity: sha512-qcoSzo4n2MulVQ70UUPLq6dTleb2a2HwL2wuwvAgWhPChrYTuk6A6mDg6aQb9fairPAwFPiU9PzOANpoDJcz1A==}
+  '@sentry/vite-plugin@5.4.0':
+    resolution: {integrity: sha512-fFJgCxs5hDyAm9BbZJ+LbA+LK2tjX5OoD0v0ARU4StR6KQmGUduoPs69yJ9AfqZ0om3Rlp5JDliiwFcNkasORA==}
     engines: {node: '>= 18'}
 
   '@sigstore/bundle@4.0.0':
@@ -3237,16 +3237,12 @@ packages:
     resolution: {integrity: sha512-gYzvtM72ZtxQO0T048kd6HWSbbGCNOUwcnfQ01cqIJ4X2IYKFFHZ5mKvrQETcFXxsRObZulDaKmy//R7TPtsBg==}
     engines: {node: '>=20.19.0'}
 
-  dompurify@3.4.11:
-    resolution: {integrity: sha512-zhlUV12GsaRzMsf9q5M254YhA4+VuF0fG+QFqu6aYpoGlKtz+w8//jBcGVYBgQkR5GHjUomejY84AV+/uPbWdw==}
+  dompurify@3.4.12:
+    resolution: {integrity: sha512-zQvGet8Z2sWbQhCmfFz/T5QWH2oBmjnqK3qvOjaqaNLrLEF912WamU+ohnTp0TCep/MFVHpdJuCZEdFOdTnEFg==}
 
   domutils@4.0.2:
     resolution: {integrity: sha512-qI4JLRKnSzqFqr7hAlS5xQDusBCjKSEG4t4+7aNrIQMHBcsC2TGEhuyABJdYkgSewL57PNLYEiibY2iPKhKpaA==}
     engines: {node: '>=20.19.0'}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
 
   dotenv@17.4.2:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
@@ -3262,8 +3258,8 @@ packages:
   electron-to-chromium@1.5.384:
     resolution: {integrity: sha512-g6KAKY1vkYsADvSPWvdJsuYT0ixdcu6lUtD9P/wJKGBEDlZVXh2AX42j1mPqqaQPDluWjara9ziQ7xqAeXCt5A==}
 
-  electron-to-chromium@1.5.389:
-    resolution: {integrity: sha512-cEto7aeOqBfU1D+c5py5pE+ooscKE75JifxLBdFUZsqAxRS6y7kebtxAZvICszSl05gPjYHDTjY+lXpyGvpJbg==}
+  electron-to-chromium@1.5.392:
+    resolution: {integrity: sha512-1yQq3VQCZRwsnYc67Oc+1fge6Lwtn0hzi6zmEVkB61Zx21kTbwJAW4dFLadl5Rc1tKhG/kSpYXnfiAhu0f0a1g==}
 
   empathic@2.0.1:
     resolution: {integrity: sha512-YGRs8knHhKHVShLkFET/rWAU8kmHbOV5LwN938RHI0pljAJ1Gf6SzXsSmRaEzcXTtOOmVqJ5+WtQPL5uigY50Q==}
@@ -4311,11 +4307,11 @@ packages:
     resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.398.0:
-    resolution: {integrity: sha512-1+1FPmP6sw1NxtFz5YI1MqwpvRrGGJIedvczk8rJ7YD0Ez3pjolQ21krc+iKrpkvuoNjORZATGOYpUtaL5yWjQ==}
+  posthog-js@1.399.2:
+    resolution: {integrity: sha512-xcvrGEgUYtIVcWPRlVfc/NkMo0IP9nwnM/dzJIAzjDOSewkdDk/9T4Vz1+gooEhXdQCPfG44jSK95mVJsoySqA==}
 
-  posthog-node@5.40.0:
-    resolution: {integrity: sha512-DrLfHuauO0W6qruF80iqr5JdmLysef74XzOB4eh36oRLRhxCySLraTqsi2Pj161LZnp9/JNdRDxwT8ei8VK2YA==}
+  posthog-node@5.41.0:
+    resolution: {integrity: sha512-jOkX6THOr5WD+FGUEaTxekas8c7NOC3TqJ2Byfe2KMimQdL/F/osz17uSbkNzR4V9WFZoe8YaGP3Xp0EUpPKGg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -6632,15 +6628,11 @@ snapshots:
     dependencies:
       playwright: 1.61.1
 
-  '@posthog/core@1.40.0':
+  '@posthog/core@1.41.1':
     dependencies:
-      '@posthog/types': 1.393.0
+      '@posthog/types': 1.394.0
 
-  '@posthog/core@1.40.2':
-    dependencies:
-      '@posthog/types': 1.393.0
-
-  '@posthog/types@1.393.0': {}
+  '@posthog/types@1.394.0': {}
 
   '@react-router/dev@7.17.0(@types/node@26.1.1)(babel-plugin-macros@3.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(react-router@7.17.0)(typescript@7.0.2)(vite@8.1.4)(yaml@2.9.0)':
     dependencies:
@@ -6898,8 +6890,6 @@ snapshots:
 
   '@rvf/set-get@7.0.3': {}
 
-  '@sentry/babel-plugin-component-annotate@5.3.0': {}
-
   '@sentry/browser-utils@10.63.0':
     dependencies:
       '@sentry/core': 10.63.0
@@ -6912,15 +6902,17 @@ snapshots:
       '@sentry/replay': 10.63.0
       '@sentry/replay-canvas': 10.63.0
 
-  '@sentry/bundler-plugin-core@5.3.0':
+  '@sentry/bundler-plugins@10.65.0(rollup@4.60.4)':
     dependencies:
       '@babel/core': 7.29.7
-      '@sentry/babel-plugin-component-annotate': 5.3.0
       '@sentry/cli': 2.58.6
-      dotenv: 16.6.1
+      '@sentry/core': 10.65.0
+      dotenv: 17.4.2
       find-up: 5.0.0
       glob: 13.0.6
       magic-string: 0.30.21
+    optionalDependencies:
+      rollup: 4.60.4
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -6971,7 +6963,13 @@ snapshots:
 
   '@sentry/conventions@0.12.0': {}
 
+  '@sentry/conventions@0.15.1': {}
+
   '@sentry/core@10.63.0': {}
+
+  '@sentry/core@10.65.0':
+    dependencies:
+      '@sentry/conventions': 0.15.1
 
   '@sentry/feedback@10.63.0':
     dependencies:
@@ -7025,7 +7023,7 @@ snapshots:
       '@sentry/core': 10.63.0
       '@sentry/node': 10.63.0(@opentelemetry/core@2.9.0)
       '@sentry/react': 10.63.0(react@19.2.7)
-      '@sentry/vite-plugin': 5.3.0(rollup@4.60.4)
+      '@sentry/vite-plugin': 5.4.0(rollup@4.60.4)
       glob: 13.0.6
       react: 19.2.7
       react-router: 7.17.0(react-dom@19.2.7)(react@19.2.7)
@@ -7035,6 +7033,7 @@ snapshots:
       - encoding
       - rollup
       - supports-color
+      - webpack
 
   '@sentry/react@10.63.0(react@19.2.7)':
     dependencies:
@@ -7052,16 +7051,6 @@ snapshots:
       '@sentry/browser-utils': 10.63.0
       '@sentry/core': 10.63.0
 
-  '@sentry/rollup-plugin@5.3.0(rollup@4.60.4)':
-    dependencies:
-      '@sentry/bundler-plugin-core': 5.3.0
-      magic-string: 0.30.21
-    optionalDependencies:
-      rollup: 4.60.4
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
   '@sentry/server-utils@10.63.0':
     dependencies:
       '@apm-js-collab/code-transformer': 0.15.0
@@ -7073,14 +7062,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@sentry/vite-plugin@5.3.0(rollup@4.60.4)':
+  '@sentry/vite-plugin@5.4.0(rollup@4.60.4)':
     dependencies:
-      '@sentry/bundler-plugin-core': 5.3.0
-      '@sentry/rollup-plugin': 5.3.0(rollup@4.60.4)
+      '@sentry/bundler-plugins': 10.65.0(rollup@4.60.4)
     transitivePeerDependencies:
       - encoding
       - rollup
       - supports-color
+      - webpack
 
   '@sigstore/bundle@4.0.0':
     dependencies:
@@ -7828,7 +7817,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.43
       caniuse-lite: 1.0.30001805
-      electron-to-chromium: 1.5.389
+      electron-to-chromium: 1.5.392
       node-releases: 2.0.51
       update-browserslist-db: 1.2.3(browserslist@4.28.6)
 
@@ -8048,7 +8037,7 @@ snapshots:
     dependencies:
       domelementtype: 3.0.0
 
-  dompurify@3.4.11:
+  dompurify@3.4.12:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -8057,8 +8046,6 @@ snapshots:
       dom-serializer: 3.1.1
       domelementtype: 3.0.0
       domhandler: 6.0.1
-
-  dotenv@16.6.1: {}
 
   dotenv@17.4.2: {}
 
@@ -8072,7 +8059,7 @@ snapshots:
 
   electron-to-chromium@1.5.384: {}
 
-  electron-to-chromium@1.5.389: {}
+  electron-to-chromium@1.5.392: {}
 
   empathic@2.0.1: {}
 
@@ -9228,12 +9215,12 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.398.0:
+  posthog-js@1.399.2:
     dependencies:
-      '@posthog/core': 1.40.0
-      '@posthog/types': 1.393.0
+      '@posthog/core': 1.41.1
+      '@posthog/types': 1.394.0
       core-js: 3.49.0
-      dompurify: 3.4.11
+      dompurify: 3.4.12
       fflate: 0.4.8
       preact: 10.29.7
       query-selector-shadow-dom: 1.0.1
@@ -9241,9 +9228,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.40.0:
+  posthog-node@5.41.0:
     dependencies:
-      '@posthog/core': 1.40.2
+      '@posthog/core': 1.41.1
 
   preact@10.29.7: {}
 
