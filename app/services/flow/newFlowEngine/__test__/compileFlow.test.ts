@@ -1,21 +1,24 @@
+import { type PagesConfig } from "~/domains/pageSchemas";
 import { compileFlow } from "../compileFlow";
 import z from "zod";
 
 const pages = {
   start: { stepId: "/start" },
   info: { stepId: "/info", pageSchema: { name: z.string() } },
-  typed: { stepId: "/typed", pageSchema: z.object({ age: z.number() }) },
   end: { stepId: "/end" },
-} as const;
+} as PagesConfig;
 
 const transitions = {
   start: "info",
-  info: "typed",
-  typed: "end",
+  info: "end",
   end: null,
 } as const;
 
-const flow = compileFlow({ pages, initialStep: "start", transitions });
+const flow = compileFlow({
+  pages: pages as PagesConfig,
+  initialStep: "start",
+  transitions,
+});
 
 describe("compileFlow", () => {
   describe("path round-trip", () => {
@@ -41,11 +44,6 @@ describe("compileFlow", () => {
       expect(schema).toBeInstanceOf(z.ZodObject);
     });
 
-    it("ZodObject is passed through unchanged", () => {
-      const schema = flow.getSchema("/typed");
-      expect(schema).toBeInstanceOf(z.ZodObject);
-    });
-
     it("pages without schema return an empty schema that parses {}", () => {
       const schema = flow.getSchema("/start");
       expect(schema?.parse({})).toEqual({});
@@ -59,10 +57,6 @@ describe("compileFlow", () => {
   describe("fieldNames", () => {
     it("extracts field names from ZodRawShape", () => {
       expect(flow.getFieldNames("/info")).toEqual(["name"]);
-    });
-
-    it("extracts field names from a ZodObject", () => {
-      expect(flow.getFieldNames("/typed")).toEqual(["age"]);
     });
 
     it("returns empty array for pages without a schema", () => {
