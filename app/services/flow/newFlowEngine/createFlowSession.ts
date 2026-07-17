@@ -140,7 +140,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     if (fieldNames.length === 0) return true;
     const candidate = Object.fromEntries(
       fieldNames.map((fieldName) => [
-        resolveFieldName(fieldName),
+        fieldName,
         scopeData[resolveFieldName(fieldName)],
       ]),
     );
