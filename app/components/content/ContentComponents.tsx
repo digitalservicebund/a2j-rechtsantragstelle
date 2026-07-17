@@ -16,6 +16,8 @@ import TableOfContents from "../content/TableOfContents";
 import { InlineNotice } from "../content/InlineNotice";
 import { EmailCapture } from "./emailCapture/EmailCapture";
 import Table from "./Table";
+import Card from "./card/Card";
+import CardGroup from "./card/CardGroup";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
@@ -128,6 +130,24 @@ function cmsToReact(
       );
     case "page.table":
       return <Table {...componentProps} />;
+    case "page.card-group":
+      return (
+        <CardGroup
+          cards={componentProps.cards.map((card) => ({
+            ...card,
+            id: String(card.id),
+            heading: card.heading?.text ?? "",
+          }))}
+        />
+      );
+    case "page.card":
+      return (
+        <Card
+          {...componentProps}
+          id={String(componentProps.id)}
+          heading={componentProps.heading.text}
+        />
+      );
     default:
       return <></>;
   }
