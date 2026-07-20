@@ -1,6 +1,7 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { flows } from "~/domains/flows.server";
 import { buildFlowController } from "../../server/buildFlowController";
+import type { Config } from "../../server/types";
 import { validFormPaths } from "../validFormPaths";
 
 describe("validFormPaths", () => {
@@ -117,6 +118,74 @@ describe("validFormPaths", () => {
       };
       const validPaths = validFormPaths(buildFlowController({ config, data }));
       expect(validPaths.length).toStrictEqual(1);
+    });
+
+    it("includes arrays when isArrayRelevant returns true even if statement key is not 'yes'", () => {
+      const data: BeratungshilfeFormularUserData = {
+        hasBankkonto: "no",
+        wurdeVerklagt: "no",
+        bankkonten: [
+          {
+            kontoEigentuemer: "myself",
+            bankName: "FooBank",
+            kontostand: "199,00",
+            iban: "",
+          },
+        ],
+      };
+
+      const minimalConfig = {
+        id: "/beratungshilfe/antrag",
+        initial: "summary",
+        meta: {
+          arrays: {
+            bankkonten: {
+              event: "add-bankkonten",
+              url: "/beratungshilfe/antrag/summary/bankkonten",
+              initialInputUrl: "daten",
+              statementKey: "hasBankkonto",
+              isArrayRelevant: (context: BeratungshilfeFormularUserData) =>
+                context.wurdeVerklagt === "no",
+            },
+          },
+        },
+        states: {
+          summary: {
+            id: "summary",
+            initial: "overview",
+            states: {
+              overview: {
+                on: {
+                  SUBMIT: "done",
+                  "add-bankkonten": "bankkonten",
+                },
+              },
+              bankkonten: {
+                initial: "daten",
+                states: {
+                  daten: {
+                    on: {
+                      SUBMIT: "ende",
+                      BACK: "#summary.overview",
+                    },
+                  },
+                  ende: {},
+                },
+              },
+              done: {},
+            },
+          },
+        },
+      } satisfies Config;
+
+      const validPaths = validFormPaths(
+        buildFlowController({ config: minimalConfig, data }),
+      );
+
+      expect(validPaths).toContainEqual({
+        stepIds: ["/summary/bankkonten/daten", "/summary/bankkonten/ende"],
+        arrayIndex: 0,
+      });
     });
   });
 });

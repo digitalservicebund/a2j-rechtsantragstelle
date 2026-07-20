@@ -18,6 +18,12 @@ import {
   type DynamicOptions,
 } from "~/services/validation/dynamicSelect";
 import Select from "../inputs/select/Select";
+import { autoSuggestZodDescription } from "~/services/validation/autoSuggest";
+import {
+  type DataListType,
+  type StrapiAutoSuggestComponent,
+} from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -26,6 +32,7 @@ const specialComponentDescriptions = [
   phoneNumberZodDescription,
   numberIncrementZodDescription,
   dynamicSelectZodDescription,
+  autoSuggestZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -136,6 +143,13 @@ export const renderSpecialMetaDescriptions = (
         errorMessages={errorMessages}
       />
     );
+  }
+
+  if (description === autoSuggestZodDescription) {
+    const autoSuggestElement = matchingElement as StrapiAutoSuggestComponent;
+    const dataListType =
+      (fieldSchema.meta()?.type as DataListType) ?? "streetNames";
+    return <AutoSuggestInput {...autoSuggestElement} dataList={dataListType} />;
   }
 };
 

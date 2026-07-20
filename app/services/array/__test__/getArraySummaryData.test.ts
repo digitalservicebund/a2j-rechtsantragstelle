@@ -70,6 +70,25 @@ describe("getArraySummaryData", () => {
     ).toEqual({});
   });
 
+  it("filters arrays when isRelevantArray is present and evaluates to false", () => {
+    const arrayConfig = {
+      url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
+      initialInputUrl: "daten",
+      statementKey: "hasBankkonto",
+      event: addBankkonten,
+      isArrayRelevant: () => false,
+    } as const;
+
+    const summaryData = getArraySummaryData(
+      ["bankkonten"],
+      { bankkonten: arrayConfig },
+      { hasBankkonto: "no" },
+      [],
+    );
+
+    expect(summaryData).toEqual({});
+  });
+
   it("should return disableAddButton false given an undefined function shouldDisableAddButton", () => {
     const actual = getArraySummaryData(
       ["bankkonten"],

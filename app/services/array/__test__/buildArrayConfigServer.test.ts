@@ -6,6 +6,7 @@ describe("buildArrayConfigServer", () => {
   it("should return undefined when flowSessionEngine.arrayInfo is undefined", () => {
     const flowSessionEngine = {
       arrayInfo: undefined,
+      isReachable: vi.fn(),
     } as unknown as FlowSession<PageConfigMap>;
 
     const result = buildArrayConfigServer(
@@ -20,11 +21,13 @@ describe("buildArrayConfigServer", () => {
     const flowSessionEngine = {
       arrayInfo: {
         name: "arrayName",
-        entryPoint: "/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten",
+        entryPoint: "daten",
         fieldName: "fieldName",
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
+      isReachable: () => true,
+      paths: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten"],
     } as unknown as FlowSession<PageConfigMap>;
 
     const result = buildArrayConfigServer(

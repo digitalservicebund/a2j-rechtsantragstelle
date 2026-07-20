@@ -1,5 +1,7 @@
 import { type z } from "zod";
 import type { PageData } from "../pageDataSchema";
+import { type SchemaObject, type UserData } from "~/domains/userData";
+import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 
 type InferSchema<S> = S extends z.ZodTypeAny
   ? z.infer<S>
@@ -7,20 +9,25 @@ type InferSchema<S> = S extends z.ZodTypeAny
     ? z.infer<z.ZodObject<S>>
     : never;
 
-type PageConfig = {
+export type NewFlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
-  pageSchema?: z.ZodTypeAny | z.ZodRawShape;
+  pageSchema?: SchemaObject;
+  controlledFieldConfig?: ControlledFieldConfig;
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
+    /**
+     * statementKey
+     */
     fieldName?: string;
+    isArrayRelevant?: (userData: UserData) => boolean;
     indexOffset?: number;
     hiddenFields?: string[];
   };
 };
 
-export type PageConfigMap = Record<string, PageConfig>;
+export type PageConfigMap = Record<string, NewFlowEnginePageConfig>;
 export type NodeKey<C extends PageConfigMap> = Extract<keyof C, string>;
 
 // --- User Data Inference ---

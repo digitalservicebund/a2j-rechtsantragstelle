@@ -3,6 +3,7 @@ import { flatRoutes } from "@react-router/fs-routes";
 import {
   flowRoutes,
   newEngineFlowAndResultRoutes,
+  newEngineFlowRoutes,
   newEngineVorabcheckRoutes,
   vorabcheckRoutes,
 } from "./services/routing/flowRoutes";
@@ -36,6 +37,7 @@ export default [
         id: "nachlassErbfolgeFlow",
       }),
     ]),
+    ...prefix("erbschein/anfrage", newEngineFlowRoutes("NEA")),
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),

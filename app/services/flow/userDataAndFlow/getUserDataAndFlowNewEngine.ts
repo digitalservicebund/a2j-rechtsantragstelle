@@ -53,6 +53,7 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/nachlass/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
 } as const;
 
 export const getUserDataAndFlowNewEngine = async (
@@ -104,7 +105,12 @@ export const getUserDataAndFlowNewEngine = async (
     false;
 
   return Result.ok({
-    userData: flowSessionEngine.prunedUserData as UserDataWithPageData, // NOSONAR
+    userData: {
+      ...(flowSessionEngine.prunedUserData as UserDataWithPageData),
+      pageData: {
+        arrayIndexes,
+      },
+    },
     flow: {
       id: flowId,
       validFlowPaths: buildValidFlowPaths(flowSessionEngine),

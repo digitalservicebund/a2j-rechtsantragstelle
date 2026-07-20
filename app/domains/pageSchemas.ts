@@ -19,6 +19,8 @@ import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
 import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -35,6 +37,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages, // delete after migration
   "/erbschein/wegweiser": nachlassErbscheinWegweiserPages, // delete after migration
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
+  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
   "/nachlass/erbausschlagung/gericht-finden":
     nachlassErbausschlagungGerichtFindenPages,
 } as const;
@@ -87,7 +90,11 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (flowId === "/nachlass/erbschein/erbfolge") {
+  if (
+    ["/nachlass/erbschein/erbfolge", "/nachlass/erbschein/anfrage"].includes(
+      flowId,
+    )
+  ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }
 
@@ -219,7 +226,7 @@ type ArrayParentPage = {
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-export type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
@@ -260,7 +267,10 @@ export const filterPageSchemasByReachableSteps =
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof userData;
-      return userData[statementKey] === "yes";
+      return (
+        userData[statementKey] === "yes" ||
+        Boolean(matchingArrayConfig?.isArrayRelevant?.(userData as UserData))
+      );
     }
     return (
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
