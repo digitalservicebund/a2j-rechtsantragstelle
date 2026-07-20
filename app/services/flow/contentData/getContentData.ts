@@ -26,6 +26,7 @@ import { type PageConfigMap } from "../newFlowEngine/types";
 import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer";
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -165,7 +166,8 @@ export const getContentData = (
     ) => {
       const buttonNavigationTranslation = translationCode.buttonNavigation;
       const backDestination = flowSessionEngine.prevPath
-        ? flowId + flowSessionEngine.prevPath
+        ? flowId +
+          resolveArrayCharacter(flowSessionEngine.prevPath, arrayIndexes, false)
         : undefined;
 
       return getButtonNavigationProps({
@@ -176,11 +178,7 @@ export const getContentData = (
           cmsContent.nextButtonLabel ??
           buttonNavigationTranslation.nextButtonDefaultLabel.de,
         isFinal: flowSessionEngine.isFinal,
-        backDestination: getBackButtonDestination(
-          backDestination,
-          pathname,
-          arrayIndexes,
-        ),
+        backDestination,
       });
     },
     getNavProps: (
