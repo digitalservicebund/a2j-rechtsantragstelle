@@ -52,7 +52,9 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht1: {
     stepId: "flugdaten/zwischenstopp-uebersicht-1",
     pageSchema: {
-      ersterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },
@@ -60,8 +62,12 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht2: {
     stepId: "flugdaten/zwischenstopp-uebersicht-2",
     pageSchema: {
-      ersterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
-      zweiterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      zweiterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },
@@ -69,9 +75,15 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht3: {
     stepId: "flugdaten/zwischenstopp-uebersicht-3",
     pageSchema: {
-      ersterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
-      zweiterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
-      dritterZwischenstopp: autoSuggestSchema(airportSchema)("airports"),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      zweiterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      dritterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },
