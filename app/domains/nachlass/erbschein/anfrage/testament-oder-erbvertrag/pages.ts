@@ -135,4 +135,4 @@ export const testamentOderErbvertragPages = {
   namedBeneficiariesWarning: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/warnung",
   },
-} satisfies PageConfigMap;
+} as const satisfies PageConfigMap;
