@@ -27,9 +27,7 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenAdresseFluggesellschaft: {
     stepId: "flugdaten/adresse-fluggesellschaft",
     pageSchema: {
-      fluggesellschaft: schemaOrEmptyString(
-        autoSuggestSchema(stringOptionalSchema)("airlines"),
-      ),
+      fluggesellschaft: autoSuggestSchema(stringOptionalSchema)("airlines"),
       fluggesellschaftStrasse: stringRequiredSchema,
       fluggesellschaftHausnummer: stringRequiredSchema,
       fluggesellschaftPostleitzahl: stringRequiredSchema,
