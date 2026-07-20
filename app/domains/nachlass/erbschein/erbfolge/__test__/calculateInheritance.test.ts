@@ -127,7 +127,9 @@ describe("calculateInheritance", () => {
                               name: "Generation 4",
                               isAlive: "no",
                               hatteKinder: "yes",
-                              kinder: [{ name: "Generation 5", isAlive: "yes" }],
+                              kinder: [
+                                { name: "Generation 5", isAlive: "yes" },
+                              ],
                             },
                           ],
                         },

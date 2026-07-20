@@ -70,10 +70,7 @@ function hasDeadMemberAtDepth(
 
 export function requiresFurtherGenerations(input: InheritanceInput): boolean {
   if (
-    hasDeadMemberAtDepth(
-      input.kinder ?? [],
-      MAX_SUPPORTED_DESCENDANT_DEPTH,
-    )
+    hasDeadMemberAtDepth(input.kinder ?? [], MAX_SUPPORTED_DESCENDANT_DEPTH)
   ) {
     return true;
   }
@@ -86,9 +83,7 @@ export function requiresFurtherGenerations(input: InheritanceInput): boolean {
   );
 }
 
-export function hasNoFirstOrSecondOrderHeirs(
-  input: InheritanceInput,
-): boolean {
+export function hasNoFirstOrSecondOrderHeirs(input: InheritanceInput): boolean {
   return calculateInheritance(input).every((heir) => heir.order === 0);
 }
 
