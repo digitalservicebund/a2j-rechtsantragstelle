@@ -2,7 +2,6 @@ import { StrapiCardGroupSchema } from "../StrapiCardGroup";
 
 describe("StrapiCardGroup", () => {
   const validCard = {
-    __component: "page.card",
     heading: { text: "Heading", tagName: "h2", id: 1 },
     title: "Title",
     description: "Description",
