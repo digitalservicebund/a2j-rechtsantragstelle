@@ -94,19 +94,20 @@ function testArrayLinkPages(
   flowSessionEngine: FlowSession<PageConfigMap>,
   stepId: string,
   nextStepId: string,
+  previousStepId?: string,
   addArrayItemEvent?: ArrayConfigServer["event"],
   summaryPageStepId?: string,
 ) {
   // Special handling if we're starting from an Overview page
   if (addArrayItemEvent) {
-    expect(flowSessionEngine.nextPath).toBe(nextStepId);
+    expect(flowSessionEngine.nextArrayPath).toBe(nextStepId);
   } else {
     expect(flowSessionEngine.nextPath).toBe(removeArrayIndex(nextStepId));
   }
 
   // Only test "BACK" linkage if we're not on the summary page
-  if (nextStepId !== summaryPageStepId) {
-    expect(flowSessionEngine.prevPath).toBe(removeArrayIndex(stepId));
+  if (stepId !== summaryPageStepId && previousStepId !== undefined) {
+    expect(flowSessionEngine.prevPath).toBe(removeArrayIndex(previousStepId));
   }
 }
 
@@ -156,28 +157,33 @@ function runTestcases<T extends UserData>(
 
           const flowSessionEngine = createFlowSession(
             newEngineConfig,
-            buildFullUserInput(expectedSteps, idx) as Parameters<
-              typeof createFlowSession
-            >[1],
+            {
+              ...(buildFullUserInput(expectedSteps, idx) as Parameters<
+                typeof createFlowSession
+              >[1]),
+              // pageData: pageData ?? {},
+            },
             stepId,
           );
 
           // Given the current data and url we expect the next and previous url
           const nextStepId = expectedSteps[idx + 1]?.stepId;
+          const previousStepId =
+            idx > 0 ? expectedSteps[idx - 1].stepId : undefined;
 
           if (isAddingArrayItem) {
             testArrayLinkPages(
               flowSessionEngine,
               stepId,
               nextStepId,
+              previousStepId,
               addArrayItemEvent,
               summaryPageStepId,
             );
           } else {
             expect(flowSessionEngine.nextPath).toBe(nextStepId);
 
-            if (idx > 0) {
-              const previousStepId = expectedSteps[idx - 1].stepId;
+            if (idx > 0 && previousStepId !== undefined) {
               expect(flowSessionEngine.prevPath).toBe(previousStepId);
             }
           }

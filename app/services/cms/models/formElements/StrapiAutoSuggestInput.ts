@@ -5,7 +5,12 @@ import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 import { StrapiWidthSchema } from "../StrapiWidth";
 
-const DataListSchema = z.enum(["airports", "airlines", "streetNames"]);
+const DataListSchema = z.enum([
+  "airports",
+  "airlines",
+  "streetNames",
+  "nationalities",
+]);
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({
@@ -28,5 +33,9 @@ export const StrapiAutoSuggestInputComponentSchema = z
     errorMessages: errors,
     dataListArgument: undefined as string | undefined,
   }));
+
+export type StrapiAutoSuggestComponent = z.infer<
+  typeof StrapiAutoSuggestInputComponentSchema
+>;
 
 export type DataListType = z.infer<typeof DataListSchema>;

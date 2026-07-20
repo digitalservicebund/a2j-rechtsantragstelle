@@ -20,6 +20,7 @@ import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
 import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -223,7 +224,7 @@ type ArrayParentPage = {
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-export type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
@@ -264,7 +265,10 @@ export const filterPageSchemasByReachableSteps =
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof userData;
-      return userData[statementKey] === "yes";
+      return (
+        userData[statementKey] === "yes" ||
+        Boolean(matchingArrayConfig?.isArrayRelevant?.(userData as UserData))
+      );
     }
     return (
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
