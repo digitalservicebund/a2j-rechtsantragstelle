@@ -20,6 +20,9 @@ import { getDataListOptions } from "~/services/dataListOptions/getDataListOption
 vi.mock("~/domains/pageSchemas");
 const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
+afterEach(() => {
+  dataListSpy.mockReset();
+});
 const mockGetPageSchema = (pageSchema: any) => {
   vi.mocked(getPageSchema).mockReturnValue(pageSchema);
 };
