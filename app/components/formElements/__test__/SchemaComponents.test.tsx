@@ -488,7 +488,7 @@ describe("SchemaComponents", () => {
 
   it("should render an AutoSuggestionInput when schema is autoSuggestSchema", async () => {
     const pageSchema = {
-      field1: autoSuggestSchema("airports"),
+      field1: autoSuggestSchema(z.string())("airports"),
     };
 
     dataListSpy.mockReturnValue(getDataListOptions("airports"));

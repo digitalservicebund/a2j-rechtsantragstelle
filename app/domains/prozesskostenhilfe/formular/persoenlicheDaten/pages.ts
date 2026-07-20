@@ -1,5 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -37,7 +37,7 @@ export const pkhFormularPersoenlicheDatenPages = {
   adresse: {
     stepId: "persoenliche-daten/adresse",
     pageSchema: {
-      street: autoSuggestSchema("streetNames"),
+      street: autoSuggestStringRequiredSchema("streetNames"),
       houseNumber: germanHouseNumberSchema,
       ort: stringRequiredSchema,
     },

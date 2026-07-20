@@ -72,14 +72,14 @@ export const fluggastrechteVorabcheckPages = {
   flughaefen: {
     stepId: "flughaefen",
     pageSchema: {
-      startAirport: autoSuggestSchema("airports").and(airportSchema),
-      endAirport: autoSuggestSchema("airports").and(airportSchema),
+      startAirport: autoSuggestSchema(airportSchema)("airports"),
+      endAirport: autoSuggestSchema(airportSchema)("airports"),
     },
   },
   fluggesellschaft: {
     stepId: "fluggesellschaft",
     pageSchema: {
-      fluggesellschaft: autoSuggestSchema("airlines").and(airlineSchema),
+      fluggesellschaft: autoSuggestSchema(airlineSchema)("airlines"),
     },
   },
   checkin: {
