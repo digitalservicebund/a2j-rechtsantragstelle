@@ -11,7 +11,6 @@ export type CardProps = {
 };
 
 const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
-
   return (
     <GridItem
       mdColumn={{ start: 1, span: 4 }}
@@ -41,11 +40,7 @@ const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
             <p className="kern-body">{description}</p>
           </section>
           <footer className="kern-card__footer pt-kern-space-x-large!">
-            <Button
-              aria-describedby={id}
-              text={buttonLabel}
-              look="secondary"
-            />
+            <Button aria-describedby={id} text={buttonLabel} look="secondary" />
           </footer>
         </div>
       </article>
