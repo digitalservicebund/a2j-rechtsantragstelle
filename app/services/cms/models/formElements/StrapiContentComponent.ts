@@ -14,7 +14,6 @@ import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOver
 import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "../content/StrapiUserFeedback";
 import { StrapiTableSchema } from "../content/StrapiTable";
-import { StrapiCardSchema } from "../content/StrapiCard";
 import { StrapiCardGroupSchema } from "../content/StrapiCardGroup";
 
 export const StrapiContentComponentSchema = z.union([
@@ -33,7 +32,6 @@ export const StrapiContentComponentSchema = z.union([
   StrapiSummaryOverviewSectionSchema,
   StrapiEmailCaptureSchema,
   StrapiTableSchema,
-  StrapiCardSchema,
   StrapiCardGroupSchema,
 ]);
 
