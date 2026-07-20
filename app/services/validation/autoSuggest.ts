@@ -13,7 +13,4 @@ export const autoSuggestSchema =
     });
 
 export const autoSuggestStringRequiredSchema = (dataList: DataListType) =>
-  stringRequiredSchema.meta({
-    description: autoSuggestZodDescription,
-    type: dataList,
-  });
+  autoSuggestSchema(stringRequiredSchema)(dataList);
