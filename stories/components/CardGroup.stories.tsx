@@ -67,20 +67,14 @@ const mockCards = [
   },
 ];
 
-export const SixCards: Story = {
+export const SixCardsGroup: Story = {
   args: {
     cards: mockCards,
   },
 };
 
-export const ThreeCards: Story = {
+export const ThreeCardsGroup: Story = {
   args: {
     cards: mockCards.slice(0, 3),
-  },
-};
-
-export const SingleCard: Story = {
-  args: {
-    cards: mockCards.slice(0, 1),
   },
 };

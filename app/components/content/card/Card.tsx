@@ -1,4 +1,3 @@
-import { useId } from "react";
 import Button from "../../common/Button";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import Heading from "~/components/common/Heading";
@@ -11,8 +10,7 @@ export type CardProps = {
   buttonLabel: string;
 };
 
-const Card = ({ heading, title, description, buttonLabel }: CardProps) => {
-  const headingId = useId();
+const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
 
   return (
     <GridItem
@@ -27,7 +25,7 @@ const Card = ({ heading, title, description, buttonLabel }: CardProps) => {
             <hgroup className="kern-hgroup">
               <p
                 className="kern-label text-kern-layout-text-muted! font-normal!"
-                id={headingId}
+                id={id}
               >
                 {heading}
               </p>
@@ -44,7 +42,7 @@ const Card = ({ heading, title, description, buttonLabel }: CardProps) => {
           </section>
           <footer className="kern-card__footer pt-kern-space-x-large!">
             <Button
-              aria-describedby={headingId}
+              aria-describedby={id}
               text={buttonLabel}
               look="secondary"
             />
