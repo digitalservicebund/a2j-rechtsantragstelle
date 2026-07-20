@@ -1,5 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
+import { requiresFurtherGenerations } from "./calculateInheritance";
 
 // Returns true if a kind (and all their descendants) have no living heirs.
 // A living kind or any living grandkid/great-grandkid means this returns false.
@@ -16,6 +17,10 @@ function allDescendantsDead(kind: {
 export const kinderFlowConfig = {
   kind1Summary: [
     { target: "kind1Daten", type: "addArrayItem" },
+    {
+      target: "nichtErmitteltWeitereOrdnungen",
+      guard: requiresFurtherGenerations,
+    },
     {
       target: "elternteilSummary",
       guard: ({ kinder }) =>

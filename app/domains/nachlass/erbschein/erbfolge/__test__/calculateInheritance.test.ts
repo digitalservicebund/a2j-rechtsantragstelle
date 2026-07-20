@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { calculateInheritance } from "../calculateInheritance";
+import {
+  calculateInheritance,
+  hasNoFirstOrSecondOrderHeirs,
+  requiresFurtherGenerations,
+} from "../calculateInheritance";
 import type {
   HeirShare,
   InheritanceInput,
@@ -32,6 +36,109 @@ describe("calculateInheritance", () => {
           { name: "Kind 2", isAlive: "yes" },
         ],
         spouse,
+      });
+
+      describe("result-page conditions", () => {
+        it("detects when no first- or second-order heirs are alive", () => {
+          expect(
+            hasNoFirstOrSecondOrderHeirs({
+              hatteKinder: "yes",
+              kinder: [{ name: "Kind", isAlive: "no", hatteKinder: "no" }],
+              elternteile: [
+                { name: "Elternteil", isAlive: "no", hatteKinder: "no" },
+              ],
+            }),
+          ).toBe(true);
+        });
+
+        it("does not report missing heirs while a second-order heir is alive", () => {
+          expect(
+            hasNoFirstOrSecondOrderHeirs({
+              hatteKinder: "no",
+              elternteile: [{ name: "Elternteil", isAlive: "yes" }],
+            }),
+          ).toBe(false);
+        });
+
+        it("detects a dead descendant in the fifth and final covered generation", () => {
+          expect(
+            requiresFurtherGenerations({
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  name: "Generation 1",
+                  isAlive: "no",
+                  hatteKinder: "yes",
+                  kinder: [
+                    {
+                      name: "Generation 2",
+                      isAlive: "no",
+                      hatteKinder: "yes",
+                      kinder: [
+                        {
+                          name: "Generation 3",
+                          isAlive: "no",
+                          hatteKinder: "yes",
+                          kinder: [
+                            {
+                              name: "Generation 4",
+                              isAlive: "no",
+                              hatteKinder: "yes",
+                              kinder: [
+                                {
+                                  name: "Generation 5",
+                                  isAlive: "no",
+                                  hatteKinder: "no",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            }),
+          ).toBe(true);
+        });
+
+        it("accepts a living descendant in the fifth generation", () => {
+          expect(
+            requiresFurtherGenerations({
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  name: "Generation 1",
+                  isAlive: "no",
+                  hatteKinder: "yes",
+                  kinder: [
+                    {
+                      name: "Generation 2",
+                      isAlive: "no",
+                      hatteKinder: "yes",
+                      kinder: [
+                        {
+                          name: "Generation 3",
+                          isAlive: "no",
+                          hatteKinder: "yes",
+                          kinder: [
+                            {
+                              name: "Generation 4",
+                              isAlive: "no",
+                              hatteKinder: "yes",
+                              kinder: [{ name: "Generation 5", isAlive: "yes" }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            }),
+          ).toBe(false);
+        });
       });
 
       expect(result).toHaveLength(3);

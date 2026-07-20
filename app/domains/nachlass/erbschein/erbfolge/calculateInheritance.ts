@@ -43,10 +43,53 @@ type FamilyMember = {
   parentKindIndex?: string;
 };
 
+const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
+
 function hasLivingDescendant(member: FamilyMember): boolean {
   if (member.isAlive === "yes") return true;
   if (member.hatteKinder !== "yes") return false;
   return (member.kinder ?? []).some(hasLivingDescendant);
+}
+
+function hasDeadMemberAtDepth(
+  members: FamilyMember[],
+  targetDepth: number,
+  currentDepth = 1,
+): boolean {
+  return members.some(
+    (member) =>
+      (currentDepth === targetDepth && member.isAlive === "no") ||
+      (currentDepth < targetDepth &&
+        hasDeadMemberAtDepth(
+          member.kinder ?? [],
+          targetDepth,
+          currentDepth + 1,
+        )),
+  );
+}
+
+export function requiresFurtherGenerations(input: InheritanceInput): boolean {
+  if (
+    hasDeadMemberAtDepth(
+      input.kinder ?? [],
+      MAX_SUPPORTED_DESCENDANT_DEPTH,
+    )
+  ) {
+    return true;
+  }
+
+  return (input.elternteile ?? []).some((parent) =>
+    hasDeadMemberAtDepth(
+      "kinder" in parent ? (parent.kinder ?? []) : [],
+      MAX_SUPPORTED_DESCENDANT_DEPTH,
+    ),
+  );
+}
+
+export function hasNoFirstOrSecondOrderHeirs(
+  input: InheritanceInput,
+): boolean {
+  return calculateInheritance(input).every((heir) => heir.order === 0);
 }
 
 type HeirEntry = { share: Fraction; depth: number };
