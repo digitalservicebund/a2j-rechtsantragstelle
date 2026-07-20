@@ -4,7 +4,6 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import Textarea from "~/components/formElements/inputs/textarea/Textarea";
 import DateInput from "../inputs/date/DateInput";
 import TimeInput from "../inputs/time/TimeInput";
-import AutoSuggestInput from "../inputs/autoSuggest/AutoSuggestInput";
 import TextInput, { type InputProps } from "../inputs/text/TextInput";
 import NumberInput from "../inputs/number/NumberInput";
 
@@ -48,10 +47,6 @@ export const renderZodString = (
     return <DateInput key={fieldName} {...inputProps} />;
   if (matchingElement?.__component === "form-elements.time-input")
     return <TimeInput key={fieldName} {...inputProps} />;
-  if (matchingElement?.__component === "form-elements.auto-suggest-input")
-    return (
-      <AutoSuggestInput key={fieldName} {...matchingElement} {...inputProps} />
-    );
 
   const inputType =
     matchingElement && "type" in matchingElement
