@@ -181,6 +181,13 @@ export const createFlowSession = <C extends PageConfigMap>(
       return compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>);
     },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
+    nextArrayPath: compiledFlow.getPathFromNodeKey(
+      evaluateRoute(
+        compiledFlow.transitions[nodeKey],
+        effectiveUserData,
+        true,
+      ) ?? undefined,
+    ),
     prevPath: compiledFlow.getPathFromNodeKey(
       prevNodeKey as Extract<keyof C, string>,
     ),
