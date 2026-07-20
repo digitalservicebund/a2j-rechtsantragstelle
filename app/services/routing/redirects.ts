@@ -8,6 +8,7 @@ export const redirectMap = {
   "/erbschein/nachlassgericht/start":
     "/nachlass/erbschein/nachlassgericht/start",
   "/erbschein/wegweiser/start": "/nachlass/erbschein/wegweiser/start",
+  "/erbschein": "/nachlass/erbschein",
 } as const;
 
 export const getRedirect = (pathname: string) =>
