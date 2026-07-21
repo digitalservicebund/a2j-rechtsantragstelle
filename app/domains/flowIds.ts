@@ -6,8 +6,10 @@ export const flowIds = [
   "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
-  "/erbschein/wegweiser",
-  "/erbschein/nachlassgericht",
+  "/nachlass/erbschein/wegweiser",
+  "/nachlass/erbschein/nachlassgericht",
+  "/erbschein/wegweiser", // Delete after migration
+  "/erbschein/nachlassgericht", // Delete after migration
   "/nachlass/erbschein/anfrage",
   "/nachlass/erbausschlagung/anfrage",
   "/nachlass/erbausschlagung/gericht-finden",
