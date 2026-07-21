@@ -94,6 +94,7 @@ describe("AutoSuggestInput", () => {
     );
 
     expect(getByText("placeholder")).toBeInTheDocument();
+    expect(getByText("placeholder")).toHaveClass("absolute");
     expect(getByText("label")).toBeInTheDocument();
     const inputElement = container.querySelector(
       `input[name='${COMPONENT_NAME}']`,

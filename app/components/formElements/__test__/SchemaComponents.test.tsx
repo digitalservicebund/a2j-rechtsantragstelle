@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "@rvf/react";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { z } from "zod";
 import {
   checkedRequired,
@@ -13,9 +13,16 @@ import { SchemaComponents } from "../SchemaComponents";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { ibanSchema } from "~/services/validation/iban";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import * as useDataListOptions from "~/components/formElements/inputs/autoSuggest/hooks/useDataListOptions";
+import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("~/domains/pageSchemas");
+const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
+afterEach(() => {
+  dataListSpy.mockReset();
+});
 const mockGetPageSchema = (pageSchema: any) => {
   vi.mocked(getPageSchema).mockReturnValue(pageSchema);
 };
@@ -480,5 +487,25 @@ describe("SchemaComponents", () => {
     );
     expect(getByTestId("select")).toBeInTheDocument();
     expect(getByText("Maria")).toBeInTheDocument();
+  });
+
+  it("should render an AutoSuggestionInput when schema is autoSuggestSchema", async () => {
+    const pageSchema = {
+      field1: autoSuggestSchema(z.string())("airports"),
+    };
+
+    dataListSpy.mockReturnValue(getDataListOptions("airports"));
+
+    const { getByTestId } = render(
+      <WrappedSchemaComponents
+        pageConfig={{ pageSchema }}
+        readOnlyFieldNames={[]}
+        formComponents={[]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getByTestId("input-field1-loaded")).toBeInTheDocument();
+    });
   });
 });
