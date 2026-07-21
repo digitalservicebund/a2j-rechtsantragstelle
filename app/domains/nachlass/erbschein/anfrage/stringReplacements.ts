@@ -9,6 +9,26 @@ export const getVerstorbeneName = (
   };
 };
 
+export const getVerstorbeneStreetnameHousenumber = (
+  context: NachlassErbscheinAnfrageUserData,
+) => ({
+  verstorbeneStreetnameHousenumber: `${context.verstorbenePersonStrasse} ${context.verstorbenePersonHausnummer}`,
+});
+
+export const getVerstorbenePostcodeCity = (
+  context: NachlassErbscheinAnfrageUserData,
+) => ({
+  verstorbenePostcodeCity: `${context.verstorbenePlz} ${context.verstorbenePersonOrt}`,
+});
+
+export const getEhepartnerName = (
+  context: NachlassErbscheinAnfrageUserData,
+) => {
+  return {
+    ehepartnerName: `${context.ehepartnerVorname} ${context.ehepartnerNachname}`,
+  };
+};
+
 export const getBeguenstigteStrings = (
   context: NachlassErbscheinAnfrageUserData & {
     beguenstigten?: Array<{

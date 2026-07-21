@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
 
 // The 3-variant person node shared by Kind, ElternteilKind and Elternteil:
@@ -53,8 +52,4 @@ export const datenFields = (prefix: string) => ({
 
 export const hatteKinderField = (prefix: string) => ({
   [`${prefix}hatteKinder`]: YesNoAnswer,
-});
-
-export const kinderAnzahlField = (prefix: string) => ({
-  [`${prefix}kinderAnzahl`]: createNumberIncrementSchema(1),
 });

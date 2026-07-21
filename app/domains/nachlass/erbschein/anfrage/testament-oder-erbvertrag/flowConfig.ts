@@ -1,7 +1,7 @@
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
-import { arrayIsNonEmpty } from "~/util/array";
 
 export const testamentOderErbvertragFlowConfig = {
   testamentArt: [
@@ -26,14 +26,21 @@ export const testamentOderErbvertragFlowConfig = {
   namedBeneficiariesOverview: [
     { type: "addArrayItem", target: "namedBeneficiaryName" },
     {
-      guard: (data) => !arrayIsNonEmpty(data.beguenstigten),
+      guard: (data) =>
+        !beguenstigtenArray.safeParse(data.beguenstigten).success,
       target: "namedBeneficiariesWarning",
     },
     {
-      guard: (data) => data.verstorbeneFamilienstand === "ledig",
+      guard: (data) =>
+        data.verstorbeneFamilienstand === "ledig" &&
+        beguenstigtenArray.safeParse(data.beguenstigten).success,
       target: "angehoerigeOverview",
     },
     {
+      guard: (data) =>
+        data.verstorbeneFamilienstand === "verheiratet" ||
+        data.verstorbeneFamilienstand === "verwitwet" ||
+        data.verstorbeneFamilienstand === "geschieden",
       target: "spouseName",
     },
   ],

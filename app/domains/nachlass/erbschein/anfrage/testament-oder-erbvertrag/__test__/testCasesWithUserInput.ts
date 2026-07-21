@@ -6,6 +6,7 @@ const happyPathData: NachlassErbscheinAnfrageUserData = {
   verstorbenePersonStrasse: "Musterstraße",
   verstorbenePersonHausnummer: "1",
   verstorbenePersonOrt: "Musterstadt",
+  antragstellendePersonTelefonnummer: "0123456789",
 };
 
 export const testamentOderErbvertragTestCases = {
