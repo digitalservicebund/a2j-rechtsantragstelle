@@ -298,6 +298,21 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should clear the error once the user selects an option after a failed submission", async () => {
+      const { getByText, queryByTestId, getByLabelText } =
+        renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).toBeInTheDocument();
+      });
+
+      fireEvent.click(getByLabelText("Ja"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+      });
+    });
   });
 
   describe("Dropdown Component", () => {
@@ -402,6 +417,25 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should clear the error once the user selects the checkbox after a failed submission", async () => {
+      const { getByText, getAllByTestId, getByLabelText } =
+        renderValidatedFlowForm([checkbox1.component]);
+
+      fireEvent.click(getByText("NEXT"));
+      let errorCountBeforeSelection = 0;
+      await waitFor(() => {
+        errorCountBeforeSelection = getAllByTestId("inputError").length;
+        expect(errorCountBeforeSelection).toBeGreaterThan(0);
+      });
+
+      fireEvent.click(getByLabelText("Checkbox 1"));
+      await waitFor(() => {
+        expect(getAllByTestId("inputError").length).toBeLessThan(
+          errorCountBeforeSelection,
+        );
+      });
+    });
   });
 
   describe("TileGroup Component", () => {
@@ -438,6 +472,20 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should clear the error once the user selects a tile after a failed submission", async () => {
+      const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).toBeInTheDocument();
+      });
+
+      fireEvent.click(getByText("firstTile"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
       });
     });
 
