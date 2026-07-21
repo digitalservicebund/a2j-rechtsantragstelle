@@ -1,12 +1,12 @@
 import type { Config } from "~/services/flow/server/types";
-import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
-import { type ErbscheinWegweiserUserData } from "~/domains/erbschein/wegweiser/userData";
+import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
+import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import mapValues from "lodash/mapValues";
 
-const stepIds = mapValues(erbscheinWegweiserPages, (v) => v.stepId);
+const stepIds = mapValues(nachlassErbscheinWegweiserPages, (v) => v.stepId);
 
-export const erbscheinWegweiserXstateConfig = {
-  id: "/erbschein/wegweiser",
+export const nachlassErbscheinWegweiserXstateConfig = {
+  id: "/nachlass/erbschein/wegweiser",
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
@@ -158,4 +158,4 @@ export const erbscheinWegweiserXstateConfig = {
       },
     },
   },
-} satisfies Config<ErbscheinWegweiserUserData>;
+} satisfies Config<NachlassErbscheinWegweiserUserData>;

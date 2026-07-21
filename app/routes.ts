@@ -24,13 +24,11 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
-  ...prefix("erbschein", [
-    ...prefix("wegweiser", vorabcheckRoutes("ESW")),
-    ...prefix("nachlassgericht", vorabcheckRoutes("ESN")),
-  ]),
   ...prefix("nachlass", [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
     ...prefix("erbausschlagung/gericht-finden", vorabcheckRoutes("NAGF")),
+    ...prefix("erbschein/wegweiser", vorabcheckRoutes("NESW")),
+    ...prefix("erbschein/nachlassgericht", vorabcheckRoutes("NESN")),
     ...prefix("erbschein/erbfolge", [
       route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
         id: "nachlassErbfolgeResult",
