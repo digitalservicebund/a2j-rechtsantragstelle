@@ -5,7 +5,7 @@ import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const erbscheinNachlassgerichtPages = {
+export const nachlassErbscheinNachlassgerichtPages = {
   start: {
     stepId: "start",
   },

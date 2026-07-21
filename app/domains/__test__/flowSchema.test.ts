@@ -19,8 +19,8 @@ import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilf
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
-import { erbscheinWegweiserTestCases } from "~/domains/erbschein/wegweiser/__test__/testcasesWithUserInputs";
-import { erbscheinNachlassgerichtTestCases } from "~/domains/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { nachlassErbscheinWegweiserTestCases } from "~/domains/nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { nachlassErbscheinNachlassgerichtTestCases } from "~/domains/nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 import { nachlassErbausschlagungGerichtFindenTestCases } from "~/domains/nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
@@ -28,8 +28,8 @@ const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
-  erbscheinWegweiserTestCases,
-  erbscheinNachlassgerichtTestCases,
+  nachlassErbscheinWegweiserTestCases,
+  nachlassErbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
   nachlassErbausschlagungAnfrageTestCases,

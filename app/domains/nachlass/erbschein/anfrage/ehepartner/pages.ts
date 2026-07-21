@@ -1,4 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -18,6 +19,40 @@ export const ehepartnerPages = {
     stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
     pageSchema: {
       spouseHasDifferentAddress: YesNoAnswer,
+    },
+  },
+  ehepartnerAnschrift: {
+    stepId: "/ehepartner-oder-ehepartnerin/anschrift",
+    pageSchema: {
+      ehepartnerStrasse: stringRequiredSchema,
+      ehepartnerHausnummer: stringRequiredSchema,
+      ehepartnerAdresszusatz: stringOptionalSchema,
+      ehepartnerPlz: stringRequiredSchema,
+      ehepartnerOrt: stringRequiredSchema,
+    },
+  },
+  ehepartnerStaatsangehoerigkeit: {
+    stepId: "/ehepartner-oder-ehepartnerin/staatsangehoerigkeit",
+    pageSchema: {
+      ehepartnerStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+    },
+  },
+  ehepartnerZweiteStaatsangehoerigkeitFrage: {
+    stepId: "/ehepartner-oder-ehepartnerin/zweite-staatsangehoerigkeit-frage",
+    pageSchema: {
+      ehepartnerHadSecondNationality: YesNoAnswer,
+    },
+  },
+  ehepartnerZweiteStaatsangehoerigkeit: {
+    stepId: "/ehepartner-oder-ehepartnerin/zweite-staatsangehoerigkeit",
+    pageSchema: {
+      ehepartnerZweiteStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+    },
+  },
+  ehevertrag: {
+    stepId: "/ehepartner-oder-ehepartnerin/ehevertrag",
+    pageSchema: {
+      hasEhevertrag: YesNoAnswer,
     },
   },
   spouseSterbedatumOrt: {

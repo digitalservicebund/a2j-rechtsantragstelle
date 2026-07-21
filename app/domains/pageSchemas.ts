@@ -11,8 +11,8 @@ import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
-import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
-import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
+import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
+import { nachlassErbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
@@ -31,8 +31,8 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
-  "/erbschein/wegweiser": erbscheinWegweiserPages,
-  "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
   "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
