@@ -61,23 +61,26 @@ describe("Checkbox", () => {
     expect(suffix).toBeInTheDocument();
   });
 
-  it("renders the hidden input when the checkbox is not checked", () => {
+  it("renders an enabled hidden input when the checkbox is not checked", () => {
     render(
       <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
     );
     const hiddenInput = screen.getByDisplayValue("off");
     expect(hiddenInput).toBeInTheDocument();
+    expect(hiddenInput).not.toBeDisabled();
   });
 
-  it("hides the hidden input when the checkbox is checked", () => {
+  it("disables the hidden input when the checkbox is checked, instead of removing it", () => {
     render(
       <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
     );
     const checkbox = screen.getByRole("checkbox");
     fireEvent.click(checkbox);
 
-    const hiddenInput = screen.queryByDisplayValue("off");
-    expect(hiddenInput).not.toBeInTheDocument();
+    // Kept in the DOM (not removed) so toggling it doesn't race with RVF's
+    // FormData revalidation; `disabled` excludes it from submission.
+    const hiddenInput = screen.getByDisplayValue("off");
+    expect(hiddenInput).toBeDisabled();
   });
 
   it("displays an error message when an error exists", () => {

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useField } from "@rvf/react-router";
-import { useState } from "react";
+import { useRef } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
@@ -24,14 +24,10 @@ const Checkbox = ({
 }: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
-  // HTML Forms do not send unchecked checkboxes.
-  // For server-side validation we need a same-named hidden field
-  // For front-end validation, we need to hide that field if checkbox is checked
-  const [renderHiddenField, setRenderHiddenField] = useState(
-    (field.defaultValue() as CheckboxValue) !== "on",
-  );
+  const hiddenFieldRef = useRef<HTMLInputElement>(null);
   const jsAvailable = useJsAvailable();
   const hasError = Boolean(field.error());
+  const defaultChecked = (field.defaultValue() as CheckboxValue) === "on";
 
   return (
     <fieldset
@@ -39,9 +35,19 @@ const Checkbox = ({
         "kern-fieldset--error": hasError,
       })}
     >
-      {(!jsAvailable || renderHiddenField) && (
-        <input type="hidden" name={name} value={"off"} />
-      )}
+      {/* HTML Forms do not send unchecked checkboxes, so for server side
+      validation and the noJS fallback we need a same named hidden field.
+      Its disabled state is toggled synchronously (via ref, not React state)
+      in onClick so it's excluded from FormData before RVF's onChange
+      revalidation reads the form, avoiding a race where both fields are
+      briefly present at once. */}
+      <input
+        type="hidden"
+        name={name}
+        value="off"
+        ref={hiddenFieldRef}
+        disabled={jsAvailable && defaultChecked}
+      />
 
       <div className="kern-fieldset__body">
         <div className="kern-form-check">
@@ -52,7 +58,11 @@ const Checkbox = ({
             })}
             id={name}
             aria-describedby={hasError ? errorId : undefined}
-            onClick={() => setRenderHiddenField(!renderHiddenField)}
+            onClick={(e) => {
+              if (hiddenFieldRef.current) {
+                hiddenFieldRef.current.disabled = e.currentTarget.checked;
+              }
+            }}
             aria-required={required}
             ref={hasError ? field.refs.transient() : null}
           />
