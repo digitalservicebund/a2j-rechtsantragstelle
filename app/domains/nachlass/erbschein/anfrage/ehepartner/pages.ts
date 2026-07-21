@@ -1,5 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -34,7 +34,8 @@ export const ehepartnerPages = {
   ehepartnerStaatsangehoerigkeit: {
     stepId: "/ehepartner-oder-ehepartnerin/staatsangehoerigkeit",
     pageSchema: {
-      ehepartnerStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+      ehepartnerStaatsangehoerigkeit:
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   ehepartnerZweiteStaatsangehoerigkeitFrage: {
@@ -46,7 +47,8 @@ export const ehepartnerPages = {
   ehepartnerZweiteStaatsangehoerigkeit: {
     stepId: "/ehepartner-oder-ehepartnerin/zweite-staatsangehoerigkeit",
     pageSchema: {
-      ehepartnerZweiteStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+      ehepartnerZweiteStaatsangehoerigkeit:
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   ehevertrag: {
