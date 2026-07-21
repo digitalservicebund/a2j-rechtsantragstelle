@@ -161,7 +161,6 @@ function runTestcases<T extends UserData>(
               ...(buildFullUserInput(expectedSteps, idx) as Parameters<
                 typeof createFlowSession
               >[1]),
-              // pageData: pageData ?? {},
             },
             stepId,
           );

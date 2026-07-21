@@ -41,7 +41,8 @@ export const kinderFlowConfig = {
   ],
   kind1HatteKinder: [
     {
-      target: "kind1KinderAnzahl",
+      target: "kind2Daten",
+      type: "addArrayItem",
       guard: ({ kinder, pageData: { arrayIndexes } }) => {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 1) return false;
         if (kinder.length <= arrayIndexes[0]) return false;
@@ -51,10 +52,6 @@ export const kinderFlowConfig = {
       },
     },
     { target: "kind1Summary", guard: () => true },
-  ],
-  kind1KinderAnzahl: [
-    { target: "kind2Daten", type: "addArrayItem" },
-    { target: "kind1Summary" },
   ],
   kind2Daten: [
     {
@@ -72,7 +69,8 @@ export const kinderFlowConfig = {
   ],
   kind2HatteKinder: [
     {
-      target: "kind2KinderAnzahl",
+      target: "kind3Daten",
+      type: "addArrayItem",
       guard: ({ kinder, pageData: { arrayIndexes } }) => {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
         const kind1 = kinder[arrayIndexes[0]];
@@ -85,10 +83,6 @@ export const kinderFlowConfig = {
       },
     },
     { target: "kind1Summary", guard: () => true },
-  ],
-  kind2KinderAnzahl: [
-    { target: "kind3Daten", type: "addArrayItem" },
-    { target: "kind1Summary" },
   ],
   kind3Daten: [
     {
@@ -110,7 +104,8 @@ export const kinderFlowConfig = {
   ],
   kind3HatteKinder: [
     {
-      target: "kind3KinderAnzahl",
+      target: "kind4Daten",
+      type: "addArrayItem",
       guard: ({ kinder, pageData: { arrayIndexes } }) => {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
         const kind1 = kinder[arrayIndexes[0]];
@@ -127,10 +122,6 @@ export const kinderFlowConfig = {
       },
     },
     { target: "kind1Summary", guard: () => true },
-  ],
-  kind3KinderAnzahl: [
-    { target: "kind4Daten", type: "addArrayItem" },
-    { target: "kind1Summary" },
   ],
   kind4Daten: [
     {
@@ -156,7 +147,8 @@ export const kinderFlowConfig = {
   ],
   kind4HatteKinder: [
     {
-      target: "kind4KinderAnzahl",
+      target: "kind5Daten",
+      type: "addArrayItem",
       guard: ({ kinder, pageData: { arrayIndexes } }) => {
         if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
         const kind1 = kinder[arrayIndexes[0]];
@@ -177,10 +169,6 @@ export const kinderFlowConfig = {
       },
     },
     { target: "kind1Summary", guard: () => true },
-  ],
-  kind4KinderAnzahl: [
-    { target: "kind5Daten", type: "addArrayItem" },
-    { target: "kind1Summary" },
   ],
   kind5Daten: "kind1Summary",
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;
