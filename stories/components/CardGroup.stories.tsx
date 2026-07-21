@@ -1,22 +1,24 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import CardGroup from "~/components/content/card/CardGroup";
-import { Grid } from "~/components/layout/grid/Grid";
-import { GridSection } from "~/components/layout/grid/GridSection";
+import { GridItem } from "~/components/layout/grid/GridItem";
 
-const meta = {
+const meta: Meta<typeof CardGroup> = {
   title: "Components/CardGroup",
   component: CardGroup,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <GridSection>
-        <Grid>
-          <Story />
-        </Grid>
-      </GridSection>
+      <GridItem
+        smColumn={{ start: 1, span: 12 }}
+        mdColumn={{ start: 1, span: 12 }}
+        lgColumn={{ start: 3, span: 12 }}
+        xlColumn={{ start: 3, span: 12 }}
+      >
+        <Story />
+      </GridItem>
     ),
   ],
-} satisfies Meta<typeof CardGroup>;
+};
 
 export default meta;
 

@@ -7,10 +7,10 @@ const CardGroup = ({ cards }: { cards: CardProps[] }) => {
 
   return (
     <GridItem
-      mdColumn={{ start: 1, span: 8 }}
-      lgColumn={{ start: 3, span: 8 }}
-      xlColumn={{ start: 3, span: 8 }}
-      className="flex gap-kern-space-default"
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 12 }}
+      lgColumn={{ start: 3, span: 12 }}
+      xlColumn={{ start: 3, span: 12 }}
     >
       <div className="kern-container">
         <div className="kern-row">

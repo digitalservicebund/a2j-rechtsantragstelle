@@ -12,14 +12,8 @@ export type CardProps = {
 
 const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
   return (
-    <GridItem
-      mdColumn={{ start: 1, span: 4 }}
-      lgColumn={{ start: 3, span: 4 }}
-      xlColumn={{ start: 3, span: 4 }}
-      className="flex flex-col gap-kern-space-default"
-    >
-      <article className="kern-card">
-        <div className="kern-card__container bg-kern-neutral-025!">
+      <article className="kern-card min-h-[570px]!">
+        <div className="kern-card__container flex flex-col h-full bg-kern-neutral-025!">
           <header className="kern-card__header">
             <hgroup className="kern-hgroup">
               <p
@@ -44,7 +38,6 @@ const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
           </footer>
         </div>
       </article>
-    </GridItem>
   );
 };
 
