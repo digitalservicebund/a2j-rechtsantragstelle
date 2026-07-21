@@ -12,8 +12,8 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
-import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
-import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
+import { nachlassErbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
+import { nachlassErbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { type Session } from "react-router";
 import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
@@ -61,8 +61,8 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  "/erbschein/wegweiser": erbscheinWegweiser,
-  "/erbschein/nachlassgericht": erbscheinNachlassgericht,
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser,
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
   "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
   "/nachlass/erbausschlagung/gericht-finden":
@@ -70,5 +70,7 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
+  "/erbschein/wegweiser": nachlassErbscheinWegweiser, // delete after migration
+  "/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht, // delete after migration
   "/nachlass/erbschein/erbfolge": {} as Flow<PageConfigMap>,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;
