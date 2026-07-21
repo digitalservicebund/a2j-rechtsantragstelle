@@ -3,7 +3,10 @@ import { nachlassErbscheinAnfrageFlowConfig } from "./flowConfig";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   getBeguenstigteStrings,
+  getEhepartnerName,
   getVerstorbeneName,
+  getVerstorbenePostcodeCity,
+  getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 
 export const nachlassErbscheinAnfrage = {
@@ -13,6 +16,9 @@ export const nachlassErbscheinAnfrage = {
   },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),
+    ...getVerstorbeneStreetnameHousenumber(context),
+    ...getVerstorbenePostcodeCity(context),
+    ...getEhepartnerName(context),
     ...getBeguenstigteStrings(context),
   }),
   newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
