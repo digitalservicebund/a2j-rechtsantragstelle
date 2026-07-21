@@ -14,6 +14,12 @@ export type NewFlowEnginePageConfig = {
   stepId: string;
   pageSchema?: SchemaObject;
   controlledFieldConfig?: ControlledFieldConfig;
+  /**
+   * Most sub-pages should appear as discreet nav items, nested under
+   * their parents (e.g. Finanzielle Angaben - Kinder), but things like arrays
+   * should be collapsed into the parent nav item to avoid cluttering the nav with too many items.
+   */
+  shouldCollapseIntoParentNavItem?: boolean;
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
