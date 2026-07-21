@@ -34,8 +34,6 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
   "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
-  "/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages, // delete after migration
-  "/erbschein/wegweiser": nachlassErbscheinWegweiserPages, // delete after migration
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
   "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
   "/nachlass/erbausschlagung/gericht-finden":
