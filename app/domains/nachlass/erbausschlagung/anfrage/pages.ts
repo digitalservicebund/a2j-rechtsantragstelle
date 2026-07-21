@@ -7,6 +7,7 @@ import {
   sorgerechtPersonRequired,
 } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
@@ -95,7 +96,7 @@ export const nachlassErbausschlagungAnfragePages = {
   verstorbeneAdresse: {
     stepId: "verstorbene/adresse",
     pageSchema: {
-      verstorbeneAdresseStrasse: stringRequiredSchema,
+      verstorbeneAdresseStrasse: autoSuggestStringRequiredSchema("streetNames"),
       verstorbeneAdresseHausnummer: germanHouseNumberSchema,
       verstorbeneAdresseOrt: stringRequiredSchema,
       verstorbeneAdresseZusatz: stringOptionalSchema,
@@ -138,7 +139,8 @@ export const nachlassErbausschlagungAnfragePages = {
   ausschlagendePersonAdresse: {
     stepId: "ausschlagende-person/adresse",
     pageSchema: {
-      ausschlagendePersonStrasse: stringRequiredSchema,
+      ausschlagendePersonStrasse:
+        autoSuggestStringRequiredSchema("streetNames"),
       ausschlagendePersonHausnummer: germanHouseNumberSchema,
       ausschlagendePersonOrt: stringRequiredSchema,
       ausschlagendePersonZusatz: stringOptionalSchema,

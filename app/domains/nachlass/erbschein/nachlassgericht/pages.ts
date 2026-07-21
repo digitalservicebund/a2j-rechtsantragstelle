@@ -1,8 +1,8 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const nachlassErbscheinNachlassgerichtPages = {
@@ -51,7 +51,7 @@ export const nachlassErbscheinNachlassgerichtPages = {
   strasseHausnummer: {
     stepId: "strasse-hausnummer",
     pageSchema: {
-      strasse: stringRequiredSchema,
+      strasse: autoSuggestStringRequiredSchema("streetNames"),
       houseNumber: germanHouseNumberSchema,
     },
   },
