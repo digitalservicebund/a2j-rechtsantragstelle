@@ -102,7 +102,7 @@ const addDataListArgumentToAutoSuggestionInput = (
   }
 
   if (
-    flowId === "/erbschein/nachlassgericht" &&
+    flowId === "/nachlass/erbschein/nachlassgericht" &&
     autoSuggestProps.name === "strasse"
   ) {
     dataListArgument =

@@ -1,5 +1,5 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -32,7 +32,7 @@ export const antragstellendePersonPages = {
     stepId: "/antragstellende-person/staatsangehoerigkeit",
     pageSchema: {
       antragstellendePersonStaatsangehoerigkeit:
-        autoSuggestSchema("nationalities"),
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   antragstellendePersonZweiteStaatsangehoerigkeitFrage: {
@@ -45,7 +45,7 @@ export const antragstellendePersonPages = {
     stepId: "/antragstellende-person/zweite-staatsangehoerigkeit",
     pageSchema: {
       antragstellendePersonZweiteStaatsangehoerigkeit:
-        autoSuggestSchema("nationalities"),
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   antragstellendePersonDritteStaatsangehoerigkeitFrage: {
@@ -58,7 +58,7 @@ export const antragstellendePersonPages = {
     stepId: "/antragstellende-person/dritte-staatsangehoerigkeit",
     pageSchema: {
       antragstellendePersonDritteStaatsangehoerigkeit:
-        autoSuggestSchema("nationalities"),
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   antragstellendePersonAnschrift: {

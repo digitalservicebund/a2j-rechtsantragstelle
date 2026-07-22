@@ -1,6 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -51,7 +51,8 @@ export const verstorbenePersonPages = {
   verstorbeneStaatsangehoerigkeit: {
     stepId: "/verstorbene/staatsangehoerigkeit",
     pageSchema: {
-      verstorbeneStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+      verstorbeneStaatsangehoerigkeit:
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   verstorbeneZweiteStaatsangehoerigkeitFrage: {
@@ -63,7 +64,8 @@ export const verstorbenePersonPages = {
   verstorbeneZweiteStaatsangehoerigkeit: {
     stepId: "/verstorbene/zweite-staatsangehoerigkeit",
     pageSchema: {
-      verstorbeneZweiteStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+      verstorbeneZweiteStaatsangehoerigkeit:
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   verstorbeneDritteStaatsangehoerigkeitFrage: {
@@ -75,7 +77,8 @@ export const verstorbenePersonPages = {
   verstorbeneDritteStaatsangehoerigkeit: {
     stepId: "/verstorbene/dritte-staatsangehoerigkeit",
     pageSchema: {
-      verstorbeneDritteStaatsangehoerigkeit: autoSuggestSchema("nationalities"),
+      verstorbeneDritteStaatsangehoerigkeit:
+        autoSuggestStringRequiredSchema("nationalities"),
     },
   },
   verstorbeneLebensmittelpunkt: {
