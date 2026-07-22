@@ -50,6 +50,9 @@ export const testamentOderErbvertragTestCases = {
     {
       stepId: "/testament-oder-erbvertrag/beguenstigten/warnung",
     },
+    {
+      stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+    },
   ],
   testamentNamedBeneficiaryDeceased: [
     {

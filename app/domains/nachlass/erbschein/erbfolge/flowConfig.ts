@@ -2,6 +2,10 @@ import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { nachlassErbfolgePages } from "./pages";
 import { kinderFlowConfig } from "./kinderFlowConfig";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
+import {
+  elternteileRequireFurtherGenerations,
+  hasNoFirstOrSecondOrderHeirs,
+} from "./calculateInheritance";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,
@@ -41,9 +45,30 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ...kinderFlowConfig,
     elternteilSummary: [
       { target: "elternteilDaten", type: "addArrayItem" },
+      {
+        target: "nichtErmitteltWeitereGenerationen",
+        guard: elternteileRequireFurtherGenerations,
+      },
+      {
+        target: "grosseltern",
+        guard: (d) => !!d.ehepartnerName && hasNoFirstOrSecondOrderHeirs(d),
+      },
+      {
+        target: "nichtErmitteltWeitereOrdnungen",
+        guard: hasNoFirstOrSecondOrderHeirs,
+      },
       { target: "ergebnis" },
     ],
     ...elternteilFlowConfig,
+    grosseltern: [
+      {
+        target: "nichtErmitteltWeitereGenerationen",
+        guard: (d) => d.grosselternLeben === "yes",
+      },
+      { target: "ergebnis" },
+    ],
     ergebnis: null,
+    nichtErmitteltWeitereGenerationen: null,
+    nichtErmitteltWeitereOrdnungen: null,
   },
 });

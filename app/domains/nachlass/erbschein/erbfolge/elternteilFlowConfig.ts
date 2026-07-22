@@ -96,6 +96,23 @@ export const elternteilFlowConfig = {
   ...elternteilKindLevelTransitions(2),
   ...elternteilKindLevelTransitions(3),
   ...elternteilKindLevelTransitions(4),
-  // Deepest level loops back to the overview.
-  elternteilKind5Daten: "elternteilSummary",
+  // Deepest level: a dead person here who also had children means we hit the
+  // depth limit, so route to the "further generations not determined" exit page
+  // instead of adding another array level.
+  elternteilKind5Daten: [
+    {
+      target: "elternteilKind5HatteKinder",
+      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
+        isDead(elternteilKindAt(elternteile, arrayIndexes, 5)),
+    },
+    { target: "elternteilSummary", guard: () => true },
+  ],
+  elternteilKind5HatteKinder: [
+    {
+      target: "nichtErmitteltWeitereGenerationen",
+      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
+        isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, 5)),
+    },
+    { target: "elternteilSummary", guard: () => true },
+  ],
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;

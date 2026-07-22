@@ -83,9 +83,62 @@ export const createFlowSession = <C extends PageConfigMap>(
     }
   }
 
-  // Prev: use the linear breadcrumb so Back returns to the page the user came
-  // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
-  const keyIndex = simulation.keys.indexOf(nodeKey);
+  // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
+  const nextNodeKey =
+    evaluateRoute(compiledFlow.transitions[nodeKey], effectiveUserData) ??
+    undefined;
+
+  const isPageDone = (
+    schema: ReturnType<typeof compiledFlow.getSchemaByNodeKey>,
+    fieldNames: string[],
+    scopeData: Record<string, unknown>,
+  ) => {
+    if (fieldNames.length === 0) return true;
+    const candidate = Object.fromEntries(
+      fieldNames.map((fieldName) => [
+        fieldName,
+        scopeData[resolveFieldName(fieldName)],
+      ]),
+    );
+    return schema?.safeParse(candidate).success ?? false;
+  };
+
+  const doneNodeKeys = new Set(
+    simulation.visitedContexts
+      .filter(({ key, scopeData }) =>
+        isPageDone(
+          compiledFlow.getSchemaByNodeKey(key),
+          compiledFlow.getFieldNamesByNodeKey(key),
+          scopeData as Record<string, unknown>,
+        ),
+      )
+      .map(({ key }) => key),
+  );
+
+  // When nodeKey appears multiple times (a cycle), pick the right occurrence:
+  // redirect loops use first, array-complete cycles use last (if intermediate pages are filled).
+  const selectCycleOccurrence = (
+    keys: string[],
+    key: string,
+    done: Set<string>,
+  ): number => {
+    const first = keys.indexOf(key);
+    const last = keys.lastIndexOf(key);
+    if (first === last) return first;
+    const intermediates = keys.slice(first + 1, last).filter((k) => k !== key);
+    const hasFilled = intermediates.some(
+      (k) =>
+        compiledFlow.getFieldNamesByNodeKey(k as Extract<keyof C, string>)
+          .length > 0 && done.has(k as Extract<keyof C, string>),
+    );
+    return hasFilled ? last : first;
+  };
+
+  const keyIndex = selectCycleOccurrence(
+    simulation.keys,
+    nodeKey,
+    doneNodeKeys,
+  );
   const linearPrevNodeKey =
     keyIndex > 0
       ? simulation.keys[keyIndex - 1]
@@ -126,39 +179,6 @@ export const createFlowSession = <C extends PageConfigMap>(
     return node;
   };
   const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
-
-  // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
-  const nextNodeKey =
-    evaluateRoute(compiledFlow.transitions[nodeKey], effectiveUserData) ??
-    undefined;
-
-  const isPageDone = (
-    schema: ReturnType<typeof compiledFlow.getSchemaByNodeKey>,
-    fieldNames: string[],
-    scopeData: Record<string, unknown>,
-  ) => {
-    if (fieldNames.length === 0) return true;
-    const candidate = Object.fromEntries(
-      fieldNames.map((fieldName) => [
-        fieldName,
-        scopeData[resolveFieldName(fieldName)],
-      ]),
-    );
-    return schema?.safeParse(candidate).success ?? false;
-  };
-
-  const doneNodeKeys = new Set(
-    simulation.visitedContexts
-      .filter(({ key, scopeData }) =>
-        isPageDone(
-          compiledFlow.getSchemaByNodeKey(key),
-          compiledFlow.getFieldNamesByNodeKey(key),
-          scopeData as Record<string, unknown>,
-        ),
-      )
-      .map(({ key }) => key),
-  );
-
   return {
     nodeKey,
     pageSchema: compiledFlow.getSchema(currentPath),
