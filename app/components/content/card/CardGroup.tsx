@@ -21,7 +21,10 @@ const CardGroup = ({ cards }: { cards: CardProps[] }) => {
     >
       <div className="grid grid-cols-12 gap-16">
         {cards.map((card) => (
-          <div key={card.id}  className={`col-span-12 ${spanMap[card.span] ?? "xl:col-span-4"}`}>
+          <div
+            key={card.id}
+            className={`col-span-12 ${spanMap[card.span] ?? "xl:col-span-4"}`}
+          >
             <Card {...card} />
           </div>
         ))}

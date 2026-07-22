@@ -16,8 +16,7 @@ export default function Index() {
   const { content } = useLoaderData<typeof loader>();
   return (
     <>
-      {/* <ContentComponents content={content} /> */}
-
+      <ContentComponents content={content} />
       <GridSection>
         <Grid>
           <GridItem
