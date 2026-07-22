@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import CardGroup from "../CardGroup";
-import { type CardProps } from "../Card";
+import { type CardGroupItem } from "../Card";
 
-const mockCards: CardProps[] = [
+const mockCards: CardGroupItem[] = [
   {
     id: "card-1",
     heading: "Card 1",
