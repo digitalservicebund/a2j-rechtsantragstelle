@@ -11,6 +11,16 @@ import { pruneUserData } from "./pruneUserData";
 const resolveFieldName = (fieldName: string) =>
   fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
 
+const arrayWildcardCount = (stepId: string) =>
+  stepId.split(ARRAY_WILDCARD).length - 1;
+
+// Substitutes each array wildcard in a stepId with a concrete index, in
+// left-to-right order (e.g. "/a/#/b/#/c" + [0, 2] -> "/a/0/b/2/c").
+const insertConcreteIndexes = (stepId: string, indexes: number[]) => {
+  let index = 0;
+  return stepId.replaceAll(ARRAY_WILDCARD, () => String(indexes[index++]));
+};
+
 export const createFlowSession = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
   userData: InferredUserData<C> & { pageData: PageData },
@@ -179,6 +189,46 @@ export const createFlowSession = <C extends PageConfigMap>(
     return node;
   };
   const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
+
+  // The chosen prevNodeKey can sit deeper in array nesting than the current
+  // page (e.g. Back from a 0-wildcard array-summary page picked the last
+  // completed item's page, which has 1+ wildcards). The current page's own
+  // arrayIndexes can't fill those in — there's nothing at that depth to read.
+  // Resolve concrete indexes from the real (index-aware) visited context
+  // instead, so prevPath is always directly usable, never a bare "#" template.
+  const resolvePrevPath = (): string | undefined => {
+    if (prevNodeKey == null) return undefined;
+    const prevStepId = compiledFlow.pages[prevNodeKey]?.stepId;
+    if (prevStepId == null) return undefined;
+
+    const currentStepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
+    if (arrayWildcardCount(prevStepId) <= arrayWildcardCount(currentStepId)) {
+      return compiledFlow.getPathFromNodeKey(
+        prevNodeKey as Extract<keyof C, string>,
+      );
+    }
+
+    // Most recently completed instance of that page wins (mirrors "last
+    // occurrence" cycle selection above).
+    const match = [...simulation.visitedContexts]
+      .reverse()
+      .find(
+        ({ key, scopeData }) =>
+          key === prevNodeKey &&
+          isPageDone(
+            compiledFlow.getSchemaByNodeKey(key),
+            compiledFlow.getFieldNamesByNodeKey(key),
+            scopeData as Record<string, unknown>,
+          ),
+      );
+    if (!match) {
+      return compiledFlow.getPathFromNodeKey(
+        prevNodeKey as Extract<keyof C, string>,
+      );
+    }
+    return insertConcreteIndexes(prevStepId, match.pageData.arrayIndexes ?? []);
+  };
+
   return {
     nodeKey,
     pageSchema: compiledFlow.getSchema(currentPath),
@@ -208,9 +258,7 @@ export const createFlowSession = <C extends PageConfigMap>(
         true,
       ) ?? undefined,
     ),
-    prevPath: compiledFlow.getPathFromNodeKey(
-      prevNodeKey as Extract<keyof C, string>,
-    ),
+    prevPath: resolvePrevPath(),
     isArrayPage: (path: string): boolean => {
       return compiledFlow.getArrayInfo(path) !== undefined;
     },
