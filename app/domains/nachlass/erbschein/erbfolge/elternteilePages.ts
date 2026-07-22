@@ -114,6 +114,5 @@ export const elternteilePages = {
   ...elternteilKinderLevelPages(2),
   ...elternteilKinderLevelPages(3),
   ...elternteilKinderLevelPages(4),
-  // Deepest level is terminal: no hatteKinder follow-up.
-  elternteilKind5Daten: elternteilKinderLevel(5).daten,
+  ...elternteilKinderLevelPages(5),
 } as const;
