@@ -7,7 +7,6 @@ export type CardProps = {
   heading: string;
   description: string;
   buttonLabel: string;
-  span: number;
 };
 
 export type CardGroupItem = CardProps & {

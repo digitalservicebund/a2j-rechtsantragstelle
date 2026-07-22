@@ -1,6 +1,6 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import Card from "./Card";
-import type { CardProps } from "./Card";
+import type { CardGroupItem } from "./Card";
 
 const spanMap: Record<number, string> = {
   3: "xl:col-span-3",
@@ -9,7 +9,7 @@ const spanMap: Record<number, string> = {
   12: "xl:col-span-12",
 };
 
-const CardGroup = ({ cards }: { cards: CardProps[] }) => {
+const CardGroup = ({ cards }: { cards: CardGroupItem[] }) => {
   if (!cards.length) return null;
 
   return (
