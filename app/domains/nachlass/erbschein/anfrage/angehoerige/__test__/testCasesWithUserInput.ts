@@ -1,12 +1,9 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const happyPathData: NachlassErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
-  verstorbenePersonStrasse: "Musterstraße",
-  verstorbenePersonHausnummer: "1",
-  verstorbenePersonOrt: "Musterstadt",
-  antragstellendePersonTelefonnummer: "0123456789",
+  ...nachlassErbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -128,6 +125,12 @@ export const angehoerigeTestCases = {
         "angehoerige#plz": "12345",
         "angehoerige#ort": "Musterstadt",
         "angehoerige#land": "Deutschland",
+      },
+    },
+    {
+      stepId: "/angehoerige/#/verhaeltnis",
+      userInput: {
+        "angehoerige#verhaeltnis": "cousin",
       },
     },
     {

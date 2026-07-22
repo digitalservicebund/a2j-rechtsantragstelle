@@ -29,6 +29,7 @@ export const angehoerigeFlowConfig = {
       target: "angehoerigeSterbedatum",
     },
   ],
-  angehoerigeAddress: "angehoerigeOverview",
+  angehoerigeAddress: "angehoerigeRelationship",
+  angehoerigeRelationship: "angehoerigeOverview",
   angehoerigeSterbedatum: "angehoerigeOverview",
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

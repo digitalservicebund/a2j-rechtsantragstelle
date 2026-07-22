@@ -116,4 +116,10 @@ export const angehoerigePages = {
       "angehoerige#adresszusatz": survivingAngehoerigeFields.adresszusatz,
     },
   },
+  angehoerigeRelationship: {
+    stepId: "/angehoerige/#/verhaeltnis",
+    pageSchema: {
+      "angehoerige#verhaeltnis": survivingAngehoerigeFields.verhaeltnis,
+    },
+  },
 } as const satisfies PageConfigMap;
