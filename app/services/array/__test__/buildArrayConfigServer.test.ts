@@ -26,6 +26,8 @@ describe("buildArrayConfigServer", () => {
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
+      nextArrayPath:
+        "/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
       isReachable: () => true,
       paths: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten"],
     } as unknown as FlowSession<PageConfigMap>;

@@ -1,4 +1,5 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
+import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/__test__/testCasesWithUserInput";
 import { antragstellendePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/__test__/testCasesWithUserInput";
 import { ehepartnerTestCases } from "~/domains/nachlass/erbschein/anfrage/ehepartner/__test__/testCasesWithUserInput";
 import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
@@ -28,6 +29,7 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...antragstellendePersonTestCases,
     ...testamentOderErbvertragTestCases,
     ...ehepartnerTestCases,
+    ...angehoerigeTestCases,
   },
 } satisfies FlowTestConfig<
   NachlassErbscheinAnfrageUserData,

@@ -2,6 +2,7 @@ import { type Flow } from "~/domains/flows.server";
 import { nachlassErbscheinAnfrageFlowConfig } from "./flowConfig";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
+  getAngehoerigeStrings,
   getBeguenstigteStrings,
   getEhepartnerName,
   getVerstorbeneName,
@@ -20,6 +21,7 @@ export const nachlassErbscheinAnfrage = {
     ...getVerstorbenePostcodeCity(context),
     ...getEhepartnerName(context),
     ...getBeguenstigteStrings(context),
+    ...getAngehoerigeStrings(context),
   }),
   newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
 } satisfies Flow<typeof nachlassErbscheinAnfrageFlowConfig.pages>;
