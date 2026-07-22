@@ -463,7 +463,7 @@ export const translations = {
     cardButtonLabelErbschein: {
       de: "Zum Wegweiser Erbschein",
     },
-        cardIdRechtsprobleme: {
+    cardIdRechtsprobleme: {
       de: "Rechtsprobleme",
     },
     cardHeadingRechtsprobleme: {

@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
-import { CardGroupItem } from "~/components/content/card/Card";
+import { type CardGroupItem } from "~/components/content/card/Card";
 import CardGroup from "~/components/content/card/CardGroup";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
