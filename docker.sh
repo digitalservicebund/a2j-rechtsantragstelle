@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | app-feature-branch | content | prod | prod-feature-branch) | --push (app | app-feature-branch | content | prod | prod-feature-branch))"
+HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | app-feature-branch | content | prod | prod-feature-branch) | --push (app | content | prod | prod-feature-branch) | --sign (prod | prod-feature-branch))"
 REGISTRY=ghcr.io
 IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
 APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
 APP_IMAGE_FEATURE_BRANCH=$REGISTRY/$IMAGE_NAME-app-feature-branch
 CONTENT_IMAGE=$REGISTRY/$IMAGE_NAME-content
 PROD_IMAGE=$REGISTRY/$IMAGE_NAME
+PROD_IMAGE_FEATURE_BRANCH=$REGISTRY/$IMAGE_NAME-prod-feature-branch
 DOCKERFILE=Dockerfile
 
 if [ "$#" -eq 0 ]; then
@@ -23,9 +24,41 @@ function parseValidTarget() {
         exit 1
     fi
     case $2 in
-    app | content | prod) TARGET=$2 ;;
+    app | content | prod | app-feature-branch | prod-feature-branch) TARGET=$2 ;;
     *)
         echo "Unknown target $2, aborting..."
+        echo "$HELP_TEXT"
+        exit 1
+        ;;
+    esac
+}
+
+function parseValidPushTarget() {
+    if [ "$#" -le 1 ]; then
+        echo "Missing target, aborting..."
+        echo "$HELP_TEXT"
+        exit 1
+    fi
+    case $2 in
+    app | content | prod | prod-feature-branch) TARGET=$2 ;;
+    *)
+        echo "Unknown push target $2, aborting..."
+        echo "$HELP_TEXT"
+        exit 1
+        ;;
+    esac
+}
+
+function parseValidSignTarget() {
+    if [ "$#" -le 1 ]; then
+        echo "Missing sign target, aborting..."
+        echo "$HELP_TEXT"
+        exit 1
+    fi
+    case $2 in
+    prod | prod-feature-branch) TARGET=$2 ;;
+    *)
+        echo "Unknown sign target $2, aborting..."
         echo "$HELP_TEXT"
         exit 1
         ;;
@@ -110,17 +143,6 @@ case $1 in
         echo "Tagging latest app image as $APP_IMAGE_TAG"
         docker tag $APP_IMAGE "$APP_IMAGE_TAG"
         ;;
-    app-feature-branch)
-        LATEST_GIT_TAG=$(git rev-parse HEAD)
-        APP_IMAGE_TAG=$APP_IMAGE_FEATURE_BRANCH
-        
-        pnpm run build
-        echo "Building $APP_IMAGE_FEATURE_BRANCH..."
-        docker build -t $APP_IMAGE_FEATURE_BRANCH --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
-
-        echo "Tagging latest app image as $APP_IMAGE_TAG"
-        docker tag $APP_IMAGE_FEATURE_BRANCH "$APP_IMAGE_TAG"
-        ;;
     content)
         CONTENT_HASH=$(hashFromContentFile content.json)
         CONTENT_IMAGE_TAG=$CONTENT_IMAGE:$CONTENT_HASH
@@ -139,28 +161,35 @@ case $1 in
         echo "Tagging latest prod image as $PROD_IMAGE_TAG"
         docker tag $PROD_IMAGE "$PROD_IMAGE_TAG"
         ;;
-    prod-feature-branch)
-        echo -e "\nBuilding $PROD_IMAGE..."
-        docker build -t $PROD_IMAGE -f $DOCKERFILE --build-arg="APP_IMAGE=$APP_IMAGE_FEATURE_BRANCH" --build-arg="CONTENT_IMAGE=$CONTENT_IMAGE" --target prod --quiet .
+    app-feature-branch)
+        LATEST_GIT_TAG=$(git rev-parse HEAD)
+        APP_IMAGE_TAG=$APP_IMAGE_FEATURE_BRANCH
+        
+        pnpm run build
+        echo "Building $APP_IMAGE_FEATURE_BRANCH..."
+        docker build -t $APP_IMAGE_FEATURE_BRANCH --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
 
-        PROD_IMAGE_TAG=$PROD_IMAGE:$(prodImageTag)
+        echo "Tagging latest app image as $APP_IMAGE_TAG"
+        docker tag $APP_IMAGE_FEATURE_BRANCH "$APP_IMAGE_TAG"
+        ;;
+    prod-feature-branch)
+        echo -e "\nBuilding $PROD_IMAGE_FEATURE_BRANCH..."
+        docker build -t $PROD_IMAGE_FEATURE_BRANCH -f $DOCKERFILE --build-arg="APP_IMAGE=$APP_IMAGE_FEATURE_BRANCH" --build-arg="CONTENT_IMAGE=$CONTENT_IMAGE" --target prod --quiet .
+
+        PROD_IMAGE_TAG=$PROD_IMAGE_FEATURE_BRANCH:$(prodFeatureBranchImageTag)
         echo "Tagging latest prod image as $PROD_IMAGE_TAG"
-        docker tag $PROD_IMAGE "$PROD_IMAGE_TAG"
+        docker tag $PROD_IMAGE_FEATURE_BRANCH "$PROD_IMAGE_TAG"
         ;;
     esac
 
     ;;
 --push)
-    parseValidTarget "$@"
+    parseValidPushTarget "$@"
 
     case ${TARGET} in
     app)
         echo "Pushing $APP_IMAGE..."
         docker push --all-tags $APP_IMAGE
-        ;;
-    app-feature-branch)
-        echo "Pushing $APP_IMAGE_FEATURE_BRANCH..."
-        docker push --all-tags $APP_IMAGE_FEATURE_BRANCH
         ;;
     content)
         echo "Pushing $CONTENT_IMAGE..."
@@ -170,11 +199,24 @@ case $1 in
         echo "Pushing $PROD_IMAGE..."
         docker push --all-tags $PROD_IMAGE
         ;;
+    prod-feature-branch)
+        echo "Pushing $PROD_IMAGE_FEATURE_BRANCH..."
+        docker push --all-tags $PROD_IMAGE_FEATURE_BRANCH
+        ;;
     esac
     ;;
 --sign)
+    parseValidSignTarget "$@"
     echo "Signing images with cosign"
-    DOCKER_IMAGE_DIGEST=$(docker inspect --format='{{ index .RepoDigests 0 }}' ghcr.io/digitalservicebund/a2j-rechtsantragstelle:latest)
+    case ${TARGET} in
+    prod)
+        IMAGE_TO_SIGN=$PROD_IMAGE:latest
+        ;;
+    prod-feature-branch)
+        IMAGE_TO_SIGN=$PROD_IMAGE_FEATURE_BRANCH:latest
+        ;;
+    esac
+    DOCKER_IMAGE_DIGEST=$(docker inspect --format='{{ index .RepoDigests 0 }}' "$IMAGE_TO_SIGN")
     cosign sign --yes $DOCKER_IMAGE_DIGEST
     echo "Attest images with cosign"
     cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $DOCKER_IMAGE_DIGEST
