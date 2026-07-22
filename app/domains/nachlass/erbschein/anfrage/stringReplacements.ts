@@ -30,12 +30,7 @@ export const getEhepartnerName = (
 };
 
 export const getBeguenstigteStrings = (
-  context: NachlassErbscheinAnfrageUserData & {
-    beguenstigten?: Array<{
-      vorname: string;
-      nachname: string;
-    }>;
-  },
+  context: NachlassErbscheinAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
@@ -48,5 +43,21 @@ export const getBeguenstigteStrings = (
     return {
       "beguenstigten#vorname": context.beguenstigten?.[arrayIndex].vorname,
       "beguenstigten#nachname": context.beguenstigten?.[arrayIndex].nachname,
+    };
+};
+
+export const getAngehoerigeStrings = (
+  context: NachlassErbscheinAnfrageUserData,
+) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  if (
+    arrayIndex === undefined ||
+    !context.angehoerige ||
+    arrayIndex > context.angehoerige.length + 1
+  )
+    return {};
+  if (arrayIndex < context.angehoerige.length)
+    return {
+      angehoerigeName: `${context.angehoerige?.[arrayIndex].vorname} ${context.angehoerige?.[arrayIndex].nachname}`,
     };
 };
