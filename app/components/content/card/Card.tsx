@@ -7,12 +7,17 @@ export type CardProps = {
   heading: string;
   description: string;
   buttonLabel: string;
+  span: number;
+};
+
+export type CardGroupItem = CardProps & {
+  span: number;
 };
 
 const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
   return (
-    <article className="kern-card min-h-[570px]!">
-      <div className="kern-card__container flex flex-col h-full bg-kern-neutral-025!">
+    <article className="kern-card">
+      <div className="kern-card__container bg-kern-neutral-025!">
         <header className="kern-card__header">
           <hgroup className="kern-hgroup">
             <p

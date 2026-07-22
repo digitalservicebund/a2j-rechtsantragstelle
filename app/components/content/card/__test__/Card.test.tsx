@@ -10,6 +10,7 @@ describe("Card", () => {
         description="Description"
         buttonLabel="Click me"
         id="card-1"
+        span={4}
       />,
     );
 
@@ -29,6 +30,7 @@ describe("Card", () => {
         description="Description"
         buttonLabel="Click me"
         id="card-1"
+        span={4}
       />,
     );
 
