@@ -449,8 +449,105 @@ describe("createFlowSession", () => {
           "/items",
         );
 
-        // Back from the second overview should go to the item page (last occurrence)
-        expect(session.prevPath).toBe("/items/#/detail");
+        // Back from the second overview should go to the item page (last occurrence),
+        // with a concrete index — the overview page itself has no array index of its
+        // own to fall back on, so a bare "#" template would be unusable by callers.
+        expect(session.prevPath).toBe("/items/0/detail");
+      });
+
+      it("resolves the last completed item's own index, not always index 0", () => {
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "overview",
+          transitions: {
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          {
+            entries: [{ name: "first entry" }, { name: "second entry" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/items/1/detail");
+      });
+
+      // Mirrors a real-world shape: a 0-wildcard array-summary page cycling
+      // through a *nested* array item (2 wildcards) before falling back to the
+      // summary. The picked predecessor sits two levels deeper than the current
+      // page, so both wildcards must be resolved, not just the first.
+      it("resolves concrete indexes for a nested (multi-wildcard) cycle predecessor", () => {
+        const nestedArrayFlow = compileFlow({
+          pages: {
+            overview: {
+              stepId: "/parents",
+              arraySummary: {
+                name: "parents",
+                schema: z.array(
+                  z.object({
+                    name: z.string(),
+                    children: z.array(z.object({ name: z.string() })),
+                  }),
+                ),
+              },
+            },
+            parentDetail: {
+              stepId: "/parents/#/detail",
+              pageSchema: { "parents#name": z.string() },
+            },
+            childDetail: {
+              stepId: "/parents/#/children/#/detail",
+              pageSchema: { "parents#children#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "overview",
+          transitions: {
+            overview: [
+              { target: "parentDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            parentDetail: [
+              { target: "childDetail", type: "addArrayItem" },
+              { target: "overview" },
+            ],
+            childDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          nestedArrayFlow,
+          {
+            parents: [{ name: "Parent 1", children: [{ name: "Child 1" }] }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/parents",
+        );
+
+        expect(session.prevPath).toBe("/parents/0/children/0/detail");
       });
     });
   });
