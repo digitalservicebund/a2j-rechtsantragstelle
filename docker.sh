@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | content | prod) | --push (app | content | prod))"
+HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | app-feature-branch | content | prod | prod-feature-branch) | --push (app | app-feature-branch | content | prod | prod-feature-branch))"
 REGISTRY=ghcr.io
 IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
 APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
+APP_IMAGE_FEATURE_BRANCH=$REGISTRY/$IMAGE_NAME-app-feature-branch
 CONTENT_IMAGE=$REGISTRY/$IMAGE_NAME-content
 PROD_IMAGE=$REGISTRY/$IMAGE_NAME
 DOCKERFILE=Dockerfile
@@ -59,6 +60,12 @@ function prodImageTag() {
     echo "$APP_HASH-$CONTENT_HASH"
 }
 
+function prodFeatureBranchImageTag() {
+    CONTENT_HASH=$(hashFromImage $CONTENT_IMAGE)
+    APP_HASH=$(hashFromImage $APP_IMAGE_FEATURE_BRANCH)
+    echo "$APP_HASH-$CONTENT_HASH"
+}
+
 case $1 in
 --appFromImage)
     DESTINATION=./a2j-app
@@ -84,6 +91,10 @@ case $1 in
     prodImageTag
     exit 0
     ;;
+--prodFeatureBranchImageTag)
+    prodFeatureBranchImageTag
+    exit 0
+    ;;
 --build)
     parseValidTarget "$@"
 
@@ -98,6 +109,17 @@ case $1 in
 
         echo "Tagging latest app image as $APP_IMAGE_TAG"
         docker tag $APP_IMAGE "$APP_IMAGE_TAG"
+        ;;
+    app-feature-branch)
+        LATEST_GIT_TAG=$(git rev-parse HEAD)
+        APP_IMAGE_TAG=$APP_IMAGE_FEATURE_BRANCH
+        
+        pnpm run build
+        echo "Building $APP_IMAGE_FEATURE_BRANCH..."
+        docker build -t $APP_IMAGE_FEATURE_BRANCH --label "hash=$LATEST_GIT_TAG" -f $DOCKERFILE --target app --quiet .
+
+        echo "Tagging latest app image as $APP_IMAGE_TAG"
+        docker tag $APP_IMAGE_FEATURE_BRANCH "$APP_IMAGE_TAG"
         ;;
     content)
         CONTENT_HASH=$(hashFromContentFile content.json)
@@ -117,6 +139,14 @@ case $1 in
         echo "Tagging latest prod image as $PROD_IMAGE_TAG"
         docker tag $PROD_IMAGE "$PROD_IMAGE_TAG"
         ;;
+    prod-feature-branch)
+        echo -e "\nBuilding $PROD_IMAGE..."
+        docker build -t $PROD_IMAGE -f $DOCKERFILE --build-arg="APP_IMAGE=$APP_IMAGE_FEATURE_BRANCH" --build-arg="CONTENT_IMAGE=$CONTENT_IMAGE" --target prod --quiet .
+
+        PROD_IMAGE_TAG=$PROD_IMAGE:$(prodImageTag)
+        echo "Tagging latest prod image as $PROD_IMAGE_TAG"
+        docker tag $PROD_IMAGE "$PROD_IMAGE_TAG"
+        ;;
     esac
 
     ;;
@@ -127,6 +157,10 @@ case $1 in
     app)
         echo "Pushing $APP_IMAGE..."
         docker push --all-tags $APP_IMAGE
+        ;;
+    app-feature-branch)
+        echo "Pushing $APP_IMAGE_FEATURE_BRANCH..."
+        docker push --all-tags $APP_IMAGE_FEATURE_BRANCH
         ;;
     content)
         echo "Pushing $CONTENT_IMAGE..."
