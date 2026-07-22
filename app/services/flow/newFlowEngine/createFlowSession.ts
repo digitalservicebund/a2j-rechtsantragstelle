@@ -125,42 +125,15 @@ export const createFlowSession = <C extends PageConfigMap>(
       .map(({ key }) => key),
   );
 
-  // When nodeKey appears multiple times (a cycle), pick the right occurrence:
-  // redirect loops use first, array-complete cycles use last (if intermediate pages are filled).
-  const selectCycleOccurrence = (
-    keys: string[],
-    key: string,
-    done: Set<string>,
-  ): number => {
-    const first = keys.indexOf(key);
-    const last = keys.lastIndexOf(key);
-    if (first === last) return first;
-    const intermediates = keys.slice(first + 1, last).filter((k) => k !== key);
-    const hasFilled = intermediates.some(
-      (k) =>
-        compiledFlow.getFieldNamesByNodeKey(k as Extract<keyof C, string>)
-          .length > 0 && done.has(k as Extract<keyof C, string>),
-    );
-    return hasFilled ? last : first;
-  };
-
-  const keyIndex = selectCycleOccurrence(
-    simulation.keys,
-    nodeKey,
-    doneNodeKeys,
-  );
-  const linearPrevNodeKey =
-    keyIndex > 0
-      ? simulation.keys[keyIndex - 1]
-      : simulation.parentMap.get(nodeKey);
-
   // If the previous page is a bare fan-out node — it hosts the addArrayItem that
   // reaches the current page but renders no summary of its own — the user never
   // navigated through it. They used the "add" affordance on the summary that node
   // exits to (the add button links straight to the item page). Point Back at that
   // summary instead of the internal fan-out node.
-  const skipFanOutOnlyBack = (candidate: typeof linearPrevNodeKey) => {
-    const seen = new Set<typeof candidate>();
+  const skipFanOutOnlyBack = (
+    candidate: Extract<keyof C, string> | undefined,
+  ): Extract<keyof C, string> | undefined => {
+    const seen = new Set<Extract<keyof C, string> | undefined>();
     let node = candidate;
     while (node != null && !seen.has(node)) {
       seen.add(node);
@@ -188,46 +161,71 @@ export const createFlowSession = <C extends PageConfigMap>(
     }
     return node;
   };
-  const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
 
-  // The chosen prevNodeKey can sit deeper in array nesting than the current
-  // page (e.g. Back from a 0-wildcard array-summary page picked the last
-  // completed item's page, which has 1+ wildcards). The current page's own
-  // arrayIndexes can't fill those in — there's nothing at that depth to read.
-  // Resolve concrete indexes from the real (index-aware) visited context
-  // instead, so prevPath is always directly usable, never a bare "#" template.
-  const resolvePrevPath = (): string | undefined => {
-    if (prevNodeKey == null) return undefined;
-    const prevStepId = compiledFlow.pages[prevNodeKey]?.stepId;
+  const prevNodeKeyAtIndex = (index: number) => {
+    const linear =
+      index > 0
+        ? (simulation.keys[index - 1] as Extract<keyof C, string> | undefined)
+        : simulation.parentMap.get(nodeKey);
+    return skipFanOutOnlyBack(linear);
+  };
+
+  // Resolves a candidate predecessor to a directly usable path, or null if it
+  // sits deeper in array nesting than the current page and no real (index-aware)
+  // visited context exists to fill in the extra wildcards from — the current
+  // page's own arrayIndexes can't help, there's nothing at that depth to read.
+  const resolveConcretePrevPath = (
+    candidate: Extract<keyof C, string> | undefined,
+  ): string | undefined | null => {
+    if (candidate == null) return undefined;
+    const prevStepId = compiledFlow.pages[candidate]?.stepId;
     if (prevStepId == null) return undefined;
 
     const currentStepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
     if (arrayWildcardCount(prevStepId) <= arrayWildcardCount(currentStepId)) {
-      return compiledFlow.getPathFromNodeKey(
-        prevNodeKey as Extract<keyof C, string>,
-      );
+      return compiledFlow.getPathFromNodeKey(candidate);
     }
 
-    // Most recently completed instance of that page wins (mirrors "last
-    // occurrence" cycle selection above).
-    const match = [...simulation.visitedContexts]
-      .reverse()
-      .find(
+    // Prefer the most recently completed instance of that page; fall back to
+    // the most recently visited one (any state) so partial data still resolves.
+    const visited = [...simulation.visitedContexts].reverse();
+    const match =
+      visited.find(
         ({ key, scopeData }) =>
-          key === prevNodeKey &&
+          key === candidate &&
           isPageDone(
             compiledFlow.getSchemaByNodeKey(key),
             compiledFlow.getFieldNamesByNodeKey(key),
             scopeData as Record<string, unknown>,
           ),
-      );
-    if (!match) {
-      return compiledFlow.getPathFromNodeKey(
-        prevNodeKey as Extract<keyof C, string>,
-      );
-    }
+      ) ?? visited.find(({ key }) => key === candidate);
+    if (!match) return null;
     return insertConcreteIndexes(prevStepId, match.pageData.arrayIndexes ?? []);
   };
+
+  // When nodeKey appears multiple times (a cycle), prefer the last occurrence
+  // for array-complete cycles (intermediate pages filled), first for redirect
+  // loops. But the "last" pick is only safe if it actually resolves to a
+  // concrete path — if there's no real data to back it (e.g. the user started
+  // an item but never got far enough for anything to be "done"), fall back to
+  // the first occurrence instead of ever surfacing an unresolvable "#" template.
+  const first = simulation.keys.indexOf(nodeKey);
+  const last = simulation.keys.lastIndexOf(nodeKey);
+  const intermediates =
+    first === last
+      ? []
+      : simulation.keys.slice(first + 1, last).filter((k) => k !== nodeKey);
+  const hasFilled = intermediates.some(
+    (k) =>
+      compiledFlow.getFieldNamesByNodeKey(k as Extract<keyof C, string>)
+        .length > 0 && doneNodeKeys.has(k as Extract<keyof C, string>),
+  );
+
+  const prevPath = hasFilled
+    ? (resolveConcretePrevPath(prevNodeKeyAtIndex(last)) ??
+      resolveConcretePrevPath(prevNodeKeyAtIndex(first)) ??
+      undefined)
+    : (resolveConcretePrevPath(prevNodeKeyAtIndex(first)) ?? undefined);
 
   return {
     nodeKey,
@@ -258,7 +256,7 @@ export const createFlowSession = <C extends PageConfigMap>(
         true,
       ) ?? undefined,
     ),
-    prevPath: resolvePrevPath(),
+    prevPath,
     isArrayPage: (path: string): boolean => {
       return compiledFlow.getArrayInfo(path) !== undefined;
     },

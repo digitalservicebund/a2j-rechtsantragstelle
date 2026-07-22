@@ -549,6 +549,44 @@ describe("createFlowSession", () => {
 
         expect(session.prevPath).toBe("/parents/0/children/0/detail");
       });
+
+      it("falls back to the first occurrence when the array is empty (add started but nothing submitted)", () => {
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          { pageData: { arrayIndexes: [] } } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/start");
+      });
     });
   });
 
