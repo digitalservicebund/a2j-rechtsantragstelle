@@ -66,6 +66,12 @@ const topLevelPages = {
       gueterstand: gueterstandSchema,
     },
   },
+  grosseltern: {
+    stepId: "/grosseltern",
+    pageSchema: {
+      grosselternLeben: YesNoAnswer,
+    },
+  },
   ergebnis: {
     stepId: "/ergebnis/erbfolge",
   },
