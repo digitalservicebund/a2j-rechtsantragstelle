@@ -3,8 +3,8 @@ import { nachlassErbfolgePages } from "./pages";
 import { kinderFlowConfig } from "./kinderFlowConfig";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
 import {
+  elternteileRequireFurtherGenerations,
   hasNoFirstOrSecondOrderHeirs,
-  requiresFurtherGenerations,
 } from "./calculateInheritance";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
@@ -46,11 +46,11 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     elternteilSummary: [
       { target: "elternteilDaten", type: "addArrayItem" },
       {
-        target: "nichtErmitteltWeitereOrdnungen",
-        guard: requiresFurtherGenerations,
+        target: "nichtErmitteltWeitereGenerationen",
+        guard: elternteileRequireFurtherGenerations,
       },
       {
-        target: "nichtErmitteltWeitereGenerationen",
+        target: "nichtErmitteltWeitereOrdnungen",
         guard: hasNoFirstOrSecondOrderHeirs,
       },
       { target: "ergebnis" },

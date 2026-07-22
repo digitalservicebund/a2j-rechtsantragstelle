@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   calculateInheritance,
+  elternteileRequireFurtherGenerations,
   hasNoFirstOrSecondOrderHeirs,
-  requiresFurtherGenerations,
+  kinderRequireFurtherGenerations,
 } from "../calculateInheritance";
 import type {
   HeirShare,
@@ -36,111 +37,6 @@ describe("calculateInheritance", () => {
           { name: "Kind 2", isAlive: "yes" },
         ],
         spouse,
-      });
-
-      describe("result-page conditions", () => {
-        it("detects when no first- or second-order heirs are alive", () => {
-          expect(
-            hasNoFirstOrSecondOrderHeirs({
-              hatteKinder: "yes",
-              kinder: [{ name: "Kind", isAlive: "no", hatteKinder: "no" }],
-              elternteile: [
-                { name: "Elternteil", isAlive: "no", hatteKinder: "no" },
-              ],
-            }),
-          ).toBe(true);
-        });
-
-        it("does not report missing heirs while a second-order heir is alive", () => {
-          expect(
-            hasNoFirstOrSecondOrderHeirs({
-              hatteKinder: "no",
-              elternteile: [{ name: "Elternteil", isAlive: "yes" }],
-            }),
-          ).toBe(false);
-        });
-
-        it("detects a dead descendant in the fifth and final covered generation", () => {
-          expect(
-            requiresFurtherGenerations({
-              hatteKinder: "yes",
-              kinder: [
-                {
-                  name: "Generation 1",
-                  isAlive: "no",
-                  hatteKinder: "yes",
-                  kinder: [
-                    {
-                      name: "Generation 2",
-                      isAlive: "no",
-                      hatteKinder: "yes",
-                      kinder: [
-                        {
-                          name: "Generation 3",
-                          isAlive: "no",
-                          hatteKinder: "yes",
-                          kinder: [
-                            {
-                              name: "Generation 4",
-                              isAlive: "no",
-                              hatteKinder: "yes",
-                              kinder: [
-                                {
-                                  name: "Generation 5",
-                                  isAlive: "no",
-                                  hatteKinder: "no",
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            }),
-          ).toBe(true);
-        });
-
-        it("accepts a living descendant in the fifth generation", () => {
-          expect(
-            requiresFurtherGenerations({
-              hatteKinder: "yes",
-              kinder: [
-                {
-                  name: "Generation 1",
-                  isAlive: "no",
-                  hatteKinder: "yes",
-                  kinder: [
-                    {
-                      name: "Generation 2",
-                      isAlive: "no",
-                      hatteKinder: "yes",
-                      kinder: [
-                        {
-                          name: "Generation 3",
-                          isAlive: "no",
-                          hatteKinder: "yes",
-                          kinder: [
-                            {
-                              name: "Generation 4",
-                              isAlive: "no",
-                              hatteKinder: "yes",
-                              kinder: [
-                                { name: "Generation 5", isAlive: "yes" },
-                              ],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            }),
-          ).toBe(false);
-        });
       });
 
       expect(result).toHaveLength(3);
@@ -327,6 +223,203 @@ describe("calculateInheritance", () => {
           { name: "Kind 2", share: share(3, 8), order: 1 },
         ]),
       );
+    });
+  });
+
+  describe("result-page conditions", () => {
+    it("detects when no first- or second-order heirs are alive", () => {
+      expect(
+        hasNoFirstOrSecondOrderHeirs({
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind", isAlive: "no", hatteKinder: "no" }],
+          elternteile: [
+            { name: "Elternteil", isAlive: "no", hatteKinder: "no" },
+          ],
+        }),
+      ).toBe(true);
+    });
+
+    it("does not report missing heirs while a second-order heir is alive", () => {
+      expect(
+        hasNoFirstOrSecondOrderHeirs({
+          hatteKinder: "no",
+          elternteile: [{ name: "Elternteil", isAlive: "yes" }],
+        }),
+      ).toBe(false);
+    });
+
+    it("detects a dead descendant in the fifth generation who had further children", () => {
+      expect(
+        kinderRequireFurtherGenerations({
+          hatteKinder: "yes",
+          kinder: [
+            {
+              name: "Generation 1",
+              isAlive: "no",
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  name: "Generation 2",
+                  isAlive: "no",
+                  hatteKinder: "yes",
+                  kinder: [
+                    {
+                      name: "Generation 3",
+                      isAlive: "no",
+                      hatteKinder: "yes",
+                      kinder: [
+                        {
+                          name: "Generation 4",
+                          isAlive: "no",
+                          hatteKinder: "yes",
+                          kinder: [
+                            {
+                              name: "Generation 5",
+                              isAlive: "no",
+                              hatteKinder: "yes",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+      ).toBe(true);
+    });
+
+    it("does not require further generations when the fifth generation died without children", () => {
+      expect(
+        kinderRequireFurtherGenerations({
+          hatteKinder: "yes",
+          kinder: [
+            {
+              name: "Generation 1",
+              isAlive: "no",
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  name: "Generation 2",
+                  isAlive: "no",
+                  hatteKinder: "yes",
+                  kinder: [
+                    {
+                      name: "Generation 3",
+                      isAlive: "no",
+                      hatteKinder: "yes",
+                      kinder: [
+                        {
+                          name: "Generation 4",
+                          isAlive: "no",
+                          hatteKinder: "yes",
+                          kinder: [
+                            {
+                              name: "Generation 5",
+                              isAlive: "no",
+                              hatteKinder: "no",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+      ).toBe(false);
+    });
+
+    it("accepts a living descendant in the fifth generation", () => {
+      expect(
+        kinderRequireFurtherGenerations({
+          hatteKinder: "yes",
+          kinder: [
+            {
+              name: "Generation 1",
+              isAlive: "no",
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  name: "Generation 2",
+                  isAlive: "no",
+                  hatteKinder: "yes",
+                  kinder: [
+                    {
+                      name: "Generation 3",
+                      isAlive: "no",
+                      hatteKinder: "yes",
+                      kinder: [
+                        {
+                          name: "Generation 4",
+                          isAlive: "no",
+                          hatteKinder: "yes",
+                          kinder: [{ name: "Generation 5", isAlive: "yes" }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+      ).toBe(false);
+    });
+
+    it("kinderRequireFurtherGenerations ignores a depth limit hit on the elternteile branch", () => {
+      const input: InheritanceInput = {
+        hatteKinder: "no",
+        elternteile: [
+          {
+            name: "Elternteil A",
+            isAlive: "no",
+            hatteKinder: "yes",
+            kinder: [
+              {
+                name: "Geschwister 1",
+                isAlive: "no",
+                hatteKinder: "yes",
+                kinder: [
+                  {
+                    name: "Generation 2",
+                    isAlive: "no",
+                    hatteKinder: "yes",
+                    kinder: [
+                      {
+                        name: "Generation 3",
+                        isAlive: "no",
+                        hatteKinder: "yes",
+                        kinder: [
+                          {
+                            name: "Generation 4",
+                            isAlive: "no",
+                            hatteKinder: "yes",
+                            kinder: [
+                              {
+                                name: "Generation 5",
+                                isAlive: "no",
+                                hatteKinder: "yes",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(elternteileRequireFurtherGenerations(input)).toBe(true);
+      expect(kinderRequireFurtherGenerations(input)).toBe(false);
     });
   });
 
