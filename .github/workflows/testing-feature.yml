@@ -71,7 +71,7 @@ jobs:
         with:
           environment: environments/testing-feature
           version: ${{ needs.build-push-image-testing-feature.outputs.prod_image_tag }}
-          deploying_repo: a2j-rechtsantragstelle
+          deploying_repo: a2j-rechtsantragstelle-prod-testing-feature
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
           github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
