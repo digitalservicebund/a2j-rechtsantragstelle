@@ -508,5 +508,17 @@ export const translations = {
     cardButtonLabelStudie: {
       de: "Jetzt mitmachen",
     },
+    boxZugangeZumRecht: {
+      de: "Digitale Zugänge zum Recht entwickeln und testen",
+    },
+    boxZugangeZumRechtContent: {
+      de: "Wir schaffen und erproben neue Rahmenbedingungen, damit Rechtsuchenden der Zugang zum Recht erleichtert wird. Dabei übernimmt der Bund in Projektpartnerschaft mit interessierten Ländern und Gerichten eine koordinierende Rolle bei der Entwicklung und Erprobung der Onlinedienste. Die Erprobung erfolgt im Rahmen der Digitalisierungsprojekte Digitale Rechtsantragstelle und Zivilgerichtliches Online-Verfahren, die vom Bundesministerium der Justiz und für Verbraucherschutz in Zusammenarbeit mit der DigitalService GmbH des Bundes durchgeführt werden.",
+    },
+    boxZugangeZumRechtProjektLink: {
+      de: "zugang-zum-recht-projekte.de",
+    },
+    boxZugangeZumRechtJustizLink: {
+      de: "justiz.de",
+    },
   },
 } satisfies TranslationRecord;
