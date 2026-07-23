@@ -194,7 +194,6 @@ function App() {
             )}
             target={skipContentLinkTarget}
           />
-          <div>This is a feature testing environment</div>
           <PageHeader {...pageHeaderProps} />
           <Breadcrumbs
             breadcrumbs={breadcrumbs}
@@ -205,6 +204,7 @@ function App() {
             )}
           />
           <main className="min-h-0 overflow-auto" id="main">
+            <div>This is a feature testing environment</div>
             <Outlet />
           </main>
           <footer>
