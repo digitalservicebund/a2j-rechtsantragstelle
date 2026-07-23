@@ -100,6 +100,12 @@ jobs:
           path: image.tar.gz
           retention-days: 1
 
+  deploy-testing-feature:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/enable-branch-deployment'
+    needs: [code-quality, verify-local-e2e, build-app-image]
+    uses: ./.github/workflows/testing-feature.yml
+    secrets: inherit
+
   push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
