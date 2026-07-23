@@ -194,6 +194,7 @@ function App() {
             )}
             target={skipContentLinkTarget}
           />
+          <div>This is a feature testing environment</div>
           <PageHeader {...pageHeaderProps} />
           <Breadcrumbs
             breadcrumbs={breadcrumbs}
