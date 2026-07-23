@@ -58,7 +58,9 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
 
   for (const page of Object.values(pagesConfig)) {
     if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = `/${page.stepId}`;
+      const stepId = page.stepId.startsWith("/")
+        ? page.stepId
+        : `/${page.stepId}`;
       fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
 
