@@ -19,7 +19,7 @@ const CardGroup = ({ cards }: { cards: CardGroupItem[] }) => {
       lgColumn={{ start: 1, span: 12 }}
       xlColumn={{ start: 1, span: 12 }}
     >
-      <div className="grid grid-cols-12 gap-16">
+      <div className="grid grid-cols-12 gap-32">
         {cards.map((card) => (
           <div
             key={card.id}
