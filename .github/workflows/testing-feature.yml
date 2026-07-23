@@ -58,7 +58,7 @@ jobs:
       - run: ./docker.sh --push prod-testing-feature
       - run: ./docker.sh --sign prod-testing-feature
       - id: prod_image_tag
-        run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
+        run: echo "prod_image_tag=$(./docker.sh --prodTestingFeatureImageTag)" >> $GITHUB_OUTPUT
     outputs:
       prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
 
