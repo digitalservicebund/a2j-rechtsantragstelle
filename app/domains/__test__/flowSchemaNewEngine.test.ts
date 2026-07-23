@@ -17,6 +17,13 @@ import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 
+// Back from a page can point at a completed array item: the engine resolves
+// that to a concrete path ("/angehoerige/0/x"), while the testcase still
+// declares it with the array wildcard ("/angehoerige/#/x"). Normalize "#" to
+// a digit first so the existing removeArrayIndex() strips both forms the same way.
+const normalizePrevPath = (path: string) =>
+  removeArrayIndex(path.replaceAll("#", "0"));
+
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
   nachlassErbscheinAnfrageTestCases,
@@ -183,7 +190,9 @@ function runTestcases<T extends UserData>(
             expect(flowSessionEngine.nextPath).toBe(nextStepId);
 
             if (idx > 0 && previousStepId !== undefined) {
-              expect(flowSessionEngine.prevPath).toBe(previousStepId);
+              expect(normalizePrevPath(flowSessionEngine.prevPath ?? "")).toBe(
+                normalizePrevPath(previousStepId),
+              );
             }
           }
 
