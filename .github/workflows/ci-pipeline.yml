@@ -100,7 +100,7 @@ jobs:
           path: image.tar.gz
           retention-days: 1
 
-  deploy-testing-feature:
+  testing-feature:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/enable-branch-deployment'
     needs: [code-quality, verify-local-e2e, build-app-image]
     permissions:
