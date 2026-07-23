@@ -55,12 +55,15 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
+  // TODO: Remove after old page configs are migrated to the new leading-slash format
+  const normalizedPageConfigs = Object.values(pagesConfig).map((page) => ({
+    ...page,
+    stepId: page.stepId.startsWith("/") ? page.stepId : `/${page.stepId}`,
+  }));
 
-  for (const page of Object.values(pagesConfig)) {
+  for (const page of normalizedPageConfigs) {
     if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = page.stepId.startsWith("/")
-        ? page.stepId
-        : `/${page.stepId}`;
+      const stepId = page.stepId;
       fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
 
@@ -73,7 +76,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
           continue;
         }
 
-        const stepId = `/${page.stepId}/${arrayPageKey}`;
+        const stepId = `${page.stepId}/${arrayPageKey}`;
         fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
       }
     }
