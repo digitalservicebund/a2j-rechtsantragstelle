@@ -9,6 +9,21 @@ const happyPathData: NachlassErbscheinAnfrageUserData = {
 };
 
 export const angehoerigeTestCases = {
+  noAngehoerigeEntered: [
+    {
+      stepId: "/angehoerige/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...happyPathData,
+      },
+    },
+    {
+      stepId: "/angehoerige/warnung",
+    },
+    {
+      stepId: "/angehoerige/uebersicht",
+    },
+  ],
   deceasedAngehoerige: [
     {
       stepId: "/angehoerige/uebersicht",
