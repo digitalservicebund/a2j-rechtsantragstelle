@@ -12,7 +12,7 @@ env:
 jobs:
   deploy-testing-feature:
     runs-on: ubuntu-latest
-    #environment: testing-feature
+    environment: testing-feature
     permissions:
       id-token: write # for cosign w/ keyless signing
       packages: write # for updating cosign attestation
@@ -57,16 +57,16 @@ jobs:
           severity: "CRITICAL,HIGH"
       - run: ./docker.sh --push prod-testing-feature
       - run: ./docker.sh --sign prod-testing-feature
-      #- name: Deploy new testing feature image
-      #- uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
-      #- with:
-      #    environment: environments/testing-feature
-      #    version: ${{ env.PROD_IMAGE_TAG }}
-      #    deploying_repo: a2j-rechtsantragstelle
-      #    infra_repo: a2j-rechtsantragstelle-infra
-      #    github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
-      #    github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
-      #    app: a2j-testing-feature
-      #    argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
-      #    argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
-      #    argocd_sync_timeout: 600
+      - name: Deploy new testing feature image
+        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        with:
+          environment: environments/testing-feature
+          version: ${{ env.PROD_IMAGE_TAG }}
+          deploying_repo: a2j-rechtsantragstelle
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-testing-feature
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+          argocd_sync_timeout: 600
