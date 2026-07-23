@@ -1,13 +1,13 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import {
+  mockBeguenstigtenArray,
+  nachlassErbscheinAnfrageHappyPathData,
+} from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const happyPathData: NachlassErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
-  verstorbenePersonStrasse: "Musterstraße",
-  verstorbenePersonHausnummer: "1",
-  verstorbenePersonOrt: "Musterstadt",
+  ...nachlassErbscheinAnfrageHappyPathData,
   testamentArt: "none",
-  antragstellendePersonTelefonnummer: "0123456789",
 };
 
 export const ehepartnerTestCases = {
@@ -36,6 +36,33 @@ export const ehepartnerTestCases = {
       stepId: "/angehoerige/uebersicht",
     },
   ],
+  widowedWithTestament: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/name",
+      userInput: {
+        ...happyPathData,
+        testamentArt: "erbvertrag",
+        verstorbeneFamilienstand: "verwitwet",
+        beguenstigten: mockBeguenstigtenArray,
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+      },
+    },
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/sterbedatum-ort",
+      userInput: {
+        spouseSterbedatum: {
+          day: "01",
+          month: "01",
+          year: "2020",
+        },
+        spouseSterbeort: "Musterstadt",
+      },
+    },
+    {
+      stepId: "/nachlass/grundbesitz-frage",
+    },
+  ],
   divorced: [
     {
       stepId: "/ehepartner-oder-ehepartnerin/name",
@@ -48,6 +75,21 @@ export const ehepartnerTestCases = {
     },
     {
       stepId: "/angehoerige/uebersicht",
+    },
+  ],
+  divorcedWithTestament: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/name",
+      userInput: {
+        ...happyPathData,
+        verstorbeneFamilienstand: "geschieden",
+        testamentArt: "handwritten",
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+      },
+    },
+    {
+      stepId: "/nachlass/grundbesitz-frage",
     },
   ],
   marriedSameAddressSingleNationality: [
