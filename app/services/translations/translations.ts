@@ -364,14 +364,23 @@ export const translations = {
     },
   },
   homepage: {
+    heroHeading: {
+      de: "Onlinedienste der Justiz",
+    },
+    heroContent: {
+      de: "Der Zugang zu Ihrem Recht – Hier erhalten Sie Informationen, Unterstützung bei der digitalen Antragstellung und der Kommunikation mit Gerichten",
+    },
     headingOnlinedieste: {
       de: "Onlinedienste im Überblick",
     },
-    headingHilfreicheInformationen: {
-      de: "Hilfreiche Informationen",
+    boxProjektPartnerHeading: {
+      de: "Ein Pilotprojekt des Bundesministeriums der Justiz und für Verbraucherschutz",
     },
-    headingMitmachen: {
-      de: "Mitmachen",
+    boxProjektPartnerContent: {
+      de: "Die hier aufgeführten Onlinedienste werden derzeit im Rahmen eines Pilotprojekts des Bundesministeriums der Justiz und für Verbraucherschutz entwickelt und erprobt. Sie sollen schrittweise erweitert werden. Die Erprobung erfolgt in Projektpartnerschaft mit interessierten Ländern und Gerichten.",
+    },
+    boxProjektPartnerAltText: {
+      de: "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
     },
     cardIdFGR: {
       de: "FGR",
@@ -463,6 +472,9 @@ export const translations = {
     cardButtonLabelErbschein: {
       de: "Zum Wegweiser Erbschein",
     },
+    headingHilfreicheInformationen: {
+      de: "Hilfreiche Informationen",
+    },
     cardIdRechtsprobleme: {
       de: "Rechtsprobleme",
     },
@@ -477,6 +489,9 @@ export const translations = {
     },
     cardButtonLabelRechtsprobleme: {
       de: "„Mein Justizpostfach“ einrichten",
+    },
+    headingMitmachen: {
+      de: "Mitmachen",
     },
     cardIdAnleitung: {
       de: "Anleitung",

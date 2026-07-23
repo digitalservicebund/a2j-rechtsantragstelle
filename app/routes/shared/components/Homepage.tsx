@@ -2,6 +2,7 @@ import Heading from "~/components/common/Heading";
 import { Icon } from "~/components/common/Icon";
 import Box from "~/components/content/Box";
 import CardGroup from "~/components/content/card/CardGroup";
+import Hero from "~/components/content/Hero";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -80,7 +81,29 @@ const Homepage = () => {
 
   return (
     <>
-      <GridSection pt="auto" pb="auto">
+      <GridSection className="bg-kern-action-default" pt="40" pb="40">
+        <Grid>
+          <GridItem
+            mdColumn={{ start: 1, span: 7 }}
+            lgColumn={{ start: 1, span: 8 }}
+            xlColumn={{ start: 1, span: 8 }}
+          >
+            <Hero
+              heading={{
+                tagName: "h1",
+                text: translations.homepage.heroHeading.de,
+                size: "xLarge",
+                managedByParent: true,
+              }}
+              content={{
+                html: translations.homepage.heroContent.de,
+              }}
+              sectionBackgroundColor="blue"
+            />
+          </GridItem>
+        </Grid>
+      </GridSection>
+      <GridSection pt="40" pb="0">
         <Grid>
           <GridItem
             smColumn={{ start: 1, span: 10 }}
@@ -92,20 +115,22 @@ const Homepage = () => {
               heading={{
                 tagName: "h2",
                 size: "medium",
-                text: "Ein Pilotprojekt des Bundesministeriums der Justiz und für Verbraucherschutz",
+                text: translations.homepage.boxProjektPartnerHeading.de,
                 managedByParent: true,
               }}
-              content="Die hier aufgeführten Onlinedienste werden derzeit im Rahmen eines Pilotprojekts des Bundesministeriums der Justiz und für Verbraucherschutz entwickelt und erprobt. Sie sollen schrittweise erweitert werden. Die Erprobung erfolgt in Projektpartnerschaft mit interessierten Ländern und Gerichten."
+              content={translations.homepage.boxProjektPartnerContent.de}
               image={{
                 url: "app/assets/BMJV_Logo.svg",
                 alternativeText:
-                  "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
+                  translations.homepage.boxProjektPartnerAltText.de,
+                width: 180,
+                className: "mt-8",
               }}
             />
           </GridItem>
         </Grid>
       </GridSection>
-      <GridSection pt="80" pb="80">
+      <GridSection pt="0" pb="80">
         <Grid>
           <GridItem
             smColumn={{ start: 1, span: 12 }}
@@ -121,14 +146,35 @@ const Homepage = () => {
             />
 
             <CardGroup cards={serviceCards} />
+          </GridItem>
+        </Grid>
+      </GridSection>
+      <GridSection pt="0" pb="80">
+        <Grid>
+          <GridItem
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
+          >
             <Heading
               tagName="h2"
               text={translations.homepage.headingHilfreicheInformationen.de}
               managedByParent
               className="kern-heading-x-large p-0! outline-none pt-40! pb-40!"
             />
-
             <CardGroup cards={infoCards} />
+          </GridItem>
+        </Grid>
+      </GridSection>
+      <GridSection pt="0" pb="80">
+        <Grid>
+          <GridItem
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
+          >
             <Heading
               tagName="h2"
               text={translations.homepage.headingMitmachen.de}
@@ -150,7 +196,7 @@ const Homepage = () => {
           </GridItem>
         </Grid>
       </GridSection>
-      <GridSection className="bg-kern-layout-background-hued" pt="40" pb="40">
+      <GridSection className="bg-kern-layout-background-hued">
         <Grid>
           <GridItem
             smColumn={{ start: 1, span: 8 }}
