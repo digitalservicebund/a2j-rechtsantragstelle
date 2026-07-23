@@ -103,6 +103,10 @@ jobs:
   deploy-testing-feature:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/enable-branch-deployment'
     needs: [code-quality, verify-local-e2e, build-app-image]
+    permissions:
+      id-token: write # for cosign w/ keyless signing
+      packages: write # for updating cosign attestation
+      security-events: write
     uses: ./.github/workflows/testing-feature.yml
     secrets: inherit
 
