@@ -80,6 +80,30 @@ const Homepage = () => {
 
   return (
     <>
+      <GridSection pt="auto" pb="auto">
+        <Grid>
+          <GridItem
+            smColumn={{ start: 1, span: 10 }}
+            mdColumn={{ start: 1, span: 10 }}
+            lgColumn={{ start: 1, span: 10 }}
+            xlColumn={{ start: 1, span: 10 }}
+          >
+            <Box
+              heading={{
+                tagName: "h2",
+                size: "medium",
+                text: "Ein Pilotprojekt des Bundesministeriums der Justiz und für Verbraucherschutz",
+                managedByParent: true,
+              }}
+              content="Die hier aufgeführten Onlinedienste werden derzeit im Rahmen eines Pilotprojekts des Bundesministeriums der Justiz und für Verbraucherschutz entwickelt und erprobt. Sie sollen schrittweise erweitert werden. Die Erprobung erfolgt in Projektpartnerschaft mit interessierten Ländern und Gerichten."
+              image={{
+                url: "app/assets/BMJV_Logo.svg",
+                alternativeText: "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
+              }}
+            />
+          </GridItem>
+        </Grid>
+      </GridSection>
       <GridSection pt="80" pb="80">
         <Grid>
           <GridItem
