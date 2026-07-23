@@ -1,9 +1,9 @@
 name: buildAppImage
 on:
   push:
-    branches: [main, enable-branch-deployment]
+    branches: [main]
   pull_request:
-    branches: [main, enable-branch-deployment]
+    branches: [main]
   # Allow to run this workflow manually
   workflow_dispatch:
 
