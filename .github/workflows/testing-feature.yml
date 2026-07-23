@@ -10,7 +10,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  deploy-testing-feature:
+  build-push-image-testing-feature:
     runs-on: ubuntu-latest
     environment: testing-feature
     permissions:
@@ -57,11 +57,20 @@ jobs:
           severity: "CRITICAL,HIGH"
       - run: ./docker.sh --push prod-testing-feature
       - run: ./docker.sh --sign prod-testing-feature
-      - name: Deploy new testing feature image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+      - id: prod_image_tag
+        run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
+    outputs:
+      prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
+
+  deploy-feature-testing:
+    runs-on: ubuntu-latest
+    needs: [build-push-image-testing-feature]
+    environment: testing-feature
+    steps:
+      - uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
         with:
           environment: environments/testing-feature
-          version: ${{ env.PROD_IMAGE_TAG }}
+          version: ${{ needs.build-push-image-testing-feature.outputs.prod_image_tag }}
           deploying_repo: a2j-rechtsantragstelle
           infra_repo: a2j-rechtsantragstelle-infra
           github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
