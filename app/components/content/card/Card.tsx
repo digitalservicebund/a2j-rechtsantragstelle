@@ -1,7 +1,7 @@
 import Button from "../../common/Button";
 import Heading from "~/components/common/Heading";
 
-export type CardProps = {
+ type CardProps = {
   id: string;
   title?: string;
   heading?: string;

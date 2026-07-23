@@ -98,7 +98,8 @@ const Homepage = () => {
               content="Die hier aufgeführten Onlinedienste werden derzeit im Rahmen eines Pilotprojekts des Bundesministeriums der Justiz und für Verbraucherschutz entwickelt und erprobt. Sie sollen schrittweise erweitert werden. Die Erprobung erfolgt in Projektpartnerschaft mit interessierten Ländern und Gerichten."
               image={{
                 url: "app/assets/BMJV_Logo.svg",
-                alternativeText: "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
+                alternativeText:
+                  "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
               }}
             />
           </GridItem>
