@@ -11,7 +11,6 @@ env:
 
 jobs:
   deploy-testing-feature:
-    if: github.ref == 'refs/heads/enable-branch-deployment' || github.head_ref == 'enable-branch-deployment'
     runs-on: ubuntu-latest
     #environment: testing-feature
     permissions:
