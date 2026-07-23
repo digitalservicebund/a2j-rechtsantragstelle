@@ -9,8 +9,14 @@ export const ehepartnerFlowConfig = {
       target: "spouseSterbedatumOrt",
     },
     {
-      guard: (data) => data.verstorbeneFamilienstand === "geschieden",
+      guard: (data) =>
+        data.verstorbeneFamilienstand === "geschieden" &&
+        data.testamentArt === "none",
       target: "angehoerigeOverview",
+    },
+    {
+      guard: (data) => data.verstorbeneFamilienstand === "geschieden",
+      target: "grundbesitz",
     },
     {
       target: "spouseHasDifferentAddress",
@@ -39,15 +45,26 @@ export const ehepartnerFlowConfig = {
   ehepartnerZweiteStaatsangehoerigkeit: "ehevertrag",
   ehevertrag: [
     {
-      guard: (data) => data.hasEhevertrag !== undefined,
+      guard: (data) =>
+        data.hasEhevertrag !== undefined && data.testamentArt === "none",
       target: "angehoerigeOverview",
+    },
+    {
+      guard: (data) => data.hasEhevertrag !== undefined,
+      target: "grundbesitz",
     },
   ],
   spouseSterbedatumOrt: [
     {
       guard: (data) =>
-        objectKeysNonEmpty(data, ["spouseSterbedatum", "spouseSterbeort"]),
+        objectKeysNonEmpty(data, ["spouseSterbedatum", "spouseSterbeort"]) &&
+        data.testamentArt === "none",
       target: "angehoerigeOverview",
+    },
+    {
+      guard: (data) =>
+        objectKeysNonEmpty(data, ["spouseSterbedatum", "spouseSterbeort"]),
+      target: "grundbesitz",
     },
   ],
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

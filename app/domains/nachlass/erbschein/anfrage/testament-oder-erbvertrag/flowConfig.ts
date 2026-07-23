@@ -8,16 +8,16 @@ export const testamentOderErbvertragFlowConfig = {
     {
       guard: (data) =>
         data.testamentArt === "none" &&
-        data.verstorbeneFamilienstand === "ledig",
-      target: "angehoerigeOverview",
-    },
-    {
-      guard: (data) =>
-        data.testamentArt === "none" &&
         (data.verstorbeneFamilienstand === "verheiratet" ||
           data.verstorbeneFamilienstand === "verwitwet" ||
           data.verstorbeneFamilienstand === "geschieden"),
       target: "spouseName",
+    },
+    {
+      guard: (data) =>
+        data.testamentArt === "none" &&
+        data.verstorbeneFamilienstand === "ledig",
+      target: "angehoerigeOverview",
     },
     {
       target: "namedBeneficiariesOverview",
@@ -32,16 +32,22 @@ export const testamentOderErbvertragFlowConfig = {
     },
     {
       guard: (data) =>
+        (data.verstorbeneFamilienstand === "verheiratet" ||
+          data.verstorbeneFamilienstand === "verwitwet" ||
+          data.verstorbeneFamilienstand === "geschieden") &&
+        beguenstigtenArray.safeParse(data.beguenstigten).success,
+      target: "spouseName",
+    },
+    {
+      guard: (data) =>
         data.verstorbeneFamilienstand === "ledig" &&
+        data.testamentArt === "none" &&
         beguenstigtenArray.safeParse(data.beguenstigten).success,
       target: "angehoerigeOverview",
     },
     {
-      guard: (data) =>
-        data.verstorbeneFamilienstand === "verheiratet" ||
-        data.verstorbeneFamilienstand === "verwitwet" ||
-        data.verstorbeneFamilienstand === "geschieden",
-      target: "spouseName",
+      guard: (data) => beguenstigtenArray.safeParse(data.beguenstigten).success,
+      target: "grundbesitz",
     },
   ],
   namedBeneficiaryName: "namedBeneficiaryRelationship",

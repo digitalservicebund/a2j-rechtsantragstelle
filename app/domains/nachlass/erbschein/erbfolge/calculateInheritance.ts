@@ -43,10 +43,63 @@ type FamilyMember = {
   parentKindIndex?: string;
 };
 
+const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
+
 function hasLivingDescendant(member: FamilyMember): boolean {
   if (member.isAlive === "yes") return true;
   if (member.hatteKinder !== "yes") return false;
   return (member.kinder ?? []).some(hasLivingDescendant);
+}
+
+// At the deepest supported depth we only need further generations if that
+// person also had children (unsupported depth 6+). A depth-5 person who died
+// without children is a fully known, terminal branch.
+function hasDeadMemberAtDepth(
+  members: FamilyMember[],
+  targetDepth: number,
+  currentDepth = 1,
+): boolean {
+  return members.some(
+    (member) =>
+      (currentDepth === targetDepth &&
+        member.isAlive === "no" &&
+        member.hatteKinder === "yes") ||
+      (currentDepth < targetDepth &&
+        hasDeadMemberAtDepth(
+          member.kinder ?? [],
+          targetDepth,
+          currentDepth + 1,
+        )),
+  );
+}
+
+// Kept separate from elternteileRequireFurtherGenerations (rather than one combined
+// check) so a depth limit hit in one branch doesn't gate reachability of the other
+// branch's summary page: both hub pages (kind1Summary, elternteilSummary) use this
+// guard, and a single combined check would make BOTH summaries unreachable once
+// either branch trips the limit, blocking the user from going back to fix it.
+export function kinderRequireFurtherGenerations(
+  input: InheritanceInput,
+): boolean {
+  return hasDeadMemberAtDepth(
+    input.kinder ?? [],
+    MAX_SUPPORTED_DESCENDANT_DEPTH,
+  );
+}
+
+export function elternteileRequireFurtherGenerations(
+  input: InheritanceInput,
+): boolean {
+  return (input.elternteile ?? []).some((parent) =>
+    hasDeadMemberAtDepth(
+      "kinder" in parent ? (parent.kinder ?? []) : [],
+      MAX_SUPPORTED_DESCENDANT_DEPTH,
+    ),
+  );
+}
+
+export function hasNoFirstOrSecondOrderHeirs(input: InheritanceInput): boolean {
+  return calculateInheritance(input).every((heir) => heir.order === 0);
 }
 
 type HeirEntry = { share: Fraction; depth: number };

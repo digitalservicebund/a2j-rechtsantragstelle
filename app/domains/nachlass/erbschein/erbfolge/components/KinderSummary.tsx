@@ -118,6 +118,16 @@ function KindSummaryItem({
               {item.isAlive === "yes" ? "Ja" : "Nein"}
             </dd>
           </div>
+          {item.isAlive === "no" && (
+            <div className="kern-description-list-item">
+              <dt className="kern-description-list-item__key">
+                Hatte weitere Kinder?
+              </dt>
+              <dd className="kern-description-list-item__value">
+                {item.hatteKinder === "yes" ? "Ja" : "Nein"}
+              </dd>
+            </div>
+          )}
         </dl>
         {actions}
       </div>
