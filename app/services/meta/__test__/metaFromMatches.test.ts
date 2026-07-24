@@ -24,7 +24,6 @@ describe("metaFromMatches", () => {
         id: "",
         pathname: "",
         params: {},
-        data: undefined,
         handle: undefined,
       },
       {
@@ -40,7 +39,6 @@ describe("metaFromMatches", () => {
         id: "",
         pathname: "",
         params: {},
-        data: undefined,
         handle: undefined,
       },
     ];
@@ -71,7 +69,6 @@ describe("metaFromMatches", () => {
         id: "",
         pathname: "",
         params: {},
-        data: undefined,
         handle: undefined,
       },
     ];
