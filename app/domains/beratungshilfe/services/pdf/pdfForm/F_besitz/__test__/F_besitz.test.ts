@@ -71,11 +71,11 @@ describe("F_besitz", () => {
 
       expect(pdfValues.f1Konten1.value).toBe(false);
       expect(pdfValues.f1Konten2.value).toBe(true);
-      expect(pdfValues.f1InhaberA.value).toBe(undefined);
-      expect(pdfValues.f2InhaberB.value).toBe(undefined);
-      expect(pdfValues.f2InhaberC.value).toBe(undefined);
+      expect(pdfValues.f1InhaberA.value).toBeUndefined();
+      expect(pdfValues.f2InhaberB.value).toBeUndefined();
+      expect(pdfValues.f2InhaberC.value).toBeUndefined();
       expect(pdfValues.f3Bank1.value).toBe("Siehe Anhang");
-      expect(pdfValues.f4Kontostand.value).toBe(undefined);
+      expect(pdfValues.f4Kontostand.value).toBeUndefined();
 
       expect(attachment).toContainEqual({ title: "Bankkonten", level: "h3" });
       expect(attachment).toContainEqual({ title: "Bankkonto 3", level: "h4" });
@@ -186,9 +186,9 @@ describe("F_besitz", () => {
 
       expect(pdfValues.f5Grundeigentum1.value).toBe(false);
       expect(pdfValues.f5Grundeigentum2.value).toBe(true);
-      expect(pdfValues.f1InhaberA.value).toBe(undefined);
-      expect(pdfValues.f2InhaberB.value).toBe(undefined);
-      expect(pdfValues.f2InhaberC.value).toBe(undefined);
+      expect(pdfValues.f1InhaberA.value).toBeUndefined();
+      expect(pdfValues.f2InhaberB.value).toBeUndefined();
+      expect(pdfValues.f2InhaberC.value).toBeUndefined();
       expect(pdfValues.f7Nutzungsart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
     });
   });
@@ -302,15 +302,15 @@ describe("F_besitz", () => {
 
       expect(pdfValues.f13Vermoegenswerte1.value).toBe(false);
       expect(pdfValues.f13Vermoegenswerte2.value).toBe(true);
-      expect(pdfValues.f14InhaberA.value).toBe(undefined);
-      expect(pdfValues.f14InhaberB.value).toBe(undefined);
-      expect(pdfValues.f14VermoegenswerteC.value).toBe(undefined);
+      expect(pdfValues.f14InhaberA.value).toBeUndefined();
+      expect(pdfValues.f14InhaberB.value).toBeUndefined();
+      expect(pdfValues.f14VermoegenswerteC.value).toBeUndefined();
       expect(pdfValues.f15Bezeichnung.value).toBe(
         SEE_IN_ATTACHMENT_DESCRIPTION,
       );
-      expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
-        undefined,
-      );
+      expect(
+        pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value,
+      ).toBeUndefined();
 
       expect(attachment[0]).toEqual({
         title: "Sonstige Vermögenswerte",
