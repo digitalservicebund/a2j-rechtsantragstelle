@@ -29,9 +29,9 @@ describe("applyStringReplacement", () => {
       const inputObj = {
         isVisible: "hasArbeit",
       };
-      expect(applyStringReplacement(inputObj, { hasArbeit: false })).toEqual(
-        undefined,
-      );
+      expect(
+        applyStringReplacement(inputObj, { hasArbeit: false }),
+      ).toBeUndefined();
     });
 
     it("should remove objects inside of arrays", () => {
