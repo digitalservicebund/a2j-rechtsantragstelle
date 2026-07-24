@@ -41,7 +41,7 @@ export function getDataListOptions(
     }
     case "nationalities": {
       return nationalities.map((nationality) => ({
-        value: nationality.nationality,
+        value: nationality.displayName,
         label: nationality.displayName,
       }));
     }

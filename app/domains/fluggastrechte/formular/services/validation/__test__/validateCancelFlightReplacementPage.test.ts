@@ -43,7 +43,7 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error!.issues.length).toBe(4);
+    expect(result.error!.issues).toHaveLength(4);
     expect(
       result.error?.issues.some((issue) =>
         issue.path.includes("annullierungErsatzverbindungAbflugsDatum"),
@@ -62,7 +62,7 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.issues.length).toBe(4);
+    expect(result.error?.issues).toHaveLength(4);
     expect(
       result.error?.issues.some((issue) =>
         issue.path.includes("annullierungErsatzverbindungAbflugsZeit"),
@@ -81,7 +81,7 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.issues.length).toBe(4);
+    expect(result.error?.issues).toHaveLength(4);
     expect(
       result.error?.issues.some((issue) =>
         issue.path.includes("annullierungErsatzverbindungAnkunftsDatum"),
@@ -100,7 +100,7 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.issues.length).toBe(4);
+    expect(result.error?.issues).toHaveLength(4);
     expect(
       result.error?.issues.some((issue) =>
         issue.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
@@ -119,7 +119,7 @@ describe("validateCancelFlightReplacementPage", () => {
     });
 
     expect(result.success).toBe(false);
-    expect(result.error?.issues.length).toBe(4);
+    expect(result.error?.issues).toHaveLength(4);
     expect(
       result.error?.issues.some((issue) =>
         issue.path.includes("annullierungErsatzverbindungAnkunftsZeit"),
