@@ -1,7 +1,12 @@
 import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
-import type { PageConfigMap, NodeKey, InferredUserData } from "./types";
-import type { PageData } from "../pageDataSchema";
+import {
+  type PageConfigMap,
+  type NodeKey,
+  type InferredUserData,
+} from "./types";
+import { type PageData } from "../pageDataSchema";
+import { runSimulation } from "~/services/flow/newFlowEngine/simulate";
 
 // Navigates/creates the nested path in `obj` using `arrayPath` + `indexes`,
 // then sets `fieldName = value` on the deepest object.
@@ -35,7 +40,7 @@ export const pruneUserData = <C extends PageConfigMap>(
     scopeData: Record<string, unknown>;
     arrayPath: string[];
   }>,
-  data: InferredUserData<C> & { pageData: PageData },
+  data: InferredUserData<C>,
 ): InferredUserData<C> => {
   const result: Record<string, unknown> = {};
 
@@ -70,3 +75,13 @@ export const pruneUserData = <C extends PageConfigMap>(
 
   return result as InferredUserData<C>;
 };
+
+export const getPrunedUserDataForPdf = <C extends PageConfigMap>(
+  compiledFlow: CompiledFlow<C>,
+  userData: InferredUserData<C>,
+) =>
+  pruneUserData(
+    compiledFlow,
+    runSimulation(userData, compiledFlow).visitedContexts,
+    userData,
+  );

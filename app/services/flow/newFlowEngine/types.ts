@@ -53,7 +53,7 @@ type ExtractNodeSchema<Node> = Node extends { pageSchema: infer S }
 
 export type InferredUserData<C extends PageConfigMap> = Partial<
   UnionToIntersection<ExtractNodeSchema<C[keyof C]>>
->;
+> & { pageData?: PageData };
 
 // --- Routing & Guards ---
 type Guard<Data> = (data: Data) => boolean;
@@ -69,5 +69,5 @@ export type TransitionConfig<Key, Data> =
 
 export type TransitionConfigMap<C extends PageConfigMap> = Record<
   NodeKey<C>,
-  TransitionConfig<NodeKey<C>, InferredUserData<C> & { pageData: PageData }>
+  TransitionConfig<NodeKey<C>, InferredUserData<C>>
 >;

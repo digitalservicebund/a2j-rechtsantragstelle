@@ -24,6 +24,11 @@ import type { Translations } from "~/services/translations/getTranslationByKey";
 import { today, pdfDateFormat } from "~/util/date";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbscheinAnfragePdfFromUserdata";
+import { type UserData } from "~/domains/userData";
+import { flows } from "~/domains/flows.server";
+import { getPrunedUserDataForPdf } from "~/services/flow/newFlowEngine/pruneUserData";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData
@@ -102,11 +107,17 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   const flowTranslations = await fetchTranslations(flowId);
   const { pdfFunction, name } = pdfConfigs[flowId as keyof typeof pdfConfigs];
   const cookieHeader = request.headers.get("Cookie");
+  const sessionData = await getSessionData(flowId, cookieHeader);
 
-  const { prunedData: userData } = pruneIrrelevantData(
-    await getSessionData(flowId, cookieHeader),
-    flowId,
-  );
+  // TODO: remove after migration to new flow engine
+  let userData: UserData;
+  if ("newEngineConfig" in flows[flowId]) {
+    const compiledStaticFlow = flows[flowId]
+      .newEngineConfig as CompiledFlow<PageConfigMap>;
+    userData = getPrunedUserDataForPdf(compiledStaticFlow, sessionData);
+  } else {
+    userData = pruneIrrelevantData(sessionData, flowId).prunedData;
+  }
   if (isEmpty(userData)) return redirect(flowId);
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
 

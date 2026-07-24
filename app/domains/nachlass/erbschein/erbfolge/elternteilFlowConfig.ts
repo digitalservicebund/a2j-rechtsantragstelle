@@ -4,12 +4,9 @@ import {
   type TransitionConfig,
   type TransitionConfigMap,
 } from "~/services/flow/newFlowEngine/types";
-import { type PageData } from "~/services/flow/pageDataSchema";
 import { type NachlassErbfolgePages } from "./pages";
 
-type GuardData = InferredUserData<NachlassErbfolgePages> & {
-  pageData: PageData;
-};
+type GuardData = InferredUserData<NachlassErbfolgePages>;
 type NodeKeys = NodeKey<NachlassErbfolgePages>;
 
 type DescendantNode = {
@@ -52,8 +49,8 @@ const elternteilKindLevelTransitions = <Depth extends number>(depth: Depth) => {
     [`elternteilKind${depth}Daten`]: [
       {
         target: hatteKinderTarget,
-        guard: ({ elternteile, pageData: { arrayIndexes } }: GuardData) =>
-          isDead(elternteilKindAt(elternteile, arrayIndexes, depth)),
+        guard: ({ elternteile, pageData }: GuardData) =>
+          isDead(elternteilKindAt(elternteile, pageData?.arrayIndexes, depth)),
       },
       { target: "elternteilSummary", guard: () => true },
     ],
@@ -61,8 +58,10 @@ const elternteilKindLevelTransitions = <Depth extends number>(depth: Depth) => {
       {
         target: nextDatenTarget,
         type: "addArrayItem",
-        guard: ({ elternteile, pageData: { arrayIndexes } }: GuardData) =>
-          isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, depth)),
+        guard: ({ elternteile, pageData }: GuardData) =>
+          isDeadWithKinder(
+            elternteilKindAt(elternteile, pageData?.arrayIndexes, depth),
+          ),
       },
       { target: "elternteilSummary", guard: () => true },
     ],
@@ -78,8 +77,8 @@ export const elternteilFlowConfig = {
   elternteilDaten: [
     {
       target: "elternteilHatteKinder",
-      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
-        isDead(elternteilKindAt(elternteile, arrayIndexes, 0)),
+      guard: ({ elternteile, pageData }: GuardData) =>
+        isDead(elternteilKindAt(elternteile, pageData?.arrayIndexes, 0)),
     },
     { target: "elternteilSummary", guard: () => true },
   ],
@@ -87,8 +86,10 @@ export const elternteilFlowConfig = {
     {
       target: "elternteilKind1Daten",
       type: "addArrayItem",
-      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
-        isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, 0)),
+      guard: ({ elternteile, pageData }: GuardData) =>
+        isDeadWithKinder(
+          elternteilKindAt(elternteile, pageData?.arrayIndexes, 0),
+        ),
     },
     { target: "elternteilSummary", guard: () => true },
   ],
@@ -102,16 +103,18 @@ export const elternteilFlowConfig = {
   elternteilKind5Daten: [
     {
       target: "elternteilKind5HatteKinder",
-      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
-        isDead(elternteilKindAt(elternteile, arrayIndexes, 5)),
+      guard: ({ elternteile, pageData }: GuardData) =>
+        isDead(elternteilKindAt(elternteile, pageData?.arrayIndexes, 5)),
     },
     { target: "elternteilSummary", guard: () => true },
   ],
   elternteilKind5HatteKinder: [
     {
       target: "nichtErmitteltWeitereGenerationen",
-      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
-        isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, 5)),
+      guard: ({ elternteile, pageData }: GuardData) =>
+        isDeadWithKinder(
+          elternteilKindAt(elternteile, pageData?.arrayIndexes, 5),
+        ),
     },
     { target: "elternteilSummary", guard: () => true },
   ],

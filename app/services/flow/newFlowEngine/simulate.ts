@@ -6,6 +6,10 @@ import type {
   InferredUserData,
 } from "./types";
 import type { PageData } from "../pageDataSchema";
+import {
+  ARRAY_WILDCARD,
+  type CompiledFlow,
+} from "~/services/flow/newFlowEngine/compileFlow";
 
 export type SimulationResult = {
   keys: string[];
@@ -24,10 +28,40 @@ const createEdgeTracker = <T>() => {
   };
 };
 
+export const runSimulation = <C extends PageConfigMap>(
+  data: InferredUserData<C>,
+  compiledFlow: CompiledFlow<C>,
+) =>
+  simulate(
+    compiledFlow.transitions,
+    compiledFlow.initialStep,
+    data,
+    true,
+    (key, scopeData) => {
+      const info = compiledFlow.getArrayInfoByNodeKey(key);
+      if (!info) return undefined;
+      // info.name uses "#" notation (e.g. "children#children") but scopeData
+      // is already scoped to the current item, so the real property key is
+      // just the last segment after "#" (e.g. "children").
+      const leafName = info.name.split("#").at(-1)!;
+      const items = scopeData[leafName];
+      // Treat a missing array the same as an empty one so that the add-target
+      // remains reachable even before the first item has been submitted.
+      return {
+        name: info.name,
+        count: Array.isArray(items) ? items.length : 0,
+      };
+    },
+    (key) => {
+      const stepId = compiledFlow.pages[key]?.stepId ?? "";
+      return stepId.split(ARRAY_WILDCARD).length - 1;
+    },
+  );
+
 export const simulate = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
-  currentData: InferredUserData<C> & { pageData: PageData },
+  currentData: InferredUserData<C>,
   traverseArrays = false,
   getArrayFanOut?: (
     nodeKey: NodeKey<C>,
