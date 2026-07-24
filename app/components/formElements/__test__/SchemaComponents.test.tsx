@@ -94,7 +94,7 @@ describe("SchemaComponents", () => {
       />,
     );
     const radio = getAllByRole("radio");
-    expect(radio.length).toBe(2);
+    expect(radio).toHaveLength(2);
     expect(radio[0]).toHaveAttribute("name", "field1");
     expect(radio[0]).toHaveAttribute("value", "option1");
     expect(radio[1]).toHaveAttribute("name", "field1");
@@ -112,7 +112,7 @@ describe("SchemaComponents", () => {
       />,
     );
     const radio = getAllByRole("textbox");
-    expect(radio.length).toBe(2);
+    expect(radio).toHaveLength(2);
     expect(radio[0]).toHaveAttribute("name", "field1.a");
     expect(radio[1]).toHaveAttribute("name", "field1.b");
   });
@@ -229,7 +229,7 @@ describe("SchemaComponents", () => {
     const textInput = getByRole("textbox");
     expect(textInput).toHaveAttribute("name", "field1");
 
-    expect(radio.length).toBe(2);
+    expect(radio).toHaveLength(2);
     expect(radio[0]).toHaveAttribute("name", "field2");
     expect(radio[0]).toHaveAttribute("value", "option1");
     expect(radio[1]).toHaveAttribute("name", "field2");
@@ -365,7 +365,7 @@ describe("SchemaComponents", () => {
     );
     const inputs = getAllByRole("textbox");
     expect(getByText("heading fieldset")).toBeInTheDocument();
-    expect(inputs.length).toBe(2);
+    expect(inputs).toHaveLength(2);
     expect(inputs[0]).toHaveAttribute("name", "field1");
     expect(inputs[1]).toHaveAttribute("name", "field2");
   });
@@ -379,7 +379,7 @@ describe("SchemaComponents", () => {
       />,
     );
 
-    expect(getAllByRole("textbox").length).toBe(2);
+    expect(getAllByRole("textbox")).toHaveLength(2);
 
     const textInput1 = getAllByRole("textbox")[0];
     const textInput2 = getAllByRole("textbox")[1];
@@ -465,7 +465,7 @@ describe("SchemaComponents", () => {
     const select = getByTestId("select");
     expect(select).toBeInTheDocument();
     // only the placeholder option
-    expect(select.querySelectorAll("option").length).toBe(1);
+    expect(select.querySelectorAll("option")).toHaveLength(1);
   });
 
   it("should pass dynamicOptions through to a dynamic_select field nested inside a ZodObject", () => {

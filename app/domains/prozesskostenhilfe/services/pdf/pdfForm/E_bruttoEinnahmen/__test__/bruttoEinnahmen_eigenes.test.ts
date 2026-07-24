@@ -182,8 +182,8 @@ describe("bruttoEinnahmen_eigenes", () => {
         userData: { staatlicheLeistungen: "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e16.value).toBe(undefined);
-      expect(pdfValues.e15.value).toBe(undefined);
+      expect(pdfValues.e16.value).toBeUndefined();
+      expect(pdfValues.e15.value).toBeUndefined();
     });
 
     it("should not report pension if the user receives asylbewerberleistungen", () => {
@@ -191,8 +191,8 @@ describe("bruttoEinnahmen_eigenes", () => {
         userData: { staatlicheLeistungen: "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e16.value).toBe(undefined);
-      expect(pdfValues.e15.value).toBe(undefined);
+      expect(pdfValues.e16.value).toBeUndefined();
+      expect(pdfValues.e15.value).toBeUndefined();
     });
 
     it("should report no pension if the user doesn't receive one", () => {

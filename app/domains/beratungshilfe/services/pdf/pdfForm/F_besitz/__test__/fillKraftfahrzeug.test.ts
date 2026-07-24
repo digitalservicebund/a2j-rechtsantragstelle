@@ -75,11 +75,11 @@ describe("fillKraftfahrzeug", () => {
 
     expect(pdfValues.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfValues.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
-    expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
-    expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugeA.value).toBeUndefined();
+    expect(pdfValues.f10KraftfahrzeugB.value).toBeUndefined();
+    expect(pdfValues.f10KraftfahrzeugC.value).toBeUndefined();
     expect(pdfValues.f11Fahrzeugart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
-    expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
+    expect(pdfValues.f12Verkehrswert.value).toBeUndefined();
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });
     expect(attachment).toContainEqual({ title: "Art", text: "P 40" });
@@ -125,11 +125,11 @@ describe("fillKraftfahrzeug", () => {
 
     expect(pdfValues.f9Kraftfahrzeug1.value).toBe(false);
     expect(pdfValues.f9Kraftfahrzeuge2.value).toBe(true);
-    expect(pdfValues.f10KraftfahrzeugeA.value).toBe(undefined);
-    expect(pdfValues.f10KraftfahrzeugB.value).toBe(undefined);
-    expect(pdfValues.f10KraftfahrzeugC.value).toBe(undefined);
+    expect(pdfValues.f10KraftfahrzeugeA.value).toBeUndefined();
+    expect(pdfValues.f10KraftfahrzeugB.value).toBeUndefined();
+    expect(pdfValues.f10KraftfahrzeugC.value).toBeUndefined();
     expect(pdfValues.f11Fahrzeugart.value).toBe(SEE_IN_ATTACHMENT_DESCRIPTION);
-    expect(pdfValues.f12Verkehrswert.value).toBe(undefined);
+    expect(pdfValues.f12Verkehrswert.value).toBeUndefined();
 
     expect(attachment[0]).toEqual({ title: "Kraftfahrzeuge", level: "h3" });
   });
