@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --build (app | app-testing-feature | content | prod | prod-testing-feature) | --push (app | content | prod | prod-testing-feature) | --sign (prod | prod-testing-feature))"
+HELP_TEXT="USAGE: ./docker.sh (--contentHash | --contentHashFromImage | --contentFromImage | --appFromImage | --prodImageTag | --prodTestingFeatureImageTag | --build (app | app-testing-feature | content | prod | prod-testing-feature) | --push (app | content | prod | prod-testing-feature) | --sign (prod | prod-testing-feature))"
 REGISTRY=ghcr.io
 IMAGE_NAME=digitalservicebund/a2j-rechtsantragstelle
 APP_IMAGE=$REGISTRY/$IMAGE_NAME-app
