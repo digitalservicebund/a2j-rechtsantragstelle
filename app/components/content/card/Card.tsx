@@ -1,50 +1,58 @@
 import Button from "../../common/Button";
-import { GridItem } from "~/components/layout/grid/GridItem";
 import Heading from "~/components/common/Heading";
 
-export type CardProps = {
+type CardProps = {
   id: string;
-  title: string;
-  heading: string;
-  description: string;
-  buttonLabel: string;
+  title?: string;
+  heading?: string;
+  description?: string;
+  buttonLabel?: string;
+};
+
+export type CardGroupItem = CardProps & {
+  span: number;
 };
 
 const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
   return (
-    <GridItem
-      mdColumn={{ start: 1, span: 4 }}
-      lgColumn={{ start: 3, span: 4 }}
-      xlColumn={{ start: 3, span: 4 }}
-      className="flex flex-col gap-kern-space-default"
-    >
-      <article className="kern-card">
-        <div className="kern-card__container bg-kern-neutral-025!">
-          <header className="kern-card__header">
-            <hgroup className="kern-hgroup">
-              <p
+    <article className="kern-card">
+      <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025!">
+        <header className="kern-card__header">
+          <hgroup className="kern-hgroup">
+            {heading && (
+              <Heading
                 className="kern-label text-kern-layout-text-muted! font-normal!"
-                id={id}
-              >
-                {heading}
-              </p>
+                text={heading}
+                managedByParent
+              />
+            )}
+            {title && (
               <Heading
                 tagName="h2"
                 size="medium"
                 text={title}
                 managedByParent
               />
-            </hgroup>
-          </header>
+            )}
+          </hgroup>
+        </header>
+        {description && (
           <section className="kern-card__body">
             <p className="kern-body">{description}</p>
           </section>
+        )}
+        {buttonLabel && (
           <footer className="kern-card__footer pt-kern-space-x-large!">
-            <Button aria-describedby={id} text={buttonLabel} look="secondary" />
+            <Button
+              aria-describedby={id}
+              text={buttonLabel}
+              look="secondary"
+              className="md:flex-none!"
+            />
           </footer>
-        </div>
-      </article>
-    </GridItem>
+        )}
+      </div>
+    </article>
   );
 };
 

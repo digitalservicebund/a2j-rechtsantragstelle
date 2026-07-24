@@ -1,22 +1,20 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import Card from "~/components/content/card/Card";
-import { GridSection } from "~/components/layout/grid/GridSection";
-import { Grid } from "~/components/layout/grid/Grid";
 
-const meta = {
+const meta: Meta<typeof Card> = {
   title: "Components/Card",
   component: Card,
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <GridSection>
-        <Grid>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "480px" }}>
           <Story />
-        </Grid>
-      </GridSection>
+        </div>
+      </div>
     ),
   ],
-} satisfies Meta<typeof Card>;
+};
 
 export default meta;
 

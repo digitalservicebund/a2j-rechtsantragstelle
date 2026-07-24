@@ -32,9 +32,8 @@ describe("Card", () => {
       />,
     );
 
-    const heading = screen.getByText("Heading");
     const button = screen.getByRole("button", { name: "Click me" });
 
-    expect(button).toHaveAttribute("aria-describedby", heading.id);
+    expect(button).toHaveAttribute("aria-describedby", "card-1");
   });
 });

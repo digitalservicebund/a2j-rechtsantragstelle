@@ -1,14 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import CardGroup from "../CardGroup";
-import { type CardProps } from "../Card";
+import { type CardGroupItem } from "../Card";
 
-const mockCards: CardProps[] = [
+const mockCards: CardGroupItem[] = [
   {
     id: "card-1",
     heading: "Card 1",
     title: "Title 1",
     description: "Description 1",
     buttonLabel: "Click 1",
+    span: 4,
   },
   {
     id: "card-2",
@@ -16,6 +17,7 @@ const mockCards: CardProps[] = [
     title: "Title 2",
     description: "Description 2",
     buttonLabel: "Click 2",
+    span: 4,
   },
 ];
 
@@ -38,15 +40,13 @@ describe("CardGroup", () => {
   it("should wrap each card in a grid column", () => {
     const { container } = render(<CardGroup cards={mockCards} />);
 
-    const columns = container.querySelectorAll(".kern-col-xl-4");
+    const columns = container.querySelectorAll(".xl\\:col-span-4");
 
     expect(columns).toHaveLength(mockCards.length);
   });
-  it("should render container and row structure", () => {
+  it("should render cards in a grid", () => {
     const { container } = render(<CardGroup cards={mockCards} />);
-
-    expect(container.querySelector(".kern-container")).toBeInTheDocument();
-    expect(container.querySelector(".kern-row")).toBeInTheDocument();
+    expect(container.querySelector(".grid.grid-cols-12")).toBeInTheDocument();
   });
 
   it("should not render when cards array is empty", () => {

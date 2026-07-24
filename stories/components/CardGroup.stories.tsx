@@ -1,9 +1,11 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite";
+import { type CardGroupItem } from "~/components/content/card/Card";
 import CardGroup from "~/components/content/card/CardGroup";
 import { Grid } from "~/components/layout/grid/Grid";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 
-const meta = {
+const meta: Meta<typeof CardGroup> = {
   title: "Components/CardGroup",
   component: CardGroup,
   tags: ["autodocs"],
@@ -11,24 +13,32 @@ const meta = {
     (Story) => (
       <GridSection>
         <Grid>
-          <Story />
+          <GridItem
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
+          >
+            <Story />
+          </GridItem>
         </Grid>
       </GridSection>
     ),
   ],
-} satisfies Meta<typeof CardGroup>;
+};
 
 export default meta;
 
 type Story = StoryObj<typeof CardGroup>;
 
-const mockCards = [
+const mockCards: CardGroupItem[] = [
   {
     id: "card-1",
     heading: "Card 1",
     title: "Title 1",
     description: "Description card 1",
     buttonLabel: "Button Text",
+    span: 4,
   },
   {
     id: "card-2",
@@ -36,6 +46,7 @@ const mockCards = [
     title: "Title 2",
     description: "Description card 2",
     buttonLabel: "Button Text",
+    span: 4,
   },
   {
     id: "card-3",
@@ -43,6 +54,7 @@ const mockCards = [
     title: "Title 3",
     description: "Description card 3",
     buttonLabel: "Button Text",
+    span: 4,
   },
   {
     id: "card-4",
@@ -50,6 +62,7 @@ const mockCards = [
     title: "Title 4",
     description: "Description card 4",
     buttonLabel: "Button Text",
+    span: 4,
   },
   {
     id: "card-5",
@@ -57,6 +70,7 @@ const mockCards = [
     title: "Title 5",
     description: "Description card 5",
     buttonLabel: "Button Text",
+    span: 4,
   },
   {
     id: "card-6",
@@ -64,6 +78,7 @@ const mockCards = [
     title: "Title 6",
     description: "Description card 6",
     buttonLabel: "Button Text",
+    span: 4,
   },
 ];
 
