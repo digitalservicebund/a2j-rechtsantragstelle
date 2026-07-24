@@ -18,6 +18,6 @@ describe("getDataListOptions", () => {
   it("should return no data options when the given argument is undefined", async () => {
     const actual = getDataListOptions();
 
-    expect(actual.length).toBe(0);
+    expect(actual).toHaveLength(0);
   });
 });

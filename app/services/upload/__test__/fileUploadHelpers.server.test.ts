@@ -84,7 +84,7 @@ describe("fileUploadHelpers.server", () => {
           userDataMock,
           "/beratungshilfe/antrag",
         );
-        expect(actual).toBe(undefined);
+        expect(actual).toBeUndefined();
       });
     });
   });
