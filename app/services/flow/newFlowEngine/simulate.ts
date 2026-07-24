@@ -58,7 +58,7 @@ export const runSimulation = <C extends PageConfigMap>(
     },
   );
 
-export const simulate = <C extends PageConfigMap>(
+const simulate = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
   currentData: InferredUserData<C>,

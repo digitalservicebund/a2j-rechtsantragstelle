@@ -2,6 +2,12 @@ import { PDFDocument } from "pdf-lib";
 import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+
+const getPrunedUserDataForPdfSpy = vi.spyOn(
+  pruneUserData,
+  "getPrunedUserDataForPdf",
+);
 
 vi.mock("~/services/flow/pruner/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockReturnValue({
@@ -27,6 +33,13 @@ vi.mock(
 describe("pdfDownloadLoader", () => {
   beforeEach(() => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
+  });
+
+  it("correctly calls getPrunedUserData for new engine flows", async () => {
+    const url = "https://mock-url.de/nachlass/erbschein/anfrage/download/pdf";
+    await loader(mockRouteArgsFromRequest(new Request(url)));
+
+    expect(getPrunedUserDataForPdfSpy).toHaveBeenCalled();
   });
 
   it("generates correct PDF for Beratungshilfe", async () => {
