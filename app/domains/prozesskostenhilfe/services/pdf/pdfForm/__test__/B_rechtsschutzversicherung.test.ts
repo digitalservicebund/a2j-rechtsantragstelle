@@ -274,7 +274,7 @@ describe("B_rechtsschutzversicherung", () => {
         field2Text: "",
       });
       expect(pdfValues.b2.value).toBe(true);
-      expect(pdfValues.b1.value).toBe(undefined);
+      expect(pdfValues.b1.value).toBeUndefined();
       expect(field1Text).toBe(
         "Verein/Organisation: Teilweise Kostenübernahme (siehe Belege)",
       );

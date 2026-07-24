@@ -84,7 +84,7 @@ describe("normalizeUrl", () => {
 
 describe("stripTrailingSlashFromURL", () => {
   it("returnes undefined for correct URLs", () => {
-    expect(stripTrailingSlashFromURL("https://test.url")).toEqual(undefined);
+    expect(stripTrailingSlashFromURL("https://test.url")).toBeUndefined();
   });
 
   it("returns URL without slash if needed", () => {

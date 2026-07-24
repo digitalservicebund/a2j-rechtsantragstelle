@@ -43,14 +43,14 @@ describe("I_zahlungsverpflichtungen", () => {
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen1.value,
     ).toBe("50");
-    expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBe(undefined);
+    expect(pdfValues.sonstigeZahlungsverpflichtungen2.value).toBeUndefined();
     expect(
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
-    ).toBe(undefined);
-    expect(pdfValues.gesamtbelastungmtl2.value).toBe(undefined);
+    ).toBeUndefined();
+    expect(pdfValues.gesamtbelastungmtl2.value).toBeUndefined();
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
   });
 
   it("should fill the PDF values for 2 short descriptions", () => {
@@ -94,19 +94,19 @@ describe("I_zahlungsverpflichtungen", () => {
     );
     expect(
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
     expect(pdfValues.gesamtbelastungmtl2.value).toBe("200");
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
     ).toBe("100");
-    expect(pdfValues.sonstigeZahlungsverpflichtungen3.value).toBe(undefined);
+    expect(pdfValues.sonstigeZahlungsverpflichtungen3.value).toBeUndefined();
     expect(
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen3.value,
-    ).toBe(undefined);
-    expect(pdfValues.gesamtbelastungmtl3.value).toBe(undefined);
+    ).toBeUndefined();
+    expect(pdfValues.gesamtbelastungmtl3.value).toBeUndefined();
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen3.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
   });
 
   it("should fill the PDF values for 3 short descriptions", () => {
@@ -155,7 +155,7 @@ describe("I_zahlungsverpflichtungen", () => {
     );
     expect(
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen2.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
     expect(pdfValues.gesamtbelastungmtl2.value).toBe("200");
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen2.value,
@@ -165,11 +165,11 @@ describe("I_zahlungsverpflichtungen", () => {
     );
     expect(
       pdfValues.restschuldinEurosonstigeZahlungsverpflichtungen3.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
     expect(pdfValues.gesamtbelastungmtl3.value).toBe("50");
     expect(
       pdfValues.ichalleinzahledavonsonstigeZahlungsverpflichtungen3.value,
-    ).toBe(undefined);
+    ).toBeUndefined();
   });
 
   it("should create an attachment if there are more than 3 short descriptions", () => {

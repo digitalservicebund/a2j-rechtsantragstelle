@@ -62,6 +62,6 @@ describe("addRenunciantPersonDetails", () => {
       ([firstArg]) => firstArg === "Mustermann",
     );
 
-    expect(mustermannCalls.length).toBe(2);
+    expect(mustermannCalls).toHaveLength(2);
   });
 });
