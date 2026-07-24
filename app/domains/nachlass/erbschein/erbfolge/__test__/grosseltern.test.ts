@@ -32,7 +32,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
     );
   });
 
-  it("routes to the further-generations exit page when grandparents are alive", () => {
+  it("routes to the further-orders exit page when grandparents are alive", () => {
     const session = createFlowSession(
       nachlassErbfolgeStaticFlow,
       {
@@ -44,7 +44,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
     );
 
     expect(session.nextPath).toBe(
-      "/ergebnis/erbfolge-nicht-ermittelt-weitere-generationen",
+      "/ergebnis/erbfolge-nicht-ermittelt-weitere-ordnungen",
     );
   });
 

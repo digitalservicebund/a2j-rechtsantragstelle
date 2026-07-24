@@ -62,7 +62,7 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ...elternteilFlowConfig,
     grosseltern: [
       {
-        target: "nichtErmitteltWeitereGenerationen",
+        target: "nichtErmitteltWeitereOrdnungen",
         guard: (d) => d.grosselternLeben === "yes",
       },
       { target: "ergebnis" },
