@@ -86,7 +86,7 @@ describe("SideNavMobile", () => {
       />,
     );
 
-    expect(getAllByTestId("step-stepper-link").length).toBe(3);
+    expect(getAllByTestId("step-stepper-link")).toHaveLength(3);
     expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent("Step 1");
     expect(getAllByTestId("step-stepper-link")[1]).toHaveTextContent("Step 2");
     expect(getAllByTestId("step-stepper-link")[2]).toHaveTextContent("Step 3");
@@ -123,7 +123,7 @@ describe("SideNavMobile", () => {
       />,
     );
 
-    expect(getAllByTestId("step-stepper-link").length).toBe(2);
+    expect(getAllByTestId("step-stepper-link")).toHaveLength(2);
     expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent(
       "Step Open (3/4)",
     );

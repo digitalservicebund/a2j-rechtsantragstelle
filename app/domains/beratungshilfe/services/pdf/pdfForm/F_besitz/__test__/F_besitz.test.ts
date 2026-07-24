@@ -216,7 +216,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
-      expect(attachment.length).toBe(0);
+      expect(attachment).toHaveLength(0);
     });
 
     test.each([
@@ -255,7 +255,7 @@ describe("F_besitz", () => {
       expect(pdfValues.f16RueckkaufswertoderVerkehrswertinEUR.value).toBe(
         "100000",
       );
-      expect(attachment.length).toBe(0);
+      expect(attachment).toHaveLength(0);
     });
 
     it("should add attachment when multiple vermoegen is present", () => {
