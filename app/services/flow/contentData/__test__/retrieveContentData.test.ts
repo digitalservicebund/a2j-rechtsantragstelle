@@ -68,13 +68,22 @@ describe("retrieveContentData", () => {
       "/fluggastrechte/formular",
       "/intro/start",
     );
-    expect(fetchContentPageMeta).toHaveBeenCalledOnce();
-    expect(fetchMultipleTranslations).toHaveBeenCalledOnce();
-    expect(fetchMultipleTranslations).toHaveBeenCalledWith([
-      "/fluggastrechte/formular/menu",
+  });
+
+  it("should scrub hashes from array page requests", async () => {
+    const mockPathnameWithArrayHashes =
+      "/fluggastrechte/formular/array/#/daten";
+    await retrieveContentData(
+      "form-flow-pages",
+      mockPathnameWithArrayHashes,
+      { "*": "array/#/daten" },
+      { pageData: {} },
+    );
+    expect(fetchFlowPage).toHaveBeenCalledWith(
+      "form-flow-pages",
       "/fluggastrechte/formular",
-      `/fluggastrechte/formular/summaryPage`,
-    ]);
+      "/array/daten",
+    );
   });
 
   it("should call buildCmsContentAndTranslations with replacements and return content data functions", async () => {

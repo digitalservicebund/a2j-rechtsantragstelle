@@ -11,8 +11,8 @@ import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
-import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
-import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
+import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
+import { nachlassErbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
@@ -20,6 +20,7 @@ import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
 import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -30,8 +31,8 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
-  "/erbschein/wegweiser": erbscheinWegweiserPages,
-  "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
   "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
   "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
@@ -54,10 +55,15 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
+  // TODO: Remove after old page configs are migrated to the new leading-slash format
+  const normalizedPageConfigs = Object.values(pagesConfig).map((page) => ({
+    ...page,
+    stepId: page.stepId.startsWith("/") ? page.stepId : `/${page.stepId}`,
+  }));
 
-  for (const page of Object.values(pagesConfig)) {
+  for (const page of normalizedPageConfigs) {
     if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = `/${page.stepId}`;
+      const stepId = page.stepId;
       fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
 
@@ -70,7 +76,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
           continue;
         }
 
-        const stepId = `/${page.stepId}/${arrayPageKey}`;
+        const stepId = `${page.stepId}/${arrayPageKey}`;
         fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
       }
     }
@@ -223,7 +229,7 @@ type ArrayParentPage = {
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-export type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject

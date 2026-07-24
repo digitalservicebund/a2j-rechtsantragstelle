@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   datenFields,
   hatteKinderField,
-  kinderAnzahlField,
   parentElternteilIndexSchema,
   parentKindIndexSchema,
   personUnion,
@@ -83,25 +82,19 @@ const elternteilKinderLevel = (depth: number) => {
       stepId: `${path}/hatteKinder`,
       pageSchema: hatteKinderField(prefix),
     },
-    kinderAnzahl: {
-      stepId: `${path}/kinderAnzahl`,
-      pageSchema: kinderAnzahlField(prefix),
-    },
   };
 };
 
-// Wraps a level into registry entries keyed elternteilKind{depth}Daten / …HatteKinder /
-// …KinderAnzahl. Template-literal key types keep the keys statically known so transition
+// Wraps a level into registry entries keyed elternteilKind{depth}Daten / …HatteKinder.
+// Template-literal key types keep the keys statically known so transition
 // targets in elternteilFlowConfig.ts stay type-checked.
 const elternteilKinderLevelPages = <Depth extends number>(depth: Depth) => {
-  const { daten, hatteKinder, kinderAnzahl } = elternteilKinderLevel(depth);
+  const { daten, hatteKinder } = elternteilKinderLevel(depth);
   return {
     [`elternteilKind${depth}Daten`]: daten,
     [`elternteilKind${depth}HatteKinder`]: hatteKinder,
-    [`elternteilKind${depth}KinderAnzahl`]: kinderAnzahl,
   } as Record<`elternteilKind${Depth}Daten`, typeof daten> &
-    Record<`elternteilKind${Depth}HatteKinder`, typeof hatteKinder> &
-    Record<`elternteilKind${Depth}KinderAnzahl`, typeof kinderAnzahl>;
+    Record<`elternteilKind${Depth}HatteKinder`, typeof hatteKinder>;
 };
 
 export const elternteilePages = {
@@ -117,14 +110,9 @@ export const elternteilePages = {
     stepId: "/elternteile/#/hatteKinder",
     pageSchema: hatteKinderField("elternteile#"),
   },
-  elternteilKinderAnzahl: {
-    stepId: "/elternteile/#/kinderAnzahl",
-    pageSchema: kinderAnzahlField("elternteile#"),
-  },
   ...elternteilKinderLevelPages(1),
   ...elternteilKinderLevelPages(2),
   ...elternteilKinderLevelPages(3),
   ...elternteilKinderLevelPages(4),
-  // Deepest level is terminal: no hatteKinder/kinderAnzahl follow-up.
-  elternteilKind5Daten: elternteilKinderLevel(5).daten,
+  ...elternteilKinderLevelPages(5),
 } as const;

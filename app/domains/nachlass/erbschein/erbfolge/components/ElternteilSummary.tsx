@@ -126,11 +126,13 @@ function DeleteButton({
 function PersonSummaryItem({
   name,
   isAlive,
+  hatteKinder,
   badgeLabel,
   actions,
 }: Readonly<{
   name: string;
   isAlive: string;
+  hatteKinder?: string;
   badgeLabel?: string;
   actions: React.ReactNode;
 }>) {
@@ -155,6 +157,16 @@ function PersonSummaryItem({
               {isAlive === "yes" ? "Ja" : "Nein"}
             </dd>
           </div>
+          {isAlive === "no" && (
+            <div className="kern-description-list-item">
+              <dt className="kern-description-list-item__key">
+                Hatte weitere Kinder?
+              </dt>
+              <dd className="kern-description-list-item__value">
+                {hatteKinder === "yes" ? "Ja" : "Nein"}
+              </dd>
+            </div>
+          )}
         </dl>
         {actions}
       </div>
@@ -257,6 +269,7 @@ function DescendantSection({
           key={indexes.join("-")}
           name={String(item.name ?? "")}
           isAlive={String(item.isAlive ?? "yes")}
+          hatteKinder={item.hatteKinder ? String(item.hatteKinder) : undefined}
           badgeLabel={badgeLabel}
           actions={
             <InlineActions
@@ -306,6 +319,11 @@ export function ElternteilSummary({
               key={editUrl}
               name={String(elternteil.name ?? "")}
               isAlive={String(elternteil.isAlive ?? "yes")}
+              hatteKinder={
+                elternteil.hatteKinder
+                  ? String(elternteil.hatteKinder)
+                  : undefined
+              }
               badgeLabel={
                 deceasedPersonName
                   ? `Elternteil von ${deceasedPersonName}`

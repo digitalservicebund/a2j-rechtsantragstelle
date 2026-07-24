@@ -1,6 +1,7 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/dateString";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -26,7 +27,7 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenAdresseFluggesellschaft: {
     stepId: "flugdaten/adresse-fluggesellschaft",
     pageSchema: {
-      fluggesellschaft: schemaOrEmptyString(z.string()),
+      fluggesellschaft: autoSuggestSchema(stringOptionalSchema)("airlines"),
       fluggesellschaftStrasse: stringRequiredSchema,
       fluggesellschaftHausnummer: stringRequiredSchema,
       fluggesellschaftPostleitzahl: stringRequiredSchema,
@@ -49,7 +50,9 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht1: {
     stepId: "flugdaten/zwischenstopp-uebersicht-1",
     pageSchema: {
-      ersterZwischenstopp: airportSchema.optional(),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },
@@ -57,8 +60,12 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht2: {
     stepId: "flugdaten/zwischenstopp-uebersicht-2",
     pageSchema: {
-      ersterZwischenstopp: airportSchema.optional(),
-      zweiterZwischenstopp: airportSchema.optional(),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      zweiterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },
@@ -66,9 +73,15 @@ export const fluggastrechteFlugdatenPages = {
   flugdatenZwischenstoppUebersicht3: {
     stepId: "flugdaten/zwischenstopp-uebersicht-3",
     pageSchema: {
-      ersterZwischenstopp: airportSchema.optional(),
-      zweiterZwischenstopp: airportSchema.optional(),
-      dritterZwischenstopp: airportSchema.optional(),
+      ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      zweiterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
+      dritterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
+        "airports",
+      ),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
       endAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
     },

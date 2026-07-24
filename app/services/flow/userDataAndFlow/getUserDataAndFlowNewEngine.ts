@@ -105,7 +105,12 @@ export const getUserDataAndFlowNewEngine = async (
     false;
 
   return Result.ok({
-    userData: flowSessionEngine.prunedUserData as UserDataWithPageData, // NOSONAR
+    userData: {
+      ...(flowSessionEngine.prunedUserData as UserDataWithPageData),
+      pageData: {
+        arrayIndexes,
+      },
+    },
     flow: {
       id: flowId,
       validFlowPaths: buildValidFlowPaths(flowSessionEngine),

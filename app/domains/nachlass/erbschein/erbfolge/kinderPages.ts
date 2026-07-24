@@ -1,10 +1,8 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 import {
   datenFields,
   hatteKinderField,
-  kinderAnzahlField,
   parentKindIndexSchema,
   personUnion,
 } from "./pageSchemaHelpers";
@@ -18,8 +16,8 @@ const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
 
 const kinderArray = z.array(kindSchema);
 
-// The three page-registry entries for one kinder depth. Every level repeats the
-// same daten / hatteKinder / kinderAnzahl pages, differing only by nesting depth.
+// The two page-registry entries for one kinder depth. Every level repeats the
+// same daten / hatteKinder pages, differing only by nesting depth.
 // Levels >= 2 also carry the dynamic parent select (rendered after name/isAlive).
 const kinderLevel = (depth: number) => {
   const path = "/kinder/#".repeat(depth);
@@ -38,35 +36,25 @@ const kinderLevel = (depth: number) => {
       stepId: `${path}/hatteKinder`,
       pageSchema: hatteKinderField(prefix),
     },
-    kinderAnzahl: {
-      stepId: `${path}/kinderAnzahl`,
-      pageSchema: kinderAnzahlField(prefix),
-    },
   };
 };
 
-// Wraps a level into registry entries keyed kind{depth}Daten / …HatteKinder /
-// …KinderAnzahl. The template-literal key types keep those keys statically known,
-// so transition targets in kinderFlowConfig.ts stay type-checked.
+// Wraps a level into registry entries keyed kind{depth}Daten / …HatteKinder.
+// The template-literal key types keep those keys statically known, so transition
+// targets in kinderFlowConfig.ts stay type-checked.
 const kinderLevelPages = <Depth extends number>(depth: Depth) => {
-  const { daten, hatteKinder, kinderAnzahl } = kinderLevel(depth);
+  const { daten, hatteKinder } = kinderLevel(depth);
   return {
     [`kind${depth}Daten`]: daten,
     [`kind${depth}HatteKinder`]: hatteKinder,
-    [`kind${depth}KinderAnzahl`]: kinderAnzahl,
   } as Record<`kind${Depth}Daten`, typeof daten> &
-    Record<`kind${Depth}HatteKinder`, typeof hatteKinder> &
-    Record<`kind${Depth}KinderAnzahl`, typeof kinderAnzahl>;
+    Record<`kind${Depth}HatteKinder`, typeof hatteKinder>;
 };
 
 export const kinderPages = {
   kinder: {
     stepId: "/hatteKinder",
     pageSchema: { hatteKinder: YesNoAnswer },
-  },
-  kinderAnzahl: {
-    stepId: "/kinderAnzahl",
-    pageSchema: { kinderAnzahl: createNumberIncrementSchema(1) },
   },
   kind1Summary: {
     stepId: "/kinder",
@@ -76,6 +64,5 @@ export const kinderPages = {
   ...kinderLevelPages(2),
   ...kinderLevelPages(3),
   ...kinderLevelPages(4),
-  // Deepest level is terminal: no hatteKinder/kinderAnzahl follow-up.
-  kind5Daten: kinderLevel(5).daten,
+  ...kinderLevelPages(5),
 } as const;

@@ -1,20 +1,44 @@
 import { createFlowSession } from "../createFlowSession";
 import { compileFlow } from "../compileFlow";
 import z from "zod";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 const noData = { pageData: { arrayIndexes: [] } };
 
 const pages = {
   start: { stepId: "/start" },
   middle: { stepId: "/middle", pageSchema: { answer: z.string() } },
+  array: {
+    stepId: "/array",
+    arraySummary: {
+      name: "items",
+      schema: z.array(
+        z.object({
+          vorname: z.string(),
+          nachname: z.string(),
+        }),
+      ),
+    },
+  },
+  arraySubPage: {
+    stepId: "/array/#/daten",
+    pageSchema: { "items#vorname": z.string(), "items#nachname": z.string() },
+  },
   end: { stepId: "/end" },
 } as const;
 
-const transitions = {
+const transitions: TransitionConfigMap<typeof pages> = {
   start: "middle",
-  middle: "end",
+  middle: "array",
+  array: [
+    { type: "addArrayItem", target: "arraySubPage" },
+    {
+      target: "end",
+    },
+  ],
+  arraySubPage: "array",
   end: null,
-} as const;
+};
 
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
@@ -340,6 +364,230 @@ describe("createFlowSession", () => {
 
       expect(session.prevPath).toBe("/list");
     });
+
+    describe("cycle detection", () => {
+      it("uses first occurrence of overview page for warning loops", () => {
+        // Scenario: start → overview → warning → overview
+        // Should return to start, not the warning page
+        const warningLoopFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/overview",
+              arraySummary: {
+                name: "items",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            warning: {
+              stepId: "/warning",
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              {
+                target: "warning",
+                guard: (d) => !d.items || d.items.length === 0,
+              },
+              { target: "done" },
+            ],
+            warning: "overview",
+            done: null,
+          },
+        });
+
+        // No items provided - triggers redirect loop: start → overview → warning → overview
+        const session = createFlowSession(
+          warningLoopFlow,
+          { pageData: { arrayIndexes: [] } } as any,
+          "/overview",
+        );
+
+        // When we're at the second overview (after the warning), Back should go
+        // to start, not to warning
+        expect(session.prevPath).toBe("/start");
+      });
+
+      it("uses last occurrence of overview page for array-complete cycles", () => {
+        // Scenario: overview → array item (completed) → overview
+        // Should return to the last item page, not the first overview
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "overview",
+          transitions: {
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          {
+            entries: [{ name: "test entry" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/items",
+        );
+
+        // Back from the second overview should go to the item page (last occurrence),
+        // with a concrete index — the overview page itself has no array index of its
+        // own to fall back on, so a bare "#" template would be unusable by callers.
+        expect(session.prevPath).toBe("/items/0/detail");
+      });
+
+      it("resolves the last completed item's own index, not always index 0", () => {
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "overview",
+          transitions: {
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          {
+            entries: [{ name: "first entry" }, { name: "second entry" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/items/1/detail");
+      });
+
+      // Mirrors a real-world shape: a 0-wildcard array-summary page cycling
+      // through a *nested* array item (2 wildcards) before falling back to the
+      // summary. The picked predecessor sits two levels deeper than the current
+      // page, so both wildcards must be resolved, not just the first.
+      it("resolves concrete indexes for a nested (multi-wildcard) cycle predecessor", () => {
+        const nestedArrayFlow = compileFlow({
+          pages: {
+            overview: {
+              stepId: "/parents",
+              arraySummary: {
+                name: "parents",
+                schema: z.array(
+                  z.object({
+                    name: z.string(),
+                    children: z.array(z.object({ name: z.string() })),
+                  }),
+                ),
+              },
+            },
+            parentDetail: {
+              stepId: "/parents/#/detail",
+              pageSchema: { "parents#name": z.string() },
+            },
+            childDetail: {
+              stepId: "/parents/#/children/#/detail",
+              pageSchema: { "parents#children#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "overview",
+          transitions: {
+            overview: [
+              { target: "parentDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            parentDetail: [
+              { target: "childDetail", type: "addArrayItem" },
+              { target: "overview" },
+            ],
+            childDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          nestedArrayFlow,
+          {
+            parents: [{ name: "Parent 1", children: [{ name: "Child 1" }] }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/parents",
+        );
+
+        expect(session.prevPath).toBe("/parents/0/children/0/detail");
+      });
+
+      it("falls back to the first occurrence when the array is empty (add started but nothing submitted)", () => {
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          { pageData: { arrayIndexes: [] } } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/start");
+      });
+    });
   });
 
   describe("isReachable", () => {
@@ -416,7 +664,14 @@ describe("createFlowSession", () => {
   describe("paths", () => {
     it("contains the paths from initial to terminal step", () => {
       const session = createFlowSession(flow, noData, "/start");
-      expect(session.paths).toEqual(["/start", "/middle", "/end"]);
+      expect(session.paths).toEqual([
+        "/start",
+        "/middle",
+        "/array",
+        "/array/#/daten",
+        "/array",
+        "/end",
+      ]);
     });
   });
 
@@ -444,6 +699,18 @@ describe("createFlowSession", () => {
       );
       // "middle" has stepId "/middle" — 1-level path appears as top-level tree key
       expect(session.statusTree["/middle"]?.isDone).toBe(true);
+    });
+
+    it("marks a section isDone when all reachable array subpages have their schema fields filled", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }],
+          pageData: { arrayIndexes: [0] },
+        },
+        "/array",
+      );
+      expect(session.statusTree["/array"]?.isDone).toBe(true);
     });
 
     it("marks a section isDone false when a reachable page has unfilled required fields", () => {

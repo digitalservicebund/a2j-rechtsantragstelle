@@ -41,12 +41,11 @@ const isDead = (node: DescendantNode | null) => node?.isAlive === "no";
 const isDeadWithKinder = (node: DescendantNode | null) =>
   node?.isAlive === "no" && node?.hatteKinder === "yes";
 
-// The daten / hatteKinder / kinderAnzahl transitions for one sibling depth (1–4).
+// The daten / hatteKinder transitions for one sibling depth (1–4).
 // Same shape as the kinder line: descend while each node is a dead parent-with-kids,
 // otherwise fall back to the overview. Template-literal key types keep the keys known.
 const elternteilKindLevelTransitions = <Depth extends number>(depth: Depth) => {
   const hatteKinderTarget = `elternteilKind${depth}HatteKinder` as NodeKeys;
-  const kinderAnzahlTarget = `elternteilKind${depth}KinderAnzahl` as NodeKeys;
   const nextDatenTarget = `elternteilKind${depth + 1}Daten` as NodeKeys;
 
   const entries = {
@@ -60,22 +59,17 @@ const elternteilKindLevelTransitions = <Depth extends number>(depth: Depth) => {
     ],
     [`elternteilKind${depth}HatteKinder`]: [
       {
-        target: kinderAnzahlTarget,
+        target: nextDatenTarget,
+        type: "addArrayItem",
         guard: ({ elternteile, pageData: { arrayIndexes } }: GuardData) =>
           isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, depth)),
       },
       { target: "elternteilSummary", guard: () => true },
     ],
-    [`elternteilKind${depth}KinderAnzahl`]: [
-      { target: nextDatenTarget, type: "addArrayItem" },
-      { target: "elternteilSummary" },
-    ],
   };
 
   return entries as Record<
-    | `elternteilKind${Depth}Daten`
-    | `elternteilKind${Depth}HatteKinder`
-    | `elternteilKind${Depth}KinderAnzahl`,
+    `elternteilKind${Depth}Daten` | `elternteilKind${Depth}HatteKinder`,
     TransitionConfig<NodeKeys, GuardData>
   >;
 };
@@ -91,20 +85,34 @@ export const elternteilFlowConfig = {
   ],
   elternteilHatteKinder: [
     {
-      target: "elternteilKinderAnzahl",
+      target: "elternteilKind1Daten",
+      type: "addArrayItem",
       guard: ({ elternteile, pageData: { arrayIndexes } }) =>
         isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, 0)),
     },
     { target: "elternteilSummary", guard: () => true },
   ],
-  elternteilKinderAnzahl: [
-    { target: "elternteilKind1Daten", type: "addArrayItem" },
-    { target: "elternteilSummary" },
-  ],
   ...elternteilKindLevelTransitions(1),
   ...elternteilKindLevelTransitions(2),
   ...elternteilKindLevelTransitions(3),
   ...elternteilKindLevelTransitions(4),
-  // Deepest level loops back to the overview.
-  elternteilKind5Daten: "elternteilSummary",
+  // Deepest level: a dead person here who also had children means we hit the
+  // depth limit, so route to the "further generations not determined" exit page
+  // instead of adding another array level.
+  elternteilKind5Daten: [
+    {
+      target: "elternteilKind5HatteKinder",
+      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
+        isDead(elternteilKindAt(elternteile, arrayIndexes, 5)),
+    },
+    { target: "elternteilSummary", guard: () => true },
+  ],
+  elternteilKind5HatteKinder: [
+    {
+      target: "nichtErmitteltWeitereGenerationen",
+      guard: ({ elternteile, pageData: { arrayIndexes } }) =>
+        isDeadWithKinder(elternteilKindAt(elternteile, arrayIndexes, 5)),
+    },
+    { target: "elternteilSummary", guard: () => true },
+  ],
 } satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;

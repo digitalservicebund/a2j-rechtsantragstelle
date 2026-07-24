@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
 import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 // The 3-variant person node shared by Kind, ElternteilKind and Elternteil:
 // alive / dead-without-kids / dead-with-kids. `childSchema` types the optional
@@ -11,15 +11,19 @@ export function personUnion<
   Extra extends z.ZodRawShape = {},
 >(childSchema: Child, extra: Extra = {} as Extra) {
   return z.union([
-    z.object({ name: z.string(), isAlive: z.literal("yes"), ...extra }),
     z.object({
-      name: z.string(),
+      name: stringRequiredSchema,
+      isAlive: z.literal("yes"),
+      ...extra,
+    }),
+    z.object({
+      name: stringRequiredSchema,
       isAlive: z.literal("no"),
       hatteKinder: z.literal("no"),
       ...extra,
     }),
     z.object({
-      name: z.string(),
+      name: stringRequiredSchema,
       isAlive: z.literal("no"),
       hatteKinder: z.literal("yes"),
       kinder: z.array(childSchema).optional(),
@@ -47,14 +51,10 @@ export const parentElternteilIndexSchema = z
 // Field-shape helpers. `prefix` is the array path in `#` notation, e.g. "kinder#"
 // or "elternteile#kinder#", so keys resolve to the right nesting depth.
 export const datenFields = (prefix: string) => ({
-  [`${prefix}name`]: z.string(),
+  [`${prefix}name`]: stringRequiredSchema,
   [`${prefix}isAlive`]: YesNoAnswer,
 });
 
 export const hatteKinderField = (prefix: string) => ({
   [`${prefix}hatteKinder`]: YesNoAnswer,
-});
-
-export const kinderAnzahlField = (prefix: string) => ({
-  [`${prefix}kinderAnzahl`]: createNumberIncrementSchema(1),
 });
