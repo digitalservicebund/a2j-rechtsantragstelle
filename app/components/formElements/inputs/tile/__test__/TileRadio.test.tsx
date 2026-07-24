@@ -47,7 +47,7 @@ describe("TileRadio", () => {
   it("check if the component renders correct", () => {
     const { container, queryByRole } = render(<TileRadio {...mockProps} />);
 
-    expect(container.getElementsByClassName("kern-tile").length).toBe(1);
+    expect(container.getElementsByClassName("kern-tile")).toHaveLength(1);
     expect(queryByRole("radio")).toBeInTheDocument();
   });
 
