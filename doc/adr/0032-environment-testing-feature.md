@@ -1,4 +1,4 @@
-# ADR: Environment testing feature
+# ADR: Testing-Feature Environment
 
 ## Status
 
@@ -19,11 +19,11 @@ We need a way for Product and Design to access and test in-progress changes from
 
 ## Decision
 
-Create a new environment called `testing-feature`, which can be deployed on demand from a long-lived branch (`enable-branch-deployment`) rather than from `main`.
+Create a new environment called `testing-feature`, which can be deployed on demand from a long-lived branch (`APL-266-feature-release`) rather than from `main`.
 
 - A dedicated reusable GitHub Actions workflow (`testing-feature.yml`) builds and publishes a separate Docker image, `prod-testing-feature`, distinct from the regular `app`/`prod` images used for staging/preview/production.
 - The image is signed with `cosign` and scanned with `Trivy` before being pushed, following the same security practices used for the production image.
-- Deployment is triggered manually: pushes to `enable-branch-deployment` run the regular CI checks (code quality, e2e tests, image build) automatically, but the actual deployment to `testing-feature` only runs when someone explicitly dispatches the `ci-pipeline.yml` workflow via `workflow_dispatch`, and only after those CI checks have passed. This avoids a formal reviewer/approval gate while still ensuring nothing broken gets deployed.
+- Deployment is triggered manually: pushes to `APL-266-feature-release` run the regular CI checks (code quality, e2e tests, image build) automatically, but the actual deployment to `testing-feature` only runs when someone explicitly dispatches the `ci-pipeline.yml` workflow via `workflow_dispatch`, and only after those CI checks have passed. This avoids a formal reviewer/approval gate while still ensuring nothing broken gets deployed.
 - Product and Design team members can access the `testing-feature` environment to review and validate changes before they are merged to `main`.
 
 ## Consequences
@@ -32,3 +32,7 @@ Create a new environment called `testing-feature`, which can be deployed on dema
 - Production, staging and preview remain unaffected, since `testing-feature` is deployed from a separate branch and image.
 - Requires minor additional CI/infrastructure maintenance: an extra reusable workflow, an extra Docker image target, and an extra environment/deployment target in the infra repo.
 - Because deployment is manual, the `testing-feature` environment can become stale relative to the branch until someone re-triggers the workflow; it is not intended to always reflect the latest commit automatically.
+
+## Future Considerations
+
+Right now, deployment to the `testing-feature` environment is only possible from the single long-lived branch `APL-266-feature-release`. We should consider replacing this with a dedicated branch naming convention, such as `testing/features/{name-of-new-branch}`, so that changes from any feature branch matching that pattern can be deployed to this environment. However, we would first need to check whether this is feasible with our current infrastructure.

@@ -101,7 +101,7 @@ jobs:
           retention-days: 1
 
   testing-feature:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/enable-branch-deployment'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/APL-266-feature-release'
     needs: [code-quality, verify-local-e2e, build-app-image]
     permissions:
       id-token: write # for cosign w/ keyless signing
