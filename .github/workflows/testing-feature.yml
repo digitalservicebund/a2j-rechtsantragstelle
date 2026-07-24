@@ -1,0 +1,70 @@
+name: Testing feature deployment
+on:
+  workflow_call:
+    secrets:
+      SENTRY_AUTH_TOKEN:
+        required: false
+      GERICHTSFINDER_ENCRYPTION_KEY:
+        required: false
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-push-image-testing-feature:
+    runs-on: ubuntu-latest
+    environment: testing-feature
+    permissions:
+      id-token: write # for cosign w/ keyless signing
+      packages: write # for updating cosign attestation
+      security-events: write
+    steps:
+      - uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        with:
+          cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/cached-checkout-install
+      - run: ./docker.sh --build app-testing-feature
+        env:
+          SENTRY_AUTH_TOKEN: "${{ secrets.SENTRY_AUTH_TOKEN }}"
+      - name: Build the prod-testing-feature image
+        run: ./docker.sh --build prod-testing-feature
+      - run: echo "PROD_IMAGE_TAG=$(./docker.sh --prodTestingFeatureImageTag)" >> $GITHUB_ENV
+      - run: echo "PROD_FEATURE_IMAGE=${{ env.REGISTRY }}/digitalservicebund/a2j-rechtsantragstelle-prod-testing-feature:${{ env.PROD_IMAGE_TAG }}" >> $GITHUB_ENV
+      - name: Generate cosign vulnerability scan record for PROD image
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        env:
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
+        with:
+          image-ref: ${{ env.PROD_FEATURE_IMAGE }}
+          format: "cosign-vuln"
+          output: "vulnerabilities.json"
+      - run: ./docker.sh --push prod-testing-feature
+      - run: ./docker.sh --sign prod-testing-feature
+      - id: prod_image_tag
+        run: echo "prod_image_tag=$(./docker.sh --prodTestingFeatureImageTag)" >> $GITHUB_OUTPUT
+    outputs:
+      prod_image_tag: ${{ steps.prod_image_tag.outputs.prod_image_tag }}
+
+  deploy-testing-feature:
+    runs-on: ubuntu-latest
+    needs: [build-push-image-testing-feature]
+    environment: testing-feature
+    steps:
+      - uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        with:
+          environment: environments/testing-feature
+          version: ${{ needs.build-push-image-testing-feature.outputs.prod_image_tag }}
+          deploying_repo: a2j-rechtsantragstelle-prod-testing-feature
+          infra_repo: a2j-rechtsantragstelle-infra
+          github_app_client_id: ${{ secrets.GITOPS_A2J_APP_CLIENT_ID }}
+          github_app_private_key: ${{ secrets.GITOPS_A2J_APP_PRIVATE_KEY }}
+          app: a2j-testing-feature
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
+          argocd_sync_timeout: 600

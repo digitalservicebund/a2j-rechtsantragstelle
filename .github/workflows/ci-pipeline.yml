@@ -100,6 +100,16 @@ jobs:
           path: image.tar.gz
           retention-days: 1
 
+  testing-feature:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/APL-266-feature-release'
+    needs: [code-quality, verify-local-e2e, build-app-image]
+    permissions:
+      id-token: write # for cosign w/ keyless signing
+      packages: write # for updating cosign attestation
+      security-events: write
+    uses: ./.github/workflows/testing-feature.yml
+    secrets: inherit
+
   push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -152,7 +162,7 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
-      - run: ./docker.sh --sign
+      - run: ./docker.sh --sign prod
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
       - name: Create SBOM
