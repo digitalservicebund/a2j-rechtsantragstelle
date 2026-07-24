@@ -207,7 +207,7 @@ export async function processFieldForQuestions(
     stepPagesCache[stepId] = await fetchFlowPage(
       "form-flow-pages",
       flowId,
-      stepId,
+      stepId.replaceAll("/#", ""),
     );
   }
 

@@ -77,6 +77,10 @@ export const angehoerigePages = {
       isArrayRelevant: () => true,
     },
   },
+  angehoerigeWarning: {
+    stepId: "/angehoerige/warnung",
+    shouldCollapseIntoParentNavItem: true,
+  },
   angehoerigeName: {
     stepId: "/angehoerige/#/name",
     pageSchema: {
