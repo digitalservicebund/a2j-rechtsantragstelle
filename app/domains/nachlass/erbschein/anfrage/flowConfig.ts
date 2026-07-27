@@ -28,6 +28,8 @@ export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
     ...ehepartnerFlowConfig,
     ...angehoerigeFlowConfig,
     ...nachlassFlowConfig,
+    abgabe: "ende",
+    ende: null,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

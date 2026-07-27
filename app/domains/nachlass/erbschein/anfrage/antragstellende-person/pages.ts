@@ -66,6 +66,7 @@ export const antragstellendePersonPages = {
     pageSchema: {
       antragstellendePersonStrasse: stringRequiredSchema,
       antragstellendePersonHausnummer: stringRequiredSchema,
+      antragstellendePersonPlz: stringRequiredSchema,
       antragstellendePersonOrt: stringRequiredSchema,
       antragstellendePersonLand: stringOptionalSchema,
       antragstellendePersonAdresszusatz: stringOptionalSchema,
