@@ -18,7 +18,6 @@
     "build:localContent": "node ./scripts/vite-runner.ts dumpCmsToFile",
     "build:pdf": "node ./scripts/pdf.generator.ts",
     "build:storybook": "storybook build --output-dir ./build/client/storybook",
-    "build:typesFromXSD": "pnpm @wikipathways/cxsd ./data/xml/schemas/xjustiz_3400_rast_0_1.xsd -t data/xml/generated",
     "build": "pnpm run build:app && pnpm run build:storybook",
     "dev": "node ./server.mjs",
     "format:fix": "prettier --write . --ignore-path .prettierignore",
