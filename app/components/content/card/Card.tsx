@@ -7,13 +7,21 @@ type CardProps = {
   heading?: string;
   description?: string;
   buttonLabel?: string;
+  link: string;
 };
 
 export type CardGroupItem = CardProps & {
   span: number;
 };
 
-const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
+const Card = ({
+  id,
+  heading,
+  title,
+  description,
+  buttonLabel,
+  link,
+}: CardProps) => {
   return (
     <article className="kern-card">
       <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025!">
@@ -21,7 +29,7 @@ const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
           <hgroup className="kern-hgroup">
             {heading && (
               <Heading
-                className="kern-label text-kern-layout-text-muted! font-normal!"
+                className="kern-label text-kern-layout-text-muted! font-normal! pb-10!"
                 text={heading}
                 managedByParent
               />
@@ -48,6 +56,7 @@ const Card = ({ id, heading, title, description, buttonLabel }: CardProps) => {
               text={buttonLabel}
               look="secondary"
               className="md:flex-none!"
+              href={link}
             />
           </footer>
         )}

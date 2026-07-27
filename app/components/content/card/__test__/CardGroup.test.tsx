@@ -10,6 +10,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description 1",
     buttonLabel: "Click 1",
     span: 4,
+    link: "/link-1",
   },
   {
     id: "card-2",
@@ -18,6 +19,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description 2",
     buttonLabel: "Click 2",
     span: 4,
+    link: "/link-2",
   },
 ];
 
@@ -25,7 +27,7 @@ describe("CardGroup", () => {
   it("should render all cards", () => {
     render(<CardGroup cards={mockCards} />);
 
-    expect(screen.getAllByRole("button")).toHaveLength(2);
+    expect(screen.getAllByRole("link")).toHaveLength(2);
   });
 
   it("should render card content correctly", () => {
@@ -34,7 +36,7 @@ describe("CardGroup", () => {
     expect(screen.getByText("Card 1")).toBeInTheDocument();
     expect(screen.getByText("Title 1")).toBeInTheDocument();
     expect(screen.getByText("Description 1")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Click 1" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Click 1" })).toBeInTheDocument();
   });
 
   it("should wrap each card in a grid column", () => {

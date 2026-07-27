@@ -39,6 +39,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 1",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-1",
   },
   {
     id: "card-2",
@@ -47,6 +48,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 2",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-2",
   },
   {
     id: "card-3",
@@ -55,6 +57,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 3",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-3",
   },
   {
     id: "card-4",
@@ -63,6 +66,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 4",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-4",
   },
   {
     id: "card-5",
@@ -71,6 +75,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 5",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-5",
   },
   {
     id: "card-6",
@@ -79,6 +84,7 @@ const mockCards: CardGroupItem[] = [
     description: "Description card 6",
     buttonLabel: "Button Text",
     span: 4,
+    link: "/link-6",
   },
 ];
 
