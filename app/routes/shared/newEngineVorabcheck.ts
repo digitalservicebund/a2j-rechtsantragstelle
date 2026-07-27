@@ -13,8 +13,51 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { type FlowId } from "~/domains/flowIds";
+import { type UserDataWithPageData } from "~/services/flow/pageData";
+import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type Replacements } from "~/util/applyStringReplacement";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 
-export const loader = async (args: LoaderFunctionArgs) => {
+// Information about the current page, handed to a flow's optional loader hooks
+// so they can compute page-specific extras (e.g. which list item the user is in).
+export type VorabcheckExtrasContext = {
+  request: Request;
+  url: URL;
+  flowId: FlowId;
+  stepId: string;
+  arrayIndexes?: number[];
+  userData: UserDataWithPageData;
+  flowSessionEngine: FlowSession<PageConfigMap>;
+};
+
+// Optional per-flow hooks. A flow that needs nothing beyond the shared behavior
+// passes no extras and is served exactly as before.
+export type VorabcheckLoaderExtras<
+  ExtraData extends Record<string, unknown> = Record<string, never>,
+> = {
+  // Extra CMS text placeholders that depend on the current page. Merged into the
+  // content after the flow's static replacements, so these win.
+  buildReplacements?: (
+    context: VorabcheckExtrasContext,
+  ) => Replacements | Promise<Replacements>;
+  // Extra values to add to the loader's returned data (and, if it returns a
+  // `formElements` field, a replacement for the default form elements). Runs
+  // after the content is built, so it receives the default form elements to extend.
+  buildLoaderData?: (
+    context: VorabcheckExtrasContext & {
+      formElements: StrapiFormComponent[];
+    },
+  ) => ExtraData | Promise<ExtraData>;
+};
+
+export const loadVorabcheckData = async <
+  ExtraData extends Record<string, unknown> = Record<string, never>,
+>(
+  args: LoaderFunctionArgs,
+  extras?: VorabcheckLoaderExtras<ExtraData>,
+) => {
   const { params, request, url } = args;
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
@@ -26,16 +69,30 @@ export const loader = async (args: LoaderFunctionArgs) => {
   const {
     userData,
     flow: { id: flowId, flowSessionEngine },
-    page: { stepId },
+    page: { stepId, arrayIndexes },
   } = resultUserAndFlow.value;
 
   const { pathname } = url;
+
+  const context: VorabcheckExtrasContext = {
+    request,
+    url,
+    flowId,
+    stepId,
+    arrayIndexes,
+    userData,
+    flowSessionEngine,
+  };
+
+  const extraReplacements = await extras?.buildReplacements?.(context);
 
   const contentData = await retrieveContentData(
     "vorab-check-pages",
     pathname,
     params,
     userData,
+    undefined,
+    extraReplacements,
   );
 
   const cmsContent = contentData.getCMSContent();
@@ -44,11 +101,17 @@ export const loader = async (args: LoaderFunctionArgs) => {
   const buttonNavigationProps = contentData.getButtonNavigationNewEngine(
     flowId,
     flowSessionEngine,
+    arrayIndexes,
   );
   const progressProps = contentData.getProgressNewEngine(
     flowSessionEngine,
     stepId,
   );
+
+  const extraData = await extras?.buildLoaderData?.({
+    ...context,
+    formElements,
+  });
 
   return data({
     stepData,
@@ -57,10 +120,14 @@ export const loader = async (args: LoaderFunctionArgs) => {
     progressProps,
     buttonNavigationProps,
     showReportProblem: shouldShowReportProblem(stepId),
+    // Cast keeps the extra fields in the return type. Spreading the raw
+    // `ExtraData | undefined` would otherwise erase them; at runtime `undefined`
+    // simply spreads to nothing, which is the no-extras case.
+    ...(extraData as ExtraData),
   });
 };
 
-export const action = async (args: ActionFunctionArgs) => {
+export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
   const { request, url } = args;
 
   const resultValidatedSession = await validatedSession(request);
@@ -114,10 +181,11 @@ export const action = async (args: ActionFunctionArgs) => {
     url,
   );
 
-  const destination = flowDestinationNewEngine(
-    pathname,
-    flowSessionEngineSaved,
-  );
+  const destination = flowDestinationNewEngine(pathname, flowSessionEngineSaved);
   const headers = await commitSession(flowSession);
   return redirectDocument(destination, { headers });
 };
+
+export const loader = (args: LoaderFunctionArgs) => loadVorabcheckData(args);
+
+export const action = (args: ActionFunctionArgs) => runVorabcheckAction(args);
