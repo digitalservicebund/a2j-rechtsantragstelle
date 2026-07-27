@@ -6,7 +6,7 @@ import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type {
   ResultExtrasContext,
   ResultLoaderExtras,
-} from "~/routes/shared/newEngineResult";
+} from "~/routes/shared/newEngineResult.server";
 import {
   calculateInheritance,
   type HeirShare,
@@ -128,7 +128,11 @@ export const erbfolgeResultExtras: ResultLoaderExtras = {
       freeZone: content.freeZone.map((component) =>
         component.__component === "page.list" &&
         component.identifier === HEIRS_LIST_IDENTIFIER
-          ? { ...component, items: heirListItems, variant: "unordered" as const }
+          ? {
+              ...component,
+              items: heirListItems,
+              variant: "unordered" as const,
+            }
           : component,
       ),
     };

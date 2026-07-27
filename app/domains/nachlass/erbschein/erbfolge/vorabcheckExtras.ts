@@ -10,7 +10,7 @@ import {
 import type {
   VorabcheckExtrasContext,
   VorabcheckLoaderExtras,
-} from "~/routes/shared/newEngineVorabcheck";
+} from "~/routes/shared/newEngineVorabcheck.server";
 import {
   parentSelectFormElement,
   resolveParentOptions,
@@ -40,8 +40,11 @@ export type ErbfolgeLoaderExtraData = {
 // sentinel description on their zod schema.
 function dynamicSelectFieldsOf(context: VorabcheckExtrasContext) {
   const shape =
-    (context.flowSessionEngine.pageSchema as { shape?: Record<string, unknown> })
-      ?.shape ?? {};
+    (
+      context.flowSessionEngine.pageSchema as {
+        shape?: Record<string, unknown>;
+      }
+    )?.shape ?? {};
   return Object.entries(shape).filter(
     ([, fieldSchema]) =>
       (fieldSchema as { description?: string }).description ===
@@ -167,7 +170,6 @@ export const erbfolgeVorabcheckExtras: VorabcheckLoaderExtras<ErbfolgeLoaderExtr
       dynamicOptions: buildDynamicOptions(context),
       arraySummaryData: buildArraySummaryData(context),
       deceasedPersonName: (context.userData as Record<string, unknown>).name as
-        | string
-        | undefined,
+        string | undefined,
     }),
   };

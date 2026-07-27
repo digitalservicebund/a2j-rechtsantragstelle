@@ -1,4 +1,4 @@
-import type { ResultExtrasContext } from "~/routes/shared/newEngineResult";
+import type { ResultExtrasContext } from "~/routes/shared/newEngineResult.server";
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import { erbfolgeResultExtras } from "../resultExtras";
 
@@ -26,9 +26,7 @@ function contextFor(
   };
 }
 
-function resultPageWith(
-  freeZone: unknown[],
-): StrapiResultPage {
+function resultPageWith(freeZone: unknown[]): StrapiResultPage {
   return { freeZone } as unknown as StrapiResultPage;
 }
 

@@ -1,5 +1,5 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck";
+import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck.server";
 import { nachlassErbfolgeStaticFlow } from "../flowConfig";
 import { erbfolgeVorabcheckExtras } from "../vorabcheckExtras";
 
@@ -24,7 +24,10 @@ function contextFor(
     flowId: FLOW_ID,
     stepId,
     arrayIndexes,
-    userData: { ...flowSessionEngine.prunedUserData, pageData: { arrayIndexes } },
+    userData: {
+      ...flowSessionEngine.prunedUserData,
+      pageData: { arrayIndexes },
+    },
     flowSessionEngine,
   };
 }
@@ -110,7 +113,9 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       formElements: [],
     });
 
-    expect(extra.dynamicOptions).toHaveProperty("kinder#kinder#parentKindIndex");
+    expect(extra.dynamicOptions).toHaveProperty(
+      "kinder#kinder#parentKindIndex",
+    );
   });
 });
 
@@ -135,9 +140,8 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       [0, 0],
     );
 
-    const replacements = await erbfolgeVorabcheckExtras.buildReplacements!(
-      context,
-    );
+    const replacements =
+      await erbfolgeVorabcheckExtras.buildReplacements!(context);
 
     expect(replacements["kinder#name"]).toBe("Kind Eins");
   });
@@ -154,9 +158,8 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       "/kinder",
     );
 
-    const replacements = await erbfolgeVorabcheckExtras.buildReplacements!(
-      context,
-    );
+    const replacements =
+      await erbfolgeVorabcheckExtras.buildReplacements!(context);
 
     expect(replacements).toEqual({});
   });

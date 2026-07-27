@@ -16,7 +16,7 @@ import { erbfolgeVorabcheckExtras } from "~/domains/nachlass/erbschein/erbfolge/
 import {
   loadVorabcheckData,
   runVorabcheckAction,
-} from "~/routes/shared/newEngineVorabcheck";
+} from "~/routes/shared/newEngineVorabcheck.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 
 const ERBFOLGE_FEATURE_FLAG = "showNachlassErbscheinErbfolgeFlow";
