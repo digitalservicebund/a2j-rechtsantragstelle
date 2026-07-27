@@ -83,7 +83,7 @@
     "posthog-js": "1.405.2",
     "posthog-node": "5.46.1",
     "rate-limit-redis": "^6.0.0",
-    "react": "^19.2.7",
+    "react": "^19.2.8",
     "react-collapsed": "^4.2.0",
     "react-dom": "^19.2.8",
     "react-imask": "^7.6.1",
