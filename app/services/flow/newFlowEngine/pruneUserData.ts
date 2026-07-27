@@ -76,7 +76,7 @@ export const pruneUserData = <C extends PageConfigMap>(
   return result as InferredUserData<C>;
 };
 
-export const getPrunedUserDataForPdf = <C extends PageConfigMap>(
+export const getPrunedUserDataFromSimulation = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
   userData: InferredUserData<C>,
 ) =>

@@ -26,7 +26,7 @@ import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbsch
 import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbscheinAnfragePdfFromUserdata";
 import { type UserData } from "~/domains/userData";
 import { flows } from "~/domains/flows.server";
-import { getPrunedUserDataForPdf } from "~/services/flow/newFlowEngine/pruneUserData";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 
@@ -114,7 +114,7 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   if ("newEngineConfig" in flows[flowId]) {
     const compiledStaticFlow = flows[flowId]
       .newEngineConfig as CompiledFlow<PageConfigMap>;
-    userData = getPrunedUserDataForPdf(compiledStaticFlow, sessionData);
+    userData = getPrunedUserDataFromSimulation(compiledStaticFlow, sessionData);
   } else {
     userData = pruneIrrelevantData(sessionData, flowId).prunedData;
   }
