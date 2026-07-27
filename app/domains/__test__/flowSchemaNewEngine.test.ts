@@ -134,7 +134,8 @@ function runTestcases<T extends UserData>(
           const pageSchema = getPageSchema(currentUrl);
 
           // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
-          const justExitedArray = isAddingArrayItem && stepId === summaryPageStepId;
+          const justExitedArray =
+            isAddingArrayItem && stepId === summaryPageStepId;
           if (justExitedArray) {
             isAddingArrayItem = false;
             summaryPageStepId = undefined;
