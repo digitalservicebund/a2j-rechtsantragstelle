@@ -10,11 +10,46 @@ import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
   replacementsFromFlowConfig,
+  type Replacements,
 } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
+import { type FlowId } from "~/domains/flowIds";
+import { type UserDataWithPageData } from "~/services/flow/pageData";
+import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 export { ResultPage as default } from "./components/ResultPage";
 
-export const loader = async (args: LoaderFunctionArgs) => {
+// Information about the current result page, handed to a flow's optional hooks.
+export type ResultExtrasContext = {
+  request: Request;
+  url: URL;
+  flowId: FlowId;
+  stepId: string;
+  userData: UserDataWithPageData;
+  flowSessionEngine: FlowSession<PageConfigMap>;
+};
+
+// Optional per-flow hooks. A flow that needs nothing beyond the shared behavior
+// passes no extras and is served exactly as before.
+export type ResultLoaderExtras = {
+  // Extra CMS text placeholders (e.g. a computed HTML table), merged after the
+  // flow's static replacements so they win.
+  buildReplacements?: (
+    context: ResultExtrasContext,
+  ) => Replacements | Promise<Replacements>;
+  // Rewrite the result page content after replacements (e.g. fill a CMS List
+  // component with computed items). Receives and returns the same page shape.
+  transformContent?: (
+    content: StrapiResultPage,
+    context: ResultExtrasContext,
+  ) => StrapiResultPage | Promise<StrapiResultPage>;
+};
+
+export const loadResultData = async (
+  args: LoaderFunctionArgs,
+  extras?: ResultLoaderExtras,
+) => {
   const { request, url } = args;
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
@@ -37,10 +72,31 @@ export const loader = async (args: LoaderFunctionArgs) => {
     fetchContentPageMeta({ filterValue: flowId }),
   ]);
 
-  const cmsContent = applyStringReplacement(
-    resultPageContent,
-    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
+  const context: ResultExtrasContext = {
+    request,
+    url,
+    flowId,
+    stepId,
+    userData,
+    flowSessionEngine,
+  };
+
+  const flowReplacements = replacementsFromFlowConfig(
+    currentFlow.stringReplacements,
+    userData,
   );
+  const extraReplacements = await extras?.buildReplacements?.(context);
+  const replacements = extraReplacements
+    ? { ...flowReplacements, ...extraReplacements }
+    : flowReplacements;
+
+  const replacedContent = applyStringReplacement(
+    resultPageContent,
+    replacements,
+  );
+  const cmsContent = extras?.transformContent
+    ? await extras.transformContent(replacedContent, context)
+    : replacedContent;
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
@@ -59,7 +115,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
   const pageTitle = applyStringReplacement(
     composePageTitle(cmsContent.pageTitle, parentContentPageMeta),
-    replacementsFromFlowConfig(currentFlow.stringReplacements, userData),
+    replacements,
   );
 
   return data({
@@ -67,3 +123,5 @@ export const loader = async (args: LoaderFunctionArgs) => {
     buttonNavigationProps,
   });
 };
+
+export const loader = (args: LoaderFunctionArgs) => loadResultData(args);

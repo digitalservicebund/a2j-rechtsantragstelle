@@ -16,7 +16,7 @@ import {
   resolveParentOptions,
 } from "./buildParentOptions";
 
-export type ErbfolgeArraySummaryData = {
+type ErbfolgeArraySummaryData = {
   category: string;
   arrayData: {
     data: ArrayData;

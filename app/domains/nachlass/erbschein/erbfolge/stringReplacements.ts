@@ -1,3 +1,4 @@
+import escape from "lodash/escape";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { UserData } from "~/domains/userData";
 import type { InheritanceInput } from "./calculateInheritance";
@@ -6,17 +7,10 @@ import {
   collectMissingChildrenNamesForElternteile,
 } from "./missingChildren";
 
-function escapeHtml(text: string): string {
-  return text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
-
 // Rendered into the CMS content via the triple-brace {{{missingChildrenNamesHtml}}}
 // placeholder (triple braces mean "insert as raw HTML"), e.g. inside a notice.
 function buildMissingChildrenNamesHtml(names: string[]): string {
-  return `<ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`;
+  return `<ul>${names.map((name) => `<li>${escape(name)}</li>`).join("")}</ul>`;
 }
 
 // Everyone the flow knows died and had children, but whose children were never
