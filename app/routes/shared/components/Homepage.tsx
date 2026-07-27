@@ -7,6 +7,7 @@ import { translations } from "~/services/translations/translations";
 import { Icon } from "~/components/common/Icon";
 import Box from "~/components/content/Box";
 import Hero from "~/components/content/Hero";
+import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
 
 const Homepage = () => {
   const serviceCards = [
@@ -128,7 +129,8 @@ const Homepage = () => {
               }}
               content={translations.homepage.boxProjektPartnerContent.de}
               image={{
-                url: "app/assets/BMJV_Logo.svg",
+                svgString: BMJVLogo,
+                url: "",
                 alternativeText:
                   translations.homepage.boxProjektPartnerAltText.de,
                 width: 180,
