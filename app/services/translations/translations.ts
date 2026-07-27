@@ -386,10 +386,10 @@ export const translations = {
       de: "FGR",
     },
     cardHeadingFGR: {
-      de: "Online-Verfahren: Geld bei Flugproblemen einfordern",
+      de: "Digitale Zahlungsklage für Fluggastrechte",
     },
     cardTitleFGR: {
-      de: "Digitale Zahlungsklage für Fluggastrechte",
+      de: "Online-Verfahren: Geld bei Flugproblemen einfordern",
     },
     cardDescriptionFGR: {
       de: "Ihr Flug war verspätet, wurde annulliert oder Sie wurden nicht mitgenommen? Hier finden Sie Informationen darüber, welche Ansprüche und Handlungsoptionen Sie haben. Nach dem Vorab-Check können Sie direkt eine Klage erstellen, wenn sich das ermittelte Amtsgericht am Pilotprojekt beteiligt. Im Anschluss können Sie Ihre Klage selbst digital bei Gericht einreichen und ein Online-Verfahren eröffnen.",
@@ -401,10 +401,10 @@ export const translations = {
       de: "TGA",
     },
     cardHeadingTGA: {
-      de: "Online-Verfahren: Geld von einer Person oder Organisation einfordern",
+      de: "Digitale Zahlungsklage",
     },
     cardTitleTGA: {
-      de: "Digitale Zahlungsklage",
+      de: "Online-Verfahren: Geld von einer Person oder Organisation einfordern",
     },
     cardDescriptionTGA: {
       de: "Wenn Ihnen jemand Geld schuldet, können Sie vor Gericht klagen. Hier finden Sie Informationen zur allgemeinen Zahlungsklage im Online-Verfahren und welche Voraussetzungen es dafür gibt. Dieser Onlinedienst unterstützt Sie in bestimmten Fällen dabei, eine Klage zu erstellen. Im Anschluss können Sie Ihre Klage selbst digital bei Gericht einreichen und ein Online-Verfahren eröffnen.",
@@ -446,7 +446,7 @@ export const translations = {
       de: "Kontopfändung",
     },
     cardHeadingKontopfaendung: {
-      de: "Zwangsvollstreckung",
+      de: "Kontopfändung",
     },
     cardTitleKontopfaendung: {
       de: "Geld bei einer Kontopfändung schützen",
@@ -506,7 +506,7 @@ export const translations = {
       de: "Mit „Mein Justizpostfach“ können Sie mit der Justiz kommunizieren und Dokumente online einreichen (zum Beispiel einen Antrag oder eine Klage)“ einrichten und nutzen können.",
     },
     cardButtonLabelAnleitung: {
-      de: "„Zu den finanziellen Hilfen",
+      de: "Zu den finanziellen Hilfen",
     },
     cardIdStudie: {
       de: "Studie",
