@@ -1,4 +1,5 @@
 import z from "zod";
+import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -34,25 +35,7 @@ const survivingAngehoerigeFields = {
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
   adresszusatz: stringOptionalSchema,
-  verhaeltnis: z.enum([
-    "not-related",
-    "wife-husband",
-    "life-partner",
-    "daughter-son",
-    "granddaughter-grandson",
-    "mother-father",
-    "sister-brother",
-    "half-sister-half-brother",
-    "niece-nephew",
-    "grandmother-grandfather",
-    "aunt-uncle",
-    "cousin",
-    "great-grandmother-great-grandfather",
-    "great-aunt-great-uncle",
-    "adoptive-mother-adoptive-father",
-    "adoptive-daughter-adoptive-son",
-    "other",
-  ]),
+  verhaeltnis: relationshipToDeceasedSchema,
 };
 
 export const angehoerigeArray = z.array(

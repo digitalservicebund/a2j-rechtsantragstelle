@@ -1,12 +1,13 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-const happyPathData = {
+const happyPathData: NachlassErbscheinAnfrageUserData = {
   datenverarbeitungZustimmung: "on",
   verstorbenePersonStrasse: "Musterstraße",
   verstorbenePersonHausnummer: "1",
   verstorbenePersonOrt: "Musterstadt",
-  antragstellendePersonTelefonnummer: "0123456789",
+  antragstellendePersonRelationshipToErblasser: "cousin",
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };

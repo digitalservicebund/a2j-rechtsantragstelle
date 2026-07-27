@@ -53,6 +53,12 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         },
       },
       {
+        stepId: "/antragstellende-person/verhaeltnis",
+        userInput: {
+          antragstellendePersonRelationshipToErblasser: "cousin",
+        },
+      },
+      {
         stepId: "/testament-oder-erbvertrag/art",
       },
     ],
