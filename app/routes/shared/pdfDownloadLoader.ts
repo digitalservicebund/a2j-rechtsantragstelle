@@ -23,7 +23,7 @@ import {
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { today, pdfDateFormat } from "~/util/date";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbscheinAnfragePdfFromUserdata";
+import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 import { type UserData } from "~/domains/userData";
 import { flows } from "~/domains/flows.server";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";

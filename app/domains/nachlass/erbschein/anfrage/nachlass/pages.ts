@@ -25,7 +25,8 @@ export const unternehmenArraySchema = z.array(
 
 export const nachlassPages = {
   grundbesitz: {
-    stepId: "/nachlass/grundbesitz-frage",
+    stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasGrundbesitz: z.enum(["yes", "no", "unknown"]),
     },
@@ -52,9 +53,11 @@ export const nachlassPages = {
   },
   grundbesitzWarnung: {
     stepId: "/nachlass/grundbesitz/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   unternehmen: {
-    stepId: "/nachlass/unternehmen-frage",
+    stepId: "/nachlass/unternehmen/unternehmen-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasUnternehmen: z.enum(["yes", "no", "unknown"]),
     },
@@ -70,6 +73,7 @@ export const nachlassPages = {
   },
   unternehmenWarnung: {
     stepId: "/nachlass/unternehmen/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   unternehmenName: {
     stepId: "/nachlass/unternehmen/#/name",
