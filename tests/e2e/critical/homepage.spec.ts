@@ -2,7 +2,6 @@ import { test, expect } from "@playwright/test";
 import { footerLinks, headerLinks } from "../pages/urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -11,12 +10,12 @@ test.describe("homepage", () => {
   testPageToBeAccessible();
 
   test("BMJ logo is displayed", async ({ page }) => {
-  await expect(
-    page.getByRole("img", {
-      name: /Logo des Bundesministeriums der Justiz und für Verbraucherschutz/,
-    }),
-  ).toBeVisible();
-});
+    await expect(
+      page.getByRole("img", {
+        name: /Logo des Bundesministeriums der Justiz und für Verbraucherschutz/,
+      }),
+    ).toBeVisible();
+  });
 
   test.describe("Header links", () => {
     test("Header links are visible", async ({ page }) => {
