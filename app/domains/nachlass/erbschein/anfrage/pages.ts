@@ -23,6 +23,12 @@ export const nachlassErbscheinAnfragePages = {
   ...ehepartnerPages,
   ...angehoerigePages,
   ...nachlassPages,
+  abgabe: {
+    stepId: "/abgabe/zusammenfassung",
+  },
+  ende: {
+    stepId: "/abgabe/ende",
+  },
 } satisfies PagesConfig;
 
 export type NachlassErbscheinAnfragePages =

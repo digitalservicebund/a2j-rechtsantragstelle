@@ -159,7 +159,7 @@ describe("getPilotCourts", () => {
 
     const actual = getPilotCourts(userData);
 
-    expect(actual.length).toEqual(1);
+    expect(actual).toHaveLength(1);
     expect(actual[0]).toStrictEqual(PILOT_COURT);
   });
 
@@ -170,7 +170,7 @@ describe("getPilotCourts", () => {
 
     const actual = getPilotCourts(userData);
 
-    expect(actual.length).toEqual(1);
+    expect(actual).toHaveLength(1);
     expect(actual[0]).toStrictEqual(PILOT_COURT);
   });
 
@@ -182,7 +182,7 @@ describe("getPilotCourts", () => {
 
     const actual = getPilotCourts(userData);
 
-    expect(actual.length).toEqual(2);
+    expect(actual).toHaveLength(2);
     expect(actual[0]).toStrictEqual(PILOT_COURT);
     expect(actual[1]).toStrictEqual(PILOT_COURT_SECONDARY);
   });
@@ -195,7 +195,7 @@ describe("getPilotCourts", () => {
 
     const actual = getPilotCourts(userData);
 
-    expect(actual.length).toEqual(1);
+    expect(actual).toHaveLength(1);
     expect(actual[0]).toStrictEqual(PILOT_COURT);
   });
 

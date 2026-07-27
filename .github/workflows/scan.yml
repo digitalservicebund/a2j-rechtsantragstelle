@@ -78,7 +78,7 @@ jobs:
             exit 0
           fi
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@e0647621c2984b5ed2f768cb892365bf2a616ad1 #v4.37.2
+        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 #v4.37.3
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
         with:
           sarif_file: "trivy-results.sarif"
@@ -96,7 +96,7 @@ jobs:
           cosign-release: "v2.6.1" # use latest 2.x release until Kyverno supports 3.x
 
       - name: Log into container registry
-        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
+        uses: docker/login-action@abd2ef45e78c5afb21d64d4ca52ee8550d9572c7 # v4.5.1
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}

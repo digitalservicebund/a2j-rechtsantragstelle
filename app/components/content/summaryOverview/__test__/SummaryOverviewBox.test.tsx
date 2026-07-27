@@ -90,7 +90,7 @@ describe("SummaryOverviewBox", () => {
     );
 
     const items = getAllByTestId("summary-overview-box-item");
-    expect(items.length).toBe(2); // Ensuring 2 fields are rendered
+    expect(items).toHaveLength(2); // Ensuring 2 fields are rendered
   });
 
   it("should render the edit button with correct href", () => {

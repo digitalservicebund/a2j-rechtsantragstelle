@@ -1,9 +1,8 @@
 import isEqual from "lodash/isEqual";
-import { simulate } from "./simulate";
+import { runSimulation } from "./simulate";
 import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
-import type { PageConfigMap, InferredUserData } from "./types";
-import type { PageData } from "../pageDataSchema";
+import type { PageConfigMap, InferredUserData, NodeKey } from "./types";
 import { evaluateRoute } from "./routing";
 import { buildStatusTree } from "./statusTree";
 import { pruneUserData } from "./pruneUserData";
@@ -23,40 +22,13 @@ const insertConcreteIndexes = (stepId: string, indexes: number[]) => {
 
 export const createFlowSession = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
-  userData: InferredUserData<C> & { pageData: PageData },
+  userData: InferredUserData<C>,
   currentPath: string,
 ) => {
   const nodeKey = compiledFlow.getNodeKeyFromPath(currentPath);
   if (nodeKey == null) throw new Error(`Invalid path: ${currentPath}`);
 
-  const runSimulation = (data: InferredUserData<C> & { pageData: PageData }) =>
-    simulate(
-      compiledFlow.transitions,
-      compiledFlow.initialStep,
-      data,
-      true,
-      (key, scopeData) => {
-        const info = compiledFlow.getArrayInfoByNodeKey(key);
-        if (!info) return undefined;
-        // info.name uses "#" notation (e.g. "children#children") but scopeData
-        // is already scoped to the current item, so the real property key is
-        // just the last segment after "#" (e.g. "children").
-        const leafName = info.name.split("#").at(-1)!;
-        const items = scopeData[leafName];
-        // Treat a missing array the same as an empty one so that the add-target
-        // remains reachable even before the first item has been submitted.
-        return {
-          name: info.name,
-          count: Array.isArray(items) ? items.length : 0,
-        };
-      },
-      (key) => {
-        const stepId = compiledFlow.pages[key]?.stepId ?? "";
-        return stepId.split(ARRAY_WILDCARD).length - 1;
-      },
-    );
-
-  let simulation = runSimulation(userData);
+  let simulation = runSimulation(userData, compiledFlow);
   let effectiveUserData = userData;
 
   let prunedUserData = pruneUserData(
@@ -79,8 +51,8 @@ export const createFlowSession = <C extends PageConfigMap>(
       const prunedInput = {
         ...prunedUserData,
         pageData: userData.pageData,
-      } as InferredUserData<C> & { pageData: PageData };
-      const rerun = runSimulation(prunedInput);
+      };
+      const rerun = runSimulation(prunedInput, compiledFlow);
       const repruned = pruneUserData(
         compiledFlow,
         rerun.visitedContexts,
@@ -130,10 +102,8 @@ export const createFlowSession = <C extends PageConfigMap>(
   // navigated through it. They used the "add" affordance on the summary that node
   // exits to (the add button links straight to the item page). Point Back at that
   // summary instead of the internal fan-out node.
-  const skipFanOutOnlyBack = (
-    candidate: Extract<keyof C, string> | undefined,
-  ): Extract<keyof C, string> | undefined => {
-    const seen = new Set<Extract<keyof C, string> | undefined>();
+  const skipFanOutOnlyBack = (candidate: NodeKey<C> | undefined) => {
+    const seen = new Set<NodeKey<C> | undefined>();
     let node = candidate;
     while (node != null && !seen.has(node)) {
       seen.add(node);
@@ -169,7 +139,7 @@ export const createFlowSession = <C extends PageConfigMap>(
   const first = simulation.keys.indexOf(nodeKey);
   const linearPrevNodeKey =
     first > 0
-      ? (simulation.keys[first - 1] as Extract<keyof C, string> | undefined)
+      ? (simulation.keys[first - 1] as NodeKey<C> | undefined)
       : simulation.parentMap.get(nodeKey);
   const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
 
@@ -215,9 +185,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
     paths: simulation.keys
-      .map((key) =>
-        compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>),
-      )
+      .map((key) => compiledFlow.getPathFromNodeKey(key as NodeKey<C>))
       .filter((path): path is string => path !== undefined) as string[],
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
@@ -227,7 +195,7 @@ export const createFlowSession = <C extends PageConfigMap>(
       return key != null && simulation.reachableSet.has(key);
     },
     getPathFromNodeKey: (key: string): string | undefined => {
-      return compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>);
+      return compiledFlow.getPathFromNodeKey(key as NodeKey<C>);
     },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
     nextArrayPath: compiledFlow.getPathFromNodeKey(

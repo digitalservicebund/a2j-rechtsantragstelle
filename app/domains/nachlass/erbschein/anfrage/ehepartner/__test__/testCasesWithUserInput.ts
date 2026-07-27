@@ -60,7 +60,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/nachlass/grundbesitz-frage",
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
     },
   ],
   divorced: [
@@ -89,7 +89,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/nachlass/grundbesitz-frage",
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
     },
   ],
   marriedSameAddressSingleNationality: [

@@ -41,6 +41,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         userInput: {
           antragstellendePersonStrasse: "Musterstraße",
           antragstellendePersonHausnummer: "1",
+          antragstellendePersonPlz: "10557",
           antragstellendePersonOrt: "Musterstadt",
         },
       },

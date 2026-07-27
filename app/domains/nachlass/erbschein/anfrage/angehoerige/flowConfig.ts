@@ -7,10 +7,15 @@ export const angehoerigeFlowConfig = {
   angehoerigeOverview: [
     { type: "addArrayItem", target: "angehoerigeName" },
     {
+      guard: (data) => !angehoerigeArray.safeParse(data.angehoerige).success,
+      target: "angehoerigeWarning",
+    },
+    {
       guard: (data) => angehoerigeArray.safeParse(data.angehoerige).success,
       target: "grundbesitz",
     },
   ],
+  angehoerigeWarning: "angehoerigeOverview",
   angehoerigeName: "angehoerigeBirthday",
   angehoerigeBirthday: "angehoerigeIsAlive",
   angehoerigeIsAlive: [
