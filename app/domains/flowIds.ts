@@ -29,6 +29,7 @@ export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
+  // TODO: remove after migration to new flow engine
   const arrayFlows: FlowId[] = [
     "/nachlass/erbschein/erbfolge",
     "/nachlass/erbschein/anfrage",
