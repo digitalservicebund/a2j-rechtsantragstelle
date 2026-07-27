@@ -244,9 +244,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     ...parentNameData,
     ...(missingChildrenNames !== undefined && {
       missingChildrenNames: missingChildrenNames.join(", "),
-      missingChildrenNamesHtml: buildMissingChildrenNamesHtml(
-        missingChildrenNames,
-      ),
+      missingChildrenNamesHtml:
+        buildMissingChildrenNamesHtml(missingChildrenNames),
     }),
   } as Replacements;
 
