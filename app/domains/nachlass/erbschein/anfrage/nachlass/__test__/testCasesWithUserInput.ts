@@ -15,7 +15,7 @@ const happyPathData: NachlassErbscheinAnfrageUserData = {
 export const nachlassTestCases = {
   grundbesitzNotEntered: [
     {
-      stepId: "/nachlass/grundbesitz-frage",
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
       userInput: {
         ...happyPathData,
         hasGrundbesitz: "yes",
@@ -33,7 +33,7 @@ export const nachlassTestCases = {
   ],
   hasGrundbesitz: [
     {
-      stepId: "/nachlass/grundbesitz-frage",
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
       userInput: {
         ...happyPathData,
         hasGrundbesitz: "yes",
@@ -67,12 +67,12 @@ export const nachlassTestCases = {
       },
     },
     {
-      stepId: "/nachlass/unternehmen-frage",
+      stepId: "/nachlass/unternehmen/unternehmen-frage",
     },
   ],
   unternehmenNotEntered: [
     {
-      stepId: "/nachlass/unternehmen-frage",
+      stepId: "/nachlass/unternehmen/unternehmen-frage",
       userInput: {
         ...happyPathData,
         hasUnternehmen: "yes",
@@ -90,7 +90,7 @@ export const nachlassTestCases = {
   ],
   hasUnternehmen: [
     {
-      stepId: "/nachlass/unternehmen-frage",
+      stepId: "/nachlass/unternehmen/unternehmen-frage",
       userInput: {
         ...happyPathData,
         hasUnternehmen: "yes",

@@ -2,12 +2,12 @@ import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
-import { createHeaderAndSubject } from "./sections/headerAndSubject/createHeaderAndSubject";
-import { createDeceasedPerson } from "./sections/deceasedPerson/createDeceasedPerson";
-import { createRenunciantPerson } from "./sections/renunciantPerson/createRenunciantPerson";
-import { createChildrenOfRenunciantPerson } from "./sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
-import { createNoteForJudge } from "./sections/createNoteForJudge";
+import { createRenunciantPerson } from "../sections/renunciantPerson/createRenunciantPerson";
+import { createChildrenOfRenunciantPerson } from "../sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
+import { createNoteForJudge } from "../sections/createNoteForJudge";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { createHeaderAndSubject } from "~/domains/nachlass/services/pdf/erbschein/sections/headerAndSubject/createHeaderAndSubject";
+import { createDeceasedPerson } from "~/domains/nachlass/services/pdf/erbschein/sections/verstorbenePerson/createDeceasedPerson";
 
 const TITLE = "Datenblatt zur Vorbereitung eines Erbscheinsantrags";
 const SUBJECT = "Erbschein Anfrage";

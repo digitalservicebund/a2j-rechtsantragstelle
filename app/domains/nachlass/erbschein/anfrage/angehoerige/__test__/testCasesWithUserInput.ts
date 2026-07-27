@@ -91,7 +91,7 @@ export const angehoerigeTestCases = {
       },
     },
     {
-      stepId: "/nachlass/grundbesitz-frage",
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
     },
   ],
   survivingAngehoerige: [
