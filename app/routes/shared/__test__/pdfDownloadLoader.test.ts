@@ -6,7 +6,7 @@ import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
   pruneUserData,
-  "getPrunedUserDataForPdf",
+  "getPrunedUserDataFromSimulation",
 );
 
 vi.mock("~/services/flow/pruner/pruner", () => ({
