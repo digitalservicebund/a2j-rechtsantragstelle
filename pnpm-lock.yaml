@@ -28,8 +28,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@react-router/express':
-        specifier: ^7.17.0
-        version: 7.17.0(express@5.2.1)(react-router@7.17.0)(typescript@7.0.2)
+        specifier: ^8.3.0
+        version: 8.3.0(express@5.2.1)(react-router@7.17.0)(typescript@7.0.2)
       '@react-router/node':
         specifier: ^7.17.0
         version: 7.17.0(react-router@7.17.0)(typescript@7.0.2)
@@ -1737,13 +1737,13 @@ packages:
       wrangler:
         optional: true
 
-  '@react-router/express@7.17.0':
-    resolution: {integrity: sha512-/onhRWlfCRTq0bI7t06d2KGRUr+Gy12+CHLZDaHkdtkHJxsUFPGlnfomBMQXQLIPW544I5ykKAY8Z2d/1J6+bQ==}
-    engines: {node: '>=20.0.0'}
+  '@react-router/express@8.3.0':
+    resolution: {integrity: sha512-ejgJTbGO0CzwjgU4IMM3JTJvqtisc+qF6l0iMzwx+NnrsYwtFy0V1BrajM9499+YQ/420LbuRTtZqDfpUIkwHw==}
+    engines: {node: '>=22.22.0'}
     peerDependencies:
-      express: ^4.17.1 || ^5
-      react-router: 7.17.0
-      typescript: ^5.1.0 || ^6.0.0
+      express: ^4.22.2 || ^5
+      react-router: 8.3.0
+      typescript: ^5.1.0 || ^6.0.0 || ^7.0.0
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -1768,6 +1768,16 @@ packages:
       typescript:
         optional: true
 
+  '@react-router/node@8.3.0':
+    resolution: {integrity: sha512-qw5ibcolE1OcwngiEw6t7LR11Hi6yWEDvj6cfvaYROX+w18JPxc0YSmsdn3Wlc9TOX+Qo8FVcxbXRdc9vojn2w==}
+    engines: {node: '>=22.22.0'}
+    peerDependencies:
+      react-router: 8.3.0
+      typescript: ^5.1.0 || ^6.0.0 || ^7.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   '@remix-run/form-data-parser@0.17.4':
     resolution: {integrity: sha512-mqWVpD2OaJTFEW2i+M49/iWoUp2Cai6WD606/iynZ+NIlzVdkty3bbGb8g7vTjXeV/sQRmPbg3SJypgvQitvJg==}
 
@@ -1779,6 +1789,9 @@ packages:
 
   '@remix-run/node-fetch-server@0.13.1':
     resolution: {integrity: sha512-dOL+A/C84EA47gO/ps52KGrVSiYy96512rwtbXmJfWKYFm1FbrbjA3jao1hcIfao+jwVNEaZ1kTMwFjiino+HQ==}
+
+  '@remix-run/node-fetch-server@0.13.3':
+    resolution: {integrity: sha512-UfjOXed/DQteaM5VyTfqTeGpHwyL2J5aoRGY6cydip4tt1ehNNeSwuXCC7AEGE0RWBs/7bgKxYkL/B/+UDe4AA==}
 
   '@rolldown/binding-android-arm64@1.1.5':
     resolution: {integrity: sha512-lZg8fqIv2v7FF237bwMgzGZEJvGL79/s5knJ/i6FmsGF4XXlzccZ4jb+TrFIxtSSxFtIpdsgrPZeMk1I9AFcyQ==}
@@ -6655,9 +6668,9 @@ snapshots:
       - tsx
       - yaml
 
-  '@react-router/express@7.17.0(express@5.2.1)(react-router@7.17.0)(typescript@7.0.2)':
+  '@react-router/express@8.3.0(express@5.2.1)(react-router@7.17.0)(typescript@7.0.2)':
     dependencies:
-      '@react-router/node': 7.17.0(react-router@7.17.0)(typescript@7.0.2)
+      '@react-router/node': 8.3.0(react-router@7.17.0)(typescript@7.0.2)
       express: 5.2.1
       react-router: 7.17.0(react-dom@19.2.7)(react@19.2.7)
     optionalDependencies:
@@ -6677,6 +6690,13 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
+  '@react-router/node@8.3.0(react-router@7.17.0)(typescript@7.0.2)':
+    dependencies:
+      '@remix-run/node-fetch-server': 0.13.3
+      react-router: 7.17.0(react-dom@19.2.7)(react@19.2.7)
+    optionalDependencies:
+      typescript: 7.0.2
+
   '@remix-run/form-data-parser@0.17.4':
     dependencies:
       '@remix-run/multipart-parser': 0.16.3
@@ -6688,6 +6708,8 @@ snapshots:
       '@remix-run/headers': 0.21.1
 
   '@remix-run/node-fetch-server@0.13.1': {}
+
+  '@remix-run/node-fetch-server@0.13.3': {}
 
   '@rolldown/binding-android-arm64@1.1.5':
     optional: true
