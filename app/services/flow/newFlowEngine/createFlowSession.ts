@@ -132,28 +132,31 @@ export const createFlowSession = <C extends PageConfigMap>(
     return node;
   };
 
-  const prevNodeKeyAtIndex = (index: number) => {
-    const linear =
-      index > 0
-        ? (simulation.keys[index - 1] as NodeKey<C> | undefined)
-        : simulation.parentMap.get(nodeKey);
-    return skipFanOutOnlyBack(linear);
-  };
+  // A cyclical page (an array-summary <-> item flow) can appear more than
+  // once in the linear walk. Back always retraces to the FIRST occurrence's
+  // predecessor — the step before the array section started — never into an
+  // item's own page. This matches the old engine's behavior across all flows.
+  const first = simulation.keys.indexOf(nodeKey);
+  const linearPrevNodeKey =
+    first > 0
+      ? (simulation.keys[first - 1] as NodeKey<C> | undefined)
+      : simulation.parentMap.get(nodeKey);
+  const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
 
-  // Resolves a candidate predecessor to a directly usable path, or null if it
-  // sits deeper in array nesting than the current page and no real (index-aware)
-  // visited context exists to fill in the extra wildcards from — the current
-  // page's own arrayIndexes can't help, there's nothing at that depth to read.
-  const resolveConcretePrevPath = (
-    candidate: NodeKey<C> | undefined,
-  ): string | undefined | null => {
-    if (candidate == null) return undefined;
-    const prevStepId = compiledFlow.pages[candidate]?.stepId;
+  // The resolved predecessor can still sit deeper in array nesting than the
+  // current page (e.g. a redirect loop through a nested array before landing
+  // back on a shallower page). The current page's own arrayIndexes can't
+  // fill those extra wildcards in — resolve concrete indexes from the real
+  // (index-aware) visited context instead, so prevPath is always directly
+  // usable, never a bare "#" template.
+  const resolvePrevPath = (): string | undefined => {
+    if (prevNodeKey == null) return undefined;
+    const prevStepId = compiledFlow.pages[prevNodeKey]?.stepId;
     if (prevStepId == null) return undefined;
 
     const currentStepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
     if (arrayWildcardCount(prevStepId) <= arrayWildcardCount(currentStepId)) {
-      return compiledFlow.getPathFromNodeKey(candidate);
+      return compiledFlow.getPathFromNodeKey(prevNodeKey);
     }
 
     // Prefer the most recently completed instance of that page; fall back to
@@ -162,40 +165,18 @@ export const createFlowSession = <C extends PageConfigMap>(
     const match =
       visited.find(
         ({ key, scopeData }) =>
-          key === candidate &&
+          key === prevNodeKey &&
           isPageDone(
             compiledFlow.getSchemaByNodeKey(key),
             compiledFlow.getFieldNamesByNodeKey(key),
             scopeData as Record<string, unknown>,
           ),
-      ) ?? visited.find(({ key }) => key === candidate);
-    if (!match) return null;
+      ) ?? visited.find(({ key }) => key === prevNodeKey);
+    if (!match) return compiledFlow.getPathFromNodeKey(prevNodeKey);
     return insertConcreteIndexes(prevStepId, match.pageData.arrayIndexes ?? []);
   };
 
-  // When nodeKey appears multiple times (a cycle), prefer the last occurrence
-  // for array-complete cycles (intermediate pages filled), first for redirect
-  // loops. But the "last" pick is only safe if it actually resolves to a
-  // concrete path — if there's no real data to back it (e.g. the user started
-  // an item but never got far enough for anything to be "done"), fall back to
-  // the first occurrence instead of ever surfacing an unresolvable "#" template.
-  const first = simulation.keys.indexOf(nodeKey);
-  const last = simulation.keys.lastIndexOf(nodeKey);
-  const intermediates =
-    first === last
-      ? []
-      : simulation.keys.slice(first + 1, last).filter((k) => k !== nodeKey);
-  const hasFilled = intermediates.some(
-    (k) =>
-      compiledFlow.getFieldNamesByNodeKey(k as NodeKey<C>).length > 0 &&
-      doneNodeKeys.has(k as NodeKey<C>),
-  );
-
-  const prevPath = hasFilled
-    ? (resolveConcretePrevPath(prevNodeKeyAtIndex(last)) ??
-      resolveConcretePrevPath(prevNodeKeyAtIndex(first)) ??
-      undefined)
-    : (resolveConcretePrevPath(prevNodeKeyAtIndex(first)) ?? undefined);
+  const prevPath = resolvePrevPath();
 
   return {
     nodeKey,
