@@ -1,6 +1,7 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
 import { kinderRequireFurtherGenerations } from "./calculateInheritance";
+import { collectMissingChildrenNames } from "./missingChildren";
 
 // Returns true if a kind (and all their descendants) have no living heirs.
 // A living kind or any living grandkid/great-grandkid means this returns false.
@@ -18,8 +19,21 @@ export const kinderFlowConfig = {
   kind1Summary: [
     { target: "kind1Daten", type: "addArrayItem" },
     {
+      // Checked first: a depth-5 dead person with hatteKinder="yes" can never
+      // have kinder filled in (no depth-6 UI exists), so it would otherwise
+      // always look like a "missing children" case below.
       target: "nichtErmitteltWeitereGenerationen",
       guard: kinderRequireFurtherGenerations,
+    },
+    {
+      // Wrapping the deceased as the root of the tree catches both shapes at
+      // once: hatteKinder="yes" with an empty kinder array (nobody added at
+      // all), and any individual kind further down with the same problem.
+      target: "kinderFehlen",
+      guard: ({ name, hatteKinder, kinder }) =>
+        collectMissingChildrenNames([
+          { name: name ?? "", isAlive: "no", hatteKinder, kinder },
+        ]).length > 0,
     },
     {
       target: "elternteilSummary",

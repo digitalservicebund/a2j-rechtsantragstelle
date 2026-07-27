@@ -45,6 +45,26 @@ import {
   parentSelectFormElement,
   resolveParentOptions,
 } from "~/domains/nachlass/erbschein/erbfolge/buildParentOptions";
+import {
+  collectMissingChildrenNames,
+  collectMissingChildrenNamesForElternteile,
+} from "~/domains/nachlass/erbschein/erbfolge/missingChildren";
+import type { InheritanceInput } from "~/domains/nachlass/erbschein/erbfolge/calculateInheritance";
+
+const KINDER_FEHLEN_STEP_ID = "/kinder-fehlen";
+
+function escapeHtml(text: string): string {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+// Injected into the CMS content via {{{missingChildrenNamesHtml}}} (triple
+// braces: raw HTML) — e.g. inside an Inline Notice component's rich text.
+function buildMissingChildrenNamesHtml(names: string[]): string {
+  return `<ul>${names.map((name) => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`;
+}
 function NachlassErbfolgePage() {
   const loaderData = useLoaderData<typeof loader>();
 
@@ -198,9 +218,35 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       : {};
 
   const cmsStepId = stepId.replaceAll("/#", "");
+  const { prunedUserData } = flowSession;
+  const missingChildrenNames =
+    stepId === KINDER_FEHLEN_STEP_ID
+      ? [
+          // Wrapping the deceased as the root of the kinder tree catches both
+          // shapes: hatteKinder="yes" with an empty kinder array (nobody
+          // added at all), and any individual kind further down with the
+          // same problem.
+          ...collectMissingChildrenNames([
+            {
+              name: (prunedUserData.name as string | undefined) ?? "",
+              isAlive: "no",
+              hatteKinder: prunedUserData.hatteKinder as string | undefined,
+              kinder: (prunedUserData as InheritanceInput).kinder,
+            },
+          ]),
+          ...collectMissingChildrenNamesForElternteile(
+            (prunedUserData as InheritanceInput).elternteile ?? [],
+          ),
+        ]
+      : undefined;
   const replacements = {
-    ...flowSession.prunedUserData,
+    ...prunedUserData,
     ...parentNameData,
+    ...(missingChildrenNames !== undefined && {
+      missingChildrenNames: missingChildrenNames.join(", "),
+      missingChildrenNamesHtml:
+        buildMissingChildrenNamesHtml(missingChildrenNames),
+    }),
   } as Replacements;
 
   const prevStepId = flowSession.prevPath;
