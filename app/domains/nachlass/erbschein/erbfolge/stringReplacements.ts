@@ -6,6 +6,10 @@ import {
   collectMissingChildrenNames,
   collectMissingChildrenNamesForElternteile,
 } from "./missingChildren";
+import {
+  collectRequiredDocuments,
+  type PersonDocuments,
+} from "./requiredDocuments";
 
 // Rendered into the CMS content via the triple-brace {{{missingChildrenNamesHtml}}}
 // placeholder (triple braces mean "insert as raw HTML"), e.g. inside a notice.
@@ -43,17 +47,39 @@ function missingChildrenReplacements(
   };
 }
 
+// The documents every person in the result needs to provide, as a table.
+// Rendered into the result page via the triple-brace {{{requiredDocumentsHtml}}}.
+function buildRequiredDocumentsHtml(
+  requiredDocuments: PersonDocuments[],
+): string {
+  const rows = requiredDocuments
+    .map(
+      ({ name, documents }) =>
+        `<tr><td class="font-semibold pr-24 pb-kern-space-small align-top">${escape(name)}</td>` +
+        `<td class="pb-kern-space-small">${documents}</td></tr>`,
+    )
+    .join("");
+  return `<table class="w-full"><tbody>${rows}</tbody></table>`;
+}
+
 export function nachlassErbfolgeStringReplacements(
   context: UserData,
 ): Replacements {
+  const data = context as InheritanceInput & {
+    name?: string;
+    hatteKinder?: string;
+  };
+
   return {
     // The raw answers, so CMS text can reference them directly (e.g. {{name}}
     // is the deceased's name). Page-specific values that these can't express
     // (the name of the list item the user is currently inside) are added
     // separately in the route's loader extras.
     ...(context as Replacements),
-    ...missingChildrenReplacements(
-      context as InheritanceInput & { name?: string; hatteKinder?: string },
+    ...missingChildrenReplacements(data),
+    // Only referenced by the result page; harmless (and unused) elsewhere.
+    requiredDocumentsHtml: buildRequiredDocumentsHtml(
+      collectRequiredDocuments(data),
     ),
   };
 }

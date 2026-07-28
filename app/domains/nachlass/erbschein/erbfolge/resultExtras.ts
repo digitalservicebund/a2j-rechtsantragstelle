@@ -1,6 +1,5 @@
 import { type z } from "zod";
 import escape from "lodash/escape";
-import { type Replacements } from "~/util/applyStringReplacement";
 import { type StrapiListItemSchema } from "~/services/cms/models/content/StrapiListItem";
 import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type {
@@ -13,10 +12,6 @@ import {
   type InheritanceInput,
 } from "./calculateInheritance";
 import type { Gueterstand } from "./pages";
-import {
-  collectRequiredDocuments,
-  type PersonDocuments,
-} from "./requiredDocuments";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.
@@ -70,20 +65,6 @@ function buildHeirListItems(
   }));
 }
 
-// Injected into the CMS content via {{{requiredDocumentsHtml}}} (triple braces: raw HTML).
-function buildRequiredDocumentsHtml(
-  requiredDocuments: PersonDocuments[],
-): string {
-  const rows = requiredDocuments
-    .map(
-      ({ name, documents }) =>
-        `<tr><td class="font-semibold pr-24 pb-kern-space-small align-top">${escape(name)}</td>` +
-        `<td class="pb-kern-space-small">${documents}</td></tr>`,
-    )
-    .join("");
-  return `<table class="w-full"><tbody>${rows}</tbody></table>`;
-}
-
 function spouseFromUserData(userData: InheritanceInput) {
   const ehepartnerName = (userData as { ehepartnerName?: string })
     .ehepartnerName;
@@ -97,15 +78,6 @@ function spouseFromUserData(userData: InheritanceInput) {
 }
 
 export const erbfolgeResultExtras: ResultLoaderExtras = {
-  buildReplacements: (context: ResultExtrasContext): Replacements => {
-    if (context.stepId !== ERBFOLGE_STEP_ID) return {};
-    return {
-      requiredDocumentsHtml: buildRequiredDocumentsHtml(
-        collectRequiredDocuments(context.userData as InheritanceInput),
-      ),
-    };
-  },
-
   transformContent: (
     content: StrapiResultPage,
     context: ResultExtrasContext,

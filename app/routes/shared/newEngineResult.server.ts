@@ -10,7 +10,6 @@ import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
   replacementsFromFlowConfig,
-  type Replacements,
 } from "~/util/applyStringReplacement";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type FlowId } from "~/domains/flowIds";
@@ -30,13 +29,10 @@ export type ResultExtrasContext = {
 };
 
 // Optional per-flow hooks. A flow that needs nothing beyond the shared behavior
-// passes no extras and is served exactly as before.
+// passes no extras and is served exactly as before. Plain text placeholders go
+// through the flow's `stringReplacements`; this hook is only for content that a
+// string replacement can't express.
 export type ResultLoaderExtras = {
-  // Extra CMS text placeholders (e.g. a computed HTML table), merged after the
-  // flow's static replacements so they win.
-  buildReplacements?: (
-    context: ResultExtrasContext,
-  ) => Replacements | Promise<Replacements>;
   // Rewrite the result page content after replacements (e.g. fill a CMS List
   // component with computed items). Receives and returns the same page shape.
   transformContent?: (
@@ -80,14 +76,10 @@ export const loadResultData = async (
     flowSessionEngine,
   };
 
-  const flowReplacements = replacementsFromFlowConfig(
+  const replacements = replacementsFromFlowConfig(
     currentFlow.stringReplacements,
     userData,
   );
-  const extraReplacements = await extras?.buildReplacements?.(context);
-  const replacements = extraReplacements
-    ? { ...flowReplacements, ...extraReplacements }
-    : flowReplacements;
 
   const replacedContent = applyStringReplacement(
     resultPageContent,

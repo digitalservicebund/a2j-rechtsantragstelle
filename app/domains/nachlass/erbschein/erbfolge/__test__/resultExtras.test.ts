@@ -36,25 +36,6 @@ const heirsListComponent = {
   items: [],
 };
 
-describe("erbfolgeResultExtras.buildReplacements", () => {
-  it("injects the required-documents table on the main result page", async () => {
-    const replacements = await erbfolgeResultExtras.buildReplacements!(
-      contextFor("/ergebnis/erbfolge"),
-    );
-
-    expect(typeof replacements.requiredDocumentsHtml).toBe("string");
-    expect(replacements.requiredDocumentsHtml).toContain("<table");
-  });
-
-  it("adds nothing on the other (not-determined) result pages", async () => {
-    const replacements = await erbfolgeResultExtras.buildReplacements!(
-      contextFor("/ergebnis/erbfolge-nicht-ermittelt-weitere-ordnungen"),
-    );
-
-    expect(replacements).toEqual({});
-  });
-});
-
 describe("erbfolgeResultExtras.transformContent", () => {
   it("fills the heirsList CMS list with the calculated heirs on the main result page", async () => {
     const content = resultPageWith([heirsListComponent]);

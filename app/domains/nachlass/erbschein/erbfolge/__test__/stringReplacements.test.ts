@@ -16,6 +16,19 @@ describe("nachlassErbfolgeStringReplacements", () => {
     expect(result.familienstand).toBe("ledig");
   });
 
+  it("builds a required-documents table (rendered on the result page)", () => {
+    const result = nachlassErbfolgeStringReplacements({
+      name: "Erblasser",
+      familienstand: "ledig",
+      hatteKinder: "yes",
+      kinder: [{ name: "Kind Eins", isAlive: "yes" }],
+      elternteile: [],
+    } as Context);
+
+    expect(result.requiredDocumentsHtml).toContain("<table");
+    expect(result.requiredDocumentsHtml).toContain("Kind Eins");
+  });
+
   it("lists a dead person who stated kids but added none as a missing child", () => {
     const result = nachlassErbfolgeStringReplacements({
       name: "Oma",
