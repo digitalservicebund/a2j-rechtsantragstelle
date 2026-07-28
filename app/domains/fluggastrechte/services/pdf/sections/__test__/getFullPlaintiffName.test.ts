@@ -36,4 +36,15 @@ describe("getFullPlaintiffName", () => {
 
     expect(actual).toEqual("Test Test");
   });
+
+  it("should return the full plaintiff name with capitalized anrede given the anrede lower case, vorname and nachname", () => {
+    const actual = getFullPlaintiffName(
+      "herr",
+      undefined,
+      "Test name pETER",
+      "Test",
+    );
+
+    expect(actual).toEqual("Herr Test Name Peter Test");
+  });
 });
