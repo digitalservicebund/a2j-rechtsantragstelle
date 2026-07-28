@@ -32,17 +32,6 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.fillInput("forderungGesamtbetrag", "100.00");
   await formular.clickNext();
 
-  // /geld-einklagen/formular/klage-erstellen/sachverhalt/begruendung
-  await formular.fillTextarea("sachverhaltBegruendung", "some reason");
-  await formular.clickNext();
-
-  // /geld-einklagen/formular/klage-erstellen/beweise/angebot
-  await formular.fillRadioPage("beweiseAngebot", "yes");
-
-  // /geld-einklagen/formular/klage-erstellen/beweise/beschreibung
-  await formular.fillTextarea("beweiseBeschreibung", "some description");
-  await formular.clickNext();
-
   // /geld-einklagen/formular/klage-erstellen/prozessfuehrung/anwaltskosten
   await formular.clickNext();
 
