@@ -382,9 +382,6 @@ export const translations = {
     boxProjektPartnerAltText: {
       de: "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
     },
-    cardIdFGR: {
-      de: "FGR",
-    },
     cardHeadingFGR: {
       de: "Digitale Zahlungsklage für Fluggastrechte",
     },
@@ -396,9 +393,6 @@ export const translations = {
     },
     cardButtonLabelFGR: {
       de: "Klage erstellen",
-    },
-    cardIdTGA: {
-      de: "TGA",
     },
     cardHeadingTGA: {
       de: "Digitale Zahlungsklage",
@@ -412,9 +406,6 @@ export const translations = {
     cardButtonLabelTGA: {
       de: "Klage erstellen",
     },
-    cardIdBerH: {
-      de: "BerH",
-    },
     cardHeadingBerH: {
       de: "Beratungshilfe",
     },
@@ -426,9 +417,6 @@ export const translations = {
     },
     cardButtonLabelBerH: {
       de: "Zur Beratungshilfe",
-    },
-    cardIdPKH: {
-      de: "PKH",
     },
     cardHeadingPKH: {
       de: "Prozesskostenhilfe",
@@ -442,9 +430,6 @@ export const translations = {
     cardButtonLabelPKH: {
       de: "Zur Prozesskostenhilfe",
     },
-    cardIdKontopfaendung: {
-      de: "Kontopfändung",
-    },
     cardHeadingKontopfaendung: {
       de: "Kontopfändung",
     },
@@ -456,9 +441,6 @@ export const translations = {
     },
     cardButtonLabelKontopfaendung: {
       de: "Zum Wegweiser Kontopfändung",
-    },
-    cardIdErbschein: {
-      de: "Erbschein",
     },
     cardHeadingErbschein: {
       de: "Erbschein",
@@ -475,9 +457,6 @@ export const translations = {
     headingHilfreicheInformationen: {
       de: "Hilfreiche Informationen",
     },
-    cardIdRechtsprobleme: {
-      de: "Rechtsprobleme",
-    },
     cardHeadingRechtsprobleme: {
       de: "Rechtsprobleme",
     },
@@ -493,9 +472,6 @@ export const translations = {
     headingMitmachen: {
       de: "Mitmachen",
     },
-    cardIdAnleitung: {
-      de: "Anleitung",
-    },
     cardHeadingAnleitung: {
       de: "Anleitung",
     },
@@ -507,9 +483,6 @@ export const translations = {
     },
     cardButtonLabelAnleitung: {
       de: "Zu den finanziellen Hilfen",
-    },
-    cardIdStudie: {
-      de: "Studie",
     },
     cardHeadingStudie: {
       de: "Studie",
