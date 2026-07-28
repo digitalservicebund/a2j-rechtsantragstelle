@@ -29,8 +29,6 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
-  sachverhaltBegruendung: "some reason",
-  beweiseAngebot: "no",
   forderungGesamtbetrag: "1000",
   anwaltskosten: "10",
   prozesszinsen: "yes",

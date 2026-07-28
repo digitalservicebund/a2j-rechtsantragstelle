@@ -120,9 +120,10 @@ export const hasStreitbeilegungGruende = (
   };
 };
 
+// oxlint-disable-next-line no-unused-vars
 export const hasBeweiseAngebot = (context: GeldEinklagenFormularUserData) => {
   return {
-    hasBeweiseAngebot: context.beweiseAngebot === "yes",
+    hasBeweiseAngebot: false,
   };
 };
 
