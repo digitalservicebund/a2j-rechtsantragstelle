@@ -33,6 +33,12 @@ const sharedBeklagteAddress = {
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
+const abschnitteArray = z.array(
+  z.object({
+    beschreibung: stringRequiredSchema,
+  }),
+);
+
 export const geldEinklagenKlageErstellenPages = {
   klageErstellenIntroStart: {
     stepId: "klage-erstellen/intro/start",
@@ -127,6 +133,23 @@ export const geldEinklagenKlageErstellenPages = {
       forderungGesamtbetrag: buildMoneyValidationSchema({
         max: 1000000,
       }).meta({ description: formatCurrencyZodDescription }),
+    },
+  },
+  begruendungEinfuehrungStart: {
+    stepId: "klage-erstellen/begruendung/einfuehrung/start",
+  },
+  begruendungBeschreibungUebersicht: {
+    stepId: "klage-erstellen/begruendung/beschreibung/uebersicht",
+    arraySummary: {
+      name: "abschnitte",
+      schema: abschnitteArray,
+      isArrayRelevant: () => true,
+    },
+  },
+  begruendungBeschreibungAbschnitte: {
+    stepId: "klage-erstellen/begruendung/beschreibung/#/abschnitte",
+    pageSchema: {
+      "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
     },
   },
   prozessfuehrungAnwaltskosten: {

@@ -97,7 +97,17 @@ export const geldEinklagenFlowConfig = compileFlow({
       {
         guard: (context) =>
           objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
-        target: "prozessfuehrungAnwaltskosten",
+        target: "begruendungEinfuehrungStart",
+      },
+    ],
+    begruendungEinfuehrungStart: "begruendungBeschreibungUebersicht",
+    begruendungBeschreibungUebersicht: [
+      { type: "addArrayItem", target: "begruendungBeschreibungAbschnitte" },
+      { target: "prozessfuehrungAnwaltskosten" },
+    ],
+    begruendungBeschreibungAbschnitte: [
+      {
+        target: "begruendungBeschreibungUebersicht",
       },
     ],
     ...klageErstellenProzessfuehrungFlowConfig,
