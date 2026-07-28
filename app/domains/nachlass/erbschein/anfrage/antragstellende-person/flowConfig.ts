@@ -26,9 +26,12 @@ export const antragstellendePersonFlowConfig = {
   antragstellendePersonDritteStaatsangehoerigkeit:
     "antragstellendePersonAnschrift",
   antragstellendePersonAnschrift: "antragstellendePersonKontaktdaten",
-  antragstellendePersonKontaktdaten: [
+  antragstellendePersonKontaktdaten:
+    "antragstellendePersonRelationshipToErblasser",
+  antragstellendePersonRelationshipToErblasser: [
     {
-      guard: (data) => data.antragstellendePersonTelefonnummer !== undefined,
+      guard: (data) =>
+        data.antragstellendePersonRelationshipToErblasser !== undefined,
       target: "testamentArt",
     },
   ],

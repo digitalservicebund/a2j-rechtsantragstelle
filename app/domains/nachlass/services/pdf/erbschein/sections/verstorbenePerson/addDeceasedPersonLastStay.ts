@@ -81,6 +81,7 @@ export const addDeceasedPersonLastStay = (
       doc.text(`${address.streetAndNumber}`);
       doc.text(`${address.postalCodeAndCity}`);
       doc.text(`${address.country}`);
+      doc.moveDown(2);
     }),
   );
 };

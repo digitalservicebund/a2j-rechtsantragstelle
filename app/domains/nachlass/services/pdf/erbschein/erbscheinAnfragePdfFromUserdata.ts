@@ -8,6 +8,7 @@ import { createNoteForJudge } from "../sections/createNoteForJudge";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createHeaderAndSubject } from "~/domains/nachlass/services/pdf/erbschein/sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "~/domains/nachlass/services/pdf/erbschein/sections/verstorbenePerson/createDeceasedPerson";
+import { createAntragstellendePerson } from "~/domains/nachlass/services/pdf/erbschein/sections/antragstellendePerson/createAntragstellendePerson";
 
 const TITLE = "Datenblatt zur Vorbereitung eines Erbscheinsantrags";
 const SUBJECT = "Erbschein Anfrage";
@@ -23,7 +24,7 @@ const buildErbscheinAnfragePDFDocument: PDFDocumentBuilder<
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createHeaderAndSubject(doc, documentStruct, userData);
   createDeceasedPerson(doc, documentStruct, userData);
-  doc.addPage();
+  createAntragstellendePerson(doc, documentStruct, userData);
   createRenunciantPerson(doc, documentStruct, userData);
   createChildrenOfRenunciantPerson(doc, documentStruct, userData);
   createNoteForJudge(doc, documentStruct, userData);
