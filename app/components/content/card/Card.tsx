@@ -29,16 +29,17 @@ const Card = ({
           <hgroup className="kern-hgroup">
             {heading && (
               <Heading
-                className="kern-label text-kern-layout-text-muted! font-normal! pb-10!"
+                tagName="h3"
                 text={heading}
                 managedByParent
+                className="kern-label text-kern-layout-text-muted! font-normal! pb-10!"
               />
             )}
             {title && (
               <Heading
-                tagName="h2"
-                size="medium"
+                tagName="h3"
                 text={title}
+                size="medium"
                 managedByParent
               />
             )}
