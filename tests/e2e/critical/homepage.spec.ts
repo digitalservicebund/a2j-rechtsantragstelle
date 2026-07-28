@@ -2,8 +2,6 @@ import { test, expect } from "@playwright/test";
 import { footerLinks, headerLinks } from "../pages/urlsToCheck";
 import { testPageToBeAccessible } from "../util/testPageToBeAccessible";
 
-const LOGO_DIV_ID = "#BMJ-Logo-Banner";
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -12,26 +10,11 @@ test.describe("homepage", () => {
   testPageToBeAccessible();
 
   test("BMJ logo is displayed", async ({ page }) => {
-    // check if logo is displayed either as img role or img html tag
-    const logoExist = await Promise.any([
-      page
-        .locator(LOGO_DIV_ID)
-        .locator("div")
-        .locator("svg")
-        .waitFor()
-        .then(() => true),
-      page
-        .locator(LOGO_DIV_ID)
-        .locator("div")
-        .getByRole("img")
-        .waitFor()
-        .then(() => true),
-    ]).catch(() => {
-      // oxlint-disable-next-line no-console
-      console.log("Logo not found");
-    });
-
-    expect(logoExist).toBeTruthy();
+    await expect(
+      page.getByRole("img", {
+        name: /Logo des Bundesministeriums der Justiz und für Verbraucherschutz/,
+      }),
+    ).toBeVisible();
   });
 
   test.describe("Header links", () => {

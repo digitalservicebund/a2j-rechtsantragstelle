@@ -5,7 +5,7 @@ import Label, { type LabelProps } from "~/components/common/Label";
 import Button, { type ButtonProps } from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "../common/Heading";
-import RichText, { type RichTextProps } from "~/components/common/RichText";
+import RichText from "~/components/common/RichText";
 import BoxItem, { type BoxItemProps } from "./BoxItem";
 
 type BoxProps = {
@@ -14,7 +14,7 @@ type BoxProps = {
   label?: LabelProps;
   heading?: HeadingProps;
   subline?: HeadingProps;
-  content?: RichTextProps;
+  content?: { html: string } | React.ReactNode;
   buttons?: ButtonProps[];
   image?: ImageProps;
   items?: BoxItemProps[];
@@ -60,7 +60,12 @@ const Box = ({
             managedByParent
           />
         )}
-        {content && <RichText {...content} />}
+        {content &&
+          (typeof content === "object" && "html" in content ? (
+            <RichText {...content} />
+          ) : (
+            content
+          ))}
       </div>
       {arrayIsNonEmpty(items) && (
         <div
