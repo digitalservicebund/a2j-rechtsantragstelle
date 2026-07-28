@@ -61,8 +61,8 @@ export const serviceCards: CardGroupItem[] = [
 export const infoCards: CardGroupItem[] = [
   {
     span: 6,
-    link: "/finanzielle-hilfen",
-    id: "finanzielle-hilfen-card",
+    link: "/mein-Justizpostfach-einrichten",
+    id: "mein-justizpostfach-einrichten-card",
     preline: translations.homepage.cardPrelineAnleitung.de,
     heading: translations.homepage.cardHeadingAnleitung.de,
     description: translations.homepage.cardDescriptionAnleitung.de,
@@ -70,8 +70,8 @@ export const infoCards: CardGroupItem[] = [
   },
   {
     span: 6,
-    link: "/mein-Justizpostfach-einrichten",
-    id: "mein-justizpostfach-einrichten-card",
+    link: "/finanzielle-hilfen",
+    id: "finanzielle-hilfen-card",
     preline: translations.homepage.cardPrelineRechtsprobleme.de,
     heading: translations.homepage.cardHeadingRechtsprobleme.de,
     description: translations.homepage.cardDescriptionRechtsprobleme.de,
