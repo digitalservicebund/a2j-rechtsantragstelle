@@ -78,12 +78,14 @@ export const infoCards = [
   },
 ];
 
-export const feedbackCard = [{
-  span: 6,
-  link: "/feedback",
-  id: "studie-card",
-  heading: translations.homepage.cardHeadingStudie.de,
-  title: translations.homepage.cardTitleStudie.de,
-  description: translations.homepage.cardDescriptionStudie.de,
-  buttonLabel: translations.homepage.cardButtonLabelStudie.de,
-}];
+export const feedbackCard = [
+  {
+    span: 6,
+    link: "/feedback",
+    id: "studie-card",
+    heading: translations.homepage.cardHeadingStudie.de,
+    title: translations.homepage.cardTitleStudie.de,
+    description: translations.homepage.cardDescriptionStudie.de,
+    buttonLabel: translations.homepage.cardButtonLabelStudie.de,
+  },
+];
