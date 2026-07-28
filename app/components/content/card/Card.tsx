@@ -24,7 +24,7 @@ const Card = ({
 }: CardProps) => {
   return (
     <article className="kern-card">
-      <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025!">
+      <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025! rounded-sm">
         <header className="kern-card__header">
           <hgroup className="kern-hgroup">
             {preline && (
