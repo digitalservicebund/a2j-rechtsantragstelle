@@ -3,7 +3,7 @@ import Heading from "~/components/common/Heading";
 
 type CardProps = {
   id: string;
-  title?: string;
+  preline?: string;
   heading?: string;
   description?: string;
   buttonLabel?: string;
@@ -16,8 +16,8 @@ export type CardGroupItem = CardProps & {
 
 const Card = ({
   id,
+  preline,
   heading,
-  title,
   description,
   buttonLabel,
   link,
@@ -27,18 +27,15 @@ const Card = ({
       <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025!">
         <header className="kern-card__header">
           <hgroup className="kern-hgroup">
+            {preline && (
+              <p className="kern-preline text-kern-layout-text-muted! font-normal! pb-10!">
+                {preline}
+              </p>
+            )}
             {heading && (
               <Heading
                 tagName="h3"
                 text={heading}
-                managedByParent
-                className="kern-label text-kern-layout-text-muted! font-normal! pb-10!"
-              />
-            )}
-            {title && (
-              <Heading
-                tagName="h3"
-                text={title}
                 size="medium"
                 managedByParent
               />

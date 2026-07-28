@@ -5,8 +5,8 @@ import { type CardGroupItem } from "../Card";
 const mockCards: CardGroupItem[] = [
   {
     id: "card-1",
-    heading: "Card 1",
-    title: "Title 1",
+    preline: "Card 1",
+    heading: "Heading 1",
     description: "Description 1",
     buttonLabel: "Click 1",
     span: 4,
@@ -14,8 +14,8 @@ const mockCards: CardGroupItem[] = [
   },
   {
     id: "card-2",
-    heading: "Card 2",
-    title: "Title 2",
+    preline: "Card 2",
+    heading: "Heading 2",
     description: "Description 2",
     buttonLabel: "Click 2",
     span: 4,
@@ -34,7 +34,7 @@ describe("CardGroup", () => {
     render(<CardGroup cards={mockCards} />);
 
     expect(screen.getByText("Card 1")).toBeInTheDocument();
-    expect(screen.getByText("Title 1")).toBeInTheDocument();
+    expect(screen.getByText("Heading 1")).toBeInTheDocument();
     expect(screen.getByText("Description 1")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Click 1" })).toBeInTheDocument();
   });

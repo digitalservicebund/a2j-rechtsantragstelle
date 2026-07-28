@@ -22,9 +22,9 @@ type Story = StoryObj<typeof Card>;
 
 export const Default: Story = {
   args: {
-    heading: "Card heading",
-    title: "Card Title",
-    description: "Card description",
+    preline: "Card Preline",
+    heading: "Card Heading",
+    description: "Card Description",
     buttonLabel: "Button Text",
   },
 };

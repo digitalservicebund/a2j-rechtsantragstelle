@@ -5,8 +5,8 @@ describe("Card", () => {
   it("should render heading, title, description and button", () => {
     render(
       <Card
+        preline="Preline"
         heading="Heading"
-        title="Title"
         description="Description"
         buttonLabel="Click me"
         id="card-1"
@@ -14,8 +14,8 @@ describe("Card", () => {
       />,
     );
 
+    expect(screen.getByText("Preline")).toBeInTheDocument();
     expect(screen.getByText("Heading")).toBeInTheDocument();
-    expect(screen.getByText("Title")).toBeInTheDocument();
     expect(screen.getByText("Description")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Click me" })).toBeInTheDocument();
   });
@@ -23,8 +23,8 @@ describe("Card", () => {
   it("should link button to heading via aria-describedby", () => {
     render(
       <Card
+        preline="Preline"
         heading="Heading"
-        title="Title"
         description="Description"
         buttonLabel="Click me"
         id="card-1"

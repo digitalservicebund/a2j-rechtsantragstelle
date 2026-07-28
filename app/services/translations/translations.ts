@@ -382,10 +382,10 @@ export const translations = {
     boxProjektPartnerAltText: {
       de: "Logo des Bundesministeriums der Justiz und für Verbraucherschutz",
     },
-    cardHeadingFGR: {
+    cardPrelineFGR: {
       de: "Digitale Zahlungsklage für Fluggastrechte",
     },
-    cardTitleFGR: {
+    cardHeadingFGR: {
       de: "Online-Verfahren: Geld bei Flugproblemen einfordern",
     },
     cardDescriptionFGR: {
@@ -394,10 +394,10 @@ export const translations = {
     cardButtonLabelFGR: {
       de: "Klage erstellen",
     },
-    cardHeadingTGA: {
+    cardPrelineTGA: {
       de: "Digitale Zahlungsklage",
     },
-    cardTitleTGA: {
+    cardHeadingTGA: {
       de: "Online-Verfahren: Geld von einer Person oder Organisation einfordern",
     },
     cardDescriptionTGA: {
@@ -406,10 +406,10 @@ export const translations = {
     cardButtonLabelTGA: {
       de: "Klage erstellen",
     },
-    cardHeadingBerH: {
+    cardPrelineBerH: {
       de: "Beratungshilfe",
     },
-    cardTitleBerH: {
+    cardHeadingBerH: {
       de: "Finanzielle Hilfe für ein Gespräch mit einer Anwältin oder einem Anwalt erhalten",
     },
     cardDescriptionBerH: {
@@ -418,10 +418,10 @@ export const translations = {
     cardButtonLabelBerH: {
       de: "Zur Beratungshilfe",
     },
-    cardHeadingPKH: {
+    cardPrelinePKH: {
       de: "Prozesskostenhilfe",
     },
-    cardTitlePKH: {
+    cardHeadingPKH: {
       de: "Finanzielle Hilfe für ein Gerichtsverfahren erhalten",
     },
     cardDescriptionPKH: {
@@ -430,10 +430,10 @@ export const translations = {
     cardButtonLabelPKH: {
       de: "Zur Prozesskostenhilfe",
     },
-    cardHeadingKontopfaendung: {
+    cardPrelineKontopfaendung: {
       de: "Kontopfändung",
     },
-    cardTitleKontopfaendung: {
+    cardHeadingKontopfaendung: {
       de: "Geld bei einer Kontopfändung schützen",
     },
     cardDescriptionKontopfaendung: {
@@ -442,10 +442,10 @@ export const translations = {
     cardButtonLabelKontopfaendung: {
       de: "Zum Wegweiser Kontopfändung",
     },
-    cardHeadingErbschein: {
+    cardPrelineErbschein: {
       de: "Erbschein",
     },
-    cardTitleErbschein: {
+    cardHeadingErbschein: {
       de: "Notwendigkeit für Erbschein prüfen",
     },
     cardDescriptionErbschein: {
@@ -457,10 +457,10 @@ export const translations = {
     headingHilfreicheInformationen: {
       de: "Hilfreiche Informationen",
     },
-    cardHeadingRechtsprobleme: {
+    cardPrelineRechtsprobleme: {
       de: "Rechtsprobleme",
     },
-    cardTitleRechtsprobleme: {
+    cardHeadingRechtsprobleme: {
       de: "Rechtliche Unterstützung für Menschen mit wenig Geld",
     },
     cardDescriptionRechtsprobleme: {
@@ -472,10 +472,10 @@ export const translations = {
     headingMitmachen: {
       de: "Mitmachen",
     },
-    cardHeadingAnleitung: {
+    cardPrelineAnleitung: {
       de: "Anleitung",
     },
-    cardTitleAnleitung: {
+    cardHeadingAnleitung: {
       de: "Anleitung: „Mein Justizpostfach“ einrichten",
     },
     cardDescriptionAnleitung: {
@@ -484,10 +484,10 @@ export const translations = {
     cardButtonLabelAnleitung: {
       de: "Zu den finanziellen Hilfen",
     },
-    cardHeadingStudie: {
+    cardPrelineStudie: {
       de: "Studie",
     },
-    cardTitleStudie: {
+    cardHeadingStudie: {
       de: "Gestalten Sie die digitalen Angebote der Justiz mit",
     },
     cardDescriptionStudie: {
