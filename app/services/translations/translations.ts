@@ -467,7 +467,7 @@ export const translations = {
       de: "Finden Sie Informationen zur Beratungshilfe, Prozesskostenhilfe und zu weiteren Beratungsmöglichkeiten.",
     },
     cardButtonLabelRechtsprobleme: {
-      de: "„Mein Justizpostfach“ einrichten",
+      de: "Zu den finanziellen Hilfen",
     },
     headingMitmachen: {
       de: "Mitmachen",
@@ -482,7 +482,7 @@ export const translations = {
       de: "Mit „Mein Justizpostfach“ können Sie mit der Justiz kommunizieren und Dokumente online einreichen (zum Beispiel einen Antrag oder eine Klage)“ einrichten und nutzen können.",
     },
     cardButtonLabelAnleitung: {
-      de: "Zu den finanziellen Hilfen",
+      de: "„Mein Justizpostfach“ einrichten",
     },
     cardPrelineStudie: {
       de: "Studie",
