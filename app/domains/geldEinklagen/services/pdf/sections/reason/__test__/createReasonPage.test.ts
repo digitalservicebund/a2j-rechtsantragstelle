@@ -6,7 +6,6 @@ import { createReasonPage } from "../createReasonPage";
 import { addFactsOfCases } from "../addFactsOfCases";
 import { addEvidencesOnFacts } from "../addEvidencesOnFacts";
 import { createLegalAssessment } from "../legalAssessment/createLegalAssessment";
-import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
 vi.mock("../addFactsOfCases");
 vi.mock("../addEvidencesOnFacts");
@@ -35,53 +34,37 @@ describe("createReasonPage", () => {
   it("should call the addFactsOfCases for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-    const userData = { sachverhaltBegruendung: "Mein Sachverhalt" };
 
-    createReasonPage(mockDoc, mockStruct, userData);
+    createReasonPage(mockDoc, mockStruct, {});
 
     expect(addFactsOfCases).toBeCalledTimes(1);
     expect(addFactsOfCases).toHaveBeenCalledWith(
       mockDoc,
       expect.anything(),
-      userData.sachverhaltBegruendung,
+      expect.anything(),
     );
   });
 
   it("should call the addEvidencesOnFacts for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-    const userData: GeldEinklagenFormularUserData = {
-      beweiseAngebot: "yes",
-      beweiseBeschreibung: "Mein Beweistext",
-    };
 
-    createReasonPage(mockDoc, mockStruct, userData);
+    createReasonPage(mockDoc, mockStruct, {});
 
-    expect(addEvidencesOnFacts).toBeCalledTimes(1);
+    expect(addEvidencesOnFacts).toHaveBeenCalledTimes(1);
     expect(addEvidencesOnFacts).toHaveBeenCalledWith(
       mockDoc,
       expect.anything(),
-      userData.beweiseBeschreibung,
+      expect.anything(),
     );
   });
 
   it("should call the createLegalAssessment for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-    const userData: GeldEinklagenFormularUserData = {
-      beweiseAngebot: "yes",
-      beweiseBeschreibung: "Mein Beweistext",
-    };
+    createReasonPage(mockDoc, mockStruct, {});
 
-    createReasonPage(mockDoc, mockStruct, userData);
-
-    expect(createLegalAssessment).toBeCalledTimes(1);
-    expect(createLegalAssessment).toHaveBeenCalledWith(
-      mockDoc,
-      expect.anything(),
-      userData,
-      true,
-    );
+    expect(createLegalAssessment).toHaveBeenCalledTimes(1);
   });
 
   it("should call createLegalAssessment with false when beweiseBeschreibung is missing", () => {
@@ -90,7 +73,7 @@ describe("createReasonPage", () => {
 
     createReasonPage(mockDoc, mockStruct, {});
 
-    expect(createLegalAssessment).toBeCalledTimes(1);
+    expect(createLegalAssessment).toHaveBeenCalledTimes(1);
     expect(createLegalAssessment).toHaveBeenCalledWith(
       mockDoc,
       expect.anything(),

@@ -25,8 +25,8 @@ export const createReasonPage = (
 
   documentStruct.add(reasonSect);
 
-  addFactsOfCases(doc, reasonSect, userData.sachverhaltBegruendung ?? "");
-  const hasEvidencesOnFacts = userData.beweiseAngebot === "yes";
-  addEvidencesOnFacts(doc, reasonSect, userData.beweiseBeschreibung ?? "");
+  addFactsOfCases(doc, reasonSect, "");
+  const hasEvidencesOnFacts = false;
+  addEvidencesOnFacts(doc, reasonSect, "");
   createLegalAssessment(doc, reasonSect, userData, hasEvidencesOnFacts);
 };

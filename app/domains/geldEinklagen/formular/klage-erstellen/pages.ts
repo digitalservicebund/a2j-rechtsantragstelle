@@ -129,28 +129,6 @@ export const geldEinklagenKlageErstellenPages = {
       }).meta({ description: formatCurrencyZodDescription }),
     },
   },
-  sachverhaltBegruendung: {
-    stepId: "klage-erstellen/sachverhalt/begruendung",
-    pageSchema: {
-      sachverhaltBegruendung: stringRequiredMaxSchema({
-        max: TEXTAREA_MAX_LENGTH,
-      }),
-    },
-  },
-  beweiseAngebot: {
-    stepId: "klage-erstellen/beweise/angebot",
-    pageSchema: {
-      beweiseAngebot: YesNoAnswer,
-    },
-  },
-  beweiseBeschreibung: {
-    stepId: "klage-erstellen/beweise/beschreibung",
-    pageSchema: {
-      beweiseBeschreibung: stringRequiredMaxSchema({
-        max: TEXTAREA_MAX_LENGTH,
-      }),
-    },
-  },
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {

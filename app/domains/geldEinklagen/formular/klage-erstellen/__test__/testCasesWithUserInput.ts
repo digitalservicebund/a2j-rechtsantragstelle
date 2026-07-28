@@ -14,7 +14,6 @@ const baseContext: GeldEinklagenFormularUserData = {
   mietePachtRaum: "yes",
   postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
   forderungGesamtbetrag: "100.00",
-  sachverhaltBegruendung: "some reason",
   pageData: {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
@@ -89,24 +88,6 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/sachverhalt/begruendung",
-        userInput: {
-          sachverhaltBegruendung: "some reason",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/angebot",
-        userInput: {
-          beweiseAngebot: "yes",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/beschreibung",
-        userInput: {
-          beweiseBeschreibung: "some description",
-        },
-      },
-      {
         stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
       },
       {
@@ -143,24 +124,6 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/sachverhalt/begruendung",
-        userInput: {
-          sachverhaltBegruendung: "some reason",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/angebot",
-        userInput: {
-          beweiseAngebot: "yes",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/beschreibung",
-        userInput: {
-          beweiseBeschreibung: "some description",
-        },
-      },
-      {
         stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
       },
       {
@@ -190,18 +153,6 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       },
       {
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
-      },
-      {
-        stepId: "/klage-erstellen/sachverhalt/begruendung",
-        userInput: {
-          sachverhaltBegruendung: "some reason",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/angebot",
-        userInput: {
-          beweiseAngebot: "no",
-        },
       },
       {
         stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
@@ -238,18 +189,6 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       },
       {
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
-      },
-      {
-        stepId: "/klage-erstellen/sachverhalt/begruendung",
-        userInput: {
-          sachverhaltBegruendung: "some reason",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/angebot",
-        userInput: {
-          beweiseAngebot: "no",
-        },
       },
       {
         stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
@@ -305,18 +244,6 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       },
       {
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
-      },
-      {
-        stepId: "/klage-erstellen/sachverhalt/begruendung",
-        userInput: {
-          sachverhaltBegruendung: "some reason",
-        },
-      },
-      {
-        stepId: "/klage-erstellen/beweise/angebot",
-        userInput: {
-          beweiseAngebot: "no",
-        },
       },
       {
         stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",

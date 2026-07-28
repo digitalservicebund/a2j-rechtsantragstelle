@@ -97,30 +97,6 @@ export const geldEinklagenFlowConfig = compileFlow({
       {
         guard: (context) =>
           objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
-        target: "sachverhaltBegruendung",
-      },
-    ],
-    sachverhaltBegruendung: [
-      {
-        guard: (context) =>
-          objectKeysNonEmpty(context, ["sachverhaltBegruendung"]),
-        target: "beweiseAngebot",
-      },
-    ],
-    beweiseAngebot: [
-      {
-        guard: (context) => context.beweiseAngebot === "yes",
-        target: "beweiseBeschreibung",
-      },
-      {
-        guard: (context) => context.beweiseAngebot === "no",
-        target: "prozessfuehrungAnwaltskosten",
-      },
-    ],
-    beweiseBeschreibung: [
-      {
-        guard: (context) =>
-          objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
         target: "prozessfuehrungAnwaltskosten",
       },
     ],
