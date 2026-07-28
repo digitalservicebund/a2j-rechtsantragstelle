@@ -51,6 +51,8 @@ export const angehoerigeArray = z.array(
   ]),
 );
 
+export type Angehoerige = z.infer<typeof angehoerigeArray>[number];
+
 export const angehoerigePages = {
   angehoerigeOverview: {
     stepId: "/angehoerige/uebersicht",
