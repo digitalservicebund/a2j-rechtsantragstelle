@@ -1,4 +1,7 @@
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import {
+  type CompiledFlow,
+  compileFlow,
+} from "~/services/flow/newFlowEngine/compileFlow";
 import { nachlassErbfolgePages } from "./pages";
 import { kinderFlowConfig } from "./kinderFlowConfig";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
@@ -7,6 +10,7 @@ import {
   hasNoFirstOrSecondOrderHeirs,
 } from "./calculateInheritance";
 import { collectMissingChildrenNamesForElternteile } from "./missingChildren";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,
@@ -82,4 +86,4 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     nichtErmitteltWeitereOrdnungen: null,
     kinderFehlen: null,
   },
-});
+}) as CompiledFlow<PageConfigMap>;

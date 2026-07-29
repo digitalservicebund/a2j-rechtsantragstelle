@@ -16,6 +16,11 @@ export const nachlassErbscheinAnfrage = {
   config: {
     states: {},
   },
+  migration: {
+    source: "/nachlass/erbschein/erbfolge",
+    sortedFields: [],
+    buttonUrl: "/nachlass/erbschein/erbfolge", // do we need this?
+  },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),
     ...getVerstorbeneStreetnameHousenumber(context),

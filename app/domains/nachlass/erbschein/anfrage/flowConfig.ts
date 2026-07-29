@@ -15,7 +15,8 @@ export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
   pages: nachlassErbscheinAnfragePages,
   initialStep: "start",
   transitions: {
-    start: "datenverarbeitung",
+    start: "datenUebernahme",
+    datenUebernahme: "datenverarbeitung",
     datenverarbeitung: [
       {
         guard: (data) => data.datenverarbeitungZustimmung === "on",

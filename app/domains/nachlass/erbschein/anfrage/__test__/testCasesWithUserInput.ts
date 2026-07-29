@@ -19,6 +19,9 @@ export const nachlassErbscheinAnfrageTestCases = {
         stepId: "/start",
       },
       {
+        stepId: "/start/daten-uebernahme",
+      },
+      {
         stepId: "/start/datenverarbeitung",
         userInput: { datenverarbeitungZustimmung: "on" },
       },

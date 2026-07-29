@@ -1,9 +1,10 @@
 import type { FlowId } from "~/domains/flowIds";
-import type { Flow } from "~/domains/flows.server";
+import { flows, type Flow } from "~/domains/flows.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from ".";
 import pick from "lodash/pick";
 import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateData";
 
 export const migrationKey = "daten-uebernahme";
 
@@ -18,6 +19,20 @@ export async function getMigrationData(
     return undefined;
 
   const userData = await getSessionData(migration.source, cookieHeader);
+  const destinationNewEngineConfig =
+    "newEngineConfig" in migrationFlowDestination
+      ? migrationFlowDestination.newEngineConfig
+      : undefined;
+  const sourceFlow = flows[migration.source];
+  const sourceNewEngineConfig =
+    "newEngineConfig" in sourceFlow ? sourceFlow.newEngineConfig : undefined;
+  if (destinationNewEngineConfig && sourceNewEngineConfig) {
+    return migrateSourceFlowDataToDestinationFlow(
+      userData,
+      sourceNewEngineConfig,
+      migrationFlowIdDestination,
+    );
+  }
   const { prunedData } = pruneIrrelevantData(userData, migration.source);
   const destinationUserSchemas = getAllPageSchemaByFlowId(
     migrationFlowIdDestination,
