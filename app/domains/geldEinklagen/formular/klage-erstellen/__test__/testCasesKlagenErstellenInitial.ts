@@ -52,8 +52,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/mensch",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -75,8 +73,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -94,8 +90,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/mensch",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -117,8 +111,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -150,8 +142,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

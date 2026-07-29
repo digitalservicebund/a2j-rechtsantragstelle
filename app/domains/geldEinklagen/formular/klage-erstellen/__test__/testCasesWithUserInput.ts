@@ -88,10 +88,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      },
-      {
-        stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
+        stepId: "/klage-erstellen/begruendung/einfuehrung/start",
       },
     ],
     klageErstelleBeklagteOrganisationAndNoAnwaltschaft: [
@@ -124,10 +121,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      },
-      {
-        stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
+        stepId: "/klage-erstellen/begruendung/einfuehrung/start",
       },
     ],
     klageErstelleBeklagteMenschenAndNoAnwaltschaftAndNoBeweiseAngebot: [
@@ -155,10 +149,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      },
-      {
-        stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
+        stepId: "/klage-erstellen/begruendung/einfuehrung/start",
       },
     ],
     klageErstelleBeklagteOrganisationAndNoAnwaltschaftAndNoBeweiseAngebot: [
@@ -191,10 +182,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      },
-      {
-        stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
+        stepId: "/klage-erstellen/begruendung/einfuehrung/start",
       },
     ],
     klageErstelleBeklagteOrganisationAndAnwaltschaftYes: [
@@ -246,10 +234,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
         stepId: "/klage-erstellen/forderung/gesamtbetrag",
       },
       {
-        stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      },
-      {
-        stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
+        stepId: "/klage-erstellen/begruendung/einfuehrung/start",
       },
     ],
   };

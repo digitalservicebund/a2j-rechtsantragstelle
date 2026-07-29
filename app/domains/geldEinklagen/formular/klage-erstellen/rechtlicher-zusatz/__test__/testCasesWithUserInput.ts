@@ -36,6 +36,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   muendlicheVerhandlung: "yes",
   videoVerhandlung: "no",
   versaeumnisurteil: "yes",
+  abschnitte: [
+    {
+      beschreibung: "Abschnitt 1",
+    },
+  ],
   pageData: {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
