@@ -171,7 +171,9 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
   // Mirror the loader (getSessionAndEngine): the guards that pick the next step
   // read pageData.arrayIndexes to resolve which array item was just submitted, so
   // they must be derived from the URL before the engine evaluates the transition.
-  const fullUserData = addPageDataToUserData(flowSession.data, { arrayIndexes });
+  const fullUserData = addPageDataToUserData(flowSession.data, {
+    arrayIndexes,
+  });
 
   const flowSessionEngineSaved = createFlowSession(
     compiledStaticFlow,
