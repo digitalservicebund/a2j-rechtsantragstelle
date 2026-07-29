@@ -36,6 +36,23 @@ const heirsListComponent = {
   items: [],
 };
 
+const ehevertragNoticeComponent = {
+  __component: "page.inline-notice",
+  identifier: "ehevertragUnbekanntHinweis",
+  title: "Erbanteile können nicht ermittelt werden",
+};
+
+// A married deceased whose Ehevertrag / Güterstand the user could not pin down.
+const undeterminableSpouseUserData = {
+  name: "Erblasser",
+  familienstand: "verheiratet",
+  ehepartnerName: "Ehepartner",
+  ehevertrag: "unknown",
+  hatteKinder: "yes",
+  kinder: [{ name: "Kind Eins", isAlive: "yes" }],
+  elternteile: [],
+};
+
 describe("erbfolgeResultExtras.transformContent", () => {
   it("fills the heirsList CMS list with the calculated heirs on the main result page", async () => {
     const content = resultPageWith([heirsListComponent]);
@@ -59,6 +76,64 @@ describe("erbfolgeResultExtras.transformContent", () => {
     );
 
     expect(result.freeZone[0]).toEqual(paragraph);
+  });
+
+  it("hides the notice and shows the heirs when shares can be determined", async () => {
+    const content = resultPageWith([
+      heirsListComponent,
+      ehevertragNoticeComponent,
+    ]);
+
+    const result = await erbfolgeResultExtras.transformContent!(
+      content,
+      contextFor("/ergebnis/erbfolge"),
+    );
+
+    expect(result.freeZone).toHaveLength(1);
+    const list = result.freeZone[0] as unknown as {
+      identifier: string;
+      items: unknown[];
+    };
+    expect(list.identifier).toBe("heirsList");
+    expect(list.items).toHaveLength(1);
+  });
+
+  it("hides the heirs and keeps the notice when the Ehevertrag is unknown", async () => {
+    const content = resultPageWith([
+      heirsListComponent,
+      ehevertragNoticeComponent,
+    ]);
+
+    const result = await erbfolgeResultExtras.transformContent!(
+      content,
+      contextFor("/ergebnis/erbfolge", undeterminableSpouseUserData),
+    );
+
+    expect(result.freeZone).toHaveLength(1);
+    expect(
+      (result.freeZone[0] as unknown as { identifier: string }).identifier,
+    ).toBe("ehevertragUnbekanntHinweis");
+  });
+
+  it("hides the heirs when the Güterstand is 'other'", async () => {
+    const content = resultPageWith([
+      heirsListComponent,
+      ehevertragNoticeComponent,
+    ]);
+
+    const result = await erbfolgeResultExtras.transformContent!(
+      content,
+      contextFor("/ergebnis/erbfolge", {
+        ...undeterminableSpouseUserData,
+        ehevertrag: "yes",
+        gueterstand: "other",
+      }),
+    );
+
+    expect(result.freeZone).toHaveLength(1);
+    expect(
+      (result.freeZone[0] as unknown as { identifier: string }).identifier,
+    ).toBe("ehevertragUnbekanntHinweis");
   });
 
   it("does not touch content on the other result pages", async () => {
