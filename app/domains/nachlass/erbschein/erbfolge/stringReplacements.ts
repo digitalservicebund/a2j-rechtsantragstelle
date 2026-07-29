@@ -14,7 +14,8 @@ import {
 // Rendered into the CMS content via the triple-brace {{{missingChildrenNamesHtml}}}
 // placeholder (triple braces mean "insert as raw HTML"), e.g. inside a notice.
 function buildMissingChildrenNamesHtml(names: string[]): string {
-  return `<ul>${names.map((name) => `<li>${escape(name)}</li>`).join("")}</ul>`;
+  const items = names.map((name) => `<li>${escape(name)}</li>`).join("");
+  return `<ul>${items}</ul>`;
 }
 
 // Everyone the flow knows died and had children, but whose children were never
@@ -77,7 +78,6 @@ export function nachlassErbfolgeStringReplacements(
     // separately in the route's loader extras.
     ...(context as Replacements),
     ...missingChildrenReplacements(data),
-    // Only referenced by the result page; harmless (and unused) elsewhere.
     requiredDocumentsHtml: buildRequiredDocumentsHtml(
       collectRequiredDocuments(data),
     ),
