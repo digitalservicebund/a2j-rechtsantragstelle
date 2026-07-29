@@ -24,6 +24,8 @@ import {
   type StrapiAutoSuggestComponent,
 } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
+import { begruendungBeschreibungUebersichtZodDescription } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/begruendungBeschreibungUebersichtSchema";
+import BegruendungBeschreibungUebersicht from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -33,6 +35,7 @@ const specialComponentDescriptions = [
   numberIncrementZodDescription,
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
+  begruendungBeschreibungUebersichtZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -163,6 +166,10 @@ export const renderSpecialMetaDescriptions = (
         key={fieldName}
       />
     );
+  }
+
+  if (description === begruendungBeschreibungUebersichtZodDescription) {
+    return <BegruendungBeschreibungUebersicht key={fieldName} />;
   }
 };
 

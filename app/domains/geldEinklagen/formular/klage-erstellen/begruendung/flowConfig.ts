@@ -13,9 +13,5 @@ export const klageErstellenBegruendungFlowConfig = {
     { target: "begruendungBeschreibungWarnung" },
   ],
   begruendungBeschreibungWarnung: null,
-  begruendungBeschreibungAbschnitte: [
-    {
-      target: "begruendungBeschreibungUebersicht",
-    },
-  ],
+  begruendungBeschreibungAbschnitte: "begruendungBeschreibungUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenKlageErstellenPages>>;
