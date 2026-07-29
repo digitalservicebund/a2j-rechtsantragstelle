@@ -6,6 +6,7 @@ const localFeatureFlags = {
   showErbausschlagungFlow: true,
   showErbausschlagungGerichtFindenVorabcheck: true,
   showNachlassErbscheinAnfrageFlow: false,
+  showNachlassErbscheinErbfolgeFlow: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

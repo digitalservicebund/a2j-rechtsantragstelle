@@ -20,6 +20,7 @@ import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbauss
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 
 type FlowMigration = {
   source: FlowId;
@@ -70,5 +71,5 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": {} as Flow<PageConfigMap>,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolge,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;
