@@ -1,12 +1,13 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-const happyPathData = {
+const happyPathData: NachlassErbscheinAnfrageUserData = {
   datenverarbeitungZustimmung: "on",
   verstorbenePersonStrasse: "Musterstraße",
   verstorbenePersonHausnummer: "1",
   verstorbenePersonOrt: "Musterstadt",
-  antragstellendePersonTelefonnummer: "0123456789",
+  antragstellendePersonRelationshipToErblasser: "cousin",
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -14,7 +15,7 @@ const happyPathData = {
 type UserData = Parameters<typeof createFlowSession>[1];
 
 describe("angehoerigeOverview Back navigation", () => {
-  it("resolves a concrete prevPath after one deceased Angehoerige was filled in", () => {
+  it("goes to the step before the array after one deceased Angehoerige was filled in", () => {
     const session = createFlowSession(
       nachlassErbscheinAnfrageFlowConfig,
       {
@@ -35,7 +36,7 @@ describe("angehoerigeOverview Back navigation", () => {
       "/angehoerige/uebersicht",
     );
 
-    expect(session.prevPath).toBe("/angehoerige/0/sterbedatum");
+    expect(session.prevPath).toBe("/testament-oder-erbvertrag/art");
   });
 
   it("does not leak an unresolved array wildcard when no Angehoerige was ever submitted", () => {

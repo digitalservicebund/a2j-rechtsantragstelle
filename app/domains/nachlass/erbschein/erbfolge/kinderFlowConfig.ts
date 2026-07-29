@@ -1,6 +1,7 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
 import { kinderRequireFurtherGenerations } from "./calculateInheritance";
+import { collectMissingChildrenNames } from "./missingChildren";
 
 // Returns true if a kind (and all their descendants) have no living heirs.
 // A living kind or any living grandkid/great-grandkid means this returns false.
@@ -18,8 +19,21 @@ export const kinderFlowConfig = {
   kind1Summary: [
     { target: "kind1Daten", type: "addArrayItem" },
     {
+      // Checked first: a depth-5 dead person with hatteKinder="yes" can never
+      // have kinder filled in (no depth-6 UI exists), so it would otherwise
+      // always look like a "missing children" case below.
       target: "nichtErmitteltWeitereGenerationen",
       guard: kinderRequireFurtherGenerations,
+    },
+    {
+      // Wrapping the deceased as the root of the tree catches both shapes at
+      // once: hatteKinder="yes" with an empty kinder array (nobody added at
+      // all), and any individual kind further down with the same problem.
+      target: "kinderFehlen",
+      guard: ({ name, hatteKinder, kinder }) =>
+        collectMissingChildrenNames([
+          { name: name ?? "", isAlive: "no", hatteKinder, kinder },
+        ]).length > 0,
     },
     {
       target: "elternteilSummary",
@@ -31,7 +45,8 @@ export const kinderFlowConfig = {
   kind1Daten: [
     {
       target: "kind1HatteKinder",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 1) return false;
         if (kinder.length <= arrayIndexes[0]) return false;
         return kinder[arrayIndexes[0]].isAlive === "no";
@@ -43,7 +58,8 @@ export const kinderFlowConfig = {
     {
       target: "kind2Daten",
       type: "addArrayItem",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 1) return false;
         if (kinder.length <= arrayIndexes[0]) return false;
         const kind = kinder[arrayIndexes[0]];
@@ -56,7 +72,8 @@ export const kinderFlowConfig = {
   kind2Daten: [
     {
       target: "kind2HatteKinder",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -71,7 +88,8 @@ export const kinderFlowConfig = {
     {
       target: "kind3Daten",
       type: "addArrayItem",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -87,7 +105,8 @@ export const kinderFlowConfig = {
   kind3Daten: [
     {
       target: "kind3HatteKinder",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -106,7 +125,8 @@ export const kinderFlowConfig = {
     {
       target: "kind4Daten",
       type: "addArrayItem",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -126,7 +146,8 @@ export const kinderFlowConfig = {
   kind4Daten: [
     {
       target: "kind4HatteKinder",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -149,7 +170,8 @@ export const kinderFlowConfig = {
     {
       target: "kind5Daten",
       type: "addArrayItem",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -173,7 +195,8 @@ export const kinderFlowConfig = {
   kind5Daten: [
     {
       target: "kind5HatteKinder",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 5) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
@@ -199,7 +222,8 @@ export const kinderFlowConfig = {
   kind5HatteKinder: [
     {
       target: "nichtErmitteltWeitereGenerationen",
-      guard: ({ kinder, pageData: { arrayIndexes } }) => {
+      guard: ({ kinder, pageData }) => {
+        const arrayIndexes = pageData?.arrayIndexes;
         if (!kinder || !arrayIndexes || arrayIndexes.length < 5) return false;
         const kind1 = kinder[arrayIndexes[0]];
         if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;

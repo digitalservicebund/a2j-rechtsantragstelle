@@ -81,6 +81,9 @@ const topLevelPages = {
   nichtErmitteltWeitereOrdnungen: {
     stepId: "/ergebnis/erbfolge-nicht-ermittelt-weitere-ordnungen",
   },
+  kinderFehlen: {
+    stepId: "/kinder-fehlen",
+  },
 } as const;
 
 export const nachlassErbfolgePages = {

@@ -6,6 +6,7 @@ import {
   elternteileRequireFurtherGenerations,
   hasNoFirstOrSecondOrderHeirs,
 } from "./calculateInheritance";
+import { collectMissingChildrenNamesForElternteile } from "./missingChildren";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,
@@ -46,8 +47,17 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     elternteilSummary: [
       { target: "elternteilDaten", type: "addArrayItem" },
       {
+        // Checked first: a depth-5 dead person with hatteKinder="yes" can
+        // never have kinder filled in (no depth-6 UI exists), so it would
+        // otherwise always look like a "missing children" case below.
         target: "nichtErmitteltWeitereGenerationen",
         guard: elternteileRequireFurtherGenerations,
+      },
+      {
+        target: "kinderFehlen",
+        guard: ({ elternteile }) =>
+          collectMissingChildrenNamesForElternteile(elternteile ?? []).length >
+          0,
       },
       {
         target: "grosseltern",
@@ -62,7 +72,7 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ...elternteilFlowConfig,
     grosseltern: [
       {
-        target: "nichtErmitteltWeitereGenerationen",
+        target: "nichtErmitteltWeitereOrdnungen",
         guard: (d) => d.grosselternLeben === "yes",
       },
       { target: "ergebnis" },
@@ -70,5 +80,6 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ergebnis: null,
     nichtErmitteltWeitereGenerationen: null,
     nichtErmitteltWeitereOrdnungen: null,
+    kinderFehlen: null,
   },
 });

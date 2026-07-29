@@ -1,25 +1,33 @@
 import { GridItem } from "~/components/layout/grid/GridItem";
 import Card from "./Card";
-import type { CardProps } from "./Card";
+import type { CardGroupItem } from "./Card";
 
-const CardGroup = ({ cards }: { cards: CardProps[] }) => {
+const spanMap: Record<number, string> = {
+  3: "xl:col-span-3",
+  4: "xl:col-span-4",
+  6: "xl:col-span-6",
+  12: "xl:col-span-12",
+};
+
+const CardGroup = ({ cards }: { cards: CardGroupItem[] }) => {
   if (!cards.length) return null;
 
   return (
     <GridItem
-      mdColumn={{ start: 1, span: 8 }}
-      lgColumn={{ start: 3, span: 8 }}
-      xlColumn={{ start: 3, span: 8 }}
-      className="flex gap-kern-space-default"
+      smColumn={{ start: 1, span: 12 }}
+      mdColumn={{ start: 1, span: 12 }}
+      lgColumn={{ start: 1, span: 12 }}
+      xlColumn={{ start: 1, span: 12 }}
     >
-      <div className="kern-container">
-        <div className="kern-row">
-          {cards.map((card) => (
-            <div key={card.id} className="kern-col-xl-4 kern-col-sm-12">
-              <Card {...card} />
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-12 gap-32">
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            className={`col-span-12 ${spanMap[card.span] ?? "xl:col-span-4"}`}
+          >
+            <Card {...card} />
+          </div>
+        ))}
       </div>
     </GridItem>
   );

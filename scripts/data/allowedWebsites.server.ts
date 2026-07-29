@@ -74,4 +74,5 @@ export const allowedWebsites = [
   "https://bitvtest.de",
   "https://www.kern-ux.de",
   "https://www.w3.org",
+  "https://www.online-mahnantrag.de",
 ];
