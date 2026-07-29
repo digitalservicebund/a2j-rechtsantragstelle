@@ -1,0 +1,79 @@
+import {
+  mockPdfKitDocument,
+  mockPdfKitDocumentStructure,
+} from "tests/factories/mockPdfKit";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { createAngehoerigeSection } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/createAngehoerigeSection";
+
+const userDataMock: NachlassErbscheinAnfrageUserData = {
+  angehoerige: [
+    {
+      vorname: "Max",
+      nachname: "Mustermann",
+      geburtsdatum: { day: "01", month: "01", year: "1980" },
+      geburtsort: "Berlin",
+      verhaeltnis: "life-partner",
+      strasse: "Hauptstraße",
+      hausnummer: "123",
+      plz: "10115",
+      ort: "Berlin",
+      land: "Deutschland",
+      isAlive: "yes",
+    },
+    {
+      vorname: "Erika",
+      nachname: "Mustermann",
+      isAlive: "no",
+      geburtsdatum: { day: "01", month: "01", year: "1991" },
+      geburtsort: "Köln",
+      sterbedatum: { day: "01", month: "01", year: "2020" },
+      sterbeort: "Berlin",
+    },
+  ],
+};
+
+describe("createAngehoerigeSection", () => {
+  it("Should enumerate each Angehoerige in the PDF", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    createAngehoerigeSection(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.struct).toHaveBeenCalledWith("Sect");
+    expect(mockDoc.text).toHaveBeenCalledWith("Max Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsdatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("01.01.1980");
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsort: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Berlin");
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Familienverhältnis zum Erblasser: ",
+      { continued: true },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Lebenspartner*in");
+    expect(mockDoc.text).toHaveBeenCalledWith("Anschrift: ");
+    expect(mockDoc.text).toHaveBeenCalledWith("Hauptstraße 123");
+    expect(mockDoc.text).toHaveBeenCalledWith("10115 Berlin");
+    expect(mockDoc.text).toHaveBeenCalledWith("Deutschland");
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Erika Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsdatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("01.01.1991");
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsort: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Köln");
+    expect(mockDoc.text).toHaveBeenCalledWith("Sterbedatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("01.01.2020");
+    expect(mockDoc.text).toHaveBeenCalledWith("Sterbeort: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Berlin");
+  });
+});

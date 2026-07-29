@@ -76,7 +76,7 @@ export default async function execute() {
       const entries = await getStrapiEntryFromApi({
         apiId,
         locale,
-        pageSize: "500",
+        pageSize: "900",
         pLevel: 6,
       });
       if (entries.length > 0 && entries[0] !== null) {

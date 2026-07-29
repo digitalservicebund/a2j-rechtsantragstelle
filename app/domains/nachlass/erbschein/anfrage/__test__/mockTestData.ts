@@ -8,7 +8,7 @@ export const nachlassErbscheinAnfrageHappyPathData: NachlassErbscheinAnfrageUser
     verstorbenePersonStrasse: "Musterstraße",
     verstorbenePersonHausnummer: "1",
     verstorbenePersonOrt: "Musterstadt",
-    antragstellendePersonTelefonnummer: "0123456789",
+    antragstellendePersonRelationshipToErblasser: "daughter-son",
   };
 
 export const mockBeguenstigtenArray: z.infer<typeof beguenstigtenArray> = [

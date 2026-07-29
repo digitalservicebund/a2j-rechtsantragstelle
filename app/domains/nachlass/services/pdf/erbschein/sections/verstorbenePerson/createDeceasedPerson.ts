@@ -1,15 +1,15 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addDeceasedPersonDetails } from "./addDeceasedPersonDetails";
 import { addDeceasedPersonLastStay } from "./addDeceasedPersonLastStay";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const TITLE = "Verstorbene Person / Erblasser";
 
 export const createDeceasedPerson = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: NachlassErbscheinAnfrageUserData,
 ) => {
   const deceasedPersonSection = doc.struct("Sect");
 
