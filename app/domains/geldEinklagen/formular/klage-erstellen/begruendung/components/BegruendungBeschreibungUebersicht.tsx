@@ -1,21 +1,46 @@
 import { Icon } from "~/components/common/Icon";
-import { translations as translationProvider } from "~/services/translations/translations";
+import { translations } from "~/services/translations/translations";
 import Button from "~/components/common/Button";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
+import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
+import { arrayIsNonEmpty } from "~/util/array";
+import BegruendungBeschreibungItems from "./BegruendungBeschreibungItems";
 
 const BegruendungBeschreibungUebersicht = () => {
-  const addButtonUrl =
-    "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/0/abschnitte";
+  const { userData, flowId } = useFormFlow();
+
+  if (flowId !== "/geld-einklagen/formular") {
+    return null;
+  }
+
+  const userDataGeldEinklagen =
+    userData as GeldEinklagenFormularKlageErstellenUserData;
+
+  const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.abschnitte)
+    ? String(userDataGeldEinklagen.abschnitte?.length ?? 0)
+    : "0";
+
+  const addButtonUrl = `/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/${nextItemIndex}/abschnitte`;
 
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
+        {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) &&
+          userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
+            <BegruendungBeschreibungItems
+              key={abschnitt.beschreibung}
+              itemIndex={index}
+              abschnitte={abschnitt}
+            />
+          ))}
         <Button
           look="secondary"
           iconLeft={<Icon name="plus" className="text-kern-action-default" />}
           href={addButtonUrl}
           data-testid="add-abschnitt"
+          className="mt-16!"
         >
-          {`Abschnitt ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}
+          {`Abschnitt ${translations.arraySummary.arrayAddButtonLabel.de}`}
         </Button>
       </div>
     </div>
