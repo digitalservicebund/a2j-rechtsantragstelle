@@ -28,16 +28,16 @@ const SECTION_TITLES = [
   "Kinder",
   "Enkelkinder",
   "Urenkel",
-  "Ururenkel",
-  "Ururenurenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 
 const SINGULAR_TITLES = [
   "Kind",
   "Enkelkind",
   "Urenkel",
-  "Ururenkel",
-  "Ururenurenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 
 function badgeLabel(
@@ -52,8 +52,8 @@ const ADD_LABELS = [
   "Kind hinzufügen",
   "Enkelkind hinzufügen",
   "Urenkel hinzufügen",
-  "Ururenkel hinzufügen",
-  "Ururenurenkel hinzufügen",
+  "Ur-Urenkel hinzufügen",
+  "Ur-Ur-Urenkel hinzufügen",
 ];
 
 function DeleteButton({

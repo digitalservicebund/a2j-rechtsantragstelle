@@ -12,6 +12,7 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { addPageDataToUserData } from "~/services/flow/pageData";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "~/services/flow/pageData";
 import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
@@ -136,7 +137,7 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
   }
 
   const { pathname } = url;
-  const { flowId, currentFlow, stepId } =
+  const { flowId, currentFlow, stepId, arrayIndexes } =
     getPageAndFlowDataFromPathname(pathname);
 
   const compiledStaticFlow =
@@ -167,9 +168,16 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
 
   updateSession(flowSession, resultFormUserData.value.userData);
 
+  // Mirror the loader (getSessionAndEngine): the guards that pick the next step
+  // read pageData.arrayIndexes to resolve which array item was just submitted, so
+  // they must be derived from the URL before the engine evaluates the transition.
+  const fullUserData = addPageDataToUserData(flowSession.data, {
+    arrayIndexes,
+  });
+
   const flowSessionEngineSaved = createFlowSession(
     compiledStaticFlow,
-    flowSession.data as Parameters<typeof createFlowSession>[1],
+    fullUserData as Parameters<typeof createFlowSession>[1],
     stepId,
   );
 
