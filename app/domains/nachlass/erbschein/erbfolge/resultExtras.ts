@@ -26,8 +26,8 @@ const FIRST_ORDER_LABELS = [
   "Kind",
   "Enkelkind",
   "Urenkel",
-  "Ururgroßenkel",
-  "Urururgroßenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 const SECOND_ORDER_LABELS = ["Elternteil", "Geschwister", "Nichte oder Neffe"];
 

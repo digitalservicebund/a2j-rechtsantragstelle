@@ -29,16 +29,16 @@ const SECTION_TITLES = [
   "Kinder von Elternteilen",
   "Enkelkinder von Elternteilen",
   "Urenkel von Elternteilen",
-  "Ururenkel von Elternteilen",
-  "Ururenurenkel von Elternteilen",
+  "Ur-Urenkel von Elternteilen",
+  "Ur-Ur-Urenkel von Elternteilen",
 ];
 
 const ADD_LABELS = [
   "Kind hinzufügen",
   "Enkelkind hinzufügen",
   "Urenkel hinzufügen",
-  "Ururenkel hinzufügen",
-  "Ururenurenkel hinzufügen",
+  "Ur-Urenkel hinzufügen",
+  "Ur-Ur-Urenkel hinzufügen",
 ];
 
 type SectionEntry = {
