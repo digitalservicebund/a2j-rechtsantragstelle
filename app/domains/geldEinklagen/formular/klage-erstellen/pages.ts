@@ -152,6 +152,9 @@ export const geldEinklagenKlageErstellenPages = {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
     },
   },
+  begruendungBeschreibungWarnung: {
+    stepId: "klage-erstellen/begruendung/beschreibung/warnung",
+  },
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {

@@ -16,6 +16,7 @@ import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+import { klageErstellenBegruendungFlowConfig } from "./klage-erstellen/begruendung/flowConfig";
 
 const geldEinklagenFormularPagesWithLeadingSlash = addLeadingSlashToPageSchemas(
   geldEinklagenFormularPages,
@@ -100,16 +101,7 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "begruendungEinfuehrungStart",
       },
     ],
-    begruendungEinfuehrungStart: "begruendungBeschreibungUebersicht",
-    begruendungBeschreibungUebersicht: [
-      { type: "addArrayItem", target: "begruendungBeschreibungAbschnitte" },
-      { target: "prozessfuehrungAnwaltskosten" },
-    ],
-    begruendungBeschreibungAbschnitte: [
-      {
-        target: "begruendungBeschreibungUebersicht",
-      },
-    ],
+    ...klageErstellenBegruendungFlowConfig,
     ...klageErstellenProzessfuehrungFlowConfig,
     rechtlicherZusatzWeitereAntraege: "rechtlicherZusatzRechtlicheWuerdigung",
     rechtlicherZusatzRechtlicheWuerdigung: [
