@@ -17,17 +17,11 @@ import {
   loadVorabcheckData,
   runVorabcheckAction,
 } from "~/routes/shared/newEngineVorabcheck.server";
-import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-
-const ERBFOLGE_FEATURE_FLAG = "showNachlassErbscheinErbfolgeFlow";
 
 export const loader = (args: LoaderFunctionArgs) =>
   loadVorabcheckData(args, erbfolgeVorabcheckExtras);
 
-export const action = async (args: ActionFunctionArgs) => {
-  await throw404IfFeatureFlagDisabled(ERBFOLGE_FEATURE_FLAG);
-  return runVorabcheckAction(args);
-};
+export const action = (args: ActionFunctionArgs) => runVorabcheckAction(args);
 
 function NachlassErbfolgePage() {
   const {
