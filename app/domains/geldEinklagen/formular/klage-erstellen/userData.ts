@@ -1,5 +1,6 @@
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type geldEinklagenKlageErstellenPages } from "./pages";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 
-export type GeldEinklagenFormularKlageErstellenUserData =
-  UserDataFromPagesSchema<typeof geldEinklagenKlageErstellenPages>;
+export type GeldEinklagenFormularKlageErstellenUserData = InferredUserData<
+  typeof geldEinklagenKlageErstellenPages
+>;
