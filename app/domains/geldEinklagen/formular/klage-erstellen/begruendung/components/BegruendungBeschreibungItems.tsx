@@ -1,5 +1,8 @@
-import Heading from "~/components/common/Heading";
+import { Icon } from "~/components/common/Icon";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
+import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise";
+import Button from "~/components/common/Button";
+import { translations } from "~/services/translations/translations";
 
 type BegruendungBeschreibungItemsProps = {
   readonly itemIndex: number;
@@ -14,24 +17,45 @@ const BegruendungBeschreibungItems = ({
   abschnitte,
 }: BegruendungBeschreibungItemsProps) => {
   return (
-    <div className="kern-summary">
-      <div className="kern-summary__header gap-kern-space-small!">
-        <Heading
-          text={`Abschnitt ${itemIndex + 1}`}
-          tagName="h2"
-          managedByParent
-          className="kern-body kern-body--bold"
-        />
+    <div className="kern-summary pb-24">
+      <div className="kern-summary__header">
+        <h2 className="kern-body kern-body--large kern-body--bold p-0!">
+          {translations.geldEinklagen.begruendungBeschreibungHeadline.de}{" "}
+          {itemIndex + 1}
+        </h2>
       </div>
       <div className="kern-summary__body bg-white!">
-        <dl className="kern-description-list">
-          <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">Beschreibung</dt>
-            <dd className="kern-description-list-item__value">
-              {abschnitte.beschreibung}
-            </dd>
+        <div className="flex flex-col gap-kern-space-large">
+          <span className="kern-body kern-body--default kern-body--bold p-0!">
+            {translations.geldEinklagen.begruendungBeschreibungTitle.de}
+          </span>
+          <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
+            {abschnitte.beschreibung}
+          </span>
+          <a
+            className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
+            href={`/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/${itemIndex}/abschnitte`}
+          >
+            <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
+            {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
+          </a>
+          <BegruendungBeschreibungBeweise />
+          <div className="flex flex-row-reverse">
+            <Button
+              href={"/"}
+              look="secondary"
+              className="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
+              iconLeft={
+                <Icon name={"trash"} className="fill-kern-action-default!" />
+              }
+            >
+              {
+                translations.geldEinklagen.begruendungBeschreibungDeleteButton
+                  .de
+              }
+            </Button>
           </div>
-        </dl>
+        </div>
       </div>
     </div>
   );

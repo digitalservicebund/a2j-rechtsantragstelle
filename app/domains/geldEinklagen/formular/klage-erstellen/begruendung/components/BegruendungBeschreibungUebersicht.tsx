@@ -33,15 +33,17 @@ const BegruendungBeschreibungUebersicht = () => {
               abschnitte={abschnitt}
             />
           ))}
-        <Button
-          look="secondary"
-          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-          href={addButtonUrl}
-          data-testid="add-abschnitt"
-          className="mt-16!"
-        >
-          {`Abschnitt ${translations.arraySummary.arrayAddButtonLabel.de}`}
-        </Button>
+        <div className="flex flex-col items-start p-kern-space-default border border-dotted border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white ">
+          <Button
+            look="secondary"
+            iconLeft={<Icon name="plus" className="text-kern-action-default" />}
+            href={addButtonUrl}
+            data-testid="add-abschnitt"
+            className="w-full"
+          >
+            {`${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+          </Button>
+        </div>
       </div>
     </div>
   );
