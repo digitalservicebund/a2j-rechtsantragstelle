@@ -1,8 +1,27 @@
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
+import { type BegruendungBeschreibungItemsProps } from "./BegruendungBeschreibungItems";
+import { arrayIsNonEmpty } from "~/util/array";
 
-export const BegruendungBeschreibungBeweise = () => {
+const baseUrl =
+  "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung";
+
+export const BegruendungBeschreibungBeweise = ({
+  itemIndex,
+  abschnitte,
+}: BegruendungBeschreibungItemsProps) => {
+  const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.beweiseDokumenten)
+    ? String(abschnitte.beweiseDokumenten.length)
+    : "0";
+
+  const nextPersonItemIndex = arrayIsNonEmpty(abschnitte.beweiseDokumenten)
+    ? String(abschnitte.beweiseDokumenten.length)
+    : "0";
+
+  const addDocumentUrl = `${baseUrl}/${itemIndex}/abschnitte/${nextDocumentItemIndex}/beweis-dokument`;
+  const addPersonUrl = `${baseUrl}/${itemIndex}/abschnitte/${nextPersonItemIndex}/beweis-person-auswahl`;
+
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
       <div className="kern-description-list-item">
@@ -20,7 +39,7 @@ export const BegruendungBeschreibungBeweise = () => {
 
         <div className="flex gap-24 w-full justify-between">
           <Button
-            href={"/"}
+            href={addDocumentUrl}
             look="secondary"
             className="w-full"
             iconLeft={
@@ -33,7 +52,7 @@ export const BegruendungBeschreibungBeweise = () => {
             }
           </Button>
           <Button
-            href={"/"}
+            href={addPersonUrl}
             look="secondary"
             className="w-full"
             iconLeft={

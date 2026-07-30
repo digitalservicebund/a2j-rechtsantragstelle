@@ -34,9 +34,43 @@ const sharedBeklagteAddress = {
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
+const beweiseDokumentenArray = z.array(
+  z.object({
+    beschreibung: stringRequiredSchema,
+  }),
+);
+
+const beweisePersonenSchema = z.object({
+  anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
+  title: schemaOrEmptyString(stringRequiredSchema),
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  strasse: stringRequiredSchema,
+  hausnummer: germanHouseNumberSchema,
+  plz: stringRequiredSchema.pipe(postcodeSchema),
+  ort: stringRequiredSchema,
+  land: stringRequiredSchema,
+  telefonnummer: schemaOrEmptyString(phoneNumberSchema),
+  email: schemaOrEmptyString(emailSchema),
+});
+
+const beweisePersonenArray = z.array(
+  z.union([
+    z.object({
+      personAuswahl: z.enum(["beklagte", "klagende"]),
+    }),
+    z.object({
+      personAuswahl: z.literal("anotherPerson"),
+      ...beweisePersonenSchema,
+    }),
+  ]),
+);
+
 const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema,
+    beweiseDokumenten: beweiseDokumentenArray.optional(),
+    //beweisePersonen: beweisePersonenArray.optional(),
   }),
 );
 
@@ -155,6 +189,48 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/begruendung/beschreibung/#/abschnitte",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisDocument: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-dokument",
+    pageSchema: {
+      "abschnitte#beweiseDokumenten#beschreibung":
+        beweiseDokumentenArray.element.shape.beschreibung,
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-person-auswahl",
+    pageSchema: {
+      "abschnitte#beweisePersonen#personAuswahl": z.enum([
+        "klagende",
+        "beklagte",
+        "anotherPerson",
+      ]),
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisPerson: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-person",
+    pageSchema: {
+      "abschnitte#beweisePersonen#anrede": beweisePersonenSchema.shape.anrede,
+      "abschnitte#beweisePersonen#title": beweisePersonenSchema.shape.title,
+      "abschnitte#beweisePersonen#vorname": beweisePersonenSchema.shape.vorname,
+      "abschnitte#beweisePersonen#nachname":
+        beweisePersonenSchema.shape.nachname,
+      "abschnitte#beweisePersonen#strasse": beweisePersonenSchema.shape.strasse,
+      "abschnitte#beweisePersonen#hausnummer":
+        beweisePersonenSchema.shape.hausnummer,
+      "abschnitte#beweisePersonen#plz": beweisePersonenSchema.shape.plz,
+      "abschnitte#beweisePersonen#ort": beweisePersonenSchema.shape.ort,
+      "abschnitte#beweisePersonen#land": beweisePersonenSchema.shape.land,
+      "abschnitte#beweisePersonen#telefonnummer":
+        beweisePersonenSchema.shape.telefonnummer,
+      "abschnitte#beweisePersonen#email": beweisePersonenSchema.shape.email,
     },
   },
   begruendungBeschreibungWarnung: {

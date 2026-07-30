@@ -4,7 +4,7 @@ import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 
-type BegruendungBeschreibungItemsProps = {
+export type BegruendungBeschreibungItemsProps = {
   readonly itemIndex: number;
   readonly abschnitte: Exclude<
     GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
@@ -39,7 +39,10 @@ const BegruendungBeschreibungItems = ({
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
           </a>
-          <BegruendungBeschreibungBeweise />
+          <BegruendungBeschreibungBeweise
+            itemIndex={itemIndex}
+            abschnitte={abschnitte}
+          />
           <div className="flex flex-row-reverse">
             <Button
               href={"/"}
