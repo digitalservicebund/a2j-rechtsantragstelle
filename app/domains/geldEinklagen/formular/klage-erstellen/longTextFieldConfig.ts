@@ -13,6 +13,7 @@ const LONG_TEXT_FIELD_ROWS = 10;
 const GeldEinklagenTextAreaConfig = {
   weitereAntraege: LONG_TEXT_FIELD_ROWS,
   rechtlicheWuerdigung: LONG_TEXT_FIELD_ROWS,
+  "abschnitte#beschreibung": LONG_TEXT_FIELD_ROWS,
 } as const satisfies Readonly<
   Partial<Record<keyof GeldEinklagenFormularKlageErstellenUserData, number>>
 >;
