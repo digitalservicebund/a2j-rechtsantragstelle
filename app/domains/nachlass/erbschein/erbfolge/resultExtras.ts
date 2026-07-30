@@ -17,13 +17,17 @@ import type { Gueterstand } from "./pages";
 // result pages are the "not determined" exit pages, which show neither.
 const ERBFOLGE_STEP_ID = "/ergebnis/erbfolge";
 const HEIRS_LIST_IDENTIFIER = "heirsList";
+// A `page.inline-notice` authored in Strapi's freeZone with this identifier holds the
+// "Erbanteile können nicht ermittelt werden" copy. We show it (and hide the heir list)
+// only when the spouse's share can't be determined.
+const EHEVERTRAG_UNKNOWN_NOTICE_IDENTIFIER = "ehevertragUnbekanntHinweis";
 
 const FIRST_ORDER_LABELS = [
   "Kind",
   "Enkelkind",
   "Urenkel",
-  "Ururgroßenkel",
-  "Urururgroßenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 const SECOND_ORDER_LABELS = ["Elternteil", "Geschwister", "Nichte oder Neffe"];
 
@@ -77,6 +81,26 @@ function spouseFromUserData(userData: InheritanceInput) {
   };
 }
 
+// The spouse's share (and therefore every share) can't be determined when the user gave
+// no precise Ehevertrag / Güterstand ("Ich weiß es nicht" / "Sonstige"). Only relevant
+// when a spouse exists.
+function spouseShareUndeterminable(userData: InheritanceInput): boolean {
+  const { ehepartnerName, ehevertrag, gueterstand } = userData as {
+    ehepartnerName?: string;
+    ehevertrag?: string;
+    gueterstand?: Gueterstand;
+  };
+  if (!ehepartnerName) return false;
+  if (ehevertrag === "unknown") return true;
+  return gueterstand === "other" || gueterstand === "unknown";
+}
+
+function identifierOf(component: object): string | undefined {
+  return "identifier" in component
+    ? (component.identifier as string | undefined)
+    : undefined;
+}
+
 export const erbfolgeResultExtras: ResultLoaderExtras = {
   transformContent: (
     content: StrapiResultPage,
@@ -86,27 +110,36 @@ export const erbfolgeResultExtras: ResultLoaderExtras = {
 
     const userData = context.userData as InheritanceInput;
     const deceasedName = (context.userData as { name?: string }).name ?? "";
+    const undeterminable = spouseShareUndeterminable(userData);
 
-    const heirListItems = buildHeirListItems(
-      calculateInheritance({
-        ...userData,
-        spouse: spouseFromUserData(userData),
-      }),
-      deceasedName,
-    );
-
-    return {
-      ...content,
-      freeZone: content.freeZone.map((component) =>
+    const freeZone = content.freeZone
+      // The "can't be determined" notice shows only when shares are undeterminable;
+      // the heir list only when they can be determined.
+      .filter((component) => {
+        const identifier = identifierOf(component);
+        if (identifier === EHEVERTRAG_UNKNOWN_NOTICE_IDENTIFIER) {
+          return undeterminable;
+        }
+        if (identifier === HEIRS_LIST_IDENTIFIER) return !undeterminable;
+        return true;
+      })
+      .map((component) =>
         component.__component === "page.list" &&
         component.identifier === HEIRS_LIST_IDENTIFIER
           ? {
               ...component,
-              items: heirListItems,
+              items: buildHeirListItems(
+                calculateInheritance({
+                  ...userData,
+                  spouse: spouseFromUserData(userData),
+                }),
+                deceasedName,
+              ),
               variant: "unordered" as const,
             }
           : component,
-      ),
-    };
+      );
+
+    return { ...content, freeZone };
   },
 };
