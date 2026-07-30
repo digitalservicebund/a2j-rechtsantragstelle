@@ -39,7 +39,7 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   await formular.clickAnchorByText("Abschnitt hinzufügen");
 
   // /geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/0/abschnitte
-  await formular.fillInput("abschnitte#beschreibung", "Beschreibung");
+  await formular.fillTextarea("abschnitte#beschreibung", "Beschreibung");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/begruendung/einfuehrung/uebersicht
