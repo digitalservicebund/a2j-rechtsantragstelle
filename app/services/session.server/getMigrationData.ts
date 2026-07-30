@@ -4,7 +4,7 @@ import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from ".";
 import pick from "lodash/pick";
 import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateData";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
 
 export const migrationKey = "daten-uebernahme";
 
@@ -19,17 +19,15 @@ export async function getMigrationData(
     return undefined;
 
   const userData = await getSessionData(migration.source, cookieHeader);
-  const destinationNewEngineConfig =
-    "newEngineConfig" in migrationFlowDestination
-      ? migrationFlowDestination.newEngineConfig
-      : undefined;
   const sourceFlow = flows[migration.source];
-  const sourceNewEngineConfig =
-    "newEngineConfig" in sourceFlow ? sourceFlow.newEngineConfig : undefined;
-  if (destinationNewEngineConfig && sourceNewEngineConfig) {
+  if (
+    "newEngineConfig" in migrationFlowDestination &&
+    "newEngineConfig" in sourceFlow
+  ) {
     return migrateSourceFlowDataToDestinationFlow(
       userData,
-      sourceNewEngineConfig,
+      sourceFlow,
+      migrationFlowDestination,
       migrationFlowIdDestination,
     );
   }

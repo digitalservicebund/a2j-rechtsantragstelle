@@ -2,7 +2,7 @@ import type { Flow } from "~/domains/flows.server";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../getMigrationData";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateData";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 
 vi.mock("~/services/session.server");
@@ -11,7 +11,7 @@ const getSessionDataMock = vi.mocked(getSessionData);
 vi.mock("~/services/flow/pruner/pruner");
 const pruneIrrelevantDataMock = vi.mocked(pruneIrrelevantData);
 
-vi.mock("~/services/flow/newFlowEngine/migrateData");
+vi.mock("~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow");
 const migrateSourceFlowDataToDestinationFlowMock = vi.mocked(
   migrateSourceFlowDataToDestinationFlow,
 );

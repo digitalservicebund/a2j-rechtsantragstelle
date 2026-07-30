@@ -10,6 +10,7 @@ import {
   getVerstorbenePostcodeCity,
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
+import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -19,6 +20,24 @@ export const nachlassErbscheinAnfrage = {
   migration: {
     source: "/nachlass/erbschein/erbfolge",
     sortedFields: [],
+    migrationDataMerger: (
+      sourceData: NachlassErbscheinErbfolgeUserData,
+    ): NachlassErbscheinAnfrageUserData => {
+      return {
+        ehepartnerVorname: sourceData.ehepartnerName?.split(" ")[0] ?? "",
+        ehepartnerNachname: sourceData.ehepartnerName?.split(" ")[1] ?? "",
+        ehepartnerStaatsangehoerigkeit:
+          sourceData.ehepartnerStaatsangehoerigkeit ?? "",
+        hasEhevertrag: {
+          yes: "yes" as const,
+          no: "no" as const,
+          unknown: undefined,
+        }[sourceData.ehevertrag ?? "unknown"],
+        verstorbeneFamilienstand: sourceData.familienstand,
+        verstorbeneVorname: sourceData.name?.split(" ")[0] ?? "",
+        verstorbeneNachname: sourceData.name?.split(" ")[1] ?? "",
+      };
+    },
     buttonUrl: "/nachlass/erbschein/erbfolge", // do we need this?
   },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
