@@ -125,7 +125,7 @@
     "@vitest/coverage-istanbul": "^4.1.10",
     "follow-redirects": "^1.16.0",
     "i18n-iso-countries": "^7.14.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.0",
     "knip": "^6.29.0",
     "lefthook": "^2.1.10",
     "license-checker-rseidelsohn": "^5.0.1",
