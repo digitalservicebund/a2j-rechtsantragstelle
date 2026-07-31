@@ -130,7 +130,7 @@ export const nachlassTestCases = {
       },
     },
     {
-      stepId: "/abgabe/zusammenfassung",
+      stepId: "/abgabe/weitere-angaben",
     },
   ],
   noVermoegen: [
@@ -142,7 +142,7 @@ export const nachlassTestCases = {
       },
     },
     {
-      stepId: "/abgabe/zusammenfassung",
+      stepId: "/abgabe/weitere-angaben",
     },
   ],
   unknownVermoegen: [
@@ -154,7 +154,7 @@ export const nachlassTestCases = {
       },
     },
     {
-      stepId: "/abgabe/zusammenfassung",
+      stepId: "/abgabe/weitere-angaben",
     },
   ],
 } satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;

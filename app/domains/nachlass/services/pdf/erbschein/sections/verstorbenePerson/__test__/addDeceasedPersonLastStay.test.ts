@@ -77,13 +77,14 @@ describe("addDeceasedPersonLastStay", () => {
       verstorbeneLebensmittelpunkt: "ausland",
       verstorbenePersonAuslaendischeStrasse: "Österreichstraße",
       verstorbenePersonAuslaendischeHausnummer: "1",
+      verstorbenePersonAuslaendischePlz: "1010",
       verstorbenePersonAuslaendischerOrt: "Wien",
       verstorbenePersonLand: "Österreich",
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith("Anschrift:");
     expect(mockDoc.text).toHaveBeenCalledWith("Österreichstraße 1");
-    expect(mockDoc.text).toHaveBeenCalledWith("Wien");
+    expect(mockDoc.text).toHaveBeenCalledWith("1010 Wien");
     expect(mockDoc.text).toHaveBeenCalledWith("Österreich");
   });
 

@@ -48,4 +48,17 @@ describe("erbscheinAnfragePdfFromUserdata", () => {
       align: "left",
     });
   });
+
+  it("should include the Weitere Angaben section if the user provided additional information", () => {
+    const userDataWithWeitereAngaben = {
+      ...userDataMock,
+      weitereAngaben: "Some additional information",
+    };
+    erbscheinAnfragePdfFromUserdata(userDataWithWeitereAngaben);
+    expect(mockDoc.text).toHaveBeenCalledWith("Weitere Angaben", {
+      align: "left",
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Weitere Angaben: ");
+    expect(mockDoc.text).toHaveBeenCalledWith("Some additional information");
+  });
 });
