@@ -23,7 +23,7 @@ const getAddress = (userData: NachlassErbscheinAnfrageUserData) => {
       additionalAddress:
         userData.verstorbenePersonAuslaendischerAdresszusatz ?? "",
       streetAndNumber: `${userData.verstorbenePersonAuslaendischeStrasse ?? ""} ${userData.verstorbenePersonAuslaendischeHausnummer ?? ""}`,
-      postalCodeAndCity: userData.verstorbenePersonAuslaendischerOrt ?? "",
+      postalCodeAndCity: `${userData.verstorbenePersonAuslaendischePlz ?? ""} ${userData.verstorbenePersonAuslaendischerOrt ?? ""}`,
       country: userData.verstorbenePersonLand ?? "",
     };
   }
