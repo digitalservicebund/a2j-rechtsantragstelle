@@ -70,4 +70,43 @@ describe("buildStatusTree", () => {
       ]);
     });
   });
+
+  it("should not create a child node when shouldCollapseIntoParentNavItem is true", () => {
+    const config = {
+      uebersicht: {
+        stepId: "/klage-erstellen/begruendung/beschreibung/uebersicht",
+      },
+      abschnitte: {
+        stepId: "/klage-erstellen/begruendung/beschreibung/abschnitte/#",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisDokument: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokumente/#/daten",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisPersonAuswahl: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/auswahl",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisPerson: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/daten",
+        shouldCollapseIntoParentNavItem: true,
+      },
+    };
+    const tree = buildStatusTree(config, simulation(), new Set());
+
+    expect(tree["/klage-erstellen"].children).toHaveProperty("/begruendung");
+    expect(
+      tree["/klage-erstellen"].children?.["/begruendung"].children,
+    ).toHaveProperty("/beschreibung");
+
+    expect(
+      tree["/klage-erstellen"].children?.["/begruendung"].children?.[
+        "/beschreibung"
+      ].children,
+    ).not.toHaveProperty("/abschnitte");
+  });
 });
