@@ -4,6 +4,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
 import { type CMSContent } from "./buildCmsContentAndTranslations";
 import { isStrapiHeadingComponent } from "~/services/cms/models/isStrapiHeadingComponent";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const getDataListArgumentForVerstorbeneAdresseStrasse = (
   userDataWithPageData: UserDataWithPageData,
@@ -21,6 +22,22 @@ const getDataListArgumentForVerstorbeneAdresseStrasse = (
   // for /nachlass/erbausschlagung/anfrage/verstorbene/plz
   if (typeof userDataWithPageData?.plzVerstorbene === "string") {
     return userDataWithPageData.plzVerstorbene;
+  }
+};
+
+const getDataListArgumentForErbscheinVerstorbenePersonStrasse = (
+  userDataWithPageData: NachlassErbscheinAnfrageUserData,
+) => {
+  if (userDataWithPageData.verstorbeneLivedInPflegeheim === "yes") {
+    return userDataWithPageData.verstorbenePflegeheimPlz;
+  }
+
+  if (userDataWithPageData.verstorbeneLivedInHospiz === "yes") {
+    return userDataWithPageData.verstorbeneHospizPlz;
+  }
+
+  if (typeof userDataWithPageData.verstorbenePlz === "string") {
+    return userDataWithPageData.verstorbenePlz;
   }
 };
 
@@ -81,6 +98,16 @@ const addDataListArgumentToAutoSuggestionInput = (
   ) {
     dataListArgument =
       getDataListArgumentForVerstorbeneAdresseStrasse(userDataWithPageData);
+  }
+
+  if (
+    flowId === "/nachlass/erbschein/anfrage" &&
+    autoSuggestProps.name === "verstorbenePersonStrasse"
+  ) {
+    dataListArgument =
+      getDataListArgumentForErbscheinVerstorbenePersonStrasse(
+        userDataWithPageData,
+      );
   }
 
   if (

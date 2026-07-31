@@ -59,7 +59,7 @@ export const nachlassFlowConfig = {
   vermoegen: [
     {
       guard: (data) => data.hasVermoegen !== undefined,
-      target: "abgabe",
+      target: "weitereAngaben",
     },
   ],
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

@@ -16,6 +16,8 @@ const userDataMock = {
   },
   antragstellendePersonStrasse: "Beispielstraße",
   antragstellendePersonHausnummer: "1",
+  antragstellendePersonPlz: "12345",
+  antragstellendePersonOrt: "Beispielstadt",
   antragstellendePersonRelationshipToErblasser: "cousin",
 } satisfies NachlassErbscheinAnfrageUserData;
 
@@ -52,9 +54,8 @@ describe("createAntragstellendePerson", () => {
         userDataMock.antragstellendePersonRelationshipToErblasser,
       ),
     );
-    expect(mockDoc.text).toHaveBeenCalledWith("Straße und Hausnummer: ", {
-      continued: true,
-    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Anschrift: ");
     expect(mockDoc.text).toHaveBeenCalledWith("Beispielstraße 1");
+    expect(mockDoc.text).toHaveBeenCalledWith("12345 Beispielstadt");
   });
 });
