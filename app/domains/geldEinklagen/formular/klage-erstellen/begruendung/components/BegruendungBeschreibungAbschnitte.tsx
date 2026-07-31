@@ -4,6 +4,7 @@ import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
+import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 
 export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndex: number;
@@ -17,6 +18,8 @@ const BegruendungBeschreibungAbschnitte = ({
   itemIndex,
   abschnitte,
 }: BegruendungBeschreibungAbschnitteProps) => {
+  const { onAbschnittDelete } = useBegruendungBeschreibung();
+
   return (
     <div className="kern-summary pb-24">
       <div className="kern-summary__header">
@@ -46,12 +49,15 @@ const BegruendungBeschreibungAbschnitte = ({
           />
           <div className="flex flex-row-reverse">
             <Button
-              href={"/"}
+              type="button"
               look="secondary"
               className="border-0!"
               textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
               iconLeft={
                 <Icon name={"trash"} className="fill-kern-feedback-danger!" />
+              }
+              onClick={() =>
+                onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndex)
               }
             >
               {

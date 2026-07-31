@@ -4,6 +4,7 @@ import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
+import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 
 type BegruendungBeschreibungBeweiseDocumentsProps = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -18,6 +19,8 @@ export const BegruendungBeschreibungBeweiseDocuments = ({
   if (!arrayIsNonEmpty(dokumenten)) {
     return null;
   }
+
+  const { onAbschnittDocumentDelete } = useBegruendungBeschreibung();
 
   return (
     <div className="flex flex-col w-full">
@@ -46,12 +49,18 @@ export const BegruendungBeschreibungBeweiseDocuments = ({
                 }
               />
               <Button
-                href={"/"}
+                type="button"
                 look="secondary"
                 className="border-kern-feedback-danger!"
                 aria-label={translations.arraySummary.arrayDeleteButtonLabel.de}
                 iconLeft={
                   <Icon name="trash" className="fill-kern-feedback-danger!" />
+                }
+                onClick={() =>
+                  onAbschnittDocumentDelete(
+                    `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
+                    dokumentIndex,
+                  )
                 }
               />
             </div>
