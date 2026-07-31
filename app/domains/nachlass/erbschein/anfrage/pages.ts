@@ -18,6 +18,7 @@ export const nachlassErbscheinAnfragePages = {
       datenverarbeitungZustimmung: checkedRequired,
     },
   },
+  datenUebernahme: { stepId: "/start/daten-uebernahme" },
   ...verstorbenePersonPages,
   ...antragstellendePersonPages,
   ...testamentOderErbvertragPages,
