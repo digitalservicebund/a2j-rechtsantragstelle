@@ -14,13 +14,19 @@ export const getVerstorbeneName = (
 export const getVerstorbeneStreetnameHousenumber = (
   context: NachlassErbscheinAnfrageUserData,
 ) => ({
-  verstorbeneStreetnameHousenumber: `${context.verstorbenePersonStrasse} ${context.verstorbenePersonHausnummer}`,
+  verstorbeneStreetnameHousenumber:
+    context.verstorbeneLebensmittelpunkt === "deutschland"
+      ? `${context.verstorbenePersonStrasse} ${context.verstorbenePersonHausnummer}`
+      : `${context.verstorbenePersonAuslaendischeStrasse} ${context.verstorbenePersonAuslaendischeHausnummer}`,
 });
 
 export const getVerstorbenePostcodeCity = (
   context: NachlassErbscheinAnfrageUserData,
 ) => ({
-  verstorbenePostcodeCity: `${context.verstorbenePlz} ${context.verstorbenePersonOrt}`,
+  verstorbenePostcodeCity:
+    context.verstorbeneLebensmittelpunkt === "deutschland"
+      ? `${context.verstorbenePlz} ${context.verstorbenePersonOrt}`
+      : `${context.verstorbenePersonAuslaendischePlz} ${context.verstorbenePersonAuslaendischerOrt} (${context.verstorbenePersonLand})`,
 });
 
 export const getEhepartnerName = (
