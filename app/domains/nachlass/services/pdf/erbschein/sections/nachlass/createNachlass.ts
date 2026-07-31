@@ -1,5 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { addGrundbesitz } from "~/domains/nachlass/services/pdf/erbschein/sections/nachlass/addGrundbesitz";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -67,9 +68,27 @@ export const createNachlass = (
               ? yesNoUnknownMap[userData.hasVermoegen]
               : "Nein",
           );
+
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text("Grundbesitz im Nachlass: ", { continued: true })
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(
+            userData.hasGrundbesitz
+              ? yesNoUnknownMap[userData.hasGrundbesitz]
+              : "Nein",
+          );
       }),
     ),
   );
+
+  if (userData.hasGrundbesitz === "yes" && userData.grundbesitz?.length) {
+    userData.grundbesitz.forEach((_, index) => {
+      const grundbesitzSubsection = doc.struct("Sect");
+      addGrundbesitz(doc, grundbesitzSubsection, userData, index);
+      nachlassSection.add(grundbesitzSubsection);
+    });
+  }
 
   documentStruct.add(nachlassSection);
 };

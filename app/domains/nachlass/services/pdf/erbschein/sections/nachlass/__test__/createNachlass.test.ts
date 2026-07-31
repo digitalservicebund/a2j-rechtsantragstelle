@@ -6,6 +6,7 @@ import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbsch
 import { createNachlass } from "~/domains/nachlass/services/pdf/erbschein/sections/nachlass/createNachlass";
 
 const userDataMock: NachlassErbscheinAnfrageUserData = {
+  verstorbeneLebensmittelpunkt: "deutschland",
   hasUnternehmen: "no",
   hasVermoegen: "no",
 };
@@ -54,5 +55,41 @@ describe("createNachass", () => {
       continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith("Firma 1, Firma 2");
+  });
+
+  it("should print all Grundbesitz involved in the Nachlass, if indicated", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    createNachlass(mockDoc, mockStruct, {
+      ...userDataMock,
+      hasGrundbesitz: "yes",
+      grundbesitz: [
+        {
+          strasse: "Musterstraße",
+          hausnummer: "1",
+          plz: "12345",
+          ort: "Musterstadt",
+        },
+        {
+          strasse: "Beispielweg",
+          hausnummer: "2",
+          plz: "54321",
+          ort: "Beispielstadt",
+        },
+      ],
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Grundbesitz im Nachlass: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Ja");
+    expect(mockDoc.text).toHaveBeenCalledWith("Grundbesitz 1");
+    expect(mockDoc.text).toHaveBeenCalledWith("Musterstraße 1");
+    expect(mockDoc.text).toHaveBeenCalledWith("12345 Musterstadt");
+    expect(mockDoc.text).toHaveBeenCalledWith("Deutschland");
+    expect(mockDoc.text).toHaveBeenCalledWith("Grundbesitz 2");
+    expect(mockDoc.text).toHaveBeenCalledWith("Beispielweg 2");
+    expect(mockDoc.text).toHaveBeenCalledWith("54321 Beispielstadt");
+    expect(mockDoc.text).toHaveBeenCalledWith("Deutschland");
   });
 });
