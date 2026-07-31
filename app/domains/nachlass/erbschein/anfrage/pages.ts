@@ -6,6 +6,7 @@ import { testamentOderErbvertragPages } from "~/domains/nachlass/erbschein/anfra
 import { verstorbenePersonPages } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/pages";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const nachlassErbscheinAnfragePages = {
@@ -28,7 +29,7 @@ export const nachlassErbscheinAnfragePages = {
   weitereAngaben: {
     stepId: "/abgabe/weitere-angaben",
     pageSchema: {
-      weitereAngaben: stringOptionalSchema,
+      weitereAngaben: schemaOrEmptyString(stringOptionalSchema),
     },
   },
   abgabe: {

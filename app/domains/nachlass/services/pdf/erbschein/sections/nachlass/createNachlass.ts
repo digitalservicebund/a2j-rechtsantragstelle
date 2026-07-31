@@ -77,7 +77,8 @@ export const createNachlass = (
             userData.hasGrundbesitz
               ? yesNoUnknownMap[userData.hasGrundbesitz]
               : "Nein",
-          );
+          )
+          .moveDown(1);
       }),
     ),
   );

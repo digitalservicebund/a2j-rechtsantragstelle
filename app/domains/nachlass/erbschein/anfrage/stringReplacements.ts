@@ -22,12 +22,22 @@ export const getVerstorbeneStreetnameHousenumber = (
 
 export const getVerstorbenePostcodeCity = (
   context: NachlassErbscheinAnfrageUserData,
-) => ({
-  verstorbenePostcodeCity:
-    context.verstorbeneLebensmittelpunkt === "deutschland"
-      ? `${context.verstorbenePlz} ${context.verstorbenePersonOrt}`
-      : `${context.verstorbenePersonAuslaendischePlz} ${context.verstorbenePersonAuslaendischerOrt} (${context.verstorbenePersonLand})`,
-});
+) => {
+  let plz: string;
+  if (context.verstorbeneLivedInPflegeheim == "yes") {
+    plz = context.verstorbenePflegeheimPlz ?? "";
+  } else if (context.verstorbeneLivedInHospiz == "yes") {
+    plz = context.verstorbeneHospizPlz ?? "";
+  } else {
+    plz = context.verstorbenePlz ?? "";
+  }
+  return {
+    verstorbenePostcodeCity:
+      context.verstorbeneLebensmittelpunkt === "deutschland"
+        ? `${plz} ${context.verstorbenePersonOrt}`
+        : `${context.verstorbenePersonAuslaendischePlz} ${context.verstorbenePersonAuslaendischerOrt} (${context.verstorbenePersonLand})`,
+  };
+};
 
 export const getEhepartnerName = (
   context: NachlassErbscheinAnfrageUserData,
