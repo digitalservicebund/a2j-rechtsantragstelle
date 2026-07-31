@@ -20,6 +20,7 @@ export async function getMigrationData(
 
   const userData = await getSessionData(migration.source, cookieHeader);
   const sourceFlow = flows[migration.source];
+  // TODO: remove after migration to new flow engine
   if (
     "newEngineConfig" in migrationFlowDestination &&
     "newEngineConfig" in sourceFlow

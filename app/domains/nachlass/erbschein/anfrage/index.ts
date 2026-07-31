@@ -19,26 +19,33 @@ export const nachlassErbscheinAnfrage = {
   },
   migration: {
     source: "/nachlass/erbschein/erbfolge",
-    sortedFields: [],
+    sortedFields: [
+      "verstorbeneVorname",
+      "verstorbeneNachname",
+      "verstorbeneFamilienstand",
+      "ehepartnerVorname",
+      "ehepartnerNachname",
+      "ehepartnerStaatsangehoerigkeit",
+      "hasEhevertrag",
+    ],
     migrationDataMerger: (
       sourceData: NachlassErbscheinErbfolgeUserData,
     ): NachlassErbscheinAnfrageUserData => {
       return {
         ehepartnerVorname: sourceData.ehepartnerName?.split(" ")[0] ?? "",
         ehepartnerNachname: sourceData.ehepartnerName?.split(" ")[1] ?? "",
-        ehepartnerStaatsangehoerigkeit:
-          sourceData.ehepartnerStaatsangehoerigkeit ?? "",
-        hasEhevertrag: {
-          yes: "yes" as const,
-          no: "no" as const,
-          unknown: undefined,
-        }[sourceData.ehevertrag ?? "unknown"],
+        ...(sourceData.ehepartnerStaatsangehoerigkeit === "nurDeutsch"
+          ? { ehepartnerStaatsangehoerigkeit: "Deutsch" }
+          : {}),
+        ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
+          ? { hasEhevertrag: sourceData.ehevertrag }
+          : {}),
         verstorbeneFamilienstand: sourceData.familienstand,
         verstorbeneVorname: sourceData.name?.split(" ")[0] ?? "",
         verstorbeneNachname: sourceData.name?.split(" ")[1] ?? "",
       };
     },
-    buttonUrl: "/nachlass/erbschein/erbfolge", // do we need this?
+    buttonUrl: "/nachlass/erbschein/erbfolge",
   },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),

@@ -13,6 +13,7 @@ import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { getSessionAndEngine } from "./getSessionAndEngine";
 import { type PageConfigMap } from "../newFlowEngine/types";
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 
 const buildValidFlowPaths = (
   flowSessionEngine: FlowSession<PageConfigMap>,
@@ -76,13 +77,16 @@ export const getUserDataAndFlowNewEngine = async (
   const newEngineConfig =
     "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
 
-  const sessionEngineResult = await getSessionAndEngine(
-    flowId,
-    newEngineConfig,
-    cookieHeader ?? "",
-    stepId,
-    arrayIndexes,
-  );
+  const [sessionEngineResult, migrationData] = await Promise.all([
+    getSessionAndEngine(
+      flowId,
+      newEngineConfig,
+      cookieHeader ?? "",
+      stepId,
+      arrayIndexes,
+    ),
+    getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+  ]);
 
   if (sessionEngineResult.isErr) {
     return Result.err({ redirectTo: sessionEngineResult.error.redirectTo });
@@ -130,7 +134,7 @@ export const getUserDataAndFlowNewEngine = async (
     },
     emailCaptureConsent: flowSession.get(emailCaptureConsentName),
     migration: {
-      userData: {},
+      userData: migrationData ?? {},
       sortedFields:
         "migration" in currentFlow
           ? currentFlow.migration?.sortedFields
