@@ -4,7 +4,10 @@ import Button from "~/components/common/Button";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { arrayIsNonEmpty } from "~/util/array";
-import BegruendungBeschreibungItems from "./BegruendungBeschreibungItems";
+import BegruendungBeschreibungAbschnitte from "./BegruendungBeschreibungAbschnitte";
+
+export const BASE_URL_BESCHREIBUNG_ABSCHNITTE =
+  "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
 
 const BegruendungBeschreibungUebersicht = () => {
   const { userData, flowId } = useFormFlow();
@@ -20,14 +23,14 @@ const BegruendungBeschreibungUebersicht = () => {
     ? String(userDataGeldEinklagen.abschnitte?.length ?? 0)
     : "0";
 
-  const addButtonUrl = `/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/${nextItemIndex}/daten`;
+  const addButtonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${nextItemIndex}/daten`;
 
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
         {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) &&
           userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
-            <BegruendungBeschreibungItems
+            <BegruendungBeschreibungAbschnitte
               key={abschnitt.beschreibung}
               itemIndex={index}
               abschnitte={abschnitt}

@@ -1,16 +1,15 @@
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
-import { type BegruendungBeschreibungItemsProps } from "./BegruendungBeschreibungItems";
+import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
 import { arrayIsNonEmpty } from "~/util/array";
-
-const baseUrl =
-  "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
+import { BegruendungBeschreibungBeweiseDocuments } from "./BegruendungBeschreibungBeweiseDocuments";
+import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndex,
   abschnitte,
-}: BegruendungBeschreibungItemsProps) => {
+}: BegruendungBeschreibungAbschnitteProps) => {
   const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.dokumenten)
     ? String(abschnitte.dokumenten.length)
     : "0";
@@ -19,8 +18,8 @@ export const BegruendungBeschreibungBeweise = ({
     ? String(abschnitte.personen.length)
     : "0";
 
-  const addDocumentUrl = `${baseUrl}/${itemIndex}/dokumenten/${nextDocumentItemIndex}/daten`;
-  const addPersonUrl = `${baseUrl}/${itemIndex}/personen/${nextPersonItemIndex}/auswahl`;
+  const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/dokumenten/${nextDocumentItemIndex}/daten`;
+  const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/personen/${nextPersonItemIndex}/auswahl`;
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
@@ -37,7 +36,12 @@ export const BegruendungBeschreibungBeweise = ({
           </span>
         </div>
 
-        <div className="flex gap-24 w-full justify-between">
+        <BegruendungBeschreibungBeweiseDocuments
+          dokumenten={abschnitte.dokumenten}
+          itemIndexAbschnitte={itemIndex}
+        />
+
+        <div className="flex md:flex-row flex-col gap-24 w-full justify-between">
           <Button
             href={addDocumentUrl}
             look="secondary"

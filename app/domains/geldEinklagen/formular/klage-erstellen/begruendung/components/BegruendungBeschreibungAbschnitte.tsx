@@ -3,8 +3,9 @@ import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData
 import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
+import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 
-export type BegruendungBeschreibungItemsProps = {
+export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndex: number;
   readonly abschnitte: Exclude<
     GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
@@ -12,10 +13,10 @@ export type BegruendungBeschreibungItemsProps = {
   >[number];
 };
 
-const BegruendungBeschreibungItems = ({
+const BegruendungBeschreibungAbschnitte = ({
   itemIndex,
   abschnitte,
-}: BegruendungBeschreibungItemsProps) => {
+}: BegruendungBeschreibungAbschnitteProps) => {
   return (
     <div className="kern-summary pb-24">
       <div className="kern-summary__header">
@@ -34,7 +35,7 @@ const BegruendungBeschreibungItems = ({
           </span>
           <a
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
-            href={`/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/${itemIndex}/daten`}
+            href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/daten`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
@@ -47,9 +48,10 @@ const BegruendungBeschreibungItems = ({
             <Button
               href={"/"}
               look="secondary"
-              className="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
+              className="border-0!"
+              textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
               iconLeft={
-                <Icon name={"trash"} className="fill-kern-action-default!" />
+                <Icon name={"trash"} className="fill-kern-feedback-danger!" />
               }
             >
               {
@@ -64,4 +66,4 @@ const BegruendungBeschreibungItems = ({
   );
 };
 
-export default BegruendungBeschreibungItems;
+export default BegruendungBeschreibungAbschnitte;
