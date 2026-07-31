@@ -133,7 +133,7 @@
     "p-map": "^7.0.6",
     "prettier": "^3.9.6",
     "size-limit": "^13.0.1",
-    "storybook": "^10.5.4",
+    "storybook": "^10.5.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
