@@ -10,6 +10,7 @@ import { createTestamentOderErbvertrag } from "~/domains/nachlass/services/pdf/e
 import { createEhepartner } from "~/domains/nachlass/services/pdf/erbschein/sections/ehepartner/createEhepartner";
 import { createAngehoerigeSection } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/createAngehoerigeSection";
 import { createNachlass } from "~/domains/nachlass/services/pdf/erbschein/sections/nachlass/createNachlass";
+import { createWeitereAngaben } from "~/domains/nachlass/services/pdf/erbschein/sections/abgabe/createWeitereAngaben";
 
 const TITLE = "Datenblatt zur Vorbereitung eines Erbscheinsantrags";
 const SUBJECT = "Erbschein Anfrage";
@@ -34,6 +35,9 @@ const buildErbscheinAnfragePDFDocument: PDFDocumentBuilder<
     createAngehoerigeSection(doc, documentStruct, userData);
   }
   createNachlass(doc, documentStruct, userData);
+  if (userData.weitereAngaben) {
+    createWeitereAngaben(doc, documentStruct, userData);
+  }
   createFooter(doc, documentStruct, userData);
 };
 

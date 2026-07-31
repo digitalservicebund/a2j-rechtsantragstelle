@@ -29,6 +29,7 @@ export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
     ...ehepartnerFlowConfig,
     ...angehoerigeFlowConfig,
     ...nachlassFlowConfig,
+    weitereAngaben: "abgabe",
     abgabe: "ende",
     ende: null,
   },

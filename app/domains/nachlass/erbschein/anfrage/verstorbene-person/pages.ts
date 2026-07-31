@@ -95,6 +95,7 @@ export const verstorbenePersonPages = {
     pageSchema: {
       verstorbenePersonAuslaendischeStrasse: stringRequiredSchema,
       verstorbenePersonAuslaendischeHausnummer: stringRequiredSchema,
+      verstorbenePersonAuslaendischePlz: stringRequiredSchema,
       verstorbenePersonAuslaendischerOrt: stringRequiredSchema,
       verstorbenePersonLand: stringRequiredSchema,
       verstorbenePersonAuslaendischerAdresszusatz: stringOptionalSchema,
@@ -133,7 +134,7 @@ export const verstorbenePersonPages = {
   verstorbenePersonAdresse: {
     stepId: "/verstorbene/adresse",
     pageSchema: {
-      verstorbenePersonStrasse: stringRequiredSchema,
+      verstorbenePersonStrasse: autoSuggestStringRequiredSchema("streetNames"),
       verstorbenePersonHausnummer: stringRequiredSchema,
       verstorbenePersonOrt: stringRequiredSchema,
       verstorbenePersonAdresszusatz: stringOptionalSchema,
