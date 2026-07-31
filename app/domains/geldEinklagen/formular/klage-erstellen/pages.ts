@@ -61,7 +61,7 @@ const beweisePersonenArray = z.array(
     }),
     z.object({
       personAuswahl: z.literal("anotherPerson"),
-      ...beweisePersonenSchema,
+      ...beweisePersonenSchema.shape,
     }),
   ]),
 );
@@ -70,7 +70,7 @@ const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema,
     beweiseDokumenten: beweiseDokumentenArray.optional(),
-    //beweisePersonen: beweisePersonenArray.optional(),
+    beweisePersonen: beweisePersonenArray.optional(),
   }),
 );
 
