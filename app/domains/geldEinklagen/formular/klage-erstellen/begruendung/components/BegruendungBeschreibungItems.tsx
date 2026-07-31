@@ -34,7 +34,7 @@ const BegruendungBeschreibungItems = ({
           </span>
           <a
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
-            href={`/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/${itemIndex}/abschnitte`}
+            href={`/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/${itemIndex}/daten`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}

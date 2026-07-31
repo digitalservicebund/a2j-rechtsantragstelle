@@ -69,8 +69,8 @@ const beweisePersonenArray = z.array(
 const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema,
-    beweiseDokumenten: beweiseDokumentenArray.optional(),
-    beweisePersonen: beweisePersonenArray.optional(),
+    dokumenten: beweiseDokumentenArray.optional(),
+    personen: beweisePersonenArray.optional(),
   }),
 );
 
@@ -186,7 +186,8 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   begruendungBeschreibungAbschnitte: {
-    stepId: "klage-erstellen/begruendung/beschreibung/#/abschnitte",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
     },
@@ -194,18 +195,18 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisDocument: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-dokument",
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten",
     pageSchema: {
-      "abschnitte#beweiseDokumenten#beschreibung":
+      "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-person-auswahl",
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl",
     pageSchema: {
-      "abschnitte#beweisePersonen#personAuswahl": z.enum([
+      "abschnitte#personen#personAuswahl": z.enum([
         "klagende",
         "beklagte",
         "anotherPerson",
@@ -215,22 +216,20 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisPerson: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/#/abschnitte/#/beweis-person",
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten",
     pageSchema: {
-      "abschnitte#beweisePersonen#anrede": beweisePersonenSchema.shape.anrede,
-      "abschnitte#beweisePersonen#title": beweisePersonenSchema.shape.title,
-      "abschnitte#beweisePersonen#vorname": beweisePersonenSchema.shape.vorname,
-      "abschnitte#beweisePersonen#nachname":
-        beweisePersonenSchema.shape.nachname,
-      "abschnitte#beweisePersonen#strasse": beweisePersonenSchema.shape.strasse,
-      "abschnitte#beweisePersonen#hausnummer":
-        beweisePersonenSchema.shape.hausnummer,
-      "abschnitte#beweisePersonen#plz": beweisePersonenSchema.shape.plz,
-      "abschnitte#beweisePersonen#ort": beweisePersonenSchema.shape.ort,
-      "abschnitte#beweisePersonen#land": beweisePersonenSchema.shape.land,
-      "abschnitte#beweisePersonen#telefonnummer":
+      "abschnitte#personen#anrede": beweisePersonenSchema.shape.anrede,
+      "abschnitte#personen#title": beweisePersonenSchema.shape.title,
+      "abschnitte#personen#vorname": beweisePersonenSchema.shape.vorname,
+      "abschnitte#personen#nachname": beweisePersonenSchema.shape.nachname,
+      "abschnitte#personen#strasse": beweisePersonenSchema.shape.strasse,
+      "abschnitte#personen#hausnummer": beweisePersonenSchema.shape.hausnummer,
+      "abschnitte#personen#plz": beweisePersonenSchema.shape.plz,
+      "abschnitte#personen#ort": beweisePersonenSchema.shape.ort,
+      "abschnitte#personen#land": beweisePersonenSchema.shape.land,
+      "abschnitte#personen#telefonnummer":
         beweisePersonenSchema.shape.telefonnummer,
-      "abschnitte#beweisePersonen#email": beweisePersonenSchema.shape.email,
+      "abschnitte#personen#email": beweisePersonenSchema.shape.email,
     },
   },
   begruendungBeschreibungWarnung: {

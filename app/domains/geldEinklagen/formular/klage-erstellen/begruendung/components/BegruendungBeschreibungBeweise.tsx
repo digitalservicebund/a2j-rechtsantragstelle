@@ -5,22 +5,22 @@ import { type BegruendungBeschreibungItemsProps } from "./BegruendungBeschreibun
 import { arrayIsNonEmpty } from "~/util/array";
 
 const baseUrl =
-  "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung";
+  "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndex,
   abschnitte,
 }: BegruendungBeschreibungItemsProps) => {
-  const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.beweiseDokumenten)
-    ? String(abschnitte.beweiseDokumenten.length)
+  const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.dokumenten)
+    ? String(abschnitte.dokumenten.length)
     : "0";
 
-  const nextPersonItemIndex = arrayIsNonEmpty(abschnitte.beweiseDokumenten)
-    ? String(abschnitte.beweiseDokumenten.length)
+  const nextPersonItemIndex = arrayIsNonEmpty(abschnitte.personen)
+    ? String(abschnitte.personen.length)
     : "0";
 
-  const addDocumentUrl = `${baseUrl}/${itemIndex}/abschnitte/${nextDocumentItemIndex}/beweis-dokument`;
-  const addPersonUrl = `${baseUrl}/${itemIndex}/abschnitte/${nextPersonItemIndex}/beweis-person-auswahl`;
+  const addDocumentUrl = `${baseUrl}/${itemIndex}/dokumenten/${nextDocumentItemIndex}/daten`;
+  const addPersonUrl = `${baseUrl}/${itemIndex}/personen/${nextPersonItemIndex}/auswahl`;
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">

@@ -19,6 +19,11 @@ export const klageErstellenBegruendungFlowConfig = {
       target: "begruendungBeschreibungAbschnitteBeweisDocument",
     },
     {
+      target: "begruendungBeschreibungUebersicht",
+    },
+  ],
+  begruendungBeschreibungAbschnitteBeweisDocument: [
+    {
       type: "addArrayItem",
       target: "begruendungBeschreibungAbschnitteBeweisPersonAuswahl",
     },
@@ -26,8 +31,6 @@ export const klageErstellenBegruendungFlowConfig = {
       target: "begruendungBeschreibungUebersicht",
     },
   ],
-  begruendungBeschreibungAbschnitteBeweisDocument:
-    "begruendungBeschreibungUebersicht",
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: [
     {
       guard: ({ abschnitte, pageData }) => {
@@ -40,7 +43,7 @@ export const klageErstellenBegruendungFlowConfig = {
         const beweisePersonenIndex = arrayIndexes[1];
 
         const abschnitt = abschnitte[abschnittIndex];
-        if (!abschnitt?.beweiseDokumenten?.[beweisePersonenIndex]) return false;
+        if (!abschnitt?.personen?.[beweisePersonenIndex]) return false;
 
         return true;
       },

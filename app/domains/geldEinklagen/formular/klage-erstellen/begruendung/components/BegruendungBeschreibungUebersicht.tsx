@@ -20,7 +20,7 @@ const BegruendungBeschreibungUebersicht = () => {
     ? String(userDataGeldEinklagen.abschnitte?.length ?? 0)
     : "0";
 
-  const addButtonUrl = `/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/${nextItemIndex}/abschnitte`;
+  const addButtonUrl = `/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/${nextItemIndex}/daten`;
 
   return (
     <div className="flex flex-col gap-kern-space-default">
