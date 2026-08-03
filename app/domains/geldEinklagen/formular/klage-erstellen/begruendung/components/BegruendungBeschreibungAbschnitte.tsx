@@ -20,12 +20,13 @@ const BegruendungBeschreibungAbschnitte = ({
 }: BegruendungBeschreibungAbschnitteProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
 
+  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndex + 1}`;
+
   return (
     <div className="kern-summary pb-24">
       <div className="kern-summary__header">
         <h2 className="kern-body kern-body--large kern-body--bold p-0!">
-          {translations.geldEinklagen.begruendungBeschreibungHeadline.de}{" "}
-          {itemIndex + 1}
+          {headingText}
         </h2>
       </div>
       <div className="kern-summary__body bg-white!">
@@ -39,6 +40,7 @@ const BegruendungBeschreibungAbschnitte = ({
           <a
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
             href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/daten`}
+            aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
@@ -59,6 +61,7 @@ const BegruendungBeschreibungAbschnitte = ({
               onClick={() =>
                 onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndex)
               }
+              aria-label={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de}`}
             >
               {
                 translations.geldEinklagen.begruendungBeschreibungDeleteButton
