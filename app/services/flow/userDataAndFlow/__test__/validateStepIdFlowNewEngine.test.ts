@@ -1,11 +1,13 @@
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
 import { validateStepIdFlowNewEngine } from "../validateStepIdFlowNewEngine";
 
 const INITIAL_PAGE_FLOW = "/ergebnis/initial";
 
-const mockURL = new URL(
-  "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg",
-);
+const mockFlow = {} as CompiledFlow<PageConfigMap>;
+
+const mockURLSearchParams = new URLSearchParams();
 
 const getMockFlowEngineSession = (isReachable: boolean) => {
   return {
@@ -15,14 +17,16 @@ const getMockFlowEngineSession = (isReachable: boolean) => {
 };
 
 describe("validateStepIdFlowNewEngine", () => {
-  it("should return an error and redirect to initial flow page in case the page is not reachable", () => {
+  it("should return an error and redirect to initial flow page in case the page is not reachable", async () => {
     const mockFlowEngineSession = getMockFlowEngineSession(false);
 
-    const result = validateStepIdFlowNewEngine(
+    const result = await validateStepIdFlowNewEngine(
       "/fluggastrechte/formular",
       "/",
+      mockURLSearchParams,
+      null,
       mockFlowEngineSession,
-      mockURL,
+      mockFlow,
     );
 
     expect(result.isErr).toBe(true);
@@ -34,11 +38,13 @@ describe("validateStepIdFlowNewEngine", () => {
   it("should return ok if the step ID flow is correct", async () => {
     const mockFlowEngineSession = getMockFlowEngineSession(true);
 
-    const result = validateStepIdFlowNewEngine(
+    const result = await validateStepIdFlowNewEngine(
       "/fluggastrechte/formular",
       "/",
+      mockURLSearchParams,
+      null,
       mockFlowEngineSession,
-      mockURL,
+      mockFlow,
     );
 
     expect(result.isOk).toBe(true);
@@ -46,15 +52,14 @@ describe("validateStepIdFlowNewEngine", () => {
 
   it("should return ok if in case the page is not reachable and the url contains skipFlow in the search parameter", async () => {
     const mockFlowEngineSession = getMockFlowEngineSession(false);
-    const mockURLWithSkipFlow = new URL(
-      "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg&skipFlow=true",
-    );
 
-    const result = validateStepIdFlowNewEngine(
+    const result = await validateStepIdFlowNewEngine(
       "/fluggastrechte/formular",
       "/",
+      new URLSearchParams({ skipFlow: "true" }),
+      null,
       mockFlowEngineSession,
-      mockURLWithSkipFlow,
+      mockFlow,
     );
 
     expect(result.isOk).toBe(true);

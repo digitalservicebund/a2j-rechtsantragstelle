@@ -2,6 +2,7 @@ import { type UserData } from "~/domains/userData";
 import { precomputeProgress } from "./precomputeProgress";
 import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
 import z from "zod";
+import { type FlowTransitionConfig } from "~/services/flow/newFlowEngine/flowTransitionValidationNewEngine";
 
 // The "#" wildcard used in array stepId paths (e.g. "/kinder/#/daten").
 // Defined locally to keep the engine decoupled from the app's array service.
@@ -16,6 +17,7 @@ type Options<C extends PageConfigMap> = {
   initialStep: NodeKey<C>;
   transitions: TransitionConfigMap<C>;
   pruningStrategy?: PruningStrategy;
+  flowTransitionConfig?: FlowTransitionConfig;
 };
 
 type NormalizedSchemaInfo = {
@@ -68,6 +70,7 @@ export const compileFlow = <C extends PageConfigMap>({
   initialStep,
   transitions,
   pruningStrategy = "singlePass",
+  flowTransitionConfig,
 }: Options<C>) => {
   const pathMap: Record<string, NodeKey<C>> = {};
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
@@ -160,7 +163,7 @@ export const compileFlow = <C extends PageConfigMap>({
     initialStep,
     initialPath: pages[initialStep].stepId,
     pruningStrategy,
-
+    flowTransitionConfig,
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
       return nodeKey == null ? undefined : arrayInfoCache[nodeKey];

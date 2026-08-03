@@ -75,7 +75,7 @@ describe("getUserDataAndFlowNewEngine", () => {
       }),
     );
 
-    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(
+    vi.mocked(validateStepIdFlowNewEngine).mockResolvedValue(
       Result.err({ redirectTo: "redirectToPage" }),
     );
 
@@ -93,7 +93,7 @@ describe("getUserDataAndFlowNewEngine", () => {
       }),
     );
 
-    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(Result.ok());
+    vi.mocked(validateStepIdFlowNewEngine).mockResolvedValue(Result.ok());
 
     const result = await getUserDataAndFlowNewEngine(mockRequest, mockURL);
 
@@ -125,7 +125,7 @@ describe("getUserDataAndFlowNewEngine", () => {
       }),
     );
 
-    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(Result.ok());
+    vi.mocked(validateStepIdFlowNewEngine).mockResolvedValue(Result.ok());
     vi.mocked(getMetaConfigurationByStepId).mockReturnValue({
       triggerValidation: true,
     });
@@ -155,7 +155,7 @@ describe("getUserDataAndFlowNewEngine", () => {
       }),
     );
 
-    vi.mocked(validateStepIdFlowNewEngine).mockReturnValue(Result.ok());
+    vi.mocked(validateStepIdFlowNewEngine).mockResolvedValue(Result.ok());
     vi.mocked(getMetaConfigurationByStepId).mockReturnValue({});
 
     const result = await getUserDataAndFlowNewEngine(
