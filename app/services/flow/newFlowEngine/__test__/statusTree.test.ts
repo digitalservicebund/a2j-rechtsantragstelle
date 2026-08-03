@@ -69,44 +69,74 @@ describe("buildStatusTree", () => {
         "/postleitzahl-beklagte-person",
       ]);
     });
+  });
 
-    it("should not create a child node when shouldCollapseIntoParentNavItem is true", () => {
-      const config = {
-        uebersicht: {
-          stepId: "/klage-erstellen/begruendung/beschreibung/uebersicht",
-        },
-        abschnitte: {
-          stepId: "/klage-erstellen/begruendung/beschreibung/abschnitte/#",
-          shouldCollapseIntoParentNavItem: true,
-        },
-        abschnitteBeweisDokument: {
-          stepId:
-            "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokumente/#/daten",
-          shouldCollapseIntoParentNavItem: true,
-        },
-        abschnitteBeweisPersonAuswahl: {
-          stepId:
-            "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/auswahl",
-          shouldCollapseIntoParentNavItem: true,
-        },
-        abschnitteBeweisPerson: {
-          stepId:
-            "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/daten",
-          shouldCollapseIntoParentNavItem: true,
-        },
-      };
-      const tree = buildStatusTree(config, simulation(), new Set());
+  it("should not create a child node when shouldCollapseIntoParentNavItem is true for the first level", () => {
+    const config = {
+      grundbesitz: {
+        stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundBesitzOverview: {
+        stepId: "/nachlass/grundbesitz/uebersicht",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundbesitzAdresse: {
+        stepId: "/nachlass/grundbesitz/#/adresse",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundbesitzWarnung: {
+        stepId: "/nachlass/grundbesitz/warnung",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      unternehmenName: {
+        stepId: "/nachlass/unternehmen/#/name",
+        shouldCollapseIntoParentNavItem: true,
+      },
+    };
+    const tree = buildStatusTree(config, simulation(), new Set());
 
-      expect(tree["/klage-erstellen"].children).toHaveProperty("/begruendung");
-      expect(
-        tree["/klage-erstellen"].children?.["/begruendung"].children,
-      ).toHaveProperty("/beschreibung");
+    expect(tree["/nachlass"]).toBeDefined();
+    expect(tree["/nachlass"].children).not.toHaveProperty("/grundbesitz");
+    expect(tree["/nachlass"].children).not.toHaveProperty("/unternehmen");
+  });
 
-      expect(
-        tree["/klage-erstellen"].children?.["/begruendung"].children?.[
-          "/beschreibung"
-        ].children,
-      ).not.toHaveProperty("/abschnitte");
-    });
+  it("should not create a child node when shouldCollapseIntoParentNavItem is true for nested levels", () => {
+    const config = {
+      uebersicht: {
+        stepId: "/klage-erstellen/begruendung/beschreibung/uebersicht",
+      },
+      abschnitte: {
+        stepId: "/klage-erstellen/begruendung/beschreibung/abschnitte/#",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisDokument: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokumente/#/daten",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisPersonAuswahl: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/auswahl",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      abschnitteBeweisPerson: {
+        stepId:
+          "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person/#/daten",
+        shouldCollapseIntoParentNavItem: true,
+      },
+    };
+    const tree = buildStatusTree(config, simulation(), new Set());
+
+    expect(tree["/klage-erstellen"].children).toHaveProperty("/begruendung");
+    expect(
+      tree["/klage-erstellen"].children?.["/begruendung"].children,
+    ).toHaveProperty("/beschreibung");
+
+    expect(
+      tree["/klage-erstellen"].children?.["/begruendung"].children?.[
+        "/beschreibung"
+      ].children,
+    ).not.toHaveProperty("/abschnitte");
   });
 });

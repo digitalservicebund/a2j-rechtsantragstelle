@@ -28,7 +28,7 @@ const getPrefixes = (id: string, includeFlat: boolean = true) => {
 const getSegmentsBeforeFirstWildcard = (id: string) => {
   const rawParts = id.split("/").filter((p) => p !== "");
   const wildcardIndex = rawParts.indexOf("#");
-  return wildcardIndex === -1 ? rawParts.length : wildcardIndex;
+  return wildcardIndex === -1 ? rawParts.length - 1 : wildcardIndex;
 };
 
 const calcStatus = (
