@@ -31,7 +31,8 @@ const BegruendungBeschreibungUebersicht = () => {
         {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) &&
           userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
             <BegruendungBeschreibungAbschnitte
-              key={abschnitt.beschreibung}
+              // oxlint-disable-next-line react/no-array-index-key
+              key={index}
               itemIndex={index}
               abschnitte={abschnitt}
             />
