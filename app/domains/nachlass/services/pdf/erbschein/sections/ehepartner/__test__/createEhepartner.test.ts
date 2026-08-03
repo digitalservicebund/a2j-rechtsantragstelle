@@ -85,7 +85,7 @@ describe("createEhepartner", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     createEhepartner(mockDoc, mockStruct, {
       ...userDataMock,
-      spouseHasDifferentAddress: "no",
+      spouseHasSameAddress: "yes",
     });
 
     expect(mockDoc.text).toHaveBeenCalledWith("Anschrift: ");
@@ -99,7 +99,7 @@ describe("createEhepartner", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     createEhepartner(mockDoc, mockStruct, {
       ...userDataMock,
-      spouseHasDifferentAddress: "yes",
+      spouseHasSameAddress: "no",
       ehepartnerAdresszusatz: "bei C/O",
       ehepartnerStrasse: "Musterstrasse",
       ehepartnerHausnummer: "1",

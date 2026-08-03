@@ -105,7 +105,7 @@ export const ehepartnerTestCases = {
     {
       stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
       userInput: {
-        spouseHasDifferentAddress: "no",
+        spouseHasSameAddress: "yes",
       },
     },
     {
@@ -143,7 +143,7 @@ export const ehepartnerTestCases = {
     {
       stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
       userInput: {
-        spouseHasDifferentAddress: "no",
+        spouseHasSameAddress: "yes",
       },
     },
     {
@@ -187,7 +187,7 @@ export const ehepartnerTestCases = {
     {
       stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
       userInput: {
-        spouseHasDifferentAddress: "yes",
+        spouseHasSameAddress: "no",
       },
     },
     {
@@ -234,7 +234,7 @@ export const ehepartnerTestCases = {
     {
       stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
       userInput: {
-        spouseHasDifferentAddress: "yes",
+        spouseHasSameAddress: "no",
       },
     },
     {
