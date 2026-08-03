@@ -45,7 +45,9 @@ const calcStatus = (
 const getSegmentsBeforeFirstWildcard = (id: string) => {
   const rawParts = id.split("/").filter((p) => p !== "");
   const wildcardIndex = rawParts.indexOf("#");
-  return wildcardIndex === -1 ? rawParts.length : wildcardIndex;
+  // No wildcard: the boundary should still exclude the leaf's own
+  // containing folder, mirroring the wildcard case.
+  return wildcardIndex === -1 ? rawParts.length - 1 : wildcardIndex;
 };
 
 export const buildStatusTree = <C extends PageConfigMap>(

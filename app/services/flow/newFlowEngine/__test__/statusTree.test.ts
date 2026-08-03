@@ -71,7 +71,37 @@ describe("buildStatusTree", () => {
     });
   });
 
-  it("should not create a child node when shouldCollapseIntoParentNavItem is true", () => {
+  it("should not create a child node when shouldCollapseIntoParentNavItem is true for the first level", () => {
+    const config = {
+      grundbesitz: {
+        stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundBesitzOverview: {
+        stepId: "/nachlass/grundbesitz/uebersicht",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundbesitzAdresse: {
+        stepId: "/nachlass/grundbesitz/#/adresse",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      grundbesitzWarnung: {
+        stepId: "/nachlass/grundbesitz/warnung",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      unternehmenName: {
+        stepId: "/nachlass/unternehmen/#/name",
+        shouldCollapseIntoParentNavItem: true,
+      },
+    };
+    const tree = buildStatusTree(config, simulation(), new Set());
+
+    expect(tree["/nachlass"]).toBeDefined();
+    expect(tree["/nachlass"].children).not.toHaveProperty("/grundbesitz");
+    expect(tree["/nachlass"].children).not.toHaveProperty("/unternehmen");
+  });
+
+  it("should not create a child node when shouldCollapseIntoParentNavItem is true for nested levels", () => {
     const config = {
       uebersicht: {
         stepId: "/klage-erstellen/begruendung/beschreibung/uebersicht",
