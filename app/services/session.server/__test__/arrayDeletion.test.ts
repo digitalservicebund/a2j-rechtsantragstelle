@@ -41,6 +41,44 @@ describe("arrayDeletion", () => {
         "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
       );
     });
+
+    it("defaults redirectPathname to the array-item pathname when none is given", () => {
+      const formData = new FormData();
+      formData.append(
+        "pathnameArrayItem",
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+      formData.append("kinder", "0");
+      const result = getArrayDataFromFormData(formData);
+      expect(result.isOk ? result.value.redirectPathname : undefined).toBe(
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+    });
+
+    it("returns a separate redirectPathname for a nested deletion whose lookup pathname is not a navigable page", () => {
+      const formData = new FormData();
+      // Encodes the parent-array index for the lookup; not a real page.
+      formData.append(
+        "pathnameArrayItem",
+        "/nachlass/erbschein/erbfolge/kinder/0",
+      );
+      // The navigable summary page to return to after deleting.
+      formData.append(
+        "_redirectPathname",
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+      formData.append("kinder#kinder", "1");
+      const result = getArrayDataFromFormData(formData);
+      expect(result.isOk).toBe(true);
+      expect(result.isOk ? result.value.arrayName : undefined).toBe(
+        "kinder#kinder",
+      );
+      expect(result.isOk ? result.value.index : undefined).toBe(1);
+      expect(result.isOk ? result.value.arrayIndexes : undefined).toEqual([0]);
+      expect(result.isOk ? result.value.redirectPathname : undefined).toBe(
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+    });
   });
 
   describe("deleteArrayItem", () => {

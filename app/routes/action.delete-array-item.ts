@@ -21,7 +21,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultFormData.error.message, { status: 422 });
   }
 
-  const { arrayName, index, flowId, pathname, arrayIndexes } =
+  const { arrayName, index, flowId, redirectPathname, arrayIndexes } =
     resultFormData.value;
 
   const { getSession, commitSession } = getSessionManager(flowId);
@@ -42,7 +42,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const clientJavaScriptAvailable = formData.get("_jsEnabled");
   if (clientJavaScriptAvailable === "false") {
-    return redirect(pathname, {
+    // redirectPathname is the navigable summary page. It differs from the array
+    // lookup pathname for nested items, whose pathname is not a real page.
+    return redirect(redirectPathname, {
       headers,
     });
   }

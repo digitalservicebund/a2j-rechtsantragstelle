@@ -11,6 +11,10 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     index: number;
     flowId: FlowId;
     pathname: string;
+    // Where to send the user back to after deleting (no-JS redirect). For nested
+    // items pathname encodes the parent-array index and is not a navigable page,
+    // so callers can pass a real page here. Defaults to pathname.
+    redirectPathname: string;
     arrayIndexes: number[];
   },
   { message: string }
@@ -22,6 +26,10 @@ export function getArrayDataFromFormData(formData: FormData): Result<
       message: "Pathname array item invalid",
     });
   }
+
+  // Underscore-prefixed so filterFormData ignores it, keeping the arrayName/index
+  // lookup below unaffected. Read directly, like pathnameArrayItem.
+  const redirectPathname = formData.get("_redirectPathname");
 
   const relevantFormData = filterFormData(formData);
   const [arrayName, indexString] = Object.entries(relevantFormData)[1];
@@ -40,6 +48,7 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     index,
     flowId,
     pathname: pathname as string,
+    redirectPathname: (redirectPathname as string) || (pathname as string),
     arrayIndexes,
   });
 }
