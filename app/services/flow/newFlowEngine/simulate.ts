@@ -8,6 +8,7 @@ import type {
 import type { PageData } from "../pageDataSchema";
 import {
   ARRAY_WILDCARD,
+  inferArrayNameFromStepId,
   type CompiledFlow,
 } from "~/services/flow/newFlowEngine/compileFlow";
 
@@ -37,18 +38,21 @@ export const runSimulation = <C extends PageConfigMap>(
     compiledFlow.initialStep,
     data,
     true,
-    (key, scopeData) => {
-      const info = compiledFlow.getArrayInfoByNodeKey(key);
-      if (!info) return undefined;
-      // info.name uses "#" notation (e.g. "children#children") but scopeData
-      // is already scoped to the current item, so the real property key is
-      // just the last segment after "#" (e.g. "children").
-      const leafName = info.name.split("#").at(-1)!;
+    (sourceKey, targetKey, scopeData) => {
+      // Which array does this fan-out add to?
+      // Summary pages name it directly; others read it from the target's stepId.
+      // Reading the target lets one page add to several arrays.
+      const name =
+        compiledFlow.pages[sourceKey]?.arraySummary?.name ??
+        inferArrayNameFromStepId(compiledFlow.pages[targetKey]?.stepId ?? "");
+      if (!name) return undefined;
+      // scopeData is already the current item, so the key is the last "#" segment.
+      const leafName = name.split("#").at(-1)!;
       const items = scopeData[leafName];
       // Treat a missing array the same as an empty one so that the add-target
       // remains reachable even before the first item has been submitted.
       return {
-        name: info.name,
+        name,
         count: Array.isArray(items) ? items.length : 0,
       };
     },
@@ -63,8 +67,11 @@ const simulate = <C extends PageConfigMap>(
   initialStep: NodeKey<C>,
   currentData: InferredUserData<C>,
   traverseArrays = false,
+  // Given a page and one of its addArrayItem targets, returns that array's name
+  // and item count. Passing the target lets one page add to several arrays.
   getArrayFanOut?: (
-    nodeKey: NodeKey<C>,
+    sourceKey: NodeKey<C>,
+    targetKey: NodeKey<C>,
     scopeData: Record<string, unknown>,
   ) => { name: string; count: number } | undefined,
   // A page's array-nesting depth ("/list" = 0, "/items/#/daten" = 1, …).
@@ -200,7 +207,7 @@ const simulate = <C extends PageConfigMap>(
 
       addTransitions.forEach((addTransition) => {
         if (addTransition.target == null) return;
-        const fanOut = getArrayFanOut(current, scopeData);
+        const fanOut = getArrayFanOut(current, addTransition.target, scopeData);
         if (fanOut) {
           const { name, count } = fanOut;
           // name uses "#" notation (e.g. "elternteile#kinder") but scopeData is
