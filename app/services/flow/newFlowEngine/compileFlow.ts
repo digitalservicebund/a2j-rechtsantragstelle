@@ -70,7 +70,6 @@ export const compileFlow = <C extends PageConfigMap>({
   initialStep,
   transitions,
   pruningStrategy = "singlePass",
-  flowTransitionConfig,
 }: Options<C>) => {
   const pathMap: Record<string, NodeKey<C>> = {};
   const schemaCache: Partial<Record<NodeKey<C>, z.ZodTypeAny>> = {};
@@ -163,7 +162,6 @@ export const compileFlow = <C extends PageConfigMap>({
     initialStep,
     initialPath: pages[initialStep].stepId,
     pruningStrategy,
-    flowTransitionConfig,
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
       return nodeKey == null ? undefined : arrayInfoCache[nodeKey];

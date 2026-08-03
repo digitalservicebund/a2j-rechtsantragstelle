@@ -2,13 +2,10 @@ import { Result, type Unit } from "true-myth";
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { type FlowSession } from "../newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "../newFlowEngine/types";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import {
-  getFlowTransitionConfig,
-  validateFlowTransition,
-} from "~/services/flow/newFlowEngine/flowTransitionValidationNewEngine";
-import { flows } from "~/domains/flows.server";
+import { validateFlowTransition } from "~/services/flow/newFlowEngine/flowTransitionValidationNewEngine";
+import { type Flow, flows } from "~/domains/flows.server";
 import { type FlowId } from "~/domains/flowIds";
+import { getFlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 
 export const validateStepIdFlowNewEngine = async (
   flowId: FlowId,
@@ -16,7 +13,7 @@ export const validateStepIdFlowNewEngine = async (
   searchParams: URLSearchParams,
   cookieHeader: string | null,
   currentFlowSessionEngine: FlowSession<PageConfigMap>,
-  currentFlow: CompiledFlow<PageConfigMap>,
+  currentFlow: Flow,
 ): Promise<Result<Unit, { redirectTo: string }>> => {
   if (
     !currentFlowSessionEngine.isReachable(stepId) &&

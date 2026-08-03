@@ -1,11 +1,10 @@
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
 import { validateStepIdFlowNewEngine } from "../validateStepIdFlowNewEngine";
+import { type Flow } from "~/domains/flows.server";
 
 const INITIAL_PAGE_FLOW = "/ergebnis/initial";
 
-const mockFlow = {} as CompiledFlow<PageConfigMap>;
+const mockFlow = {} as Flow;
 
 const mockURLSearchParams = new URLSearchParams();
 

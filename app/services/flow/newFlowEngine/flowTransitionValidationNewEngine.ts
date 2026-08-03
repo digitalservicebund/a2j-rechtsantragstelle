@@ -1,8 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import type { FlowId } from "~/domains/flowIds";
 import { type CookieHeader, getSessionData } from "../../session.server";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type Flow } from "~/domains/flows.server";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 
@@ -15,14 +13,6 @@ type FlowTransitionResult = {
   isEligible: boolean;
   redirectTo?: string;
 };
-
-export function getFlowTransitionConfig(
-  currentFlow: CompiledFlow<PageConfigMap>,
-) {
-  return "flowTransitionConfig" in currentFlow
-    ? currentFlow.flowTransitionConfig
-    : undefined;
-}
 
 export async function validateFlowTransition(
   sourceFlow: Flow,

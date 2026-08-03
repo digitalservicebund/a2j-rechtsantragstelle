@@ -100,7 +100,7 @@ export const getUserDataAndFlowNewEngine = async (
     searchParams,
     cookieHeader,
     flowSessionEngine,
-    newEngineConfig!,
+    currentFlow,
   );
 
   if (validationFlowResult.isErr) {
