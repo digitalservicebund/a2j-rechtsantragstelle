@@ -19,14 +19,14 @@ export const klageErstellenBegruendungFlowConfig = {
       target: "begruendungBeschreibungAbschnitteBeweisDocument",
     },
     {
+      type: "addArrayItem",
+      target: "begruendungBeschreibungAbschnitteBeweisPersonAuswahl",
+    },
+    {
       target: "begruendungBeschreibungUebersicht",
     },
   ],
   begruendungBeschreibungAbschnitteBeweisDocument: [
-    {
-      type: "addArrayItem",
-      target: "begruendungBeschreibungAbschnitteBeweisPersonAuswahl",
-    },
     {
       target: "begruendungBeschreibungUebersicht",
     },

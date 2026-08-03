@@ -196,8 +196,10 @@ const simulate = <C extends PageConfigMap>(
     // Array branches: fan out once per item. scopeData is narrowed to the
     // specific array item so nested arrays can be counted and pruned correctly.
     if (getArrayFanOut && Array.isArray(route)) {
-      const addTransition = route.find((t) => t?.type === "addArrayItem");
-      if (addTransition?.target != null) {
+      const addTransitions = route.filter((t) => t?.type === "addArrayItem");
+
+      addTransitions.forEach((addTransition) => {
+        if (addTransition.target == null) return;
         const fanOut = getArrayFanOut(current, scopeData);
         if (fanOut) {
           const { name, count } = fanOut;
@@ -232,7 +234,7 @@ const simulate = <C extends PageConfigMap>(
             }
           }
         }
-      }
+      });
     }
   }
 
