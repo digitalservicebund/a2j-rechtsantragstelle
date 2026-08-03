@@ -44,5 +44,24 @@ export const useBegruendungBeschreibung = () => {
         await revalidator.revalidate();
       }
     },
+    onAbschnittPersonDelete: async (
+      pathnameArrayItem: string,
+      itemIndex: number,
+    ) => {
+      const formData = new FormData();
+      formData.append("pathnameArrayItem", pathnameArrayItem);
+      formData.append("_jsEnabled", String(jsEnabled));
+      formData.append("abschnitte#personen", String(itemIndex));
+      formData.append(CSRFKey, csrf);
+
+      const response = await fetch(DELETE_URL_ENDPOINT, {
+        method: "post",
+        body: formData,
+      });
+
+      if (response.ok) {
+        await revalidator.revalidate();
+      }
+    },
   };
 };

@@ -43,9 +43,11 @@ export const klageErstellenBegruendungFlowConfig = {
         const beweisePersonenIndex = arrayIndexes[1];
 
         const abschnitt = abschnitte[abschnittIndex];
-        if (!abschnitt?.personen?.[beweisePersonenIndex]) return false;
 
-        return true;
+        return (
+          abschnitt?.personen?.[beweisePersonenIndex]?.personAuswahl ===
+          "anotherPerson"
+        );
       },
       target: "begruendungBeschreibungAbschnitteBeweisPerson",
     },

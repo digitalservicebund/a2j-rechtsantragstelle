@@ -3,7 +3,7 @@ import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
 import { arrayIsNonEmpty } from "~/util/array";
-import { BegruendungBeschreibungBeweiseDocuments } from "./BegruendungBeschreibungBeweiseDocuments";
+import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 
 export const BegruendungBeschreibungBeweise = ({
@@ -36,8 +36,9 @@ export const BegruendungBeschreibungBeweise = ({
           </span>
         </div>
 
-        <BegruendungBeschreibungBeweiseDocuments
+        <BegruendungBeschreibungBeweisItems
           dokumenten={abschnitte.dokumenten}
+          personen={abschnitte.personen}
           itemIndexAbschnitte={itemIndex}
         />
 
