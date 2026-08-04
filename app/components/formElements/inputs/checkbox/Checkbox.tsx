@@ -52,17 +52,20 @@ const Checkbox = ({
       <div className="kern-fieldset__body">
         <div className="kern-form-check">
           <input
-            {...field.getInputProps({ type: "checkbox", value: "on" })}
+            {...field.getInputProps({
+              type: "checkbox",
+              value: "on",
+              onChange: (e) => {
+                if (hiddenFieldRef.current) {
+                  hiddenFieldRef.current.disabled = e.currentTarget.checked;
+                }
+              },
+            })}
             className={classNames("kern-form-check__checkbox", {
               "kern-form-check__checkbox--error": hasError,
             })}
             id={name}
             aria-describedby={hasError ? errorId : undefined}
-            onClick={(e) => {
-              if (hiddenFieldRef.current) {
-                hiddenFieldRef.current.disabled = e.currentTarget.checked;
-              }
-            }}
             aria-required={required}
             ref={hasError ? field.refs.transient() : null}
           />
