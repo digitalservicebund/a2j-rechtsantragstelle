@@ -19,12 +19,12 @@ export const ehepartnerFlowConfig = {
       target: "grundbesitz",
     },
     {
-      target: "spouseHasDifferentAddress",
+      target: "spouseHasSameAddress",
     },
   ],
-  spouseHasDifferentAddress: [
+  spouseHasSameAddress: [
     {
-      guard: (data) => data.spouseHasDifferentAddress === "yes",
+      guard: (data) => data.spouseHasSameAddress === "no",
       target: "ehepartnerAnschrift",
     },
     {

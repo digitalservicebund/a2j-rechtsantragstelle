@@ -80,7 +80,7 @@ export const createEhepartner = (
           .font(FONTS_BUNDESSANS_REGULAR)
           .text("Anschrift: ")
           .font(FONTS_BUNDESSANS_BOLD);
-        if (userData.spouseHasDifferentAddress === "yes") {
+        if (userData.spouseHasSameAddress === "no") {
           if (userData.ehepartnerAdresszusatz) {
             doc.text(userData.ehepartnerAdresszusatz);
           }

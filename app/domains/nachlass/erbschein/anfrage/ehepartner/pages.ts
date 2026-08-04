@@ -15,10 +15,10 @@ export const ehepartnerPages = {
       ehepartnerGeburtsname: stringOptionalSchema,
     },
   },
-  spouseHasDifferentAddress: {
+  spouseHasSameAddress: {
     stepId: "/ehepartner-oder-ehepartnerin/andere-adresse",
     pageSchema: {
-      spouseHasDifferentAddress: YesNoAnswer,
+      spouseHasSameAddress: YesNoAnswer,
     },
   },
   ehepartnerAnschrift: {

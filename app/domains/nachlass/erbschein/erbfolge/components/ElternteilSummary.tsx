@@ -1,4 +1,4 @@
-import { useFetcher } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySummaryItemActions";
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -104,10 +104,13 @@ function DeleteButton({
 }>) {
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
+  const { pathname } = useLocation();
   return (
     <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
       <CsrfInput />
       <input type="hidden" name="pathnameArrayItem" value={pathnameArrayItem} />
+      {/* The summary page to return to; pathnameArrayItem above is not navigable. */}
+      <input type="hidden" name="_redirectPathname" value={pathname} />
       <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
       <Button
         look="tertiary"

@@ -62,7 +62,7 @@ export const getUserDataAndFlowNewEngine = async (
   request: Request,
   url: URL,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname } = url;
+  const { pathname, searchParams } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const { flowId, stepId, arrayIndexes, currentFlow } =
@@ -94,11 +94,13 @@ export const getUserDataAndFlowNewEngine = async (
 
   const { flowSession, flowSessionEngine } = sessionEngineResult.value;
 
-  const validationFlowResult = validateStepIdFlowNewEngine(
+  const validationFlowResult = await validateStepIdFlowNewEngine(
     flowId,
     stepId,
+    searchParams,
+    cookieHeader,
     flowSessionEngine,
-    url,
+    currentFlow,
   );
 
   if (validationFlowResult.isErr) {
