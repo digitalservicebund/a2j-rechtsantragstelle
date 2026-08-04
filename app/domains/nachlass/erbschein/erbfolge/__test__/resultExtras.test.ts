@@ -5,10 +5,11 @@ import { erbfolgeResultExtras } from "../resultExtras";
 // A deceased with a single living child: the child inherits everything, so the
 // heir list has exactly one entry.
 const singleChildUserData = {
-  name: "Erblasser",
+  verstorbeneVorname: "Erblasser",
+  verstorbeneNachname: "",
   familienstand: "ledig",
   hatteKinder: "yes",
-  kinder: [{ name: "Kind Eins", isAlive: "yes" }],
+  kinder: [{ vorname: "Kind", nachname: "Eins", isAlive: "yes" }],
   elternteile: [],
 };
 
@@ -44,12 +45,14 @@ const ehevertragNoticeComponent = {
 
 // A married deceased whose Ehevertrag / Güterstand the user could not pin down.
 const undeterminableSpouseUserData = {
-  name: "Erblasser",
+  verstorbeneVorname: "Erblasser",
+  verstorbeneNachname: "",
   familienstand: "verheiratet",
-  ehepartnerName: "Ehepartner",
+  ehepartnerVorname: "Ehepartner",
+  ehepartnerNachname: "",
   ehevertrag: "unknown",
   hatteKinder: "yes",
-  kinder: [{ name: "Kind Eins", isAlive: "yes" }],
+  kinder: [{ vorname: "Kind", nachname: "Eins", isAlive: "yes" }],
   elternteile: [],
 };
 
@@ -157,9 +160,11 @@ describe("erbfolgeResultExtras.transformContent", () => {
     const result = await erbfolgeResultExtras.transformContent!(
       content,
       contextFor("/ergebnis/erbfolge", {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
+        verstorbeneNachname: "",
         familienstand: "verheiratet",
-        ehepartnerName: "Ehepartner",
+        ehepartnerVorname: "Ehepartner",
+        ehepartnerNachname: "",
         ehevertrag: "unknown",
         hatteKinder: "no",
         kinder: [],

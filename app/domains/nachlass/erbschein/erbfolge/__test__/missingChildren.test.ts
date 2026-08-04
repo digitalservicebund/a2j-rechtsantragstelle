@@ -10,12 +10,20 @@ describe("collectMissingChildrenNames", () => {
     // is empty even though the raw data physically sits under it.
     const result = collectMissingChildrenNames([
       {
-        name: "Kind 1",
+        vorname: "Kind",
+        nachname: "1",
         isAlive: "no",
         hatteKinder: "yes",
-        kinder: [{ name: "Enkel", isAlive: "yes", parentKindIndex: "1" }],
+        kinder: [
+          {
+            vorname: "Enkel",
+            nachname: "",
+            isAlive: "yes",
+            parentKindIndex: "1",
+          },
+        ],
       },
-      { name: "Kind 2", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "yes" },
     ]);
 
     expect(result).toEqual(["Kind 1"]);
@@ -24,15 +32,26 @@ describe("collectMissingChildrenNames", () => {
   it("does not flag Kind 2 once a physically-elsewhere grandchild is reassigned to it", () => {
     const result = collectMissingChildrenNames([
       {
-        name: "Kind 1",
+        vorname: "Kind",
+        nachname: "1",
         isAlive: "no",
         hatteKinder: "yes",
         kinder: [
-          { name: "Enkel A", isAlive: "yes", parentKindIndex: "0" },
-          { name: "Enkel B", isAlive: "yes", parentKindIndex: "1" },
+          {
+            vorname: "Enkel",
+            nachname: "A",
+            isAlive: "yes",
+            parentKindIndex: "0",
+          },
+          {
+            vorname: "Enkel",
+            nachname: "B",
+            isAlive: "yes",
+            parentKindIndex: "1",
+          },
         ],
       },
-      { name: "Kind 2", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "yes" },
     ]);
 
     expect(result).toEqual([]);
@@ -40,7 +59,13 @@ describe("collectMissingChildrenNames", () => {
 
   it("returns the name of a dead person who stated they had kids but added none", () => {
     const result = collectMissingChildrenNames([
-      { name: "Kind 1", isAlive: "no", hatteKinder: "yes", kinder: [] },
+      {
+        vorname: "Kind",
+        nachname: "1",
+        isAlive: "no",
+        hatteKinder: "yes",
+        kinder: [],
+      },
     ]);
 
     expect(result).toEqual(["Kind 1"]);
@@ -48,7 +73,7 @@ describe("collectMissingChildrenNames", () => {
 
   it("returns the name when kinder is missing entirely", () => {
     const result = collectMissingChildrenNames([
-      { name: "Kind 1", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Kind", nachname: "1", isAlive: "no", hatteKinder: "yes" },
     ]);
 
     expect(result).toEqual(["Kind 1"]);
@@ -56,7 +81,7 @@ describe("collectMissingChildrenNames", () => {
 
   it("does not flag a living person", () => {
     const result = collectMissingChildrenNames([
-      { name: "Kind 1", isAlive: "yes" },
+      { vorname: "Kind", nachname: "1", isAlive: "yes" },
     ]);
 
     expect(result).toEqual([]);
@@ -64,7 +89,7 @@ describe("collectMissingChildrenNames", () => {
 
   it("does not flag a dead person who stated no kids", () => {
     const result = collectMissingChildrenNames([
-      { name: "Kind 1", isAlive: "no", hatteKinder: "no" },
+      { vorname: "Kind", nachname: "1", isAlive: "no", hatteKinder: "no" },
     ]);
 
     expect(result).toEqual([]);
@@ -73,10 +98,11 @@ describe("collectMissingChildrenNames", () => {
   it("does not flag a dead person whose kinder were actually filled in", () => {
     const result = collectMissingChildrenNames([
       {
-        name: "Kind 1",
+        vorname: "Kind",
+        nachname: "1",
         isAlive: "no",
         hatteKinder: "yes",
-        kinder: [{ name: "Enkel", isAlive: "yes" }],
+        kinder: [{ vorname: "Enkel", nachname: "", isAlive: "yes" }],
       },
     ]);
 
@@ -86,12 +112,14 @@ describe("collectMissingChildrenNames", () => {
   it("finds a missing-children person nested several levels deep", () => {
     const result = collectMissingChildrenNames([
       {
-        name: "Kind 1",
+        vorname: "Kind",
+        nachname: "1",
         isAlive: "no",
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Enkel 1",
+            vorname: "Enkel",
+            nachname: "1",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [],
@@ -105,9 +133,15 @@ describe("collectMissingChildrenNames", () => {
 
   it("collects every affected person across multiple branches", () => {
     const result = collectMissingChildrenNames([
-      { name: "Kind 1", isAlive: "no", hatteKinder: "yes", kinder: [] },
-      { name: "Kind 2", isAlive: "yes" },
-      { name: "Kind 3", isAlive: "no", hatteKinder: "yes" },
+      {
+        vorname: "Kind",
+        nachname: "1",
+        isAlive: "no",
+        hatteKinder: "yes",
+        kinder: [],
+      },
+      { vorname: "Kind", nachname: "2", isAlive: "yes" },
+      { vorname: "Kind", nachname: "3", isAlive: "no", hatteKinder: "yes" },
     ]);
 
     expect(result).toEqual(["Kind 1", "Kind 3"]);
@@ -120,18 +154,25 @@ describe("collectMissingChildrenNamesForElternteile", () => {
     // not its physical parent array" test.
     const result = collectMissingChildrenNamesForElternteile([
       {
-        name: "Elternteil A",
+        vorname: "Elternteil",
+        nachname: "A",
         isAlive: "no",
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Geschwister",
+            vorname: "Geschwister",
+            nachname: "",
             isAlive: "yes",
             parentElternteilIndex: "1",
           },
         ],
       },
-      { name: "Elternteil B", isAlive: "no", hatteKinder: "yes" },
+      {
+        vorname: "Elternteil",
+        nachname: "B",
+        isAlive: "no",
+        hatteKinder: "yes",
+      },
     ]);
 
     expect(result).toEqual(["Elternteil A"]);
@@ -140,18 +181,25 @@ describe("collectMissingChildrenNamesForElternteile", () => {
   it("does not flag either parent when a sibling is assigned to 'both'", () => {
     const result = collectMissingChildrenNamesForElternteile([
       {
-        name: "Elternteil A",
+        vorname: "Elternteil",
+        nachname: "A",
         isAlive: "no",
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Gemeinsames Kind",
+            vorname: "Gemeinsames",
+            nachname: "Kind",
             isAlive: "yes",
             parentElternteilIndex: "both",
           },
         ],
       },
-      { name: "Elternteil B", isAlive: "no", hatteKinder: "yes" },
+      {
+        vorname: "Elternteil",
+        nachname: "B",
+        isAlive: "no",
+        hatteKinder: "yes",
+      },
     ]);
 
     expect(result).toEqual([]);
@@ -163,12 +211,14 @@ describe("collectMissingChildrenNamesForElternteile", () => {
         // hatteKinder "no" so A itself isn't flagged; the physical kinder
         // array still exists because that's just where the flow's shared
         // entry point happened to store the sibling.
-        name: "Elternteil A",
+        vorname: "Elternteil",
+        nachname: "A",
         isAlive: "no",
         hatteKinder: "no",
         kinder: [
           {
-            name: "Geschwister",
+            vorname: "Geschwister",
+            nachname: "",
             isAlive: "no",
             hatteKinder: "yes",
             parentElternteilIndex: "1",
@@ -176,7 +226,12 @@ describe("collectMissingChildrenNamesForElternteile", () => {
           },
         ],
       },
-      { name: "Elternteil B", isAlive: "no", hatteKinder: "yes" },
+      {
+        vorname: "Elternteil",
+        nachname: "B",
+        isAlive: "no",
+        hatteKinder: "yes",
+      },
     ]);
 
     expect(result).toEqual(["Geschwister"]);

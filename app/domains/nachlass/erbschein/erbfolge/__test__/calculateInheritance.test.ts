@@ -25,7 +25,8 @@ function containingShares(expected: Array<Partial<HeirShare>>) {
 describe("calculateInheritance", () => {
   describe("spouse (Ehepartner)", () => {
     const spouse: SpouseInput = {
-      name: "Partner",
+      vorname: "Partner",
+      nachname: "",
       gueterstand: "communityOfAcquisitions",
     };
 
@@ -33,8 +34,8 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
         spouse,
       });
@@ -53,8 +54,8 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "no",
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
         spouse,
       });
@@ -84,8 +85,12 @@ describe("calculateInheritance", () => {
     it("Gütertrennung + 1 Stamm: spouse and child each get 1/2", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
-        kinder: [{ name: "Kind 1", isAlive: "yes" }],
-        spouse: { name: "Partner", gueterstand: "separationOfProperty" },
+        kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "separationOfProperty",
+        },
       });
 
       expect(result).toHaveLength(2);
@@ -101,10 +106,14 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
-        spouse: { name: "Partner", gueterstand: "separationOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "separationOfProperty",
+        },
       });
 
       expect(result).toHaveLength(3);
@@ -121,11 +130,15 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "yes" },
-          { name: "Kind 3", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "yes" },
+          { vorname: "Kind", nachname: "3", isAlive: "yes" },
         ],
-        spouse: { name: "Partner", gueterstand: "separationOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "separationOfProperty",
+        },
       });
 
       expect(result).toHaveLength(4);
@@ -145,10 +158,14 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "no",
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
-        spouse: { name: "Partner", gueterstand: "separationOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "separationOfProperty",
+        },
       });
 
       expect(result).toEqual(
@@ -166,15 +183,20 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
           {
-            name: "Kind 2",
+            vorname: "Kind",
+            nachname: "2",
             isAlive: "no",
             hatteKinder: "yes",
-            kinder: [{ name: "Enkel 1", isAlive: "yes" }],
+            kinder: [{ vorname: "Enkel", nachname: "1", isAlive: "yes" }],
           },
         ],
-        spouse: { name: "Partner", gueterstand: "separationOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "separationOfProperty",
+        },
       });
 
       expect(result).toEqual(
@@ -190,10 +212,14 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "no",
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
-        spouse: { name: "Partner", gueterstand: "communityOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "communityOfProperty",
+        },
       });
 
       expect(result).toEqual(
@@ -209,10 +235,14 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
-        spouse: { name: "Partner", gueterstand: "communityOfProperty" },
+        spouse: {
+          vorname: "Partner",
+          nachname: "",
+          gueterstand: "communityOfProperty",
+        },
       });
 
       expect(result).toHaveLength(3);
@@ -231,9 +261,16 @@ describe("calculateInheritance", () => {
       expect(
         hasNoFirstOrSecondOrderHeirs({
           hatteKinder: "yes",
-          kinder: [{ name: "Kind", isAlive: "no", hatteKinder: "no" }],
+          kinder: [
+            { vorname: "Kind", nachname: "", isAlive: "no", hatteKinder: "no" },
+          ],
           elternteile: [
-            { name: "Elternteil", isAlive: "no", hatteKinder: "no" },
+            {
+              vorname: "Elternteil",
+              nachname: "",
+              isAlive: "no",
+              hatteKinder: "no",
+            },
           ],
         }),
       ).toBe(true);
@@ -243,7 +280,9 @@ describe("calculateInheritance", () => {
       expect(
         hasNoFirstOrSecondOrderHeirs({
           hatteKinder: "no",
-          elternteile: [{ name: "Elternteil", isAlive: "yes" }],
+          elternteile: [
+            { vorname: "Elternteil", nachname: "", isAlive: "yes" },
+          ],
         }),
       ).toBe(false);
     });
@@ -254,27 +293,32 @@ describe("calculateInheritance", () => {
           hatteKinder: "yes",
           kinder: [
             {
-              name: "Generation 1",
+              vorname: "Generation",
+              nachname: "1",
               isAlive: "no",
               hatteKinder: "yes",
               kinder: [
                 {
-                  name: "Generation 2",
+                  vorname: "Generation",
+                  nachname: "2",
                   isAlive: "no",
                   hatteKinder: "yes",
                   kinder: [
                     {
-                      name: "Generation 3",
+                      vorname: "Generation",
+                      nachname: "3",
                       isAlive: "no",
                       hatteKinder: "yes",
                       kinder: [
                         {
-                          name: "Generation 4",
+                          vorname: "Generation",
+                          nachname: "4",
                           isAlive: "no",
                           hatteKinder: "yes",
                           kinder: [
                             {
-                              name: "Generation 5",
+                              vorname: "Generation",
+                              nachname: "5",
                               isAlive: "no",
                               hatteKinder: "yes",
                             },
@@ -297,27 +341,32 @@ describe("calculateInheritance", () => {
           hatteKinder: "yes",
           kinder: [
             {
-              name: "Generation 1",
+              vorname: "Generation",
+              nachname: "1",
               isAlive: "no",
               hatteKinder: "yes",
               kinder: [
                 {
-                  name: "Generation 2",
+                  vorname: "Generation",
+                  nachname: "2",
                   isAlive: "no",
                   hatteKinder: "yes",
                   kinder: [
                     {
-                      name: "Generation 3",
+                      vorname: "Generation",
+                      nachname: "3",
                       isAlive: "no",
                       hatteKinder: "yes",
                       kinder: [
                         {
-                          name: "Generation 4",
+                          vorname: "Generation",
+                          nachname: "4",
                           isAlive: "no",
                           hatteKinder: "yes",
                           kinder: [
                             {
-                              name: "Generation 5",
+                              vorname: "Generation",
+                              nachname: "5",
                               isAlive: "no",
                               hatteKinder: "no",
                             },
@@ -340,25 +389,35 @@ describe("calculateInheritance", () => {
           hatteKinder: "yes",
           kinder: [
             {
-              name: "Generation 1",
+              vorname: "Generation",
+              nachname: "1",
               isAlive: "no",
               hatteKinder: "yes",
               kinder: [
                 {
-                  name: "Generation 2",
+                  vorname: "Generation",
+                  nachname: "2",
                   isAlive: "no",
                   hatteKinder: "yes",
                   kinder: [
                     {
-                      name: "Generation 3",
+                      vorname: "Generation",
+                      nachname: "3",
                       isAlive: "no",
                       hatteKinder: "yes",
                       kinder: [
                         {
-                          name: "Generation 4",
+                          vorname: "Generation",
+                          nachname: "4",
                           isAlive: "no",
                           hatteKinder: "yes",
-                          kinder: [{ name: "Generation 5", isAlive: "yes" }],
+                          kinder: [
+                            {
+                              vorname: "Generation",
+                              nachname: "5",
+                              isAlive: "yes",
+                            },
+                          ],
                         },
                       ],
                     },
@@ -376,32 +435,38 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Geschwister 1",
+                vorname: "Geschwister",
+                nachname: "1",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [
                   {
-                    name: "Generation 2",
+                    vorname: "Generation",
+                    nachname: "2",
                     isAlive: "no",
                     hatteKinder: "yes",
                     kinder: [
                       {
-                        name: "Generation 3",
+                        vorname: "Generation",
+                        nachname: "3",
                         isAlive: "no",
                         hatteKinder: "yes",
                         kinder: [
                           {
-                            name: "Generation 4",
+                            vorname: "Generation",
+                            nachname: "4",
                             isAlive: "no",
                             hatteKinder: "yes",
                             kinder: [
                               {
-                                name: "Generation 5",
+                                vorname: "Generation",
+                                nachname: "5",
                                 isAlive: "no",
                                 hatteKinder: "yes",
                               },
@@ -429,8 +494,8 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
       });
 
@@ -448,20 +513,22 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
           {
-            name: "Kind 2",
+            vorname: "Kind",
+            nachname: "2",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Enkelkind 1", isAlive: "yes" },
+              { vorname: "Enkelkind", nachname: "1", isAlive: "yes" },
               {
-                name: "Enkelkind 2",
+                vorname: "Enkelkind",
+                nachname: "2",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [
-                  { name: "Urenkel 1", isAlive: "yes" },
-                  { name: "Urenkel 2", isAlive: "yes" },
+                  { vorname: "Urenkel", nachname: "1", isAlive: "yes" },
+                  { vorname: "Urenkel", nachname: "2", isAlive: "yes" },
                 ],
               },
             ],
@@ -484,9 +551,9 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "yes" },
-          { name: "Kind 2", isAlive: "no", hatteKinder: "no" }, // no descendants — extinct Stamm
-          { name: "Kind 3", isAlive: "yes" },
+          { vorname: "Kind", nachname: "1", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "no" }, // no descendants — extinct Stamm
+          { vorname: "Kind", nachname: "3", isAlive: "yes" },
         ],
       });
 
@@ -506,8 +573,8 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "no",
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
       });
 
@@ -525,12 +592,12 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "yes",
         kinder: [
-          { name: "Kind 1", isAlive: "no", hatteKinder: "no" },
-          { name: "Kind 2", isAlive: "no", hatteKinder: "no" },
+          { vorname: "Kind", nachname: "1", isAlive: "no", hatteKinder: "no" },
+          { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "no" },
         ],
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
       });
 
@@ -548,18 +615,22 @@ describe("calculateInheritance", () => {
       const result = calculateInheritance({
         hatteKinder: "no",
         elternteile: [
-          { name: "Elternteil A", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
           {
-            name: "Elternteil B",
+            vorname: "Elternteil",
+            nachname: "B",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Kind 1 von B", isAlive: "yes" },
+              { vorname: "Kind", nachname: "1 von B", isAlive: "yes" },
               {
-                name: "Kind 2 von B",
+                vorname: "Kind",
+                nachname: "2 von B",
                 isAlive: "no",
                 hatteKinder: "yes",
-                kinder: [{ name: "Enkelkind 1 von B", isAlive: "yes" }],
+                kinder: [
+                  { vorname: "Enkelkind", nachname: "1 von B", isAlive: "yes" },
+                ],
               },
             ],
           },
@@ -582,16 +653,20 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Kind 1 von A", isAlive: "yes" },
+              { vorname: "Kind", nachname: "1 von A", isAlive: "yes" },
               {
-                name: "Kind 2 von A",
+                vorname: "Kind",
+                nachname: "2 von A",
                 isAlive: "no",
                 hatteKinder: "yes",
-                kinder: [{ name: "Enkelkind 1 von A", isAlive: "yes" }],
+                kinder: [
+                  { vorname: "Enkelkind", nachname: "1 von A", isAlive: "yes" },
+                ],
               },
             ],
           },
@@ -615,23 +690,41 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Geschwister 1",
+                vorname: "Geschwister",
+                nachname: "1",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [
-                  { name: "Nichte X", isAlive: "yes", parentKindIndex: "0" },
-                  { name: "Neffe Y", isAlive: "yes", parentKindIndex: "0" },
+                  {
+                    vorname: "Nichte",
+                    nachname: "X",
+                    isAlive: "yes",
+                    parentKindIndex: "0",
+                  },
+                  {
+                    vorname: "Neffe",
+                    nachname: "Y",
+                    isAlive: "yes",
+                    parentKindIndex: "0",
+                  },
                   // physically stored under Geschwister 1, but belongs to Geschwister 2
-                  { name: "Nichte Z", isAlive: "yes", parentKindIndex: "1" },
+                  {
+                    vorname: "Nichte",
+                    nachname: "Z",
+                    isAlive: "yes",
+                    parentKindIndex: "1",
+                  },
                 ],
               },
               {
-                name: "Geschwister 2",
+                vorname: "Geschwister",
+                nachname: "2",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [],
@@ -660,34 +753,46 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Kind A1", isAlive: "yes" },
-              { name: "Kind A2", isAlive: "yes" },
+              { vorname: "Kind", nachname: "A1", isAlive: "yes" },
+              { vorname: "Kind", nachname: "A2", isAlive: "yes" },
               {
-                name: "Gemeinsames Kind 1",
+                vorname: "Gemeinsames",
+                nachname: "Kind 1",
                 isAlive: "yes",
                 parentElternteilIndex: "both",
               },
               {
-                name: "Gemeinsames Kind 2",
+                vorname: "Gemeinsames",
+                nachname: "Kind 2",
                 isAlive: "no",
                 hatteKinder: "yes",
                 parentElternteilIndex: "both",
                 kinder: [
-                  { name: "Gemeinsames Enkelkind 1", isAlive: "yes" },
-                  { name: "Gemeinsames Enkelkind 2", isAlive: "yes" },
+                  {
+                    vorname: "Gemeinsames",
+                    nachname: "Enkelkind 1",
+                    isAlive: "yes",
+                  },
+                  {
+                    vorname: "Gemeinsames",
+                    nachname: "Enkelkind 2",
+                    isAlive: "yes",
+                  },
                 ],
               },
             ],
           },
           {
-            name: "Elternteil B",
+            vorname: "Elternteil",
+            nachname: "B",
             isAlive: "no",
             hatteKinder: "yes",
-            kinder: [{ name: "Kind B1", isAlive: "yes" }],
+            kinder: [{ vorname: "Kind", nachname: "B1", isAlive: "yes" }],
           },
         ],
       });
@@ -714,23 +819,26 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Kind A1", isAlive: "yes" },
+              { vorname: "Kind", nachname: "A1", isAlive: "yes" },
               {
-                name: "Vollgeschwister",
+                vorname: "Vollgeschwister",
+                nachname: "",
                 isAlive: "yes",
                 parentElternteilIndex: "both",
               },
             ],
           },
           {
-            name: "Elternteil B",
+            vorname: "Elternteil",
+            nachname: "B",
             isAlive: "no",
             hatteKinder: "yes",
-            kinder: [{ name: "Kind B1", isAlive: "yes" }],
+            kinder: [{ vorname: "Kind", nachname: "B1", isAlive: "yes" }],
           },
         ],
       });
@@ -754,18 +862,25 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Vollgeschwister",
+                vorname: "Vollgeschwister",
+                nachname: "",
                 isAlive: "yes",
                 parentElternteilIndex: "both",
               },
             ],
           },
-          { name: "Elternteil B", isAlive: "no", hatteKinder: "yes" },
+          {
+            vorname: "Elternteil",
+            nachname: "B",
+            isAlive: "no",
+            hatteKinder: "yes",
+          },
         ],
       });
 
@@ -782,16 +897,27 @@ describe("calculateInheritance", () => {
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Kind 1",
+            vorname: "Kind",
+            nachname: "1",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Enkelkind 1", isAlive: "yes", parentKindIndex: "0" },
-              { name: "Enkelkind 2", isAlive: "yes", parentKindIndex: "1" },
+              {
+                vorname: "Enkelkind",
+                nachname: "1",
+                isAlive: "yes",
+                parentKindIndex: "0",
+              },
+              {
+                vorname: "Enkelkind",
+                nachname: "2",
+                isAlive: "yes",
+                parentKindIndex: "1",
+              },
             ],
           },
-          { name: "Kind 2", isAlive: "no", hatteKinder: "yes" },
-          { name: "Kind 3", isAlive: "yes" },
+          { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "yes" },
+          { vorname: "Kind", nachname: "3", isAlive: "yes" },
         ] as InheritanceInput["kinder"],
       });
 
@@ -811,21 +937,38 @@ describe("calculateInheritance", () => {
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Kind 1",
+            vorname: "Kind",
+            nachname: "1",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Enkelkind 1",
+                vorname: "Enkelkind",
+                nachname: "1",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [
-                  { name: "Urenkel 1", isAlive: "yes", parentKindIndex: "0" },
-                  { name: "Urenkel 2", isAlive: "yes", parentKindIndex: "1" },
+                  {
+                    vorname: "Urenkel",
+                    nachname: "1",
+                    isAlive: "yes",
+                    parentKindIndex: "0",
+                  },
+                  {
+                    vorname: "Urenkel",
+                    nachname: "2",
+                    isAlive: "yes",
+                    parentKindIndex: "1",
+                  },
                 ],
               },
-              { name: "Enkelkind 2", isAlive: "no", hatteKinder: "yes" },
-              { name: "Enkelkind 3", isAlive: "yes" },
+              {
+                vorname: "Enkelkind",
+                nachname: "2",
+                isAlive: "no",
+                hatteKinder: "yes",
+              },
+              { vorname: "Enkelkind", nachname: "3", isAlive: "yes" },
             ],
           },
         ] as InheritanceInput["kinder"],
@@ -851,18 +994,20 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Geschwister",
+                vorname: "Geschwister",
+                nachname: "",
                 isAlive: "yes",
                 parentElternteilIndex: "1",
               },
             ],
           },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
       });
 
@@ -880,19 +1025,26 @@ describe("calculateInheritance", () => {
         hatteKinder: "no",
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil",
+            nachname: "A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Kind A1", isAlive: "yes" },
+              { vorname: "Kind", nachname: "A1", isAlive: "yes" },
               {
-                name: "Kind von B",
+                vorname: "Kind",
+                nachname: "von B",
                 isAlive: "yes",
                 parentElternteilIndex: "1",
               },
             ],
           },
-          { name: "Elternteil B", isAlive: "no", hatteKinder: "no" },
+          {
+            vorname: "Elternteil",
+            nachname: "B",
+            isAlive: "no",
+            hatteKinder: "no",
+          },
         ],
       });
 
