@@ -98,7 +98,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
     expect(list.items).toHaveLength(1);
   });
 
-  it("hides the heirs and keeps the notice when the Ehevertrag is unknown", async () => {
+  it("shows the heirs without shares and keeps the notice when the Ehevertrag is unknown", async () => {
     const content = resultPageWith([
       heirsListComponent,
       ehevertragNoticeComponent,
@@ -109,13 +109,23 @@ describe("erbfolgeResultExtras.transformContent", () => {
       contextFor("/ergebnis/erbfolge", undeterminableSpouseUserData),
     );
 
-    expect(result.freeZone).toHaveLength(1);
+    expect(result.freeZone).toHaveLength(2);
+    const list = result.freeZone[0] as unknown as {
+      identifier: string;
+      items: Array<{ headline: { text: string } }>;
+    };
+    expect(list.identifier).toBe("heirsList");
+    expect(list.items.length).toBeGreaterThan(0);
+    // No share text ("erhält …") when shares can't be determined.
+    for (const item of list.items) {
+      expect(item.headline.text).not.toMatch(/erhält/);
+    }
     expect(
-      (result.freeZone[0] as unknown as { identifier: string }).identifier,
+      (result.freeZone[1] as unknown as { identifier: string }).identifier,
     ).toBe("ehevertragUnbekanntHinweis");
   });
 
-  it("hides the heirs when the Güterstand is 'other'", async () => {
+  it("shows the heirs without shares when the Güterstand is 'other'", async () => {
     const content = resultPageWith([
       heirsListComponent,
       ehevertragNoticeComponent,
@@ -130,10 +140,42 @@ describe("erbfolgeResultExtras.transformContent", () => {
       }),
     );
 
-    expect(result.freeZone).toHaveLength(1);
+    expect(result.freeZone).toHaveLength(2);
+    const list = result.freeZone[0] as unknown as { identifier: string };
+    expect(list.identifier).toBe("heirsList");
     expect(
-      (result.freeZone[0] as unknown as { identifier: string }).identifier,
+      (result.freeZone[1] as unknown as { identifier: string }).identifier,
     ).toBe("ehevertragUnbekanntHinweis");
+  });
+
+  it("shows the spouse's share and hides the notice when the spouse inherits alone, even with unknown Ehevertrag", async () => {
+    const content = resultPageWith([
+      heirsListComponent,
+      ehevertragNoticeComponent,
+    ]);
+
+    const result = await erbfolgeResultExtras.transformContent!(
+      content,
+      contextFor("/ergebnis/erbfolge", {
+        name: "Erblasser",
+        familienstand: "verheiratet",
+        ehepartnerName: "Ehepartner",
+        ehevertrag: "unknown",
+        hatteKinder: "no",
+        kinder: [],
+        elternteile: [],
+      }),
+    );
+
+    // Notice gone, only the heir list remains.
+    expect(result.freeZone).toHaveLength(1);
+    const list = result.freeZone[0] as unknown as {
+      identifier: string;
+      items: Array<{ headline: { text: string } }>;
+    };
+    expect(list.identifier).toBe("heirsList");
+    expect(list.items).toHaveLength(1);
+    expect(list.items[0].headline.text).toMatch(/das gesamte Erbe/);
   });
 
   it("does not touch content on the other result pages", async () => {
