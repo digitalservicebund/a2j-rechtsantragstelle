@@ -3,15 +3,11 @@ import {
   compileFlow,
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { kontopfaendungPkontoAntragPages } from "./pages";
 
-const kontopfaendungPkontoAntragPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(kontopfaendungPkontoAntragPages);
-
 export const kontopfaendungPkontoAntragFlowConfig = compileFlow({
-  pages: kontopfaendungPkontoAntragPagesWithLeadingSlash,
+  pages: kontopfaendungPkontoAntragPages,
   initialStep: "grundvoraussetzungenDatenverarbeitung",
   transitions: {
     grundvoraussetzungenDatenverarbeitung: [
