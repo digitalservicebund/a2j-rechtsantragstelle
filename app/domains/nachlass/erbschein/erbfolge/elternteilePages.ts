@@ -14,20 +14,23 @@ import {
 // covers every depth.
 type ElternteilKind =
   | {
-      name: string;
+      vorname: string;
+      nachname: string;
       isAlive: "yes";
       parentElternteilIndex?: string;
       parentKindIndex?: string;
     }
   | {
-      name: string;
+      vorname: string;
+      nachname: string;
       isAlive: "no";
       hatteKinder: "no";
       parentElternteilIndex?: string;
       parentKindIndex?: string;
     }
   | {
-      name: string;
+      vorname: string;
+      nachname: string;
       isAlive: "no";
       hatteKinder: "yes";
       kinder?: ElternteilKind[];
@@ -43,10 +46,11 @@ const elternteilKindSchema: z.ZodType<ElternteilKind> = z.lazy(() =>
 );
 
 export type Elternteil =
-  | { name: string; isAlive: "yes" }
-  | { name: string; isAlive: "no"; hatteKinder: "no" }
+  | { vorname: string; nachname: string; isAlive: "yes" }
+  | { vorname: string; nachname: string; isAlive: "no"; hatteKinder: "no" }
   | {
-      name: string;
+      vorname: string;
+      nachname: string;
       isAlive: "no";
       hatteKinder: "yes";
       kinder?: ElternteilKind[];

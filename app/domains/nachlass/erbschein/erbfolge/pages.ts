@@ -20,7 +20,10 @@ const topLevelPages = {
   start: { stepId: "/start" },
   verstorbenePerson: {
     stepId: "/verstorbenePerson",
-    pageSchema: { name: stringRequiredSchema },
+    pageSchema: {
+      verstorbeneVorname: stringRequiredSchema,
+      verstorbeneNachname: stringRequiredSchema,
+    },
   },
   familienstand: {
     stepId: "/familienstand",
@@ -35,7 +38,10 @@ const topLevelPages = {
   },
   ehepartner: {
     stepId: "/ehepartner",
-    pageSchema: { ehepartnerName: stringRequiredSchema },
+    pageSchema: {
+      ehepartnerVorname: stringRequiredSchema,
+      ehepartnerNachname: stringRequiredSchema,
+    },
   },
   ehepartnerStaatsangehoerigkeit: {
     stepId: "/ehepartnerStaatsangehoerigkeit",

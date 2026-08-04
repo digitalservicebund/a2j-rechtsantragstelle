@@ -36,9 +36,9 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
   it("exposes the kinder list as array-summary data on the kinder overview page", async () => {
     const context = contextFor(
       {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
         hatteKinder: "yes",
-        kinder: [{ name: "Kind 1", isAlive: "yes" }],
+        kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
         elternteile: [],
         pageData: { arrayIndexes: [] },
       } as UserData,
@@ -58,9 +58,9 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
   it("exposes the elternteile list on the elternteile overview page", async () => {
     const context = contextFor(
       {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
         hatteKinder: "no",
-        elternteile: [{ name: "Mutter", isAlive: "yes" }],
+        elternteile: [{ vorname: "Mutter", nachname: "", isAlive: "yes" }],
         pageData: { arrayIndexes: [] },
       } as UserData,
       "/elternteile",
@@ -91,14 +91,15 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
   it("provides dynamic options for a parent-select field", async () => {
     const context = contextFor(
       {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Kind Eins",
+            vorname: "Kind",
+            nachname: "Eins",
             isAlive: "no",
             hatteKinder: "yes",
-            kinder: [{ name: "Enkel", isAlive: "yes" }],
+            kinder: [{ vorname: "Enkel", nachname: "", isAlive: "yes" }],
           },
         ],
         elternteile: [],
@@ -123,14 +124,15 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
   it("resolves the ancestor list-item name for a nested page", async () => {
     const context = contextFor(
       {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
         hatteKinder: "yes",
         kinder: [
           {
-            name: "Kind Eins",
+            vorname: "Kind",
+            nachname: "Eins",
             isAlive: "no",
             hatteKinder: "yes",
-            kinder: [{ name: "Enkel", isAlive: "yes" }],
+            kinder: [{ vorname: "Enkel", nachname: "", isAlive: "yes" }],
           },
         ],
         elternteile: [],
@@ -143,15 +145,16 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
     const replacements =
       await erbfolgeVorabcheckExtras.buildReplacements!(context);
 
-    expect(replacements["kinder#name"]).toBe("Kind Eins");
+    expect(replacements["kinder#vorname"]).toBe("Kind");
+    expect(replacements["kinder#nachname"]).toBe("Eins");
   });
 
   it("returns no ancestor names on a top-level page", async () => {
     const context = contextFor(
       {
-        name: "Erblasser",
+        verstorbeneVorname: "Erblasser",
         hatteKinder: "yes",
-        kinder: [{ name: "Kind 1", isAlive: "yes" }],
+        kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
         elternteile: [],
         pageData: { arrayIndexes: [] },
       } as UserData,

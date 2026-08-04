@@ -12,18 +12,21 @@ export function personUnion<
 >(childSchema: Child, extra: Extra = {} as Extra) {
   return z.union([
     z.object({
-      name: stringRequiredSchema,
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
       isAlive: z.literal("yes"),
       ...extra,
     }),
     z.object({
-      name: stringRequiredSchema,
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
       isAlive: z.literal("no"),
       hatteKinder: z.literal("no"),
       ...extra,
     }),
     z.object({
-      name: stringRequiredSchema,
+      vorname: stringRequiredSchema,
+      nachname: stringRequiredSchema,
       isAlive: z.literal("no"),
       hatteKinder: z.literal("yes"),
       kinder: z.array(childSchema).optional(),
@@ -51,7 +54,8 @@ export const parentElternteilIndexSchema = z
 // Field-shape helpers. `prefix` is the array path in `#` notation, e.g. "kinder#"
 // or "elternteile#kinder#", so keys resolve to the right nesting depth.
 export const datenFields = (prefix: string) => ({
-  [`${prefix}name`]: stringRequiredSchema,
+  [`${prefix}vorname`]: stringRequiredSchema,
+  [`${prefix}nachname`]: stringRequiredSchema,
   [`${prefix}isAlive`]: YesNoAnswer,
 });
 

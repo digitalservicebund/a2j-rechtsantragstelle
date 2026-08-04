@@ -22,7 +22,11 @@ function buildMissingChildrenNamesHtml(names: string[]): string {
 // entered. The "kinder fehlen" (children missing) exit page lists them so the
 // user knows who is still missing.
 function missingChildrenReplacements(
-  data: InheritanceInput & { name?: string; hatteKinder?: string },
+  data: InheritanceInput & {
+    verstorbeneVorname?: string;
+    verstorbeneNachname?: string;
+    hatteKinder?: string;
+  },
 ): Replacements {
   const missingChildrenNames = [
     // Treat the deceased as the root of the children tree so both cases are
@@ -30,7 +34,8 @@ function missingChildrenReplacements(
     // with the same gap.
     ...collectMissingChildrenNames([
       {
-        name: data.name ?? "",
+        vorname: data.verstorbeneVorname,
+        nachname: data.verstorbeneNachname,
         isAlive: "no",
         hatteKinder: data.hatteKinder,
         kinder: data.kinder,
@@ -67,7 +72,8 @@ export function nachlassErbfolgeStringReplacements(
   context: UserData,
 ): Replacements {
   const data = context as InheritanceInput & {
-    name?: string;
+    verstorbeneVorname?: string;
+    verstorbeneNachname?: string;
     hatteKinder?: string;
   };
 

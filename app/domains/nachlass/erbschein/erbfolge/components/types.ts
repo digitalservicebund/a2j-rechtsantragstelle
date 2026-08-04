@@ -3,6 +3,8 @@ import type { BasicTypes } from "~/domains/userData";
 // A node in a person tree (kinder or elternteile descendants): flat fields plus an
 // optional nested `kinder` array. Shared by both summary components and the tree helpers.
 export type KindItem = Record<string, BasicTypes> & {
+  vorname?: string;
+  nachname?: string;
   kinder?: KindItem[];
 };
 

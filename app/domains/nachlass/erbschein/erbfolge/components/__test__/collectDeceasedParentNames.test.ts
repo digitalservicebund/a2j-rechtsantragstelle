@@ -5,16 +5,16 @@ import type { KindItem } from "../types";
 describe("collectDeceasedParentNames", () => {
   const items = [
     {
-      name: "Kind 1",
+      vorname: "Kind 1",
       isAlive: "no",
       hatteKinder: "yes",
       kinder: [
-        { name: "Enkelkind 1", isAlive: "no", hatteKinder: "yes" },
-        { name: "Enkelkind 2", isAlive: "yes" },
+        { vorname: "Enkelkind 1", isAlive: "no", hatteKinder: "yes" },
+        { vorname: "Enkelkind 2", isAlive: "yes" },
       ],
     },
-    { name: "Kind 2", isAlive: "yes" },
-    { name: "Kind 3", isAlive: "no", hatteKinder: "no" },
+    { vorname: "Kind 2", isAlive: "yes" },
+    { vorname: "Kind 3", isAlive: "no", hatteKinder: "no" },
   ] as unknown as KindItem[];
 
   it("lists deceased members with children at the given depth", () => {

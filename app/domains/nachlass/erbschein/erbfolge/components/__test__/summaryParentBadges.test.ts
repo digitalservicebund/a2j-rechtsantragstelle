@@ -4,14 +4,14 @@ import { collectDescendantsWithParentName } from "../summaryTree";
 
 describe("siblingBadgeLabel", () => {
   const elternteile = [
-    { name: "Elternteil A", isAlive: "no" },
-    { name: "Elternteil B", isAlive: "no" },
+    { vorname: "Elternteil A", isAlive: "no" },
+    { vorname: "Elternteil B", isAlive: "no" },
   ];
 
   it("uses the assigned parent's name", () => {
     expect(
       siblingBadgeLabel(
-        { name: "Geschwister", parentElternteilIndex: "1" },
+        { vorname: "Geschwister", parentElternteilIndex: "1" },
         elternteile,
         "Elternteil A",
       ),
@@ -21,7 +21,7 @@ describe("siblingBadgeLabel", () => {
   it("labels a 'both' sibling as child of both parents", () => {
     expect(
       siblingBadgeLabel(
-        { name: "Geschwister", parentElternteilIndex: "both" },
+        { vorname: "Geschwister", parentElternteilIndex: "both" },
         elternteile,
         "Elternteil A",
       ),
@@ -30,7 +30,11 @@ describe("siblingBadgeLabel", () => {
 
   it("falls back to the physical parent when no index is set", () => {
     expect(
-      siblingBadgeLabel({ name: "Geschwister" }, elternteile, "Elternteil A"),
+      siblingBadgeLabel(
+        { vorname: "Geschwister" },
+        elternteile,
+        "Elternteil A",
+      ),
     ).toBe("Kind von Elternteil A");
   });
 
@@ -39,10 +43,10 @@ describe("siblingBadgeLabel", () => {
   it("falls back to the physical parent when the assigned parent is alive", () => {
     expect(
       siblingBadgeLabel(
-        { name: "Geschwister", parentElternteilIndex: "1" },
+        { vorname: "Geschwister", parentElternteilIndex: "1" },
         [
-          { name: "Elternteil A", isAlive: "no" },
-          { name: "Elternteil B", isAlive: "yes" },
+          { vorname: "Elternteil A", isAlive: "no" },
+          { vorname: "Elternteil B", isAlive: "yes" },
         ],
         "Elternteil A",
       ),
@@ -52,7 +56,7 @@ describe("siblingBadgeLabel", () => {
   it("falls back to the physical parent for an out-of-range index", () => {
     expect(
       siblingBadgeLabel(
-        { name: "Geschwister", parentElternteilIndex: "5" },
+        { vorname: "Geschwister", parentElternteilIndex: "5" },
         elternteile,
         "Elternteil A",
       ),
@@ -65,15 +69,15 @@ type KindItems = Parameters<typeof collectDescendantsWithParentName>[0];
 describe("collectDescendantsWithParentName", () => {
   const items = [
     {
-      name: "Kind 1",
+      vorname: "Kind 1",
       isAlive: "no",
       hatteKinder: "yes",
       kinder: [
-        { name: "Enkelkind 1", isAlive: "yes", parentKindIndex: "0" },
-        { name: "Enkelkind 2", isAlive: "yes", parentKindIndex: "1" },
+        { vorname: "Enkelkind 1", isAlive: "yes", parentKindIndex: "0" },
+        { vorname: "Enkelkind 2", isAlive: "yes", parentKindIndex: "1" },
       ],
     },
-    { name: "Kind 2", isAlive: "no", hatteKinder: "yes" },
+    { vorname: "Kind 2", isAlive: "no", hatteKinder: "yes" },
   ] as unknown as KindItems;
 
   it("resolves the parent name from parentKindIndex", () => {
@@ -89,12 +93,14 @@ describe("collectDescendantsWithParentName", () => {
   it("falls back to the physical parent when the assigned member is alive", () => {
     const staleItems = [
       {
-        name: "Kind 1",
+        vorname: "Kind 1",
         isAlive: "no",
         hatteKinder: "yes",
-        kinder: [{ name: "Enkelkind 1", isAlive: "yes", parentKindIndex: "1" }],
+        kinder: [
+          { vorname: "Enkelkind 1", isAlive: "yes", parentKindIndex: "1" },
+        ],
       },
-      { name: "Kind 2", isAlive: "yes" },
+      { vorname: "Kind 2", isAlive: "yes" },
     ] as unknown as KindItems;
     const entries = collectDescendantsWithParentName(staleItems, 2);
     expect(entries[0].directParentName).toBe("Kind 1");
@@ -103,10 +109,10 @@ describe("collectDescendantsWithParentName", () => {
   it("falls back to the physical parent when no index is set", () => {
     const unsetItems = [
       {
-        name: "Kind 1",
+        vorname: "Kind 1",
         isAlive: "no",
         hatteKinder: "yes",
-        kinder: [{ name: "Enkelkind 1", isAlive: "yes" }],
+        kinder: [{ vorname: "Enkelkind 1", isAlive: "yes" }],
       },
     ] as unknown as KindItems;
     const entries = collectDescendantsWithParentName(unsetItems, 2);
