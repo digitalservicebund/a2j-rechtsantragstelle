@@ -7,6 +7,15 @@ import z from "zod";
 // Defined locally to keep the engine decoupled from the app's array service.
 export const ARRAY_WILDCARD = "#";
 
+// Array name from a stepId's "#" segments.
+// "/parents/#/children/#/daten" gives "parents#children".
+export const inferArrayNameFromStepId = (stepId: string): string => {
+  const segments = stepId.split("/");
+  return segments
+    .filter((_, index) => segments[index + 1] === ARRAY_WILDCARD)
+    .join("#");
+};
+
 // "singlePass" prunes against the current data once. "cascading" re-prunes
 // until stable, so pages kept alive only by stale fields also fall off.
 type PruningStrategy = "singlePass" | "cascading";
@@ -87,17 +96,6 @@ export const compileFlow = <C extends PageConfigMap>({
     >
   > = {};
 
-  // Derives the "#"-notation array name from a target node's stepId.
-  // e.g. "/parents/#/children/#/daten" → "parents#children"
-  const inferArrayNameFromStepId = (stepId: string): string => {
-    const parts = stepId.split("/");
-    const names: string[] = [];
-    for (let i = 0; i < parts.length - 1; i++) {
-      if (parts[i + 1] === ARRAY_WILDCARD) names.push(parts[i]);
-    }
-    return names.join("#");
-  };
-
   // Single-pass static initialization
   for (const [key, pageNode] of Object.entries(pages)) {
     const nodeKey = key as NodeKey<C>;
@@ -177,7 +175,6 @@ export const compileFlow = <C extends PageConfigMap>({
       fieldNamesCache[nodeKey] ?? [],
     getSchemaByNodeKey: (nodeKey: NodeKey<C>): z.ZodTypeAny | undefined =>
       schemaCache[nodeKey],
-    getArrayInfoByNodeKey: (nodeKey: NodeKey<C>) => arrayInfoCache[nodeKey],
 
     getNodeKeyFromPath,
     getPathFromNodeKey,
