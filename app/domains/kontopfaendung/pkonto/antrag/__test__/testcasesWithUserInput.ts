@@ -1,17 +1,14 @@
-import type {
-  FlowTestCases,
-  FlowTestConfig,
-} from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import type { KontopfaendungPkontoAntragUserData } from "../userData";
-import { kontopfaendungPkontoAntragXStateConfig } from "../xStateConfig";
+import { kontopfaendungPkontoAntragFlowConfig } from "../flowConfig";
 
 export const kontopfaendungPkontoAntragTestCases = {
-  xstateConfig: kontopfaendungPkontoAntragXStateConfig,
+  xstateConfig: {
+    id: "/kontopfaendung/pkonto/antrag",
+  },
+  newEngineConfig: kontopfaendungPkontoAntragFlowConfig,
   testcases: {
     bestehendesPkonto: [
-      {
-        stepId: "/start",
-      },
       {
         stepId: "/grundvoraussetzungen/datenverarbeitung",
         userInput: { datenverarbeitungZustimmung: "on" },
@@ -25,9 +22,6 @@ export const kontopfaendungPkontoAntragTestCases = {
       },
     ],
     pkontoAntragKontoinhaberIsAntragsteller: [
-      {
-        stepId: "/start",
-      },
       {
         stepId: "/grundvoraussetzungen/datenverarbeitung",
         userInput: { datenverarbeitungZustimmung: "on" },
@@ -70,5 +64,8 @@ export const kontopfaendungPkontoAntragTestCases = {
       { stepId: "/abgabe/zusammenfassung" },
       { stepId: "/abgabe/p-konto-vorhanden" },
     ],
-  } satisfies FlowTestCases<KontopfaendungPkontoAntragUserData>,
-} satisfies FlowTestConfig<KontopfaendungPkontoAntragUserData>;
+  },
+} satisfies FlowTestConfig<
+  KontopfaendungPkontoAntragUserData,
+  typeof kontopfaendungPkontoAntragFlowConfig.pages
+>;
