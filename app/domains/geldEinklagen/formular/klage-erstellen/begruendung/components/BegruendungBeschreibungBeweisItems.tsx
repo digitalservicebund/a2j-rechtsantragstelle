@@ -98,9 +98,16 @@ export const BegruendungBeschreibungBeweisItems = ({
   const { onAbschnittDocumentDelete, onAbschnittPersonDelete } =
     useBegruendungBeschreibung();
 
+  const hasDocumentItems = arrayIsNonEmpty(dokumenten);
+  const hasPersonItems = arrayIsNonEmpty(personen);
+
+  if (!hasDocumentItems && !hasPersonItems) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col w-full">
-      {arrayIsNonEmpty(dokumenten) &&
+      {hasDocumentItems &&
         dokumenten.map((dokument, dokumentIndex) => {
           const dokumentItemIndex = String(dokumentIndex);
           const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${dokumentItemIndex}/daten`;
@@ -124,7 +131,7 @@ export const BegruendungBeschreibungBeweisItems = ({
           );
         })}
 
-      {arrayIsNonEmpty(personen) &&
+      {hasPersonItems &&
         personen.map((person, personIndex) => {
           const personItemIndex = String(personIndex);
           const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/auswahl`;

@@ -42,7 +42,7 @@ export const BegruendungBeschreibungBeweise = ({
           itemIndexAbschnitte={itemIndex}
         />
 
-        <div className="flex md:flex-row flex-col gap-24 w-full justify-between">
+        <div className="flex md:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">
           <Button
             href={addDocumentUrl}
             look="secondary"
