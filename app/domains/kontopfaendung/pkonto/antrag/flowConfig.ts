@@ -5,11 +5,16 @@ import {
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { kontopfaendungPkontoAntragPages } from "./pages";
+import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+
+const kontopfaendungPkontoAntragPagesWithLeadingSlash =
+  addLeadingSlashToPageSchemas(kontopfaendungPkontoAntragPages);
 
 export const kontopfaendungPkontoAntragFlowConfig = compileFlow({
-  pages: kontopfaendungPkontoAntragPages,
-  initialStep: "grundvoraussetzungenDatenverarbeitung",
+  pages: kontopfaendungPkontoAntragPagesWithLeadingSlash,
+  initialStep: "start",
   transitions: {
+    start: "grundvoraussetzungenDatenverarbeitung",
     grundvoraussetzungenDatenverarbeitung: [
       {
         guard: (context) => context.datenverarbeitungZustimmung === "on",
