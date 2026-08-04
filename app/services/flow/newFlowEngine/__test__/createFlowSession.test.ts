@@ -40,6 +40,54 @@ const transitions: TransitionConfigMap<typeof pages> = {
   end: null,
 };
 
+// One item page adds to two nested arrays ("docs" and "people").
+// Each must fan out under its own name, so both add pages stay reachable.
+const buildSiblingArraysFlow = () =>
+  compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: {
+          name: "items",
+          schema: z.array(
+            z.object({
+              docs: z.array(z.object({ label: z.string() })).optional(),
+              people: z.array(z.object({ name: z.string() })).optional(),
+            }),
+          ),
+        },
+      },
+      itemDaten: {
+        stepId: "/items/#/daten",
+        pageSchema: { "items#gate": z.string() },
+      },
+      docAdd: {
+        stepId: "/items/#/docs/#/daten",
+        pageSchema: { "items#docs#label": z.string() },
+      },
+      peopleAdd: {
+        stepId: "/items/#/people/#/daten",
+        pageSchema: { "items#people#name": z.string() },
+      },
+      done: { stepId: "/done" },
+    },
+    initialStep: "list",
+    transitions: {
+      list: [
+        { target: "itemDaten" as const, type: "addArrayItem" as const },
+        { target: "done" as const },
+      ],
+      itemDaten: [
+        { target: "docAdd" as const, type: "addArrayItem" as const },
+        { target: "peopleAdd" as const, type: "addArrayItem" as const },
+        { target: "list" as const },
+      ],
+      docAdd: "list" as const,
+      peopleAdd: "list" as const,
+      done: null,
+    },
+  });
+
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -533,54 +581,6 @@ describe("createFlowSession", () => {
   });
 
   describe("sibling arrays on one item node", () => {
-    // One item page adds to two nested arrays ("docs" and "people").
-    // Each must fan out under its own name, so both add pages stay reachable.
-    const buildSiblingArraysFlow = () =>
-      compileFlow({
-        pages: {
-          list: {
-            stepId: "/list",
-            arraySummary: {
-              name: "items",
-              schema: z.array(
-                z.object({
-                  docs: z.array(z.object({ label: z.string() })).optional(),
-                  people: z.array(z.object({ name: z.string() })).optional(),
-                }),
-              ),
-            },
-          },
-          itemDaten: {
-            stepId: "/items/#/daten",
-            pageSchema: { "items#gate": z.string() },
-          },
-          docAdd: {
-            stepId: "/items/#/docs/#/daten",
-            pageSchema: { "items#docs#label": z.string() },
-          },
-          peopleAdd: {
-            stepId: "/items/#/people/#/daten",
-            pageSchema: { "items#people#name": z.string() },
-          },
-          done: { stepId: "/done" },
-        },
-        initialStep: "list",
-        transitions: {
-          list: [
-            { target: "itemDaten" as const, type: "addArrayItem" as const },
-            { target: "done" as const },
-          ],
-          itemDaten: [
-            { target: "docAdd" as const, type: "addArrayItem" as const },
-            { target: "peopleAdd" as const, type: "addArrayItem" as const },
-            { target: "list" as const },
-          ],
-          docAdd: "list" as const,
-          peopleAdd: "list" as const,
-          done: null,
-        },
-      });
-
     it("makes both sibling add-targets reachable when the item has no sub-items yet", () => {
       const flowWithSiblings = buildSiblingArraysFlow();
       const session = createFlowSession(
