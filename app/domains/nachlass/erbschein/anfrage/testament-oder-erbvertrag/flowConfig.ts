@@ -1,16 +1,10 @@
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
-import { arrayIsNonEmpty } from "~/util/array";
 
 export const testamentOderErbvertragFlowConfig = {
   testamentArt: [
-    {
-      guard: (data) =>
-        data.testamentArt === "none" &&
-        data.verstorbeneFamilienstand === "ledig",
-      target: "angehoerigeOverview",
-    },
     {
       guard: (data) =>
         data.testamentArt === "none" &&
@@ -20,21 +14,40 @@ export const testamentOderErbvertragFlowConfig = {
       target: "spouseName",
     },
     {
+      guard: (data) =>
+        data.testamentArt === "none" &&
+        data.verstorbeneFamilienstand === "ledig",
+      target: "angehoerigeOverview",
+    },
+    {
       target: "namedBeneficiariesOverview",
     },
   ],
   namedBeneficiariesOverview: [
     { type: "addArrayItem", target: "namedBeneficiaryName" },
     {
-      guard: (data) => !arrayIsNonEmpty(data.beguenstigten),
+      guard: (data) =>
+        !beguenstigtenArray.safeParse(data.beguenstigten).success,
       target: "namedBeneficiariesWarning",
     },
     {
-      guard: (data) => data.verstorbeneFamilienstand === "ledig",
+      guard: (data) =>
+        (data.verstorbeneFamilienstand === "verheiratet" ||
+          data.verstorbeneFamilienstand === "verwitwet" ||
+          data.verstorbeneFamilienstand === "geschieden") &&
+        beguenstigtenArray.safeParse(data.beguenstigten).success,
+      target: "spouseName",
+    },
+    {
+      guard: (data) =>
+        data.verstorbeneFamilienstand === "ledig" &&
+        data.testamentArt === "none" &&
+        beguenstigtenArray.safeParse(data.beguenstigten).success,
       target: "angehoerigeOverview",
     },
     {
-      target: "spouseName",
+      guard: (data) => beguenstigtenArray.safeParse(data.beguenstigten).success,
+      target: "grundbesitz",
     },
   ],
   namedBeneficiaryName: "namedBeneficiaryRelationship",

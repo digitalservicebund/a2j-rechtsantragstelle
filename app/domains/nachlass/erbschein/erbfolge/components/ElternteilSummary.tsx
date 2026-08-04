@@ -1,4 +1,4 @@
-import { useFetcher } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySummaryItemActions";
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -21,6 +21,7 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
+import { personName } from "../personName";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -29,16 +30,16 @@ const SECTION_TITLES = [
   "Kinder von Elternteilen",
   "Enkelkinder von Elternteilen",
   "Urenkel von Elternteilen",
-  "Ururenkel von Elternteilen",
-  "Ururenurenkel von Elternteilen",
+  "Ur-Urenkel von Elternteilen",
+  "Ur-Ur-Urenkel von Elternteilen",
 ];
 
 const ADD_LABELS = [
   "Kind hinzufügen",
   "Enkelkind hinzufügen",
   "Urenkel hinzufügen",
-  "Ururenkel hinzufügen",
-  "Ururenurenkel hinzufügen",
+  "Ur-Urenkel hinzufügen",
+  "Ur-Ur-Urenkel hinzufügen",
 ];
 
 type SectionEntry = {
@@ -61,7 +62,7 @@ export function siblingBadgeLabel(
   const assignedParent =
     assigned != null ? elternteile[Number(assigned)] : undefined;
   const assignedName =
-    assignedParent?.isAlive === "no" ? assignedParent.name : undefined;
+    assignedParent?.isAlive === "no" ? personName(assignedParent) : undefined;
   return `Kind von ${String(assignedName ?? physicalName)}`;
 }
 
@@ -69,7 +70,7 @@ export function siblingBadgeLabel(
 function collectSiblings(elternteile: KindItem[]): SectionEntry[] {
   return elternteile.flatMap((parent, elternteilIndex) => {
     if (parent.isAlive !== "no" || parent.hatteKinder !== "yes") return [];
-    const parentName = String(parent.name ?? "");
+    const parentName = personName(parent);
     return (parent.kinder ?? []).map((sibling, siblingIndex) => ({
       item: sibling,
       indexes: [elternteilIndex, siblingIndex],
@@ -104,10 +105,13 @@ function DeleteButton({
 }>) {
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
+  const { pathname } = useLocation();
   return (
     <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
       <CsrfInput />
       <input type="hidden" name="pathnameArrayItem" value={pathnameArrayItem} />
+      {/* The summary page to return to; pathnameArrayItem above is not navigable. */}
+      <input type="hidden" name="_redirectPathname" value={pathname} />
       <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
       <Button
         look="tertiary"
@@ -126,11 +130,13 @@ function DeleteButton({
 function PersonSummaryItem({
   name,
   isAlive,
+  hatteKinder,
   badgeLabel,
   actions,
 }: Readonly<{
   name: string;
   isAlive: string;
+  hatteKinder?: string;
   badgeLabel?: string;
   actions: React.ReactNode;
 }>) {
@@ -155,6 +161,16 @@ function PersonSummaryItem({
               {isAlive === "yes" ? "Ja" : "Nein"}
             </dd>
           </div>
+          {isAlive === "no" && (
+            <div className="kern-description-list-item">
+              <dt className="kern-description-list-item__key">
+                Hatte weitere Kinder?
+              </dt>
+              <dd className="kern-description-list-item__value">
+                {hatteKinder === "yes" ? "Ja" : "Nein"}
+              </dd>
+            </div>
+          )}
         </dl>
         {actions}
       </div>
@@ -255,8 +271,9 @@ function DescendantSection({
       {entries.map(({ item, indexes, badgeLabel }) => (
         <PersonSummaryItem
           key={indexes.join("-")}
-          name={String(item.name ?? "")}
+          name={personName(item)}
           isAlive={String(item.isAlive ?? "yes")}
+          hatteKinder={item.hatteKinder ? String(item.hatteKinder) : undefined}
           badgeLabel={badgeLabel}
           actions={
             <InlineActions
@@ -304,8 +321,13 @@ export function ElternteilSummary({
           return (
             <PersonSummaryItem
               key={editUrl}
-              name={String(elternteil.name ?? "")}
+              name={personName(elternteil)}
               isAlive={String(elternteil.isAlive ?? "yes")}
+              hatteKinder={
+                elternteil.hatteKinder
+                  ? String(elternteil.hatteKinder)
+                  : undefined
+              }
               badgeLabel={
                 deceasedPersonName
                   ? `Elternteil von ${deceasedPersonName}`

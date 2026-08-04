@@ -9,8 +9,8 @@ import { translations } from "~/services/translations/translations";
 describe("buildParentOptions", () => {
   it("returns only eligible parents (isAlive=no AND hatteKinder=yes)", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no", hatteKinder: "yes" },
-      { name: "Hans", isAlive: "yes", hatteKinder: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Hans", isAlive: "yes", hatteKinder: "yes" },
     ];
     expect(buildParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
@@ -19,8 +19,8 @@ describe("buildParentOptions", () => {
 
   it("excludes parents where hatteKinder is not yes", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no", hatteKinder: "no" },
-      { name: "Klaus", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "no" },
+      { vorname: "Klaus", isAlive: "no", hatteKinder: "yes" },
     ];
     expect(buildParentOptions(elternteile)).toEqual([
       { value: "1", text: "Klaus", preSelected: false },
@@ -29,8 +29,8 @@ describe("buildParentOptions", () => {
 
   it("returns empty array when no eligible parents", () => {
     const elternteile = [
-      { name: "Hans", isAlive: "yes" },
-      { name: "Maria", isAlive: "no", hatteKinder: "no" },
+      { vorname: "Hans", isAlive: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "no" },
     ];
     expect(buildParentOptions(elternteile)).toEqual([]);
   });
@@ -45,9 +45,9 @@ describe("buildParentOptions", () => {
 
   it("uses the array index as the option value (as a string)", () => {
     const elternteile = [
-      { name: "Skipped", isAlive: "yes" },
-      { name: "Maria", isAlive: "no", hatteKinder: "yes" },
-      { name: "Klaus", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Skipped", isAlive: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Klaus", isAlive: "no", hatteKinder: "yes" },
     ];
     const options = buildParentOptions(elternteile);
     expect(options[0].value).toBe("1");
@@ -55,14 +55,16 @@ describe("buildParentOptions", () => {
   });
 
   it("uses the parent name as the option text", () => {
-    const elternteile = [{ name: "Maria", isAlive: "no", hatteKinder: "yes" }];
+    const elternteile = [
+      { vorname: "Maria", isAlive: "no", hatteKinder: "yes" },
+    ];
     expect(buildParentOptions(elternteile)[0].text).toBe("Maria");
   });
 
   it("returns multiple eligible parents in index order", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no", hatteKinder: "yes" },
-      { name: "Klaus", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Klaus", isAlive: "no", hatteKinder: "yes" },
     ];
     expect(buildParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
@@ -80,8 +82,8 @@ describe("buildElternteilParentOptions", () => {
 
   it("lists dead parents and appends 'Beide Elternteile' when both parents entered (both dead)", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no" },
-      { name: "Klaus", isAlive: "no" },
+      { vorname: "Maria", isAlive: "no" },
+      { vorname: "Klaus", isAlive: "no" },
     ];
     expect(buildElternteilParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
@@ -92,8 +94,8 @@ describe("buildElternteilParentOptions", () => {
 
   it("offers 'Beide Elternteile' even when only one parent is dead (two entered)", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no" },
-      { name: "Hans", isAlive: "yes" },
+      { vorname: "Maria", isAlive: "no" },
+      { vorname: "Hans", isAlive: "yes" },
     ];
     expect(buildElternteilParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
@@ -103,8 +105,8 @@ describe("buildElternteilParentOptions", () => {
 
   it("does not require hatteKinder — lists any dead parent", () => {
     const elternteile = [
-      { name: "Maria", isAlive: "no", hatteKinder: "no" },
-      { name: "Klaus", isAlive: "no", hatteKinder: "yes" },
+      { vorname: "Maria", isAlive: "no", hatteKinder: "no" },
+      { vorname: "Klaus", isAlive: "no", hatteKinder: "yes" },
     ];
     expect(buildElternteilParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
@@ -114,7 +116,7 @@ describe("buildElternteilParentOptions", () => {
   });
 
   it("omits 'Beide Elternteile' when fewer than two parents entered", () => {
-    const elternteile = [{ name: "Maria", isAlive: "no" }];
+    const elternteile = [{ vorname: "Maria", isAlive: "no" }];
     expect(buildElternteilParentOptions(elternteile)).toEqual([
       { value: "0", text: "Maria", preSelected: false },
     ]);
@@ -132,13 +134,13 @@ describe("resolveParentOptions for deeper elternteil levels", () => {
       {
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
-              { name: "Geschwister 1", isAlive: "no", hatteKinder: "yes" },
-              { name: "Geschwister 2", isAlive: "yes" },
-              { name: "Geschwister 3", isAlive: "no", hatteKinder: "yes" },
+              { vorname: "Geschwister 1", isAlive: "no", hatteKinder: "yes" },
+              { vorname: "Geschwister 2", isAlive: "yes" },
+              { vorname: "Geschwister 3", isAlive: "no", hatteKinder: "yes" },
             ],
           },
         ],
@@ -157,17 +159,17 @@ describe("resolveParentOptions for deeper elternteil levels", () => {
       {
         elternteile: [
           {
-            name: "Elternteil A",
+            vorname: "Elternteil A",
             isAlive: "no",
             hatteKinder: "yes",
             kinder: [
               {
-                name: "Geschwister 1",
+                vorname: "Geschwister 1",
                 isAlive: "no",
                 hatteKinder: "yes",
                 kinder: [
-                  { name: "Nichte X", isAlive: "no", hatteKinder: "yes" },
-                  { name: "Neffe Y", isAlive: "yes" },
+                  { vorname: "Nichte X", isAlive: "no", hatteKinder: "yes" },
+                  { vorname: "Neffe Y", isAlive: "yes" },
                 ],
               },
             ],
@@ -186,7 +188,7 @@ describe("resolveParentOptions preselects a single option", () => {
   it("preselects the only kinder-tree option", () => {
     const options = resolveParentOptions(
       "kinder#kinder#parentKindIndex",
-      { kinder: [{ name: "Anna", isAlive: "no", hatteKinder: "yes" }] },
+      { kinder: [{ vorname: "Anna", isAlive: "no", hatteKinder: "yes" }] },
       [0],
     );
     expect(options).toEqual([{ value: "0", text: "Anna", preSelected: true }]);
@@ -197,8 +199,8 @@ describe("resolveParentOptions preselects a single option", () => {
       "elternteile#kinder#parentElternteilIndex",
       {
         elternteile: [
-          { name: "Maria", isAlive: "no" },
-          { name: "Klaus", isAlive: "no" },
+          { vorname: "Maria", isAlive: "no" },
+          { vorname: "Klaus", isAlive: "no" },
         ],
       },
       [],

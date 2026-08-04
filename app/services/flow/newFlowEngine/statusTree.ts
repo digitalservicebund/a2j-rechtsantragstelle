@@ -1,4 +1,5 @@
 import _ from "lodash";
+import type { PageConfigMap } from "./types";
 import { type SimulationResult } from "./simulate";
 
 export type StatusNode = {
@@ -36,13 +37,20 @@ const calcStatus = (
   };
 };
 
-export const buildStatusTree = (
-  config: Record<string, { stepId: string }>,
+export const buildStatusTree = <C extends PageConfigMap>(
+  config: C,
   { reachableSet }: SimulationResult,
   doneNodeKeys: Set<string>,
 ): Record<string, StatusNode> => {
-  const prefixPairs = _.flatMap(config, ({ stepId: path }, key) =>
-    getPrefixes(path).map((prefix) => ({ prefix, key: key })),
+  const prefixPairs = _.flatMap(
+    config,
+    ({ stepId: path, shouldCollapseIntoParentNavItem }, key) => {
+      const prefixes = getPrefixes(path);
+      if (prefixes.length > 1 && shouldCollapseIntoParentNavItem) {
+        return prefixes.slice(0, -1).map((prefix) => ({ prefix, key: key }));
+      }
+      return prefixes.map((prefix) => ({ prefix, key: key }));
+    },
   );
 
   // Results in: { "kinder": Set(["key1", "key2"]), "kinder/spielzeuge": Set(["key3"]) }

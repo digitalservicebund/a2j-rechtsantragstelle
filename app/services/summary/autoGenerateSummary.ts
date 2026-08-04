@@ -113,5 +113,13 @@ export async function generateSummaryFromUserData(
     sections.push(section);
   }
 
-  return sections;
+  const stepOrder = new Map(
+    stepStates.map((s, i) => [s.stepId.replace(/^\//, ""), i]),
+  );
+
+  return sections.toSorted(
+    (a, b) =>
+      (stepOrder.get(String(a.id)) ?? Infinity) -
+      (stepOrder.get(String(b.id)) ?? Infinity),
+  );
 }

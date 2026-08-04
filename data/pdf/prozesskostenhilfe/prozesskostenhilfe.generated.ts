@@ -436,11 +436,6 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmendurchUnterhaltinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Unterhalt in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE7": {
     "name": "Belegnummer E7",
     "maxCharacters": 7,
@@ -476,11 +471,6 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmendurchArbeitslosengeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Arbeitslosengeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE9": {
     "name": "Belegnummer E9",
     "maxCharacters": 7,
@@ -496,30 +486,15 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmendurchBuergergeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Bürgergeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE10": {
     "name": "Belegnummer E10",
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmendurchKindergeldKinderzuschlaginEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Kindergeld/Kinderzuschlag in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE5": {
     "name": "Belegnummer E5",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmendurchKrankengeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Krankengeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE11": {
     "name": "Belegnummer E11",
@@ -535,11 +510,6 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "Belegnummer E6",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmendurchElterngeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen durch Elterngeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE12": {
     "name": "Belegnummer E12",
@@ -586,11 +556,6 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Unterhalt in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE21": {
     "name": "Belegnummer E21",
     "maxCharacters": 7,
@@ -606,90 +571,45 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Rente/Pension in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 2
-  },
   "belegnummerE22": {
     "name": "Belegnummer E22",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchVermietungundVerpachtunginEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Vermietung und Verpachtung in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE17": {
     "name": "Belegnummer E17",
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Arbeitslosengeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE23": {
     "name": "Belegnummer E23",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKapitalvermoegeninEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Kapitalvermögen in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE18": {
     "name": "Belegnummer E18",
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Bürgergeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE24": {
     "name": "Belegnummer E24",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Kindergeld/Kinderzuschlag in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE19": {
     "name": "Belegnummer E19",
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Krankengeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE25": {
     "name": "Belegnummer E25",
     "maxCharacters": 7,
     "maxLineBreaks": 2
   },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Wohngeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
-  },
   "belegnummerE20": {
     "name": "Belegnummer E20",
     "maxCharacters": 7,
     "maxLineBreaks": 2
-  },
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro": {
-    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Elterngeld in Euro\r",
-    "maxCharacters": 13,
-    "maxLineBreaks": 1
   },
   "belegnummerE26": {
     "name": "Belegnummer E26",
@@ -1253,6 +1173,86 @@ export function getProzesskostenhilfeParameters(): ProzesskostenhilfePDF {
     "name": "Restschuld in Euro (sonstige Zahlungsverpflichtungen) 3",
     "maxCharacters": 22,
     "maxLineBreaks": 2
+  },
+  "monatlicheBruttoeinnahmendurchUnterhaltinEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Unterhalt in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmendurchArbeitslosengeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Arbeitslosengeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmendurchBuergergeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Bürgergeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmendurchKindergeldKinderzuschlaginEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Kindergeld/Kinderzuschlag in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmendurchKrankengeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Krankengeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmendurchElterngeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen durch Elterngeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Unterhalt in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Rente/Pension in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 2
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchVermietungundVerpachtunginEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Vermietung und Verpachtung in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Arbeitslosengeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKapitalvermoegeninEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Kapitalvermögen in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Bürgergeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Kindergeld/Kinderzuschlag in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Krankengeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Wohngeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
+  },
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro": {
+    "name": "Monatliche Bruttoeinnahmen Partner/Partnerin durch Elterngeld in Euro ",
+    "maxCharacters": 13,
+    "maxLineBreaks": 1
   }
 };
 }
@@ -1372,7 +1372,6 @@ export type ProzesskostenhilfePDF = {
   "e52": BooleanField;
   "monatlicheBruttoeinnahmendurchnichtselbstaendigeArbeitinEuro": StringField;
   "belegnummerE1": StringField;
-  "monatlicheBruttoeinnahmendurchUnterhaltinEuro": StringField;
   "belegnummerE7": StringField;
   "monatlicheBruttoeinnahmendurchselbstaendigeArbeitGewerbebetriebLandundForstwirtschaftinEur": StringField;
   "belegnummerE2": StringField;
@@ -1380,19 +1379,14 @@ export type ProzesskostenhilfePDF = {
   "belegnummerE8": StringField;
   "monatlicheBruttoeinnahmendurchVermietungundVerpachtunginEuro": StringField;
   "belegnummerE3": StringField;
-  "monatlicheBruttoeinnahmendurchArbeitslosengeldinEuro": StringField;
   "belegnummerE9": StringField;
   "monatlicheBruttoeinnahmendurchKapitalvermoegeninEuro": StringField;
   "belegnummerE4": StringField;
-  "monatlicheBruttoeinnahmendurchBuergergeldinEuro": StringField;
   "belegnummerE10": StringField;
-  "monatlicheBruttoeinnahmendurchKindergeldKinderzuschlaginEuro": StringField;
   "belegnummerE5": StringField;
-  "monatlicheBruttoeinnahmendurchKrankengeldinEuro": StringField;
   "belegnummerE11": StringField;
   "monatlicheBruttoeinnahmendurchWohngeldinEuro": StringField;
   "belegnummerE6": StringField;
-  "monatlicheBruttoeinnahmendurchElterngeldinEuro": StringField;
   "belegnummerE12": StringField;
   "andereEinnahmen1": StringField;
   "bruttobezug1": StringField;
@@ -1402,27 +1396,17 @@ export type ProzesskostenhilfePDF = {
   "belegnummerE14": StringField;
   "monatlicheBruttoeinnahmenPartnerPartnerindurchnichtselbstaendigeArbeitinEuro": StringField;
   "belegnummerE15": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro": StringField;
   "belegnummerE21": StringField;
   "monatlicheBruttoeinnahmenPartnerPartnerindurchselbstaendigeArbeitGewerbebetriebLandundFors": StringField;
   "belegnummerE16": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro": StringField;
   "belegnummerE22": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchVermietungundVerpachtunginEuro": StringField;
   "belegnummerE17": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro": StringField;
   "belegnummerE23": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKapitalvermoegeninEuro": StringField;
   "belegnummerE18": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro": StringField;
   "belegnummerE24": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro": StringField;
   "belegnummerE19": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro": StringField;
   "belegnummerE25": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro": StringField;
   "belegnummerE20": StringField;
-  "monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro": StringField;
   "belegnummerE26": StringField;
   "andereEinnahmenPartnerPartnerin1": StringField;
   "bruttobezugPartnerPartnerin1": StringField;
@@ -1542,4 +1526,20 @@ export type ProzesskostenhilfePDF = {
   "restschuldinEurosonstigeZahlungsverpflichtungen1": StringField;
   "restschuldinEurosonstigeZahlungsverpflichtungen2": StringField;
   "restschuldinEurosonstigeZahlungsverpflichtungen3": StringField;
+  "monatlicheBruttoeinnahmendurchUnterhaltinEuro": StringField;
+  "monatlicheBruttoeinnahmendurchArbeitslosengeldinEuro": StringField;
+  "monatlicheBruttoeinnahmendurchBuergergeldinEuro": StringField;
+  "monatlicheBruttoeinnahmendurchKindergeldKinderzuschlaginEuro": StringField;
+  "monatlicheBruttoeinnahmendurchKrankengeldinEuro": StringField;
+  "monatlicheBruttoeinnahmendurchElterngeldinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchUnterhaltinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchRentePensioninEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchVermietungundVerpachtunginEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchArbeitslosengeldinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKapitalvermoegeninEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKindergeldKinderzuschlaginEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchKrankengeldinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchWohngeldinEuro": StringField;
+  "monatlicheBruttoeinnahmenPartnerPartnerindurchElterngeldinEuro": StringField;
 };

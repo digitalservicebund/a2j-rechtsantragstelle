@@ -134,7 +134,9 @@ function runTestcases<T extends UserData>(
           const pageSchema = getPageSchema(currentUrl);
 
           // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
-          if (isAddingArrayItem && stepId === summaryPageStepId) {
+          const justExitedArray =
+            isAddingArrayItem && stepId === summaryPageStepId;
+          if (justExitedArray) {
             isAddingArrayItem = false;
             summaryPageStepId = undefined;
           }
@@ -161,7 +163,6 @@ function runTestcases<T extends UserData>(
               ...(buildFullUserInput(expectedSteps, idx) as Parameters<
                 typeof createFlowSession
               >[1]),
-              // pageData: pageData ?? {},
             },
             stepId,
           );
@@ -183,7 +184,10 @@ function runTestcases<T extends UserData>(
           } else {
             expect(flowSessionEngine.nextPath).toBe(nextStepId);
 
-            if (idx > 0 && previousStepId !== undefined) {
+            // Back from the overview page right after finishing an array item
+            // always skips to the step before the array, not the item just
+            // added, so the previous declared step isn't a valid expectation here.
+            if (idx > 0 && previousStepId !== undefined && !justExitedArray) {
               expect(flowSessionEngine.prevPath).toBe(previousStepId);
             }
           }

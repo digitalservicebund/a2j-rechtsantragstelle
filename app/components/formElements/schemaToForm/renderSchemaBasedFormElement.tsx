@@ -147,9 +147,22 @@ export const renderSpecialMetaDescriptions = (
 
   if (description === autoSuggestZodDescription) {
     const autoSuggestElement = matchingElement as StrapiAutoSuggestComponent;
-    const dataListType =
-      (fieldSchema.meta()?.type as DataListType) ?? "streetNames";
-    return <AutoSuggestInput {...autoSuggestElement} dataList={dataListType} />;
+    const dataListType = fieldSchema.meta()?.type as DataListType;
+
+    if (!dataListType) {
+      throw new Error(
+        `AutoSuggestInput field ${fieldName} is missing a dataList type in the Zod schema.`,
+      );
+    }
+
+    return (
+      <AutoSuggestInput
+        {...autoSuggestElement}
+        name={fieldName}
+        dataList={dataListType}
+        key={fieldName}
+      />
+    );
   }
 };
 

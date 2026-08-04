@@ -26,5 +26,13 @@ export const antragstellendePersonFlowConfig = {
   antragstellendePersonDritteStaatsangehoerigkeit:
     "antragstellendePersonAnschrift",
   antragstellendePersonAnschrift: "antragstellendePersonKontaktdaten",
-  antragstellendePersonKontaktdaten: "testamentArt",
+  antragstellendePersonKontaktdaten:
+    "antragstellendePersonRelationshipToErblasser",
+  antragstellendePersonRelationshipToErblasser: [
+    {
+      guard: (data) =>
+        data.antragstellendePersonRelationshipToErblasser !== undefined,
+      target: "testamentArt",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

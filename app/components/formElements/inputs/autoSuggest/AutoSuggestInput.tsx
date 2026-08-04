@@ -293,6 +293,7 @@ const AutoSuggestInput = ({
               classNames("kern-form-input__input bg-white!", {
                 "kern-form-input__input--error": hasError,
               }),
+            placeholder: () => "absolute",
             singleValue: () => "absolute",
             input: () => "w-full h-full z-50",
           }}

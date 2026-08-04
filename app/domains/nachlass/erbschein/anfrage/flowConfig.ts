@@ -9,12 +9,14 @@ import { antragstellendePersonFlowConfig } from "~/domains/nachlass/erbschein/an
 import { testamentOderErbvertragFlowConfig } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/flowConfig";
 import { ehepartnerFlowConfig } from "~/domains/nachlass/erbschein/anfrage/ehepartner/flowConfig";
 import { angehoerigeFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/flowConfig";
+import { nachlassFlowConfig } from "~/domains/nachlass/erbschein/anfrage/nachlass/flowConfig";
 
 export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
   pages: nachlassErbscheinAnfragePages,
   initialStep: "start",
   transitions: {
-    start: "datenverarbeitung",
+    start: "datenUebernahme",
+    datenUebernahme: "datenverarbeitung",
     datenverarbeitung: [
       {
         guard: (data) => data.datenverarbeitungZustimmung === "on",
@@ -26,6 +28,10 @@ export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
     ...testamentOderErbvertragFlowConfig,
     ...ehepartnerFlowConfig,
     ...angehoerigeFlowConfig,
+    ...nachlassFlowConfig,
+    weitereAngaben: "abgabe",
+    abgabe: "ende",
+    ende: null,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

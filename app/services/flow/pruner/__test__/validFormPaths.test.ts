@@ -88,18 +88,18 @@ describe("validFormPaths", () => {
         ],
       };
       const validPaths = validFormPaths(buildFlowController({ config, data }));
-      expect(validPaths.length).toStrictEqual(1);
+      expect(validPaths).toHaveLength(1);
     });
 
     it("excludes array with empty array but statement key 'yes'", () => {
       const data = { ...baseData, hasBankkonto: "yes", bankkonten: [] };
       const validPaths = validFormPaths(buildFlowController({ config, data }));
-      expect(validPaths.length).toStrictEqual(1);
+      expect(validPaths).toHaveLength(1);
     });
     it("excludes array with undefined array but statement key 'yes'", () => {
       const data = { ...baseData, hasBankkonto: "yes", bankkonten: undefined };
       const validPaths = validFormPaths(buildFlowController({ config, data }));
-      expect(validPaths.length).toStrictEqual(1);
+      expect(validPaths).toHaveLength(1);
     });
 
     it("excludes array if it can't be reached", () => {
@@ -117,7 +117,7 @@ describe("validFormPaths", () => {
         ],
       };
       const validPaths = validFormPaths(buildFlowController({ config, data }));
-      expect(validPaths.length).toStrictEqual(1);
+      expect(validPaths).toHaveLength(1);
     });
 
     it("includes arrays when isArrayRelevant returns true even if statement key is not 'yes'", () => {

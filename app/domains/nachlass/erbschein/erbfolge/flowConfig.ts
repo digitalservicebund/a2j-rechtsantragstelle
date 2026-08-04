@@ -2,6 +2,11 @@ import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { nachlassErbfolgePages } from "./pages";
 import { kinderFlowConfig } from "./kinderFlowConfig";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
+import {
+  elternteileRequireFurtherGenerations,
+  hasNoFirstOrSecondOrderHeirs,
+} from "./calculateInheritance";
+import { collectMissingChildrenNamesForElternteile } from "./missingChildren";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,
@@ -35,16 +40,46 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     ],
     gueterstand: "kinder",
     kinder: [
-      { target: "kinderAnzahl", guard: (d) => d.hatteKinder === "yes" },
+      { target: "kind1Summary", guard: (d) => d.hatteKinder === "yes" },
       { target: "elternteilSummary" },
     ],
-    kinderAnzahl: "kind1Summary",
     ...kinderFlowConfig,
     elternteilSummary: [
       { target: "elternteilDaten", type: "addArrayItem" },
+      {
+        // Checked first: a depth-5 dead person with hatteKinder="yes" can
+        // never have kinder filled in (no depth-6 UI exists), so it would
+        // otherwise always look like a "missing children" case below.
+        target: "nichtErmitteltWeitereGenerationen",
+        guard: elternteileRequireFurtherGenerations,
+      },
+      {
+        target: "kinderFehlen",
+        guard: ({ elternteile }) =>
+          collectMissingChildrenNamesForElternteile(elternteile ?? []).length >
+          0,
+      },
+      {
+        target: "grosseltern",
+        guard: (d) => !!d.ehepartnerName && hasNoFirstOrSecondOrderHeirs(d),
+      },
+      {
+        target: "nichtErmitteltWeitereOrdnungen",
+        guard: hasNoFirstOrSecondOrderHeirs,
+      },
       { target: "ergebnis" },
     ],
     ...elternteilFlowConfig,
+    grosseltern: [
+      {
+        target: "nichtErmitteltWeitereOrdnungen",
+        guard: (d) => d.grosselternLeben === "yes",
+      },
+      { target: "ergebnis" },
+    ],
     ergebnis: null,
+    nichtErmitteltWeitereGenerationen: null,
+    nichtErmitteltWeitereOrdnungen: null,
+    kinderFehlen: null,
   },
 });

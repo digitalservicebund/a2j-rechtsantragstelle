@@ -6,7 +6,9 @@ import {
   sorgerechtPersonAdresseRequired,
   sorgerechtPersonRequired,
 } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
+import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
@@ -95,7 +97,7 @@ export const nachlassErbausschlagungAnfragePages = {
   verstorbeneAdresse: {
     stepId: "verstorbene/adresse",
     pageSchema: {
-      verstorbeneAdresseStrasse: stringRequiredSchema,
+      verstorbeneAdresseStrasse: autoSuggestStringRequiredSchema("streetNames"),
       verstorbeneAdresseHausnummer: germanHouseNumberSchema,
       verstorbeneAdresseOrt: stringRequiredSchema,
       verstorbeneAdresseZusatz: stringOptionalSchema,
@@ -138,7 +140,8 @@ export const nachlassErbausschlagungAnfragePages = {
   ausschlagendePersonAdresse: {
     stepId: "ausschlagende-person/adresse",
     pageSchema: {
-      ausschlagendePersonStrasse: stringRequiredSchema,
+      ausschlagendePersonStrasse:
+        autoSuggestStringRequiredSchema("streetNames"),
       ausschlagendePersonHausnummer: germanHouseNumberSchema,
       ausschlagendePersonOrt: stringRequiredSchema,
       ausschlagendePersonZusatz: stringOptionalSchema,
@@ -163,25 +166,7 @@ export const nachlassErbausschlagungAnfragePages = {
   ausschlagendePersonRelationToErblasser: {
     stepId: "ausschlagende-person/beziehung-zum-erblasser",
     pageSchema: {
-      ausschlagendePersonBeziehungZumErblasser: z.enum([
-        "not-related",
-        "wife-husband",
-        "life-partner",
-        "daughter-son",
-        "granddaughter-grandson",
-        "mother-father",
-        "sister-brother",
-        "half-sister-half-brother",
-        "niece-nephew",
-        "grandmother-grandfather",
-        "aunt-uncle",
-        "cousin",
-        "great-grandmother-great-grandfather",
-        "great-aunt-great-uncle",
-        "adoptive-mother-adoptive-father",
-        "adoptive-daughter-adoptive-son",
-        "other",
-      ]),
+      ausschlagendePersonBeziehungZumErblasser: relationshipToDeceasedSchema,
     },
   },
   kinderHasKid: {

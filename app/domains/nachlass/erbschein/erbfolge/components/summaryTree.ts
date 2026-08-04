@@ -1,4 +1,5 @@
 import { sanitizeHtml } from "~/services/security/sanitizeHtml";
+import { personName } from "../personName";
 import type { DescendantEntry, ItemWithPath, KindItem } from "./types";
 
 export const deceasedParentsNoticeTitle =
@@ -110,7 +111,7 @@ export function collectDescendantsWithParentName(
               ]
             : undefined;
         const chosenName =
-          chosenParent?.isAlive === "no" ? chosenParent.name : undefined;
+          chosenParent?.isAlive === "no" ? personName(chosenParent) : undefined;
         return {
           item,
           indexes,
@@ -123,7 +124,7 @@ export function collectDescendantsWithParentName(
         Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [],
         currentDepth + 1,
         [...ancestorIndexes, itemIndex],
-        String(item.name ?? ""),
+        personName(item),
       ),
     );
   }
@@ -138,7 +139,7 @@ export function collectDeceasedParentNames(
 ): string[] {
   return collectAtDepth(items, parentDepth)
     .filter(({ item }) => item.isAlive === "no" && item.hatteKinder === "yes")
-    .map(({ item }) => String(item.name ?? ""));
+    .map(({ item }) => personName(item));
 }
 
 // Collect every item at targetDepth with its full index path.

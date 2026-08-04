@@ -1,6 +1,7 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { translations } from "~/services/translations/translations";
+import { personName } from "./personName";
 
 export const BOTH_PARENTS_VALUE = "both";
 
@@ -22,7 +23,8 @@ export function parentSelectFormElement(
 }
 
 type ParentEntry = {
-  name?: string;
+  vorname?: string;
+  nachname?: string;
   isAlive?: string;
   hatteKinder?: string;
 };
@@ -40,7 +42,7 @@ export function buildParentOptions(
     )
     .map(({ parent, index }) => ({
       value: String(index),
-      text: parent.name ?? "",
+      text: personName(parent),
       preSelected: false,
     }));
 }
@@ -57,7 +59,7 @@ export function buildElternteilParentOptions(
     .filter(({ parent }) => parent.isAlive === "no")
     .map(({ parent, index }) => ({
       value: String(index),
-      text: parent.name ?? "",
+      text: personName(parent),
       preSelected: false,
     }));
   if (elternteile.length === 2) {

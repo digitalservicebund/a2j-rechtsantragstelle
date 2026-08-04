@@ -12,18 +12,32 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
-import { erbscheinWegweiser } from "~/domains/erbschein/wegweiser";
-import { erbscheinNachlassgericht } from "./erbschein/nachlassgericht";
+import { nachlassErbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
+import { nachlassErbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { type Session } from "react-router";
 import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import {
+  type InferredUserData,
+  type PageConfigMap,
+} from "~/services/flow/newFlowEngine/types";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 
-type FlowMigration = {
+type MigrationDataMerger<Dest extends PageConfigMap> = (
+  sourceData: InferredUserData<PageConfigMap>,
+) => InferredUserData<Dest>;
+
+type FlowMigration<C extends PageConfigMap> = {
   source: FlowId;
   sortedFields: string[];
+  /**
+   * Custom merge function used in cases where source and destination flow have different schemas.
+   * @param sourceData userData of the source flow, which is being migrated from
+   * @returns merged userData belonging to the destination flow
+   */
+  migrationDataMerger?: MigrationDataMerger<C>;
   buttonUrl?: string;
 };
 
@@ -40,7 +54,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   config: Config;
   newEngineConfig?: CompiledFlow<C>;
   guards?: Guards;
-  migration?: FlowMigration;
+  migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
   asyncFlowActions?: Record<
@@ -61,8 +75,8 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  "/erbschein/wegweiser": erbscheinWegweiser,
-  "/erbschein/nachlassgericht": erbscheinNachlassgericht,
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser,
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
   "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage,
   "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
   "/nachlass/erbausschlagung/gericht-finden":
@@ -70,5 +84,5 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": {} as Flow<PageConfigMap>,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolge,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

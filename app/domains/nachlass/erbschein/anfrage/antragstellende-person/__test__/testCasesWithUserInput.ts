@@ -1,12 +1,6 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
-  verstorbenePersonStrasse: "Musterstraße",
-  verstorbenePersonHausnummer: "1",
-  verstorbenePersonOrt: "Musterstadt",
-};
 
 export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfrageUserData> =
   {
@@ -14,7 +8,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
       {
         stepId: "/antragstellende-person/name",
         userInput: {
-          ...happyPathData,
+          ...nachlassErbscheinAnfrageHappyPathData,
           antragstellendePersonVorname: "Max",
           antragstellendePersonNachname: "Mustermann",
         },
@@ -47,6 +41,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         userInput: {
           antragstellendePersonStrasse: "Musterstraße",
           antragstellendePersonHausnummer: "1",
+          antragstellendePersonPlz: "10557",
           antragstellendePersonOrt: "Musterstadt",
         },
       },
@@ -58,6 +53,12 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         },
       },
       {
+        stepId: "/antragstellende-person/verhaeltnis",
+        userInput: {
+          antragstellendePersonRelationshipToErblasser: "cousin",
+        },
+      },
+      {
         stepId: "/testament-oder-erbvertrag/art",
       },
     ],
@@ -65,7 +66,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
       {
         stepId: "/antragstellende-person/zweite-staatsangehoerigkeit-frage",
         userInput: {
-          ...happyPathData,
+          ...nachlassErbscheinAnfrageHappyPathData,
           antragstellendePersonHasSecondNationality: "yes",
         },
       },
@@ -89,7 +90,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
       {
         stepId: "/antragstellende-person/dritte-staatsangehoerigkeit-frage",
         userInput: {
-          ...happyPathData,
+          ...nachlassErbscheinAnfrageHappyPathData,
           antragstellendePersonHasSecondNationality: "yes",
           antragstellendePersonHasThirdNationality: "yes",
         },

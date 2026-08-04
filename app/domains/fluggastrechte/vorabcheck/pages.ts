@@ -2,6 +2,7 @@ import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastBereichSchema = z.enum([
@@ -70,11 +71,16 @@ export const fluggastrechteVorabcheckPages = {
   },
   flughaefen: {
     stepId: "flughaefen",
-    pageSchema: { startAirport: airportSchema, endAirport: airportSchema },
+    pageSchema: {
+      startAirport: autoSuggestSchema(airportSchema)("airports"),
+      endAirport: autoSuggestSchema(airportSchema)("airports"),
+    },
   },
   fluggesellschaft: {
     stepId: "fluggesellschaft",
-    pageSchema: { fluggesellschaft: airlineSchema },
+    pageSchema: {
+      fluggesellschaft: autoSuggestSchema(airlineSchema)("airlines"),
+    },
   },
   checkin: {
     stepId: "checkin",

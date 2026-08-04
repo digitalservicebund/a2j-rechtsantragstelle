@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -9,33 +10,7 @@ const commonBeguenstigteFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsname: stringOptionalSchema,
-  verhaeltnis: z.enum([
-    "mother-father",
-    "daughter-son",
-    "grandmother-grandfather",
-    "granddaughter-grandson",
-    "great-grandmother-great-grandfather",
-    "sister-brother",
-    "half-sister-half-brother",
-    "niece-nephew",
-    "aunt-uncle",
-    "cousin",
-    "great-aunt-great-uncle",
-    "wife-husband",
-    "life-partner",
-    "mother-in-law-father-in-law",
-    "sister-in-law-brother-in-law",
-    "daughter-in-law-son-in-law",
-    "stepmother-stepfather",
-    "stepdaughter-stepson",
-    "stepsister-stepbrother",
-    "foster-mother-foster-father",
-    "foster-child",
-    "adoptive-mother-adoptive-father",
-    "godmother-godfather",
-    "other",
-    "not-related",
-  ]),
+  verhaeltnis: relationshipToDeceasedSchema,
   geburtsdatum: createSplitDateSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
@@ -62,7 +37,7 @@ const deceasedBeguenstigteFields = {
   sterbeort: stringRequiredSchema,
 };
 
-const beguenstigtenArray = z.array(
+export const beguenstigtenArray = z.array(
   z.union([
     z.object({
       ...commonBeguenstigteFields,
@@ -84,6 +59,7 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiariesOverview: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "beguenstigten",
       schema: beguenstigtenArray,
@@ -95,6 +71,7 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiaryName: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/#/name",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "beguenstigten#vorname": commonBeguenstigteFields.vorname,
       "beguenstigten#nachname": commonBeguenstigteFields.nachname,
@@ -103,12 +80,14 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiaryRelationship: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/#/verhaeltnis",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "beguenstigten#verhaeltnis": commonBeguenstigteFields.verhaeltnis,
     },
   },
   namedBeneficiaryBirthday: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/#/geburtsdatum",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "beguenstigten#geburtsdatum": commonBeguenstigteFields.geburtsdatum,
       "beguenstigten#isAlive": commonBeguenstigteFields.isAlive,
@@ -116,6 +95,7 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiaryAddress: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/#/anschrift",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "beguenstigten#strasse": livingBeguenstigteFields.strasse,
       "beguenstigten#hausnummer": livingBeguenstigteFields.hausnummer,
@@ -127,6 +107,7 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiarySterbedatum: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/#/sterbedatum",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "beguenstigten#sterbedatum": deceasedBeguenstigteFields.sterbedatum,
       "beguenstigten#sterbeort": deceasedBeguenstigteFields.sterbeort,
@@ -134,5 +115,6 @@ export const testamentOderErbvertragPages = {
   },
   namedBeneficiariesWarning: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PageConfigMap;

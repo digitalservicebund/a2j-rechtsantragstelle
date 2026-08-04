@@ -1,9 +1,8 @@
 import isEqual from "lodash/isEqual";
-import { simulate } from "./simulate";
+import { runSimulation } from "./simulate";
 import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
-import type { PageConfigMap, InferredUserData } from "./types";
-import type { PageData } from "../pageDataSchema";
+import type { PageConfigMap, InferredUserData, NodeKey } from "./types";
 import { evaluateRoute } from "./routing";
 import { buildStatusTree } from "./statusTree";
 import { pruneUserData } from "./pruneUserData";
@@ -11,42 +10,25 @@ import { pruneUserData } from "./pruneUserData";
 const resolveFieldName = (fieldName: string) =>
   fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
 
+const arrayWildcardCount = (stepId: string) =>
+  stepId.split(ARRAY_WILDCARD).length - 1;
+
+// Substitutes each array wildcard in a stepId with a concrete index, in
+// left-to-right order (e.g. "/a/#/b/#/c" + [0, 2] -> "/a/0/b/2/c").
+const insertConcreteIndexes = (stepId: string, indexes: number[]) => {
+  let index = 0;
+  return stepId.replaceAll(ARRAY_WILDCARD, () => String(indexes[index++]));
+};
+
 export const createFlowSession = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
-  userData: InferredUserData<C> & { pageData: PageData },
+  userData: InferredUserData<C>,
   currentPath: string,
 ) => {
   const nodeKey = compiledFlow.getNodeKeyFromPath(currentPath);
   if (nodeKey == null) throw new Error(`Invalid path: ${currentPath}`);
 
-  const runSimulation = (data: InferredUserData<C> & { pageData: PageData }) =>
-    simulate(
-      compiledFlow.transitions,
-      compiledFlow.initialStep,
-      data,
-      true,
-      (key, scopeData) => {
-        const info = compiledFlow.getArrayInfoByNodeKey(key);
-        if (!info) return undefined;
-        // info.name uses "#" notation (e.g. "children#children") but scopeData
-        // is already scoped to the current item, so the real property key is
-        // just the last segment after "#" (e.g. "children").
-        const leafName = info.name.split("#").at(-1)!;
-        const items = scopeData[leafName];
-        // Treat a missing array the same as an empty one so that the add-target
-        // remains reachable even before the first item has been submitted.
-        return {
-          name: info.name,
-          count: Array.isArray(items) ? items.length : 0,
-        };
-      },
-      (key) => {
-        const stepId = compiledFlow.pages[key]?.stepId ?? "";
-        return stepId.split(ARRAY_WILDCARD).length - 1;
-      },
-    );
-
-  let simulation = runSimulation(userData);
+  let simulation = runSimulation(userData, compiledFlow);
   let effectiveUserData = userData;
 
   let prunedUserData = pruneUserData(
@@ -69,8 +51,8 @@ export const createFlowSession = <C extends PageConfigMap>(
       const prunedInput = {
         ...prunedUserData,
         pageData: userData.pageData,
-      } as InferredUserData<C> & { pageData: PageData };
-      const rerun = runSimulation(prunedInput);
+      };
+      const rerun = runSimulation(prunedInput, compiledFlow);
       const repruned = pruneUserData(
         compiledFlow,
         rerun.visitedContexts,
@@ -82,50 +64,6 @@ export const createFlowSession = <C extends PageConfigMap>(
       prunedUserData = repruned;
     }
   }
-
-  // Prev: use the linear breadcrumb so Back returns to the page the user came
-  // from, not the BFS shortcut. Fall back to parentMap for off-path pages.
-  const keyIndex = simulation.keys.indexOf(nodeKey);
-  const linearPrevNodeKey =
-    keyIndex > 0
-      ? simulation.keys[keyIndex - 1]
-      : simulation.parentMap.get(nodeKey);
-
-  // If the previous page is a bare fan-out node — it hosts the addArrayItem that
-  // reaches the current page but renders no summary of its own — the user never
-  // navigated through it. They used the "add" affordance on the summary that node
-  // exits to (the add button links straight to the item page). Point Back at that
-  // summary instead of the internal fan-out node.
-  const skipFanOutOnlyBack = (candidate: typeof linearPrevNodeKey) => {
-    const seen = new Set<typeof candidate>();
-    let node = candidate;
-    while (node != null && !seen.has(node)) {
-      seen.add(node);
-      const transitions = compiledFlow.transitions[node];
-      if (compiledFlow.pages[node]?.arraySummary || !Array.isArray(transitions))
-        break;
-      const addsCurrent = transitions.some(
-        (t) =>
-          t != null &&
-          typeof t === "object" &&
-          t.type === "addArrayItem" &&
-          t.target === nodeKey,
-      );
-      if (!addsCurrent) break;
-      const fallback = transitions.find(
-        (t) => t != null && typeof t === "object" && t.type !== "addArrayItem",
-      );
-      if (
-        fallback == null ||
-        typeof fallback !== "object" ||
-        fallback.target == null
-      )
-        break;
-      node = fallback.target;
-    }
-    return node;
-  };
-  const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
 
   // Next: evaluateRoute skips addArrayItem transitions to find the next main-branch step.
   const nextNodeKey =
@@ -159,6 +97,87 @@ export const createFlowSession = <C extends PageConfigMap>(
       .map(({ key }) => key),
   );
 
+  // If the previous page is a bare fan-out node — it hosts the addArrayItem that
+  // reaches the current page but renders no summary of its own — the user never
+  // navigated through it. They used the "add" affordance on the summary that node
+  // exits to (the add button links straight to the item page). Point Back at that
+  // summary instead of the internal fan-out node.
+  const skipFanOutOnlyBack = (candidate: NodeKey<C> | undefined) => {
+    const seen = new Set<NodeKey<C> | undefined>();
+    let node = candidate;
+    while (node != null && !seen.has(node)) {
+      seen.add(node);
+      const transitions = compiledFlow.transitions[node];
+      if (compiledFlow.pages[node]?.arraySummary || !Array.isArray(transitions))
+        break;
+      const addsCurrent = transitions.some(
+        (t) =>
+          t != null &&
+          typeof t === "object" &&
+          t.type === "addArrayItem" &&
+          t.target === nodeKey,
+      );
+      if (!addsCurrent) break;
+      const fallback = transitions.find(
+        (t) => t != null && typeof t === "object" && t.type !== "addArrayItem",
+      );
+      if (
+        fallback == null ||
+        typeof fallback !== "object" ||
+        fallback.target == null
+      )
+        break;
+      node = fallback.target;
+    }
+    return node;
+  };
+
+  // A cyclical page (an array-summary <-> item flow) can appear more than
+  // once in the linear walk. Back always retraces to the FIRST occurrence's
+  // predecessor — the step before the array section started — never into an
+  // item's own page. This matches the old engine's behavior across all flows.
+  const first = simulation.keys.indexOf(nodeKey);
+  const linearPrevNodeKey =
+    first > 0
+      ? (simulation.keys[first - 1] as NodeKey<C> | undefined)
+      : simulation.parentMap.get(nodeKey);
+  const prevNodeKey = skipFanOutOnlyBack(linearPrevNodeKey);
+
+  // The resolved predecessor can still sit deeper in array nesting than the
+  // current page (e.g. a redirect loop through a nested array before landing
+  // back on a shallower page). The current page's own arrayIndexes can't
+  // fill those extra wildcards in — resolve concrete indexes from the real
+  // (index-aware) visited context instead, so prevPath is always directly
+  // usable, never a bare "#" template.
+  const resolvePrevPath = (): string | undefined => {
+    if (prevNodeKey == null) return undefined;
+    const prevStepId = compiledFlow.pages[prevNodeKey]?.stepId;
+    if (prevStepId == null) return undefined;
+
+    const currentStepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
+    if (arrayWildcardCount(prevStepId) <= arrayWildcardCount(currentStepId)) {
+      return compiledFlow.getPathFromNodeKey(prevNodeKey);
+    }
+
+    // Prefer the most recently completed instance of that page; fall back to
+    // the most recently visited one (any state) so partial data still resolves.
+    const visited = [...simulation.visitedContexts].reverse();
+    const match =
+      visited.find(
+        ({ key, scopeData }) =>
+          key === prevNodeKey &&
+          isPageDone(
+            compiledFlow.getSchemaByNodeKey(key),
+            compiledFlow.getFieldNamesByNodeKey(key),
+            scopeData as Record<string, unknown>,
+          ),
+      ) ?? visited.find(({ key }) => key === prevNodeKey);
+    if (!match) return compiledFlow.getPathFromNodeKey(prevNodeKey);
+    return insertConcreteIndexes(prevStepId, match.pageData.arrayIndexes ?? []);
+  };
+
+  const prevPath = resolvePrevPath();
+
   return {
     nodeKey,
     pageSchema: compiledFlow.getSchema(currentPath),
@@ -166,9 +185,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
     paths: simulation.keys
-      .map((key) =>
-        compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>),
-      )
+      .map((key) => compiledFlow.getPathFromNodeKey(key as NodeKey<C>))
       .filter((path): path is string => path !== undefined) as string[],
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
@@ -178,7 +195,7 @@ export const createFlowSession = <C extends PageConfigMap>(
       return key != null && simulation.reachableSet.has(key);
     },
     getPathFromNodeKey: (key: string): string | undefined => {
-      return compiledFlow.getPathFromNodeKey(key as Extract<keyof C, string>);
+      return compiledFlow.getPathFromNodeKey(key as NodeKey<C>);
     },
     nextPath: compiledFlow.getPathFromNodeKey(nextNodeKey),
     nextArrayPath: compiledFlow.getPathFromNodeKey(
@@ -188,9 +205,7 @@ export const createFlowSession = <C extends PageConfigMap>(
         true,
       ) ?? undefined,
     ),
-    prevPath: compiledFlow.getPathFromNodeKey(
-      prevNodeKey as Extract<keyof C, string>,
-    ),
+    prevPath,
     isArrayPage: (path: string): boolean => {
       return compiledFlow.getArrayInfo(path) !== undefined;
     },

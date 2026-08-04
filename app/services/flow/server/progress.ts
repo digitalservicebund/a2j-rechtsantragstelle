@@ -58,7 +58,12 @@ export function progressLookupForMachine(machine: FlowStateMachine) {
 
 function computeVorabcheckProgress() {
   const vorabcheckEntries = Object.entries(flows).filter(
-    ([, flowConfig]) => flowConfig.flowType === "vorabCheck",
+    ([, flowConfig]) =>
+      flowConfig.flowType === "vorabCheck" &&
+      // New-engine flows get their progress from the new engine, so they never
+      // go through this xstate machine. Building one from their config is both
+      // unnecessary and, for a new-engine-only flow, impossible.
+      !("newEngineConfig" in flowConfig),
   );
   return Object.fromEntries(
     vorabcheckEntries.map(([flowId, flow]) => [
