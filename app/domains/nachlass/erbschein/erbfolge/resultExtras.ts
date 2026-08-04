@@ -50,16 +50,21 @@ type StrapiListItems = Array<z.output<typeof StrapiListItemSchema>>;
 
 // The heirs become the items of the CMS List component whose identifier is
 // "heirsList", so they render with the List's own markers and spacing.
+// showShares is false when the spouse's share (and therefore every share) can't
+// be determined: we still list the heirs, just without their fractions.
 function buildHeirListItems(
   heirShares: HeirShare[],
   deceasedName: string,
+  showShares: boolean,
 ): StrapiListItems {
   return heirShares.map((heir, index) => ({
     id: index + 1,
     headline: {
       __component: "basic.heading" as const,
       id: index + 1,
-      text: `${heir.name} (erhält ${shareLabel(heir.share)})`,
+      text: showShares
+        ? `${heir.name} (erhält ${shareLabel(heir.share)})`
+        : heir.name,
       tagName: "h3" as const,
     },
     content: `<p>Erbt als ${relationshipLabel(heir)} von ${escape(deceasedName)}</p>`,
@@ -110,17 +115,26 @@ export const erbfolgeResultExtras: ResultLoaderExtras = {
 
     const userData = context.userData as InheritanceInput;
     const deceasedName = (context.userData as { name?: string }).name ?? "";
-    const undeterminable = spouseShareUndeterminable(userData);
+    const heirShares = calculateInheritance({
+      ...userData,
+      spouse: spouseFromUserData(userData),
+    });
+
+    // When the spouse inherits alone they take the whole estate (1/1) regardless of
+    // the Ehevertrag, so the share is always determinable in that case.
+    const spouseInheritsAlone =
+      heirShares.length === 1 && heirShares[0].order === 0;
+    const undeterminable =
+      spouseShareUndeterminable(userData) && !spouseInheritsAlone;
 
     const freeZone = content.freeZone
-      // The "can't be determined" notice shows only when shares are undeterminable;
-      // the heir list only when they can be determined.
+      // The "can't be determined" notice shows only when shares are undeterminable.
+      // The heir list is always shown; its shares are hidden when undeterminable.
       .filter((component) => {
         const identifier = identifierOf(component);
         if (identifier === EHEVERTRAG_UNKNOWN_NOTICE_IDENTIFIER) {
           return undeterminable;
         }
-        if (identifier === HEIRS_LIST_IDENTIFIER) return !undeterminable;
         return true;
       })
       .map((component) =>
@@ -129,11 +143,9 @@ export const erbfolgeResultExtras: ResultLoaderExtras = {
           ? {
               ...component,
               items: buildHeirListItems(
-                calculateInheritance({
-                  ...userData,
-                  spouse: spouseFromUserData(userData),
-                }),
+                heirShares,
                 deceasedName,
+                !undeterminable,
               ),
               variant: "unordered" as const,
             }
