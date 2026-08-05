@@ -1,5 +1,6 @@
 import { useField } from "@rvf/react-router";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import Checkbox from "../Checkbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
@@ -61,26 +62,19 @@ describe("Checkbox", () => {
     expect(suffix).toBeInTheDocument();
   });
 
-  it("renders an enabled hidden input when the checkbox is not checked", () => {
-    render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
-    );
-    const hiddenInput = screen.getByDisplayValue("off");
-    expect(hiddenInput).toBeInTheDocument();
-    expect(hiddenInput).not.toBeDisabled();
+  it("submits nothing for an unchecked box once JS is available", () => {
+    const form = document.createElement("form");
+    render(<Checkbox name="agree" label="Agree" required />, {
+      container: form,
+    });
+
+    expect([...new FormData(form).getAll("agree")]).toEqual([]);
   });
 
-  it("disables the hidden input when the checkbox is checked, instead of removing it", () => {
-    render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
-    );
-    const checkbox = screen.getByRole("checkbox");
-    fireEvent.click(checkbox);
-
-    // Kept in the DOM (not removed) so toggling it doesn't race with RVF's
-    // FormData revalidation; `disabled` excludes it from submission.
-    const hiddenInput = screen.getByDisplayValue("off");
-    expect(hiddenInput).toBeDisabled();
+  it("renders the hidden input without JS, so unchecked boxes submit a value", () => {
+    expect(
+      renderToString(<Checkbox name="agree" label="Agree" required />),
+    ).toContain('type="hidden"');
   });
 
   it("displays an error message when an error exists", () => {
