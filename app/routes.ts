@@ -41,7 +41,7 @@ export default [
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
-    ...prefix("pkonto/antrag", flowRoutes("KPPA")),
+    ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
     ...prefix("formular", newEngineFlowAndResultRoutes("GEF")),
