@@ -6,6 +6,7 @@ import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
+import capitalize from "lodash/capitalize";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -58,7 +59,7 @@ const renderPersonItem = (
   >[number],
 ) => {
   if (person.personAuswahl === "anotherPerson") {
-    const anrede = person.anrede === "herr" ? "Herr" : "Frau";
+    const anrede = person.anrede === "none" ? "" : capitalize(person.anrede);
 
     return (
       <div className="flex flex-col">
