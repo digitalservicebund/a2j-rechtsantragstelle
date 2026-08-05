@@ -7,7 +7,7 @@ import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBew
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 
 export const BegruendungBeschreibungBeweise = ({
-  itemIndex,
+  itemIndexAbschnitte,
   abschnitte,
 }: BegruendungBeschreibungAbschnitteProps) => {
   const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.dokumenten)
@@ -18,8 +18,8 @@ export const BegruendungBeschreibungBeweise = ({
     ? String(abschnitte.personen.length)
     : "0";
 
-  const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/dokumenten/${nextDocumentItemIndex}/daten`;
-  const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/personen/${nextPersonItemIndex}/auswahl`;
+  const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${nextDocumentItemIndex}/daten`;
+  const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${nextPersonItemIndex}/auswahl`;
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
@@ -39,7 +39,7 @@ export const BegruendungBeschreibungBeweise = ({
         <BegruendungBeschreibungBeweisItems
           dokumenten={abschnitte.dokumenten}
           personen={abschnitte.personen}
-          itemIndexAbschnitte={itemIndex}
+          itemIndexAbschnitte={itemIndexAbschnitte}
         />
 
         <div className="flex md:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">

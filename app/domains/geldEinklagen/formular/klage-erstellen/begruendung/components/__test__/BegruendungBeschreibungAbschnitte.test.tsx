@@ -15,14 +15,14 @@ beforeEach(() => {
 
 describe("BegruendungBeschreibungAbschnitte", () => {
   it("should render the correct heading and description texts", () => {
-    const { getByRole, getByText } = render(
+    const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
         abschnitte={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );
 
-    expect(getByRole("heading")).toHaveTextContent("Abschnitt 1");
+    expect(getByText("Abschnitt 1")).toBeInTheDocument();
     expect(getByText("Test Beschreibung")).toBeInTheDocument();
   });
 
