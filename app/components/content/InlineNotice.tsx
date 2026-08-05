@@ -4,6 +4,7 @@ import RichText from "../common/RichText";
 import { Icon } from "../common/Icon";
 import { type IconName } from "../common/utils";
 import { translations } from "~/services/translations/translations";
+import classNames from "classnames";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -13,6 +14,7 @@ export type InlineNoticeProps = {
   content?: string;
   wrap?: boolean;
   nested?: boolean;
+  className?: string;
 };
 
 // We can't set border-[${borderColor}] in the template because it causes inconsistent behavior in Storybook.
@@ -60,6 +62,7 @@ export const InlineNotice = ({
   content,
   wrap,
   nested,
+  className,
 }: InlineNoticeProps) => {
   if (!content || removeMarkupTags(content).length === 0) return null;
   const { iconName, iconClassName, containerClassName, ariaLabel } =
@@ -68,7 +71,7 @@ export const InlineNotice = ({
 
   const base = (
     <div
-      className={`kern-alert ${containerClassName}`}
+      className={classNames("kern-alert", containerClassName, className)}
       id={identifier}
       role="note"
     >
