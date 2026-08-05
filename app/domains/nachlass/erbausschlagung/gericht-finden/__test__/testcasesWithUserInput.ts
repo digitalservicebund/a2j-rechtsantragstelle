@@ -1,5 +1,4 @@
 import type {
-  FlowTestCases,
   FlowTestConfig,
 } from "~/domains/__test__/TestCases";
 import { nachlassErbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
