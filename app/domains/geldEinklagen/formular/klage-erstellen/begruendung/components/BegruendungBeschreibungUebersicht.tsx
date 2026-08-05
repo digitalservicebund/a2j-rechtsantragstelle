@@ -10,6 +10,8 @@ import { InlineNotice } from "~/components/content/InlineNotice";
 export const BASE_URL_BESCHREIBUNG_ABSCHNITTE =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
 
+const MAX_ABSCHNITTE_ITEMS = 50;
+
 const BegruendungBeschreibungUebersicht = () => {
   const { userData, flowId } = useFormFlow();
 
@@ -26,7 +28,7 @@ const BegruendungBeschreibungUebersicht = () => {
 
   const addButtonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${nextItemIndex}/daten`;
 
-  const shouldDisableAddButton = nextItemIndex >= 50;
+  const shouldDisableAddButton = nextItemIndex >= MAX_ABSCHNITTE_ITEMS;
 
   return (
     <div className="flex flex-col gap-kern-space-default">

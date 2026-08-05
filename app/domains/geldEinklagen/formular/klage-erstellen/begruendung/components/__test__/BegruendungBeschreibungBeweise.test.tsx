@@ -64,4 +64,29 @@ describe("BegruendungBeschreibungBeweise", () => {
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/auswahl",
     );
   });
+
+  it("should disable the add buttons when the maximum number of items is reached", () => {
+    const dokumenten = Array.from({ length: 20 }, (_, i) => ({
+      beschreibung: `Dokument ${i + 1}`,
+    }));
+    const personen = Array.from({ length: 10 }, (_) => ({
+      personAuswahl: "beklagte" as const,
+    }));
+
+    const { getByText } = render(
+      <BegruendungBeschreibungBeweise
+        abschnitte={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
+        itemIndexAbschnitte={0}
+      />,
+    );
+
+    expect(getByText("Dokument beschreiben").closest("a")).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    expect(getByText("Person angeben").closest("a")).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+  });
 });

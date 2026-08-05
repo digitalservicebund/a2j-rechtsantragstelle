@@ -6,17 +6,20 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 
+const MAX_DOCUMENT_ITEMS = 20;
+const MAX_PERSON_ITEMS = 10;
+
 export const BegruendungBeschreibungBeweise = ({
   itemIndexAbschnitte,
   abschnitte,
 }: BegruendungBeschreibungAbschnitteProps) => {
   const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.dokumenten)
-    ? String(abschnitte.dokumenten.length)
-    : "0";
+    ? abschnitte.dokumenten.length
+    : 0;
 
   const nextPersonItemIndex = arrayIsNonEmpty(abschnitte.personen)
-    ? String(abschnitte.personen.length)
-    : "0";
+    ? abschnitte.personen.length
+    : 0;
 
   const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${nextDocumentItemIndex}/daten`;
   const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${nextPersonItemIndex}/auswahl`;
@@ -46,7 +49,9 @@ export const BegruendungBeschreibungBeweise = ({
           <Button
             href={addDocumentUrl}
             look="secondary"
-            className="w-full"
+            fullWidth
+            disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
+            aria-disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
             iconLeft={
               <Icon name={"draft"} className="fill-kern-action-default!" />
             }
@@ -59,7 +64,9 @@ export const BegruendungBeschreibungBeweise = ({
           <Button
             href={addPersonUrl}
             look="secondary"
-            className="w-full"
+            fullWidth
+            disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
+            aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
             iconLeft={
               <Icon
                 name={"local-library"}
