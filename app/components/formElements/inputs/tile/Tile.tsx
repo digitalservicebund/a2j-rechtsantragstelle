@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ReactNode, useState } from "react";
+import { type ReactNode } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type ErrorMessageProps } from "~/components/common/types";
 import TileRadio, { type TileOptions } from "./TileRadio";
@@ -28,11 +28,7 @@ const Tile = ({
   const errorToDisplay =
     errorMessages?.find((err) => err.code === field.error())?.text ??
     field.error();
-  // Without JS, we need a same-named hidden field for validation without user input
-  // It gets removed on clicking any Tile option to still allow for front-end validation
-  const [renderHiddenField, setRenderHiddenField] = useState(
-    field.defaultValue() === undefined,
-  );
+
   const jsAvailable = useJsAvailable();
 
   return (
@@ -45,9 +41,9 @@ const Tile = ({
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
 
-      {(!jsAvailable || renderHiddenField) && (
-        <input type="hidden" name={name} />
-      )}
+      {/* Without JS, we need a same-named hidden field so the server receives an empty value for validation */}
+      {!jsAvailable && <input type="hidden" name={name} />}
+
       <div
         className={classNames("grid gap-24", {
           "grid-cols-[repeat(auto-fit,minmax(18.125rem,1fr))]": useTwoColumns,
@@ -60,13 +56,12 @@ const Tile = ({
           <TileRadio
             key={value}
             name={name}
-            onClick={() => setRenderHiddenField(false)}
             value={value}
             tileDescription={description}
             tileTitle={title}
             image={image}
             errorId={errorId}
-            ref={index === 0 && field.error() ? field.refs.controlled() : null}
+            ref={index === 0 && field.error() ? field.refs.transient() : null}
           />
         ))}
       </div>

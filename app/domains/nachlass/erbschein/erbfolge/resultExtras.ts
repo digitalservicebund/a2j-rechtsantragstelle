@@ -75,7 +75,7 @@ function buildHeirListItems(
   }));
 }
 
-function spouseFromUserData(userData: InheritanceInput) {
+export function spouseFromUserData(userData: InheritanceInput) {
   const { ehepartnerVorname, ehepartnerNachname, gueterstand } = userData as {
     ehepartnerVorname?: string;
     ehepartnerNachname?: string;
