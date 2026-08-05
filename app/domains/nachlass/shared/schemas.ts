@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const nachlassRelationshipTypes = [
+const nachlassRelationshipTypes = [
   "not-related",
   "wife-husband",
   "life-partner",

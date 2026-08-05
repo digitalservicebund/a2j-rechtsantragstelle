@@ -71,11 +71,20 @@ export const createAntragstellendePerson = (
 
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text("Straße und Hausnummer: ", { continued: true })
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(
-          `${userData.antragstellendePersonStrasse} ${userData.antragstellendePersonHausnummer}`,
-        );
+        .text("Anschrift: ")
+        .font(FONTS_BUNDESSANS_BOLD);
+      if (userData.antragstellendePersonAdresszusatz) {
+        doc.text(userData.antragstellendePersonAdresszusatz);
+      }
+      doc.text(
+        `${userData.antragstellendePersonStrasse} ${userData.antragstellendePersonHausnummer}`,
+      );
+      doc.text(
+        `${userData.antragstellendePersonPlz} ${userData.antragstellendePersonOrt}`,
+      );
+      if (userData.antragstellendePersonLand) {
+        doc.text(userData.antragstellendePersonLand);
+      }
 
       doc.moveDown(2);
     }),

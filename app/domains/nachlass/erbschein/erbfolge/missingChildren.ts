@@ -1,7 +1,9 @@
 import { BOTH_PARENTS_VALUE } from "./buildParentOptions";
+import { personName } from "./personName";
 
 type FamilyMember = {
-  name: string;
+  vorname?: string;
+  nachname?: string;
   isAlive: string;
   hatteKinder?: string;
   kinder?: FamilyMember[];
@@ -40,7 +42,7 @@ export function collectMissingChildrenNames(members: FamilyMember[]): string[] {
     if (member.isAlive === "yes") return [];
     if (member.hatteKinder !== "yes") return [];
     const assignedKinder = buckets[index];
-    if (assignedKinder.length === 0) return [member.name];
+    if (assignedKinder.length === 0) return [personName(member)];
     return collectMissingChildrenNames(assignedKinder);
   });
 }
@@ -80,7 +82,7 @@ export function collectMissingChildrenNamesForElternteile(
     if (parent.isAlive === "yes") return [];
     if (parent.hatteKinder !== "yes") return [];
     const assignedSiblings = buckets[index];
-    if (assignedSiblings.length === 0) return [parent.name];
+    if (assignedSiblings.length === 0) return [personName(parent)];
     return collectMissingChildrenNames(assignedSiblings);
   });
   // A "both" sibling is counted in both parents' buckets, so a missing

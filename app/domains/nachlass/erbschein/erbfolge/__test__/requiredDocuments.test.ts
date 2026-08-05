@@ -3,18 +3,18 @@ import { collectRequiredDocuments } from "../requiredDocuments";
 
 describe("collectRequiredDocuments", () => {
   it("requires only the Sterbeurkunde for the deceased without second-order heirs", () => {
-    expect(collectRequiredDocuments({ name: "Erblasser" })).toEqual([
-      { name: "Erblasser", documents: "Sterbeurkunde" },
-    ]);
+    expect(
+      collectRequiredDocuments({ verstorbeneVorname: "Erblasser" }),
+    ).toEqual([{ name: "Erblasser", documents: "Sterbeurkunde" }]);
   });
 
   describe("Ehepartner by familienstand", () => {
     it("requires the Heiratsurkunde for a married spouse", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           familienstand: "verheiratet",
-          ehepartnerName: "Ehefrau",
+          ehepartnerVorname: "Ehefrau",
         }),
       ).toEqual([
         { name: "Erblasser", documents: "Sterbeurkunde" },
@@ -25,9 +25,9 @@ describe("collectRequiredDocuments", () => {
     it("adds the Ehevertrag when one exists", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           familienstand: "verheiratet",
-          ehepartnerName: "Ehefrau",
+          ehepartnerVorname: "Ehefrau",
           ehevertrag: "yes",
         }),
       ).toContainEqual({
@@ -39,7 +39,7 @@ describe("collectRequiredDocuments", () => {
     it("uses the last-spouse label and Scheidungsurteil when divorced", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           familienstand: "geschieden",
         }),
       ).toEqual([
@@ -55,7 +55,7 @@ describe("collectRequiredDocuments", () => {
     it("uses the last-spouse label and Sterbeurkunde when widowed", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           familienstand: "verwitwet",
         }),
       ).toEqual([
@@ -70,7 +70,7 @@ describe("collectRequiredDocuments", () => {
     it("lists no spouse when single", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           familienstand: "ledig",
         }),
       ).toEqual([{ name: "Erblasser", documents: "Sterbeurkunde" }]);
@@ -81,12 +81,12 @@ describe("collectRequiredDocuments", () => {
     it("requires the Geburtsurkunde for living heirs and both certificates for the predeceased", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           kinder: [
             {
-              name: "Kind",
+              vorname: "Kind",
               isAlive: "no",
-              kinder: [{ name: "Enkelkind", isAlive: "yes" }],
+              kinder: [{ vorname: "Enkelkind", isAlive: "yes" }],
             },
           ],
         }),
@@ -102,8 +102,8 @@ describe("collectRequiredDocuments", () => {
     it("adds the deceased's Geburtsurkunde as proof of the parents and skips living parents", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
-          elternteile: [{ name: "Vater", isAlive: "yes" }],
+          verstorbeneVorname: "Erblasser",
+          elternteile: [{ vorname: "Vater", isAlive: "yes" }],
         }),
       ).toEqual([
         { name: "Erblasser", documents: "Sterbeurkunde, Geburtsurkunde" },
@@ -113,8 +113,8 @@ describe("collectRequiredDocuments", () => {
     it("requires only the Sterbeurkunde for predeceased parents", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
-          elternteile: [{ name: "Vater", isAlive: "no" }],
+          verstorbeneVorname: "Erblasser",
+          elternteile: [{ vorname: "Vater", isAlive: "no" }],
         }),
       ).toEqual([
         { name: "Erblasser", documents: "Sterbeurkunde, Geburtsurkunde" },
@@ -125,16 +125,16 @@ describe("collectRequiredDocuments", () => {
     it("treats the parents' descendants like first-order heirs", () => {
       expect(
         collectRequiredDocuments({
-          name: "Erblasser",
+          verstorbeneVorname: "Erblasser",
           elternteile: [
             {
-              name: "Vater",
+              vorname: "Vater",
               isAlive: "no",
               kinder: [
                 {
-                  name: "Geschwister",
+                  vorname: "Geschwister",
                   isAlive: "no",
-                  kinder: [{ name: "Nichte", isAlive: "yes" }],
+                  kinder: [{ vorname: "Nichte", isAlive: "yes" }],
                 },
               ],
             },

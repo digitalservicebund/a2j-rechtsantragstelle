@@ -14,14 +14,30 @@ export const getVerstorbeneName = (
 export const getVerstorbeneStreetnameHousenumber = (
   context: NachlassErbscheinAnfrageUserData,
 ) => ({
-  verstorbeneStreetnameHousenumber: `${context.verstorbenePersonStrasse} ${context.verstorbenePersonHausnummer}`,
+  verstorbeneStreetnameHousenumber:
+    context.verstorbeneLebensmittelpunkt === "deutschland"
+      ? `${context.verstorbenePersonStrasse} ${context.verstorbenePersonHausnummer}`
+      : `${context.verstorbenePersonAuslaendischeStrasse} ${context.verstorbenePersonAuslaendischeHausnummer}`,
 });
 
 export const getVerstorbenePostcodeCity = (
   context: NachlassErbscheinAnfrageUserData,
-) => ({
-  verstorbenePostcodeCity: `${context.verstorbenePlz} ${context.verstorbenePersonOrt}`,
-});
+) => {
+  let plz: string;
+  if (context.verstorbeneLivedInPflegeheim == "yes") {
+    plz = context.verstorbenePflegeheimPlz ?? "";
+  } else if (context.verstorbeneLivedInHospiz == "yes") {
+    plz = context.verstorbeneHospizPlz ?? "";
+  } else {
+    plz = context.verstorbenePlz ?? "";
+  }
+  return {
+    verstorbenePostcodeCity:
+      context.verstorbeneLebensmittelpunkt === "deutschland"
+        ? `${plz} ${context.verstorbenePersonOrt}`
+        : `${context.verstorbenePersonAuslaendischePlz} ${context.verstorbenePersonAuslaendischerOrt} (${context.verstorbenePersonLand})`,
+  };
+};
 
 export const getEhepartnerName = (
   context: NachlassErbscheinAnfrageUserData,

@@ -8,9 +8,15 @@ import {
 } from "./pageSchemaHelpers";
 
 export type Kind =
-  | { name: string; isAlive: "yes" }
-  | { name: string; isAlive: "no"; hatteKinder: "no" }
-  | { name: string; isAlive: "no"; hatteKinder: "yes"; kinder?: Kind[] };
+  | { vorname: string; nachname: string; isAlive: "yes" }
+  | { vorname: string; nachname: string; isAlive: "no"; hatteKinder: "no" }
+  | {
+      vorname: string;
+      nachname: string;
+      isAlive: "no";
+      hatteKinder: "yes";
+      kinder?: Kind[];
+    };
 
 const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
 

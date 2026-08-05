@@ -3,25 +3,27 @@ import { nachlassErbfolgeStringReplacements } from "../stringReplacements";
 type Context = Parameters<typeof nachlassErbfolgeStringReplacements>[0];
 
 describe("nachlassErbfolgeStringReplacements", () => {
-  it("spreads the raw answers so CMS text can reference them (e.g. {{name}})", () => {
+  it("spreads the raw answers so CMS text can reference them (e.g. {{verstorbeneVorname}})", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "Verstorbene Person",
+      verstorbeneVorname: "Verstorbene",
+      verstorbeneNachname: "Person",
       familienstand: "ledig",
       hatteKinder: "yes",
-      kinder: [{ name: "Kind", isAlive: "yes" }],
+      kinder: [{ vorname: "Kind", nachname: "", isAlive: "yes" }],
       elternteile: [],
     } as Context);
 
-    expect(result.name).toBe("Verstorbene Person");
+    expect(result.verstorbeneVorname).toBe("Verstorbene");
+    expect(result.verstorbeneNachname).toBe("Person");
     expect(result.familienstand).toBe("ledig");
   });
 
   it("builds a required-documents table (rendered on the result page)", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "Erblasser",
+      verstorbeneVorname: "Erblasser",
       familienstand: "ledig",
       hatteKinder: "yes",
-      kinder: [{ name: "Kind Eins", isAlive: "yes" }],
+      kinder: [{ vorname: "Kind", nachname: "Eins", isAlive: "yes" }],
       elternteile: [],
     } as Context);
 
@@ -31,7 +33,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("lists a dead person who stated kids but added none as a missing child", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "Oma",
+      verstorbeneVorname: "Oma",
       hatteKinder: "yes",
       kinder: [],
       elternteile: [],
@@ -43,9 +45,11 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("collects missing children from the elternteile tree too", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "Erblasser",
+      verstorbeneVorname: "Erblasser",
       hatteKinder: "no",
-      elternteile: [{ name: "Vater", isAlive: "no", hatteKinder: "yes" }],
+      elternteile: [
+        { vorname: "Vater", nachname: "", isAlive: "no", hatteKinder: "yes" },
+      ],
     } as Context);
 
     expect(result.missingChildrenNames).toBe("Vater");
@@ -53,9 +57,9 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("omits the missingChildren keys when nothing is missing", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "Erblasser",
+      verstorbeneVorname: "Erblasser",
       hatteKinder: "yes",
-      kinder: [{ name: "Kind", isAlive: "yes" }],
+      kinder: [{ vorname: "Kind", nachname: "", isAlive: "yes" }],
       elternteile: [],
     } as Context);
 
@@ -65,7 +69,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("escapes HTML in names for the raw-HTML placeholder", () => {
     const result = nachlassErbfolgeStringReplacements({
-      name: "<b>Opa</b> & Co",
+      verstorbeneVorname: "<b>Opa</b> & Co",
       hatteKinder: "yes",
       kinder: [],
       elternteile: [],
