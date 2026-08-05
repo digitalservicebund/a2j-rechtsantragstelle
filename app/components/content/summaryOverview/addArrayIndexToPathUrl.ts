@@ -1,3 +1,5 @@
+import { ARRAY_WILDCARD } from "~/services/flow/newFlowEngine/compileFlow";
+
 export const addArrayIndexToPathUrl = (path: string, index: number): string => {
   const segments = path.split("/");
 
@@ -9,5 +11,7 @@ export const addArrayIndexToPathUrl = (path: string, index: number): string => {
 
   segments.splice(startSegment, 0, index.toString());
 
-  return segments.join("/");
+  return segments
+    .join("/")
+    .replace(new RegExp(`/\\${ARRAY_WILDCARD}+/`, "g"), `/`);
 };
