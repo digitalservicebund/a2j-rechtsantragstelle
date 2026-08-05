@@ -9,7 +9,6 @@ type RadioInputProps = {
   readonly value: string;
   readonly text?: ReactNode;
   readonly suffix?: string;
-  readonly onClick?: () => void;
 };
 
 export const RadioInput = ({
@@ -18,7 +17,6 @@ export const RadioInput = ({
   name,
   value,
   suffix,
-  onClick,
 }: RadioInputProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
@@ -30,7 +28,6 @@ export const RadioInput = ({
         className={classNames("kern-form-check__radio", {
           "kern-form-check__radio--error": Boolean(field.error()),
         })}
-        onClick={onClick}
         ref={ref}
       />
       <InputLabel name={id} label={text} suffix={suffix} />
