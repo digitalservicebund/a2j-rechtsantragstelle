@@ -86,4 +86,25 @@ describe("BegruendungBeschreibungUebersicht", () => {
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/1/daten",
     );
   });
+
+  it("should disable the add button and show an InlineNotice component when abschnitte length is 50 or more", () => {
+    mockUseFormFlow(
+      {
+        abschnitte: Array.from({ length: 50 }, (_, i) => ({
+          beschreibung: `Test Beschreibung ${i + 1}`,
+        })),
+      },
+      "/geld-einklagen/formular",
+    );
+
+    const { getByTestId, getByRole, getByText } = render(
+      <BegruendungBeschreibungUebersicht />,
+    );
+    const addButton = getByTestId("add-abschnitt");
+    expect(addButton).toHaveClass("kern-btn--disabled pointer-events-none");
+    expect(getByRole("note")).toBeInTheDocument();
+    expect(
+      getByText("Maximale Anzahl an Abschnitten erreicht"),
+    ).toBeInTheDocument();
+  });
 });

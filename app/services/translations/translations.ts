@@ -534,5 +534,11 @@ export const translations = {
     begruendungBeschreibungEvidenceAddPersonButton: {
       de: "Person angeben",
     },
+    begruendungBeschreibungMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an Abschnitten erreicht",
+    },
+    begruendungBeschreibungMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 50 Abschnitte hinzufügen.",
+    },
   },
 } satisfies TranslationRecord;
