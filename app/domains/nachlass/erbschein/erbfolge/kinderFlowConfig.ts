@@ -30,9 +30,20 @@ export const kinderFlowConfig = {
       // once: hatteKinder="yes" with an empty kinder array (nobody added at
       // all), and any individual kind further down with the same problem.
       target: "kinderFehlen",
-      guard: ({ name, hatteKinder, kinder }) =>
+      guard: ({
+        verstorbeneVorname,
+        verstorbeneNachname,
+        hatteKinder,
+        kinder,
+      }) =>
         collectMissingChildrenNames([
-          { name: name ?? "", isAlive: "no", hatteKinder, kinder },
+          {
+            vorname: verstorbeneVorname,
+            nachname: verstorbeneNachname,
+            isAlive: "no",
+            hatteKinder,
+            kinder,
+          },
         ]).length > 0,
     },
     {

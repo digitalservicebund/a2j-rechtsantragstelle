@@ -21,6 +21,7 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
+import { personName } from "../personName";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -61,7 +62,7 @@ export function siblingBadgeLabel(
   const assignedParent =
     assigned != null ? elternteile[Number(assigned)] : undefined;
   const assignedName =
-    assignedParent?.isAlive === "no" ? assignedParent.name : undefined;
+    assignedParent?.isAlive === "no" ? personName(assignedParent) : undefined;
   return `Kind von ${String(assignedName ?? physicalName)}`;
 }
 
@@ -69,7 +70,7 @@ export function siblingBadgeLabel(
 function collectSiblings(elternteile: KindItem[]): SectionEntry[] {
   return elternteile.flatMap((parent, elternteilIndex) => {
     if (parent.isAlive !== "no" || parent.hatteKinder !== "yes") return [];
-    const parentName = String(parent.name ?? "");
+    const parentName = personName(parent);
     return (parent.kinder ?? []).map((sibling, siblingIndex) => ({
       item: sibling,
       indexes: [elternteilIndex, siblingIndex],
@@ -270,7 +271,7 @@ function DescendantSection({
       {entries.map(({ item, indexes, badgeLabel }) => (
         <PersonSummaryItem
           key={indexes.join("-")}
-          name={String(item.name ?? "")}
+          name={personName(item)}
           isAlive={String(item.isAlive ?? "yes")}
           hatteKinder={item.hatteKinder ? String(item.hatteKinder) : undefined}
           badgeLabel={badgeLabel}
@@ -320,7 +321,7 @@ export function ElternteilSummary({
           return (
             <PersonSummaryItem
               key={editUrl}
-              name={String(elternteil.name ?? "")}
+              name={personName(elternteil)}
               isAlive={String(elternteil.isAlive ?? "yes")}
               hatteKinder={
                 elternteil.hatteKinder

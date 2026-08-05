@@ -15,6 +15,7 @@ import {
   parentSelectFormElement,
   resolveParentOptions,
 } from "./buildParentOptions";
+import { personName } from "./personName";
 
 type ErbfolgeArraySummaryData = {
   category: string;
@@ -78,11 +79,10 @@ function buildParentNameReplacements(
         .filter((fieldName) => fieldName.includes("#"))
         .flatMap((fieldName) => {
           const segments = fieldName.split("#");
-          return segments
-            .slice(0, -1)
-            .map(
-              (_, depth) => segments.slice(0, depth + 1).join("#") + "#name",
-            );
+          return segments.slice(0, -1).flatMap((_, depth) => {
+            const prefix = segments.slice(0, depth + 1).join("#");
+            return [`${prefix}#vorname`, `${prefix}#nachname`];
+          });
         })
         .filter((fieldName) => !fieldNamesForPage.includes(fieldName)),
     ),
@@ -169,7 +169,11 @@ export const erbfolgeVorabcheckExtras: VorabcheckLoaderExtras<ErbfolgeLoaderExtr
       ],
       dynamicOptions: buildDynamicOptions(context),
       arraySummaryData: buildArraySummaryData(context),
-      deceasedPersonName: (context.userData as Record<string, unknown>).name as
-        string | undefined,
+      deceasedPersonName: personName({
+        vorname: (context.userData as { verstorbeneVorname?: string })
+          .verstorbeneVorname,
+        nachname: (context.userData as { verstorbeneNachname?: string })
+          .verstorbeneNachname,
+      }),
     }),
   };
