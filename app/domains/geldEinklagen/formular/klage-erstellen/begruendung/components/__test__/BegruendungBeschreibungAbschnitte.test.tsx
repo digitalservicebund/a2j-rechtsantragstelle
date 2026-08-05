@@ -15,12 +15,10 @@ beforeEach(() => {
 
 describe("BegruendungBeschreibungAbschnitte", () => {
   it("should render the correct heading and description texts", () => {
-    const itemIndex = 0;
-
     const { getByRole, getByText } = render(
       <BegruendungBeschreibungAbschnitte
         abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndex={itemIndex}
+        itemIndexAbschnitte={0}
       />,
     );
 
@@ -29,12 +27,10 @@ describe("BegruendungBeschreibungAbschnitte", () => {
   });
 
   it("should render the edit and delete buttons", () => {
-    const itemIndex = 0;
-
     const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
         abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndex={itemIndex}
+        itemIndexAbschnitte={0}
       />,
     );
 
@@ -48,7 +44,6 @@ describe("BegruendungBeschreibungAbschnitte", () => {
   });
 
   it("should call the function onAbschnittDelete when the delete button is clicked", () => {
-    const itemIndex = 0;
     const onAbschnittDeleteMock = vi.fn();
     vi.mocked(useBegruendungBeschreibung).mockImplementation(() => ({
       onAbschnittDelete: onAbschnittDeleteMock,
@@ -59,7 +54,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
     const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
         abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndex={itemIndex}
+        itemIndexAbschnitte={0}
       />,
     );
 
@@ -68,7 +63,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
 
     expect(onAbschnittDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte",
-      itemIndex,
+      0,
     );
   });
 });

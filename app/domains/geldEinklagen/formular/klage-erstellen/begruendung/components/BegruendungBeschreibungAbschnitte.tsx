@@ -7,7 +7,7 @@ import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUeber
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 
 export type BegruendungBeschreibungAbschnitteProps = {
-  readonly itemIndex: number;
+  readonly itemIndexAbschnitte: number;
   readonly abschnitte: Exclude<
     GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
     undefined
@@ -15,12 +15,12 @@ export type BegruendungBeschreibungAbschnitteProps = {
 };
 
 const BegruendungBeschreibungAbschnitte = ({
-  itemIndex,
+  itemIndexAbschnitte,
   abschnitte,
 }: BegruendungBeschreibungAbschnitteProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
 
-  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndex + 1}`;
+  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitte + 1}`;
 
   return (
     <div
@@ -42,14 +42,14 @@ const BegruendungBeschreibungAbschnitte = ({
           </span>
           <a
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
-            href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndex}/daten`}
+            href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/daten`}
             aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
           </a>
           <BegruendungBeschreibungBeweise
-            itemIndex={itemIndex}
+            itemIndexAbschnitte={itemIndexAbschnitte}
             abschnitte={abschnitte}
           />
           <div className="flex flex-row-reverse">
@@ -62,7 +62,10 @@ const BegruendungBeschreibungAbschnitte = ({
                 <Icon name={"trash"} className="fill-kern-feedback-danger!" />
               }
               onClick={() =>
-                onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndex)
+                onAbschnittDelete(
+                  BASE_URL_BESCHREIBUNG_ABSCHNITTE,
+                  itemIndexAbschnitte,
+                )
               }
               aria-label={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de}`}
             >
