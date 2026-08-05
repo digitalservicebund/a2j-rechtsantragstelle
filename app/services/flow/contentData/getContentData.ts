@@ -241,9 +241,10 @@ export const getContentData = (
         flowSessionEngine.paths,
       );
 
-      const expandAll =
-        getMetaConfigurationByStepId(currentFlow, stepId)?.triggerValidation ??
-        false;
+      const expandAll = getMetaConfigurationByStepId(
+        currentFlow,
+        stepId,
+      )?.triggerValidation;
 
       if (!useStepper) {
         return {
