@@ -1,6 +1,4 @@
-import type {
-  FlowTestConfig,
-} from "~/domains/__test__/TestCases";
+import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { nachlassErbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
 import type { NachlassErbausschlagungGerichtFindenUserData } from "../userData";
 
