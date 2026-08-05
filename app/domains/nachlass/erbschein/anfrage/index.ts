@@ -32,8 +32,8 @@ export const nachlassErbscheinAnfrage = {
       sourceData: NachlassErbscheinErbfolgeUserData,
     ): NachlassErbscheinAnfrageUserData => {
       return {
-        ehepartnerVorname: sourceData.ehepartnerName?.split(" ")[0] ?? "",
-        ehepartnerNachname: sourceData.ehepartnerName?.split(" ")[1] ?? "",
+        ehepartnerVorname: sourceData.ehepartnerVorname ?? "",
+        ehepartnerNachname: sourceData.ehepartnerNachname ?? "",
         ...(sourceData.ehepartnerStaatsangehoerigkeit === "nurDeutsch"
           ? { ehepartnerStaatsangehoerigkeit: "Deutsch" }
           : {}),
@@ -41,8 +41,8 @@ export const nachlassErbscheinAnfrage = {
           ? { hasEhevertrag: sourceData.ehevertrag }
           : {}),
         verstorbeneFamilienstand: sourceData.familienstand,
-        verstorbeneVorname: sourceData.name?.split(" ")[0] ?? "",
-        verstorbeneNachname: sourceData.name?.split(" ")[1] ?? "",
+        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
+        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
       };
     },
     buttonUrl: "/nachlass/erbschein/erbfolge",

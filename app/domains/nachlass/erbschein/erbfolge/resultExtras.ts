@@ -12,6 +12,7 @@ import {
   type InheritanceInput,
 } from "./calculateInheritance";
 import type { Gueterstand } from "./pages";
+import { personName } from "./personName";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.
@@ -75,14 +76,16 @@ function buildHeirListItems(
 }
 
 function spouseFromUserData(userData: InheritanceInput) {
-  const ehepartnerName = (userData as { ehepartnerName?: string })
-    .ehepartnerName;
-  if (!ehepartnerName) return undefined;
+  const { ehepartnerVorname, ehepartnerNachname, gueterstand } = userData as {
+    ehepartnerVorname?: string;
+    ehepartnerNachname?: string;
+    gueterstand?: Gueterstand;
+  };
+  if (!ehepartnerVorname && !ehepartnerNachname) return undefined;
   return {
-    name: ehepartnerName,
-    gueterstand:
-      (userData as { gueterstand?: Gueterstand }).gueterstand ??
-      "communityOfAcquisitions",
+    vorname: ehepartnerVorname,
+    nachname: ehepartnerNachname,
+    gueterstand: gueterstand ?? "communityOfAcquisitions",
   };
 }
 
@@ -90,12 +93,14 @@ function spouseFromUserData(userData: InheritanceInput) {
 // no precise Ehevertrag / Güterstand ("Ich weiß es nicht" / "Sonstige"). Only relevant
 // when a spouse exists.
 function spouseShareUndeterminable(userData: InheritanceInput): boolean {
-  const { ehepartnerName, ehevertrag, gueterstand } = userData as {
-    ehepartnerName?: string;
-    ehevertrag?: string;
-    gueterstand?: Gueterstand;
-  };
-  if (!ehepartnerName) return false;
+  const { ehepartnerVorname, ehepartnerNachname, ehevertrag, gueterstand } =
+    userData as {
+      ehepartnerVorname?: string;
+      ehepartnerNachname?: string;
+      ehevertrag?: string;
+      gueterstand?: Gueterstand;
+    };
+  if (!ehepartnerVorname && !ehepartnerNachname) return false;
   if (ehevertrag === "unknown") return true;
   return gueterstand === "other" || gueterstand === "unknown";
 }
@@ -114,7 +119,14 @@ export const erbfolgeResultExtras: ResultLoaderExtras = {
     if (context.stepId !== ERBFOLGE_STEP_ID) return content;
 
     const userData = context.userData as InheritanceInput;
-    const deceasedName = (context.userData as { name?: string }).name ?? "";
+    const { verstorbeneVorname, verstorbeneNachname } = context.userData as {
+      verstorbeneVorname?: string;
+      verstorbeneNachname?: string;
+    };
+    const deceasedName = personName({
+      vorname: verstorbeneVorname,
+      nachname: verstorbeneNachname,
+    });
     const heirShares = calculateInheritance({
       ...userData,
       spouse: spouseFromUserData(userData),

@@ -21,6 +21,7 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
+import { personName } from "../personName";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -110,7 +111,7 @@ function KindSummaryItem({
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">Name</dt>
             <dd className="kern-description-list-item__value">
-              {String(item.name ?? "")}
+              {personName(item)}
             </dd>
           </div>
           <div className="kern-description-list-item">
