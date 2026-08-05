@@ -58,10 +58,12 @@ const renderPersonItem = (
   >[number],
 ) => {
   if (person.personAuswahl === "anotherPerson") {
+    const anrede = person.anrede === "herr" ? "Herr" : "Frau";
+
     return (
       <div className="flex flex-col">
         <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
-          {person.vorname} {person.nachname}
+          {anrede} {person.title} {person.vorname} {person.nachname}
         </span>
         <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
           {person.strasse} {person.hausnummer}, {person.plz} {person.ort},{" "}
