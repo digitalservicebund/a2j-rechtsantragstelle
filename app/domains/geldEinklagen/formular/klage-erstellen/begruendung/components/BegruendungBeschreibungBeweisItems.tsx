@@ -106,7 +106,7 @@ export const BegruendungBeschreibungBeweisItems = ({
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div data-testid="beweis-items" className="flex flex-col w-full">
       {hasDocumentItems &&
         dokumenten.map((dokument, dokumentIndex) => {
           const dokumentItemIndex = String(dokumentIndex);
