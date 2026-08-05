@@ -12,6 +12,9 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungPkontoAntragPages = {
+  start: {
+    stepId: "start",
+  },
   grundvoraussetzungenDatenverarbeitung: {
     stepId: "grundvoraussetzungen/datenverarbeitung",
     pageSchema: {
@@ -71,4 +74,4 @@ export const kontopfaendungPkontoAntragPages = {
   ergebnis: {
     stepId: "abgabe/p-konto-vorhanden",
   },
-} as const satisfies PagesConfig;
+} satisfies PagesConfig;
