@@ -1,7 +1,11 @@
 import escape from "lodash/escape";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { UserData } from "~/domains/userData";
-import type { InheritanceInput } from "./calculateInheritance";
+import {
+  calculateInheritance,
+  type InheritanceInput,
+} from "./calculateInheritance";
+import { spouseFromUserData } from "./resultExtras";
 import {
   collectMissingChildrenNames,
   collectMissingChildrenNamesForElternteile,
@@ -87,5 +91,10 @@ export function nachlassErbfolgeStringReplacements(
     requiredDocumentsHtml: buildRequiredDocumentsHtml(
       collectRequiredDocuments(data),
     ),
+    // Gates the "Erbengemeinschaft" notice on the result page: it only applies
+    // when the estate is shared, i.e. more than one heir inherits.
+    hasMultipleHeirs:
+      calculateInheritance({ ...data, spouse: spouseFromUserData(data) })
+        .length > 1,
   };
 }
