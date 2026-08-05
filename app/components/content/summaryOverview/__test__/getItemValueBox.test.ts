@@ -155,16 +155,18 @@ describe("extractFieldItemsFromInlineItems", () => {
     ]);
   });
 
-  it("uses only the extract field name for array-prefixed field", () => {
+  it("should extract the field name for array-prefixed field", () => {
     const userData: UserData = {
       weiterePersonen: [{ vorname: "Mina" }],
       vorname: "Erika",
     };
 
     const actual = extractFieldItemsFromInlineItems(userData, [
-      { field: `weiterePersonen#vorname` },
+      { field: "weiterePersonen#vorname" },
     ]);
 
-    expect(actual).toEqual([{ fieldName: "vorname", fieldValue: "Erika" }]);
+    expect(actual).toEqual([
+      { fieldName: "weiterePersonen#vorname", fieldValue: "Erika" },
+    ]);
   });
 });
