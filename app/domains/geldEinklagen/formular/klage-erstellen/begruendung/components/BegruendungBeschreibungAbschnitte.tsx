@@ -23,7 +23,10 @@ const BegruendungBeschreibungAbschnitte = ({
   const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndex + 1}`;
 
   return (
-    <div className="kern-summary pb-24">
+    <div
+      data-testid="begruendung-beschreibung-abschnitte"
+      className="kern-summary pb-24"
+    >
       <div className="kern-summary__header">
         <h2 className="kern-body kern-body--large kern-body--bold p-0!">
           {headingText}
