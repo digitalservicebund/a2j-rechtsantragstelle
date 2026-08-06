@@ -21,7 +21,6 @@ import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilf
 import { nachlassErbscheinWegweiserTestCases } from "~/domains/nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 import { nachlassErbscheinNachlassgerichtTestCases } from "~/domains/nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
-import { nachlassErbausschlagungGerichtFindenTestCases } from "~/domains/nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
@@ -31,7 +30,6 @@ const flowSchemaTests = {
   nachlassErbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   nachlassErbausschlagungAnfrageTestCases,
-  nachlassErbausschlagungGerichtFindenTestCases,
 };
 
 type VisitedSteps = Record<

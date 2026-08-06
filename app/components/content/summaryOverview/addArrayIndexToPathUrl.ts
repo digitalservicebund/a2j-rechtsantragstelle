@@ -13,5 +13,5 @@ export const addArrayIndexToPathUrl = (path: string, index: number): string => {
 
   return segments
     .join("/")
-    .replace(new RegExp(`/\\${ARRAY_WILDCARD}+/`, "g"), `/`);
+    .replace(new RegExp(`/\\${ARRAY_WILDCARD}{1}/`, "g"), `/`);
 };

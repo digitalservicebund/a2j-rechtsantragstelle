@@ -17,12 +17,14 @@ import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
+import { nachlassErbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
   nachlassErbscheinAnfrageTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
+  nachlassErbausschlagungGerichtFindenTestCases,
 };
 
 type VisitedSteps = Record<
@@ -104,12 +106,16 @@ function testArrayLinkPages(
   if (addArrayItemEvent) {
     expect(flowSessionEngine.nextArrayPath).toBe(nextStepId);
   } else {
-    expect(flowSessionEngine.nextPath).toBe(nextStepId);
+    expect(flowSessionEngine.nextPath).toBe(
+      removeArrayIndexWithWildcard(nextStepId),
+    );
   }
 
   // Only test "BACK" linkage if we're not on the summary page
   if (stepId !== summaryPageStepId && previousStepId !== undefined) {
-    expect(flowSessionEngine.prevPath).toBe(previousStepId);
+    expect(flowSessionEngine.prevPath).toBe(
+      removeArrayIndexWithWildcard(previousStepId),
+    );
   }
 }
 
