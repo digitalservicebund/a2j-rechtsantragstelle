@@ -77,7 +77,10 @@ export const testCasesWithUserInputKlagenErstellenRechtlicherZusatz: FlowTestCas
         stepId: "/klage-erstellen/zusammenfassung/uebersicht",
       },
       {
-        stepId: "/klage-herunterladen/intro/start",
+        stepId: "/versand-vorbereiten/klage-herunterladen/start",
+      },
+      {
+        stepId: "/versand-vorbereiten/klage-versenden/anleitung",
       },
     ],
     klageErstellenRechtlicherZusatzWithAnwaltschaftYes: [
@@ -113,7 +116,10 @@ export const testCasesWithUserInputKlagenErstellenRechtlicherZusatz: FlowTestCas
         stepId: "/klage-erstellen/zusammenfassung/uebersicht",
       },
       {
-        stepId: "/klage-herunterladen/intro/start-anwaltschaft",
+        stepId: "/versand-vorbereiten/klage-herunterladen/start",
+      },
+      {
+        stepId: "/versand-vorbereiten/klage-versenden/anleitung-anwaltschaft",
       },
     ],
   };

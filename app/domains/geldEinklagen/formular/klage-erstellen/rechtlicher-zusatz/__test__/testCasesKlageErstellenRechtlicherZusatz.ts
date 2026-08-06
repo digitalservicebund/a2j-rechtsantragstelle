@@ -49,7 +49,6 @@ export const testCasesKlageErstellenRechtlicherZusatz = [
       "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
       "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
       "/klage-erstellen/zusammenfassung/uebersicht",
-      "/klage-herunterladen/intro/start",
     ],
   ],
   [
@@ -62,7 +61,6 @@ export const testCasesKlageErstellenRechtlicherZusatz = [
       "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
       "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
       "/klage-erstellen/zusammenfassung/uebersicht",
-      "/klage-herunterladen/intro/start",
     ],
   ],
   [
@@ -82,7 +80,6 @@ export const testCasesKlageErstellenRechtlicherZusatz = [
       "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
       "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
       "/klage-erstellen/zusammenfassung/uebersicht",
-      "/klage-herunterladen/intro/start-anwaltschaft",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;

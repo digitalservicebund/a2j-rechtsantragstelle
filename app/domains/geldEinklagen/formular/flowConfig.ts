@@ -112,17 +112,18 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "zusammenfassungUebersicht",
       },
     ],
-    zusammenfassungUebersicht: [
+    zusammenfassungUebersicht: "versandVorbereitenKlageHerunterladenStart",
+    versandVorbereitenKlageHerunterladenStart: [
       {
         guard: (context) => context.anwaltschaft === "yes",
-        target: "klageHerunterladenIntroStartAnwaltschaft",
+        target: "versandVorbereitenKlageVersendenAnleitungAnwaltschaft",
       },
       {
-        target: "klageHerunterladenIntroStart",
+        target: "versandVorbereitenKlageVersendenAnleitung",
       },
     ],
-    klageHerunterladenIntroStartAnwaltschaft: null,
-    klageHerunterladenIntroStart: null,
+    versandVorbereitenKlageVersendenAnleitung: null,
+    versandVorbereitenKlageVersendenAnleitungAnwaltschaft: null,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

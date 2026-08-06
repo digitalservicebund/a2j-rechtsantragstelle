@@ -122,7 +122,6 @@ export const klageErstellenXstateConfig = {
       states: {
         [steps.zusammenfassungUebersicht.relative]: {
           on: {
-            SUBMIT: "#klage-herunterladen.intro.start",
             BACK: steps.rechtlicherZusatzRechtlicheWuerdigung.absolute,
           },
         },

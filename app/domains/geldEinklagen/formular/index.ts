@@ -17,7 +17,6 @@ import {
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
-import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
 import {
   prefillZipCodeAndCity,
   updateIfUserNotPrefilledBeklagte,
@@ -50,7 +49,6 @@ export const geldEinklagenFormular = {
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,
-      "klage-herunterladen": klageHerunterladenXstateConfig,
     },
   },
   newEngineConfig: geldEinklagenFlowConfig,
