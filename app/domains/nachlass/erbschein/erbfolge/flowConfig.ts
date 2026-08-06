@@ -12,7 +12,19 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,
   initialStep: "start",
   transitions: {
-    start: "verstorbenePerson",
+    start: "testamentOderErbvertrag",
+    // A will or inheritance contract overrides the statutory succession this flow
+    // determines, so any "yes" exits to the "keine gesetzliche Erbfolge" page.
+    testamentOderErbvertrag: [
+      {
+        target: "keineGesetzlicheErbfolge",
+        guard: (d) =>
+          d.testamentArt === "handwritten" ||
+          d.testamentArt === "notarized" ||
+          d.testamentArt === "erbvertrag",
+      },
+      { target: "verstorbenePerson" },
+    ],
     verstorbenePerson: "familienstand",
     familienstand: [
       { target: "ehepartner", guard: (d) => d.familienstand === "verheiratet" },
@@ -61,7 +73,9 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
       },
       {
         target: "grosseltern",
-        guard: (d) => !!d.ehepartnerName && hasNoFirstOrSecondOrderHeirs(d),
+        guard: (d) =>
+          !!(d.ehepartnerVorname || d.ehepartnerNachname) &&
+          hasNoFirstOrSecondOrderHeirs(d),
       },
       {
         target: "nichtErmitteltWeitereOrdnungen",
@@ -81,5 +95,6 @@ export const nachlassErbfolgeStaticFlow = compileFlow({
     nichtErmitteltWeitereGenerationen: null,
     nichtErmitteltWeitereOrdnungen: null,
     kinderFehlen: null,
+    keineGesetzlicheErbfolge: null,
   },
 });

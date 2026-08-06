@@ -17,4 +17,14 @@ describe("addArrayIndexToPathUrl", () => {
       "/persoenliche-daten/weitere-personen/person/2/daten",
     );
   });
+
+  it("should return the correct path given the index of the array and replace the array wildcard", () => {
+    const pathWithoutSlashes =
+      "/persoenliche-daten/weitere-personen/person/#/daten";
+    const actual = addArrayIndexToPathUrl(pathWithoutSlashes, 2);
+
+    expect(actual).toEqual(
+      "/persoenliche-daten/weitere-personen/person/2/daten",
+    );
+  });
 });

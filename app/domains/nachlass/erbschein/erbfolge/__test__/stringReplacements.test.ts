@@ -92,6 +92,37 @@ describe("nachlassErbfolgeStringReplacements", () => {
     expect(result.hasMultipleHeirs).toBe(false);
   });
 
+  it("exposes hasTestament for a will (handwritten or notarial), not for an Erbvertrag", () => {
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "handwritten",
+      } as Context).hasTestament,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "notarized",
+      } as Context).hasTestament,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "erbvertrag",
+      } as Context).hasTestament,
+    ).toBe(false);
+  });
+
+  it("exposes hasErbvertrag only for an Erbvertrag", () => {
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "erbvertrag",
+      } as Context).hasErbvertrag,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "handwritten",
+      } as Context).hasErbvertrag,
+    ).toBe(false);
+  });
+
   it("escapes HTML in names for the raw-HTML placeholder", () => {
     const result = nachlassErbfolgeStringReplacements({
       verstorbeneVorname: "<b>Opa</b> & Co",

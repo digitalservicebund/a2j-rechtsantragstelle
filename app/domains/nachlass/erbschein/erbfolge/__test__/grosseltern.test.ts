@@ -13,7 +13,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
   it("is shown when a spouse exists and no 1st/2nd order heirs were found", () => {
     const session = createFlowSession(
       nachlassErbfolgeStaticFlow,
-      { ...baseUserData, ehepartnerName: "Partner" } as UserData,
+      { ...baseUserData, ehepartnerVorname: "Partner" } as UserData,
       "/elternteile",
     );
 
@@ -37,7 +37,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
       nachlassErbfolgeStaticFlow,
       {
         ...baseUserData,
-        ehepartnerName: "Partner",
+        ehepartnerVorname: "Partner",
         grosselternLeben: "yes",
       } as UserData,
       "/grosseltern",
@@ -53,7 +53,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
       nachlassErbfolgeStaticFlow,
       {
         ...baseUserData,
-        ehepartnerName: "Partner",
+        ehepartnerVorname: "Partner",
         grosselternLeben: "no",
       } as UserData,
       "/grosseltern",

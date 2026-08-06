@@ -30,7 +30,7 @@ export const extractFieldItemsFromInlineItems = (
       ? getNestedValue(userData, fieldName)
       : userData[fieldName];
 
-    return { fieldName, fieldValue };
+    return { fieldName: field, fieldValue };
   });
 
 export const getItemValueBox = (

@@ -79,6 +79,7 @@ export function nachlassErbfolgeStringReplacements(
     verstorbeneVorname?: string;
     verstorbeneNachname?: string;
     hatteKinder?: string;
+    testamentArt?: string;
   };
 
   return {
@@ -96,5 +97,10 @@ export function nachlassErbfolgeStringReplacements(
     hasMultipleHeirs:
       calculateInheritance({ ...data, spouse: spouseFromUserData(data) })
         .length > 1,
+    // Gate content on the "keine gesetzliche Erbfolge" exit page: a will of any
+    // kind vs. an inheritance contract.
+    hasTestament:
+      data.testamentArt === "handwritten" || data.testamentArt === "notarized",
+    hasErbvertrag: data.testamentArt === "erbvertrag",
   };
 }

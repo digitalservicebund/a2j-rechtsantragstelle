@@ -43,12 +43,12 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-type ExtractNodeSchema<Node> = Node extends { pageSchema: infer S }
-  ? InferSchema<S>
-  : Node extends {
-        arraySummary: { name: infer N extends string; schema: infer S };
-      }
-    ? { [Key in N]: InferSchema<S> }
+type ExtractNodeSchema<Node> = Node extends {
+  arraySummary: { name: infer N extends string; schema: infer S };
+}
+  ? { [Key in N]: InferSchema<S> }
+  : Node extends { pageSchema: infer S }
+    ? InferSchema<S>
     : {};
 
 export type InferredUserData<C extends PageConfigMap> = Partial<
