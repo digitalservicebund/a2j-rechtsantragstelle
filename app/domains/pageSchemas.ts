@@ -101,7 +101,11 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }
 
-  if (arrayIndexes.length > 0) {
+  if (
+    arrayIndexes.length > 0 &&
+    // TODO - Remove this condition after migrating all flows to the new flow engine
+    !["/geld-einklagen/formular"].includes(flowId)
+  ) {
     // An index in the URL tells us we are on a page that belongs to an array
     // To return its pageConfig, we need to find the parent first, which should be one or two levels above
     const stepPathParts = stepIdWithoutLeadingSlash.split("/");

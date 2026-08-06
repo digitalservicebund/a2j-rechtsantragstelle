@@ -37,6 +37,19 @@ const calcStatus = (
   };
 };
 
+// Number of clean path segments preceding the first array wildcard ("#") in
+// a stepId. A page flagged with shouldCollapseIntoParentNavItem should not
+// introduce any section deeper than this boundary, so the whole array-item
+// subtree collapses into the section that precedes the wildcard instead of
+// creating its own nested sections.
+const getSegmentsBeforeFirstWildcard = (id: string) => {
+  const rawParts = id.split("/").filter((p) => p !== "");
+  const wildcardIndex = rawParts.indexOf("#");
+  // No wildcard: the boundary should still exclude the leaf's own
+  // containing folder, mirroring the wildcard case.
+  return wildcardIndex === -1 ? rawParts.length - 1 : wildcardIndex;
+};
+
 export const buildStatusTree = <C extends PageConfigMap>(
   config: C,
   { reachableSet }: SimulationResult,
@@ -46,8 +59,11 @@ export const buildStatusTree = <C extends PageConfigMap>(
     config,
     ({ stepId: path, shouldCollapseIntoParentNavItem }, key) => {
       const prefixes = getPrefixes(path);
-      if (prefixes.length > 1 && shouldCollapseIntoParentNavItem) {
-        return prefixes.slice(0, -1).map((prefix) => ({ prefix, key: key }));
+      if (shouldCollapseIntoParentNavItem) {
+        const boundary = getSegmentsBeforeFirstWildcard(path);
+        return prefixes
+          .filter((prefix) => prefix.split("/").length < boundary)
+          .map((prefix) => ({ prefix, key: key }));
       }
       return prefixes.map((prefix) => ({ prefix, key: key }));
     },

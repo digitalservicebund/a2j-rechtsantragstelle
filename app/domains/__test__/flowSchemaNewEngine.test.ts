@@ -2,7 +2,7 @@ import z from "zod";
 import merge from "lodash/merge";
 import { getPageSchema } from "../pageSchemas";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
-import { removeArrayIndex } from "~/util/array";
+import { removeArrayIndexWithWildcard } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
@@ -106,12 +106,16 @@ function testArrayLinkPages(
   if (addArrayItemEvent) {
     expect(flowSessionEngine.nextArrayPath).toBe(nextStepId);
   } else {
-    expect(flowSessionEngine.nextPath).toBe(removeArrayIndex(nextStepId));
+    expect(flowSessionEngine.nextPath).toBe(
+      removeArrayIndexWithWildcard(nextStepId),
+    );
   }
 
   // Only test "BACK" linkage if we're not on the summary page
   if (stepId !== summaryPageStepId && previousStepId !== undefined) {
-    expect(flowSessionEngine.prevPath).toBe(removeArrayIndex(previousStepId));
+    expect(flowSessionEngine.prevPath).toBe(
+      removeArrayIndexWithWildcard(previousStepId),
+    );
   }
 }
 
@@ -135,7 +139,9 @@ function runTestcases<T extends UserData>(
           idx,
         ) => {
           const currentUrl = flowId + stepId;
-          const pageSchema = getPageSchema(currentUrl);
+          const pageSchema = getPageSchema(
+            removeArrayIndexWithWildcard(currentUrl),
+          );
 
           // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
           const justExitedArray =
@@ -168,7 +174,7 @@ function runTestcases<T extends UserData>(
                 typeof createFlowSession
               >[1]),
             },
-            stepId,
+            removeArrayIndexWithWildcard(stepId), // we need to remove the array index here, because the flowSessionEngine expects the stepId without array indexes
           );
 
           // Given the current data and url we expect the next and previous url
@@ -180,7 +186,7 @@ function runTestcases<T extends UserData>(
             testArrayLinkPages(
               flowSessionEngine,
               stepId,
-              nextStepId,
+              removeArrayIndexWithWildcard(nextStepId),
               previousStepId,
               addArrayItemEvent,
               summaryPageStepId,
@@ -196,9 +202,11 @@ function runTestcases<T extends UserData>(
             }
           }
 
-          allVisitedSteps[flowId].visitedSteps.add(removeArrayIndex(stepId));
           allVisitedSteps[flowId].visitedSteps.add(
-            removeArrayIndex(nextStepId),
+            removeArrayIndexWithWildcard(stepId),
+          );
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndexWithWildcard(nextStepId),
           );
         },
       );
