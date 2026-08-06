@@ -31,7 +31,7 @@ export default [
       newEngineVorabcheckRoutes("NAGF"),
     ),
     ...prefix("erbschein/wegweiser", vorabcheckRoutes("NESW")),
-    ...prefix("erbschein/nachlassgericht", vorabcheckRoutes("NESN")),
+    ...prefix("erbschein/nachlassgericht", newEngineVorabcheckRoutes("NESN")),
     ...prefix("erbschein/erbfolge", [
       route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
         id: "nachlassErbfolgeResult",
