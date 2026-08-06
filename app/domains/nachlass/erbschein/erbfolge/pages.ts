@@ -18,6 +18,12 @@ export type Gueterstand = z.infer<typeof gueterstandSchema>;
 
 const topLevelPages = {
   start: { stepId: "/start" },
+  testamentOderErbvertrag: {
+    stepId: "/testamentOderErbvertrag",
+    pageSchema: {
+      testamentArt: z.enum(["none", "handwritten", "notarized", "erbvertrag"]),
+    },
+  },
   verstorbenePerson: {
     stepId: "/verstorbenePerson",
     pageSchema: {
@@ -89,6 +95,9 @@ const topLevelPages = {
   },
   kinderFehlen: {
     stepId: "/kinder-fehlen",
+  },
+  keineGesetzlicheErbfolge: {
+    stepId: "/ergebnis/keine-gesetzliche-erbfolge",
   },
 } as const;
 
