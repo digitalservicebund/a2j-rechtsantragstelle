@@ -20,17 +20,6 @@ const getPrefixes = (id: string, includeFlat: boolean = true) => {
   return parts.slice(0, -1).map((_, i) => parts.slice(0, i + 1).join("/"));
 };
 
-// Number of clean path segments preceding the first array wildcard ("#") in
-// a stepId. A page flagged with shouldCollapseIntoParentNavItem should not
-// introduce any section deeper than this boundary, so the whole array-item
-// subtree collapses into the section that precedes the wildcard instead of
-// creating its own nested sections.
-const getSegmentsBeforeFirstWildcard = (id: string) => {
-  const rawParts = id.split("/").filter((p) => p !== "");
-  const wildcardIndex = rawParts.indexOf("#");
-  return wildcardIndex === -1 ? rawParts.length - 1 : wildcardIndex;
-};
-
 const calcStatus = (
   keys: Set<string>,
   reachableSet: Set<string>,
