@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import TileRadio from "../TileRadio";
 
 const COMPONENT_NAME = "TileRadio";
@@ -7,7 +7,6 @@ const mockErrorMessage = "error-message";
 const mockProps = {
   name: COMPONENT_NAME,
   value: "any-value",
-  onClick: vi.fn(),
   title: "Test Title",
   description: "Test Description",
   tagDescription: "New",
@@ -51,26 +50,10 @@ describe("TileRadio", () => {
     expect(queryByRole("radio")).toBeInTheDocument();
   });
 
-  it("check if the click works", () => {
-    const handleClick = vi.fn();
-
-    render(<TileRadio {...mockProps} onClick={handleClick} />);
-    fireEvent.click(screen.getByRole("radio"));
-
-    expect(handleClick).toHaveBeenCalled();
-  });
-
   it("forwards ref to input element", () => {
     const ref = { current: null };
 
-    render(
-      <TileRadio
-        name={COMPONENT_NAME}
-        value="any-value"
-        onClick={vi.fn()}
-        ref={ref}
-      />,
-    );
+    render(<TileRadio name={COMPONENT_NAME} value="any-value" ref={ref} />);
 
     const input = screen.getByRole("radio");
     expect(ref.current).toBe(input);
