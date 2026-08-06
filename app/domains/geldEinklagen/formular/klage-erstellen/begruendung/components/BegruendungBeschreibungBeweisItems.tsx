@@ -1,11 +1,11 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
 import { Icon } from "~/components/common/Icon";
-import { type IconName } from "~/components/common/utils";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
+import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
 
 type Props = {
@@ -15,44 +15,26 @@ type Props = {
   itemIndexAbschnitte: number;
 };
 
-type BeweisItemRowProps = {
-  icon: IconName;
-  editUrl: string;
-  onDelete: () => void;
-  children: React.ReactNode;
-};
-
-const BeweisItemRow = ({
-  icon,
-  editUrl,
-  onDelete,
-  children,
-}: BeweisItemRowProps) => (
-  <div className="flex md:flex-row flex-col gap-kern-space-default py-kern-space-default border-b border-kern-neutral-200">
-    <div className="flex md:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0">
-      <Icon name={icon} className="shrink-0" />
-      {children}
-    </div>
-    <div className="flex items-center gap-kern-space-small shrink-0">
-      <Button
-        href={editUrl}
-        look="secondary"
-        aria-label={translations.arraySummary.arrayEditButtonLabel.de}
-        iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
-      />
-      <Button
-        type="button"
-        look="secondary"
-        className="border-kern-feedback-danger!"
-        aria-label={translations.arraySummary.arrayDeleteButtonLabel.de}
-        iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
-        onClick={onDelete}
-      />
-    </div>
-  </div>
+const renderItemButtons = (editUrl: string, onDelete: () => void) => (
+  <>
+    <Button
+      href={editUrl}
+      look="secondary"
+      aria-label={translations.arraySummary.arrayEditButtonLabel.de}
+      iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
+    />
+    <Button
+      type="button"
+      look="secondary"
+      className="border-kern-feedback-danger!"
+      aria-label={translations.arraySummary.arrayDeleteButtonLabel.de}
+      iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
+      onClick={onDelete}
+    />
+  </>
 );
 
-const renderPersonItem = (
+export const renderPersonItem = (
   person: Exclude<
     BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"],
     undefined
@@ -119,18 +101,19 @@ export const BegruendungBeschreibungBeweisItems = ({
             <BeweisItemRow
               key={editDocumentUrl}
               icon="draft"
-              editUrl={editDocumentUrl}
-              onDelete={() =>
+              className="border-b border-kern-border-default"
+              content={
+                <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
+                  {dokument.beschreibung}
+                </span>
+              }
+              buttons={renderItemButtons(editDocumentUrl, () =>
                 onAbschnittDocumentDelete(
                   `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
                   dokumentIndex,
-                )
-              }
-            >
-              <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
-                {dokument.beschreibung}
-              </span>
-            </BeweisItemRow>
+                ),
+              )}
+            />
           );
         })}
 
@@ -143,16 +126,15 @@ export const BegruendungBeschreibungBeweisItems = ({
             <BeweisItemRow
               key={editPersonUrl}
               icon="local-library"
-              editUrl={editPersonUrl}
-              onDelete={() =>
+              className="border-b border-kern-border-default"
+              content={renderPersonItem(person)}
+              buttons={renderItemButtons(editPersonUrl, () =>
                 onAbschnittPersonDelete(
                   `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
                   personIndex,
-                )
-              }
-            >
-              {renderPersonItem(person)}
-            </BeweisItemRow>
+                ),
+              )}
+            />
           );
         })}
     </div>

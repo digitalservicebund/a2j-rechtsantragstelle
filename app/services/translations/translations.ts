@@ -540,5 +540,11 @@ export const translations = {
     begruendungBeschreibungMaximumReachedContentNotice: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 50 Abschnitte hinzufügen.",
     },
+    summaryOverviewNoData: {
+      de: "Keine Angaben",
+    },
+    summaryOverviewBoxBegruendungBeschreibungBeweiseNoDataNotice: {
+      de: "Prüfen Sie, ob Sie tatsächlich keine Beweise zu diesem Abschnitt haben oder nennen möchten",
+    },
   },
 } satisfies TranslationRecord;
