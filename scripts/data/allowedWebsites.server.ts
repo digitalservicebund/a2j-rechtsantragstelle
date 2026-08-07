@@ -39,7 +39,6 @@ export const allowedWebsites = [
   "https://transport.ec.europa.eu",
   "www.schlichtung-reise-und-verkehr.de",
   "https://www.personalausweisportal.de",
-  "https://www.mjp.justiz.de",
   "https://europa.eu",
   "https://www.brak.de",
   "https://formulare.bfdi.bund.de",
