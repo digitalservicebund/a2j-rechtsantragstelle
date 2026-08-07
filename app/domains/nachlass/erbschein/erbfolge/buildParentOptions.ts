@@ -1,7 +1,7 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { translations } from "~/services/translations/translations";
-import { personName } from "./personName";
+import { personName } from "../shared/personName";
 
 export const BOTH_PARENTS_VALUE = "both";
 

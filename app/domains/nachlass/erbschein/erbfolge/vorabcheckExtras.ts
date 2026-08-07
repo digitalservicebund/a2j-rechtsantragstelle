@@ -15,7 +15,7 @@ import {
   parentSelectFormElement,
   resolveParentOptions,
 } from "./buildParentOptions";
-import { personName } from "./personName";
+import { personName } from "../shared/personName";
 
 type ErbfolgeArraySummaryData = {
   category: string;

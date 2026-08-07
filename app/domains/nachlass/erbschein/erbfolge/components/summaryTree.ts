@@ -1,5 +1,5 @@
 import { sanitizeHtml } from "~/services/security/sanitizeHtml";
-import { personName } from "../personName";
+import { personName } from "../../shared/personName";
 import type { DescendantEntry, ItemWithPath, KindItem } from "./types";
 
 export const deceasedParentsNoticeTitle =
