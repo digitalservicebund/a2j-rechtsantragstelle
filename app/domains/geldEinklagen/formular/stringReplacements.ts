@@ -3,6 +3,7 @@ import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
+import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.gegenWenBeklagen === "person" };
@@ -149,4 +150,9 @@ export const hasBeklagtePersonStatePrefilled = (
     hasBeklagtePersonStatePrefilled:
       context.beklagteStatePrefilled === "prefilled",
   };
+};
+
+export const getArrayIndex = (context: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  return arrayIndex === undefined ? {} : { arrayIndex: String(arrayIndex + 1) };
 };
