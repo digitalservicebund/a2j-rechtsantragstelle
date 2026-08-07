@@ -24,20 +24,11 @@ beforeEach(() => {
 });
 
 describe("createLegalAssessment", () => {
-  it("should add III title when evidences section is shown", () => {
+  it("should add title", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
-
-    expect(mockDoc.text).toHaveBeenCalledWith("III. Rechtliche Würdigung");
-  });
-
-  it("should add II title when evidences section is hidden", () => {
-    const mockStruct = mockPdfKitDocumentStructure();
-    const mockDoc = mockPdfKitDocument(mockStruct);
-
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, false);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith("II. Rechtliche Würdigung");
   });
@@ -46,7 +37,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(addRechtlicheWuerdigung).toHaveBeenCalledTimes(1);
   });
@@ -55,7 +46,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(addDisputeResolution).toHaveBeenCalledTimes(1);
   });
@@ -64,7 +55,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(addAdvanceCourtText).toHaveBeenCalledTimes(1);
   });
@@ -73,7 +64,7 @@ describe("createLegalAssessment", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    createLegalAssessment(mockDoc, mockStruct, userDataMock, true);
+    createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
     expect(addSignature).toHaveBeenCalledTimes(1);
   });

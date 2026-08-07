@@ -11,21 +11,17 @@ import { getHeightOfString } from "~/services/pdf/getHeightOfString";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 
-const getLegalAssessmentTitle = (hasEvidencesOnFacts: boolean) =>
-  `${hasEvidencesOnFacts ? "III" : "II"}. Rechtliche Würdigung`;
+const LEGAL_ASSESSMENT_TITLE_TEXT = "II. Rechtliche Würdigung";
 
 export const createLegalAssessment = (
   doc: typeof PDFDocument,
   reasonSect: PDFKit.PDFStructureElement,
   userData: GeldEinklagenFormularUserData,
-  hasEvidencesOnFacts: boolean,
 ) => {
   const legalAssessmentSect = doc.struct("Sect");
 
-  const legalAssessmentTitle = getLegalAssessmentTitle(hasEvidencesOnFacts);
-
   const evidencesOnFactsTextHeight = getHeightOfString(
-    legalAssessmentTitle,
+    LEGAL_ASSESSMENT_TITLE_TEXT,
     doc,
     PDF_WIDTH_SEIZE,
   );
@@ -38,7 +34,10 @@ export const createLegalAssessment = (
 
   legalAssessmentSect.add(
     doc.struct("H3", {}, () => {
-      doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(legalAssessmentTitle);
+      doc
+        .fontSize(14)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(LEGAL_ASSESSMENT_TITLE_TEXT);
       doc.moveDown(1);
     }),
   );
