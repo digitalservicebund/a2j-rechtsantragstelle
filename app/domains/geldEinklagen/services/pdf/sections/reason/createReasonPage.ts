@@ -1,7 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addFactsOfCases } from "./addFactsOfCases";
-import { addEvidencesOnFacts } from "./addEvidencesOnFacts";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
@@ -25,7 +24,6 @@ export const createReasonPage = (
 
   documentStruct.add(reasonSect);
 
-  addFactsOfCases(doc, reasonSect, "");
-  addEvidencesOnFacts(doc, reasonSect, "");
+  addFactsOfCases(doc, reasonSect, userData);
   createLegalAssessment(doc, reasonSect, userData);
 };

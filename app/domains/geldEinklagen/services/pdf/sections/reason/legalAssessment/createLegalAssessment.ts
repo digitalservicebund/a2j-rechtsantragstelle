@@ -2,6 +2,7 @@ import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
+  PDF_MARGIN_HORIZONTAL,
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addAdvanceCourtText } from "./addAdvanceCourtText";
@@ -37,7 +38,7 @@ export const createLegalAssessment = (
       doc
         .fontSize(14)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(LEGAL_ASSESSMENT_TITLE_TEXT);
+        .text(LEGAL_ASSESSMENT_TITLE_TEXT, PDF_MARGIN_HORIZONTAL);
       doc.moveDown(1);
     }),
   );
