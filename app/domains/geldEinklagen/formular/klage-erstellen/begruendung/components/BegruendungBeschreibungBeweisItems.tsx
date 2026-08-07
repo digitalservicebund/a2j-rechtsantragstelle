@@ -7,6 +7,7 @@ import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUeber
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -52,12 +53,12 @@ export const renderPersonItem = (
           {person.strasse} {person.hausnummer}, {person.plz} {person.ort},{" "}
           {person.land}
         </span>
-        {person.telefonnummer.length > 0 && (
+        {objectKeysNonEmpty(person, ["telefonnummer"]) && (
           <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
             {person.telefonnummer}
           </span>
         )}
-        {person.email.length > 0 && (
+        {objectKeysNonEmpty(person, ["email"]) && (
           <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
             {person.email}
           </span>
