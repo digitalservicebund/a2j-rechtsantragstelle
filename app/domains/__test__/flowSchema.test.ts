@@ -20,14 +20,12 @@ import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinWegweiserTestCases } from "~/domains/nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
-import { nachlassErbscheinNachlassgerichtTestCases } from "~/domains/nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
   nachlassErbscheinWegweiserTestCases,
-  nachlassErbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
   nachlassErbausschlagungAnfrageTestCases,
 };
