@@ -83,7 +83,19 @@ export const buildStatusTree = <C extends PageConfigMap>(
   Object.keys(prefixMap)
     .sort((a, b) => a.split("/").length - b.split("/").length)
     .forEach((prefix) => {
-      const status = calcStatus(prefixMap[prefix], reachableSet, doneNodeKeys);
+      // Temporary solution, we need to discuss it
+      const removeReachableSet = new Set(
+        Array.from(reachableSet).filter(
+          (node) =>
+            node !== "begruendungBeschreibungAbschnitteBeweisDocument" &&
+            node !== "begruendungBeschreibungAbschnitteBeweisPersonAuswahl",
+        ),
+      );
+      const status = calcStatus(
+        prefixMap[prefix],
+        removeReachableSet,
+        doneNodeKeys,
+      );
 
       const lodashPath = prefix
         .split("/")

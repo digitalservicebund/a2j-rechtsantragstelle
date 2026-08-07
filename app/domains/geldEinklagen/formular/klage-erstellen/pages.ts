@@ -18,6 +18,7 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { begruendungBeschreibungUebersichtSchema } from "./begruendung/begruendungBeschreibungUebersichtSchema";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -32,6 +33,46 @@ const sharedBeklagteAddress = {
   beklagteOrt: stringRequiredSchema,
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
+
+const beweiseDokumentenArray = z.array(
+  z.object({
+    beschreibung: stringRequiredSchema,
+  }),
+);
+
+const beweisePersonenSchema = z.object({
+  anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
+  title: schemaOrEmptyString(stringRequiredSchema),
+  vorname: stringRequiredSchema,
+  nachname: stringRequiredSchema,
+  strasse: stringRequiredSchema,
+  hausnummer: germanHouseNumberSchema,
+  plz: stringRequiredSchema.pipe(postcodeSchema),
+  ort: stringRequiredSchema,
+  land: stringRequiredSchema,
+  telefonnummer: schemaOrEmptyString(phoneNumberSchema),
+  email: schemaOrEmptyString(emailSchema),
+});
+
+const beweisePersonenArray = z.array(
+  z.union([
+    z.object({
+      personAuswahl: z.enum(["beklagte", "klagende"]),
+    }),
+    z.object({
+      personAuswahl: z.literal("anotherPerson"),
+      ...beweisePersonenSchema.shape,
+    }),
+  ]),
+);
+
+const abschnitteArray = z.array(
+  z.object({
+    beschreibung: stringRequiredMaxSchema({ max: 10000 }),
+    dokumenten: beweiseDokumentenArray.optional(),
+    personen: beweisePersonenArray.optional(),
+  }),
+);
 
 export const geldEinklagenKlageErstellenPages = {
   klageErstellenIntroStart: {
@@ -129,27 +170,70 @@ export const geldEinklagenKlageErstellenPages = {
       }).meta({ description: formatCurrencyZodDescription }),
     },
   },
-  sachverhaltBegruendung: {
-    stepId: "klage-erstellen/sachverhalt/begruendung",
+  begruendungEinfuehrungStart: {
+    stepId: "klage-erstellen/begruendung/einfuehrung/start",
+  },
+  begruendungBeschreibungUebersicht: {
+    stepId: "klage-erstellen/begruendung/beschreibung/uebersicht",
     pageSchema: {
-      sachverhaltBegruendung: stringRequiredMaxSchema({
-        max: TEXTAREA_MAX_LENGTH,
-      }),
+      begruendungBeschreibungUebersicht:
+        begruendungBeschreibungUebersichtSchema,
+    },
+    arraySummary: {
+      name: "abschnitte",
+      schema: abschnitteArray,
+      isArrayRelevant: () => true,
     },
   },
-  beweiseAngebot: {
-    stepId: "klage-erstellen/beweise/angebot",
+  begruendungBeschreibungAbschnitte: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
-      beweiseAngebot: YesNoAnswer,
+      "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
     },
   },
-  beweiseBeschreibung: {
-    stepId: "klage-erstellen/beweise/beschreibung",
+  begruendungBeschreibungAbschnitteBeweisDocument: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten",
     pageSchema: {
-      beweiseBeschreibung: stringRequiredMaxSchema({
-        max: TEXTAREA_MAX_LENGTH,
-      }),
+      "abschnitte#dokumenten#beschreibung":
+        beweiseDokumentenArray.element.shape.beschreibung,
     },
+  },
+  begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl",
+    pageSchema: {
+      "abschnitte#personen#personAuswahl": z.enum([
+        "klagende",
+        "beklagte",
+        "anotherPerson",
+      ]),
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisPerson: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten",
+    pageSchema: {
+      "abschnitte#personen#anrede": beweisePersonenSchema.shape.anrede,
+      "abschnitte#personen#title": beweisePersonenSchema.shape.title,
+      "abschnitte#personen#vorname": beweisePersonenSchema.shape.vorname,
+      "abschnitte#personen#nachname": beweisePersonenSchema.shape.nachname,
+      "abschnitte#personen#strasse": beweisePersonenSchema.shape.strasse,
+      "abschnitte#personen#hausnummer": beweisePersonenSchema.shape.hausnummer,
+      "abschnitte#personen#plz": beweisePersonenSchema.shape.plz,
+      "abschnitte#personen#ort": beweisePersonenSchema.shape.ort,
+      "abschnitte#personen#land": beweisePersonenSchema.shape.land,
+      "abschnitte#personen#telefonnummer":
+        beweisePersonenSchema.shape.telefonnummer,
+      "abschnitte#personen#email": beweisePersonenSchema.shape.email,
+    },
+  },
+  begruendungBeschreibungWarnung: {
+    stepId: "klage-erstellen/begruendung/beschreibung/warnung",
   },
   prozessfuehrungAnwaltskosten: {
     stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",

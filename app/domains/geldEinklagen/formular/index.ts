@@ -14,10 +14,10 @@ import {
   hasAnwaltschaft,
   hasKlagendePersonStatePrefilled,
   hasBeklagtePersonStatePrefilled,
+  getArrayIndex,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
-import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
 import {
   prefillZipCodeAndCity,
   updateIfUserNotPrefilledBeklagte,
@@ -43,6 +43,7 @@ export const geldEinklagenFormular = {
     ...hasAnwaltschaft(context),
     ...hasKlagendePersonStatePrefilled(context),
     ...hasBeklagtePersonStatePrefilled(context),
+    ...getArrayIndex(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
@@ -50,7 +51,6 @@ export const geldEinklagenFormular = {
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,
-      "klage-herunterladen": klageHerunterladenXstateConfig,
     },
   },
   newEngineConfig: geldEinklagenFlowConfig,

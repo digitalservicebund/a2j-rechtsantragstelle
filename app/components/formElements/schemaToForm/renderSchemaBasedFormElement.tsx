@@ -24,6 +24,8 @@ import {
   type StrapiAutoSuggestComponent,
 } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
+import { begruendungBeschreibungUebersichtZodDescription } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/begruendungBeschreibungUebersichtSchema";
+import BegruendungBeschreibungUebersicht from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -33,6 +35,7 @@ const specialComponentDescriptions = [
   numberIncrementZodDescription,
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
+  begruendungBeschreibungUebersichtZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -66,103 +69,109 @@ export const renderSpecialMetaDescriptions = (
   matchingElement?: StrapiFormComponent,
   dynamicOptions?: DynamicOptions,
 ) => {
-  if (description === filesUploadZodDescription) {
-    const filesUploadElement = matchingElement as z.infer<
-      typeof StrapiFilesUploadComponentSchema
-    >;
-    return (
-      <FilesUpload
-        key={fieldName}
-        name={fieldName}
-        title={filesUploadElement.title}
-        description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices?.map(
-          (inlineNotice) => ({
-            ...inlineNotice,
-            look: mapLookValue(inlineNotice.look),
-          }),
-        )}
-        errorMessages={filesUploadElement.errorMessages}
-      />
-    );
-  }
-
-  if (description === hiddenInputZodDescription) {
-    return <HiddenInput key={fieldName} name={fieldName} />;
-  }
-
-  if (description === ibanZodDescription) {
-    return (
-      <IbanInput
-        key={fieldName}
-        name={fieldName}
-        controlledFieldConfig={controlledFieldConfig}
-        {...matchingElement}
-      />
-    );
-  }
-
-  if (description === phoneNumberZodDescription) {
-    return (
-      <TelephoneInput key={fieldName} name={fieldName} {...matchingElement} />
-    );
-  }
-
-  if (description === numberIncrementZodDescription) {
-    const { minValue, maxValue } = getMinMaxValueByFieldSchema(fieldSchema);
-
-    return (
-      <NumberIncrement
-        key={fieldName}
-        name={fieldName}
-        min={minValue}
-        max={maxValue}
-        {...matchingElement}
-      />
-    );
-  }
-
-  // MVP dynamic select implementation. Used currently only in Nachlass Erbfolge
-  if (description === dynamicSelectZodDescription) {
-    const options = dynamicOptions?.[fieldName] ?? [];
-    const label =
-      matchingElement && "label" in matchingElement
-        ? matchingElement.label
-        : undefined;
-    const errorMessages =
-      matchingElement && "errorMessages" in matchingElement
-        ? matchingElement.errorMessages
-        : undefined;
-
-    return (
-      <Select
-        key={fieldName}
-        name={fieldName}
-        options={options}
-        label={label}
-        errorMessages={errorMessages}
-      />
-    );
-  }
-
-  if (description === autoSuggestZodDescription) {
-    const autoSuggestElement = matchingElement as StrapiAutoSuggestComponent;
-    const dataListType = fieldSchema.meta()?.type as DataListType;
-
-    if (!dataListType) {
-      throw new Error(
-        `AutoSuggestInput field ${fieldName} is missing a dataList type in the Zod schema.`,
+  switch (description) {
+    case filesUploadZodDescription: {
+      const filesUploadElement = matchingElement as z.infer<
+        typeof StrapiFilesUploadComponentSchema
+      >;
+      return (
+        <FilesUpload
+          key={fieldName}
+          name={fieldName}
+          title={filesUploadElement.title}
+          description={filesUploadElement.description}
+          inlineNotices={filesUploadElement.inlineNotices?.map(
+            (inlineNotice) => ({
+              ...inlineNotice,
+              look: mapLookValue(inlineNotice.look),
+            }),
+          )}
+          errorMessages={filesUploadElement.errorMessages}
+        />
       );
     }
 
-    return (
-      <AutoSuggestInput
-        {...autoSuggestElement}
-        name={fieldName}
-        dataList={dataListType}
-        key={fieldName}
-      />
-    );
+    case hiddenInputZodDescription: {
+      return <HiddenInput key={fieldName} name={fieldName} />;
+    }
+
+    case ibanZodDescription: {
+      return (
+        <IbanInput
+          key={fieldName}
+          name={fieldName}
+          controlledFieldConfig={controlledFieldConfig}
+          {...matchingElement}
+        />
+      );
+    }
+
+    case phoneNumberZodDescription: {
+      return (
+        <TelephoneInput key={fieldName} name={fieldName} {...matchingElement} />
+      );
+    }
+
+    case numberIncrementZodDescription: {
+      const { minValue, maxValue } = getMinMaxValueByFieldSchema(fieldSchema);
+
+      return (
+        <NumberIncrement
+          key={fieldName}
+          name={fieldName}
+          min={minValue}
+          max={maxValue}
+          {...matchingElement}
+        />
+      );
+    }
+
+    // MVP dynamic select implementation. Used currently only in Nachlass Erbfolge
+    case dynamicSelectZodDescription: {
+      const options = dynamicOptions?.[fieldName] ?? [];
+      const label =
+        matchingElement && "label" in matchingElement
+          ? matchingElement.label
+          : undefined;
+      const errorMessages =
+        matchingElement && "errorMessages" in matchingElement
+          ? matchingElement.errorMessages
+          : undefined;
+
+      return (
+        <Select
+          key={fieldName}
+          name={fieldName}
+          options={options}
+          label={label}
+          errorMessages={errorMessages}
+        />
+      );
+    }
+
+    case autoSuggestZodDescription: {
+      const autoSuggestElement = matchingElement as StrapiAutoSuggestComponent;
+      const dataListType = fieldSchema.meta()?.type as DataListType;
+
+      if (!dataListType) {
+        throw new Error(
+          `AutoSuggestInput field ${fieldName} is missing a dataList type in the Zod schema.`,
+        );
+      }
+
+      return (
+        <AutoSuggestInput
+          {...autoSuggestElement}
+          name={fieldName}
+          dataList={dataListType}
+          key={fieldName}
+        />
+      );
+    }
+
+    case begruendungBeschreibungUebersichtZodDescription: {
+      return <BegruendungBeschreibungUebersicht key={fieldName} />;
+    }
   }
 };
 

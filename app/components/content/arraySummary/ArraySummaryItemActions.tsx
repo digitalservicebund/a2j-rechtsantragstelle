@@ -13,7 +13,7 @@ type Props = {
   readonly heading?: HeadingProps;
 };
 
-const DELETE_URL_ENDPOINT = "/action/delete-array-item";
+export const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
 const ArraySummaryItemActions = ({
   itemIndex,
