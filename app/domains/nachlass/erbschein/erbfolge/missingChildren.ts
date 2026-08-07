@@ -1,5 +1,5 @@
 import { BOTH_PARENTS_VALUE } from "./buildParentOptions";
-import { personName } from "./personName";
+import { personName } from "../shared/personName";
 
 type FamilyMember = {
   vorname?: string;

@@ -2,18 +2,7 @@ import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
 import { kinderRequireFurtherGenerations } from "./calculateInheritance";
 import { collectMissingChildrenNames } from "./missingChildren";
-
-// Returns true if a kind (and all their descendants) have no living heirs.
-// A living kind or any living grandkid/great-grandkid means this returns false.
-function allDescendantsDead(kind: {
-  isAlive?: string;
-  hatteKinder?: string;
-  kinder?: Array<typeof kind>;
-}): boolean {
-  if (kind.isAlive === "yes") return false;
-  if (kind.hatteKinder !== "yes") return true;
-  return (kind.kinder ?? []).every(allDescendantsDead);
-}
+import { allDescendantsDead } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 export const kinderFlowConfig = {
   kind1Summary: [

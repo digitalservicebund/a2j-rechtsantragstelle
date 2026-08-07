@@ -9,9 +9,9 @@ import {
   THREE_QUARTERS,
   WHOLE,
   type Fraction,
-} from "./fraction";
+} from "../shared/fraction";
 import type { Elternteil, Gueterstand, Kind } from "./pages";
-import { personName } from "./personName";
+import { personName } from "../shared/personName";
 
 export type SpouseInput = {
   vorname?: string;

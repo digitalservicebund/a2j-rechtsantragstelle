@@ -4,6 +4,12 @@
 export function personName(person: {
   vorname?: string;
   nachname?: string;
+  geburtsname?: string;
 }): string {
-  return [person.vorname, person.nachname].filter(Boolean).join(" ");
+  const formattedGeburtsname = person.geburtsname
+    ? `(${person.geburtsname})`
+    : "";
+  return [person.vorname, formattedGeburtsname, person.nachname]
+    .filter(Boolean)
+    .join(" ");
 }
