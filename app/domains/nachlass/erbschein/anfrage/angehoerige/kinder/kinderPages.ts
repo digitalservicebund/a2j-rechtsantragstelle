@@ -99,6 +99,9 @@ export const kinderPages = {
     stepId: "/angehoerige/hatte-kinder",
     pageSchema: { hatteKinder: YesNoAnswer },
   },
+  kinderFehlen: {
+    stepId: "/angehoerige/kinder-fehlen",
+  },
   kind1Summary: {
     stepId: "/angehoerige/kinder",
     arraySummary: { name: "kinder", schema: kinderArray },

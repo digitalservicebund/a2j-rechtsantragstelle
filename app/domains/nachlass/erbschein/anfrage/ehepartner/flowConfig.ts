@@ -12,7 +12,7 @@ export const ehepartnerFlowConfig = {
       guard: (data) =>
         data.verstorbeneFamilienstand === "geschieden" &&
         data.testamentArt === "none",
-      target: "angehoerigeOverview",
+      target: "kinder",
     },
     {
       guard: (data) => data.verstorbeneFamilienstand === "geschieden",
@@ -47,7 +47,7 @@ export const ehepartnerFlowConfig = {
     {
       guard: (data) =>
         data.hasEhevertrag !== undefined && data.testamentArt === "none",
-      target: "angehoerigeOverview",
+      target: "kinder",
     },
     {
       guard: (data) => data.hasEhevertrag !== undefined,
@@ -59,7 +59,7 @@ export const ehepartnerFlowConfig = {
       guard: (data) =>
         objectKeysNonEmpty(data, ["spouseSterbedatum", "spouseSterbeort"]) &&
         data.testamentArt === "none",
-      target: "angehoerigeOverview",
+      target: "kinder",
     },
     {
       guard: (data) =>

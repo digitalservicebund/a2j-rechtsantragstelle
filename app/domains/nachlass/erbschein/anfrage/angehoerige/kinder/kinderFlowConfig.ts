@@ -11,23 +11,24 @@ export const kinderFlowConfig = {
       target: "kind1Summary",
     },
     {
-      target: null, // FIXME: carry on in flow
+      target: "grundbesitz",
     },
   ],
+  kinderFehlen: null,
   kind1Summary: [
     { target: "kind1Name", type: "addArrayItem" },
     {
       // Checked first: a depth-5 dead person with hatteKinder="yes" can never
       // have kinder filled in (no depth-6 UI exists), so it would otherwise
       // always look like a "missing children" case below.
-      target: null, // FIXME: redirect to "weitereAngehoerige"
+      target: "angehoerigeOverview", // TODO: reevaluate?
       guard: kinderRequireFurtherGenerations,
     },
     {
       // Wrapping the deceased as the root of the tree catches both shapes at
       // once: hatteKinder="yes" with an empty kinder array (nobody added at
       // all), and any individual kind further down with the same problem.
-      target: null, //FIXME: redirect to a "kinderFehlen" page
+      target: "kinderFehlen",
       guard: ({
         verstorbeneVorname,
         verstorbeneNachname,
@@ -49,7 +50,7 @@ export const kinderFlowConfig = {
       guard: ({ kinder }) =>
         !!kinder && kinder.length > 0 && kinder.every(allDescendantsDead),
     },
-    { target: null }, // FIXME: move on in flow
+    { target: "grundbesitz" },
   ],
   kind1Name: "kind1Geburtsdatum",
   kind1Geburtsdatum: "kind1Provenance",
