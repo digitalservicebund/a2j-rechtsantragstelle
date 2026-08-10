@@ -1,6 +1,6 @@
 import z from "zod";
+import { kinderPages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderPages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -54,6 +54,7 @@ export const angehoerigeArray = z.array(
 export type Angehoerige = z.infer<typeof angehoerigeArray>[number];
 
 export const angehoerigePages = {
+  ...kinderPages,
   angehoerigeOverview: {
     stepId: "/angehoerige/uebersicht",
     arraySummary: {
@@ -111,4 +112,4 @@ export const angehoerigePages = {
       "angehoerige#verhaeltnis": survivingAngehoerigeFields.verhaeltnis,
     },
   },
-} as const satisfies PageConfigMap;
+} as const;
