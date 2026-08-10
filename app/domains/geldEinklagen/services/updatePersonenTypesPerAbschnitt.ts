@@ -4,7 +4,7 @@ import merge from "lodash/merge";
 import { type Session } from "react-router";
 import { arrayIsNonEmpty } from "~/util/array";
 
-export const updateQuantityPersonenTypesPerAbschnitt = async (
+export const updatePersonenTypesPerAbschnitt = async (
   _request: Request,
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,
@@ -17,18 +17,22 @@ export const updateQuantityPersonenTypesPerAbschnitt = async (
     const updatedAbschnitt = { ...abschnitt };
 
     if (arrayIsNonEmpty(abschnitt.personen)) {
-      const klagendeCount = abschnitt.personen.filter(
+      const hasKlagendePersonen = abschnitt.personen.some(
         (person) => person.personAuswahl === "klagende",
-      ).length;
-      const beklagteCount = abschnitt.personen.filter(
+      );
+      const hasBeklagtePersonen = abschnitt.personen.some(
         (person) => person.personAuswahl === "beklagte",
-      ).length;
+      );
 
-      updatedAbschnitt.qtdPersonenAsKlagende = klagendeCount;
-      updatedAbschnitt.qtdPersonenAsBeklagte = beklagteCount;
+      updatedAbschnitt.hasPersonenAsKlagende = hasKlagendePersonen
+        ? "true"
+        : "false";
+      updatedAbschnitt.hasPersonenAsBeklagte = hasBeklagtePersonen
+        ? "true"
+        : "false";
     } else {
-      updatedAbschnitt.qtdPersonenAsKlagende = 0;
-      updatedAbschnitt.qtdPersonenAsBeklagte = 0;
+      updatedAbschnitt.hasPersonenAsKlagende = "false";
+      updatedAbschnitt.hasPersonenAsBeklagte = "false";
     }
 
     return updatedAbschnitt;
