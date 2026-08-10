@@ -21,7 +21,7 @@ describe("BegruendungBeschreibungBeweise", () => {
     expect(getByRole("heading")).toHaveTextContent("Beweise");
     expect(
       getByText(
-        "Dokumente: zum Beispiel Fotos, Videos, Verträge, Rechnungen, sonstige Unterlagen. Personen: Zeugen oder Zeuginnen, in Ausnahmfällen Sie selbst oder die beklagte Person.",
+        "Dokumente: zum Beispiel Fotos, Videos, Verträge, Rechnungen, sonstige Unterlagen. Personen: Zeugen oder Zeuginnen, in Ausnahmefällen Sie selbst oder die beklagte Person.",
       ),
     ).toBeInTheDocument();
   });

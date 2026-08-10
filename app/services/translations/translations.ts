@@ -526,7 +526,7 @@ export const translations = {
       de: "Beweise",
     },
     begruendungBeschreibungEvidenceDescription: {
-      de: "Dokumente: zum Beispiel Fotos, Videos, Verträge, Rechnungen, sonstige Unterlagen. Personen: Zeugen oder Zeuginnen, in Ausnahmfällen Sie selbst oder die beklagte Person.",
+      de: "Dokumente: zum Beispiel Fotos, Videos, Verträge, Rechnungen, sonstige Unterlagen. Personen: Zeugen oder Zeuginnen, in Ausnahmefällen Sie selbst oder die beklagte Person.",
     },
     begruendungBeschreibungEvidenceAddButton: {
       de: "Dokument beschreiben",
