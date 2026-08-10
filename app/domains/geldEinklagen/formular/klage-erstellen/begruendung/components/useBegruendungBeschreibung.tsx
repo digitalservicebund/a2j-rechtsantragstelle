@@ -4,6 +4,9 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
+const UPDATE_PERSONEN_TYPES_URL_ENDPOINT =
+  "/geld-einklagen/formular/action/update-personen-types-per-abschnitt";
+
 export const useBegruendungBeschreibung = () => {
   const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const jsEnabled = useJsAvailable();
@@ -41,6 +44,11 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
+        await fetch(UPDATE_PERSONEN_TYPES_URL_ENDPOINT, {
+          body: formData,
+          method: "post",
+        });
+
         await revalidator.revalidate();
       }
     },
@@ -60,6 +68,11 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
+        await fetch(UPDATE_PERSONEN_TYPES_URL_ENDPOINT, {
+          body: formData,
+          method: "post",
+        });
+
         await revalidator.revalidate();
       }
     },
