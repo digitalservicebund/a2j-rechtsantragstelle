@@ -9,7 +9,7 @@ import { spouseFromUserData } from "./resultExtras";
 import {
   collectMissingChildrenNames,
   collectMissingChildrenNamesForElternteile,
-} from "./missingChildren";
+} from "../shared/missingChildren";
 import {
   collectRequiredDocuments,
   type PersonDocuments,

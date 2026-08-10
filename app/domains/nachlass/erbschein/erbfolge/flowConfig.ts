@@ -6,7 +6,7 @@ import {
   elternteileRequireFurtherGenerations,
   hasNoFirstOrSecondOrderHeirs,
 } from "./calculateInheritance";
-import { collectMissingChildrenNamesForElternteile } from "./missingChildren";
+import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,

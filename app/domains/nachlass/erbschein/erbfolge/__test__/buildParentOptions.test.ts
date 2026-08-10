@@ -1,5 +1,5 @@
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 import {
-  BOTH_PARENTS_VALUE,
   buildElternteilParentOptions,
   buildParentOptions,
   resolveParentOptions,
