@@ -40,48 +40,43 @@ type Kind =
 const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
 const kinderArray = z.array(kindSchema);
 
-const kinderLevel = <D extends 1 | 2 | 3 | 4 | 5, P extends string>(
-  depth: D,
-  prefix: P,
-) => {
+const kinderLevel = (depth: number) => {
   const path = "/kinder/#".repeat(depth);
+  const prefix = "kinder#".repeat(depth);
   return {
     name: {
-      stepId: `/angehoerige${path}/name` as const,
+      stepId: `/angehoerige${path}/name`,
       pageSchema: nameFieldsHelper(prefix),
     },
     geburtsdatum: {
-      stepId: `/angehoerige${path}/geburtsdatum` as const,
+      stepId: `/angehoerige${path}/geburtsdatum`,
       pageSchema: geburtsdatumFieldsHelper(prefix),
     },
     provenance: {
-      stepId: `/angehoerige${path}/wessen-kind` as const,
+      stepId: `/angehoerige${path}/wessen-kind`,
       pageSchema: parentKindIndexFieldHelper(prefix, depth),
     },
     isAlive: {
-      stepId: `/angehoerige${path}/lebend` as const,
+      stepId: `/angehoerige${path}/lebend`,
       pageSchema: isAliveFieldHelper(prefix),
     },
     address: {
-      stepId: `/angehoerige${path}/adresse` as const,
+      stepId: `/angehoerige${path}/adresse`,
       pageSchema: addressFieldsHelper(prefix),
     },
     sterbedatum: {
-      stepId: `/angehoerige${path}/sterbedatum` as const,
+      stepId: `/angehoerige${path}/sterbedatum`,
       pageSchema: deathDateFieldsHelper(prefix),
     },
     hatteKinder: {
-      stepId: `/angehoerige${path}/hatte-kinder` as const,
+      stepId: `/angehoerige${path}/hatte-kinder`,
       pageSchema: hatteKinderFieldHelper(prefix),
     },
   };
 };
 
-const kinderLevelPages = <D extends 1 | 2 | 3 | 4 | 5, P extends string>(
-  depth: D,
-  prefix: P,
-) => {
-  const level = kinderLevel(depth, prefix);
+const kinderLevelPages = <D extends number>(depth: D) => {
+  const level = kinderLevel(depth);
   return {
     [`kind${depth}Name`]: level.name,
     [`kind${depth}Geburtsdatum`]: level.geburtsdatum,
@@ -108,5 +103,5 @@ export const kinderPages = {
     stepId: "/angehoerige/kinder",
     arraySummary: { name: "kinder", schema: kinderArray },
   },
-  ...kinderLevelPages(1, "kinder#" as const),
+  ...kinderLevelPages(1),
 } as const;

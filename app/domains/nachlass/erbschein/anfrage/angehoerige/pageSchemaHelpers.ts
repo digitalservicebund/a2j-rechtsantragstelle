@@ -75,48 +75,44 @@ export function personUnion<Child extends z.ZodTypeAny>(childSchema: Child) {
   ]);
 }
 
-//#region Explicit Helpers Avoiding Record<string, never>
-export const nameFieldsHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}vorname` as const]: stringRequiredSchema,
-  [`${prefix}nachname` as const]: stringRequiredSchema,
-  [`${prefix}geburtsname` as const]: stringOptionalSchema,
+//#region field helpers
+export const nameFieldsHelper = (prefix: string) => ({
+  [`${prefix}vorname`]: stringRequiredSchema,
+  [`${prefix}nachname`]: stringRequiredSchema,
+  [`${prefix}geburtsname`]: stringOptionalSchema,
 });
 
-export const geburtsdatumFieldsHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}geburtsdatum` as const]: splitDateSchema,
-  [`${prefix}geburtsort` as const]: stringRequiredSchema,
+export const geburtsdatumFieldsHelper = (prefix: string) => ({
+  [`${prefix}geburtsdatum`]: splitDateSchema,
+  [`${prefix}geburtsort`]: stringRequiredSchema,
 });
 
-// FIX: Avoid returning empty object {} which resolves to Record<string, never>
-export const parentKindIndexFieldHelper = <P extends string>(
-  prefix: P,
-  depth: number,
-) => {
-  if (depth < 2) return {} as Record<never, never>;
+export const parentKindIndexFieldHelper = (prefix: string, depth: number) => {
+  if (depth < 2) return {};
   return {
-    [`${prefix}parentKindIndex` as const]: parentKindIndexSchema,
+    [`${prefix}parentKindIndex`]: parentKindIndexSchema,
   };
 };
 
-export const addressFieldsHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}strasse` as const]: stringRequiredSchema,
-  [`${prefix}hausnummer` as const]: stringRequiredSchema,
-  [`${prefix}plz` as const]: stringRequiredSchema,
-  [`${prefix}ort` as const]: stringRequiredSchema,
-  [`${prefix}land` as const]: stringRequiredSchema,
-  [`${prefix}adresszusatz` as const]: stringOptionalSchema,
+export const addressFieldsHelper = (prefix: string) => ({
+  [`${prefix}strasse`]: stringRequiredSchema,
+  [`${prefix}hausnummer`]: stringRequiredSchema,
+  [`${prefix}plz`]: stringRequiredSchema,
+  [`${prefix}ort`]: stringRequiredSchema,
+  [`${prefix}land`]: stringRequiredSchema,
+  [`${prefix}adresszusatz`]: stringOptionalSchema,
 });
 
-export const deathDateFieldsHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}sterbedatum` as const]: splitDateSchema,
-  [`${prefix}sterbeort` as const]: stringRequiredSchema,
+export const deathDateFieldsHelper = (prefix: string) => ({
+  [`${prefix}sterbedatum`]: splitDateSchema,
+  [`${prefix}sterbeort`]: stringRequiredSchema,
 });
 
-export const isAliveFieldHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}isAlive` as const]: YesNoAnswer,
+export const isAliveFieldHelper = (prefix: string) => ({
+  [`${prefix}isAlive`]: YesNoAnswer,
 });
 
-export const hatteKinderFieldHelper = <P extends string>(prefix: P) => ({
-  [`${prefix}hatteKinder` as const]: YesNoAnswer,
+export const hatteKinderFieldHelper = (prefix: string) => ({
+  [`${prefix}hatteKinder`]: YesNoAnswer,
 });
 //#endregion
