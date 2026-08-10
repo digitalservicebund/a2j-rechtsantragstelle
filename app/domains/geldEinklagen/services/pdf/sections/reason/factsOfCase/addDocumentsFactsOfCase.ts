@@ -19,13 +19,15 @@ export const addDocumentsFactsOfCase = (
     return;
   }
 
+  let currentDocumentNumber = currentDocumentIndex + 1;
+
   for (const dokument of dokumenten) {
     factsOfCasesSect.add(
       doc.struct("P", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
           .text(
-            `Beweis K${currentDocumentIndex + 1}: `,
+            `Beweis K${currentDocumentNumber}: `,
             MARGIN_RIGHT_SPACE,
             undefined,
             {
@@ -37,5 +39,7 @@ export const addDocumentsFactsOfCase = (
           .moveDown(1);
       }),
     );
+
+    currentDocumentNumber += 1;
   }
 };
