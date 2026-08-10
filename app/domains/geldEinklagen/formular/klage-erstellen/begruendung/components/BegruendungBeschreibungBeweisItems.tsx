@@ -121,7 +121,11 @@ export const BegruendungBeschreibungBeweisItems = ({
       {hasPersonItems &&
         personen.map((person, personIndex) => {
           const personItemIndex = String(personIndex);
-          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/auswahl`;
+
+          const subPath =
+            person.personAuswahl === "anotherPerson" ? "daten" : "auswahl";
+
+          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/${subPath}`;
 
           return (
             <BeweisItemRow

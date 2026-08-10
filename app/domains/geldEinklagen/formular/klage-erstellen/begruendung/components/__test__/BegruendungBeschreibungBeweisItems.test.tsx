@@ -103,10 +103,31 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     expect(getByText("max.mustermann@example.com")).toBeInTheDocument();
     expect(queryByRole("link")).toHaveAttribute(
       "href",
-      "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/auswahl",
+      "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/daten",
     );
 
     expect(getByRole("button")).toHaveAttribute("aria-label", "Löschen");
+  });
+
+  it("should render person with edit to auswahl when personAuswahl is not 'anotherPerson'", () => {
+    const personen = [
+      {
+        personAuswahl: "klagende" as const,
+      },
+    ];
+
+    const { queryByRole, getByRole } = render(
+      <BegruendungBeschreibungBeweisItems
+        dokumenten={[]}
+        personen={personen}
+        itemIndexAbschnitte={0}
+      />,
+    );
+
+    expect(queryByRole("link")).toHaveAttribute(
+      "href",
+      "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/auswahl",
+    );
   });
 
   it("should render correct text for klagende and beklagte personAuswahl", () => {
