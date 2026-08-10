@@ -26,6 +26,14 @@ const statePrefilled = z
   .enum(["prefilled", "filledByUser", "unfilled"])
   .default("filledByUser");
 
+const qtPersonenSchema = z
+  .string()
+  .trim()
+  .transform((numString) =>
+    Math.round(Number(numString.replaceAll(".", "").replace(",", "."))),
+  )
+  .default(0);
+
 const sharedBeklagteAddress = {
   beklagteStrasse: stringRequiredSchema,
   beklagteHausnummer: germanHouseNumberSchema,
@@ -69,6 +77,8 @@ const beweisePersonenArray = z.array(
 const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredMaxSchema({ max: 10000 }),
+    qtdPersonenAsBeklagte: hiddenInputSchema(qtPersonenSchema),
+    qtdPersonenAsKlagende: hiddenInputSchema(qtPersonenSchema),
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
   }),
@@ -190,6 +200,10 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
+      "abschnitte#qtdPersonenAsBeklagte":
+        abschnitteArray.element.shape.qtdPersonenAsBeklagte,
+      "abschnitte#qtdPersonenAsKlagende":
+        abschnitteArray.element.shape.qtdPersonenAsKlagende,
     },
   },
   begruendungBeschreibungAbschnitteBeweisDocument: {
@@ -211,6 +225,10 @@ export const geldEinklagenKlageErstellenPages = {
         "beklagte",
         "anotherPerson",
       ]),
+      "abschnitte#qtdPersonenAsBeklagte":
+        abschnitteArray.element.shape.qtdPersonenAsBeklagte,
+      "abschnitte#qtdPersonenAsKlagende":
+        abschnitteArray.element.shape.qtdPersonenAsKlagende,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPerson: {
