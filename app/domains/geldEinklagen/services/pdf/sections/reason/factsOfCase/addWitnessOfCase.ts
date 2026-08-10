@@ -122,7 +122,7 @@ const renderAnotherPersonItem = (
 
 const renderPartyItem = (doc: PDFKit.PDFDocument, person: PartyPerson) => {
   const itemText =
-    person.personAuswahl === "beklagte" ? "Beklagte Person" : "Klagende Person";
+    person.personAuswahl === "beklagte" ? "Beklagte Partei" : "Klagende Partei";
 
   doc.text(itemText).font(FONTS_BUNDESSANS_REGULAR);
 };

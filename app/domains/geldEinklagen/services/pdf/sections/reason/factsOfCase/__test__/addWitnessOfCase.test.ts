@@ -25,7 +25,7 @@ describe("addWitnessOfCase", () => {
       expect.any(Number),
       undefined,
     );
-    expect(mockDoc.text).toHaveBeenCalledWith("Beklagte Person");
+    expect(mockDoc.text).toHaveBeenCalledWith("Beklagte Partei");
   });
 
   it("should add klagende as witness to the PDF document", () => {
@@ -47,7 +47,7 @@ describe("addWitnessOfCase", () => {
       expect.any(Number),
       undefined,
     );
-    expect(mockDoc.text).toHaveBeenCalledWith("Klagende Person");
+    expect(mockDoc.text).toHaveBeenCalledWith("Klagende Partei");
   });
 
   it("should add anotherPerson as witness to the PDF document", () => {
