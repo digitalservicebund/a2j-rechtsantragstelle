@@ -30,7 +30,10 @@ describe("createLegalAssessment", () => {
 
     createLegalAssessment(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith("II. Rechtliche Würdigung");
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "II. Rechtliche Würdigung",
+      expect.any(Number),
+    );
   });
 
   it("should call the addRechtlicheWuerdigung for the legal assessment section", () => {
