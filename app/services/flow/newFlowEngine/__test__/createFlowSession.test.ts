@@ -698,6 +698,37 @@ describe("createFlowSession", () => {
       expect(session.statusTree["/array"]?.isDone).toBe(true);
     });
 
+    it("marks an array section not done when a later item has unfilled required fields", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [
+            { vorname: "Alice", nachname: "Smith" },
+            { vorname: "Bob" },
+          ],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/array",
+      );
+      // Item 0 is complete but item 1 is missing "nachname" — the section may
+      // only be done when every item's page is done, not just one of them.
+      expect(session.statusTree["/array"]?.isDone).toBe(false);
+    });
+
+    it("marks an array section not done while the user is on a new item not yet in the data", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }],
+          pageData: { arrayIndexes: [1] },
+        },
+        "/array/#/daten",
+      );
+      // One saved, complete item exists but the user is on the first page of a
+      // second item (index 1) that has no data yet — the section is not done.
+      expect(session.statusTree["/array"]?.isDone).toBe(false);
+    });
+
     it("marks a section isDone false when a reachable page has unfilled required fields", () => {
       const session = createFlowSession(flow, noData, "/start");
       expect(session.statusTree["/middle"]?.isDone).toBe(false);

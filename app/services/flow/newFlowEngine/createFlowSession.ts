@@ -10,6 +10,27 @@ import { pruneUserData } from "./pruneUserData";
 const resolveFieldName = (fieldName: string) =>
   fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
 
+// The data path of the array a page's fields belong to, read from their "#"
+// notation (e.g. "parents#children#name" -> ["parents", "children"]).
+// Empty for non-array pages.
+const arrayDataPath = (fieldNames: string[]): string[] => {
+  const arrayField = fieldNames.find((name) => name.includes("#"));
+  return arrayField ? arrayField.split("#").slice(0, -1) : [];
+};
+
+// Walks `data` down the nested arrays named by `arrayPath` at the given indexes,
+// returning the item at that position (or {} when it does not exist yet).
+const resolveScopeAtIndexes = (
+  data: Record<string, unknown>,
+  arrayPath: string[],
+  indexes: number[],
+): Record<string, unknown> =>
+  arrayPath.reduce((scope, arrayName, level) => {
+    const items = scope[arrayName];
+    const item = Array.isArray(items) ? items[indexes[level]] : undefined;
+    return (item ?? {}) as Record<string, unknown>;
+  }, data);
+
 const arrayWildcardCount = (stepId: string) =>
   stepId.split(ARRAY_WILDCARD).length - 1;
 
@@ -85,16 +106,52 @@ export const createFlowSession = <C extends PageConfigMap>(
     return schema?.safeParse(candidate).success ?? false;
   };
 
+  const evaluateDone = (key: NodeKey<C>, scope: Record<string, unknown>) =>
+    isPageDone(
+      compiledFlow.getSchemaByNodeKey(key),
+      compiledFlow.getFieldNamesByNodeKey(key),
+      scope,
+    );
+
+  // The page the user is on evaluated at its own arrayIndexes. The BFS only
+  // fans out array items already in the data, so a brand new item being added
+  // (index === array length) has no context; without this its section would
+  // wrongly show done.
+  const currentPageContext = (): Array<{
+    key: NodeKey<C>;
+    done: boolean;
+  }> => {
+    const stepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
+    if (!stepId.includes(ARRAY_WILDCARD)) return [];
+
+    const arrayPath = arrayDataPath(compiledFlow.getFieldNamesByNodeKey(nodeKey));
+    const indexes = userData.pageData?.arrayIndexes ?? [];
+    if (indexes.length < arrayPath.length) return [];
+
+    const scope = resolveScopeAtIndexes(
+      userData as Record<string, unknown>,
+      arrayPath,
+      indexes,
+    );
+    return [{ key: nodeKey, done: evaluateDone(nodeKey, scope) }];
+  };
+
+  // An array page has one context per item, all sharing a node key. A node is
+  // done only when EVERY context reaching it is done, so one completed item
+  // can't mark a section done while another item is still unfilled.
+  const doneEvaluations = [
+    ...simulation.visitedContexts.map(({ key, scopeData }) => ({
+      key,
+      done: evaluateDone(key, scopeData as Record<string, unknown>),
+    })),
+    ...currentPageContext(),
+  ];
+
+  const notDoneNodeKeys = new Set(
+    doneEvaluations.filter(({ done }) => !done).map(({ key }) => key),
+  );
   const doneNodeKeys = new Set(
-    simulation.visitedContexts
-      .filter(({ key, scopeData }) =>
-        isPageDone(
-          compiledFlow.getSchemaByNodeKey(key),
-          compiledFlow.getFieldNamesByNodeKey(key),
-          scopeData as Record<string, unknown>,
-        ),
-      )
-      .map(({ key }) => key),
+    doneEvaluations.map(({ key }) => key).filter((key) => !notDoneNodeKeys.has(key)),
   );
 
   // If the previous page is a bare fan-out node — it hosts the addArrayItem that
