@@ -702,10 +702,7 @@ describe("createFlowSession", () => {
       const session = createFlowSession(
         flow,
         {
-          items: [
-            { vorname: "Alice", nachname: "Smith" },
-            { vorname: "Bob" },
-          ],
+          items: [{ vorname: "Alice", nachname: "Smith" }, { vorname: "Bob" }],
           pageData: { arrayIndexes: [] },
         } as any,
         "/array",

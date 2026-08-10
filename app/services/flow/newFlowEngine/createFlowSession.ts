@@ -124,7 +124,9 @@ export const createFlowSession = <C extends PageConfigMap>(
     const stepId = compiledFlow.pages[nodeKey]?.stepId ?? "";
     if (!stepId.includes(ARRAY_WILDCARD)) return [];
 
-    const arrayPath = arrayDataPath(compiledFlow.getFieldNamesByNodeKey(nodeKey));
+    const arrayPath = arrayDataPath(
+      compiledFlow.getFieldNamesByNodeKey(nodeKey),
+    );
     const indexes = userData.pageData?.arrayIndexes ?? [];
     if (indexes.length < arrayPath.length) return [];
 
@@ -151,7 +153,9 @@ export const createFlowSession = <C extends PageConfigMap>(
     doneEvaluations.filter(({ done }) => !done).map(({ key }) => key),
   );
   const doneNodeKeys = new Set(
-    doneEvaluations.map(({ key }) => key).filter((key) => !notDoneNodeKeys.has(key)),
+    doneEvaluations
+      .map(({ key }) => key)
+      .filter((key) => !notDoneNodeKeys.has(key)),
   );
 
   // If the previous page is a bare fan-out node — it hosts the addArrayItem that
