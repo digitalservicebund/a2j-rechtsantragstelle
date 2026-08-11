@@ -32,8 +32,8 @@ describe("BegruendungBeschreibungBeweise", () => {
       { beschreibung: "Dokument 2" },
     ];
     const personen = [
-      { personAuswahl: "beklagte" as const },
-      { personAuswahl: "klagende" as const },
+      { personAuswahl: "beklagte" as const, personId: "beklagte-person-id" },
+      { personAuswahl: "klagende" as const, personId: "klagende-person-id" },
     ];
 
     const { getByTestId } = render(
@@ -69,8 +69,9 @@ describe("BegruendungBeschreibungBeweise", () => {
     const dokumenten = Array.from({ length: 20 }, (_, i) => ({
       beschreibung: `Dokument ${i + 1}`,
     }));
-    const personen = Array.from({ length: 10 }, (_) => ({
+    const personen = Array.from({ length: 10 }, (_, i) => ({
       personAuswahl: "beklagte" as const,
+      personId: `beklagte-person-id-${i}`,
     }));
 
     const { getByText } = render(

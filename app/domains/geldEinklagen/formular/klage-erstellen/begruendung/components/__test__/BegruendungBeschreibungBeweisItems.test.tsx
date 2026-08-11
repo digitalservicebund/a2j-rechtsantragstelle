@@ -84,6 +84,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
         land: "Deutschland",
         telefonnummer: "0123456789",
         email: "max.mustermann@example.com",
+        personId: "person-id",
       },
     ];
 
@@ -113,10 +114,11 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "person-id",
       },
     ];
 
-    const { queryByRole, getByRole } = render(
+    const { queryByRole } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
@@ -134,9 +136,11 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "person-id",
       },
       {
         personAuswahl: "beklagte" as const,
+        personId: "person-id",
       },
     ];
 
@@ -163,6 +167,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "person-id",
       },
     ];
 

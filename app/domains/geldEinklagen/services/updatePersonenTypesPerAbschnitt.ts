@@ -17,22 +17,18 @@ export const updatePersonenTypesPerAbschnitt = async (
     const updatedAbschnitt = { ...abschnitt };
 
     if (arrayIsNonEmpty(abschnitt.personen)) {
-      const hasKlagendePersonen = abschnitt.personen.some(
+      const personIdAsKlagende = abschnitt.personen.find(
         (person) => person.personAuswahl === "klagende",
-      );
-      const hasBeklagtePersonen = abschnitt.personen.some(
+      )?.personId;
+      const personIdAsBeklagte = abschnitt.personen.find(
         (person) => person.personAuswahl === "beklagte",
-      );
+      )?.personId;
 
-      updatedAbschnitt.hasPersonenAsKlagende = hasKlagendePersonen
-        ? "true"
-        : "false";
-      updatedAbschnitt.hasPersonenAsBeklagte = hasBeklagtePersonen
-        ? "true"
-        : "false";
+      updatedAbschnitt.personIdAsKlagende = personIdAsKlagende ?? "";
+      updatedAbschnitt.personIdAsBeklagte = personIdAsBeklagte ?? "";
     } else {
-      updatedAbschnitt.hasPersonenAsKlagende = "false";
-      updatedAbschnitt.hasPersonenAsBeklagte = "false";
+      updatedAbschnitt.personIdAsKlagende = "";
+      updatedAbschnitt.personIdAsBeklagte = "";
     }
 
     return updatedAbschnitt;

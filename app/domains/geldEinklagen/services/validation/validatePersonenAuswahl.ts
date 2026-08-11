@@ -10,8 +10,9 @@ export function validatePersonenAuswahl(
   baseSchema: MultiFieldsValidationBaseSchema<
     Pick<
       typeof _schema,
-      | "abschnitte#hasPersonenAsBeklagte"
-      | "abschnitte#hasPersonenAsKlagende"
+      | "abschnitte#personIdAsBeklagte"
+      | "abschnitte#personIdAsKlagende"
+      | "abschnitte#personen#personId"
       | "abschnitte#personen#personAuswahl"
     >
   >,
@@ -25,7 +26,9 @@ export function validatePersonenAuswahl(
 
     if (
       personAuswahl === "beklagte" &&
-      ctx.value["abschnitte#hasPersonenAsBeklagte"] === "true"
+      ctx.value["abschnitte#personIdAsBeklagte"] !== "" &&
+      ctx.value["abschnitte#personen#personId"] !==
+        ctx.value["abschnitte#personIdAsBeklagte"]
     ) {
       ctx.issues.push({
         code: "custom",
@@ -38,7 +41,9 @@ export function validatePersonenAuswahl(
 
     if (
       personAuswahl === "klagende" &&
-      ctx.value["abschnitte#hasPersonenAsKlagende"] === "true"
+      ctx.value["abschnitte#personIdAsKlagende"] !== "" &&
+      ctx.value["abschnitte#personen#personId"] !==
+        ctx.value["abschnitte#personIdAsKlagende"]
     ) {
       ctx.issues.push({
         code: "custom",
