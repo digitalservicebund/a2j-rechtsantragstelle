@@ -32,7 +32,7 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...antragstellendePersonTestCases,
     ...testamentOderErbvertragTestCases,
     ...ehepartnerTestCases,
-    // ...angehoerigeTestCases,
+    // ...angehoerigeTestCases, TODO: uncomment when Erbfolge flow is fully integrated
     ...nachlassTestCases,
   },
 } satisfies FlowTestConfig<NachlassErbscheinAnfrageUserData>;
