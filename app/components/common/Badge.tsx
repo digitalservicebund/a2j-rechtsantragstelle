@@ -10,9 +10,12 @@ type BadgeProps = {
 };
 
 export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
+  const badgeClass = variant ? `kern-badge kern-badge--${variant}` : "kern-badge";
+  const iconClass = variant ? `kern-icon kern-icon--${variant}` : "kern-icon";
+
   return (
     <span
-      className={`kern-badge${variant ? ` kern-badge--${variant}` : ""}`}
+      className={badgeClass}
       style={
         !variant
           ? {
@@ -25,7 +28,7 @@ export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
       {icon && (
         <Icon
           name={icon}
-          className={`kern-icon${variant ? ` kern-icon--${variant}` : ""}`}
+          className={iconClass}
           aria-hidden
         />
       )}
