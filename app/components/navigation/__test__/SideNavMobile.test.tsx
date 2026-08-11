@@ -205,4 +205,22 @@ describe("SideNavMobile", () => {
       expect(summaryElement).toHaveFocus();
     });
   });
+  it("should close the menu when pressing the escape key", async () => {
+    const { getByTestId, findAllByText } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
+    const detailsElement = getByTestId("side-nav-details");
+    expect(detailsElement).not.toHaveProperty("open", true);
+    fireEvent.click(summaryElement);
+    expect(detailsElement).toHaveProperty("open", true);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+
+    await waitFor(() => {
+      expect(detailsElement).not.toHaveProperty("open", true);
+    });
+  });
 });
