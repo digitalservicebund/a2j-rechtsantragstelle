@@ -1,11 +1,15 @@
 import escape from "lodash/escape";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { UserData } from "~/domains/userData";
-import type { InheritanceInput } from "./calculateInheritance";
+import {
+  calculateInheritance,
+  type InheritanceInput,
+} from "./calculateInheritance";
+import { spouseFromUserData } from "./resultExtras";
 import {
   collectMissingChildrenNames,
   collectMissingChildrenNamesForElternteile,
-} from "./missingChildren";
+} from "../shared/missingChildren";
 import {
   collectRequiredDocuments,
   type PersonDocuments,
@@ -75,6 +79,7 @@ export function nachlassErbfolgeStringReplacements(
     verstorbeneVorname?: string;
     verstorbeneNachname?: string;
     hatteKinder?: string;
+    testamentArt?: string;
   };
 
   return {
@@ -87,5 +92,15 @@ export function nachlassErbfolgeStringReplacements(
     requiredDocumentsHtml: buildRequiredDocumentsHtml(
       collectRequiredDocuments(data),
     ),
+    // Gates the "Erbengemeinschaft" notice on the result page: it only applies
+    // when the estate is shared, i.e. more than one heir inherits.
+    hasMultipleHeirs:
+      calculateInheritance({ ...data, spouse: spouseFromUserData(data) })
+        .length > 1,
+    // Gate content on the "keine gesetzliche Erbfolge" exit page: a will of any
+    // kind vs. an inheritance contract.
+    hasTestament:
+      data.testamentArt === "handwritten" || data.testamentArt === "notarized",
+    hasErbvertrag: data.testamentArt === "erbvertrag",
   };
 }

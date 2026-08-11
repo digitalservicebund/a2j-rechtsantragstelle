@@ -67,6 +67,62 @@ describe("nachlassErbfolgeStringReplacements", () => {
     expect(result).not.toHaveProperty("missingChildrenNamesHtml");
   });
 
+  it("marks hasMultipleHeirs when more than one heir inherits (Erbengemeinschaft)", () => {
+    const result = nachlassErbfolgeStringReplacements({
+      verstorbeneVorname: "Erblasser",
+      hatteKinder: "yes",
+      kinder: [
+        { vorname: "Kind", nachname: "1", isAlive: "yes" },
+        { vorname: "Kind", nachname: "2", isAlive: "yes" },
+      ],
+      elternteile: [],
+    } as Context);
+
+    expect(result.hasMultipleHeirs).toBe(true);
+  });
+
+  it("does not mark hasMultipleHeirs when a single heir inherits everything", () => {
+    const result = nachlassErbfolgeStringReplacements({
+      verstorbeneVorname: "Erblasser",
+      hatteKinder: "yes",
+      kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
+      elternteile: [],
+    } as Context);
+
+    expect(result.hasMultipleHeirs).toBe(false);
+  });
+
+  it("exposes hasTestament for a will (handwritten or notarial), not for an Erbvertrag", () => {
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "handwritten",
+      } as Context).hasTestament,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "notarized",
+      } as Context).hasTestament,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "erbvertrag",
+      } as Context).hasTestament,
+    ).toBe(false);
+  });
+
+  it("exposes hasErbvertrag only for an Erbvertrag", () => {
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "erbvertrag",
+      } as Context).hasErbvertrag,
+    ).toBe(true);
+    expect(
+      nachlassErbfolgeStringReplacements({
+        testamentArt: "handwritten",
+      } as Context).hasErbvertrag,
+    ).toBe(false);
+  });
+
   it("escapes HTML in names for the raw-HTML placeholder", () => {
     const result = nachlassErbfolgeStringReplacements({
       verstorbeneVorname: "<b>Opa</b> & Co",

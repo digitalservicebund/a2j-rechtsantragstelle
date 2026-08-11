@@ -12,7 +12,7 @@ import {
   type InheritanceInput,
 } from "./calculateInheritance";
 import type { Gueterstand } from "./pages";
-import { personName } from "./personName";
+import { personName } from "../shared/personName";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.
@@ -75,7 +75,7 @@ function buildHeirListItems(
   }));
 }
 
-function spouseFromUserData(userData: InheritanceInput) {
+export function spouseFromUserData(userData: InheritanceInput) {
   const { ehepartnerVorname, ehepartnerNachname, gueterstand } = userData as {
     ehepartnerVorname?: string;
     ehepartnerNachname?: string;

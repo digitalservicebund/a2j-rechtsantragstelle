@@ -26,9 +26,12 @@ export default [
   ]),
   ...prefix("nachlass", [
     ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
-    ...prefix("erbausschlagung/gericht-finden", vorabcheckRoutes("NAGF")),
+    ...prefix(
+      "erbausschlagung/gericht-finden",
+      newEngineVorabcheckRoutes("NAGF"),
+    ),
     ...prefix("erbschein/wegweiser", vorabcheckRoutes("NESW")),
-    ...prefix("erbschein/nachlassgericht", vorabcheckRoutes("NESN")),
+    ...prefix("erbschein/nachlassgericht", newEngineVorabcheckRoutes("NESN")),
     ...prefix("erbschein/erbfolge", [
       route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
         id: "nachlassErbfolgeResult",
@@ -41,7 +44,7 @@ export default [
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
-    ...prefix("pkonto/antrag", flowRoutes("KPPA")),
+    ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
     ...prefix("formular", newEngineFlowAndResultRoutes("GEF")),

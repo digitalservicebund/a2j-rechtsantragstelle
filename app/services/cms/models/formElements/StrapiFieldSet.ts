@@ -8,6 +8,7 @@ import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiImageOptionalSchema } from "../StrapiImage";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
+import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 
 export const StrapiFieldSetComponentSchema = z.object({
   heading: buildRichTextValidation({
@@ -25,6 +26,7 @@ export const StrapiFieldSetComponentSchema = z.object({
           StrapiDropdownComponentSchema,
           StrapiDateInputComponentSchema,
           StrapiAutoSuggestInputComponentSchema,
+          StrapiTextareaComponentSchema,
         ]),
       )
       .nonempty(),

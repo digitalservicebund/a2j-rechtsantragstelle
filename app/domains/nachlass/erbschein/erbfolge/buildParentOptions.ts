@@ -1,9 +1,8 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { translations } from "~/services/translations/translations";
-import { personName } from "./personName";
-
-export const BOTH_PARENTS_VALUE = "both";
+import { personName } from "../shared/personName";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 
 // Fallback form element for a dynamic parent select whose page has no Strapi
 // select entry yet: provides the label above the dropdown.

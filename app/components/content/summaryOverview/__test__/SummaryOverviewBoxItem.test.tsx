@@ -109,12 +109,12 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("should wrap value in a scrollable container for long-text summary", () => {
-    const userData: UserData = { sachverhaltBegruendung: "Langer Text" };
+    const userData: UserData = { weitereAntraege: "Langer Text" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Langer Text");
     vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
       {
-        fieldName: "sachverhaltBegruendung",
+        fieldName: "weitereAntraege",
         fieldValue: "Langer Text",
       },
     ]);
@@ -123,7 +123,7 @@ describe("SummaryOverviewBoxItem", () => {
       <SummaryOverviewBoxItem
         userData={userData}
         translations={mockTranslations}
-        inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        inlineItems={[{ field: "weitereAntraege" }]}
         pathname={""}
       />,
     );
@@ -133,18 +133,18 @@ describe("SummaryOverviewBoxItem", () => {
   });
 
   test("should not render scrollable container when long-text field is blank", () => {
-    const userData: UserData = { sachverhaltBegruendung: "" };
+    const userData: UserData = { weitereAntraege: "" };
 
     vi.mocked(getItemValueBox).mockReturnValue("Fallback value");
     vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
-      { fieldName: "sachverhaltBegruendung", fieldValue: "" },
+      { fieldName: "weitereAntraege", fieldValue: "" },
     ]);
 
     const { container } = render(
       <SummaryOverviewBoxItem
         userData={userData}
         translations={mockTranslations}
-        inlineItems={[{ field: "sachverhaltBegruendung" }]}
+        inlineItems={[{ field: "weitereAntraege" }]}
         pathname={""}
       />,
     );

@@ -118,7 +118,7 @@ describe("Textarea component", () => {
   });
 
   it("should render with custom row count when the name is configured", () => {
-    render(<Textarea name="sachverhaltBegruendung" label="Test Label" />);
+    render(<Textarea name="weitereAntraege" label="Test Label" />);
     const textarea = screen.getByRole("textbox");
     expect(textarea.getAttribute("rows")).toEqual("10");
   });

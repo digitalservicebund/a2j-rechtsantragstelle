@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useField } from "@rvf/react-router";
-import { useState } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
@@ -24,12 +23,6 @@ const Checkbox = ({
 }: CheckboxProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
-  // HTML Forms do not send unchecked checkboxes.
-  // For server-side validation we need a same-named hidden field
-  // For front-end validation, we need to hide that field if checkbox is checked
-  const [renderHiddenField, setRenderHiddenField] = useState(
-    (field.defaultValue() as CheckboxValue) !== "on",
-  );
   const jsAvailable = useJsAvailable();
   const hasError = Boolean(field.error());
 
@@ -39,25 +32,19 @@ const Checkbox = ({
         "kern-fieldset--error": hasError,
       })}
     >
-      {(!jsAvailable || renderHiddenField) && (
-        <input type="hidden" name={name} value={"off"} />
-      )}
+      {!jsAvailable && <input type="hidden" name={name} value="off" />}
 
       <div className="kern-fieldset__body">
         <div className="kern-form-check">
           <input
+            {...field.getInputProps({ type: "checkbox", value: "on" })}
             className={classNames("kern-form-check__checkbox", {
               "kern-form-check__checkbox--error": hasError,
             })}
             id={name}
-            name={name}
-            type="checkbox"
-            defaultChecked={field.defaultValue() === "on"}
-            value={"on"}
             aria-describedby={hasError ? errorId : undefined}
-            onClick={() => setRenderHiddenField(!renderHiddenField)}
             aria-required={required}
-            ref={hasError ? field.refs.controlled() : null}
+            ref={hasError ? field.refs.transient() : null}
           />
 
           {label && <InputLabel label={label} name={name} suffix={suffix} />}
