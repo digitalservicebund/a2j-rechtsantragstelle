@@ -38,9 +38,26 @@ export default defineConfig((config) => ({
   },
   resolve: {
     tsconfigPaths: true,
+    // Ensures react/react-router are never instantiated twice (once via
+    // Vite's SSR module graph, once via Node's native resolution from a
+    // dependency like @rvf/react-router), which otherwise causes
+    // "useActionData must be used within a data router" errors.
+    dedupe: ["react", "react-dom", "react-router"],
     ...(isVitest ? { conditions: ["module-sync"] } : {}),
   },
-  ssr: { noExternal: ["@digitalservicebund/icons"] },
+  ssr: {
+    // @rvf/react-router (and @rvf/react) ship a dual CJS/ESM build without an
+    // "exports" map. Left externalized, Node may load their own copy of
+    // react-router separately from the one used by entry.server.tsx,
+    // creating a second DataRouterContext and breaking hooks like
+    // useActionData with "must be used within a data router". Bundling them
+    // through Vite's SSR graph keeps a single react-router instance.
+    noExternal: [
+      "@digitalservicebund/icons",
+      "@rvf/react-router",
+      "@rvf/react",
+    ],
+  },
   test: {
     globals: true,
     environment: "node",
