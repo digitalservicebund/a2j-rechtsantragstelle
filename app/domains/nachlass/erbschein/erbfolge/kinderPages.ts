@@ -6,19 +6,9 @@ import {
   parentKindIndexSchema,
   personUnion,
 } from "./pageSchemaHelpers";
+import { type BaseKind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-export type Kind =
-  | { vorname: string; nachname: string; isAlive: "yes" }
-  | { vorname: string; nachname: string; isAlive: "no"; hatteKinder: "no" }
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "yes";
-      kinder?: Kind[];
-    };
-
-const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
+const kindSchema: z.ZodType<BaseKind> = z.lazy(() => personUnion(kindSchema));
 
 const kinderArray = z.array(kindSchema);
 
