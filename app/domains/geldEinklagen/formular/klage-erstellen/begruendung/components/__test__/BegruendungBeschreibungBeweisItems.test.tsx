@@ -66,6 +66,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     expect(onAbschnittDocumentDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten",
       0,
+      0,
     );
   });
 
@@ -184,6 +185,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
 
     expect(onAbschnittPersonDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen",
+      0,
       0,
     );
   });
