@@ -1,8 +1,8 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { allDescendantsDead } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
-import { kinderRequireFurtherGenerations } from "./calculateInheritance";
 import { collectMissingChildrenNames } from "~/domains/nachlass/erbschein/shared/missingChildren";
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { kinderRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
 
 export const kinderFlowConfig = {
   kinder: [
@@ -21,7 +21,7 @@ export const kinderFlowConfig = {
       // Checked first: a depth-5 dead person with hatteKinder="yes" can never
       // have kinder filled in (no depth-6 UI exists), so it would otherwise
       // always look like a "missing children" case below.
-      target: "angehoerigeOverview", // TODO: reevaluate?
+      target: "angehoerigeOverview",
       guard: kinderRequireFurtherGenerations,
     },
     {

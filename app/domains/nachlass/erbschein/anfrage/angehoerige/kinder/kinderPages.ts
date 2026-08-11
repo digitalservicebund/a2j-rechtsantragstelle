@@ -11,6 +11,7 @@ import {
   parentKindIndexFieldHelper,
   personUnion,
 } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pageSchemaHelpers";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 type Kind =
@@ -46,33 +47,40 @@ const kinderLevel = (depth: number) => {
   return {
     name: {
       stepId: `/angehoerige${path}/name`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: nameFieldsHelper(prefix),
     },
     geburtsdatum: {
       stepId: `/angehoerige${path}/geburtsdatum`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: geburtsdatumFieldsHelper(prefix),
     },
     provenance: {
       stepId: `/angehoerige${path}/wessen-kind`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: parentKindIndexFieldHelper(prefix, depth),
     },
     isAlive: {
       stepId: `/angehoerige${path}/lebend`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: isAliveFieldHelper(prefix),
     },
     address: {
       stepId: `/angehoerige${path}/adresse`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: addressFieldsHelper(prefix),
     },
     sterbedatum: {
       stepId: `/angehoerige${path}/sterbedatum`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: deathDateFieldsHelper(prefix),
     },
     hatteKinder: {
       stepId: `/angehoerige${path}/hatte-kinder`,
+      shouldCollapseIntoParentNavItem: true,
       pageSchema: hatteKinderFieldHelper(prefix),
     },
-  };
+  } as const satisfies PageConfigMap;
 };
 
 const kinderLevelPages = <D extends number>(depth: D) => {
@@ -104,7 +112,12 @@ export const kinderPages = {
   },
   kind1Summary: {
     stepId: "/angehoerige/kinder",
-    arraySummary: { name: "kinder", schema: kinderArray },
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "kinder",
+      schema: kinderArray,
+      fieldName: "hatteKinder",
+    },
   },
   ...kinderLevelPages(1),
-} as const;
+} as const satisfies PageConfigMap;
