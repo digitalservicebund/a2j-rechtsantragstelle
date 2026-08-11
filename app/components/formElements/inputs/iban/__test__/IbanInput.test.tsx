@@ -54,7 +54,7 @@ describe("IbanInput", () => {
     const input = getByLabelText("IBAN");
 
     expect(input).toHaveValue("");
-    user.type(input, mockIBAN);
+    await user.type(input, mockIBAN);
     await waitFor(() => {
       expect(input).toHaveValue(formatIban(mockIBAN));
     });
@@ -72,7 +72,7 @@ describe("IbanInput", () => {
     );
     const input = getByLabelText("IBAN");
 
-    user.type(input, "invalid iban");
+    await user.type(input, "invalid iban");
     fireEvent.blur(input);
 
     await waitFor(() => {
