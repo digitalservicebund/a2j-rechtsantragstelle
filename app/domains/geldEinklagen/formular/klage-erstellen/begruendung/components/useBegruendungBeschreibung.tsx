@@ -7,16 +7,40 @@ import { CSRFKey } from "~/services/security/csrf/csrfKey";
 const UPDATE_PERSONEN_URL_ENDPOINT =
   "/geld-einklagen/formular/action/update-abschnitten-personen-ids";
 
-const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
+const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 
 const focusOnBeweisTitle = (abschnittId: string) => {
   setTimeout(function () {
-    const inputElement = document.querySelector<HTMLInputElement>(
-      `#abschnitt-beweis-${abschnittId}`,
+    const headingElement = document.getElementById(
+      `abschnitt-beweis-${abschnittId}`,
     );
 
-    if (inputElement) {
-      inputElement.focus();
+    if (headingElement) {
+      headingElement.focus();
+    }
+  }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
+};
+
+const getFocusAbschnittElement = (abschnittId: number) => {
+  let headingElement = document.getElementById(`abschnitt-${abschnittId}`);
+
+  // Abschnitt was deleted (e.g. the last one), so focus the previous one instead
+  headingElement ??= document.getElementById(`abschnitt-${abschnittId - 1}`);
+
+  // No previous Abschnitt exists either, so fall back to the "add Abschnitt" link
+  if (!headingElement) {
+    return document.querySelector<HTMLElement>("a[data-testid=add-abschnitt]");
+  }
+
+  return headingElement;
+};
+
+const focusOnAbschnitteTitle = (abschnittId: number) => {
+  setTimeout(function () {
+    const abschnittElement = getFocusAbschnittElement(abschnittId);
+
+    if (abschnittElement) {
+      abschnittElement.focus();
     }
   }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
 };
@@ -40,6 +64,7 @@ export const useBegruendungBeschreibung = () => {
 
       if (response.ok) {
         await revalidator.revalidate();
+        focusOnAbschnitteTitle(itemIndex);
       }
     },
     onAbschnittDocumentDelete: async (
