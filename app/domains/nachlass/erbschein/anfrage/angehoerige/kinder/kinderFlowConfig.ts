@@ -5,7 +5,7 @@ import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein
 import { kinderRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
 
 export const kinderFlowConfig = {
-  kinder: [
+  hatteKinder: [
     {
       guard: ({ hatteKinder }) => hatteKinder === "yes",
       target: "kind1Summary",

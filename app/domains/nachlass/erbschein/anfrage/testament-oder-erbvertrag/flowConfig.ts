@@ -17,7 +17,7 @@ export const testamentOderErbvertragFlowConfig = {
       guard: (data) =>
         data.testamentArt === "none" &&
         data.verstorbeneFamilienstand === "ledig",
-      target: "kinder",
+      target: "hatteKinder",
     },
     {
       target: "namedBeneficiariesOverview",
@@ -43,7 +43,7 @@ export const testamentOderErbvertragFlowConfig = {
         data.verstorbeneFamilienstand === "ledig" &&
         data.testamentArt === "none" &&
         beguenstigtenArray.safeParse(data.beguenstigten).success,
-      target: "kinder",
+      target: "hatteKinder",
     },
     {
       guard: (data) => beguenstigtenArray.safeParse(data.beguenstigten).success,

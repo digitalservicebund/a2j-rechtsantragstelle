@@ -103,7 +103,7 @@ const kinderLevelPages = <D extends number>(depth: D) => {
 };
 
 export const kinderPages = {
-  kinder: {
+  hatteKinder: {
     stepId: "/angehoerige/hatte-kinder",
     pageSchema: { hatteKinder: YesNoAnswer },
   },
