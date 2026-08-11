@@ -24,7 +24,7 @@ import {
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
 import { geldEinklagenFlowConfig } from "./flowConfig";
-import { updatePersonenTypesPerAbschnitt } from "../services/updatePersonenTypesPerAbschnitt";
+import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -73,8 +73,8 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl":
-      updatePersonenTypesPerAbschnitt,
+      updateAbschnittenPersonenIds,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten":
-      updatePersonenTypesPerAbschnitt,
+      updateAbschnittenPersonenIds,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

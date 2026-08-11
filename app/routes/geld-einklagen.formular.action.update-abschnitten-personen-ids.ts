@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs } from "react-router";
-import { updatePersonenTypesPerAbschnitt } from "~/domains/geldEinklagen/services/updatePersonenTypesPerAbschnitt";
+import { updateAbschnittenPersonenIds } from "~/domains/geldEinklagen/services/updateAbschnittenPersonenIds";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
 
-  await updatePersonenTypesPerAbschnitt(request, flowSession.data, flowSession);
+  await updateAbschnittenPersonenIds(request, flowSession.data, flowSession);
 
   const headers = await commitSession(flowSession);
 

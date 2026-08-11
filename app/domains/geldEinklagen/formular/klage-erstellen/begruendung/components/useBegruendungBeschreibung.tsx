@@ -4,8 +4,8 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
-const UPDATE_PERSONEN_TYPES_URL_ENDPOINT =
-  "/geld-einklagen/formular/action/update-personen-types-per-abschnitt";
+const UPDATE_PERSONEN_URL_ENDPOINT =
+  "/geld-einklagen/formular/action/update-abschnitten-personen-ids";
 
 export const useBegruendungBeschreibung = () => {
   const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
@@ -44,7 +44,7 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
-        await fetch(UPDATE_PERSONEN_TYPES_URL_ENDPOINT, {
+        await fetch(UPDATE_PERSONEN_URL_ENDPOINT, {
           body: formData,
           method: "post",
         });
@@ -68,7 +68,7 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
-        await fetch(UPDATE_PERSONEN_TYPES_URL_ENDPOINT, {
+        await fetch(UPDATE_PERSONEN_URL_ENDPOINT, {
           body: formData,
           method: "post",
         });
