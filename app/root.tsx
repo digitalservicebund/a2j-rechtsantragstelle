@@ -182,7 +182,7 @@ function App() {
         />
         <link rel="stylesheet" href={styles} />
         <Meta />
-        <Links />
+        <Links nonce={nonce} />
       </head>
       <body className="min-h-screen grid grid-rows-[auto_auto_1fr_auto]">
         <AnalyticsContext value={{ posthogClient, hasTrackingConsent }}>
