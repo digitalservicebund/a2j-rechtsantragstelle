@@ -7,6 +7,20 @@ import { CSRFKey } from "~/services/security/csrf/csrfKey";
 const UPDATE_PERSONEN_URL_ENDPOINT =
   "/geld-einklagen/formular/action/update-abschnitten-personen-ids";
 
+const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 10;
+
+const focusOnBeweisTitle = (abschnittId: string) => {
+  setTimeout(function () {
+    const inputElement = document.querySelector<HTMLInputElement>(
+      `#abschnitt-beweis-${abschnittId}`,
+    );
+
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
+};
+
 export const useBegruendungBeschreibung = () => {
   const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const jsEnabled = useJsAvailable();
@@ -30,12 +44,13 @@ export const useBegruendungBeschreibung = () => {
     },
     onAbschnittDocumentDelete: async (
       pathnameArrayItem: string,
-      itemIndex: number,
+      abschnittIndex: number,
+      documentIndex: number,
     ) => {
       const formData = new FormData();
       formData.append("pathnameArrayItem", pathnameArrayItem);
       formData.append("_jsEnabled", String(jsEnabled));
-      formData.append("abschnitte#dokumenten", String(itemIndex));
+      formData.append("abschnitte#dokumenten", String(documentIndex));
       formData.append(CSRFKey, csrf);
 
       const response = await fetch(DELETE_URL_ENDPOINT, {
@@ -50,16 +65,18 @@ export const useBegruendungBeschreibung = () => {
         });
 
         await revalidator.revalidate();
+        focusOnBeweisTitle(String(abschnittIndex));
       }
     },
     onAbschnittPersonDelete: async (
       pathnameArrayItem: string,
-      itemIndex: number,
+      abschnittIndex: number,
+      personIndex: number,
     ) => {
       const formData = new FormData();
       formData.append("pathnameArrayItem", pathnameArrayItem);
       formData.append("_jsEnabled", String(jsEnabled));
-      formData.append("abschnitte#personen", String(itemIndex));
+      formData.append("abschnitte#personen", String(personIndex));
       formData.append(CSRFKey, csrf);
 
       const response = await fetch(DELETE_URL_ENDPOINT, {
@@ -74,6 +91,7 @@ export const useBegruendungBeschreibung = () => {
         });
 
         await revalidator.revalidate();
+        focusOnBeweisTitle(String(abschnittIndex));
       }
     },
   };

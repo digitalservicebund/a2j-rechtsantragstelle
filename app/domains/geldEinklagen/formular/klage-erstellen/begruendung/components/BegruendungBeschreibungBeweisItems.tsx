@@ -111,6 +111,7 @@ export const BegruendungBeschreibungBeweisItems = ({
               buttons={renderItemButtons(editDocumentUrl, () =>
                 onAbschnittDocumentDelete(
                   `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
+                  itemIndexAbschnitte,
                   dokumentIndex,
                 ),
               )}
@@ -136,6 +137,7 @@ export const BegruendungBeschreibungBeweisItems = ({
               buttons={renderItemButtons(editPersonUrl, () =>
                 onAbschnittPersonDelete(
                   `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
+                  itemIndexAbschnitte,
                   personIndex,
                 ),
               )}

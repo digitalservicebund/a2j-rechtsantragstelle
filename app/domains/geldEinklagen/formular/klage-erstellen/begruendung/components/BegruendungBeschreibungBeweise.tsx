@@ -28,7 +28,11 @@ export const BegruendungBeschreibungBeweise = ({
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
       <div className="kern-description-list-item">
         <div className="flex flex-col gap-kern-space-small">
-          <h3 className="kern-body kern-body--default kern-body--bold p-0!">
+          <h3
+            className="kern-body kern-body--default kern-body--bold p-0!"
+            id={`abschnitt-beweis-${itemIndexAbschnitte}`}
+            tabIndex={-1}
+          >
             {translations.geldEinklagen.begruendungBeschreibungEvidenceTitle.de}
           </h3>
           <span className="kern-body kern-body--default kern-body--regular text-kern-layout-text-muted! text-pretty p-0!">
