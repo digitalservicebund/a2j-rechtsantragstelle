@@ -1,7 +1,7 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck.server";
 import { nachlassErbfolgeStaticFlow } from "../flowConfig";
-import { erbfolgeVorabcheckExtras } from "../vorabcheckExtras";
+import { erbfolgeVorabcheckLoaderExtras } from "../vorabcheckExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -45,7 +45,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/kinder",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = await erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -66,7 +66,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/elternteile",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = await erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -80,7 +80,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/start",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = await erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -109,7 +109,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       [0, 0],
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = await erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -143,7 +143,7 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
     );
 
     const replacements =
-      await erbfolgeVorabcheckExtras.buildReplacements!(context);
+      await erbfolgeVorabcheckLoaderExtras.buildReplacements!(context);
 
     expect(replacements["kinder#vorname"]).toBe("Kind");
     expect(replacements["kinder#nachname"]).toBe("Eins");
@@ -162,7 +162,7 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
     );
 
     const replacements =
-      await erbfolgeVorabcheckExtras.buildReplacements!(context);
+      await erbfolgeVorabcheckLoaderExtras.buildReplacements!(context);
 
     expect(replacements).toEqual({});
   });

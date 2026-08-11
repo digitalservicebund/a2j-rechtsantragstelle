@@ -36,7 +36,7 @@ export default [
       route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
         id: "nachlassErbfolgeResult",
       }),
-      route("*", "routes/nachlass.erbschein.erbfolge.$.tsx", {
+      route("*", "routes/shared/newEngineVorabcheck.ts", {
         id: "nachlassErbfolgeFlow",
       }),
     ]),

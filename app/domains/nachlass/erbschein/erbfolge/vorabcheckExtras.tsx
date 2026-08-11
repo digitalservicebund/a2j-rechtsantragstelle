@@ -16,6 +16,12 @@ import {
   resolveParentOptions,
 } from "./buildParentOptions";
 import { personName } from "../shared/personName";
+import {
+  type VorabcheckExtras,
+  type VorabcheckExtraLoaderData,
+} from "~/routes/shared/extras";
+import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
+import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 
 type ErbfolgeArraySummaryData = {
   category: string;
@@ -29,11 +35,60 @@ type ErbfolgeArraySummaryData = {
   };
 };
 
-export type ErbfolgeLoaderExtraData = {
+type ErbfolgeLoaderExtraData = {
   formElements: StrapiFormComponent[];
   dynamicOptions: DynamicOptions | undefined;
   arraySummaryData: ErbfolgeArraySummaryData | undefined;
   deceasedPersonName: string | undefined;
+};
+
+type ErbfolgeLoaderExtras = {
+  arraySummaryData:
+    | {
+        category: string;
+        arrayData: {
+          data: ArrayData;
+          configuration: {
+            url: string;
+            initialInputUrl: string;
+            disableAddButton: boolean;
+          };
+        };
+      }
+    | undefined;
+  deceasedPersonName: string | undefined;
+  dynamicOptions: DynamicOptions | undefined;
+};
+
+type ErbfolgeVorabcheckLoaderData = VorabcheckExtraLoaderData &
+  ErbfolgeLoaderExtras;
+
+export const erbfolgeExtras: VorabcheckExtras<ErbfolgeVorabcheckLoaderData> = {
+  renderExtraComponents: (loaderData) => {
+    return (
+      <>
+        {loaderData.arraySummaryData?.category === "elternteile" && (
+          <ElternteilSummary
+            data={loaderData.arraySummaryData.arrayData.data}
+            configuration={loaderData.arraySummaryData.arrayData.configuration}
+            deceasedPersonName={loaderData.deceasedPersonName}
+          />
+        )}
+        {loaderData.arraySummaryData &&
+          loaderData.arraySummaryData.category !== "elternteile" && (
+            <KinderSummary
+              data={loaderData.arraySummaryData.arrayData.data}
+              configuration={
+                loaderData.arraySummaryData.arrayData.configuration
+              }
+              category={loaderData.arraySummaryData.category}
+              deceasedPersonName={loaderData.deceasedPersonName}
+            />
+          )}
+      </>
+    );
+  },
+  getDynamicOptions: (loaderData) => loaderData.dynamicOptions,
 };
 
 // The dynamic parent-select fields (e.g. "which sibling does this child belong
@@ -159,7 +214,7 @@ function buildArraySummaryData(
   };
 }
 
-export const erbfolgeVorabcheckExtras: VorabcheckLoaderExtras<ErbfolgeLoaderExtraData> =
+export const erbfolgeVorabcheckLoaderExtras: VorabcheckLoaderExtras<ErbfolgeLoaderExtraData> =
   {
     buildReplacements: buildParentNameReplacements,
     buildLoaderData: (context) => ({
