@@ -82,7 +82,7 @@ const beweisePersonenArray = z.array(
 
 const abschnitteArray = z.array(
   z.object({
-    beschreibung: stringRequiredMaxSchema({ max: 10000 }),
+    beschreibung: stringRequiredMaxSchema({ max: 12000 }),
     personIdAsBeklagte: personIdOnAbschnittSchema,
     personIdAsKlagende: personIdOnAbschnittSchema,
     dokumenten: beweiseDokumentenArray.optional(),
