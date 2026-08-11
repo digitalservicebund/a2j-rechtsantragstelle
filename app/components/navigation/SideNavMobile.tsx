@@ -79,26 +79,28 @@ const initializeKeyDownListeners = (
       summary.focus();
     }
   };
-
-  document.addEventListener("keydown", handleEscape);
-
-  summary.addEventListener("keydown", function (event: KeyboardEvent) {
-    // Only trap focus when the menu is open
+  const handleSummaryKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab" && event.shiftKey && details.open) {
       event.preventDefault();
       lastLink.focus();
     }
-  });
+  };
 
-  lastLink.addEventListener("keydown", function (event: KeyboardEvent) {
+  const handleLastLinkKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab" && !event.shiftKey) {
       event.preventDefault();
       summary.focus();
     }
-  });
+  };
+
+  document.addEventListener("keydown", handleEscape);
+  summary.addEventListener("keydown", handleSummaryKeyDown);
+  lastLink.addEventListener("keydown", handleLastLinkKeyDown);
 
   return () => {
     document.removeEventListener("keydown", handleEscape);
+    summary.removeEventListener("keydown", handleSummaryKeyDown);
+    lastLink.removeEventListener("keydown", handleLastLinkKeyDown);
   };
 };
 
