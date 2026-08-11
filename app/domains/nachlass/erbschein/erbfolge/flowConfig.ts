@@ -5,7 +5,7 @@ import { elternteilFlowConfig } from "./elternteilFlowConfig";
 import {
   elternteileRequireFurtherGenerations,
   hasNoFirstOrSecondOrderHeirs,
-} from "./calculateInheritance";
+} from "../shared/calculateInheritance";
 import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
