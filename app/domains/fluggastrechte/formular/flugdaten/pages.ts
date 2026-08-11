@@ -2,7 +2,6 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { autoSuggestSchema } from "~/services/validation/autoSuggest";
-import { bookingNumberFlightSchema } from "~/services/validation/bookingNumberFlight";
 import { createDateSchema } from "~/services/validation/dateString";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -39,7 +38,7 @@ export const fluggastrechteFlugdatenPages = {
     stepId: "flugdaten/geplanter-flug",
     pageSchema: {
       direktFlugnummer: stringRequiredSchema,
-      buchungsNummer: bookingNumberFlightSchema,
+      buchungsNummer: stringOptionalSchema,
       direktAbflugsDatum: fourYearsAgoSchema,
       direktAbflugsZeit: timeSchema,
       zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
