@@ -52,11 +52,14 @@ export default defineConfig((config) => ({
     // creating a second DataRouterContext and breaking hooks like
     // useActionData with "must be used within a data router". Bundling them
     // through Vite's SSR graph keeps a single react-router instance.
-    noExternal: [
-      "@digitalservicebund/icons",
-      "@rvf/react-router",
-      "@rvf/react",
-    ],
+    // Only needed for the actual app (dev/build), not under Vitest, where
+    // forcing them through vite-node's transform pipeline instead splits
+    // @rvf/react into a separate instance from the one used directly in
+    // component tests, breaking "useFormContext must be used within a
+    // FormProvider".
+    noExternal: isVitest
+      ? ["@digitalservicebund/icons"]
+      : ["@digitalservicebund/icons", "@rvf/react-router", "@rvf/react"],
   },
   test: {
     globals: true,
