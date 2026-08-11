@@ -44,6 +44,7 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
+import { type fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -125,4 +126,4 @@ export const fluggastrechtFlow = {
   },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
-} satisfies Flow;
+} satisfies Flow<typeof fluggastrechteFormularPages>;

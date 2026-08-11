@@ -79,7 +79,7 @@ jobs:
   build-app-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: docker/login-action@06fb636fac595d6fb4b28a5dfcb21a6f5091859c # v4.5.0
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -100,6 +100,16 @@ jobs:
           path: image.tar.gz
           retention-days: 1
 
+  testing-feature:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/APL-266-feature-release'
+    needs: [code-quality, verify-local-e2e, build-app-image]
+    permissions:
+      id-token: write # for cosign w/ keyless signing
+      packages: write # for updating cosign attestation
+      security-events: write
+    uses: ./.github/workflows/testing-feature.yml
+    secrets: inherit
+
   push-app-image:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -109,7 +119,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: docker/login-action@06fb636fac595d6fb4b28a5dfcb21a6f5091859c # v4.5.0
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -148,11 +158,11 @@ jobs:
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 #v4.37.3
+        uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3 #v4.37.6
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
-      - run: ./docker.sh --sign
+      - run: ./docker.sh --sign prod
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
       - name: Create SBOM

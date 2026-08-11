@@ -66,8 +66,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e42.value).toBe(undefined);
-      expect(pdfValues.e41.value).toBe(undefined);
+      expect(pdfValues.e42.value).toBeUndefined();
+      expect(pdfValues.e41.value).toBeUndefined();
     });
 
     it("should not report pension if the user's partner receives asylbewerberleistungen", () => {
@@ -75,8 +75,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e42.value).toBe(undefined);
-      expect(pdfValues.e41.value).toBe(undefined);
+      expect(pdfValues.e42.value).toBeUndefined();
+      expect(pdfValues.e41.value).toBeUndefined();
     });
 
     it("should report no pension if the user's partner doesn't receive one", () => {
@@ -110,8 +110,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "grundsicherung" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e39.value).toBe(undefined);
-      expect(pdfValues.e40.value).toBe(undefined);
+      expect(pdfValues.e39.value).toBeUndefined();
+      expect(pdfValues.e40.value).toBeUndefined();
     });
 
     it("should not report support if the user's partner receives asylbewerberleistungen", () => {
@@ -119,8 +119,8 @@ describe("bruttoEinnahmen_partner", () => {
         userData: { "partner-staatlicheLeistungen": "asylbewerberleistungen" },
         pdfValues: pdfParams,
       });
-      expect(pdfValues.e39.value).toBe(undefined);
-      expect(pdfValues.e40.value).toBe(undefined);
+      expect(pdfValues.e39.value).toBeUndefined();
+      expect(pdfValues.e40.value).toBeUndefined();
     });
 
     it("should report no support if the user's partner doesn't receive one", () => {

@@ -1,9 +1,10 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { type NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
-import { nachlassErbscheinNachlassgerichtXstateConfig } from "~/domains/nachlass/erbschein/nachlassgericht/xStateConfig";
+import { nachlassErbscheinNachlassgerichtFlowConfig } from "../flowConfig";
 
 export const nachlassErbscheinNachlassgerichtTestCases = {
-  xstateConfig: nachlassErbscheinNachlassgerichtXstateConfig,
+  xstateConfig: { id: "/nachlass/erbschein/nachlassgericht" },
+  newEngineConfig: nachlassErbscheinNachlassgerichtFlowConfig,
   testcases: {
     auslaendischeErbfall: [
       {
@@ -44,10 +45,16 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
     pflegeheimAmbiguousPLZ: [
       {
+        stepId: "/lebensmittelpunkt",
+        userInput: { lebensmittelpunkt: "deutschland" },
+      },
+      {
+        stepId: "/wohnsituation-pflegeheim",
+        userInput: { wohnsituationPflegeheim: "yes" },
+      },
+      {
         stepId: "/plz-pflegeheim",
-        userInput: {
-          plzPflegeheim: "20457",
-        },
+        userInput: { plzPflegeheim: "20457" },
       },
       {
         stepId: "/strasse-hausnummer",
@@ -62,22 +69,20 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
     hospiz: [
       {
+        stepId: "/lebensmittelpunkt",
+        userInput: { lebensmittelpunkt: "deutschland" },
+      },
+      {
         stepId: "/wohnsituation-pflegeheim",
-        userInput: {
-          wohnsituationPflegeheim: "no",
-        },
+        userInput: { wohnsituationPflegeheim: "no" },
       },
       {
         stepId: "/wohnsituation-hospiz",
-        userInput: {
-          wohnsituationHospiz: "yes",
-        },
+        userInput: { wohnsituationHospiz: "yes" },
       },
       {
         stepId: "/plz-hospiz",
-        userInput: {
-          plzHospiz: "10969",
-        },
+        userInput: { plzHospiz: "10969" },
       },
       {
         stepId: "/ergebnis/nachlassgericht",
@@ -85,11 +90,20 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
     hospizAmbiguousPLZ: [
       {
+        stepId: "/lebensmittelpunkt",
+        userInput: { lebensmittelpunkt: "deutschland" },
+      },
+      {
+        stepId: "/wohnsituation-pflegeheim",
+        userInput: { wohnsituationPflegeheim: "no" },
+      },
+      {
+        stepId: "/wohnsituation-hospiz",
+        userInput: { wohnsituationHospiz: "yes" },
+      },
+      {
         stepId: "/plz-hospiz",
-        userInput: {
-          plzHospiz: "20457",
-          wohnsituationHospiz: "yes",
-        },
+        userInput: { plzHospiz: "20457" },
       },
       {
         stepId: "/strasse-hausnummer",
@@ -104,18 +118,20 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
     wohnungOrHaus: [
       {
+        stepId: "/lebensmittelpunkt",
+        userInput: { lebensmittelpunkt: "deutschland" },
+      },
+      {
+        stepId: "/wohnsituation-pflegeheim",
+        userInput: { wohnsituationPflegeheim: "no" },
+      },
+      {
         stepId: "/wohnsituation-hospiz",
-        userInput: {
-          wohnsituationHospiz: "no",
-        },
+        userInput: { wohnsituationHospiz: "no" },
       },
       {
         stepId: "/plz-lebensmittelpunkt",
-        userInput: {
-          plzLebensmittelpunkt: "10969",
-          wohnsituationHospiz: "no",
-          wohnsituationPflegeheim: "no",
-        },
+        userInput: { plzLebensmittelpunkt: "10969" },
       },
       {
         stepId: "/ergebnis/nachlassgericht",
@@ -123,12 +139,20 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
     wohnungOrHausAmbiguousPLZ: [
       {
+        stepId: "/lebensmittelpunkt",
+        userInput: { lebensmittelpunkt: "deutschland" },
+      },
+      {
+        stepId: "/wohnsituation-pflegeheim",
+        userInput: { wohnsituationPflegeheim: "no" },
+      },
+      {
+        stepId: "/wohnsituation-hospiz",
+        userInput: { wohnsituationHospiz: "no" },
+      },
+      {
         stepId: "/plz-lebensmittelpunkt",
-        userInput: {
-          plzLebensmittelpunkt: "20457",
-          wohnsituationHospiz: "no",
-          wohnsituationPflegeheim: "no",
-        },
+        userInput: { plzLebensmittelpunkt: "20457" },
       },
       {
         stepId: "/strasse-hausnummer",
@@ -142,4 +166,7 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
       },
     ],
   },
-} satisfies FlowTestConfig<NachlassErbscheinNachlassGerichtUserData>;
+} satisfies FlowTestConfig<
+  NachlassErbscheinNachlassGerichtUserData,
+  typeof nachlassErbscheinNachlassgerichtFlowConfig.pages
+>;

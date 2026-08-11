@@ -2,7 +2,7 @@ import z from "zod";
 import merge from "lodash/merge";
 import { getPageSchema } from "../pageSchemas";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
-import { removeArrayIndex } from "~/util/array";
+import { removeArrayIndexWithWildcard } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
@@ -16,18 +16,17 @@ import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
-
-// Back from a page can point at a completed array item: the engine resolves
-// that to a concrete path ("/angehoerige/0/x"), while the testcase still
-// declares it with the array wildcard ("/angehoerige/#/x"). Normalize "#" to
-// a digit first so the existing removeArrayIndex() strips both forms the same way.
-const normalizePrevPath = (path: string) =>
-  removeArrayIndex(path.replaceAll("#", "0"));
+import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
+import { nachlassErbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { nachlassErbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
   nachlassErbscheinAnfrageTestCases,
   kontopfaendungWegweiserTestCases,
+  kontopfaendungPkontoAntragTestCases,
+  nachlassErbausschlagungGerichtFindenTestCases,
+  nachlassErbscheinNachlassgerichtTestCases,
 };
 
 type VisitedSteps = Record<
@@ -109,12 +108,16 @@ function testArrayLinkPages(
   if (addArrayItemEvent) {
     expect(flowSessionEngine.nextArrayPath).toBe(nextStepId);
   } else {
-    expect(flowSessionEngine.nextPath).toBe(removeArrayIndex(nextStepId));
+    expect(flowSessionEngine.nextPath).toBe(
+      removeArrayIndexWithWildcard(nextStepId),
+    );
   }
 
   // Only test "BACK" linkage if we're not on the summary page
   if (stepId !== summaryPageStepId && previousStepId !== undefined) {
-    expect(flowSessionEngine.prevPath).toBe(removeArrayIndex(previousStepId));
+    expect(flowSessionEngine.prevPath).toBe(
+      removeArrayIndexWithWildcard(previousStepId),
+    );
   }
 }
 
@@ -138,10 +141,14 @@ function runTestcases<T extends UserData>(
           idx,
         ) => {
           const currentUrl = flowId + stepId;
-          const pageSchema = getPageSchema(currentUrl);
+          const pageSchema = getPageSchema(
+            removeArrayIndexWithWildcard(currentUrl),
+          );
 
           // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
-          if (isAddingArrayItem && stepId === summaryPageStepId) {
+          const justExitedArray =
+            isAddingArrayItem && stepId === summaryPageStepId;
+          if (justExitedArray) {
             isAddingArrayItem = false;
             summaryPageStepId = undefined;
           }
@@ -169,7 +176,7 @@ function runTestcases<T extends UserData>(
                 typeof createFlowSession
               >[1]),
             },
-            stepId,
+            removeArrayIndexWithWildcard(stepId), // we need to remove the array index here, because the flowSessionEngine expects the stepId without array indexes
           );
 
           // Given the current data and url we expect the next and previous url
@@ -181,7 +188,7 @@ function runTestcases<T extends UserData>(
             testArrayLinkPages(
               flowSessionEngine,
               stepId,
-              nextStepId,
+              removeArrayIndexWithWildcard(nextStepId),
               previousStepId,
               addArrayItemEvent,
               summaryPageStepId,
@@ -189,16 +196,19 @@ function runTestcases<T extends UserData>(
           } else {
             expect(flowSessionEngine.nextPath).toBe(nextStepId);
 
-            if (idx > 0 && previousStepId !== undefined) {
-              expect(normalizePrevPath(flowSessionEngine.prevPath ?? "")).toBe(
-                normalizePrevPath(previousStepId),
-              );
+            // Back from the overview page right after finishing an array item
+            // always skips to the step before the array, not the item just
+            // added, so the previous declared step isn't a valid expectation here.
+            if (idx > 0 && previousStepId !== undefined && !justExitedArray) {
+              expect(flowSessionEngine.prevPath).toBe(previousStepId);
             }
           }
 
-          allVisitedSteps[flowId].visitedSteps.add(removeArrayIndex(stepId));
           allVisitedSteps[flowId].visitedSteps.add(
-            removeArrayIndex(nextStepId),
+            removeArrayIndexWithWildcard(stepId),
+          );
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndexWithWildcard(nextStepId),
           );
         },
       );

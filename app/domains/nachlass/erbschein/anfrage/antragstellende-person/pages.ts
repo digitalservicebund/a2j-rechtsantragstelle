@@ -1,3 +1,4 @@
+import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
@@ -66,6 +67,7 @@ export const antragstellendePersonPages = {
     pageSchema: {
       antragstellendePersonStrasse: stringRequiredSchema,
       antragstellendePersonHausnummer: stringRequiredSchema,
+      antragstellendePersonPlz: stringRequiredSchema,
       antragstellendePersonOrt: stringRequiredSchema,
       antragstellendePersonLand: stringOptionalSchema,
       antragstellendePersonAdresszusatz: stringOptionalSchema,
@@ -76,6 +78,13 @@ export const antragstellendePersonPages = {
     pageSchema: {
       antragstellendePersonTelefonnummer: phoneNumberSchema,
       antragstellendePersonEmail: schemaOrEmptyString(emailSchema),
+    },
+  },
+  antragstellendePersonRelationshipToErblasser: {
+    stepId: "/antragstellende-person/verhaeltnis",
+    pageSchema: {
+      antragstellendePersonRelationshipToErblasser:
+        relationshipToDeceasedSchema,
     },
   },
 } satisfies PagesConfig;

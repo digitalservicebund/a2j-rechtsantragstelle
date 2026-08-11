@@ -1,13 +1,18 @@
+import { personName } from "../shared/personName";
+
 type FamilyMember = {
-  name?: string;
+  vorname?: string;
+  nachname?: string;
   isAlive?: string;
   kinder?: FamilyMember[];
 };
 
 type RequiredDocumentsInput = {
-  name?: string;
+  verstorbeneVorname?: string;
+  verstorbeneNachname?: string;
   familienstand?: string;
-  ehepartnerName?: string;
+  ehepartnerVorname?: string;
+  ehepartnerNachname?: string;
   ehevertrag?: string;
   kinder?: FamilyMember[];
   elternteile?: FamilyMember[];
@@ -22,7 +27,7 @@ const LAST_SPOUSE_LABEL = "Letzter Ehepartner oder letzte Ehepartnerin";
 function walkFamilyTree(members: FamilyMember[]): PersonDocuments[] {
   return members.flatMap((member) => [
     {
-      name: member.name ?? "",
+      name: personName(member),
       documents:
         member.isAlive === "no" ? DEAD_RELATIVE_DOCUMENTS : HEIR_DOCUMENTS,
     },
@@ -38,7 +43,10 @@ function spouseEntries(input: RequiredDocumentsInput): PersonDocuments[] {
     case "verheiratet":
       return [
         {
-          name: input.ehepartnerName ?? "",
+          name: personName({
+            vorname: input.ehepartnerVorname,
+            nachname: input.ehepartnerNachname,
+          }),
           documents:
             input.ehevertrag === "yes"
               ? "Heiratsurkunde, Ehevertrag"
@@ -66,7 +74,7 @@ function spouseEntries(input: RequiredDocumentsInput): PersonDocuments[] {
 function elternteilEntries(elternteile: FamilyMember[]): PersonDocuments[] {
   return elternteile.flatMap((elternteil) => [
     ...(elternteil.isAlive === "no"
-      ? [{ name: elternteil.name ?? "", documents: "Sterbeurkunde" }]
+      ? [{ name: personName(elternteil), documents: "Sterbeurkunde" }]
       : []),
     ...walkFamilyTree(elternteil.kinder ?? []),
   ]);
@@ -81,7 +89,10 @@ export function collectRequiredDocuments(
 
   return [
     {
-      name: input.name ?? "",
+      name: personName({
+        vorname: input.verstorbeneVorname,
+        nachname: input.verstorbeneNachname,
+      }),
       documents: hasSecondOrderHeirs
         ? "Sterbeurkunde, Geburtsurkunde"
         : "Sterbeurkunde",

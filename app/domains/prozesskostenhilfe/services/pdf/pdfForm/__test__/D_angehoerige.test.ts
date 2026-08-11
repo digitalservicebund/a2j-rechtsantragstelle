@@ -62,7 +62,7 @@ describe("D_angehoerige", () => {
       pdfParams: getProzesskostenhilfeParameters(),
       fillFunctions: [fillUnterhaltAngehoerige],
     });
-    expect(attachment.length).toBe(0);
+    expect(attachment).toHaveLength(0);
 
     // Partner
     expect(pdfValues.angehoerigerNr1.value).toEqual(

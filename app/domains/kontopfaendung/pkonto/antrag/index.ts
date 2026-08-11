@@ -1,8 +1,9 @@
 import type { Flow } from "~/domains/flows.server";
-import { kontopfaendungPkontoAntragXStateConfig } from "./xStateConfig";
+import { kontopfaendungPkontoAntragFlowConfig } from "./flowConfig";
 
 export const kontopfaendungPkontoAntrag = {
   flowType: "formFlow",
-  config: kontopfaendungPkontoAntragXStateConfig,
+  config: { states: {} },
   stringReplacements: () => ({}),
-} satisfies Flow;
+  newEngineConfig: kontopfaendungPkontoAntragFlowConfig,
+} satisfies Flow<typeof kontopfaendungPkontoAntragFlowConfig.pages>;

@@ -36,7 +36,7 @@ describe("integration testing helper functions", () => {
         },
       });
 
-      expect(result.length).toBe(3);
+      expect(result).toHaveLength(3);
       expect(result).toEqual(
         expect.arrayContaining(["step-1", "step-2", "step-3"]),
       );
@@ -61,7 +61,7 @@ describe("integration testing helper functions", () => {
           "result-pages": [],
         },
       });
-      expect(result.length).toBe(0);
+      expect(result).toHaveLength(0);
     });
   });
 

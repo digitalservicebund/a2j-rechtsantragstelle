@@ -10,11 +10,44 @@ import {
   getVerstorbenePostcodeCity,
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
+import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
   config: {
     states: {},
+  },
+  migration: {
+    source: "/nachlass/erbschein/erbfolge",
+    sortedFields: [
+      "verstorbeneVorname",
+      "verstorbeneNachname",
+      "verstorbeneFamilienstand",
+      "ehepartnerVorname",
+      "ehepartnerNachname",
+      "ehepartnerStaatsangehoerigkeit",
+      "hasEhevertrag",
+    ],
+    migrationDataMerger: (
+      sourceData: NachlassErbscheinErbfolgeUserData,
+    ): NachlassErbscheinAnfrageUserData => {
+      return {
+        ehepartnerVorname: sourceData.ehepartnerVorname ?? "",
+        ehepartnerNachname: sourceData.ehepartnerNachname ?? "",
+        ...(sourceData.ehepartnerStaatsangehoerigkeit === "nurDeutsch"
+          ? { ehepartnerStaatsangehoerigkeit: "Deutsch" }
+          : {}),
+        ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
+          ? { hasEhevertrag: sourceData.ehevertrag }
+          : {}),
+        verstorbeneFamilienstand: sourceData.familienstand,
+        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
+        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
+      };
+    },
+    buttonUrl: "/nachlass/erbschein/erbfolge",
   },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),
@@ -25,5 +58,6 @@ export const nachlassErbscheinAnfrage = {
     ...getAngehoerigeStrings(context),
     ...getAmtsgerichtStrings(context),
   }),
-  newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
-} satisfies Flow<typeof nachlassErbscheinAnfrageFlowConfig.pages>;
+  newEngineConfig:
+    nachlassErbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
+} satisfies Flow<PageConfigMap>;

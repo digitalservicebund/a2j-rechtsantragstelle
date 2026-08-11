@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -9,33 +10,7 @@ const commonBeguenstigteFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsname: stringOptionalSchema,
-  verhaeltnis: z.enum([
-    "mother-father",
-    "daughter-son",
-    "grandmother-grandfather",
-    "granddaughter-grandson",
-    "great-grandmother-great-grandfather",
-    "sister-brother",
-    "half-sister-half-brother",
-    "niece-nephew",
-    "aunt-uncle",
-    "cousin",
-    "great-aunt-great-uncle",
-    "wife-husband",
-    "life-partner",
-    "mother-in-law-father-in-law",
-    "sister-in-law-brother-in-law",
-    "daughter-in-law-son-in-law",
-    "stepmother-stepfather",
-    "stepdaughter-stepson",
-    "stepsister-stepbrother",
-    "foster-mother-foster-father",
-    "foster-child",
-    "adoptive-mother-adoptive-father",
-    "godmother-godfather",
-    "other",
-    "not-related",
-  ]),
+  verhaeltnis: relationshipToDeceasedSchema,
   geburtsdatum: createSplitDateSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),

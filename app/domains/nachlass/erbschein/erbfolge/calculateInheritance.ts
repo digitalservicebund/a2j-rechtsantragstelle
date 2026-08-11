@@ -1,4 +1,3 @@
-import { BOTH_PARENTS_VALUE } from "./buildParentOptions";
 import {
   addFractions,
   HALF,
@@ -9,11 +8,14 @@ import {
   THREE_QUARTERS,
   WHOLE,
   type Fraction,
-} from "./fraction";
+} from "../shared/fraction";
 import type { Elternteil, Gueterstand, Kind } from "./pages";
+import { personName } from "../shared/personName";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 
 export type SpouseInput = {
-  name: string;
+  vorname?: string;
+  nachname?: string;
   gueterstand: Gueterstand;
 };
 
@@ -36,7 +38,8 @@ export type HeirShare = {
 // Structural supertype of Kind, ElternteilKind, and Elternteil — the distribution
 // logic only needs these fields, regardless of which family branch a person is in.
 type FamilyMember = {
-  name: string;
+  vorname?: string;
+  nachname?: string;
   isAlive: string;
   hatteKinder?: string;
   kinder?: FamilyMember[];
@@ -123,8 +126,9 @@ function distributeStamm(
 
   for (const kind of activeKinder) {
     if (kind.isAlive === "yes") {
-      const existing = accumulatedShares.get(kind.name);
-      accumulatedShares.set(kind.name, {
+      const name = personName(kind);
+      const existing = accumulatedShares.get(name);
+      accumulatedShares.set(name, {
         share: existing ? addFractions(existing.share, stammShare) : stammShare,
         depth,
       });
@@ -159,7 +163,7 @@ function calculate2ndOrder(
 
   for (const elternteil of activeElternteile) {
     if (elternteil.isAlive === "yes") {
-      result.set(elternteil.name, { share: elternteilShare, depth: 0 });
+      result.set(personName(elternteil), { share: elternteilShare, depth: 0 });
     } else if (elternteil.hatteKinder === "yes") {
       distributeStamm(elternteil.kinder ?? [], elternteilShare, result);
     }
@@ -301,7 +305,7 @@ export function calculateInheritance(input: InheritanceInput): HeirShare[] {
     );
     remainingShare = subtractFromWhole(share);
     result.push({
-      name: input.spouse.name,
+      name: personName(input.spouse),
       share,
       order: 0,
       depth: 0,

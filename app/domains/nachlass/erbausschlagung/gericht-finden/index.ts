@@ -5,11 +5,11 @@ import {
   shouldUseApplicantsCourt,
 } from "~/domains/nachlass/erbausschlagung/gericht-finden/stringReplacements";
 import { type NachlassErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
-import { nachlassErbausschlagungGerichtFindenXstateConfig } from "~/domains/nachlass/erbausschlagung/gericht-finden/xStateConfig";
+import { nachlassErbausschlagungGerichtFindenFlowConfig } from "./flowConfig";
 
 export const nachlassErbausschlagungGerichtFinden = {
   flowType: "vorabCheck",
-  config: nachlassErbausschlagungGerichtFindenXstateConfig,
+  config: { states: {} },
   stringReplacements: (
     context: NachlassErbausschlagungGerichtFindenUserData,
   ) => ({
@@ -17,4 +17,5 @@ export const nachlassErbausschlagungGerichtFinden = {
     ...plz(context),
     ...getAmtsgerichtStrings(context),
   }),
-} satisfies Flow;
+  newEngineConfig: nachlassErbausschlagungGerichtFindenFlowConfig,
+} satisfies Flow<typeof nachlassErbausschlagungGerichtFindenFlowConfig.pages>;

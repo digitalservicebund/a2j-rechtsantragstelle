@@ -1,8 +1,4 @@
-import {
-  type CompiledFlow,
-  compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { verstorbenePersonFlowConfig } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/flowConfig";
 import { antragstellendePersonFlowConfig } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/flowConfig";
@@ -28,8 +24,9 @@ export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
     ...ehepartnerFlowConfig,
     ...angehoerigeFlowConfig,
     ...nachlassFlowConfig,
+    weitereAngaben: "abgabe",
     abgabe: "ende",
     ende: null,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+});

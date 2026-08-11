@@ -18,12 +18,26 @@ import { type Session } from "react-router";
 import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import {
+  type InferredUserData,
+  type PageConfigMap,
+} from "~/services/flow/newFlowEngine/types";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 
-type FlowMigration = {
+type MigrationDataMerger<Dest extends PageConfigMap> = (
+  sourceData: InferredUserData<PageConfigMap>,
+) => InferredUserData<Dest>;
+
+type FlowMigration<C extends PageConfigMap> = {
   source: FlowId;
   sortedFields: string[];
+  /**
+   * Custom merge function used in cases where source and destination flow have different schemas.
+   * @param sourceData userData of the source flow, which is being migrated from
+   * @returns merged userData belonging to the destination flow
+   */
+  migrationDataMerger?: MigrationDataMerger<C>;
   buttonUrl?: string;
 };
 
@@ -40,7 +54,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   config: Config;
   newEngineConfig?: CompiledFlow<C>;
   guards?: Guards;
-  migration?: FlowMigration;
+  migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
   asyncFlowActions?: Record<
@@ -70,5 +84,5 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": {} as Flow<PageConfigMap>,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolge,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

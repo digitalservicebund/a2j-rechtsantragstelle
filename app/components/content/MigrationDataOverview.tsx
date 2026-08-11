@@ -46,7 +46,8 @@ const MigrationItems = ({
       </dt>
       <dd>
         {translations[`${itemKey}.${itemValue}`] ??
-          translations[`${itemKey}.migration.value`]}
+          translations[`${itemKey}.migration.value`] ??
+          itemValue}
       </dd>
     </>
   );

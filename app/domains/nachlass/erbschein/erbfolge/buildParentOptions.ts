@@ -1,8 +1,8 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { translations } from "~/services/translations/translations";
-
-export const BOTH_PARENTS_VALUE = "both";
+import { personName } from "../shared/personName";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 
 // Fallback form element for a dynamic parent select whose page has no Strapi
 // select entry yet: provides the label above the dropdown.
@@ -22,7 +22,8 @@ export function parentSelectFormElement(
 }
 
 type ParentEntry = {
-  name?: string;
+  vorname?: string;
+  nachname?: string;
   isAlive?: string;
   hatteKinder?: string;
 };
@@ -40,7 +41,7 @@ export function buildParentOptions(
     )
     .map(({ parent, index }) => ({
       value: String(index),
-      text: parent.name ?? "",
+      text: personName(parent),
       preSelected: false,
     }));
 }
@@ -57,7 +58,7 @@ export function buildElternteilParentOptions(
     .filter(({ parent }) => parent.isAlive === "no")
     .map(({ parent, index }) => ({
       value: String(index),
-      text: parent.name ?? "",
+      text: personName(parent),
       preSelected: false,
     }));
   if (elternteile.length === 2) {

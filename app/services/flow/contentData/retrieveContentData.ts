@@ -9,7 +9,10 @@ import { buildCmsContentAndTranslations } from "~/services/flow/contentData/buil
 import { parentFromParams } from "~/services/params";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { type UserDataWithPageData } from "../pageData";
-import { replacementsFromFlowConfig } from "~/util/applyStringReplacement";
+import {
+  replacementsFromFlowConfig,
+  type Replacements,
+} from "~/util/applyStringReplacement";
 import { getContentData } from "../contentData/getContentData";
 
 export const retrieveContentData = async (
@@ -18,6 +21,12 @@ export const retrieveContentData = async (
   params: Params<string>,
   userDataWithPageData: UserDataWithPageData,
   migrationData?: UserData,
+  // Extra text placeholders to fill into the CMS content, on top of the ones a
+  // flow declares statically. Use this for values that depend on which page the
+  // user is on (for example, the name of the specific list item they are inside),
+  // which the static per-flow replacements cannot know. Applied last, so these
+  // take priority. Optional: existing callers pass nothing and are unaffected.
+  extraReplacements?: Replacements,
 ) => {
   const { flowId, stepId, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
@@ -33,7 +42,7 @@ export const retrieveContentData = async (
       ]),
     ]);
 
-  const replacements = replacementsFromFlowConfig(
+  const flowReplacements = replacementsFromFlowConfig(
     currentFlow.stringReplacements,
     {
       // The migration overview page displays additional data that is not yet present in userData
@@ -42,6 +51,11 @@ export const retrieveContentData = async (
       ...migrationData,
     },
   );
+  // Without extras this stays exactly what it was before (including undefined),
+  // so every existing caller behaves identically.
+  const replacements = extraReplacements
+    ? { ...flowReplacements, ...extraReplacements }
+    : flowReplacements;
 
   const { translations, cmsContent } = buildCmsContentAndTranslations({
     flowTranslations: cmsTranslations[flowId],

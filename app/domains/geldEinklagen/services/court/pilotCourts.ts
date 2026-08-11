@@ -1,5 +1,5 @@
 export const PILOT_COURTS = new Set([
-  // "05_2_06_03_zivilgericht-amtsgericht", // AG ESSEN
+  "05_2_06_03_zivilgericht-amtsgericht", // AG ESSEN
   "07_1_04_02_zivilgericht-amtsgericht", // AG BITBURG
   "07_1_02_14_zivilgericht-amtsgericht", // AG SINZIG
   "08_1_06_01_zivilgericht-amtsgericht", // AG MANNHEIM
@@ -10,4 +10,5 @@ export const PILOT_COURTS = new Set([
   "04_1_01_01_zivilgericht-amtsgericht", // AG Bremen
   "06_1_02_03_zivilgericht-amtsgericht", // AG Frankfurt an Main
   "08_2_06_07_zivilgericht-amtsgericht", // AG Nürtingen
+  "05_3_02_01_zivilgericht-amtsgericht", // AG Bonn
 ]);

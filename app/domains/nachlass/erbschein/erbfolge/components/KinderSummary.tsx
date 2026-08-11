@@ -1,4 +1,4 @@
-import { useFetcher } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySummaryItemActions";
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -21,6 +21,7 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
+import { personName } from "../../shared/personName";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -28,16 +29,16 @@ const SECTION_TITLES = [
   "Kinder",
   "Enkelkinder",
   "Urenkel",
-  "Ururenkel",
-  "Ururenurenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 
 const SINGULAR_TITLES = [
   "Kind",
   "Enkelkind",
   "Urenkel",
-  "Ururenkel",
-  "Ururenurenkel",
+  "Ur-Urenkel",
+  "Ur-Ur-Urenkel",
 ];
 
 function badgeLabel(
@@ -52,8 +53,8 @@ const ADD_LABELS = [
   "Kind hinzufügen",
   "Enkelkind hinzufügen",
   "Urenkel hinzufügen",
-  "Ururenkel hinzufügen",
-  "Ururenurenkel hinzufügen",
+  "Ur-Urenkel hinzufügen",
+  "Ur-Ur-Urenkel hinzufügen",
 ];
 
 function DeleteButton({
@@ -67,10 +68,13 @@ function DeleteButton({
 }>) {
   const fetcher = useFetcher();
   const jsAvailable = useJsAvailable();
+  const { pathname } = useLocation();
   return (
     <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
       <CsrfInput />
       <input type="hidden" name="pathnameArrayItem" value={pathnameArrayItem} />
+      {/* The summary page to return to; pathnameArrayItem above is not navigable. */}
+      <input type="hidden" name="_redirectPathname" value={pathname} />
       <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
       <Button
         look="tertiary"
@@ -107,7 +111,7 @@ function KindSummaryItem({
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">Name</dt>
             <dd className="kern-description-list-item__value">
-              {String(item.name ?? "")}
+              {personName(item)}
             </dd>
           </div>
           <div className="kern-description-list-item">

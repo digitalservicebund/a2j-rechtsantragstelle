@@ -18,9 +18,18 @@ export type Gueterstand = z.infer<typeof gueterstandSchema>;
 
 const topLevelPages = {
   start: { stepId: "/start" },
+  testamentOderErbvertrag: {
+    stepId: "/testamentOderErbvertrag",
+    pageSchema: {
+      testamentArt: z.enum(["none", "handwritten", "notarized", "erbvertrag"]),
+    },
+  },
   verstorbenePerson: {
     stepId: "/verstorbenePerson",
-    pageSchema: { name: stringRequiredSchema },
+    pageSchema: {
+      verstorbeneVorname: stringRequiredSchema,
+      verstorbeneNachname: stringRequiredSchema,
+    },
   },
   familienstand: {
     stepId: "/familienstand",
@@ -35,7 +44,10 @@ const topLevelPages = {
   },
   ehepartner: {
     stepId: "/ehepartner",
-    pageSchema: { ehepartnerName: stringRequiredSchema },
+    pageSchema: {
+      ehepartnerVorname: stringRequiredSchema,
+      ehepartnerNachname: stringRequiredSchema,
+    },
   },
   ehepartnerStaatsangehoerigkeit: {
     stepId: "/ehepartnerStaatsangehoerigkeit",
@@ -80,6 +92,12 @@ const topLevelPages = {
   },
   nichtErmitteltWeitereOrdnungen: {
     stepId: "/ergebnis/erbfolge-nicht-ermittelt-weitere-ordnungen",
+  },
+  kinderFehlen: {
+    stepId: "/kinder-fehlen",
+  },
+  keineGesetzlicheErbfolge: {
+    stepId: "/ergebnis/keine-gesetzliche-erbfolge",
   },
 } as const;
 

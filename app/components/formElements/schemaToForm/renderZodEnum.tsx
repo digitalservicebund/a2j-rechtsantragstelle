@@ -18,6 +18,7 @@ export function renderZodEnum(
   matchingElement?: StrapiFormComponent,
 ) {
   const label = get(matchingElement, "label");
+  const suffix = get(matchingElement, "suffix");
   const errorMessages = get(matchingElement, "errorMessages");
 
   const sortedOptions = sortSchemaOptionsByFormComponents(
@@ -35,6 +36,7 @@ export function renderZodEnum(
           label={label}
           required={matchingElement.required}
           errorMessage={matchingElement.errorMessage}
+          suffix={suffix}
         />
       );
     case "form-elements.tile-group": {
@@ -75,6 +77,7 @@ export function renderZodEnum(
           }))}
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
+          suffix={suffix}
         />
       );
     }

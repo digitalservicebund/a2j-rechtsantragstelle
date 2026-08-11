@@ -41,6 +41,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         userInput: {
           antragstellendePersonStrasse: "Musterstraße",
           antragstellendePersonHausnummer: "1",
+          antragstellendePersonPlz: "10557",
           antragstellendePersonOrt: "Musterstadt",
         },
       },
@@ -49,6 +50,12 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         userInput: {
           antragstellendePersonTelefonnummer: "49123456789",
           antragstellendePersonEmail: "d8hMz@example.com",
+        },
+      },
+      {
+        stepId: "/antragstellende-person/verhaeltnis",
+        userInput: {
+          antragstellendePersonRelationshipToErblasser: "cousin",
         },
       },
       {

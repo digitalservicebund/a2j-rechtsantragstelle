@@ -108,6 +108,7 @@ export const verstorbenePersonTestCases: FlowTestCases<NachlassErbscheinAnfrageU
           verstorbenePersonAuslaendischeStrasse: "Musterstraße",
           verstorbenePersonAuslaendischeHausnummer: "1",
           verstorbenePersonAuslaendischerOrt: "Musterstadt",
+          verstorbenePersonAuslaendischePlz: "1010",
           verstorbenePersonLand: "Österreich",
         },
       },

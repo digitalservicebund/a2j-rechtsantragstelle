@@ -7,33 +7,27 @@ import {
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
-import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { type Config } from "~/services/flow/server/types";
 import { allStepsFromMachine } from "./allStepsFromMachine";
-import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { removeArrayIndex } from "~/util/array";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
-import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
+import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular/__test__/testcasesWithUserInputs";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
+import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
+import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinWegweiserTestCases } from "~/domains/nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
-import { nachlassErbscheinNachlassgerichtTestCases } from "~/domains/nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
-import { nachlassErbausschlagungGerichtFindenTestCases } from "~/domains/nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
   nachlassErbscheinWegweiserTestCases,
-  nachlassErbscheinNachlassgerichtTestCases,
   kontopfaendungWegweiserTestCases,
-  kontopfaendungPkontoAntragTestCases,
   nachlassErbausschlagungAnfrageTestCases,
-  nachlassErbausschlagungGerichtFindenTestCases,
 };
 
 type VisitedSteps = Record<

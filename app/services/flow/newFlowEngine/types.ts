@@ -43,17 +43,17 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-type ExtractNodeSchema<Node> = Node extends { pageSchema: infer S }
-  ? InferSchema<S>
-  : Node extends {
-        arraySummary: { name: infer N extends string; schema: infer S };
-      }
-    ? { [Key in N]: InferSchema<S> }
+type ExtractNodeSchema<Node> = Node extends {
+  arraySummary: { name: infer N extends string; schema: infer S };
+}
+  ? { [Key in N]: InferSchema<S> }
+  : Node extends { pageSchema: infer S }
+    ? InferSchema<S>
     : {};
 
 export type InferredUserData<C extends PageConfigMap> = Partial<
   UnionToIntersection<ExtractNodeSchema<C[keyof C]>>
->;
+> & { pageData?: PageData };
 
 // --- Routing & Guards ---
 type Guard<Data> = (data: Data) => boolean;
@@ -69,5 +69,5 @@ export type TransitionConfig<Key, Data> =
 
 export type TransitionConfigMap<C extends PageConfigMap> = Record<
   NodeKey<C>,
-  TransitionConfig<NodeKey<C>, InferredUserData<C> & { pageData: PageData }>
+  TransitionConfig<NodeKey<C>, InferredUserData<C>>
 >;
