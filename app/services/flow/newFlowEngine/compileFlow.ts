@@ -145,7 +145,10 @@ export const compileFlow = <C extends PageConfigMap>({
       : undefined;
 
     if (pageNode.arraySummary) {
-      arraySchemas.set(pageNode.arraySummary.name, pageNode.arraySummary.schema);
+      arraySchemas.set(
+        pageNode.arraySummary.name,
+        pageNode.arraySummary.schema,
+      );
       arrayInfoCache[nodeKey] = {
         name: pageNode.arraySummary.name,
         entryPoint: getArrayEntryPoint(nodeTransitions, pages),
