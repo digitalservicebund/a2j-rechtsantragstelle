@@ -8,10 +8,10 @@ import type {
 } from "~/routes/shared/newEngineResult.server";
 import {
   calculateInheritance,
+  type Gueterstand,
   type HeirShare,
   type InheritanceInput,
-} from "./calculateInheritance";
-import type { Gueterstand } from "./pages";
+} from "../shared/calculateInheritance";
 import { personName } from "../shared/personName";
 
 // Only the main result page gets the heir list + required documents. The other

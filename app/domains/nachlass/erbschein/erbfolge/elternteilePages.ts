@@ -6,57 +6,19 @@ import {
   parentKindIndexSchema,
   personUnion,
 } from "./pageSchemaHelpers";
+import {
+  type BaseElternteil,
+  type BaseElternteilKind,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-// Siblings of the deceased (a parent's other children) and their descendants,
-// nested up to 5 levels like the kinder line. Every node may carry a parent select:
-// level-1 siblings use parentElternteilIndex ("which parent", incl. "both"), deeper
-// levels use parentKindIndex ("which sibling"). Both optional so one recursive schema
-// covers every depth.
-type ElternteilKind =
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "yes";
-      parentElternteilIndex?: string;
-      parentKindIndex?: string;
-    }
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "no";
-      parentElternteilIndex?: string;
-      parentKindIndex?: string;
-    }
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "yes";
-      kinder?: ElternteilKind[];
-      parentElternteilIndex?: string;
-      parentKindIndex?: string;
-    };
-
-const elternteilKindSchema: z.ZodType<ElternteilKind> = z.lazy(() =>
+const elternteilKindSchema: z.ZodType<BaseElternteilKind> = z.lazy(() =>
   personUnion(elternteilKindSchema, {
     parentElternteilIndex: z.string().optional(),
     parentKindIndex: z.string().optional(),
   }),
 );
 
-export type Elternteil =
-  | { vorname: string; nachname: string; isAlive: "yes" }
-  | { vorname: string; nachname: string; isAlive: "no"; hatteKinder: "no" }
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "yes";
-      kinder?: ElternteilKind[];
-    };
-
-const elternteilSchema: z.ZodType<Elternteil> = personUnion(
+const elternteilSchema: z.ZodType<BaseElternteil> = personUnion(
   elternteilKindSchema,
   {},
 );
