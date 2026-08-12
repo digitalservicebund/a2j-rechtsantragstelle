@@ -20,6 +20,32 @@ const getTransitions = <FlowKey, UserData>(
   return [{ target: route, isArray: false }];
 };
 
+type ProgressWalkItem<FlowKey> = {
+  node: FlowKey;
+  depth: number;
+  history: Set<FlowKey>;
+  isLocked: boolean;
+};
+
+// The queue items reached from `item`: each unvisited neighbour, with its depth
+// (frozen while inside an array sub-flow) and extended history. Kept separate so
+// the BFS body in precomputeProgress stays flat.
+const nextWalkItems = <C extends PageConfigMap>(
+  item: ProgressWalkItem<NodeKey<C>>,
+  router: TransitionConfigMap<C>,
+): Array<ProgressWalkItem<NodeKey<C>>> =>
+  getTransitions(router[item.node])
+    .filter((t) => !item.history.has(t.target))
+    .map((t) => {
+      const isLocked = item.isLocked || t.isArray;
+      return {
+        node: t.target,
+        depth: isLocked ? item.depth : item.depth + 1,
+        history: new Set(item.history).add(t.target),
+        isLocked,
+      };
+    });
+
 export const precomputeProgress = <C extends PageConfigMap>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
@@ -29,12 +55,7 @@ export const precomputeProgress = <C extends PageConfigMap>(
   const nodeDepths = new Map<FlowKey, number>();
   let maxOverallProgress = 0;
 
-  const queue: Array<{
-    node: FlowKey;
-    depth: number;
-    history: Set<FlowKey>;
-    isLocked: boolean;
-  }> = [
+  const queue: Array<ProgressWalkItem<FlowKey>> = [
     {
       node: initialStep,
       depth: 0,
@@ -44,30 +65,13 @@ export const precomputeProgress = <C extends PageConfigMap>(
   ];
 
   while (queue.length > 0) {
-    const { node, depth, history, isLocked } = queue.shift()!;
-    const existingDepth = nodeDepths.get(node) ?? -1;
+    const item = queue.shift()!;
+    const existingDepth = nodeDepths.get(item.node) ?? -1;
+    if (item.depth <= existingDepth) continue;
 
-    if (depth > existingDepth) {
-      nodeDepths.set(node, depth);
-
-      if (depth > maxOverallProgress) {
-        maxOverallProgress = depth;
-      }
-
-      for (const t of getTransitions(router[node])) {
-        if (!history.has(t.target)) {
-          const nextLocked = isLocked || t.isArray;
-          const nextDepth = nextLocked ? depth : depth + 1;
-
-          queue.push({
-            node: t.target,
-            depth: nextDepth,
-            history: new Set(history).add(t.target),
-            isLocked: nextLocked,
-          });
-        }
-      }
-    }
+    nodeDepths.set(item.node, item.depth);
+    maxOverallProgress = Math.max(maxOverallProgress, item.depth);
+    queue.push(...nextWalkItems(item, router));
   }
 
   const isFinal = (key: FlowKey): boolean =>

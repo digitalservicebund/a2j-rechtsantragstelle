@@ -21,7 +21,7 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
-import { personName } from "../personName";
+import { personName } from "../../shared/personName";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 

@@ -7,19 +7,19 @@ import { nachlassTestCases } from "~/domains/nachlass/erbschein/anfrage/nachlass
 import { testamentOderErbvertragTestCases } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/__test__/testCasesWithUserInput";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { verstorbenePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/__test__/testCasesWithUserInput";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const nachlassErbscheinAnfrageTestCases = {
   xstateConfig: {
     id: "/nachlass/erbschein/anfrage",
   },
-  newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
+  newEngineConfig:
+    nachlassErbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
   testcases: {
     datenverarbeitung: [
       {
         stepId: "/start",
-      },
-      {
-        stepId: "/start/daten-uebernahme",
       },
       {
         stepId: "/start/datenverarbeitung",
@@ -36,7 +36,4 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...angehoerigeTestCases,
     ...nachlassTestCases,
   },
-} satisfies FlowTestConfig<
-  NachlassErbscheinAnfrageUserData,
-  typeof nachlassErbscheinAnfrageFlowConfig.pages
->;
+} satisfies FlowTestConfig<NachlassErbscheinAnfrageUserData>;

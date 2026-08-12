@@ -32,6 +32,42 @@ const setNestedField = (
   target[fieldName] = value;
 };
 
+type VisitedContext<C extends PageConfigMap> = {
+  key: NodeKey<C>;
+  pageData: PageData;
+  scopeData: Record<string, unknown>;
+  arrayPath: string[];
+};
+
+// Array item page: copy only the fields declared in its schema. scopeData is the
+// item at this nesting level; arrayPath + arrayIndexes give the output path.
+// fieldNames use "#" notation (e.g. "children#name") but scopeData keys and the
+// nested output use the leaf name ("name").
+const copyArrayItemFields = <C extends PageConfigMap>(
+  result: Record<string, unknown>,
+  compiledFlow: CompiledFlow<C>,
+  { key, pageData, scopeData, arrayPath }: VisitedContext<C>,
+): void => {
+  const indexes = pageData.arrayIndexes ?? [];
+  for (const fieldName of compiledFlow.getFieldNamesByNodeKey(key)) {
+    const leafKey = fieldName.split("#").at(-1)!;
+    setNestedField(result, arrayPath, indexes, leafKey, scopeData[leafKey]);
+  }
+};
+
+// Regular (top-level) page: copy declared fields directly from userData.
+const copyTopLevelFields = <C extends PageConfigMap>(
+  result: Record<string, unknown>,
+  compiledFlow: CompiledFlow<C>,
+  nodeKey: NodeKey<C>,
+  data: InferredUserData<C>,
+): void => {
+  for (const field of compiledFlow.getFieldNamesByNodeKey(nodeKey)) {
+    const val = (data as Record<string, unknown>)[field];
+    if (val !== undefined) result[field] = val;
+  }
+};
+
 export const pruneUserData = <C extends PageConfigMap>(
   compiledFlow: CompiledFlow<C>,
   visitedContexts: Array<{
@@ -44,32 +80,14 @@ export const pruneUserData = <C extends PageConfigMap>(
 ): InferredUserData<C> => {
   const result: Record<string, unknown> = {};
 
-  for (const {
-    key: nodeKey,
-    pageData,
-    scopeData,
-    arrayPath,
-  } of visitedContexts) {
-    const page = compiledFlow.pages[nodeKey];
+  for (const context of visitedContexts) {
+    const page = compiledFlow.pages[context.key];
     if (!page || page.arraySummary) continue;
 
     if (page.stepId.includes(ARRAY_WILDCARD)) {
-      // Array item page: copy only the fields declared in its schema.
-      // scopeData is the item at this nesting level; arrayPath + arrayIndexes
-      // give the reconstruction path in the output.
-      // fieldNames use "#" notation (e.g. "children#name") for form resolution,
-      // but scopeData keys and the nested output use the leaf name ("name").
-      const indexes = pageData.arrayIndexes ?? [];
-      for (const fieldName of compiledFlow.getFieldNamesByNodeKey(nodeKey)) {
-        const leafKey = fieldName.split("#").at(-1)!;
-        setNestedField(result, arrayPath, indexes, leafKey, scopeData[leafKey]);
-      }
+      copyArrayItemFields(result, compiledFlow, context);
     } else {
-      // Regular (top-level) page: copy declared fields directly from userData.
-      for (const field of compiledFlow.getFieldNamesByNodeKey(nodeKey)) {
-        const val = (data as Record<string, unknown>)[field];
-        if (val !== undefined) result[field] = val;
-      }
+      copyTopLevelFields(result, compiledFlow, context.key, data);
     }
   }
 

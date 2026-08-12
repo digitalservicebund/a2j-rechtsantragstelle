@@ -1,4 +1,3 @@
-import { BOTH_PARENTS_VALUE } from "./buildParentOptions";
 import {
   addFractions,
   HALF,
@@ -10,8 +9,23 @@ import {
   WHOLE,
   type Fraction,
 } from "./fraction";
-import type { Elternteil, Gueterstand, Kind } from "./pages";
 import { personName } from "./personName";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
+import {
+  type BaseElternteil,
+  type BaseKind,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { z } from "zod";
+
+export const gueterstandSchema = z.enum([
+  "communityOfAcquisitions",
+  "separationOfProperty",
+  "communityOfProperty",
+  "other",
+  "unknown",
+]);
+
+export type Gueterstand = z.infer<typeof gueterstandSchema>;
 
 export type SpouseInput = {
   vorname?: string;
@@ -21,8 +35,8 @@ export type SpouseInput = {
 
 export type InheritanceInput = {
   hatteKinder?: string;
-  kinder?: Kind[];
-  elternteile?: Elternteil[];
+  kinder?: BaseKind[];
+  elternteile?: BaseElternteil[];
   spouse?: SpouseInput;
 };
 
@@ -248,7 +262,7 @@ function reassignKinderByParentIndex(members: FamilyMember[]): FamilyMember[] {
 // chosen index — or with a stale one pointing at a missing or living parent (only dead
 // parents' lines distribute) — keep their physical parent.
 function reassignSiblingsByParentIndex(
-  elternteile: Elternteil[],
+  elternteile: BaseElternteil[],
 ): FamilyMember[] {
   const buckets: FamilyMember[][] = elternteile.map(() => []);
 

@@ -3,21 +3,16 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { elternteilePages } from "./elternteilePages";
 import { kinderPages } from "./kinderPages";
-
-export type { Kind } from "./kinderPages";
-export type { Elternteil } from "./elternteilePages";
-
-const gueterstandSchema = z.enum([
-  "communityOfAcquisitions",
-  "separationOfProperty",
-  "communityOfProperty",
-  "other",
-  "unknown",
-]);
-export type Gueterstand = z.infer<typeof gueterstandSchema>;
+import { gueterstandSchema } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
 
 const topLevelPages = {
   start: { stepId: "/start" },
+  testamentOderErbvertrag: {
+    stepId: "/testamentOderErbvertrag",
+    pageSchema: {
+      testamentArt: z.enum(["none", "handwritten", "notarized", "erbvertrag"]),
+    },
+  },
   verstorbenePerson: {
     stepId: "/verstorbenePerson",
     pageSchema: {
@@ -89,6 +84,9 @@ const topLevelPages = {
   },
   kinderFehlen: {
     stepId: "/kinder-fehlen",
+  },
+  keineGesetzlicheErbfolge: {
+    stepId: "/ergebnis/keine-gesetzliche-erbfolge",
   },
 } as const;
 

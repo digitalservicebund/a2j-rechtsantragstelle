@@ -1,4 +1,4 @@
-import { BOTH_PARENTS_VALUE } from "./buildParentOptions";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 import { personName } from "./personName";
 
 type FamilyMember = {

@@ -8,11 +8,11 @@ import type {
 } from "~/routes/shared/newEngineResult.server";
 import {
   calculateInheritance,
+  type Gueterstand,
   type HeirShare,
   type InheritanceInput,
-} from "./calculateInheritance";
-import type { Gueterstand } from "./pages";
-import { personName } from "./personName";
+} from "../shared/calculateInheritance";
+import { personName } from "../shared/personName";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.
