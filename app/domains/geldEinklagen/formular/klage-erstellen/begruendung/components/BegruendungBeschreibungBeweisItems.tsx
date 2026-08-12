@@ -16,19 +16,65 @@ type Props = {
   itemIndexAbschnitte: number;
 };
 
-const renderItemButtons = (editUrl: string, onDelete: () => void) => (
+const editButtonLabelLowercase =
+  translations.arraySummary.arrayEditButtonLabel.de.toLowerCase();
+const deleteButtonLabelLowercase =
+  translations.arraySummary.arrayDeleteButtonLabel.de.toLowerCase();
+
+const renderArialLabelForDocumentItem = ({
+  beschreibung,
+}: Exclude<Pick<Props, "dokumenten">["dokumenten"], undefined>[number]) => {
+  const firstTenWords = beschreibung.split(" ").slice(0, 10).join(" ");
+
+  return {
+    editButtonLabel: `Dieses Dokument ${editButtonLabelLowercase}: ${firstTenWords} und so weiter`,
+    deleteButtonLabel: `Dieses Dokument ${deleteButtonLabelLowercase}: ${firstTenWords} und so weiter`,
+  };
+};
+
+const renderArialLabelForPersonItem = (
+  person: Exclude<Pick<Props, "personen">["personen"], undefined>[number],
+) => {
+  if (person.personAuswahl === "anotherPerson") {
+    return {
+      editButtonLabel: `${person.vorname} ${person.nachname} ${editButtonLabelLowercase}`,
+      deleteButtonLabel: `${person.vorname} ${person.nachname} ${deleteButtonLabelLowercase}`,
+    };
+  }
+
+  if (person.personAuswahl === "beklagte") {
+    return {
+      editButtonLabel: `Beklagte Person als Beweis ${editButtonLabelLowercase}`,
+      deleteButtonLabel: `Beklagte Person als Beweis ${deleteButtonLabelLowercase}`,
+    };
+  }
+
+  return {
+    editButtonLabel: `Klagende Person als Beweis ${editButtonLabelLowercase}`,
+    deleteButtonLabel: `Klagende Person als Beweis ${deleteButtonLabelLowercase}`,
+  };
+};
+
+const renderItemButtons = (
+  editUrl: string,
+  onDelete: () => void,
+  ariaLabel: {
+    editButtonLabel: string;
+    deleteButtonLabel: string;
+  },
+) => (
   <>
     <Button
       href={editUrl}
       look="secondary"
-      aria-label={translations.arraySummary.arrayEditButtonLabel.de}
+      aria-label={ariaLabel.editButtonLabel}
       iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
     />
     <Button
       type="button"
       look="secondary"
       className="border-kern-feedback-danger!"
-      aria-label={translations.arraySummary.arrayDeleteButtonLabel.de}
+      aria-label={ariaLabel.deleteButtonLabel}
       iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
       onClick={onDelete}
     />
@@ -108,12 +154,15 @@ export const BegruendungBeschreibungBeweisItems = ({
                   {dokument.beschreibung}
                 </span>
               }
-              buttons={renderItemButtons(editDocumentUrl, () =>
-                onAbschnittDocumentDelete(
-                  `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
-                  itemIndexAbschnitte,
-                  dokumentIndex,
-                ),
+              buttons={renderItemButtons(
+                editDocumentUrl,
+                () =>
+                  onAbschnittDocumentDelete(
+                    `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
+                    itemIndexAbschnitte,
+                    dokumentIndex,
+                  ),
+                renderArialLabelForDocumentItem(dokument),
               )}
             />
           );
@@ -134,12 +183,15 @@ export const BegruendungBeschreibungBeweisItems = ({
               icon="local-library"
               className="border-b border-kern-border-default"
               content={renderPersonItem(person)}
-              buttons={renderItemButtons(editPersonUrl, () =>
-                onAbschnittPersonDelete(
-                  `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
-                  itemIndexAbschnitte,
-                  personIndex,
-                ),
+              buttons={renderItemButtons(
+                editPersonUrl,
+                () =>
+                  onAbschnittPersonDelete(
+                    `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
+                    itemIndexAbschnitte,
+                    personIndex,
+                  ),
+                renderArialLabelForPersonItem(person),
               )}
             />
           );
