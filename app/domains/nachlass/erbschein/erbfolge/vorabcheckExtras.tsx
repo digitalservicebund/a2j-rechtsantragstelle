@@ -19,7 +19,7 @@ import { personName } from "../shared/personName";
 import {
   type VorabcheckExtras,
   type VorabcheckExtraLoaderData,
-} from "~/routes/shared/extras";
+} from "~/domains/extraLoaderConfiguration";
 import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
 import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 import { type ArrayConfigClient } from "~/services/array";

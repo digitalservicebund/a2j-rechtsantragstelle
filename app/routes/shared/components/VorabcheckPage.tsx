@@ -9,7 +9,7 @@ import classNames from "classnames";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
-import { useVorabcheckExtras } from "~/routes/shared/extras";
+import { useVorabcheckExtras } from "~/domains/extraLoaderConfiguration";
 
 export function VorabcheckPage() {
   const loaderData = useLoaderData<typeof loader>();
