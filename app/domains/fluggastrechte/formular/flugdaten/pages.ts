@@ -38,7 +38,7 @@ export const fluggastrechteFlugdatenPages = {
     stepId: "flugdaten/geplanter-flug",
     pageSchema: {
       direktFlugnummer: stringRequiredSchema,
-      buchungsNummer: stringOptionalSchema,
+      buchungsNummer: stringRequiredSchema,
       direktAbflugsDatum: fourYearsAgoSchema,
       direktAbflugsZeit: timeSchema,
       zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
