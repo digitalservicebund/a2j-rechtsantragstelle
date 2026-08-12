@@ -1,6 +1,6 @@
 import isEqual from "lodash/isEqual";
 import { runSimulation } from "./simulate";
-import { ARRAY_WILDCARD } from "./compileFlow";
+import { ARRAY_WILDCARD, inferArrayNameFromStepId } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
 import type { PageConfigMap, InferredUserData, NodeKey } from "./types";
 import { evaluateRoute } from "./routing";
@@ -157,6 +157,24 @@ export const createFlowSession = <C extends PageConfigMap>(
       .map(({ key }) => key)
       .filter((key) => !notDoneNodeKeys.has(key)),
   );
+
+  // An empty array's "add" target is reachable so the user can add the first
+  // item, but it is never visited (no item exists yet). Treat it as done only
+  // when the array is optional, so a still-empty optional array does not hold
+  // its section back, while an empty required array keeps it incomplete.
+  const visitedKeys = new Set<string>(
+    simulation.visitedContexts.map(({ key }) => key),
+  );
+  const isEmptyOptionalArrayTarget = (key: NodeKey<C>) => {
+    const arrayName = inferArrayNameFromStepId(
+      compiledFlow.getPathFromNodeKey(key) ?? "",
+    );
+    return arrayName !== "" && compiledFlow.isOptionalArray(arrayName);
+  };
+  [...simulation.reachableSet]
+    .filter((key) => !visitedKeys.has(key))
+    .filter((key) => isEmptyOptionalArrayTarget(key as NodeKey<C>))
+    .forEach((key) => doneNodeKeys.add(key as NodeKey<C>));
 
   // If the previous page is a bare fan-out node — it hosts the addArrayItem that
   // reaches the current page but renders no summary of its own — the user never

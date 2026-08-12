@@ -88,6 +88,50 @@ const buildSiblingArraysFlow = () =>
     },
   });
 
+// An item with a single nested array that is either optional or required.
+// Used to check how an empty nested array affects its section's done state.
+const buildNestedArrayFlow = (optional: boolean) => {
+  const subArray = z.array(z.object({ label: z.string() }));
+  return compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: {
+          name: "items",
+          schema: z.array(
+            z.object({
+              name: z.string(),
+              sub: optional ? subArray.optional() : subArray,
+            }),
+          ),
+        },
+      },
+      itemDaten: {
+        stepId: "/items/#/daten",
+        pageSchema: { "items#name": z.string() },
+      },
+      subAdd: {
+        stepId: "/items/#/sub/#/daten",
+        pageSchema: { "items#sub#label": z.string() },
+      },
+      done: { stepId: "/done" },
+    },
+    initialStep: "list",
+    transitions: {
+      list: [
+        { target: "itemDaten" as const, type: "addArrayItem" as const },
+        { target: "done" as const },
+      ],
+      itemDaten: [
+        { target: "subAdd" as const, type: "addArrayItem" as const },
+        { target: "list" as const },
+      ],
+      subAdd: "list" as const,
+      done: null,
+    },
+  });
+};
+
 const flow = compileFlow({ pages, initialStep: "start", transitions });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -816,6 +860,28 @@ describe("createFlowSession", () => {
       expect(withFlag.statusTree["/section-a"]?.isDone).toBe(true);
       expect(withFlag.statusTree["/section-b"]?.isReachable).toBe(true);
       expect(withFlag.statusTree["/section-b"]?.isDone).toBe(false);
+    });
+
+    it("marks a section done when its only unfilled node is an empty OPTIONAL nested array", () => {
+      const session = createFlowSession(
+        buildNestedArrayFlow(true),
+        { items: [{ name: "a" }], pageData: { arrayIndexes: [0] } } as any,
+        "/list",
+      );
+      // The item's "sub" array is optional and empty, so its add target must
+      // not hold the section back.
+      expect(session.statusTree["/items"]?.isDone).toBe(true);
+    });
+
+    it("marks a section not done when an empty REQUIRED nested array is unfilled", () => {
+      const session = createFlowSession(
+        buildNestedArrayFlow(false),
+        { items: [{ name: "a" }], pageData: { arrayIndexes: [0] } } as any,
+        "/list",
+      );
+      // The item's "sub" array is required, so an empty one keeps the section
+      // incomplete.
+      expect(session.statusTree["/items"]?.isDone).toBe(false);
     });
   });
 
