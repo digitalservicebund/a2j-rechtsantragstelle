@@ -1,9 +1,10 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
-import { nachlassErbscheinWegweiserXstateConfig } from "~/domains/nachlass/erbschein/wegweiser/xStateConfig";
+import { nachlassErbscheinWegweiserFlowConfig } from "../flowConfig";
 
 export const nachlassErbscheinWegweiserTestCases = {
-  xstateConfig: nachlassErbscheinWegweiserXstateConfig,
+  xstateConfig: { id: "/nachlass/erbschein/wegweiser" },
+  newEngineConfig: nachlassErbscheinWegweiserFlowConfig,
   testcases: {
     severalNationalities: [
       {
@@ -38,6 +39,15 @@ export const nachlassErbscheinWegweiserTestCases = {
     ],
     notarizedTestament: [
       {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
         stepId: "/lebensmittelpunkt",
         userInput: {
           lebensmittelpunkt: "deutschland",
@@ -55,6 +65,21 @@ export const nachlassErbscheinWegweiserTestCases = {
     ],
     erbvertrag: [
       {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
           testamentType: "erbvertrag",
@@ -65,6 +90,21 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasGrundeigentumWithHandwrittenTestament: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -83,6 +123,21 @@ export const nachlassErbscheinWegweiserTestCases = {
     ],
     hasGrundeigentumWithNoTestament: [
       {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
           testamentType: "none",
@@ -99,6 +154,21 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasUnternehmenWithHandwrittenTestament: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -123,6 +193,21 @@ export const nachlassErbscheinWegweiserTestCases = {
     ],
     hasUnternehmenWithNoTestament: [
       {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
           testamentType: "none",
@@ -145,6 +230,33 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     erbscheinNotRequired: [
+      {
+        stepId: "/start",
+      },
+      {
+        stepId: "/staatsangehoerigkeit",
+        userInput: {
+          staatsangehoerigkeit: "german",
+        },
+      },
+      {
+        stepId: "/lebensmittelpunkt",
+        userInput: {
+          lebensmittelpunkt: "deutschland",
+        },
+      },
+      {
+        stepId: "/testament-oder-erbvertrag",
+        userInput: {
+          testamentType: "none",
+        },
+      },
+      {
+        stepId: "/grundeigentum",
+        userInput: {
+          hasGrundeigentum: "no",
+        },
+      },
       {
         stepId: "/unternehmen",
         userInput: {
@@ -173,4 +285,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
   },
-} satisfies FlowTestConfig<NachlassErbscheinWegweiserUserData>;
+} satisfies FlowTestConfig<
+  NachlassErbscheinWegweiserUserData,
+  typeof nachlassErbscheinWegweiserFlowConfig.pages
+>;
