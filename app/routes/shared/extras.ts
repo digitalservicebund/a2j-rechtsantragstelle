@@ -4,7 +4,7 @@ import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { erbfolgeExtras } from "~/domains/nachlass/erbschein/erbfolge/vorabcheckExtras";
 
 export type VorabcheckExtraLoaderData = Record<string, unknown> & {
-  flowId?: FlowId;
+  flowId: FlowId;
 };
 
 export type VorabcheckExtras<
@@ -20,11 +20,12 @@ const extrasByFlowId: Partial<Record<FlowId, VorabcheckExtras>> = {
 
 export function useVorabcheckExtras(
   loaderData: VorabcheckExtraLoaderData,
-  flowId?: FlowId,
+  flowId: FlowId,
 ) {
-  if (!flowId) return undefined;
+  const flowExtras = extrasByFlowId[flowId];
+  if (!flowExtras) return undefined;
   return {
-    extraComponents: extrasByFlowId[flowId]?.renderExtraComponents(loaderData),
-    dynamicOptions: extrasByFlowId[flowId]?.getDynamicOptions(loaderData),
+    extraComponents: flowExtras.renderExtraComponents(loaderData),
+    dynamicOptions: flowExtras.getDynamicOptions(loaderData),
   };
 }

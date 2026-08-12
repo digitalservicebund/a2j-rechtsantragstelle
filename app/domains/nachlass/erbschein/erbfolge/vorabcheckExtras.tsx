@@ -22,16 +22,13 @@ import {
 } from "~/routes/shared/extras";
 import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
 import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
+import { type ArrayConfigClient } from "~/services/array";
 
 type ErbfolgeArraySummaryData = {
   category: string;
   arrayData: {
     data: ArrayData;
-    configuration: {
-      url: string;
-      initialInputUrl: string;
-      disableAddButton: boolean;
-    };
+    configuration: ArrayConfigClient;
   };
 };
 
@@ -214,21 +211,20 @@ function buildArraySummaryData(
   };
 }
 
-export const erbfolgeVorabcheckLoaderExtras: VorabcheckLoaderExtras<ErbfolgeLoaderExtraData> =
-  {
-    buildReplacements: buildParentNameReplacements,
-    buildLoaderData: (context) => ({
-      formElements: [
-        ...context.formElements,
-        ...buildParentSelectFallbacks(context, context.formElements),
-      ],
-      dynamicOptions: buildDynamicOptions(context),
-      arraySummaryData: buildArraySummaryData(context),
-      deceasedPersonName: personName({
-        vorname: (context.userData as { verstorbeneVorname?: string })
-          .verstorbeneVorname,
-        nachname: (context.userData as { verstorbeneNachname?: string })
-          .verstorbeneNachname,
-      }),
+export const erbfolgeVorabcheckLoaderExtras = {
+  buildReplacements: buildParentNameReplacements,
+  buildLoaderData: (context) => ({
+    formElements: [
+      ...context.formElements,
+      ...buildParentSelectFallbacks(context, context.formElements),
+    ],
+    dynamicOptions: buildDynamicOptions(context),
+    arraySummaryData: buildArraySummaryData(context),
+    deceasedPersonName: personName({
+      vorname: (context.userData as { verstorbeneVorname?: string })
+        .verstorbeneVorname,
+      nachname: (context.userData as { verstorbeneNachname?: string })
+        .verstorbeneNachname,
     }),
-  };
+  }),
+} satisfies VorabcheckLoaderExtras<ErbfolgeLoaderExtraData>;
