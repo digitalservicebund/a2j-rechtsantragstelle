@@ -60,6 +60,29 @@ const normalizeSchema = (
   return { compiledSchema: schema, fieldNames };
 };
 
+const unwrapArray = (schema: z.ZodType): z.ZodArray | undefined => {
+  if (schema instanceof z.ZodArray) return schema;
+  const inner = (schema as { unwrap?: () => z.ZodType }).unwrap?.();
+  return inner instanceof z.ZodArray ? inner : undefined;
+};
+
+// Follows the "#"-path of field names down an array's item schema and reports
+// whether the array field at the end is declared `.optional()`.
+// e.g. path ["dokumenten"] on the abschnitte item, or ["a", "b"] one level deeper.
+const isOptionalArrayField = (
+  itemSchema: z.ZodType,
+  [field, ...deeper]: string[],
+): boolean => {
+  if (!(itemSchema instanceof z.ZodObject)) return false;
+  const fieldSchema = itemSchema.shape[field] as z.ZodType | undefined;
+  if (!fieldSchema) return false;
+  if (deeper.length === 0) return fieldSchema.safeParse(undefined).success;
+  const innerArray = unwrapArray(fieldSchema);
+  return innerArray
+    ? isOptionalArrayField(innerArray.element as z.ZodType, deeper)
+    : false;
+};
+
 const getArrayEntryPoint = <C extends PageConfigMap>(
   routes: TransitionConfigMap<C>[NodeKey<C>],
   pages: C,
@@ -97,6 +120,9 @@ export const compileFlow = <C extends PageConfigMap>({
       }
     >
   > = {};
+  // Array name (e.g. "items") -> its declared array schema, so array-field
+  // optionality can be looked up by "#"-notation name.
+  const arraySchemas = new Map<string, z.ZodArray>();
 
   // Single-pass static initialization
   for (const [key, pageNode] of Object.entries(pages)) {
@@ -119,6 +145,10 @@ export const compileFlow = <C extends PageConfigMap>({
       : undefined;
 
     if (pageNode.arraySummary) {
+      arraySchemas.set(
+        pageNode.arraySummary.name,
+        pageNode.arraySummary.schema,
+      );
       arrayInfoCache[nodeKey] = {
         name: pageNode.arraySummary.name,
         entryPoint: getArrayEntryPoint(nodeTransitions, pages),
@@ -163,6 +193,14 @@ export const compileFlow = <C extends PageConfigMap>({
     getArrayInfo: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
       return nodeKey == null ? undefined : arrayInfoCache[nodeKey];
+    },
+    // Whether the array named in "#"-notation (e.g. "items#sub") is optional,
+    // so an empty one is still a valid, complete state.
+    isOptionalArray: (name: string): boolean => {
+      const [root, ...fields] = name.split(ARRAY_WILDCARD);
+      const rootSchema = arraySchemas.get(root);
+      if (!rootSchema || fields.length === 0) return false;
+      return isOptionalArrayField(rootSchema.element as z.ZodType, fields);
     },
     getSchema: (path: string) => {
       const nodeKey = getNodeKeyFromPath(path);
