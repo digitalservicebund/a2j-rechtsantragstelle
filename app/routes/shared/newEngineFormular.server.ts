@@ -34,7 +34,7 @@ export const loadFormularData = async <
   ExtraData extends Record<string, unknown> = Record<string, never>,
 >(
   args: LoaderFunctionArgs,
-  extras?: LoaderExtras<ExtraData>, // TODO: replace with FormularExtras, or a generic type
+  extras?: LoaderExtras<ExtraData>,
 ) => {
   const { params, request, url } = args;
 
@@ -62,7 +62,6 @@ export const loadFormularData = async <
   const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
 
-  // TODO: replace type
   const context: LoaderExtrasContext = {
     request,
     url,
