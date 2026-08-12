@@ -66,27 +66,42 @@ const initializeKeyDownListeners = (
   const summary = summaryRef.current;
   const details = summary?.parentElement as HTMLDetailsElement | null;
   const links = document.querySelectorAll<HTMLAnchorElement>(selector);
-
   const lastLink = links[links.length - 1];
 
   if (!lastLink || summary === null || links.length === 0 || details === null) {
     return;
   }
 
-  summary.addEventListener("keydown", function (event: KeyboardEvent) {
-    // Only trap focus when the menu is open
+  const handleEscape = (event: KeyboardEvent) => {
+    if (event.key === "Escape" && details.open) {
+      event.preventDefault();
+      details.open = false;
+      summary.focus();
+    }
+  };
+  const handleSummaryKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab" && event.shiftKey && details.open) {
       event.preventDefault();
       lastLink.focus();
     }
-  });
+  };
 
-  lastLink.addEventListener("keydown", function (event: KeyboardEvent) {
+  const handleLastLinkKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab" && !event.shiftKey) {
       event.preventDefault();
       summary.focus();
     }
-  });
+  };
+
+  document.addEventListener("keydown", handleEscape);
+  summary.addEventListener("keydown", handleSummaryKeyDown);
+  lastLink.addEventListener("keydown", handleLastLinkKeyDown);
+
+  return () => {
+    document.removeEventListener("keydown", handleEscape);
+    summary.removeEventListener("keydown", handleSummaryKeyDown);
+    lastLink.removeEventListener("keydown", handleLastLinkKeyDown);
+  };
 };
 
 export default function SideNavMobile({
