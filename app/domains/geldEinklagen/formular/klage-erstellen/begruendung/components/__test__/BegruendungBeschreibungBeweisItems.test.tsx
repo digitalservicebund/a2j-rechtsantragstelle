@@ -35,7 +35,10 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten/0/daten",
     );
 
-    expect(getByRole("button")).toHaveAttribute("aria-label", "Löschen");
+    expect(getByRole("button")).toHaveAttribute(
+      "aria-label",
+      "Dieses Dokument löschen: beschreibung und so weiter",
+    );
   });
 
   it("should call the function onAbschnittDocumentDelete when the delete button is clicked", () => {
@@ -108,7 +111,10 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/daten",
     );
 
-    expect(getByRole("button")).toHaveAttribute("aria-label", "Löschen");
+    expect(getByRole("button")).toHaveAttribute(
+      "aria-label",
+      "Max Mustermann löschen",
+    );
   });
 
   it("should render person with edit to auswahl when personAuswahl is not 'anotherPerson'", () => {
