@@ -7,22 +7,22 @@ import {
   dynamicSelectZodDescription,
   type DynamicOptions,
 } from "~/services/validation/dynamicSelect";
-import type {
-  VorabcheckExtrasContext,
-  VorabcheckLoaderExtras,
-} from "~/routes/shared/newEngineVorabcheck.server";
 import {
   parentSelectFormElement,
   resolveParentOptions,
 } from "./buildParentOptions";
-import { personName } from "../shared/personName";
+import { personName } from "./personName";
 import {
-  type VorabcheckExtras,
-  type VorabcheckExtraLoaderData,
+  type FlowExtras,
+  type ExtraFlowLoaderData,
 } from "~/domains/extraLoaderConfiguration";
-import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
-import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 import { type ArrayConfigClient } from "~/services/array";
+import {
+  type LoaderExtrasContext,
+  type LoaderExtras,
+} from "~/services/flow/server/loaderExtras";
+import { ElternteilSummary } from "~/domains/nachlass/erbschein/shared/components/ElternteilSummary";
+import { KinderSummary } from "~/domains/nachlass/erbschein/shared/components/KinderSummary";
 
 type ErbfolgeArraySummaryData = {
   category: string;
@@ -57,10 +57,9 @@ type ErbfolgeLoaderExtras = {
   dynamicOptions: DynamicOptions | undefined;
 };
 
-type ErbfolgeVorabcheckLoaderData = VorabcheckExtraLoaderData &
-  ErbfolgeLoaderExtras;
-
-export const erbfolgeExtras: VorabcheckExtras<ErbfolgeVorabcheckLoaderData> = {
+export const erbfolgeExtras: FlowExtras<
+  ExtraFlowLoaderData & ErbfolgeLoaderExtras
+> = {
   renderExtraComponents: (loaderData) => {
     return (
       <>
@@ -91,7 +90,7 @@ export const erbfolgeExtras: VorabcheckExtras<ErbfolgeVorabcheckLoaderData> = {
 // The dynamic parent-select fields (e.g. "which sibling does this child belong
 // to") declare their options at runtime rather than in the CMS, marked by a
 // sentinel description on their zod schema.
-function dynamicSelectFieldsOf(context: VorabcheckExtrasContext) {
+function dynamicSelectFieldsOf(context: LoaderExtrasContext) {
   const shape =
     (
       context.flowSessionEngine.pageSchema as {
@@ -110,7 +109,7 @@ function dynamicSelectFieldsOf(context: VorabcheckExtrasContext) {
 // page). The static per-flow replacements can't know this because it depends on
 // which array indexes are in the URL.
 function buildParentNameReplacements(
-  context: VorabcheckExtrasContext,
+  context: LoaderExtrasContext,
 ): Replacements {
   const { fieldNames, arrayInfo } = context.flowSessionEngine;
 
@@ -142,11 +141,17 @@ function buildParentNameReplacements(
 
   if (parentNameFields.length === 0) return {};
 
-  return resolveUserData(context.userData, parentNameFields) as Replacements;
+  return resolveUserData(
+    {
+      ...context.flowSessionEngine.prunedUserData,
+      pageData: { arrayIndexes: context.arrayIndexes },
+    },
+    parentNameFields,
+  ) as Replacements;
 }
 
 function buildDynamicOptions(
-  context: VorabcheckExtrasContext,
+  context: LoaderExtrasContext,
 ): DynamicOptions | undefined {
   const dynamicSelectFields = dynamicSelectFieldsOf(context);
   if (dynamicSelectFields.length === 0) return undefined;
@@ -156,7 +161,7 @@ function buildDynamicOptions(
       fieldName,
       resolveParentOptions(
         fieldName,
-        context.userData as Record<string, unknown>,
+        context.flowSessionEngine.prunedUserData as Record<string, unknown>,
         context.arrayIndexes ?? [],
       ),
     ]),
@@ -166,7 +171,7 @@ function buildDynamicOptions(
 // Parent-select fields that have no CMS form element yet still need to render,
 // so give them a fallback element carrying just the (dynamic) options + label.
 function buildParentSelectFallbacks(
-  context: VorabcheckExtrasContext,
+  context: LoaderExtrasContext,
   formElements: StrapiFormComponent[],
 ): StrapiFormComponent[] {
   return dynamicSelectFieldsOf(context)
@@ -183,14 +188,18 @@ function buildParentSelectFallbacks(
 // on the page actually being an array entry point, matching the flow's own
 // reachability rather than a CMS statement field.
 function buildArraySummaryData(
-  context: VorabcheckExtrasContext,
+  context: LoaderExtrasContext,
 ): ErbfolgeArraySummaryData | undefined {
   const { arrayInfo } = context.flowSessionEngine;
   if (arrayInfo?.entryPoint === undefined) return undefined;
 
-  const arrayData = (resolveUserData(context.userData, [arrayInfo.name])[
-    arrayInfo.name
-  ] ?? []) as ArrayData;
+  const arrayData = (resolveUserData(
+    {
+      ...context.flowSessionEngine.prunedUserData,
+      pageData: { arrayIndexes: context.arrayIndexes },
+    },
+    [arrayInfo.name],
+  )[arrayInfo.name] ?? []) as ArrayData;
 
   return {
     category: arrayInfo.name,
@@ -200,7 +209,7 @@ function buildArraySummaryData(
         url:
           context.flowId +
           resolveArrayCharacter(
-            context.stepId,
+            context.flowSessionEngine.stepId,
             context.arrayIndexes ?? [],
             false,
           ),
@@ -211,7 +220,7 @@ function buildArraySummaryData(
   };
 }
 
-export const erbfolgeVorabcheckLoaderExtras = {
+export const erbfolgeLoaderExtras = {
   buildReplacements: buildParentNameReplacements,
   buildLoaderData: (context) => ({
     formElements: [
@@ -221,10 +230,16 @@ export const erbfolgeVorabcheckLoaderExtras = {
     dynamicOptions: buildDynamicOptions(context),
     arraySummaryData: buildArraySummaryData(context),
     deceasedPersonName: personName({
-      vorname: (context.userData as { verstorbeneVorname?: string })
-        .verstorbeneVorname,
-      nachname: (context.userData as { verstorbeneNachname?: string })
-        .verstorbeneNachname,
+      vorname: (
+        context.flowSessionEngine.prunedUserData as {
+          verstorbeneVorname?: string;
+        }
+      ).verstorbeneVorname,
+      nachname: (
+        context.flowSessionEngine.prunedUserData as {
+          verstorbeneNachname?: string;
+        }
+      ).verstorbeneNachname,
     }),
   }),
-} satisfies VorabcheckLoaderExtras<ErbfolgeLoaderExtraData>;
+} satisfies LoaderExtras<ErbfolgeLoaderExtraData>;

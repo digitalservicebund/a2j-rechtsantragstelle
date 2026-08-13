@@ -13,50 +13,16 @@ import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/get
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import { type FlowId } from "~/domains/flowIds";
-import { type UserDataWithPageData } from "~/services/flow/pageData";
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type Replacements } from "~/util/applyStringReplacement";
-import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-
-// Information about the current page, handed to a flow's optional loader hooks
-// so they can compute page-specific extras (e.g. which list item the user is in).
-export type VorabcheckExtrasContext = {
-  request: Request;
-  url: URL;
-  flowId: FlowId;
-  stepId: string;
-  arrayIndexes?: number[];
-  userData: UserDataWithPageData;
-  flowSessionEngine: FlowSession<PageConfigMap>;
-};
-
-// Optional per-flow hooks. A flow that needs nothing beyond the shared behavior
-// passes no extras and is served exactly as before.
-export type VorabcheckLoaderExtras<
-  ExtraData extends Record<string, unknown> = Record<string, never>,
-> = {
-  // Extra CMS text placeholders that depend on the current page. Merged into the
-  // content after the flow's static replacements, so these win.
-  buildReplacements?: (
-    context: VorabcheckExtrasContext,
-  ) => Replacements | Promise<Replacements>;
-  // Extra values to add to the loader's returned data (and, if it returns a
-  // `formElements` field, a replacement for the default form elements). Runs
-  // after the content is built, so it receives the default form elements to extend.
-  buildLoaderData?: (
-    context: VorabcheckExtrasContext & {
-      formElements: StrapiFormComponent[];
-    },
-  ) => ExtraData | Promise<ExtraData>;
-};
+import {
+  type LoaderExtrasContext,
+  type LoaderExtras,
+} from "~/services/flow/server/loaderExtras";
 
 export const loadVorabcheckData = async <
   ExtraData extends Record<string, unknown> = Record<string, never>,
 >(
   args: LoaderFunctionArgs,
-  extras?: VorabcheckLoaderExtras<ExtraData>,
+  extras?: LoaderExtras<ExtraData>,
 ) => {
   const { params, request, url } = args;
 
@@ -74,13 +40,9 @@ export const loadVorabcheckData = async <
 
   const { pathname } = url;
 
-  const context: VorabcheckExtrasContext = {
-    request,
-    url,
+  const context: LoaderExtrasContext = {
     flowId,
-    stepId,
     arrayIndexes,
-    userData,
     flowSessionEngine,
   };
 

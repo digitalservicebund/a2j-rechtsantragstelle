@@ -1,7 +1,7 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck.server";
-import { nachlassErbfolgeStaticFlow } from "../flowConfig";
-import { erbfolgeVorabcheckLoaderExtras } from "../vorabcheckExtras";
+import { nachlassErbfolgeStaticFlow } from "../../erbfolge/flowConfig";
+import { erbfolgeLoaderExtras } from "../erbfolgeExtras";
+import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -11,28 +11,20 @@ function contextFor(
   userData: UserData,
   stepId: string,
   arrayIndexes: number[] = [],
-): VorabcheckExtrasContext {
+): LoaderExtrasContext {
   const flowSessionEngine = createFlowSession(
     nachlassErbfolgeStaticFlow,
     userData,
     stepId,
   );
-  const url = new URL(`http://localhost${FLOW_ID}${stepId}`);
   return {
-    request: new Request(url),
-    url,
     flowId: FLOW_ID,
-    stepId,
     arrayIndexes,
-    userData: {
-      ...flowSessionEngine.prunedUserData,
-      pageData: { arrayIndexes },
-    },
     flowSessionEngine,
   };
 }
 
-describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
+describe("erbfolgeExtras.buildLoaderData", () => {
   it("exposes the kinder list as array-summary data on the kinder overview page", () => {
     const context = contextFor(
       {
@@ -45,7 +37,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/kinder",
     );
 
-    const extra = erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -66,7 +58,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/elternteile",
     );
 
-    const extra = erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -80,7 +72,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/start",
     );
 
-    const extra = erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -109,7 +101,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       [0, 0],
     );
 
-    const extra = erbfolgeVorabcheckLoaderExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -142,8 +134,7 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       [0, 0],
     );
 
-    const replacements =
-      erbfolgeVorabcheckLoaderExtras.buildReplacements!(context);
+    const replacements = erbfolgeLoaderExtras.buildReplacements!(context);
 
     expect(replacements["kinder#vorname"]).toBe("Kind");
     expect(replacements["kinder#nachname"]).toBe("Eins");
@@ -161,8 +152,7 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       "/kinder",
     );
 
-    const replacements =
-      erbfolgeVorabcheckLoaderExtras.buildReplacements!(context);
+    const replacements = erbfolgeLoaderExtras.buildReplacements!(context);
 
     expect(replacements).toEqual({});
   });

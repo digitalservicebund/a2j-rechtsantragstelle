@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { erbfolgeVorabcheckLoaderExtras } from "~/domains/nachlass/erbschein/erbfolge/vorabcheckExtras";
+import { erbfolgeLoaderExtras } from "~/domains/nachlass/erbschein/shared/erbfolgeExtras";
 import {
   loadVorabcheckData,
   runVorabcheckAction,
@@ -7,6 +7,6 @@ import {
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 
 export const loader = (args: LoaderFunctionArgs) =>
-  loadVorabcheckData(args, erbfolgeVorabcheckLoaderExtras);
+  loadVorabcheckData(args, erbfolgeLoaderExtras);
 
 export const action = (args: ActionFunctionArgs) => runVorabcheckAction(args);
