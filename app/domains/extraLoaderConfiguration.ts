@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import { type FlowId } from "~/domains/flowIds";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { erbfolgeExtras } from "~/domains/nachlass/erbschein/shared/erbfolgeExtras";
+import { geldEinklageFormularExtras } from "./geldEinklagen/formular/geldEinklageFormularExtras";
 
 export type ExtraFlowLoaderData = Record<string, unknown> & {
   flowId: FlowId;
@@ -16,6 +17,7 @@ export type FlowExtras<
 
 const extraFlowFeaturesById: Partial<Record<FlowId, FlowExtras>> = {
   "/nachlass/erbschein/erbfolge": erbfolgeExtras,
+  "/geld-einklagen/formular": geldEinklageFormularExtras,
 };
 
 export function useFlowExtras(loaderData: ExtraFlowLoaderData, flowId: FlowId) {

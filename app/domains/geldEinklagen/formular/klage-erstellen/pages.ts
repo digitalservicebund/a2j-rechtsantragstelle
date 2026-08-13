@@ -18,7 +18,6 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { begruendungBeschreibungUebersichtSchema } from "./begruendung/begruendungBeschreibungUebersichtSchema";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -191,10 +190,6 @@ export const geldEinklagenKlageErstellenPages = {
   },
   begruendungBeschreibungUebersicht: {
     stepId: "klage-erstellen/begruendung/beschreibung/uebersicht",
-    pageSchema: {
-      begruendungBeschreibungUebersicht:
-        begruendungBeschreibungUebersichtSchema,
-    },
     arraySummary: {
       name: "abschnitte",
       schema: abschnitteArray,
