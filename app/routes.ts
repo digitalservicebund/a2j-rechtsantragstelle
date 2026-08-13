@@ -30,7 +30,7 @@ export default [
       "erbausschlagung/gericht-finden",
       newEngineVorabcheckRoutes("NAGF"),
     ),
-    ...prefix("erbschein/wegweiser", vorabcheckRoutes("NESW")),
+    ...prefix("erbschein/wegweiser", newEngineVorabcheckRoutes("NESW")),
     ...prefix("erbschein/nachlassgericht", newEngineVorabcheckRoutes("NESN")),
     ...prefix("erbschein/erbfolge", [
       route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {

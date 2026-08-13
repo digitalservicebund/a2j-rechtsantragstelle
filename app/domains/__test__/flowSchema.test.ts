@@ -18,14 +18,12 @@ import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
-import { nachlassErbscheinWegweiserTestCases } from "~/domains/nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungAnfrageTestCases } from "~/domains/nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
-  nachlassErbscheinWegweiserTestCases,
   kontopfaendungWegweiserTestCases,
   nachlassErbausschlagungAnfrageTestCases,
 };

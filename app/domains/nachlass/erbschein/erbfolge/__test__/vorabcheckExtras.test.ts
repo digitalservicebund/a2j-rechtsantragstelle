@@ -1,7 +1,7 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck.server";
 import { nachlassErbfolgeStaticFlow } from "../flowConfig";
 import { erbfolgeVorabcheckLoaderExtras } from "../vorabcheckExtras";
+import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -11,23 +11,15 @@ function contextFor(
   userData: UserData,
   stepId: string,
   arrayIndexes: number[] = [],
-): VorabcheckExtrasContext {
+): LoaderExtrasContext {
   const flowSessionEngine = createFlowSession(
     nachlassErbfolgeStaticFlow,
     userData,
     stepId,
   );
-  const url = new URL(`http://localhost${FLOW_ID}${stepId}`);
   return {
-    request: new Request(url),
-    url,
     flowId: FLOW_ID,
-    stepId,
     arrayIndexes,
-    userData: {
-      ...flowSessionEngine.prunedUserData,
-      pageData: { arrayIndexes },
-    },
     flowSessionEngine,
   };
 }
