@@ -47,6 +47,7 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const progressProps = contentData.getProgress(flowController, stepId);
 
   return data({
+    flowId,
     stepData,
     cmsContent,
     formElements,
