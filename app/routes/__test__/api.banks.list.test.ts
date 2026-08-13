@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { Result } from "true-myth";
-import { type BankData } from "~/components/formElements/inputs/iban/bankNameFromIBAN";
+import { type BankData } from "~/services/bank/bankNameFromIBAN";
 import { loader } from "~/routes/api.banks.list";
 import { validateCsrfSessionFormless } from "~/services/security/csrf/validatedSession.server";
 
@@ -19,7 +19,7 @@ describe("Banks API", () => {
       loader({
         request: new Request("https://a2j.forever/banks"),
       } as LoaderFunctionArgs),
-    ).rejects.toThrow();
+    ).rejects.toThrow(expect.anything());
   });
 
   it("returns bank data from bankCodes.json", async () => {

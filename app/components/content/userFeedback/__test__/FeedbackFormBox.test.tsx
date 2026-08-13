@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { FeedbackFormBox, FEEDBACK_FIELD_NAME } from "../FeedbackFormBox";
 
 const SUBMIT_BUTTON_FEEDBACK = "Submit button";
@@ -62,7 +62,7 @@ describe("FeedbackFormBox", () => {
     expect(getByText(SUBMIT_BUTTON_FEEDBACK)).toBeInTheDocument();
   });
 
-  it("should render the component with the focus on the text area ", () => {
+  it("should render the component with the focus on the text area", () => {
     const { container } = renderFeedbackFormBox();
 
     expect(container.querySelector(`#${FEEDBACK_FIELD_NAME}`)).toHaveFocus();

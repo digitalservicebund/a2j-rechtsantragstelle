@@ -8,21 +8,21 @@ import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 type GeldEinklagenDaten = GenericGuard<GeldEinklagenFormularUserData>;
 
 // Move later to subflowDoneStates, when fix issue related isDone value true when is not reachable
-const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
+export const hasFilledKlagendePerson: GeldEinklagenDaten = ({ context }) => {
   const hasFilledKlagendePersonAnwaltschaftData = objectKeysNonEmpty(context, [
-    "klagendePersonAnwaltschaftAnrede",
     "klagendePersonAnwaltschaftVorname",
     "klagendePersonAnwaltschaftNachname",
-    "klagendePersonAnwaltschaftStrasseHausnummer",
+    "klagendePersonAnwaltschaftStrasse",
+    "klagendePersonAnwaltschaftHausnummer",
     "klagendePersonAnwaltschaftPlz",
     "klagendePersonAnwaltschaftOrt",
   ]);
 
   const hasFilledKlagendePersonKontaktdaten = objectKeysNonEmpty(context, [
-    "klagendePersonAnrede",
     "klagendePersonVorname",
     "klagendePersonNachname",
-    "klagendePersonStrasseHausnummer",
+    "klagendePersonStrasse",
+    "klagendePersonHausnummer",
     "klagendePersonPlz",
     "klagendePersonOrt",
   ]);

@@ -28,54 +28,64 @@ export const ExclusiveCheckboxes = ({
       value: field.value()?.[option] ?? "off",
     })),
   );
+  const [announcement, setAnnouncement] = useState("");
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
+
   return (
-    <fieldset
-      aria-invalid={hasError}
-      aria-describedby={hasError ? errorId : undefined}
-      aria-errormessage={hasError ? errorId : undefined}
-      className={classNames("kern-fieldset", {
-        "kern-fieldset--error": hasError,
-      })}
-    >
-      <div className="kern-fieldset__body">
-        {checkboxes.filter(Boolean).map(({ name, ...checkbox }) =>
-          name.split(".").pop() === "none" ? (
-            <div key={name}>
-              <p className="kern-label mb-24!">oder</p>
+    <>
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+
+      <fieldset
+        aria-invalid={hasError}
+        aria-describedby={hasError ? errorId : undefined}
+        aria-errormessage={hasError ? errorId : undefined}
+        className={classNames("kern-fieldset", {
+          "kern-fieldset--error": hasError,
+        })}
+      >
+        <div className="kern-fieldset__body">
+          {checkboxes.filter(Boolean).map(({ name, ...checkbox }) =>
+            name.split(".").pop() === "none" ? (
+              <div key={name}>
+                <p className="kern-label mb-24!">oder</p>
+                <ExclusiveCheckboxInput
+                  name={name}
+                  {...checkbox}
+                  onChange={onCheckboxChange(
+                    field,
+                    checkboxes,
+                    noneCheckboxValue,
+                    setNoneCheckboxValue,
+                    setCheckboxes,
+                    setAnnouncement,
+                  )}
+                  value={noneCheckboxValue}
+                  hasError={hasError}
+                />
+              </div>
+            ) : (
               <ExclusiveCheckboxInput
                 name={name}
-                {...checkbox}
+                key={name}
                 onChange={onCheckboxChange(
                   field,
                   checkboxes,
                   noneCheckboxValue,
                   setNoneCheckboxValue,
                   setCheckboxes,
+                  setAnnouncement,
                 )}
-                value={noneCheckboxValue}
+                {...checkbox}
                 hasError={hasError}
               />
-            </div>
-          ) : (
-            <ExclusiveCheckboxInput
-              name={name}
-              key={name}
-              onChange={onCheckboxChange(
-                field,
-                checkboxes,
-                noneCheckboxValue,
-                setNoneCheckboxValue,
-                setCheckboxes,
-              )}
-              {...checkbox}
-              hasError={hasError}
-            />
-          ),
-        )}
-      </div>
-      {field.error() && <InputError id={errorId}>{field.error()}</InputError>}
-    </fieldset>
+            ),
+          )}
+        </div>
+        {field.error() && <InputError id={errorId}>{field.error()}</InputError>}
+      </fieldset>
+    </>
   );
 };

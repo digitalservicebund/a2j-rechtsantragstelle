@@ -2,7 +2,7 @@ import { FormProvider, useForm } from "@rvf/react-router";
 import { type ReactNode, useEffect } from "react";
 import type { ActionFunction, LoaderFunction } from "react-router";
 import { z, type ZodObject } from "zod";
-import { type AllowedUserTypes } from "~/domains/userData";
+import { type AllowedUserTypes } from "../app/domains/userData";
 import { reactRouterContext } from "./reactRouterContext";
 
 type Props = {
@@ -12,9 +12,11 @@ type Props = {
   triggerValidationOnMount?: boolean;
 };
 
+const DEFAULT_EMPTY_VALUES: Record<string, AllowedUserTypes> = { name: "" };
+
 const RVFProvider = ({
   schema = z.object({ name: z.string().optional() }),
-  defaultValues = { name: "" },
+  defaultValues = DEFAULT_EMPTY_VALUES,
   children,
   triggerValidationOnMount = false,
 }: Props) => {

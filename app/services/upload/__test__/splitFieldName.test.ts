@@ -10,7 +10,7 @@ describe("splitFieldName", () => {
   it("should handle an invalid input name", () => {
     const { fieldName, inputIndex } = splitFieldName("fieldName");
     expect(fieldName).toEqual("fieldName");
-    expect(inputIndex).toEqual(Number.NaN);
+    expect(inputIndex).toBeNaN();
   });
 
   it("should handle two-digit indices", () => {

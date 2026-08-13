@@ -1,5 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -34,10 +35,13 @@ export const geldEinklagenGerichtPruefenPages = {
     pageSchema: { forderung: z.enum(["maximal10000", "etwasAnderes"]) },
   },
   forderungErrorEtwasAnderes: {
-    stepId: "gericht-pruefen/forderung/ergebnis/etwas-anderes",
+    stepId: "gericht-pruefen/forderung/ergebnis/forderung-etwas-anderes",
   },
   sachgebietInfo: {
     stepId: "gericht-pruefen/sachgebiet/info",
+  },
+  sachgebietAbbruch: {
+    stepId: "gericht-pruefen/sachgebiet/ergebnis/sachgebiet-abbruch",
   },
   sachgebietAusgeschlossen: {
     stepId: "gericht-pruefen/sachgebiet/ausgeschlossen",
@@ -124,7 +128,7 @@ export const geldEinklagenGerichtPruefenPages = {
   gerichtSuchenStrasseNummerBeklagtePerson: {
     stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
     pageSchema: {
-      strasseBeklagte: stringRequiredSchema,
+      strasseBeklagte: autoSuggestStringRequiredSchema("streetNames"),
       strasseNummerBeklagte: germanHouseNumberSchema,
     },
   },
@@ -162,7 +166,7 @@ export const geldEinklagenGerichtPruefenPages = {
   gerichtSuchenStrasseNummer: {
     stepId: "gericht-pruefen/gericht-suchen/strasse-nummer",
     pageSchema: {
-      strasseSekundaer: stringRequiredSchema,
+      strasseSekundaer: autoSuggestStringRequiredSchema("streetNames"),
       strasseNummerSekundaer: germanHouseNumberSchema,
     },
   },
@@ -179,3 +183,6 @@ export const geldEinklagenGerichtPruefenPages = {
     stepId: "gericht-pruefen/zustaendiges-gericht/ergebnis/gericht-abbruch",
   },
 } as const satisfies PagesConfig;
+
+export type GeldEinklagenGerichtPruefenPages =
+  typeof geldEinklagenGerichtPruefenPages;

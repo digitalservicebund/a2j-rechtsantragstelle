@@ -1,13 +1,14 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
-import KernButton from "~/components/kern/KernButton";
 import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
 import { useFileHandler } from "./useFileHandler";
 import InputError from "../error/InputError";
+import Button from "../../../common/Button";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 type FileInputProps = {
   name: string;
@@ -28,6 +29,7 @@ export const FileInput = ({
 }: FileInputProps) => {
   const { onFileDelete, onFileUpload } = useFileHandler();
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const FileInput = (
@@ -76,7 +78,7 @@ export const FileInput = ({
         <>
           {jsAvailable ? (
             <>
-              <KernButton
+              <Button
                 type="button"
                 look="secondary"
                 onClick={() => fileInputRef.current?.click()}
@@ -96,7 +98,7 @@ export const FileInput = ({
                   : translations.fileUpload.addAnother.de}
               </label>
               {FileInput}
-              <KernButton
+              <Button
                 name="_action"
                 value={`fileUpload.${name}`}
                 type="submit"
@@ -112,7 +114,9 @@ export const FileInput = ({
           {errorMessages?.find((err) => err.code === error)?.text ?? error}
         </InputError>
       )}
-      {helperText && <div className="kern-hint mt-6">{helperText}</div>}
+      {helperText && (
+        <InputHelperText helperText={helperText} helperId={helperId} />
+      )}
     </div>
   );
 };

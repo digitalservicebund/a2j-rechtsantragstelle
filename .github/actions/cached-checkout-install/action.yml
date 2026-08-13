@@ -3,12 +3,12 @@ description: "Checks out repository, downloads node, caches node_modules and ins
 runs:
   using: "composite"
   steps:
-    - uses: pnpm/action-setup@26f6d4f2c533a43e6b5da0b4a5dd983f98f7b49a # v6.0.4
+    - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       name: Install pnpm
       with:
         run_install: false
     - name: Setup Node
-      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
       with:
         node-version-file: "package.json"
         cache: "pnpm"
@@ -16,5 +16,5 @@ runs:
       run: echo "NODE_VERSION=$(node --version)" >> $GITHUB_ENV
       shell: bash
     - name: Perform a clean install of node dependencies
-      run: pnpm i
+      run: pnpm i --prod=false # force to install dev dependencies as well, since they are needed for e2e tests
       shell: bash

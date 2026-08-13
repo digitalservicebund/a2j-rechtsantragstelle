@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernPageHeader from "~/components/kern/layout/KernPageHeader";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
+import PageHeader from "~/components/layout/PageHeader";
 
 const meta = {
   title: "layout/PageHeader",
-  component: KernPageHeader,
+  component: PageHeader,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
   },
   decorators: [(Story) => reactRouterContext(Story)],
-} satisfies Meta<typeof KernPageHeader>;
+} satisfies Meta<typeof PageHeader>;
 
 export default meta;
 

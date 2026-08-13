@@ -23,9 +23,9 @@ export const Default: Story = {
     name: "select",
     label: undefined,
     options: [
-      { value: "option1", text: "Option 1" },
-      { value: "option2", text: "Option 2" },
-      { value: "option3", text: "Option 3" },
+      { value: "option1", text: "Option 1", preSelected: false },
+      { value: "option2", text: "Option 2", preSelected: false },
+      { value: "option3", text: "Option 3", preSelected: false },
     ],
     errorMessages: undefined,
   },
@@ -48,10 +48,10 @@ export const WithLabel: Story = {
     name: "select",
     label: "Wählen Sie eine Option",
     options: [
-      { value: "berlin", text: "Berlin" },
-      { value: "hamburg", text: "Hamburg" },
-      { value: "muenchen", text: "München" },
-      { value: "koeln", text: "Köln" },
+      { value: "berlin", text: "Berlin", preSelected: false },
+      { value: "hamburg", text: "Hamburg", preSelected: false },
+      { value: "muenchen", text: "München", preSelected: false },
+      { value: "koeln", text: "Köln", preSelected: false },
     ],
   },
   decorators: [
@@ -72,13 +72,16 @@ export const WithPlaceholder: Story = {
   args: {
     name: "select",
     label: "Bundesland",
-    placeholder: "Bitte wählen Sie ein Bundesland",
     options: [
-      { value: "baden-wuerttemberg", text: "Baden-Württemberg" },
-      { value: "bayern", text: "Bayern" },
-      { value: "berlin", text: "Berlin" },
-      { value: "brandenburg", text: "Brandenburg" },
-      { value: "bremen", text: "Bremen" },
+      {
+        value: "baden-wuerttemberg",
+        text: "Baden-Württemberg",
+        preSelected: false,
+      },
+      { value: "bayern", text: "Bayern", preSelected: false },
+      { value: "berlin", text: "Berlin", preSelected: false },
+      { value: "brandenburg", text: "Brandenburg", preSelected: false },
+      { value: "bremen", text: "Bremen", preSelected: false },
     ],
   },
   decorators: [

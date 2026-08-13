@@ -35,8 +35,8 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
   } satisfies InitOpts;
 
   return new Promise((resolve, reject) => {
-    const callback = (err: Error | null, ret: ModuleInfos) => {
-      if (err !== null) reject(err);
+    const callback = (err: Error | undefined, ret: ModuleInfos) => {
+      if (err !== undefined) reject(err);
       resolve(ret);
     };
     init(opts, callback);

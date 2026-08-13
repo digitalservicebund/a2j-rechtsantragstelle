@@ -1,5 +1,5 @@
 import type { Survey } from "posthog-js";
-import type { SurveyResponses } from "~/components/reportProblem/OpenQuestion";
+import type { SurveyResponses } from "~/components/content/reportProblem/OpenQuestion";
 import { questionToAnswerId } from "./questionToAnswerId";
 
 export const isCompleted = (

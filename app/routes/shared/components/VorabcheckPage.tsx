@@ -6,11 +6,14 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import classNames from "classnames";
-import { KernProgress } from "~/components/kern/KernProgressBar";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
+import { ProgressBar } from "~/components/layout/ProgressBar";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
+import { useVorabcheckExtras } from "~/domains/extraLoaderConfiguration";
 
 export function VorabcheckPage() {
+  const loaderData = useLoaderData<typeof loader>();
+
   const {
     stepData,
     cmsContent,
@@ -18,7 +21,11 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
     showReportProblem,
-  } = useLoaderData<typeof loader>();
+    flowId,
+  } = loaderData;
+
+  const { extraComponents: additionalComponents, dynamicOptions } =
+    useVorabcheckExtras(loaderData, flowId) ?? {};
 
   useFocusFirstH1();
 
@@ -32,7 +39,7 @@ export function VorabcheckPage() {
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
-          <KernProgress {...progressProps} />
+          <ProgressBar {...progressProps} />
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -42,7 +49,8 @@ export function VorabcheckPage() {
           row={2}
           id="flow-page-content"
         >
-          <ContentComponents content={cmsContent.pre_form} managedByParent />
+          <ContentComponents content={cmsContent.content} managedByParent />
+          {additionalComponents}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -55,6 +63,7 @@ export function VorabcheckPage() {
             stepData={stepData}
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}
+            dynamicOptions={dynamicOptions}
           />
         </GridItem>
         {showReportProblem && (
@@ -65,7 +74,7 @@ export function VorabcheckPage() {
             className="pb-80 pt-kern-space-x-large flex justify-end"
             row={4}
           >
-            <KernReportProblem />
+            <ReportProblem />
           </GridItem>
         )}
       </Grid>

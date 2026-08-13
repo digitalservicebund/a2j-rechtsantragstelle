@@ -20,6 +20,10 @@ describe("DateInput", () => {
     render(<DateInput name="birthdate" label="Birthdate" />);
     expect(screen.getByText("Birthdate")).toBeInTheDocument();
   });
+  it("should render suffix if provided", () => {
+    render(<DateInput name="birthdate" label="Birthdate" suffix="Optional" />);
+    expect(screen.getByText("Optional")).toBeInTheDocument();
+  });
 
   it("should render default placeholder", () => {
     render(<DateInput name="birthdate" />);

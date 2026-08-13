@@ -123,11 +123,11 @@ export type CookieHeader = ReturnType<Headers["get"]>;
 export const mainSessionFromCookieHeader = async (cookieHeader: CookieHeader) =>
   getSessionManager("main").getSession(cookieHeader);
 
-export const initializeMainSession = async (request: Request) => {
+export const initializeMainSession = async (request: Request, url: URL) => {
   const mainSession = await mainSessionFromCookieHeader(
     request.headers.get("Cookie"),
   );
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
 
   if (!getCSRFFromSession(mainSession)) {
     mainSession.set(CSRFKey, randomBytes(24).toString("base64"));

@@ -6,8 +6,8 @@ import { throw404OnProduction } from "~/services/errorPages/throw404";
 import { isNonProductiveRoute } from "~/services/routing/nonProductionRoutes";
 import { getRedirect } from "~/services/routing/redirects";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url);
+export const loader = async ({ url }: LoaderFunctionArgs) => {
+  const { pathname } = url;
   if (isNonProductiveRoute(pathname)) throw404OnProduction();
 
   const redirectDestination = getRedirect(pathname);

@@ -1,4 +1,6 @@
+import { setBankNameFromIban } from "~/domains/kontopfaendung/services/setBankNameFromIban";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { translations } from "~/services/translations/translations";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";
 import { ibanSchema } from "~/services/validation/iban";
@@ -10,6 +12,9 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungPkontoAntragPages = {
+  start: {
+    stepId: "start",
+  },
   grundvoraussetzungenDatenverarbeitung: {
     stepId: "grundvoraussetzungen/datenverarbeitung",
     pageSchema: {
@@ -33,6 +38,12 @@ export const kontopfaendungPkontoAntragPages = {
     pageSchema: {
       iban: ibanSchema,
       bankName: stringRequiredSchema,
+    },
+    controlledFieldConfig: {
+      fieldName: "bankName",
+      handleFieldValueChange: setBankNameFromIban,
+      getScreenReaderAnnouncementText: (controlledFieldSrValue: string) =>
+        `${translations.iban.bankIdentified.de}: ${controlledFieldSrValue}`,
     },
   },
   kontoinhaberName: {
@@ -63,4 +74,4 @@ export const kontopfaendungPkontoAntragPages = {
   ergebnis: {
     stepId: "abgabe/p-konto-vorhanden",
   },
-} as const satisfies PagesConfig;
+} satisfies PagesConfig;

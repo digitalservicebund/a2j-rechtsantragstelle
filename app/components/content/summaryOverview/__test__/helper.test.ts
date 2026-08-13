@@ -49,7 +49,7 @@ describe("Summary Overview Helper Functions", () => {
 
   test("hasNonEmptyLongTextField returns true for non-empty long text fields", () => {
     const result = hasNonEmptyLongTextField([
-      { fieldName: "sachverhaltBegruendung", fieldValue: "Langer Text" },
+      { fieldName: "weitereAntraege", fieldValue: "Langer Text" },
     ]);
 
     expect(result).toBe(true);
@@ -57,7 +57,7 @@ describe("Summary Overview Helper Functions", () => {
 
   test("hasNonEmptyLongTextField returns false for empty long text fields", () => {
     const result = hasNonEmptyLongTextField([
-      { fieldName: "sachverhaltBegruendung", fieldValue: "   " },
+      { fieldName: "weitereAntraege", fieldValue: "   " },
     ]);
 
     expect(result).toBe(false);

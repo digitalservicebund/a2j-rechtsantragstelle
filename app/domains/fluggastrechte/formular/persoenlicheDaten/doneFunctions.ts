@@ -10,7 +10,8 @@ export const personDone: FluggastrechtePersoenlicheDatenGuard = ({ context }) =>
   objectKeysNonEmpty(context, [
     "vorname",
     "nachname",
-    "strasseHausnummer",
+    "strasse",
+    "hausnummer",
     "plz",
     "ort",
   ]);

@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { DataProtectionBanner } from "~/components/content/video/DataProtectionBanner";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { translations } from "~/services/translations/translations";
 import { getYoutubeVideoId } from "~/util/url";
+import { DataProtectionBanner } from "./DataProtectionBanner";
 
 type VideoProps = {
   title: string;
@@ -51,6 +51,7 @@ const Video = ({ title, url }: VideoProps) => {
       mdColumn={{ start: 1, span: 7 }}
       lgColumn={{ start: 3, span: 7 }}
       xlColumn={{ start: 3, span: 7 }}
+      className="px-kern-space-default"
     >
       <div className="flex flex-col relative">
         {cookiesAccepted && ytVideoId ? (

@@ -15,8 +15,8 @@ async function lastStepFromRequest(cookieHeader: CookieHeader) {
   return mainSession.get(lastStepKey) as undefined | LastStep;
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { pathname } = new URL(request.url);
+export async function loader({ request, url }: LoaderFunctionArgs) {
+  const { pathname } = url;
   const { flowId } = parsePathname(pathname);
   const flow = flows[flowId];
   const cookieHeader = request.headers.get("Cookie");

@@ -1,9 +1,9 @@
 import { Result } from "true-myth";
 import { emailCaptureConsentName } from "~/components/content/emailCapture/emailCaptureHelpers";
-import { type ValidFlowPagesType } from "~/components/formFlowContext";
+import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
-import { userVisitedValidationPageKey } from "~/services/flow/formular/contentData/setUserVisitedValidationPage";
+import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getSessionManager } from "~/services/session.server";
 import { getMigrationData } from "~/services/session.server/getMigrationData";
@@ -11,6 +11,8 @@ import { validateStepIdFlow } from "./validateStepIdFlow";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
 import { type UserDataWithPageData } from "../pageData";
+import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import { type Flow } from "~/domains/flows.server";
 
 type OkResult = {
@@ -38,14 +40,27 @@ type ErrorResult = {
   redirectTo: string;
 };
 
+const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
+  "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/nachlass/erbausschlagung/gericht-finden":
+    "showErbausschlagungGerichtFindenVorabcheck",
+} as const;
+
 export const getUserDataAndFlow = async (
   request: Request,
+  url: URL,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const { flowId, stepId, arrayIndexes, currentFlow } =
     getPageAndFlowDataFromPathname(pathname);
+
+  const featureFlag = flowIdFeatureFlag[flowId];
+
+  if (featureFlag) {
+    await throw404IfFeatureFlagDisabled(featureFlag);
+  }
 
   const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
     await Promise.all([
@@ -65,6 +80,7 @@ export const getUserDataAndFlow = async (
     request,
     flowController,
     currentFlow,
+    url,
   );
 
   if (validationFlowResult.isErr) {

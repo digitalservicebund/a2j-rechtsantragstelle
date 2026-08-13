@@ -1,13 +1,5 @@
 export type FieldWidth =
-  | "3"
-  | "5"
-  | "7"
-  | "10"
-  | "16"
-  | "24"
-  | "36"
-  | "54"
-  | undefined;
+  "3" | "5" | "7" | "10" | "16" | "24" | "36" | "54" | undefined;
 
 const fieldWidthToClassMap = {
   "": undefined,

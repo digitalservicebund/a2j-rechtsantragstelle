@@ -8,6 +8,7 @@ export const StrapiTimeInputComponentSchema = z
     name: z.string(),
     label: StrapiStringOptionalSchema,
     placeholder: StrapiStringOptionalSchema,
+    suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     __component: z.literal("form-elements.time-input"),
     ...HasStrapiIdSchema.shape,

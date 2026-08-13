@@ -1,4 +1,3 @@
-import { waitFor, screen } from "@testing-library/react";
 import type { z } from "zod";
 import type { StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
 import type { StrapiFieldErrorSchema } from "~/services/cms/models/StrapiFieldError";
@@ -8,7 +7,6 @@ export function getStrapiTileGroupComponent(
   tiles: string[] = ["Tile 1"],
 ): {
   component: Partial<z.infer<typeof StrapiTileGroupComponentSchema>>;
-  expectTileGroupErrorToExist: () => Promise<void>;
 } {
   return {
     component: {
@@ -20,13 +18,6 @@ export function getStrapiTileGroupComponent(
         description: undefined,
       })),
       errorMessages: [errorCode],
-    },
-    expectTileGroupErrorToExist: async function () {
-      await waitFor(() => {
-        expect(screen.getByText(errorCode.text)).toBeInTheDocument();
-        expect(screen.getByTestId("inputError")).toBeInTheDocument();
-        expect(screen.getByTestId("icon-emergency-home")).toBeInTheDocument();
-      });
     },
   };
 }

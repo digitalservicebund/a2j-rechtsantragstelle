@@ -21,13 +21,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return new Response(resultFormData.error.message, { status: 422 });
   }
 
-  const { arrayName, index, flowId, pathname } = resultFormData.value;
+  const { arrayName, index, flowId, redirectPathname, arrayIndexes } =
+    resultFormData.value;
 
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
 
-  const resultDeletion = deleteArrayItem(arrayName, index, flowSession);
+  const resultDeletion = deleteArrayItem(
+    arrayName,
+    index,
+    flowSession,
+    arrayIndexes,
+  );
   if (resultDeletion.isErr) {
     return new Response(resultDeletion.error.message, { status: 422 });
   }
@@ -36,7 +42,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const clientJavaScriptAvailable = formData.get("_jsEnabled");
   if (clientJavaScriptAvailable === "false") {
-    return redirect(pathname, {
+    // redirectPathname is the navigable summary page. It differs from the array
+    // lookup pathname for nested items, whose pathname is not a real page.
+    return redirect(redirectPathname, {
       headers,
     });
   }

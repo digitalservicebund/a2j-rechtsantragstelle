@@ -14,8 +14,8 @@ import {
 import { getButtonNavigationProps } from "~/util/buttonProps";
 export { ResultPage as default } from "./components/ResultPage";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const resultUserAndFlow = await getUserDataAndFlow(request);
+export const loader = async ({ request, url }: LoaderFunctionArgs) => {
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);

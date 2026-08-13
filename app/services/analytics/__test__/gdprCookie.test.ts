@@ -1,6 +1,6 @@
 import { createCookie } from "react-router";
-import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 import { consentCookieName, trackingCookieValue } from "../gdprCookie.server";
+import { acceptCookiesFieldName } from "~/components/layout/cookieBanner/CookieBanner";
 
 const mockRequestWithCookie = (cookieValue: string) => {
   return new Request("http://localhost", {

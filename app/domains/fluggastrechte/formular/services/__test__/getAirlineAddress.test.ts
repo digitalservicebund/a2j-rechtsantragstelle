@@ -23,7 +23,8 @@ describe("getAirlineAddress", () => {
       fluggesellschaftLand: "Country",
       fluggesellschaftOrt: "City",
       fluggesellschaftPostleitzahl: "12345",
-      fluggesellschaftStrasseHausnummer: "Street 1",
+      fluggesellschaftStrasse: "Street",
+      fluggesellschaftHausnummer: "1",
     });
 
     expect(actual).toEqual({
@@ -41,7 +42,8 @@ describe("getAirlineAddress", () => {
       fluggesellschaftLand: "Country",
       fluggesellschaftOrt: "City",
       fluggesellschaftPostleitzahl: "12345",
-      fluggesellschaftStrasseHausnummer: "Street 1",
+      fluggesellschaftStrasse: "Street",
+      fluggesellschaftHausnummer: "1",
     });
 
     expect(actual).toEqual({

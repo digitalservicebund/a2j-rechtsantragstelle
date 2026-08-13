@@ -14,10 +14,7 @@ describe("fillHeader", () => {
     const userData: BeratungshilfeFormularUserData = {
       staatlicheLeistungen: "keine",
       erwerbstaetig: "yes",
-      berufart: {
-        selbststaendig: "on",
-        festangestellt: "off",
-      },
+      berufart: "selbststaendig",
       weitereseinkommen: happyPathData.weitereseinkommen,
     };
 

@@ -141,7 +141,7 @@ describe("ListItem", () => {
         <ListItem id={ITEM_ID} variant="numbered" />,
       );
       expect(
-        container.querySelector(".border-kern-neutral-300"),
+        container.querySelector(".bg-kern-layout-text-default"),
       ).toBeInTheDocument();
     });
 
@@ -150,7 +150,7 @@ describe("ListItem", () => {
         <ListItem id={ITEM_ID} variant="stepByStep" />,
       );
       expect(
-        container.querySelector(".border-kern-neutral-300"),
+        container.querySelector(".border-kern-layout-text-default"),
       ).toBeInTheDocument();
     });
   });

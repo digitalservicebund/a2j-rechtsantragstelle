@@ -1,6 +1,7 @@
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { filterFormFields, pruneIrrelevantData } from "../pruner";
 import * as getAllFieldsFromFlowId from "~/domains/pageSchemas";
+import * as validFormPathsModule from "../validFormPaths";
 
 describe("pruner", () => {
   describe("filterFormFields", () => {
@@ -129,6 +130,51 @@ describe("pruner", () => {
         ],
         pageData: { subflowDoneStates: { "/a": true } },
       });
+    });
+
+    it("keeps array fields when valid paths include an array page", () => {
+      const getFieldsSpy = vi
+        .spyOn(getAllFieldsFromFlowId, "getAllFieldsFromFlowId")
+        .mockReturnValue({
+          "/start": ["hasBankkonto"],
+          "/bankkonten/bankkonto/daten": ["bankkonten#kontoEigentuemer"],
+        });
+
+      const validPathsSpy = vi
+        .spyOn(validFormPathsModule, "validFormPaths")
+        .mockReturnValue([
+          { stepIds: ["/start"] },
+          {
+            stepIds: ["/bankkonten/bankkonto/daten"],
+            arrayIndex: 0,
+          },
+        ]);
+
+      const userData = {
+        hasBankkonto: "no",
+        "bankkonten[0]kontoEigentuemer": "myself",
+        irrelevant: "remove-me",
+      };
+
+      const { prunedData, validFlowPaths } = pruneIrrelevantData(
+        userData,
+        "/beratungshilfe/antrag",
+      );
+
+      expect(validPathsSpy).toHaveBeenCalled();
+
+      expect(prunedData).toStrictEqual({
+        hasBankkonto: "no",
+        "bankkonten[0]kontoEigentuemer": "myself",
+      });
+
+      expect(validFlowPaths).toEqual({
+        "/start": { isArrayPage: false },
+        "/bankkonten/bankkonto/daten": { isArrayPage: true },
+      });
+
+      getFieldsSpy.mockRestore();
+      validPathsSpy.mockRestore();
     });
   });
 

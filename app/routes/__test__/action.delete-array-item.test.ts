@@ -45,6 +45,8 @@ const mockSuccessfulExternalFunctions = () => {
       index: 0,
       flowId: "/beratungshilfe/antrag",
       pathname: "/beratungshilfe/antrag/array",
+      redirectPathname: "/beratungshilfe/antrag/array",
+      arrayIndexes: [0],
     }),
   );
   vi.mocked(deleteArrayItem).mockReturnValue(Result.ok());

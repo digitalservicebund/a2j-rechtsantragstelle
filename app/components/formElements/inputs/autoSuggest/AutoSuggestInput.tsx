@@ -13,6 +13,7 @@ import Select, {
   type InputProps,
   type ControlProps,
   type InputActionMeta,
+  type Options,
 } from "react-select";
 import Creatable from "react-select/creatable";
 import classNames from "classnames";
@@ -36,6 +37,8 @@ import {
   ariaLiveMessages,
   screenReaderStatus,
 } from "./accessibilityConfig/ariaLiveMessages";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -98,6 +101,7 @@ const AutoSuggestInput = ({
   dataListArgument,
   noSuggestionMessage,
   isDisabled,
+  suffix,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
 }: AutoSuggestInputProps) => {
@@ -115,7 +119,7 @@ const AutoSuggestInput = ({
     () =>
       new Fuse(items, {
         keys: ["label"],
-        threshold: 0.5,
+        threshold: 0.4,
         minMatchCharLength: 5,
       }),
     [items],
@@ -134,16 +138,20 @@ const AutoSuggestInput = ({
         return;
       }
 
-      let filteredOptions =
-        dataList === "streetNames"
-          ? fuzzySearchEngine.search(value).map((result) => result.item)
-          : items.filter((item) =>
-              item.label.toLowerCase().includes(value.toLocaleLowerCase()),
-            );
+      let filteredOptions = items.filter((item) =>
+        item.label.toLowerCase().includes(value.toLocaleLowerCase()),
+      );
 
       // In case is the airports list, sorting by the code
       if (dataList === "airports") {
         filteredOptions = getSortingAirportsByCode(filteredOptions, value);
+      }
+
+      // In case no match is found and the list is street names, it will try to find a match with the fuzzy search
+      if (filteredOptions.length === 0 && dataList === "streetNames") {
+        filteredOptions = fuzzySearchEngine
+          .search(value)
+          .map((result) => result.item);
       }
 
       setOptions(filteredOptions);
@@ -201,18 +209,10 @@ const AutoSuggestInput = ({
       })}
     >
       <div className="flex flex-col gap-kern-space-small pb-kern-space-small">
-        {label && (
-          <label
-            className="kern-label text-kern-layout-text-default! p-0! m-0!"
-            htmlFor={inputId}
-          >
-            {label}
-          </label>
-        )}
+        {label && <InputLabel name={name} label={label} suffix={suffix} />}
+
         {helperText && (
-          <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-            {helperText}
-          </div>
+          <InputHelperText helperText={helperText} helperId={helperId} />
         )}
       </div>
 
@@ -225,6 +225,12 @@ const AutoSuggestInput = ({
           aria-invalid={field.error() !== null}
           {...(isCreatable && {
             formatCreateLabel: (creatableValue) => creatableValue,
+            isValidNewOption: (
+              input,
+              _value: Options<DataListOptions>,
+              selectOptions,
+            ) =>
+              selectOptions.length < 2 && input.length >= minSuggestCharacters,
           })}
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
@@ -287,6 +293,7 @@ const AutoSuggestInput = ({
               classNames("kern-form-input__input bg-white!", {
                 "kern-form-input__input--error": hasError,
               }),
+            placeholder: () => "absolute",
             singleValue: () => "absolute",
             input: () => "w-full h-full z-50",
           }}

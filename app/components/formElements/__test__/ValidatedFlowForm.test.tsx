@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom"; // use react-router-dom only for test, the react-router does not work
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { z } from "zod";
 import { getStrapiCheckboxComponent } from "tests/factories/cmsModels/strapiCheckboxComponent";
 import { getStrapiDropdownComponent } from "tests/factories/cmsModels/strapiDropdownComponent";
@@ -12,7 +12,7 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { configureZod } from "~/services/validation/configureZod";
 import { createDateSchema } from "~/services/validation/dateString";
 import { integerSchema } from "~/services/validation/integer";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -38,8 +38,10 @@ vi.mock("~/services/params", () => ({
 
 vi.mock("~/domains/pageSchemas");
 
-const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
-  vi.mocked(getPageSchema).mockReturnValue(pageSchema);
+const mockGetPageConfigOrArrayPageByPathname = (
+  pageSchema: SchemaObject | undefined,
+) => {
+  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({ pageSchema });
 };
 
 vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
@@ -54,14 +56,14 @@ describe("ValidatedFlowForm", () => {
   });
 
   it("should render", () => {
-    mockGetPageSchema(undefined);
+    mockGetPageConfigOrArrayPageByPathname(undefined);
     const { getByText } = renderValidatedFlowForm([]);
     expect(getByText("NEXT")).toBeInTheDocument();
   });
 
   describe("Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: integerSchema });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: integerSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent({
       code: "invalidInteger",
@@ -108,7 +110,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Date Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: createDateSchema() });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: createDateSchema() });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -158,7 +160,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Time Input Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ inputName: timeSchema });
+      mockGetPageConfigOrArrayPageByPathname({ inputName: timeSchema });
     });
     const { component, expectInputErrorToExist } = getStrapiInputComponent(
       {
@@ -208,7 +210,9 @@ describe("ValidatedFlowForm", () => {
 
   describe("Textarea Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({ myTextarea: stringRequiredSchema });
+      mockGetPageConfigOrArrayPageByPathname({
+        myTextarea: stringRequiredSchema,
+      });
     });
     const { component, expectTextareaErrorToExist } =
       getStrapiTextareaComponent({
@@ -253,7 +257,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Select Component (Radio)", () => {
     beforeAll(() => {
-      mockGetPageSchema({ mySelect: YesNoAnswer });
+      mockGetPageConfigOrArrayPageByPathname({ mySelect: YesNoAnswer });
     });
     const { component, expectSelectErrorToExist } = getStrapiSelectComponent({
       code: "required",
@@ -294,19 +298,33 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should clear the error once the user selects an option after a failed submission", async () => {
+      const { getByText, queryByTestId, getByLabelText } =
+        renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).toBeInTheDocument();
+      });
+
+      fireEvent.click(getByLabelText("Ja"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+      });
+    });
   });
 
   describe("Dropdown Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         myDropdown: z.enum(["option1", "option2", "option3"]),
       });
     });
-    const { component, expectDropdownErrorToExist } =
-      getStrapiDropdownComponent({
-        code: "required",
-        text: "Please select a value.",
-      });
+    const { component } = getStrapiDropdownComponent({
+      code: "required",
+      text: "Please select a value.",
+    });
 
     it("should display an error if the user doesn't select an option", async () => {
       const { getByText, getByTestId } = renderValidatedFlowForm([component]);
@@ -315,7 +333,14 @@ describe("ValidatedFlowForm", () => {
       fireEvent.change(select, { target: { value: "" } });
       const nextButton = getByText("NEXT");
       fireEvent.click(nextButton);
-      await expectDropdownErrorToExist();
+      await waitFor(() => {
+        expect(getByText("Please select a value.")).toBeInTheDocument();
+        expect(getByTestId("select-wrapper")).toHaveClass(
+          "kern-form-input__select-wrapper--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
     });
 
     it("should not display an error if the user has selected an option", async () => {
@@ -332,7 +357,7 @@ describe("ValidatedFlowForm", () => {
 
   describe("Checkbox Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         checkbox1: checkedRequired,
         checkbox2: checkedRequired,
       });
@@ -392,30 +417,52 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should clear the error once the user selects the checkbox after a failed submission", async () => {
+      const { getByText, getAllByTestId, getByLabelText } =
+        renderValidatedFlowForm([checkbox1.component]);
+
+      fireEvent.click(getByText("NEXT"));
+      let errorCountBeforeSelection = 0;
+      await waitFor(() => {
+        errorCountBeforeSelection = getAllByTestId("inputError").length;
+        expect(errorCountBeforeSelection).toBeGreaterThan(0);
+      });
+
+      fireEvent.click(getByLabelText("Checkbox 1"));
+      await waitFor(() => {
+        expect(getAllByTestId("inputError").length).toBeLessThan(
+          errorCountBeforeSelection,
+        );
+      });
+    });
   });
 
   describe("TileGroup Component", () => {
     beforeAll(() => {
-      mockGetPageSchema({
+      mockGetPageConfigOrArrayPageByPathname({
         myTileGroup: z.enum(["firstTile", "secondTile"]),
       });
     });
-    const { component, expectTileGroupErrorToExist } =
-      getStrapiTileGroupComponent(
-        {
-          code: "required",
-          text: "Selection required.",
-        },
-        ["firstTile", "secondTile"],
-      );
+    const { component } = getStrapiTileGroupComponent(
+      {
+        code: "required",
+        text: "Selection required.",
+      },
+      ["firstTile", "secondTile"],
+    );
 
     it("should display an error if the user doesn't select a tile", async () => {
-      const { getByText } = renderValidatedFlowForm([component]);
+      const { getByText, getByTestId } = renderValidatedFlowForm([component]);
 
       const nextButton = getByText("NEXT");
       expect(nextButton).toBeInTheDocument();
       fireEvent.click(nextButton);
-      await expectTileGroupErrorToExist();
+      await waitFor(() => {
+        expect(getByText("Selection required.")).toBeInTheDocument();
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
     });
 
     it("should not display an error if the user has selected a tile", async () => {
@@ -425,6 +472,20 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should clear the error once the user selects a tile after a failed submission", async () => {
+      const { getByText, queryByTestId } = renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).toBeInTheDocument();
+      });
+
+      fireEvent.click(getByText("firstTile"));
+      await waitFor(() => {
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
       });
     });
 

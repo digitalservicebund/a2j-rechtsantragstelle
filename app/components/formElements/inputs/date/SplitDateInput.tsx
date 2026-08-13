@@ -3,9 +3,14 @@ import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
+import { type ErrorMessageProps } from "~/components/common/types";
 
 type SplitDateInputProps = {
   name: string;
+  label?: string;
+  suffix?: string;
+  errorMessages?: ErrorMessageProps[];
 };
 
 const sharedClassnames = "kern-form-input__input bg-white!" as const;
@@ -18,7 +23,12 @@ const sharedAttributes = {
   },
 } as const;
 
-const SplitDateInput = ({ name }: SplitDateInputProps) => {
+const SplitDateInput = ({
+  name,
+  label,
+  suffix,
+  errorMessages,
+}: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
@@ -32,8 +42,9 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
   const dayError = dayField.error();
   const monthError = monthField.error();
   const yearError = yearField.error();
+  const fieldError = dayError ?? monthError ?? yearError ?? dateError;
 
-  const hasError = Boolean(dayError ?? monthError ?? yearError ?? dateError);
+  const hasError = Boolean(fieldError);
   const errorId = `${name}-error`;
 
   return (
@@ -43,9 +54,7 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
       })}
       {...dateField.getControlProps()}
     >
-      <legend className="kern-label">
-        {translations.splitDateComponent.legend.de}
-      </legend>
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
       </div>
@@ -125,7 +134,8 @@ const SplitDateInput = ({ name }: SplitDateInputProps) => {
       </div>
       {hasError && (
         <InputError id={errorId}>
-          {dayError ?? monthError ?? yearError ?? dateError}
+          {errorMessages?.find((err) => err.code === fieldError)?.text ??
+            fieldError}
         </InputError>
       )}
     </fieldset>

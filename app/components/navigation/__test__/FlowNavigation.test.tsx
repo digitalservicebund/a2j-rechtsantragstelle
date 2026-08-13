@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import FlowNavigation from "~/components/navigation/FlowNavigation";
+import FlowNavigation from "../FlowNavigation";
 
 vi.mock("react-router", () => ({
   useRouteLoaderData: vi.fn(() => ({

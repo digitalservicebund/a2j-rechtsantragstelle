@@ -1,6 +1,7 @@
 export const mockPdfKitDocumentStructure = () => {
   return {
     add: vi.fn(),
+    end: vi.fn(),
   } as unknown as PDFKit.PDFStructureElement;
 };
 
@@ -11,7 +12,14 @@ export const mockPdfKitDocument = (
     count: number;
   },
 ) => {
+  const pageRange = range ?? { start: 0, count: 1 };
+
   return {
+    info: {},
+    page: { margins: { bottom: 0 } },
+    on: vi.fn().mockReturnThis(),
+    addStructure: vi.fn().mockReturnThis(),
+    end: vi.fn().mockReturnThis(),
     endMarkedContent: vi.fn().mockReturnThis(),
     text: vi.fn().mockReturnThis(),
     fontSize: vi.fn().mockReturnThis(),
@@ -28,9 +36,10 @@ export const mockPdfKitDocument = (
     restore: vi.fn().mockReturnThis(),
     switchToPage: vi.fn().mockReturnThis(),
     fillColor: vi.fn().mockReturnThis(),
+    fillOpacity: vi.fn().mockReturnThis(),
     bufferedPageRange: vi.fn((_type, _options, contentFn) => {
       if (contentFn) contentFn();
-      return range;
+      return pageRange;
     }),
     struct: vi.fn((_type, _options, contentFn) => {
       if (contentFn) contentFn();

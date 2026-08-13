@@ -1,46 +1,48 @@
-import classNames from "classnames";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import KernButtonContainer from "../kern/KernButtonContainer";
-import KernButton, { type ButtonProps } from "../kern/KernButton";
-import KernHeading, { type KernHeadingProps } from "../kern/KernHeading";
-import KernRichText, { type RichTextProps } from "../kern/KernRichText";
+import Heading, { type HeadingProps } from "../common/Heading";
+import classNames from "classnames";
+import Button, { type ButtonProps } from "../common/Button";
+import { type RichTextProps } from "../common/RichText";
 
 type Props = Readonly<{
-  heading: KernHeadingProps;
+  heading: HeadingProps;
   content?: RichTextProps;
+  sectionBackgroundColor?: string;
   button?: ButtonProps;
-  outerBackground?: {
-    backgroundColor?: string;
-    paddingTop?: string;
-    paddingBottom?: string;
-  };
 }>;
 
 export default function Hero({
   heading,
   content,
+  sectionBackgroundColor,
   button,
-  outerBackground,
 }: Props) {
   return (
     <GridItem
-      smColumn={{ start: 1, span: 12 }}
       mdColumn={{ start: 1, span: 7 }}
-      lgColumn={{ start: 3, span: 7 }}
-      xlColumn={{ start: 3, span: 7 }}
-      className={classNames(
-        outerBackground?.backgroundColor === "darkBlue" ? "text-white" : "",
-        "pt-40 pb-40",
-      )}
+      lgColumn={{ start: 3, span: 8 }}
+      xlColumn={{ start: 3, span: 8 }}
+      className="flex flex-col gap-kern-space-default py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0"
     >
-      <KernHeading {...heading} />
+      <Heading
+        {...heading}
+        className={classNames({
+          "text-white!": sectionBackgroundColor === "blue",
+        })}
+        managedByParent
+      />
       {content && (
-        <KernRichText className="ds-heading-03-reg" html={content.html} />
+        <div
+          className={classNames("text-kern-static-large font-medium", {
+            "text-white!": sectionBackgroundColor === "blue",
+          })}
+          dangerouslySetInnerHTML={{ __html: content.html }}
+        />
       )}
       {button && (
-        <KernButtonContainer className="pb-64 pt-24">
-          <KernButton {...button} />
-        </KernButtonContainer>
+        <div>
+          <Button {...button} />
+        </div>
       )}
     </GridItem>
   );

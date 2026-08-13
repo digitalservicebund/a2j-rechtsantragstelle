@@ -1,0 +1,164 @@
+import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { translations } from "~/services/translations/translations";
+import { personName } from "../shared/personName";
+import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
+
+// Fallback form element for a dynamic parent select whose page has no Strapi
+// select entry yet: provides the label above the dropdown.
+export function parentSelectFormElement(
+  fieldName: string,
+): StrapiFormComponent {
+  return {
+    id: 0,
+    name: fieldName,
+    __component: "form-elements.select",
+    label: translations.select.parentSelectLabel.de,
+    options: [],
+    errorMessages: [
+      { code: "required", text: translations.select.parentSelectRequired.de },
+    ],
+  };
+}
+
+type ParentEntry = {
+  vorname?: string;
+  nachname?: string;
+  isAlive?: string;
+  hatteKinder?: string;
+};
+
+type NavigableEntry = ParentEntry & { kinder?: NavigableEntry[] };
+
+export function buildParentOptions(
+  parents: ParentEntry[] | undefined,
+): DropdownOption[] {
+  if (!parents) return [];
+  return parents
+    .map((parent, index) => ({ parent, index }))
+    .filter(
+      ({ parent }) => parent.isAlive === "no" && parent.hatteKinder === "yes",
+    )
+    .map(({ parent, index }) => ({
+      value: String(index),
+      text: personName(parent),
+      preSelected: false,
+    }));
+}
+
+// Options for the elternteile parent select (which parent a sibling belongs to).
+// Lists the dead parents by index, and — once both parents have been entered —
+// a "Beide Elternteile" option for full siblings (child of both parents).
+export function buildElternteilParentOptions(
+  elternteile: ParentEntry[] | undefined,
+): DropdownOption[] {
+  if (!elternteile) return [];
+  const options: DropdownOption[] = elternteile
+    .map((parent, index) => ({ parent, index }))
+    .filter(({ parent }) => parent.isAlive === "no")
+    .map(({ parent, index }) => ({
+      value: String(index),
+      text: personName(parent),
+      preSelected: false,
+    }));
+  if (elternteile.length === 2) {
+    options.push({
+      value: BOTH_PARENTS_VALUE,
+      text: translations.select.bothParents.de,
+      preSelected: false,
+    });
+  }
+  return options;
+}
+
+// Navigates the nested kinder tree to find the correct parent array for a
+// parentKindIndex select field at any depth.
+// kinder#kinder#parentKindIndex (depth 2) → rootKinder itself (no navigation)
+// kinder#kinder#kinder#parentKindIndex (depth 3) → rootKinder[ancestorIndex].kinder
+// Each extra "kinder#" prefix requires following one more ancestorIndex.
+function buildKinderParentOptions(
+  rootKinder: NavigableEntry[] | undefined,
+  fieldName: string,
+  arrayIndexes: number[],
+): DropdownOption[] {
+  const ancestorIndexesToFollow = arrayIndexes.slice(
+    0,
+    fieldName.split("#").length - 3,
+  );
+  const parentKinder = ancestorIndexesToFollow.reduce(
+    (kinder, ancestorIndex) => kinder?.[ancestorIndex]?.kinder,
+    rootKinder as NavigableEntry[] | undefined,
+  );
+  return buildParentOptions(parentKinder);
+}
+
+// Options for a parentKindIndex select on a deeper elternteil-descendant level
+// (elternteile#kinder#…#parentKindIndex, 2+ "kinder" segments). The candidate parents
+// are the siblings at the previous level under the current elternteil. Navigation
+// mirrors buildKinderParentOptions but is rooted at elternteile[elternteilIndex].kinder.
+// arrayIndexes = [elternteilIndex, sibling1Index, sibling2Index, …].
+function buildElternteilKinderParentOptions(
+  elternteile: NavigableEntry[] | undefined,
+  fieldName: string,
+  arrayIndexes: number[],
+): DropdownOption[] {
+  const siblings = elternteile?.[arrayIndexes[0]]?.kinder;
+  const kinderSegments = fieldName.split("#").length - 2;
+  const ancestorIndexesToFollow = arrayIndexes.slice(1, kinderSegments - 1);
+  const parentKinder = ancestorIndexesToFollow.reduce(
+    (kinder, ancestorIndex) => kinder?.[ancestorIndex]?.kinder,
+    siblings,
+  );
+  return buildParentOptions(parentKinder);
+}
+
+// When only one option is available, preselect it so the user isn't forced to
+// pick the sole choice (e.g. a single dead parent).
+function preselectIfSingle(options: DropdownOption[]): DropdownOption[] {
+  if (options.length !== 1) return options;
+  return [{ ...options[0], preSelected: true }];
+}
+
+// Resolves the dropdown options for any dynamic-select field in this flow.
+// Handles both the flat elternteile case and the nested kinder tree case.
+export function resolveParentOptions(
+  fieldName: string,
+  userData: Record<string, unknown>,
+  arrayIndexes: number[],
+): DropdownOption[] {
+  if (
+    fieldName.startsWith("kinder#") &&
+    fieldName.endsWith("#parentKindIndex")
+  ) {
+    return preselectIfSingle(
+      buildKinderParentOptions(
+        userData.kinder as NavigableEntry[] | undefined,
+        fieldName,
+        arrayIndexes,
+      ),
+    );
+  }
+  if (fieldName === "elternteile#kinder#parentElternteilIndex") {
+    return preselectIfSingle(
+      buildElternteilParentOptions(
+        userData.elternteile as ParentEntry[] | undefined,
+      ),
+    );
+  }
+  if (
+    fieldName.startsWith("elternteile#") &&
+    fieldName.endsWith("#parentKindIndex")
+  ) {
+    return preselectIfSingle(
+      buildElternteilKinderParentOptions(
+        userData.elternteile as NavigableEntry[] | undefined,
+        fieldName,
+        arrayIndexes,
+      ),
+    );
+  }
+  const parentArrayName = fieldName.split("#")[0];
+  return preselectIfSingle(
+    buildParentOptions(userData[parentArrayName] as ParentEntry[] | undefined),
+  );
+}

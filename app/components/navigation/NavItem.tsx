@@ -1,7 +1,3 @@
-import CheckCircle from "@digitalservicebund/icons/CheckCircle";
-import ExpandLessIcon from "@digitalservicebund/icons/ExpandLess";
-import ExpandMoreIcon from "@digitalservicebund/icons/ExpandMore";
-import SvgWarningAmber from "@digitalservicebund/icons/WarningAmberRounded";
 import classNames from "classnames";
 import { useId, type FC } from "react";
 import { useCollapse } from "react-collapsed";
@@ -15,6 +11,7 @@ import {
 import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
+import { Icon } from "../common/Icon";
 
 type StateIconProps = {
   id: string;
@@ -25,34 +22,45 @@ type StateIconProps = {
 const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
   if (isDone) {
     return (
-      <CheckCircle
+      <Icon
+        name="check-circle"
         id={id}
-        className="shrink-0 fill-green-700"
+        className="fill-kern-feedback-success"
         aria-label={translations.navigation.navigationItemFinished.de}
+        size={24}
       />
     );
   } else if (showWarningIcon) {
     return (
-      <SvgWarningAmber
+      <Icon
+        name="warning"
         id={id}
+        className="fill-kern-feedback-warning"
         aria-label={translations.navigation.navigationItemWarning.de}
+        size={24}
       />
     );
   }
   return undefined;
 };
 
+const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
+
 export function NavItem({
   destination,
   label,
   state,
-  subflows = [],
+  subflows = DEFAULT_EMPTY_SUBFLOWS,
   forceExpanded,
   isChild = false,
+  isFirst = false,
+  isLast = false,
   firstItemRef,
 }: Readonly<
   NavItem & {
     isChild?: boolean;
+    isFirst?: boolean;
+    isLast?: boolean;
     firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
   }
 >) {
@@ -70,25 +78,42 @@ export function NavItem({
 
   // Transparent last: borders to avoid layout shifts
   const liClassNames = classNames(
-    "list-none border-b border-blue-400 last:border-0 min-w-full",
+    "flex w-full flex-col list-none",
+    "border-b border-kern-neutral-200 last:border-0",
+    "relative focus-within:z-10",
     {
-      "text-gray-600 curser-not-allowed hover:font-normal pointer-events-none":
+      "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
         isDisabled,
-      "border-transparent last:border-transparent": isChild,
+      "border-none": isChild,
     },
   );
 
   const itemClassNames = classNames(
-    "w-full p-16 flex justify-between items-center hover:underline hover:bg-blue-400 active:bg-blue-300 outline-none focus-visible:shadow-[inset_0px_0px_0px_4px] focus:shadow-blue-800 forced-colors:focus:border-[4px] forced-colors:focus:border-[CanvasText]",
+    "kern-body kern-body--small w-full p-16! flex justify-between items-center",
+    "hover:underline hover:bg-kern-neutral-200",
+    "active:bg-kern-neutral-200",
+    "relative",
+    "focus-visible:outline-none",
+    "focus-visible:bg-white",
+    "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
+    "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-border-inside),0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
     {
-      "bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300": isWarning,
-      "bg-yellow-300": state === "WarningCurrent",
-      "ds-label-02-bold bg-blue-400": isCurrent && !hasSubflows,
-      "ds-label-02-reg": !isCurrent || hasSubflows,
-      "pl-24": isChild,
+      "rounded-t": isFirst,
+      "rounded-b": isLast,
+      "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
+      "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
+      "pl-24!": isChild,
+      "text-kern-neutral-400! cursor-not-allowed hover:font-normal pointer-events-none":
+        isDisabled,
     },
   );
   const iconId = useId();
+
+  const statusText = isDone
+    ? translations.navigation.navigationItemFinished.de
+    : isWarning
+      ? translations.navigation.navigationItemWarning.de
+      : "";
 
   return (
     <li className={liClassNames}>
@@ -103,17 +128,22 @@ export function NavItem({
             // oxlint-disable-next-line aria-role
             role={undefined} // due the rest operator, the role is assigned to the button in the server side rendering
           >
-            {label}
-            {collapse.isExpanded ? (
-              <ExpandLessIcon className="ml-auto" />
-            ) : (
-              <ExpandMoreIcon className="ml-auto" />
-            )}
-            <StateIcon
-              id={iconId}
-              isDone={isDone}
-              showWarningIcon={isWarning}
-            />
+            <span>{label}</span>
+            <div className="flex items-center gap-8 justify-end align-end self-end">
+              <Icon
+                name={
+                  collapse.isExpanded
+                    ? "keyboard-arrow-up"
+                    : "keyboard-arrow-down"
+                }
+                className="ml-auto"
+              />
+              <StateIcon
+                id={iconId}
+                isDone={isDone}
+                showWarningIcon={isWarning}
+              />
+            </div>
           </button>
           {
             // due the rest operator, the role is assigned to the section in the server side rendering
@@ -132,11 +162,12 @@ export function NavItem({
           className={itemClassNames}
           aria-disabled={isDisabled}
           aria-current={isCurrent}
-          aria-describedby={isDone || isWarning ? iconId : undefined}
           ref={firstItemRef}
           data-testid={"nav-item-link"}
+          aria-describedby={isDone || isWarning ? iconId : undefined}
+          aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
         >
-          {label}
+          <span>{label}</span>
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
         </a>
       )}

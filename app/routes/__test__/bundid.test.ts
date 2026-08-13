@@ -53,6 +53,8 @@ describe("BundID action", () => {
       body: new FormData(),
     });
 
-    await expect(action(mockRouteArgsFromRequest(request))).rejects.toThrow();
+    await expect(action(mockRouteArgsFromRequest(request))).rejects.toThrow(
+      expect.anything(),
+    );
   });
 });

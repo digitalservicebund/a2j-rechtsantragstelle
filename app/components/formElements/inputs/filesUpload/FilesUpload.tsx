@@ -10,17 +10,18 @@ import {
 } from "~/services/validation/pdfFileSchema";
 import { FileInput } from "./FileInput";
 import { FilesUploadHeader } from "./FilesUploadHeader";
-import {
-  KernInlineNotice,
-  type KernInlineNoticeProps,
-} from "../../../kern/KernInlineNotice";
 import InputError from "../error/InputError";
+import {
+  InlineNotice,
+  type InlineNoticeProps,
+} from "~/components/content/InlineNotice";
+import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 
 export type FilesUploadProps = {
   name: string;
   title?: string;
   description?: string;
-  inlineNotices?: KernInlineNoticeProps[];
+  inlineNotices?: InlineNoticeProps[];
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -113,7 +114,7 @@ const FilesUpload = ({
           </div>
           {items.length === fileUploadLimit &&
             inlineNotices?.map((inlineNotice) => (
-              <KernInlineNotice key={inlineNotice.title} {...inlineNotice} />
+              <InlineNotice key={inlineNotice.title} {...inlineNotice} />
             ))}
         </div>
         {shouldSubmitEmptyArray && (
@@ -127,13 +128,5 @@ const FilesUpload = ({
     </NoscriptWrapper>
   );
 };
-
-const NoscriptWrapper = ({
-  jsAvailable,
-  children,
-}: {
-  jsAvailable: boolean;
-  children: React.ReactNode;
-}) => (jsAvailable ? <div>{children}</div> : <noscript>{children}</noscript>);
 
 export default FilesUpload;

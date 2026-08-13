@@ -1,15 +1,15 @@
 import { type LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import { strapiPageFromRequest } from "~/services/cms/index.server";
+import { fetchPage } from "~/services/cms/index.server";
 import { dependencies } from "~/services/openSourceLicenses/dependencies.server";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import KernLicenseList from "~/services/openSourceLicenses/KernOpenSourceLicenses";
+import LicenseList from "~/services/openSourceLicenses/OpenSourceLicenses";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { content, pageMeta } = await strapiPageFromRequest({ request });
+export const loader = async ({ url: { pathname } }: LoaderFunctionArgs) => {
+  const { content, pageMeta } = await fetchPage(pathname);
   return {
     meta: pageMeta,
     content,
@@ -30,7 +30,7 @@ export default function Index() {
             lgColumn={{ start: 3, span: 7 }}
             xlColumn={{ start: 3, span: 7 }}
           >
-            <KernLicenseList dependencies={dependencies} />
+            <LicenseList dependencies={dependencies} />
           </GridItem>
         </Grid>
       </GridSection>

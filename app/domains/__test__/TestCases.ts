@@ -2,6 +2,8 @@ import { type Config } from "~/services/flow/server/types";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
 import { type PageData } from "~/services/flow/pageDataSchema";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 // Old flow tests: forward & backward using full user data
 export type TestCases<T extends UserData> = Readonly<
@@ -34,7 +36,11 @@ export type FlowTestCases<T extends UserData> = Record<
 >;
 
 // New flow tests: testing data submission with page schemas
-export type FlowTestConfig<T extends UserData> = {
+export type FlowTestConfig<
+  T extends UserData,
+  C extends PageConfigMap = PageConfigMap,
+> = {
   xstateConfig: Config;
+  newEngineConfig?: CompiledFlow<C>;
   testcases: FlowTestCases<T>;
 };

@@ -7,7 +7,7 @@ describe("StrapiDropdownComponentSchema", () => {
       name: "name",
       label: null,
       altLabel: null,
-      options: [{ value: "value", text: "text" }],
+      options: [{ value: "value", text: "text", preSelected: false }],
       placeholder: null,
       errors: null,
       id: 10,
@@ -17,7 +17,7 @@ describe("StrapiDropdownComponentSchema", () => {
     expect(parsed.data).toEqual({
       __component: "form-elements.dropdown",
       name: "name",
-      options: [{ value: "value", text: "text" }],
+      options: [{ value: "value", text: "text", preSelected: false }],
       errorMessages: undefined,
       width: "16",
       id: 10,

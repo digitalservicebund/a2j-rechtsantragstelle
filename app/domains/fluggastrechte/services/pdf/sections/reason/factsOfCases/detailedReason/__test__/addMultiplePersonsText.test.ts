@@ -50,7 +50,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -77,7 +78,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -105,7 +107,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -137,7 +140,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -172,7 +176,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           land: "land",
           plz: "plz",
@@ -181,7 +186,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname2",
           nachname: "nachname2",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           land: "land",
           plz: "plz",
@@ -190,7 +196,8 @@ describe("addMultiplePersonsText", () => {
         {
           vorname: "vorname3",
           nachname: "nachname3",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           land: "land",
           plz: "plz",
@@ -204,19 +211,19 @@ describe("addMultiplePersonsText", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("2. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname nachname, strasseHausnummer, plz ort, land, Telefonnummer telefonnummer",
+      "Vorname nachname, strasse 1, plz ort, land, Telefonnummer telefonnummer",
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith("3. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname2 nachname2, strasseHausnummer, plz ort, land, abweichende Buchungsnummer: 123456",
+      "Vorname2 nachname2, strasse 1, plz ort, land, abweichende Buchungsnummer: 123456",
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith("4. ", expect.anything());
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Vorname3 nachname3, strasseHausnummer, plz ort, land",
+      "Vorname3 nachname3, strasse 1, plz ort, land",
     );
   });
 });
@@ -236,7 +243,8 @@ describe("addMultiplePersonsText - accessibility", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           land: "land",
           plz: "plz",
@@ -245,7 +253,8 @@ describe("addMultiplePersonsText - accessibility", () => {
         {
           vorname: "vorname2",
           nachname: "nachname2",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           land: "land",
           plz: "plz",

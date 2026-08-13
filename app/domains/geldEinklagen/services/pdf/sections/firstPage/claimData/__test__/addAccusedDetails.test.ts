@@ -27,7 +27,7 @@ describe("addAccusedDetails", () => {
     addAccusedDetails(mockDoc, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.beklagteStrasseHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
+      `${userDataMock.beklagteStrasse} ${userDataMock.beklagteHausnummer}, ${userDataMock.beklagtePlz} ${userDataMock.beklagteOrt}, Deutschland`,
     );
   });
 
@@ -49,5 +49,24 @@ describe("addAccusedDetails", () => {
       "Muster GmbH, vertreten durch Herr Max Mustermann",
       { continued: true },
     );
+  });
+
+  it("should generate document with organisation and no legal representative when gegenWenBeklagen is 'organisation' and no legal representative is provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addAccusedDetails(mockDoc, {
+      ...userDataMock,
+      gegenWenBeklagen: "organisation",
+      beklagteNameOrganisation: "Muster GmbH",
+      beklagteGesetzlichenVertretungAnrede: "none",
+      beklagteGesetzlichenVertretungTitle: "none",
+      beklagteGesetzlichenVertretungVorname: "",
+      beklagteGesetzlichenVertretungNachname: "",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Muster GmbH", {
+      continued: true,
+    });
   });
 });

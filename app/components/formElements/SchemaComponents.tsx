@@ -1,10 +1,4 @@
-import { type z } from "zod";
-import { type SchemaObject } from "~/domains/userData";
-import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
-import { filesUploadZodDescription } from "~/services/validation/pdfFileSchema";
-import HiddenInput from "./inputs/hidden/HiddenInput";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
@@ -23,67 +17,36 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
-import KernFileUpload from "./inputs/filesUpload/FilesUpload";
 import classNames from "classnames";
-import { mapLookValue } from "../content/ContentComponents";
-import { ibanZodDescription } from "~/services/validation/iban";
 import {
   extractZodDescription,
   isSpecialComponentDescriptions,
-  type SpecialComponentDescription,
+  renderSpecialMetaDescriptions,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
-import IbanInput from "./inputs/iban/IbanInput";
+import {
+  hasControlledFieldConfig,
+  type ArrayPage,
+  type PageConfig,
+} from "~/domains/pageSchemas";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
 type Props = {
-  pageSchema: SchemaObject;
+  pageConfig: ArrayPage | PageConfig;
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];
-};
-
-const renderSpecialMetaDescriptions = (
-  fieldName: string,
-  description: SpecialComponentDescription,
-  matchingElement?: StrapiFormComponent,
-) => {
-  if (description === filesUploadZodDescription) {
-    const filesUploadElement = matchingElement as z.infer<
-      typeof StrapiFilesUploadComponentSchema
-    >;
-    return (
-      <KernFileUpload
-        key={fieldName}
-        name={fieldName}
-        title={filesUploadElement.title}
-        description={filesUploadElement.description}
-        inlineNotices={filesUploadElement.inlineNotices?.map(
-          (inlineNotice) => ({
-            ...inlineNotice,
-            look: mapLookValue(inlineNotice.look),
-          }),
-        )}
-        errorMessages={filesUploadElement.errorMessages}
-      />
-    );
-  }
-
-  if (description === hiddenInputZodDescription) {
-    return <HiddenInput key={fieldName} name={fieldName} />;
-  }
-
-  if (description === ibanZodDescription) {
-    return <IbanInput key={fieldName} name={fieldName} {...matchingElement} />;
-  }
+  dynamicOptions?: DynamicOptions;
 };
 
 export const SchemaComponents = ({
-  pageSchema,
+  pageConfig: { pageSchema, controlledFieldConfig },
   formComponents,
   className,
   readOnlyFieldNames,
+  dynamicOptions,
 }: Props) => {
   const sortedFieldsSchema = sortSchemaByFormComponents(
-    pageSchema,
+    pageSchema ?? {},
     formComponents,
   );
 
@@ -96,9 +59,18 @@ export const SchemaComponents = ({
           fieldName,
           formComponents ?? [],
         );
+        const hasControlledField = hasControlledFieldConfig(
+          fieldName,
+          controlledFieldConfig,
+        );
 
         if (fieldSetGroup !== undefined) {
-          return renderFieldSet(fieldName, fieldSetGroup, readOnlyFieldNames);
+          return renderFieldSet(
+            fieldName,
+            fieldSetGroup,
+            readOnlyFieldNames,
+            pageSchema,
+          );
         }
 
         const matchingElement = formComponents
@@ -113,7 +85,10 @@ export const SchemaComponents = ({
           return renderSpecialMetaDescriptions(
             fieldName,
             description,
+            fieldSchema,
+            controlledFieldConfig,
             matchingElement,
+            dynamicOptions,
           );
         }
 
@@ -126,6 +101,7 @@ export const SchemaComponents = ({
             fieldName,
             readOnlyFieldNames,
             formComponents,
+            dynamicOptions,
           );
         }
 
@@ -133,7 +109,12 @@ export const SchemaComponents = ({
           return renderZodEnum(nestedSchema, fieldName, matchingElement);
 
         if (isZodString(nestedSchema))
-          return renderZodString(fieldName, isFieldReadOnly, matchingElement);
+          return renderZodString(
+            fieldName,
+            isFieldReadOnly,
+            matchingElement,
+            hasControlledField,
+          );
       })}
     </div>
   );

@@ -84,7 +84,7 @@ describe("normalizeUrl", () => {
 
 describe("stripTrailingSlashFromURL", () => {
   it("returnes undefined for correct URLs", () => {
-    expect(stripTrailingSlashFromURL("https://test.url")).toEqual(undefined);
+    expect(stripTrailingSlashFromURL("https://test.url")).toBeUndefined();
   });
 
   it("returns URL without slash if needed", () => {
@@ -93,7 +93,9 @@ describe("stripTrailingSlashFromURL", () => {
   });
 
   it("throws if input isn't valid URL", () => {
-    expect(() => stripTrailingSlashFromURL("www.test.url/test/")).toThrow();
+    expect(() => stripTrailingSlashFromURL("www.test.url/test/")).toThrow(
+      expect.anything(),
+    );
   });
 
   describe("removeDecimalsFromCurrencyString", () => {

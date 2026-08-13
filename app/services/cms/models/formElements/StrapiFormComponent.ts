@@ -5,12 +5,12 @@ import { StrapiDateInputComponentSchema } from "./StrapiDateInput";
 import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
 import { StrapiFieldSetComponentSchema } from "./StrapiFieldSet";
 import { StrapiFilesUploadComponentSchema } from "./StrapiFilesUpload";
-import { StrapiHiddenInputComponentSchema } from "./StrapiHiddenInput";
 import { StrapiInputComponentSchema } from "./StrapiInput";
 import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
+import { StrapiIncrementComponentSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
@@ -23,8 +23,8 @@ export const StrapiFormComponentSchema = z.union([
   StrapiCheckboxComponentSchema,
   StrapiTileGroupComponentSchema,
   StrapiAutoSuggestInputComponentSchema,
-  StrapiHiddenInputComponentSchema,
   StrapiFieldSetComponentSchema,
+  StrapiIncrementComponentSchema,
 ]);
 
 export type StrapiFormComponent = z.infer<typeof StrapiFormComponentSchema>;

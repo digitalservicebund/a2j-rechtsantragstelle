@@ -3,13 +3,16 @@ import { IMaskMixin } from "react-imask";
 import classNames from "classnames";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
+import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 type TimeInputProps = Readonly<{
   name: string;
   label?: string;
+  suffix?: string;
+  helperText?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-  helperText?: string;
 }>;
 
 type MaskedInputProps = TimeInputProps & {
@@ -20,10 +23,11 @@ type MaskedInputProps = TimeInputProps & {
 const TimeInputBase = function TimeInputComponent({
   name,
   label,
+  suffix,
+  inputRef,
+  helperText,
   placeholder,
   errorMessages,
-  helperText,
-  inputRef,
 }: TimeInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -35,15 +39,9 @@ const TimeInputBase = function TimeInputComponent({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {helperText && (
-        <div className="kern-body text-kern-layout-text-muted!" id={helperId}>
-          {helperText}
-        </div>
+        <InputHelperText helperText={helperText} helperId={helperId} />
       )}
       <input
         {...field.getInputProps({

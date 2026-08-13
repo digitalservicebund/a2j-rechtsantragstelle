@@ -257,6 +257,27 @@ describe("filterPageSchemasByReachableSteps", () => {
       ).toBe(false);
     });
 
+    it("should return false if the conditional relevance check fails (isArrayRelevant)", () => {
+      expect(
+        filterPageSchemasByReachableSteps({}, ["/test"], {
+          arrayConfig: {
+            statementKey: "hasKinder",
+            event: "add-kinder",
+            url: "/test",
+            initialInputUrl: "",
+            isArrayRelevant: () => false,
+          },
+        })({
+          stepId: "test",
+          arrayPages: {
+            test: {
+              pageSchema: {},
+            },
+          },
+        } as PageConfig),
+      ).toBe(false);
+    });
+
     it("should return true if a matching array config is found and it satisfies the conditional relevance check (statementKey)", () => {
       expect(
         filterPageSchemasByReachableSteps(
@@ -270,6 +291,33 @@ describe("filterPageSchemasByReachableSteps", () => {
               event: "add-kinder",
               url: "/test",
               initialInputUrl: "",
+            },
+          },
+        )({
+          stepId: "test",
+          arrayPages: {
+            test: {
+              pageSchema: {},
+            },
+          },
+        } as PageConfig),
+      ).toBe(true);
+    });
+
+    it("should return true if a matching array config is found and it satisfies the conditional relevance check (isArrayRelevant)", () => {
+      expect(
+        filterPageSchemasByReachableSteps(
+          {
+            hasKinder: "no",
+          },
+          ["/test"],
+          {
+            arrayConfig: {
+              statementKey: "hasKinder",
+              event: "add-kinder",
+              url: "/test",
+              initialInputUrl: "",
+              isArrayRelevant: () => true,
             },
           },
         )({

@@ -13,18 +13,19 @@ import { courtForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { getReturnToURL } from "~/services/routing/getReturnToURL";
 import { getSessionManager } from "~/services/session.server";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { KernReportProblem } from "~/components/kern/KernReportProblem";
-import { KernButtonNavigation } from "~/components/kern/KernButtonNavigation";
-import KernHeading from "~/components/kern/KernHeading";
 import NumberInput from "~/components/formElements/inputs/number/NumberInput";
+import { ButtonNavigation } from "~/components/common/ButtonNavigation";
+import Heading from "~/components/common/Heading";
+import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 
 const clientSchema = z.object({ postcode: postcodeSchema });
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request, url }: LoaderFunctionArgs) {
   const sessionManager = getSessionManager("/beratungshilfe/vorabcheck");
   const { url: backURL, session } = getReturnToURL({
     request,
     session: await sessionManager.getSession(request.headers.get("Cookie")),
+    url,
   });
 
   return data(
@@ -43,14 +44,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request, url }: ActionFunctionArgs) {
   const serverSchema = clientSchema.refine(
     (postcodeObj) => courtForPlz(postcodeObj.postcode) !== undefined,
     { path: ["postcode"], message: "notFound" },
   );
   const result = await parseFormData(await request.formData(), serverSchema);
   if (result.error) return validationError(result.error, result.submittedData);
-  const { pathname } = new URL(request.url);
+  const { pathname } = url;
   const urlStem = pathname.substring(0, pathname.lastIndexOf("/"));
   return redirect(`${urlStem}/ergebnis/${result.data?.postcode}`);
 }
@@ -69,7 +70,7 @@ export default function Index() {
             <h1 className="text-kern-static-medium text-kern-layout-text-muted!">
               Zuständiges Amtsgericht finden
             </h1>
-            <KernHeading
+            <Heading
               tagName="h2"
               text="Wie ist Ihre Postleitzahl"
               size="large"
@@ -91,7 +92,6 @@ export default function Index() {
                 <NumberInput
                   name="postcode"
                   label="Postleitzahl"
-                  type="number"
                   errorMessages={[
                     {
                       code: "length",
@@ -104,7 +104,7 @@ export default function Index() {
                     },
                   ]}
                 />
-                <KernButtonNavigation
+                <ButtonNavigation
                   back={{ destination: backURL, label: "Zurück" }}
                   next={{ label: "Weiter" }}
                 />
@@ -119,7 +119,7 @@ export default function Index() {
           className="pb-40 flex justify-end"
           row={4}
         >
-          <KernReportProblem />
+          <ReportProblem />
         </GridItem>
       </Grid>
     </GridSection>

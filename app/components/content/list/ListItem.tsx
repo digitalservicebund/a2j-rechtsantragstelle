@@ -6,11 +6,11 @@ import {
   type ListMarkerProps,
   type ListVariant,
 } from "./types";
-import KernButton from "../../kern/KernButton";
-import KernHeading from "../../kern/KernHeading";
-import KernRichText from "../../kern/KernRichText";
-import KernAccordion from "../../kern/KernAccordion";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
+import Accordion from "~/components/common/Accordion";
+import Button from "~/components/common/Button";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 const ImageMarker = ({ image }: { image: ImageProps }) => (
   <div className="flex items-start">
@@ -27,11 +27,11 @@ const StyledMarker = ({
 }) => (
   <div
     className={classNames("shrink-0 flex justify-center items-center", {
-      "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto ":
+      "w-[16px] h-[2px] border border-black mt-[16px] text-black text-black! forced-color-adjust-auto":
         variant === "unordered",
-      "h-[40px] w-full border-2 border-kern-neutral-300 rounded-full text-black! forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default rounded-full text-kern-layout-text-inverse! font-semibold forced-color-adjust-auto":
         variant === "numbered",
-      "h-[40px] w-full border-2 border-kern-neutral-300 text-white rounded-full text-black! forced-color-adjust-auto":
+      "h-[40px] w-full border-2 border-kern-layout-text-default bg-kern-layout-text-default text-kern-layout-text-inverse! font-semibold rounded-full forced-color-adjust-auto":
         variant === "stepByStep",
     })}
   >
@@ -58,7 +58,10 @@ const ListItem = ({
   image,
 }: ListItemProps & { variant: ListVariant }) => {
   return (
-    <div id={identifier} className="flex flex-row gap-kern-space-default pb-48">
+    <div
+      id={identifier}
+      className="flex lg:flex-row flex-col gap-kern-space-default pb-48"
+    >
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
         <ListMarker index={index} variant={variant} image={image} />
         {variant === "stepByStep" && (
@@ -67,24 +70,24 @@ const ListItem = ({
       </div>
       <div className="gap-kern-space-x-large">
         {headline && (
-          <KernHeading
+          <Heading
             {...headline}
-            className="text-kern-static-large!"
+            className="text-kern-static-large! mt-3!"
             managedByParent
           />
         )}
-        {content && <KernRichText className="pt-8!" html={content} />}
+        {content && <RichText className="pt-8! leading-24!" html={content} />}
         {arrayIsNonEmpty(buttons) && (
-          <KernButtonContainer className="mt-16">
+          <ButtonContainer className="mt-16">
             {buttons.map((button) => (
-              <KernButton key={button.text ?? button.href} {...button} />
+              <Button key={button.text ?? button.href} {...button} />
             ))}
-          </KernButtonContainer>
+          </ButtonContainer>
         )}
 
         {accordion && (
           <div className="pt-kern-space-x-large">
-            <KernAccordion {...accordion} />
+            <Accordion {...accordion} />
           </div>
         )}
       </div>

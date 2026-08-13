@@ -1,10 +1,5 @@
 import { createSession } from "react-router";
-import { updateSession } from "~/services/session.server";
 import { deleteArrayItem, getArrayDataFromFormData } from "../arrayDeletion";
-
-vi.mock("~/services/session.server", () => ({
-  updateSession: vi.fn(),
-}));
 
 describe("arrayDeletion", () => {
   describe("getArrayDataFromFormData", () => {
@@ -44,6 +39,44 @@ describe("arrayDeletion", () => {
       expect(result.isOk ? result.value.index : undefined).toBe(0);
       expect(result.isOk ? result.value.pathname : undefined).toBe(
         "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+      );
+    });
+
+    it("defaults redirectPathname to the array-item pathname when none is given", () => {
+      const formData = new FormData();
+      formData.append(
+        "pathnameArrayItem",
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+      formData.append("kinder", "0");
+      const result = getArrayDataFromFormData(formData);
+      expect(result.isOk ? result.value.redirectPathname : undefined).toBe(
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+    });
+
+    it("returns a separate redirectPathname for a nested deletion whose lookup pathname is not a navigable page", () => {
+      const formData = new FormData();
+      // Encodes the parent-array index for the lookup; not a real page.
+      formData.append(
+        "pathnameArrayItem",
+        "/nachlass/erbschein/erbfolge/kinder/0",
+      );
+      // The navigable summary page to return to after deleting.
+      formData.append(
+        "_redirectPathname",
+        "/nachlass/erbschein/erbfolge/kinder",
+      );
+      formData.append("kinder#kinder", "1");
+      const result = getArrayDataFromFormData(formData);
+      expect(result.isOk).toBe(true);
+      expect(result.isOk ? result.value.arrayName : undefined).toBe(
+        "kinder#kinder",
+      );
+      expect(result.isOk ? result.value.index : undefined).toBe(1);
+      expect(result.isOk ? result.value.arrayIndexes : undefined).toEqual([0]);
+      expect(result.isOk ? result.value.redirectPathname : undefined).toBe(
+        "/nachlass/erbschein/erbfolge/kinder",
       );
     });
   });
@@ -89,10 +122,81 @@ describe("arrayDeletion", () => {
 
       const result = deleteArrayItem("arrayTest", 1, mockSession);
       expect(result.isOk).toBe(true);
-      expect(updateSession).toHaveBeenCalledTimes(1);
-      expect(updateSession).toHaveBeenCalledWith(mockSession, {
-        arrayTest: ["item1"],
-      });
+      expect(mockSession.get("arrayTest")).toEqual(["item1"]);
+    });
+
+    it("should delete a nested array item using arrayIndexes", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Parent 1",
+          kinder: [{ name: "Child A" }, { name: "Child B" }],
+        },
+        { name: "Parent 2", kinder: [{ name: "Child C" }] },
+      ]);
+
+      const result = deleteArrayItem("elternteile#kinder", 0, mockSession, [0]);
+      expect(result.isOk).toBe(true);
+      expect(mockSession.get("elternteile")).toEqual([
+        { name: "Parent 1", kinder: [{ name: "Child B" }] },
+        { name: "Parent 2", kinder: [{ name: "Child C" }] },
+      ]);
+    });
+
+    it("cascades deletion of kinder when an elternteil is deleted", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Maria",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind A" }, { name: "Kind B" }],
+        },
+        {
+          name: "Hans",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind C" }],
+        },
+      ]);
+
+      const result = deleteArrayItem("elternteile", 0, mockSession);
+      expect(result.isOk).toBe(true);
+      const remaining = mockSession.get("elternteile") as Array<{
+        name: string;
+        kinder?: unknown[];
+      }>;
+      expect(remaining).toHaveLength(1);
+      expect(remaining[0].name).toBe("Hans");
+      expect(remaining[0].kinder).toEqual([{ name: "Kind C" }]);
+    });
+
+    it("leaves other parents' children untouched when deleting the last elternteil", () => {
+      const mockSession = createSession();
+      mockSession.set("elternteile", [
+        {
+          name: "Maria",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind A" }],
+        },
+        {
+          name: "Hans",
+          isAlive: "no",
+          hatteKinder: "yes",
+          kinder: [{ name: "Kind B" }],
+        },
+      ]);
+
+      const result = deleteArrayItem("elternteile", 1, mockSession);
+      expect(result.isOk).toBe(true);
+      const remaining = mockSession.get("elternteile") as Array<{
+        name: string;
+        kinder?: unknown[];
+      }>;
+      expect(remaining).toHaveLength(1);
+      expect(remaining[0].name).toBe("Maria");
+      expect(remaining[0].kinder).toEqual([{ name: "Kind A" }]);
     });
   });
 });

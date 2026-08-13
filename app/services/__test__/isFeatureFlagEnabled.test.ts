@@ -16,14 +16,17 @@ describe("isFeatureFlagEnabled", () => {
   });
 
   it("passes feature flag to PostHog and returns the results", async () => {
-    const result = await isFeatureFlagEnabled("showBundID");
+    const result = await isFeatureFlagEnabled("showErbausschlagungFlow");
     expect(result).toBe(true);
-    expect(mockIsFeatureEnabled).toHaveBeenCalledWith("showBundID", "backend");
+    expect(mockIsFeatureEnabled).toHaveBeenCalledWith(
+      "showErbausschlagungFlow",
+      "backend",
+    );
   });
 
   it("falls back to local config if posthog instance is undefined", async () => {
     vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
-    const result = await isFeatureFlagEnabled("showBundID");
-    expect(result).toBe(false);
+    const result = await isFeatureFlagEnabled("showErbausschlagungFlow");
+    expect(result).toBe(true);
   });
 });

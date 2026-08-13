@@ -51,7 +51,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -77,7 +78,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -101,7 +103,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -128,7 +131,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -156,7 +160,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -185,7 +190,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -214,7 +220,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -242,7 +249,8 @@ describe("addMultiplePersonsInfo", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -269,7 +277,8 @@ describe("addMultiplePersonsInfo - accessibility", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -297,7 +306,8 @@ describe("addMultiplePersonsInfo - accessibility", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },
@@ -325,7 +335,8 @@ describe("addMultiplePersonsInfo - accessibility", () => {
         {
           vorname: "vorname",
           nachname: "nachname",
-          strasseHausnummer: "strasseHausnummer",
+          strasse: "strasse",
+          hausnummer: "1",
           ort: "ort",
           plz: "plz",
         },

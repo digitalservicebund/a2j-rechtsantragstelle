@@ -5,9 +5,8 @@ import { type ArrayConfigServer } from "~/services/array";
 
 export type NavigationEvent = "SUBMIT" | "BACK" | ArrayConfigServer["event"];
 
-export type FlowStateMachineEvents =
-  | { type: NavigationEvent }
-  | { type: "xstate.route"; to: unknown }; // XState's built-in route event
+type FlowStateMachineEvents =
+  { type: NavigationEvent } | { type: "xstate.route"; to: unknown }; // XState's built-in route event
 
 export type StateMachineTypes = {
   context: UserData;
@@ -38,7 +37,7 @@ export type Config<T extends UserData = UserData> = Parameters<
   MachineFactory<T>
 >[0];
 
-export type XstateStates<T extends UserData = UserData> = NonNullable<
+type XstateStates<T extends UserData = UserData> = NonNullable<
   Config<T>["states"]
 >;
 

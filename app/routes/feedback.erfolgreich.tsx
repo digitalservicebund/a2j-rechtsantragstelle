@@ -1,14 +1,14 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
-import KernButton from "~/components/kern/KernButton";
-import { strapiPageFromRequest } from "~/services/cms/index.server";
+import Button from "~/components/common/Button";
+import { fetchPage } from "~/services/cms/index.server";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get("url") ?? "";
-  const { content, pageMeta } = await strapiPageFromRequest({ request });
-  return { content, meta: pageMeta, url };
+export const loader = async ({ url }: LoaderFunctionArgs) => {
+  const { searchParams, pathname } = url;
+  const urlParam = searchParams.get("url") ?? "";
+  const { content, pageMeta } = await fetchPage(pathname);
+  return { content, meta: pageMeta, url: urlParam };
 };
 
 export default function Index() {
@@ -18,9 +18,7 @@ export default function Index() {
       <ContentComponents content={content} />
 
       <div>
-        {url && (
-          <KernButton href={url}>Zurück, wo Sie gekommen sind</KernButton>
-        )}
+        {url && <Button href={url}>Zurück, wo Sie gekommen sind</Button>}
       </div>
     </div>
   );

@@ -23,10 +23,12 @@ const allowList = {
     "role",
     "focusable",
     "aria-hidden",
+    "aria-labelledby",
     "style",
     "class",
     "fill",
   ],
+  title: ["id"],
   path: ["d", "fill"],
 };
 

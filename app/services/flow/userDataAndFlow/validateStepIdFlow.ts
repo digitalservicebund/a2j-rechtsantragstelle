@@ -12,8 +12,9 @@ export const validateStepIdFlow = async (
   request: Request,
   flowController: ReturnType<typeof buildFlowController>,
   currentFlow: Flow,
+  url: URL,
 ): Promise<Result<Unit, { redirectTo: string }>> => {
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   if (

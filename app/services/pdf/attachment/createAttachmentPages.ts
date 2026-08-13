@@ -8,8 +8,7 @@ import { createHeader } from "~/services/pdf/header/createHeader";
 
 export const createAttachmentPages = <
   TContext extends
-    | BeratungshilfeFormularUserData
-    | ProzesskostenhilfeFormularUserData,
+    BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 >({
   doc,
   documentStruct,

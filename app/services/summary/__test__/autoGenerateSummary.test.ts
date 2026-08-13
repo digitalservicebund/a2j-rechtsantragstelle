@@ -19,10 +19,7 @@ describe("generateSummaryFromUserData", () => {
     nachname: "Mustermann",
     geburtsdatum: { day: "15", month: "01", year: "1990" },
     emptyField: "",
-    berufart: {
-      selbststaendig: "on",
-      festangestellt: "off",
-    },
+    berufart: "selbststaendig",
     kinder: [
       {
         vorname: "Anna",
@@ -278,6 +275,21 @@ describe("generateSummaryFromUserData", () => {
         editUrl: expect.stringContaining("/persoenliche-daten/name"),
         isArrayItem: false,
       });
+    });
+
+    it("should preserve the semantic order of sections based on stepStates", async () => {
+      const rearrangedUserData = Object.fromEntries(
+        Object.entries(mockUserData).reverse(),
+      );
+      const result = await generateSummaryFromUserData(
+        rearrangedUserData,
+        mockFlowId,
+        mockStepStates,
+        mockTranslations,
+      );
+
+      const sectionIds = result.map((section) => section.id);
+      expect(sectionIds).toEqual(["persoenliche-daten", "finanzielle-angaben"]);
     });
 
     it("should handle empty fields with 'Keine Angabe'", async () => {

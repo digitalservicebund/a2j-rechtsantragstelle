@@ -1,10 +1,73 @@
-import type { AllowedUserTypes, UserData } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
-import { getUserDataFieldLabel } from "./templateReplacement";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
 import { parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
+import { getPageAndFlowDataFromPathname } from "../flow/getPageAndFlowDataFromPathname";
+import {
+  applyStringReplacement,
+  replacementsFromFlowConfig,
+} from "~/util/applyStringReplacement";
+import { addPageDataToUserData } from "../flow/pageData";
+
+const applyStringReplacementToContent = (
+  content: string,
+  stepId: string,
+  userData: UserData,
+  arrayIndexes: number[] | undefined = undefined,
+) => {
+  if (!content.includes("{{")) {
+    return content;
+  }
+
+  if (!stepId) {
+    return content;
+  }
+
+  const userDataWithPageData = addPageDataToUserData(userData, {
+    arrayIndexes,
+  });
+
+  try {
+    const { currentFlow } = getPageAndFlowDataFromPathname(stepId);
+
+    const replacements = replacementsFromFlowConfig(
+      currentFlow.stringReplacements,
+      userDataWithPageData,
+    );
+
+    return applyStringReplacement(content, replacements);
+  } catch {
+    return content;
+  }
+};
+
+const getValueAndArrayData = (
+  fieldInfo: ReturnType<typeof parseArrayField>,
+  userData: UserData,
+  fieldName: string,
+) => {
+  if (!fieldInfo.isArrayField) {
+    return { value: userData[fieldName] };
+  }
+
+  const arrayIndex = fieldInfo.arrayIndex;
+  const arrayBaseField = fieldInfo.baseFieldName;
+
+  const arrayValue = userData[fieldInfo.baseFieldName];
+  const arrayItem =
+    Array.isArray(arrayValue) && arrayValue[fieldInfo.arrayIndex]
+      ? arrayValue[fieldInfo.arrayIndex]
+      : undefined;
+
+  const value =
+    arrayItem && fieldInfo.subFieldName
+      ? arrayItem[fieldInfo.subFieldName]
+      : undefined;
+
+  return { value, arrayIndex, arrayBaseField };
+};
 
 export function createFieldEntry(
   fieldName: string,
@@ -18,53 +81,38 @@ export function createFieldEntry(
   const fieldInfo = parseArrayField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
 
-  let value: AllowedUserTypes;
-  let actualFieldName = fieldName;
-  let arrayIndex: number | undefined;
-  let arrayBaseField: string | undefined;
-
-  if (fieldInfo.isArraySubField) {
-    arrayIndex = fieldInfo.arrayIndex;
-    arrayBaseField = fieldInfo.baseFieldName;
-
-    const arrayValue = userData[fieldInfo.baseFieldName];
-    const arrayItem =
-      Array.isArray(arrayValue) && arrayValue[fieldInfo.arrayIndex]
-        ? arrayValue[fieldInfo.arrayIndex]
-        : undefined;
-
-    value =
-      arrayItem && fieldInfo.subFieldName
-        ? arrayItem[fieldInfo.subFieldName]
-        : undefined;
-    actualFieldName = fieldName;
-  } else {
-    value = userData[fieldName];
-  }
-
-  const question = getUserDataFieldLabel(
-    actualFieldName,
-    fieldQuestions,
+  const { value, arrayIndex, arrayBaseField } = getValueAndArrayData(
+    fieldInfo,
     userData,
+    fieldName,
   );
-  const fieldQuestion = fieldQuestions[actualFieldName];
+
+  const question = fieldQuestions[fieldName]?.question ?? fieldName;
+  const fieldQuestion = fieldQuestions[fieldName];
 
   const answer =
     value == undefined || value === ""
       ? "Keine Angabe" // need to get this from CMS for translations
       : formatFieldValue(value, fieldQuestion?.options);
 
-  let editUrl: string | undefined = undefined;
-  if (representativeStepId) {
-    editUrl = isArrayItem
-      ? createArrayEditUrl(fieldName, representativeStepId)
-      : representativeStepId;
-  }
+  const editUrl = isArrayItem
+    ? createArrayEditUrl(fieldName, representativeStepId)
+    : representativeStepId;
 
   return {
     id: crypto.randomUUID().split("-")[0],
-    question,
-    answer,
+    question: applyStringReplacementToContent(
+      question,
+      representativeStepId,
+      userData,
+      arrayIndex === undefined ? undefined : [arrayIndex],
+    ),
+    answer: applyStringReplacementToContent(
+      answer,
+      representativeStepId,
+      userData,
+      arrayIndex === undefined ? undefined : [arrayIndex],
+    ),
     editUrl,
     isArrayItem,
     arrayIndex,

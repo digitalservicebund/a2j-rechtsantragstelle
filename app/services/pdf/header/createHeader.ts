@@ -5,8 +5,7 @@ import { pdfStyles } from "~/services/pdf/pdfStyles";
 
 export function createHeader<
   TContext extends
-    | BeratungshilfeFormularUserData
-    | ProzesskostenhilfeFormularUserData,
+    BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,
 >(
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,

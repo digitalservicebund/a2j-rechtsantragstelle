@@ -1,9 +1,9 @@
-import { useFormFlow } from "~/components/formFlowContext";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type UserData } from "~/domains/userData";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import KernHeading from "../../kern/KernHeading";
 import { Icon } from "../../common/Icon";
+import Heading from "~/components/common/Heading";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -27,7 +27,7 @@ const SummaryOverviewBox = ({
   return (
     <div className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small ">
       {title && (
-        <KernHeading
+        <Heading
           {...title}
           text={
             arrayPositionTitle
@@ -53,7 +53,10 @@ const SummaryOverviewBox = ({
           />
         ))}
       </dl>
-      <a href={`${flowId}${stepId}`} className="kern-link no-underline!">
+      <a
+        href={`${flowId}${stepId}`}
+        className="kern-link no-underline! hover:underline!"
+      >
         <Icon name="edit" />
         Bearbeiten
       </a>

@@ -4,6 +4,11 @@
 >
 > Remember to install playwright cli and set the environment variable GERICHTSFINDER_ENCRYPTION_KEY
 
+## Commands
+
+- run: `pnpm run test:e2e`
+- UI: `pnpm run test:e2e:ui`
+
 ## Write E2E tests
 
 - [getting started](https://playwright.dev/docs/writing-tests) writing tests

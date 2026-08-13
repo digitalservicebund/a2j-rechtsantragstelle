@@ -1,5 +1,6 @@
 import { useField } from "@rvf/react-router";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import Checkbox from "../Checkbox";
 
 const createMockFieldReturn = (overrides = {}) => ({
@@ -48,23 +49,32 @@ describe("Checkbox", () => {
     expect(label).toBeInTheDocument();
   });
 
-  it("renders the hidden input when the checkbox is not checked", () => {
+  it("renders the suffix when provided", () => {
     render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
+      <Checkbox
+        name="checkbox-name"
+        label="Checkbox Label"
+        suffix="Optional"
+        required
+      />,
     );
-    const hiddenInput = screen.getByDisplayValue("off");
-    expect(hiddenInput).toBeInTheDocument();
+    const suffix = screen.getByText("Optional");
+    expect(suffix).toBeInTheDocument();
   });
 
-  it("hides the hidden input when the checkbox is checked", () => {
-    render(
-      <Checkbox name="checkbox-name" label="Another Checkbox Label" required />,
-    );
-    const checkbox = screen.getByRole("checkbox");
-    fireEvent.click(checkbox);
+  it("submits nothing for an unchecked box once JS is available", () => {
+    const form = document.createElement("form");
+    render(<Checkbox name="agree" label="Agree" required />, {
+      container: form,
+    });
 
-    const hiddenInput = screen.queryByDisplayValue("off");
-    expect(hiddenInput).not.toBeInTheDocument();
+    expect([...new FormData(form).getAll("agree")]).toEqual([]);
+  });
+
+  it("renders the hidden input without JS, so unchecked boxes submit a value", () => {
+    expect(
+      renderToString(<Checkbox name="agree" label="Agree" required />),
+    ).toContain('type="hidden"');
   });
 
   it("displays an error message when an error exists", () => {
@@ -108,7 +118,7 @@ describe("Checkbox", () => {
     expect(checkbox).toHaveAttribute("aria-required", "false");
   });
 
-  it("calls controlled ref when there is an error", () => {
+  it("calls transient ref when there is an error", () => {
     const controlledRefMock = vi.fn();
     const transientRefMock = vi.fn();
 
@@ -131,7 +141,7 @@ describe("Checkbox", () => {
       />,
     );
 
-    expect(controlledRefMock).toHaveBeenCalled();
+    expect(transientRefMock).toHaveBeenCalled();
   });
 
   it("applies error styling correctly when there is an error", () => {

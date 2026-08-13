@@ -24,6 +24,6 @@ describe("extractJsonFilesFromZip", () => {
   it("Fails on non-existing file", () => {
     expect(() => {
       extractJsonFilesFromZip(`notExisting.zip`);
-    }).toThrow();
+    }).toThrow(expect.anything());
   });
 });

@@ -71,7 +71,7 @@ const customStyles = (): StylesConfig<DataListOptions, false> => {
       border: "none",
       boxShadow: "none",
       outline: "none",
-      height: "100%",
+      height: "var(--kern-metric-dimension-x-large, 48px)",
       gridTemplateColumns: "auto",
       input: {
         gridColumn: "1/3 !important",

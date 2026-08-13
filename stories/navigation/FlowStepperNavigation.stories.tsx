@@ -1,9 +1,9 @@
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { FlowStepperNavigation } from "~/components/kern/navigation/FlowStepperNavigation/FlowStepperNavigation";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { FlowStepperNavigation } from "~/components/navigation/FlowStepperNavigation/FlowStepperNavigation";
 
 const meta = {
   title: "navigation/FlowStepperNavigation",

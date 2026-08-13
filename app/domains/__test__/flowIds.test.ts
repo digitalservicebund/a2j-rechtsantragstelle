@@ -18,7 +18,9 @@ describe("parsePathname", () => {
   });
 
   it("throws for invalid flow IDs", () => {
-    expect(() => parsePathname("/invalid")).toThrow();
+    expect(() => parsePathname("/invalid")).toThrow(
+      "Unknown flow ID for path /invalid",
+    );
   });
 
   it("should handle correct malformed URL", () => {

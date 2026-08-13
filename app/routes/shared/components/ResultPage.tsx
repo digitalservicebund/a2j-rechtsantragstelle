@@ -5,16 +5,17 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Icon } from "~/components/common/Icon";
-import KernButton from "~/components/kern/KernButton";
-import KernButtonContainer from "~/components/kern/KernButtonContainer";
-import KernHeading from "~/components/kern/KernHeading";
-import KernRichText from "~/components/kern/KernRichText";
+
 import { translations } from "~/services/translations/translations";
+import ButtonContainer from "~/components/common/ButtonContainer";
+import Button from "~/components/common/Button";
+import Heading from "~/components/common/Heading";
+import RichText from "~/components/common/RichText";
 
 const iconProps = {
   "aria-hidden": false,
   iconClassName:
-    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3 forced-color-adjust-auto",
+    "inline-block h-[32px]! w-[32px]! min-h-[32px]! min-w-[32px] mt-3",
 };
 
 const boxProps = {
@@ -92,21 +93,21 @@ export function ResultPage() {
             <div className="flex sm:flex-row flex-col gap-16">
               {boxProps[cmsContent.pageType].icon}
               <div className="flex flex-col gap-16" id="flow-page-content">
-                <KernHeading
+                <Heading
                   tagName={cmsContent.heading.tagName}
                   text={cmsContent.heading.text}
                   className="kern-heading-large p-0!"
                   managedByParent
                 />
                 {cmsContent.hintText && (
-                  <KernRichText
+                  <RichText
                     className="font-medium! text-kern-static-large!"
                     html={cmsContent.hintText.html}
                   />
                 )}
                 {cmsContent.hintButton && (
                   <div className="flex flex-wrap mt-16">
-                    <KernButton {...cmsContent.hintButton} />
+                    <Button {...cmsContent.hintButton} />
                   </div>
                 )}
               </div>
@@ -119,10 +120,10 @@ export function ResultPage() {
             className="py-24"
             row={2}
           >
-            <KernButtonContainer>
+            <ButtonContainer>
               {back.destination && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={back.destination}
                 >
                   <Icon name="arrow-back" />
@@ -131,14 +132,14 @@ export function ResultPage() {
               )}
               {cmsContent.nextLink?.url && (
                 <a
-                  className="kern-link text-kern-static-small! no-underline!"
+                  className="kern-link text-kern-static-small! no-underline! hover:underline!"
                   href={cmsContent.nextLink.url}
                 >
                   <Icon name="keyboard-double-arrow-left" />
                   {next?.label}
                 </a>
               )}
-            </KernButtonContainer>
+            </ButtonContainer>
           </GridItem>
         </Grid>
       </GridSection>

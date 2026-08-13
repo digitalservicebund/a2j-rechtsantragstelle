@@ -60,6 +60,8 @@ describe("guards", () => {
         const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
           sachgebiet: "miete",
+          mietePachtVertrag: "yes",
+          mietePachtRaum: "no",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -73,6 +75,8 @@ describe("guards", () => {
         const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
           sachgebiet: "reisen",
+          klagendeVertrag: "yes",
+          klagendeVerbraucher: "yes",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({
@@ -86,6 +90,8 @@ describe("guards", () => {
         const context: GeldEinklagenFormularGerichtPruefenUserData = {
           ...baseContext,
           sachgebiet: "anderesRechtsproblem",
+          klagendeVertrag: "yes",
+          klagendeVerbraucher: "yes",
         };
 
         const actual = shouldVisitGerichtSuchenPostleitzahlKlagendePerson({

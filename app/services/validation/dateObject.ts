@@ -62,7 +62,7 @@ export const createSplitDateSchema = (args?: {
     });
 };
 
-type DateObject = { day: string; month: string; year: string };
+export type DateObject = { day: string; month: string; year: string };
 
 export const toDateString = (date: DateObject) =>
   `${date.day}.${date.month}.${date.year}`;

@@ -18,6 +18,7 @@ export function renderZodEnum(
   matchingElement?: StrapiFormComponent,
 ) {
   const label = get(matchingElement, "label");
+  const suffix = get(matchingElement, "suffix");
   const errorMessages = get(matchingElement, "errorMessages");
 
   const sortedOptions = sortSchemaOptionsByFormComponents(
@@ -35,6 +36,7 @@ export function renderZodEnum(
           label={label}
           required={matchingElement.required}
           errorMessage={matchingElement.errorMessage}
+          suffix={suffix}
         />
       );
     case "form-elements.tile-group": {
@@ -63,19 +65,19 @@ export function renderZodEnum(
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
-      options = options.map(({ value, text }) => ({
-        value,
-        text: cmsObject[value]?.text ?? text,
-      }));
       return (
         <Select
           name={fieldName}
           key={fieldName}
           label={label}
-          options={options}
+          options={options.map(({ value, text }) => ({
+            value,
+            text: cmsObject[value]?.text ?? text,
+            preSelected: cmsObject[value]?.preSelected,
+          }))}
           errorMessages={errorMessages}
           width={get(matchingElement, "width")}
-          placeholder={get(matchingElement, "placeholder")}
+          suffix={suffix}
         />
       );
     }

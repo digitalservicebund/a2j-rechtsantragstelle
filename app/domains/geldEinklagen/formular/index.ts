@@ -23,6 +23,7 @@ import {
   updateIfUserNotPrefilledBeklagte,
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
+import { geldEinklagenFlowConfig } from "./flowConfig";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -52,6 +53,7 @@ export const geldEinklagenFormular = {
       "klage-herunterladen": klageHerunterladenXstateConfig,
     },
   },
+  newEngineConfig: geldEinklagenFlowConfig,
   useStepper: true,
   asyncFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
@@ -70,4 +72,4 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
   },
-} satisfies Flow;
+} satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

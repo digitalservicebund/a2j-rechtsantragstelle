@@ -30,7 +30,7 @@ describe("addPlaintiffDetails", () => {
     expect(mockDoc.font).toHaveBeenCalledWith(FONTS_BUNDESSANS_REGULAR);
     expect(mockDoc.text).toHaveBeenCalledWith(SEPARATOR, { continued: true });
     expect(mockDoc.text).toHaveBeenCalledWith(
-      `${userDataMock.klagendePersonStrasseHausnummer}, ${userDataMock.klagendePersonPlz} ${userDataMock.klagendePersonOrt}, Deutschland`,
+      `${userDataMock.klagendePersonStrasse} ${userDataMock.klagendePersonHausnummer}, ${userDataMock.klagendePersonPlz} ${userDataMock.klagendePersonOrt}, Deutschland`,
     );
 
     expect(mockDoc.text).toHaveBeenCalledWith(PLAINTIFF_TEXT, {

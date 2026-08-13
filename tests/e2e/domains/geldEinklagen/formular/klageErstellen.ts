@@ -15,10 +15,8 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   // /geld-einklagen/formular/klage-erstellen/klagende-person/kontaktdaten
   await formular.fillInput("klagendePersonVorname", "Donatello");
   await formular.fillInput("klagendePersonNachname", "Cowabunga");
-  await formular.fillInput(
-    "klagendePersonStrasseHausnummer",
-    "Schildkrötenstraße 5",
-  );
+  await formular.fillInput("klagendePersonStrasse", "Schildkrötenstraße");
+  await formular.fillInput("klagendePersonHausnummer", "1");
   await formular.fillInput("klagendePersonPlz", "10119");
   await formular.fillInput("klagendePersonOrt", "Mutant Mayhem");
   await formular.clickNext();
@@ -26,7 +24,8 @@ export async function startKlagenErstellen(formular: GeldEinklagenFormular) {
   // /geld-einklagen/formular/klage-erstellen/beklagte-person/mensch
   await formular.fillInput("beklagteVorname", "Donatello");
   await formular.fillInput("beklagteNachname", "Cowabunga");
-  await formular.fillInput("beklagteStrasseHausnummer", "Schildkrötenstraße 5");
+  await formular.fillInput("beklagteStrasse", "Schildkrötenstraße");
+  await formular.fillInput("beklagteHausnummer", "5");
   await formular.clickNext();
 
   // /geld-einklagen/formular/klage-erstellen/forderung/gesamtbetrag

@@ -34,6 +34,7 @@ const mockedValidate = vi.fn();
 const mockedAnnounceLiveMessage = vi.fn();
 const COMPONENT_NAME = "test-autoSuggestInput";
 const PLACEHOLDER_MOCK = "Test Placeholder";
+const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
 function getMockUseFieldReturnValue() {
   return {
@@ -67,9 +68,7 @@ function getMockUseFieldReturnValue() {
 beforeEach(() => {
   vi.mocked(useField).mockReturnValue(getMockUseFieldReturnValue());
 
-  vi.spyOn(useDataListOptions, "default").mockReturnValue(
-    getDataListOptions("airports"),
-  );
+  dataListSpy.mockReturnValue(getDataListOptions("airports"));
 
   vi.mocked(useLiveMessage.default).mockReturnValue({
     liveMessage: "",
@@ -95,6 +94,7 @@ describe("AutoSuggestInput", () => {
     );
 
     expect(getByText("placeholder")).toBeInTheDocument();
+    expect(getByText("placeholder")).toHaveClass("absolute");
     expect(getByText("label")).toBeInTheDocument();
     const inputElement = container.querySelector(
       `input[name='${COMPONENT_NAME}']`,
@@ -103,7 +103,7 @@ describe("AutoSuggestInput", () => {
     expect(inputElement?.parentNode).toHaveClass("ph-no-capture");
   });
 
-  it("it should render select the first (BER) input after enter Berlin", async () => {
+  it("should render select the first (BER) input after enter Berlin", async () => {
     const { getByText, getByRole, container } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -126,7 +126,7 @@ describe("AutoSuggestInput", () => {
     });
   });
 
-  it("it should render show an no suggestion message in case enter a not existing input", async () => {
+  it("should render show an no suggestion message in case enter a not existing input", async () => {
     const noSuggestionMessage = "Not possible to find your input";
 
     const { getByText, getByRole } = render(
@@ -251,7 +251,7 @@ describe("AutoSuggestInput", () => {
     });
   });
 
-  it("it should remove the value in case click on clear button", async () => {
+  it("should remove the value in case click on clear button", async () => {
     const { getByText, getByRole, container, getByTestId } = render(
       <AutoSuggestInput
         name={COMPONENT_NAME}
@@ -285,7 +285,7 @@ describe("AutoSuggestInput", () => {
     });
   });
 
-  it("it should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
+  it("should have the className `option-was-selected` after selected one option and not have when move out of the field", async () => {
     const { container, getByRole, getByText } = render(
       <AutoSuggestInput
         name={`${COMPONENT_NAME}-option-was-selected`} // change this props avoid the react-select calls the onBlur method when click on the airport option
@@ -454,6 +454,28 @@ describe("AutoSuggestInput", () => {
 
     await waitFor(() => {
       expect(getByText(freeTextOption.value)).toBeInTheDocument();
+      expect(getByTestId(`auto-suggest-input-menu-item`)).toBeInTheDocument();
+    });
+  });
+
+  it("should only show the free text option when no options exist and the user has entered text", async () => {
+    dataListSpy.mockReturnValue([]);
+    const { getByRole, getByText, getByTestId } = render(
+      <AutoSuggestInput
+        name={COMPONENT_NAME}
+        supportsFreeText
+        dataList="streetNames"
+        errorMessages={[{ code: "required", text: "Field is required" }]}
+        isDisabled={false}
+      />,
+    );
+
+    fireEvent.change(getByRole("combobox"), {
+      target: { value: "Nonexistent" },
+    });
+
+    await waitFor(() => {
+      expect(getByText("Nonexistent")).toBeInTheDocument();
       expect(getByTestId(`auto-suggest-input-menu-item`)).toBeInTheDocument();
     });
   });

@@ -48,9 +48,14 @@
 
   /* ------------------------------- */
 
+  body {
+    @apply text-balance;
+    @apply hyphens-auto;
+  }
+
   .detail-summary:focus-within,
   .kern-tile:focus-within {
-    border-radius: var(--kern-metric-border-radius-default, 0.25rem);
+    border-radius: var(--kern-metric-border-radius-large, 0.25rem);
     box-shadow:
       0 0 0 2px var(--kern-color-action-on-default),
       0 0 0 4px var(--kern-color-action-focus-border-inside),
@@ -206,10 +211,12 @@
   }
 
   .kern-body {
-    line-height: 27px;
+    line-height: 1.5em;
   }
 
   .rich-text {
+    word-break: break-word;
+
     p {
       margin-bottom: 8px;
     }
@@ -223,6 +230,20 @@
     ol {
       list-style-type: decimal;
       padding-left: 1.5rem;
+    }
+  }
+
+  /* styling to make the accordion arrow work on HCM */
+  @media (forced-colors: active) {
+    .kern-accordion .kern-accordion__header::after {
+      background-color: white !important;
+    }
+
+    @media (forced-colors: active) and (prefers-color-scheme: dark) {
+      .kern-accordion[open].kern-title > summary:after,
+      .kern-accordion__header:after {
+        --kern-color-layout-background-inverted: white;
+      }
     }
   }
 }

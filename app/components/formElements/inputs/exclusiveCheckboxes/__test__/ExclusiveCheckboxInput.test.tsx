@@ -42,6 +42,19 @@ describe("ExclusiveCheckboxInput", () => {
     expect(handler).toHaveBeenCalledWith("checky", "off");
   });
 
+  it("should render suffix when provided", () => {
+    const { getByText } = render(
+      <ExclusiveCheckboxInput
+        name={"checky"}
+        label={"Cool label"}
+        value={"on"}
+        onChange={() => undefined}
+        suffix="Optional"
+      />,
+    );
+    expect(getByText("Optional")).toBeInTheDocument();
+  });
+
   it("should show a hidden input if javascript is not available", () => {
     vi.mocked(useJsAvailable).mockReturnValueOnce(false);
     const { getByRole, getByTestId } = render(

@@ -23,8 +23,7 @@ export const familyRelationshipMap = {
 export const addSupportRecipientsToAttachment =
   <
     Context extends
-      | ProzesskostenhilfeFormularUserData
-      | BeratungshilfeFormularUserData,
+      ProzesskostenhilfeFormularUserData | BeratungshilfeFormularUserData,
     PDF extends ProzesskostenhilfePDF | BeratungshilfePDF,
   >({
     userData,

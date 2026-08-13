@@ -1,4 +1,4 @@
-import type { NavItem } from "../kern/navigation/types";
+import type { NavItem } from "../navigation/types";
 
 type MissingDataListProps = { navItems: NavItem[]; shouldRender?: boolean };
 

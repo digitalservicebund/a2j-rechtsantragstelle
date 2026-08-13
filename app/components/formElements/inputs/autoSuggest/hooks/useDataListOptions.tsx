@@ -13,9 +13,10 @@ function getResourcePath(
       return `${API_PATH}/airports/list`;
     case "airlines":
       return `${API_PATH}/airlines/list`;
-    case "streetNames": {
+    case "streetNames":
       return `${API_PATH}/streetNames/list/${dataListArgument}`;
-    }
+    case "nationalities":
+      return `${API_PATH}/nationalities/list`;
     default: {
       throw new Error(`Unhandled type: ${String(type)}`);
     }

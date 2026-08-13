@@ -1,15 +1,15 @@
-import { KernCookieBanner } from "~/components/kern/KernCookieBanner";
 import { reactRouterContext } from "~/../.storybook/reactRouterContext";
 import { Grid } from "~/components/layout/grid/Grid";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { CookieBanner } from "~/components/layout/cookieBanner/CookieBanner";
 
-const meta: Meta<typeof KernCookieBanner> = {
+const meta: Meta<typeof CookieBanner> = {
   title: "components/CookieBanner",
-  component: KernCookieBanner,
+  component: CookieBanner,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernCookieBanner>;
+} satisfies Meta<typeof CookieBanner>;
 
 export default meta;
 

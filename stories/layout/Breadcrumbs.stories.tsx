@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import KernBreadcrumbs from "~/components/kern/layout/KernBreadcrumbs";
+import Breadcrumbs from "~/components/layout/Breadcrumbs";
 
 const meta = {
   title: "layout/Breadcrumbs",
-  component: KernBreadcrumbs,
+  component: Breadcrumbs,
   tags: ["autodocs"],
-} satisfies Meta<typeof KernBreadcrumbs>;
+} satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;
 

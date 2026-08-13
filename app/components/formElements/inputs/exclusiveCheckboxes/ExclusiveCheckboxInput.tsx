@@ -1,12 +1,14 @@
 import classNames from "classnames";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type CheckboxValue } from "../checkbox/Checkbox";
+import { InputLabel } from "../label/InputLabel";
 
 export type ExclusiveCheckboxInputProps = {
   name: string;
   label: string;
-  value: CheckboxValue;
+  suffix?: string;
   hasError?: boolean;
+  value: CheckboxValue;
   onChange: (name: string, checked: CheckboxValue) => void;
 };
 
@@ -15,6 +17,7 @@ export const ExclusiveCheckboxInput = ({
   label,
   value,
   hasError,
+  suffix,
   onChange,
 }: Readonly<ExclusiveCheckboxInputProps>) => {
   const jsAvailable = useJsAvailable();
@@ -52,11 +55,7 @@ export const ExclusiveCheckboxInput = ({
             )
           }
         />
-        {label && (
-          <label className="kern-label" htmlFor={name}>
-            {label}
-          </label>
-        )}
+        {label && <InputLabel name={name} label={label} suffix={suffix} />}
       </div>
     </div>
   );

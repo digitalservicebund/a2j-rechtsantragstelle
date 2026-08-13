@@ -1,45 +1,58 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { Details } from "~/components/content/Details";
-import KernRichText from "~/components/kern/KernRichText";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
+import RichText from "../../../common/RichText";
+import { InputLabel } from "../label/InputLabel";
 
 export const TEXT_AREA_ROWS = 3;
 
 type TextareaProps = Readonly<{
   name: string;
-  backgroundClass?: string;
-  description?: string;
   label?: ReactNode;
   details?: {
     title: string;
     content: string;
   };
-  placeholder?: string;
-  maxLength?: number;
-  errorMessages?: ErrorMessageProps[];
+  suffix?: string;
   innerRef?: React.Ref<HTMLTextAreaElement>;
+  maxLength?: number;
+  description?: string;
+  placeholder?: string;
+  errorMessages?: ErrorMessageProps[];
+  backgroundClass?: string;
   ariaDescribedby?: string;
 }>;
 
 const Textarea = ({
   name,
-  backgroundClass,
-  description,
   label,
+  suffix,
   details,
-  placeholder,
-  maxLength = TEXTAREA_CHAR_LIMIT,
-  errorMessages,
   innerRef,
+  description,
+  placeholder,
+  errorMessages,
   ariaDescribedby,
+  backgroundClass,
+  maxLength = TEXTAREA_CHAR_LIMIT,
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
+
+  const [detailsId, setDetailsId] = useState<string | undefined>();
+
+  const describedByIds = [
+    field.error() ? errorId : null,
+    ariaDescribedby,
+    detailsId,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
@@ -47,13 +60,9 @@ const Textarea = ({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && (
-        <label className="kern-label" htmlFor={name}>
-          {label}
-        </label>
-      )}
-      {description && <KernRichText html={description} />}
-      {details && <Details {...details} />}
+      {label && <InputLabel name={name} label={label} suffix={suffix} />}
+      {description && <RichText html={description} />}
+      {details && <Details {...details} setDetailsId={setDetailsId} />}
       <textarea
         {...field.getInputProps({
           id: name,
@@ -62,7 +71,7 @@ const Textarea = ({
         maxLength={maxLength}
         rows={getGeldEinklagenTextareaRows(name) ?? TEXT_AREA_ROWS}
         className={classNames(
-          "kern-form-input__input ph-no-capture h-fit!",
+          "kern-form-input__input ph-no-capture",
           {
             "kern-form-input__input--error": field.error(),
             "bg-white!": !backgroundClass,
@@ -71,7 +80,7 @@ const Textarea = ({
         )}
         ref={innerRef}
         aria-invalid={field.error() !== null}
-        aria-describedby={field.error() ? errorId : ariaDescribedby}
+        aria-describedby={describedByIds || undefined}
         aria-errormessage={field.error() ? errorId : undefined}
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />

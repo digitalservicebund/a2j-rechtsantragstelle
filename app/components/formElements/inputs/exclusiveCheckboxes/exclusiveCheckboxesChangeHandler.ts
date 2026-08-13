@@ -16,11 +16,21 @@ export const onCheckboxChange =
     setCheckboxes: React.Dispatch<
       React.SetStateAction<Array<Omit<ExclusiveCheckboxInputProps, "onChange">>>
     >,
+    setAnnouncement: React.Dispatch<React.SetStateAction<string>>,
   ) =>
   (checkboxName: string, checked: CheckboxValue) => {
     const existingParentValues =
       parentField.value() ??
       Object.fromEntries(checkboxes.map((c) => [c.name, c.value]));
+
+    const label = checkboxes.find((c) => c.name.endsWith(checkboxName))?.label;
+
+    const announce = (message: string) => {
+      // this constant forces SR to re-announce
+      setAnnouncement("");
+      setTimeout(() => setAnnouncement(message), 10);
+    };
+
     if (checkboxName === "none") {
       const newFieldValues =
         checked === "on"
@@ -32,6 +42,12 @@ export const onCheckboxChange =
       setNoneCheckboxValue(checked);
       if (checked === "on") {
         setCheckboxes((prev) => prev.map((c) => c && { ...c, value: "off" }));
+
+        announce(
+          `"Nicht trifft zu" aktiviert. Alle anderen Optionen wurden deaktiviert.`,
+        );
+      } else {
+        announce(`"Nicht trifft zu" deaktiviert.`);
       }
       parentField.validate();
     } else {
@@ -46,8 +62,15 @@ export const onCheckboxChange =
             : c,
         ),
       );
-      if (noneCheckboxValue && checked === "on") {
+      if (noneCheckboxValue === "on" && checked === "on") {
         setNoneCheckboxValue("off");
+        announce(
+          `${label} ausgewählt. "Nicht trifft zu" wurde automatisch deaktiviert.`,
+        );
+      } else {
+        announce(
+          checked === "on" ? `${label} ausgewählt.` : `${label} abgewählt.`,
+        );
       }
       parentField.validate();
     }

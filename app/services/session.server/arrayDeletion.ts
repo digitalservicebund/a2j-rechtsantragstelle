@@ -1,8 +1,8 @@
 import type { Session } from "react-router";
+import get from "lodash/get";
 import { Result, type Unit } from "true-myth";
 import { type FlowId, parsePathname } from "~/domains/flowIds";
-import type { UserData } from "~/domains/userData";
-import { updateSession } from "~/services/session.server";
+import { arrayChar } from "~/services/array";
 import { filterFormData } from "~/util/filterFormData";
 
 export function getArrayDataFromFormData(formData: FormData): Result<
@@ -11,6 +11,11 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     index: number;
     flowId: FlowId;
     pathname: string;
+    // Where to send the user back to after deleting (no-JS redirect). For nested
+    // items pathname encodes the parent-array index and is not a navigable page,
+    // so callers can pass a real page here. Defaults to pathname.
+    redirectPathname: string;
+    arrayIndexes: number[];
   },
   { message: string }
 > {
@@ -22,6 +27,10 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     });
   }
 
+  // Underscore-prefixed so filterFormData ignores it, keeping the arrayName/index
+  // lookup below unaffected. Read directly, like pathnameArrayItem.
+  const redirectPathname = formData.get("_redirectPathname");
+
   const relevantFormData = filterFormData(formData);
   const [arrayName, indexString] = Object.entries(relevantFormData)[1];
   const index = Number.parseInt(indexString as string);
@@ -32,19 +41,36 @@ export function getArrayDataFromFormData(formData: FormData): Result<
     });
   }
 
-  const { flowId } = parsePathname(pathname as string);
+  const { flowId, arrayIndexes } = parsePathname(pathname as string);
 
-  return Result.ok({ arrayName, index, flowId, pathname: pathname as string });
+  return Result.ok({
+    arrayName,
+    index,
+    flowId,
+    pathname: pathname as string,
+    redirectPathname: (redirectPathname as string) || (pathname as string),
+    arrayIndexes,
+  });
 }
+
+const buildParentPath = (fieldName: string, indices: number[]) =>
+  fieldName
+    .split(arrayChar)
+    .map((segment, i) =>
+      indices[i] === undefined ? segment : `${segment}[${indices[i]}]`,
+    )
+    .join(".");
 
 export const deleteArrayItem = (
   arrayName: string,
   index: number,
   flowSession: Session,
+  arrayIndexes: number[] = [],
 ): Result<Unit, { message: string }> => {
-  const arrayToMutate = flowSession.get(arrayName) as
-    | UserData[string]
-    | undefined;
+  const topLevelArrayName = arrayName.split(arrayChar)[0];
+  const parentPath = buildParentPath(arrayName, arrayIndexes);
+  const newUserData = structuredClone(flowSession.data);
+  const arrayToMutate = get(newUserData, parentPath);
 
   if (!Array.isArray(arrayToMutate)) {
     return Result.err({
@@ -57,7 +83,9 @@ export const deleteArrayItem = (
       message: `Requested array isn't long enough. Deletion request at index ${index}, but array is only of length ${arrayToMutate.length}.`,
     });
   }
+
   arrayToMutate.splice(index, 1);
-  updateSession(flowSession, { [arrayName]: arrayToMutate });
+  flowSession.set(topLevelArrayName, newUserData[topLevelArrayName]);
+
   return Result.ok();
 };

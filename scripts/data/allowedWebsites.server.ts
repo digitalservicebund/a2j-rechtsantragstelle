@@ -39,7 +39,6 @@ export const allowedWebsites = [
   "https://transport.ec.europa.eu",
   "www.schlichtung-reise-und-verkehr.de",
   "https://www.personalausweisportal.de",
-  "https://www.mjp.justiz.de",
   "https://europa.eu",
   "https://www.brak.de",
   "https://formulare.bfdi.bund.de",
@@ -74,4 +73,5 @@ export const allowedWebsites = [
   "https://bitvtest.de",
   "https://www.kern-ux.de",
   "https://www.w3.org",
+  "https://www.online-mahnantrag.de",
 ];

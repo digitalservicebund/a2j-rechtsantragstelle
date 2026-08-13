@@ -1,0 +1,1410 @@
+import { createFlowSession } from "../createFlowSession";
+import { compileFlow } from "../compileFlow";
+import z from "zod";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+
+const noData = { pageData: { arrayIndexes: [] } };
+
+const pages = {
+  start: { stepId: "/start" },
+  middle: { stepId: "/middle", pageSchema: { answer: z.string() } },
+  array: {
+    stepId: "/array",
+    arraySummary: {
+      name: "items",
+      schema: z.array(
+        z.object({
+          vorname: z.string(),
+          nachname: z.string(),
+        }),
+      ),
+    },
+  },
+  arraySubPage: {
+    stepId: "/array/#/daten",
+    pageSchema: { "items#vorname": z.string(), "items#nachname": z.string() },
+  },
+  end: { stepId: "/end" },
+} as const;
+
+const transitions: TransitionConfigMap<typeof pages> = {
+  start: "middle",
+  middle: "array",
+  array: [
+    { type: "addArrayItem", target: "arraySubPage" },
+    {
+      target: "end",
+    },
+  ],
+  arraySubPage: "array",
+  end: null,
+};
+
+// One item page adds to two nested arrays ("docs" and "people").
+// Each must fan out under its own name, so both add pages stay reachable.
+const buildSiblingArraysFlow = () =>
+  compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: {
+          name: "items",
+          schema: z.array(
+            z.object({
+              docs: z.array(z.object({ label: z.string() })).optional(),
+              people: z.array(z.object({ name: z.string() })).optional(),
+            }),
+          ),
+        },
+      },
+      itemDaten: {
+        stepId: "/items/#/daten",
+        pageSchema: { "items#gate": z.string() },
+      },
+      docAdd: {
+        stepId: "/items/#/docs/#/daten",
+        pageSchema: { "items#docs#label": z.string() },
+      },
+      peopleAdd: {
+        stepId: "/items/#/people/#/daten",
+        pageSchema: { "items#people#name": z.string() },
+      },
+      done: { stepId: "/done" },
+    },
+    initialStep: "list",
+    transitions: {
+      list: [
+        { target: "itemDaten" as const, type: "addArrayItem" as const },
+        { target: "done" as const },
+      ],
+      itemDaten: [
+        { target: "docAdd" as const, type: "addArrayItem" as const },
+        { target: "peopleAdd" as const, type: "addArrayItem" as const },
+        { target: "list" as const },
+      ],
+      docAdd: "list" as const,
+      peopleAdd: "list" as const,
+      done: null,
+    },
+  });
+
+// An item with a single nested array that is either optional or required.
+// Used to check how an empty nested array affects its section's done state.
+const buildNestedArrayFlow = (optional: boolean) => {
+  const subArray = z.array(z.object({ label: z.string() }));
+  return compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: {
+          name: "items",
+          schema: z.array(
+            z.object({
+              name: z.string(),
+              sub: optional ? subArray.optional() : subArray,
+            }),
+          ),
+        },
+      },
+      itemDaten: {
+        stepId: "/items/#/daten",
+        pageSchema: { "items#name": z.string() },
+      },
+      subAdd: {
+        stepId: "/items/#/sub/#/daten",
+        pageSchema: { "items#sub#label": z.string() },
+      },
+      done: { stepId: "/done" },
+    },
+    initialStep: "list",
+    transitions: {
+      list: [
+        { target: "itemDaten" as const, type: "addArrayItem" as const },
+        { target: "done" as const },
+      ],
+      itemDaten: [
+        { target: "subAdd" as const, type: "addArrayItem" as const },
+        { target: "list" as const },
+      ],
+      subAdd: "list" as const,
+      done: null,
+    },
+  });
+};
+
+const flow = compileFlow({ pages, initialStep: "start", transitions });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const itemAt = (d: any, i: number) => d.items?.[i];
+
+// A guard on merge depends on the presence of a field from a sibling branch.
+// The user originally chose "left" and reached leftResult, then switched to
+// "right" and filled the right branch, leaving leftField and leftResultField
+// stale in the data.
+const compileCascadeFlow = (pruningStrategy?: "singlePass" | "cascading") =>
+  compileFlow({
+    pages: {
+      first: { stepId: "/first", pageSchema: { choice: z.string() } },
+      left: { stepId: "/left", pageSchema: { leftField: z.string() } },
+      right: { stepId: "/right", pageSchema: { rightField: z.string() } },
+      merge: { stepId: "/merge", pageSchema: { confirm: z.string() } },
+      leftResult: {
+        stepId: "/leftResult",
+        pageSchema: { leftResultField: z.string() },
+      },
+      rightResult: {
+        stepId: "/rightResult",
+        pageSchema: { rightResultField: z.string() },
+      },
+      fallbackResult: { stepId: "/fallbackResult" },
+    },
+    initialStep: "first",
+    transitions: {
+      first: [
+        { target: "left", guard: (d) => d.choice === "left" },
+        { target: "right" },
+      ],
+      left: "merge",
+      right: "merge",
+      merge: [
+        { target: "leftResult", guard: (d) => d.leftField !== undefined },
+        { target: "rightResult", guard: (d) => d.rightField !== undefined },
+        { target: "fallbackResult" },
+      ],
+      leftResult: null,
+      rightResult: null,
+      fallbackResult: null,
+    },
+    pruningStrategy,
+  });
+
+const staleCascadeData = {
+  choice: "right",
+  leftField: "stale",
+  rightField: "r",
+  confirm: "ok",
+  leftResultField: "stale-too",
+  rightResultField: "kept",
+  pageData: { arrayIndexes: [] },
+};
+
+describe("createFlowSession", () => {
+  describe("invalid path", () => {
+    it("throws an Error for an unknown path", () => {
+      expect(() => createFlowSession(flow, noData, "/unknown")).toThrow(
+        /Invalid path/,
+      );
+    });
+  });
+
+  describe("nodeKey", () => {
+    it("returns the correct nodeKey for the current path", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.nodeKey).toBe("start");
+    });
+
+    it("returns the correct nodeKey for a non-initial step", () => {
+      const session = createFlowSession(flow, noData, "/middle");
+      expect(session.nodeKey).toBe("middle");
+    });
+  });
+
+  describe("initialPath", () => {
+    it("always returns the path of the initial step", () => {
+      const session = createFlowSession(flow, noData, "/end");
+      expect(session.initialPath).toBe("/start");
+    });
+  });
+
+  describe("isComplete", () => {
+    it("is true when the simulation reaches a null transition", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.isComplete).toBe(true);
+    });
+
+    it("is false when guards block all forward progress", () => {
+      const blockedPages = {
+        a: { stepId: "/a" },
+        b: { stepId: "/b" },
+      } as const;
+      const blockedTransitions = {
+        a: [{ target: "b" as const, guard: () => false }],
+        b: null,
+      };
+      const blockedFlow = compileFlow({
+        pages: blockedPages,
+        initialStep: "a",
+        transitions: blockedTransitions,
+      });
+      const session = createFlowSession(blockedFlow, noData, "/a");
+      expect(session.isComplete).toBe(false);
+    });
+  });
+
+  describe("pageSchema", () => {
+    it("returns a ZodObject for pages with a schema", () => {
+      const session = createFlowSession(flow, noData, "/middle");
+      expect(session.pageSchema).toBeInstanceOf(z.ZodObject);
+    });
+
+    it("returns an empty-object schema for pages without a schema", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.pageSchema?.parse({})).toEqual({});
+    });
+  });
+
+  describe("fieldNames", () => {
+    it("returns field names for pages with a schema", () => {
+      const session = createFlowSession(flow, noData, "/middle");
+      expect(session.fieldNames).toEqual(["answer"]);
+    });
+
+    it("returns an empty array for pages without a schema", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.fieldNames).toEqual([]);
+    });
+  });
+
+  describe("nextPath", () => {
+    it("returns the next step path", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.nextPath).toBe("/middle");
+    });
+
+    it("returns undefined at the terminal step", () => {
+      const session = createFlowSession(flow, noData, "/end");
+      expect(session.nextPath).toBeUndefined();
+    });
+
+    it("skips addArrayItem transitions to return the next main-branch step", () => {
+      const arrayPages = {
+        list: {
+          stepId: "/list",
+          arraySummary: { name: "items", schema: z.array(z.string()) },
+        },
+        item: { stepId: "/items/#/daten" },
+        done: { stepId: "/done" },
+      } as const;
+      const arrayTransitions = {
+        list: [
+          { target: "item" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        item: "done" as const,
+        done: null,
+      };
+      const arrayFlow = compileFlow({
+        pages: arrayPages,
+        initialStep: "list",
+        transitions: arrayTransitions,
+      });
+      const session = createFlowSession(arrayFlow, noData, "/list");
+      expect(session.nextPath).toBe("/done");
+    });
+  });
+
+  describe("prevPath", () => {
+    it("returns the previous step path via the linear breadcrumb", () => {
+      const session = createFlowSession(flow, noData, "/middle");
+      expect(session.prevPath).toBe("/start");
+    });
+
+    it("returns undefined at the initial step", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.prevPath).toBeUndefined();
+    });
+
+    it("retraces the linear path, not the BFS shortcut, when branches converge", () => {
+      const convergingFlow = compileFlow({
+        pages: {
+          gegenWen: {
+            stepId: "/gericht-pruefen/beklagte-person/gegen-wen",
+            pageSchema: { gegenWenBeklagen: z.string() },
+          },
+          kaufmann: {
+            stepId: "/gericht-pruefen/beklagte-person/kaufmann",
+          },
+          postleitzahl: {
+            stepId:
+              "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+          },
+        },
+        initialStep: "gegenWen",
+        transitions: {
+          gegenWen: [
+            {
+              target: "kaufmann" as const,
+              guard: (ctx) => ctx.gegenWenBeklagen === "person",
+            },
+            { target: "postleitzahl" as const },
+          ],
+          kaufmann: "postleitzahl" as const,
+          postleitzahl: null,
+        },
+      });
+      const session = createFlowSession(
+        convergingFlow,
+        { gegenWenBeklagen: "person", pageData: { arrayIndexes: [] } },
+        "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person",
+      );
+      expect(session.prevPath).toBe(
+        "/gericht-pruefen/beklagte-person/kaufmann",
+      );
+    });
+
+    it("returns the summary as Back for a top-level array item page", () => {
+      // Regression guard: a top-level item's daten page is reached directly from
+      // its summary's add button, so Back must return to that summary — the fix for
+      // deeper fan-out nodes must not skip past a real summary.
+      const topLevelArrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: "list" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        topLevelArrayFlow,
+        {
+          items: [{ name: "a" }],
+          pageData: { arrayIndexes: [0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/items/#/daten",
+      );
+
+      expect(session.prevPath).toBe("/list");
+    });
+
+    it("skips a bare fan-out node so Back returns to the summary it exits to", () => {
+      // A nested item's daten page is reached by an addArrayItem fan-out hosted on
+      // "subCount" — a node that renders no summary and only exists to fan out. The
+      // user reaches the nested daten page via the summary's add button, so Back
+      // must return to the summary ("/list"), not the internal fan-out node.
+      const fanOutBackFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ gate: z.string() })),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#gate": z.string() },
+          },
+          subCount: { stepId: "/items/#/count" },
+          subDaten: {
+            stepId: "/items/#/items/#/daten",
+            pageSchema: { "items#items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: [
+            {
+              target: "subCount" as const,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              guard: (d: any) =>
+                itemAt(d, d.pageData?.arrayIndexes?.[0])?.gate === "yes",
+            },
+            { target: "list" as const },
+          ],
+          subCount: [
+            { target: "subDaten" as const, type: "addArrayItem" as const },
+            { target: "list" as const },
+          ],
+          subDaten: "subCount" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        fanOutBackFlow,
+        {
+          items: [{ gate: "yes", items: [{ name: "x" }] }],
+          pageData: { arrayIndexes: [0, 0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/items/#/items/#/daten",
+      );
+
+      expect(session.prevPath).toBe("/list");
+    });
+
+    describe("cycle detection", () => {
+      it("uses first occurrence of overview page for warning loops", () => {
+        // Scenario: start → overview → warning → overview
+        // Should return to start, not the warning page
+        const warningLoopFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/overview",
+              arraySummary: {
+                name: "items",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            warning: {
+              stepId: "/warning",
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              {
+                target: "warning",
+                guard: (d) => !d.items || d.items.length === 0,
+              },
+              { target: "done" },
+            ],
+            warning: "overview",
+            done: null,
+          },
+        });
+
+        // No items provided - triggers redirect loop: start → overview → warning → overview
+        const session = createFlowSession(
+          warningLoopFlow,
+          { pageData: { arrayIndexes: [] } } as any,
+          "/overview",
+        );
+
+        // When we're at the second overview (after the warning), Back should go
+        // to start, not to warning
+        expect(session.prevPath).toBe("/start");
+      });
+
+      it("uses first occurrence of overview page for array-complete cycles too", () => {
+        // Scenario: overview → array item (completed) → overview
+        // Back from the second overview should return to whatever came
+        // before the array section, not into the item just added.
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          {
+            entries: [{ name: "test entry" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/start");
+      });
+
+      it("falls back to the first occurrence when the array is empty (add started but nothing submitted)", () => {
+        const arrayCompleteFlow = compileFlow({
+          pages: {
+            start: { stepId: "/start" },
+            overview: {
+              stepId: "/items",
+              arraySummary: {
+                name: "entries",
+                schema: z.array(z.object({ name: z.string() })),
+              },
+            },
+            itemDetail: {
+              stepId: "/items/#/detail",
+              pageSchema: { "entries#name": z.string() },
+            },
+            done: { stepId: "/done" },
+          },
+          initialStep: "start",
+          transitions: {
+            start: "overview",
+            overview: [
+              { target: "itemDetail", type: "addArrayItem" },
+              { target: "done" },
+            ],
+            itemDetail: "overview",
+            done: null,
+          },
+        });
+
+        const session = createFlowSession(
+          arrayCompleteFlow,
+          { pageData: { arrayIndexes: [] } } as any,
+          "/items",
+        );
+
+        expect(session.prevPath).toBe("/start");
+      });
+    });
+  });
+
+  describe("isReachable", () => {
+    it("returns true for paths reachable from the initial step", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.isReachable("/middle")).toBe(true);
+      expect(session.isReachable("/end")).toBe(true);
+    });
+
+    it("returns false for an unknown path", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.isReachable("/nonexistent")).toBe(false);
+    });
+
+    it("returns false for a path blocked by always-false guards", () => {
+      const branchedPages = {
+        start: { stepId: "/start" },
+        blocked: { stepId: "/blocked" },
+        open: { stepId: "/open" },
+      } as const;
+      const branchedTransitions = {
+        start: [
+          { target: "blocked" as const, guard: () => false },
+          { target: "open" as const },
+        ],
+        blocked: null,
+        open: null,
+      };
+      const branchedFlow = compileFlow({
+        pages: branchedPages,
+        initialStep: "start",
+        transitions: branchedTransitions,
+      });
+      const session = createFlowSession(branchedFlow, noData, "/start");
+      expect(session.isReachable("/blocked")).toBe(false);
+      expect(session.isReachable("/open")).toBe(true);
+    });
+  });
+
+  describe("sibling arrays on one item node", () => {
+    it("makes both sibling add-targets reachable when the item has no sub-items yet", () => {
+      const flowWithSiblings = buildSiblingArraysFlow();
+      const session = createFlowSession(
+        flowWithSiblings,
+        {
+          items: [{}],
+          pageData: { arrayIndexes: [0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/list",
+      );
+      expect(session.isReachable("/items/#/docs/#/daten")).toBe(true);
+      expect(session.isReachable("/items/#/people/#/daten")).toBe(true);
+    });
+
+    it("makes the second sibling add-target reachable when the first array already has items", () => {
+      const flowWithSiblings = buildSiblingArraysFlow();
+      const session = createFlowSession(
+        flowWithSiblings,
+        {
+          items: [{ docs: [{ label: "a" }, { label: "b" }] }],
+          pageData: { arrayIndexes: [0] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/list",
+      );
+      // people is still empty, so its add page is the first item
+      expect(session.isReachable("/items/#/people/#/daten")).toBe(true);
+    });
+  });
+
+  describe("arrayInfo", () => {
+    it("returns undefined for non-array pages", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.arrayInfo).toBeUndefined();
+    });
+
+    it("returns the array name and entryPoint for array summary pages", () => {
+      const arrayPages = {
+        list: {
+          stepId: "/list",
+          arraySummary: { name: "items", schema: z.array(z.string()) },
+        },
+        item: { stepId: "/items/#/daten" },
+        done: { stepId: "/done" },
+      } as const;
+      const arrayTransitions = {
+        list: [
+          { target: "item" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        item: "done" as const,
+        done: null,
+      };
+      const arrayFlow = compileFlow({
+        pages: arrayPages,
+        initialStep: "list",
+        transitions: arrayTransitions,
+      });
+      const session = createFlowSession(arrayFlow, noData, "/list");
+      expect(session.arrayInfo?.name).toBe("items");
+      expect(session.arrayInfo?.entryPoint).toBe("daten");
+    });
+  });
+
+  describe("paths", () => {
+    it("contains the paths from initial to terminal step", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.paths).toEqual([
+        "/start",
+        "/middle",
+        "/array",
+        "/array/#/daten",
+        "/array",
+        "/end",
+      ]);
+    });
+  });
+
+  describe("statusTree", () => {
+    it("is populated for flows with nested stepIds", () => {
+      const nestedPages = {
+        a: { stepId: "/section/a" },
+        b: { stepId: "/section/b" },
+      } as const;
+      const nestedTransitions = { a: "b", b: null } as const;
+      const nestedFlow = compileFlow({
+        pages: nestedPages,
+        initialStep: "a",
+        transitions: nestedTransitions,
+      });
+      const session = createFlowSession(nestedFlow, noData, "/section/a");
+      expect(session.statusTree).toHaveProperty("/section");
+    });
+
+    it("marks a section isDone when all reachable pages have their schema fields filled", () => {
+      const session = createFlowSession(
+        flow,
+        { answer: "hello", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      // "middle" has stepId "/middle" — 1-level path appears as top-level tree key
+      expect(session.statusTree["/middle"]?.isDone).toBe(true);
+    });
+
+    it("marks a section isDone when all reachable array subpages have their schema fields filled", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }],
+          pageData: { arrayIndexes: [0] },
+        },
+        "/array",
+      );
+      expect(session.statusTree["/array"]?.isDone).toBe(true);
+    });
+
+    it("marks an array section not done when a later item has unfilled required fields", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }, { vorname: "Bob" }],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/array",
+      );
+      // Item 0 is complete but item 1 is missing "nachname" — the section may
+      // only be done when every item's page is done, not just one of them.
+      expect(session.statusTree["/array"]?.isDone).toBe(false);
+    });
+
+    it("marks an array section not done while the user is on a new item not yet in the data", () => {
+      const session = createFlowSession(
+        flow,
+        {
+          items: [{ vorname: "Alice", nachname: "Smith" }],
+          pageData: { arrayIndexes: [1] },
+        },
+        "/array/#/daten",
+      );
+      // One saved, complete item exists but the user is on the first page of a
+      // second item (index 1) that has no data yet — the section is not done.
+      expect(session.statusTree["/array"]?.isDone).toBe(false);
+    });
+
+    it("marks a section isDone false when a reachable page has unfilled required fields", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.statusTree["/middle"]?.isDone).toBe(false);
+    });
+
+    it("marks info pages (no schema) as done regardless of user data", () => {
+      const infoFlow = compileFlow({
+        pages: {
+          info: { stepId: "/section/info" },
+          form: {
+            stepId: "/section/form",
+            pageSchema: { name: z.string().min(1) },
+          },
+        },
+        initialStep: "info",
+        transitions: { info: "form", form: null } as const,
+      });
+      const session = createFlowSession(infoFlow, noData, "/section/info");
+      // "info" has no schema → always done; "form" has unfilled field → not done
+      // section isDone requires ALL reachable pages to be done → false
+      expect(session.statusTree["/section"]?.isDone).toBe(false);
+
+      const filledSession = createFlowSession(
+        infoFlow,
+        { name: "Alice", pageData: { arrayIndexes: [] } },
+        "/section/info",
+      );
+      expect(filledSession.statusTree["/section"]?.isDone).toBe(true);
+    });
+
+    it("section boundary guard: section becomes reachable after subflowDoneStates is set", () => {
+      const gatedFlow = compileFlow({
+        pages: {
+          aPage: {
+            stepId: "/section-a/page",
+            pageSchema: { name: z.string().min(1) },
+          },
+          bPage: {
+            stepId: "/section-b/page",
+            pageSchema: { value: z.string().min(1) },
+          },
+        },
+        initialStep: "aPage",
+        transitions: {
+          aPage: [
+            {
+              guard: (ctx) =>
+                ctx.pageData?.subflowDoneStates?.["/section-a"] === true,
+              target: "bPage" as const,
+            },
+          ],
+          bPage: null,
+        },
+      });
+
+      // Fields unfilled and no subflowDoneStates: section-b not reachable, section-a not done
+      const emptySession = createFlowSession(
+        gatedFlow,
+        noData,
+        "/section-a/page",
+      );
+      expect(emptySession.statusTree["/section-a"]?.isDone).toBe(false);
+      expect(emptySession.statusTree["/section-b"]?.isReachable).toBe(false);
+
+      // Fields filled but subflowDoneStates not yet set: section-a is done but section-b
+      // still not reachable (guard hasn't fired yet — needs the persisted flag)
+      const filledNoFlag = createFlowSession(
+        gatedFlow,
+        { name: "Alice", pageData: { arrayIndexes: [] } },
+        "/section-a/page",
+      );
+      expect(filledNoFlag.statusTree["/section-a"]?.isDone).toBe(true);
+      expect(filledNoFlag.statusTree["/section-b"]?.isReachable).toBe(false);
+
+      // After subflowDoneStates is persisted (e.g. by saveUserDataAndReturnEngineSession),
+      // the guard passes and section-b becomes reachable
+      const withFlag = createFlowSession(
+        gatedFlow,
+        {
+          name: "Alice",
+          pageData: {
+            arrayIndexes: [],
+            subflowDoneStates: { "/section-a": true },
+          },
+        },
+        "/section-a/page",
+      );
+      expect(withFlag.statusTree["/section-a"]?.isDone).toBe(true);
+      expect(withFlag.statusTree["/section-b"]?.isReachable).toBe(true);
+      expect(withFlag.statusTree["/section-b"]?.isDone).toBe(false);
+    });
+
+    it("marks a section done when its only unfilled node is an empty OPTIONAL nested array", () => {
+      const session = createFlowSession(
+        buildNestedArrayFlow(true),
+        { items: [{ name: "a" }], pageData: { arrayIndexes: [0] } } as any,
+        "/list",
+      );
+      // The item's "sub" array is optional and empty, so its add target must
+      // not hold the section back.
+      expect(session.statusTree["/items"]?.isDone).toBe(true);
+    });
+
+    it("marks a section not done when an empty REQUIRED nested array is unfilled", () => {
+      const session = createFlowSession(
+        buildNestedArrayFlow(false),
+        { items: [{ name: "a" }], pageData: { arrayIndexes: [0] } } as any,
+        "/list",
+      );
+      // The item's "sub" array is required, so an empty one keeps the section
+      // incomplete.
+      expect(session.statusTree["/items"]?.isDone).toBe(false);
+    });
+  });
+
+  describe("prunedUserData", () => {
+    it("keeps fields belonging to reachable pages", () => {
+      const session = createFlowSession(
+        flow,
+        { answer: "hello", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      expect(session.prunedUserData).toEqual({ answer: "hello" });
+    });
+
+    it("removes fields belonging to unreachable pages", () => {
+      const guardedFlow = compileFlow({
+        pages: {
+          start: { stepId: "/start" },
+          yes: { stepId: "/yes", pageSchema: { yesField: z.string() } },
+          no: { stepId: "/no", pageSchema: { noField: z.string() } },
+        },
+        initialStep: "start",
+        transitions: {
+          start: [
+            { target: "yes", guard: (d) => d.yesField === "y" },
+            { target: "no" },
+          ],
+          yes: null,
+          no: null,
+        },
+      });
+      // Guard fails → "yes" is unreachable → yesField should be pruned
+      const session = createFlowSession(
+        guardedFlow,
+        { yesField: "no", noField: "n", pageData: { arrayIndexes: [] } },
+        "/start",
+      );
+      expect(session.prunedUserData).toEqual({ noField: "n" });
+    });
+
+    it("with cascading strategy, re-prunes until stable when a guard depends on the presence of a pruned field", () => {
+      const cascadeFlow = compileCascadeFlow("cascading");
+      // The first prune pass drops leftField, but merge's presence guard was
+      // evaluated against the stale data, so leftResultField only falls off
+      // once pruning re-runs on the pruned data. On that second pass merge
+      // routes to rightResult, whose data must survive.
+      const session = createFlowSession(
+        cascadeFlow,
+        staleCascadeData,
+        "/first",
+      );
+      expect(session.prunedUserData).toEqual({
+        choice: "right",
+        rightField: "r",
+        confirm: "ok",
+        rightResultField: "kept",
+      });
+    });
+
+    it("with default singlePass strategy, prunes only against the current data", () => {
+      const singlePassFlow = compileCascadeFlow();
+      const session = createFlowSession(
+        singlePassFlow,
+        staleCascadeData,
+        "/first",
+      );
+      // merge's guard still sees the stale leftField, so leftResult stays
+      // reachable and its field is kept while rightResult is never visited.
+      expect(session.prunedUserData).toEqual({
+        choice: "right",
+        rightField: "r",
+        confirm: "ok",
+        leftResultField: "stale-too",
+      });
+    });
+
+    it("with cascading strategy, navigation follows the stable pruned data", () => {
+      const cascadeFlow = compileCascadeFlow("cascading");
+      const session = createFlowSession(
+        cascadeFlow,
+        staleCascadeData,
+        "/merge",
+      );
+      // Without the stale leftField, merge routes to rightResult and the
+      // stale branch is no longer reachable.
+      expect(session.nextPath).toBe("/rightResult");
+      expect(session.isReachable("/rightResult")).toBe(true);
+      expect(session.isReachable("/leftResult")).toBe(false);
+    });
+
+    it("with default singlePass strategy, navigation still sees the stale data", () => {
+      const singlePassFlow = compileCascadeFlow();
+      const session = createFlowSession(
+        singlePassFlow,
+        staleCascadeData,
+        "/merge",
+      );
+      expect(session.nextPath).toBe("/leftResult");
+      expect(session.isReachable("/leftResult")).toBe(true);
+      expect(session.isReachable("/rightResult")).toBe(false);
+    });
+
+    it("keeps the top-level array field when the array summary page is reachable", () => {
+      const arrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(z.object({ val: z.string() })),
+            },
+          },
+          item: { stepId: "/items/#/daten", pageSchema: { val: z.string() } },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "item" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          item: "done" as const,
+          done: null,
+        },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(
+        arrayFlow,
+        { items: [{ val: "a" }], pageData: { arrayIndexes: [] } } as any,
+        "/list",
+      );
+      expect(session.prunedUserData).toEqual({ items: [{ val: "a" }] });
+    });
+
+    it("prunes stale fields within each array item based on per-item BFS traversal", () => {
+      // Each item asks isAdult first, then branches:
+      //   isAdult=yes → name page
+      //   isAdult=no  → birthday page
+      // If an item previously had isAdult=yes+name, then the user changed to isAdult=no+birthday,
+      // the name field should be pruned even though 'name' is reachable for other items.
+      const arrayFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "people",
+              schema: z.array(
+                z.object({
+                  isAdult: z.string(),
+                  name: z.string().optional(),
+                  birthday: z.string().optional(),
+                }),
+              ),
+            },
+          },
+          adultCheck: {
+            stepId: "/people/#/adult-check",
+            pageSchema: { isAdult: z.string() },
+          },
+          namePage: {
+            stepId: "/people/#/name",
+            pageSchema: { name: z.string() },
+          },
+          birthdayPage: {
+            stepId: "/people/#/birthday",
+            pageSchema: { birthday: z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "adultCheck" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          adultCheck: [
+            {
+              target: "namePage" as const,
+              guard: (d) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (d as any).people?.[(d as any).pageData?.arrayIndexes?.[0]]
+                  ?.isAdult === "yes",
+            },
+            { target: "birthdayPage" as const },
+          ],
+          namePage: "list" as const,
+          birthdayPage: "list" as const,
+          done: null,
+        },
+      });
+
+      // item 0: adult (isAdult=yes) → name reachable, birthday unreachable
+      // item 1: minor (isAdult=no) → birthday reachable, name unreachable
+      // item 1 also has a stale 'name' from a previous answer that should be pruned
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(
+        arrayFlow,
+        {
+          people: [
+            { isAdult: "yes", name: "Alice" },
+            { isAdult: "no", birthday: "1990-01-01", name: "stale" },
+          ],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/list",
+      );
+
+      expect(session.prunedUserData).toEqual({
+        people: [
+          { isAdult: "yes", name: "Alice" },
+          { isAdult: "no", birthday: "1990-01-01" },
+        ],
+      });
+    });
+
+    it("does not include pageData in prunedUserData", () => {
+      const session = createFlowSession(flow, noData, "/start");
+      expect(session.prunedUserData).not.toHaveProperty("pageData");
+    });
+
+    it("prunes a nested array under a parent whose guard no longer reaches it", () => {
+      // An item's nested array (same "items" shape, one level down) is only
+      // reachable when the item's gate passes (gate="yes"). When the gate fails,
+      // the nested items are unreachable and must be pruned. Because the nested
+      // items share the "name" field with the top-level daten page, a scope leak
+      // when exiting the sub-flow back to the summary would re-collect them under
+      // the parent — this asserts that does not happen.
+      const nestedGuardedFlow = compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: {
+              name: "items",
+              schema: z.array(
+                z.object({ name: z.string(), gate: z.string().optional() }),
+              ),
+            },
+          },
+          itemDaten: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#name": z.string(), "items#gate": z.string() },
+          },
+          subList: {
+            stepId: "/items/#/items",
+            arraySummary: {
+              name: "items#items",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          subDaten: {
+            stepId: "/items/#/items/#/daten",
+            pageSchema: { "items#items#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "list",
+        transitions: {
+          list: [
+            { target: "itemDaten" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          itemDaten: [
+            {
+              target: "subList" as const,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              guard: (d: any) =>
+                itemAt(d, d.pageData?.arrayIndexes?.[0])?.gate === "yes",
+            },
+            { target: "list" as const },
+          ],
+          subList: [
+            { target: "subDaten" as const, type: "addArrayItem" as const },
+            { target: "list" as const },
+          ],
+          subDaten: "subList" as const,
+          done: null,
+        },
+      });
+
+      const session = createFlowSession(
+        nestedGuardedFlow,
+        {
+          items: [
+            // gate="no" → nested "items" unreachable, but stale entries linger.
+            { name: "a", gate: "no", items: [{ name: "x" }, { name: "y" }] },
+            { name: "b", gate: "yes" },
+          ],
+          pageData: { arrayIndexes: [] },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+        "/list",
+      );
+
+      expect(session.prunedUserData).toEqual({
+        items: [
+          { name: "a", gate: "no" },
+          { name: "b", gate: "yes" },
+        ],
+      });
+    });
+
+    describe("non-summary addArrayItem fan-out", () => {
+      // Flow: anzahl -[addArrayItem]-> itemDaten -> anzahl (loop)
+      //             -[fallback]-------> done
+      // "anzahl" has no arraySummary — it is a plain form page that also fans out.
+      const fanOutPages = {
+        anzahl: { stepId: "/anzahl" },
+        itemDaten: {
+          stepId: "/items/#/daten",
+          pageSchema: { label: z.string() },
+        },
+        done: { stepId: "/done" },
+      } as const;
+
+      const fanOutTransitions = {
+        anzahl: [
+          { target: "itemDaten" as const, type: "addArrayItem" as const },
+          { target: "done" as const },
+        ],
+        itemDaten: "anzahl" as const,
+        done: null,
+      };
+
+      const fanOutFlow = compileFlow({
+        pages: fanOutPages,
+        initialStep: "anzahl",
+        transitions: fanOutTransitions,
+      });
+
+      it("add-target is reachable when the array is empty", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("item page is reachable when the array has existing entries", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {
+            items: [{ label: "a" }, { label: "b" }],
+            pageData: { arrayIndexes: [] },
+          } as any,
+          "/anzahl",
+        );
+        expect(session.isReachable("/items/#/daten")).toBe(true);
+      });
+
+      it("nextPath skips addArrayItem and returns the fallback target", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.nextPath).toBe("/done");
+      });
+
+      it("prunedUserData includes array item data via non-summary fan-out", () => {
+        const session = createFlowSession(
+          fanOutFlow,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { items: [{ label: "a" }], pageData: { arrayIndexes: [] } } as any,
+          "/anzahl",
+        );
+        expect(session.prunedUserData).toEqual({ items: [{ label: "a" }] });
+      });
+
+      it("arrayInfo has name but entryPoint is undefined for non-summary nodes", () => {
+        const session = createFlowSession(fanOutFlow, noData, "/anzahl");
+        expect(session.arrayInfo?.name).toBe("items");
+        expect(session.arrayInfo?.entryPoint).toBeUndefined();
+      });
+    });
+
+    it("keeps nested array data when the nested array name uses #-notation", () => {
+      // Regression test: arraySummary.name like "parents#children" must use the
+      // leaf segment ("children") as the scopeData key and arrayPath segment —
+      // not the full #-notation string.
+      const nestedHashFlow = compileFlow({
+        pages: {
+          parentList: {
+            stepId: "/parents",
+            arraySummary: {
+              name: "parents",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          parentEntry: {
+            stepId: "/parents/#/name",
+            pageSchema: { "parents#name": z.string() },
+          },
+          childList: {
+            stepId: "/parents/#/children",
+            arraySummary: {
+              name: "parents#children",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          childEntry: {
+            stepId: "/parents/#/children/#/name",
+            pageSchema: { "parents#children#name": z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "parentList",
+        transitions: {
+          parentList: [
+            { target: "parentEntry" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          parentEntry: "childList" as const,
+          childList: [
+            { target: "childEntry" as const, type: "addArrayItem" as const },
+            { target: "parentList" as const },
+          ],
+          childEntry: "childList" as const,
+          done: null,
+        },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(
+        nestedHashFlow,
+        {
+          parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/parents",
+      );
+
+      expect(session.prunedUserData).toEqual({
+        parents: [{ name: "Alice", children: [{ name: "Bob" }] }],
+      });
+    });
+
+    it("prunes stale fields in nested array items based on per-item traversal", () => {
+      // Flow: childrenList → childEntry (name) → toyList → toyEntry (toyName + isFavorite)
+      //       → toyColor (if isFavorite=yes) → toyList → childrenList → done
+      // Toy 0: isFavorite=yes → color kept
+      // Toy 1: isFavorite=no  → stale color pruned
+      const nestedFlow = compileFlow({
+        pages: {
+          childrenList: {
+            stepId: "/children",
+            arraySummary: {
+              name: "children",
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          childEntry: {
+            stepId: "/children/#/name",
+            pageSchema: { name: z.string() },
+          },
+          toyList: {
+            stepId: "/children/#/toys",
+            arraySummary: {
+              name: "toys",
+              schema: z.array(z.object({ toyName: z.string() })),
+            },
+          },
+          toyEntry: {
+            stepId: "/children/#/toys/#/entry",
+            pageSchema: { toyName: z.string(), isFavorite: z.string() },
+          },
+          toyColor: {
+            stepId: "/children/#/toys/#/color",
+            pageSchema: { color: z.string() },
+          },
+          done: { stepId: "/done" },
+        },
+        initialStep: "childrenList",
+        transitions: {
+          childrenList: [
+            { target: "childEntry" as const, type: "addArrayItem" as const },
+            { target: "done" as const },
+          ],
+          childEntry: "toyList" as const,
+          toyList: [
+            { target: "toyEntry" as const, type: "addArrayItem" as const },
+            { target: "childrenList" as const },
+          ],
+          toyEntry: [
+            {
+              target: "toyColor" as const,
+              guard: (d) =>
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (d as any).children?.[(d as any).pageData?.arrayIndexes?.[0]]
+                  ?.toys?.[(d as any).pageData?.arrayIndexes?.[1]]
+                  ?.isFavorite === "yes",
+            },
+            { target: "toyList" as const },
+          ],
+          toyColor: "toyList" as const,
+          done: null,
+        },
+      });
+
+      // Child 0 "Alice" has two toys:
+      //   toy 0: isFavorite=yes → color="red" is kept
+      //   toy 1: isFavorite=no  → color="stale" should be pruned
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const session = createFlowSession(
+        nestedFlow,
+        {
+          children: [
+            {
+              name: "Alice",
+              toys: [
+                { toyName: "Lego", isFavorite: "yes", color: "red" },
+                { toyName: "Ball", isFavorite: "no", color: "stale" },
+              ],
+            },
+          ],
+          pageData: { arrayIndexes: [] },
+        } as any,
+        "/children",
+      );
+
+      expect(session.prunedUserData).toEqual({
+        children: [
+          {
+            name: "Alice",
+            toys: [
+              { toyName: "Lego", isFavorite: "yes", color: "red" },
+              { toyName: "Ball", isFavorite: "no" },
+            ],
+          },
+        ],
+      });
+    });
+  });
+});

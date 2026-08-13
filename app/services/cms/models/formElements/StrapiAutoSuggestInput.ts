@@ -3,9 +3,13 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
-import { StrapiWidthSchema } from "../StrapiWidth";
 
-const DataListSchema = z.enum(["airports", "airlines", "streetNames"]);
+const DataListSchema = z.enum([
+  "airports",
+  "airlines",
+  "streetNames",
+  "nationalities",
+]);
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({
@@ -13,7 +17,6 @@ export const StrapiAutoSuggestInputComponentSchema = z
     label: StrapiStringOptionalSchema,
     placeholder: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
-    width: StrapiWidthSchema,
     dataList: DataListSchema,
     noSuggestionMessage: StrapiStringOptionalSchema,
     isDisabled: z.boolean().nullable().transform(Boolean),
@@ -28,5 +31,9 @@ export const StrapiAutoSuggestInputComponentSchema = z
     errorMessages: errors,
     dataListArgument: undefined as string | undefined,
   }));
+
+export type StrapiAutoSuggestComponent = z.infer<
+  typeof StrapiAutoSuggestInputComponentSchema
+>;
 
 export type DataListType = z.infer<typeof DataListSchema>;

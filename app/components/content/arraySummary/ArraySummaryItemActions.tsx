@@ -1,16 +1,16 @@
 import { useFetcher, useLocation } from "react-router";
-import KernButton from "~/components/kern/KernButton";
-import type { KernHeadingProps } from "~/components/kern/KernHeading";
 import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import { type HeadingProps } from "~/components/common/Heading";
+import Button from "~/components/common/Button";
 
 type Props = {
   readonly itemIndex: number;
   readonly category: string;
   readonly editUrl: string;
-  readonly heading?: KernHeadingProps;
+  readonly heading?: HeadingProps;
 };
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
@@ -27,10 +27,10 @@ const ArraySummaryItemActions = ({
   const srHeadingText = heading ? `${heading.text} ` : "";
 
   return (
-    <div className="flex gap-kern-space-small">
+    <div className="flex md:flex-row flex-col gap-kern-space-small">
       <a
         href={editUrl}
-        className="kern-link no-underline! flex align-center gap-kern-space-x-small!"
+        className="kern-link no-underline! hover:underline! flex align-center gap-kern-space-x-small! pr-16!"
         aria-label={`${srHeadingText}${translations.arraySummary.arrayEditButtonLabel.de}`}
       >
         <Icon
@@ -45,17 +45,18 @@ const ArraySummaryItemActions = ({
         <CsrfInput />
         <input type="hidden" name="pathnameArrayItem" value={pathname} />
         <input type="hidden" name="_jsEnabled" value={String(jsAvailable)} />
-        <KernButton
+        <Button
           look="tertiary"
           iconLeft={<Icon name="trash" className="text-kern-action-default" />}
           name={category}
           value={itemIndex}
           textClassName="no-underline! font-normal!"
           type="submit"
+          className="p-0!"
           aria-label={`${srHeadingText}${translations.arraySummary.arrayDeleteButtonLabel.de}`}
         >
           {translations.arraySummary.arrayDeleteButtonLabel.de}
-        </KernButton>
+        </Button>
       </fetcher.Form>
     </div>
   );

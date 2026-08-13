@@ -29,3 +29,5 @@ export const StrapiResultPageSchema = z.object({
   ...HasStrapiLocaleSchema.shape,
   pageTitle: z.string(),
 });
+
+export type StrapiResultPage = z.infer<typeof StrapiResultPageSchema>;

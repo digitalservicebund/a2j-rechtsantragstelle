@@ -4,7 +4,8 @@ import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/u
 const baseContext = {
   vorname: "test",
   nachname: "test",
-  strasseHausnummer: "test",
+  strasse: "test",
+  hausnummer: "1",
   ort: "test",
   plz: "13055",
 };

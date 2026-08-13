@@ -589,4 +589,40 @@ describe("processFieldForQuestions", () => {
 
     expect(result).toBeNull();
   });
+
+  it("should normalize stepId by removing '/#' when fetching", async () => {
+    const fieldToStepMapping = {
+      "bankkonten#kontoEigentuemer":
+        "/finanzielle-angaben/eigentum/bankkonten/#/bankkonto/daten",
+    };
+
+    const stepPagesCache = {};
+
+    vi.mocked(fetchFlowPage).mockResolvedValue({
+      form: [
+        {
+          __component: "form-elements.input",
+          name: "bankkonten#kontoEigentuemer",
+          label: "Kontoinhaber",
+        },
+      ],
+    } as any);
+
+    const result = await processFieldForQuestions(
+      "bankkonten#kontoEigentuemer",
+      fieldToStepMapping,
+      stepPagesCache,
+      "/beratungshilfe/antrag",
+    );
+
+    expect(result).toEqual({
+      question: "Kontoinhaber",
+    });
+
+    expect(vi.mocked(fetchFlowPage)).toHaveBeenCalledWith(
+      "form-flow-pages",
+      "/beratungshilfe/antrag",
+      "/finanzielle-angaben/eigentum/bankkonten/bankkonto/daten",
+    );
+  });
 });

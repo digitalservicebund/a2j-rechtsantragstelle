@@ -9,6 +9,10 @@ export type ArrayConfigServer = {
   url: string;
   initialInputUrl: string;
   statementKey: AllUserDataKeys;
+  /**
+   * statementKey alternative. Used for complex conditionals to display the array summary.
+   */
+  isArrayRelevant?: (context: UserData) => boolean;
   displayIndexOffset?: number;
   shouldDisableAddButton?: (context: UserData) => boolean;
   hiddenFields?: string[];

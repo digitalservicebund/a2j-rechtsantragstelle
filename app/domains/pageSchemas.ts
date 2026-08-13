@@ -5,14 +5,22 @@ import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { SchemaObject, UserData } from "./userData";
+import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
 import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
-import { erbscheinWegweiserPages } from "~/domains/erbschein/wegweiser/pages";
-import { erbscheinNachlassgerichtPages } from "./erbschein/nachlassgericht/pages";
+import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
+import { nachlassErbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
+import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
+import { type MaybePromise } from "p-map";
+import { type FieldApi } from "@rvf/react";
+import { type Dispatch, type SetStateAction } from "react";
+import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -23,8 +31,13 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
-  "/erbschein/wegweiser": erbscheinWegweiserPages,
-  "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
+  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolgePages,
+  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages,
+  "/nachlass/erbausschlagung/gericht-finden":
+    nachlassErbausschlagungGerichtFindenPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
@@ -42,10 +55,15 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
+  // TODO: Remove after old page configs are migrated to the new leading-slash format
+  const normalizedPageConfigs = Object.values(pagesConfig).map((page) => ({
+    ...page,
+    stepId: page.stepId.startsWith("/") ? page.stepId : `/${page.stepId}`,
+  }));
 
-  for (const page of Object.values(pagesConfig)) {
+  for (const page of normalizedPageConfigs) {
     if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = `/${page.stepId}`;
+      const stepId = page.stepId;
       fieldsMap[stepId] = Object.keys(page.pageSchema);
     }
 
@@ -58,7 +76,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
           continue;
         }
 
-        const stepId = `/${page.stepId}/${arrayPageKey}`;
+        const stepId = `${page.stepId}/${arrayPageKey}`;
         fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
       }
     }
@@ -67,7 +85,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   return fieldsMap;
 };
 
-const getPageConfigOrArrayPageByPathname = (pathname: string) => {
+export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) return undefined;
 
@@ -75,7 +93,19 @@ const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (arrayIndexes.length > 0) {
+  if (
+    ["/nachlass/erbschein/erbfolge", "/nachlass/erbschein/anfrage"].includes(
+      flowId,
+    )
+  ) {
+    return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
+  }
+
+  if (
+    arrayIndexes.length > 0 &&
+    // TODO - Remove this condition after migrating all flows to the new flow engine
+    !["/geld-einklagen/formular"].includes(flowId)
+  ) {
     // An index in the URL tells us we are on a page that belongs to an array
     // To return its pageConfig, we need to find the parent first, which should be one or two levels above
     const stepPathParts = stepIdWithoutLeadingSlash.split("/");
@@ -150,9 +180,34 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 
 export type PagesConfig = Record<string, PageConfig>;
 
+export type FieldValueChangeHandlerProps = {
+  value: AllowedUserTypes;
+  originalValue: AllowedUserTypes;
+  controlledField: FieldApi<any>;
+  setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
+};
+
+export type FieldValueChangeHandler = (
+  props: FieldValueChangeHandlerProps,
+) => MaybePromise<void | (() => void)>;
+
+export type ControlledFieldConfig = {
+  fieldName: string;
+  handleFieldValueChange: FieldValueChangeHandler;
+  getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
+};
+
+export const hasControlledFieldConfig = (
+  fieldName: string,
+  controlledFieldConfig: ControlledFieldConfig | undefined,
+) => {
+  return controlledFieldConfig?.fieldName === fieldName;
+};
+
 type FlowPage = {
   stepId: string;
   pageSchema?: SchemaObject;
+  controlledFieldConfig?: ControlledFieldConfig;
   readonlyFields?: ReadOnlyFields;
 };
 
@@ -161,22 +216,24 @@ type ReadOnlyFields = {
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 
-type ArrayPage = {
+export type ArrayPage = {
   pageSchema?: SchemaObject;
   arrayPages?: Record<string, ArrayPage>;
+  controlledFieldConfig?: ControlledFieldConfig;
   readonlyFields?: ReadOnlyFields;
 };
 
 type ArrayParentPage = {
   stepId: string;
   pageSchema: SchemaObject;
+  controlledFieldConfig?: ControlledFieldConfig;
   arrayPages: Record<string, ArrayPage>;
 };
 
 const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
   page && "arrayPages" in page;
 
-export type PageConfig = FlowPage | ArrayParentPage;
+export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
 
 type ExtractSchemas<T extends PagesConfig> = {
   [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
@@ -217,7 +274,10 @@ export const filterPageSchemasByReachableSteps =
       );
       const statementKey =
         matchingArrayConfig?.statementKey as keyof typeof userData;
-      return userData[statementKey] === "yes";
+      return (
+        userData[statementKey] === "yes" ||
+        Boolean(matchingArrayConfig?.isArrayRelevant?.(userData as UserData))
+      );
     }
     return (
       "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)

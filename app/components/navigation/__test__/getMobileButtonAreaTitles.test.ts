@@ -1,6 +1,6 @@
 import { type NavState } from "~/services/navigation/navState";
-import { type NavItem } from "../types";
 import { getMobileButtonAreaTitles } from "../getMobileButtonAreaTitles";
+import { type NavItem } from "../types";
 
 describe("getMobileButtonAreaTitles", () => {
   describe("when stepsStepper is not provided", () => {

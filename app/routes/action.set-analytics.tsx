@@ -4,8 +4,8 @@ import { consentCookieFromRequest } from "~/services/analytics/gdprCookie.server
 
 export const loader = () => redirect("/");
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const { searchParams } = new URL(request.url);
+export const action = async ({ request, url }: ActionFunctionArgs) => {
+  const { searchParams } = url;
   const clientJavaScriptAvailable = searchParams.get("js");
 
   const headers = await consentCookieFromRequest({ request });

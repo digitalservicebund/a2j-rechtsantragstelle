@@ -5,13 +5,11 @@ import { config } from "~/services/env/public";
 import { mockPublicConfig } from "~/services/env/__test__/publicConfigMock";
 import { useInitPosthog } from "../useInitPosthog";
 
-vi.mock("~/services/env/public");
+vi.mock("~/services/env/public", () => ({
+  config: vi.fn(() => mockPublicConfig({ POSTHOG_API_KEY: "test-api-key" })),
+}));
 
 describe("useInitPosthog", () => {
-  vi.mocked(config).mockReturnValue(
-    mockPublicConfig({ POSTHOG_API_KEY: "test-api-key" }),
-  );
-
   test("returns loaded posthog instance", async () => {
     const { result } = renderHook(() => useInitPosthog(true));
     await waitFor(() => expect(result.current).toBeInstanceOf(PostHog));

@@ -1,8 +1,8 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
-import SideNavMobile from "../SideNavMobile";
-import { type NavItem } from "../types";
 import { translations } from "~/services/translations/translations";
+import { type NavItem } from "../types";
+import SideNavMobile from "../SideNavMobile";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: "Current" as NavState },
@@ -34,12 +34,14 @@ const dummyStepsStepper = [
 ];
 
 describe("SideNavMobile", () => {
-  it("clicking the summary element opens the menu", () => {
-    const { getByText, getByTestId } = render(
+  it("clicking the summary element opens the menu", async () => {
+    const { findAllByText, getByTestId } = render(
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
 
-    const summaryElement = getByText("Page 1", { selector: "span" });
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
     const detailsElement = getByTestId("side-nav-details");
     expect(summaryElement).toBeInTheDocument();
     expect(detailsElement).toBeInTheDocument();
@@ -48,11 +50,13 @@ describe("SideNavMobile", () => {
     expect(detailsElement).toHaveProperty("open", true);
   });
 
-  it("clicking the overlay closes the menu", () => {
-    const { getByText, getByTestId } = render(
+  it("clicking the overlay closes the menu", async () => {
+    const { getByTestId, findAllByText } = render(
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
-    const summaryElement = getByText("Page 1", { selector: "span" });
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
     const detailsElement = getByTestId("side-nav-details");
     expect(detailsElement).not.toHaveProperty("open", true);
     fireEvent.click(summaryElement);
@@ -74,23 +78,6 @@ describe("SideNavMobile", () => {
     expect(toggleLabel).toHaveTextContent("Page 1");
   });
 
-  it("should focus in the first nav item when click in the menu button", async () => {
-    const { getByLabelText, container } = render(
-      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
-    );
-    const toggleElement = getByLabelText(
-      translations.navigationMobile.toggleMenu.de,
-    );
-    fireEvent.click(toggleElement);
-    const firstAnchorElement = container.querySelector(
-      `a[href="${dummyNavItems[0].destination}"]`,
-    );
-
-    await waitFor(() => {
-      expect(firstAnchorElement).toHaveFocus();
-    });
-  });
-
   it("should render the step stepper links correctly", () => {
     const { getAllByTestId } = render(
       <SideNavMobile
@@ -99,7 +86,7 @@ describe("SideNavMobile", () => {
       />,
     );
 
-    expect(getAllByTestId("step-stepper-link").length).toBe(3);
+    expect(getAllByTestId("step-stepper-link")).toHaveLength(3);
     expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent("Step 1");
     expect(getAllByTestId("step-stepper-link")[1]).toHaveTextContent("Step 2");
     expect(getAllByTestId("step-stepper-link")[2]).toHaveTextContent("Step 3");
@@ -136,7 +123,7 @@ describe("SideNavMobile", () => {
       />,
     );
 
-    expect(getAllByTestId("step-stepper-link").length).toBe(2);
+    expect(getAllByTestId("step-stepper-link")).toHaveLength(2);
     expect(getAllByTestId("step-stepper-link")[0]).toHaveTextContent(
       "Step Open (3/4)",
     );
@@ -179,6 +166,23 @@ describe("SideNavMobile", () => {
     });
   });
 
+  it("should focus in the last link after reverse-tabbing from the summary", async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const summaryElement = getByTestId("side-nav-summary");
+    //Open toggle
+    fireEvent.click(summaryElement);
+
+    const lastAnchorElement = getAllByTestId("nav-item-link")[2];
+
+    fireEvent.keyDown(summaryElement, { key: "Tab", shiftKey: true });
+
+    await waitFor(() => {
+      expect(lastAnchorElement).toHaveFocus();
+    });
+  });
+
   it("should focus in the summary after leave the last steps stepper link", async () => {
     const { getByTestId, getAllByTestId } = render(
       <SideNavMobile
@@ -199,6 +203,24 @@ describe("SideNavMobile", () => {
 
     await waitFor(() => {
       expect(summaryElement).toHaveFocus();
+    });
+  });
+  it("should close the menu when pressing the escape key", async () => {
+    const { getByTestId, findAllByText } = render(
+      <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
+    );
+    const [summaryElement] = await findAllByText("Page 1", {
+      selector: "span",
+    });
+    const detailsElement = getByTestId("side-nav-details");
+    expect(detailsElement).not.toHaveProperty("open", true);
+    fireEvent.click(summaryElement);
+    expect(detailsElement).toHaveProperty("open", true);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+
+    await waitFor(() => {
+      expect(detailsElement).not.toHaveProperty("open", true);
     });
   });
 });
