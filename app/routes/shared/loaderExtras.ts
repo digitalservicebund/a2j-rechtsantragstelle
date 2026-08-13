@@ -2,18 +2,13 @@ import { type FlowId } from "~/domains/flowIds";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type UserDataWithPageData } from "~/services/flow/pageData";
 import { type Replacements } from "~/util/applyStringReplacement";
 
 // Information about the current page, handed to a flow's optional loader hooks
 // so they can compute page-specific extras (e.g. which list item the user is in).
 export type LoaderExtrasContext = {
-  request: Request;
-  url: URL;
   flowId: FlowId;
-  stepId: string;
   arrayIndexes?: number[];
-  userData: UserDataWithPageData;
   flowSessionEngine: FlowSession<PageConfigMap>;
 };
 

@@ -142,7 +142,13 @@ function buildParentNameReplacements(
 
   if (parentNameFields.length === 0) return {};
 
-  return resolveUserData(context.userData, parentNameFields) as Replacements;
+  return resolveUserData(
+    {
+      ...context.flowSessionEngine.prunedUserData,
+      pageData: { arrayIndexes: context.arrayIndexes },
+    },
+    parentNameFields,
+  ) as Replacements;
 }
 
 function buildDynamicOptions(
@@ -156,7 +162,7 @@ function buildDynamicOptions(
       fieldName,
       resolveParentOptions(
         fieldName,
-        context.userData as Record<string, unknown>,
+        context.flowSessionEngine.prunedUserData as Record<string, unknown>,
         context.arrayIndexes ?? [],
       ),
     ]),
@@ -188,9 +194,13 @@ function buildArraySummaryData(
   const { arrayInfo } = context.flowSessionEngine;
   if (arrayInfo?.entryPoint === undefined) return undefined;
 
-  const arrayData = (resolveUserData(context.userData, [arrayInfo.name])[
-    arrayInfo.name
-  ] ?? []) as ArrayData;
+  const arrayData = (resolveUserData(
+    {
+      ...context.flowSessionEngine.prunedUserData,
+      pageData: { arrayIndexes: context.arrayIndexes },
+    },
+    [arrayInfo.name],
+  )[arrayInfo.name] ?? []) as ArrayData;
 
   return {
     category: arrayInfo.name,
@@ -200,7 +210,7 @@ function buildArraySummaryData(
         url:
           context.flowId +
           resolveArrayCharacter(
-            context.stepId,
+            context.flowSessionEngine.stepId,
             context.arrayIndexes ?? [],
             false,
           ),
@@ -221,10 +231,16 @@ export const erbfolgeVorabcheckLoaderExtras = {
     dynamicOptions: buildDynamicOptions(context),
     arraySummaryData: buildArraySummaryData(context),
     deceasedPersonName: personName({
-      vorname: (context.userData as { verstorbeneVorname?: string })
-        .verstorbeneVorname,
-      nachname: (context.userData as { verstorbeneNachname?: string })
-        .verstorbeneNachname,
+      vorname: (
+        context.flowSessionEngine.prunedUserData as {
+          verstorbeneVorname?: string;
+        }
+      ).verstorbeneVorname,
+      nachname: (
+        context.flowSessionEngine.prunedUserData as {
+          verstorbeneNachname?: string;
+        }
+      ).verstorbeneNachname,
     }),
   }),
 } satisfies LoaderExtras<ErbfolgeLoaderExtraData>;

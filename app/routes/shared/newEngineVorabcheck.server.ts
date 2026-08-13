@@ -41,12 +41,8 @@ export const loadVorabcheckData = async <
   const { pathname } = url;
 
   const context: LoaderExtrasContext = {
-    request,
-    url,
     flowId,
-    stepId,
     arrayIndexes,
-    userData,
     flowSessionEngine,
   };
 

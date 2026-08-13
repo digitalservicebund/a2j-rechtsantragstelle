@@ -17,17 +17,9 @@ function contextFor(
     userData,
     stepId,
   );
-  const url = new URL(`http://localhost${FLOW_ID}${stepId}`);
   return {
-    request: new Request(url),
-    url,
     flowId: FLOW_ID,
-    stepId,
     arrayIndexes,
-    userData: {
-      ...flowSessionEngine.prunedUserData,
-      pageData: { arrayIndexes },
-    },
     flowSessionEngine,
   };
 }

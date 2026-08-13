@@ -63,12 +63,8 @@ export const loadFormularData = async <
   const cookieHeader = request.headers.get("Cookie");
 
   const context: LoaderExtrasContext = {
-    request,
-    url,
     flowId,
-    stepId,
     arrayIndexes,
-    userData,
     flowSessionEngine,
   };
 
