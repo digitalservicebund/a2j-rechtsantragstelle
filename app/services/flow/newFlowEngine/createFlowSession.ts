@@ -259,6 +259,7 @@ export const createFlowSession = <C extends PageConfigMap>(
 
   return {
     nodeKey,
+    stepId: currentPath,
     pageSchema: compiledFlow.getSchema(currentPath),
     fieldNames: compiledFlow.getFieldNames(currentPath),
     initialPath: compiledFlow.initialPath,
