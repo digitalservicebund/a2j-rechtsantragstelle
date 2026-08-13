@@ -27,8 +27,8 @@ const renderArialLabelForDocumentItem = ({
   const firstTenWords = beschreibung.split(" ").slice(0, 10).join(" ");
 
   return {
-    editButtonLabel: `Dieses Dokument ${editButtonLabelLowercase}: ${firstTenWords} und so weiter`,
-    deleteButtonLabel: `Dieses Dokument ${deleteButtonLabelLowercase}: ${firstTenWords} und so weiter`,
+    editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${editButtonLabelLowercase}: ${firstTenWords} ${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
+    deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${deleteButtonLabelLowercase}: ${firstTenWords} ${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
   };
 };
 
@@ -44,14 +44,14 @@ const renderArialLabelForPersonItem = (
 
   if (person.personAuswahl === "beklagte") {
     return {
-      editButtonLabel: `Beklagte Person als Beweis ${editButtonLabelLowercase}`,
-      deleteButtonLabel: `Beklagte Person als Beweis ${deleteButtonLabelLowercase}`,
+      editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${editButtonLabelLowercase}`,
+      deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
     };
   }
 
   return {
-    editButtonLabel: `Klagende Person als Beweis ${editButtonLabelLowercase}`,
-    deleteButtonLabel: `Klagende Person als Beweis ${deleteButtonLabelLowercase}`,
+    editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${editButtonLabelLowercase}`,
+    deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
   };
 };
 

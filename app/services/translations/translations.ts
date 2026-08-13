@@ -546,5 +546,17 @@ export const translations = {
     summaryOverviewBoxBegruendungBeschreibungBeweiseNoDataNotice: {
       de: "Prüfen Sie, ob Sie tatsächlich keine Beweise zu diesem Abschnitt haben oder nennen möchten",
     },
+    begruendungBeschreibungBeweiseBeklagteButtonArialLabel: {
+      de: "Beklagte Person als Beweis",
+    },
+    begruendungBeschreibungBeweiseKlagendenButtonArialLabel: {
+      de: "Klagende Person als Beweis",
+    },
+    begruendungBeschreibungBeweiseDocumentButtonArialLabel: {
+      de: "Dieses Dokument",
+    },
+    begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix: {
+      de: "und so weiter",
+    },
   },
 } satisfies TranslationRecord;
