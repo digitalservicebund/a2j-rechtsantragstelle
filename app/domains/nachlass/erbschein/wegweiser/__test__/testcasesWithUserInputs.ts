@@ -1,9 +1,31 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
-import { nachlassErbscheinWegweiserXstateConfig } from "~/domains/nachlass/erbschein/wegweiser/xStateConfig";
+import { nachlassErbscheinWegweiserFlowConfig } from "../flowConfig";
+
+const happyPath: {
+  stepId: string;
+  userInput?: Partial<NachlassErbscheinWegweiserUserData>;
+}[] = [
+  {
+    stepId: "/start",
+  },
+  {
+    stepId: "/staatsangehoerigkeit",
+    userInput: {
+      staatsangehoerigkeit: "german",
+    },
+  },
+  {
+    stepId: "/lebensmittelpunkt",
+    userInput: {
+      lebensmittelpunkt: "deutschland",
+    },
+  },
+];
 
 export const nachlassErbscheinWegweiserTestCases = {
-  xstateConfig: nachlassErbscheinWegweiserXstateConfig,
+  xstateConfig: { id: "/nachlass/erbschein/wegweiser" },
+  newEngineConfig: nachlassErbscheinWegweiserFlowConfig,
   testcases: {
     severalNationalities: [
       {
@@ -37,12 +59,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     notarizedTestament: [
-      {
-        stepId: "/lebensmittelpunkt",
-        userInput: {
-          lebensmittelpunkt: "deutschland",
-        },
-      },
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -54,6 +71,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     erbvertrag: [
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -65,6 +83,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasGrundeigentumWithHandwrittenTestament: [
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -82,6 +101,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasGrundeigentumWithNoTestament: [
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -99,6 +119,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasUnternehmenWithHandwrittenTestament: [
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -122,6 +143,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     hasUnternehmenWithNoTestament: [
+      ...happyPath,
       {
         stepId: "/testament-oder-erbvertrag",
         userInput: {
@@ -145,6 +167,19 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
     erbscheinNotRequired: [
+      ...happyPath,
+      {
+        stepId: "/testament-oder-erbvertrag",
+        userInput: {
+          testamentType: "none",
+        },
+      },
+      {
+        stepId: "/grundeigentum",
+        userInput: {
+          hasGrundeigentum: "no",
+        },
+      },
       {
         stepId: "/unternehmen",
         userInput: {
@@ -173,4 +208,7 @@ export const nachlassErbscheinWegweiserTestCases = {
       },
     ],
   },
-} satisfies FlowTestConfig<NachlassErbscheinWegweiserUserData>;
+} satisfies FlowTestConfig<
+  NachlassErbscheinWegweiserUserData,
+  typeof nachlassErbscheinWegweiserFlowConfig.pages
+>;
