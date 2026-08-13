@@ -3,6 +3,7 @@
 ## Status
 
 - 2026-04-07: Drafted
+- 2026-08-12: Rejected
 
 ## Context
 
@@ -86,10 +87,6 @@ This breadth makes the function hard to test individual phases and difficult to 
 
 ---
 
-## Decision
-
-Refactor the formular loader and its supporting modules to establish clean phases with clear ownership, without changing any observable behaviour.
-
 ### Scope
 
 The primary focus is the loader. The action shares some of the same structural issues — `getPageAndFlowDataFromPathname` is called three times independently (once in the action itself, once in `validateFormUserData`, and once in `postValidationFlowAction`), `buildFlowController` is reinstantiated purely to compute `stepStates()`, and `request` is passed into `postValidationFlowAction`. It is simpler and easier to follow than the loader, but it will be aligned to the same principles as part of this work rather than in a separate pass.
@@ -154,16 +151,13 @@ We will use the [Strangler Fig](https://learn.microsoft.com/en-us/azure/architec
 3. Add unit tests per phase as each is extracted (the previous lack of isolated tests is itself a symptom of the god-function problem).
 4. Once all phases are extracted and clearly owned, the loader is ready for future work.
 
-## Consequences
+## Decision
 
-### Positive
+As a team, we decided to reject this proposal for the following reasons:
 
-- Significantly reduced cognitive overhead when reading or debugging a request.
-- Each phase can be unit-tested in isolation.
-- Redundant I/O (Redis reads, URL parsing) is eliminated, giving a small but real performance improvement per request.
-- Establishes clean module boundaries that make the codebase easier to extend and maintain going forward.
+- The current structure (especially the `getUserDataAndFlow` function) is not inherently complex or poorly written; it is simply difficult to follow due to its length and the amount of content it handles.
+- This ADR's draft has become outdated: we have since implemented a new engine to replace the `xState` library, which will remove many of the features described above (e.g. `buildFlowController`).
 
-### Negative / Risks
+## Future Considerations
 
-- Pure internal refactor with no feature changes: risk of subtle regressions is non-zero.
-- Short-term velocity reduction while the refactor is in progress.
+We may revisit `getUserDataAndFlow` in the future to keep it smaller and more legible, but this is not a near-term priority.
