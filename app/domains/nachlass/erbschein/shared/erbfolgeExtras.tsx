@@ -11,18 +11,18 @@ import {
   parentSelectFormElement,
   resolveParentOptions,
 } from "./buildParentOptions";
-import { personName } from "../shared/personName";
+import { personName } from "./personName";
 import {
-  type VorabcheckExtras,
-  type VorabcheckExtraLoaderData,
+  type FlowExtras,
+  type ExtraFlowLoaderData,
 } from "~/domains/extraLoaderConfiguration";
-import { ElternteilSummary } from "~/domains/nachlass/erbschein/erbfolge/components/ElternteilSummary";
-import { KinderSummary } from "~/domains/nachlass/erbschein/erbfolge/components/KinderSummary";
 import { type ArrayConfigClient } from "~/services/array";
 import {
   type LoaderExtrasContext,
   type LoaderExtras,
 } from "~/services/flow/server/loaderExtras";
+import { ElternteilSummary } from "~/domains/nachlass/erbschein/shared/components/ElternteilSummary";
+import { KinderSummary } from "~/domains/nachlass/erbschein/shared/components/KinderSummary";
 
 type ErbfolgeArraySummaryData = {
   category: string;
@@ -57,10 +57,9 @@ type ErbfolgeLoaderExtras = {
   dynamicOptions: DynamicOptions | undefined;
 };
 
-type ErbfolgeVorabcheckLoaderData = VorabcheckExtraLoaderData &
-  ErbfolgeLoaderExtras;
-
-export const erbfolgeExtras: VorabcheckExtras<ErbfolgeVorabcheckLoaderData> = {
+export const erbfolgeExtras: FlowExtras<
+  ExtraFlowLoaderData & ErbfolgeLoaderExtras
+> = {
   renderExtraComponents: (loaderData) => {
     return (
       <>
@@ -221,7 +220,7 @@ function buildArraySummaryData(
   };
 }
 
-export const erbfolgeVorabcheckLoaderExtras = {
+export const erbfolgeLoaderExtras = {
   buildReplacements: buildParentNameReplacements,
   buildLoaderData: (context) => ({
     formElements: [

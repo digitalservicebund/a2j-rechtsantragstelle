@@ -1,28 +1,25 @@
 import { type ReactNode } from "react";
 import { type FlowId } from "~/domains/flowIds";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
-import { erbfolgeExtras } from "~/domains/nachlass/erbschein/erbfolge/vorabcheckExtras";
+import { erbfolgeExtras } from "~/domains/nachlass/erbschein/shared/erbfolgeExtras";
 
-export type VorabcheckExtraLoaderData = Record<string, unknown> & {
+export type ExtraFlowLoaderData = Record<string, unknown> & {
   flowId: FlowId;
 };
 
-export type VorabcheckExtras<
-  TLoaderData extends VorabcheckExtraLoaderData = VorabcheckExtraLoaderData,
+export type FlowExtras<
+  TLoaderData extends ExtraFlowLoaderData = ExtraFlowLoaderData,
 > = {
   renderExtraComponents(loaderData: TLoaderData): ReactNode;
   getDynamicOptions(loaderData: TLoaderData): DynamicOptions | undefined;
 };
 
-const extrasByFlowId: Partial<Record<FlowId, VorabcheckExtras>> = {
+const extraFlowFeaturesById: Partial<Record<FlowId, FlowExtras>> = {
   "/nachlass/erbschein/erbfolge": erbfolgeExtras,
 };
 
-export function useVorabcheckExtras(
-  loaderData: VorabcheckExtraLoaderData,
-  flowId: FlowId,
-) {
-  const flowExtras = extrasByFlowId[flowId];
+export function useFlowExtras(loaderData: ExtraFlowLoaderData, flowId: FlowId) {
+  const flowExtras = extraFlowFeaturesById[flowId];
   if (!flowExtras) return undefined;
   return {
     extraComponents: flowExtras.renderExtraComponents(loaderData),
