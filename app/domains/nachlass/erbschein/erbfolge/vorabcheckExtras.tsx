@@ -22,7 +22,7 @@ import { type ArrayConfigClient } from "~/services/array";
 import {
   type LoaderExtrasContext,
   type LoaderExtras,
-} from "~/routes/shared/loaderExtras";
+} from "~/services/flow/server/loaderExtras";
 
 type ErbfolgeArraySummaryData = {
   category: string;

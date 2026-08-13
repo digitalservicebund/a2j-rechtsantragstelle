@@ -11,7 +11,7 @@ import { isFileUploadOrDeleteAction } from "~/components/formElements/inputs/fil
 import {
   type LoaderExtrasContext,
   type LoaderExtras,
-} from "~/routes/shared/loaderExtras";
+} from "~/services/flow/server/loaderExtras";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";

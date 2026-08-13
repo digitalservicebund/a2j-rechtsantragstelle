@@ -1,7 +1,7 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { nachlassErbfolgeStaticFlow } from "../flowConfig";
 import { erbfolgeVorabcheckLoaderExtras } from "../vorabcheckExtras";
-import { type LoaderExtrasContext } from "~/routes/shared/loaderExtras";
+import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 

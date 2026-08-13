@@ -16,7 +16,7 @@ import { addPageDataToUserData } from "~/services/flow/pageData";
 import {
   type LoaderExtrasContext,
   type LoaderExtras,
-} from "~/routes/shared/loaderExtras";
+} from "~/services/flow/server/loaderExtras";
 
 export const loadVorabcheckData = async <
   ExtraData extends Record<string, unknown> = Record<string, never>,
