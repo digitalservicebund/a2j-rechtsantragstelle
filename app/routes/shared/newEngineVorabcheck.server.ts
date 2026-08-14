@@ -83,10 +83,10 @@ export const loadVorabcheckData = async <
     progressProps,
     buttonNavigationProps,
     showReportProblem: shouldShowReportProblem(stepId),
-    // Cast keeps the extra fields in the return type. Spreading the raw
+    // Cast keeps the extra fields in the return type. Returning the raw
     // `ExtraData | undefined` would otherwise erase them; at runtime `undefined`
     // simply spreads to nothing, which is the no-extras case.
-    ...(extraData as ExtraData),
+    extraData: extraData as ExtraData,
   });
 };
 

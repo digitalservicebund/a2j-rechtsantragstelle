@@ -4,15 +4,13 @@ import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { erbfolgeExtras } from "~/domains/nachlass/erbschein/shared/erbfolgeExtras";
 import { geldEinklageFormularExtras } from "./geldEinklagen/formular/geldEinklageFormularExtras";
 
-export type ExtraFlowLoaderData = Record<string, unknown> & {
-  flowId: FlowId;
-};
+type ExtraFlowLoaderData = Record<string, unknown>;
 
 export type FlowExtras<
-  TLoaderData extends ExtraFlowLoaderData = ExtraFlowLoaderData,
+  ExtraLoaderData extends Record<string, unknown> = Record<string, unknown>,
 > = {
-  renderExtraComponents(loaderData: TLoaderData): ReactNode;
-  getDynamicOptions(loaderData: TLoaderData): DynamicOptions | undefined;
+  renderExtraComponents(loaderData: ExtraLoaderData): ReactNode;
+  getDynamicOptions(loaderData: ExtraLoaderData): DynamicOptions | undefined;
 };
 
 const extraFlowFeaturesById: Partial<Record<FlowId, FlowExtras>> = {
