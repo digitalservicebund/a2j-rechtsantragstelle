@@ -1,4 +1,4 @@
-import type { Config } from "~/services/flow/server/types";
+ import type { Config } from "~/services/flow/server/types";
 import type { NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
@@ -37,7 +37,7 @@ export const nachlassErbausschlagungAnfrageXStateConfig = {
         [stepIds.datenverarbeitung.relative]: {
           on: {
             BACK: stepIds.start.relative,
-            SUBMIT: {
+            SUBMIT: {                 
               guard: ({ context }) =>
                 context.datenverarbeitungZustimmung === "on",
               target: stepIds.verstorbeneName.absolute,

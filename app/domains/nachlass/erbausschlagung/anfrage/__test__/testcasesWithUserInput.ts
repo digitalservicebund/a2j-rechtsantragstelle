@@ -1,15 +1,15 @@
 import type {
-  FlowTestCases,
   FlowTestConfig,
 } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
-import { nachlassErbausschlagungAnfrageXStateConfig } from "~/domains/nachlass/erbausschlagung/anfrage/xStateConfig";
 import { verstorbeneTestCases } from "../verstorbene/__test__/testcasesWithUserInput";
 import { ausschlagendePersonTestCases } from "../ausschlagendePerson/__test__/testcasesWithUserInput";
 import { kinderTestCases } from "../kinder/__test__/testcasesWithUserInput";
+import { erbausschlagungAnfrageFlowConfig } from "../flowConfig";
 
 export const nachlassErbausschlagungAnfrageTestCases = {
-  xstateConfig: nachlassErbausschlagungAnfrageXStateConfig,
+  xstateConfig: {id: "/nachlass/erbausschlagung/anfrage"},
+  newEngineConfig: erbausschlagungAnfrageFlowConfig,
   testcases: {
     defaultStartNachlassErbausschlagungAnfrage: [
       {
@@ -42,5 +42,7 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         stepId: "/abgabe/ende",
       },
     ],
-  } satisfies FlowTestCases<NachlassErbausschlagungAnfrageUserData>,
-} satisfies FlowTestConfig<NachlassErbausschlagungAnfrageUserData>;
+  } 
+} satisfies FlowTestConfig<
+NachlassErbausschlagungAnfrageUserData,
+typeof erbausschlagungAnfrageFlowConfig.pages>;

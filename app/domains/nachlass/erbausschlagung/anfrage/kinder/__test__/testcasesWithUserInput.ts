@@ -21,7 +21,7 @@ const defaultStepsWithKidsUnderAge: Array<
     addArrayItemEvent: "add-kinder",
   },
   {
-    stepId: "/kinder/kinder/0/name",
+    stepId: "/kinder/#/name",
     userInput: {
       "kinder#vorname": "Clara",
       "kinder#nachname": "Mustermann",
@@ -33,7 +33,7 @@ const defaultStepsWithKidsUnderAge: Array<
     },
   },
   {
-    stepId: "/kinder/kinder/0/wohnort",
+    stepId: "/kinder/#/wohnort",
     userInput: {
       "kinder#wohnortBeiAntragsteller": "yes",
     },
@@ -91,7 +91,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         addArrayItemEvent: "add-kinder",
       },
       {
-        stepId: "/kinder/kinder/0/name",
+        stepId: "/kinder/#/name",
         userInput: {
           "kinder#vorname": "Clara",
           "kinder#nachname": "Mustermann",
@@ -103,13 +103,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/wohnort",
+        stepId: "/kinder/#/wohnort",
         userInput: {
           "kinder#wohnortBeiAntragsteller": "no",
         },
       },
       {
-        stepId: "/kinder/kinder/0/adresse-optional",
+        stepId: "/kinder/#/adresse-optional",
         userInput: {
           "kinder#strasse": "street",
           "kinder#hausnummer": "1",
@@ -142,7 +142,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         addArrayItemEvent: "add-kinder",
       },
       {
-        stepId: "/kinder/kinder/0/name",
+        stepId: "/kinder/#/name",
         userInput: {
           "kinder#vorname": "Clara",
           "kinder#nachname": "Mustermann",
@@ -154,13 +154,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/wohnort",
+        stepId: "/kinder/#/wohnort",
         userInput: {
           "kinder#wohnortBeiAntragsteller": "no",
         },
       },
       {
-        stepId: "/kinder/kinder/0/adresse",
+        stepId: "/kinder/#/adresse",
         userInput: {
           "kinder#strasse": "street",
           "kinder#hausnummer": "1",
@@ -169,19 +169,19 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht",
+        stepId: "/kinder/#/sorgerecht",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtYes: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder/0/sorgerecht",
+        stepId: "/kinder/#/sorgerecht",
         userInput: {
           "kinder#optionSorgerecht": "yes",
         },
       },
       {
-        stepId: "/kinder/kinder/0/erbe-ausschlagende",
+        stepId: "/kinder/#/erbe-ausschlagende",
         userInput: {
           "kinder#hasRenouncedInheritance": "yes",
         },
@@ -196,19 +196,19 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtOrganization: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder/0/sorgerecht",
+        stepId: "/kinder/#/sorgerecht",
         userInput: {
           "kinder#optionSorgerecht": "anotherOrganization",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-organisation-name",
+        stepId: "/kinder/#/sorgerecht-organisation-name",
         userInput: {
           "kinder#organizationNameSorgerecht": "organizationNameSorgerecht",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-organisation-adresse",
+        stepId: "/kinder/#/sorgerecht-organisation-adresse",
         userInput: {
           "kinder#organizationStrasseSorgerecht": "Musterstraße",
           "kinder#organizationHausnummerSorgerecht": "1",
@@ -226,13 +226,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtShared: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder/0/sorgerecht",
+        stepId: "/kinder/#/sorgerecht",
         userInput: {
           "kinder#optionSorgerecht": "shared",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-person",
+        stepId: "/kinder/#/sorgerecht-person",
         userInput: {
           "kinder#vornameSorgerecht": "Clara",
           "kinder#nachnameSorgerecht": "Mustermann",
@@ -240,13 +240,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-gleiche-adresse",
+        stepId: "/kinder/#/sorgerecht-gleiche-adresse",
         userInput: {
           "kinder#hasSorgerechtSameAddress": "no",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-adresse",
+        stepId: "/kinder/#/sorgerecht-adresse",
         userInput: {
           "kinder#strasseSorgerecht": "Musterstraße",
           "kinder#hausnummerSorgerecht": "11",
@@ -255,7 +255,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/erbe-ausschlagende",
+        stepId: "/kinder/#/erbe-ausschlagende",
         userInput: {
           "kinder#hasRenouncedInheritance": "yes",
         },
@@ -270,13 +270,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
     withKidsAndUnderAgeWithAdresseAndSorgerechtAnotherPerson: [
       ...defaultStepsWithKidsUnderAge,
       {
-        stepId: "/kinder/kinder/0/sorgerecht",
+        stepId: "/kinder/#/sorgerecht",
         userInput: {
           "kinder#optionSorgerecht": "anotherPerson",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-person",
+        stepId: "/kinder/#/sorgerecht-person",
         userInput: {
           "kinder#vornameSorgerecht": "Clara",
           "kinder#nachnameSorgerecht": "Mustermann",
@@ -284,13 +284,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-gleiche-adresse",
+        stepId: "/kinder/#/sorgerecht-gleiche-adresse",
         userInput: {
           "kinder#hasSorgerechtSameAddress": "no",
         },
       },
       {
-        stepId: "/kinder/kinder/0/sorgerecht-adresse",
+        stepId: "/kinder/#/sorgerecht-adresse",
         userInput: {
           "kinder#strasseSorgerecht": "Musterstraße",
           "kinder#hausnummerSorgerecht": "11",
