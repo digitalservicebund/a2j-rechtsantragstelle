@@ -1,7 +1,8 @@
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import type { loader } from "../vorabcheck";
+import type { loader as vorabcheckLoader } from "../vorabcheck";
+import type { loader as newEngineVorabcheckLoader } from "../newEngineVorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
@@ -9,7 +10,14 @@ import classNames from "classnames";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { ProgressBar } from "~/components/layout/ProgressBar";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
+import { useFlowExtras } from "~/domains/extraLoaderConfiguration";
+
 export function VorabcheckPage() {
+  const loaderData = useLoaderData<
+    // TODO: remove after migration to new flow engine is complete.
+    typeof vorabcheckLoader | typeof newEngineVorabcheckLoader
+  >();
+
   const {
     stepData,
     cmsContent,
@@ -17,7 +25,15 @@ export function VorabcheckPage() {
     progressProps,
     buttonNavigationProps,
     showReportProblem,
-  } = useLoaderData<typeof loader>();
+    flowId,
+  } = loaderData;
+
+  const { extraComponents: additionalComponents, dynamicOptions } =
+    useFlowExtras(
+      // TODO: remove after migration to new flow engine is complete.
+      "extraData" in loaderData ? loaderData.extraData : {},
+      flowId,
+    ) ?? {};
 
   useFocusFirstH1();
 
@@ -42,6 +58,7 @@ export function VorabcheckPage() {
           id="flow-page-content"
         >
           <ContentComponents content={cmsContent.content} managedByParent />
+          {additionalComponents}
         </GridItem>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
@@ -54,6 +71,7 @@ export function VorabcheckPage() {
             stepData={stepData}
             formElements={formElements}
             buttonNavigationProps={buttonNavigationProps}
+            dynamicOptions={dynamicOptions}
           />
         </GridItem>
         {showReportProblem && (

@@ -1,7 +1,7 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import type { VorabcheckExtrasContext } from "~/routes/shared/newEngineVorabcheck.server";
-import { nachlassErbfolgeStaticFlow } from "../flowConfig";
-import { erbfolgeVorabcheckExtras } from "../vorabcheckExtras";
+import { nachlassErbfolgeStaticFlow } from "../../erbfolge/flowConfig";
+import { erbfolgeLoaderExtras } from "../erbfolgeExtras";
+import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -11,29 +11,21 @@ function contextFor(
   userData: UserData,
   stepId: string,
   arrayIndexes: number[] = [],
-): VorabcheckExtrasContext {
+): LoaderExtrasContext {
   const flowSessionEngine = createFlowSession(
     nachlassErbfolgeStaticFlow,
     userData,
     stepId,
   );
-  const url = new URL(`http://localhost${FLOW_ID}${stepId}`);
   return {
-    request: new Request(url),
-    url,
     flowId: FLOW_ID,
-    stepId,
     arrayIndexes,
-    userData: {
-      ...flowSessionEngine.prunedUserData,
-      pageData: { arrayIndexes },
-    },
     flowSessionEngine,
   };
 }
 
-describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
-  it("exposes the kinder list as array-summary data on the kinder overview page", async () => {
+describe("erbfolgeExtras.buildLoaderData", () => {
+  it("exposes the kinder list as array-summary data on the kinder overview page", () => {
     const context = contextFor(
       {
         verstorbeneVorname: "Erblasser",
@@ -45,7 +37,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/kinder",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -55,7 +47,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
     expect(extra.deceasedPersonName).toBe("Erblasser");
   });
 
-  it("exposes the elternteile list on the elternteile overview page", async () => {
+  it("exposes the elternteile list on the elternteile overview page", () => {
     const context = contextFor(
       {
         verstorbeneVorname: "Erblasser",
@@ -66,7 +58,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       "/elternteile",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -74,13 +66,13 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
     expect(extra.arraySummaryData?.category).toBe("elternteile");
   });
 
-  it("returns no array-summary data on a non-array page", async () => {
+  it("returns no array-summary data on a non-array page", () => {
     const context = contextFor(
       { pageData: { arrayIndexes: [] } } as UserData,
       "/start",
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -88,7 +80,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
     expect(extra.arraySummaryData).toBeUndefined();
   });
 
-  it("provides dynamic options for a parent-select field", async () => {
+  it("provides dynamic options for a parent-select field", () => {
     const context = contextFor(
       {
         verstorbeneVorname: "Erblasser",
@@ -109,7 +101,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
       [0, 0],
     );
 
-    const extra = await erbfolgeVorabcheckExtras.buildLoaderData!({
+    const extra = erbfolgeLoaderExtras.buildLoaderData!({
       ...context,
       formElements: [],
     });
@@ -121,7 +113,7 @@ describe("erbfolgeVorabcheckExtras.buildLoaderData", () => {
 });
 
 describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
-  it("resolves the ancestor list-item name for a nested page", async () => {
+  it("resolves the ancestor list-item name for a nested page", () => {
     const context = contextFor(
       {
         verstorbeneVorname: "Erblasser",
@@ -142,14 +134,13 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       [0, 0],
     );
 
-    const replacements =
-      await erbfolgeVorabcheckExtras.buildReplacements!(context);
+    const replacements = erbfolgeLoaderExtras.buildReplacements!(context);
 
     expect(replacements["kinder#vorname"]).toBe("Kind");
     expect(replacements["kinder#nachname"]).toBe("Eins");
   });
 
-  it("returns no ancestor names on a top-level page", async () => {
+  it("returns no ancestor names on a top-level page", () => {
     const context = contextFor(
       {
         verstorbeneVorname: "Erblasser",
@@ -161,8 +152,7 @@ describe("erbfolgeVorabcheckExtras.buildReplacements", () => {
       "/kinder",
     );
 
-    const replacements =
-      await erbfolgeVorabcheckExtras.buildReplacements!(context);
+    const replacements = erbfolgeLoaderExtras.buildReplacements!(context);
 
     expect(replacements).toEqual({});
   });
