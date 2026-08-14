@@ -1,9 +1,9 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { nachlassErbausschlagungAnfragePages } from "./pages";
 import {
-  nachlassErbausschlagungAnfragePages,
-  NachlassErbausschlagungAnfragePages,
-} from "./pages";
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+  type CompiledFlow,
+  compileFlow,
+} from "~/services/flow/newFlowEngine/compileFlow";
 import { ausschlagendePersonFlowConfig } from "./ausschlagendePerson/flowConfig";
 import { kinderFlowConfig } from "./kinder/flowConfig";
 import { verstorbenePersonFlowConfig } from "./verstorbene/flowConfig";
@@ -25,5 +25,5 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
     abgabeWeitereInformation: null,
     abgabeZusammenfassung: null,
     abgabeEnde: null,
-  } satisfies Partial<TransitionConfigMap<NachlassErbausschlagungAnfragePages>>,
-});
+  },
+}) as CompiledFlow<PageConfigMap>;

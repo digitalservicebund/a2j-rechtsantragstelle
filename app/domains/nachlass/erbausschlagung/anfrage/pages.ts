@@ -7,7 +7,7 @@ import {
   sorgerechtPersonRequired,
 } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
-import { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
@@ -183,6 +183,12 @@ export const nachlassErbausschlagungAnfragePages = {
   },
   kinderUebersicht: {
     stepId: "/kinder/uebersicht",
+    arraySummary: {
+      name: "kinder",
+      schema: erbausschlagungKinderArraySchema,
+      hiddenFields: ["geburtsnameSorgerecht"],
+      isArrayRelevant: (data) => data.hasKid === "yes",
+    },
   },
 
   kinderWarnung: {
@@ -194,7 +200,8 @@ export const nachlassErbausschlagungAnfragePages = {
   },
 
   kinderName: {
-    stepId: "/kinder/#/name",
+    stepId: "/kinder/kinder/#/name",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#vorname": commonErbausschlagungKinderFields.vorname,
       "kinder#nachname": commonErbausschlagungKinderFields.nachname,
@@ -202,14 +209,16 @@ export const nachlassErbausschlagungAnfragePages = {
     },
   },
   kinderWohnort: {
-    stepId: "/kinder/#/wohnort",
+    stepId: "/kinder/kinder/#/wohnort",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#wohnortBeiAntragsteller":
         commonErbausschlagungKinderFields.wohnortBeiAntragsteller,
     },
   },
   kinderAdresse: {
-    stepId: "/kinder/#/adresse",
+    stepId: "/kinder/kinder/#/adresse",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#strasse": stringRequiredSchema,
       "kinder#hausnummer": germanHouseNumberSchema,
@@ -219,7 +228,8 @@ export const nachlassErbausschlagungAnfragePages = {
     },
   },
   kinderAdresseOptional: {
-    stepId: "/kinder/#/adresse-optional",
+    stepId: "/kinder/kinder/#/adresse-optional",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#strasse": commonErbausschlagungKinderFields.strasse,
       "kinder#hausnummer": commonErbausschlagungKinderFields.hausnummer,
@@ -229,21 +239,23 @@ export const nachlassErbausschlagungAnfragePages = {
     },
   },
   sorgerecht: {
-    stepId: "/kinder/#/sorgerecht",
+    stepId: "/kinder/kinder/#/sorgerecht",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#optionSorgerecht":
         commonErbausschlagungKinderFields.optionSorgerecht,
     },
   },
   erbeAusschlagende: {
-    stepId: "/kinder/#/erbe-ausschlagende",
+    stepId: "/kinder/kinder/#/erbe-ausschlagende",
     pageSchema: {
       "kinder#hasRenouncedInheritance":
         commonErbausschlagungKinderFields.hasRenouncedInheritance,
     },
   },
   sorgerechtPerson: {
-    stepId: "/kinder/#/sorgerecht-person",
+    stepId: "/kinder/kinder/#/sorgerecht-person",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#vornameSorgerecht": sorgerechtPersonRequired.vornameSorgerecht,
       "kinder#nachnameSorgerecht": sorgerechtPersonRequired.nachnameSorgerecht,
@@ -252,14 +264,16 @@ export const nachlassErbausschlagungAnfragePages = {
     },
   },
   sorgerechtGleicheAdresse: {
-    stepId: "/kinder/#/sorgerecht-gleiche-adresse",
+    stepId: "/kinder/kinder/#/sorgerecht-gleiche-adresse",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#hasSorgerechtSameAddress":
         commonErbausschlagungKinderFields.hasSorgerechtSameAddress,
     },
   },
   sorgerechtAdresse: {
-    stepId: "/kinder/#/sorgerecht-adresse",
+    stepId: "/kinder/kinder/#/sorgerecht-adresse",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#strasseSorgerecht":
         sorgerechtPersonAdresseRequired.strasseSorgerecht,
@@ -272,14 +286,16 @@ export const nachlassErbausschlagungAnfragePages = {
     },
   },
   sorgerechtOrganisationName: {
-    stepId: "/kinder/#/sorgerecht-organisation-name",
+    stepId: "/kinder/kinder/#/sorgerecht-organisation-name",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#organizationNameSorgerecht":
         commonErbausschlagungKinderFields.organizationNameSorgerecht,
     },
   },
   sorgerechtOrganisationAdresse: {
-    stepId: "/kinder/#/sorgerecht-organisation-adresse",
+    stepId: "/kinder/kinder/#/sorgerecht-organisation-adresse",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#organizationStrasseSorgerecht":
         sorgerechtOrganizationRequired.organizationStrasseSorgerecht,

@@ -1,4 +1,3 @@
-import { nachlassErbausschlagungAnfrageXStateConfig } from "~/domains/nachlass/erbausschlagung/anfrage/xStateConfig";
 import type { Flow } from "~/domains/flows.server";
 import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
@@ -22,10 +21,13 @@ import {
   hasAnyMinorKids,
   awarenessDate,
 } from "./stringReplacements";
+import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const nachlassErbausschlagungAnfrage = {
   flowType: "formFlow",
-  config: nachlassErbausschlagungAnfrageXStateConfig,
+  config: { states: {} },
+  newEngineConfig: erbausschlagungAnfrageFlowConfig,
   stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
     ...getVerstorbeneName(context),
     ...getAusschlagendePersonName(context),
@@ -47,4 +49,4 @@ export const nachlassErbausschlagungAnfrage = {
     ...awarenessDateGreater5WeeksLessThan6Weeks(context),
     ...erblasserOutsideGermany(context),
   }),
-} satisfies Flow;
+} satisfies Flow<PageConfigMap>;

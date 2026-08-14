@@ -1,4 +1,4 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import type { NachlassErbausschlagungAnfragePages } from "../pages";
 import {
   getOptionSorgerecht,
@@ -19,9 +19,7 @@ export const kinderFlowConfig = {
       target: "kinderHowManyKids",
     },
   ],
-
   kinderHowManyKids: "kinderUebersicht",
-
   kinderUebersicht: [
     {
       type: "addArrayItem",
@@ -39,9 +37,7 @@ export const kinderFlowConfig = {
       target: "kinderWarnungNichtAusgefuellt",
     },
   ],
-
   kinderName: "kinderWohnort",
-
   kinderWohnort: [
     {
       guard: (data) =>
@@ -61,15 +57,10 @@ export const kinderFlowConfig = {
       target: "kinderAdresse",
     },
   ],
-
   kinderAdresse: "sorgerecht",
-
   kinderAdresseOptional: "kinderUebersicht",
-
   kinderWarnung: null,
-
   kinderWarnungNichtAusgefuellt: null,
-
   sorgerecht: [
     {
       guard: (data) => getOptionSorgerecht(data) === "yes",
@@ -83,9 +74,7 @@ export const kinderFlowConfig = {
       target: "sorgerechtPerson",
     },
   ],
-
   sorgerechtPerson: "sorgerechtGleicheAdresse",
-
   sorgerechtGleicheAdresse: [
     {
       guard: (data) => hasKinderSorgerechtSameAddressNo({ context: data }),
@@ -99,7 +88,6 @@ export const kinderFlowConfig = {
       target: "erbeAusschlagende",
     },
   ],
-
   sorgerechtAdresse: [
     {
       guard: (data) => getOptionSorgerecht(data) === "anotherPerson",
@@ -109,10 +97,7 @@ export const kinderFlowConfig = {
       target: "erbeAusschlagende",
     },
   ],
-
   sorgerechtOrganisationName: "sorgerechtOrganisationAdresse",
-
   sorgerechtOrganisationAdresse: "kinderUebersicht",
-
   erbeAusschlagende: "kinderUebersicht",
 } satisfies Partial<TransitionConfigMap<NachlassErbausschlagungAnfragePages>>;
