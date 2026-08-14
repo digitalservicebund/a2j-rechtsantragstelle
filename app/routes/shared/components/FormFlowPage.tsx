@@ -22,7 +22,6 @@ import { useFlowExtras } from "~/domains/extraLoaderConfiguration";
 
 export function FormFlowPage() {
   const loaderData = useLoaderData<typeof loader>();
-
   const {
     arraySummaryData,
     userData,
@@ -49,10 +48,10 @@ export function FormFlowPage() {
     [userData, validFlowPaths, translations, flowId],
   );
 
-  useFocusFirstH1();
-
-  const { extraComponents: additionalComponents } =
+  const { extraComponents: additionalComponents, dynamicOptions } =
     useFlowExtras(loaderData, flowId) ?? {};
+
+  useFocusFirstH1();
 
   return (
     <FormFlowContext.Provider value={formFlowMemo}>
@@ -147,6 +146,7 @@ export function FormFlowPage() {
                   stepData={stepData}
                   formElements={formElements}
                   buttonNavigationProps={buttonNavigationProps}
+                  dynamicOptions={dynamicOptions}
                 />
                 <ContentComponents
                   content={cmsContent.postFormContent}
