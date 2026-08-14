@@ -1,6 +1,6 @@
 type ProgressBarProps = {
-  readonly progress: number;
-  readonly max: number;
+  readonly progress?: number;
+  readonly max?: number;
   readonly fallback?: string;
   readonly label?: string;
 };
@@ -28,7 +28,7 @@ export function ProgressBar({
         aria-valuemax={max}
         aria-label={fallback}
       >
-        {`Schritt ${progress} von ${max}`}
+        {progress && max && `Schritt ${progress} von ${max}`}
       </progress>
     </div>
   );
