@@ -184,11 +184,11 @@ export const nachlassErbausschlagungAnfragePages = {
   kinderUebersicht: {
     stepId: "/kinder/uebersicht",
   },
-  
+
   kinderWarnung: {
     stepId: "/kinder/warnung",
   },
-  
+
   kinderWarnungNichtAusgefuellt: {
     stepId: "/kinder/warnung-nicht-ausgefuellt",
   },

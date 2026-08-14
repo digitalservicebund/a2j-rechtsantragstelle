@@ -67,7 +67,7 @@ export const kinderFlowConfig = {
   kinderAdresseOptional: "kinderUebersicht",
 
   kinderWarnung: null,
-  
+
   kinderWarnungNichtAusgefuellt: null,
 
   sorgerecht: [
