@@ -1,12 +1,42 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
 
+const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
+  datenverarbeitungZustimmung: "on",
+  verstorbeneVorname: "Max",
+  verstorbeneNachname: "Mustermann",
+  verstorbeneGeburtsdatum: {
+    day: "01",
+    month: "01",
+    year: "1900",
+  },
+  verstorbeneSterbedatum: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+  verstorbeneLebensmittelpunkt: "deutschland",
+  livedInNursingHome: "no",
+  livedInHospice: "no",
+  plzVerstorbene: "10969",
+  verstorbeneAdresseStrasse: "Musterstraße",
+  verstorbeneAdresseHausnummer: "1",
+  verstorbeneAdresseOrt: "Musterstadt",
+  verstorbeneAdresseZusatz: "",
+  awarenessDate: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+};
+
 export const ausschlagendePersonTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
   {
     defaultAusschlagendePerson: [
       {
         stepId: "/ausschlagende-person/name",
         userInput: {
+          ...happyPathData,
           ausschlagendePersonVorname: "Max",
           ausschlagendePersonNachname: "Mustermann",
         },

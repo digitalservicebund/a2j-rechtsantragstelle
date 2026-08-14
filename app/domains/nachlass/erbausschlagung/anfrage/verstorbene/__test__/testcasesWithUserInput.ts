@@ -1,14 +1,30 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
 
+const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
+  datenverarbeitungZustimmung: "on",
+  verstorbeneVorname: "Max",
+  verstorbeneNachname: "Mustermann",
+  verstorbeneGeburtsdatum: {
+    day: "01",
+    month: "01",
+    year: "1900",
+  },
+  verstorbeneSterbedatum: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+  verstorbeneLebensmittelpunkt: "deutschland",
+};
+
 export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
   {
     defaultStartVerstorbene: [
       {
         stepId: "/verstorbene/name",
         userInput: {
-          verstorbeneVorname: "Max",
-          verstorbeneNachname: "Mustermann",
+          ...happyPathData,
         },
       },
       {
@@ -39,6 +55,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
+          ...happyPathData,
           verstorbeneLebensmittelpunkt: "ausland",
         },
       },
@@ -60,6 +77,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
+          ...happyPathData,
           verstorbeneLebensmittelpunkt: "deutschland",
         },
       },
@@ -74,6 +92,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "yes",
         },
       },
@@ -99,6 +118,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "no",
         },
       },
@@ -130,6 +150,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "no",
         },
       },
