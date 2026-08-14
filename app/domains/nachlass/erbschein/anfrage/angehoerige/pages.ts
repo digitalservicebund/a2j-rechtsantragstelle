@@ -1,4 +1,5 @@
 import z from "zod";
+import { kinderPages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderPages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
@@ -54,6 +55,7 @@ export const angehoerigeArray = z.array(
 export type Angehoerige = z.infer<typeof angehoerigeArray>[number];
 
 export const angehoerigePages = {
+  ...kinderPages,
   angehoerigeOverview: {
     stepId: "/angehoerige/uebersicht",
     arraySummary: {
