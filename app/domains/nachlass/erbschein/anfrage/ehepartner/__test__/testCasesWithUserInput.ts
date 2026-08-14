@@ -33,7 +33,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   widowedWithTestament: [
@@ -74,7 +74,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   divorcedWithTestament: [
@@ -127,7 +127,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   marriedSameAddressDoubleNationality: [
@@ -171,7 +171,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   marriedDifferentAddressSingleNationality: [
@@ -218,7 +218,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   marriedDifferentAddressDoubleNationality: [
@@ -271,7 +271,7 @@ export const ehepartnerTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
 } satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;

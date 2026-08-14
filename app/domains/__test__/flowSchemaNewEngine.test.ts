@@ -20,6 +20,7 @@ import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/an
 import { nachlassErbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { nachlassErbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 import { nachlassErbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
+import { nachlassErbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
@@ -29,6 +30,7 @@ const flowSchemaTests = {
   nachlassErbausschlagungGerichtFindenTestCases,
   nachlassErbscheinNachlassgerichtTestCases,
   nachlassErbausschlagungAnfrageTestCases,
+  nachlassErbscheinWegweiserTestCases,
 };
 
 type VisitedSteps = Record<

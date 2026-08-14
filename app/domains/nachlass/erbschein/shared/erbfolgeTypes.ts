@@ -11,16 +11,16 @@ type BaseDeceasedPersonNoKids = {
   hatteKinder: "no";
 };
 
+export type BaseDeceasedPersonWithKids = {
+  vorname: string;
+  nachname: string;
+  isAlive: "no";
+  hatteKinder: "yes";
+  kinder?: BaseKind[];
+};
+
 export type BaseKind =
-  | BaseAlivePerson
-  | BaseDeceasedPersonNoKids
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "yes";
-      kinder?: BaseKind[];
-    };
+  BaseAlivePerson | BaseDeceasedPersonNoKids | BaseDeceasedPersonWithKids;
 
 type BaseElternteilKindAlive = BaseAlivePerson & {
   parentElternteilIndex?: string;
@@ -28,6 +28,16 @@ type BaseElternteilKindAlive = BaseAlivePerson & {
 };
 
 type BaseElternteilKindDeceasedNoKids = BaseDeceasedPersonNoKids & {
+  parentElternteilIndex?: string;
+  parentKindIndex?: string;
+};
+
+type BaseElternteilKindDeceasedWithKids = {
+  vorname: string;
+  nachname: string;
+  isAlive: "no";
+  hatteKinder: "yes";
+  kinder?: BaseElternteilKind[];
   parentElternteilIndex?: string;
   parentKindIndex?: string;
 };
@@ -40,15 +50,7 @@ type BaseElternteilKindDeceasedNoKids = BaseDeceasedPersonNoKids & {
 export type BaseElternteilKind =
   | BaseElternteilKindAlive
   | BaseElternteilKindDeceasedNoKids
-  | {
-      vorname: string;
-      nachname: string;
-      isAlive: "no";
-      hatteKinder: "yes";
-      kinder?: BaseElternteilKind[];
-      parentElternteilIndex?: string;
-      parentKindIndex?: string;
-    };
+  | BaseElternteilKindDeceasedWithKids;
 
 export type BaseElternteil =
   | { vorname: string; nachname: string; isAlive: "yes" }

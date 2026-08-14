@@ -16,7 +16,7 @@ export const testamentOderErbvertragTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/uebersicht",
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   noTestamentOrErbvertragNotSingle: [

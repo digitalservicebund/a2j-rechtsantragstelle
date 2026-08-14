@@ -1,4 +1,5 @@
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { missingChildrenReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
@@ -100,6 +101,7 @@ export const getAngehoerigeStrings = (
     return {};
   if (arrayIndex < context.angehoerige.length)
     return {
+      ...missingChildrenReplacements(context),
       angehoerigeName: `${context.angehoerige?.[arrayIndex].vorname} ${context.angehoerige?.[arrayIndex].nachname}`,
     };
 };
