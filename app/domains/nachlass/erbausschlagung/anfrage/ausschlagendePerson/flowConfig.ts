@@ -1,7 +1,7 @@
-import { NachlassErbausschlagungAnfragePages } from "../pages";
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { NachlassErbausschlagungAnfrageUserData } from "../userData";
-import { GenericGuard } from "~/domains/guards.server";
+import { type NachlassErbausschlagungAnfragePages } from "../pages";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type NachlassErbausschlagungAnfrageUserData } from "../userData";
+import { type GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 type NachlassErbausschlagungAnfrageDaten =

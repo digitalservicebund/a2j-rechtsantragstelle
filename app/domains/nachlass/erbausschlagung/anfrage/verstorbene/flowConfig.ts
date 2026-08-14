@@ -1,5 +1,5 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { NachlassErbausschlagungAnfragePages } from "../pages";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type NachlassErbausschlagungAnfragePages } from "../pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const verstorbenePersonFlowConfig = {
