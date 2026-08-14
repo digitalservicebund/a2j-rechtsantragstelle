@@ -1,17 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { siblingBadgeLabel } from "../ElternteilSummary";
 import { collectDescendantsWithParentName } from "../summaryTree";
+import { type BaseElternteil } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
 describe("siblingBadgeLabel", () => {
-  const elternteile = [
-    { vorname: "Elternteil A", isAlive: "no" },
-    { vorname: "Elternteil B", isAlive: "no" },
+  const elternteile: BaseElternteil[] = [
+    { vorname: "Elternteil A", nachname: "", isAlive: "no", hatteKinder: "no" },
+    { vorname: "Elternteil B", nachname: "", isAlive: "no", hatteKinder: "no" },
   ];
 
   it("uses the assigned parent's name", () => {
     expect(
       siblingBadgeLabel(
-        { vorname: "Geschwister", parentElternteilIndex: "1" },
+        {
+          vorname: "Geschwister",
+          nachname: "",
+          isAlive: "no",
+          hatteKinder: "no",
+          parentElternteilIndex: "1",
+        },
         elternteile,
         "Elternteil A",
       ),
@@ -21,7 +28,13 @@ describe("siblingBadgeLabel", () => {
   it("labels a 'both' sibling as child of both parents", () => {
     expect(
       siblingBadgeLabel(
-        { vorname: "Geschwister", parentElternteilIndex: "both" },
+        {
+          vorname: "Geschwister",
+          nachname: "",
+          isAlive: "no",
+          hatteKinder: "no",
+          parentElternteilIndex: "both",
+        },
         elternteile,
         "Elternteil A",
       ),
@@ -31,7 +44,12 @@ describe("siblingBadgeLabel", () => {
   it("falls back to the physical parent when no index is set", () => {
     expect(
       siblingBadgeLabel(
-        { vorname: "Geschwister" },
+        {
+          vorname: "Geschwister",
+          nachname: "",
+          isAlive: "no",
+          hatteKinder: "no",
+        },
         elternteile,
         "Elternteil A",
       ),
@@ -43,10 +61,21 @@ describe("siblingBadgeLabel", () => {
   it("falls back to the physical parent when the assigned parent is alive", () => {
     expect(
       siblingBadgeLabel(
-        { vorname: "Geschwister", parentElternteilIndex: "1" },
+        {
+          vorname: "Geschwister",
+          nachname: "",
+          isAlive: "no",
+          hatteKinder: "no",
+          parentElternteilIndex: "1",
+        },
         [
-          { vorname: "Elternteil A", isAlive: "no" },
-          { vorname: "Elternteil B", isAlive: "yes" },
+          {
+            vorname: "Elternteil A",
+            nachname: "",
+            isAlive: "no",
+            hatteKinder: "no",
+          },
+          { vorname: "Elternteil B", nachname: "", isAlive: "yes" },
         ],
         "Elternteil A",
       ),
@@ -56,7 +85,13 @@ describe("siblingBadgeLabel", () => {
   it("falls back to the physical parent for an out-of-range index", () => {
     expect(
       siblingBadgeLabel(
-        { vorname: "Geschwister", parentElternteilIndex: "5" },
+        {
+          vorname: "Geschwister",
+          nachname: "",
+          isAlive: "no",
+          hatteKinder: "no",
+          parentElternteilIndex: "5",
+        },
         elternteile,
         "Elternteil A",
       ),
