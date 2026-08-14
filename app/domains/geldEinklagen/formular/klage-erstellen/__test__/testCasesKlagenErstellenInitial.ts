@@ -143,6 +143,8 @@ export const testCasesKlagenErstellenInitial = [
       ...baseContext,
       anwaltschaft: "yes",
       gegenWenBeklagen: "organisation",
+      klagendePersonAnwaltschaftWerProzessBevollmaechtigt:
+        "berufsausuebungsgesellschaft",
       klagendePersonAnwaltschaftStrasse: "klagendePersonAnwaltschaftStrasse",
       klagendePersonAnwaltschaftHausnummer: "1",
       klagendePersonAnwaltschaftPlz: ZIP_CODE_PILOT_COURT,
