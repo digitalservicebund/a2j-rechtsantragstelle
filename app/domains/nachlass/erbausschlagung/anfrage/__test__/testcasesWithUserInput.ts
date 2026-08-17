@@ -5,6 +5,36 @@ import { ausschlagendePersonTestCases } from "../ausschlagendePerson/__test__/te
 import { kinderTestCases } from "../kinder/__test__/testcasesWithUserInput";
 import { erbausschlagungAnfrageFlowConfig } from "../flowConfig";
 
+const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
+   datenverarbeitungZustimmung: "on",
+  verstorbeneVorname: "Max",
+  verstorbeneNachname: "Mustermann",
+  verstorbeneGeburtsdatum: {
+    day: "01",
+    month: "01",
+    year: "1900",
+  },
+  verstorbeneSterbedatum: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+  verstorbeneLebensmittelpunkt: "deutschland",
+  livedInNursingHome: "no",
+  livedInHospice: "no",
+  plzVerstorbene: "10969",
+  verstorbeneAdresseStrasse: "Musterstraße",
+  verstorbeneAdresseHausnummer: "1",
+  verstorbeneAdresseOrt: "Musterstadt",
+  verstorbeneAdresseZusatz: "",
+  awarenessDate: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+  hasKid: "no",
+};
+
 export const nachlassErbausschlagungAnfrageTestCases = {
   xstateConfig: { id: "/nachlass/erbausschlagung/anfrage" },
   newEngineConfig: erbausschlagungAnfrageFlowConfig,
@@ -30,6 +60,7 @@ export const nachlassErbausschlagungAnfrageTestCases = {
       {
         stepId: "/abgabe/weitere-informationen",
         userInput: {
+          ...happyPathData,
           weitereInformationen: "Hier sind weitere Informationen.",
         },
       },

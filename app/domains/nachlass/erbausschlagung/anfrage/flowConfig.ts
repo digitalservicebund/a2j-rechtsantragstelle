@@ -22,8 +22,13 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
     ...verstorbenePersonFlowConfig,
     ...ausschlagendePersonFlowConfig,
     ...kinderFlowConfig,
-    abgabeWeitereInformation: null,
-    abgabeZusammenfassung: null,
+    abgabeWeitereInformation: [
+      {
+        guard: (data) => data.weitereInformationen !== undefined,
+        target: "abgabeZusammenfassung",
+      },
+    ],
+    abgabeZusammenfassung: "abgabeEnde",
     abgabeEnde: null,
   },
 }) as CompiledFlow<PageConfigMap>;
