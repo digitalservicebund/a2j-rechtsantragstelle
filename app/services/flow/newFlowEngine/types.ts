@@ -6,8 +6,24 @@ import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 type InferSchema<S> = S extends z.ZodTypeAny
   ? z.infer<S>
   : S extends z.ZodRawShape
-    ? z.infer<z.ZodObject<S>>
+    ? RemoveIndexSignature<z.infer<z.ZodObject<S>>>
     : never;
+
+/**
+ * Converts wide (generic) property keys to narrow (literal) property keys
+ * i.e. { [key: string]: any } → { foo: any; bar: any }
+ */
+type RemoveIndexSignature<T> = {
+  [
+    K in keyof T as string extends K
+      ? never
+      : number extends K
+        ? never
+        : symbol extends K
+          ? never
+          : K
+  ]: T[K];
+};
 
 export type NewFlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.

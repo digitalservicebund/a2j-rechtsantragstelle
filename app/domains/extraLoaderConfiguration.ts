@@ -14,6 +14,7 @@ export type FlowExtras<
 
 const extraFlowFeaturesById: Partial<Record<FlowId, FlowExtras>> = {
   "/nachlass/erbschein/erbfolge": erbfolgeExtras,
+  "/nachlass/erbschein/anfrage": erbfolgeExtras,
 };
 
 export function useFlowExtras(loaderData: ExtraFlowLoaderData, flowId: FlowId) {
