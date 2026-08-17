@@ -6,7 +6,12 @@ import { kinderTestCases } from "../kinder/__test__/testcasesWithUserInput";
 import { erbausschlagungAnfrageFlowConfig } from "../flowConfig";
 
 const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
-   datenverarbeitungZustimmung: "on",
+  pageData: {
+    subflowDoneStates: {
+      "/ausschlagende-person": true,
+    },
+  },
+  datenverarbeitungZustimmung: "on",
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
   verstorbeneGeburtsdatum: {
