@@ -31,4 +31,5 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
     abgabeZusammenfassung: "abgabeEnde",
     abgabeEnde: null,
   },
+  pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

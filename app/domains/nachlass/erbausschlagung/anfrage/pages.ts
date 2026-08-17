@@ -183,6 +183,7 @@ export const nachlassErbausschlagungAnfragePages = {
   },
   kinderUebersicht: {
     stepId: "/kinder/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "kinder",
       schema: erbausschlagungKinderArraySchema,
@@ -248,6 +249,7 @@ export const nachlassErbausschlagungAnfragePages = {
   },
   erbeAusschlagende: {
     stepId: "/kinder/kinder/#/erbe-ausschlagende",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#hasRenouncedInheritance":
         commonErbausschlagungKinderFields.hasRenouncedInheritance,
