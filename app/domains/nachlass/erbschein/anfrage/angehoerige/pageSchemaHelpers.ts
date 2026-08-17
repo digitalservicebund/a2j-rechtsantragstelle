@@ -48,19 +48,16 @@ const alivePersonFields = {
   adresszusatz: stringOptionalSchema,
 };
 
-const alivePersonSchema = z.object({
+export const alivePersonSchema = z.object({
   ...commonPersonFields,
   ...alivePersonFields,
 });
 
-const deceasedPersonNoKidsSchema = z.object({
+export const deceasedPersonNoKidsSchema = z.object({
   ...commonPersonFields,
   ...deceasedPersonFields,
   hatteKinder: z.literal("no"),
 });
-
-export type AlivePerson = z.infer<typeof alivePersonSchema>;
-export type DeceasedPersonNoKids = z.infer<typeof deceasedPersonNoKidsSchema>;
 
 export function personUnion<Child extends z.ZodTypeAny>(childSchema: Child) {
   return z.union([
