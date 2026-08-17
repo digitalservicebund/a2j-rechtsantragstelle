@@ -193,6 +193,8 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
         userInput: {
+          klagendePersonAnwaltschaftWerProzessBevollmaechtigt:
+            "berufsausuebungsgesellschaft",
           klagendePersonAnwaltschaftStrasse:
             "klagendePersonAnwaltschaftStrasse",
           klagendePersonAnwaltschaftHausnummer: "1",

@@ -128,6 +128,10 @@ export const geldEinklagenKlageErstellenPages = {
   klagendePersonAnwaltschaft: {
     stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
     pageSchema: {
+      klagendePersonAnwaltschaftWerProzessBevollmaechtigt: z.enum([
+        "berufsausuebungsgesellschaft",
+        "einzelkanzlei",
+      ]),
       klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
       klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
       klagendePersonAnwaltschaftStrasse: stringRequiredSchema,
