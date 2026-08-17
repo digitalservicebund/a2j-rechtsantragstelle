@@ -1,5 +1,6 @@
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import type { ExtraDataWithFormElements } from "~/services/flow/server/loaderExtras";
 import { data, redirectDocument } from "react-router";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -19,7 +20,7 @@ import {
 } from "~/services/flow/server/loaderExtras";
 
 export const loadVorabcheckData = async <
-  ExtraData extends Record<string, unknown> = Record<string, never>,
+  ExtraData extends ExtraDataWithFormElements = Record<string, never>,
 >(
   args: LoaderFunctionArgs,
   extras?: LoaderExtras<ExtraData>,
@@ -79,7 +80,7 @@ export const loadVorabcheckData = async <
     flowId,
     stepData,
     cmsContent,
-    formElements,
+    formElements: extraData?.formElements ?? formElements,
     progressProps,
     buttonNavigationProps,
     showReportProblem: shouldShowReportProblem(stepId),
