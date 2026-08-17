@@ -5,7 +5,7 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
-import InputError from "../error/InputError";
+import InputError, { inputErrorMessage } from "../error/InputError";
 import RichText from "../../../common/RichText";
 import { InputLabel } from "../label/InputLabel";
 
@@ -85,8 +85,7 @@ const Textarea = ({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === field.error())?.text ??
-          field.error()}
+        {inputErrorMessage(field.error(), errorMessages)}
       </InputError>
     </div>
   );
