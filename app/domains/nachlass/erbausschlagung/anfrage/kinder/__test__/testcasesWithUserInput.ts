@@ -7,8 +7,32 @@ const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
       "/ausschlagende-person": true,
     },
   },
-  hasKid: "yes",
-  numberOfKids: 1,
+  datenverarbeitungZustimmung: "on",
+  verstorbeneVorname: "Max",
+  verstorbeneNachname: "Mustermann",
+  verstorbeneGeburtsdatum: {
+    day: "01",
+    month: "01",
+    year: "1900",
+  },
+  verstorbeneSterbedatum: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
+  verstorbeneLebensmittelpunkt: "deutschland",
+  livedInNursingHome: "no",
+  livedInHospice: "no",
+  plzVerstorbene: "10969",
+  verstorbeneAdresseStrasse: "Musterstraße",
+  verstorbeneAdresseHausnummer: "1",
+  verstorbeneAdresseOrt: "Musterstadt",
+  verstorbeneAdresseZusatz: "",
+  awarenessDate: {
+    day: "01",
+    month: "01",
+    year: "2020",
+  },
 };
 
 const defaultStepsWithKidsUnderAge: Array<
@@ -32,7 +56,7 @@ const defaultStepsWithKidsUnderAge: Array<
     addArrayItemEvent: "add-kinder",
   },
   {
-    stepId: "/kinder/#/name",
+    stepId: "/kinder/kinder/#/name",
     userInput: {
       "kinder#vorname": "Clara",
       "kinder#nachname": "Mustermann",
@@ -44,7 +68,7 @@ const defaultStepsWithKidsUnderAge: Array<
     },
   },
   {
-    stepId: "/kinder/#/wohnort",
+    stepId: "/kinder/kinder/#/wohnort",
     userInput: {
       "kinder#wohnortBeiAntragsteller": "yes",
     },
@@ -105,7 +129,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         addArrayItemEvent: "add-kinder",
       },
       {
-        stepId: "/kinder/#/name",
+        stepId: "/kinder/kinder/#/name",
         userInput: {
           "kinder#vorname": "Clara",
           "kinder#nachname": "Mustermann",
@@ -117,13 +141,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/#/wohnort",
+        stepId: "/kinder/kinder/#/wohnort",
         userInput: {
           "kinder#wohnortBeiAntragsteller": "no",
         },
       },
       {
-        stepId: "/kinder/#/adresse-optional",
+        stepId: "/kinder/kinder/#/adresse-optional",
         userInput: {
           "kinder#strasse": "street",
           "kinder#hausnummer": "1",
@@ -157,7 +181,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         addArrayItemEvent: "add-kinder",
       },
       {
-        stepId: "/kinder/#/name",
+        stepId: "/kinder/kinder/#/name",
         userInput: {
           "kinder#vorname": "Clara",
           "kinder#nachname": "Mustermann",
@@ -169,13 +193,13 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/#/wohnort",
+        stepId: "/kinder/kinder/#/wohnort",
         userInput: {
           "kinder#wohnortBeiAntragsteller": "no",
         },
       },
       {
-        stepId: "/kinder/#/adresse",
+        stepId: "/kinder/kinder/#/adresse",
         userInput: {
           "kinder#strasse": "street",
           "kinder#hausnummer": "1",
@@ -184,7 +208,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
         },
       },
       {
-        stepId: "/kinder/#/sorgerecht",
+        stepId: "/kinder/kinder/#/sorgerecht",
       },
     ],
     withKidsAndUnderAgeWithAdresseAndSorgerechtYes: [
