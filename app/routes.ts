@@ -40,7 +40,11 @@ export default [
         id: "nachlassErbfolgeFlow",
       }),
     ]),
-    ...prefix("erbschein/anfrage", newEngineFlowRoutes("NEA")),
+    ...prefix("erbschein/anfrage", [
+      route("*", "routes/nachlass.erbschein.anfrage.$.tsx", {
+        id: "nachlassAnfrageFlow",
+      }),
+    ]),
   ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),

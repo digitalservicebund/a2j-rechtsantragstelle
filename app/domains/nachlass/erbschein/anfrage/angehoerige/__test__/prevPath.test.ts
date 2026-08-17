@@ -33,7 +33,7 @@ describe("angehoerigeOverview Back navigation", () => {
         ],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/uebersicht",
+      "/angehoerige/hatte-kinder",
     );
 
     expect(session.prevPath).toBe("/testament-oder-erbvertrag/art");
@@ -46,7 +46,7 @@ describe("angehoerigeOverview Back navigation", () => {
         ...happyPathData,
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/uebersicht",
+      "/angehoerige/hatte-kinder",
     );
 
     expect(session.prevPath).not.toContain("#");

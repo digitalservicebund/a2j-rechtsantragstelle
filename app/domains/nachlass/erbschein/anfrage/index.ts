@@ -11,7 +11,6 @@ import {
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const nachlassErbscheinAnfrage = {
@@ -58,6 +57,5 @@ export const nachlassErbscheinAnfrage = {
     ...getAngehoerigeStrings(context),
     ...getAmtsgerichtStrings(context),
   }),
-  newEngineConfig:
-    nachlassErbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
+  newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;
