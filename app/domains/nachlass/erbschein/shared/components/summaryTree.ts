@@ -103,7 +103,8 @@ export function collectDescendantsWithParentName(
     if (currentDepth === targetDepth) {
       return currentItems.map((item, itemIndex) => {
         const indexes = [...ancestorIndexes, itemIndex];
-        const chosenIndex = item.parentKindIndex;
+        const chosenIndex =
+          "parentKindIndex" in item ? item.parentKindIndex : null;
         const chosenParent =
           chosenIndex != null
             ? parentArrayForDepth(items, indexes, targetDepth)[
