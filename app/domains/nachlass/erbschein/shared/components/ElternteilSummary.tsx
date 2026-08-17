@@ -8,7 +8,7 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
-import type { KindItem } from "./types";
+import type { PersonItem } from "./types";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import {
   buildAddUrl,
@@ -22,6 +22,11 @@ import {
   descendantCategory,
 } from "./summaryTree";
 import { personName } from "../../shared/personName";
+import {
+  type BaseElternteilKind,
+  type ElternteilKind,
+  type BaseDeceasedPersonWithKids,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -43,7 +48,7 @@ const ADD_LABELS = [
 ];
 
 type SectionEntry = {
-  item: KindItem;
+  item: PersonItem;
   indexes: number[];
   badgeLabel: string;
 };
@@ -53,8 +58,8 @@ type SectionEntry = {
 // A stale index pointing at a missing or living parent falls back to the physical
 // parent — mirroring the inheritance calc's reassignment.
 export function siblingBadgeLabel(
-  sibling: KindItem,
-  elternteile: readonly KindItem[],
+  sibling: BaseElternteilKind | ElternteilKind,
+  elternteile: readonly PersonItem[],
   physicalName: string,
 ): string {
   const assigned = sibling.parentElternteilIndex;
@@ -67,7 +72,7 @@ export function siblingBadgeLabel(
 }
 
 // Level-1 siblings: badged by their chosen parent (parentElternteilIndex + "both").
-function collectSiblings(elternteile: KindItem[]): SectionEntry[] {
+function collectSiblings(elternteile: PersonItem[]): SectionEntry[] {
   return elternteile.flatMap((parent, elternteilIndex) => {
     if (parent.isAlive !== "no" || parent.hatteKinder !== "yes") return [];
     const parentName = personName(parent);
@@ -82,7 +87,7 @@ function collectSiblings(elternteile: KindItem[]): SectionEntry[] {
 // Deeper levels (nieces/nephews and below): badged by their direct parent, resolved
 // through parentKindIndex like the kinder line.
 function collectDeeper(
-  elternteile: KindItem[],
+  elternteile: PersonItem[],
   treeDepth: number,
 ): SectionEntry[] {
   return collectDescendantsWithParentName(elternteile, treeDepth).map(
@@ -239,7 +244,7 @@ function DescendantSection({
   url,
   initialInputUrl,
 }: Readonly<{
-  elternteile: KindItem[];
+  elternteile: BaseElternteilKind[];
   treeDepth: number;
   url: string;
   initialInputUrl: string;
@@ -254,7 +259,8 @@ function DescendantSection({
       ? collectSiblings(elternteile)
       : collectDeeper(elternteile, treeDepth);
   const category = descendantCategory("elternteile", treeDepth);
-  const firstDeadParentChildren = firstDeadParent.item.kinder ?? [];
+  const firstDeadParentChildren =
+    (firstDeadParent.item as BaseDeceasedPersonWithKids).kinder ?? [];
 
   return (
     <div className="flex flex-col gap-kern-space-default">
@@ -273,7 +279,9 @@ function DescendantSection({
           key={indexes.join("-")}
           name={personName(item)}
           isAlive={String(item.isAlive ?? "yes")}
-          hatteKinder={item.hatteKinder ? String(item.hatteKinder) : undefined}
+          hatteKinder={
+            "hatteKinder" in item ? String(item.hatteKinder) : undefined
+          }
           badgeLabel={badgeLabel}
           actions={
             <InlineActions
@@ -309,7 +317,7 @@ export function ElternteilSummary({
   deceasedPersonName?: string;
 }>) {
   const { url, initialInputUrl } = configuration;
-  const elternteile = data as KindItem[];
+  const elternteile = data as PersonItem[];
 
   return (
     <>
@@ -324,7 +332,7 @@ export function ElternteilSummary({
               name={personName(elternteil)}
               isAlive={String(elternteil.isAlive ?? "yes")}
               hatteKinder={
-                elternteil.hatteKinder
+                "hatteKinder" in elternteil
                   ? String(elternteil.hatteKinder)
                   : undefined
               }

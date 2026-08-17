@@ -1,6 +1,6 @@
 import { sanitizeHtml } from "~/services/security/sanitizeHtml";
 import { personName } from "../../shared/personName";
-import type { DescendantEntry, ItemWithPath, KindItem } from "./types";
+import type { DescendantEntry, ItemWithPath, PersonItem } from "./types";
 
 export const deceasedParentsNoticeTitle =
   "Geben Sie die Kinder von verstorbenen Angehörigen an";
@@ -74,14 +74,14 @@ export function descendantCategory(root: string, treeDepth: number): string {
 // index path: navigate `.kinder` down the ancestor path (all but the last two indexes).
 // Mirrors buildKinderParentOptions' / buildElternteilKinderParentOptions' navigation.
 function parentArrayForDepth(
-  items: KindItem[],
+  items: PersonItem[],
   indexes: number[],
   targetDepth: number,
-): KindItem[] {
+): PersonItem[] {
   const ancestorPath = indexes.slice(0, targetDepth - 2);
-  return ancestorPath.reduce<KindItem[]>(
+  return ancestorPath.reduce<PersonItem[]>(
     (arr, idx) =>
-      Array.isArray(arr[idx]?.kinder) ? (arr[idx].kinder as KindItem[]) : [],
+      "kinder" in arr[idx] ? (arr[idx].kinder as PersonItem[]) : [],
     items,
   );
 }
@@ -91,11 +91,11 @@ function parentArrayForDepth(
 // tree parent when unset or when the index points at a missing or living member —
 // mirroring the inheritance calc's reassignment.
 export function collectDescendantsWithParentName(
-  items: KindItem[],
+  items: PersonItem[],
   targetDepth: number,
 ): DescendantEntry[] {
   function traverse(
-    currentItems: KindItem[],
+    currentItems: PersonItem[],
     currentDepth: number,
     ancestorIndexes: number[],
     parentName: string,
@@ -103,7 +103,8 @@ export function collectDescendantsWithParentName(
     if (currentDepth === targetDepth) {
       return currentItems.map((item, itemIndex) => {
         const indexes = [...ancestorIndexes, itemIndex];
-        const chosenIndex = item.parentKindIndex;
+        const chosenIndex =
+          "parentKindIndex" in item ? item.parentKindIndex : null;
         const chosenParent =
           chosenIndex != null
             ? parentArrayForDepth(items, indexes, targetDepth)[
@@ -121,7 +122,7 @@ export function collectDescendantsWithParentName(
     }
     return currentItems.flatMap((item, itemIndex) =>
       traverse(
-        Array.isArray(item.kinder) ? (item.kinder as KindItem[]) : [],
+        "kinder" in item ? (item.kinder as PersonItem[]) : [],
         currentDepth + 1,
         [...ancestorIndexes, itemIndex],
         personName(item),
@@ -134,7 +135,7 @@ export function collectDescendantsWithParentName(
 // Names of deceased members with children at parentDepth. These are the people
 // whose kinder the user still needs to enter at the next level down.
 export function collectDeceasedParentNames(
-  items: KindItem[],
+  items: PersonItem[],
   parentDepth: number,
 ): string[] {
   return collectAtDepth(items, parentDepth)
@@ -144,7 +145,7 @@ export function collectDeceasedParentNames(
 
 // Collect every item at targetDepth with its full index path.
 export function collectAtDepth(
-  items: KindItem[],
+  items: PersonItem[],
   targetDepth: number,
   currentDepth = 1,
   path: number[] = [],
@@ -156,9 +157,7 @@ export function collectAtDepth(
     }));
   }
   return items.flatMap((item, itemIndex) => {
-    const children = Array.isArray(item.kinder)
-      ? (item.kinder as KindItem[])
-      : [];
+    const children = "kinder" in item ? (item.kinder as PersonItem[]) : [];
     return collectAtDepth(children, targetDepth, currentDepth + 1, [
       ...path,
       itemIndex,

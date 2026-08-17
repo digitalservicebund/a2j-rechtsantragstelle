@@ -60,7 +60,7 @@ type FamilyMember = {
   parentKindIndex?: string;
 };
 
-const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
+export const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
 
 function hasLivingDescendant(member: FamilyMember): boolean {
   if (member.isAlive === "yes") return true;

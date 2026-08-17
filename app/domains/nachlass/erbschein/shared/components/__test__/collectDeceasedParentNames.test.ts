@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { collectDeceasedParentNames } from "../summaryTree";
-import type { KindItem } from "../types";
+import type { PersonItem } from "../types";
 
 describe("collectDeceasedParentNames", () => {
   const items = [
@@ -15,7 +15,7 @@ describe("collectDeceasedParentNames", () => {
     },
     { vorname: "Kind 2", isAlive: "yes" },
     { vorname: "Kind 3", isAlive: "no", hatteKinder: "no" },
-  ] as unknown as KindItem[];
+  ] as unknown as PersonItem[];
 
   it("lists deceased members with children at the given depth", () => {
     expect(collectDeceasedParentNames(items, 1)).toEqual(["Kind 1"]);

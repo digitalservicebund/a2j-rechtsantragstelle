@@ -12,10 +12,7 @@ import {
   resolveParentOptions,
 } from "./buildParentOptions";
 import { personName } from "./personName";
-import {
-  type FlowExtras,
-  type ExtraFlowLoaderData,
-} from "~/domains/extraLoaderConfiguration";
+import { type FlowExtras } from "~/domains/extraLoaderConfiguration";
 import { type ArrayConfigClient } from "~/services/array";
 import {
   type LoaderExtrasContext,
@@ -39,48 +36,25 @@ type ErbfolgeLoaderExtraData = {
   deceasedPersonName: string | undefined;
 };
 
-type ErbfolgeLoaderExtras = {
-  arraySummaryData:
-    | {
-        category: string;
-        arrayData: {
-          data: ArrayData;
-          configuration: {
-            url: string;
-            initialInputUrl: string;
-            disableAddButton: boolean;
-          };
-        };
-      }
-    | undefined;
-  deceasedPersonName: string | undefined;
-  dynamicOptions: DynamicOptions | undefined;
-};
-
-export const erbfolgeExtras: FlowExtras<
-  ExtraFlowLoaderData & ErbfolgeLoaderExtras
-> = {
-  renderExtraComponents: (loaderData) => {
+export const erbfolgeExtras: FlowExtras<ErbfolgeLoaderExtraData> = {
+  renderExtraComponents: ({ arraySummaryData, deceasedPersonName }) => {
     return (
       <>
-        {loaderData.arraySummaryData?.category === "elternteile" && (
+        {arraySummaryData?.category === "elternteile" && (
           <ElternteilSummary
-            data={loaderData.arraySummaryData.arrayData.data}
-            configuration={loaderData.arraySummaryData.arrayData.configuration}
-            deceasedPersonName={loaderData.deceasedPersonName}
+            data={arraySummaryData.arrayData.data}
+            configuration={arraySummaryData.arrayData.configuration}
+            deceasedPersonName={deceasedPersonName}
           />
         )}
-        {loaderData.arraySummaryData &&
-          loaderData.arraySummaryData.category !== "elternteile" && (
-            <KinderSummary
-              data={loaderData.arraySummaryData.arrayData.data}
-              configuration={
-                loaderData.arraySummaryData.arrayData.configuration
-              }
-              category={loaderData.arraySummaryData.category}
-              deceasedPersonName={loaderData.deceasedPersonName}
-            />
-          )}
+        {arraySummaryData && arraySummaryData.category !== "elternteile" && (
+          <KinderSummary
+            data={arraySummaryData.arrayData.data}
+            configuration={arraySummaryData.arrayData.configuration}
+            category={arraySummaryData.category}
+            deceasedPersonName={deceasedPersonName}
+          />
+        )}
       </>
     );
   },

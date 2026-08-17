@@ -1,7 +1,8 @@
 import { useLoaderData } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
-import type { loader } from "../vorabcheck";
+import type { loader as vorabcheckLoader } from "../vorabcheck";
+import type { loader as newEngineVorabcheckLoader } from "../newEngineVorabcheck";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
@@ -12,7 +13,10 @@ import { ReportProblem } from "~/components/content/reportProblem/ReportProblem"
 import { useFlowExtras } from "~/domains/extraLoaderConfiguration";
 
 export function VorabcheckPage() {
-  const loaderData = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<
+    // TODO: remove after migration to new flow engine is complete.
+    typeof vorabcheckLoader | typeof newEngineVorabcheckLoader
+  >();
 
   const {
     stepData,
@@ -25,7 +29,11 @@ export function VorabcheckPage() {
   } = loaderData;
 
   const { extraComponents: additionalComponents, dynamicOptions } =
-    useFlowExtras(loaderData, flowId) ?? {};
+    useFlowExtras(
+      // TODO: remove after migration to new flow engine is complete.
+      "extraData" in loaderData ? loaderData.extraData : {},
+      flowId,
+    ) ?? {};
 
   useFocusFirstH1();
 

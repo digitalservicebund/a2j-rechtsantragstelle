@@ -8,7 +8,7 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
-import type { KindItem } from "./types";
+import type { PersonItem } from "./types";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import {
   buildAddUrl,
@@ -22,6 +22,8 @@ import {
   descendantCategory,
 } from "./summaryTree";
 import { personName } from "../../shared/personName";
+import { type BaseDeceasedPersonWithKids } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { toDateString } from "~/services/validation/dateObject";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -95,7 +97,7 @@ function KindSummaryItem({
   badgeLabel,
   actions,
 }: Readonly<{
-  item: KindItem;
+  item: PersonItem;
   badgeLabel?: string;
   actions: React.ReactNode;
 }>) {
@@ -114,6 +116,24 @@ function KindSummaryItem({
               {personName(item)}
             </dd>
           </div>
+          {"geburtsdatum" in item && (
+            <>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">
+                  Geburtsdatum
+                </dt>
+                <dd className="kern-description-list-item__value">
+                  {toDateString(item.geburtsdatum)}
+                </dd>
+              </div>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Geburtsort</dt>
+                <dd className="kern-description-list-item__value">
+                  {item.geburtsort}
+                </dd>
+              </div>
+            </>
+          )}
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">
               Lebte zum Todeszeitpunkt?
@@ -122,6 +142,32 @@ function KindSummaryItem({
               {item.isAlive === "yes" ? "Ja" : "Nein"}
             </dd>
           </div>
+          {"strasse" in item && (
+            <div className="kern-description-list-item">
+              <dt className="kern-description-list-item__key">Adresse</dt>
+              <dd className="kern-description-list-item__value">
+                {item.strasse} {item.hausnummer}
+                {item.adresszusatz ? ` ${item.adresszusatz}` : ""}, {item.plz}{" "}
+                {item.ort} ({item.land})
+              </dd>
+            </div>
+          )}
+          {"sterbedatum" in item && (
+            <>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Sterbedatum</dt>
+                <dd className="kern-description-list-item__value">
+                  {toDateString(item.sterbedatum)}
+                </dd>
+              </div>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Sterbeort</dt>
+                <dd className="kern-description-list-item__value">
+                  {item.sterbeort}
+                </dd>
+              </div>
+            </>
+          )}
           {item.isAlive === "no" && (
             <div className="kern-description-list-item">
               <dt className="kern-description-list-item__key">
@@ -147,7 +193,7 @@ function DescendantRow({
   initialInputUrl,
   badgeLabel,
 }: Readonly<{
-  item: KindItem;
+  item: PersonItem;
   indexes: number[];
   depth: number;
   baseUrl: string;
@@ -196,7 +242,7 @@ function FlatDescendantSection({
   initialInputUrl,
 }: Readonly<{
   depth: number;
-  items: KindItem[];
+  items: PersonItem[];
   baseUrl: string;
   initialInputUrl: string;
 }>) {
@@ -207,8 +253,9 @@ function FlatDescendantSection({
   if (!firstDeadParent) return null;
 
   const descendants = collectDescendantsWithParentName(items, depth);
-  const firstDeadParentChildren = (firstDeadParent.item.kinder ??
-    []) as KindItem[];
+  const firstDeadParentChildren = ((
+    firstDeadParent.item as BaseDeceasedPersonWithKids
+  ).kinder ?? []) as PersonItem[];
 
   return (
     <div className="flex flex-col gap-kern-space-default">
@@ -263,7 +310,7 @@ export function KinderSummary({
   deceasedPersonName?: string;
 }>) {
   const { url, initialInputUrl, disableAddButton } = configuration;
-  const items = data as KindItem[];
+  const items = data as PersonItem[];
   const level1Badge = badgeLabel(1, deceasedPersonName);
 
   return (
