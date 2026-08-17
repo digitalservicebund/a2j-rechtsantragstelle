@@ -15,6 +15,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1106.0
         version: 3.1106.0
+      '@digitalservicebund/a2j-xjustiz-converter':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
         version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.3)
@@ -664,6 +667,10 @@ packages:
   '@csstools/css-tokenizer@4.0.0':
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
+
+  '@digitalservicebund/a2j-xjustiz-converter@0.3.0':
+    resolution: {integrity: sha512-dafOh/vVuBi2EINukcwy7Ij1jaH/+WFNKgm51c5lumucOQjA6LkY1r9JxIresqDIZF7t1eDoe/4KEumIJPkv3g==}
+    engines: {node: 24.12.0, pnpm: 11.4.0}
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0':
     resolution: {integrity: sha512-3Q4MVUd7nrlNyiVj4zImOGe/gStJwOxXgwB7n4yguxiyXrBB5lpwGSnqi1F+Ae6KB5M2olA/3muvAsuLd9WGkg==}
@@ -4771,6 +4778,11 @@ packages:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
     engines: {node: '>= 0.6'}
 
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
     engines: {node: '>=16.20.0'}
@@ -5673,6 +5685,11 @@ snapshots:
       css-tree: 3.2.1
 
   '@csstools/css-tokenizer@4.0.0': {}
+
+  '@digitalservicebund/a2j-xjustiz-converter@0.3.0':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      typescript: 6.0.3
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.3)':
     dependencies:
@@ -9581,6 +9598,8 @@ snapshots:
       content-type: 1.0.5
       media-typer: 1.1.0
       mime-types: 3.0.2
+
+  typescript@6.0.3: {}
 
   typescript@7.0.2:
     optionalDependencies:
