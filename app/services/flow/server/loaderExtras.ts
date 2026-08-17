@@ -12,10 +12,14 @@ export type LoaderExtrasContext = {
   flowSessionEngine: FlowSession<PageConfigMap>;
 };
 
+export type ExtraDataWithFormElements = Record<string, unknown> & {
+  formElements?: StrapiFormComponent[];
+};
+
 // Optional per-flow hooks. A flow that needs nothing beyond the shared behavior
 // passes no extras and is served exactly as before.
 export type LoaderExtras<
-  ExtraData extends Record<string, unknown> = Record<string, never>,
+  ExtraData extends ExtraDataWithFormElements = Record<string, never>,
 > = {
   // Extra CMS text placeholders that depend on the current page. Merged into the
   // content after the flow's static replacements, so these win.
