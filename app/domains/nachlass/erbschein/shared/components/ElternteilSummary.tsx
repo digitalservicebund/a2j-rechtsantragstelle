@@ -22,7 +22,11 @@ import {
   descendantCategory,
 } from "./summaryTree";
 import { personName } from "../../shared/personName";
-import { type BaseDeceasedPersonWithKids } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import {
+  type BaseElternteilKind,
+  type ElternteilKind,
+  type BaseDeceasedPersonWithKids,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -54,7 +58,7 @@ type SectionEntry = {
 // A stale index pointing at a missing or living parent falls back to the physical
 // parent — mirroring the inheritance calc's reassignment.
 export function siblingBadgeLabel(
-  sibling: PersonItem,
+  sibling: BaseElternteilKind | ElternteilKind,
   elternteile: readonly PersonItem[],
   physicalName: string,
 ): string {
@@ -240,7 +244,7 @@ function DescendantSection({
   url,
   initialInputUrl,
 }: Readonly<{
-  elternteile: Array<Extract<PersonItem, { parentElternteilIndex?: string }>>;
+  elternteile: BaseElternteilKind[];
   treeDepth: number;
   url: string;
   initialInputUrl: string;

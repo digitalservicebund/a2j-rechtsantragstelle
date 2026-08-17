@@ -53,8 +53,7 @@ export const kinderFlowConfig = {
     { target: "grundbesitz" },
   ],
   kind1Name: "kind1Geburtsdatum",
-  kind1Geburtsdatum: "kind1Provenance",
-  kind1Provenance: "kind1IsAlive",
+  kind1Geburtsdatum: "kind1IsAlive",
   kind1IsAlive: [
     {
       guard: ({ kinder, pageData }) => {

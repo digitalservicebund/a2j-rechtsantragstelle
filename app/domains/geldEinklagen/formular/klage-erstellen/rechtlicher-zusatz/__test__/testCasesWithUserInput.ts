@@ -84,6 +84,8 @@ export const testCasesWithUserInputKlagenErstellenRechtlicherZusatz: FlowTestCas
           ...baseContext,
           anwaltschaft: "yes",
           weitereAntraege: "Ich habe noch weitere Anträge.",
+          klagendePersonAnwaltschaftWerProzessBevollmaechtigt:
+            "berufsausuebungsgesellschaft",
           klagendePersonAnwaltschaftStrasse:
             "klagendePersonAnwaltschaftStrasse",
           klagendePersonAnwaltschaftHausnummer: "1",

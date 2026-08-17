@@ -7,7 +7,7 @@ import capitalize from "lodash/capitalize";
 import { formatAddress } from "./addPlaintiffDetails";
 
 const SEPARATOR = " | ";
-const REPRESENTATION_LEGAL_TEXT = "Prozessbevollmächtigte";
+const REPRESENTATION_LEGAL_TEXT = "Prozessbevollmächtigte ";
 
 const getRepresentationName = (userData: GeldEinklagenFormularUserData) => {
   const {
@@ -58,12 +58,19 @@ export const addLegalRepresentation = (
       ? `Geschäftszeichen: ${userData.klagendePersonAnwaltschaftGeschaeftszeichen}`
       : "";
 
+  const representationLegalType =
+    userData.klagendePersonAnwaltschaftWerProzessBevollmaechtigt ===
+    "berufsausuebungsgesellschaft"
+      ? "Berufsausübungsgesellschaft"
+      : "Einzelkanzlei";
+
   legalRepresentationParagraph.add(
     doc.struct("Span", {}, () => {
       doc
         .moveDown()
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(REPRESENTATION_LEGAL_TEXT)
+        .text(REPRESENTATION_LEGAL_TEXT, { continued: true })
+        .text(representationLegalType, { continued: false })
         .font(FONTS_BUNDESSANS_BOLD)
         .text(representationName, { continued: true })
         .font(FONTS_BUNDESSANS_REGULAR)

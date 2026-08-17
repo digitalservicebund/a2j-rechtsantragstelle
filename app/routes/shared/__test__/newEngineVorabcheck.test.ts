@@ -88,7 +88,8 @@ describe("loadVorabcheckData (new engine array flow)", () => {
     const extrasBuildReplacementsMock = vi.fn();
 
     extrasBuildReplacementsMock.mockImplementation(() => mockReplacements);
-    const mockExtraData = { foo: "bar" };
+    const mockFormElements = [{ id: "foo" }];
+    const mockExtraData = { foo: "bar", formElements: mockFormElements };
     const extrasBuildLoaderDataMock = vi
       .fn()
       .mockImplementation(() => mockExtraData);
@@ -116,6 +117,7 @@ describe("loadVorabcheckData (new engine array flow)", () => {
     );
     expect(extrasBuildLoaderDataMock).toHaveBeenCalled();
     expect((response as any).data.extraData).toBe(mockExtraData);
+    expect((response as any).data.formElements).toBe(mockFormElements);
   });
 });
 
