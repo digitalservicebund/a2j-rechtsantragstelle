@@ -1,3 +1,4 @@
+import { elternteilFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/elternteil/elternteilFlowConfig";
 import { kinderFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderFlowConfig";
 import { angehoerigeArray } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
@@ -6,6 +7,7 @@ import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 
 export const angehoerigeFlowConfig = {
   ...kinderFlowConfig,
+  ...elternteilFlowConfig,
   angehoerigeOverview: [
     { type: "addArrayItem", target: "angehoerigeName" },
     {
