@@ -255,3 +255,11 @@ export const erblasserOutsideGermany = (
     erblasserOutsideGermany: context.verstorbeneLebensmittelpunkt === "ausland",
   };
 };
+
+export const verstorbeneNotification = (
+  context: NachlassErbausschlagungAnfrageUserData,
+) => {
+  return {
+    verstorbeneNotification: context.verstorbeneNotification === "yes",
+  };
+};
