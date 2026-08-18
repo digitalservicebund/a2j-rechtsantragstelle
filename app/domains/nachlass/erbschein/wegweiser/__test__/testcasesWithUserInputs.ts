@@ -2,10 +2,10 @@ import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import { nachlassErbscheinWegweiserFlowConfig } from "../flowConfig";
 
-const happyPath: {
+const happyPath: Array<{
   stepId: string;
   userInput?: Partial<NachlassErbscheinWegweiserUserData>;
-}[] = [
+}> = [
   {
     stepId: "/start",
   },
