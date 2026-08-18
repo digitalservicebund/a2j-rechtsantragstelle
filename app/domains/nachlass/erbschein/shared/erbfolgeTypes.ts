@@ -78,12 +78,9 @@ export type BaseElternteil =
 // #endregion
 
 // #region Extended (full) Erbfolge types, for use in Erbscheinsantrag and summary components.
-export type AlivePerson = z.infer<typeof alivePersonSchema>;
-export type DeceasedPersonNoKids = z.infer<typeof deceasedPersonNoKidsSchema>;
-export type DeceasedPersonWithKids = Omit<
-  DeceasedPersonNoKids,
-  "hatteKinder"
-> & {
+type AlivePerson = z.infer<typeof alivePersonSchema>;
+type DeceasedPersonNoKids = z.infer<typeof deceasedPersonNoKidsSchema>;
+type DeceasedPersonWithKids = Omit<DeceasedPersonNoKids, "hatteKinder"> & {
   hatteKinder: "yes";
   kinder?: Kind[];
 };
