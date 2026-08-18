@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
-import { FlowId } from "~/domains/flowIds";
-import { UserData } from "~/domains/userData";
+import { type FlowId } from "~/domains/flowIds";
+import { type UserData } from "~/domains/userData";
 import type { loader as loaderNewEngineFormular } from "~/routes/shared/newEngineFormular";
 import type { loader as newEngineVorabcheckLoader } from "~/routes/shared/newEngineVorabcheck";
 
