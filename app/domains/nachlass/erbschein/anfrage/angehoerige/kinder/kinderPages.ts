@@ -81,7 +81,7 @@ export const kinderPages = {
   kinderFehlen: {
     stepId: "/angehoerige/kinder-fehlen",
   },
-  kind1Summary: {
+  kindSummary: {
     stepId: "/angehoerige/kinder",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {

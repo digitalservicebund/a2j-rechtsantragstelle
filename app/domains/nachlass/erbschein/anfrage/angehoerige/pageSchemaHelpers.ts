@@ -17,7 +17,7 @@ const parentKindIndexSchema = z
   .optional()
   .describe(dynamicSelectZodDescription);
 
-export const parentElternteilIndexSchema = z
+const _parentElternteilIndexSchema = z
   .string()
   .regex(/^(\d+|both)$/, { message: "required" })
   .optional()
