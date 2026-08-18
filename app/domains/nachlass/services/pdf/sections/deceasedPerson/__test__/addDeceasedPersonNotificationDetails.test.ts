@@ -31,7 +31,7 @@ describe("addDeceasedPersonNotificationDetails", () => {
     addDeceasedPersonNotificationDetails(mockDoc, mockStruct, userDataMock);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
-      "Benachrichtigung: Nachlassgericht: 1234567890, Aktenzeichen: 1234567890",
+      "Nachlassgericht: 1234567890, Aktenzeichen: 1234567890",
     );
   });
 
