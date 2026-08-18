@@ -94,9 +94,11 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const pagesConfig = pages[flowId];
 
   if (
-    ["/nachlass/erbschein/erbfolge", "/nachlass/erbschein/anfrage"].includes(
-      flowId,
-    )
+    [
+      "/nachlass/erbschein/erbfolge",
+      "/nachlass/erbschein/anfrage",
+      "/nachlass/erbausschlagung/anfrage",
+    ].includes(flowId)
   ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
   }

@@ -3,7 +3,7 @@ import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type DateObject, toDate } from "~/services/validation/dateObject";
 import { addYears, today } from "~/util/date";
-import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
+import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/schema";
 
 type NachlassErbausschlagungAnfrageDaten =
   GenericGuard<NachlassErbausschlagungAnfrageUserData>;
