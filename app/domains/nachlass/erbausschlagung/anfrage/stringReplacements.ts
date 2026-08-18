@@ -2,7 +2,7 @@ import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
-import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
+import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/schema";
 import { toDate } from "~/services/validation/dateObject";
 import { addDays, today } from "~/util/date";
 import { isBirthDateAbove18Years } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/guards";

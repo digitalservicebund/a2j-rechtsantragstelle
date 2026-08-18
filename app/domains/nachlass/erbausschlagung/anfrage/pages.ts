@@ -1,11 +1,4 @@
 import { z } from "zod";
-import {
-  commonErbausschlagungKinderFields,
-  erbausschlagungKinderArraySchema,
-  sorgerechtOrganizationRequired,
-  sorgerechtPersonAdresseRequired,
-  sorgerechtPersonRequired,
-} from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
@@ -21,6 +14,13 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
+import {
+  erbausschlagungKinderArraySchema,
+  commonErbausschlagungKinderFields,
+  sorgerechtPersonRequired,
+  sorgerechtPersonAdresseRequired,
+  sorgerechtOrganizationRequired,
+} from "./kinder/schema";
 
 export const nachlassErbausschlagungAnfragePages = {
   start: {

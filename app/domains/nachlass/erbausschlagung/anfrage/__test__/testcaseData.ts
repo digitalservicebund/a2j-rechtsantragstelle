@@ -1,4 +1,4 @@
-import { NachlassErbausschlagungAnfrageUserData } from "../userData";
+import { type NachlassErbausschlagungAnfrageUserData } from "../userData";
 
 export const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
   pageData: {
