@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
+import { happyPathData } from "../../__test__/testcaseData";
 
 export const ausschlagendePersonTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
   {
@@ -7,6 +8,7 @@ export const ausschlagendePersonTestCases: FlowTestCases<NachlassErbausschlagung
       {
         stepId: "/ausschlagende-person/name",
         userInput: {
+          ...happyPathData,
           ausschlagendePersonVorname: "Max",
           ausschlagendePersonNachname: "Mustermann",
         },
