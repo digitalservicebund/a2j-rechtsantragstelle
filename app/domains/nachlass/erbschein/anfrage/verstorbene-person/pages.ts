@@ -1,6 +1,9 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import {
+  autoSuggestStreetNames,
+  autoSuggestStringRequiredSchema,
+} from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -134,7 +137,11 @@ export const verstorbenePersonPages = {
   verstorbenePersonAdresse: {
     stepId: "/verstorbene/adresse",
     pageSchema: {
-      verstorbenePersonStrasse: autoSuggestStringRequiredSchema("streetNames"),
+      verstorbenePersonStrasse: autoSuggestStreetNames([
+        "verstorbenePlz",
+        "verstorbeneHospizPlz",
+        "verstorbenePflegeheimPlz",
+      ]),
       verstorbenePersonHausnummer: stringRequiredSchema,
       verstorbenePersonOrt: stringRequiredSchema,
       verstorbenePersonAdresszusatz: stringOptionalSchema,

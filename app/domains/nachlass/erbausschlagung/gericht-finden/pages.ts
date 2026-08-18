@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -24,7 +24,7 @@ export const nachlassErbausschlagungGerichtFindenPages = {
   strasseHausnummer: {
     stepId: "verschiedene-zustaendige-gerichte",
     pageSchema: {
-      strasse: autoSuggestStringRequiredSchema("streetNames"),
+      strasse: autoSuggestStreetNames(["plz", "plzHospiz", "plzPflegeheim"]),
       hausnummer: germanHouseNumberSchema,
     },
   },

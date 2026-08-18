@@ -8,7 +8,7 @@ import {
 } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/pages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
@@ -97,7 +97,11 @@ export const nachlassErbausschlagungAnfragePages = {
   verstorbeneAdresse: {
     stepId: "verstorbene/adresse",
     pageSchema: {
-      verstorbeneAdresseStrasse: autoSuggestStringRequiredSchema("streetNames"),
+      verstorbeneAdresseStrasse: autoSuggestStreetNames([
+        "plz",
+        "plzBeforeHospiz",
+        "plzPflegeheim",
+      ]),
       verstorbeneAdresseHausnummer: germanHouseNumberSchema,
       verstorbeneAdresseOrt: stringRequiredSchema,
       verstorbeneAdresseZusatz: stringOptionalSchema,
@@ -140,8 +144,9 @@ export const nachlassErbausschlagungAnfragePages = {
   ausschlagendePersonAdresse: {
     stepId: "ausschlagende-person/adresse",
     pageSchema: {
-      ausschlagendePersonStrasse:
-        autoSuggestStringRequiredSchema("streetNames"),
+      ausschlagendePersonStrasse: autoSuggestStreetNames([
+        "ausschlagendePersonPlz",
+      ]),
       ausschlagendePersonHausnummer: germanHouseNumberSchema,
       ausschlagendePersonOrt: stringRequiredSchema,
       ausschlagendePersonZusatz: stringOptionalSchema,
