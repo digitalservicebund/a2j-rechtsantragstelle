@@ -24,6 +24,8 @@ import {
   type StrapiAutoSuggestComponent,
 } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
+import { useFlowContext } from "~/components/hooks/useFlowContext";
+import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -155,11 +157,19 @@ export const renderSpecialMetaDescriptions = (
       );
     }
 
+    const { userData } = useFlowContext();
+
+    const dataListArgument = getDataListArgumentToAutoSuggestionInput(
+      fieldSchema,
+      userData,
+    );
+
     return (
       <AutoSuggestInput
         {...autoSuggestElement}
         name={fieldName}
         dataList={dataListType}
+        dataListArgument={dataListArgument}
         key={fieldName}
       />
     );
