@@ -92,16 +92,7 @@ export const getAmtsgerichtStrings = (
 export const getAngehoerigeStrings = (
   context: NachlassErbscheinAnfrageUserData,
 ) => {
-  const arrayIndex = firstArrayIndex(context.pageData);
-  if (
-    arrayIndex === undefined ||
-    !context.angehoerige ||
-    arrayIndex > context.angehoerige.length + 1
-  )
-    return {};
-  if (arrayIndex < context.angehoerige.length)
-    return {
-      ...missingChildrenReplacements(context),
-      angehoerigeName: `${context.angehoerige?.[arrayIndex].vorname} ${context.angehoerige?.[arrayIndex].nachname}`,
-    };
+  return {
+    ...missingChildrenReplacements(context),
+  };
 };

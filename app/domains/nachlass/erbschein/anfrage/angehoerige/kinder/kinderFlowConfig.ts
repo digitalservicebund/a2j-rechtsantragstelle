@@ -59,21 +59,21 @@ const kinderLevelPageConfigs = <D extends number>(depth: D) => {
         target: `kind${depth}Address`,
       },
     ],
-    [`kind${depth}Address`]: `kind${depth}Summary`,
+    [`kind${depth}Address`]: `kindSummary`,
     [`kind${depth}Sterbedatum`]: `kind${depth}HatteKinder`,
     [`kind${depth}HatteKinder`]: [
       {
-        target:
-          depth >= MAX_SUPPORTED_DESCENDANT_DEPTH
-            ? "angehoerigeOverview"
-            : `kind${depth + 1}Name`,
-        type: "addArrayItem",
+        ...(depth >= MAX_SUPPORTED_DESCENDANT_DEPTH
+          ? // No deeper array level exists here, and evaluateRoute ignores guards
+            // on addArrayItem, so the depth limit must be a plain transition.
+            { target: "angehoerigeOverview" }
+          : { target: `kind${depth + 1}Name`, type: "addArrayItem" }),
         guard: kinderGuard(({ kinder, pageData }) => {
           const kind = getEligibleKind(kinder, pageData?.arrayIndexes, depth);
           return kind?.isAlive === "no" && kind.hatteKinder === "yes";
         }),
       },
-      { target: `kind1Summary`, guard: () => true },
+      { target: `kindSummary` },
     ],
   } as KinderLevelPageConfigs<D>;
 };
@@ -82,14 +82,14 @@ export const kinderFlowConfig = {
   hatteKinder: [
     {
       guard: ({ hatteKinder }) => hatteKinder === "yes",
-      target: "kind1Summary",
+      target: "kindSummary",
     },
     {
       target: "grundbesitz",
     },
   ],
   kinderFehlen: null,
-  kind1Summary: [
+  kindSummary: [
     { target: "kind1Name", type: "addArrayItem" },
     {
       // Checked first: a depth-5 dead person with hatteKinder="yes" can never
