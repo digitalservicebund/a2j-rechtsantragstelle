@@ -14,3 +14,8 @@ export const autoSuggestSchema =
 
 export const autoSuggestStringRequiredSchema = (dataList: DataListType) =>
   autoSuggestSchema(stringRequiredSchema)(dataList);
+
+export const autoSuggestStreetNames = (zipCodeFieldNamesReference: string[]) =>
+  autoSuggestSchema(stringRequiredSchema)("streetNames").meta({
+    dataListArguments: zipCodeFieldNamesReference,
+  });
