@@ -23,6 +23,7 @@ import {
 } from "./summaryTree";
 import { personName } from "../../shared/personName";
 import { type BaseDeceasedPersonWithKids } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { toDateString } from "~/services/validation/dateObject";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -115,6 +116,24 @@ function KindSummaryItem({
               {personName(item)}
             </dd>
           </div>
+          {"geburtsdatum" in item && (
+            <>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">
+                  Geburtsdatum
+                </dt>
+                <dd className="kern-description-list-item__value">
+                  {toDateString(item.geburtsdatum)}
+                </dd>
+              </div>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Geburtsort</dt>
+                <dd className="kern-description-list-item__value">
+                  {item.geburtsort}
+                </dd>
+              </div>
+            </>
+          )}
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">
               Lebte zum Todeszeitpunkt?
@@ -123,6 +142,32 @@ function KindSummaryItem({
               {item.isAlive === "yes" ? "Ja" : "Nein"}
             </dd>
           </div>
+          {"strasse" in item && (
+            <div className="kern-description-list-item">
+              <dt className="kern-description-list-item__key">Adresse</dt>
+              <dd className="kern-description-list-item__value">
+                {item.strasse} {item.hausnummer}
+                {item.adresszusatz ? ` ${item.adresszusatz}` : ""}, {item.plz}{" "}
+                {item.ort} ({item.land})
+              </dd>
+            </div>
+          )}
+          {"sterbedatum" in item && (
+            <>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Sterbedatum</dt>
+                <dd className="kern-description-list-item__value">
+                  {toDateString(item.sterbedatum)}
+                </dd>
+              </div>
+              <div className="kern-description-list-item">
+                <dt className="kern-description-list-item__key">Sterbeort</dt>
+                <dd className="kern-description-list-item__value">
+                  {item.sterbeort}
+                </dd>
+              </div>
+            </>
+          )}
           {item.isAlive === "no" && (
             <div className="kern-description-list-item">
               <dt className="kern-description-list-item__key">
