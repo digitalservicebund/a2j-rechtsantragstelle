@@ -30,9 +30,14 @@ describe("addDeceasedPersonNotificationDetails", () => {
 
     addDeceasedPersonNotificationDetails(mockDoc, mockStruct, userDataMock);
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Nachlassgericht: 1234567890, Aktenzeichen: 1234567890",
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Nachlassgericht: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("1234567890");
+    expect(mockDoc.text).toHaveBeenCalledWith("Aktenzeichen: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("1234567890");
   });
 
   it("should add birthday and death details in case the user has not received notification", () => {
@@ -44,8 +49,13 @@ describe("addDeceasedPersonNotificationDetails", () => {
       verstorbeneNotification: "no",
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      "Geburtsdatum: 01.01.1970, Sterbedatum: 01.01.2020",
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsdatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("01.01.1970");
+    expect(mockDoc.text).toHaveBeenCalledWith("Sterbedatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("01.01.2020");
   });
 });

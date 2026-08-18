@@ -13,28 +13,37 @@ export const addDeceasedPersonNotificationDetails = (
 ) => {
   deceasedPersonNotificationParagraph.add(
     doc.struct("Span", {}, () => {
-      doc
-        .font(FONTS_BUNDESSANS_REGULAR)
-        .text("Benachrichtigung: ", { continued: true })
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(
-          userData.verstorbeneNotification === "yes"
-            ? "Nachlassgericht: " +
-                userData.nachlassgericht +
-                ", Aktenzeichen: " +
-                userData.aktenzeichen
-            : userData.verstorbeneNotification === "no"
-              ? "Geburtsdatum: " +
-                (userData.verstorbeneGeburtsdatum
-                  ? toDateString(userData.verstorbeneGeburtsdatum)
-                  : "") +
-                ", Sterbedatum: " +
-                (userData.verstorbeneSterbedatum
-                  ? toDateString(userData.verstorbeneSterbedatum)
-                  : "")
+      if (userData.verstorbeneNotification === "yes") {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text("Nachlassgericht: ", { continued: true })
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(userData.nachlassgericht ?? "")
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text("Aktenzeichen: ", { continued: true })
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(userData.aktenzeichen ?? "")
+          .moveDown(1);
+      } else if (userData.verstorbeneNotification === "no") {
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text("Geburtsdatum: ", { continued: true })
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(
+            userData.verstorbeneGeburtsdatum
+              ? toDateString(userData.verstorbeneGeburtsdatum)
               : "",
-        )
-        .moveDown(1);
+          )
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text("Sterbedatum: ", { continued: true })
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(
+            userData.verstorbeneSterbedatum
+              ? toDateString(userData.verstorbeneSterbedatum)
+              : "",
+          )
+          .moveDown(1);
+      }
     }),
   );
 };
