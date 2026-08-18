@@ -10,7 +10,7 @@ import { type z } from "zod";
 const errorPrefix = "invalidCharacters:";
 
 const invalidCharacters = (characters: Readonly<Set<string>>) =>
-  `${errorPrefix}${[...characters].join(', ')}`;
+  `${errorPrefix}${[...characters].join(", ")}`;
 
 const parsers = {
   A: datatypeA.customize({ invalidCharacters }),
@@ -22,7 +22,7 @@ const parsers = {
 
 export const decodeInvalidCharacters = (error?: string | null) =>
   error?.startsWith(errorPrefix)
-    ? error.slice(errorPrefix.length).split(', ')
+    ? error.slice(errorPrefix.length).split(", ")
     : undefined;
 
 export const xjustizDatatype = <T extends z.ZodString>(
