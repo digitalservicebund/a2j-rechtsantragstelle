@@ -320,6 +320,14 @@ export const nachlassErbausschlagungAnfragePages = {
   abgabeZusammenfassung: {
     stepId: "/abgabe/zusammenfassung",
   },
+  abgabeBestaetigung: {
+    stepId: "/abgabe/bestaetigung",
+    pageSchema: {
+      persoenlichZumGerichtGehen: checkedRequired,
+      fristErbausschlagung: checkedRequired,
+      erbausschlagungDokument: checkedRequired,
+    },
+  },
   abgabeEnde: {
     stepId: "/abgabe/ende",
   },
