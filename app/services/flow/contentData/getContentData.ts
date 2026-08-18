@@ -122,8 +122,8 @@ export const getContentData = (
         cmsContent.content,
       );
     },
-    getFormElements: (flowId: FlowId) => {
-      return buildFormElements(cmsContent, userDataWithPageData, flowId);
+    getFormElements: () => {
+      return buildFormElements(cmsContent);
     },
     getTranslations: () => {
       return translations;
