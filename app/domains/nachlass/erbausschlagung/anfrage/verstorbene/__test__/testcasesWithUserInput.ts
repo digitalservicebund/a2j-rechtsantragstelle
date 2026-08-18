@@ -1,22 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
-
-const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
-  datenverarbeitungZustimmung: "on",
-  verstorbeneVorname: "Max",
-  verstorbeneNachname: "Mustermann",
-  verstorbeneGeburtsdatum: {
-    day: "01",
-    month: "01",
-    year: "1900",
-  },
-  verstorbeneSterbedatum: {
-    day: "01",
-    month: "01",
-    year: "2020",
-  },
-  verstorbeneLebensmittelpunkt: "deutschland",
-};
+import { happyPathData } from "../../__test__/testcaseData";
 
 export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
   {
