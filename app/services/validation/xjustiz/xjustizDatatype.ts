@@ -25,7 +25,6 @@ export const decodeInvalidCharacters = (error?: string | null) =>
     ? error.slice(errorPrefix.length).split(', ')
     : undefined;
 
-/** Restricts a string schema to the characters allowed by an xJustiz datatype. */
 export const xjustizDatatype = <T extends z.ZodString>(
   schema: T,
   datatype: keyof typeof parsers,
