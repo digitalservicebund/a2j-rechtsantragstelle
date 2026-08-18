@@ -24,7 +24,7 @@ import {
   type StrapiAutoSuggestComponent,
 } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
-import { useFlowContext } from "~/components/hooks/useFlowContext";
+import { useFlowLoaderDataContext } from "~/components/hooks/useFlowLoaderDataContext";
 import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
 
 const specialComponentDescriptions = [
@@ -157,7 +157,7 @@ export const renderSpecialMetaDescriptions = (
       );
     }
 
-    const { userData } = useFlowContext();
+    const { userData } = useFlowLoaderDataContext();
 
     const dataListArgument = getDataListArgumentToAutoSuggestionInput(
       fieldSchema,
