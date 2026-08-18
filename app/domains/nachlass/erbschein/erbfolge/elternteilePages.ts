@@ -2,14 +2,16 @@ import { z } from "zod";
 import {
   datenFields,
   hatteKinderField,
-  parentElternteilIndexSchema,
-  parentKindIndexSchema,
   personUnion,
 } from "./pageSchemaHelpers";
 import {
   type BaseElternteil,
   type BaseElternteilKind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import {
+  parentElternteilIndexSchema,
+  parentKindIndexSchema,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
 
 const elternteilKindSchema: z.ZodType<BaseElternteilKind> = z.lazy(() =>
   personUnion(elternteilKindSchema, {
