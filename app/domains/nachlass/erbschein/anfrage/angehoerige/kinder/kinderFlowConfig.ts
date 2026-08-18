@@ -1,21 +1,95 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { allDescendantsDead } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
+import {
+  type InferredUserData,
+  type TransitionConfigMap,
+} from "~/services/flow/newFlowEngine/types";
+import {
+  allDescendantsDead,
+  getEligibleKind,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { collectMissingChildrenNames } from "~/domains/nachlass/erbschein/shared/missingChildren";
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import { kinderRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+import {
+  kinderRequireFurtherGenerations,
+  MAX_SUPPORTED_DESCENDANT_DEPTH,
+} from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+
+type KinderLevelPageConfigs<D extends number> = Record<
+  `kind${D}Name`,
+  TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+> &
+  Record<
+    `kind${D}Geburtsdatum`,
+    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  > &
+  Record<
+    `kind${D}IsAlive`,
+    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  > &
+  Record<
+    `kind${D}Address`,
+    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  > &
+  Record<
+    `kind${D}Sterbedatum`,
+    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  > &
+  Record<
+    `kind${D}HatteKinder`,
+    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  >;
+
+const kinderGuard = (
+  guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
+) => guard;
+
+const kinderLevelPageConfigs = <D extends number>(depth: D) => {
+  return {
+    [`kind${depth}Name`]: `kind${depth}Geburtsdatum`,
+    [`kind${depth}Geburtsdatum`]: `kind${depth}IsAlive`,
+    [`kind${depth}IsAlive`]: [
+      {
+        guard: kinderGuard(
+          ({ kinder, pageData }) =>
+            getEligibleKind(kinder, pageData?.arrayIndexes, depth)?.isAlive ===
+            "no",
+        ),
+        target: `kind${depth}Sterbedatum`,
+      },
+      {
+        target: `kind${depth}Address`,
+      },
+    ],
+    [`kind${depth}Address`]: `kindSummary`,
+    [`kind${depth}Sterbedatum`]: `kind${depth}HatteKinder`,
+    [`kind${depth}HatteKinder`]: [
+      {
+        ...(depth >= MAX_SUPPORTED_DESCENDANT_DEPTH
+          ? // No deeper array level exists here, and evaluateRoute ignores guards
+            // on addArrayItem, so the depth limit must be a plain transition.
+            { target: "angehoerigeOverview" }
+          : { target: `kind${depth + 1}Name`, type: "addArrayItem" }),
+        guard: kinderGuard(({ kinder, pageData }) => {
+          const kind = getEligibleKind(kinder, pageData?.arrayIndexes, depth);
+          return kind?.isAlive === "no" && kind.hatteKinder === "yes";
+        }),
+      },
+      { target: `kindSummary` },
+    ],
+  } as KinderLevelPageConfigs<D>;
+};
 
 export const kinderFlowConfig = {
   hatteKinder: [
     {
       guard: ({ hatteKinder }) => hatteKinder === "yes",
-      target: "kind1Summary",
+      target: "kindSummary",
     },
     {
       target: "grundbesitz",
     },
   ],
   kinderFehlen: null,
-  kind1Summary: [
+  kindSummary: [
     { target: "kind1Name", type: "addArrayItem" },
     {
       // Checked first: a depth-5 dead person with hatteKinder="yes" can never
@@ -52,216 +126,9 @@ export const kinderFlowConfig = {
     },
     { target: "grundbesitz" },
   ],
-  kind1Name: "kind1Geburtsdatum",
-  kind1Geburtsdatum: "kind1IsAlive",
-  kind1IsAlive: [
-    {
-      guard: ({ kinder, pageData }) => {
-        const arrayIndexes = pageData?.arrayIndexes;
-        if (!kinder || !arrayIndexes || arrayIndexes.length < 1) return false;
-        if (kinder.length <= arrayIndexes[0]) return false;
-        return kinder[arrayIndexes[0]].isAlive === "no";
-      },
-      target: "kind1Sterbedatum",
-    },
-    {
-      target: "kind1Address",
-    },
-  ],
-  kind1Address: "kind1Summary",
-  kind1Sterbedatum: "kind1HatteKinder",
-  kind1HatteKinder: [
-    {
-      target: null, // FIXME: go to deeper kind
-      type: "addArrayItem",
-      guard: ({ kinder, pageData }) => {
-        const arrayIndexes = pageData?.arrayIndexes;
-        if (!kinder || !arrayIndexes || arrayIndexes.length < 1) return false;
-        if (kinder.length <= arrayIndexes[0]) return false;
-        const kind = kinder[arrayIndexes[0]];
-        if (kind.isAlive !== "no") return false;
-        return kind.hatteKinder === "yes";
-      },
-    },
-    { target: "kind1Summary", guard: () => true },
-  ],
-  // kind2Name: [
-  //   {
-  //     target: "kind2HatteKinder",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       return kind1.kinder[arrayIndexes[1]].isAlive === "no";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind2HatteKinder: [
-  //   {
-  //     target: "kind3Name",
-  //     type: "addArrayItem",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 2) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no") return false;
-  //       return kind2.hatteKinder === "yes";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind3Name: [
-  //   {
-  //     target: "kind3HatteKinder",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       return kind2.kinder[arrayIndexes[2]].isAlive === "no";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind3HatteKinder: [
-  //   {
-  //     target: "kind4Name",
-  //     type: "addArrayItem",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 3) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       const kind3 = kind2.kinder[arrayIndexes[2]];
-  //       if (kind3.isAlive !== "no") return false;
-  //       return kind3.hatteKinder === "yes";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind4Name: [
-  //   {
-  //     target: "kind4HatteKinder",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       const kind3 = kind2.kinder[arrayIndexes[2]];
-  //       if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-  //       if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
-  //         return false;
-  //       return kind3.kinder[arrayIndexes[3]].isAlive === "no";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind4HatteKinder: [
-  //   {
-  //     target: "kind5Name",
-  //     type: "addArrayItem",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 4) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       const kind3 = kind2.kinder[arrayIndexes[2]];
-  //       if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-  //       if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
-  //         return false;
-  //       const kind4 = kind3.kinder[arrayIndexes[3]];
-  //       if (kind4.isAlive !== "no") return false;
-  //       return kind4.hatteKinder === "yes";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind5Name: [
-  //   {
-  //     target: "kind5HatteKinder",
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 5) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       const kind3 = kind2.kinder[arrayIndexes[2]];
-  //       if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-  //       if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
-  //         return false;
-  //       const kind4 = kind3.kinder[arrayIndexes[3]];
-  //       if (kind4.isAlive !== "no" || kind4.hatteKinder !== "yes") return false;
-  //       if (!kind4.kinder || kind4.kinder.length <= arrayIndexes[4])
-  //         return false;
-  //       return kind4.kinder[arrayIndexes[4]].isAlive === "no";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
-  // kind5HatteKinder: [
-  //   {
-  //     target: null, // FIXME: move to "weitereAngehoerige"
-  //     guard: ({ kinder, pageData }) => {
-  //       const arrayIndexes = pageData?.arrayIndexes;
-  //       if (!kinder || !arrayIndexes || arrayIndexes.length < 5) return false;
-  //       const kind1 = kinder[arrayIndexes[0]];
-  //       if (kind1.isAlive !== "no" || kind1.hatteKinder !== "yes") return false;
-  //       if (!kind1.kinder || kind1.kinder.length <= arrayIndexes[1])
-  //         return false;
-  //       const kind2 = kind1.kinder[arrayIndexes[1]];
-  //       if (kind2.isAlive !== "no" || kind2.hatteKinder !== "yes") return false;
-  //       if (!kind2.kinder || kind2.kinder.length <= arrayIndexes[2])
-  //         return false;
-  //       const kind3 = kind2.kinder[arrayIndexes[2]];
-  //       if (kind3.isAlive !== "no" || kind3.hatteKinder !== "yes") return false;
-  //       if (!kind3.kinder || kind3.kinder.length <= arrayIndexes[3])
-  //         return false;
-  //       const kind4 = kind3.kinder[arrayIndexes[3]];
-  //       if (kind4.isAlive !== "no" || kind4.hatteKinder !== "yes") return false;
-  //       if (!kind4.kinder || kind4.kinder.length <= arrayIndexes[4])
-  //         return false;
-  //       const kind5 = kind4.kinder[arrayIndexes[4]];
-  //       if (kind5.isAlive !== "no") return false;
-  //       return kind5.hatteKinder === "yes";
-  //     },
-  //   },
-  //   { target: "kind1Summary", guard: () => true },
-  // ],
+  ...kinderLevelPageConfigs(1),
+  ...kinderLevelPageConfigs(2),
+  ...kinderLevelPageConfigs(3),
+  ...kinderLevelPageConfigs(4),
+  ...kinderLevelPageConfigs(5),
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

@@ -81,7 +81,7 @@ export const kinderPages = {
   kinderFehlen: {
     stepId: "/angehoerige/kinder-fehlen",
   },
-  kind1Summary: {
+  kindSummary: {
     stepId: "/angehoerige/kinder",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
@@ -91,4 +91,8 @@ export const kinderPages = {
     },
   },
   ...kinderLevelPages(1),
+  ...kinderLevelPages(2),
+  ...kinderLevelPages(3),
+  ...kinderLevelPages(4),
+  ...kinderLevelPages(5),
 } as const satisfies PageConfigMap;
