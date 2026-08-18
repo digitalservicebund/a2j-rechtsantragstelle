@@ -52,9 +52,9 @@ export const nachlassErbscheinNachlassgerichtPages = {
     stepId: "strasse-hausnummer",
     pageSchema: {
       strasse: autoSuggestStreetNames([
-        "plz-pflegeheim",
-        "plz-hospiz",
-        "plz-lebensmittelpunkt",
+        "plzPflegeheim",
+        "plzHospiz",
+        "plzLebensmittelpunkt",
       ]),
       houseNumber: germanHouseNumberSchema,
     },
