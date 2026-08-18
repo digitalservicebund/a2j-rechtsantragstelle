@@ -85,7 +85,7 @@ export const loadFormularData = async <
 
   const translations = contentData.getTranslations();
   const cmsContent = contentData.getCMSContent();
-  const formElements = contentData.getFormElements(flowId);
+  const formElements = contentData.getFormElements();
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigationNewEngine(
     flowId,
