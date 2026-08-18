@@ -48,6 +48,7 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
 
   return data({
     flowId,
+    userData,
     stepData,
     cmsContent,
     formElements,
