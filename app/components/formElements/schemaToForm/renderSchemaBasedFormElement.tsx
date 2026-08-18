@@ -68,6 +68,8 @@ export const renderSpecialMetaDescriptions = (
   matchingElement?: StrapiFormComponent,
   dynamicOptions?: DynamicOptions,
 ) => {
+  const { userData } = useFlowLoaderDataContext();
+
   if (description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
@@ -156,8 +158,6 @@ export const renderSpecialMetaDescriptions = (
         `AutoSuggestInput field ${fieldName} is missing a dataList type in the Zod schema.`,
       );
     }
-
-    const { userData } = useFlowLoaderDataContext();
 
     const dataListArgument = getDataListArgumentToAutoSuggestionInput(
       fieldSchema,
