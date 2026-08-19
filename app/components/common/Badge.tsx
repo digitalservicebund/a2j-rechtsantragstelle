@@ -11,8 +11,6 @@ type BadgeProps = {
 };
 
 export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
-  const iconClass = variant ? `kern-icon kern-icon--${variant}` : "kern-icon";
-
   return (
     <span
       className={classNames("kern-badge gap-kern-space-small", {
@@ -27,7 +25,19 @@ export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
           : undefined
       }
     >
-      {icon && <Icon name={icon} className={iconClass} aria-hidden />}
+      {icon && (
+        <Icon
+          name={icon}
+          className={classNames("kern-icon", {
+            [`kern-icon--${variant}`]: variant,
+            "fill-kern-feedback-warning": variant === "warning",
+            "fill-kern-feedback-danger": variant === "danger",
+            "fill-kern-feedback-success": variant === "success",
+            "fill-kern-feedback-info": variant === "info",
+          })}
+          aria-hidden
+        />
+      )}
       <span className="kern-label--small pt-0!">{children}</span>
     </span>
   );
