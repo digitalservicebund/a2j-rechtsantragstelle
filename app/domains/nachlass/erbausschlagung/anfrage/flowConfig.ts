@@ -28,7 +28,16 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
         target: "abgabeZusammenfassung",
       },
     ],
-    abgabeZusammenfassung: "abgabeEnde",
+    abgabeZusammenfassung: "abgabeBestaetigung",
+    abgabeBestaetigung: [
+      {
+        guard: (data) =>
+          data.erbausschlagungImGerichtErscheinen === "on" &&
+          data.erbausschalgungSechsWochenFrist === "on" &&
+          data.erbausschlagungDokumentKeinErsatz === "on",
+        target: "abgabeEnde",
+      },
+    ],
     abgabeEnde: null,
   },
   pruningStrategy: "cascading",
