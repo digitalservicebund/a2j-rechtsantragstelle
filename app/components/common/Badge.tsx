@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { Icon } from "./Icon";
 import type { IconName } from "./utils";
 
@@ -10,14 +11,13 @@ type BadgeProps = {
 };
 
 export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
-  const badgeClass = variant
-    ? `kern-badge kern-badge--${variant}`
-    : "kern-badge";
   const iconClass = variant ? `kern-icon kern-icon--${variant}` : "kern-icon";
 
   return (
     <span
-      className={badgeClass}
+      className={classNames("kern-badge gap-kern-space-small", {
+        [`kern-badge--${variant}`]: variant,
+      })}
       style={
         !variant
           ? {
@@ -28,7 +28,7 @@ export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
       }
     >
       {icon && <Icon name={icon} className={iconClass} aria-hidden />}
-      <span className="kern-label">{children}</span>
+      <span className="kern-label--small pt-0!">{children}</span>
     </span>
   );
 }

@@ -559,7 +559,7 @@ export const translations = {
       de: "und so weiter",
     },
     begruendungBeschreibungBeweisePersonNotFilled: {
-      de: "Unvollständige Angaben",
+      de: "Fehlende Angaben",
     },
   },
 } satisfies TranslationRecord;
