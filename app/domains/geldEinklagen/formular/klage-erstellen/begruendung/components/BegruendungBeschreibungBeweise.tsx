@@ -72,10 +72,7 @@ export const BegruendungBeschreibungBeweise = ({
             disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
             aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
             iconLeft={
-              <Icon
-                name={"local-library"}
-                className="fill-kern-action-default!"
-              />
+              <Icon name={"person"} className="fill-kern-action-default!" />
             }
           >
             {

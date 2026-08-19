@@ -180,7 +180,7 @@ export const BegruendungBeschreibungBeweisItems = ({
           return (
             <BeweisItemRow
               key={editPersonUrl}
-              icon="local-library"
+              icon="person"
               className="border-b border-kern-border-default"
               content={renderPersonItem(person)}
               buttons={renderItemButtons(
