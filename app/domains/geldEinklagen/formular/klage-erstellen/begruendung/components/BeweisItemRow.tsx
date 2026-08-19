@@ -21,9 +21,7 @@ export const BeweisItemRow = ({ icon, content, buttons, className }: Props) => (
       {content}
     </div>
     {buttons && (
-      <div className="flex items-center gap-kern-space-small shrink-0">
-        {buttons}
-      </div>
+      <div className="flex items-center gap-24 shrink-0">{buttons}</div>
     )}
   </div>
 );

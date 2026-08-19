@@ -148,7 +148,7 @@ export const BegruendungBeschreibungBeweisItems = ({
             <BeweisItemRow
               key={editDocumentUrl}
               icon="draft"
-              className="border-b border-kern-border-default"
+              className="border-b border-kern-neutral-200"
               content={
                 <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
                   {dokument.beschreibung}

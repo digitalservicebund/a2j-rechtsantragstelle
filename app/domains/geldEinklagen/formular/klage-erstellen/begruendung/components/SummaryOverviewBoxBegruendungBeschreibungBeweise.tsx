@@ -65,7 +65,7 @@ const renderItems = (userData: UserData) => {
           return (
             <BeweisItemRow
               key={personKey}
-              icon="local-library"
+              icon="person"
               content={renderPersonItem(
                 person as Exclude<
                   BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"],

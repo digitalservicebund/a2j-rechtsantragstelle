@@ -53,6 +53,7 @@ export const BegruendungBeschreibungBeweise = ({
           <Button
             href={addDocumentUrl}
             look="secondary"
+            className="text-wrap"
             fullWidth
             disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
             aria-disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
@@ -68,6 +69,7 @@ export const BegruendungBeschreibungBeweise = ({
           <Button
             href={addPersonUrl}
             look="secondary"
+            className="text-wrap"
             fullWidth
             disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
             aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
