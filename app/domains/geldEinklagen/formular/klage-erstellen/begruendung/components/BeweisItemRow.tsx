@@ -6,17 +6,29 @@ type Props = {
   icon: IconName;
   content: React.ReactNode;
   buttons?: React.ReactNode;
-  className?: string;
+  classNameParent?: string;
+  classNameChild?: string;
 };
 
-export const BeweisItemRow = ({ icon, content, buttons, className }: Props) => (
+export const BeweisItemRow = ({
+  icon,
+  content,
+  buttons,
+  classNameParent,
+  classNameChild,
+}: Props) => (
   <div
     className={classNames(
       "flex sm:flex-row sm:items-center flex-col gap-kern-space-default py-kern-space-default",
-      className,
+      classNameParent,
     )}
   >
-    <div className="flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0">
+    <div
+      className={classNames(
+        "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+        classNameChild,
+      )}
+    >
       <Icon name={icon} className="shrink-0" />
       {content}
     </div>

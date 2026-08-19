@@ -22,6 +22,23 @@ const editButtonLabelLowercase =
 const deleteButtonLabelLowercase =
   translations.arraySummary.arrayDeleteButtonLabel.de.toLowerCase();
 
+const hasPersonDetails = (
+  person: Exclude<Pick<Props, "personen">["personen"], undefined>[number],
+) => {
+  return (
+    person.personAuswahl === "anotherPerson" &&
+    objectKeysNonEmpty(person, [
+      "vorname",
+      "nachname",
+      "strasse",
+      "hausnummer",
+      "plz",
+      "ort",
+      "land",
+    ])
+  );
+};
+
 const renderArialLabelForDocumentItem = ({
   beschreibung,
 }: Exclude<Pick<Props, "dokumenten">["dokumenten"], undefined>[number]) => {
@@ -92,17 +109,7 @@ export const renderPersonItem = (
   >[number],
 ) => {
   if (person.personAuswahl === "anotherPerson") {
-    const hasPersonDetails = objectKeysNonEmpty(person, [
-      "vorname",
-      "nachname",
-      "strasse",
-      "hausnummer",
-      "plz",
-      "ort",
-      "land",
-    ]);
-
-    if (!hasPersonDetails) {
+    if (!hasPersonDetails(person)) {
       return (
         <Badge icon="warning" variant="warning">
           {
@@ -173,7 +180,7 @@ export const BegruendungBeschreibungBeweisItems = ({
             <BeweisItemRow
               key={editDocumentUrl}
               icon="draft"
-              className="border-b border-kern-neutral-200"
+              classNameParent="border-b border-kern-neutral-200"
               content={
                 <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
                   {dokument.beschreibung}
@@ -201,12 +208,14 @@ export const BegruendungBeschreibungBeweisItems = ({
             person.personAuswahl === "anotherPerson";
 
           const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/daten`;
+          const hasDetails = hasPersonDetails(person);
 
           return (
             <BeweisItemRow
               key={editPersonUrl}
               icon="person"
-              className="border-b border-kern-neutral-200"
+              classNameParent="border-b border-kern-neutral-200"
+              classNameChild={hasDetails ? "" : "sm:items-center!"}
               content={renderPersonItem(person)}
               buttons={renderItemButtons(
                 editPersonUrl,
