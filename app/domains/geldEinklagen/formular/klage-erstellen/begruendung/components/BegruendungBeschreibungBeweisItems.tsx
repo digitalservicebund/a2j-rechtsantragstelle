@@ -8,6 +8,7 @@ import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { Badge } from "~/components/common/Badge";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -89,6 +90,27 @@ export const renderPersonItem = (
   >[number],
 ) => {
   if (person.personAuswahl === "anotherPerson") {
+    const hasPersonDetails = objectKeysNonEmpty(person, [
+      "vorname",
+      "nachname",
+      "strasse",
+      "hausnummer",
+      "plz",
+      "ort",
+      "land",
+    ]);
+
+    if (!hasPersonDetails) {
+      return (
+        <Badge icon="warning" variant="warning">
+          {
+            translations.geldEinklagen
+              .begruendungBeschreibungBeweisePersonNotFilled.de
+          }
+        </Badge>
+      );
+    }
+
     const anrede = person.anrede === "none" ? "" : capitalize(person.anrede);
 
     return (

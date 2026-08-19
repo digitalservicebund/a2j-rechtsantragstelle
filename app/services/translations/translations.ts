@@ -558,5 +558,8 @@ export const translations = {
     begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix: {
       de: "und so weiter",
     },
+    begruendungBeschreibungBeweisePersonNotFilled: {
+      de: "Unvollständige Angaben",
+    },
   },
 } satisfies TranslationRecord;
