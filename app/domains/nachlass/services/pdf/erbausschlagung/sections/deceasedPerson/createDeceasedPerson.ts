@@ -3,6 +3,7 @@ import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addDeceasedPersonDetails } from "./addDeceasedPersonDetails";
 import { addDeceasedPersonLastStay } from "./addDeceasedPersonLastStay";
+import { addDeceasedPersonNotificationDetails } from "./addDeceasedPersonNotificationDetails";
 
 const TITLE = "I. Verstorbene Person / Erblasser";
 
@@ -29,6 +30,14 @@ export const createDeceasedPerson = (
   const deceasedPersonParagraph = doc.struct("P");
   addDeceasedPersonDetails(doc, deceasedPersonParagraph, userData);
   deceasedPersonSection.add(deceasedPersonParagraph);
+
+  const deceasedPersonNotificationParagraph = doc.struct("P");
+  addDeceasedPersonNotificationDetails(
+    doc,
+    deceasedPersonNotificationParagraph,
+    userData,
+  );
+  deceasedPersonSection.add(deceasedPersonNotificationParagraph);
 
   const deceasedPersonLastStaySection = doc.struct("Sect");
   addDeceasedPersonLastStay(doc, deceasedPersonLastStaySection, userData);

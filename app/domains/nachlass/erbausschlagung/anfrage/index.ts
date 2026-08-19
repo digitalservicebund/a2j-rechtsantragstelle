@@ -20,6 +20,7 @@ import {
   hasAnyAdultKids,
   hasAnyMinorKids,
   awarenessDate,
+  hasVerstorbeneNotification,
 } from "./stringReplacements";
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
@@ -48,5 +49,6 @@ export const nachlassErbausschlagungAnfrage = {
     ...awarenessDateGreaterThan6Weeks(context),
     ...awarenessDateGreater5WeeksLessThan6Weeks(context),
     ...erblasserOutsideGermany(context),
+    ...hasVerstorbeneNotification(context),
   }),
 } satisfies Flow<PageConfigMap>;
