@@ -41,9 +41,16 @@ export const addDeceasedPersonNotificationDetails = (
             userData.verstorbeneSterbedatum
               ? toDateString(userData.verstorbeneSterbedatum)
               : "",
-          )
-          .moveDown(1);
+          );
+        if (userData.anmerkungenSterbedatum) {
+          doc
+            .font(FONTS_BUNDESSANS_REGULAR)
+            .text("Anmerkung zum Sterbedatum: ", { continued: true })
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(userData.anmerkungenSterbedatum);
+        }
       }
+      doc.moveDown(1);
     }),
   );
 };

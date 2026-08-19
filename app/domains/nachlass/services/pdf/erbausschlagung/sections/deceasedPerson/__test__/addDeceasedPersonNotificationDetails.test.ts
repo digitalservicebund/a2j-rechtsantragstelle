@@ -58,4 +58,20 @@ describe("addDeceasedPersonNotificationDetails", () => {
     });
     expect(mockDoc.text).toHaveBeenCalledWith("01.01.2020");
   });
+
+  it("should add anmerkungenSterbedatum if provided", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    addDeceasedPersonNotificationDetails(mockDoc, mockStruct, {
+      ...userDataMock,
+      verstorbeneNotification: "no",
+      anmerkungenSterbedatum: "Anmerkungen zum Sterbedatum",
+    });
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Anmerkung zum Sterbedatum: ", {
+      continued: true,
+    });
+    expect(mockDoc.text).toHaveBeenCalledWith("Anmerkungen zum Sterbedatum");
+  });
 });
