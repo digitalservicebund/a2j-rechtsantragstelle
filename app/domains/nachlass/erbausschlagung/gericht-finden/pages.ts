@@ -24,7 +24,12 @@ export const nachlassErbausschlagungGerichtFindenPages = {
   strasseHausnummer: {
     stepId: "verschiedene-zustaendige-gerichte",
     pageSchema: {
-      strasse: autoSuggestStreetNames(["plz", "plzHospiz", "plzPflegeheim"]),
+      strasse: autoSuggestStreetNames([
+        "plzLebensmittelpunkt",
+        "plzHospiz",
+        "plzPflegeheim",
+        "plz",
+      ]),
       hausnummer: germanHouseNumberSchema,
     },
   },

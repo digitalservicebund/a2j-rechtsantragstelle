@@ -98,9 +98,9 @@ export const nachlassErbausschlagungAnfragePages = {
     stepId: "/verstorbene/adresse",
     pageSchema: {
       verstorbeneAdresseStrasse: autoSuggestStreetNames([
-        "plz",
-        "plzBeforeHospiz",
         "plzPflegeheim",
+        "plzBeforeHospiz",
+        "plzVerstorbene",
       ]),
       verstorbeneAdresseHausnummer: germanHouseNumberSchema,
       verstorbeneAdresseOrt: stringRequiredSchema,

@@ -138,9 +138,9 @@ export const verstorbenePersonPages = {
     stepId: "/verstorbene/adresse",
     pageSchema: {
       verstorbenePersonStrasse: autoSuggestStreetNames([
-        "verstorbenePlz",
-        "verstorbeneHospizPlz",
         "verstorbenePflegeheimPlz",
+        "verstorbeneHospizPlz",
+        "verstorbenePlz",
       ]),
       verstorbenePersonHausnummer: stringRequiredSchema,
       verstorbenePersonOrt: stringRequiredSchema,
