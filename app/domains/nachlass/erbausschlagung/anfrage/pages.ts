@@ -26,6 +26,15 @@ export const nachlassErbausschlagungAnfragePages = {
   start: {
     stepId: "/start/start",
   },
+  gerichtsterminBestaetigt: {
+    stepId: "/start/gerichtstermin-bestaetigt",
+    pageSchema: {
+      gerichtsterminBestaetigt: z.enum(["yes", "no"]),
+    },
+  },
+  gerichtsterminVereinbaren: {
+    stepId: "/start/gerichtstermin-vereinbaren",
+  },
   datenverarbeitung: {
     stepId: "/start/datenverarbeitung",
     pageSchema: {
