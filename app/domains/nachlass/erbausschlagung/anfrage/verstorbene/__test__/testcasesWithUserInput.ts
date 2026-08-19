@@ -35,6 +35,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
             month: "01",
             year: "2020",
           },
+          anmerkungenSterbedatum: "Anmerkungen zum Sterbedatum",
         },
       },
       {

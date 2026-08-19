@@ -78,6 +78,7 @@ export const nachlassErbausschlagungAnfragePages = {
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),
+      anmerkungenSterbedatum: stringOptionalSchema,
     },
   },
   verstorbeneLebensmittelpunkt: {
