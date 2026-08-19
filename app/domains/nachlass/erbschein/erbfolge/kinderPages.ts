@@ -3,10 +3,10 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   datenFields,
   hatteKinderField,
-  parentKindIndexSchema,
   personUnion,
 } from "./pageSchemaHelpers";
 import { type BaseKind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { parentKindIndexSchema } from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
 
 const kindSchema: z.ZodType<BaseKind> = z.lazy(() => personUnion(kindSchema));
 

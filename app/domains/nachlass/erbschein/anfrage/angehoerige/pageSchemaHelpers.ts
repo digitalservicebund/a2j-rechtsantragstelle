@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { parentKindIndexSchema } from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
-import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -10,18 +10,6 @@ const splitDateSchema = createSplitDateSchema({
   earliest: () => addYears(today(), -150),
   latest: () => today(),
 });
-
-const parentKindIndexSchema = z
-  .string()
-  .regex(/^\d+$/, { message: "required" })
-  .optional()
-  .describe(dynamicSelectZodDescription);
-
-const _parentElternteilIndexSchema = z
-  .string()
-  .regex(/^(\d+|both)$/, { message: "required" })
-  .optional()
-  .describe(dynamicSelectZodDescription);
 
 const commonPersonFields = {
   vorname: stringRequiredSchema,
