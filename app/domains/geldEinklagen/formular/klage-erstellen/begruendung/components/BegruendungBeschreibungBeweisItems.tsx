@@ -67,13 +67,14 @@ const renderItemButtons = (
     <Button
       href={editUrl}
       look="secondary"
+      className="w-full"
       aria-label={ariaLabel.editButtonLabel}
       iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
     />
     <Button
       type="button"
       look="secondary"
-      className="border-kern-feedback-danger!"
+      className="border-kern-feedback-danger! w-full"
       aria-label={ariaLabel.deleteButtonLabel}
       iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
       onClick={onDelete}

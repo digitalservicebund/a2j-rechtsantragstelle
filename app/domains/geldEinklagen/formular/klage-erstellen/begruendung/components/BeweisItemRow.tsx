@@ -12,11 +12,11 @@ type Props = {
 export const BeweisItemRow = ({ icon, content, buttons, className }: Props) => (
   <div
     className={classNames(
-      "flex md:flex-row flex-col gap-kern-space-default py-kern-space-default",
+      "flex sm:flex-row sm:items-center flex-col gap-kern-space-default py-kern-space-default",
       className,
     )}
   >
-    <div className="flex md:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0">
+    <div className="flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0">
       <Icon name={icon} className="shrink-0" />
       {content}
     </div>
