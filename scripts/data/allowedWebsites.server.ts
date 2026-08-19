@@ -79,9 +79,4 @@ export const allowedWebsites = [
   "https://www.online-mahnantrag.de",
   "https://www.handelsregister.de",
   "https://ds-a2j-strapi-media-storage.object.storage.eu01.onstackit.cloud",
-  "https://www.mahngerichte.de/verfahrenshilfen/kostenrechner/",
-  "https://www.online-mahnantrag.de/omahn/Mahnantrag?_ts=844118-1786992957400&Command=start",
-  "https://www.handelsregister.de/rp_web/welcome.xhtml",
-  "https://www.justizadressen.nrw.de/mahn/",
-  "https://www.mahngerichte.de/",
 ];

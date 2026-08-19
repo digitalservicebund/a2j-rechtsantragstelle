@@ -2,6 +2,7 @@ import { type FlowTestConfig } from "~/domains/__test__/TestCases";
 import { antragstellendePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/__test__/testCasesWithUserInput";
 import { ehepartnerTestCases } from "~/domains/nachlass/erbschein/anfrage/ehepartner/__test__/testCasesWithUserInput";
 import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { kinderTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/__test__/testCasesWithUserInput";
 import { nachlassTestCases } from "~/domains/nachlass/erbschein/anfrage/nachlass/__test__/testCasesWithUserInput";
 import { testamentOderErbvertragTestCases } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/__test__/testCasesWithUserInput";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
@@ -32,6 +33,7 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...antragstellendePersonTestCases,
     ...testamentOderErbvertragTestCases,
     ...ehepartnerTestCases,
+    ...kinderTestCases,
     // ...angehoerigeTestCases, TODO: uncomment when Erbfolge flow is fully integrated
     ...nachlassTestCases,
   },
