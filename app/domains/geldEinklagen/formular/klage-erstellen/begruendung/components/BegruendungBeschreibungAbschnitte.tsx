@@ -37,7 +37,7 @@ const BegruendungBeschreibungAbschnitte = ({
           {headingText}
         </h2>
       </div>
-      <div className="kern-summary__body bg-white!">
+      <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
         <div className="flex flex-col gap-kern-space-large">
           <span className="kern-body kern-body--default kern-body--bold p-0!">
             {translations.geldEinklagen.begruendungBeschreibungTitle.de}
