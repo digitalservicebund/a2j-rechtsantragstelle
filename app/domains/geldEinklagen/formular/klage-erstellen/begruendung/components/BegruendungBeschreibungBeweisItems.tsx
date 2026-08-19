@@ -63,12 +63,14 @@ const renderItemButtons = (
     editButtonLabel: string;
     deleteButtonLabel: string;
   },
+  shouldRenderEditButton = true,
 ) => (
   <>
     <Button
       href={editUrl}
       look="secondary"
       className="w-full"
+      hidden={!shouldRenderEditButton}
       aria-label={ariaLabel.editButtonLabel}
       iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
     />
@@ -195,10 +197,10 @@ export const BegruendungBeschreibungBeweisItems = ({
         personen.map((person, personIndex) => {
           const personItemIndex = String(personIndex);
 
-          const subPath =
-            person.personAuswahl === "anotherPerson" ? "daten" : "auswahl";
+          const shouldRenderEditButton =
+            person.personAuswahl === "anotherPerson";
 
-          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/${subPath}`;
+          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/daten`;
 
           return (
             <BeweisItemRow
@@ -215,6 +217,7 @@ export const BegruendungBeschreibungBeweisItems = ({
                     personIndex,
                   ),
                 renderArialLabelForPersonItem(person),
+                shouldRenderEditButton,
               )}
             />
           );

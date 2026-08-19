@@ -117,7 +117,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     );
   });
 
-  it("should render person with edit to auswahl when personAuswahl is not 'anotherPerson'", () => {
+  it("should not render edit button when personAuswahl is not 'anotherPerson'", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
@@ -133,10 +133,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    expect(queryByRole("link")).toHaveAttribute(
-      "href",
-      "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/auswahl",
-    );
+    expect(queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("should render correct text for klagende and beklagte personAuswahl", () => {
