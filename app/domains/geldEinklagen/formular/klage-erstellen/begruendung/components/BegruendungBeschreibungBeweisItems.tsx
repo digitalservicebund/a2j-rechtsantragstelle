@@ -181,7 +181,7 @@ export const BegruendungBeschreibungBeweisItems = ({
             <BeweisItemRow
               key={editPersonUrl}
               icon="person"
-              className="border-b border-kern-border-default"
+              className="border-b border-kern-neutral-200"
               content={renderPersonItem(person)}
               buttons={renderItemButtons(
                 editPersonUrl,
