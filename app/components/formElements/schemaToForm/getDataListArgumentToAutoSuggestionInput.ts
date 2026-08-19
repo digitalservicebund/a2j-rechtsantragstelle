@@ -1,10 +1,10 @@
-import { type z } from "zod";
+import { type ZodType } from "zod";
 import { type UserData } from "~/domains/userData";
 import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const getDataListArgumentToAutoSuggestionInput = (
-  fieldSchema: z.ZodType,
+  fieldSchema: ZodType,
   userData: UserData,
 ) => {
   const dataListType = fieldSchema.meta()?.type as DataListType;
