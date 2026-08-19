@@ -41,9 +41,9 @@ export const nachlassErbausschlagungAnfrageTestCases = {
       {
         stepId: "/abgabe/bestaetigung",
         userInput: {
-          persoenlichZumGerichtGehen: "on",
-          fristErbausschlagung: "on",
-          erbausschlagungDokument: "on",
+          erbausschlagungImGerichtErscheinen: "on",
+          erbausschalgungSechsWochenFrist: "on",
+          erbausschlagungDokumentKeinErsatz: "on",
         },
       },
       {

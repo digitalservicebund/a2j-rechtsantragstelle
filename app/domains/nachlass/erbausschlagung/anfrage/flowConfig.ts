@@ -32,9 +32,9 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
     abgabeBestaetigung: [
       {
         guard: (data) =>
-          data.persoenlichZumGerichtGehen === "on" &&
-          data.fristErbausschlagung === "on" &&
-          data.erbausschlagungDokument === "on",
+          data.erbausschlagungImGerichtErscheinen === "on" &&
+          data.erbausschalgungSechsWochenFrist === "on" &&
+          data.erbausschlagungDokumentKeinErsatz === "on",
         target: "abgabeEnde",
       },
     ],
@@ -42,3 +42,4 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;
+
