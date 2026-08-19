@@ -256,10 +256,10 @@ export const erblasserOutsideGermany = (
   };
 };
 
-export const verstorbeneNotification = (
+export const hasVerstorbeneNotification = (
   context: NachlassErbausschlagungAnfrageUserData,
 ) => {
   return {
-    verstorbeneNotification: context.verstorbeneNotification === "yes",
+    hasVerstorbeneNotification: context.verstorbeneNotification === "yes",
   };
 };
