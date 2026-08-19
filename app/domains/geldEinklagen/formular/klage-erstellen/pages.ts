@@ -17,8 +17,8 @@ import {
   stringRequiredSchema,
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
-import { xjustizDatatype } from "~/services/validation/xjustiz/xjustizDatatype";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { datatypeC } from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -137,10 +137,9 @@ export const geldEinklagenKlageErstellenPages = {
   sachverhaltBegruendung: {
     stepId: "klage-erstellen/sachverhalt/begruendung",
     pageSchema: {
-      sachverhaltBegruendung: xjustizDatatype(
-        stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
-        "C",
-      ),
+      sachverhaltBegruendung: stringRequiredMaxSchema({
+        max: TEXTAREA_MAX_LENGTH,
+      }).pipe(datatypeC),
     },
   },
   beweiseAngebot: {
