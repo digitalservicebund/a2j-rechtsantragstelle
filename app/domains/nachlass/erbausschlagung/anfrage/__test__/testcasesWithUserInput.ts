@@ -15,16 +15,13 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         stepId: "/start/start",
       },
       {
-        stepId: "/start/gerichtstermin-vorbereiten",
-      },
-      {
-        stepId: "/gerichtstermin-bestaetigt",
+        stepId: "/start/gerichtstermin-bestaetigt",
         userInput: {
           gerichtsterminBestaetigt: "yes",
         },
       },
       {
-        stepId: "/datenverarbeitung",
+        stepId: "/start/datenverarbeitung",
         userInput: {
           datenverarbeitungZustimmung: "on",
         },
@@ -38,16 +35,13 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         stepId: "/start/start",
       },
       {
-        stepId: "/start/gerichtstermin-vorbereiten",
-      },
-      {
-        stepId: "/gerichtstermin-bestaetigt",
+        stepId: "/start/gerichtstermin-bestaetigt",
         userInput: {
           gerichtsterminBestaetigt: "no",
         },
       },
       {
-        stepId: "/gerichtstermin-vereinbaren",
+        stepId: "/start/gerichtstermin-vereinbaren",
       },
     ],
     ...verstorbeneTestCases,

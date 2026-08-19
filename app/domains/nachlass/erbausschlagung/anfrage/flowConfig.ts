@@ -12,8 +12,7 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
   pages: nachlassErbausschlagungAnfragePages,
   initialStep: "start",
   transitions: {
-    start: "gerichtsterminVorbereiten",
-    gerichtsterminVorbereiten: "gerichtsterminBestaetigt",
+    start: "gerichtsterminBestaetigt",
     gerichtsterminBestaetigt: [
       {
         guard: (context) => context.gerichtsterminBestaetigt === "no",

@@ -26,24 +26,17 @@ export const nachlassErbausschlagungAnfragePages = {
   start: {
     stepId: "/start/start",
   },
-  gerichtsterminVorbereiten: {
-    stepId: "/start/gerichtstermin-vorbereiten",
-    shouldCollapseIntoParentNavItem: true,
-  },
   gerichtsterminBestaetigt: {
-    stepId: "/gerichtstermin-bestaetigt",
-    shouldCollapseIntoParentNavItem: true,
+    stepId: "/start/gerichtstermin-bestaetigt",
     pageSchema: {
       gerichtsterminBestaetigt: z.enum(["yes", "no"]),
     },
   },
   gerichtsterminVereinbaren: {
-    stepId: "/gerichtstermin-vereinbaren",
-    shouldCollapseIntoParentNavItem: true,
+    stepId: "/start/gerichtstermin-vereinbaren",
   },
   datenverarbeitung: {
-    stepId: "/datenverarbeitung",
-    shouldCollapseIntoParentNavItem: true,
+    stepId: "/start/datenverarbeitung",
     pageSchema: {
       datenverarbeitungZustimmung: checkedRequired,
     },
