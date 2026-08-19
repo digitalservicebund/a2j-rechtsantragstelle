@@ -1,3 +1,4 @@
+import { datatypeC } from "@digitalservicebund/a2j-xjustiz-converter/nachricht/zahlungsklage";
 import type { ExpectedStep, FlowTestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../../userData";
 
@@ -29,7 +30,7 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
-  sachverhaltBegruendung: "some reason",
+  sachverhaltBegruendung: datatypeC("some reason").value,
   beweiseAngebot: "no",
   forderungGesamtbetrag: "1000",
   pageData: {
