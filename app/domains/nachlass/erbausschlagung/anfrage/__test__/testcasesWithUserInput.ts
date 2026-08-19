@@ -15,6 +15,12 @@ export const nachlassErbausschlagungAnfrageTestCases = {
         stepId: "/start/start",
       },
       {
+        stepId: "/start/gerichtstermin-bestaetigt",
+        userInput: {
+          gerichtsterminBestaetigt: "yes",
+        },
+      },
+      {
         stepId: "/start/datenverarbeitung",
         userInput: {
           datenverarbeitungZustimmung: "on",
@@ -22,6 +28,20 @@ export const nachlassErbausschlagungAnfrageTestCases = {
       },
       {
         stepId: "/verstorbene/name",
+      },
+    ],
+    withoutGerichtstermin: [
+      {
+        stepId: "/start/start",
+      },
+      {
+        stepId: "/start/gerichtstermin-bestaetigt",
+        userInput: {
+          gerichtsterminBestaetigt: "no",
+        },
+      },
+      {
+        stepId: "/start/gerichtstermin-vereinbaren",
       },
     ],
     ...verstorbeneTestCases,
@@ -37,6 +57,14 @@ export const nachlassErbausschlagungAnfrageTestCases = {
       },
       {
         stepId: "/abgabe/zusammenfassung",
+      },
+      {
+        stepId: "/abgabe/bestaetigung",
+        userInput: {
+          erbausschlagungImGerichtErscheinen: "on",
+          erbausschalgungSechsWochenFrist: "on",
+          erbausschlagungDokumentKeinErsatz: "on",
+        },
       },
       {
         stepId: "/abgabe/ende",

@@ -1,4 +1,4 @@
-import { type NachlassErbausschlagungAnfrageKind } from "~/domains/nachlass/services/pdf/sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
+import { type NachlassErbausschlagungAnfrageKind } from "~/domains/nachlass/services/pdf/erbausschlagung/sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
 import { isKinderUebersichtFilled } from "../guards";
 
 describe("guards", () => {
