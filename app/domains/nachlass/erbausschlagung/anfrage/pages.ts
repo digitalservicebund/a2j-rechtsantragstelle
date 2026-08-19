@@ -40,6 +40,19 @@ export const nachlassErbausschlagungAnfragePages = {
       verstorbeneGeburtsname: stringOptionalSchema,
     },
   },
+  verstorbeneNotification: {
+    stepId: "/verstorbene/benachrichtigung",
+    pageSchema: {
+      verstorbeneNotification: z.enum(["yes", "no"]),
+    },
+  },
+  verstorbeneCase: {
+    stepId: "/verstorbene/fallbezug",
+    pageSchema: {
+      nachlassgericht: stringRequiredSchema,
+      aktenzeichen: stringRequiredSchema,
+    },
+  },
   verstorbeneGeburtsdatum: {
     stepId: "/verstorbene/geburtsdatum",
     pageSchema: {
