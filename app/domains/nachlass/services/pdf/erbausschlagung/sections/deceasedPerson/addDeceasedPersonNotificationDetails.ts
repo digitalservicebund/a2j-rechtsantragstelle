@@ -48,7 +48,6 @@ export const addDeceasedPersonNotificationDetails = (
             .text("Anmerkung zum Sterbedatum: ", { continued: true })
             .font(FONTS_BUNDESSANS_BOLD)
             .text(userData.anmerkungenSterbedatum)
-            .moveDown(1);
         }
       }
       doc.moveDown(1);
