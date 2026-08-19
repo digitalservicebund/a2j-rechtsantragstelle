@@ -107,4 +107,11 @@ export type ElternteilKind =
   | ElternteilKindDeceasedNoKids
   | ElternteilKindDeceasedWithKids;
 
+export type Elternteil =
+  | AlivePerson
+  | DeceasedPersonNoKids
+  | (Omit<DeceasedPersonWithKids, "kinder"> & {
+      kinder?: ElternteilKind[];
+    });
+
 // #endregion

@@ -120,7 +120,7 @@ export const kinderFlowConfig = {
         ]).length > 0,
     },
     {
-      target: null, // FIXME: redirect to elternteil summary page
+      target: "elternteilSummary",
       guard: ({ kinder }) =>
         !!kinder && kinder.length > 0 && kinder.every(allDescendantsDead),
     },
