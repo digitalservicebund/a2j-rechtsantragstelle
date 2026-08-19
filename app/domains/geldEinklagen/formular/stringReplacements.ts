@@ -4,6 +4,7 @@ import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { arrayIsNonEmpty } from "~/util/array";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.gegenWenBeklagen === "person" };
@@ -155,4 +156,10 @@ export const hasBeklagtePersonStatePrefilled = (
 export const getArrayIndex = (context: GeldEinklagenFormularUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   return arrayIndex === undefined ? {} : { arrayIndex: String(arrayIndex + 1) };
+};
+
+export const hasZeroAbschnitte = (context: GeldEinklagenFormularUserData) => {
+  return {
+    hasZeroAbschnitte: !arrayIsNonEmpty(context.abschnitte),
+  };
 };

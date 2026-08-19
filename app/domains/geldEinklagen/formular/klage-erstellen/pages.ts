@@ -79,7 +79,7 @@ const beweisePersonenArray = z.array(
   ]),
 );
 
-const abschnitteArray = z.array(
+export const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredMaxSchema({ max: 12000 }),
     personIdAsBeklagte: personIdOnAbschnittSchema,

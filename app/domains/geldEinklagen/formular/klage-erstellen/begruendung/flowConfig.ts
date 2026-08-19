@@ -1,16 +1,19 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type GeldEinklagenKlageErstellenPages } from "../pages";
-import { arrayIsNonEmpty } from "~/util/array";
+import {
+  abschnitteArray,
+  type GeldEinklagenKlageErstellenPages,
+} from "../pages";
 
 export const klageErstellenBegruendungFlowConfig = {
   begruendungEinfuehrungStart: "begruendungBeschreibungUebersicht",
   begruendungBeschreibungUebersicht: [
     { type: "addArrayItem", target: "begruendungBeschreibungAbschnitte" },
     {
-      guard: (context) => arrayIsNonEmpty(context.abschnitte),
-      target: "prozessfuehrungAnwaltskosten",
+      guard: (context) =>
+        !abschnitteArray.safeParse(context.abschnitte).success,
+      target: "begruendungBeschreibungWarnung",
     },
-    { target: "begruendungBeschreibungWarnung" },
+    { target: "prozessfuehrungAnwaltskosten" },
   ],
   begruendungBeschreibungWarnung: null,
   begruendungBeschreibungAbschnitte: [
