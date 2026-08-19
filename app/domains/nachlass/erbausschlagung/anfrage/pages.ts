@@ -26,6 +26,15 @@ export const nachlassErbausschlagungAnfragePages = {
   start: {
     stepId: "/start/start",
   },
+  gerichtsterminBestaetigt: {
+    stepId: "/start/gerichtstermin-bestaetigt",
+    pageSchema: {
+      gerichtsterminBestaetigt: z.enum(["yes", "no"]),
+    },
+  },
+  gerichtsterminVereinbaren: {
+    stepId: "/start/gerichtstermin-vereinbaren",
+  },
   datenverarbeitung: {
     stepId: "/start/datenverarbeitung",
     pageSchema: {
@@ -38,6 +47,19 @@ export const nachlassErbausschlagungAnfragePages = {
       verstorbeneVorname: stringRequiredSchema,
       verstorbeneNachname: stringRequiredSchema,
       verstorbeneGeburtsname: stringOptionalSchema,
+    },
+  },
+  verstorbeneNotification: {
+    stepId: "/verstorbene/benachrichtigung",
+    pageSchema: {
+      verstorbeneNotification: z.enum(["yes", "no"]),
+    },
+  },
+  verstorbeneCase: {
+    stepId: "/verstorbene/fallbezug",
+    pageSchema: {
+      nachlassgericht: stringRequiredSchema,
+      aktenzeichen: stringRequiredSchema,
     },
   },
   verstorbeneGeburtsdatum: {
@@ -324,6 +346,14 @@ export const nachlassErbausschlagungAnfragePages = {
   },
   abgabeZusammenfassung: {
     stepId: "/abgabe/zusammenfassung",
+  },
+  abgabeBestaetigung: {
+    stepId: "/abgabe/bestaetigung",
+    pageSchema: {
+      erbausschlagungImGerichtErscheinen: checkedRequired,
+      erbausschalgungSechsWochenFrist: checkedRequired,
+      erbausschlagungDokumentKeinErsatz: checkedRequired,
+    },
   },
   abgabeEnde: {
     stepId: "/abgabe/ende",
