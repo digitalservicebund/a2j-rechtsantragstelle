@@ -25,7 +25,7 @@ export default [
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
   ...prefix("nachlass", [
-    ...prefix("erbausschlagung/anfrage", flowRoutes("NAA")),
+    ...prefix("erbausschlagung/anfrage", newEngineFlowRoutes("NAA")),
     ...prefix(
       "erbausschlagung/gericht-finden",
       newEngineVorabcheckRoutes("NAGF"),
