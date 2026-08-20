@@ -3,7 +3,6 @@ import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySumm
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import { Icon } from "~/components/common/Icon";
-import { Badge } from "~/components/common/Badge";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
@@ -27,6 +26,7 @@ import {
   type ElternteilKind,
   type BaseDeceasedPersonWithKids,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { PersonSummaryItem } from "~/domains/nachlass/erbschein/shared/components/PersonSummaryItem";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -132,57 +132,6 @@ function DeleteButton({
   );
 }
 
-function PersonSummaryItem({
-  name,
-  isAlive,
-  hatteKinder,
-  badgeLabel,
-  actions,
-}: Readonly<{
-  name: string;
-  isAlive: string;
-  hatteKinder?: string;
-  badgeLabel?: string;
-  actions: React.ReactNode;
-}>) {
-  return (
-    <div className="kern-summary">
-      <div className="kern-summary__body bg-white!">
-        {badgeLabel && (
-          <div className="w-fit">
-            <Badge icon="group">{badgeLabel}</Badge>
-          </div>
-        )}
-        <dl className="kern-description-list">
-          <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">Name</dt>
-            <dd className="kern-description-list-item__value">{name}</dd>
-          </div>
-          <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">
-              Lebte zum Todeszeitpunkt?
-            </dt>
-            <dd className="kern-description-list-item__value">
-              {isAlive === "yes" ? "Ja" : "Nein"}
-            </dd>
-          </div>
-          {isAlive === "no" && (
-            <div className="kern-description-list-item">
-              <dt className="kern-description-list-item__key">
-                Hatte weitere Kinder?
-              </dt>
-              <dd className="kern-description-list-item__value">
-                {hatteKinder === "yes" ? "Ja" : "Nein"}
-              </dd>
-            </div>
-          )}
-        </dl>
-        {actions}
-      </div>
-    </div>
-  );
-}
-
 function InlineActions({
   editUrl,
   category,
@@ -277,11 +226,7 @@ function DescendantSection({
       {entries.map(({ item, indexes, badgeLabel }) => (
         <PersonSummaryItem
           key={indexes.join("-")}
-          name={personName(item)}
-          isAlive={String(item.isAlive ?? "yes")}
-          hatteKinder={
-            "hatteKinder" in item ? String(item.hatteKinder) : undefined
-          }
+          item={item}
           badgeLabel={badgeLabel}
           actions={
             <InlineActions
@@ -329,13 +274,7 @@ export function ElternteilSummary({
           return (
             <PersonSummaryItem
               key={editUrl}
-              name={personName(elternteil)}
-              isAlive={String(elternteil.isAlive ?? "yes")}
-              hatteKinder={
-                "hatteKinder" in elternteil
-                  ? String(elternteil.hatteKinder)
-                  : undefined
-              }
+              item={elternteil}
               badgeLabel={
                 deceasedPersonName
                   ? `Elternteil von ${deceasedPersonName}`

@@ -47,7 +47,7 @@ export const erbfolgeExtras: FlowExtras<ErbfolgeLoaderExtraData> = {
             deceasedPersonName={deceasedPersonName}
           />
         )}
-        {arraySummaryData && arraySummaryData.category !== "elternteile" && (
+        {arraySummaryData?.category === "kinder" && (
           <KinderSummary
             data={arraySummaryData.arrayData.data}
             configuration={arraySummaryData.arrayData.configuration}
