@@ -138,7 +138,7 @@ describe("getItemValueBox", () => {
 describe("extractFieldItemsFromInlineItems", () => {
   it("extracts fieldName and fieldValue pairs for simple and nested fields", () => {
     const userData: UserData = {
-      sachverhaltBegruendung: datatypeC("some reason").value,
+      sachverhaltBegruendung: datatypeC("Free text").value,
       weiterePersonen: { buchungsnummer: "ABCDEF10" },
     };
 
