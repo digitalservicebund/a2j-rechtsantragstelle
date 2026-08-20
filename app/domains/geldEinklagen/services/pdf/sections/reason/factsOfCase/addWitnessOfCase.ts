@@ -143,9 +143,13 @@ export const addWitnessOfCase = (
     (person) => person.personAuswahl === "anotherPerson",
   );
 
-  const personenWithParty = personen.filter(
-    (person) => person.personAuswahl !== "anotherPerson",
-  );
+  const personenWithParty = personen
+    .filter((person) => person.personAuswahl !== "anotherPerson")
+    .toSorted((a, b) => {
+      const aValue = a.personAuswahl === "klagende" ? 1 : 0;
+      const bValue = b.personAuswahl === "klagende" ? 1 : 0;
+      return aValue - bValue;
+    });
 
   addBulletedWitnessList(
     doc,
