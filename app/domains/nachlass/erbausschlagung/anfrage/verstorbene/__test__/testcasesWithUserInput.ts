@@ -12,6 +12,12 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
         },
       },
       {
+        stepId: "/verstorbene/benachrichtigung",
+        userInput: {
+          verstorbeneNotification: "no",
+        },
+      },
+      {
         stepId: "/verstorbene/geburtsdatum",
         userInput: {
           verstorbeneGeburtsdatum: {
@@ -29,10 +35,32 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
             month: "01",
             year: "2020",
           },
+          anmerkungenSterbedatum: "Anmerkungen zum Sterbedatum",
         },
       },
       {
         stepId: "/verstorbene/lebensmittelpunkt",
+      },
+    ],
+    verstobeneWithNotification: [
+      {
+        stepId: "/verstorbene/name",
+        userInput: {
+          ...happyPathData,
+        },
+      },
+      {
+        stepId: "/verstorbene/benachrichtigung",
+        userInput: {
+          verstorbeneNotification: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/fallbezug",
+        userInput: {
+          nachlassgericht: "1234567890",
+          aktenzeichen: "1234567890",
+        },
       },
     ],
     verstorbeneAusland: [

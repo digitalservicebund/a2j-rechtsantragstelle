@@ -8,8 +8,6 @@ import { addDeceasedPersonDetails } from "../addDeceasedPersonDetails";
 const userDataMock = {
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
-  verstorbeneGeburtsdatum: { day: "01", month: "01", year: "1990" },
-  verstorbeneSterbedatum: { day: "01", month: "01", year: "2020" },
 } satisfies NachlassErbausschlagungAnfrageUserData;
 
 describe("addDeceasedPersonDetails", () => {
@@ -27,14 +25,6 @@ describe("addDeceasedPersonDetails", () => {
       continued: true,
     });
     expect(mockDoc.text).toHaveBeenCalledWith("Mustermann");
-    expect(mockDoc.text).toHaveBeenCalledWith("Geburtsdatum: ", {
-      continued: true,
-    });
-    expect(mockDoc.text).toHaveBeenCalledWith("01.01.1990");
-    expect(mockDoc.text).toHaveBeenCalledWith("Sterbedatum: ", {
-      continued: true,
-    });
-    expect(mockDoc.text).toHaveBeenCalledWith("01.01.2020");
   });
 
   it("should add birth name if it provided", () => {

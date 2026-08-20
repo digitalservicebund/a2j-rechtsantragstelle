@@ -3,7 +3,17 @@ import { type NachlassErbausschlagungAnfragePages } from "../pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const verstorbenePersonFlowConfig = {
-  verstorbeneName: "verstorbeneGeburtsdatum",
+  verstorbeneName: "verstorbeneNotification",
+  verstorbeneNotification: [
+    {
+      guard: (data) => data.verstorbeneNotification === "yes",
+      target: "verstorbeneCase",
+    },
+    {
+      target: "verstorbeneGeburtsdatum",
+    },
+  ],
+  verstorbeneCase: "awarenessDate",
   verstorbeneGeburtsdatum: "verstorbeneSterbedatum",
   verstorbeneSterbedatum: "verstorbeneLebensmittelpunkt",
   verstorbeneLebensmittelpunkt: [
