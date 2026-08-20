@@ -9,6 +9,7 @@ import {
   getCourtCost,
   hasStreitbeilegungGruende,
   hasAnwaltschaft,
+  getAbschnitteWithInvalidAnotherPerson,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -311,6 +312,80 @@ describe("stringReplacement", () => {
       const actual = hasAnwaltschaft({ anwaltschaft: undefined });
 
       expect(actual.hasAnwaltschaft).toBe(false);
+    });
+  });
+
+  describe("getAbschnitteWithInvalidAnotherPerson", () => {
+    it("should return undefined if abschnitte is undefined", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: undefined,
+      };
+
+      const actual = getAbschnitteWithInvalidAnotherPerson(context);
+
+      expect(actual.abschnitteWithInvalidAnotherPerson).toBeUndefined();
+    });
+
+    it("should return the abschnitte indexes with invalid anotherPerson", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "Abschnitt 1",
+            personen: [
+              // @ts-ignore
+              {
+                personAuswahl: "anotherPerson",
+                personId: "123",
+                vorname: "",
+                nachname: "",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 2",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                personId: "123",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 3",
+            personen: [
+              {
+                personAuswahl: "beklagte",
+                personId: "123",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 4",
+            personen: [
+              // @ts-ignore
+              {
+                personAuswahl: "anotherPerson",
+                personId: "123",
+              },
+            ],
+          },
+        ],
+      };
+
+      const actual = getAbschnitteWithInvalidAnotherPerson(context);
+
+      expect(actual.abschnitteWithInvalidAnotherPerson).toBe("1, 4");
     });
   });
 });

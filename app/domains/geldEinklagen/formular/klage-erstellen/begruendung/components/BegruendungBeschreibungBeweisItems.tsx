@@ -22,7 +22,7 @@ const editButtonLabelLowercase =
 const deleteButtonLabelLowercase =
   translations.arraySummary.arrayDeleteButtonLabel.de.toLowerCase();
 
-const hasPersonDetails = (
+export const hasPersonDetails = (
   person: Exclude<Pick<Props, "personen">["personen"], undefined>[number],
 ) => {
   return (
