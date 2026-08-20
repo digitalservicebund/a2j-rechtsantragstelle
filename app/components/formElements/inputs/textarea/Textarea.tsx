@@ -85,7 +85,8 @@ const Textarea = ({
         aria-required={!!errorMessages?.find((err) => err.code === "required")}
       />
       <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === field.error())?.text ?? field.error()}
+        {errorMessages?.find((err) => err.code === field.error())?.text ??
+          field.error()}
       </InputError>
     </div>
   );

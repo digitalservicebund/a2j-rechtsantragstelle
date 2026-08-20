@@ -32,4 +32,6 @@ function convertStandardSchemaToZod<Input, Output>(
   });
 }
 
-export const datatypeC = convertStandardSchemaToZod(originalDatatypeC.customize({ invalidCharacters }))
+export const datatypeC = convertStandardSchemaToZod(
+  originalDatatypeC.customize({ invalidCharacters }),
+);
