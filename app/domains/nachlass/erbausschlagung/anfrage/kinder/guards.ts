@@ -56,19 +56,6 @@ export const hasKinderSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDat
     return kinderHasSorgerechtSameAddress === "no";
   };
 
-export const shouldBackSorgerechtAddress: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-
-    const optionSorgerecht = getOptionSorgerecht({ pageData, kinder });
-
-    return (
-      kinder?.at(arrayIndex)?.hasSorgerechtSameAddress === "no" &&
-      optionSorgerecht === "shared"
-    );
-  };
-
 export const getOptionSorgerecht = ({
   pageData,
   kinder,
