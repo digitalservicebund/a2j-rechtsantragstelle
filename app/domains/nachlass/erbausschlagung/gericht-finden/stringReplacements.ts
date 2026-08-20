@@ -32,6 +32,7 @@ export const getAmtsgerichtStrings = (
     courtOrt: court?.ORT,
     courtWebsite: court?.URL1,
     courtTelephone: court?.TEL,
+    courtTelephoneLink: court?.TEL?.replace(/\D/g, ""),
   };
 };
 
