@@ -3,7 +3,6 @@ import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySumm
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import { Icon } from "~/components/common/Icon";
-import { Badge } from "~/components/common/Badge";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
@@ -21,9 +20,8 @@ import {
   deceasedParentsNoticeTitle,
   descendantCategory,
 } from "./summaryTree";
-import { personName } from "../../shared/personName";
 import { type BaseDeceasedPersonWithKids } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { toDateString } from "~/services/validation/dateObject";
+import { PersonSummaryItem } from "~/domains/nachlass/erbschein/shared/components/PersonSummaryItem";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -92,99 +90,6 @@ function DeleteButton({
   );
 }
 
-function KindSummaryItem({
-  item,
-  badgeLabel,
-  actions,
-}: Readonly<{
-  item: PersonItem;
-  badgeLabel?: string;
-  actions: React.ReactNode;
-}>) {
-  return (
-    <div className="kern-summary">
-      <div className="kern-summary__body bg-white!">
-        {badgeLabel && (
-          <div className="w-fit">
-            <Badge icon="group">{badgeLabel}</Badge>
-          </div>
-        )}
-        <dl className="kern-description-list">
-          <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">Name</dt>
-            <dd className="kern-description-list-item__value">
-              {personName(item)}
-            </dd>
-          </div>
-          {"geburtsdatum" in item && (
-            <>
-              <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">
-                  Geburtsdatum
-                </dt>
-                <dd className="kern-description-list-item__value">
-                  {toDateString(item.geburtsdatum)}
-                </dd>
-              </div>
-              <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Geburtsort</dt>
-                <dd className="kern-description-list-item__value">
-                  {item.geburtsort}
-                </dd>
-              </div>
-            </>
-          )}
-          <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">
-              Lebte zum Todeszeitpunkt?
-            </dt>
-            <dd className="kern-description-list-item__value">
-              {item.isAlive === "yes" ? "Ja" : "Nein"}
-            </dd>
-          </div>
-          {"strasse" in item && (
-            <div className="kern-description-list-item">
-              <dt className="kern-description-list-item__key">Adresse</dt>
-              <dd className="kern-description-list-item__value">
-                {item.strasse} {item.hausnummer}
-                {item.adresszusatz ? ` ${item.adresszusatz}` : ""}, {item.plz}{" "}
-                {item.ort} ({item.land})
-              </dd>
-            </div>
-          )}
-          {"sterbedatum" in item && (
-            <>
-              <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Sterbedatum</dt>
-                <dd className="kern-description-list-item__value">
-                  {toDateString(item.sterbedatum)}
-                </dd>
-              </div>
-              <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Sterbeort</dt>
-                <dd className="kern-description-list-item__value">
-                  {item.sterbeort}
-                </dd>
-              </div>
-            </>
-          )}
-          {item.isAlive === "no" && (
-            <div className="kern-description-list-item">
-              <dt className="kern-description-list-item__key">
-                Hatte weitere Kinder?
-              </dt>
-              <dd className="kern-description-list-item__value">
-                {item.hatteKinder === "yes" ? "Ja" : "Nein"}
-              </dd>
-            </div>
-          )}
-        </dl>
-        {actions}
-      </div>
-    </div>
-  );
-}
-
 function DescendantRow({
   item,
   indexes,
@@ -206,7 +111,7 @@ function DescendantRow({
   const editUrl = buildEditUrl(baseUrl, indexes, initialInputUrl);
 
   return (
-    <KindSummaryItem
+    <PersonSummaryItem
       item={item}
       badgeLabel={badgeLabel}
       actions={
@@ -321,7 +226,7 @@ export function KinderSummary({
         {items.map((item, itemIndex) => {
           const editUrl = buildEditUrl(url, [itemIndex], initialInputUrl);
           return (
-            <KindSummaryItem
+            <PersonSummaryItem
               key={editUrl}
               item={item}
               badgeLabel={level1Badge}
