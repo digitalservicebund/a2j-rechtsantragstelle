@@ -43,18 +43,18 @@ export const createFactsOfCase = (
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(abschnitt.beschreibung, PDF_MARGIN_HORIZONTAL, undefined)
           .moveDown(1);
-
-        addDocumentsFactsOfCase(
-          doc,
-          factsOfCasesSect,
-          abschnitt.dokumenten,
-          currentDocumentIndex,
-        );
-        addWitnessOfCase(doc, factsOfCasesSect, abschnitt.personen);
-
-        currentDocumentIndex += abschnitt.dokumenten?.length ?? 0;
       }),
     );
+
+    addDocumentsFactsOfCase(
+      doc,
+      factsOfCasesSect,
+      abschnitt.dokumenten,
+      currentDocumentIndex,
+    );
+    addWitnessOfCase(doc, factsOfCasesSect, abschnitt.personen);
+
+    currentDocumentIndex += abschnitt.dokumenten?.length ?? 0;
   }
 
   doc.moveDown(1.5);
