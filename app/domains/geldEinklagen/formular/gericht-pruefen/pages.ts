@@ -1,6 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
@@ -128,7 +128,7 @@ export const geldEinklagenGerichtPruefenPages = {
   gerichtSuchenStrasseNummerBeklagtePerson: {
     stepId: "gericht-pruefen/gericht-suchen/strasse-nummer-beklagte-person",
     pageSchema: {
-      strasseBeklagte: autoSuggestStringRequiredSchema("streetNames"),
+      strasseBeklagte: autoSuggestStreetNames(["postleitzahlBeklagtePerson"]),
       strasseNummerBeklagte: germanHouseNumberSchema,
     },
   },
@@ -166,7 +166,7 @@ export const geldEinklagenGerichtPruefenPages = {
   gerichtSuchenStrasseNummer: {
     stepId: "gericht-pruefen/gericht-suchen/strasse-nummer",
     pageSchema: {
-      strasseSekundaer: autoSuggestStringRequiredSchema("streetNames"),
+      strasseSekundaer: autoSuggestStreetNames(["postleitzahlSecondary"]),
       strasseNummerSekundaer: germanHouseNumberSchema,
     },
   },

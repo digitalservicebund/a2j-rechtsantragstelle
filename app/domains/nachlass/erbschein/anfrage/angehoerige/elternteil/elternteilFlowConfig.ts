@@ -1,5 +1,14 @@
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+import {
+  elternteileRequireFurtherGenerations,
+  hasNoFirstOrSecondOrderHeirs,
+  MAX_SUPPORTED_DESCENDANT_DEPTH,
+} from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+import {
+  isDead,
+  isDeadWithKinder,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
+import { collectMissingChildrenNamesForElternteile } from "~/domains/nachlass/erbschein/shared/missingChildren";
 import {
   type InferredUserData,
   type TransitionConfigMap,
@@ -29,11 +38,7 @@ function elternteilKindAt(
   return node ?? null;
 }
 
-const _isDead = (node: DescendantNode | null) => node?.isAlive === "no";
-const _isDeadWithKinder = (node: DescendantNode | null) =>
-  node?.isAlive === "no" && node?.hatteKinder === "yes";
-
-type ElternteilKindLevelPageConfigs<D extends number> = Record<
+type ElternteilKindLevelTransitionConfigs<D extends number> = Record<
   `elternteilKind${D}Name`,
   TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
 > &
@@ -58,20 +63,22 @@ type ElternteilKindLevelPageConfigs<D extends number> = Record<
     TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
   >;
 
-const elternteilKindGuard = (
+const elternteilGuard = (
   guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
 ) => guard;
 
-// The daten / hatteKinder transitions for one sibling depth (1–4).
+// The pageConfigs for one sibling depth (1–4).
 // Same shape as the kinder line: descend while each node is a dead parent-with-kids,
 // otherwise fall back to the overview. Template-literal key types keep the keys known.
-const elternteilKindLevelPageConfigs = <Depth extends number>(depth: Depth) => {
+const elternteilKindLevelTransitionConfigs = <Depth extends number>(
+  depth: Depth,
+) => {
   return {
     [`elternteilKind${depth}Name`]: `elternteilKind${depth}Geburtsdatum`,
     [`elternteilKind${depth}Geburtsdatum`]: `elternteilKind${depth}IsAlive`,
     [`elternteilKind${depth}IsAlive`]: [
       {
-        guard: elternteilKindGuard(
+        guard: elternteilGuard(
           ({ elternteile, pageData }) =>
             elternteilKindAt(elternteile, pageData?.arrayIndexes, depth)
               ?.isAlive === "no",
@@ -91,7 +98,7 @@ const elternteilKindLevelPageConfigs = <Depth extends number>(depth: Depth) => {
             // on addArrayItem, so the depth limit must be a plain transition.
             { target: "angehoerigeOverview" }
           : { target: `elternteilKind${depth + 1}Name`, type: "addArrayItem" }),
-        guard: elternteilKindGuard(({ elternteile, pageData }) => {
+        guard: elternteilGuard(({ elternteile, pageData }) => {
           const kind = elternteilKindAt(
             elternteile,
             pageData?.arrayIndexes,
@@ -102,20 +109,66 @@ const elternteilKindLevelPageConfigs = <Depth extends number>(depth: Depth) => {
       },
       { target: `elternteilSummary` },
     ],
-  } as ElternteilKindLevelPageConfigs<Depth>;
+  } as ElternteilKindLevelTransitionConfigs<Depth>;
 };
 
 export const elternteilFlowConfig = {
-  elternteilSummary: null,
-  elternteilName: null,
-  elternteilGeburtsdatum: null,
-  elternteilIsAlive: null,
-  elternteilAddress: null,
-  elternteilSterbedatum: null,
-  elternteilHatteKinder: null,
-  ...elternteilKindLevelPageConfigs(1),
-  ...elternteilKindLevelPageConfigs(2),
-  ...elternteilKindLevelPageConfigs(3),
-  ...elternteilKindLevelPageConfigs(4),
-  ...elternteilKindLevelPageConfigs(5),
+  elternteilSummary: [
+    {
+      target: "elternteilName",
+      type: "addArrayItem",
+    },
+    {
+      // Checked first: a depth-5 dead person with hatteKinder="yes" can
+      // never have kinder filled in (no depth-6 UI exists), so it would
+      // otherwise always look like a "missing children" case below.
+      target: "angehoerigeOverview",
+      guard: elternteileRequireFurtherGenerations,
+    },
+    {
+      // Wrapping the deceased as the root of the tree catches both shapes at
+      // once: hatteKinder="yes" with an empty kinder array (nobody added at
+      // all), and any individual kind further down with the same problem.
+      target: "kinderFehlen",
+      guard: ({ elternteile }) =>
+        collectMissingChildrenNamesForElternteile(elternteile ?? []).length > 0,
+    },
+    {
+      target: "angehoerigeOverview",
+      guard: hasNoFirstOrSecondOrderHeirs,
+    },
+    { target: "grundbesitz" },
+  ],
+  elternteilName: "elternteilGeburtsdatum",
+  elternteilGeburtsdatum: "elternteilIsAlive",
+  elternteilIsAlive: [
+    {
+      guard: elternteilGuard(({ elternteile, pageData }) =>
+        isDead(elternteilKindAt(elternteile, pageData?.arrayIndexes, 0)),
+      ),
+      target: "elternteilSterbedatum",
+    },
+    {
+      target: "elternteilAddress",
+    },
+  ],
+  elternteilAddress: "elternteilSummary",
+  elternteilSterbedatum: "elternteilHatteKinder",
+  elternteilHatteKinder: [
+    {
+      target: "elternteilKind1Name",
+      type: "addArrayItem",
+      guard: elternteilGuard(({ elternteile, pageData }) =>
+        isDeadWithKinder(
+          elternteilKindAt(elternteile, pageData?.arrayIndexes, 0),
+        ),
+      ),
+    },
+    { target: "elternteilSummary" },
+  ],
+  ...elternteilKindLevelTransitionConfigs(1),
+  ...elternteilKindLevelTransitionConfigs(2),
+  ...elternteilKindLevelTransitionConfigs(3),
+  ...elternteilKindLevelTransitionConfigs(4),
+  ...elternteilKindLevelTransitionConfigs(5),
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

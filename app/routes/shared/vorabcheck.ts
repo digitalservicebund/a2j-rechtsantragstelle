@@ -37,7 +37,7 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   );
 
   const cmsContent = contentData.getCMSContent();
-  const formElements = contentData.getFormElements(flowId);
+  const formElements = contentData.getFormElements();
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigation(
     flowController,
@@ -48,6 +48,7 @@ export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
 
   return data({
     flowId,
+    userData,
     stepData,
     cmsContent,
     formElements,
