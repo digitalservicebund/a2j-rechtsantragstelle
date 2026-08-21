@@ -107,8 +107,8 @@ const SplitDateInput = ({
                 "kern-form-input__input--error": monthError,
               },
             )}
-            aria-invalid={monthError !== null}
-            aria-describedby={monthError ? errorId : undefined}
+            aria-invalid={monthHasError}
+            aria-describedby={monthHasError ? errorId : undefined}
           />
         </div>
 
@@ -130,8 +130,8 @@ const SplitDateInput = ({
                 "kern-form-input__input--error": yearError,
               },
             )}
-            aria-invalid={yearError !== null}
-            aria-describedby={yearError ? errorId : undefined}
+            aria-invalid={yearHasError}
+            aria-describedby={yearHasError ? errorId : undefined}
           />
         </div>
       </div>
