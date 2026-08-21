@@ -21,6 +21,14 @@ const SummarySection = ({
     }
   };
 
+  const getArrayItemTitle = (title: string, index: number) => {
+    if (title.startsWith("Kinder")) {
+      return `Kind ${index + 1}`;
+    }
+
+    return title;
+  };
+
   return (
     <div className="kern-accordion-group">
       <details
@@ -30,7 +38,7 @@ const SummarySection = ({
         onToggle={handleToggle}
       >
         <summary className="kern-accordion__header">
-          <span className="kern-title">{item.title}</span>
+          <h2 className="kern-title">{item.title}</h2>
         </summary>
         <section className="kern-accordion__body">
           {item.fields.map((field, index) => (
@@ -81,15 +89,22 @@ const SummarySection = ({
               className={`${groupIndex === 0 && item.fields.length === 0 ? "mt-16" : ""}`}
             >
               <div className="p-12 mb-8">
-                <h4 className="kern-label">{arrayGroup.title}</h4>
+                <h3 className="kern-label">{arrayGroup.title}</h3>
               </div>
-
               {arrayGroup.items.map((arrayItem, itemIndex) => (
                 <div
                   // oxlint-disable-next-line react/no-array-index-key
                   key={`array-item-${arrayGroup.id}-${itemIndex}`}
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
+                  <div className="p-12 mb-8">
+                    {/* This was added to display the title of the array item only for the "Kinder" group. */}
+                    {arrayGroup.title.startsWith("Kinder") && (
+                      <h4 className="kern-label">
+                        {getArrayItemTitle(arrayGroup.title, itemIndex)}
+                      </h4>
+                    )}
+                  </div>
                   {arrayItem.multipleQuestions ? (
                     arrayItem.multipleQuestions.map((qa) => (
                       <dl
