@@ -3,6 +3,9 @@ import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
+import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { arrayIsNonEmpty } from "~/util/array";
+import { hasPersonDetails } from "./klage-erstellen/begruendung/components/BegruendungBeschreibungBeweisItems";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.gegenWenBeklagen === "person" };
@@ -120,9 +123,10 @@ export const hasStreitbeilegungGruende = (
   };
 };
 
+// oxlint-disable-next-line no-unused-vars
 export const hasBeweiseAngebot = (context: GeldEinklagenFormularUserData) => {
   return {
-    hasBeweiseAngebot: context.beweiseAngebot === "yes",
+    hasBeweiseAngebot: false,
   };
 };
 
@@ -148,4 +152,37 @@ export const hasBeklagtePersonStatePrefilled = (
     hasBeklagtePersonStatePrefilled:
       context.beklagteStatePrefilled === "prefilled",
   };
+};
+
+export const getArrayIndex = (context: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  return arrayIndex === undefined ? {} : { arrayIndex: String(arrayIndex + 1) };
+};
+
+export const hasZeroAbschnitte = (context: GeldEinklagenFormularUserData) => {
+  return {
+    hasZeroAbschnitte: !arrayIsNonEmpty(context.abschnitte),
+  };
+};
+
+export const getAbschnitteWithInvalidAnotherPerson = ({
+  abschnitte,
+}: GeldEinklagenFormularUserData) => {
+  if (!arrayIsNonEmpty(abschnitte)) {
+    return {};
+  }
+
+  const invalidAbschnitte = abschnitte
+    .map((abschnitt, index) =>
+      abschnitt.personen?.some(
+        (person) =>
+          person.personAuswahl === "anotherPerson" && !hasPersonDetails(person),
+      )
+        ? String(index + 1)
+        : null,
+    )
+    .filter((abschnittIndex) => abschnittIndex !== null)
+    .join(", ");
+
+  return { abschnitteWithInvalidAnotherPerson: invalidAbschnitte };
 };

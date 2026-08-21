@@ -2,6 +2,7 @@ import type { UserData } from "~/domains/userData";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
+import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import {
   extractFieldItemsFromInlineItems,
   getItemValueBox,
@@ -15,6 +16,10 @@ type Props = SummaryOverviewBoxItemType & {
 };
 
 const SCROLLABLE_BOX_ROWS = 10;
+
+const isValueNumber = (value: string): boolean => {
+  return !Number.isNaN(parseCurrencyStringDE(value));
+};
 
 const SummaryValueOverflowContainer = ({
   children,
@@ -53,9 +58,10 @@ const SummaryOverviewBoxItem = ({
 
   const fieldItems = extractFieldItemsFromInlineItems(userData, inlineItems);
   const shouldAppendEuroWord = hasMoneyValidationSchema(pathname, fieldItems);
-  const itemValue = shouldAppendEuroWord
-    ? `${rawItemValue} ${staticTranslations.currency.euro.de}`
-    : rawItemValue;
+  const itemValue =
+    shouldAppendEuroWord && isValueNumber(rawItemValue)
+      ? `${rawItemValue} ${staticTranslations.currency.euro.de}`
+      : rawItemValue;
 
   return (
     <>

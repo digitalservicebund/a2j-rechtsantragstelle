@@ -16,6 +16,7 @@ import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+import { klageErstellenBegruendungFlowConfig } from "./klage-erstellen/begruendung/flowConfig";
 
 const geldEinklagenFormularPagesWithLeadingSlash = addLeadingSlashToPageSchemas(
   geldEinklagenFormularPages,
@@ -97,33 +98,10 @@ export const geldEinklagenFlowConfig = compileFlow({
       {
         guard: (context) =>
           objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
-        target: "sachverhaltBegruendung",
+        target: "begruendungEinfuehrungStart",
       },
     ],
-    sachverhaltBegruendung: [
-      {
-        guard: (context) =>
-          objectKeysNonEmpty(context, ["sachverhaltBegruendung"]),
-        target: "beweiseAngebot",
-      },
-    ],
-    beweiseAngebot: [
-      {
-        guard: (context) => context.beweiseAngebot === "yes",
-        target: "beweiseBeschreibung",
-      },
-      {
-        guard: (context) => context.beweiseAngebot === "no",
-        target: "prozessfuehrungAnwaltskosten",
-      },
-    ],
-    beweiseBeschreibung: [
-      {
-        guard: (context) =>
-          objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
-        target: "prozessfuehrungAnwaltskosten",
-      },
-    ],
+    ...klageErstellenBegruendungFlowConfig,
     ...klageErstellenProzessfuehrungFlowConfig,
     rechtlicherZusatzWeitereAntraege: "rechtlicherZusatzRechtlicheWuerdigung",
     rechtlicherZusatzRechtlicheWuerdigung: [
@@ -134,17 +112,18 @@ export const geldEinklagenFlowConfig = compileFlow({
         target: "zusammenfassungUebersicht",
       },
     ],
-    zusammenfassungUebersicht: [
+    zusammenfassungUebersicht: "versandVorbereitenKlageHerunterladenStart",
+    versandVorbereitenKlageHerunterladenStart: [
       {
         guard: (context) => context.anwaltschaft === "yes",
-        target: "klageHerunterladenIntroStartAnwaltschaft",
+        target: "versandVorbereitenKlageVersendenAnleitungAnwaltschaft",
       },
       {
-        target: "klageHerunterladenIntroStart",
+        target: "versandVorbereitenKlageVersendenAnleitung",
       },
     ],
-    klageHerunterladenIntroStartAnwaltschaft: null,
-    klageHerunterladenIntroStart: null,
+    versandVorbereitenKlageVersendenAnleitung: null,
+    versandVorbereitenKlageVersendenAnleitungAnwaltschaft: null,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

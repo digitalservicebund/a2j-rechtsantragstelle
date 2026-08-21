@@ -26,7 +26,6 @@ const baseContext: GeldEinklagenFormularUserData = {
   klagendePersonPlz: ZIP_CODE_PILOT_COURT,
   klagendePersonOrt: "klagendePersonOrt",
   forderungGesamtbetrag: "100.00",
-  sachverhaltBegruendung: "some reason",
   pageData: {
     subflowDoneStates: {
       "/klage-erstellen/klagende-person": true,
@@ -45,8 +44,6 @@ export const testCasesKlagenErstellenInitial = [
       beklagteTitle: "none",
       beklagteVorname: "beklagteVorname",
       beklagteNachname: "beklagteNachname",
-      beweiseAngebot: "yes",
-      beweiseBeschreibung: "some description",
     },
     [
       "/klage-erstellen/intro/start",
@@ -55,11 +52,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/mensch",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/sachverhalt/begruendung",
-      "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/beweise/beschreibung",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -73,8 +65,6 @@ export const testCasesKlagenErstellenInitial = [
         "beklagteGesetzlichenVertretungNachname",
       beklagteGesetzlichenVertretungAnrede: "herr",
       beklagteGesetzlichenVertretungTitle: "dr",
-      beweiseAngebot: "yes",
-      beweiseBeschreibung: "some description",
     },
     [
       "/klage-erstellen/intro/start",
@@ -83,11 +73,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/sachverhalt/begruendung",
-      "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/beweise/beschreibung",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -97,7 +82,6 @@ export const testCasesKlagenErstellenInitial = [
       beklagteTitle: "none",
       beklagteVorname: "beklagteVorname",
       beklagteNachname: "beklagteNachname",
-      beweiseAngebot: "no",
     },
     [
       "/klage-erstellen/intro/start",
@@ -106,10 +90,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/mensch",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/sachverhalt/begruendung",
-      "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -123,7 +103,6 @@ export const testCasesKlagenErstellenInitial = [
         "beklagteGesetzlichenVertretungNachname",
       beklagteGesetzlichenVertretungAnrede: "herr",
       beklagteGesetzlichenVertretungTitle: "dr",
-      beweiseAngebot: "no",
     },
     [
       "/klage-erstellen/intro/start",
@@ -132,10 +111,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/sachverhalt/begruendung",
-      "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
   [
@@ -160,7 +135,6 @@ export const testCasesKlagenErstellenInitial = [
         "beklagteGesetzlichenVertretungNachname",
       beklagteGesetzlichenVertretungAnrede: "herr",
       beklagteGesetzlichenVertretungTitle: "dr",
-      beweiseAngebot: "no",
     },
     [
       "/klage-erstellen/intro/start",
@@ -170,10 +144,6 @@ export const testCasesKlagenErstellenInitial = [
       "/klage-erstellen/klagende-person/kontaktdaten",
       "/klage-erstellen/beklagte-person/organisation",
       "/klage-erstellen/forderung/gesamtbetrag",
-      "/klage-erstellen/sachverhalt/begruendung",
-      "/klage-erstellen/beweise/angebot",
-      "/klage-erstellen/prozessfuehrung/anwaltskosten",
-      "/klage-erstellen/prozessfuehrung/prozesszinsen",
     ],
   ],
 ] as const satisfies TestCases<GeldEinklagenFormularUserData>;
