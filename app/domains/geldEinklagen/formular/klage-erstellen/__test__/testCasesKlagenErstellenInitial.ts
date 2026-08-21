@@ -1,4 +1,4 @@
-import { datatypeC } from "@digitalservicebund/a2j-xjustiz-converter/nachricht/zahlungsklage";
+import { datatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../userData";
 

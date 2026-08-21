@@ -15,9 +15,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1112.0
         version: 3.1112.0
-      '@digitalservicebund/a2j-xjustiz-converter':
-        specifier: ^0.4.1
-        version: 0.4.1
+      '@digitalservicebund/a2j-xjustiz-bridge':
+        specifier: ^0.6.0
+        version: 0.6.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
         version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.3)
@@ -671,10 +671,9 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@digitalservicebund/a2j-xjustiz-converter@0.4.1':
-    resolution: {integrity: sha512-dhus9c+aqGwkmi0ClNBwKU2Bz/JKV+DHf4Y8UtkrSITfaSOb9yrHGgqASpdTxVxUd/Y+lVQMsuTUQU1NwmUypA==}
+  '@digitalservicebund/a2j-xjustiz-bridge@0.6.0':
+    resolution: {integrity: sha512-VRndH+KQVlLE9N1yDHyKSXU8rfqQkniDiQlUwausIgyBPiOxyWCNimEJw2j0GEQ33KzByX+ORxQYzaVWjR2RDw==}
     engines: {node: 26.5.0, pnpm: 11.4.0}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0':
     resolution: {integrity: sha512-3Q4MVUd7nrlNyiVj4zImOGe/gStJwOxXgwB7n4yguxiyXrBB5lpwGSnqi1F+Ae6KB5M2olA/3muvAsuLd9WGkg==}
@@ -5685,7 +5684,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@digitalservicebund/a2j-xjustiz-converter@0.4.1':
+  '@digitalservicebund/a2j-xjustiz-bridge@0.6.0':
     dependencies:
       '@standard-schema/spec': 1.1.0
       ky: 2.0.2

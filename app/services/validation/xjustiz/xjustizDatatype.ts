@@ -1,4 +1,4 @@
-import { datatypeC as originalDatatypeC } from "@digitalservicebund/a2j-xjustiz-converter/nachricht/zahlungsklage";
+import { datatypeC as originalDatatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { z } from "zod";
 import { translations } from "~/services/translations/translations";
