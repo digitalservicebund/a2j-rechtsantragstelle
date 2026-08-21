@@ -14,3 +14,10 @@ export const autoSuggestSchema =
 
 export const autoSuggestStringRequiredSchema = (dataList: DataListType) =>
   autoSuggestSchema(stringRequiredSchema)(dataList);
+
+export const autoSuggestStreetNames = (zipCodeFieldNamesReference: string[]) =>
+  stringRequiredSchema.meta({
+    description: autoSuggestZodDescription,
+    type: "streetNames",
+    dataListArguments: zipCodeFieldNamesReference,
+  });

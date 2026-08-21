@@ -38,11 +38,7 @@ function elternteilKindAt(
   return node ?? null;
 }
 
-const _isDead = (node: DescendantNode | null) => node?.isAlive === "no";
-const _isDeadWithKinder = (node: DescendantNode | null) =>
-  node?.isAlive === "no" && node?.hatteKinder === "yes";
-
-type ElternteilKindLevelPageConfigs<D extends number> = Record<
+type ElternteilKindLevelTransitionConfigs<D extends number> = Record<
   `elternteilKind${D}Name`,
   TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
 > &
@@ -71,10 +67,12 @@ const elternteilGuard = (
   guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
 ) => guard;
 
-// The daten / hatteKinder transitions for one sibling depth (1–4).
+// The pageConfigs for one sibling depth (1–4).
 // Same shape as the kinder line: descend while each node is a dead parent-with-kids,
 // otherwise fall back to the overview. Template-literal key types keep the keys known.
-const elternteilKindLevelPageConfigs = <Depth extends number>(depth: Depth) => {
+const elternteilKindLevelTransitionConfigs = <Depth extends number>(
+  depth: Depth,
+) => {
   return {
     [`elternteilKind${depth}Name`]: `elternteilKind${depth}Geburtsdatum`,
     [`elternteilKind${depth}Geburtsdatum`]: `elternteilKind${depth}IsAlive`,
@@ -111,7 +109,7 @@ const elternteilKindLevelPageConfigs = <Depth extends number>(depth: Depth) => {
       },
       { target: `elternteilSummary` },
     ],
-  } as ElternteilKindLevelPageConfigs<Depth>;
+  } as ElternteilKindLevelTransitionConfigs<Depth>;
 };
 
 export const elternteilFlowConfig = {
@@ -168,9 +166,9 @@ export const elternteilFlowConfig = {
     },
     { target: "elternteilSummary" },
   ],
-  ...elternteilKindLevelPageConfigs(1),
-  ...elternteilKindLevelPageConfigs(2),
-  ...elternteilKindLevelPageConfigs(3),
-  ...elternteilKindLevelPageConfigs(4),
-  ...elternteilKindLevelPageConfigs(5),
+  ...elternteilKindLevelTransitionConfigs(1),
+  ...elternteilKindLevelTransitionConfigs(2),
+  ...elternteilKindLevelTransitionConfigs(3),
+  ...elternteilKindLevelTransitionConfigs(4),
+  ...elternteilKindLevelTransitionConfigs(5),
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

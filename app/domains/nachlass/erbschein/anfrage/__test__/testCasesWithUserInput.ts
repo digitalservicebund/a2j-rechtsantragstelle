@@ -10,6 +10,7 @@ import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbsch
 import { verstorbenePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/__test__/testCasesWithUserInput";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/__test__/testCasesWithUserInput";
 
 export const nachlassErbscheinAnfrageTestCases = {
   xstateConfig: {
@@ -36,7 +37,7 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...ehepartnerTestCases,
     ...kinderTestCases,
     ...elternteilTestCases,
-    // ...angehoerigeTestCases, TODO: uncomment when Erbfolge flow is fully integrated
+    ...angehoerigeTestCases,
     ...nachlassTestCases,
   },
 } satisfies FlowTestConfig<NachlassErbscheinAnfrageUserData>;

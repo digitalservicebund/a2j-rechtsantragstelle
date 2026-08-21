@@ -1,8 +1,9 @@
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import { missingChildrenReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
+import { nachlassErbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
 import { firstArrayIndex } from "~/services/flow/pageDataSchema";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
+import { type Replacements } from "~/util/applyStringReplacement";
 
 export const getVerstorbeneName = (
   context: NachlassErbscheinAnfrageUserData,
@@ -89,10 +90,25 @@ export const getAmtsgerichtStrings = (
   };
 };
 
+const angehoerigeName = (context: NachlassErbscheinAnfrageUserData) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  if (
+    arrayIndex === undefined ||
+    !context.angehoerige ||
+    arrayIndex > context.angehoerige.length + 1
+  )
+    return {};
+  if (arrayIndex < context.angehoerige.length)
+    return {
+      angehoerigeName: `${context.angehoerige?.[arrayIndex].vorname} ${context.angehoerige?.[arrayIndex].nachname}`,
+    };
+};
+
 export const getAngehoerigeStrings = (
   context: NachlassErbscheinAnfrageUserData,
-) => {
+): Replacements => {
   return {
-    ...missingChildrenReplacements(context),
+    ...angehoerigeName(context),
+    ...nachlassErbfolgeStringReplacements(context),
   };
 };

@@ -67,7 +67,7 @@ describe("kinder navigation at every supported depth", () => {
         pathAt(depth, "adresse"),
       );
       expect(sessionAt(depth, "adresse", living).nextPath).toBe(
-        "/angehoerige/kinder",
+        "/angehoerige/kinder/uebersicht",
       );
     },
   );
@@ -90,7 +90,7 @@ describe("kinder navigation at every supported depth", () => {
     (depth) => {
       const leaf = { ...deceased, hatteKinder: "no" };
       expect(sessionAt(depth, "hatte-kinder", leaf).nextPath).toBe(
-        "/angehoerige/kinder",
+        "/angehoerige/kinder/uebersicht",
       );
     },
   );
@@ -104,7 +104,7 @@ describe("kinder navigation at every supported depth", () => {
       const session = sessionAt(depth, "hatte-kinder", leaf);
 
       expect(session.nextArrayPath).toBe(pathAt(depth + 1, "name"));
-      expect(session.nextPath).toBe("/angehoerige/kinder");
+      expect(session.nextPath).toBe("/angehoerige/kinder/uebersicht");
     },
   );
 
