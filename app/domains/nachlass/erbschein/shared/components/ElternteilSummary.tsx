@@ -261,7 +261,8 @@ export function ElternteilSummary({
   configuration: ArrayConfigClient;
   deceasedPersonName?: string;
 }>) {
-  const { url, initialInputUrl } = configuration;
+  const { url: baseUrl, initialInputUrl } = configuration;
+  const url = baseUrl.replaceAll("/uebersicht", ""); // remove /uebersicht suffix for edit/add URLs
   const elternteile = data as PersonItem[];
 
   return (

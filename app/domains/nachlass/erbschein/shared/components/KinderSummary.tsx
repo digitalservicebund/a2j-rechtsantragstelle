@@ -214,7 +214,8 @@ export function KinderSummary({
   category: string;
   deceasedPersonName?: string;
 }>) {
-  const { url, initialInputUrl, disableAddButton } = configuration;
+  const { url: baseUrl, initialInputUrl, disableAddButton } = configuration;
+  const url = baseUrl.replaceAll("/uebersicht", ""); // remove /uebersicht suffix for edit/add URLs
   const items = data as PersonItem[];
   const level1Badge = badgeLabel(1, deceasedPersonName);
 
