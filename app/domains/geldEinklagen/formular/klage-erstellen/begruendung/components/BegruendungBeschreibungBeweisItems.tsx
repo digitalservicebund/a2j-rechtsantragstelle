@@ -114,7 +114,7 @@ export const renderPersonItem = (
         <Badge
           icon="warning"
           variant="warning"
-          className="py-kern-space-small! px-kern-space-default!"
+          className="py-kern-space-small! px-kern-space-default! border-2!"
         >
           {
             translations.geldEinklagen
