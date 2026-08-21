@@ -28,7 +28,6 @@ const SummarySection = ({
     }
   };
 
-
   return (
     <div className="kern-accordion-group">
       <details
