@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
+import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
@@ -120,7 +120,11 @@ export const nachlassErbausschlagungAnfragePages = {
   verstorbeneAdresse: {
     stepId: "/verstorbene/adresse",
     pageSchema: {
-      verstorbeneAdresseStrasse: autoSuggestStringRequiredSchema("streetNames"),
+      verstorbeneAdresseStrasse: autoSuggestStreetNames([
+        "plzPflegeheim",
+        "plzBeforeHospiz",
+        "plzVerstorbene",
+      ]),
       verstorbeneAdresseHausnummer: germanHouseNumberSchema,
       verstorbeneAdresseOrt: stringRequiredSchema,
       verstorbeneAdresseZusatz: stringOptionalSchema,
@@ -163,8 +167,9 @@ export const nachlassErbausschlagungAnfragePages = {
   ausschlagendePersonAdresse: {
     stepId: "/ausschlagende-person/adresse",
     pageSchema: {
-      ausschlagendePersonStrasse:
-        autoSuggestStringRequiredSchema("streetNames"),
+      ausschlagendePersonStrasse: autoSuggestStreetNames([
+        "ausschlagendePersonPlz",
+      ]),
       ausschlagendePersonHausnummer: germanHouseNumberSchema,
       ausschlagendePersonOrt: stringRequiredSchema,
       ausschlagendePersonZusatz: stringOptionalSchema,

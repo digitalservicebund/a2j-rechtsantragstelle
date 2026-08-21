@@ -331,5 +331,54 @@ describe("guards", () => {
         expect(actual).toBe(true);
       });
     });
+    describe("kid over 18 years old", () => {
+      it("should return true for an adult child living separately without an address", () => {
+        const actual = isKinderUebersichtFilled({
+          context: {
+            numberOfKids: 1,
+            kinder: [
+              {
+                vorname: "Max",
+                nachname: "Mustermann",
+                geburtsdatum: {
+                  day: "01",
+                  month: "01",
+                  year: new Date().getFullYear() - 30 + "",
+                },
+                wohnortBeiAntragsteller: "no",
+              },
+            ],
+          },
+        });
+
+        expect(actual).toBe(true);
+      });
+
+      it("should return true for an adult child living separately with a partially filled address", () => {
+        const actual = isKinderUebersichtFilled({
+          context: {
+            numberOfKids: 1,
+            kinder: [
+              {
+                vorname: "Max",
+                nachname: "Mustermann",
+                geburtsdatum: {
+                  day: "01",
+                  month: "01",
+                  year: new Date().getFullYear() - 30 + "",
+                },
+                wohnortBeiAntragsteller: "no",
+                strasse: "Musterstraße",
+                hausnummer: "",
+                plz: "",
+                ort: "",
+              },
+            ],
+          },
+        });
+
+        expect(actual).toBe(true);
+      });
+    });
   });
 });
