@@ -96,7 +96,7 @@ const SummarySection = ({
                   key={`array-item-${arrayGroup.id}-${itemIndex}`}
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
-                  <div className="p-12 mb-8">
+                  <div className="mb-8">
                     {/* This was added to display the title of the array item only for the "Kinder" group. */}
                     {arrayGroup.title.startsWith("Kinder") && (
                       <h4 className="kern-label">
