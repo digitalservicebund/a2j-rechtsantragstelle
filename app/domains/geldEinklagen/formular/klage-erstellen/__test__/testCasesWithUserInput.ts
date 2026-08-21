@@ -1,3 +1,4 @@
+import { datatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import type { ExpectedStep, FlowTestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../userData";
 
@@ -14,7 +15,7 @@ const baseContext: GeldEinklagenFormularUserData = {
   mietePachtRaum: "yes",
   postleitzahlSecondary: ZIP_CODE_PILOT_COURT,
   forderungGesamtbetrag: "100.00",
-  sachverhaltBegruendung: "some reason",
+  sachverhaltBegruendung: datatypeC("some reason").value,
   pageData: {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
@@ -91,7 +92,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/sachverhalt/begruendung",
         userInput: {
-          sachverhaltBegruendung: "some reason",
+          sachverhaltBegruendung: datatypeC("some reason").value,
         },
       },
       {
@@ -145,7 +146,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/sachverhalt/begruendung",
         userInput: {
-          sachverhaltBegruendung: "some reason",
+          sachverhaltBegruendung: datatypeC("some reason").value,
         },
       },
       {
@@ -194,7 +195,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/sachverhalt/begruendung",
         userInput: {
-          sachverhaltBegruendung: "some reason",
+          sachverhaltBegruendung: datatypeC("some reason").value,
         },
       },
       {
@@ -242,7 +243,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/sachverhalt/begruendung",
         userInput: {
-          sachverhaltBegruendung: "some reason",
+          sachverhaltBegruendung: datatypeC("some reason").value,
         },
       },
       {
@@ -311,7 +312,7 @@ export const testCasesWithUserInputKlagenErstellen: FlowTestCases<GeldEinklagenF
       {
         stepId: "/klage-erstellen/sachverhalt/begruendung",
         userInput: {
-          sachverhaltBegruendung: "some reason",
+          sachverhaltBegruendung: datatypeC("some reason").value,
         },
       },
       {

@@ -1,3 +1,4 @@
+import { datatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { describe, expect, test } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
@@ -137,7 +138,7 @@ describe("getItemValueBox", () => {
 describe("extractFieldItemsFromInlineItems", () => {
   it("extracts fieldName and fieldValue pairs for simple and nested fields", () => {
     const userData: UserData = {
-      sachverhaltBegruendung: "Free text",
+      sachverhaltBegruendung: datatypeC("Free text").value,
       weiterePersonen: { buchungsnummer: "ABCDEF10" },
     };
 

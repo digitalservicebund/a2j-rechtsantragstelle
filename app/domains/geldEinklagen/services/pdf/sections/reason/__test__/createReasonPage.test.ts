@@ -1,3 +1,4 @@
+import { datatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
@@ -35,7 +36,9 @@ describe("createReasonPage", () => {
   it("should call the addFactsOfCases for the legal assessment section", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct, { start: 2, count: 2 });
-    const userData = { sachverhaltBegruendung: "Mein Sachverhalt" };
+    const userData = {
+      sachverhaltBegruendung: datatypeC("Mein Sachverhalt").value,
+    };
 
     createReasonPage(mockDoc, mockStruct, userData);
 

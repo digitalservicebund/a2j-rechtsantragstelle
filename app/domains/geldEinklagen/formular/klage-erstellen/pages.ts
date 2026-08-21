@@ -18,6 +18,7 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { datatypeC } from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -138,7 +139,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       sachverhaltBegruendung: stringRequiredMaxSchema({
         max: TEXTAREA_MAX_LENGTH,
-      }),
+      }).pipe(datatypeC),
     },
   },
   beweiseAngebot: {
