@@ -44,6 +44,10 @@ const SplitDateInput = ({
   const yearError = yearField.error();
   const fieldError = dayError ?? monthError ?? yearError ?? dateError;
 
+  const dayHasError = dayError !== null || dateError !== null;
+  const monthHasError = monthError !== null;
+  const yearHasError = yearError !== null;
+
   const hasError = Boolean(fieldError);
   const errorId = `${name}-error`;
 
@@ -52,7 +56,6 @@ const SplitDateInput = ({
       className={classNames("kern-fieldset", {
         "kern-fieldset--error": hasError,
       })}
-      {...dateField.getControlProps()}
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div className="kern-hint">
@@ -79,8 +82,8 @@ const SplitDateInput = ({
                 "kern-form-input__input--error": dayError,
               },
             )}
-            aria-invalid={dayError !== null}
-            aria-describedby={dayError ? errorId : undefined}
+            aria-invalid={dayHasError}
+            aria-describedby={dayHasError ? errorId : undefined}
           />
         </div>
 
@@ -104,8 +107,8 @@ const SplitDateInput = ({
                 "kern-form-input__input--error": monthError,
               },
             )}
-            aria-invalid={monthError !== null}
-            aria-describedby={monthError ? errorId : undefined}
+            aria-invalid={monthHasError}
+            aria-describedby={monthHasError ? errorId : undefined}
           />
         </div>
 
@@ -127,8 +130,8 @@ const SplitDateInput = ({
                 "kern-form-input__input--error": yearError,
               },
             )}
-            aria-invalid={yearError !== null}
-            aria-describedby={yearError ? errorId : undefined}
+            aria-invalid={yearHasError}
+            aria-describedby={yearHasError ? errorId : undefined}
           />
         </div>
       </div>
