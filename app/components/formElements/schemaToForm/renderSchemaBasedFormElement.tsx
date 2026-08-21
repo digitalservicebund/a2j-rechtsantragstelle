@@ -24,6 +24,8 @@ import {
   type StrapiAutoSuggestComponent,
 } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
+import { useFlowLoaderDataContext } from "~/components/hooks/useFlowLoaderDataContext";
+import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -66,6 +68,8 @@ export const renderSpecialMetaDescriptions = (
   matchingElement?: StrapiFormComponent,
   dynamicOptions?: DynamicOptions,
 ) => {
+  const { userData } = useFlowLoaderDataContext();
+
   if (description === filesUploadZodDescription) {
     const filesUploadElement = matchingElement as z.infer<
       typeof StrapiFilesUploadComponentSchema
@@ -155,11 +159,17 @@ export const renderSpecialMetaDescriptions = (
       );
     }
 
+    const dataListArgument = getDataListArgumentToAutoSuggestionInput(
+      fieldSchema,
+      userData,
+    );
+
     return (
       <AutoSuggestInput
         {...autoSuggestElement}
         name={fieldName}
         dataList={dataListType}
+        dataListArgument={dataListArgument}
         key={fieldName}
       />
     );

@@ -27,6 +27,18 @@ const mockGetPageSchema = (pageSchema: any) => {
   vi.mocked(getPageSchema).mockReturnValue(pageSchema);
 };
 
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useLoaderData: () => ({
+      userData: {},
+      flowId: "flowId",
+    }),
+  };
+});
+
 function WrappedSchemaComponents(
   props: Readonly<Parameters<typeof SchemaComponents>[0]>,
 ) {
