@@ -2,6 +2,13 @@ import type { SummaryItem } from "~/services/summary/types";
 import { useRef } from "react";
 import { Icon } from "../../common/Icon";
 
+const getArrayItemTitle = (title: string, index: number) => {
+  if (title.startsWith("Kinder")) {
+    return `Kind ${index + 1}`;
+  }
+
+  return title;
+};
 const SummarySection = ({
   item,
   itemId,
@@ -21,13 +28,6 @@ const SummarySection = ({
     }
   };
 
-  const getArrayItemTitle = (title: string, index: number) => {
-    if (title.startsWith("Kinder")) {
-      return `Kind ${index + 1}`;
-    }
-
-    return title;
-  };
 
   return (
     <div className="kern-accordion-group">
