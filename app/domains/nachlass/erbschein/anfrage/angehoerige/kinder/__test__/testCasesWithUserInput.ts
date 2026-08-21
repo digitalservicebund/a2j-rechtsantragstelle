@@ -59,14 +59,14 @@ export const kinderTestCases = {
       userInput: { ...happyPathData, hatteKinder: "yes" },
     },
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
   // hatteKinder=yes but nobody was ever added: the deceased itself is the
   // person whose children are missing.
   kinderFehlenWhenNoneAdded: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: { ...happyPathData, hatteKinder: "yes", kinder: [] },
     },
@@ -76,7 +76,7 @@ export const kinderTestCases = {
   ],
   kinderFehlenWhenDescendantsMissing: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -90,7 +90,7 @@ export const kinderTestCases = {
   ],
   livingKind: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
     },
     {
@@ -128,12 +128,12 @@ export const kinderTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
   deceasedKindWithoutChildren: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
     },
     {
@@ -172,14 +172,14 @@ export const kinderTestCases = {
       userInput: { "kinder#hatteKinder": "no" },
     },
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
   // Answering hatteKinder=yes returns to the summary; the descendant itself is
   // added from there via the array "add" affordance, not by linear navigation.
   deceasedKindWithChildren: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
     },
     {
@@ -218,7 +218,7 @@ export const kinderTestCases = {
       userInput: { "kinder#hatteKinder": "yes" },
     },
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
 } satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;

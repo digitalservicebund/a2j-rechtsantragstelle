@@ -51,7 +51,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         kinder: [],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).toBe("/angehoerige/kinder-fehlen");
@@ -66,7 +66,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         kinder: [{ ...dead("Kind", "Eins"), hatteKinder: "yes" }],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).toBe("/angehoerige/kinder-fehlen");
@@ -87,7 +87,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         ],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).not.toBe("/angehoerige/kinder-fehlen");
@@ -113,7 +113,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         ],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).toBe("/angehoerige/kinder-fehlen");
@@ -138,7 +138,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         ],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).not.toBe("/angehoerige/kinder-fehlen");
@@ -179,7 +179,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
         ],
         pageData: { arrayIndexes: [] },
       } as UserData,
-      "/angehoerige/kinder",
+      "/angehoerige/kinder/uebersicht",
     );
 
     expect(session.nextPath).toBe("/angehoerige/uebersicht");

@@ -50,7 +50,7 @@ const sessionAtSummary = (elternteile: object[]) =>
       elternteile,
       pageData: { arrayIndexes: [] },
     } as UserData,
-    "/angehoerige/elternteile",
+    "/angehoerige/elternteile/uebersicht",
   );
 
 describe("kinderFehlen: a dead Elternteil stated to have kids but none were added", () => {
