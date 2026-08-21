@@ -2,7 +2,7 @@ import { type Flow } from "~/domains/flows.server";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { nachlassErbfolgeStaticFlow } from "./flowConfig";
-import { nachlassErbfolgeStringReplacements } from "./stringReplacements";
+import { nachlassErbfolgeStringReplacements } from "../shared/stringReplacements";
 
 export const nachlassErbfolge = {
   flowType: "vorabCheck",

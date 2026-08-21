@@ -1,6 +1,5 @@
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import type { ExtraDataWithFormElements } from "~/services/flow/server/loaderExtras";
 import { data, redirectDocument } from "react-router";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
@@ -14,9 +13,10 @@ import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/get
 import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import {
-  type LoaderExtrasContext,
-  type LoaderExtras,
+import type {
+  LoaderExtrasContext,
+  LoaderExtras,
+  ExtraDataWithFormElements,
 } from "~/services/flow/server/loaderExtras";
 
 export const loadVorabcheckData = async <
@@ -59,7 +59,7 @@ export const loadVorabcheckData = async <
   );
 
   const cmsContent = contentData.getCMSContent();
-  const formElements = contentData.getFormElements(flowId);
+  const formElements = contentData.getFormElements();
   const stepData = contentData.getStepData();
   const buttonNavigationProps = contentData.getButtonNavigationNewEngine(
     flowId,
@@ -77,6 +77,7 @@ export const loadVorabcheckData = async <
   });
 
   return data({
+    userData,
     flowId,
     stepData,
     cmsContent,

@@ -42,7 +42,7 @@ const kinderGuard = (
   guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
 ) => guard;
 
-const kinderLevelPageConfigs = <D extends number>(depth: D) => {
+const kinderLevelTransitionConfigs = <D extends number>(depth: D) => {
   return {
     [`kind${depth}Name`]: `kind${depth}Geburtsdatum`,
     [`kind${depth}Geburtsdatum`]: `kind${depth}IsAlive`,
@@ -120,15 +120,15 @@ export const kinderFlowConfig = {
         ]).length > 0,
     },
     {
-      target: null, // FIXME: redirect to elternteil summary page
+      target: "elternteilSummary",
       guard: ({ kinder }) =>
         !!kinder && kinder.length > 0 && kinder.every(allDescendantsDead),
     },
     { target: "grundbesitz" },
   ],
-  ...kinderLevelPageConfigs(1),
-  ...kinderLevelPageConfigs(2),
-  ...kinderLevelPageConfigs(3),
-  ...kinderLevelPageConfigs(4),
-  ...kinderLevelPageConfigs(5),
+  ...kinderLevelTransitionConfigs(1),
+  ...kinderLevelTransitionConfigs(2),
+  ...kinderLevelTransitionConfigs(3),
+  ...kinderLevelTransitionConfigs(4),
+  ...kinderLevelTransitionConfigs(5),
 } satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;

@@ -82,7 +82,7 @@ export const kinderPages = {
     stepId: "/angehoerige/kinder-fehlen",
   },
   kindSummary: {
-    stepId: "/angehoerige/kinder",
+    stepId: "/angehoerige/kinder/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "kinder",

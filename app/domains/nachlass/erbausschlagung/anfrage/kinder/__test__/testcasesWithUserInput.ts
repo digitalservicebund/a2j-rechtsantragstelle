@@ -1,5 +1,6 @@
 import type { ExpectedStep, FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
+import { happyPathData } from "../../__test__/testcaseData";
 
 const defaultStepsWithKidsUnderAge: Array<
   ExpectedStep<NachlassErbausschlagungAnfrageUserData>
@@ -7,6 +8,7 @@ const defaultStepsWithKidsUnderAge: Array<
   {
     stepId: "/kinder/haben-sie-kinder",
     userInput: {
+      ...happyPathData,
       hasKid: "yes",
     },
   },
@@ -46,6 +48,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
       {
         stepId: "/kinder/haben-sie-kinder",
         userInput: {
+          ...happyPathData,
           hasKid: "no",
         },
       },
@@ -57,6 +60,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
       {
         stepId: "/kinder/haben-sie-kinder",
         userInput: {
+          ...happyPathData,
           hasKid: "yes",
         },
       },
@@ -77,6 +81,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
       {
         stepId: "/kinder/haben-sie-kinder",
         userInput: {
+          ...happyPathData,
           hasKid: "yes",
         },
       },
@@ -128,6 +133,7 @@ export const kinderTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserDa
       {
         stepId: "/kinder/haben-sie-kinder",
         userInput: {
+          ...happyPathData,
           hasKid: "yes",
         },
       },

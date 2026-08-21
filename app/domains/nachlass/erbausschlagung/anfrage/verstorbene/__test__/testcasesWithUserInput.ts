@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
+import { happyPathData } from "../../__test__/testcaseData";
 
 export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
   {
@@ -7,8 +8,13 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/name",
         userInput: {
-          verstorbeneVorname: "Max",
-          verstorbeneNachname: "Mustermann",
+          ...happyPathData,
+        },
+      },
+      {
+        stepId: "/verstorbene/benachrichtigung",
+        userInput: {
+          verstorbeneNotification: "no",
         },
       },
       {
@@ -29,16 +35,39 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
             month: "01",
             year: "2020",
           },
+          anmerkungenSterbedatum: "Anmerkungen zum Sterbedatum",
         },
       },
       {
         stepId: "/verstorbene/lebensmittelpunkt",
       },
     ],
+    verstobeneWithNotification: [
+      {
+        stepId: "/verstorbene/name",
+        userInput: {
+          ...happyPathData,
+        },
+      },
+      {
+        stepId: "/verstorbene/benachrichtigung",
+        userInput: {
+          verstorbeneNotification: "yes",
+        },
+      },
+      {
+        stepId: "/verstorbene/fallbezug",
+        userInput: {
+          nachlassgericht: "1234567890",
+          aktenzeichen: "1234567890",
+        },
+      },
+    ],
     verstorbeneAusland: [
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
+          ...happyPathData,
           verstorbeneLebensmittelpunkt: "ausland",
         },
       },
@@ -60,6 +89,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
+          ...happyPathData,
           verstorbeneLebensmittelpunkt: "deutschland",
         },
       },
@@ -74,6 +104,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "yes",
         },
       },
@@ -99,6 +130,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "no",
         },
       },
@@ -130,6 +162,7 @@ export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageU
       {
         stepId: "/verstorbene/pflegeheim",
         userInput: {
+          ...happyPathData,
           livedInNursingHome: "no",
         },
       },

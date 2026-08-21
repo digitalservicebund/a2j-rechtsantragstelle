@@ -11,8 +11,8 @@ import {
   type Gueterstand,
   type HeirShare,
   type InheritanceInput,
-} from "../shared/calculateInheritance";
-import { personName } from "../shared/personName";
+} from "./calculateInheritance";
+import { personName } from "./personName";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.

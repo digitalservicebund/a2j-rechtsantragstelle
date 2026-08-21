@@ -1,7 +1,5 @@
-import { type nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
-import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type PageData } from "~/services/flow/pageDataSchema";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+import { type NachlassErbausschlagungAnfragePages } from "./pages";
 
-export type NachlassErbausschlagungAnfrageUserData = UserDataFromPagesSchema<
-  typeof nachlassErbausschlagungAnfragePages
-> & { pageData?: PageData };
+export type NachlassErbausschlagungAnfrageUserData =
+  InferredUserData<NachlassErbausschlagungAnfragePages>;

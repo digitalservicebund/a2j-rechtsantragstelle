@@ -5,38 +5,14 @@ import {
   type TransitionConfigMap,
 } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
+import {
+  elternteilKindAt,
+  isDead,
+  isDeadWithKinder,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 type GuardData = InferredUserData<NachlassErbfolgePages>;
 type NodeKeys = NodeKey<NachlassErbfolgePages>;
-
-type DescendantNode = {
-  isAlive?: string;
-  hatteKinder?: string;
-  kinder?: DescendantNode[];
-};
-
-// Walk elternteile[i0].kinder[i1]…kinder[iDepth] and return the node at `depth`
-// (0 = the parent itself, 1 = a sibling, …) only if every ancestor is a dead
-// parent-with-kids; otherwise null. arrayIndexes = [elternteilIndex, kind1Index, …].
-function elternteilKindAt(
-  elternteile: DescendantNode[] | undefined,
-  arrayIndexes: number[] | undefined,
-  depth: number,
-): DescendantNode | null {
-  if (!elternteile || !arrayIndexes || arrayIndexes.length < depth + 1)
-    return null;
-  let node: DescendantNode | undefined = elternteile[arrayIndexes[0]];
-  for (let level = 1; level <= depth; level++) {
-    if (!node || node.isAlive !== "no" || node.hatteKinder !== "yes")
-      return null;
-    node = node.kinder?.[arrayIndexes[level]];
-  }
-  return node ?? null;
-}
-
-const isDead = (node: DescendantNode | null) => node?.isAlive === "no";
-const isDeadWithKinder = (node: DescendantNode | null) =>
-  node?.isAlive === "no" && node?.hatteKinder === "yes";
 
 // The daten / hatteKinder transitions for one sibling depth (1–4).
 // Same shape as the kinder line: descend while each node is a dead parent-with-kids,
