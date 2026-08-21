@@ -1,4 +1,4 @@
-import { personName } from "../shared/personName";
+import { personName } from "./personName";
 
 type FamilyMember = {
   vorname?: string;
