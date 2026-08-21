@@ -111,7 +111,11 @@ export const renderPersonItem = (
   if (person.personAuswahl === "anotherPerson") {
     if (!hasPersonDetails(person)) {
       return (
-        <Badge icon="warning" variant="warning">
+        <Badge
+          icon="warning"
+          variant="warning"
+          className="py-kern-space-small! px-kern-space-default!"
+        >
           {
             translations.geldEinklagen
               .begruendungBeschreibungBeweisePersonNotFilled.de

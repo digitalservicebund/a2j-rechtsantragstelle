@@ -8,17 +8,20 @@ type BadgeProps = {
   children: React.ReactNode;
   icon?: IconName;
   variant?: BadgeVariant;
+  className?: string;
 };
 
-export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
+export function Badge({
+  children,
+  icon,
+  variant,
+  className,
+}: Readonly<BadgeProps>) {
   return (
     <span
-      className={classNames(
-        "kern-badge gap-kern-space-small py-kern-space-small! px-kern-space-default!",
-        {
-          [`kern-badge--${variant}`]: variant,
-        },
-      )}
+      className={classNames("kern-badge gap-kern-space-small", className, {
+        [`kern-badge--${variant}`]: variant,
+      })}
       style={
         !variant
           ? {
