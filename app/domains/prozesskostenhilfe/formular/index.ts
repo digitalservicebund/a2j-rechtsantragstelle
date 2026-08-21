@@ -31,6 +31,7 @@ import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xStateConfig"
 import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
+import trackNotDoneStateAbgabeUeberpruefung from "../services/trackNotDoneStateAbgabeUeberpruefung";
 
 const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
@@ -149,4 +150,7 @@ export const prozesskostenhilfeFormular = {
     ...belegeStrings(context),
     ...getGrundvoraussetzungenStringReplacements(context),
   }),
+  asyncFlowActions: {
+    "/weitere-angaben": trackNotDoneStateAbgabeUeberpruefung,
+  },
 } satisfies Flow;
