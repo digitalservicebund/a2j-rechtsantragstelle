@@ -73,7 +73,7 @@ describe("elternteil navigation", () => {
         pathAt(0, "adresse"),
       );
       expect(sessionAt(0, "adresse", living).nextPath).toBe(
-        "/angehoerige/elternteile",
+        "/angehoerige/elternteile/uebersicht",
       );
     });
 
@@ -90,7 +90,7 @@ describe("elternteil navigation", () => {
     it("returns to the summary when a deceased Elternteil had no children", () => {
       const leaf = { ...deceased, hatteKinder: "no" };
       expect(sessionAt(0, "hatte-kinder", leaf).nextPath).toBe(
-        "/angehoerige/elternteile",
+        "/angehoerige/elternteile/uebersicht",
       );
     });
 
@@ -99,7 +99,7 @@ describe("elternteil navigation", () => {
       const session = sessionAt(0, "hatte-kinder", leaf);
 
       expect(session.nextArrayPath).toBe(pathAt(1, "name"));
-      expect(session.nextPath).toBe("/angehoerige/elternteile");
+      expect(session.nextPath).toBe("/angehoerige/elternteile/uebersicht");
     });
   });
 
@@ -123,7 +123,7 @@ describe("elternteil navigation", () => {
           pathAt(depth, "adresse"),
         );
         expect(sessionAt(depth, "adresse", living).nextPath).toBe(
-          "/angehoerige/elternteile",
+          "/angehoerige/elternteile/uebersicht",
         );
       },
     );
@@ -146,7 +146,7 @@ describe("elternteil navigation", () => {
       (depth) => {
         const leaf = { ...deceased, hatteKinder: "no" };
         expect(sessionAt(depth, "hatte-kinder", leaf).nextPath).toBe(
-          "/angehoerige/elternteile",
+          "/angehoerige/elternteile/uebersicht",
         );
       },
     );
@@ -160,7 +160,7 @@ describe("elternteil navigation", () => {
         const session = sessionAt(depth, "hatte-kinder", leaf);
 
         expect(session.nextArrayPath).toBe(pathAt(depth + 1, "name"));
-        expect(session.nextPath).toBe("/angehoerige/elternteile");
+        expect(session.nextPath).toBe("/angehoerige/elternteile/uebersicht");
       },
     );
 

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
-import { erbfolgeResultExtras } from "~/domains/nachlass/erbschein/erbfolge/resultExtras";
+import { erbfolgeResultExtras } from "~/domains/nachlass/erbschein/shared/resultExtras";
 import { loadResultData } from "~/routes/shared/newEngineResult.server";
 
 export { ResultPage as default } from "~/routes/shared/components/ResultPage";

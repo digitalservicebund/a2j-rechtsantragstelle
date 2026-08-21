@@ -66,7 +66,7 @@ export const elternteilTestCases = {
   // A living Elternteil inherits, so the flow leaves the Angehoerige section.
   lebendesElternteil: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -81,7 +81,7 @@ export const elternteilTestCases = {
   // No 1st- and no 2nd-order heirs: the flow falls back to the Angehoerige overview.
   keineErbenErsterOderZweiterOrdnung: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -95,7 +95,7 @@ export const elternteilTestCases = {
   ],
   elternteilKinderFehlen: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -109,7 +109,7 @@ export const elternteilTestCases = {
   ],
   lebendesElternteilErfassen: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       addArrayItemEvent: "add-elternteile",
     },
     {
@@ -147,12 +147,12 @@ export const elternteilTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
   verstorbenesElternteilOhneKinder: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       addArrayItemEvent: "add-elternteile",
     },
     {
@@ -191,14 +191,14 @@ export const elternteilTestCases = {
       userInput: { "elternteile#hatteKinder": "no" },
     },
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
   // Answering hatteKinder=yes returns to the summary; the sibling itself is
   // added from there via the array "add" affordance, not by linear navigation.
   verstorbenesElternteilMitKindern: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       addArrayItemEvent: "add-elternteile",
     },
     {
@@ -237,7 +237,7 @@ export const elternteilTestCases = {
       userInput: { "elternteile#hatteKinder": "yes" },
     },
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
 } satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;

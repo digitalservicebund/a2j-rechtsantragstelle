@@ -118,11 +118,11 @@ export const erbausschlagungKinderArraySchema = z
       ...commonErbausschlagungKinderFields,
       ...adultChild,
       ...livesSeparately,
-      strasse: stringOptionalSchema,
-      hausnummer: germanHouseNumberSchema.optional(),
-      plz: postcodeSchema.optional(),
-      ort: stringOptionalSchema,
-      adresseZusatz: stringOptionalSchema,
+      strasse: schemaOrEmptyStringOptional(stringOptionalSchema),
+      hausnummer: schemaOrEmptyStringOptional(germanHouseNumberSchema),
+      plz: schemaOrEmptyStringOptional(postcodeSchema),
+      ort: schemaOrEmptyStringOptional(stringOptionalSchema),
+      adresseZusatz: schemaOrEmptyStringOptional(stringOptionalSchema),
     }),
     // Situation 2: Minor child living separately from applicant
     z.object({
