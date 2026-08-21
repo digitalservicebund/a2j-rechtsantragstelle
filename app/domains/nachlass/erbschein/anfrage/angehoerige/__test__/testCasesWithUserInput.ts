@@ -107,7 +107,7 @@ const deceasedAngehoerigeToGrundbesitz = (
 export const angehoerigeTestCases = {
   kinderToAngehoerige: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -119,7 +119,7 @@ export const angehoerigeTestCases = {
   ],
   elternteileToAngehoerige: [
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -139,7 +139,7 @@ export const angehoerigeTestCases = {
   ],
   kinderToElternteileToAngehoerige: [
     {
-      stepId: "/angehoerige/kinder",
+      stepId: "/angehoerige/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
         ...happyPathData,
@@ -159,7 +159,7 @@ export const angehoerigeTestCases = {
       },
     },
     {
-      stepId: "/angehoerige/elternteile",
+      stepId: "/angehoerige/elternteile/uebersicht",
     },
     ...deceasedAngehoerigeToGrundbesitz(),
   ],

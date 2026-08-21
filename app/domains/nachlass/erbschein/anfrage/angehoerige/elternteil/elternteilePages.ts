@@ -107,7 +107,7 @@ const elternteilKinderLevelPages = <Depth extends number>(depth: Depth) => {
 
 export const elternteilePages = {
   elternteilSummary: {
-    stepId: "/angehoerige/elternteile",
+    stepId: "/angehoerige/elternteile/uebersicht",
     arraySummary: { name: "elternteile", schema: elternteileArray },
   },
   elternteilName: {
