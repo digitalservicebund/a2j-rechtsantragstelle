@@ -13,9 +13,12 @@ type BadgeProps = {
 export function Badge({ children, icon, variant }: Readonly<BadgeProps>) {
   return (
     <span
-      className={classNames("kern-badge gap-kern-space-small", {
-        [`kern-badge--${variant}`]: variant,
-      })}
+      className={classNames(
+        "kern-badge gap-kern-space-small py-kern-space-small! px-kern-space-default!",
+        {
+          [`kern-badge--${variant}`]: variant,
+        },
+      )}
       style={
         !variant
           ? {
