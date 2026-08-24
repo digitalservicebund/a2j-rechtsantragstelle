@@ -50,7 +50,7 @@ export const kinderTestCases = {
       userInput: { ...happyPathData, hatteKinder: "no" },
     },
     {
-      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+      stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
   hatteKinderLeadsToSummary: [

@@ -12,4 +12,5 @@ export const SECOND_ORDER_LABELS = [
   "Nichte oder Neffe",
   "Großnichte/Großneffe",
   "Urgroßnichte/Urgroßneffe",
+  "Ur-Urgroßnichte/Ur-Urgroßneffe",
 ];

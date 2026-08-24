@@ -18,7 +18,10 @@ export function groupFieldsByArrayType(allFields: FieldItem[]): {
 
   for (const field of arrayFields) {
     const baseFieldName = field.arrayBaseField!;
-    const groupKey = `${baseFieldName}-${field.arrayIndex}`;
+    // Use the full nested box key (e.g. "kinder-0-kinder-2") so items at
+    // different depths/indices don't collapse into the same row.
+    const groupKey =
+      field.arrayBoxKey ?? `${baseFieldName}-${field.arrayIndex}`;
 
     if (!arrayFieldsByBase[baseFieldName]) {
       arrayFieldsByBase[baseFieldName] = {};

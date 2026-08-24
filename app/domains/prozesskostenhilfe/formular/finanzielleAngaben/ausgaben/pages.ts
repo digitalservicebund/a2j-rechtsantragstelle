@@ -22,21 +22,23 @@ const versicherungenArtSchema = z.enum([
   "sonstige",
 ]);
 
-export const versicherungenArraySchema = z.array(
-  z.union([
-    z.object({
-      art: z.enum(
-        versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
-      ),
-      beitrag: buildMoneyValidationSchema(),
-    }),
-    z.object({
-      art: z.literal(versicherungenArtSchema.enum.sonstige),
-      beitrag: buildMoneyValidationSchema(),
-      sonstigeArt: stringRequiredSchema,
-    }),
-  ]),
-);
+export const versicherungenArraySchema = z
+  .array(
+    z.union([
+      z.object({
+        art: z.enum(
+          versicherungenArtSchema.options.filter((art) => art !== "sonstige"),
+        ),
+        beitrag: buildMoneyValidationSchema(),
+      }),
+      z.object({
+        art: z.literal(versicherungenArtSchema.enum.sonstige),
+        beitrag: buildMoneyValidationSchema(),
+        sonstigeArt: stringRequiredSchema,
+      }),
+    ]),
+  )
+  .min(1);
 
 const betragEigenerAnteilSchema = buildMoneyValidationSchema();
 
@@ -48,21 +50,23 @@ const sharedRatenZahlungFields = {
   laufzeitende: createDateSchema({ earliest: () => today() }),
 };
 
-export const ratenZahlungArraySchema = z.array(
-  z.union([
-    z.object({
-      ...sharedRatenZahlungFields,
-      zahlungspflichtiger: z.literal("myself"),
-    }),
-    z.object({
-      ...sharedRatenZahlungFields,
-      betragEigenerAnteil: betragEigenerAnteilSchema,
-      zahlungspflichtiger: z
-        .literal("myselfAndPartner")
-        .or(z.literal("myselfAndSomeoneElse")),
-    }),
-  ]),
-);
+export const ratenZahlungArraySchema = z
+  .array(
+    z.union([
+      z.object({
+        ...sharedRatenZahlungFields,
+        zahlungspflichtiger: z.literal("myself"),
+      }),
+      z.object({
+        ...sharedRatenZahlungFields,
+        betragEigenerAnteil: betragEigenerAnteilSchema,
+        zahlungspflichtiger: z
+          .literal("myselfAndPartner")
+          .or(z.literal("myselfAndSomeoneElse")),
+      }),
+    ]),
+  )
+  .min(1);
 
 const sharedSonstigeZahlungFields = {
   art: stringRequiredSchema,
@@ -70,21 +74,23 @@ const sharedSonstigeZahlungFields = {
   betragGesamt: buildMoneyValidationSchema(),
 };
 
-export const sonstigeZahlungArraySchema = z.array(
-  z.union([
-    z.object({
-      ...sharedSonstigeZahlungFields,
-      zahlungspflichtiger: z.literal("myself"),
-    }),
-    z.object({
-      ...sharedSonstigeZahlungFields,
-      betragEigenerAnteil: betragEigenerAnteilSchema,
-      zahlungspflichtiger: z
-        .literal("myselfAndPartner")
-        .or(z.literal("myselfAndSomeoneElse")),
-    }),
-  ]),
-);
+export const sonstigeZahlungArraySchema = z
+  .array(
+    z.union([
+      z.object({
+        ...sharedSonstigeZahlungFields,
+        zahlungspflichtiger: z.literal("myself"),
+      }),
+      z.object({
+        ...sharedSonstigeZahlungFields,
+        betragEigenerAnteil: betragEigenerAnteilSchema,
+        zahlungspflichtiger: z
+          .literal("myselfAndPartner")
+          .or(z.literal("myselfAndSomeoneElse")),
+      }),
+    ]),
+  )
+  .min(1);
 
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
