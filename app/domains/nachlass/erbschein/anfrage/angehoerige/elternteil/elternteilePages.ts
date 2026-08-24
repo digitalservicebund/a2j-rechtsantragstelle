@@ -13,16 +13,16 @@ import {
   parentKindIndexSchema,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
 import {
-  type BaseElternteil,
-  type BaseElternteilKind,
+  type Elternteil,
+  type ElternteilKind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
-const elternteilKindSchema: z.ZodType<BaseElternteilKind> = z.lazy(() =>
+const elternteilKindSchema: z.ZodType<ElternteilKind> = z.lazy(() =>
   personUnion(elternteilKindSchema),
 );
 
-const elternteilSchema: z.ZodType<BaseElternteil> = personUnion(
+const elternteilSchema: z.ZodType<Elternteil> = personUnion(
   z.intersection(
     elternteilKindSchema,
     z.object({
@@ -108,6 +108,7 @@ const elternteilKinderLevelPages = <Depth extends number>(depth: Depth) => {
 export const elternteilePages = {
   elternteilSummary: {
     stepId: "/angehoerige/elternteile/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
     arraySummary: { name: "elternteile", schema: elternteileArray },
   },
   elternteilName: {

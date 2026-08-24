@@ -41,6 +41,19 @@ export const createAngehoerigeSection = (
     angehoerigeSection.add(kinderSubsection);
   }
 
+  if (userData.elternteile) {
+    const elternteileSubsection = doc.struct("Sect");
+    const allElternteileDescendants = [1, 2, 3, 4, 5].flatMap((depth) =>
+      collectDescendantsWithParentName(userData.elternteile!, depth, 2),
+    );
+    allElternteileDescendants.forEach((elternteil) => {
+      const elternteilSubsection = doc.struct("Sect");
+      addDescendant(doc, elternteilSubsection, elternteil);
+      elternteileSubsection.add(elternteilSubsection);
+    });
+    angehoerigeSection.add(elternteileSubsection);
+  }
+
   userData.angehoerige?.forEach((angehoerige: Angehoerige) => {
     const angehoerigeSubsection = doc.struct("Sect");
     addAngehoerige(doc, angehoerigeSubsection, angehoerige);
