@@ -54,6 +54,13 @@ const renderArialLabelForPersonItem = (
   person: Exclude<Pick<Props, "personen">["personen"], undefined>[number],
 ) => {
   if (person.personAuswahl === "anotherPerson") {
+    if (!hasPersonDetails(person)) {
+      return {
+        editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${editButtonLabelLowercase}`,
+        deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${deleteButtonLabelLowercase}`,
+      };
+    }
+
     return {
       editButtonLabel: `${person.vorname} ${person.nachname} ${editButtonLabelLowercase}`,
       deleteButtonLabel: `${person.vorname} ${person.nachname} ${deleteButtonLabelLowercase}`,

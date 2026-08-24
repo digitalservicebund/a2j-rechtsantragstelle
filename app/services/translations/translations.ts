@@ -561,5 +561,8 @@ export const translations = {
     begruendungBeschreibungBeweisePersonNotFilled: {
       de: "Fehlende Angaben",
     },
+    begruendungBeschreibungBeweisePersonWithMissingDetails: {
+      de: "Person mit fehlenden Angaben",
+    },
   },
 } satisfies TranslationRecord;
