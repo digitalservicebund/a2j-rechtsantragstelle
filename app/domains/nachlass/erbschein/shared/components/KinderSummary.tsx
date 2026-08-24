@@ -22,6 +22,7 @@ import {
 } from "./summaryTree";
 import { type BaseDeceasedPersonWithKids } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { PersonSummaryItem } from "~/domains/nachlass/erbschein/shared/components/PersonSummaryItem";
+import { FIRST_ORDER_LABELS } from "~/domains/nachlass/erbschein/shared/erbfolgeLabels";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -33,20 +34,12 @@ const SECTION_TITLES = [
   "Ur-Ur-Urenkel",
 ];
 
-const SINGULAR_TITLES = [
-  "Kind",
-  "Enkelkind",
-  "Urenkel",
-  "Ur-Urenkel",
-  "Ur-Ur-Urenkel",
-];
-
 function badgeLabel(
   depth: number,
   deceasedPersonName?: string,
 ): string | undefined {
   if (!deceasedPersonName) return undefined;
-  return `${SINGULAR_TITLES[depth - 1]} von ${deceasedPersonName}`;
+  return `${FIRST_ORDER_LABELS[depth - 1]} von ${deceasedPersonName}`;
 }
 
 const ADD_LABELS = [

@@ -44,6 +44,12 @@ export default [
       route("*", "routes/nachlass.erbschein.anfrage.$.tsx", {
         id: "nachlassAnfrageFlow",
       }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: `pdfNachlassAnfrageFlow`,
+      }),
+      route("visualisierung", "routes/shared/visualisierung.ts", {
+        id: `visNachlassAnfrageFlow`,
+      }),
     ]),
   ]),
   ...prefix("kontopfaendung", [
