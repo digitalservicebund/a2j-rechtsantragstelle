@@ -44,9 +44,10 @@ const buildFullUserInput = <T extends UserData>(
 
     // When adding an array item, increment the last array index or start with 0
     if (step.addArrayItemEvent) {
+      const lastArrayIndex = merged.pageData?.arrayIndexes?.at(-1);
       merged.pageData = {
         arrayIndexes: merged.pageData?.arrayIndexes
-          ? [merged.pageData?.arrayIndexes.at(-1)! + 1]
+          ? [lastArrayIndex === undefined ? 0 : lastArrayIndex + 1]
           : [0],
       };
       return merged;
