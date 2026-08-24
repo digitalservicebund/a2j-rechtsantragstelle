@@ -11,6 +11,8 @@ export type FieldItem = {
   isArrayItem?: boolean;
   arrayIndex?: number;
   arrayBaseField?: string;
+  // Full nested box key (e.g. "kinder-0-kinder-2"), distinguishing items at any depth
+  arrayBoxKey?: string;
 };
 
 export type FieldOption = {
@@ -23,12 +25,18 @@ export type FieldQuestion = {
   options?: FieldOption[];
 };
 
+export type ArrayFieldSegment = {
+  fieldName: string;
+  arrayIndex: number;
+};
+
 export type ArrayFieldInfo = {
   baseFieldName: string;
   arrayIndex: number;
   subFieldName?: string;
   isArrayField: boolean;
   isArraySubField: boolean;
+  segments: ArrayFieldSegment[];
 };
 
 export type ArrayGroup = {

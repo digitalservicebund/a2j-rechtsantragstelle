@@ -2,7 +2,7 @@ import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
-  type BaseElternteil,
+  type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
@@ -28,12 +28,12 @@ const living = (vorname: string) =>
     plz: "12345",
     ort: "Musterstadt",
     land: "Deutschland",
-  }) as BaseElternteil;
+  }) as Elternteil;
 
 const deceased = (
   vorname: string,
   hatteKinder: "yes" | "no",
-  kinder?: BaseElternteil[],
+  kinder?: Elternteil[],
 ) =>
   ({
     ...person,
@@ -44,7 +44,7 @@ const deceased = (
     sterbeort: "Musterstadt",
     hatteKinder,
     ...(kinder ? { kinder } : {}),
-  }) as BaseElternteil;
+  }) as Elternteil;
 
 // The 2nd order is only reached once the 1st order is extinct.
 const extinctKinder = {
