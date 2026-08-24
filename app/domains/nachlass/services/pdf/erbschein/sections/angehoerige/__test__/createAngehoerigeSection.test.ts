@@ -73,6 +73,73 @@ describe("createAngehoerigeSection", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("Kind");
   });
 
+  it("Should enumerate all second-order descendants in the PDF", () => {
+    const userDataMock: NachlassErbscheinAnfrageUserData = {
+      elternteile: [
+        {
+          vorname: "Papa",
+          nachname: "Mustermann",
+          geburtsdatum: { day: "01", month: "01", year: "1980" },
+          geburtsort: "Berlin",
+          isAlive: "no",
+          sterbedatum: { day: "01", month: "01", year: "2020" },
+          sterbeort: "Berlin",
+          hatteKinder: "yes",
+          kinder: [
+            {
+              vorname: "Schwester",
+              nachname: "Mustermann",
+              geburtsdatum: { day: "01", month: "01", year: "1991" },
+              geburtsort: "Köln",
+              isAlive: "no",
+              sterbedatum: { day: "01", month: "01", year: "2020" },
+              sterbeort: "Berlin",
+              hatteKinder: "yes",
+              kinder: [
+                {
+                  vorname: "Neffe",
+                  nachname: "Mustermann",
+                  geburtsdatum: { day: "01", month: "01", year: "2010" },
+                  geburtsort: "Hamburg",
+                  isAlive: "yes",
+                  strasse: "Hauptstraße",
+                  hausnummer: "123",
+                  plz: "10115",
+                  ort: "Berlin",
+                  land: "Deutschland",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          vorname: "Mama",
+          nachname: "Mustermann",
+          geburtsdatum: { day: "01", month: "01", year: "1995" },
+          geburtsort: "München",
+          isAlive: "yes",
+          strasse: "Hauptstraße",
+          hausnummer: "123",
+          plz: "10115",
+          ort: "Berlin",
+          land: "Deutschland",
+        },
+      ],
+    };
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+    createAngehoerigeSection(mockDoc, mockStruct, userDataMock);
+
+    expect(mockDoc.text).toHaveBeenCalledWith("Papa Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Elternteil");
+    expect(mockDoc.text).toHaveBeenCalledWith("Mama Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Elternteil");
+    expect(mockDoc.text).toHaveBeenCalledWith("Schwester Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Geschwister");
+    expect(mockDoc.text).toHaveBeenCalledWith("Neffe Mustermann");
+    expect(mockDoc.text).toHaveBeenCalledWith("Nichte oder Neffe");
+  });
+
   it("Should enumerate each additional Angehoerige in the PDF", () => {
     const userDataMock: NachlassErbscheinAnfrageUserData = {
       angehoerige: [
