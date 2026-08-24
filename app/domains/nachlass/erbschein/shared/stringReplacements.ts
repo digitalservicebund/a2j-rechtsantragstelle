@@ -64,11 +64,11 @@ export function buildRequiredDocumentsHtml(
   const rows = requiredDocuments
     .map(
       ({ name, documents }) =>
-        `<tr><td class="font-semibold pr-24 pb-kern-space-small align-top">${escape(name)}</td>` +
-        `<td class="pb-kern-space-small">${documents}</td></tr>`,
+        `<tr><td class="font-semibold p-kern-space-default pr-kern-space-none align-top">${escape(name)}</td>` +
+        `<td class="p-kern-space-default pl-kern-space-none">${documents}</td></tr>`,
     )
     .join("");
-  return `<table class="w-full"><tbody>${rows}</tbody></table>`;
+  return `<table class="w-full bg-kern-white border-kern-neutral-200 rounded-kern-default"><tbody>${rows}</tbody></table>`;
 }
 
 export function nachlassErbfolgeStringReplacements(
