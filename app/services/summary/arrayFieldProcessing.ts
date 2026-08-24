@@ -1,53 +1,82 @@
-import type { AllowedUserTypes, UserData } from "~/domains/userData";
+import type { ArrayData, UserData } from "~/domains/userData";
 import { parseArrayField } from "./fieldParsingUtils";
-import { fieldIsArray } from "~/services/array";
 import { arrayIsNonEmpty } from "~/util/array";
+import { fieldIsArray } from "~/services/array";
 
 function hasArrayFormFields(
-  fieldName: string,
+  fieldNamePrefix: string,
   fieldToStepMapping: Record<string, string>,
 ): boolean {
   // Check if there are any form fields that start with "fieldName#"
   return Object.keys(fieldToStepMapping).some(
     (mappedField) =>
-      fieldIsArray(mappedField) && mappedField.startsWith(`${fieldName}#`),
+      fieldIsArray(mappedField) && mappedField.startsWith(fieldNamePrefix),
   );
 }
 
-function getArraySubFields(
-  baseFieldName: string,
+// Sub-field names directly under `keyPrefix` (e.g. "kinder#" or "kinder#kinder#").
+// Deeper "#"-segments belong to a nested array and are resolved by a further
+// recursive call, not flattened here.
+function getImmediateSubFieldNames(
+  keyPrefix: string,
   fieldToStepMapping: Record<string, string>,
 ): string[] {
-  // Find all form fields that start with "baseFieldName#"
-  return Object.keys(fieldToStepMapping)
-    .filter(
-      (field) => fieldIsArray(field) && field.startsWith(`${baseFieldName}#`),
-    )
-    .map((field) => field.split("#")[1]) // Extract the sub-field name after #
-    .filter(Boolean);
-}
+  const subFieldNames: string[] = [];
 
-function expandArrayFieldItems(
-  fieldName: string,
-  userData: UserData,
-  fieldToStepMapping: Record<string, string>,
-): string[] {
-  const arrayValue = userData[fieldName] as Array<
-    Record<string, AllowedUserTypes>
-  >;
-  const subFields = getArraySubFields(fieldName, fieldToStepMapping);
-  const expandedFields: string[] = [];
+  for (const key of Object.keys(fieldToStepMapping)) {
+    if (!key.startsWith(keyPrefix)) continue;
 
-  for (let index = 0; index < arrayValue.length; index++) {
-    const arrayItem = arrayValue[index];
-    for (const subField of subFields) {
-      // Only add fields that actually exist in the userData
-      if (arrayItem && subField in arrayItem) {
-        const expandedField = `${fieldName}[${index}].${subField}`;
-        expandedFields.push(expandedField);
-      }
+    const [subFieldName] = key.slice(keyPrefix.length).split("#");
+    if (subFieldName && !subFieldNames.includes(subFieldName)) {
+      subFieldNames.push(subFieldName);
     }
   }
+
+  return subFieldNames;
+}
+
+// Expands an array field (and any arrays nested within its items, e.g. Kinder
+// with their own Kinder) into concrete paths like "kinder[0].kinder[2].vorname".
+function expandArrayFieldItems(
+  fieldName: string,
+  keyPrefix: string,
+  arrayValue: ArrayData,
+  fieldToStepMapping: Record<string, string>,
+): string[] {
+  const subFieldNames = getImmediateSubFieldNames(
+    keyPrefix,
+    fieldToStepMapping,
+  );
+  const expandedFields: string[] = [];
+
+  arrayValue.forEach((arrayItem, index) => {
+    if (!arrayItem) return;
+    const itemPath = `${fieldName}[${index}]`;
+
+    for (const subFieldName of subFieldNames) {
+      if (!(subFieldName in arrayItem)) continue;
+
+      const subValue = arrayItem[subFieldName] as ArrayData;
+      const subKeyPrefix = `${keyPrefix}${subFieldName}#`;
+      const isNestedArray =
+        Array.isArray(subValue) &&
+        arrayIsNonEmpty(subValue) &&
+        hasArrayFormFields(subKeyPrefix, fieldToStepMapping);
+
+      if (isNestedArray) {
+        expandedFields.push(
+          ...expandArrayFieldItems(
+            `${itemPath}.${subFieldName}`,
+            subKeyPrefix,
+            subValue,
+            fieldToStepMapping,
+          ),
+        );
+      } else {
+        expandedFields.push(`${itemPath}.${subFieldName}`);
+      }
+    }
+  });
 
   return expandedFields;
 }
@@ -60,14 +89,18 @@ export function expandArrayFields(
   const expandedFields: string[] = [];
 
   for (const fieldName of fields) {
-    const fieldValue = userData[fieldName];
+    const fieldValue = userData[fieldName] as ArrayData;
     const isArray = Array.isArray(fieldValue) && arrayIsNonEmpty(fieldValue);
-    const hasArrayFields = hasArrayFormFields(fieldName, fieldToStepMapping);
+    const hasArrayFields = hasArrayFormFields(
+      `${fieldName}#`,
+      fieldToStepMapping,
+    );
 
     if (isArray && hasArrayFields) {
       const arrayExpandedFields = expandArrayFieldItems(
         fieldName,
-        userData,
+        `${fieldName}#`,
+        fieldValue,
         fieldToStepMapping,
       );
       expandedFields.push(...arrayExpandedFields);
