@@ -10,6 +10,7 @@ describe("fieldParsingUtils", () => {
         arrayIndex: -1,
         isArrayField: false,
         isArraySubField: false,
+        segments: [],
       });
     });
 
@@ -20,6 +21,7 @@ describe("fieldParsingUtils", () => {
         arrayIndex: 0,
         isArrayField: true,
         isArraySubField: false,
+        segments: [{ fieldName: "kinder", arrayIndex: 0 }],
       });
     });
 
@@ -31,6 +33,7 @@ describe("fieldParsingUtils", () => {
         subFieldName: "vorname",
         isArrayField: true,
         isArraySubField: true,
+        segments: [{ fieldName: "kinder", arrayIndex: 0 }],
       });
     });
 
@@ -42,6 +45,36 @@ describe("fieldParsingUtils", () => {
         subFieldName: "inhaber",
         isArrayField: true,
         isArraySubField: true,
+        segments: [{ fieldName: "bankkonten", arrayIndex: 5 }],
+      });
+    });
+
+    it("should parse nested array sub-fields", () => {
+      const result = parseArrayField("kinder[0].kinder[2].vorname");
+      expect(result).toEqual({
+        baseFieldName: "kinder",
+        arrayIndex: 0,
+        subFieldName: "vorname",
+        isArrayField: true,
+        isArraySubField: true,
+        segments: [
+          { fieldName: "kinder", arrayIndex: 0 },
+          { fieldName: "kinder", arrayIndex: 2 },
+        ],
+      });
+    });
+
+    it("should parse a nested array field without a leaf sub-field", () => {
+      const result = parseArrayField("kinder[0].kinder[2]");
+      expect(result).toEqual({
+        baseFieldName: "kinder",
+        arrayIndex: 0,
+        isArrayField: true,
+        isArraySubField: false,
+        segments: [
+          { fieldName: "kinder", arrayIndex: 0 },
+          { fieldName: "kinder", arrayIndex: 2 },
+        ],
       });
     });
   });
@@ -51,6 +84,12 @@ describe("fieldParsingUtils", () => {
       expect(createArrayBoxKey("kinder[0]")).toBe("kinder-0");
       expect(createArrayBoxKey("kinder[0].vorname")).toBe("kinder-0");
       expect(createArrayBoxKey("bankkonten[3].inhaber")).toBe("bankkonten-3");
+    });
+
+    it("should create box keys for nested array fields", () => {
+      expect(createArrayBoxKey("kinder[0].kinder[2].vorname")).toBe(
+        "kinder-0-kinder-2",
+      );
     });
 
     it("should return null for non-array fields", () => {

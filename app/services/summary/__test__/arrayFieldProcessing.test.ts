@@ -126,6 +126,38 @@ describe("expandArrayFields", () => {
     expect(result).toEqual(["vorname", "nachname"]);
   });
 
+  it("should expand nested arrays with parent-index-aware paths", () => {
+    const nestedUserData: UserData = {
+      kinder: [
+        {
+          vorname: "Eltern-Kind",
+          kinder: [
+            { vorname: "Enkel1" },
+            { vorname: "Enkel2", kinder: [{ vorname: "Urenkel1" }] },
+          ],
+        },
+      ],
+    };
+    const nestedFieldToStepMapping = {
+      "kinder#vorname": "/step1",
+      "kinder#kinder#vorname": "/step2",
+      "kinder#kinder#kinder#vorname": "/step3",
+    };
+
+    const result = expandArrayFields(
+      ["kinder"],
+      nestedUserData,
+      nestedFieldToStepMapping,
+    );
+
+    expect(result).toEqual([
+      "kinder[0].vorname",
+      "kinder[0].kinder[0].vorname",
+      "kinder[0].kinder[1].vorname",
+      "kinder[0].kinder[1].kinder[0].vorname",
+    ]);
+  });
+
   it("should handle mixed array and regular fields", () => {
     const result = expandArrayFields(
       ["vorname", "bankkonten", "nachname"],

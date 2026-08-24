@@ -85,6 +85,36 @@ describe("fieldEntryCreation", () => {
       );
     });
 
+    it("should create field entry for a nested array sub-field", () => {
+      const userData: UserData = {
+        kinder: [
+          {
+            vorname: "Anna",
+            kinder: [{ vorname: "Enkel1" }, { vorname: "Enkel2" }],
+          },
+        ],
+      };
+
+      const result = createFieldEntry(
+        "kinder[0].kinder[1].vorname",
+        userData,
+        { "kinder[0].kinder[1].vorname": { question: "Wie heißt das Kind?" } },
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/name",
+      );
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          question: "Wie heißt das Kind?",
+          answer: "Enkel2",
+          editUrl:
+            "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+          isArrayItem: true,
+          arrayIndex: 0,
+          arrayBaseField: "kinder",
+        }),
+      );
+    });
+
     it("should handle field with options", () => {
       const userData: UserData = {
         berufart: "festangestellt",

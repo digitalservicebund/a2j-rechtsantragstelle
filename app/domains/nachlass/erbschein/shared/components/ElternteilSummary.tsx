@@ -90,7 +90,7 @@ function collectDeeper(
   elternteile: PersonItem[],
   treeDepth: number,
 ): SectionEntry[] {
-  return collectDescendantsWithParentName(elternteile, treeDepth).map(
+  return collectDescendantsWithParentName(elternteile, treeDepth, 2).map(
     ({ item, indexes, directParentName }) => ({
       item,
       indexes,
