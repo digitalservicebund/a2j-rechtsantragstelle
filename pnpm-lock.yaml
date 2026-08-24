@@ -112,8 +112,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.417.4
-        version: 1.417.4
+        specifier: 1.418.6
+        version: 1.418.6
       posthog-node:
         specifier: 5.49.2
         version: 5.49.2
@@ -1576,9 +1576,6 @@ packages:
 
   '@posthog/browser-common@0.5.0':
     resolution: {integrity: sha512-8DaxVZS1bQPbA514RePurLNbYjei3P4jhnC206DwVv5XThmZM3QdlsXenI2ujE3pLbgQ79hYn9o1Kda8I3WK/Q==}
-
-  '@posthog/core@1.48.5':
-    resolution: {integrity: sha512-ZE27PmVyPmw9wZOVVyn64uaTdqhopuwQfX7PzBpyCvsezuvNmrUHAMpJKkqOvaHxu7HeJt1jTQtjtTuwy+S7Og==}
 
   '@posthog/core@1.48.6':
     resolution: {integrity: sha512-lvSO1nrxxakrAfB51fetHC29gSqdDtT+AyRrGlnc5nDSWhiBGtyqKNjDqsbnlTQoj14bAaWXS7RtzuGoTo5IsQ==}
@@ -4214,8 +4211,8 @@ packages:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.417.4:
-    resolution: {integrity: sha512-7hJ8k66qQ9+C390ahfXwna2dljkEk+l0Ks6lYhMlhrMLtG4Q02qLe3GCJE7IU8zyd08aky2p9mAqDliu2yuIqQ==}
+  posthog-js@1.418.6:
+    resolution: {integrity: sha512-s1+5sPSOElZ8twPNRQytBhY3fOp+rOkf6tZzS5xSZlNZG7UE/jRWcI0zRqykhMaeJOVwSABMuaeaap7rmX82Pg==}
 
   posthog-node@5.49.2:
     resolution: {integrity: sha512-+ihwLaB+zoP7mOdk8bOV8phWhoS/U9zG9tnA49B0BGLjNt9rQ05zp9DPnwSYjh9wZkN8zD2V+LMYV6W9pQosVg==}
@@ -6369,10 +6366,6 @@ snapshots:
   '@posthog/browser-common@0.5.0':
     dependencies:
       '@posthog/core': 1.48.6
-      '@posthog/types': 1.405.0
-
-  '@posthog/core@1.48.5':
-    dependencies:
       '@posthog/types': 1.405.0
 
   '@posthog/core@1.48.6':
@@ -8970,10 +8963,10 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.417.4:
+  posthog-js@1.418.6:
     dependencies:
       '@posthog/browser-common': 0.5.0
-      '@posthog/core': 1.48.5
+      '@posthog/core': 1.48.6
       '@posthog/types': 1.405.0
       core-js: 3.50.0
       dompurify: 3.4.14
