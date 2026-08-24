@@ -77,7 +77,7 @@ export const PosthogSurvey = ({
     return () => {
       dialog.removeEventListener("close", handleClose);
     };
-  }, [dialogRef, wasSubmitted]);
+  }, [dialogRef]);
 
   const dialogLabelId = "dialog-label";
   const dialogDescriptionId = "dialog-description";
