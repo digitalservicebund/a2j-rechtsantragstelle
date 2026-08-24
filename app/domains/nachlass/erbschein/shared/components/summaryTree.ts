@@ -1,6 +1,7 @@
 import { sanitizeHtml } from "~/services/security/sanitizeHtml";
 import { personName } from "../../shared/personName";
 import type { DescendantEntry, ItemWithPath, PersonItem } from "./types";
+import { printImpliedRelationshipToDeceased } from "~/domains/nachlass/services/pdf/shared/printRelationshipToDeceased";
 
 export const deceasedParentsNoticeTitle =
   "Geben Sie die Kinder von verstorbenen Angehörigen an";
@@ -93,6 +94,7 @@ function parentArrayForDepth(
 export function collectDescendantsWithParentName(
   items: PersonItem[],
   targetDepth: number,
+  order: number = 1,
 ): DescendantEntry[] {
   function traverse(
     currentItems: PersonItem[],
@@ -117,6 +119,10 @@ export function collectDescendantsWithParentName(
           item,
           indexes,
           directParentName: String(chosenName ?? parentName),
+          relationshipToErblasser: printImpliedRelationshipToDeceased(
+            currentDepth,
+            order,
+          ),
         };
       });
     }
