@@ -187,9 +187,6 @@ importers:
       '@size-limit/file':
         specifier: ^13.0.3
         version: 13.0.3(size-limit@13.0.3)
-      '@standard-schema/spec':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@storybook/addon-a11y':
         specifier: ^10.5.10
         version: 10.5.10(storybook@10.5.10)

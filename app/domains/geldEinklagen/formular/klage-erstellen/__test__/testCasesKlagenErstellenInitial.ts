@@ -1,4 +1,3 @@
-import { datatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { type TestCases } from "~/domains/__test__/TestCases";
 import { type GeldEinklagenFormularUserData } from "../../userData";
 
@@ -27,7 +26,7 @@ const baseContext: GeldEinklagenFormularUserData = {
   klagendePersonPlz: ZIP_CODE_PILOT_COURT,
   klagendePersonOrt: "klagendePersonOrt",
   forderungGesamtbetrag: "100.00",
-  sachverhaltBegruendung: datatypeC("some reason").value,
+  sachverhaltBegruendung: "some reason",
   pageData: {
     subflowDoneStates: {
       "/klage-erstellen/klagende-person": true,

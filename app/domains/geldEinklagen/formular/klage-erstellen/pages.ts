@@ -139,7 +139,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       sachverhaltBegruendung: stringRequiredMaxSchema({
         max: TEXTAREA_MAX_LENGTH,
-      }).pipe(datatypeC),
+      }).check(datatypeC),
     },
   },
   beweiseAngebot: {
