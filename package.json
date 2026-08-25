@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1115.0",
+    "@aws-sdk/client-s3": "^3.1116.0",
     "@digitalservicebund/kern-ux-tailwind-theme": "^2.0.0",
     "@kern-ux/native": "^2.5.0",
     "@node-saml/node-saml": "github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916",
@@ -79,8 +79,8 @@
     "pdfkit": "^0.19.1",
     "pino-http": "^11.0.0",
     "prom-client": "^15.1.3",
-    "posthog-js": "1.418.6",
-    "posthog-node": "5.49.2",
+    "posthog-js": "1.418.10",
+    "posthog-node": "5.50.0",
     "rate-limit-redis": "^6.0.1",
     "react": "^19.2.8",
     "react-collapsed": "^4.2.0",
@@ -111,7 +111,7 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.5",
+    "@testing-library/user-event": "^14.6.6",
     "@types/compression": "^1.7.2",
     "@types/express": "^5.0.6",
     "@types/follow-redirects": "^1.14.4",
