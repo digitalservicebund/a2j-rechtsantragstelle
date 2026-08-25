@@ -44,7 +44,7 @@ const useDataListOptions = (
       }
     };
     fetchData();
-  }, [resourcePath, dataListType]);
+  }, [resourcePath]);
 
   return dataListOptions;
 };

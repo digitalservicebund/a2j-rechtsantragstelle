@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridSection } from "~/components/layout/grid/GridSection";
@@ -16,6 +16,22 @@ const InteractiveFeedbackComponent = () => {
   const [feedbackType, setFeedbackType] = useState<FeedbackType>("positive");
   const [shouldFocus, setShouldFocus] = useState(false);
 
+  const handleRatingSubmit = (feedback: FeedbackType) => {
+    setFeedbackType(feedback);
+    setBannerState("showFeedback");
+    setShouldFocus(true);
+  };
+
+  const handleFeedbackSubmit = useCallback(() => {
+    setBannerState("feedbackGiven");
+    setShouldFocus(true);
+  }, []);
+
+  const resetDemo = () => {
+    setBannerState("showRating");
+    setShouldFocus(false);
+  };
+
   // Intercept form submissions to prevent actual navigation
   useEffect(() => {
     const handleSubmit = (e: Event) => {
@@ -29,23 +45,7 @@ const InteractiveFeedbackComponent = () => {
 
     document.addEventListener("submit", handleSubmit, true);
     return () => document.removeEventListener("submit", handleSubmit, true);
-  }, []);
-
-  const handleRatingSubmit = (feedback: FeedbackType) => {
-    setFeedbackType(feedback);
-    setBannerState("showFeedback");
-    setShouldFocus(true);
-  };
-
-  const handleFeedbackSubmit = () => {
-    setBannerState("feedbackGiven");
-    setShouldFocus(true);
-  };
-
-  const resetDemo = () => {
-    setBannerState("showRating");
-    setShouldFocus(false);
-  };
+  }, [handleFeedbackSubmit]);
 
   return (
     <GridSection>
