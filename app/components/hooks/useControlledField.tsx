@@ -14,13 +14,14 @@ export const useControlledField = (
   } = controlledFieldConfig ?? {};
   const field = useField<AllowedUserTypes>(fieldName);
   const value = field.value();
-  const originalValue = useRef(value).current;
+  const originalValueRef = useRef(value);
   const form = useFormContext<any>();
   const controlledField = form?.field(controlledFieldName ?? "");
   const [controlledFieldSrValue, setControlledFieldSrValue] =
     useState<string>();
 
   useEffect(() => {
+    const originalValue = originalValueRef.current;
     async function fieldValueChangeHandler() {
       await handleFieldValueChange?.({
         originalValue,
@@ -30,10 +31,11 @@ export const useControlledField = (
       });
     }
     fieldValueChangeHandler();
-  }, [value, controlledField, originalValue, handleFieldValueChange]);
+  }, [value, controlledField, originalValueRef, handleFieldValueChange]);
 
   const MemoizedScreenReaderAnnouncement = useMemo(
     () =>
+      // oxlint-disable-next-line react/capitalized-calls
       ScreenReaderAnnouncement(
         getScreenReaderAnnouncementText?.(controlledFieldSrValue ?? "") ?? "",
         controlledFieldSrValue,

@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 export function useJsAvailable() {
-  const [isJsAvailable, setIsJsAvailable] = useState(false);
-  useEffect(() => setIsJsAvailable(true), []);
-  return isJsAvailable;
+  return useSyncExternalStore(
+    () => () => {},
+    () => true, // true on client
+    () => false, // false on server
+  );
 }
