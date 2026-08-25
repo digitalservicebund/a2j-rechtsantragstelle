@@ -13,6 +13,10 @@ import {
   type InheritanceInput,
 } from "./calculateInheritance";
 import { personName } from "./personName";
+import {
+  FIRST_ORDER_LABELS,
+  SECOND_ORDER_LABELS,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeLabels";
 
 // Only the main result page gets the heir list + required documents. The other
 // result pages are the "not determined" exit pages, which show neither.
@@ -22,15 +26,6 @@ const HEIRS_LIST_IDENTIFIER = "heirsList";
 // "Erbanteile können nicht ermittelt werden" copy. We show it (and hide the heir list)
 // only when the spouse's share can't be determined.
 const EHEVERTRAG_UNKNOWN_NOTICE_IDENTIFIER = "ehevertragUnbekanntHinweis";
-
-const FIRST_ORDER_LABELS = [
-  "Kind",
-  "Enkelkind",
-  "Urenkel",
-  "Ur-Urenkel",
-  "Ur-Ur-Urenkel",
-];
-const SECOND_ORDER_LABELS = ["Elternteil", "Geschwister", "Nichte oder Neffe"];
 
 function relationshipLabel(heir: HeirShare): string {
   if (heir.order === 0) return "Ehepartner";

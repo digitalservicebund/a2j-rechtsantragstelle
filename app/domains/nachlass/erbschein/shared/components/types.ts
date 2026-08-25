@@ -15,7 +15,9 @@ export type ItemWithPath = {
   indexes: number[];
 };
 
-// An item paired with its index path and its direct parent's display name.
+// An item paired with its index path, direct parent's display name, and implied relationship
+// to the Erblasser.
 export type DescendantEntry = ItemWithPath & {
   directParentName: string;
+  relationshipToErblasser: string;
 };
