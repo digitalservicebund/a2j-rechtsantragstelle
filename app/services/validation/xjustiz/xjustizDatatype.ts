@@ -1,4 +1,7 @@
-import { datatypeC as originalDatatypeC } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
+import {
+  datatypeA as originalDatatypeA,
+  datatypeC as originalDatatypeC,
+} from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { type z } from "zod";
 import { translations } from "~/services/translations/translations";
 
@@ -21,6 +24,10 @@ const characterCheck =
         message: result.issues[0].message,
       });
   };
+
+export const datatypeA = characterCheck(
+  originalDatatypeA.customize({ invalidCharacters }),
+);
 
 export const datatypeC = characterCheck(
   originalDatatypeC.customize({ invalidCharacters }),

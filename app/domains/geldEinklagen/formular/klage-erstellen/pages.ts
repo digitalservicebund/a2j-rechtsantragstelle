@@ -18,7 +18,10 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { datatypeC } from "~/services/validation/xjustiz/xjustizDatatype";
+import {
+  datatypeA,
+  datatypeC,
+} from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -51,8 +54,8 @@ export const geldEinklagenKlageErstellenPages = {
         z.enum(["herr", "frau", "none"]),
       ),
       klagendePersonTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
-      klagendePersonVorname: stringRequiredSchema,
-      klagendePersonNachname: stringRequiredSchema,
+      klagendePersonVorname: stringRequiredSchema.check(datatypeA),
+      klagendePersonNachname: stringRequiredSchema.check(datatypeA),
       klagendePersonStrasse: stringRequiredSchema,
       klagendePersonHausnummer: germanHouseNumberSchema,
       klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
