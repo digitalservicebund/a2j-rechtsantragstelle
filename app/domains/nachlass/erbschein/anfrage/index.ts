@@ -12,6 +12,7 @@ import {
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { migrateKind } from "./kinderMigration";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -33,6 +34,9 @@ export const nachlassErbscheinAnfrage = {
       sourceData: NachlassErbscheinErbfolgeUserData,
     ): NachlassErbscheinAnfrageUserData => {
       return {
+        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
+        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
+        verstorbeneFamilienstand: sourceData.familienstand,
         ehepartnerVorname: sourceData.ehepartnerVorname ?? "",
         ehepartnerNachname: sourceData.ehepartnerNachname ?? "",
         ...(sourceData.ehepartnerStaatsangehoerigkeit === "nurDeutsch"
@@ -41,9 +45,9 @@ export const nachlassErbscheinAnfrage = {
         ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
           ? { hasEhevertrag: sourceData.ehevertrag }
           : {}),
-        verstorbeneFamilienstand: sourceData.familienstand,
-        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
-        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
+        ...(sourceData.kinder && {
+          kinder: sourceData.kinder.map(migrateKind),
+        }),
       };
     },
     buttonUrl: "/nachlass/erbschein/erbfolge",
