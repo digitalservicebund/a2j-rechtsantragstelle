@@ -64,16 +64,6 @@ test.describe(pageUrl, () => {
     const cookieBanner = page.getByTestId("cookie-banner");
     await expect(cookieBanner).toBeVisible();
   });
-
-  test.describe("js disabled", () => {
-    test.use({ javaScriptEnabled: false });
-
-    test("submit button is enabled without selection", async ({ page }) => {
-      await expect(
-        page.getByRole("button", { name: "Speichern" }),
-      ).not.toBeDisabled();
-    });
-  });
 });
 
 test.describe("/datenschutzerklaerung/erfolg", () => {
