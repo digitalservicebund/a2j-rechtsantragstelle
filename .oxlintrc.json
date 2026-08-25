@@ -8,6 +8,12 @@
     "perf": "error"
   },
   "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "no-console": "warn",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/consistent-type-imports": [

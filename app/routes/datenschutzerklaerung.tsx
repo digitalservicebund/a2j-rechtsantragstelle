@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { redirect, Form, useLoaderData, useNavigation } from "react-router";
 import ContentComponents from "~/components/content/ContentComponents";
@@ -47,11 +47,9 @@ export default function Index() {
   } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-  useEffect(() => {
-    setSubmitButtonDisabled(trackingConsent === undefined);
-  }, [trackingConsent]);
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(
+    trackingConsent === undefined,
+  );
 
   return (
     <div className="flex flex-col grow">
