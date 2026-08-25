@@ -10,6 +10,17 @@ import { getStepStyles } from "./getStepStyles";
 import { StepperIcon } from "./StepperIcon";
 import { translations } from "~/services/translations/translations";
 
+const getStatusText = (state: NavState) => {
+  if (stateIsDone(state)) {
+    return translations.navigation.navigationItemFinished.de;
+  }
+  if (stateIsWarning(state)) {
+    return translations.navigation.navigationItemWarning.de;
+  }
+
+  return "";
+};
+
 export function StepperContent({
   state,
   stepIndex,
@@ -28,11 +39,7 @@ export function StepperContent({
 
   const stepNumber = stepIndex + 1;
 
-  const statusText = styles.isDone
-    ? translations.navigation.navigationItemFinished.de
-    : stateIsWarning(state)
-      ? translations.navigation.navigationItemWarning.de
-      : "";
+  const statusText = getStatusText(state);
 
   const currentText = stateIsCurrent(state) ? "current" : "";
 
