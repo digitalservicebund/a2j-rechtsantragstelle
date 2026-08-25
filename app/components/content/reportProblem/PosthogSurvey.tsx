@@ -54,6 +54,7 @@ export const PosthogSurvey = ({
 
   useEffect(() => {
     if (showValidationError && responses && isCompletelyFilled) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setShowValidationError(false);
     }
   }, [responses, showValidationError, isCompletelyFilled]);

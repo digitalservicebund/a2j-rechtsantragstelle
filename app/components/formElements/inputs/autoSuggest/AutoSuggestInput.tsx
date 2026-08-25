@@ -172,6 +172,7 @@ const AutoSuggestInput = ({
       value = { value: defaultValue, label: defaultValue };
     }
 
+    // oxlint-disable-next-line react/set-state-in-effect
     setCurrentItemValue(value);
   }, [defaultValue, items, isCreatable]);
 
