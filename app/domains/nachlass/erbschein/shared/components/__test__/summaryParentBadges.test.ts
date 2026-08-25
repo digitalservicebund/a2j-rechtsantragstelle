@@ -123,6 +123,30 @@ describe("collectDescendantsWithParentName", () => {
     ]);
   });
 
+  it("resolves the implied relationship to the erblasser for first-order descendants", () => {
+    const kindEntries = collectDescendantsWithParentName(items, 1);
+    expect(kindEntries.map((entry) => entry.relationshipToErblasser)).toEqual([
+      "Kind",
+      "Kind",
+    ]);
+    const enkelkindEntries = collectDescendantsWithParentName(items, 2);
+    expect(
+      enkelkindEntries.map((entry) => entry.relationshipToErblasser),
+    ).toEqual(["Enkelkind", "Enkelkind"]);
+  });
+
+  it("resolves the implied relationship to the erblasser for second-order descendants", () => {
+    const kindEntries = collectDescendantsWithParentName(items, 1, 2);
+    expect(kindEntries.map((entry) => entry.relationshipToErblasser)).toEqual([
+      "Elternteil",
+      "Elternteil",
+    ]);
+    const enkelkindEntries = collectDescendantsWithParentName(items, 2, 2);
+    expect(
+      enkelkindEntries.map((entry) => entry.relationshipToErblasser),
+    ).toEqual(["Geschwister", "Geschwister"]);
+  });
+
   // Stale-data guard: mirrors the inheritance calc — an assignment pointing at a
   // living member is ignored in favour of the physical parent.
   it("falls back to the physical parent when the assigned member is alive", () => {

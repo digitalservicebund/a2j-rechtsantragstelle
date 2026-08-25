@@ -54,6 +54,7 @@ export const PosthogSurvey = ({
 
   useEffect(() => {
     if (showValidationError && responses && isCompletelyFilled) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setShowValidationError(false);
     }
   }, [responses, showValidationError, isCompletelyFilled]);
@@ -77,7 +78,7 @@ export const PosthogSurvey = ({
     return () => {
       dialog.removeEventListener("close", handleClose);
     };
-  }, [dialogRef, wasSubmitted]);
+  }, [dialogRef]);
 
   const dialogLabelId = "dialog-label";
   const dialogDescriptionId = "dialog-description";

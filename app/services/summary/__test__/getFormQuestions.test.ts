@@ -154,6 +154,18 @@ describe("findStepIdForField", () => {
         "/beratungshilfe/antrag/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand/daten",
       );
     });
+
+    it("should handle nested array sub-fields", () => {
+      const nestedFieldMapping = {
+        ...fieldMapping,
+        "kinder#kinder#vorname":
+          "/erbschein/antrag/angehoerige/kinder/kinder/daten",
+      };
+
+      expect(
+        findStepIdForField("kinder[0].kinder[2].vorname", nestedFieldMapping),
+      ).toBe("/erbschein/antrag/angehoerige/kinder/kinder/daten");
+    });
   });
 
   describe("Edge cases", () => {

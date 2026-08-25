@@ -1,7 +1,9 @@
 import type PDFDocument from "pdfkit";
 import { type Angehoerige } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { collectDescendantsWithParentName } from "~/domains/nachlass/erbschein/shared/components/summaryTree";
 import { addAngehoerige } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/addAngehoerige";
+import { addDescendant } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/addDescendant";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 
 const TITLE = "Angehörige";
@@ -25,6 +27,32 @@ export const createAngehoerigeSection = (
         .moveDown(1);
     }),
   );
+
+  if (userData.kinder) {
+    const kinderSubsection = doc.struct("Sect");
+    const allKinderDescendants = [1, 2, 3, 4, 5].flatMap((depth) =>
+      collectDescendantsWithParentName(userData.kinder!, depth),
+    );
+    allKinderDescendants.forEach((kind) => {
+      const kindSubsection = doc.struct("Sect");
+      addDescendant(doc, kindSubsection, kind);
+      kinderSubsection.add(kindSubsection);
+    });
+    angehoerigeSection.add(kinderSubsection);
+  }
+
+  if (userData.elternteile) {
+    const elternteileSubsection = doc.struct("Sect");
+    const allElternteileDescendants = [1, 2, 3, 4, 5].flatMap((depth) =>
+      collectDescendantsWithParentName(userData.elternteile!, depth, 2),
+    );
+    allElternteileDescendants.forEach((elternteil) => {
+      const elternteilSubsection = doc.struct("Sect");
+      addDescendant(doc, elternteilSubsection, elternteil);
+      elternteileSubsection.add(elternteilSubsection);
+    });
+    angehoerigeSection.add(elternteileSubsection);
+  }
 
   userData.angehoerige?.forEach((angehoerige: Angehoerige) => {
     const angehoerigeSubsection = doc.struct("Sect");

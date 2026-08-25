@@ -85,7 +85,7 @@ export const kinderFlowConfig = {
       target: "kindSummary",
     },
     {
-      target: "grundbesitz",
+      target: "elternteilSummary",
     },
   ],
   kinderFehlen: null,

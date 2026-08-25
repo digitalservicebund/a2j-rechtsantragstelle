@@ -2,7 +2,7 @@ import type { UserData } from "~/domains/userData";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
-import { parseArrayField } from "./fieldParsingUtils";
+import { createArrayBoxKey, parseArrayField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
 import { getPageAndFlowDataFromPathname } from "../flow/getPageAndFlowDataFromPathname";
 import {
@@ -43,6 +43,27 @@ const applyStringReplacementToContent = (
   }
 };
 
+// Walks every nested array segment (e.g. kinder[0].kinder[2]) to find the item
+// the leaf sub-field lives on.
+function resolveArrayItem(
+  userData: UserData,
+  segments: ReturnType<typeof parseArrayField>["segments"],
+): UserData | undefined {
+  let container: UserData = userData;
+  let item: UserData | undefined;
+
+  for (const segment of segments) {
+    const arrayValue = container[segment.fieldName];
+    item = Array.isArray(arrayValue)
+      ? (arrayValue[segment.arrayIndex] as UserData | undefined)
+      : undefined;
+    if (!item) return undefined;
+    container = item;
+  }
+
+  return item;
+}
+
 const getValueAndArrayData = (
   fieldInfo: ReturnType<typeof parseArrayField>,
   userData: UserData,
@@ -54,12 +75,7 @@ const getValueAndArrayData = (
 
   const arrayIndex = fieldInfo.arrayIndex;
   const arrayBaseField = fieldInfo.baseFieldName;
-
-  const arrayValue = userData[fieldInfo.baseFieldName];
-  const arrayItem =
-    Array.isArray(arrayValue) && arrayValue[fieldInfo.arrayIndex]
-      ? arrayValue[fieldInfo.arrayIndex]
-      : undefined;
+  const arrayItem = resolveArrayItem(userData, fieldInfo.segments);
 
   const value =
     arrayItem && fieldInfo.subFieldName
@@ -99,24 +115,31 @@ export function createFieldEntry(
     ? createArrayEditUrl(fieldName, representativeStepId)
     : representativeStepId;
 
+  // Full index path across every nesting level (e.g. [0, 2] for kinder[0].kinder[2])
+  const arrayIndexes = fieldInfo.segments.map((segment) => segment.arrayIndex);
+  const arrayBoxKey = isArrayItem
+    ? (createArrayBoxKey(fieldName) ?? undefined)
+    : undefined;
+
   return {
     id: crypto.randomUUID().split("-")[0],
     question: applyStringReplacementToContent(
       question,
       representativeStepId,
       userData,
-      arrayIndex === undefined ? undefined : [arrayIndex],
+      arrayIndexes.length > 0 ? arrayIndexes : undefined,
     ),
     answer: applyStringReplacementToContent(
       answer,
       representativeStepId,
       userData,
-      arrayIndex === undefined ? undefined : [arrayIndex],
+      arrayIndexes.length > 0 ? arrayIndexes : undefined,
     ),
     editUrl,
     isArrayItem,
     arrayIndex,
     arrayBaseField,
+    arrayBoxKey,
   };
 }
 

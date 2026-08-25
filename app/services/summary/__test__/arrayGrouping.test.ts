@@ -85,6 +85,56 @@ describe("arrayGrouping", () => {
       expect(result.nonArrayFields).toHaveLength(1);
       expect(result.arrayFieldsByBase).toEqual({});
     });
+
+    it("should keep nested array items separate by their full box key", () => {
+      const mockFields: FieldItem[] = [
+        {
+          id: "field1",
+          question: "Wie heißt Ihr Kind?",
+          answer: "Anna",
+          editUrl: "/finanzielle-angaben/kinder/kinder/name",
+          isArrayItem: true,
+          arrayBaseField: "kinder",
+          arrayIndex: 0,
+          arrayBoxKey: "kinder-0",
+        },
+        {
+          id: "field2",
+          question: "Wie heißt das Enkelkind?",
+          answer: "Enkel1",
+          editUrl: "/erbschein/antrag/angehoerige/kinder/kinder/daten",
+          isArrayItem: true,
+          arrayBaseField: "kinder",
+          arrayIndex: 0,
+          arrayBoxKey: "kinder-0-kinder-0",
+        },
+        {
+          id: "field3",
+          question: "Wie heißt das Enkelkind?",
+          answer: "Enkel2",
+          editUrl: "/erbschein/antrag/angehoerige/kinder/kinder/daten",
+          isArrayItem: true,
+          arrayBaseField: "kinder",
+          arrayIndex: 0,
+          arrayBoxKey: "kinder-0-kinder-1",
+        },
+      ];
+
+      const result = groupFieldsByArrayType(mockFields);
+
+      expect(Object.keys(result.arrayFieldsByBase.kinder)).toEqual([
+        "kinder-0",
+        "kinder-0-kinder-0",
+        "kinder-0-kinder-1",
+      ]);
+      expect(result.arrayFieldsByBase.kinder["kinder-0"]).toHaveLength(1);
+      expect(result.arrayFieldsByBase.kinder["kinder-0-kinder-0"]).toHaveLength(
+        1,
+      );
+      expect(
+        result.arrayFieldsByBase.kinder["kinder-0-kinder-1"][0].answer,
+      ).toBe("Enkel2");
+    });
   });
 
   describe("createArrayGroupItems", () => {
