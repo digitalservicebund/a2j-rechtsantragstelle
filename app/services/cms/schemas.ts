@@ -49,6 +49,7 @@ export type GetStrapiEntryOpts<T extends ApiId> = {
   pageSize?: string;
   fields?: string;
   pLevel?: number;
+  status?: "draft" | "published";
 };
 
 export type GetStrapiEntry = <T extends ApiId>(

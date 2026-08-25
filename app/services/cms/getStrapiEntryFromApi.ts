@@ -34,6 +34,7 @@ const buildUrl = <T extends ApiId>({
   fields,
   populate = "*",
   pLevel,
+  status,
 }: GetStrapiEntryOpts<T>) =>
   [
     config().STRAPI_API,
@@ -43,6 +44,7 @@ const buildUrl = <T extends ApiId>({
     pLevel ? `&pLevel=${pLevel}` : "",
     `&locale=${locale}`,
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
+    status ? `&status=${status}` : "",
     buildFilters(filters),
   ].join("");
 
