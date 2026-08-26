@@ -12,7 +12,7 @@ import {
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { migrateKind } from "./kinderMigration";
+import { migrateElternteil, migrateKind } from "./personMigration";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -30,6 +30,7 @@ export const nachlassErbscheinAnfrage = {
       "ehepartnerStaatsangehoerigkeit",
       "hasEhevertrag",
       "kinder",
+      "elternteile",
     ],
     migrationDataMerger: (
       sourceData: NachlassErbscheinErbfolgeUserData,
@@ -46,8 +47,12 @@ export const nachlassErbscheinAnfrage = {
         ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
           ? { hasEhevertrag: sourceData.ehevertrag }
           : {}),
+          hatteKinder: sourceData.hatteKinder,
         ...(sourceData.kinder && {
           kinder: sourceData.kinder.map(migrateKind),
+          ...(sourceData.elternteile && {
+            elternteile: sourceData.elternteile.map(migrateElternteil),
+          }),
         }),
       };
     },
