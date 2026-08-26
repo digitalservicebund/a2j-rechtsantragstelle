@@ -32,10 +32,10 @@ const statePrefilled = z
   .default("filledByUser");
 
 const sharedBeklagteAddress = {
-  beklagteStrasse: stringRequiredSchema,
-  beklagteHausnummer: germanHouseNumberSchema,
-  beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
-  beklagteOrt: stringRequiredSchema,
+  beklagteStrasse: stringRequiredSchema.check(datatypeB),
+  beklagteHausnummer: germanHouseNumberSchema.check(datatypeB),
+  beklagtePlz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
+  beklagteOrt: stringRequiredSchema.check(datatypeB),
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
@@ -108,8 +108,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       beklagteAnrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
       beklagteTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
-      beklagteVorname: stringRequiredSchema,
-      beklagteNachname: stringRequiredSchema,
+      beklagteVorname: stringRequiredSchema.check(datatypeA),
+      beklagteNachname: stringRequiredSchema.check(datatypeA),
       ...sharedBeklagteAddress,
     },
     readonlyFields: {
