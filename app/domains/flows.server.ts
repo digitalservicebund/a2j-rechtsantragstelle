@@ -67,7 +67,6 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   >;
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
-  lifecycleTimeInHours?: number;
 };
 
 export const flows = {

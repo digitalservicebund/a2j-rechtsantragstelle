@@ -55,7 +55,6 @@ export const geldEinklagenFormular = {
   },
   newEngineConfig: geldEinklagenFlowConfig,
   useStepper: true,
-  lifecycleTimeInHours: 720, // 30 days
   asyncFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
       prefillZipCodeAndCity,
