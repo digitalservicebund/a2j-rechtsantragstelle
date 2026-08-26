@@ -20,7 +20,9 @@ import {
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
   datatypeA,
+  datatypeB,
   datatypeC,
+  datatypeD,
 } from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
@@ -56,15 +58,18 @@ export const geldEinklagenKlageErstellenPages = {
       klagendePersonTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
       klagendePersonVorname: stringRequiredSchema.check(datatypeA),
       klagendePersonNachname: stringRequiredSchema.check(datatypeA),
-      klagendePersonStrasse: stringRequiredSchema,
-      klagendePersonHausnummer: germanHouseNumberSchema,
-      klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonStrasse: stringRequiredSchema.check(datatypeB),
+      klagendePersonHausnummer: germanHouseNumberSchema.check(datatypeB),
+      klagendePersonPlz: stringRequiredSchema
+        .pipe(postcodeSchema)
+        .check(datatypeC),
       klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
-      klagendePersonOrt: stringRequiredSchema,
-      klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
-      klagendeEmail: schemaOrEmptyString(emailSchema),
-      klagendePersonIban: schemaOrEmptyString(ibanSchema),
-      klagendePersonKontoinhaber: stringOptionalSchema,
+      klagendePersonOrt: stringRequiredSchema.check(datatypeB),
+      klagendeTelefonnummer:
+        schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+      klagendeEmail: schemaOrEmptyString(emailSchema).check(datatypeC),
+      klagendePersonIban: schemaOrEmptyString(ibanSchema).check(datatypeC),
+      klagendePersonKontoinhaber: stringOptionalSchema.check(datatypeD),
     },
     readonlyFields: {
       fieldNames: ["klagendePersonPlz", "klagendePersonOrt"],
