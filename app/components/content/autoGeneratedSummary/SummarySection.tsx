@@ -88,12 +88,10 @@ const SummarySection = ({
                   key={`array-item-${arrayGroup.id}-${itemIndex}`}
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
-                  <div className="mb-8">
-                    {/* This was added to display the title of the array item only for the "Kinder" group. */}
-                    {arrayGroup.title.startsWith("Kinder")
-                      ? `Kind ${itemIndex + 1}`
-                      : arrayGroup.title}
-                  </div>
+                  {/* This was added to display the title of the array item only for the "Kinder" group. */}
+                  {arrayGroup.title.startsWith("Kinder") && (
+                    <div className="mb-8">{`Kind ${itemIndex + 1}`}</div>
+                  )}
                   {arrayItem.multipleQuestions ? (
                     arrayItem.multipleQuestions.map((qa) => (
                       <dl
