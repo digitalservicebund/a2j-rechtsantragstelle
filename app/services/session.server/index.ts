@@ -37,27 +37,29 @@ const generateHeader = (cookies: string[]) => {
   return headers;
 };
 
-const cookie = createCookie("__session", {
-  secrets: [config().COOKIE_SESSION_SECRET],
-  sameSite: "lax",
-  httpOnly: true,
-  maxAge: getMaxAgeLifecycle(),
-  secure: useSecureCookie,
-});
+const getCookie = () =>
+  createCookie("__session", {
+    secrets: [config().COOKIE_SESSION_SECRET],
+    sameSite: "lax",
+    httpOnly: true,
+    maxAge: getMaxAgeLifecycle(),
+    secure: useSecureCookie,
+  });
 
-const vaultCookie = createCookie("__vaultKey", {
-  secrets: [config().COOKIE_SESSION_SECRET],
-  sameSite: "lax",
-  httpOnly: true,
-  maxAge: getMaxAgeLifecycle(),
-  secure: useSecureCookie,
-});
+const getVaultCookie = () =>
+  createCookie("__vaultKey", {
+    secrets: [config().COOKIE_SESSION_SECRET],
+    sameSite: "lax",
+    httpOnly: true,
+    maxAge: getMaxAgeLifecycle(),
+    secure: useSecureCookie,
+  });
 
 const createScopedStorage = (context: SessionUserData, vaultKey?: string) => {
   const timeToLiveSeconds = getLifecycleTimeBySessionUserData(context);
 
   return createSessionStorage({
-    cookie,
+    cookie: getCookie(),
     async createData(data) {
       const uuid = crypto.randomUUID();
       await setDataForSession(
@@ -89,7 +91,8 @@ export function getSessionManager(context: SessionUserData) {
   return {
     async getSession(cookieHeader: CookieHeader) {
       const vaultKey: string =
-        (await vaultCookie.parse(cookieHeader ?? null)) ?? generateVaultKey();
+        (await getVaultCookie().parse(cookieHeader ?? null)) ??
+        generateVaultKey();
 
       const storage = createScopedStorage(context, vaultKey);
       const session = await storage.getSession(cookieHeader);
@@ -102,7 +105,7 @@ export function getSessionManager(context: SessionUserData) {
       session.unset("__vaultKey");
       return generateHeader([
         await createScopedStorage(context, vaultKey).commitSession(session),
-        await vaultCookie.serialize(vaultKey),
+        await getVaultCookie().serialize(vaultKey),
       ]);
     },
 
