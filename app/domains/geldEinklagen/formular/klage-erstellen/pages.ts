@@ -85,22 +85,28 @@ export const geldEinklagenKlageErstellenPages = {
         "berufsausuebungsgesellschaft",
         "einzelkanzlei",
       ]),
-      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
-      klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
-      klagendePersonAnwaltschaftStrasse: stringRequiredSchema,
-      klagendePersonAnwaltschaftHausnummer: germanHouseNumberSchema,
-      klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
-      klagendePersonAnwaltschaftOrt: stringRequiredSchema,
+      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema.check(datatypeD),
+      klagendePersonAnwaltschaftGeschaeftszeichen:
+        stringOptionalSchema.check(datatypeC),
+      klagendePersonAnwaltschaftStrasse: stringRequiredSchema.check(datatypeB),
+      klagendePersonAnwaltschaftHausnummer:
+        germanHouseNumberSchema.check(datatypeB),
+      klagendePersonAnwaltschaftPlz: stringRequiredSchema
+        .pipe(postcodeSchema)
+        .check(datatypeC),
+      klagendePersonAnwaltschaftOrt: stringRequiredSchema.check(datatypeB),
       klagendePersonAnwaltschaftAnrede: schemaOrEmptyString(
         z.enum(["herr", "frau", "none"]),
       ),
-      klagendePersonAnwaltschaftTitle: stringOptionalSchema,
-      klagendePersonAnwaltschaftVorname: stringRequiredSchema,
-      klagendePersonAnwaltschaftNachname: stringRequiredSchema,
-      klagendePersonAnwaltschaftBerufsbezeichnung: stringOptionalSchema,
+      klagendePersonAnwaltschaftTitle: stringOptionalSchema.check(datatypeC),
+      klagendePersonAnwaltschaftVorname: stringRequiredSchema.check(datatypeA),
+      klagendePersonAnwaltschaftNachname: stringRequiredSchema.check(datatypeA),
+      klagendePersonAnwaltschaftBerufsbezeichnung:
+        stringOptionalSchema.check(datatypeC),
       klagendePersonAnwaltschaftTelefonnummer:
-        schemaOrEmptyString(phoneNumberSchema),
-      klagendePersonAnwaltschaftEmail: schemaOrEmptyString(emailSchema),
+        schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+      klagendePersonAnwaltschaftEmail:
+        schemaOrEmptyString(emailSchema).check(datatypeC),
     },
   },
   beklagtePersonMenschen: {
