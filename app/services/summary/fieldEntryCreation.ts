@@ -1,4 +1,5 @@
-import type { UserData } from "~/domains/userData";
+import type { AllowedUserTypes, UserData } from "~/domains/userData";
+import type { Flow, SummaryFieldOverride } from "~/domains/flows.server";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
@@ -85,6 +86,25 @@ const getValueAndArrayData = (
   return { value, arrayIndex, arrayBaseField };
 };
 
+/**
+ * Lets the calling flow override the question/answer for a field that has no
+ * CMS label (e.g. purely metadata fields like parentKindIndex).
+ */
+function resolveFieldOverride(
+  fieldInfo: ReturnType<typeof parseArrayField>,
+  value: AllowedUserTypes,
+  userData: UserData,
+  representativeStepId: string,
+): ReturnType<SummaryFieldOverride> {
+  try {
+    const { currentFlow }: { currentFlow: Flow } =
+      getPageAndFlowDataFromPathname(representativeStepId);
+    return currentFlow.summaryFieldOverride?.(fieldInfo, value, userData);
+  } catch {
+    return undefined;
+  }
+}
+
 export function createFieldEntry(
   fieldName: string,
   userData: UserData,
@@ -103,10 +123,17 @@ export function createFieldEntry(
     fieldName,
   );
 
-  const question = fieldQuestions[fieldName]?.question ?? fieldName;
-  const fieldQuestion = fieldQuestions[fieldName];
+  const fieldOverride = resolveFieldOverride(
+    fieldInfo,
+    value,
+    userData,
+    representativeStepId,
+  );
 
-  const answer =
+  const question =
+    fieldOverride?.question ?? fieldQuestions[fieldName]?.question ?? fieldName;
+  const fieldQuestion = fieldQuestions[fieldName];
+  const fieldAnswer =
     value == undefined || value === ""
       ? "Keine Angabe" // need to get this from CMS for translations
       : formatFieldValue(value, fieldQuestion?.options);
@@ -130,7 +157,7 @@ export function createFieldEntry(
       arrayIndexes.length > 0 ? arrayIndexes : undefined,
     ),
     answer: applyStringReplacementToContent(
-      answer,
+      fieldOverride?.answer ?? fieldAnswer,
       representativeStepId,
       userData,
       arrayIndexes.length > 0 ? arrayIndexes : undefined,

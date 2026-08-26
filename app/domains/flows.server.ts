@@ -6,10 +6,11 @@ import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
 import type { Config } from "~/services/flow/server/types";
 import type { Replacements } from "~/util/applyStringReplacement";
+import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
 import type { FlowId } from "./flowIds";
 import type { Guards } from "./guards.server";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
-import type { UserData } from "./userData";
+import type { UserData, AllowedUserTypes } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { nachlassErbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
@@ -49,6 +50,12 @@ type FlowMetaConfiguration = {
 
 export type FlowType = "vorabCheck" | "formFlow";
 
+export type SummaryFieldOverride = (
+  fieldInfo: ArrayFieldInfo,
+  rawValue: AllowedUserTypes,
+  userData: UserData,
+) => Pick<FieldItem, "question" | "answer"> | undefined;
+
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config: Config;
@@ -57,6 +64,11 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
+  /**
+   * Lets a flow override the auto-generated summary's question/answer for a
+   * specific field (e.g. internal fields with no CMS label, like parentKindIndex).
+   */
+  summaryFieldOverride?: SummaryFieldOverride;
   asyncFlowActions?: Record<
     string,
     (

@@ -12,6 +12,7 @@ import {
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { resolveParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -57,5 +58,6 @@ export const nachlassErbscheinAnfrage = {
     ...getAngehoerigeStrings(context),
     ...getAmtsgerichtStrings(context),
   }),
+  summaryFieldOverride: resolveParentIndexSummaryOverride,
   newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;
