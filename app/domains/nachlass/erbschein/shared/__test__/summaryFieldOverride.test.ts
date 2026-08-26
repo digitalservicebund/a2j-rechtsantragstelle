@@ -1,9 +1,9 @@
-import { parseArrayField } from "~/services/summary/fieldParsingUtils";
+import { parseField } from "~/services/summary/fieldParsingUtils";
 import { getParentIndexSummaryOverride } from "../summaryFieldOverride";
 
 describe("getParentIndexSummaryOverride", () => {
   it("returns undefined for fields that aren't a parent-index field", () => {
-    const fieldInfo = parseArrayField("kinder[0].vorname");
+    const fieldInfo = parseField("kinder[0].vorname");
     expect(
       getParentIndexSummaryOverride(fieldInfo, "Anna", {
         kinder: [{ vorname: "Anna" }],
@@ -23,7 +23,7 @@ describe("getParentIndexSummaryOverride", () => {
         },
       ],
     };
-    const fieldInfo = parseArrayField("kinder[2].kinder[0].parentKindIndex");
+    const fieldInfo = parseField("kinder[2].kinder[0].parentKindIndex");
 
     const result = getParentIndexSummaryOverride(fieldInfo, "0", userData);
 
@@ -37,7 +37,7 @@ describe("getParentIndexSummaryOverride", () => {
         { vorname: "Klaus", isAlive: "no" },
       ],
     };
-    const fieldInfo = parseArrayField(
+    const fieldInfo = parseField(
       "elternteile[0].kinder[0].parentElternteilIndex",
     );
 
@@ -51,7 +51,7 @@ describe("getParentIndexSummaryOverride", () => {
 
   it("falls back to 'Keine Angabe' when the chosen parent can't be resolved", () => {
     const userData = { kinder: [] };
-    const fieldInfo = parseArrayField("kinder[0].kinder[0].parentKindIndex");
+    const fieldInfo = parseField("kinder[0].kinder[0].parentKindIndex");
 
     const result = getParentIndexSummaryOverride(fieldInfo, "0", userData);
 

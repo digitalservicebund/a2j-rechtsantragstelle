@@ -3,7 +3,7 @@ import type { Flow, SummaryFieldOverride } from "~/domains/flows.server";
 import type { FieldItem } from "./types";
 import { formatFieldValue } from "./formatFieldValue";
 import { createArrayEditUrl } from "./arrayFieldProcessing";
-import { createArrayBoxKey, parseArrayField } from "./fieldParsingUtils";
+import { createArrayBoxKey, parseField } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
 import { getPageAndFlowDataFromPathname } from "../flow/getPageAndFlowDataFromPathname";
 import {
@@ -48,7 +48,7 @@ const applyStringReplacementToContent = (
 // the leaf sub-field lives on.
 function resolveArrayItem(
   userData: UserData,
-  segments: ReturnType<typeof parseArrayField>["segments"],
+  segments: ReturnType<typeof parseField>["segments"],
 ): UserData | undefined {
   let container: UserData = userData;
   let item: UserData | undefined;
@@ -66,7 +66,7 @@ function resolveArrayItem(
 }
 
 const getValueAndArrayData = (
-  fieldInfo: ReturnType<typeof parseArrayField>,
+  fieldInfo: ReturnType<typeof parseField>,
   userData: UserData,
   fieldName: string,
 ) => {
@@ -91,7 +91,7 @@ const getValueAndArrayData = (
  * CMS label (e.g. purely metadata fields like parentKindIndex).
  */
 function getFieldOverride(
-  fieldInfo: ReturnType<typeof parseArrayField>,
+  fieldInfo: ReturnType<typeof parseField>,
   value: AllowedUserTypes,
   userData: UserData,
   representativeStepId: string,
@@ -114,7 +114,7 @@ export function createFieldEntry(
   >,
   representativeStepId: string,
 ): FieldItem {
-  const fieldInfo = parseArrayField(fieldName);
+  const fieldInfo = parseField(fieldName);
   const isArrayItem = fieldInfo.isArrayField;
 
   const { value, arrayIndex, arrayBaseField } = getValueAndArrayData(
