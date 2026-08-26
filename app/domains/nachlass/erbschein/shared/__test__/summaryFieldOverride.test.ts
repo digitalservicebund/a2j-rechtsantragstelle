@@ -1,11 +1,11 @@
 import { parseArrayField } from "~/services/summary/fieldParsingUtils";
-import { resolveParentIndexSummaryOverride } from "../summaryFieldOverride";
+import { getParentIndexSummaryOverride } from "../summaryFieldOverride";
 
-describe("resolveParentIndexSummaryOverride", () => {
+describe("getParentIndexSummaryOverride", () => {
   it("returns undefined for fields that aren't a parent-index field", () => {
     const fieldInfo = parseArrayField("kinder[0].vorname");
     expect(
-      resolveParentIndexSummaryOverride(fieldInfo, "Anna", {
+      getParentIndexSummaryOverride(fieldInfo, "Anna", {
         kinder: [{ vorname: "Anna" }],
       }),
     ).toBeUndefined();
@@ -25,7 +25,7 @@ describe("resolveParentIndexSummaryOverride", () => {
     };
     const fieldInfo = parseArrayField("kinder[2].kinder[0].parentKindIndex");
 
-    const result = resolveParentIndexSummaryOverride(fieldInfo, "0", userData);
+    const result = getParentIndexSummaryOverride(fieldInfo, "0", userData);
 
     expect(result).toEqual({ question: "Kind von", answer: "Anna" });
   });
@@ -41,11 +41,7 @@ describe("resolveParentIndexSummaryOverride", () => {
       "elternteile[0].kinder[0].parentElternteilIndex",
     );
 
-    const result = resolveParentIndexSummaryOverride(
-      fieldInfo,
-      "both",
-      userData,
-    );
+    const result = getParentIndexSummaryOverride(fieldInfo, "both", userData);
 
     expect(result).toEqual({
       question: "Kind von",
@@ -57,7 +53,7 @@ describe("resolveParentIndexSummaryOverride", () => {
     const userData = { kinder: [] };
     const fieldInfo = parseArrayField("kinder[0].kinder[0].parentKindIndex");
 
-    const result = resolveParentIndexSummaryOverride(fieldInfo, "0", userData);
+    const result = getParentIndexSummaryOverride(fieldInfo, "0", userData);
 
     expect(result).toEqual({ question: "Kind von", answer: "Keine Angabe" });
   });

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createFieldEntry, processBoxFields } from "../fieldEntryCreation";
 import type { UserData } from "~/domains/userData";
-import { resolveParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
+import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 
 vi.mock("~/domains/nachlass/erbschein/shared/summaryFieldOverride");
 
@@ -138,8 +138,11 @@ describe("fieldEntryCreation", () => {
     });
 
     it("should handle field with an override", () => {
-      const mockSummaryFieldOverride = vi.fn();
-      vi.mocked(resolveParentIndexSummaryOverride).mockImplementation(
+      const mockSummaryFieldOverride = vi.fn().mockReturnValue({
+        question: "Overridden Question",
+        answer: "Overridden Answer",
+      });
+      vi.mocked(getParentIndexSummaryOverride).mockImplementation(
         mockSummaryFieldOverride,
       );
       const userData: UserData = {
@@ -151,7 +154,7 @@ describe("fieldEntryCreation", () => {
         ],
       };
 
-      createFieldEntry(
+      const result = createFieldEntry(
         "kinder[0].kinder[1].vorname",
         userData,
         {},
@@ -159,6 +162,8 @@ describe("fieldEntryCreation", () => {
       );
 
       expect(mockSummaryFieldOverride).toHaveBeenCalled();
+      expect(result.question).toBe("Overridden Question");
+      expect(result.answer).toBe("Overridden Answer");
     });
 
     it("should apply string replacements in question and answer", () => {

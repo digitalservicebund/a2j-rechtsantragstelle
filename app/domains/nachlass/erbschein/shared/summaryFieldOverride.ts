@@ -1,6 +1,7 @@
 import type { SummaryFieldOverride } from "~/domains/flows.server";
 import { resolveParentOptions, BOTH_PARENTS_VALUE } from "./buildParentOptions";
 import { type ElternteilKindFields } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import { translations } from "~/services/translations/translations";
 
 const parentIndexSubFields = new Set<keyof ElternteilKindFields>([
   "parentKindIndex",
@@ -12,7 +13,7 @@ const parentIndexSubFields = new Set<keyof ElternteilKindFields>([
  * belongs to) are purely metadata and have no CMS label. Display them as
  * "Kind von: <Elternname>" instead of the raw stored index and label.
  */
-export const resolveParentIndexSummaryOverride: SummaryFieldOverride = (
+export const getParentIndexSummaryOverride: SummaryFieldOverride = (
   fieldInfo,
   rawValue,
   userData,
@@ -39,7 +40,7 @@ export const resolveParentIndexSummaryOverride: SummaryFieldOverride = (
       : options.find((option) => option.value === chosenValue)?.text;
 
   return {
-    question: "Kind von",
-    answer: parentName ?? "Keine Angabe",
+    question: translations.nachlass.childOf.de,
+    answer: parentName ?? translations.nachlass.noParentName.de,
   };
 };

@@ -90,7 +90,7 @@ const getValueAndArrayData = (
  * Lets the calling flow override the question/answer for a field that has no
  * CMS label (e.g. purely metadata fields like parentKindIndex).
  */
-function resolveFieldOverride(
+function getFieldOverride(
   fieldInfo: ReturnType<typeof parseArrayField>,
   value: AllowedUserTypes,
   userData: UserData,
@@ -123,7 +123,7 @@ export function createFieldEntry(
     fieldName,
   );
 
-  const fieldOverride = resolveFieldOverride(
+  const fieldOverride = getFieldOverride(
     fieldInfo,
     value,
     userData,
