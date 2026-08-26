@@ -20,9 +20,13 @@ import { trackingCookieValue } from "~/services/analytics/gdprCookie.server";
 import { shouldSetCacheControlHeader } from "~/util/shouldSetCacheControlHeader";
 import { cacheControlHeaderKey } from "~/rootHeaders";
 import { lastStepKey } from "~/services/flow/constants";
+import {
+  getLifecycleTimeBySessionUserData,
+  getMaxAgeLifecycle,
+} from "./lifecycleSession";
 
 export const allSessionUserData = [...flowIds, "main"] as const;
-type SessionUserData = (typeof allSessionUserData)[number];
+export type SessionUserData = (typeof allSessionUserData)[number];
 const fullId = (context: string, id: string) => `${context}_${id}`;
 
 const generateVaultKey = () => crypto.randomBytes(32).toString("hex");
@@ -37,7 +41,7 @@ const cookie = createCookie("__session", {
   secrets: [config().COOKIE_SESSION_SECRET],
   sameSite: "lax",
   httpOnly: true,
-  maxAge: 24 * 60 * 60,
+  maxAge: getMaxAgeLifecycle(),
   secure: useSecureCookie,
 });
 
@@ -45,23 +49,35 @@ const vaultCookie = createCookie("__vaultKey", {
   secrets: [config().COOKIE_SESSION_SECRET],
   sameSite: "lax",
   httpOnly: true,
-  maxAge: 24 * 60 * 60,
+  maxAge: getMaxAgeLifecycle(),
   secure: useSecureCookie,
 });
 
 const createScopedStorage = (context: SessionUserData, vaultKey?: string) => {
+  const timeToLiveSeconds = getLifecycleTimeBySessionUserData(context);
+
   return createSessionStorage({
     cookie,
     async createData(data) {
       const uuid = crypto.randomUUID();
-      await setDataForSession(fullId(context, uuid), data, vaultKey);
+      await setDataForSession(
+        fullId(context, uuid),
+        data,
+        timeToLiveSeconds,
+        vaultKey,
+      );
       return uuid;
     },
     async readData(id) {
       return await getDataForSession(fullId(context, id), vaultKey);
     },
     async updateData(id, data) {
-      await updateDataForSession(fullId(context, id), data, vaultKey);
+      await updateDataForSession(
+        fullId(context, id),
+        data,
+        timeToLiveSeconds,
+        vaultKey,
+      );
     },
     async deleteData(id) {
       await deleteSessionData(fullId(context, id));
