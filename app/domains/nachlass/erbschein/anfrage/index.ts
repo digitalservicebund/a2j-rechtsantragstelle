@@ -29,6 +29,7 @@ export const nachlassErbscheinAnfrage = {
       "ehepartnerNachname",
       "ehepartnerStaatsangehoerigkeit",
       "hasEhevertrag",
+      "kinder",
     ],
     migrationDataMerger: (
       sourceData: NachlassErbscheinErbfolgeUserData,

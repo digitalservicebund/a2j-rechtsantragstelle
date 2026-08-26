@@ -43,6 +43,9 @@ export const getSessionAndEngine = async (
       fullUserData as Parameters<typeof createFlowSession>[1],
       stepId,
     );
+    console.log("FLOW ID", flowId);
+
+    console.log("PRUNED USER DATA", flowSessionEngine.prunedUserData);
     return Result.ok({ flowSession, flowSessionEngine });
   } catch {
     // In case the engine throws an error during creation, we want to catch it and redirect the user to the initial page of the flow, instead of showing an error page.
