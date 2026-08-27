@@ -13,6 +13,8 @@ import {
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { migrateElternteil, migrateKind } from "./personMigration";
+import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
+
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -67,5 +69,6 @@ export const nachlassErbscheinAnfrage = {
     ...getAngehoerigeStrings(context),
     ...getAmtsgerichtStrings(context),
   }),
+  summaryFieldOverride: getParentIndexSummaryOverride,
   newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;
