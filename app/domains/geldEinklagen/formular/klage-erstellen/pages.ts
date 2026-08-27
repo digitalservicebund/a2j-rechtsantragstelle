@@ -23,6 +23,7 @@ import {
   datatypeB,
   datatypeC,
   datatypeD,
+  datatypeE,
 } from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
@@ -128,7 +129,7 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
     pageSchema: {
-      beklagteNameOrganisation: stringRequiredSchema,
+      beklagteNameOrganisation: stringRequiredSchema.check(datatypeD),
       ...sharedBeklagteAddress,
       beklagteGesetzlichenVertretungAnrede: schemaOrEmptyString(
         z.enum(["herr", "frau", "none"]),
@@ -136,8 +137,10 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteGesetzlichenVertretungTitle: schemaOrEmptyString(
         z.enum(["none", "dr"]),
       ),
-      beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
-      beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
+      beklagteGesetzlichenVertretungVorname:
+        stringOptionalSchema.check(datatypeA),
+      beklagteGesetzlichenVertretungNachname:
+        stringOptionalSchema.check(datatypeA),
     },
   },
   forderungGesamtbetrag: {
@@ -218,7 +221,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       weitereAntraege: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
-      ),
+      ).check(datatypeE),
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
@@ -226,7 +229,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       rechtlicheWuerdigung: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
-      ),
+      ).check(datatypeC),
     },
   },
   zusammenfassungUebersicht: {
