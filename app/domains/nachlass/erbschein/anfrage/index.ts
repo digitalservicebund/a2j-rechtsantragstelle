@@ -49,7 +49,7 @@ export const nachlassErbscheinAnfrage = {
         ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
           ? { hasEhevertrag: sourceData.ehevertrag }
           : {}),
-          hatteKinder: sourceData.hatteKinder,
+        hatteKinder: sourceData.hatteKinder,
         ...(sourceData.kinder && {
           kinder: sourceData.kinder.map(migrateKind),
           ...(sourceData.elternteile && {
