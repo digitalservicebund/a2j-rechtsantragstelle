@@ -24,7 +24,7 @@ function buildMissingChildrenNamesHtml(names: string[]): string {
 // Everyone the flow knows died and had children, but whose children were never
 // entered. The "kinder fehlen" (children missing) exit page lists them so the
 // user knows who is still missing.
-export function missingChildrenReplacements(
+function missingChildrenReplacements(
   data: InheritanceInput & {
     verstorbeneVorname?: string;
     verstorbeneNachname?: string;
@@ -58,7 +58,7 @@ export function missingChildrenReplacements(
 
 // The documents every person in the result needs to provide, as a table.
 // Rendered into the result page via the triple-brace {{{requiredDocumentsHtml}}}.
-export function buildRequiredDocumentsHtml(
+function buildRequiredDocumentsHtml(
   requiredDocuments: PersonDocuments[],
 ): string {
   const rows = requiredDocuments
