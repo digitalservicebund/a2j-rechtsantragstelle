@@ -1,9 +1,8 @@
 import type { SummaryFieldOverride } from "~/domains/flows.server";
 import { resolveParentOptions, BOTH_PARENTS_VALUE } from "./buildParentOptions";
-import { type ElternteilKindFields } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { translations } from "~/services/translations/translations";
 
-const parentIndexSubFields = new Set<keyof ElternteilKindFields>([
+const parentIndexSubFields = new Set([
   "parentKindIndex",
   "parentElternteilIndex",
 ]);
@@ -20,9 +19,7 @@ export const getParentIndexSummaryOverride: SummaryFieldOverride = (
 ) => {
   if (
     !fieldInfo.subFieldName ||
-    !parentIndexSubFields.has(
-      fieldInfo.subFieldName as keyof ElternteilKindFields,
-    )
+    !parentIndexSubFields.has(fieldInfo.subFieldName)
   ) {
     return undefined;
   }

@@ -4,7 +4,7 @@ import {
 } from "~/domains/nachlass/erbschein/shared/erbfolgeLabels";
 import { type NachlassRelationshipType } from "~/domains/nachlass/shared/schemas";
 
-export const relationshipTypeMap: Record<NachlassRelationshipType, string> = {
+const relationshipTypeMap: Record<NachlassRelationshipType, string> = {
   "not-related": "Nicht verwandt",
   "wife-husband": "Ehefrau/Ehemann",
   "life-partner": "Lebenspartner*in",
