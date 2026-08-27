@@ -32,12 +32,14 @@ export function getArraySummaryData(
 
   return Object.fromEntries(
     categories
-      .filter(
-        (category) =>
-          category in arrayConfigurations &&
-          (userData[arrayConfigurations[category].statementKey] === "yes" ||
-            Boolean(arrayConfigurations[category].isArrayRelevant?.(userData))),
-      )
+      .filter((category) => {
+        if (!(category in arrayConfigurations)) return false;
+        const statementKey = arrayConfigurations[category]?.statementKey;
+        return (
+          (statementKey && userData[statementKey] === "yes") ||
+          Boolean(arrayConfigurations[category].isArrayRelevant?.(userData))
+        );
+      })
       .map((category) => {
         const arrayConfiguration = arrayConfigurations[category];
         const disableAddButton =

@@ -1,4 +1,5 @@
 import { getArraySummaryData } from "~/services/array/getArraySummaryData";
+import { type ArrayConfigServer } from "..";
 
 describe("getArraySummaryData", () => {
   it("returns undefined when array configuration is missing", () => {
@@ -78,6 +79,24 @@ describe("getArraySummaryData", () => {
       event: addBankkonten,
       isArrayRelevant: () => false,
     } as const;
+
+    const summaryData = getArraySummaryData(
+      ["bankkonten"],
+      { bankkonten: arrayConfig },
+      { hasBankkonto: "no" },
+      [],
+    );
+
+    expect(summaryData).toEqual({});
+  });
+
+  it("should filter arrays when isRelevantArray is present and evaluates to false and it does not have statementKey", () => {
+    const arrayConfig = {
+      url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
+      initialInputUrl: "daten",
+      event: addBankkonten,
+      isArrayRelevant: (data) => data.hasBankkonto === "yes",
+    } satisfies ArrayConfigServer;
 
     const summaryData = getArraySummaryData(
       ["bankkonten"],
