@@ -1,8 +1,8 @@
 import {
-  BaseElternteil,
-  BaseElternteilKind,
-  Elternteil,
-  ElternteilKind,
+  type BaseElternteil,
+  type BaseElternteilKind,
+  type Elternteil,
+  type ElternteilKind,
   type BaseKind,
   type Kind,
 } from "../shared/erbfolgeTypes";
