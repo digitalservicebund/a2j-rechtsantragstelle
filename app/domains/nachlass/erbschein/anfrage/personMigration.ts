@@ -7,7 +7,7 @@ import {
   type Kind,
 } from "../shared/erbfolgeTypes";
 
-const emptyDate = {
+export const emptyDate = {
   day: "",
   month: "",
   year: "",
