@@ -15,7 +15,6 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { migrateElternteil, migrateKind } from "./personMigration";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 
-
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
   config: {
