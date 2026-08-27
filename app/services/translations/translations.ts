@@ -516,5 +516,11 @@ export const translations = {
     noParentName: {
       de: "Keine Angabe",
     },
+    verstorbenePerson: {
+      de: "Verstorbene Person",
+    },
+    deceased: {
+      de: "verstorben",
+    },
   },
 } satisfies TranslationRecord;

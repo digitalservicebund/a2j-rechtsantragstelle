@@ -1,6 +1,7 @@
-// Returns true if a kind (and all their descendants) have no living heirs.
-
 import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
+import { type ErbfolgeData } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+
+export const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
 
 // A living kind or any living grandkid/great-grandkid means this returns false.
 export function allDescendantsDead(kind: {
@@ -65,4 +66,49 @@ export function elternteilKindAt(
     node = node.kinder?.[arrayIndexes[level]];
   }
   return node ?? null;
+}
+
+// At the deepest supported depth we only need further generations if that
+// person also had children (unsupported depth 6+). A depth-5 person who died
+// without children is a fully known, terminal branch.
+function hasDeadMemberAtDepth(
+  members: PersonItem[],
+  targetDepth: number,
+  currentDepth = 1,
+): boolean {
+  return members.some(
+    (member) =>
+      (currentDepth === targetDepth &&
+        member.isAlive === "no" &&
+        member.hatteKinder === "yes") ||
+      (currentDepth < targetDepth &&
+        hasDeadMemberAtDepth(
+          "kinder" in member ? (member.kinder ?? []) : [],
+          targetDepth,
+          currentDepth + 1,
+        )),
+  );
+}
+
+// Kept separate from elternteileRequireFurtherGenerations (rather than one combined
+// check) so a depth limit hit in one branch doesn't gate reachability of the other
+// branch's summary page: both hub pages (kind1Summary, elternteilSummary) use this
+// guard, and a single combined check would make BOTH summaries unreachable once
+// either branch trips the limit, blocking the user from going back to fix it.
+export function kinderRequireFurtherGenerations(input: ErbfolgeData): boolean {
+  return hasDeadMemberAtDepth(
+    input.kinder ?? [],
+    MAX_SUPPORTED_DESCENDANT_DEPTH,
+  );
+}
+
+export function elternteileRequireFurtherGenerations(
+  input: ErbfolgeData,
+): boolean {
+  return (input.elternteile ?? []).some((parent) =>
+    hasDeadMemberAtDepth(
+      "kinder" in parent ? (parent.kinder ?? []) : [],
+      MAX_SUPPORTED_DESCENDANT_DEPTH,
+    ),
+  );
 }
