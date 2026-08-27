@@ -565,4 +565,12 @@ export const translations = {
       de: "Person mit fehlenden Angaben",
     },
   },
+  nachlass: {
+    childOf: {
+      de: "Kind von",
+    },
+    noParentName: {
+      de: "Keine Angabe",
+    },
+  },
 } satisfies TranslationRecord;
