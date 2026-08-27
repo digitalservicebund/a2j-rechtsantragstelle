@@ -6,9 +6,16 @@ import { redirect } from "react-router";
 import { getSessionManager, updateSession } from "~/services/session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const cookieHeader = request.headers.get("Cookie");
+  const referer = request.headers.get("Referer");
+
   const sourceFlowId = "/nachlass/erbschein/erbfolge";
   const destinationFlowId = "/nachlass/erbschein/anfrage";
+
+  if (!referer?.includes(sourceFlowId)) {
+    return redirect(sourceFlowId);
+  }
+  
+  const cookieHeader = request.headers.get("Cookie");
 
   const { getSession: getSourceSession } = getSessionManager(sourceFlowId);
 
