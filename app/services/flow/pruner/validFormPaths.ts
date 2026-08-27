@@ -39,7 +39,10 @@ function getSubflowPaths(flowController: FlowController): Path[] {
     .filter(
       ([key, arrayConfig]) =>
         userData[key] &&
-        (userData[arrayConfig.statementKey] === "yes" ||
+        (Boolean(
+          arrayConfig.statementKey &&
+          userData[arrayConfig.statementKey] === "yes",
+        ) ||
           Boolean(arrayConfig.isArrayRelevant?.(userData))),
     )
     .filter(([_key, arrayConfig]) => {

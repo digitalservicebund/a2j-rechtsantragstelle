@@ -8,7 +8,7 @@ export type ArrayConfigServer = {
   event: `add-${AllUserDataKeys}`;
   url: string;
   initialInputUrl: string;
-  statementKey: AllUserDataKeys;
+  statementKey?: AllUserDataKeys; //TODO: Remove statementKey in favor of isArrayRelevant. This is only kept for backwards compatibility with existing arrays.
   /**
    * statementKey alternative. Used for complex conditionals to display the array summary.
    */

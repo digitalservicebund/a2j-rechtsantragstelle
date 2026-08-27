@@ -509,4 +509,12 @@ export const translations = {
       de: "justiz.de",
     },
   },
+  nachlass: {
+    childOf: {
+      de: "Kind von",
+    },
+    noParentName: {
+      de: "Keine Angabe",
+    },
+  },
 } satisfies TranslationRecord;
