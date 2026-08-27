@@ -19,6 +19,7 @@ describe("Person migration", () => {
         vorname: "Max",
         nachname: "Mustermann",
         isAlive: "yes",
+        parentKindIndex: kind.parentKindIndex,
         geburtsdatum: emptyDate,
         geburtsort: "",
         strasse: "",
@@ -43,6 +44,8 @@ describe("Person migration", () => {
         vorname: "Max",
         nachname: "Mustermann",
         isAlive: "no",
+        parentKindIndex: kind.parentKindIndex,
+
         geburtsdatum: emptyDate,
         geburtsort: "",
         sterbedatum: emptyDate,
@@ -156,6 +159,45 @@ describe("Person migration", () => {
         ],
       });
     });
+
+    it("should preserve parent indexes for children", () => {
+      const kind: BaseKind = {
+        vorname: "Max",
+        nachname: "Mustermann",
+        isAlive: "no",
+        hatteKinder: "yes",
+        parentKindIndex: "0",
+        kinder: [
+          {
+            vorname: "Anna",
+            nachname: "Mustermann",
+            isAlive: "no",
+            hatteKinder: "yes",
+            parentKindIndex: "0",
+            kinder: [
+              {
+                vorname: "Lukas",
+                nachname: "Mustermann",
+                isAlive: "yes",
+                parentKindIndex: "0",
+              },
+            ],
+          },
+        ],
+      };
+
+      const migratedKind = migrateKind(kind);
+
+      expect(migratedKind).toMatchObject({
+        isAlive: "no",
+        hatteKinder: "yes",
+        kinder: [
+          {
+            parentKindIndex: "0",
+          },
+        ],
+      });
+    });
   });
   describe("migrateElternteilKind", () => {
     it("should migrate a living elternteil kind", () => {
@@ -173,6 +215,7 @@ describe("Person migration", () => {
         vorname: "Max",
         nachname: "Mustermann",
         isAlive: "yes",
+        parentKindIndex: "0",
         geburtsdatum: emptyDate,
         geburtsort: "",
         strasse: "",
@@ -226,6 +269,8 @@ describe("Person migration", () => {
         vorname: "Max",
         nachname: "Mustermann",
         isAlive: "no",
+        parentKindIndex: kind.parentKindIndex,
+
         geburtsdatum: emptyDate,
         geburtsort: "",
         sterbedatum: emptyDate,
