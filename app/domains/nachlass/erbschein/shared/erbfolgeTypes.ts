@@ -23,7 +23,7 @@ export type BaseDeceasedPersonWithKids = Pick<
 export type BaseKind =
   BaseAlivePerson | BaseDeceasedPersonNoKids | BaseDeceasedPersonWithKids;
 
-type ElternteilKindFields = {
+export type ElternteilKindFields = {
   parentElternteilIndex?: string;
   parentKindIndex?: string;
 };

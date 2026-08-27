@@ -1,5 +1,5 @@
 import type { ArrayData, UserData } from "~/domains/userData";
-import { parseArrayField } from "./fieldParsingUtils";
+import { parseField } from "./fieldParsingUtils";
 import { arrayIsNonEmpty } from "~/util/array";
 import { fieldIsArray } from "~/services/array";
 
@@ -117,7 +117,7 @@ export function createArrayEditUrl(
   arrayFieldName: string,
   representativeStepId: string,
 ): string {
-  const fieldInfo = parseArrayField(arrayFieldName);
+  const fieldInfo = parseField(arrayFieldName);
 
   if (!fieldInfo.isArrayField) {
     return representativeStepId;

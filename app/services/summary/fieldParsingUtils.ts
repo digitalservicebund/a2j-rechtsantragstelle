@@ -1,4 +1,4 @@
-import type { ArrayFieldInfo, ArrayFieldSegment } from "./types";
+import type { ArrayFieldInfo as FieldInfo, ArrayFieldSegment } from "./types";
 
 const arraySegmentPattern = /^(.+)\[(\d+)\]$/;
 
@@ -10,12 +10,12 @@ const arraySegmentPattern = /^(.+)\[(\d+)\]$/;
  * @returns Parsed field information
  *
  * @example
- * parseArrayField("vorname") → { baseFieldName: "vorname", arrayIndex: -1, isArrayField: false, isArraySubField: false, segments: [] }
- * parseArrayField("kinder[0]") → { baseFieldName: "kinder", arrayIndex: 0, isArrayField: true, isArraySubField: false, segments: [{ fieldName: "kinder", arrayIndex: 0 }] }
- * parseArrayField("kinder[0].vorname") → { baseFieldName: "kinder", arrayIndex: 0, subFieldName: "vorname", isArrayField: true, isArraySubField: true, segments: [{ fieldName: "kinder", arrayIndex: 0 }] }
- * parseArrayField("kinder[0].kinder[2].vorname") → { baseFieldName: "kinder", arrayIndex: 0, subFieldName: "vorname", isArrayField: true, isArraySubField: true, segments: [{ fieldName: "kinder", arrayIndex: 0 }, { fieldName: "kinder", arrayIndex: 2 }] }
+ * parseField("vorname") → { baseFieldName: "vorname", arrayIndex: -1, isArrayField: false, isArraySubField: false, segments: [] }
+ * parseField("kinder[0]") → { baseFieldName: "kinder", arrayIndex: 0, isArrayField: true, isArraySubField: false, segments: [{ fieldName: "kinder", arrayIndex: 0 }] }
+ * parseField("kinder[0].vorname") → { baseFieldName: "kinder", arrayIndex: 0, subFieldName: "vorname", isArrayField: true, isArraySubField: true, segments: [{ fieldName: "kinder", arrayIndex: 0 }] }
+ * parseField("kinder[0].kinder[2].vorname") → { baseFieldName: "kinder", arrayIndex: 0, subFieldName: "vorname", isArrayField: true, isArraySubField: true, segments: [{ fieldName: "kinder", arrayIndex: 0 }, { fieldName: "kinder", arrayIndex: 2 }] }
  */
-export function parseArrayField(fieldName: string): ArrayFieldInfo {
+export function parseField(fieldName: string): FieldInfo {
   const isArrayField = fieldName.includes("[") && fieldName.includes("]");
 
   if (!isArrayField) {
@@ -62,7 +62,7 @@ export function parseArrayField(fieldName: string): ArrayFieldInfo {
  * "kinder[0].kinder[2].vorname" → "kinder-0-kinder-2")
  */
 export function createArrayBoxKey(fieldName: string): string | null {
-  const info = parseArrayField(fieldName);
+  const info = parseField(fieldName);
 
   if (info.isArrayField) {
     return info.segments.map((s) => `${s.fieldName}-${s.arrayIndex}`).join("-");
@@ -76,6 +76,6 @@ export function createArrayBoxKey(fieldName: string): string | null {
  * segments (e.g. "kinder[0].kinder[2]" → "kinder#kinder#"), matching the
  * mapping convention used for nested array form fields.
  */
-export function buildArrayKeyPrefix(fieldInfo: ArrayFieldInfo): string {
+export function buildArrayKeyPrefix(fieldInfo: FieldInfo): string {
   return fieldInfo.segments.map((segment) => segment.fieldName).join("#");
 }
