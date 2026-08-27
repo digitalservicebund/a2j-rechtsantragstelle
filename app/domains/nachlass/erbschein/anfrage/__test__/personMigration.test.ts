@@ -1,4 +1,7 @@
-import { type BaseElternteilKind, type BaseKind } from "../../shared/erbfolgeTypes";
+import {
+  type BaseElternteilKind,
+  type BaseKind,
+} from "../../shared/erbfolgeTypes";
 import { emptyDate, migrateElternteil, migrateKind } from "../personMigration";
 
 describe("Person migration", () => {
