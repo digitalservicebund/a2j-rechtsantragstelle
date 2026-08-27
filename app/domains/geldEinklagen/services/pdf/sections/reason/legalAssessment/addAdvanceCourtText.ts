@@ -7,7 +7,7 @@ import { FONTS_BUNDESSANS_REGULAR } from "~/services/pdf/createPdfKitDocument";
 const ADVANCE_COURT_COSTS_FIRST_TEXT =
   "Das Gericht wird gebeten, der klagenden Partei das Aktenzeichen des Gerichts mitzuteilen, den Gerichtskostenvorschuss in Höhe von";
 const ADVANCE_COURT_COSTS_SECOND_TEXT =
-  "Euro anzufordern und die Klage nach der Zahlung schnellstmöglich an die beklagte Partei zuzustellen.";
+  "Euro anzufordern und die Klage nach der Zahlung an die beklagte Partei zuzustellen.";
 
 export function addAdvanceCourtText(
   doc: typeof PDFDocument,
