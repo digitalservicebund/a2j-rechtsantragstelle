@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { parseArrayField, createArrayBoxKey } from "../fieldParsingUtils";
+import { parseField, createArrayBoxKey } from "../fieldParsingUtils";
 
 describe("fieldParsingUtils", () => {
-  describe("parseArrayField", () => {
+  describe("parseField", () => {
     it("should parse regular field names", () => {
-      const result = parseArrayField("vorname");
+      const result = parseField("vorname");
       expect(result).toEqual({
         baseFieldName: "vorname",
         arrayIndex: -1,
@@ -15,7 +15,7 @@ describe("fieldParsingUtils", () => {
     });
 
     it("should parse simple array fields", () => {
-      const result = parseArrayField("kinder[0]");
+      const result = parseField("kinder[0]");
       expect(result).toEqual({
         baseFieldName: "kinder",
         arrayIndex: 0,
@@ -26,7 +26,7 @@ describe("fieldParsingUtils", () => {
     });
 
     it("should parse array sub-fields", () => {
-      const result = parseArrayField("kinder[0].vorname");
+      const result = parseField("kinder[0].vorname");
       expect(result).toEqual({
         baseFieldName: "kinder",
         arrayIndex: 0,
@@ -38,7 +38,7 @@ describe("fieldParsingUtils", () => {
     });
 
     it("should handle different array indices", () => {
-      const result = parseArrayField("bankkonten[5].inhaber");
+      const result = parseField("bankkonten[5].inhaber");
       expect(result).toEqual({
         baseFieldName: "bankkonten",
         arrayIndex: 5,
@@ -50,7 +50,7 @@ describe("fieldParsingUtils", () => {
     });
 
     it("should parse nested array sub-fields", () => {
-      const result = parseArrayField("kinder[0].kinder[2].vorname");
+      const result = parseField("kinder[0].kinder[2].vorname");
       expect(result).toEqual({
         baseFieldName: "kinder",
         arrayIndex: 0,
@@ -65,7 +65,7 @@ describe("fieldParsingUtils", () => {
     });
 
     it("should parse a nested array field without a leaf sub-field", () => {
-      const result = parseArrayField("kinder[0].kinder[2]");
+      const result = parseField("kinder[0].kinder[2]");
       expect(result).toEqual({
         baseFieldName: "kinder",
         arrayIndex: 0,

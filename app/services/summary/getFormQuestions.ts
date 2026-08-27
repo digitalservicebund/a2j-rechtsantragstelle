@@ -2,7 +2,7 @@ import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { buildArrayKeyPrefix, parseArrayField } from "./fieldParsingUtils";
+import { buildArrayKeyPrefix, parseField } from "./fieldParsingUtils";
 import type { FieldOption, FieldQuestion } from "./types";
 import { type FormFieldsMap } from "~/domains/pageSchemas";
 
@@ -45,7 +45,7 @@ export function findStepIdForField(
 
   // Handle array fields like "kinder[0]" -> look for "kinder#" mappings
   // (or, for nested arrays, "kinder[0].kinder[2]" -> "kinder#kinder#" mappings)
-  const fieldInfo = parseArrayField(fieldName);
+  const fieldInfo = parseField(fieldName);
   if (!stepId && fieldInfo.isArrayField && !fieldInfo.isArraySubField) {
     const arrayKeyPrefix = buildArrayKeyPrefix(fieldInfo);
     const arrayFieldMapping = Object.entries(fieldToStepMapping).find(
@@ -220,7 +220,7 @@ export async function processFieldForQuestions(
   // (or, for nested arrays, "kinder[0].kinder[2].vorname" to "kinder#kinder#vorname")
   let componentLookupName = fieldName;
 
-  const fieldInfo = parseArrayField(fieldName);
+  const fieldInfo = parseField(fieldName);
   if (fieldInfo.isArraySubField && fieldInfo.subFieldName) {
     componentLookupName = `${buildArrayKeyPrefix(fieldInfo)}#${fieldInfo.subFieldName}`;
   }
