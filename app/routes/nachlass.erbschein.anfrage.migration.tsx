@@ -14,7 +14,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   if (!referer?.includes(sourceFlowId)) {
     return redirect(sourceFlowId);
   }
-  
+
   const cookieHeader = request.headers.get("Cookie");
 
   const { getSession: getSourceSession } = getSessionManager(sourceFlowId);
