@@ -51,6 +51,11 @@ function antragstellendePersonToEhepartner(
   };
 }
 
+/**
+ * If the Antragstellende Person is a remote descendant of the Erblasser,
+ * we need to create "dummy" objects to hold them -- i.e. Kinder/ElternteilKinder
+ * that contain a kinder array, with the antragstellende person inside.
+ */
 function antragstellendePersonToDescendant(
   antragstellendePerson: AntragstellendePerson,
   secondGeneration: boolean = false,
