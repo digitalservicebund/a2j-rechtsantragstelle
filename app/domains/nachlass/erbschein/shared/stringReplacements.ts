@@ -1,19 +1,12 @@
 import escape from "lodash/escape";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { UserData } from "~/domains/userData";
-import {
-  calculateInheritance,
-  type InheritanceInput,
-} from "./calculateInheritance";
-import { spouseFromUserData } from "./resultExtras";
-import {
-  collectRequiredDocuments,
-  type PersonDocuments,
-} from "./requiredDocuments";
+import { determineHeirs } from "./determineHeirs";
 import {
   collectMissingChildrenNames,
   collectMissingChildrenNamesForElternteile,
 } from "~/domains/nachlass/erbschein/shared/missingChildren";
+import { type ErbfolgeData } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
 // placeholder (triple braces mean "insert as raw HTML"), e.g. inside a notice.
 function buildMissingChildrenNamesHtml(names: string[]): string {
@@ -24,13 +17,7 @@ function buildMissingChildrenNamesHtml(names: string[]): string {
 // Everyone the flow knows died and had children, but whose children were never
 // entered. The "kinder fehlen" (children missing) exit page lists them so the
 // user knows who is still missing.
-function missingChildrenReplacements(
-  data: InheritanceInput & {
-    verstorbeneVorname?: string;
-    verstorbeneNachname?: string;
-    hatteKinder?: string;
-  },
-): Replacements {
+function missingChildrenReplacements(data: ErbfolgeData): Replacements {
   const missingChildrenNames = [
     // Treat the deceased as the root of the children tree so both cases are
     // caught: nobody was added at all, and a specific descendant deeper down
@@ -56,50 +43,24 @@ function missingChildrenReplacements(
   };
 }
 
-// The documents every person in the result needs to provide, as a table.
-// Rendered into the result page via the triple-brace {{{requiredDocumentsHtml}}}.
-function buildRequiredDocumentsHtml(
-  requiredDocuments: PersonDocuments[],
-): string {
-  const rows = requiredDocuments
-    .map(
-      ({ name, documents }) =>
-        `<tr><td class="font-semibold p-kern-space-default pr-kern-space-none align-top">${escape(name)}</td>` +
-        `<td class="p-kern-space-default pl-kern-space-none">${documents}</td></tr>`,
-    )
-    .join("");
-  return `<table class="w-full bg-kern-white border-kern-neutral-200 rounded-kern-default"><tbody>${rows}</tbody></table>`;
-}
-
 export function nachlassErbfolgeStringReplacements(
   context: UserData,
 ): Replacements {
-  const data = context as InheritanceInput & {
-    verstorbeneVorname?: string;
-    verstorbeneNachname?: string;
-    hatteKinder?: string;
-    testamentArt?: string;
-  };
-
   return {
     // The raw answers, so CMS text can reference them directly (e.g. {{name}}
     // is the deceased's name). Page-specific values that these can't express
     // (the name of the list item the user is currently inside) are added
     // separately in the route's loader extras.
     ...(context as Replacements),
-    ...missingChildrenReplacements(data),
-    requiredDocumentsHtml: buildRequiredDocumentsHtml(
-      collectRequiredDocuments(data),
-    ),
+    ...missingChildrenReplacements(context),
     // Gates the "Erbengemeinschaft" notice on the result page: it only applies
     // when the estate is shared, i.e. more than one heir inherits.
-    hasMultipleHeirs:
-      calculateInheritance({ ...data, spouse: spouseFromUserData(data) })
-        .length > 1,
+    hasMultipleHeirs: determineHeirs(context).length > 1,
     // Gate content on the "keine gesetzliche Erbfolge" exit page: a will of any
     // kind vs. an inheritance contract.
     hasTestament:
-      data.testamentArt === "handwritten" || data.testamentArt === "notarized",
-    hasErbvertrag: data.testamentArt === "erbvertrag",
+      context.testamentArt === "handwritten" ||
+      context.testamentArt === "notarized",
+    hasErbvertrag: context.testamentArt === "erbvertrag",
   };
 }

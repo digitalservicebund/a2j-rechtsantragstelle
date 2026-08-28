@@ -3,7 +3,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { elternteilePages } from "./elternteilePages";
 import { kinderPages } from "./kinderPages";
-import { gueterstandSchema } from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+import { gueterstandSchema } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 
 const topLevelPages = {
   start: { stepId: "/start" },

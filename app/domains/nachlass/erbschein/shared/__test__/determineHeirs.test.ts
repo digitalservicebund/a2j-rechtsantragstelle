@@ -1,49 +1,47 @@
 import { describe, expect, it } from "vitest";
 import {
-  calculateInheritance,
-  elternteileRequireFurtherGenerations,
+  determineHeirs,
   hasNoFirstOrSecondOrderHeirs,
+} from "../determineHeirs";
+import type { Heir } from "../determineHeirs";
+import {
+  elternteileRequireFurtherGenerations,
   kinderRequireFurtherGenerations,
-} from "../calculateInheritance";
-import type {
-  HeirShare,
-  InheritanceInput,
-  SpouseInput,
-} from "../calculateInheritance";
+} from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
+import { type ErbfolgeData } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-function share(numerator: number, denominator: number): HeirShare["share"] {
+function share(numerator: number, denominator: number): Heir["share"] {
   return { numerator, denominator };
 }
 
 // Order-insensitive matcher — useful when multiple heirs accumulate shares from multiple sources
-function containingShares(expected: Array<Partial<HeirShare>>) {
+function containingShares(expected: Array<Partial<Heir>>) {
   return expect.arrayContaining(
     expected.map((h) => expect.objectContaining(h)),
   );
 }
 
-describe("calculateInheritance", () => {
+describe("determineHeirs", () => {
   describe("spouse (Ehepartner)", () => {
-    const spouse: SpouseInput = {
-      vorname: "Partner",
-      nachname: "",
-      gueterstand: "communityOfAcquisitions",
+    const spousalData = {
+      ehepartnerVorname: "Partner",
+      ehepartnerNachname: "Nachname",
+      gueterstand: "communityOfAcquisitions" as const,
     };
-
     it("Zugewinngemeinschaft + 1st order: spouse 1/2, children split 1/2", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
           { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
-        spouse,
+        ...spousalData,
       });
 
       expect(result).toHaveLength(3);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 2), order: 0 },
+          { name: "Partner Nachname", share: share(1, 2), order: 0 },
           { name: "Kind 1", share: share(1, 4), order: 1 },
           { name: "Kind 2", share: share(1, 4), order: 1 },
         ]),
@@ -51,19 +49,19 @@ describe("calculateInheritance", () => {
     });
 
     it("Zugewinngemeinschaft + 2nd order: spouse 3/4, parents split 1/4", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
           { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
-        spouse,
+        ...spousalData,
       });
 
       expect(result).toHaveLength(3);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(3, 4), order: 0 },
+          { name: "Partner Nachname", share: share(3, 4), order: 0 },
           { name: "Elternteil A", share: share(1, 8), order: 2 },
           { name: "Elternteil B", share: share(1, 8), order: 2 },
         ]),
@@ -71,55 +69,51 @@ describe("calculateInheritance", () => {
     });
 
     it("Zugewinngemeinschaft + no 1st/2nd order: spouse inherits full estate", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
-        spouse,
+        ...spousalData,
       });
 
       expect(result).toHaveLength(1);
       expect(result).toEqual(
-        containingShares([{ name: "Partner", share: share(1, 1), order: 0 }]),
+        containingShares([
+          { name: "Partner Nachname", share: share(1, 1), order: 0 },
+        ]),
       );
     });
 
     it("Gütertrennung + 1 Stamm: spouse and child each get 1/2", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "separationOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "separationOfProperty",
       });
 
       expect(result).toHaveLength(2);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 2), order: 0 },
+          { name: "Partner Nachname", share: share(1, 2), order: 0 },
           { name: "Kind 1", share: share(1, 2), order: 1 },
         ]),
       );
     });
 
     it("Gütertrennung + 2 Stämme: spouse and each child get 1/3", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
           { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "separationOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "separationOfProperty",
       });
 
       expect(result).toHaveLength(3);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 3), order: 0 },
+          { name: "Partner Nachname", share: share(1, 3), order: 0 },
           { name: "Kind 1", share: share(1, 3), order: 1 },
           { name: "Kind 2", share: share(1, 3), order: 1 },
         ]),
@@ -127,24 +121,21 @@ describe("calculateInheritance", () => {
     });
 
     it("Gütertrennung + 3 Stämme: spouse gets 1/4, each Stamm gets 1/4", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
           { vorname: "Kind", nachname: "2", isAlive: "yes" },
           { vorname: "Kind", nachname: "3", isAlive: "yes" },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "separationOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "separationOfProperty",
       });
 
       expect(result).toHaveLength(4);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 4), order: 0 },
+          { name: "Partner Nachname", share: share(1, 4), order: 0 },
           { name: "Kind 1", share: share(1, 4), order: 1 },
           { name: "Kind 2", share: share(1, 4), order: 1 },
           { name: "Kind 3", share: share(1, 4), order: 1 },
@@ -155,22 +146,19 @@ describe("calculateInheritance", () => {
     it("Gütertrennung + 2nd order (no kids): spouse 1/2, parents split 1/2", () => {
       // §1931 Abs.4 only applies to 1st order. With only 2nd order relatives the
       // spouse keeps the normal 1/2 base (Gütertrennung has no +1/4 increase).
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
           { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "separationOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "separationOfProperty",
       });
 
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 2), order: 0 },
+          { name: "Partner Nachname", share: share(1, 2), order: 0 },
           { name: "Elternteil A", share: share(1, 4), order: 2 },
           { name: "Elternteil B", share: share(1, 4), order: 2 },
         ]),
@@ -180,7 +168,7 @@ describe("calculateInheritance", () => {
     it("Gütertrennung + 2 Stämme where one child is represented by a grandchild: spouse 1/3", () => {
       // Two active Stämme (a living child + a dead child with a living grandchild)
       // count as 2 for §1931 Abs.4 — spouse gets 1/3, not 1/4.
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
@@ -192,16 +180,13 @@ describe("calculateInheritance", () => {
             kinder: [{ vorname: "Enkel", nachname: "1", isAlive: "yes" }],
           },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "separationOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "separationOfProperty",
       });
 
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 3), order: 0 },
+          { name: "Partner Nachname", share: share(1, 3), order: 0 },
           { name: "Kind 1", share: share(1, 3), order: 1 },
           { name: "Enkel 1", share: share(1, 3), order: 1 },
         ]),
@@ -209,22 +194,19 @@ describe("calculateInheritance", () => {
     });
 
     it("Gütergemeinschaft + 2nd order: spouse 1/2 (no increase), parents split 1/2", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
           { vorname: "Elternteil", nachname: "B", isAlive: "yes" },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "communityOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "communityOfProperty",
       });
 
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 2), order: 0 },
+          { name: "Partner Nachname", share: share(1, 2), order: 0 },
           { name: "Elternteil A", share: share(1, 4), order: 2 },
           { name: "Elternteil B", share: share(1, 4), order: 2 },
         ]),
@@ -232,23 +214,20 @@ describe("calculateInheritance", () => {
     });
 
     it("Gütergemeinschaft + 1st order: spouse 1/4, children split 3/4", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
           { vorname: "Kind", nachname: "2", isAlive: "yes" },
         ],
-        spouse: {
-          vorname: "Partner",
-          nachname: "",
-          gueterstand: "communityOfProperty",
-        },
+        ...spousalData,
+        gueterstand: "communityOfProperty",
       });
 
       expect(result).toHaveLength(3);
       expect(result).toEqual(
         containingShares([
-          { name: "Partner", share: share(1, 4), order: 0 },
+          { name: "Partner Nachname", share: share(1, 4), order: 0 },
           { name: "Kind 1", share: share(3, 8), order: 1 },
           { name: "Kind 2", share: share(3, 8), order: 1 },
         ]),
@@ -431,7 +410,7 @@ describe("calculateInheritance", () => {
     });
 
     it("kinderRequireFurtherGenerations ignores a depth limit hit on the elternteile branch", () => {
-      const input: InheritanceInput = {
+      const input: ErbfolgeData = {
         hatteKinder: "no",
         elternteile: [
           {
@@ -491,7 +470,7 @@ describe("calculateInheritance", () => {
   describe("1st order — Kinder und Abkömmlinge", () => {
     // Test case 1: two living children
     it("two living children each inherit 1/2", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
@@ -510,7 +489,7 @@ describe("calculateInheritance", () => {
 
     // Test case 2: dead child passes share down (Repräsentationsprinzip)
     it("dead child's share passes to their descendants", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
@@ -548,7 +527,7 @@ describe("calculateInheritance", () => {
     });
 
     it("extinct Stamm accretes to remaining living Stämme", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "yes" },
@@ -570,7 +549,7 @@ describe("calculateInheritance", () => {
   describe("2nd order — Eltern und Abkömmlinge", () => {
     // Test case 3: no children at all
     it("falls to 2nd order when deceased had no children", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
@@ -589,7 +568,7 @@ describe("calculateInheritance", () => {
 
     // Test case 4: children exist but all dead with no descendants
     it("falls to 2nd order when all children are dead with no descendants", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           { vorname: "Kind", nachname: "1", isAlive: "no", hatteKinder: "no" },
@@ -612,7 +591,7 @@ describe("calculateInheritance", () => {
 
     // Test case 5: one parent dead, share passes to their children
     it("dead parent's share passes to their children (Repräsentationsprinzip)", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           { vorname: "Elternteil", nachname: "A", isAlive: "yes" },
@@ -649,7 +628,7 @@ describe("calculateInheritance", () => {
 
     // Test case 6: only one legal parent — their descendants inherit everything
     it("single parent's descendants inherit the full estate", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -686,7 +665,7 @@ describe("calculateInheritance", () => {
     // like the kinder line: the summary stores every new descendant under the first dead
     // sibling, and the select names the sibling they actually belong to.
     it("re-buckets a niece/nephew to the chosen sibling via parentKindIndex", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -749,7 +728,7 @@ describe("calculateInheritance", () => {
     // Test case 7: both parents dead, full siblings (parentElternteilIndex "both")
     // accumulate shares from both parent lines.
     it("full siblings accumulate shares from both deceased parents", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -815,7 +794,7 @@ describe("calculateInheritance", () => {
     });
 
     it("counts a parentElternteilIndex='both' sibling in both parents' Stämme", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -858,7 +837,7 @@ describe("calculateInheritance", () => {
     // Degenerate variant of test case 7: the deceased parents have no unshared
     // children — the full sibling is the sole heir (1/2 from each parent's line).
     it("full sibling inherits everything when both dead parents have only shared children", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -893,7 +872,7 @@ describe("calculateInheritance", () => {
     // 1st-order descendants are physically stored under the first dead parent of the
     // previous level; `parentKindIndex` names the parent they actually belong to.
     it("places a grandchild by parentKindIndex, not its physical parent array", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           {
@@ -918,7 +897,7 @@ describe("calculateInheritance", () => {
           },
           { vorname: "Kind", nachname: "2", isAlive: "no", hatteKinder: "yes" },
           { vorname: "Kind", nachname: "3", isAlive: "yes" },
-        ] as InheritanceInput["kinder"],
+        ] as ErbfolgeData["kinder"],
       });
 
       // Three active Stämme: Kind 1 (→ Enkelkind 1), Kind 2 (→ Enkelkind 2), Kind 3
@@ -933,7 +912,7 @@ describe("calculateInheritance", () => {
     });
 
     it("re-buckets deeper descendants among their own physical sibling array", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "yes",
         kinder: [
           {
@@ -971,7 +950,7 @@ describe("calculateInheritance", () => {
               { vorname: "Enkelkind", nachname: "3", isAlive: "yes" },
             ],
           },
-        ] as InheritanceInput["kinder"],
+        ] as ErbfolgeData["kinder"],
       });
 
       // Kind 1's Stamm splits into three: Enkelkind 1 (→ Urenkel 1),
@@ -990,7 +969,7 @@ describe("calculateInheritance", () => {
     // edited back to alive. The assignment must fall back to the physical parent
     // instead of silently dropping the sibling from the distribution.
     it("falls back to the physical parent when the assigned parent is alive", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
@@ -1021,7 +1000,7 @@ describe("calculateInheritance", () => {
     });
 
     it("places a sibling by parentElternteilIndex, not its physical parent array", () => {
-      const result = calculateInheritance({
+      const result = determineHeirs({
         hatteKinder: "no",
         elternteile: [
           {
