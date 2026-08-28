@@ -4,6 +4,7 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
 const commonBeguenstigteFields = {
@@ -15,11 +16,11 @@ const commonBeguenstigteFields = {
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
-  isAlive: z.enum(["yes", "noButAliveWhenErblasserDied", "no"]),
+  isAlive: YesNoAnswer,
 };
 
 const livingBeguenstigteFields = {
-  isAlive: z.enum(["yes", "noButAliveWhenErblasserDied"]),
+  isAlive: z.literal("yes"),
   strasse: stringRequiredSchema,
   hausnummer: stringRequiredSchema,
   plz: stringRequiredSchema,

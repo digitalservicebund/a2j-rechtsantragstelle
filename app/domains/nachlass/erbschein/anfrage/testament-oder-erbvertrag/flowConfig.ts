@@ -57,10 +57,7 @@ export const testamentOderErbvertragFlowConfig = {
       guard: (data) => {
         const arrayIndex = firstArrayIndex(data.pageData);
         if (arrayIndex === undefined) return false;
-        const aliveStatus = data.beguenstigten?.at(arrayIndex)?.isAlive;
-        return (
-          aliveStatus === "yes" || aliveStatus === "noButAliveWhenErblasserDied"
-        );
+        return data.beguenstigten?.at(arrayIndex)?.isAlive === "yes";
       },
       target: "namedBeneficiaryAddress",
     },

@@ -27,10 +27,7 @@ export const angehoerigeFlowConfig = {
       guard: (data) => {
         const arrayIndex = firstArrayIndex(data.pageData);
         if (arrayIndex === undefined) return false;
-        const aliveStatus = data.angehoerige?.at(arrayIndex)?.isAlive;
-        return (
-          aliveStatus === "yes" || aliveStatus === "noButAliveWhenErblasserDied"
-        );
+        return data.angehoerige?.at(arrayIndex)?.isAlive === "yes";
       },
       target: "angehoerigeAddress",
     },
