@@ -42,8 +42,8 @@ export function VorabcheckPage() {
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 9 }}
-          xlColumn={{ start: 3, span: 9 }}
+          lgColumn={{ start: 3, span: 8 }}
+          xlColumn={{ start: 3, span: 8 }}
           className="pt-40 pb-kern-space-x-large"
           row={1}
         >
