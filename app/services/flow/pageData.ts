@@ -3,7 +3,6 @@ import type { UserData } from "~/domains/userData";
 
 export type PageData = {
   arrayIndexes?: number[];
-  arraySummaryFocusItem?: number;
   subflowDoneStates?: Record<string, boolean>;
 };
 
