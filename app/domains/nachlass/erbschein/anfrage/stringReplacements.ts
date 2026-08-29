@@ -5,7 +5,7 @@ import {
   collectRequiredDocuments,
 } from "~/domains/nachlass/erbschein/requiredDocuments";
 import { nachlassErbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { type Replacements } from "~/util/applyStringReplacement";

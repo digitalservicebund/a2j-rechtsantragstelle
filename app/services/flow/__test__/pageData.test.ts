@@ -1,8 +1,5 @@
 import { addPageDataToUserData } from "~/services/flow/pageData";
-import {
-  firstArrayIndex,
-  isValidArrayIndex,
-} from "~/services/flow/pageDataSchema";
+import { firstArrayIndex, isValidArrayIndex } from "~/services/flow/pageData";
 
 describe("addPageDataToUserData()", () => {
   it("add pageData", () => {

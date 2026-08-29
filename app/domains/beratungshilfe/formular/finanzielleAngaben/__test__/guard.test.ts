@@ -2,7 +2,7 @@ import {
   hasPartnerschaftYes,
   isValidKinderArrayIndex,
 } from "~/domains/beratungshilfe/formular/finanzielleAngaben/guards";
-import * as pageDataSchemaModule from "~/services/flow/pageDataSchema";
+import * as pageDataModule from "~/services/flow/pageData";
 
 describe("hasPartnerschaftYes", () => {
   it("should return truthy for married context", () => {
@@ -13,10 +13,7 @@ describe("hasPartnerschaftYes", () => {
 
 describe("isValidKinderArrayIndex", () => {
   it("calls isValidArrayIndex", () => {
-    const isValidArrayIndexSpy = vi.spyOn(
-      pageDataSchemaModule,
-      "isValidArrayIndex",
-    );
+    const isValidArrayIndexSpy = vi.spyOn(pageDataModule, "isValidArrayIndex");
 
     isValidKinderArrayIndex({
       context: {

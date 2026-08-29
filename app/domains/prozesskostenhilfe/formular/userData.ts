@@ -6,7 +6,7 @@ import { type ProzesskostenhilfeGesetzlicheVertretungUserData } from "./gesetzli
 import { type ProzesskostenhilfePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "./rechtsschutzversicherung/userData";
 import { type ProzesskostenhilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
-import type { PageData } from "~/services/flow/pageDataSchema";
+import type { PageData } from "~/services/flow/pageData";
 
 export type ProzesskostenhilfeFormularUserData =
   ProzesskostenhilfeGrundvoraussetzungenUserData &
