@@ -44,7 +44,7 @@ export function VorabcheckPage() {
           mdColumn={{ start: 1, span: 8 }}
           lgColumn={{ start: 3, span: 8 }}
           xlColumn={{ start: 3, span: 8 }}
-          className="pt-40 pb-kern-space-x-large"
+          className="lg:pt-40 pb-kern-space-large"
           row={1}
         >
           <ProgressBar {...progressProps} />

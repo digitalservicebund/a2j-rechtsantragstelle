@@ -13,7 +13,7 @@ export function ProgressBar({
 }: ProgressBarProps) {
   const id = "progress-bar";
   return (
-    <div className="kern-progress pt-kern-space-x-large pb-kern-space-default">
+    <div className="kern-progress pt-kern-space-x-large lg:pb-kern-space-default">
       {label && (
         <label htmlFor={id} className="kern-label sr-only">
           {label}
