@@ -35,4 +35,22 @@ describe("useFocusFirstH1", () => {
       expect(element).not.toHaveFocus();
     });
   });
+
+  it("should not set tabindex and focus in case h1 element is present but hash url is present", async () => {
+    Object.defineProperty(window, "location", {
+      value: {
+        hash: "#some-hash",
+      },
+      writable: true,
+    });
+
+    const { getByText } = render(<DummyComponentWithH1 />);
+
+    const element = getByText(TEXT_HEADING_LABEL);
+
+    await waitFor(() => {
+      expect(element).not.toHaveAttribute("tabindex");
+      expect(element).not.toHaveFocus();
+    });
+  });
 });
