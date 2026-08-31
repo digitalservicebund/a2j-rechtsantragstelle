@@ -173,4 +173,48 @@ describe("SummaryOverviewBoxItem", () => {
     const scrollableContainer = container.querySelector(".resize-y");
     expect(scrollableContainer).not.toBeInTheDocument();
   });
+
+  test("should append 'Euro' to the value when the field has money validation schema", () => {
+    const userData: UserData = { anwaltskosten: "100" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("100");
+    vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
+      { fieldName: "anwaltskosten", fieldValue: "100" },
+    ]);
+
+    const { getByText } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "anwaltskosten" }]}
+        pathname={
+          "/geld-einklagen/formular/klage-erstellen/prozessfuehrung/anwaltskosten"
+        }
+      />,
+    );
+
+    expect(getByText("100 Euro")).toBeInTheDocument();
+  });
+
+  test("should not append 'Euro' to the value when the field does not have money validation schema", () => {
+    const userData: UserData = { anwaltskosten: "100" };
+
+    vi.mocked(getItemValueBox).mockReturnValue("Keine");
+    vi.mocked(extractFieldItemsFromInlineItems).mockReturnValue([
+      { fieldName: "anwaltskosten", fieldValue: "100" },
+    ]);
+
+    const { getByText } = render(
+      <SummaryOverviewBoxItem
+        userData={userData}
+        translations={mockTranslations}
+        inlineItems={[{ field: "anwaltskosten" }]}
+        pathname={
+          "/geld-einklagen/formular/klage-erstellen/prozessfuehrung/anwaltskosten"
+        }
+      />,
+    );
+
+    expect(getByText("Keine")).toBeInTheDocument();
+  });
 });

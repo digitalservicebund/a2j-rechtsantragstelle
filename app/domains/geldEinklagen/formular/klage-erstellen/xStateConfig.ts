@@ -101,7 +101,7 @@ export const klageErstellenXstateConfig = {
             SUBMIT: {
               guard: ({ context }) =>
                 objectKeysNonEmpty(context, ["forderungGesamtbetrag"]),
-              target: steps.sachverhaltBegruendung.absolute,
+              target: steps.prozessfuehrungAnwaltskosten.absolute,
             },
             BACK: [
               {
@@ -114,53 +114,6 @@ export const klageErstellenXstateConfig = {
         },
       },
     },
-    sachverhalt: {
-      id: "sachverhalt",
-      initial: "begruendung",
-      states: {
-        [steps.sachverhaltBegruendung.relative]: {
-          on: {
-            SUBMIT: {
-              guard: ({ context }) =>
-                objectKeysNonEmpty(context, ["sachverhaltBegruendung"]),
-              target: steps.beweiseAngebot.absolute,
-            },
-            BACK: steps.forderungGesamtbetrag.absolute,
-          },
-        },
-      },
-    },
-    beweise: {
-      id: "beweise",
-      initial: "angebot",
-      states: {
-        [steps.beweiseAngebot.relative]: {
-          on: {
-            SUBMIT: [
-              {
-                guard: ({ context }) => context.beweiseAngebot === "yes",
-                target: steps.beweiseBeschreibung.relative,
-              },
-              {
-                guard: ({ context }) => context.beweiseAngebot === "no",
-                target: steps.prozessfuehrungAnwaltskosten.absolute,
-              },
-            ],
-            BACK: steps.sachverhaltBegruendung.absolute,
-          },
-        },
-        [steps.beweiseBeschreibung.relative]: {
-          on: {
-            SUBMIT: {
-              guard: ({ context }) =>
-                objectKeysNonEmpty(context, ["beweiseBeschreibung"]),
-              target: steps.prozessfuehrungAnwaltskosten.absolute,
-            },
-            BACK: steps.beweiseAngebot.relative,
-          },
-        },
-      },
-    },
     prozessfuehrung: prozessfuehrungXstateConfig,
     "rechtlicher-zusatz": rechtlicherZusatzXstateConfig,
     zusammenfassung: {
@@ -169,7 +122,6 @@ export const klageErstellenXstateConfig = {
       states: {
         [steps.zusammenfassungUebersicht.relative]: {
           on: {
-            SUBMIT: "#klage-herunterladen.intro.start",
             BACK: steps.rechtlicherZusatzRechtlicheWuerdigung.absolute,
           },
         },

@@ -28,10 +28,7 @@ function getArrowHoverBg(state: NavState): string {
 
 export function getStepStyles(state: NavState) {
   return {
-    isCurrent: stateIsCurrent(state),
     isDone: stateIsDone(state),
-    isWarning: stateIsWarning(state),
-    isDisabled: stateIsDisabled(state),
 
     container: classNames(
       "border border-kern-neutral-300 flex w-full relative h-[48px] items-center",
@@ -72,12 +69,6 @@ export function getStepStyles(state: NavState) {
 
     label: classNames({
       "group-hover:underline": true,
-    }),
-
-    triangle: classNames({
-      "text-kern-neutral-200": stateIsCurrent(state),
-      "text-kern-neutral-025": stateIsDisabled(state),
-      "text-kern-feedback-warning": stateIsWarning(state),
     }),
   };
 }
