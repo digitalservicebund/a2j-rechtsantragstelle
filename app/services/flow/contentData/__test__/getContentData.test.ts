@@ -179,6 +179,7 @@ describe("getContentData", () => {
       const mockFlowSession = {
         isFinal: false,
         prevPath: "/back",
+        getArrayInfoByPath: () => undefined,
       } as unknown as ReturnType<typeof createFlowSession>;
 
       const actual = callContentData.getButtonNavigationNewEngine(
@@ -196,6 +197,42 @@ describe("getContentData", () => {
           label: "Weiter",
         },
       });
+    });
+
+    it("should replace the back destination with the array values", () => {
+      const mockFlowSession = {
+        isFinal: false,
+        prevPath: "/kinder/#/name",
+        getArrayInfoByPath: () => undefined,
+      } as unknown as ReturnType<typeof createFlowSession>;
+
+      const actual = callContentData.getButtonNavigationNewEngine(
+        "/beratungshilfe/antrag",
+        mockFlowSession,
+        [2],
+      );
+
+      expect(actual.back.destination).toEqual(
+        "/beratungshilfe/antrag/kinder/2/name",
+      );
+    });
+
+    it("should add the edit anchor to the back destination if array info is available", () => {
+      const mockFlowSession = {
+        isFinal: false,
+        prevPath: "/kinder/uebersicht",
+        getArrayInfoByPath: () => ({ name: "kinder" }),
+      } as unknown as ReturnType<typeof createFlowSession>;
+
+      const actual = callContentData.getButtonNavigationNewEngine(
+        "/beratungshilfe/antrag",
+        mockFlowSession,
+        [2],
+      );
+
+      expect(actual.back.destination).toEqual(
+        "/beratungshilfe/antrag/kinder/uebersicht#array-summary-item-edit-kinder-2",
+      );
     });
   });
 
