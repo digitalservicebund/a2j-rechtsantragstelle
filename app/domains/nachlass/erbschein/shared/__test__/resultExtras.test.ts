@@ -1,6 +1,6 @@
 import type { ResultExtrasContext } from "~/routes/shared/newEngineResult.server";
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
-import { erbfolgeResultExtras } from "../resultExtras";
+import { erbfolgeResultExtras, HEIRS_LIST_IDENTIFIER } from "../resultExtras";
 
 // A deceased with a single living child: the child inherits everything, so the
 // heir list has exactly one entry.
@@ -33,7 +33,7 @@ function resultPageWith(freeZone: unknown[]): StrapiResultPage {
 
 const heirsListComponent = {
   __component: "page.list",
-  identifier: "heirsList",
+  identifier: HEIRS_LIST_IDENTIFIER,
   items: [],
 };
 
@@ -97,7 +97,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
       identifier: string;
       items: unknown[];
     };
-    expect(list.identifier).toBe("heirsList");
+    expect(list.identifier).toBe(HEIRS_LIST_IDENTIFIER);
     expect(list.items).toHaveLength(1);
   });
 
@@ -117,7 +117,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
       identifier: string;
       items: Array<{ headline: { text: string } }>;
     };
-    expect(list.identifier).toBe("heirsList");
+    expect(list.identifier).toBe(HEIRS_LIST_IDENTIFIER);
     expect(list.items.length).toBeGreaterThan(0);
     // No share text ("erhält …") when shares can't be determined.
     for (const item of list.items) {
@@ -145,7 +145,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
 
     expect(result.freeZone).toHaveLength(2);
     const list = result.freeZone[0] as unknown as { identifier: string };
-    expect(list.identifier).toBe("heirsList");
+    expect(list.identifier).toBe(HEIRS_LIST_IDENTIFIER);
     expect(
       (result.freeZone[1] as unknown as { identifier: string }).identifier,
     ).toBe("ehevertragUnbekanntHinweis");
@@ -164,7 +164,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
         verstorbeneNachname: "",
         familienstand: "verheiratet",
         ehepartnerVorname: "Ehepartner",
-        ehepartnerNachname: "",
+        ehepartnerNachname: "Nachname",
         ehevertrag: "unknown",
         hatteKinder: "no",
         kinder: [],
@@ -178,7 +178,7 @@ describe("erbfolgeResultExtras.transformContent", () => {
       identifier: string;
       items: Array<{ headline: { text: string } }>;
     };
-    expect(list.identifier).toBe("heirsList");
+    expect(list.identifier).toBe(HEIRS_LIST_IDENTIFIER);
     expect(list.items).toHaveLength(1);
     expect(list.items[0].headline.text).toMatch(/das gesamte Erbe/);
   });

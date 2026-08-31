@@ -76,7 +76,7 @@
     box-shadow: none !important;
   }
 
-  .stepper-step::before {
+  .stepper-step-triangle::before {
     content: "";
     position: absolute;
     width: 0;
@@ -92,7 +92,7 @@
     forced-color-adjust: none;
   }
 
-  .stepper-step::after {
+  .stepper-step-triangle::after {
     content: "";
     outline: none;
     position: absolute;
@@ -134,12 +134,12 @@
       border: 1px solid CanvasText;
     }
 
-    .stepper-step::before {
+    .stepper-step-triangle::before {
       border-left: 14px solid ButtonText;
       right: -14px;
     }
 
-    .stepper-step::after {
+    .stepper-step-triangle::after {
       border-left: 14px solid Canvas;
       right: -12px;
     }
@@ -150,11 +150,11 @@
       border-color: Highlight;
     }
 
-    .stepper-step.active::before {
+    .stepper-step-triangle.active::before {
       border-left-color: Highlight;
     }
 
-    .stepper-step.active::after {
+    .stepper-step-triangle.active::after {
       border-left-color: Highlight;
       right: -14px;
     }

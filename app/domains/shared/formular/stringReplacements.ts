@@ -1,6 +1,6 @@
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import type { ProzesskostenhilfeFormularUserData } from "../../prozesskostenhilfe/formular/userData";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 
 export const getKinderStrings = (
   context: BeratungshilfeFormularUserData | ProzesskostenhilfeFormularUserData,

@@ -2,11 +2,9 @@ import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { nachlassErbfolgePages } from "./pages";
 import { kinderFlowConfig } from "./kinderFlowConfig";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
-import {
-  elternteileRequireFurtherGenerations,
-  hasNoFirstOrSecondOrderHeirs,
-} from "../shared/calculateInheritance";
 import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
+import { elternteileRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
+import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 
 export const nachlassErbfolgeStaticFlow = compileFlow({
   pages: nachlassErbfolgePages,

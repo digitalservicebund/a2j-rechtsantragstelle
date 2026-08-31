@@ -5,7 +5,7 @@ import {
 
 describe("collectMissingChildrenNames", () => {
   it("flags Kind 1 (not Kind 2) when a grandchild is physically under Kind 1 but reassigned to Kind 2 via parentKindIndex", () => {
-    // Mirrors calculateInheritance's "places a grandchild by parentKindIndex,
+    // Mirrors determineHeirs's "places a grandchild by parentKindIndex,
     // not its physical parent array" test: after reassignment Kind 1's branch
     // is empty even though the raw data physically sits under it.
     const result = collectMissingChildrenNames([
@@ -150,7 +150,7 @@ describe("collectMissingChildrenNames", () => {
 
 describe("collectMissingChildrenNamesForElternteile", () => {
   it("flags Elternteil A (not B) when a sibling is physically under A but reassigned to B via parentElternteilIndex", () => {
-    // Mirrors calculateInheritance's "places a sibling by parentElternteilIndex,
+    // Mirrors determineHeirs's "places a sibling by parentElternteilIndex,
     // not its physical parent array" test.
     const result = collectMissingChildrenNamesForElternteile([
       {

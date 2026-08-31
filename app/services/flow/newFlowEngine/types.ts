@@ -1,5 +1,5 @@
 import { type z } from "zod";
-import type { PageData } from "../pageDataSchema";
+import type { PageData } from "../pageData";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 

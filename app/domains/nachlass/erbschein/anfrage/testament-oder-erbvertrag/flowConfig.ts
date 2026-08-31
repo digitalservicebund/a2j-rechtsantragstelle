@@ -1,7 +1,7 @@
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 
 export const testamentOderErbvertragFlowConfig = {
   testamentArt: [
@@ -57,10 +57,7 @@ export const testamentOderErbvertragFlowConfig = {
       guard: (data) => {
         const arrayIndex = firstArrayIndex(data.pageData);
         if (arrayIndex === undefined) return false;
-        const aliveStatus = data.beguenstigten?.at(arrayIndex)?.isAlive;
-        return (
-          aliveStatus === "yes" || aliveStatus === "noButAliveWhenErblasserDied"
-        );
+        return data.beguenstigten?.at(arrayIndex)?.isAlive === "yes";
       },
       target: "namedBeneficiaryAddress",
     },

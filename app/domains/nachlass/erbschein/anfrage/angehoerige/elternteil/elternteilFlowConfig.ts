@@ -1,10 +1,8 @@
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 import {
-  elternteileRequireFurtherGenerations,
-  hasNoFirstOrSecondOrderHeirs,
   MAX_SUPPORTED_DESCENDANT_DEPTH,
-} from "~/domains/nachlass/erbschein/shared/calculateInheritance";
-import {
+  elternteileRequireFurtherGenerations,
   isDead,
   isDeadWithKinder,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";

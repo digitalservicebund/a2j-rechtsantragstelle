@@ -1,10 +1,10 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type NachlassErbfolgePages } from "./pages";
-import { kinderRequireFurtherGenerations } from "../shared/calculateInheritance";
 import { collectMissingChildrenNames } from "../shared/missingChildren";
 import {
   allDescendantsDead,
   getEligibleKind,
+  kinderRequireFurtherGenerations,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 export const kinderFlowConfig = {

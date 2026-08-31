@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "~/components/common/Badge";
+import { type IconName } from "~/components/common/utils";
 
 const variants = ["info", "success", "warning", "danger"] as const;
 
@@ -37,6 +38,11 @@ export const AllVariants: Story = {
       <Badge icon="group">Default</Badge>
       {variants.map((variant) => (
         <Badge key={variant} variant={variant}>
+          {variant}
+        </Badge>
+      ))}
+      {variants.map((variant) => (
+        <Badge key={variant} icon={variant as IconName} variant={variant}>
           {variant}
         </Badge>
       ))}

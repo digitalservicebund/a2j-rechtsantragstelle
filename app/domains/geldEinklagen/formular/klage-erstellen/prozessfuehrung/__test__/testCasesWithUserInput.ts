@@ -29,9 +29,12 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
-  sachverhaltBegruendung: "some reason",
-  beweiseAngebot: "no",
   forderungGesamtbetrag: "1000",
+  abschnitte: [
+    {
+      beschreibung: "Abschnitt 1",
+    },
+  ],
   pageData: {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
