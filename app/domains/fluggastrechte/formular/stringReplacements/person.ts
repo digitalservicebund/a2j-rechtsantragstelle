@@ -1,4 +1,4 @@
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 import { type FluggastrechteUserData } from "../userData";
 
 export const WEITERE_PERSONEN_START_INDEX = 2;

@@ -12,6 +12,8 @@ import {
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
 import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { migrateElternteil, migrateKind } from "./personMigration";
+import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -28,11 +30,16 @@ export const nachlassErbscheinAnfrage = {
       "ehepartnerNachname",
       "ehepartnerStaatsangehoerigkeit",
       "hasEhevertrag",
+      "kinder",
+      "elternteile",
     ],
     migrationDataMerger: (
       sourceData: NachlassErbscheinErbfolgeUserData,
     ): NachlassErbscheinAnfrageUserData => {
       return {
+        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
+        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
+        verstorbeneFamilienstand: sourceData.familienstand,
         ehepartnerVorname: sourceData.ehepartnerVorname ?? "",
         ehepartnerNachname: sourceData.ehepartnerNachname ?? "",
         ...(sourceData.ehepartnerStaatsangehoerigkeit === "nurDeutsch"
@@ -41,9 +48,14 @@ export const nachlassErbscheinAnfrage = {
         ...(sourceData.ehevertrag && sourceData.ehevertrag !== "unknown"
           ? { hasEhevertrag: sourceData.ehevertrag }
           : {}),
-        verstorbeneFamilienstand: sourceData.familienstand,
-        verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
-        verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
+        testamentArt: sourceData.testamentArt ?? "none",
+        hatteKinder: sourceData.hatteKinder,
+        ...(sourceData.kinder && {
+          kinder: sourceData.kinder.map(migrateKind),
+        }),
+        ...(sourceData.elternteile && {
+          elternteile: sourceData.elternteile.map(migrateElternteil),
+        }),
       };
     },
     buttonUrl: "/nachlass/erbschein/erbfolge",
@@ -57,5 +69,6 @@ export const nachlassErbscheinAnfrage = {
     ...getAngehoerigeStrings(context),
     ...getAmtsgerichtStrings(context),
   }),
+  summaryFieldOverride: getParentIndexSummaryOverride,
   newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;

@@ -3,7 +3,7 @@ import type { FluggastrechtePersoenlicheDatenUserData } from "./persoenlicheDate
 import type { FluggastrechteProzessfuehrungUserData } from "./prozessfuehrung/userData";
 import type { FluggastrechteStreitwertKostenUserData } from "./streitwertKosten/userData";
 import { type FluggastrechteFlugdatenUserData } from "./flugdaten/userData";
-import type { PageData } from "~/services/flow/pageDataSchema";
+import type { PageData } from "~/services/flow/pageData";
 
 export type FluggastrechteUserData =
   FluggastrechteGrundvoraussetzungenUserData &

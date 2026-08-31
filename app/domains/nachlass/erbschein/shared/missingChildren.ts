@@ -14,7 +14,7 @@ type FamilyMember = {
 // Descendants are physically stored under the first dead member of the
 // previous level (a constraint of the array-add flow, which only has one
 // entry point per depth); parentKindIndex names the sibling they actually
-// belong to. Mirrors calculateInheritance's reassignKinderByParentIndex, but
+// belong to. Mirrors determineHeirs's reassignKinderByParentIndex, but
 // without touching hatteKinder — that field must stay as the user answered
 // it so a genuinely missing entry doesn't get silently masked as "no kids".
 function bucketKinderByParentIndex(members: FamilyMember[]): FamilyMember[][] {

@@ -5,13 +5,11 @@ import {
 import {
   allDescendantsDead,
   getEligibleKind,
+  kinderRequireFurtherGenerations,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { collectMissingChildrenNames } from "~/domains/nachlass/erbschein/shared/missingChildren";
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import {
-  kinderRequireFurtherGenerations,
-  MAX_SUPPORTED_DESCENDANT_DEPTH,
-} from "~/domains/nachlass/erbschein/shared/calculateInheritance";
+import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 type KinderLevelPageConfigs<D extends number> = Record<
   `kind${D}Name`,

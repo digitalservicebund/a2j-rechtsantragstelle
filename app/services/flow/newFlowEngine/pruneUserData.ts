@@ -5,7 +5,7 @@ import {
   type NodeKey,
   type InferredUserData,
 } from "./types";
-import { type PageData } from "../pageDataSchema";
+import { type PageData } from "../pageData";
 import { runSimulation } from "~/services/flow/newFlowEngine/simulate";
 
 // Navigates/creates the nested path in `obj` using `arrayPath` + `indexes`,

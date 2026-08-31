@@ -4,29 +4,29 @@ import {
   type alivePersonSchema,
   personUnion,
 } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pageSchemaHelpers";
+import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
+import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 // #region Base Erbfolge types, used in the Erbfolge Vorabcheck.
-type BaseAlivePerson = Pick<AlivePerson, "vorname" | "nachname" | "isAlive">;
+type BaseAlivePerson = Pick<
+  AlivePerson,
+  "vorname" | "nachname" | "isAlive" | "parentKindIndex"
+>;
 
 type BaseDeceasedPersonNoKids = Pick<
   DeceasedPersonNoKids,
-  "vorname" | "nachname" | "isAlive" | "hatteKinder"
+  "vorname" | "nachname" | "isAlive" | "hatteKinder" | "parentKindIndex"
 >;
 
 export type BaseDeceasedPersonWithKids = Pick<
   DeceasedPersonWithKids,
-  "vorname" | "nachname" | "isAlive" | "hatteKinder"
+  "vorname" | "nachname" | "isAlive" | "hatteKinder" | "parentKindIndex"
 > & {
   kinder?: BaseKind[];
 };
 
 export type BaseKind =
   BaseAlivePerson | BaseDeceasedPersonNoKids | BaseDeceasedPersonWithKids;
-
-type ElternteilKindFields = {
-  parentElternteilIndex?: string;
-  parentKindIndex?: string;
-};
 
 type BaseElternteilKindAlive = Pick<
   ElternteilKindAlive,
@@ -78,24 +78,33 @@ export type BaseElternteil =
 // #endregion
 
 // #region Extended (full) Erbfolge types, for use in Erbscheinsantrag and summary components.
-type AlivePerson = z.infer<typeof alivePersonSchema>;
-type DeceasedPersonNoKids = z.infer<typeof deceasedPersonNoKidsSchema>;
+type AlivePerson = z.infer<typeof alivePersonSchema> & {
+  parentKindIndex?: string;
+};
+type DeceasedPersonNoKids = z.infer<typeof deceasedPersonNoKidsSchema> & {
+  parentKindIndex?: string;
+};
 type DeceasedPersonWithKids = Omit<DeceasedPersonNoKids, "hatteKinder"> & {
   hatteKinder: "yes";
+  parentKindIndex?: string;
   kinder?: Kind[];
 };
 export type Kind = AlivePerson | DeceasedPersonNoKids | DeceasedPersonWithKids;
 
 const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
 
-type ElternteilKindAlive = AlivePerson & ElternteilKindFields;
+type ElternteilKindAlive = AlivePerson & {
+  parentElternteilIndex?: string;
+};
 
-type ElternteilKindDeceasedNoKids = DeceasedPersonNoKids & ElternteilKindFields;
+type ElternteilKindDeceasedNoKids = DeceasedPersonNoKids & {
+  parentElternteilIndex?: string;
+};
 
-type ElternteilKindDeceasedWithKids = Omit<DeceasedPersonWithKids, "kinder"> &
-  ElternteilKindFields & {
-    kinder?: ElternteilKind[];
-  };
+type ElternteilKindDeceasedWithKids = Omit<DeceasedPersonWithKids, "kinder"> & {
+  parentElternteilIndex?: string;
+  kinder?: ElternteilKind[];
+};
 
 // Siblings of the deceased (a parent's other children) and their descendants,
 // nested up to 5 levels like the kinder line. Every node may carry a parent select:
@@ -115,3 +124,6 @@ export type Elternteil =
     });
 
 // #endregion
+
+export type ErbfolgeData =
+  NachlassErbscheinErbfolgeUserData | NachlassErbscheinAnfrageUserData;
