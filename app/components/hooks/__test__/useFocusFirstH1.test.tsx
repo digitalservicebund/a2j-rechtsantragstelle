@@ -37,20 +37,20 @@ describe("useFocusFirstH1", () => {
   });
 
   it("should not set tabindex and focus in case h1 element is present but hash url is present", async () => {
-    Object.defineProperty(window, "location", {
-      value: {
-        hash: "#some-hash",
-      },
-      writable: true,
-    });
+    const originalUrl = window.location.href;
+    try {
+      window.history.replaceState({}, "", "#some-hash");
 
-    const { getByText } = render(<DummyComponentWithH1 />);
+      const { getByText } = render(<DummyComponentWithH1 />);
 
-    const element = getByText(TEXT_HEADING_LABEL);
+      const element = getByText(TEXT_HEADING_LABEL);
 
-    await waitFor(() => {
-      expect(element).not.toHaveAttribute("tabindex");
-      expect(element).not.toHaveFocus();
-    });
+      await waitFor(() => {
+        expect(element).not.toHaveAttribute("tabindex");
+        expect(element).not.toHaveFocus();
+      });
+    } finally {
+      window.history.replaceState({}, "", originalUrl);
+    }
   });
 });
