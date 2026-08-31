@@ -1,9 +1,8 @@
 import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
-import { addFactsOfCases } from "./addFactsOfCases";
-import { addEvidencesOnFacts } from "./addEvidencesOnFacts";
 import { createLegalAssessment } from "./legalAssessment/createLegalAssessment";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { createFactsOfCase } from "./factsOfCase/createFactsOfCase";
 
 const REASON_TITLE_TEXT = "Begründung";
 
@@ -25,8 +24,6 @@ export const createReasonPage = (
 
   documentStruct.add(reasonSect);
 
-  addFactsOfCases(doc, reasonSect, userData.sachverhaltBegruendung ?? "");
-  const hasEvidencesOnFacts = userData.beweiseAngebot === "yes";
-  addEvidencesOnFacts(doc, reasonSect, userData.beweiseBeschreibung ?? "");
-  createLegalAssessment(doc, reasonSect, userData, hasEvidencesOnFacts);
+  createFactsOfCase(doc, reasonSect, userData);
+  createLegalAssessment(doc, reasonSect, userData);
 };

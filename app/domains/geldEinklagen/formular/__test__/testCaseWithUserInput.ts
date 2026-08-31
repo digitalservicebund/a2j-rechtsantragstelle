@@ -17,6 +17,7 @@ import { testCasesWithUserInputZustaendigesGericht } from "../gericht-pruefen/zu
 import { testCasesWithUserInputKlagenErstellen } from "../klage-erstellen/__test__/testCasesWithUserInput";
 import { testCasesWithUserInputKlagenErstellenProzessfuehrung } from "../klage-erstellen/prozessfuehrung/__test__/testCasesWithUserInput";
 import { testCasesWithUserInputKlagenErstellenRechtlicherZusatz } from "../klage-erstellen/rechtlicher-zusatz/__test__/testCasesWithUserInput";
+import { testCasesWithUserInputKlagenErstellenBegruendung } from "../klage-erstellen/begruendung/__tests__/testCasesWithUserInputs";
 
 export const geldEinklagenFormularTestCases = {
   xstateConfig: geldEinklagenFormular.config,
@@ -37,6 +38,7 @@ export const geldEinklagenFormularTestCases = {
     ...testCasesWithUserInputKlagenErstellen,
     ...testCasesWithUserInputKlagenErstellenProzessfuehrung,
     ...testCasesWithUserInputKlagenErstellenRechtlicherZusatz,
+    ...testCasesWithUserInputKlagenErstellenBegruendung,
   },
 } satisfies FlowTestConfig<
   GeldEinklagenFormularUserData,

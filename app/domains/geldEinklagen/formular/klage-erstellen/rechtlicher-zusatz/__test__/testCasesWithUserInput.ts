@@ -29,8 +29,6 @@ const baseContext: GeldEinklagenFormularUserData = {
   beklagteTitle: "none",
   beklagteVorname: "beklagteVorname",
   beklagteNachname: "beklagteNachname",
-  sachverhaltBegruendung: "some reason",
-  beweiseAngebot: "no",
   forderungGesamtbetrag: "1000",
   anwaltskosten: "10",
   prozesszinsen: "yes",
@@ -38,6 +36,11 @@ const baseContext: GeldEinklagenFormularUserData = {
   muendlicheVerhandlung: "yes",
   videoVerhandlung: "no",
   versaeumnisurteil: "yes",
+  abschnitte: [
+    {
+      beschreibung: "Abschnitt 1",
+    },
+  ],
   pageData: {
     subflowDoneStates: {
       "/gericht-pruefen/sachgebiet": true,
@@ -74,7 +77,10 @@ export const testCasesWithUserInputKlagenErstellenRechtlicherZusatz: FlowTestCas
         stepId: "/klage-erstellen/zusammenfassung/uebersicht",
       },
       {
-        stepId: "/klage-herunterladen/intro/start",
+        stepId: "/versand-vorbereiten/klage-herunterladen/start",
+      },
+      {
+        stepId: "/versand-vorbereiten/klage-versenden/anleitung",
       },
     ],
     klageErstellenRechtlicherZusatzWithAnwaltschaftYes: [
@@ -112,7 +118,10 @@ export const testCasesWithUserInputKlagenErstellenRechtlicherZusatz: FlowTestCas
         stepId: "/klage-erstellen/zusammenfassung/uebersicht",
       },
       {
-        stepId: "/klage-herunterladen/intro/start-anwaltschaft",
+        stepId: "/versand-vorbereiten/klage-herunterladen/start",
+      },
+      {
+        stepId: "/versand-vorbereiten/klage-versenden/anleitung-anwaltschaft",
       },
     ],
   };

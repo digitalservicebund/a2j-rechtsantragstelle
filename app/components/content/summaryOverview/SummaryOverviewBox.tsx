@@ -4,6 +4,7 @@ import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
 import { Icon } from "../../common/Icon";
 import Heading from "~/components/common/Heading";
+import { SummaryOverviewBoxBegruendungBeschreibungBeweise } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/SummaryOverviewBoxBegruendungBeschreibungBeweise";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -53,6 +54,15 @@ const SummaryOverviewBox = ({
           />
         ))}
       </dl>
+
+      {/* Workaround for TGA as this component is used in the Begründung
+      Beschreibung Beweise section and we need to render the items here as well */}
+      {flowId === "/geld-einklagen/formular" &&
+        stepId.includes("/klage-erstellen/begruendung/beschreibung") && (
+          <SummaryOverviewBoxBegruendungBeschreibungBeweise
+            userData={userData}
+          />
+        )}
       <a
         href={`${flowId}${stepId}`}
         className="kern-link no-underline! hover:underline!"
