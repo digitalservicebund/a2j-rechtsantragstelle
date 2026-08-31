@@ -1,7 +1,7 @@
 import type { Guards } from "~/domains/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
 import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
-import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
+import { isValidArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 
 const partnerHasAndereArbeitsausgaben: Guards<PartnerEinkuenfteUserData>[string] =

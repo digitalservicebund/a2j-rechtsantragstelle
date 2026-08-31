@@ -1,5 +1,5 @@
 import { type Guards, yesNoGuards } from "~/domains/guards.server";
-import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
+import { isValidArrayIndex } from "~/services/flow/pageData";
 import { weiterePersonenDone } from "./doneFunctions";
 import type { FluggastrechtePersoenlicheDatenUserData } from "./userData";
 

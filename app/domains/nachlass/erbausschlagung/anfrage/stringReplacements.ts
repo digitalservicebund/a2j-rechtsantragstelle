@@ -1,4 +1,4 @@
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";

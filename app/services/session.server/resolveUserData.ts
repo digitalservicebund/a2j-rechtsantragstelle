@@ -2,7 +2,7 @@ import get from "lodash/get";
 import set from "lodash/set";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import type { UserData } from "~/domains/userData";
-import type { PageData } from "../flow/pageDataSchema";
+import type { PageData } from "../flow/pageData";
 
 export const resolveUserData = (
   userData: UserData & { pageData?: PageData },

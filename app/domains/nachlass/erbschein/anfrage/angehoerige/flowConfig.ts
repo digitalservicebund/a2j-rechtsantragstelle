@@ -3,7 +3,7 @@ import { kinderFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoeri
 import { angehoerigeArray } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 
 export const angehoerigeFlowConfig = {
   ...kinderFlowConfig,
@@ -27,10 +27,7 @@ export const angehoerigeFlowConfig = {
       guard: (data) => {
         const arrayIndex = firstArrayIndex(data.pageData);
         if (arrayIndex === undefined) return false;
-        const aliveStatus = data.angehoerige?.at(arrayIndex)?.isAlive;
-        return (
-          aliveStatus === "yes" || aliveStatus === "noButAliveWhenErblasserDied"
-        );
+        return data.angehoerige?.at(arrayIndex)?.isAlive === "yes";
       },
       target: "angehoerigeAddress",
     },
