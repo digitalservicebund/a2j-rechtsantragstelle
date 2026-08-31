@@ -1,4 +1,8 @@
-import { type Kind, type Elternteil, type ElternteilKind } from "../erbfolgeTypes";
+import {
+  type Kind,
+  type Elternteil,
+  type ElternteilKind,
+} from "../erbfolgeTypes";
 export type SummaryPerson = Kind | Elternteil | ElternteilKind;
 
 export const migrationDataIsEmpty = (value: unknown) =>
