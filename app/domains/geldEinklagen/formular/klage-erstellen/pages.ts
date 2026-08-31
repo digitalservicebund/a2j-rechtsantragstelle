@@ -180,6 +180,12 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
       beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
     },
+    readonlyFields: {
+      fieldNames: ["beklagtePlz", "beklagteOrt"],
+      shouldMakeReadOnly: (userData) =>
+        !!userData.beklagteStatePrefilled &&
+        userData.beklagteStatePrefilled === "prefilled",
+    },
   },
   forderungGesamtbetrag: {
     stepId: "klage-erstellen/forderung/gesamtbetrag",
