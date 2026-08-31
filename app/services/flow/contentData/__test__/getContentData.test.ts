@@ -4,7 +4,6 @@ import {
   getArraySummaryData,
 } from "~/services/array/getArraySummaryData";
 import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
 import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepStates";
@@ -13,6 +12,7 @@ import { getPageSchema } from "~/domains/pageSchemas";
 import z from "zod";
 import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
 import { type SummaryItem } from "~/services/summary/types";
+import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
 
 const mockCmsElement = {
   heading: "new heading",
@@ -69,7 +69,6 @@ const callContentData = getContentData(
 );
 
 vi.mock("~/services/array/getArraySummaryData");
-vi.mock("~/util/buttonProps");
 vi.mock("~/services/summary/autoGenerateSummary");
 
 beforeEach(() => {
@@ -155,17 +154,7 @@ describe("getContentData", () => {
 
   describe("getButtonNavigation", () => {
     it("should return correctly the button navigation", () => {
-      const mockButtons = {
-        back: {
-          destination: "/back",
-          label: "backButton",
-        },
-        next: {
-          label: "backButton",
-        },
-      };
-
-      vi.mocked(getButtonNavigationProps).mockReturnValue(mockButtons);
+      vi.mocked(mockBuildFlowController.getPrevious).mockReturnValue("/back");
 
       const actual = callContentData.getButtonNavigation(
         mockBuildFlowController,
@@ -173,7 +162,40 @@ describe("getContentData", () => {
         [],
       );
 
-      expect(actual).toEqual(mockButtons);
+      expect(actual).toEqual({
+        back: {
+          destination: "/back",
+          label: "Zurück",
+        },
+        next: {
+          label: "Weiter",
+        },
+      });
+    });
+  });
+
+  describe("getButtonNavigationNewEngine", () => {
+    it("should return correctly the button navigation", () => {
+      const mockFlowSession = {
+        isFinal: false,
+        prevPath: "/back",
+      } as unknown as ReturnType<typeof createFlowSession>;
+
+      const actual = callContentData.getButtonNavigationNewEngine(
+        "/beratungshilfe/antrag",
+        mockFlowSession,
+        [],
+      );
+
+      expect(actual).toEqual({
+        back: {
+          destination: "/beratungshilfe/antrag/back",
+          label: "Zurück",
+        },
+        next: {
+          label: "Weiter",
+        },
+      });
     });
   });
 
