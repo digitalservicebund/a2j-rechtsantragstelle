@@ -3,7 +3,7 @@ import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { getPilotCourts } from "../services/court/getPilotCourts";
 import { getResponsibleCourt } from "../services/court/getResponsibleCourt";
 import { type GeldEinklagenFormularUserData } from "./userData";
-import { firstArrayIndex } from "~/services/flow/pageDataSchema";
+import { firstArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasPersonDetails } from "./klage-erstellen/begruendung/components/BegruendungBeschreibungBeweisItems";
 
