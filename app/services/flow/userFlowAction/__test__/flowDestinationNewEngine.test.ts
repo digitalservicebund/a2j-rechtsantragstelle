@@ -3,14 +3,13 @@ import { flowDestinationNewEngine } from "../flowDestinationNewEngine";
 
 const INITIAL_PAGE_FLOW = "/initial-step";
 
-type ArrayInfoType = ReturnType<typeof createFlowSession>["getArrayInfoByPath"];
+type ArrayInfo = ReturnType<
+  ReturnType<typeof createFlowSession>["getArrayInfoByPath"]
+>;
 
-const getMockFlowEngineSession = (
-  nextPath?: string,
-  arrayInfo?: ArrayInfoType,
-) => {
+const getMockFlowEngineSession = (nextPath?: string, arrayInfo?: ArrayInfo) => {
   return {
-    nextPath: nextPath,
+    nextPath,
     initialPath: INITIAL_PAGE_FLOW,
     getArrayInfoByPath: () => arrayInfo,
   } as unknown as ReturnType<typeof createFlowSession>;
@@ -57,7 +56,7 @@ describe("flowDestinationNewEngine", () => {
   it("should return the next step with the array edit anchor if the pathname contains an array info and the next step has an array", () => {
     const mockFlowEngineSession = getMockFlowEngineSession(
       "/finanzielle-angaben/kinder/uebersicht",
-      { name: "kinder" } as ArrayInfoType,
+      { name: "kinder" } as ArrayInfo,
     );
 
     const actual = flowDestinationNewEngine(
