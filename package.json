@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1116.0",
+    "@aws-sdk/client-s3": "^3.1120.0",
     "@digitalservicebund/kern-ux-tailwind-theme": "^2.0.0",
     "@kern-ux/native": "^2.5.0",
     "@node-saml/node-saml": "github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916",
@@ -54,7 +54,7 @@
     "@react-router/node": "^8.3.0",
     "@remix-run/form-data-parser": "^0.17.5",
     "@rvf/react-router": "^8.2.0",
-    "@sentry/react-router": "^10.70.0",
+    "@sentry/react-router": "^10.71.0",
     "@sentry/vite-plugin": "^5.4.0",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.19.0",
@@ -117,7 +117,7 @@
     "@types/follow-redirects": "^1.14.4",
     "@types/lodash": "^4.17.25",
     "@types/mustache": "^4.2.6",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/pdfkit": "^0.17.6",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
