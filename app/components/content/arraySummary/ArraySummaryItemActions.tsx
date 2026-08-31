@@ -5,6 +5,7 @@ import { translations } from "~/services/translations/translations";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import { type HeadingProps } from "~/components/common/Heading";
 import Button from "~/components/common/Button";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 type Props = {
   readonly itemIndex: number;
@@ -14,7 +15,6 @@ type Props = {
 };
 
 export const DELETE_URL_ENDPOINT = "/action/delete-array-item";
-export const EDIT_ID_PREFIX = "array-summary-item-edit-";
 
 const ArraySummaryItemActions = ({
   itemIndex,
@@ -30,7 +30,7 @@ const ArraySummaryItemActions = ({
   return (
     <div className="flex md:flex-row flex-col gap-kern-space-small">
       <a
-        id={`${EDIT_ID_PREFIX}${category}-${itemIndex}`}
+        id={`${EDIT_BUTTON_ID_PREFIX}${category}-${itemIndex}`}
         href={editUrl}
         className="kern-link no-underline! hover:underline! flex align-center gap-kern-space-x-small! pr-16!"
         aria-label={`${srHeadingText}${translations.arraySummary.arrayEditButtonLabel.de}`}

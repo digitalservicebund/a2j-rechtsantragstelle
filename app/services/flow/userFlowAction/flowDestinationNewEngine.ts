@@ -3,8 +3,7 @@ import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathnam
 import { type PageConfigMap } from "../newFlowEngine/types";
 import { arrayIsNonEmpty } from "~/util/array";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
-import { arrayChar } from "~/services/array";
-import { EDIT_ID_PREFIX } from "~/components/content/arraySummary/ArraySummaryItemActions";
+import { arrayChar, EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 export const flowDestinationNewEngine = (
   pathname: string,
@@ -23,7 +22,7 @@ export const flowDestinationNewEngine = (
 
   // If the next step has an array and array info is available, we return the next step with the array edit anchor
   if (arrayIsNonEmpty(arrayIndexes) && arrayInfoNextStepId) {
-    return `${destination}#${EDIT_ID_PREFIX}${arrayInfoNextStepId.name}-${arrayIndexes[0]}`;
+    return `${destination}#${EDIT_BUTTON_ID_PREFIX}${arrayInfoNextStepId.name}-${arrayIndexes[0]}`;
   }
 
   return destination;

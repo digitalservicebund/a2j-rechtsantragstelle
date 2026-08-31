@@ -28,7 +28,7 @@ import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { arrayIsNonEmpty } from "~/util/array";
-import { EDIT_ID_PREFIX } from "~/components/content/arraySummary/ArraySummaryItemActions";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -98,7 +98,7 @@ const getBackButtonDestinationNewEngine = (
   );
 
   if (arrayIsNonEmpty(arrayIndexes) && arrayInfoNextStepId) {
-    return `${backDestination}#${EDIT_ID_PREFIX}${arrayInfoNextStepId.name}-${arrayIndexes[0]}`;
+    return `${backDestination}#${EDIT_BUTTON_ID_PREFIX}${arrayInfoNextStepId.name}-${arrayIndexes[0]}`;
   }
 
   return backDestination;
