@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { SECTION_BACKGROUND_COLORS } from "~/components";
 import SummaryOverviewSection from "~/components/content/summaryOverview/SummaryOverviewSection";
+import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import type { StrapiContentComponent } from "~/services/cms/models/formElements/StrapiContentComponent";
 import { Grid } from "../layout/grid/Grid";
@@ -66,7 +67,20 @@ function cmsToReact(
     case "basic.heading":
       return <Heading managedByParent {...componentProps} />;
     case "basic.paragraph":
-      return <RichText {...componentProps} />;
+      // Outside of flows a top-level paragraph is a direct child of the Grid,
+      // so it needs its own GridItem to line up with headings and lists
+      return opts?.inFlow ? (
+        <RichText {...componentProps} />
+      ) : (
+        <GridItem
+          mdColumn={{ start: 1, span: 8 }}
+          lgColumn={{ start: 3, span: 8 }}
+          xlColumn={{ start: 3, span: 8 }}
+          className="px-kern-space-large lg:px-0 xl:px-0"
+        >
+          <RichText {...componentProps} />
+        </GridItem>
+      );
     case "page.hero":
       return <Hero {...componentProps} />;
     case "page.box":

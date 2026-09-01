@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type { FlowId } from "~/domains/flowIds";
 import {
   defaultLocale,
@@ -20,6 +21,10 @@ const P_LEVEL_FLOW_PAGES = 6; // Flow pages require a deeper population level du
 const P_LEVEL_TRANSLATIONS = 2;
 const P_LEVEL_DEFAULT = 5;
 const StrapiPageMetaSchema = StrapiPageSchema.pick({ pageMeta: true });
+const StrapiNavigationEntrySchema = z.array(
+  StrapiPageSchema.pick({ slug: true, pageMeta: true }),
+);
+const NAVIGATION_PAGE_SIZE = "100";
 
 export async function fetchContentPageMeta(
   opts: Omit<GetStrapiEntryOpts<"pages">, "apiId" | "filter"> & {
@@ -53,8 +58,15 @@ async function fetchCollectionEntry<T extends CollectionId>(
   pLevel = P_LEVEL_DEFAULT,
   filters?: Filter[],
   locale?: StrapiLocale,
+  status?: "draft" | "published",
 ): Promise<StrapiSchemasOutput[T][number]> {
-  const strapiEntry = await getStrapiEntry({ apiId, filters, locale, pLevel });
+  const strapiEntry = await getStrapiEntry({
+    apiId,
+    filters,
+    locale,
+    pLevel,
+    status,
+  });
   const strapiEntryParsed =
     await collectionSchemas[apiId].safeParseAsync(strapiEntry);
 
@@ -120,6 +132,45 @@ export const fetchPage = (slug: string) =>
   fetchCollectionEntry("pages", P_LEVEL_DEFAULT, [
     { field: "slug", value: slug },
   ]);
+
+// Locale is passed explicitly so the staging-locale fallback in getStrapiEntry doesn't apply
+export const fetchJustizPage = (
+  slug: string,
+  status: "draft" | "published",
+  locale: StrapiLocale = defaultLocale,
+) =>
+  fetchCollectionEntry(
+    "justiz-de-pages",
+    P_LEVEL_DEFAULT,
+    [{ field: "slug", value: slug }],
+    locale,
+    status,
+  );
+
+export type JustizNavigationItem = { slug: string; title: string };
+
+// One menu level: every page whose slug has a single segment, e.g. /onlinedienste
+export async function fetchJustizNavigation(
+  status: "draft" | "published",
+  locale: StrapiLocale = defaultLocale,
+): Promise<JustizNavigationItem[]> {
+  const entries = await getStrapiEntry({
+    apiId: "justiz-de-pages",
+    locale,
+    status,
+    fields: "slug",
+    populate: "pageMeta",
+    pageSize: NAVIGATION_PAGE_SIZE,
+  });
+
+  const parsed = await StrapiNavigationEntrySchema.safeParseAsync(entries);
+  if (!parsed.success) return [];
+
+  return parsed.data
+    .filter(({ slug }) => slug.split("/").filter(Boolean).length === 1)
+    .map(({ slug, pageMeta }) => ({ slug, title: pageMeta.title }))
+    .sort((a, b) => a.title.localeCompare(b.title, "de"));
+}
 
 export const fetchFlowPage = <T extends FlowPageId>(
   collection: T,

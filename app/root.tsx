@@ -37,6 +37,7 @@ import { buildBreadcrumbPromises } from "./services/meta/breadcrumbs";
 import { generatePrintTitle } from "./services/meta/generatePrintTitle";
 import { metaFromMatches } from "./services/meta/metaFromMatches";
 import { useNonce } from "./services/security/nonce";
+import { isJustizDePath, parseJustizDePath } from "./services/routing/justizDe";
 import { initializeMainSession } from "./services/session.server";
 import { anyUserData } from "./services/session.server/anyUserData.server";
 import { getTranslationByKey } from "./services/translations/getTranslationByKey";
@@ -78,6 +79,9 @@ const STRAPI_P_LEVEL_THREE = 3;
 
 export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
   const { pathname } = url;
+  // justiz.de pages render their own chrome, so the A2J breadcrumb lookups
+  // (one CMS request per path segment) would all miss
+  const skipBreadcrumbs = isJustizDePath(pathname);
 
   const [
     strapiHeader,
@@ -94,7 +98,7 @@ export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
     fetchTranslations("accessibility"),
     anyUserData(request),
     initializeMainSession(request, url),
-    buildBreadcrumbPromises(pathname),
+    skipBreadcrumbs ? [] : buildBreadcrumbPromises(pathname),
   ]);
 
   const isAnyFlowPage = Boolean(flowIdFromPathname(pathname));
@@ -144,6 +148,12 @@ function App() {
   const nonce = useNonce();
   const posthogClient = useInitPosthog(hasTrackingConsent);
   const isHomepage = pathname === "/";
+  // Migrated justiz.de content brings its own header and footer (routes/justizde.tsx)
+  const hasOwnChrome = isJustizDePath(pathname);
+  // …and is the only part of the app served in more than one language
+  const documentLanguage = hasOwnChrome
+    ? parseJustizDePath(pathname).locale
+    : "de";
 
   // oxlint-disable-next-line no-console
   if (globalThis.window != undefined) console.log(consoleMessage);
@@ -156,7 +166,7 @@ function App() {
   }, [shouldPrint]);
 
   return (
-    <html lang="de" {...{ "data-kern-theme": "light" }}>
+    <html lang={documentLanguage} {...{ "data-kern-theme": "light" }}>
       <head>
         <title>
           {shouldPrint ? generatePrintTitle(title, pathname) : title}
@@ -194,27 +204,33 @@ function App() {
             )}
             target={skipContentLinkTarget}
           />
-          <PageHeader {...pageHeaderProps} />
-          <Breadcrumbs
-            breadcrumbs={breadcrumbs}
-            linkLabel={pageHeaderProps.linkLabel}
-            ariaLabel={getTranslationByKey(
-              "header-breadcrumb",
-              accessibilityTranslations,
-            )}
-          />
+          {!hasOwnChrome && (
+            <>
+              <PageHeader {...pageHeaderProps} />
+              <Breadcrumbs
+                breadcrumbs={breadcrumbs}
+                linkLabel={pageHeaderProps.linkLabel}
+                ariaLabel={getTranslationByKey(
+                  "header-breadcrumb",
+                  accessibilityTranslations,
+                )}
+              />
+            </>
+          )}
           <main className="min-h-0 overflow-auto" id="main">
             <Outlet />
           </main>
-          <footer>
-            <Footer
-              showDeletionBanner={hasAnyUserData}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                accessibilityTranslations,
-              )}
-            />
-          </footer>
+          {!hasOwnChrome && (
+            <footer>
+              <Footer
+                showDeletionBanner={hasAnyUserData}
+                ariaLabel={getTranslationByKey(
+                  "footer-navigation",
+                  accessibilityTranslations,
+                )}
+              />
+            </footer>
+          )}
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
         </AnalyticsContext>
