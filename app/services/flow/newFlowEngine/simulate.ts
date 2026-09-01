@@ -5,7 +5,7 @@ import type {
   TransitionConfigMap,
   InferredUserData,
 } from "./types";
-import type { PageData } from "../pageDataSchema";
+import type { PageData } from "../pageData";
 import {
   ARRAY_WILDCARD,
   inferArrayNameFromStepId,

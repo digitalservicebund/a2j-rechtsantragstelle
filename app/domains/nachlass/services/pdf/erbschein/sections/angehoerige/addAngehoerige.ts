@@ -35,10 +35,7 @@ export const addAngehoerige = (
         .font(FONTS_BUNDESSANS_BOLD)
         .text(angehoerige.geburtsort);
 
-      if (
-        angehoerige.isAlive === "yes" ||
-        angehoerige.isAlive === "noButAliveWhenErblasserDied"
-      ) {
+      if (angehoerige.isAlive === "yes") {
         doc
           .font(FONTS_BUNDESSANS_REGULAR)
           .text("Familienverhältnis zum Erblasser: ", { continued: true })
@@ -52,7 +49,7 @@ export const addAngehoerige = (
           .text(`${angehoerige.plz} ${angehoerige.ort}`)
           .text(angehoerige.land)
           .moveDown(1);
-      } else if (angehoerige.isAlive === "no") {
+      } else {
         doc
           .font(FONTS_BUNDESSANS_REGULAR)
           .text("Sterbedatum: ", { continued: true })

@@ -31,6 +31,7 @@ const allIconNames: IconName[] = [
   "keyboard-double-arrow-left",
   "local-library",
   "more-time",
+  "person",
   "no-luggage",
   "open-in-new",
   "sign-language",

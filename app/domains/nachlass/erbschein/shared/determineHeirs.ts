@@ -12,10 +12,11 @@ import {
 import { personName } from "./personName";
 import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 import {
+  type ErbfolgeData,
   type BaseElternteil,
-  type BaseKind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { z } from "zod";
+import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
 
 export const gueterstandSchema = z.enum([
   "communityOfAcquisitions",
@@ -27,20 +28,7 @@ export const gueterstandSchema = z.enum([
 
 export type Gueterstand = z.infer<typeof gueterstandSchema>;
 
-export type SpouseInput = {
-  vorname?: string;
-  nachname?: string;
-  gueterstand: Gueterstand;
-};
-
-export type InheritanceInput = {
-  hatteKinder?: string;
-  kinder?: BaseKind[];
-  elternteile?: BaseElternteil[];
-  spouse?: SpouseInput;
-};
-
-export type HeirShare = {
+export type Heir = {
   name: string;
   share: Fraction;
   // 0=spouse, 1=1st order (kinder/Abkömmlinge), 2=2nd order (Elternteile/Geschwister)
@@ -51,16 +39,13 @@ export type HeirShare = {
 
 // Structural supertype of Kind, ElternteilKind, and Elternteil — the distribution
 // logic only needs these fields, regardless of which family branch a person is in.
-type FamilyMember = {
-  vorname?: string;
-  nachname?: string;
-  isAlive: string;
+type FamilyMember = Pick<
+  PersonItem,
+  "vorname" | "nachname" | "isAlive" | "parentKindIndex"
+> & {
   hatteKinder?: string;
   kinder?: FamilyMember[];
-  parentKindIndex?: string;
 };
-
-export const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
 
 function hasLivingDescendant(member: FamilyMember): boolean {
   if (member.isAlive === "yes") return true;
@@ -68,58 +53,11 @@ function hasLivingDescendant(member: FamilyMember): boolean {
   return (member.kinder ?? []).some(hasLivingDescendant);
 }
 
-// At the deepest supported depth we only need further generations if that
-// person also had children (unsupported depth 6+). A depth-5 person who died
-// without children is a fully known, terminal branch.
-function hasDeadMemberAtDepth(
-  members: FamilyMember[],
-  targetDepth: number,
-  currentDepth = 1,
-): boolean {
-  return members.some(
-    (member) =>
-      (currentDepth === targetDepth &&
-        member.isAlive === "no" &&
-        member.hatteKinder === "yes") ||
-      (currentDepth < targetDepth &&
-        hasDeadMemberAtDepth(
-          member.kinder ?? [],
-          targetDepth,
-          currentDepth + 1,
-        )),
-  );
+export function hasNoFirstOrSecondOrderHeirs(input: ErbfolgeData): boolean {
+  return determineHeirs(input).every((heir) => heir.order === 0);
 }
 
-// Kept separate from elternteileRequireFurtherGenerations (rather than one combined
-// check) so a depth limit hit in one branch doesn't gate reachability of the other
-// branch's summary page: both hub pages (kind1Summary, elternteilSummary) use this
-// guard, and a single combined check would make BOTH summaries unreachable once
-// either branch trips the limit, blocking the user from going back to fix it.
-export function kinderRequireFurtherGenerations(
-  input: InheritanceInput,
-): boolean {
-  return hasDeadMemberAtDepth(
-    input.kinder ?? [],
-    MAX_SUPPORTED_DESCENDANT_DEPTH,
-  );
-}
-
-export function elternteileRequireFurtherGenerations(
-  input: InheritanceInput,
-): boolean {
-  return (input.elternteile ?? []).some((parent) =>
-    hasDeadMemberAtDepth(
-      "kinder" in parent ? (parent.kinder ?? []) : [],
-      MAX_SUPPORTED_DESCENDANT_DEPTH,
-    ),
-  );
-}
-
-export function hasNoFirstOrSecondOrderHeirs(input: InheritanceInput): boolean {
-  return calculateInheritance(input).every((heir) => heir.order === 0);
-}
-
-type HeirEntry = { share: Fraction; depth: number };
+type HeirEntry = Pick<Heir, "share" | "depth">;
 
 // Distributes parentShare among kinder using the Stammesprinzip:
 // - Living kinder receive their Stamm share directly.
@@ -225,6 +163,11 @@ function spouseShare(
   return WHOLE;
 }
 
+export function shareLabel({ numerator, denominator }: Heir["share"]): string {
+  if (numerator === denominator) return "das gesamte Erbe";
+  return `${numerator}/${denominator} des Erbes`;
+}
+
 // Descendants at any depth are physically stored under the first dead member of the
 // previous level; `parentKindIndex` (from the dynamic parent select) names the sibling-array
 // member they actually belong to. Re-buckets every member's children by that index — falling
@@ -297,7 +240,22 @@ function reassignSiblingsByParentIndex(
   );
 }
 
-export function calculateInheritance(input: InheritanceInput): HeirShare[] {
+function getHeirMap(
+  has1stOrder: boolean,
+  has2ndOrder: boolean,
+  kinder: FamilyMember[],
+  elternteile: FamilyMember[],
+  remainingShare: Fraction,
+): Map<string, HeirEntry> {
+  if (has1stOrder) {
+    return distributeStamm(kinder, remainingShare);
+  } else if (has2ndOrder) {
+    return calculate2ndOrder(elternteile, remainingShare);
+  }
+  return new Map<string, HeirEntry>();
+}
+
+export function determineHeirs(input: ErbfolgeData): Heir[] {
   const kinder = reassignKinderByParentIndex(input.kinder ?? []);
   const elternteile = reassignSiblingsByParentIndex(input.elternteile ?? []);
 
@@ -305,35 +263,44 @@ export function calculateInheritance(input: InheritanceInput): HeirShare[] {
     input.hatteKinder === "yes" && kinder.some(hasLivingDescendant);
   const has2ndOrder = !has1stOrder && elternteile.some(isParentStammActive);
 
-  const result: HeirShare[] = [];
+  const result: Heir[] = [];
   let remainingShare = WHOLE;
 
-  if (input.spouse) {
+  // If the Verstorbene Peron had a spouse
+  if (input.ehepartnerVorname && input.ehepartnerNachname) {
     const living1stOrderStaemme = has1stOrder
       ? kinder.filter(hasLivingDescendant).length
       : 0;
     const share = spouseShare(
-      input.spouse.gueterstand,
+      "gueterstand" in input && input.gueterstand
+        ? input.gueterstand
+        : "communityOfAcquisitions",
       living1stOrderStaemme,
       has2ndOrder,
     );
     remainingShare = subtractFromWhole(share);
     result.push({
-      name: personName(input.spouse),
+      name: personName({
+        vorname: input.ehepartnerVorname,
+        nachname: input.ehepartnerNachname,
+        geburtsname:
+          "ehepartnerGeburtsname" in input
+            ? input.ehepartnerGeburtsname
+            : undefined,
+      }),
       share,
       order: 0,
       depth: 0,
     });
   }
 
-  let heirMap: Map<string, HeirEntry>;
-  if (has1stOrder) {
-    heirMap = distributeStamm(kinder, remainingShare);
-  } else if (has2ndOrder) {
-    heirMap = calculate2ndOrder(elternteile, remainingShare);
-  } else {
-    heirMap = new Map<string, HeirEntry>();
-  }
+  const heirMap = getHeirMap(
+    has1stOrder,
+    has2ndOrder,
+    kinder,
+    elternteile,
+    remainingShare,
+  );
   const heirOrder = has1stOrder ? 1 : 2;
 
   for (const [name, entry] of heirMap.entries()) {
