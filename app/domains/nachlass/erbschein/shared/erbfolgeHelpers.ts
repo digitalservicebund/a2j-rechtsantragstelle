@@ -1,5 +1,16 @@
 import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
-import { type ErbfolgeData } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import {
+  type Elternteil,
+  type ElternteilKind,
+  type Kind,
+  type ErbfolgeData,
+} from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import {
+  type SummaryPerson,
+  migrationDataIsEmpty,
+  hasMissingDate,
+  hasMissingAddress,
+} from "./components/hasMissingData";
 
 export const MAX_SUPPORTED_DESCENDANT_DEPTH = 5;
 
@@ -112,3 +123,58 @@ export function elternteileRequireFurtherGenerations(
     ),
   );
 }
+
+const hasMissingPersonData = (person: SummaryPerson): boolean => {
+  if (
+    migrationDataIsEmpty(person.vorname) ||
+    migrationDataIsEmpty(person.nachname)
+  ) {
+    return true;
+  }
+
+  if (
+    "geburtsdatum" in person &&
+    (hasMissingDate(person.geburtsdatum) ||
+      migrationDataIsEmpty(person.geburtsort))
+  ) {
+    return true;
+  }
+
+  if (hasMissingAddress(person)) {
+    return true;
+  }
+
+  if (
+    person.isAlive === "no" &&
+    "sterbedatum" in person &&
+    (hasMissingDate(person.sterbedatum) ||
+      migrationDataIsEmpty(person.sterbeort) ||
+      migrationDataIsEmpty(person.hatteKinder))
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+type PersonWithChildren = Kind | Elternteil | ElternteilKind;
+
+export const hasMissingDataInFamily = (
+  people: PersonWithChildren[] | undefined,
+): boolean => {
+  if (!people) {
+    return false;
+  }
+
+  return people.some((person) => {
+    if (hasMissingPersonData(person)) {
+      return true;
+    }
+
+    if ("kinder" in person && person.kinder) {
+      return hasMissingDataInFamily(person.kinder);
+    }
+
+    return false;
+  });
+};
