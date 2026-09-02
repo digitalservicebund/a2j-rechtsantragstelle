@@ -4,7 +4,7 @@ import {
   type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { translations } from "~/services/translations/translations";
+import { nachlassTranslations } from "~/services/translations/domains/nachlass";
 
 describe("collectRequiredDocuments", () => {
   it("requires only the Sterbeurkunde for the deceased without second-order heirs", () => {
@@ -142,12 +142,12 @@ describe("collectRequiredDocuments", () => {
         {
           name: "Erblasser",
           documents: "Sterbeurkunde",
-          additionalDisplayText: `(${translations.nachlass.verstorbenePerson.de})`,
+          additionalDisplayText: `(${nachlassTranslations.nachlass.verstorbenePerson.de})`,
         },
         {
           name: "Kind",
           documents: "Sterbeurkunde, Geburtsurkunde",
-          additionalDisplayText: `(${translations.nachlass.deceased.de})`,
+          additionalDisplayText: `(${nachlassTranslations.nachlass.deceased.de})`,
         },
         { name: "Enkelkind", documents: "Geburtsurkunde" },
       ]);
@@ -199,7 +199,7 @@ describe("collectRequiredDocuments", () => {
         {
           name: "Erblasser",
           documents: "Sterbeurkunde, Geburtsurkunde",
-          additionalDisplayText: `(${translations.nachlass.verstorbenePerson.de})`,
+          additionalDisplayText: `(${nachlassTranslations.nachlass.verstorbenePerson.de})`,
         },
       ]);
     });
@@ -214,12 +214,12 @@ describe("collectRequiredDocuments", () => {
         {
           name: "Erblasser",
           documents: "Sterbeurkunde, Geburtsurkunde",
-          additionalDisplayText: `(${translations.nachlass.verstorbenePerson.de})`,
+          additionalDisplayText: `(${nachlassTranslations.nachlass.verstorbenePerson.de})`,
         },
         {
           name: "Vater",
           documents: "Sterbeurkunde",
-          additionalDisplayText: `(${translations.nachlass.deceased.de})`,
+          additionalDisplayText: `(${nachlassTranslations.nachlass.deceased.de})`,
         },
       ]);
     });

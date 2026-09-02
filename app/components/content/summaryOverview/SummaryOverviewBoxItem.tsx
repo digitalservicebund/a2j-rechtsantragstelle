@@ -1,13 +1,13 @@
 import type { UserData } from "~/domains/userData";
 import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { translations as staticTranslations } from "~/services/translations/translations";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import {
   extractFieldItemsFromInlineItems,
   getItemValueBox,
 } from "./getItemValueBox";
 import { hasMoneyValidationSchema, hasNonEmptyLongTextField } from "./helper";
+import { commonTranslations } from "~/services/translations/common";
 
 type Props = SummaryOverviewBoxItemType & {
   readonly userData: UserData;
@@ -60,7 +60,7 @@ const SummaryOverviewBoxItem = ({
   const shouldAppendEuroWord = hasMoneyValidationSchema(pathname, fieldItems);
   const itemValue =
     shouldAppendEuroWord && isValueNumber(rawItemValue)
-      ? `${rawItemValue} ${staticTranslations.currency.euro.de}`
+      ? `${rawItemValue} ${commonTranslations.common.euro.de}`
       : rawItemValue;
 
   return (

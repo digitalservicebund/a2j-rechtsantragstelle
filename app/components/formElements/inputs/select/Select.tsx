@@ -5,8 +5,8 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import { widthClassname } from "~/components/common/width";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
-import { translations } from "~/services/translations/translations";
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
+import { commonTranslations } from "~/services/translations/common";
 
 type SelectProps = {
   name: string;
@@ -57,7 +57,7 @@ const Select = ({
           }
           data-testid="select"
         >
-          <option value="">{translations.select.placeholder.de}</option>
+          <option value="">{commonTranslations.common.select.de}</option>
           {options.map((option) => {
             return (
               <option value={option.value} key={option.value}>

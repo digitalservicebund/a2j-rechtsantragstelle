@@ -1,4 +1,4 @@
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 import { footerContent } from "./footerContent";
 import { Icon } from "~/components/common/Icon";
 
@@ -14,7 +14,7 @@ export const FooterDeletePersonalData = () => {
         href={personalDataDeleteLink?.url}
       >
         <Icon className="size-[1em]" name="arrow-forward" />
-        {translations["delete-data"].footerLinkLabel.de ??
+        {layoutTranslations["footer"].footerLinkLabel.de ??
           personalDataDeleteLink?.text}
       </a>
     </div>

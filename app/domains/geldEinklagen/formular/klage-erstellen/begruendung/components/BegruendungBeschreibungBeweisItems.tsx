@@ -2,13 +2,14 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
-import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { Badge } from "~/components/common/Badge";
+import { commonTranslations } from "~/services/translations/common";
+import { geldEinklagenTranslations } from "~/services/translations/domains/geldEinklagen";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -18,9 +19,9 @@ type Props = {
 };
 
 const editButtonLabelLowercase =
-  translations.arraySummary.arrayEditButtonLabel.de.toLowerCase();
+  commonTranslations.common.edit.de.toLowerCase();
 const deleteButtonLabelLowercase =
-  translations.arraySummary.arrayDeleteButtonLabel.de.toLowerCase();
+  commonTranslations.common.delete.de.toLowerCase();
 
 export const hasPersonDetails = (
   person: Exclude<Pick<Props, "personen">["personen"], undefined>[number],
@@ -45,8 +46,8 @@ const renderArialLabelForDocumentItem = ({
   const firstTenWords = beschreibung.split(" ").slice(0, 10).join(" ");
 
   return {
-    editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${editButtonLabelLowercase}: ${firstTenWords} ${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
-    deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${deleteButtonLabelLowercase}: ${firstTenWords} ${translations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
+    editButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${editButtonLabelLowercase}: ${firstTenWords} ${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
+    deleteButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabel.de} ${deleteButtonLabelLowercase}: ${firstTenWords} ${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseDocumentButtonArialLabelSuffix.de}`,
   };
 };
 
@@ -56,8 +57,8 @@ const renderArialLabelForPersonItem = (
   if (person.personAuswahl === "anotherPerson") {
     if (!hasPersonDetails(person)) {
       return {
-        editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${editButtonLabelLowercase}`,
-        deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${deleteButtonLabelLowercase}`,
+        editButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${editButtonLabelLowercase}`,
+        deleteButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweisePersonWithMissingDetails.de} ${deleteButtonLabelLowercase}`,
       };
     }
 
@@ -69,14 +70,14 @@ const renderArialLabelForPersonItem = (
 
   if (person.personAuswahl === "beklagte") {
     return {
-      editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${editButtonLabelLowercase}`,
-      deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
+      editButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${editButtonLabelLowercase}`,
+      deleteButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseBeklagteButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
     };
   }
 
   return {
-    editButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${editButtonLabelLowercase}`,
-    deleteButtonLabel: `${translations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
+    editButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${editButtonLabelLowercase}`,
+    deleteButtonLabel: `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungBeweiseKlagendenButtonArialLabel.de} ${deleteButtonLabelLowercase}`,
   };
 };
 
@@ -124,7 +125,7 @@ export const renderPersonItem = (
           className="py-kern-space-small! px-kern-space-default! border-2!"
         >
           {
-            translations.geldEinklagen
+            geldEinklagenTranslations.geldEinklagen
               .begruendungBeschreibungBeweisePersonNotFilled.de
           }
         </Badge>
@@ -159,8 +160,8 @@ export const renderPersonItem = (
   return (
     <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
       {person.personAuswahl === "beklagte"
-        ? "Beklagte Person"
-        : "Klagende Person"}
+        ? geldEinklagenTranslations.geldEinklagen.beklagtePerson.de
+        : geldEinklagenTranslations.geldEinklagen.klagendePerson.de}
     </span>
   );
 };

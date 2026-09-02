@@ -3,8 +3,9 @@ import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/
 import { personName } from "~/domains/nachlass/erbschein/shared/personName";
 import { toDateString } from "~/services/validation/dateObject";
 import { migrationDataIsEmpty } from "./hasMissingData";
-import { translations } from "~/services/translations/translations";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { commonTranslations } from "~/services/translations/common";
+import { componentsTranslations } from "~/services/translations/components";
 
 export function PersonSummaryItem({
   item,
@@ -26,7 +27,7 @@ export function PersonSummaryItem({
         <dl className="kern-description-list">
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">
-              {translations.personSummaryItem.personName.de}
+              {commonTranslations.common.name.de}
             </dt>
             <dd className="kern-description-list-item__value">
               {personName(item)}
@@ -36,7 +37,7 @@ export function PersonSummaryItem({
             <>
               <div className="kern-description-list-item">
                 <dt className="kern-description-list-item__key">
-                  {translations.personSummaryItem.personBirthDate.de}
+                  {commonTranslations.common.birthdate.de}
                 </dt>
                 <dd className="kern-description-list-item__value flex items-center gap-kern-space-small">
                   {!objectKeysNonEmpty(item.geburtsdatum, [
@@ -45,7 +46,7 @@ export function PersonSummaryItem({
                     "year",
                   ]) ? (
                     <Badge icon="warning" variant="warning">
-                      {translations.personSummaryItem.missingData.de}
+                      {commonTranslations.common.missingData.de}
                     </Badge>
                   ) : (
                     toDateString(item.geburtsdatum)
@@ -54,12 +55,12 @@ export function PersonSummaryItem({
               </div>
               <div className="kern-description-list-item">
                 <dt className="kern-description-list-item__key">
-                  {translations.personSummaryItem.personBirthPlace.de}
+                  {commonTranslations.common.birthplace.de}
                 </dt>
                 <dd className="kern-description-list-item__value">
                   {migrationDataIsEmpty(item.geburtsort) ? (
                     <Badge icon="warning" variant="warning">
-                      {translations.personSummaryItem.missingData.de}
+                      {commonTranslations.common.missingData.de}
                     </Badge>
                   ) : (
                     item.geburtsort
@@ -70,18 +71,21 @@ export function PersonSummaryItem({
           )}
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">
-              {translations.personSummaryItem.personAliveAtTimeOfDeath.de}
+              {
+                componentsTranslations.personSummaryItem
+                  .personAliveAtTimeOfDeath.de
+              }
             </dt>
             <dd className="kern-description-list-item__value">
               {item.isAlive === "yes"
-                ? translations.personSummaryItem.yes.de
-                : translations.personSummaryItem.no.de}
+                ? commonTranslations.common.yes.de
+                : commonTranslations.common.no.de}
             </dd>
           </div>
           {"strasse" in item && (
             <div className="kern-description-list-item">
               <dt className="kern-description-list-item__key">
-                {translations.personSummaryItem.personAddress.de}
+                {commonTranslations.common.address.de}
               </dt>
               <dd className="kern-description-list-item__value">
                 {!objectKeysNonEmpty(item, [
@@ -92,7 +96,7 @@ export function PersonSummaryItem({
                   "land",
                 ]) ? (
                   <Badge icon="warning" variant="warning">
-                    {translations.personSummaryItem.missingData.de}
+                    {commonTranslations.common.missingData.de}
                   </Badge>
                 ) : (
                   <>
@@ -108,7 +112,7 @@ export function PersonSummaryItem({
             <>
               <div className="kern-description-list-item">
                 <dt className="kern-description-list-item__key">
-                  {translations.personSummaryItem.personDeathDate.de}
+                  {commonTranslations.common.deathdate.de}
                 </dt>
                 <dd className="kern-description-list-item__value">
                   {toDateString(item.sterbedatum)}
@@ -116,7 +120,7 @@ export function PersonSummaryItem({
               </div>
               <div className="kern-description-list-item">
                 <dt className="kern-description-list-item__key">
-                  {translations.personSummaryItem.personDeathPlace.de}
+                  {commonTranslations.common.deathplace.de}
                 </dt>
                 <dd className="kern-description-list-item__value">
                   {item.sterbeort}
@@ -127,12 +131,12 @@ export function PersonSummaryItem({
           {item.isAlive === "no" && (
             <div className="kern-description-list-item">
               <dt className="kern-description-list-item__key">
-                {translations.personSummaryItem.personHadChildren.de}
+                {componentsTranslations.personSummaryItem.personHadChildren.de}
               </dt>
               <dd className="kern-description-list-item__value">
                 {item.hatteKinder === "yes"
-                  ? translations.personSummaryItem.yes.de
-                  : translations.personSummaryItem.no.de}
+                  ? commonTranslations.common.yes.de
+                  : commonTranslations.common.no.de}
               </dd>
             </div>
           )}

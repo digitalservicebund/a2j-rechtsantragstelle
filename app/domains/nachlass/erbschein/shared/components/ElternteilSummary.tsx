@@ -4,7 +4,6 @@ import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import { Icon } from "~/components/common/Icon";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
 import type { PersonItem } from "./types";
@@ -27,6 +26,7 @@ import {
   type BaseDeceasedPersonWithKids,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { PersonSummaryItem } from "~/domains/nachlass/erbschein/shared/components/PersonSummaryItem";
+import { commonTranslations } from "~/services/translations/common";
 
 const DELETE_URL_ENDPOINT = "/action/delete-array-item";
 
@@ -126,7 +126,7 @@ function DeleteButton({
         textClassName="no-underline! font-normal!"
         type="submit"
       >
-        {translations.arraySummary.arrayDeleteButtonLabel.de}
+        {commonTranslations.common.delete.de}
       </Button>
     </fetcher.Form>
   );
@@ -154,7 +154,7 @@ function InlineActions({
           className="text-kern-action-default self-center! mb-3!"
         />
         <span className="kern-body text-kern-action-default!">
-          {translations.arraySummary.arrayEditButtonLabel.de}
+          {commonTranslations.common.edit.de}
         </span>
       </a>
       <DeleteButton

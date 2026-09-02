@@ -6,7 +6,6 @@ import {
 } from "~/services/cms/index.server";
 import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
 import { composePageTitle } from "~/services/meta/composePageTitle";
-import { translations } from "~/services/translations/translations";
 import {
   applyStringReplacement,
   replacementsFromFlowConfig,
@@ -17,6 +16,7 @@ import { type UserDataWithPageData } from "~/services/flow/pageData";
 import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
+import { commonTranslations } from "~/services/translations/common";
 
 // Information about the current result page, handed to a flow's optional hooks.
 export type ResultExtrasContext = {
@@ -91,11 +91,9 @@ export const loadResultData = async (
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
-      resultPageContent.backButtonLabel ??
-      translations.buttonNavigation.backButtonDefaultLabel.de,
+      resultPageContent.backButtonLabel ?? commonTranslations.common.back.de,
     nextButtonLabel:
-      cmsContent.nextLink?.text ??
-      translations.buttonNavigation.nextButtonDefaultLabel.de,
+      cmsContent.nextLink?.text ?? commonTranslations.common.next.de,
     backDestination: flowSessionEngine.prevPath
       ? flowId + flowSessionEngine.prevPath
       : undefined,

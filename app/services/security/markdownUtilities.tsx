@@ -13,7 +13,7 @@ import { Icon } from "~/components/common/Icon";
 import { isExternalUrl, isFileDownloadUrl } from "~/util/url";
 import classNames from "classnames";
 import { mustachePlaceholderRegex } from "./mustachePlaceholder";
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 
 const defaultRenderer: Partial<Renderer> = {
   link({ href: url = "", text }) {
@@ -29,7 +29,7 @@ const defaultRenderer: Partial<Renderer> = {
       }),
       ...(shouldOpenNewTab
         ? {
-            "aria-label": `${text}, ${translations.navigation.linkOpensNewTab.de}`,
+            "aria-label": `${text}, ${layoutTranslations.navigation.linkOpensNewTab.de}`,
             target: "_blank",
             rel: "noopener noreferrer",
           }

@@ -1,10 +1,10 @@
 import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
-import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { type ErrorMessageProps } from "~/components/common/types";
+import { commonTranslations } from "~/services/translations/common";
 
 type SplitDateInputProps = {
   name: string;
@@ -59,12 +59,12 @@ const SplitDateInput = ({
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div className="kern-hint">
-        {translations.splitDateComponent.hintText.de}
+        {commonTranslations.common.birthdateTextExample.de}
       </div>
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">
         <div className="kern-form-input">
           <label className="kern-label" htmlFor={day}>
-            {translations.splitDateComponent.tagInputLabel.de}
+            {commonTranslations.common.day.de}
           </label>
           <input
             {...dayField.getInputProps({
@@ -89,7 +89,7 @@ const SplitDateInput = ({
 
         <div className="kern-form-input">
           <label className="kern-label" htmlFor={month}>
-            {translations.splitDateComponent.monatInputLabel.de}
+            {commonTranslations.common.month.de}
           </label>
           <input
             {...monthField.getInputProps({
@@ -114,7 +114,7 @@ const SplitDateInput = ({
 
         <div className="kern-form-input">
           <label className="kern-label" htmlFor={year}>
-            {translations.splitDateComponent.jahrInputLabel.de}
+            {commonTranslations.common.year.de}
           </label>
           <input
             {...yearField.getInputProps({

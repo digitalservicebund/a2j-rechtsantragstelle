@@ -1,11 +1,12 @@
 import { Icon } from "~/components/common/Icon";
-import { translations } from "~/services/translations/translations";
 import Button from "~/components/common/Button";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { arrayIsNonEmpty } from "~/util/array";
 import BegruendungBeschreibungAbschnitte from "./BegruendungBeschreibungAbschnitte";
 import { InlineNotice } from "~/components/content/InlineNotice";
+import { geldEinklagenTranslations } from "~/services/translations/domains/geldEinklagen";
+import { commonTranslations } from "~/services/translations/common";
 
 export const BASE_URL_BESCHREIBUNG_ABSCHNITTE =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
@@ -49,11 +50,11 @@ const BegruendungBeschreibungUebersicht = () => {
               tagName="h2"
               look="info"
               title={
-                translations.geldEinklagen
+                geldEinklagenTranslations.geldEinklagen
                   .begruendungBeschreibungMaximumReachedTitleNotice.de
               }
               content={
-                translations.geldEinklagen
+                geldEinklagenTranslations.geldEinklagen
                   .begruendungBeschreibungMaximumReachedContentNotice.de
               }
               wrap
@@ -69,7 +70,7 @@ const BegruendungBeschreibungUebersicht = () => {
             disabled={shouldDisableAddButton}
             aria-disabled={shouldDisableAddButton}
           >
-            {`${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+            {`${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungHeadline.de} ${commonTranslations.common.add.de}`}
           </Button>
         </div>
       </div>

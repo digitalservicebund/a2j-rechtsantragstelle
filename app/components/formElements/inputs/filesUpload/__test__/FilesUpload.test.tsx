@@ -4,13 +4,13 @@ import times from "lodash/times";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { type UserData } from "~/domains/userData";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
-import { translations } from "~/services/translations/translations";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
+import { componentsTranslations } from "~/services/translations/components";
 import FilesUpload, { type FilesUploadProps } from "../FilesUpload";
 
-const deleteLabel = translations.fileUpload.delete.de;
-const selectLabel = translations.fileUpload.select.de;
-const addAnotherLabel = translations.fileUpload.addAnother.de;
+const deleteLabel = componentsTranslations.fileUpload.delete.de;
+const selectLabel = componentsTranslations.fileUpload.select.de;
+const addAnotherLabel = componentsTranslations.fileUpload.addAnother.de;
 
 const fieldName = "belege";
 const minimumFileError = "You must select at least one file";

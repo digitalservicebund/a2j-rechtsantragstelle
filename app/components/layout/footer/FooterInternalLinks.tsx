@@ -1,5 +1,5 @@
-import { translations } from "~/services/translations/translations";
 import { footerContent } from "./footerContent";
+import { layoutTranslations } from "~/services/translations/layout";
 
 export const FooterInternalLinks = () => {
   const internalLinksSections = footerContent.filter((section) =>
@@ -9,7 +9,7 @@ export const FooterInternalLinks = () => {
   return (
     <nav
       className="col-start-1 lg:col-start-7 col-span-12 lg:col-span-6 flex flex-col md:flex-row gap-kern-space-default! print:hidden"
-      aria-label={translations.footer.internalLinks.de}
+      aria-label={layoutTranslations.footer.internalLinks.de}
     >
       {internalLinksSections.map((section) => {
         const ariaLabelledBy = `footer-list-${section.key}`;

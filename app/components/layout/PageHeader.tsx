@@ -2,10 +2,10 @@ import { useShouldPrint } from "~/components/hooks/useShouldPrint";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { translations } from "~/services/translations/translations";
 import { today, toGermanDateString, toGermanTimeString } from "~/util/date";
 import Kopfzeile from "./Kopfzeile";
 import { Icon } from "~/components/common/Icon";
+import { layoutTranslations } from "~/services/translations/layout";
 
 type PageHeaderProps = {
   title: string;
@@ -24,9 +24,9 @@ export default function PageHeader({
     <header>
       {shouldPrint && (
         <span>
-          {translations.pageHeader.printPage.de} {toGermanDateString(today())}{" "}
-          {translations.pageHeader.at.de} {toGermanTimeString(today())}{" "}
-          {translations.pageHeader.time.de}
+          {layoutTranslations.pageHeader.printPage.de}{" "}
+          {toGermanDateString(today())} {layoutTranslations.pageHeader.at.de}{" "}
+          {toGermanTimeString(today())} {layoutTranslations.pageHeader.time.de}
         </span>
       )}
       <GridSection className="bg-kern-neutral-025">
@@ -50,7 +50,7 @@ export default function PageHeader({
             xlColumn={{ start: 1, span: 12 }}
             as="nav"
             className="flex flex-col md:flex-row md:justify-between md:items-center md:h-[80px] h-fit gap-kern-space-large md:gap-0 md:py-0 py-kern-space-large"
-            ariaLabel={translations.pageHeader.mainNavigationAriaLabel.de}
+            ariaLabel={layoutTranslations.pageHeader.mainNavigationAriaLabel.de}
           >
             <a
               href="/"
@@ -66,7 +66,7 @@ export default function PageHeader({
                   className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline!"
                 >
                   <Icon name="local-library" />
-                  {translations.pageHeader.leichtesprache.de}
+                  {layoutTranslations.pageHeader.leichtesprache.de}
                 </a>
 
                 <a
@@ -74,7 +74,7 @@ export default function PageHeader({
                   className="flex items-center! kern-link text-kern-static-small! no-underline! hover:underline!"
                 >
                   <Icon name="sign-language" />
-                  {translations.pageHeader.gebaerdensprache.de}
+                  {layoutTranslations.pageHeader.gebaerdensprache.de}
                 </a>
               </div>
             )}

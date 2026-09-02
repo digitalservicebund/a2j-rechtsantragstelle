@@ -6,7 +6,7 @@ import { FooterDeletePersonalData } from "./FooterDeletePersonalData";
 import { FooterInternalLinks } from "./FooterInternalLinks";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
@@ -29,10 +29,10 @@ export default function Footer({
         >
           <div className="col-start-1 col-span-12 lg:col-span-6 p-kern-space-default! gap-kern-space-small">
             <h2 className="kern-title">
-              {translations.footer.justizServices.de}
+              {layoutTranslations.footer.justizServices.de}
             </h2>
             <p className="kern-body kern-body--muted text-kern-static-medium">
-              {translations.footer.onlineDienste.de}
+              {layoutTranslations.footer.onlineDienste.de}
             </p>
           </div>
           <FooterInternalLinks />

@@ -1,10 +1,10 @@
 import { useFetcher, useLocation } from "react-router";
+import { Icon } from "~/components/common/Icon";
 import ArraySummaryItemActions from "~/components/content/arraySummary/ArraySummaryItemActions";
 import Button from "~/components/common/Button";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
-import { Icon } from "~/components/common/Icon";
+import { commonTranslations } from "~/services/translations/common";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
-import { translations } from "~/services/translations/translations";
 import type { ArrayConfigClient } from "~/services/array";
 import type { ArrayData } from "~/domains/userData";
 import type { PersonItem } from "./types";
@@ -77,7 +77,7 @@ function DeleteButton({
         textClassName="no-underline! font-normal!"
         type="submit"
       >
-        {translations.arraySummary.arrayDeleteButtonLabel.de}
+        {commonTranslations.common.delete.de}
       </Button>
     </fetcher.Form>
   );
@@ -118,7 +118,7 @@ function DescendantRow({
               className="text-kern-action-default self-center! mb-3!"
             />
             <span className="kern-body text-kern-action-default!">
-              {translations.arraySummary.arrayEditButtonLabel.de}
+              {commonTranslations.common.edit.de}
             </span>
           </a>
           <DeleteButton

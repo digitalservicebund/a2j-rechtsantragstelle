@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { GridItem } from "~/components/layout/grid/GridItem";
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 import { getYoutubeVideoId } from "~/util/url";
 import { DataProtectionBanner } from "./DataProtectionBanner";
 
@@ -31,7 +31,7 @@ const YoutubeIFrame = ({
 const YoutubeThumbnail = ({ videoId }: { videoId?: string }) => {
   return (
     <img
-      alt={translations.video[THUMBNAIL_TRANSLATION_KEY].de}
+      alt={layoutTranslations.video[THUMBNAIL_TRANSLATION_KEY].de}
       className="opacity-60"
       src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
     ></img>

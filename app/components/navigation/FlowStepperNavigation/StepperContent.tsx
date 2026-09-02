@@ -8,14 +8,14 @@ import {
 } from "~/services/navigation/navState";
 import { getStepStyles } from "./getStepStyles";
 import { StepperIcon } from "./StepperIcon";
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 
 const getStatusText = (state: NavState) => {
   if (stateIsDone(state)) {
-    return translations.navigation.navigationItemFinished.de;
+    return layoutTranslations.navigation.navigationItemFinished.de;
   }
   if (stateIsWarning(state)) {
-    return translations.navigation.navigationItemWarning.de;
+    return layoutTranslations.navigation.navigationItemWarning.de;
   }
 
   return "";

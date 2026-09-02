@@ -3,7 +3,7 @@ import { SurveyQuestionType, type PostHog, type Survey } from "posthog-js";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
-import { translations } from "~/services/translations/translations";
+import { componentsTranslations } from "~/services/translations/components";
 
 const mockDialogShow = vi.fn(function mock(this: HTMLDialogElement) {
   this.open = true;
@@ -43,7 +43,7 @@ describe("ReportProblem", () => {
     fireEvent.click(reportButton);
     expect(getByText("Abbrechen")).toBeVisible();
     expect(
-      getAllByText(translations.feedback["report-problem"].de)[0],
+      getAllByText(componentsTranslations.feedback["report-problem"].de)[0],
     ).toBeVisible();
     expect(getByText("Problem absenden")).toBeVisible();
     expect(mockDialogShow).toHaveBeenCalled();
@@ -88,15 +88,17 @@ describe("ReportProblem", () => {
     const { getByRole, getByLabelText, getByText } = render(<ReportProblem />);
     const reportButton = getByRole("button");
     const firstCheckbox = getByLabelText("Choice 1");
-    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const submitButton = getByText(
+      componentsTranslations.feedback["submit-problem"].de,
+    );
     fireEvent.click(reportButton);
     fireEvent.click(firstCheckbox);
     fireEvent.click(submitButton);
     expect(mockFeedbackCapture).toHaveBeenCalled();
     expect(
-      getByText(translations.feedback["problem-gemeldet"].de),
+      getByText(componentsTranslations.feedback["problem-gemeldet"].de),
     ).toBeVisible();
-    expect(getByText(translations.feedback.close.de)).toBeVisible();
+    expect(getByText(componentsTranslations.feedback.close.de)).toBeVisible();
   });
 
   it("should render null if the survey isn't available", () => {
@@ -128,16 +130,18 @@ describe("ReportProblem", () => {
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
 
-    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const submitButton = getByText(
+      componentsTranslations.feedback["submit-problem"].de,
+    );
 
     expect(
-      queryByText(translations.feedback["validation-error"].de),
+      queryByText(componentsTranslations.feedback["validation-error"].de),
     ).not.toBeInTheDocument();
 
     fireEvent.click(submitButton);
 
     expect(
-      getByText(translations.feedback["validation-error"].de),
+      getByText(componentsTranslations.feedback["validation-error"].de),
     ).toBeVisible();
   });
 
@@ -160,18 +164,20 @@ describe("ReportProblem", () => {
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
 
-    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const submitButton = getByText(
+      componentsTranslations.feedback["submit-problem"].de,
+    );
     const firstCheckbox = getByLabelText("Choice 1");
 
     fireEvent.click(submitButton);
     expect(
-      getByText(translations.feedback["validation-error"].de),
+      getByText(componentsTranslations.feedback["validation-error"].de),
     ).toBeVisible();
 
     fireEvent.click(firstCheckbox);
 
     expect(
-      queryByText(translations.feedback["validation-error"].de),
+      queryByText(componentsTranslations.feedback["validation-error"].de),
     ).not.toBeInTheDocument();
   });
 
@@ -192,7 +198,9 @@ describe("ReportProblem", () => {
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
 
-    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const submitButton = getByText(
+      componentsTranslations.feedback["submit-problem"].de,
+    );
     const firstCheckbox = getByLabelText("Choice 1");
 
     fireEvent.click(firstCheckbox);
@@ -201,7 +209,7 @@ describe("ReportProblem", () => {
     fireEvent.click(submitButton);
 
     expect(
-      getByText(translations.feedback["validation-error"].de),
+      getByText(componentsTranslations.feedback["validation-error"].de),
     ).toBeVisible();
   });
 
@@ -228,7 +236,9 @@ describe("ReportProblem", () => {
     const reportButton = getByRole("button");
     fireEvent.click(reportButton);
 
-    const submitButton = getByText(translations.feedback["submit-problem"].de);
+    const submitButton = getByText(
+      componentsTranslations.feedback["submit-problem"].de,
+    );
     const firstCheckbox = getByLabelText("Choice 1");
 
     fireEvent.click(firstCheckbox);
@@ -237,7 +247,7 @@ describe("ReportProblem", () => {
 
     expect(mockFeedbackCapture).toHaveBeenCalled();
     expect(
-      getByText(translations.feedback["problem-gemeldet"].de),
+      getByText(componentsTranslations.feedback["problem-gemeldet"].de),
     ).toBeVisible();
   });
 });

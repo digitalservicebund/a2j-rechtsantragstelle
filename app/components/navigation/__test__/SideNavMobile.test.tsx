@@ -1,8 +1,8 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { type NavState } from "~/services/navigation/navState";
-import { translations } from "~/services/translations/translations";
 import { type NavItem } from "../types";
 import SideNavMobile from "../SideNavMobile";
+import { layoutTranslations } from "~/services/translations/layout";
 
 const dummyNavItems: NavItem[] = [
   { destination: "/page1", label: "Page 1", state: "Current" as NavState },
@@ -72,7 +72,7 @@ describe("SideNavMobile", () => {
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
     const toggleLabel = getByLabelText(
-      translations.navigationMobile.toggleMenu.de,
+      layoutTranslations.navigationMobile.toggleMenu.de,
     );
     expect(toggleLabel).toBeInTheDocument();
     expect(toggleLabel).toHaveTextContent("Page 1");

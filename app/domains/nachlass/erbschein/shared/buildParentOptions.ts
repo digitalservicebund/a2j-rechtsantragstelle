@@ -1,7 +1,7 @@
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { translations } from "~/services/translations/translations";
 import { personName } from "./personName";
+import { componentsTranslations } from "~/services/translations/components";
 
 export const BOTH_PARENTS_VALUE = "both";
 
@@ -14,10 +14,13 @@ export function parentSelectFormElement(
     id: 0,
     name: fieldName,
     __component: "form-elements.select",
-    label: translations.select.parentSelectLabel.de,
+    label: componentsTranslations.select.parentSelectLabel.de,
     options: [],
     errorMessages: [
-      { code: "required", text: translations.select.parentSelectRequired.de },
+      {
+        code: "required",
+        text: componentsTranslations.select.parentSelectRequired.de,
+      },
     ],
   };
 }
@@ -65,7 +68,7 @@ export function buildElternteilParentOptions(
   if (elternteile.length === 2) {
     options.push({
       value: BOTH_PARENTS_VALUE,
-      text: translations.select.bothParents.de,
+      text: componentsTranslations.select.bothParents.de,
       preSelected: false,
     });
   }

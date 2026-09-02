@@ -5,12 +5,11 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Icon } from "~/components/common/Icon";
-
-import { translations } from "~/services/translations/translations";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Button from "~/components/common/Button";
 import Heading from "~/components/common/Heading";
 import RichText from "~/components/common/RichText";
+import { resultPageTranslations } from "~/services/translations/domains/resultPage";
 
 const iconProps = {
   "aria-hidden": false,
@@ -25,7 +24,7 @@ const boxProps = {
       <Icon
         name="emergency-home"
         className={`${iconProps.iconClassName} fill-kern-feedback-danger!`}
-        ariaLabel={translations.resultPage.negativeResultIcon.de}
+        ariaLabel={resultPageTranslations.resultPage.negativeResultIcon.de}
       />
     ),
   },
@@ -35,7 +34,7 @@ const boxProps = {
       <Icon
         name="check-circle"
         className={`${iconProps.iconClassName} fill-kern-feedback-success!`}
-        ariaLabel={translations.resultPage.positiveResultIcon.de}
+        ariaLabel={resultPageTranslations.resultPage.positiveResultIcon.de}
       />
     ),
   },
@@ -45,7 +44,7 @@ const boxProps = {
       <Icon
         name="warning"
         className={`${iconProps.iconClassName} fill-kern-feedback-warning!`}
-        ariaLabel={translations.resultPage.warningIcon.de}
+        ariaLabel={resultPageTranslations.resultPage.warningIcon.de}
       />
     ),
   },
@@ -55,7 +54,7 @@ const boxProps = {
       <Icon
         name="info"
         className={`${iconProps.iconClassName} fill-kern-feedback-info!`}
-        ariaLabel={translations.resultPage.infoIcon.de}
+        ariaLabel={resultPageTranslations.resultPage.infoIcon.de}
       />
     ),
   },

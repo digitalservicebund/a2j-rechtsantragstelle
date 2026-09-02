@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
+import { commonTranslations } from "~/services/translations/common";
 import Select from "../Select";
-import { translations } from "~/services/translations/translations";
 
 const getErrorMock = vi.fn();
 
@@ -48,7 +48,7 @@ describe("Select", () => {
 
   it("should render placeholder", () => {
     render(<Select name="select" options={[]} />);
-    const placeholder = screen.getByText(translations.select.placeholder.de);
+    const placeholder = screen.getByText(commonTranslations.common.select.de);
     expect(placeholder).toHaveValue("");
   });
 
@@ -88,7 +88,7 @@ describe("Select", () => {
   it("should show the translation placeholder as the empty option", () => {
     render(<Select name="select" options={[]} />);
     expect(
-      screen.getByText(translations.select.placeholder.de),
+      screen.getByText(commonTranslations.common.select.de),
     ).toBeInTheDocument();
   });
 });

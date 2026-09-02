@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { Icon } from "~/components/common/Icon";
-import { translations } from "~/services/translations/translations";
 import { formatFileSizeToString } from "~/services/upload/formatFileSizeToString";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
 import Button from "../../../common/Button";
+import { componentsTranslations } from "~/services/translations/components";
 
 type FileUploadInfoProps = {
   inputName: string;
@@ -45,7 +45,7 @@ export const FileUploadInfo = ({
         look="ghost"
         onClick={() => (jsAvailable ? onFileDelete(inputName) : undefined)}
         textClassName="kern-link kern-label text-kern-action-default! font-medium!"
-        text={translations.fileUpload.delete.de}
+        text={componentsTranslations.fileUpload.delete.de}
         name="_action"
         value={`deleteFile.${inputName}`}
         type={jsAvailable ? "button" : "submit"}

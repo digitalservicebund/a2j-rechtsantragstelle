@@ -3,8 +3,8 @@ import { removeMarkupTags } from "~/util/strings";
 import RichText from "../common/RichText";
 import { Icon } from "../common/Icon";
 import { type IconName } from "../common/utils";
-import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
+import { componentsTranslations } from "~/services/translations/components";
 
 export type InlineNoticeProps = {
   identifier?: string;
@@ -30,25 +30,25 @@ const lookConfig: Record<
 > = {
   info: {
     iconName: "info",
-    ariaLabel: translations.inlineNotice.infoIcon.de,
+    ariaLabel: componentsTranslations.inlineNotice.infoIcon.de,
     iconClassName: "app-icon--info",
     containerClassName: "kern-alert--info",
   },
   warning: {
     iconName: "warning",
-    ariaLabel: translations.inlineNotice.warningIcon.de,
+    ariaLabel: componentsTranslations.inlineNotice.warningIcon.de,
     iconClassName: "app-icon--warning",
     containerClassName: "kern-alert--warning",
   },
   danger: {
     iconName: "emergency-home",
-    ariaLabel: translations.inlineNotice.errorIcon.de,
+    ariaLabel: componentsTranslations.inlineNotice.errorIcon.de,
     iconClassName: "app-icon--danger",
     containerClassName: "kern-alert--danger",
   },
   success: {
     iconName: "check-circle",
-    ariaLabel: translations.inlineNotice.successIcon.de,
+    ariaLabel: componentsTranslations.inlineNotice.successIcon.de,
     iconClassName: "app-icon--success",
     containerClassName: "kern-alert--success",
   },
