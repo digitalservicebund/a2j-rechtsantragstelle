@@ -60,16 +60,16 @@ const beweiseDokumentenArray = z.array(
 
 const beweisePersonenSchema = z.object({
   anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
-  title: schemaOrEmptyString(stringRequiredSchema),
-  vorname: stringRequiredSchema,
-  nachname: stringRequiredSchema,
-  strasse: stringRequiredSchema,
-  hausnummer: germanHouseNumberSchema,
-  plz: stringRequiredSchema.pipe(postcodeSchema),
-  ort: stringRequiredSchema,
+  title: schemaOrEmptyString(stringRequiredSchema).check(datatypeC),
+  vorname: stringRequiredSchema.check(datatypeA),
+  nachname: stringRequiredSchema.check(datatypeA),
+  strasse: stringRequiredSchema.check(datatypeB),
+  hausnummer: germanHouseNumberSchema.check(datatypeB),
+  plz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
+  ort: stringRequiredSchema.check(datatypeB),
   land: stringRequiredSchema,
-  telefonnummer: schemaOrEmptyString(phoneNumberSchema),
-  email: schemaOrEmptyString(emailSchema),
+  telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+  email: schemaOrEmptyString(emailSchema).check(datatypeC),
 });
 
 const beweisePersonenArray = z.array(
