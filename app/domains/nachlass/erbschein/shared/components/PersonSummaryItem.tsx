@@ -2,12 +2,9 @@ import { Badge } from "~/components/common/Badge";
 import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
 import { personName } from "~/domains/nachlass/erbschein/shared/personName";
 import { toDateString } from "~/services/validation/dateObject";
-import {
-  migrationDataIsEmpty,
-  hasMissingAddress,
-  hasMissingDate,
-} from "./hasMissingData";
+import { migrationDataIsEmpty } from "./hasMissingData";
 import { translations } from "~/services/translations/translations";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export function PersonSummaryItem({
   item,
@@ -42,7 +39,11 @@ export function PersonSummaryItem({
                   {translations.personSummaryItem.personBirthDate.de}
                 </dt>
                 <dd className="kern-description-list-item__value flex items-center gap-kern-space-small">
-                  {hasMissingDate(item.geburtsdatum) ? (
+                  {!objectKeysNonEmpty(item.geburtsdatum, [
+                    "day",
+                    "month",
+                    "year",
+                  ]) ? (
                     <Badge icon="warning" variant="warning">
                       {translations.personSummaryItem.missingData.de}
                     </Badge>
@@ -83,7 +84,14 @@ export function PersonSummaryItem({
                 {translations.personSummaryItem.personAddress.de}
               </dt>
               <dd className="kern-description-list-item__value">
-                {hasMissingAddress(item) ? (
+                {!objectKeysNonEmpty(item, [
+                  "strasse",
+                  "hausnummer",
+                  "adresszusatz",
+                  "plz",
+                  "ort",
+                  "land",
+                ]) ? (
                   <Badge icon="warning" variant="warning">
                     {translations.personSummaryItem.missingData.de}
                   </Badge>
