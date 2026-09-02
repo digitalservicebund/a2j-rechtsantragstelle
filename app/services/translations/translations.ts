@@ -240,6 +240,9 @@ export const translations = {
     digitalService: {
       de: "DigitalService GmbH des Bundes",
     },
+    projektZugangZumRecht: {
+      de: "zugang-zum-recht-projekte.de",
+    },
   },
   navigationMobile: {
     closeMenu: {
@@ -582,6 +585,41 @@ export const translations = {
     },
     deceased: {
       de: "verstorben",
+    },
+  },
+  personSummaryItem: {
+    missingData: {
+      de: "Fehlende Angaben",
+    },
+    personName: {
+      de: "Name",
+    },
+    personBirthDate: {
+      de: "Geburtsdatum",
+    },
+    personBirthPlace: {
+      de: "Geburtsort",
+    },
+    personAliveAtTimeOfDeath: {
+      de: "Lebte zum Todeszeitpunkt?",
+    },
+    yes: {
+      de: "Ja",
+    },
+    no: {
+      de: "Nein",
+    },
+    personAddress: {
+      de: "Adresse",
+    },
+    personDeathDate: {
+      de: "Sterbedatum",
+    },
+    personDeathPlace: {
+      de: "Sterbeort",
+    },
+    personHadChildren: {
+      de: "Hatte weitere Kinder?",
     },
   },
 } satisfies TranslationRecord;
