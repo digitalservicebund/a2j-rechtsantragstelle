@@ -29,9 +29,7 @@ const renderItems = (userData: UserData) => {
   if (!hasDocumentItems && !hasPersonItems) {
     return (
       <div className="flex flex-col gap-kern-space-default">
-        <span>
-          {commonTranslations.common.noInformationAvailable.de}
-        </span>
+        <span>{commonTranslations.common.noInformationAvailable.de}</span>
         <Badge icon="info" variant="info">
           {
             geldEinklagenTranslations.geldEinklagen

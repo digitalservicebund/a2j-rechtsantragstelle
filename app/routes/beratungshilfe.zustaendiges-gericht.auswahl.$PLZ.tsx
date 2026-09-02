@@ -96,9 +96,7 @@ export default function Index() {
               <div className="gap-kern-space-x-large flex flex-col">
                 <div className="flex flex-col gap-kern-space-x-large">
                   <AutoSuggestInput
-                    label={
-                      commonTranslations.common.street.de
-                    }
+                    label={commonTranslations.common.street.de}
                     helperText={
                       gerichtFinderTranslations.gerichtFinder
                         .autosuggestInputHelperText.de
@@ -114,9 +112,7 @@ export default function Index() {
                     minSuggestCharacters={0}
                   />
                   <NumberInput
-                    label={
-                      commonTranslations.common.housenumber.de
-                    }
+                    label={commonTranslations.common.housenumber.de}
                     name="houseNumber"
                     errorMessages={[requiredError]}
                   />
