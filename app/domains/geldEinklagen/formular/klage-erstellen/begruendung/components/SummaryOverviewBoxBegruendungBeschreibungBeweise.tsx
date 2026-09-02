@@ -1,11 +1,12 @@
 import { Badge } from "~/components/common/Badge";
 import { type UserData } from "~/domains/userData";
-import { translations } from "~/services/translations/translations";
 import { arrayIsNonEmpty } from "~/util/array";
 import { BeweisItemRow } from "./BeweisItemRow";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { renderPersonItem } from "./BegruendungBeschreibungBeweisItems";
 import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
+import { geldEinklagenTranslations } from "~/services/translations/domains/geldEinklagen";
+import { commonTranslations } from "~/services/translations/common";
 
 type Props = {
   readonly userData: UserData;
@@ -28,10 +29,12 @@ const renderItems = (userData: UserData) => {
   if (!hasDocumentItems && !hasPersonItems) {
     return (
       <div className="flex flex-col gap-kern-space-default">
-        <span>{translations.geldEinklagen.summaryOverviewNoData.de}</span>
+        <span>
+          {commonTranslations.common.noInformationAvailable.de}
+        </span>
         <Badge icon="info" variant="info">
           {
-            translations.geldEinklagen
+            geldEinklagenTranslations.geldEinklagen
               .summaryOverviewBoxBegruendungBeschreibungBeweiseNoDataNotice.de
           }
         </Badge>
@@ -85,7 +88,10 @@ export const SummaryOverviewBoxBegruendungBeschreibungBeweise = ({
   return (
     <div className="flex flex-col gap-kern-space-small">
       <h3 className="kern-body kern-body--default kern-body--bold p-0!">
-        {translations.geldEinklagen.begruendungBeschreibungEvidenceTitle.de}
+        {
+          geldEinklagenTranslations.geldEinklagen
+            .begruendungBeschreibungEvidenceTitle.de
+        }
       </h3>
 
       {renderItems(userData)}

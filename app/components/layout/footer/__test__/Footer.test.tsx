@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import { translations } from "~/services/translations/translations";
 import Footer, { logoAltText } from "../Footer";
+import { layoutTranslations } from "~/services/translations/layout";
 
 describe("Footer", () => {
   it("should render the BMJV Logo", () => {
@@ -11,7 +11,7 @@ describe("Footer", () => {
   it("should render deletionBanner", () => {
     const { getByText } = render(<Footer showDeletionBanner={true} />);
     expect(
-      getByText(translations["delete-data"].footerLinkLabel.de),
+      getByText(layoutTranslations["footer"].footerLinkLabel.de),
     ).toBeInTheDocument();
   });
 
@@ -22,27 +22,33 @@ describe("Footer", () => {
   });
   it("should render internal links", () => {
     const { getByText } = render(<Footer />);
-    expect(getByText(translations.footer.impressum.de)).toBeInTheDocument();
     expect(
-      getByText(translations.footer.barrierefreiheit.de),
-    ).toBeInTheDocument();
-    expect(getByText(translations.footer.datenschutz.de)).toBeInTheDocument();
-    expect(getByText(translations.footer.kontakt.de)).toBeInTheDocument();
-    expect(
-      getByText(translations.footer.openSourceCode.de),
+      getByText(layoutTranslations.footer.impressum.de),
     ).toBeInTheDocument();
     expect(
-      getByText(translations.footer.anBefragungenTeilnehmen.de),
+      getByText(layoutTranslations.footer.barrierefreiheit.de),
+    ).toBeInTheDocument();
+    expect(
+      getByText(layoutTranslations.footer.datenschutz.de),
+    ).toBeInTheDocument();
+    expect(getByText(layoutTranslations.footer.kontakt.de)).toBeInTheDocument();
+    expect(
+      getByText(layoutTranslations.footer.openSourceCode.de),
+    ).toBeInTheDocument();
+    expect(
+      getByText(layoutTranslations.footer.anBefragungenTeilnehmen.de),
     ).toBeInTheDocument();
   });
   it("should render external links", () => {
     const { getByText } = render(<Footer />);
-    expect(getByText(translations.footer.pilotProjekt.de)).toBeInTheDocument();
     expect(
-      getByText(translations.footer.digitalService.de),
+      getByText(layoutTranslations.footer.pilotProjekt.de),
     ).toBeInTheDocument();
     expect(
-      getByText(translations.footer.projektZugangZumRecht.de),
+      getByText(layoutTranslations.footer.digitalService.de),
+    ).toBeInTheDocument();
+    expect(
+      getByText(layoutTranslations.footer.projektZugangZumRecht.de),
     ).toBeInTheDocument();
   });
 });

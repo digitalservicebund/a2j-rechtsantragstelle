@@ -1,4 +1,4 @@
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 
 type FooterContentType = "internalLink" | "externalLink" | "deletionBanner";
 
@@ -17,18 +17,18 @@ export const footerContent: FooterContent[] = [
   {
     key: "rechtlicheHinweise",
     type: "internalLink",
-    sectionName: translations.footer.rechtlicheHinweise.de,
+    sectionName: layoutTranslations.footer.rechtlicheHinweise.de,
     content: [
       {
-        text: translations.footer.impressum.de,
+        text: layoutTranslations.footer.impressum.de,
         url: "/impressum",
       },
       {
-        text: translations.footer.barrierefreiheit.de,
+        text: layoutTranslations.footer.barrierefreiheit.de,
         url: "/barrierefreiheit",
       },
       {
-        text: translations.footer.datenschutz.de,
+        text: layoutTranslations.footer.datenschutz.de,
         url: "/datenschutzerklaerung",
       },
     ],
@@ -36,18 +36,18 @@ export const footerContent: FooterContent[] = [
   {
     key: "kontaktUndTeilnahme",
     type: "internalLink",
-    sectionName: translations.footer.kontaktUndTeilnahme.de,
+    sectionName: layoutTranslations.footer.kontaktUndTeilnahme.de,
     content: [
       {
-        text: translations.footer.kontakt.de,
+        text: layoutTranslations.footer.kontakt.de,
         url: "/kontakt",
       },
       {
-        text: translations.footer.openSourceCode.de,
+        text: layoutTranslations.footer.openSourceCode.de,
         url: "/opensource",
       },
       {
-        text: translations.footer.anBefragungenTeilnehmen.de,
+        text: layoutTranslations.footer.anBefragungenTeilnehmen.de,
         url: "/feedback",
       },
     ],
@@ -55,10 +55,10 @@ export const footerContent: FooterContent[] = [
   {
     key: "persoenlicheDatenLoeschen",
     type: "deletionBanner",
-    sectionName: translations.footer.persoenlicheDatenLoeschen.de,
+    sectionName: layoutTranslations.footer.persoenlicheDatenLoeschen.de,
     content: [
       {
-        text: translations.footer.persoenlicheDatenLoeschen.de,
+        text: layoutTranslations.footer.persoenlicheDatenLoeschen.de,
         url: "/persoenliche-daten-loeschen",
       },
     ],
@@ -66,10 +66,10 @@ export const footerContent: FooterContent[] = [
   {
     key: "bmjv",
     type: "externalLink",
-    title: translations.footer.pilotProjekt.de,
+    title: layoutTranslations.footer.pilotProjekt.de,
     content: [
       {
-        text: translations.footer.bmjv.de,
+        text: layoutTranslations.footer.bmjv.de,
         url: "https://www.bmjv.de/",
       },
     ],
@@ -77,14 +77,14 @@ export const footerContent: FooterContent[] = [
   {
     key: "digitalService",
     type: "externalLink",
-    title: translations.footer.umsetztung.de,
+    title: layoutTranslations.footer.umsetztung.de,
     content: [
       {
-        text: translations.footer.digitalService.de,
+        text: layoutTranslations.footer.digitalService.de,
         url: "https://digitalservice.bund.de/",
       },
       {
-        text: translations.footer.projektZugangZumRecht.de,
+        text: layoutTranslations.footer.projektZugangZumRecht.de,
         url: "https://www.zugang-zum-recht-projekte.de/",
       },
     ],

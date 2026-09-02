@@ -2,7 +2,7 @@ import { useId, useState, useEffect } from "react";
 import { GridItem } from "../layout/grid/GridItem";
 import { Icon } from "../common/Icon";
 import RichText from "../common/RichText";
-import { translations } from "~/services/translations/translations";
+import { componentsTranslations } from "~/services/translations/components";
 
 export type DetailsProps = {
   title: string;
@@ -51,7 +51,7 @@ export const Details = ({ title, content, setDetailsId }: DetailsProps) => {
           className="pl-kern-space-x-large pt-kern-space-small text-kern-layout-text-default"
         >
           <span id={contentId} className="sr-only">
-            {translations.details.textExample.de}
+            {componentsTranslations.details.textExample.de}
           </span>
 
           {content && <RichText className="leading-[1.5]" html={content} />}

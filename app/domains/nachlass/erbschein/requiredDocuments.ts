@@ -5,7 +5,7 @@ import {
 } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 import { personName } from "./shared/personName";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import { translations } from "~/services/translations/translations";
+import { nachlassTranslations } from "~/services/translations/domains/nachlass";
 
 type FamilyMember = {
   vorname?: string;
@@ -36,7 +36,7 @@ function walkFamilyTree(members: FamilyMember[]): PersonDocuments[] {
         member.isAlive === "no" ? DEAD_RELATIVE_DOCUMENTS : HEIR_DOCUMENTS,
       additionalDisplayText:
         member.isAlive === "no"
-          ? `(${translations.nachlass.deceased.de})`
+          ? `(${nachlassTranslations.nachlass.deceased.de})`
           : undefined,
     },
     ...walkFamilyTree(member.kinder ?? []),
@@ -88,7 +88,7 @@ function elternteilEntries(elternteile: FamilyMember[]): PersonDocuments[] {
           {
             name: personName(elternteil),
             documents: "Sterbeurkunde",
-            additionalDisplayText: `(${translations.nachlass.deceased.de})`,
+            additionalDisplayText: `(${nachlassTranslations.nachlass.deceased.de})`,
           },
         ]
       : []),
@@ -129,7 +129,7 @@ export function collectRequiredDocuments(
       documents: hasSecondOrderHeirs
         ? "Sterbeurkunde, Geburtsurkunde"
         : "Sterbeurkunde",
-      additionalDisplayText: `(${translations.nachlass.verstorbenePerson.de})`,
+      additionalDisplayText: `(${nachlassTranslations.nachlass.verstorbenePerson.de})`,
     },
     ...spouseEntries(data),
     ...walkFamilyTree(data.kinder ?? []),

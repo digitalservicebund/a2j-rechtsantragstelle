@@ -1,10 +1,10 @@
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
-import { translations } from "~/services/translations/translations";
 import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
 import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
+import { geldEinklagenTranslations } from "~/services/translations/domains/geldEinklagen";
 
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
@@ -33,11 +33,14 @@ export const BegruendungBeschreibungBeweise = ({
             id={`abschnitt-beweis-${itemIndexAbschnitte}`}
             tabIndex={-1}
           >
-            {translations.geldEinklagen.begruendungBeschreibungEvidenceTitle.de}
+            {
+              geldEinklagenTranslations.geldEinklagen
+                .begruendungBeschreibungEvidenceTitle.de
+            }
           </h3>
           <span className="kern-body kern-body--default kern-body--regular text-kern-layout-text-muted! text-pretty p-0!">
             {
-              translations.geldEinklagen
+              geldEinklagenTranslations.geldEinklagen
                 .begruendungBeschreibungEvidenceDescription.de
             }
           </span>
@@ -62,7 +65,7 @@ export const BegruendungBeschreibungBeweise = ({
             }
           >
             {
-              translations.geldEinklagen
+              geldEinklagenTranslations.geldEinklagen
                 .begruendungBeschreibungEvidenceAddButton.de
             }
           </Button>
@@ -78,7 +81,7 @@ export const BegruendungBeschreibungBeweise = ({
             }
           >
             {
-              translations.geldEinklagen
+              geldEinklagenTranslations.geldEinklagen
                 .begruendungBeschreibungEvidenceAddPersonButton.de
             }
           </Button>

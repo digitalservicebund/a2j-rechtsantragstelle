@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { translations } from "~/services/translations/translations";
 import { splitFieldName } from "~/services/upload/splitFieldName";
 import { type PDFFileMetadata } from "~/services/validation/pdfFileSchema";
 import { FileUploadInfo } from "./FileUploadInfo";
@@ -9,6 +8,7 @@ import { useFileHandler } from "./useFileHandler";
 import InputError from "../error/InputError";
 import Button from "../../../common/Button";
 import { InputHelperText } from "../helperText/InputHelperText";
+import { componentsTranslations } from "~/services/translations/components";
 
 type FileInputProps = {
   name: string;
@@ -42,8 +42,8 @@ export const FileInput = ({
       aria-invalid={error !== undefined}
       aria-label={
         splitFieldName(name).inputIndex === 0
-          ? translations.fileUpload.select.de
-          : translations.fileUpload.addAnother.de
+          ? componentsTranslations.fileUpload.select.de
+          : componentsTranslations.fileUpload.addAnother.de
       }
       aria-errormessage={error && errorId}
       className={classNames(
@@ -84,8 +84,8 @@ export const FileInput = ({
                 onClick={() => fileInputRef.current?.click()}
                 text={
                   splitFieldName(name).inputIndex === 0
-                    ? translations.fileUpload.select.de
-                    : translations.fileUpload.addAnother.de
+                    ? componentsTranslations.fileUpload.select.de
+                    : componentsTranslations.fileUpload.addAnother.de
                 }
               />
               {FileInput}
@@ -94,8 +94,8 @@ export const FileInput = ({
             <>
               <label className="kern-label" htmlFor={name}>
                 {splitFieldName(name).inputIndex === 0
-                  ? translations.fileUpload.select.de
-                  : translations.fileUpload.addAnother.de}
+                  ? componentsTranslations.fileUpload.select.de
+                  : componentsTranslations.fileUpload.addAnother.de}
               </label>
               {FileInput}
               <Button
@@ -103,7 +103,7 @@ export const FileInput = ({
                 value={`fileUpload.${name}`}
                 type="submit"
                 look="primary"
-                text={translations.fileUpload.upload.de}
+                text={componentsTranslations.fileUpload.upload.de}
               />
             </>
           )}

@@ -8,10 +8,10 @@ import {
   stateIsDone,
   stateIsWarning,
 } from "~/services/navigation/navState";
-import { translations } from "~/services/translations/translations";
 import { NavigationList } from "./NavigationList";
 import { type NavItem } from "./types";
 import { Icon } from "../common/Icon";
+import { layoutTranslations } from "~/services/translations/layout";
 
 type StateIconProps = {
   id: string;
@@ -26,7 +26,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
         name="check-circle"
         id={id}
         className="fill-kern-feedback-success"
-        aria-label={translations.navigation.navigationItemFinished.de}
+        aria-label={layoutTranslations.navigation.navigationItemFinished.de}
         size={24}
       />
     );
@@ -36,7 +36,7 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
         name="warning"
         id={id}
         className="fill-kern-feedback-warning"
-        aria-label={translations.navigation.navigationItemWarning.de}
+        aria-label={layoutTranslations.navigation.navigationItemWarning.de}
         size={24}
       />
     );
@@ -110,9 +110,9 @@ export function NavItem({
   const iconId = useId();
 
   const statusText = isDone
-    ? translations.navigation.navigationItemFinished.de
+    ? layoutTranslations.navigation.navigationItemFinished.de
     : isWarning
-      ? translations.navigation.navigationItemWarning.de
+      ? layoutTranslations.navigation.navigationItemWarning.de
       : "";
 
   return (

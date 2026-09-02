@@ -4,10 +4,10 @@ import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
-import { translations } from "~/services/translations/translations";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
 import { InputLabel } from "../label/InputLabel";
+import { commonTranslations } from "~/services/translations/common";
 
 type Props = Readonly<{
   name: string;
@@ -31,8 +31,8 @@ const IncrementDecrementButton: React.FC<{
       aria-disabled={disabled}
       aria-label={
         type === "decrement"
-          ? translations.numberIncrementComponent.decrementButtonLabel.de
-          : translations.numberIncrementComponent.incrementButtonLabel.de
+          ? commonTranslations.common.decrement.de
+          : commonTranslations.common.increment.de
       }
       look="secondary"
       onClick={onClick}

@@ -55,6 +55,6 @@ describe("getParentIndexSummaryOverride", () => {
 
     const result = getParentIndexSummaryOverride(fieldInfo, "0", userData);
 
-    expect(result).toEqual({ question: "Kind von", answer: "Keine Angabe" });
+    expect(result).toEqual({ question: "Kind von", answer: "Keine Angaben" });
   });
 });

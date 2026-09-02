@@ -1,4 +1,4 @@
-import { translations } from "~/services/translations/translations";
+import { componentsTranslations } from "~/services/translations/components";
 
 export const FeedbackSuccessMessage = ({
   subtitle,
@@ -11,7 +11,7 @@ export const FeedbackSuccessMessage = ({
     <output className="flex flex-col gap-kern-space-small">
       <div className="flex items-center">
         <p className="font-bold mr-4" ref={innerRef} tabIndex={-1}>
-          {translations.feedback["success-message"].de}
+          {componentsTranslations.feedback["success-message"].de}
         </p>
       </div>
       <p>{subtitle}</p>

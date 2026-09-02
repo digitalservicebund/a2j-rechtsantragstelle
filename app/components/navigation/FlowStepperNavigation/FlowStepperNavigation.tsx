@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { translations } from "~/services/translations/translations";
+import { layoutTranslations } from "~/services/translations/layout";
 import { arrayIsNonEmpty } from "~/util/array";
 import { getStepStyles } from "./getStepStyles";
 import { StepperContent } from "./StepperContent";
@@ -14,7 +14,7 @@ export const FlowStepperNavigation = ({ steps }: Props) => {
   }
   return (
     <nav
-      aria-label={translations.navigation.navigationStepper.de}
+      aria-label={layoutTranslations.navigation.navigationStepper.de}
       className="w-full print:hidden"
     >
       <ol className="flex max-w-full! pl-0">

@@ -1,5 +1,4 @@
 import { type RefObject, useEffect, useRef } from "react";
-import { translations } from "~/services/translations/translations";
 import type { StepStepper, NavItem } from "./types";
 import { arrayIsNonEmpty } from "~/util/array";
 import {
@@ -11,6 +10,7 @@ import { getMobileButtonAreaTitles } from "~/components/navigation/getMobileButt
 import classNames from "classnames";
 import { Icon } from "../common/Icon";
 import { NavigationList } from "./NavigationList";
+import { layoutTranslations } from "~/services/translations/layout";
 
 const DATA_TESTID_STEP_STEPPER_LINK = "step-stepper-link";
 
@@ -43,13 +43,15 @@ const StepStepperLinks = ({
                 aria-describedby={isWarningStep ? step.href : undefined}
               >
                 <Icon name="arrow-back" className="w-[1.2em] h-[1.2em] mt-2" />
-                {`${translations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
+                {`${layoutTranslations.navigationMobile.toStep.de} ${step.label} (${step.stepIndex}/${stepsStepper.length})`}
               </a>
               {isWarningStep && (
                 <Icon
                   name="warning"
                   className="pl-2 fill-kern-feedback-warning!"
-                  ariaLabel={translations.navigation.navigationItemWarning.de}
+                  ariaLabel={
+                    layoutTranslations.navigation.navigationItemWarning.de
+                  }
                 />
               )}
             </div>
@@ -139,7 +141,7 @@ export default function SideNavMobile({
     >
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
-        aria-label={translations.navigationMobile.toggleMenu.de}
+        aria-label={layoutTranslations.navigationMobile.toggleMenu.de}
         data-testid="side-nav-summary"
         ref={summaryRef}
       >

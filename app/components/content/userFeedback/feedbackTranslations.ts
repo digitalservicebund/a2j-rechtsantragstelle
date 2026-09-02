@@ -1,6 +1,6 @@
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
+import { componentsTranslations } from "~/services/translations/components";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
-import { translations } from "~/services/translations/translations";
 
 const feedbackTranslationsKeys = [
   "heading-feedback",
@@ -33,7 +33,7 @@ type RatingBoxTranslationKeys = (typeof ratingBoxTranslationsKeys)[number];
 
 export function useFeedbackTranslations() {
   const feedbackTranslations = Object.fromEntries(
-    Object.entries(translations.feedback).map(([key, value]) => [
+    Object.entries(componentsTranslations.feedback).map(([key, value]) => [
       key,
       value[defaultLocale],
     ]),

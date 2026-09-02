@@ -3,12 +3,12 @@ import CardGroup from "~/components/content/card/CardGroup";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { translations } from "~/services/translations/translations";
 import { Icon } from "~/components/common/Icon";
 import Box from "~/components/content/Box";
 import Hero from "~/components/content/Hero";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
 import { infoCards, serviceCards, feedbackCard } from "./homepageContent";
+import { pagesTranslations } from "~/services/translations/pages";
 
 const Homepage = () => {
   return (
@@ -23,12 +23,12 @@ const Homepage = () => {
             <Hero
               heading={{
                 tagName: "h1",
-                text: translations.homepage.heroHeading.de,
+                text: pagesTranslations.homepage.heroHeading.de,
                 size: "xLarge",
                 managedByParent: true,
               }}
               content={{
-                html: translations.homepage.heroContent.de,
+                html: pagesTranslations.homepage.heroContent.de,
               }}
               sectionBackgroundColor="blue"
             />
@@ -47,15 +47,15 @@ const Homepage = () => {
               heading={{
                 tagName: "h2",
                 size: "medium",
-                text: translations.homepage.boxProjektPartnerHeading.de,
+                text: pagesTranslations.homepage.boxProjektPartnerHeading.de,
                 managedByParent: true,
               }}
-              content={translations.homepage.boxProjektPartnerContent.de}
+              content={pagesTranslations.homepage.boxProjektPartnerContent.de}
               image={{
                 svgString: BMJVLogo,
                 url: "",
                 alternativeText:
-                  translations.homepage.boxProjektPartnerAltText.de,
+                  pagesTranslations.homepage.boxProjektPartnerAltText.de,
                 width: 180,
                 className: "mt-8",
               }}
@@ -73,7 +73,7 @@ const Homepage = () => {
           >
             <Heading
               tagName="h2"
-              text={translations.homepage.headingOnlinedieste.de}
+              text={pagesTranslations.homepage.headingOnlinedieste.de}
               className="kern-heading-x-large p-0! outline-none pt-40! pb-40!"
               managedByParent
             />
@@ -91,7 +91,9 @@ const Homepage = () => {
           >
             <Heading
               tagName="h2"
-              text={translations.homepage.headingHilfreicheInformationen.de}
+              text={
+                pagesTranslations.homepage.headingHilfreicheInformationen.de
+              }
               managedByParent
               className="kern-heading-x-large p-0! outline-none pt-40! pb-40!"
             />
@@ -109,7 +111,7 @@ const Homepage = () => {
           >
             <Heading
               tagName="h2"
-              text={translations.homepage.headingMitmachen.de}
+              text={pagesTranslations.homepage.headingMitmachen.de}
               className="kern-heading-x-large p-0! outline-none pt-40! pb-40!"
               managedByParent
             />
@@ -128,12 +130,14 @@ const Homepage = () => {
             <Box
               heading={{
                 tagName: "h2",
-                text: translations.homepage.boxZugangeZumRecht.de,
+                text: pagesTranslations.homepage.boxZugangeZumRecht.de,
                 managedByParent: true,
               }}
               content={
                 <>
-                  <p>{translations.homepage.boxZugangeZumRechtContent.de}</p>
+                  <p>
+                    {pagesTranslations.homepage.boxZugangeZumRechtContent.de}
+                  </p>
 
                   <a
                     href="https://www.zugang-zum-recht-projekte.de/"
@@ -146,7 +150,10 @@ const Homepage = () => {
                       name="open-in-new"
                       className="size-[1em] inline! mt-3"
                     />
-                    {translations.homepage.boxZugangeZumRechtProjektLink.de}
+                    {
+                      pagesTranslations.homepage.boxZugangeZumRechtProjektLink
+                        .de
+                    }
                   </a>
                   <a
                     href="https://www.justiz.de"
@@ -159,7 +166,7 @@ const Homepage = () => {
                       name="open-in-new"
                       className="size-[1em] inline! mt-3"
                     />
-                    {translations.homepage.boxZugangeZumRechtJustizLink.de}
+                    {pagesTranslations.homepage.boxZugangeZumRechtJustizLink.de}
                   </a>
                 </>
               }

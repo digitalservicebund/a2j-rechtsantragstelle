@@ -1,6 +1,6 @@
-import { translations } from "~/services/translations/translations";
 import { footerContent } from "./footerContent";
 import { Icon } from "~/components/common/Icon";
+import { layoutTranslations } from "~/services/translations/layout";
 
 export const FooterExternalLinks = () => {
   const externalLinksSections = footerContent.filter((section) =>
@@ -22,7 +22,7 @@ export const FooterExternalLinks = () => {
                 className="kern-link inline-block p-0! no-underline! hover:underline! wrap-anywhere"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${link.text}, ${translations.navigation.linkOpensNewTab.de}`}
+                aria-label={`${link.text}, ${layoutTranslations.navigation.linkOpensNewTab.de}`}
               >
                 <Icon name="open-in-new" className="size-[1em] inline! mt-3" />
                 {link.text}

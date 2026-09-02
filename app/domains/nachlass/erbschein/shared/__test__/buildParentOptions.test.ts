@@ -4,7 +4,7 @@ import {
   buildParentOptions,
   resolveParentOptions,
 } from "../buildParentOptions";
-import { translations } from "~/services/translations/translations";
+import { componentsTranslations } from "~/services/translations/components";
 
 describe("buildParentOptions", () => {
   it("returns only eligible parents (isAlive=no AND hatteKinder=yes)", () => {
@@ -76,7 +76,7 @@ describe("buildParentOptions", () => {
 describe("buildElternteilParentOptions", () => {
   const bothOption = {
     value: BOTH_PARENTS_VALUE,
-    text: translations.select.bothParents.de,
+    text: componentsTranslations.select.bothParents.de,
     preSelected: false,
   };
 

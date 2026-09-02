@@ -7,7 +7,6 @@ import {
 import { navItemsFromStepStates } from "~/services/navigation/navItemsFromStepStates";
 import { resolveUserData } from "~/services/session.server/resolveUserData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
-import { translations as translationCode } from "~/services/translations/translations";
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { buildFormElements } from "./buildFormElements";
 import { getBackButtonDestination } from "./getBackButtonDestination";
@@ -27,6 +26,8 @@ import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer"
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
+import { commonTranslations } from "~/services/translations/common";
+import { vorabcheckTranslations } from "~/services/translations/domains/vorabcheck";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -142,15 +143,11 @@ export const getContentData = (
       stepId: string,
       arrayIndexes: number[] | undefined = [],
     ) => {
-      const buttonNavigationTranslation = translationCode.buttonNavigation;
-
       return getButtonNavigationProps({
         backButtonLabel:
-          cmsContent.backButtonLabel ??
-          buttonNavigationTranslation.backButtonDefaultLabel.de,
+          cmsContent.backButtonLabel ?? commonTranslations.common.back.de,
         nextButtonLabel:
-          cmsContent.nextButtonLabel ??
-          buttonNavigationTranslation.nextButtonDefaultLabel.de,
+          cmsContent.nextButtonLabel ?? commonTranslations.common.next.de,
         isFinal: flowController.isFinal(stepId),
         backDestination: getBackButtonDestination(
           flowController.getPrevious(stepId),
@@ -164,7 +161,6 @@ export const getContentData = (
       flowSessionEngine: FlowSession<PageConfigMap>,
       arrayIndexes: number[] | undefined = [],
     ) => {
-      const buttonNavigationTranslation = translationCode.buttonNavigation;
       const backDestination = flowSessionEngine.prevPath
         ? flowId +
           resolveArrayCharacter(flowSessionEngine.prevPath, arrayIndexes, false)
@@ -172,11 +168,9 @@ export const getContentData = (
 
       return getButtonNavigationProps({
         backButtonLabel:
-          cmsContent.backButtonLabel ??
-          buttonNavigationTranslation.backButtonDefaultLabel.de,
+          cmsContent.backButtonLabel ?? commonTranslations.common.back.de,
         nextButtonLabel:
-          cmsContent.nextButtonLabel ??
-          buttonNavigationTranslation.nextButtonDefaultLabel.de,
+          cmsContent.nextButtonLabel ?? commonTranslations.common.next.de,
         isFinal: flowSessionEngine.isFinal,
         backDestination,
       });
@@ -324,7 +318,7 @@ export const getContentData = (
       const progress = flowController.getProgress(stepId);
       return {
         ...progress,
-        label: translationCode.vorabcheck.progressBarLabel.de,
+        label: vorabcheckTranslations.vorabcheck.progressBarLabel.de,
       };
     },
     getProgressNewEngine: (
@@ -334,7 +328,7 @@ export const getContentData = (
       const progress = flowSessionEngine.getProgress(stepId);
       return {
         ...progress,
-        label: translationCode.vorabcheck.progressBarLabel.de,
+        label: vorabcheckTranslations.vorabcheck.progressBarLabel.de,
       };
     },
   };

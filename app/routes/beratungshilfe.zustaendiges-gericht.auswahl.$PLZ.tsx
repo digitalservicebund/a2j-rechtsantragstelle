@@ -8,7 +8,6 @@ import { data, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
 import { type ErrorMessageProps } from "~/components/common/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
-import { translations } from "~/services/translations/translations";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { filterFormData } from "~/util/filterFormData";
@@ -21,10 +20,12 @@ import Button from "~/components/common/Button";
 import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading from "~/components/common/Heading";
 import { ReportProblem } from "~/components/content/reportProblem/ReportProblem";
+import { commonTranslations } from "~/services/translations/common";
+import { gerichtFinderTranslations } from "~/services/translations/domains/gerichtFinder";
 
 export const requiredError: ErrorMessageProps = {
   code: "required",
-  text: translations.gerichtFinder.inputRequired.de,
+  text: gerichtFinderTranslations.gerichtFinder.inputRequired.de,
 };
 
 export const courtFinderSchema = z.object({
@@ -76,7 +77,7 @@ export default function Index() {
         >
           <div className="gap-kern-space-x-large flex flex-col">
             <span className="text-kern-static-medium text-kern-layout-text-muted!">
-              Amtsgericht finden
+              {gerichtFinderTranslations.gerichtFinder.finder.de}
             </span>
             <Heading
               tagName="h1"
@@ -85,7 +86,7 @@ export default function Index() {
               managedByParent
             />
             <p className="kern-body">
-              Geben Sie bitte Ihre genaue Straße und Hausnummer ein
+              {gerichtFinderTranslations.gerichtFinder.addressHelperText.de}
             </p>
             <ValidatedForm
               method="post"
@@ -95,14 +96,17 @@ export default function Index() {
               <div className="gap-kern-space-x-large flex flex-col">
                 <div className="flex flex-col gap-kern-space-x-large">
                   <AutoSuggestInput
-                    label={translations.gerichtFinder.streetName.de}
+                    label={
+                      commonTranslations.common.street.de
+                    }
                     helperText={
-                      translations.gerichtFinder.autosuggestInputHelperText.de
+                      gerichtFinderTranslations.gerichtFinder
+                        .autosuggestInputHelperText.de
                     }
                     dataList="streetNames"
                     dataListArgument={userData.plz}
                     noSuggestionMessage={
-                      translations.gerichtFinder.noResultsFound.de
+                      gerichtFinderTranslations.gerichtFinder.noResultsFound.de
                     }
                     errorMessages={[requiredError]}
                     name="street"
@@ -110,7 +114,9 @@ export default function Index() {
                     minSuggestCharacters={0}
                   />
                   <NumberInput
-                    label={translations.gerichtFinder.houseNumber.de}
+                    label={
+                      commonTranslations.common.housenumber.de
+                    }
                     name="houseNumber"
                     errorMessages={[requiredError]}
                   />
@@ -119,10 +125,10 @@ export default function Index() {
                   <Button
                     href="/beratungshilfe/zustaendiges-gericht/suche"
                     look="secondary"
-                    text="Zurück"
+                    text={commonTranslations.common.back.de}
                   />
                   <Button type="submit">
-                    {translations.buttonNavigation.nextButtonDefaultLabel.de}
+                    {commonTranslations.common.next.de}
                   </Button>
                 </ButtonContainer>
               </div>

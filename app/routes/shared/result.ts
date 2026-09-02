@@ -6,7 +6,7 @@ import {
 } from "~/services/cms/index.server";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { composePageTitle } from "~/services/meta/composePageTitle";
-import { translations } from "~/services/translations/translations";
+import { commonTranslations } from "~/services/translations/common";
 import {
   applyStringReplacement,
   replacementsFromFlowConfig,
@@ -42,11 +42,9 @@ export const loader = async ({ request, url }: LoaderFunctionArgs) => {
 
   const buttonNavigationProps = getButtonNavigationProps({
     backButtonLabel:
-      resultPageContent.backButtonLabel ??
-      translations.buttonNavigation.backButtonDefaultLabel.de,
+      resultPageContent.backButtonLabel ?? commonTranslations.common.back.de,
     nextButtonLabel:
-      cmsContent.nextLink?.text ??
-      translations.buttonNavigation.nextButtonDefaultLabel.de,
+      cmsContent.nextLink?.text ?? commonTranslations.common.next.de,
     backDestination: flowController.getPrevious(stepId),
   });
 

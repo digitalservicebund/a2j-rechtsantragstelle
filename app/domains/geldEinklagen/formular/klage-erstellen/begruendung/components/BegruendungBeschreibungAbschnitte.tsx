@@ -2,9 +2,10 @@ import { Icon } from "~/components/common/Icon";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise";
 import Button from "~/components/common/Button";
-import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
+import { commonTranslations } from "~/services/translations/common";
+import { geldEinklagenTranslations } from "~/services/translations/domains/geldEinklagen";
 
 export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndexAbschnitte: number;
@@ -20,7 +21,7 @@ const BegruendungBeschreibungAbschnitte = ({
 }: BegruendungBeschreibungAbschnitteProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
 
-  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitte + 1}`;
+  const headingText = `${geldEinklagenTranslations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitte + 1}`;
 
   return (
     <div
@@ -40,7 +41,10 @@ const BegruendungBeschreibungAbschnitte = ({
       <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
         <div className="flex flex-col gap-kern-space-large">
           <span className="kern-body kern-body--default kern-body--bold p-0!">
-            {translations.geldEinklagen.begruendungBeschreibungTitle.de}
+            {
+              geldEinklagenTranslations.geldEinklagen
+                .begruendungBeschreibungTitle.de
+            }
           </span>
           <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
             {abschnitte.beschreibung}
@@ -48,10 +52,13 @@ const BegruendungBeschreibungAbschnitte = ({
           <a
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
             href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/daten`}
-            aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
+            aria-label={`${headingText} ${commonTranslations.common.edit.de}`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
-            {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
+            {
+              geldEinklagenTranslations.geldEinklagen
+                .begruendungBeschreibungEditButton.de
+            }
           </a>
           <BegruendungBeschreibungBeweise
             itemIndexAbschnitte={itemIndexAbschnitte}
@@ -72,11 +79,11 @@ const BegruendungBeschreibungAbschnitte = ({
                   itemIndexAbschnitte,
                 )
               }
-              aria-label={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de}`}
+              aria-label={`${headingText} ${commonTranslations.common.delete.de}`}
             >
               {
-                translations.geldEinklagen.begruendungBeschreibungDeleteButton
-                  .de
+                geldEinklagenTranslations.geldEinklagen
+                  .begruendungBeschreibungDeleteButton.de
               }
             </Button>
           </div>

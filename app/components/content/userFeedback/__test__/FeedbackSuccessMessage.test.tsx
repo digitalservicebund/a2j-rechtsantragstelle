@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
-import { translations } from "~/services/translations/translations";
 import { FeedbackSuccessMessage } from "../FeedbackSuccessMessage";
+import { componentsTranslations } from "~/services/translations/components";
 
-const successfulMessage = translations.feedback["success-message"].de;
+const successfulMessage = componentsTranslations.feedback["success-message"].de;
 
 describe("FeedbackSuccessMessage", () => {
   it("should render with the title from translation and subtitle as props", () => {

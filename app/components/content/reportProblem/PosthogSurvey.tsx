@@ -1,11 +1,11 @@
 import { type Survey, SurveyQuestionType } from "posthog-js";
 import { type ElementType, useEffect, useRef, useState } from "react";
 import { isCompleted } from "~/services/analytics/surveys/isCompleted";
-import { translations } from "~/services/translations/translations";
 import { OpenQuestion, type SurveyResponses } from "./OpenQuestion";
 import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
+import { componentsTranslations } from "~/services/translations/components";
 
 type PosthogSurveyProps = {
   survey: Pick<Survey, "id" | "questions">;
@@ -99,8 +99,8 @@ export const PosthogSurvey = ({
           className="kern-title kern-title--large"
         >
           {wasSubmitted
-            ? translations.feedback["problem-gemeldet"].de
-            : translations.feedback["report-problem"].de}
+            ? componentsTranslations.feedback["problem-gemeldet"].de
+            : componentsTranslations.feedback["report-problem"].de}
         </h2>
         <Button
           type="button"
@@ -108,8 +108,8 @@ export const PosthogSurvey = ({
           iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
           aria-label={
             wasSubmitted
-              ? translations.feedback.close.de
-              : translations.feedback.cancel.de
+              ? componentsTranslations.feedback.close.de
+              : componentsTranslations.feedback.cancel.de
           }
           onClick={closeSurvey}
         />
@@ -117,8 +117,8 @@ export const PosthogSurvey = ({
       <section id={dialogDescriptionId} className="kern-dialog__body">
         {wasSubmitted ? (
           <output className="kern-body">
-            {translations.feedback["success-message"].de}{" "}
-            {translations.feedback["feedback-helps"].de}
+            {componentsTranslations.feedback["success-message"].de}{" "}
+            {componentsTranslations.feedback["feedback-helps"].de}
           </output>
         ) : (
           <div className="flex flex-col gap-40">
@@ -149,7 +149,9 @@ export const PosthogSurvey = ({
             onClick={closeSurvey}
             type="button"
           >
-            <span className="kern-label">{translations.feedback.close.de}</span>
+            <span className="kern-label">
+              {componentsTranslations.feedback.close.de}
+            </span>
           </Button>
         ) : (
           <>
@@ -159,7 +161,7 @@ export const PosthogSurvey = ({
               onClick={closeSurvey}
             >
               <span className="kern-label">
-                {translations.feedback.cancel.de}
+                {componentsTranslations.feedback.cancel.de}
               </span>
             </Button>
 
@@ -169,7 +171,7 @@ export const PosthogSurvey = ({
               onClick={onSubmitClicked}
             >
               <span className="kern-label">
-                {translations.feedback["submit-problem"].de}
+                {componentsTranslations.feedback["submit-problem"].de}
               </span>
             </Button>
           </>

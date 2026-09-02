@@ -1,9 +1,9 @@
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { extractTranslations } from "~/services/translations/getTranslationByKey";
-import { translations as staticTranslations } from "~/services/translations/translations";
 import { Icon } from "../../common/Icon";
 import Button from "~/components/common/Button";
 import Heading from "~/components/common/Heading";
+import { layoutTranslations as staticTranslations } from "~/services/translations/layout";
 
 const DATA_PROTECTION_TRANSLATION_KEYS = {
   header: "datenschutz-header",

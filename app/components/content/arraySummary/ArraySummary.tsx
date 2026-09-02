@@ -2,8 +2,8 @@ import { Icon } from "~/components/common/Icon";
 import type { ArrayData } from "~/domains/userData";
 import type { ArrayConfigClient } from "~/services/array";
 import { type ItemLabels } from "~/services/array/getArraySummaryData";
-import { translations as translationProvider } from "~/services/translations/translations";
 import ArraySummaryDataItems from "./ArraySummaryDataItems";
+import { commonTranslations } from "~/services/translations/common";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import Button from "~/components/common/Button";
 import RichText from "~/components/common/RichText";
@@ -63,7 +63,7 @@ const ArraySummary = ({
           disabled={disableAddButton}
           data-testid={`add-${category}`}
         >
-          {`${buttonLabel} ${translationProvider.arraySummary.arrayAddButtonLabel.de}`}
+          {`${buttonLabel} ${commonTranslations.common.add.de}`}
         </Button>
       </div>
     </div>

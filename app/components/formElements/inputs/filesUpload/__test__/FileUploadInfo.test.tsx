@@ -1,9 +1,9 @@
 import { fireEvent, render } from "@testing-library/react";
-import { translations } from "~/services/translations/translations";
 import {
   errorStyling,
   type PDFFileMetadata,
 } from "~/services/validation/pdfFileSchema";
+import { componentsTranslations } from "~/services/translations/components";
 import { FileUploadInfo } from "../FileUploadInfo";
 
 const fileName = "testfile1.pdf";
@@ -29,7 +29,9 @@ describe("FileUploadInfo", () => {
     const fileIcon = getByTestId("icon-draft");
     expect(fileNameLabel).toBeInTheDocument();
     expect(fileIcon).toBeInTheDocument();
-    expect(getByText(translations.fileUpload.delete.de)).toBeInTheDocument();
+    expect(
+      getByText(componentsTranslations.fileUpload.delete.de),
+    ).toBeInTheDocument();
     expect(getByTestId("delete-file-button-belege[0]")).toBeInTheDocument();
     expect(getByText("3 MB")).toBeInTheDocument();
   });

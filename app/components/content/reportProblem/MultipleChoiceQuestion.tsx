@@ -9,8 +9,8 @@ import {
 import classNames from "classnames";
 import { questionToAnswerId } from "~/services/analytics/surveys/questionToAnswerId";
 import { type SurveyResponses } from "./OpenQuestion";
-import { translations } from "~/services/translations/translations";
 import InputError from "~/components/formElements/inputs/error/InputError";
+import { componentsTranslations } from "~/services/translations/components";
 
 type MultipleChoiceQuestionProps = {
   question: MultipleSurveyQuestion;
@@ -87,7 +87,7 @@ export const MultipleChoiceQuestion = ({
         })}
         {hasError && (
           <InputError id={errorId}>
-            {translations.feedback["validation-error"].de}
+            {componentsTranslations.feedback["validation-error"].de}
           </InputError>
         )}
       </div>

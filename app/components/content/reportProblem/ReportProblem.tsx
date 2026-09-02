@@ -2,12 +2,12 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { fetchSurvey } from "~/services/analytics/surveys/fetchSurveys";
 import { useAnalytics } from "~/services/analytics/useAnalytics";
 import { config } from "~/services/env/public";
-import { translations } from "~/services/translations/translations";
 import { isKeyOfObject } from "~/util/objects";
 import { PosthogSurvey } from "./PosthogSurvey";
 import { type SurveyResponses } from "./OpenQuestion";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
+import { componentsTranslations } from "~/services/translations/components";
 
 const surveyIds = {
   production: "01956b7e-2774-0000-49d7-d34d26811373",
@@ -60,7 +60,7 @@ export const ReportProblem = () => {
         aria-haspopup="dialog"
         onClick={onReportProblemClicked}
         className="min-w-full justify-center sm:min-w-fit"
-        text={translations.feedback["report-problem"].de}
+        text={componentsTranslations.feedback["report-problem"].de}
         iconLeft={
           <Icon name="emergency-home" className="fill-kern-action-default!" />
         }

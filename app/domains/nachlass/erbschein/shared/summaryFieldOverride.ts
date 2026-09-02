@@ -1,6 +1,7 @@
 import type { SummaryFieldOverride } from "~/domains/flows.server";
 import { resolveParentOptions, BOTH_PARENTS_VALUE } from "./buildParentOptions";
-import { translations } from "~/services/translations/translations";
+import { nachlassTranslations } from "~/services/translations/domains/nachlass";
+import { commonTranslations } from "~/services/translations/common";
 
 const parentIndexSubFields = new Set([
   "parentKindIndex",
@@ -37,7 +38,7 @@ export const getParentIndexSummaryOverride: SummaryFieldOverride = (
       : options.find((option) => option.value === chosenValue)?.text;
 
   return {
-    question: translations.nachlass.childOf.de,
-    answer: parentName ?? translations.nachlass.noParentName.de,
+    question: nachlassTranslations.nachlass.childOf.de,
+    answer: parentName ?? commonTranslations.common.noInformationAvailable.de,
   };
 };

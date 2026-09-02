@@ -27,7 +27,6 @@ import {
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import { config as configPublic } from "~/services/env/public";
 import { parseAndSanitizeMarkdown } from "~/services/security/markdownUtilities";
-import { translations as staticTranslations } from "~/services/translations/translations";
 import styles from "~/styles.kern.css?url";
 import type { Route } from "./+types/root";
 import { useShouldPrint } from "./components/hooks/useShouldPrint";
@@ -45,6 +44,7 @@ import { SkipToContentLink } from "./components/navigation/SkipToContentLink";
 import PageHeader from "./components/layout/PageHeader";
 import Breadcrumbs from "./components/layout/Breadcrumbs";
 import Footer from "./components/layout/footer/Footer";
+import { translations } from "./services/translations";
 
 export { headers } from "./rootHeaders";
 
@@ -113,7 +113,7 @@ export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
       feedback,
       skipContentLinkTarget: isAnyFlowPage ? "#flow-page-content" : "#main",
       postSubmissionText: parseAndSanitizeMarkdown(
-        staticTranslations.feedback["text-post-submission"].de,
+        translations.feedback["text-post-submission"].de,
       ),
       csrf,
     },
