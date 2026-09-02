@@ -87,7 +87,6 @@ export function PersonSummaryItem({
                 {!objectKeysNonEmpty(item, [
                   "strasse",
                   "hausnummer",
-                  "adresszusatz",
                   "plz",
                   "ort",
                   "land",
