@@ -240,6 +240,9 @@ export const translations = {
     digitalService: {
       de: "DigitalService GmbH des Bundes",
     },
+    projektZugangZumRecht: {
+      de: "zugang-zum-recht-projekte.de",
+    },
   },
   navigationMobile: {
     closeMenu: {
