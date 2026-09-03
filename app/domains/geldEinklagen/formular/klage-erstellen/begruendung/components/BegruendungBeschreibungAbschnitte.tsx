@@ -5,6 +5,7 @@ import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndexAbschnitte: number;
@@ -46,6 +47,7 @@ const BegruendungBeschreibungAbschnitte = ({
             {abschnitte.beschreibung}
           </span>
           <a
+            id={`${EDIT_BUTTON_ID_PREFIX}abschnitte-${itemIndexAbschnitte}`}
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
             href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/daten`}
             aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
