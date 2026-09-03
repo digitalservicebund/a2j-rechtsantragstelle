@@ -93,7 +93,7 @@
     "validator": "^13.15.35",
     "xss": "^1.0.15",
     "xstate": "^5.32.6",
-    "zod": "^4.4.3"
+    "zod": "^4.5.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
