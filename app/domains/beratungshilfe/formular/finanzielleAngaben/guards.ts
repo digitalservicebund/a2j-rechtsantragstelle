@@ -1,7 +1,4 @@
-import {
-  firstArrayIndex,
-  isValidArrayIndex,
-} from "~/services/flow/pageDataSchema";
+import { firstArrayIndex, isValidArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { yesNoGuards } from "~/domains/guards.server";

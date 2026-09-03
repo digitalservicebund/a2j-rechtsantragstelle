@@ -69,7 +69,7 @@ export const antragstellendePersonPages = {
       antragstellendePersonHausnummer: stringRequiredSchema,
       antragstellendePersonPlz: stringRequiredSchema,
       antragstellendePersonOrt: stringRequiredSchema,
-      antragstellendePersonLand: stringOptionalSchema,
+      antragstellendePersonLand: stringRequiredSchema,
       antragstellendePersonAdresszusatz: stringOptionalSchema,
     },
   },

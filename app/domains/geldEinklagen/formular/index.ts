@@ -14,16 +14,19 @@ import {
   hasAnwaltschaft,
   hasKlagendePersonStatePrefilled,
   hasBeklagtePersonStatePrefilled,
+  getArrayIndex,
+  hasZeroAbschnitte,
+  getAbschnitteWithInvalidAnotherPerson,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
-import { klageHerunterladenXstateConfig } from "./klage-herunterladen/xStateConfig";
 import {
   prefillZipCodeAndCity,
   updateIfUserNotPrefilledBeklagte,
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
 import { geldEinklagenFlowConfig } from "./flowConfig";
+import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -43,6 +46,9 @@ export const geldEinklagenFormular = {
     ...hasAnwaltschaft(context),
     ...hasKlagendePersonStatePrefilled(context),
     ...hasBeklagtePersonStatePrefilled(context),
+    ...getArrayIndex(context),
+    ...hasZeroAbschnitte(context),
+    ...getAbschnitteWithInvalidAnotherPerson(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
@@ -50,7 +56,6 @@ export const geldEinklagenFormular = {
     states: {
       "gericht-pruefen": gerichtPruefenXstateConfig,
       "klage-erstellen": klageErstellenXstateConfig,
-      "klage-herunterladen": klageHerunterladenXstateConfig,
     },
   },
   newEngineConfig: geldEinklagenFlowConfig,
@@ -71,5 +76,9 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/mensch": updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl":
+      updateAbschnittenPersonenIds,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten":
+      updateAbschnittenPersonenIds,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

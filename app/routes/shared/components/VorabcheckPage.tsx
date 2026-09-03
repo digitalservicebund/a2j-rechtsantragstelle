@@ -42,9 +42,9 @@ export function VorabcheckPage() {
       <Grid>
         <GridItem
           mdColumn={{ start: 1, span: 8 }}
-          lgColumn={{ start: 3, span: 9 }}
-          xlColumn={{ start: 3, span: 9 }}
-          className="pt-40 pb-kern-space-x-large"
+          lgColumn={{ start: 3, span: 8 }}
+          xlColumn={{ start: 3, span: 8 }}
+          className="lg:pt-40 pb-kern-space-large"
           row={1}
         >
           <ProgressBar {...progressProps} />

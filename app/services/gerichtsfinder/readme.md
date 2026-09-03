@@ -6,7 +6,7 @@
 
 - Copy the `.zip` file to the root of the project
 - Run `pnpm run update:courtData <NAME_OF_THE_ZIP>`
-- Run `pnpm run update:URLs`
+- Run `pnpm run update:courtURLs`
 - Discard/remove your `.zip` file before commiting!
 
 ## Data Exploration

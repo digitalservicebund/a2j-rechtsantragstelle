@@ -2,7 +2,6 @@ import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 import {
   flowRoutes,
-  newEngineFlowAndResultRoutes,
   newEngineFlowRoutes,
   newEngineVorabcheckRoutes,
   vorabcheckRoutes,
@@ -13,6 +12,7 @@ export default [
     ignoredRouteFiles: [
       "**/nachlass.erbschein.erbfolge.$.tsx",
       "**/nachlass.erbschein.erbfolge.ergebnis.$.tsx",
+      "**/geld-einklagen.formular.$.tsx",
     ],
   })), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
@@ -57,6 +57,14 @@ export default [
     ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
-    ...prefix("formular", newEngineFlowAndResultRoutes("GEF")),
+    ...prefix("formular", [
+      route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: `pdfGEF`,
+      }),
+      route(":path/:path2/ergebnis/*", "routes/shared/newEngineResult.ts", {
+        id: `resGEF`,
+      }),
+    ]),
   ]),
 ] satisfies RouteConfig;

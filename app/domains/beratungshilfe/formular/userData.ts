@@ -5,7 +5,7 @@ import { type BeratungshilfeFinanzielleAngabenUserData } from "./finanzielleAnga
 import { type BeratungshilfeGrundvoraussetzungenUserData } from "./grundvoraussetzung/userData";
 import { type BeratungshilfeRechtsproblemUserData } from "./rechtsproblem/userData";
 import { type BeratungshilfeWeitereAngabenUserData } from "./weitereAngaben/userData";
-import type { PageData } from "~/services/flow/pageDataSchema";
+import type { PageData } from "~/services/flow/pageData";
 
 export type BeratungshilfeFormularUserData =
   BeratungshilfeGrundvoraussetzungenUserData &

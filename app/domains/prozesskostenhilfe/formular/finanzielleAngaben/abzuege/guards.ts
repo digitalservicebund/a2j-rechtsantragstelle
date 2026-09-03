@@ -1,6 +1,6 @@
 import type { Guards } from "~/domains/guards.server";
 import type { ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/userData";
-import { isValidArrayIndex } from "~/services/flow/pageDataSchema";
+import { isValidArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 
 const hasAndereArbeitsausgaben: Guards<ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData>[string] =

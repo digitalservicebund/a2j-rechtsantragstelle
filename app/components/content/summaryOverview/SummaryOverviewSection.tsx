@@ -9,7 +9,7 @@ type Props = {
 
 const SummaryOverviewSection = ({ title, boxes }: Props) => {
   return (
-    <div className="flex flex-col gap-kern-space-default">
+    <div className="flex flex-col gap-kern-space-default text-wrap">
       <Heading size="medium" {...title} managedByParent />
       {boxes.map(({ id, stepId, boxItems, title: boxTitle }) => (
         <SummaryOverviewBoxWrapped

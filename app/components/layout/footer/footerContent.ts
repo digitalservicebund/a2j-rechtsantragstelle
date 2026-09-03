@@ -83,6 +83,10 @@ export const footerContent: FooterContent[] = [
         text: translations.footer.digitalService.de,
         url: "https://digitalservice.bund.de/",
       },
+      {
+        text: translations.footer.projektZugangZumRecht.de,
+        url: "https://www.zugang-zum-recht-projekte.de/",
+      },
     ],
   },
 ];

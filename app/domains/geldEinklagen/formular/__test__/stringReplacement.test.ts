@@ -8,8 +8,8 @@ import {
   isCourtAGSchoeneberg,
   getCourtCost,
   hasStreitbeilegungGruende,
-  hasBeweiseAngebot,
   hasAnwaltschaft,
+  getAbschnitteWithInvalidAnotherPerson,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -295,26 +295,6 @@ describe("stringReplacement", () => {
     });
   });
 
-  describe("hasBeweiseAngebot", () => {
-    it("should return true if beweiseAngebot is yes", () => {
-      const actual = hasBeweiseAngebot({ beweiseAngebot: "yes" });
-
-      expect(actual.hasBeweiseAngebot).toBe(true);
-    });
-
-    it("should return false if beweiseAngebot is no", () => {
-      const actual = hasBeweiseAngebot({ beweiseAngebot: "no" });
-
-      expect(actual.hasBeweiseAngebot).toBe(false);
-    });
-
-    it("should return false if streitbeilegungGruende is undefined", () => {
-      const actual = hasBeweiseAngebot({ beweiseAngebot: undefined });
-
-      expect(actual.hasBeweiseAngebot).toBe(false);
-    });
-  });
-
   describe("hasAnwaltschaft", () => {
     it("should return true if anwaltschaft is yes", () => {
       const actual = hasAnwaltschaft({ anwaltschaft: "yes" });
@@ -332,6 +312,80 @@ describe("stringReplacement", () => {
       const actual = hasAnwaltschaft({ anwaltschaft: undefined });
 
       expect(actual.hasAnwaltschaft).toBe(false);
+    });
+  });
+
+  describe("getAbschnitteWithInvalidAnotherPerson", () => {
+    it("should return undefined if abschnitte is undefined", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: undefined,
+      };
+
+      const actual = getAbschnitteWithInvalidAnotherPerson(context);
+
+      expect(actual.abschnitteWithInvalidAnotherPerson).toBeUndefined();
+    });
+
+    it("should return the abschnitte indexes with invalid anotherPerson", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "Abschnitt 1",
+            personen: [
+              // @ts-ignore
+              {
+                personAuswahl: "anotherPerson",
+                personId: "123",
+                vorname: "",
+                nachname: "",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 2",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                personId: "123",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 3",
+            personen: [
+              {
+                personAuswahl: "beklagte",
+                personId: "123",
+              },
+            ],
+          },
+          {
+            beschreibung: "Abschnitt 4",
+            personen: [
+              // @ts-ignore
+              {
+                personAuswahl: "anotherPerson",
+                personId: "123",
+              },
+            ],
+          },
+        ],
+      };
+
+      const actual = getAbschnitteWithInvalidAnotherPerson(context);
+
+      expect(actual.abschnitteWithInvalidAnotherPerson).toBe("1, 4");
     });
   });
 });

@@ -1,7 +1,7 @@
 import { type Config } from "~/services/flow/server/types";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { type PageData } from "~/services/flow/pageDataSchema";
+import { type PageData } from "~/services/flow/pageData";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
