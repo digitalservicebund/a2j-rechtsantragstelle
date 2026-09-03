@@ -2,6 +2,7 @@ import { type FlowId } from "~/domains/flowIds";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type SummaryItem } from "~/services/summary/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 
 // Information about the current page, handed to a flow's optional loader hooks
@@ -34,4 +35,10 @@ export type LoaderExtras<
       formElements: StrapiFormComponent[];
     },
   ) => ExtraData | Promise<ExtraData>;
+  // Lets a flow adjust its own summary sections before they are returned, for
+  // example to add item labels, keeping the generic summary neutral.
+  transformAutoSummary?: (
+    sections: SummaryItem[],
+    context: LoaderExtrasContext,
+  ) => SummaryItem[] | Promise<SummaryItem[]>;
 };
