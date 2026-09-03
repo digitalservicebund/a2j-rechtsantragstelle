@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { airlineSchema } from "../airline";
 
 vi.mock("data/airlines/data.json", () => ({
@@ -22,7 +23,6 @@ describe("airlineSchema", () => {
   });
 
   it("should pass when airline code is valid", () => {
-    const result = airlineSchema.safeParse("LH");
-    expect(result.success).toBe(true);
+    expect(z.validate(airlineSchema, "LH")).toBe(true);
   });
 });

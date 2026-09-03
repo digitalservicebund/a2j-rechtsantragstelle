@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import { StrapiTableSchema } from "../StrapiTable";
 
 describe("StrapiTableSchema", () => {
@@ -83,8 +84,7 @@ describe("StrapiTableSchema", () => {
         },
       ],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 
   it("should not parse when rows are missing", () => {
@@ -93,8 +93,7 @@ describe("StrapiTableSchema", () => {
       heading: { text: "Table Heading", tagName: "h1", id: 1 },
       columns: [{ id: 1, header: "Column 1" }],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 
   it("should not parse when heading is missing", () => {
@@ -112,8 +111,7 @@ describe("StrapiTableSchema", () => {
         },
       ],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 
   it("should not parse when column header is missing", () => {
@@ -132,8 +130,7 @@ describe("StrapiTableSchema", () => {
         },
       ],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 
   it("should not parse when row has no cells", () => {
@@ -147,8 +144,7 @@ describe("StrapiTableSchema", () => {
         },
       ],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 
   it("should not parse when cell content is missing", () => {
@@ -163,7 +159,6 @@ describe("StrapiTableSchema", () => {
         },
       ],
     };
-    const result = StrapiTableSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(z.validate(StrapiTableSchema, data)).toBe(false);
   });
 });

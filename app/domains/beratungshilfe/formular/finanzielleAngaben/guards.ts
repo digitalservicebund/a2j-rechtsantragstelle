@@ -1,5 +1,6 @@
 import { firstArrayIndex, isValidArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
+import { z } from "zod";
 import { type BeratungshilfeFinanzielleAngabenGuard } from "./BeratungshilfeFinanzielleAngabenGuardType";
 import { yesNoGuards } from "~/domains/guards.server";
 import { kinderArraySchema } from "./kinder/pages";
@@ -30,7 +31,7 @@ export const { hasGrundeigentumYes } = yesNoGuards("hasGrundeigentum");
 export const hasKinderYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
     context.hasKinder === "yes" &&
-    !kinderArraySchema.safeParse(context.kinder).success;
+    !z.validate(kinderArraySchema, context.kinder);
 
 export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 
