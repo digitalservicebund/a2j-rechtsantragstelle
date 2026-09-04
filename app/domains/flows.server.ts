@@ -56,6 +56,12 @@ export type SummaryFieldOverride = (
   userData: UserData,
 ) => Pick<FieldItem, "question" | "answer"> | undefined;
 
+export type AsyncFlowAction<TUserData extends UserData = UserData> = (
+  request: Request,
+  userData: TUserData,
+  flowSession: Session<TUserData, TUserData>,
+) => Promise<void>;
+
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config: Config;
@@ -69,14 +75,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
    * specific field (e.g. internal fields with no CMS label, like parentKindIndex).
    */
   summaryFieldOverride?: SummaryFieldOverride;
-  asyncFlowActions?: Record<
-    string,
-    (
-      request: Request,
-      userData: UserData,
-      flowSession: Session,
-    ) => Promise<void>
-  >;
+  asyncFlowActions?: Record<string, AsyncFlowAction>;
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
 };
