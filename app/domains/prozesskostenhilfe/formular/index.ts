@@ -20,7 +20,7 @@ const steps = xStateTargetsFromPagesConfig(prozesskostenhilfeFormularPages);
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
-  config: {states: {}},
+  config: { states: {} },
   newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),
