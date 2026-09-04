@@ -20,11 +20,11 @@ const validatorPersonenAuswahl = validatePersonenAuswahl(baseSchema);
 
 describe("validatePersonenAuswahl", () => {
   it("should not return an error if the personAuswahl is anotherPerson", () => {
-    const result = validatorPersonenAuswahl.safeParse({
-      "abschnitte#personen#personAuswahl": "anotherPerson",
-    });
-
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(validatorPersonenAuswahl, {
+        "abschnitte#personen#personAuswahl": "anotherPerson",
+      }),
+    ).toBe(true);
   });
 
   it("should return an error if the personAuswahl is klagende and person id is the different as abschnitte#personIdAsKlagende", () => {
@@ -43,13 +43,13 @@ describe("validatePersonenAuswahl", () => {
   });
 
   it("should not return an error if the personAuswahl is klagende and person id is same as abschnitte#personIdAsKlagende", () => {
-    const result = validatorPersonenAuswahl.safeParse({
-      "abschnitte#personen#personAuswahl": "klagende",
-      "abschnitte#personIdAsKlagende": "123",
-      "abschnitte#personen#personId": "123",
-    });
-
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(validatorPersonenAuswahl, {
+        "abschnitte#personen#personAuswahl": "klagende",
+        "abschnitte#personIdAsKlagende": "123",
+        "abschnitte#personen#personId": "123",
+      }),
+    ).toBe(true);
   });
 
   it("should return an error if the personAuswahl is beklagte and person id is the different as abschnitte#personIdAsBeklagte", () => {
@@ -68,12 +68,12 @@ describe("validatePersonenAuswahl", () => {
   });
 
   it("should not return an error if the personAuswahl is beklagte and person id is same as abschnitte#personIdAsBeklagte", () => {
-    const result = validatorPersonenAuswahl.safeParse({
-      "abschnitte#personen#personAuswahl": "beklagte",
-      "abschnitte#personIdAsBeklagte": "123",
-      "abschnitte#personen#personId": "123",
-    });
-
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(validatorPersonenAuswahl, {
+        "abschnitte#personen#personAuswahl": "beklagte",
+        "abschnitte#personIdAsBeklagte": "123",
+        "abschnitte#personen#personId": "123",
+      }),
+    ).toBe(true);
   });
 });

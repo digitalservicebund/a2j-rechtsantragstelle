@@ -31,5 +31,5 @@ export const isStepDone = <T extends PagesConfig>(
 
   return hasEmptyRelevantPageSchemas
     ? true
-    : z.object(relevantPageSchemas).safeParse(userData).success;
+    : z.validate(z.object(relevantPageSchemas), userData);
 };

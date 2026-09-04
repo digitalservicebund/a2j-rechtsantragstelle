@@ -17,7 +17,7 @@ describe("validateAnotherFlightPage", () => {
   const validatorAnotherPage = validateAnotherFlightPage(baseSchema);
 
   it("should return success false given undefined values", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: undefined,
       direktAnkunftsZeit: undefined,
       ersatzFlugAnkunftsDatum: undefined,
@@ -25,11 +25,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival time after the arrival", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "01.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "01.01.2024",
@@ -37,11 +37,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival date after the arrival", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "01.01.2024",
@@ -49,11 +49,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival date before three hours after the arrival and bereich verspaetet", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "02.01.2024",
@@ -61,11 +61,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success true given an original arrival date after three hours after the arrival and bereich verspaetet", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "02.01.2024",
@@ -73,11 +73,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich annullierung", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "02.01.2024",
@@ -85,11 +85,11 @@ describe("validateAnotherFlightPage", () => {
       bereich: "annullierung",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich nichtbefoerderung", () => {
-    const result = validatorAnotherPage.safeParse({
+    const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       ersatzFlugAnkunftsDatum: "02.01.2024",
@@ -97,6 +97,6 @@ describe("validateAnotherFlightPage", () => {
       bereich: "nichtbefoerderung",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 });

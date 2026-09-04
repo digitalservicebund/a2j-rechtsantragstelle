@@ -1,4 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { z } from "zod";
 import {
   abschnitteArray,
   type GeldEinklagenKlageErstellenPages,
@@ -9,8 +10,7 @@ export const klageErstellenBegruendungFlowConfig = {
   begruendungBeschreibungUebersicht: [
     { type: "addArrayItem", target: "begruendungBeschreibungAbschnitte" },
     {
-      guard: (context) =>
-        !abschnitteArray.safeParse(context.abschnitte).success,
+      guard: (context) => !z.validate(abschnitteArray, context.abschnitte),
       target: "begruendungBeschreibungWarnung",
     },
     { target: "prozessfuehrungAnwaltskosten" },

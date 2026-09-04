@@ -76,7 +76,7 @@ const isOptionalArrayField = (
   if (!(itemSchema instanceof z.ZodObject)) return false;
   const fieldSchema = itemSchema.shape[field] as z.ZodType | undefined;
   if (!fieldSchema) return false;
-  if (deeper.length === 0) return fieldSchema.safeParse(undefined).success;
+  if (deeper.length === 0) return z.validate(fieldSchema, undefined);
   const innerArray = unwrapArray(fieldSchema);
   return innerArray
     ? isOptionalArrayField(innerArray.element as z.ZodType, deeper)
