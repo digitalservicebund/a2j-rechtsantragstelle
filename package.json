@@ -76,7 +76,7 @@
     "match-sorter": "^8.3.0",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "pdfkit": "^0.20.1",
+    "pdfkit": "^0.20.2",
     "pino-http": "^11.0.0",
     "prom-client": "^15.1.3",
     "posthog-js": "1.422.5",
@@ -93,7 +93,7 @@
     "validator": "^13.15.35",
     "xss": "^1.0.15",
     "xstate": "^5.32.6",
-    "zod": "^4.5.2"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
