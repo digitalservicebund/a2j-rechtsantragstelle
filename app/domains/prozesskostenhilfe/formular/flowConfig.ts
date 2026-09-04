@@ -6,6 +6,7 @@ import { PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { prozesskostenhilfeFormularPages } from "./pages";
 import { grundvoraussetzungenFlowConfig } from "./grundvoraussetzungen/flowConfig";
 import { rechtsschutzversicherungFlowConfig } from "./rechtsschutzversicherung/flowConfig";
+import { persoenlicheDatenFlowConfig } from "./persoenlicheDaten/flowConfig";
 
 export const prozesskostenhilfeFormularFlowConfig = compileFlow({
   pages: prozesskostenhilfeFormularPages,
@@ -14,6 +15,7 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     start: "start",
     ...grundvoraussetzungenFlowConfig,
     ...rechtsschutzversicherungFlowConfig,
+    ...persoenlicheDatenFlowConfig,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;
