@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiSummaryOverviewSectionSchema } from "../StrapiSummaryOverviewSection";
 
 describe("StrapiSummaryOverviewSchema", () => {
@@ -12,10 +13,9 @@ describe("StrapiSummaryOverviewSchema", () => {
       boxes: [],
     };
 
-    const actual =
-      StrapiSummaryOverviewSectionSchema.safeParse(emptyNavigation);
-
-    expect(actual.success).toBe(false);
+    expect(
+      z.validate(StrapiSummaryOverviewSectionSchema, emptyNavigation),
+    ).toBe(false);
   });
 
   it("should return false given empty boxes items", () => {
@@ -35,9 +35,9 @@ describe("StrapiSummaryOverviewSchema", () => {
       ],
     };
 
-    const actual = StrapiSummaryOverviewSectionSchema.safeParse(emptyBoxes);
-
-    expect(actual.success).toBe(false);
+    expect(z.validate(StrapiSummaryOverviewSectionSchema, emptyBoxes)).toBe(
+      false,
+    );
   });
 
   it("should return true and summary overview object given correct data", () => {

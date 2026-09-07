@@ -12,21 +12,21 @@ describe("Vorabcheck - Multi Fields Validation", () => {
     const validator = validateSameDepartureAndArrivalAirports(baseSchema);
 
     it("should return success false when startAirport and endAirport are the same", () => {
-      const result = validator.safeParse({
+      const result = z.validate(validator, {
         startAirport: "JFK",
         endAirport: "JFK",
       });
 
-      expect(result.success).toBe(false);
+      expect(result).toBe(false);
     });
 
     it("should return success true when startAirport and endAirport are different", () => {
-      const result = validator.safeParse({
+      const result = z.validate(validator, {
         startAirport: "JFK",
         endAirport: "LAX",
       });
 
-      expect(result.success).toBe(true);
+      expect(result).toBe(true);
     });
   });
 });

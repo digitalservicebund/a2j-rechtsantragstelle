@@ -4,6 +4,7 @@ import { angehoerigeArray } from "~/domains/nachlass/erbschein/anfrage/angehoeri
 import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
+import { z } from "zod";
 
 export const angehoerigeFlowConfig = {
   ...kinderFlowConfig,
@@ -11,11 +12,11 @@ export const angehoerigeFlowConfig = {
   angehoerigeOverview: [
     { type: "addArrayItem", target: "angehoerigeName" },
     {
-      guard: (data) => !angehoerigeArray.safeParse(data.angehoerige).success,
+      guard: (data) => !z.validate(angehoerigeArray, data.angehoerige),
       target: "angehoerigeWarning",
     },
     {
-      guard: (data) => angehoerigeArray.safeParse(data.angehoerige).success,
+      guard: (data) => z.validate(angehoerigeArray, data.angehoerige),
       target: "grundbesitz",
     },
   ],

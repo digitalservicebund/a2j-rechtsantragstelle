@@ -10,39 +10,43 @@ describe("validateStopoverDuplicates", () => {
   const schema = validateStopoverDuplicates(baseSchema);
 
   it("should pass when only ersterZwischenstopp is filled", () => {
-    const result = schema.safeParse({
-      startAirport: "BER",
-      endAirport: "JFK",
-      ersterZwischenstopp: "FRA",
-    });
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(schema, {
+        startAirport: "BER",
+        endAirport: "JFK",
+        ersterZwischenstopp: "FRA",
+      }),
+    ).toBe(true);
   });
 
   it("should pass when only zweiterZwischenstopp or dritterZwischenstopp is filled", () => {
-    const firstResult = schema.safeParse({
-      startAirport: "BER",
-      endAirport: "JFK",
-      zweiterZwischenstopp: "MUC",
-    });
-    expect(firstResult.success).toBe(true);
+    expect(
+      z.validate(schema, {
+        startAirport: "BER",
+        endAirport: "JFK",
+        zweiterZwischenstopp: "MUC",
+      }),
+    ).toBe(true);
 
-    const secondResult = schema.safeParse({
-      startAirport: "BER",
-      endAirport: "JFK",
-      dritterZwischenstopp: "LHR",
-    });
-    expect(secondResult.success).toBe(true);
+    expect(
+      z.validate(schema, {
+        startAirport: "BER",
+        endAirport: "JFK",
+        dritterZwischenstopp: "LHR",
+      }),
+    ).toBe(true);
   });
 
   it("should pass when all stopovers are filled with different values", () => {
-    const result = schema.safeParse({
-      startAirport: "BER",
-      endAirport: "JFK",
-      ersterZwischenstopp: "FRA",
-      zweiterZwischenstopp: "CDG",
-      dritterZwischenstopp: "LHR",
-    });
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(schema, {
+        startAirport: "BER",
+        endAirport: "JFK",
+        ersterZwischenstopp: "FRA",
+        zweiterZwischenstopp: "CDG",
+        dritterZwischenstopp: "LHR",
+      }),
+    ).toBe(true);
   });
 
   it("should fail when duplicate stopovers exist", () => {
@@ -140,14 +144,14 @@ describe("validateStopoverDuplicates", () => {
   });
 
   it("should pass when start, end and stopover airports are all different", () => {
-    const result = schema.safeParse({
-      startAirport: "BER",
-      endAirport: "LHR",
-      ersterZwischenstopp: "FRA",
-      zweiterZwischenstopp: "JFK",
-      dritterZwischenstopp: "CDG",
-    });
-
-    expect(result.success).toBe(true);
+    expect(
+      z.validate(schema, {
+        startAirport: "BER",
+        endAirport: "LHR",
+        ersterZwischenstopp: "FRA",
+        zweiterZwischenstopp: "JFK",
+        dritterZwischenstopp: "CDG",
+      }),
+    ).toBe(true);
   });
 });
