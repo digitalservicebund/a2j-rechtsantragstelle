@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiTileSchema } from "../StrapiTile";
 
 describe("StrapiTileSchema", () => {
@@ -10,9 +11,7 @@ describe("StrapiTileSchema", () => {
       tagDescription: null,
     };
 
-    const actual = StrapiTileSchema.safeParse(undefinedTitle);
-
-    expect(actual.success).toBe(false);
+    expect(z.validate(StrapiTileSchema, undefinedTitle)).toBe(false);
   });
 
   it("should fail the parse in case is missing the value", () => {
@@ -24,9 +23,7 @@ describe("StrapiTileSchema", () => {
       tagDescription: null,
     };
 
-    const actual = StrapiTileSchema.safeParse(undefinedValue);
-
-    expect(actual.success).toBe(false);
+    expect(z.validate(StrapiTileSchema, undefinedValue)).toBe(false);
   });
 
   it("should success the parse in case the object is ok", () => {
