@@ -3,6 +3,7 @@ import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
 import { getVerfuegbaresEinkommenFreibetrag } from "./freibetrag";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 import { beratungshilfeVorabcheckXstateConfig } from "./xstateConfig";
+import { beratungshilfeVorabcheckFlowConfig } from "./flowConfig";
 
 export const beratungshilfeVorabcheck = {
   flowType: "vorabCheck",
@@ -11,6 +12,7 @@ export const beratungshilfeVorabcheck = {
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),
   config: beratungshilfeVorabcheckXstateConfig,
+  newEngineConfig: beratungshilfeVorabcheckFlowConfig,
   asyncFlowActions: {
     "/bereich": (request, userData: BeratungshilfeVorabcheckUserData) =>
       Promise.resolve(
