@@ -22,7 +22,7 @@ export const nachlassErbscheinAnfrage = {
     states: {},
   },
   migration: {
-    source: "/nachlass/erbschein/erbfolge",
+    source: "/erbschein/erbfolge",
     sortedFields: [
       "verstorbeneVorname",
       "verstorbeneNachname",
@@ -59,7 +59,7 @@ export const nachlassErbscheinAnfrage = {
         }),
       };
     },
-    buttonUrl: "/nachlass/erbschein/erbfolge",
+    buttonUrl: "/erbschein/erbfolge",
   },
   asyncFlowActions: {
     "/antragstellende-person/verhaeltnis": copyAntragstellendePersonData,

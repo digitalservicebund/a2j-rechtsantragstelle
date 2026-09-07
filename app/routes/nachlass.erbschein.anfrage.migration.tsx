@@ -8,8 +8,8 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const referer = request.headers.get("Referer");
 
-  const sourceFlowId = "/nachlass/erbschein/erbfolge";
-  const destinationFlowId = "/nachlass/erbschein/anfrage";
+  const sourceFlowId = "/erbschein/erbfolge";
+  const destinationFlowId = "/erbschein/anfrage";
 
   if (!referer?.includes(sourceFlowId)) {
     return redirect(sourceFlowId);
