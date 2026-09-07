@@ -17,7 +17,7 @@ export const arbeitsausgabenArraySchema = z
 
 export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsweg: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsweg",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
     pageSchema: {
       arbeitsweg: z.enum([
         "publicTransport",
@@ -29,13 +29,13 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   opnvKosten: {
-    stepId: "finanzielle-angaben/abzuege/opnv-kosten",
+    stepId: "/finanzielle-angaben/abzuege/opnv-kosten",
     pageSchema: {
       monatlicheOPNVKosten: buildMoneyValidationSchema(),
     },
   },
   arbeitsplatzEntfernung: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
     pageSchema: {
       arbeitsplatz: z.object({
         strasseHausnummer: stringRequiredSchema,
@@ -49,13 +49,13 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitswegKeineRolle: {
-    stepId: "finanzielle-angaben/abzuege/keine-rolle",
+    stepId: "/finanzielle-angaben/abzuege/keine-rolle",
   },
   arbeitsausgaben: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben",
   },
   arbeitsausgabe: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe",
     pageSchema: {
       arbeitsausgaben: arbeitsausgabenArraySchema,
     },
@@ -72,15 +72,15 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitsausgabenFrage: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
     pageSchema: {
       hasArbeitsausgaben: YesNoAnswer,
     },
   },
   arbeitsausgabenUebersicht: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
   },
   arbeitsausgabenWarnung: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/warnung",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/warnung",
   },
 } as const satisfies PagesConfig;

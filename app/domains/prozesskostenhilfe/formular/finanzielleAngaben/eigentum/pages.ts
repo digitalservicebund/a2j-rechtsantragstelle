@@ -180,25 +180,25 @@ const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
-    stepId: "finanzielle-angaben/eigentum/eigentum-info",
+    stepId: "/finanzielle-angaben/eigentum/eigentum-info",
   },
   eigentumHeiratInfo: {
-    stepId: "finanzielle-angaben/eigentum/heirat-info",
+    stepId: "/finanzielle-angaben/eigentum/heirat-info",
   },
   eigentumBankkonten: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten",
+    stepId: "/finanzielle-angaben/eigentum/bankkonten",
   },
   eigentumBankkontenFrage: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
+    stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
     pageSchema: {
       hasBankkonto: YesNoAnswer,
     },
   },
   eigentumBankkontenUebersicht: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten/uebersicht",
+    stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
   },
   eigentumBankkonto: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto",
+    stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonto",
     pageSchema: { bankkonten: bankkontenArraySchema },
     arrayPages: {
       daten: {
@@ -216,22 +216,22 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumBankkontoWarnung: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten/warnung",
+    stepId: "/finanzielle-angaben/eigentum/bankkonten/warnung",
   },
   eigentumGeldanlagen: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen",
+    stepId: "/finanzielle-angaben/eigentum/geldanlagen",
   },
   eigentumGeldanlagenFrage: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
+    stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
     pageSchema: {
       hasGeldanlage: YesNoAnswer,
     },
   },
   eigentumGeldanlagenUebersicht: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen/uebersicht",
+    stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
   },
   eigentumGeldanlage: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
+    stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage",
     pageSchema: {
       geldanlagen: geldanlagenArraySchema,
     },
@@ -297,22 +297,22 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumGeldanlagenWarnung: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen/warnung",
+    stepId: "/finanzielle-angaben/eigentum/geldanlagen/warnung",
   },
   eigentumKraftfahrzeuge: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge",
   },
   eigentumKraftfahrzeugeFrage: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
     pageSchema: {
       hasKraftfahrzeug: YesNoAnswer,
     },
   },
   eigentumKraftfahrzeugeUebersicht: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
   },
   eigentumKraftfahrzeug: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
     pageSchema: {
       kraftfahrzeuge: kraftfahrzeugeArraySchema,
     },
@@ -348,23 +348,23 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumKraftfahrzeugeWarnung: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
   },
   eigentumWertgegenstaende: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende",
+    stepId: "/finanzielle-angaben/eigentum/wertgegenstaende",
   },
   eigentumWertgegenstaendeFrage: {
     stepId:
-      "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
+      "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
     pageSchema: {
       hasWertsache: YesNoAnswer,
     },
   },
   eigentumWertgegenstaendeUebersicht: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+    stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
   },
   eigentumWertgegenstand: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
+    stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
     pageSchema: {
       wertsachen: wertsachenArraySchema,
     },
@@ -379,22 +379,22 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumWertgegenstaendeWarnung: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende/warnung",
+    stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/warnung",
   },
   eigentumGrundeigentum: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum",
   },
   eigentumGrundeigentumFrage: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
     pageSchema: {
       hasGrundeigentum: YesNoAnswer,
     },
   },
   eigentumGrundeigentumUebersicht: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum/uebersicht",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
   },
   eigentumGrundeigentumGrundeigentum: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
     pageSchema: {
       grundeigentum: grundeigentumArraySchema,
     },
@@ -427,6 +427,6 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumGrundeigentumWarnung: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum/warnung",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/warnung",
   },
 } as const satisfies PagesConfig;

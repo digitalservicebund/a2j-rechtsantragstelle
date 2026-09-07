@@ -44,17 +44,17 @@ export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
 
 export const pkhFormularFinanzielleAngabenKinderPages = {
   kinderFrage: {
-    stepId: "finanzielle-angaben/kinder/kinder-frage",
+    stepId: "/finanzielle-angaben/kinder/kinder-frage",
     pageSchema: { hasKinder: YesNoAnswer },
   },
   kinderUebersicht: {
-    stepId: "finanzielle-angaben/kinder/uebersicht",
+    stepId: "/finanzielle-angaben/kinder/uebersicht",
   },
   kinderWarnung: {
-    stepId: "finanzielle-angaben/kinder/warnung",
+    stepId: "/finanzielle-angaben/kinder/warnung",
   },
   kinder: {
-    stepId: "finanzielle-angaben/kinder/kinder",
+    stepId: "/finanzielle-angaben/kinder/kinder",
     pageSchema: { kinder: kinderArraySchema },
     arrayPages: {
       name: {
