@@ -1,8 +1,9 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { pkhFormularFinanzielleAngabenPages } from "./pages";
+import { finanzielleAngabenAbzuegeFlowConfig } from "./abzuege/flowConfig";
+import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
-export const finanzielleAngabenFlowConfig = {
+export const finanzielleAngabenFlowConfig =  {
 
-} satisfies Partial<
-  TransitionConfigMap<typeof pkhFormularFinanzielleAngabenPages>
->;
+    ...finanzielleAngabenAbzuegeFlowConfig.transitions,
+
+} satisfies Partial<TransitionConfigMap<typeof pkhFormularFinanzielleAngabenPages>>

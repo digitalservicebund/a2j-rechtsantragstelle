@@ -24,6 +24,8 @@ export const getProzesskostenhilfeAntragstellendePersonConfig = (
   const nextFlowEntrypoint = Array.isArray(transitions?.nextFlowEntrypoint)
     ? transitions.nextFlowEntrypoint
     : [transitions?.nextFlowEntrypoint];
+
+    console.log(nextFlowEntrypoint);
   return {
     id: "antragstellende-person",
     initial: steps.empfaenger.relative,

@@ -40,6 +40,8 @@ export const { hasVersicherungenYes } = yesNoGuards("hasVersicherungen");
 export const { hasRatenzahlungenYes } = yesNoGuards("hasRatenzahlungen");
 export const { hasSonstigeAusgabenYes } = yesNoGuards("hasSonstigeAusgaben");
 
+export const hasPartnerschaftYes: FinanzielleAngabenGuard = ({ context }) =>
+  context.partnerschaft === "yes";
 export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
   ({ context }) =>
     context.partnerschaft === "yes" &&
