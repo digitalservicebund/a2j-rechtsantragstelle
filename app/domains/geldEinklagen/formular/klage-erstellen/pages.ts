@@ -18,6 +18,13 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import {
+  datatypeA,
+  datatypeB,
+  datatypeC,
+  datatypeD,
+  datatypeE,
+} from "~/services/validation/xjustiz/xjustizDatatype";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -38,10 +45,10 @@ const personIdSchema = hiddenInputSchema(
 );
 
 const sharedBeklagteAddress = {
-  beklagteStrasse: stringRequiredSchema,
-  beklagteHausnummer: germanHouseNumberSchema,
-  beklagtePlz: stringRequiredSchema.pipe(postcodeSchema),
-  beklagteOrt: stringRequiredSchema,
+  beklagteStrasse: stringRequiredSchema.check(datatypeB),
+  beklagteHausnummer: germanHouseNumberSchema.check(datatypeB),
+  beklagtePlz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
+  beklagteOrt: stringRequiredSchema.check(datatypeB),
   beklagteStatePrefilled: hiddenInputSchema(statePrefilled),
 };
 
@@ -53,16 +60,16 @@ const beweiseDokumentenArray = z.array(
 
 const beweisePersonenSchema = z.object({
   anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
-  title: schemaOrEmptyString(stringRequiredSchema),
-  vorname: stringRequiredSchema,
-  nachname: stringRequiredSchema,
-  strasse: stringRequiredSchema,
-  hausnummer: germanHouseNumberSchema,
-  plz: stringRequiredSchema.pipe(postcodeSchema),
-  ort: stringRequiredSchema,
+  title: schemaOrEmptyString(stringRequiredSchema).check(datatypeC),
+  vorname: stringRequiredSchema.check(datatypeA),
+  nachname: stringRequiredSchema.check(datatypeA),
+  strasse: stringRequiredSchema.check(datatypeB),
+  hausnummer: germanHouseNumberSchema.check(datatypeB),
+  plz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
+  ort: stringRequiredSchema.check(datatypeB),
   land: stringRequiredSchema,
-  telefonnummer: schemaOrEmptyString(phoneNumberSchema),
-  email: schemaOrEmptyString(emailSchema),
+  telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+  email: schemaOrEmptyString(emailSchema).check(datatypeC),
 });
 
 const beweisePersonenArray = z.array(
@@ -106,17 +113,20 @@ export const geldEinklagenKlageErstellenPages = {
         z.enum(["herr", "frau", "none"]),
       ),
       klagendePersonTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
-      klagendePersonVorname: stringRequiredSchema,
-      klagendePersonNachname: stringRequiredSchema,
-      klagendePersonStrasse: stringRequiredSchema,
-      klagendePersonHausnummer: germanHouseNumberSchema,
-      klagendePersonPlz: stringRequiredSchema.pipe(postcodeSchema),
+      klagendePersonVorname: stringRequiredSchema.check(datatypeA),
+      klagendePersonNachname: stringRequiredSchema.check(datatypeA),
+      klagendePersonStrasse: stringRequiredSchema.check(datatypeB),
+      klagendePersonHausnummer: germanHouseNumberSchema.check(datatypeB),
+      klagendePersonPlz: stringRequiredSchema
+        .pipe(postcodeSchema)
+        .check(datatypeC),
       klagendePersonStatePrefilled: hiddenInputSchema(statePrefilled),
-      klagendePersonOrt: stringRequiredSchema,
-      klagendeTelefonnummer: schemaOrEmptyString(phoneNumberSchema),
-      klagendeEmail: schemaOrEmptyString(emailSchema),
-      klagendePersonIban: schemaOrEmptyString(ibanSchema),
-      klagendePersonKontoinhaber: stringOptionalSchema,
+      klagendePersonOrt: stringRequiredSchema.check(datatypeB),
+      klagendeTelefonnummer:
+        schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+      klagendeEmail: schemaOrEmptyString(emailSchema).check(datatypeC),
+      klagendePersonIban: schemaOrEmptyString(ibanSchema).check(datatypeC),
+      klagendePersonKontoinhaber: stringOptionalSchema.check(datatypeD),
     },
     readonlyFields: {
       fieldNames: ["klagendePersonPlz", "klagendePersonOrt"],
@@ -132,22 +142,28 @@ export const geldEinklagenKlageErstellenPages = {
         "berufsausuebungsgesellschaft",
         "einzelkanzlei",
       ]),
-      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema,
-      klagendePersonAnwaltschaftGeschaeftszeichen: stringOptionalSchema,
-      klagendePersonAnwaltschaftStrasse: stringRequiredSchema,
-      klagendePersonAnwaltschaftHausnummer: germanHouseNumberSchema,
-      klagendePersonAnwaltschaftPlz: stringRequiredSchema.pipe(postcodeSchema),
-      klagendePersonAnwaltschaftOrt: stringRequiredSchema,
+      klagendePersonAnwaltschaftKanzlei: stringOptionalSchema.check(datatypeD),
+      klagendePersonAnwaltschaftGeschaeftszeichen:
+        stringOptionalSchema.check(datatypeC),
+      klagendePersonAnwaltschaftStrasse: stringRequiredSchema.check(datatypeB),
+      klagendePersonAnwaltschaftHausnummer:
+        germanHouseNumberSchema.check(datatypeB),
+      klagendePersonAnwaltschaftPlz: stringRequiredSchema
+        .pipe(postcodeSchema)
+        .check(datatypeC),
+      klagendePersonAnwaltschaftOrt: stringRequiredSchema.check(datatypeB),
       klagendePersonAnwaltschaftAnrede: schemaOrEmptyString(
         z.enum(["herr", "frau", "none"]),
       ),
-      klagendePersonAnwaltschaftTitle: stringOptionalSchema,
-      klagendePersonAnwaltschaftVorname: stringRequiredSchema,
-      klagendePersonAnwaltschaftNachname: stringRequiredSchema,
-      klagendePersonAnwaltschaftBerufsbezeichnung: stringOptionalSchema,
+      klagendePersonAnwaltschaftTitle: stringOptionalSchema.check(datatypeC),
+      klagendePersonAnwaltschaftVorname: stringRequiredSchema.check(datatypeA),
+      klagendePersonAnwaltschaftNachname: stringRequiredSchema.check(datatypeA),
+      klagendePersonAnwaltschaftBerufsbezeichnung:
+        stringOptionalSchema.check(datatypeC),
       klagendePersonAnwaltschaftTelefonnummer:
-        schemaOrEmptyString(phoneNumberSchema),
-      klagendePersonAnwaltschaftEmail: schemaOrEmptyString(emailSchema),
+        schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
+      klagendePersonAnwaltschaftEmail:
+        schemaOrEmptyString(emailSchema).check(datatypeC),
     },
   },
   beklagtePersonMenschen: {
@@ -155,8 +171,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       beklagteAnrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
       beklagteTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
-      beklagteVorname: stringRequiredSchema,
-      beklagteNachname: stringRequiredSchema,
+      beklagteVorname: stringRequiredSchema.check(datatypeA),
+      beklagteNachname: stringRequiredSchema.check(datatypeA),
       ...sharedBeklagteAddress,
     },
     readonlyFields: {
@@ -169,7 +185,7 @@ export const geldEinklagenKlageErstellenPages = {
   beklagtePersonOrganisation: {
     stepId: "klage-erstellen/beklagte-person/organisation",
     pageSchema: {
-      beklagteNameOrganisation: stringRequiredSchema,
+      beklagteNameOrganisation: stringRequiredSchema.check(datatypeD),
       ...sharedBeklagteAddress,
       beklagteGesetzlichenVertretungAnrede: schemaOrEmptyString(
         z.enum(["herr", "frau", "none"]),
@@ -177,8 +193,10 @@ export const geldEinklagenKlageErstellenPages = {
       beklagteGesetzlichenVertretungTitle: schemaOrEmptyString(
         z.enum(["none", "dr"]),
       ),
-      beklagteGesetzlichenVertretungVorname: stringOptionalSchema,
-      beklagteGesetzlichenVertretungNachname: stringOptionalSchema,
+      beklagteGesetzlichenVertretungVorname:
+        stringOptionalSchema.check(datatypeA),
+      beklagteGesetzlichenVertretungNachname:
+        stringOptionalSchema.check(datatypeA),
     },
     readonlyFields: {
       fieldNames: ["beklagtePlz", "beklagteOrt"],
@@ -314,7 +332,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       weitereAntraege: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
-      ),
+      ).check(datatypeE),
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
@@ -322,7 +340,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       rechtlicheWuerdigung: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
-      ),
+      ).check(datatypeC),
     },
   },
   zusammenfassungUebersicht: {

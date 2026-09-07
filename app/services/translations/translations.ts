@@ -316,6 +316,11 @@ export const translations = {
       de: "Geben Sie Ihre Straße ein und wählen Sie diese anschließend aus der Trefferliste aus",
     },
   },
+  xjustiz: {
+    invalidCharacters: {
+      de: "Die folgenden Sonderzeichen sind für dieses Feld nicht erlaubt und müssen gelöscht oder ersetzt werden:",
+    },
+  },
   arraySummary: {
     arrayEditButtonLabel: {
       de: "Bearbeiten",
