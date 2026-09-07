@@ -11,9 +11,7 @@ import { type BeratungshilfeVorabcheckUserData } from "./userData";
 const beratungshilfeVorabcheckPagesWithLeadingSlash =
   addLeadingSlashToPageSchemas(beratungshilfeVorabcheckPages);
 
-const staatlicheLeistungenYes = (
-  context: BeratungshilfeVorabcheckUserData,
-) =>
+const staatlicheLeistungenYes = (context: BeratungshilfeVorabcheckUserData) =>
   context.staatlicheLeistungen === "grundsicherung" ||
   context.staatlicheLeistungen === "asylbewerberleistungen";
 
@@ -263,8 +261,7 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
     weitereZahlungenSumme: [
       {
         guard: (context) =>
-          context.eigeninitiative === "no" &&
-          !isIncomeTooHigh({ context }),
+          context.eigeninitiative === "no" && !isIncomeTooHigh({ context }),
         target: "weitereZahlungenSummeAbschlussVielleicht",
       },
       {
