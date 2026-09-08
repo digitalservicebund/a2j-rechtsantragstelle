@@ -189,9 +189,6 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumHeiratInfo: {
     stepId: "finanzielle-angaben/eigentum/heirat-info",
   },
-  eigentumBankkonten: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten",
-  },
   eigentumBankkontenFrage: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
     pageSchema: {
@@ -200,30 +197,29 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumBankkontenUebersicht: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "bankkonten",
+      schema: bankkontenArraySchema,
+      fieldName: "hasBankkonto",
+    },
   },
   eigentumBankkonto: {
-    stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto",
-    pageSchema: { bankkonten: bankkontenArraySchema },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "bankkonten#kontoEigentuemer":
-            bankkontenArraySchema.element.shape.kontoEigentuemer,
-          "bankkonten#bankName": bankkontenArraySchema.element.shape.bankName,
-          "bankkonten#kontostand":
-            bankkontenArraySchema.element.shape.kontostand,
-          "bankkonten#iban": bankkontenArraySchema.element.shape.iban,
-          "bankkonten#kontoDescription":
-            bankkontenArraySchema.element.shape.kontoDescription,
-        },
-      },
+    stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "bankkonten#kontoEigentuemer":
+        bankkontenArraySchema.element.shape.kontoEigentuemer,
+      "bankkonten#bankName": bankkontenArraySchema.element.shape.bankName,
+      "bankkonten#kontostand": bankkontenArraySchema.element.shape.kontostand,
+      "bankkonten#iban": bankkontenArraySchema.element.shape.iban,
+      "bankkonten#kontoDescription":
+        bankkontenArraySchema.element.shape.kontoDescription,
     },
   },
   eigentumBankkontoWarnung: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/warnung",
-  },
-  eigentumGeldanlagen: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen",
+    shouldCollapseIntoParentNavItem: true,
   },
   eigentumGeldanlagenFrage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
@@ -233,78 +229,89 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGeldanlagenUebersicht: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/uebersicht",
-  },
-  eigentumGeldanlage: {
-    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage",
-    pageSchema: {
-      geldanlagen: geldanlagenArraySchema,
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "geldanlagen",
+      schema: geldanlagenArraySchema,
+      fieldName: "hasGeldanlage",
     },
-    arrayPages: {
-      art: {
-        pageSchema: {
-          "geldanlagen#art": geldanlagenArtSchema,
-        },
-      },
-      bargeld: {
-        pageSchema: {
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-        },
-      },
-      wertpapiere: {
-        pageSchema: {
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-        },
-      },
-      "guthabenkonto-krypto": {
-        pageSchema: {
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-        },
-      },
-      "giro-tagesgeld-sparkonto": {
-        pageSchema: {
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-          "geldanlagen#kontoBankName": sparkontoSchema.shape.kontoBankName,
-          "geldanlagen#kontoIban": sparkontoSchema.shape.kontoIban,
-          "geldanlagen#kontoBezeichnung":
-            sparkontoSchema.shape.kontoBezeichnung,
-        },
-      },
-      befristet: {
-        pageSchema: {
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-          "geldanlagen#befristetArt": befristetSchema.shape.befristetArt,
-          "geldanlagen#verwendungszweck":
-            befristetSchema.shape.verwendungszweck,
-          "geldanlagen#auszahlungdatum": befristetSchema.shape.auszahlungdatum,
-        },
-      },
-      forderung: {
-        pageSchema: {
-          "geldanlagen#forderung": forderungSchema.shape.forderung,
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-        },
-      },
-      sonstiges: {
-        pageSchema: {
-          "geldanlagen#verwendungszweck":
-            sonstigesSchema.shape.verwendungszweck,
-          "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
-          "geldanlagen#wert": sharedGeldanlagenFields.wert,
-        },
-      },
+  },
+  eigentumGeldanlageArt: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/art",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#art": geldanlagenArtSchema,
+    },
+  },
+  eigentumGeldanlageBargeld: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/bargeld",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+    },
+  },
+  eigentumGeldanlageWertpapiere: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/wertpapiere",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+    },
+  },
+  eigentumGeldanlageGuthabenkontoKrypto: {
+    stepId:
+      "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/guthabenkonto-krypto",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+    },
+  },
+  eigentumGeldanlageGiroTagesgeldSparkonto: {
+    stepId:
+      "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/giro-tagesgeld-sparkonto",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+      "geldanlagen#kontoBankName": sparkontoSchema.shape.kontoBankName,
+      "geldanlagen#kontoIban": sparkontoSchema.shape.kontoIban,
+      "geldanlagen#kontoBezeichnung": sparkontoSchema.shape.kontoBezeichnung,
+    },
+  },
+  eigentumGeldanlageBefristet: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/befristet",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+      "geldanlagen#befristetArt": befristetSchema.shape.befristetArt,
+      "geldanlagen#verwendungszweck": befristetSchema.shape.verwendungszweck,
+      "geldanlagen#auszahlungdatum": befristetSchema.shape.auszahlungdatum,
+    },
+  },
+  eigentumGeldanlageForderung: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/forderung",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#forderung": forderungSchema.shape.forderung,
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
+    },
+  },
+  eigentumGeldanlageSonstiges: {
+    stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/sonstiges",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "geldanlagen#verwendungszweck": sonstigesSchema.shape.verwendungszweck,
+      "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
+      "geldanlagen#wert": sharedGeldanlagenFields.wert,
     },
   },
   eigentumGeldanlagenWarnung: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/warnung",
-  },
-  eigentumKraftfahrzeuge: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge",
+    shouldCollapseIntoParentNavItem: true,
   },
   eigentumKraftfahrzeugeFrage: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
@@ -314,48 +321,50 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeugeUebersicht: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
-  },
-  eigentumKraftfahrzeug: {
-    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
-    pageSchema: {
-      kraftfahrzeuge: kraftfahrzeugeArraySchema,
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "kraftfahrzeuge",
+      schema: kraftfahrzeugeArraySchema,
+      fieldName: "hasKraftfahrzeug",
     },
-    arrayPages: {
-      arbeitsweg: {
-        pageSchema: {
-          "kraftfahrzeuge#hasArbeitsweg":
-            sharedKraftfahrzeugFields.hasArbeitsweg,
-        },
-      },
-      wert: {
-        pageSchema: {
-          "kraftfahrzeuge#wert": sharedKraftfahrzeugFields.wert,
-        },
-      },
-      fahrzeuge: {
-        pageSchema: {
-          "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
-          "kraftfahrzeuge#marke":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
-          "kraftfahrzeuge#eigentuemer":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
-          "kraftfahrzeuge#verkaufswert":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
-          "kraftfahrzeuge#kilometerstand":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
-          "kraftfahrzeuge#anschaffungsjahr":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
-          "kraftfahrzeuge#baujahr":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
-        },
-      },
+  },
+  eigentumKraftfahrzeugArbeitsweg: {
+    stepId:
+      "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/arbeitsweg",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#hasArbeitsweg": sharedKraftfahrzeugFields.hasArbeitsweg,
+    },
+  },
+  eigentumKraftfahrzeugWert: {
+    stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/wert",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#wert": sharedKraftfahrzeugFields.wert,
+    },
+  },
+  eigentumKraftfahrzeugFahrzeuge: {
+    stepId:
+      "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/fahrzeuge",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
+      "kraftfahrzeuge#marke": kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
+      "kraftfahrzeuge#eigentuemer":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
+      "kraftfahrzeuge#verkaufswert":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
+      "kraftfahrzeuge#kilometerstand":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
+      "kraftfahrzeuge#anschaffungsjahr":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
+      "kraftfahrzeuge#baujahr":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
     },
   },
   eigentumKraftfahrzeugeWarnung: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/warnung",
-  },
-  eigentumWertgegenstaende: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende",
+    shouldCollapseIntoParentNavItem: true,
   },
   eigentumWertgegenstaendeFrage: {
     stepId:
@@ -366,27 +375,26 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumWertgegenstaendeUebersicht: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "wertsachen",
+      schema: wertsachenArraySchema,
+      fieldName: "hasWertsache",
+    },
   },
   eigentumWertgegenstand: {
-    stepId: "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
+    stepId:
+      "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      wertsachen: wertsachenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "wertsachen#art": wertsacheSchema.shape.art,
-          "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
-          "wertsachen#wert": wertsacheSchema.shape.wert,
-        },
-      },
+      "wertsachen#art": wertsacheSchema.shape.art,
+      "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
+      "wertsachen#wert": wertsacheSchema.shape.wert,
     },
   },
   eigentumWertgegenstaendeWarnung: {
     stepId: "finanzielle-angaben/eigentum/wertgegenstaende/warnung",
-  },
-  eigentumGrundeigentum: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum",
+    shouldCollapseIntoParentNavItem: true,
   },
   eigentumGrundeigentumFrage: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
@@ -394,41 +402,48 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentumUebersicht: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/uebersicht",
-  },
-  eigentumGrundeigentumGrundeigentum: {
-    stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
-    pageSchema: {
-      grundeigentum: grundeigentumArraySchema,
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "grundeigentum",
+      schema: grundeigentumArraySchema,
+      fieldName: "hasGrundeigentum",
     },
-    arrayPages: {
-      "bewohnt-frage": {
-        pageSchema: {
-          "grundeigentum#isBewohnt": sharedEigentumFields.isBewohnt,
-        },
-      },
-      daten: {
-        pageSchema: {
-          "grundeigentum#art": sharedEigentumFields.art,
-          "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
-          "grundeigentum#flaeche": sharedEigentumFields.flaeche,
-          "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
-          "grundeigentum#strassehausnummer": stringRequiredSchema,
-          "grundeigentum#plz": stringOptionalSchema,
-          "grundeigentum#ort": stringRequiredSchema,
-          "grundeigentum#land": stringRequiredSchema,
-        },
-      },
-      "bewohnt-daten": {
-        pageSchema: {
-          "grundeigentum#art": sharedEigentumFields.art,
-          "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
-          "grundeigentum#flaeche": sharedEigentumFields.flaeche,
-          "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
-        },
-      },
+  },
+  eigentumGrundeigentumBewohntFrage: {
+    stepId:
+      "finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/bewohnt-frage",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "grundeigentum#isBewohnt": sharedEigentumFields.isBewohnt,
+    },
+  },
+  eigentumGrundeigentumDaten: {
+    stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "grundeigentum#art": sharedEigentumFields.art,
+      "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
+      "grundeigentum#flaeche": sharedEigentumFields.flaeche,
+      "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
+      "grundeigentum#strassehausnummer": stringRequiredSchema,
+      "grundeigentum#plz": stringOptionalSchema,
+      "grundeigentum#ort": stringRequiredSchema,
+      "grundeigentum#land": stringRequiredSchema,
+    },
+  },
+  eigentumGrundeigentumBewohntDaten: {
+    stepId:
+      "finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/bewohnt-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "grundeigentum#art": sharedEigentumFields.art,
+      "grundeigentum#eigentuemer": sharedEigentumFields.eigentuemer,
+      "grundeigentum#flaeche": sharedEigentumFields.flaeche,
+      "grundeigentum#verkaufswert": sharedEigentumFields.verkaufswert,
     },
   },
   eigentumGrundeigentumWarnung: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PagesConfig;
