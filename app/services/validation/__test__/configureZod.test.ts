@@ -17,11 +17,11 @@ describe("configureZod", () => {
   it("custom config doesn't change non-empty string errors", () => {
     configureZod();
     const validationError = z.treeifyError(schema.safeParse("notVal1").error!);
-    expect(validationError.errors.at(0)).toBe('Invalid input: expected "val1"');
+    expect(validationError.errors.at(0)).toBe("Invalid input");
   });
 
   it("should produce default errors without configuration", () => {
     const validationError = z.treeifyError(schema.safeParse("").error!);
-    expect(validationError.errors.at(0)).toBe('Invalid input: expected "val1"');
+    expect(validationError.errors.at(0)).toBe("Invalid input");
   });
 });

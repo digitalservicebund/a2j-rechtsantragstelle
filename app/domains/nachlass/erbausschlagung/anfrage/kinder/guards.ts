@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageData";
@@ -72,5 +73,5 @@ export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
 
   if (numberOfKids !== kinder.length) return false;
 
-  return erbausschlagungKinderArraySchema.safeParse(kinder).success;
+  return z.validate(erbausschlagungKinderArraySchema, kinder);
 };

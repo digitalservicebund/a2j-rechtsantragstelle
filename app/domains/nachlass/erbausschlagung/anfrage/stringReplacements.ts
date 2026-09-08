@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -179,9 +180,7 @@ export const getMissingFilledKidNames = (
 
   return {
     missingFilledKidNames: context.kinder
-      .filter(
-        (kid) => !erbausschlagungKinderArraySchema.safeParse([kid]).success,
-      )
+      .filter((kid) => !z.validate(erbausschlagungKinderArraySchema, [kid]))
       .map((kid) => `${kid.vorname} ${kid.nachname}`)
       .join(", "),
   };

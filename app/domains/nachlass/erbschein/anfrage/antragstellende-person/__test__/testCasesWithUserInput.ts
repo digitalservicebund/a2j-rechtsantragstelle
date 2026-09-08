@@ -43,6 +43,7 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
           antragstellendePersonHausnummer: "1",
           antragstellendePersonPlz: "10557",
           antragstellendePersonOrt: "Musterstadt",
+          antragstellendePersonLand: "Deutschland",
         },
       },
       {

@@ -191,6 +191,7 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/forderung/gesamtbetrag",
     pageSchema: {
       forderungGesamtbetrag: buildMoneyValidationSchema({
+        min: 1,
         max: 1000000,
       }).meta({ description: formatCurrencyZodDescription }),
     },

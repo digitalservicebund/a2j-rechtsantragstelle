@@ -1,5 +1,8 @@
 export type FieldItem = {
   id: string;
+  // Optional heading rendered above the item. The summary shows it when present
+  // and shows nothing otherwise.
+  title?: string;
   question: string;
   answer: string;
   editUrl?: string;

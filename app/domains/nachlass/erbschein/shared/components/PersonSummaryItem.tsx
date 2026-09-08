@@ -2,6 +2,9 @@ import { Badge } from "~/components/common/Badge";
 import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
 import { personName } from "~/domains/nachlass/erbschein/shared/personName";
 import { toDateString } from "~/services/validation/dateObject";
+import { migrationDataIsEmpty } from "./hasMissingData";
+import { translations } from "~/services/translations/translations";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export function PersonSummaryItem({
   item,
@@ -22,7 +25,9 @@ export function PersonSummaryItem({
         )}
         <dl className="kern-description-list">
           <div className="kern-description-list-item">
-            <dt className="kern-description-list-item__key">Name</dt>
+            <dt className="kern-description-list-item__key">
+              {translations.personSummaryItem.personName.de}
+            </dt>
             <dd className="kern-description-list-item__value">
               {personName(item)}
             </dd>
@@ -31,48 +36,88 @@ export function PersonSummaryItem({
             <>
               <div className="kern-description-list-item">
                 <dt className="kern-description-list-item__key">
-                  Geburtsdatum
+                  {translations.personSummaryItem.personBirthDate.de}
                 </dt>
-                <dd className="kern-description-list-item__value">
-                  {toDateString(item.geburtsdatum)}
+                <dd className="kern-description-list-item__value flex items-center gap-kern-space-small">
+                  {!objectKeysNonEmpty(item.geburtsdatum, [
+                    "day",
+                    "month",
+                    "year",
+                  ]) ? (
+                    <Badge icon="warning" variant="warning">
+                      {translations.personSummaryItem.missingData.de}
+                    </Badge>
+                  ) : (
+                    toDateString(item.geburtsdatum)
+                  )}
                 </dd>
               </div>
               <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Geburtsort</dt>
+                <dt className="kern-description-list-item__key">
+                  {translations.personSummaryItem.personBirthPlace.de}
+                </dt>
                 <dd className="kern-description-list-item__value">
-                  {item.geburtsort}
+                  {migrationDataIsEmpty(item.geburtsort) ? (
+                    <Badge icon="warning" variant="warning">
+                      {translations.personSummaryItem.missingData.de}
+                    </Badge>
+                  ) : (
+                    item.geburtsort
+                  )}
                 </dd>
               </div>
             </>
           )}
           <div className="kern-description-list-item">
             <dt className="kern-description-list-item__key">
-              Lebte zum Todeszeitpunkt?
+              {translations.personSummaryItem.personAliveAtTimeOfDeath.de}
             </dt>
             <dd className="kern-description-list-item__value">
-              {item.isAlive === "yes" ? "Ja" : "Nein"}
+              {item.isAlive === "yes"
+                ? translations.personSummaryItem.yes.de
+                : translations.personSummaryItem.no.de}
             </dd>
           </div>
           {"strasse" in item && (
             <div className="kern-description-list-item">
-              <dt className="kern-description-list-item__key">Adresse</dt>
+              <dt className="kern-description-list-item__key">
+                {translations.personSummaryItem.personAddress.de}
+              </dt>
               <dd className="kern-description-list-item__value">
-                {item.strasse} {item.hausnummer}
-                {item.adresszusatz ? ` ${item.adresszusatz}` : ""}, {item.plz}{" "}
-                {item.ort} ({item.land})
+                {!objectKeysNonEmpty(item, [
+                  "strasse",
+                  "hausnummer",
+                  "plz",
+                  "ort",
+                  "land",
+                ]) ? (
+                  <Badge icon="warning" variant="warning">
+                    {translations.personSummaryItem.missingData.de}
+                  </Badge>
+                ) : (
+                  <>
+                    {item.strasse} {item.hausnummer}
+                    {item.adresszusatz ? ` ${item.adresszusatz}` : ""},{" "}
+                    {item.plz} {item.ort} ({item.land})
+                  </>
+                )}
               </dd>
             </div>
           )}
           {"sterbedatum" in item && (
             <>
               <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Sterbedatum</dt>
+                <dt className="kern-description-list-item__key">
+                  {translations.personSummaryItem.personDeathDate.de}
+                </dt>
                 <dd className="kern-description-list-item__value">
                   {toDateString(item.sterbedatum)}
                 </dd>
               </div>
               <div className="kern-description-list-item">
-                <dt className="kern-description-list-item__key">Sterbeort</dt>
+                <dt className="kern-description-list-item__key">
+                  {translations.personSummaryItem.personDeathPlace.de}
+                </dt>
                 <dd className="kern-description-list-item__value">
                   {item.sterbeort}
                 </dd>
@@ -82,10 +127,12 @@ export function PersonSummaryItem({
           {item.isAlive === "no" && (
             <div className="kern-description-list-item">
               <dt className="kern-description-list-item__key">
-                Hatte weitere Kinder?
+                {translations.personSummaryItem.personHadChildren.de}
               </dt>
               <dd className="kern-description-list-item__value">
-                {item.hatteKinder === "yes" ? "Ja" : "Nein"}
+                {item.hatteKinder === "yes"
+                  ? translations.personSummaryItem.yes.de
+                  : translations.personSummaryItem.no.de}
               </dd>
             </div>
           )}

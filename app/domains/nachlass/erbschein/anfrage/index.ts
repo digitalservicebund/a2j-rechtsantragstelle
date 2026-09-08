@@ -14,6 +14,7 @@ import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbsc
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { migrateElternteil, migrateKind } from "./personMigration";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
+import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyAntragstellendePersonData";
 
 export const nachlassErbscheinAnfrage = {
   flowType: "formFlow",
@@ -59,6 +60,9 @@ export const nachlassErbscheinAnfrage = {
       };
     },
     buttonUrl: "/nachlass/erbschein/erbfolge",
+  },
+  asyncFlowActions: {
+    "/antragstellende-person/verhaeltnis": copyAntragstellendePersonData,
   },
   stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),

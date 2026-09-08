@@ -3,6 +3,7 @@ import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/share
 import {
   MAX_SUPPORTED_DESCENDANT_DEPTH,
   elternteileRequireFurtherGenerations,
+  hasMissingDataInFamily,
   isDead,
   isDeadWithKinder,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
@@ -132,11 +133,16 @@ export const elternteilFlowConfig = {
         collectMissingChildrenNamesForElternteile(elternteile ?? []).length > 0,
     },
     {
+      target: "elternteileFehlen",
+      guard: ({ elternteile }) => hasMissingDataInFamily(elternteile),
+    },
+    {
       target: "angehoerigeOverview",
       guard: hasNoFirstOrSecondOrderHeirs,
     },
     { target: "grundbesitz" },
   ],
+  elternteileFehlen: null,
   elternteilName: "elternteilGeburtsdatum",
   elternteilGeburtsdatum: "elternteilIsAlive",
   elternteilIsAlive: [

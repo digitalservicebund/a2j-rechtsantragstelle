@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { z } from "zod";
 import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
 import { nachlassErbfolgePages } from "../pages";
 
@@ -11,9 +12,9 @@ const parentElternteilIndexSchema =
 
 describe("parentKindIndex schema", () => {
   it("accepts numeric string indexes and absence", () => {
-    expect(parentKindIndexSchema.safeParse("0").success).toBe(true);
-    expect(parentKindIndexSchema.safeParse("12").success).toBe(true);
-    expect(parentKindIndexSchema.safeParse(undefined).success).toBe(true);
+    expect(z.validate(parentKindIndexSchema, "0")).toBe(true);
+    expect(z.validate(parentKindIndexSchema, "12")).toBe(true);
+    expect(z.validate(parentKindIndexSchema, undefined)).toBe(true);
   });
 
   it("rejects the placeholder empty option with the required code", () => {
@@ -23,10 +24,10 @@ describe("parentKindIndex schema", () => {
   });
 
   it("rejects values that are not an index", () => {
-    expect(parentKindIndexSchema.safeParse("abc").success).toBe(false);
-    expect(parentKindIndexSchema.safeParse("both").success).toBe(false);
-    expect(parentKindIndexSchema.safeParse("-1").success).toBe(false);
-    expect(parentKindIndexSchema.safeParse("1.5").success).toBe(false);
+    expect(z.validate(parentKindIndexSchema, "abc")).toBe(false);
+    expect(z.validate(parentKindIndexSchema, "both")).toBe(false);
+    expect(z.validate(parentKindIndexSchema, "-1")).toBe(false);
+    expect(z.validate(parentKindIndexSchema, "1.5")).toBe(false);
   });
 
   it("keeps the dynamic_select description readable on the outer schema", () => {
@@ -36,9 +37,9 @@ describe("parentKindIndex schema", () => {
 
 describe("parentElternteilIndex schema", () => {
   it("accepts numeric string indexes, 'both', and absence", () => {
-    expect(parentElternteilIndexSchema.safeParse("0").success).toBe(true);
-    expect(parentElternteilIndexSchema.safeParse("both").success).toBe(true);
-    expect(parentElternteilIndexSchema.safeParse(undefined).success).toBe(true);
+    expect(z.validate(parentElternteilIndexSchema, "0")).toBe(true);
+    expect(z.validate(parentElternteilIndexSchema, "both")).toBe(true);
+    expect(z.validate(parentElternteilIndexSchema, undefined)).toBe(true);
   });
 
   it("rejects the placeholder empty option with the required code", () => {
@@ -48,8 +49,8 @@ describe("parentElternteilIndex schema", () => {
   });
 
   it("rejects values that are not an index or 'both'", () => {
-    expect(parentElternteilIndexSchema.safeParse("abc").success).toBe(false);
-    expect(parentElternteilIndexSchema.safeParse("-1").success).toBe(false);
+    expect(z.validate(parentElternteilIndexSchema, "abc")).toBe(false);
+    expect(z.validate(parentElternteilIndexSchema, "-1")).toBe(false);
   });
 
   it("keeps the dynamic_select description readable on the outer schema", () => {

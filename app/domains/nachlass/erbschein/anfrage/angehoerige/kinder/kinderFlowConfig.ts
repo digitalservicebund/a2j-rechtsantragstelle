@@ -5,6 +5,7 @@ import {
 import {
   allDescendantsDead,
   getEligibleKind,
+  hasMissingDataInFamily,
   kinderRequireFurtherGenerations,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { collectMissingChildrenNames } from "~/domains/nachlass/erbschein/shared/missingChildren";
@@ -115,7 +116,7 @@ export const kinderFlowConfig = {
             hatteKinder,
             kinder,
           },
-        ]).length > 0,
+        ]).length > 0 || hasMissingDataInFamily(kinder),
     },
     {
       target: "elternteilSummary",

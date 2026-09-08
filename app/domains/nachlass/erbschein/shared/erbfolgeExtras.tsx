@@ -12,6 +12,7 @@ import {
   resolveParentOptions,
 } from "./buildParentOptions";
 import { personName } from "./personName";
+import { labelKinderGenerations } from "./labelKinderGenerations";
 import { type FlowExtras } from "~/domains/extraLoaderConfiguration";
 import { type ArrayConfigClient } from "~/services/array";
 import {
@@ -216,4 +217,5 @@ export const erbfolgeLoaderExtras = {
       ).verstorbeneNachname,
     }),
   }),
+  transformAutoSummary: (sections) => labelKinderGenerations(sections),
 } satisfies LoaderExtras<ErbfolgeLoaderExtraData>;

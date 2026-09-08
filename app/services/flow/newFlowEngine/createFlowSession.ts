@@ -1,4 +1,5 @@
 import isEqual from "lodash/isEqual";
+import { z } from "zod";
 import { runSimulation } from "./simulate";
 import { ARRAY_WILDCARD, inferArrayNameFromStepId } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
@@ -103,7 +104,7 @@ export const createFlowSession = <C extends PageConfigMap>(
         scopeData[resolveFieldName(fieldName)],
       ]),
     );
-    return schema?.safeParse(candidate).success ?? false;
+    return schema ? z.validate(schema, candidate) : false;
   };
 
   const evaluateDone = (key: NodeKey<C>, scope: Record<string, unknown>) =>
@@ -264,6 +265,7 @@ export const createFlowSession = <C extends PageConfigMap>(
     fieldNames: compiledFlow.getFieldNames(currentPath),
     initialPath: compiledFlow.initialPath,
     arrayInfo: compiledFlow.getArrayInfo(currentPath),
+    getArrayInfoByPath: (path: string) => compiledFlow.getArrayInfo(path),
     paths: simulation.keys
       .map((key) => compiledFlow.getPathFromNodeKey(key as NodeKey<C>))
       .filter((path): path is string => path !== undefined) as string[],

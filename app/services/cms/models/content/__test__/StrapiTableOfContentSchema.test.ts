@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiTableOfContentsSchema } from "../StrapiTableOfContents";
 
 describe("StrapiTableOfContentSchema", () => {
@@ -10,9 +11,7 @@ describe("StrapiTableOfContentSchema", () => {
       links: [],
     };
 
-    const actual = StrapiTableOfContentsSchema.safeParse(emptyContainer);
-
-    expect(actual.success).toBe(false);
+    expect(z.validate(StrapiTableOfContentsSchema, emptyContainer)).toBe(false);
   });
 
   it("should return true given container", () => {

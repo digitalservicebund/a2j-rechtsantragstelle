@@ -111,6 +111,9 @@ export const elternteilePages = {
     shouldCollapseIntoParentNavItem: true,
     arraySummary: { name: "elternteile", schema: elternteileArray },
   },
+  elternteileFehlen: {
+    stepId: "/angehoerige/elternteile-fehlen",
+  },
   elternteilName: {
     stepId: `/angehoerige/elternteile/#/name`,
     shouldCollapseIntoParentNavItem: true,
