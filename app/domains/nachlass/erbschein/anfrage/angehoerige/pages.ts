@@ -4,6 +4,7 @@ import { kinderPages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/ki
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -83,6 +84,9 @@ export const angehoerigePages = {
     stepId: "/angehoerige/#/geburtsdatum",
     pageSchema: {
       "angehoerige#geburtsdatum": commonAngehoerigeFields.geburtsdatum,
+      "angehoerige#sterbedatum": hiddenInputSchema(
+        deceasedAngehoerigeFields.sterbedatum.optional(),
+      ),
       "angehoerige#geburtsort": commonAngehoerigeFields.geburtsort,
     },
   },
@@ -96,6 +100,9 @@ export const angehoerigePages = {
     stepId: "/angehoerige/#/sterbedatum",
     pageSchema: {
       "angehoerige#sterbedatum": deceasedAngehoerigeFields.sterbedatum,
+      "angehoerige#geburtsdatum": hiddenInputSchema(
+        commonAngehoerigeFields.geburtsdatum,
+      ),
       "angehoerige#sterbeort": deceasedAngehoerigeFields.sterbeort,
     },
   },

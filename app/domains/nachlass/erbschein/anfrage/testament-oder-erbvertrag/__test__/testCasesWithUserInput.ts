@@ -94,6 +94,11 @@ export const testamentOderErbvertragTestCases = {
           month: "01",
           year: "2020",
         },
+        "beguenstigten#geburtsdatum": {
+          day: "01",
+          month: "01",
+          year: "1950",
+        },
         "beguenstigten#sterbeort": "Musterstadt",
       },
     },

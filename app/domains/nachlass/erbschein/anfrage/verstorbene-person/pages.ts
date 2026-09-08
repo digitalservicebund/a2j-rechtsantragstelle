@@ -32,7 +32,7 @@ export const verstorbenePersonPages = {
         createSplitDateSchema({
           earliest: () => addYears(today(), -150),
           latest: () => today(),
-        }),
+        }).optional(),
       ),
       sterbeort: stringRequiredSchema,
     },

@@ -3,7 +3,6 @@ import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas"
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -94,7 +93,7 @@ export const testamentOderErbvertragPages = {
     pageSchema: {
       "beguenstigten#geburtsdatum": commonBeguenstigteFields.geburtsdatum,
       "beguenstigten#sterbedatum": hiddenInputSchema(
-        schemaOrEmptyString(deceasedBeguenstigteFields.sterbedatum),
+        deceasedBeguenstigteFields.sterbedatum.optional(),
       ),
       "beguenstigten#isAlive": commonBeguenstigteFields.isAlive,
     },

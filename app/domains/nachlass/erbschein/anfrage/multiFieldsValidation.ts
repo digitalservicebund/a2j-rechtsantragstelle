@@ -25,4 +25,14 @@ export const nachlassErbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdVal
         "beguenstigten#sterbedatum",
         "deathDate",
       ),
+    "/angehoerige/#/geburtsdatum": validateBirthDateDeathDate(
+      "angehoerige#geburtsdatum",
+      "angehoerige#sterbedatum",
+      "birthDate",
+    ),
+    "/angehoerige/#/sterbedatum": validateBirthDateDeathDate(
+      "angehoerige#geburtsdatum",
+      "angehoerige#sterbedatum",
+      "deathDate",
+    ),
   };
