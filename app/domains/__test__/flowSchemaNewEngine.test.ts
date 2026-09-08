@@ -14,6 +14,7 @@ import {
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
+import { prozesskostenhilfeTestCases } from "../prozesskostenhilfe/__test__/testCasesWithUserInput";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
@@ -31,6 +32,7 @@ const flowSchemaTests = {
   nachlassErbscheinNachlassgerichtTestCases,
   nachlassErbausschlagungAnfrageTestCases,
   nachlassErbscheinWegweiserTestCases,
+  prozesskostenhilfeTestCases,
 };
 
 type VisitedSteps = Record<
