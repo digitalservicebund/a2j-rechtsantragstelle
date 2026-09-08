@@ -1,27 +1,28 @@
-import {
-  validateBirthDateBeforeDeathDate,
-  validateDeathDateAfterBirthDate,
-} from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
+import { validateBirthDateDeathDate } from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
 import { type MultiFieldsStepIdValidation } from "~/domains/types";
 
 export const nachlassErbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdValidation =
   {
-    "/verstorbene/geburtsdatum-ort": validateBirthDateBeforeDeathDate(
+    "/verstorbene/geburtsdatum-ort": validateBirthDateDeathDate(
       "verstorbeneGeburtsdatum",
       "sterbedatum",
+      "birthDate",
     ),
-    "/verstorbene/sterbedatum-ort": validateDeathDateAfterBirthDate(
+    "/verstorbene/sterbedatum-ort": validateBirthDateDeathDate(
       "verstorbeneGeburtsdatum",
       "sterbedatum",
+      "deathDate",
     ),
     "/testament-oder-erbvertrag/beguenstigten/#/geburtsdatum":
-      validateBirthDateBeforeDeathDate(
+      validateBirthDateDeathDate(
         "beguenstigten#geburtsdatum",
         "beguenstigten#sterbedatum",
+        "birthDate",
       ),
     "/testament-oder-erbvertrag/beguenstigten/#/sterbedatum":
-      validateDeathDateAfterBirthDate(
+      validateBirthDateDeathDate(
         "beguenstigten#geburtsdatum",
         "beguenstigten#sterbedatum",
+        "deathDate",
       ),
   };

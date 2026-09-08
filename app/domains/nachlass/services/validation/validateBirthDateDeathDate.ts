@@ -3,16 +3,24 @@ import { type SchemaObject } from "~/domains/userData";
 import { translations } from "~/services/translations/translations";
 import { type DateObject, toDate } from "~/services/validation/dateObject";
 
-export function validateBirthDateBeforeDeathDate(
+export function validateBirthDateDeathDate(
   birthDateFieldName: string,
   deathDateFieldName: string,
+  type: "birthDate" | "deathDate",
 ) {
   return function (baseSchema: z.ZodObject<SchemaObject>) {
     return baseSchema.check((ctx) => {
       const sterbedatum = ctx.value[deathDateFieldName] as
         DateObject | undefined;
-      const geburtsdatum = toDate(ctx.value[birthDateFieldName] as DateObject);
-      if (sterbedatum && geburtsdatum > toDate(sterbedatum)) {
+      const geburtsdatum = ctx.value[birthDateFieldName] as
+        DateObject | undefined;
+
+      if (
+        type === "birthDate" &&
+        geburtsdatum &&
+        sterbedatum &&
+        toDate(geburtsdatum) > toDate(sterbedatum)
+      ) {
         ctx.issues.push({
           code: "custom",
           message: translations.nachlass.birthDateAfterDeathDateError.de,
@@ -20,21 +28,12 @@ export function validateBirthDateBeforeDeathDate(
           fatal: true,
           input: ctx.value[birthDateFieldName],
         });
-      }
-      return z.NEVER;
-    });
-  };
-}
-export function validateDeathDateAfterBirthDate(
-  birthDateFieldName: string,
-  deathDateFieldName: string,
-) {
-  return function (baseSchema: z.ZodObject<SchemaObject>) {
-    return baseSchema.check((ctx) => {
-      const geburtsdatum = ctx.value[birthDateFieldName] as
-        DateObject | undefined;
-      const sterbedatum = toDate(ctx.value[deathDateFieldName] as DateObject);
-      if (geburtsdatum && toDate(geburtsdatum) > sterbedatum) {
+      } else if (
+        type === "deathDate" &&
+        geburtsdatum &&
+        sterbedatum &&
+        toDate(geburtsdatum) > toDate(sterbedatum)
+      ) {
         ctx.issues.push({
           code: "custom",
           message: translations.nachlass.deathDateBeforeBirthDateError.de,
@@ -43,6 +42,7 @@ export function validateDeathDateAfterBirthDate(
           input: ctx.value[deathDateFieldName],
         });
       }
+
       return z.NEVER;
     });
   };
