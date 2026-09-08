@@ -33,12 +33,7 @@ describe("buildStepSchemaWithPageSchema", () => {
   it("should build schema correctly", () => {
     const schema = buildStepSchemaWithPageSchema(mockPathname, mockPageSchema);
 
-    const result = schema.safeParse({
-      field1: 42,
-      field2: 42,
-    });
-
-    expect(result.success).toBe(true);
+    expect(z.validate(schema, { field1: 42, field2: 42 })).toBe(true);
   });
 
   it("should apply multi-fields validation if available", () => {
@@ -48,15 +43,6 @@ describe("buildStepSchemaWithPageSchema", () => {
 
     const schema = buildStepSchemaWithPageSchema(mockPathname, mockPageSchema);
 
-    const actualValidation = schema.safeParse({
-      field1: 1,
-      field2: 0,
-    });
-
-    expect(actualValidation).toEqual(
-      expect.objectContaining({
-        success: false,
-      }),
-    );
+    expect(z.validate(schema, { field1: 1, field2: 0 })).toBe(false);
   });
 });
