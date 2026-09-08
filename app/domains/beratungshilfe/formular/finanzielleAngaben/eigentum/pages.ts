@@ -191,6 +191,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumBankkontenFrage: {
     stepId: "finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasBankkonto: YesNoAnswer,
     },
@@ -223,6 +224,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGeldanlagenFrage: {
     stepId: "finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasGeldanlage: YesNoAnswer,
     },
@@ -315,6 +317,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeugeFrage: {
     stepId: "finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasKraftfahrzeug: YesNoAnswer,
     },
@@ -369,6 +372,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   eigentumWertgegenstaendeFrage: {
     stepId:
       "finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasWertsache: YesNoAnswer,
     },
@@ -398,6 +402,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentumFrage: {
     stepId: "finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: { hasGrundeigentum: YesNoAnswer },
   },
   eigentumGrundeigentumUebersicht: {
