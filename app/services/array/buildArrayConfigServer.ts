@@ -14,8 +14,10 @@ export const buildArrayConfigServer = (
     return undefined;
   }
 
-  const targetPath = flowSessionEngine.paths
-    .find((path) => path === flowSessionEngine.nextArrayPath)
+  // The array's base URL is nextArrayPath (the item stepId) up to the first
+  // wildcard, e.g. ".../geldanlagen/geldanlage/#/art" gives
+  // ".../geldanlagen/geldanlage".
+  const targetPath = flowSessionEngine.nextArrayPath
     ?.split(`/${ARRAY_WILDCARD}`)
     .at(0);
 

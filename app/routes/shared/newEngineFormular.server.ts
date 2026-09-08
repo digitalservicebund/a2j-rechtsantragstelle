@@ -31,6 +31,19 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 
+// Whether every top-level section is done except the given one. Used to decide
+// if a validation gate page can be skipped (its own section is still open).
+const allOtherSectionsDone = (
+  statusTree: Record<string, { isDone: boolean }>,
+  excludedSection: string,
+): boolean =>
+  Object.entries(statusTree)
+    .filter(([section]) => section !== excludedSection)
+    .every(([, node]) => node.isDone);
+
+// The top-level section a stepId belongs to, e.g. "/abgabe/ueberpruefung" gives "/abgabe".
+const topLevelSection = (stepId: string): string => `/${stepId.split("/")[1]}`;
+
 export const loadFormularData = async <
   ExtraData extends ExtraDataWithFormElements = Record<string, never>,
 >(
@@ -59,6 +72,18 @@ export const loadFormularData = async <
     migration,
     emailCaptureConsent,
   } = resultUserAndFlow.value;
+
+  // A validation gate page (triggerValidation, e.g. /abgabe/ueberpruefung) only
+  // needs to be shown while something is still missing. Once every other section
+  // is complete, skip ahead to the next step (the summary). This replaces the old
+  // XState `always` transition. The gate's own section is not part of the check.
+  if (
+    triggerValidation &&
+    flowSessionEngine.nextPath &&
+    allOtherSectionsDone(flowSessionEngine.statusTree, topLevelSection(stepId))
+  ) {
+    return redirectDocument(flowId + flowSessionEngine.nextPath);
+  }
 
   const { pathname } = url;
   const cookieHeader = request.headers.get("Cookie");
