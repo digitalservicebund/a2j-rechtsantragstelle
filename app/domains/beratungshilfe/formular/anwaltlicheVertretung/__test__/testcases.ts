@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeAnwaltlicheVertretungUserData } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/__test__/reachData";
 import { addDays, today, toGermanDateString } from "~/util/date";
 
 const rechtsproblemStart = "/rechtsproblem/start";
@@ -11,20 +12,23 @@ const anwaltlicheVertretungBeratungStattgefundenDatum =
 
 export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   noAnwaltlicheVertretung: [
-    { stepId: anwaltlicheVertretungStart, userInput: { anwaltskanzlei: "no" } },
+    {
+      stepId: anwaltlicheVertretungStart,
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "no" },
+    },
     { stepId: rechtsproblemStart },
   ],
   anwaltlicheVertretungYes: [
     {
       stepId: anwaltlicheVertretungStart,
-      userInput: { anwaltskanzlei: "yes" },
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "yes" },
     },
     { stepId: anwaltlicheVertretungBeratungStattgefunden },
   ],
   beratungStattgefundenNo: [
     {
       stepId: anwaltlicheVertretungStart,
-      userInput: { anwaltskanzlei: "yes" },
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "yes" },
     },
     {
       stepId: anwaltlicheVertretungBeratungStattgefunden,
@@ -37,7 +41,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   beratungStattgefundenYes: [
     {
       stepId: anwaltlicheVertretungStart,
-      userInput: { anwaltskanzlei: "yes" },
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "yes" },
     },
     {
       stepId: anwaltlicheVertretungBeratungStattgefunden,
@@ -50,7 +54,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   beratungOccurredWeekAgo: [
     {
       stepId: anwaltlicheVertretungStart,
-      userInput: { anwaltskanzlei: "yes" },
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "yes" },
     },
     {
       stepId: anwaltlicheVertretungBeratungStattgefunden,
@@ -79,7 +83,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
   beratungOccurredMonthAgo: [
     {
       stepId: anwaltlicheVertretungStart,
-      userInput: { anwaltskanzlei: "yes" },
+      userInput: { ...reachAnwaltlicheVertretung, anwaltskanzlei: "yes" },
     },
     {
       stepId: anwaltlicheVertretungBeratungStattgefunden,
@@ -95,4 +99,4 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     },
     { stepId: "/anwaltliche-vertretung/anwalt-ende" },
   ],
-} satisfies FlowTestCases<BeratungshilfeAnwaltlicheVertretungUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;
