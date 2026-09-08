@@ -246,7 +246,8 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-warnung",
   },
   partnerEinkuenfteLeistungen: {
-    stepId: "/finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen",
+    stepId:
+      "/finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen",
   },
   partnerLeistungFrage: {
     stepId:

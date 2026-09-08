@@ -72,7 +72,8 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitsausgabenFrage: {
-    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
+    stepId:
+      "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
     pageSchema: {
       hasArbeitsausgaben: YesNoAnswer,
     },

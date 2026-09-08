@@ -101,7 +101,8 @@ export const pkhFormularVereinfachteErklaerungPages = {
       "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
   },
   einnahme: {
-    stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme",
+    stepId:
+      "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme",
     pageSchema: {
       einnahmen: einnahmenArraySchema,
     },
