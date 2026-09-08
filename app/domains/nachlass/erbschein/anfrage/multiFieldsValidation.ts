@@ -14,4 +14,14 @@ export const nachlassErbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdVal
       "verstorbeneGeburtsdatum",
       "sterbedatum",
     ),
+    "/testament-oder-erbvertrag/beguenstigten/#/geburtsdatum":
+      validateBirthDateBeforeDeathDate(
+        "beguenstigten#geburtsdatum",
+        "beguenstigten#sterbedatum",
+      ),
+    "/testament-oder-erbvertrag/beguenstigten/#/sterbedatum":
+      validateDeathDateAfterBirthDate(
+        "beguenstigten#geburtsdatum",
+        "beguenstigten#sterbedatum",
+      ),
   };

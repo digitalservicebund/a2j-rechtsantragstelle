@@ -9,9 +9,10 @@ export function validateBirthDateBeforeDeathDate(
 ) {
   return function (baseSchema: z.ZodObject<SchemaObject>) {
     return baseSchema.check((ctx) => {
-      const sterbedatum = toDate(ctx.value[deathDateFieldName] as DateObject);
+      const sterbedatum = ctx.value[deathDateFieldName] as
+        DateObject | undefined;
       const geburtsdatum = toDate(ctx.value[birthDateFieldName] as DateObject);
-      if (geburtsdatum > sterbedatum) {
+      if (sterbedatum && geburtsdatum > toDate(sterbedatum)) {
         ctx.issues.push({
           code: "custom",
           message: translations.nachlass.birthDateAfterDeathDateError.de,
