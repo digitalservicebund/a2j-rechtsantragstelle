@@ -1,13 +1,21 @@
 import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { pkhFormularGrundvoraussetzungenPages } from "./pages";
-import { grundvoraussetzungenDone, versandDigitalGericht } from "./guards";
+import {
+  grundvoraussetzungenDone,
+  isErstantrag,
+  isNachueberpruefung,
+  versandDigitalGericht,
+} from "./guards";
 
 export const grundvoraussetzungenFlowConfig = {
   nachueberpruefungFrage: [
     {
-      guard: (context) => context.formularArt === "nachueberpruefung",
+      guard: (data) => isNachueberpruefung({ context: data }),
       target: "nameGericht",
     },
+    {
+      target: "anhaengigesGerichtsverfahrenFrage"
+    }
   ],
   anhaengigesGerichtsverfahrenFrage: [
     {
@@ -23,9 +31,8 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   aktenzeichen: [
     {
-      guard: (context) =>
-        context.formularArt === "erstantrag" &&
-        context.anhaengigesGerichtsverfahrenFrage === "yes",
+      guard: (data) =>
+       isErstantrag({ context: data }) && data.anhaengigesGerichtsverfahrenFrage === "yes",
       target: "klageersteller",
     },
     {
