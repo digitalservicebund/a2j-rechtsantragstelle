@@ -73,6 +73,9 @@ describe("buildStatusTree", () => {
 
   it("should not create a child node when shouldCollapseIntoParentNavItem is true for the first level", () => {
     const config = {
+      // A non-collapsed page anchors the "/nachlass" section that the collapsed
+      // array pages attach to.
+      vermoegen: { stepId: "/nachlass/vermoegen-frage" },
       grundbesitz: {
         stepId: "/nachlass/grundbesitz/grundbesitz-frage",
         shouldCollapseIntoParentNavItem: true,
@@ -99,6 +102,33 @@ describe("buildStatusTree", () => {
     expect(tree["/nachlass"]).toBeDefined();
     expect(tree["/nachlass"].children).not.toHaveProperty("/grundbesitz");
     expect(tree["/nachlass"].children).not.toHaveProperty("/unternehmen");
+  });
+
+  it("collapses an array whose item URL has an extra folder before the wildcard into the array's parent section, not the array-group folder", () => {
+    // Beratungshilfe eigentum arrays: "…/eigentum/<group>/<itemBase>/#/…".
+    // "eigentum" is a real (non-collapsed) section; the group folder is not, so
+    // the whole array must collapse into "eigentum", never into "…/bankkonten".
+    const config = {
+      eigentumInfo: { stepId: "/finanzielle-angaben/eigentum/eigentum-info" },
+      bankkontenFrage: {
+        stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      bankkontenUebersicht: {
+        stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
+        shouldCollapseIntoParentNavItem: true,
+      },
+      bankkonto: {
+        stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
+        shouldCollapseIntoParentNavItem: true,
+      },
+    };
+    const tree = buildStatusTree(config, simulation(), new Set());
+
+    const eigentum =
+      tree["/finanzielle-angaben"].children?.["/eigentum"];
+    expect(eigentum).toBeDefined();
+    expect(eigentum?.children ?? {}).not.toHaveProperty("/bankkonten");
   });
 
   it("should not create a child node when shouldCollapseIntoParentNavItem is true for nested levels", () => {
