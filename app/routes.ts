@@ -24,34 +24,6 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
-  ...prefix("nachlass", [
-    ...prefix("erbausschlagung/anfrage", newEngineFlowRoutes("NAA")),
-    ...prefix(
-      "erbausschlagung/gericht-finden",
-      newEngineVorabcheckRoutes("NAGF"),
-    ),
-    ...prefix("erbschein/wegweiser", newEngineVorabcheckRoutes("NESW")),
-    ...prefix("erbschein/nachlassgericht", newEngineVorabcheckRoutes("NESN")),
-    ...prefix("erbschein/erbfolge", [
-      route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
-        id: "nachlassErbfolgeResult",
-      }),
-      route("*", "routes/nachlass.erbschein.erbfolge.$.tsx", {
-        id: "nachlassErbfolgeFlow",
-      }),
-    ]),
-    ...prefix("erbschein/anfrage", [
-      route("*", "routes/nachlass.erbschein.anfrage.$.tsx", {
-        id: "nachlassAnfrageFlow",
-      }),
-      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
-        id: `pdfNachlassAnfrageFlow`,
-      }),
-      route("visualisierung", "routes/shared/visualisierung.ts", {
-        id: `visNachlassAnfrageFlow`,
-      }),
-    ]),
-  ]),
   ...prefix("erbausschlagung", [
     ...prefix("anfrage", newEngineFlowRoutes("EAA")),
     ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),

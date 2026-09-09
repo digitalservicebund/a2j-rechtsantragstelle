@@ -89,14 +89,6 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": nachlassErbfolge, // Delete after /nachlass migration
-  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser, // Delete after /nachlass migration
-  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht, // Delete after /nachlass migration
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage, // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage, // Delete after /nachlass migration
-  // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/gericht-finden":
-    nachlassErbausschlagungGerichtFinden,
   "/erbschein/erbfolge": nachlassErbfolge,
   "/erbschein/wegweiser": nachlassErbscheinWegweiser,
   "/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,

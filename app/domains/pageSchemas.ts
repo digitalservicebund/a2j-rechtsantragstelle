@@ -31,14 +31,6 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
-  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages, // Delete after /nachlass migration
-  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages, // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages, // Delete after /nachlass migration
-  "/nachlass/erbschein/erbfolge": nachlassErbfolgePages, // Delete after /nachlass migration
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages, // Delete after /nachlass migration
-  // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/gericht-finden":
-    nachlassErbausschlagungGerichtFindenPages,
   "/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
   "/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
   "/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
@@ -102,9 +94,6 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
 
   if (
     [
-      "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
-      "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
-      "/nachlass/erbausschlagung/anfrage", // Delete after /nachlass migration
       "/erbschein/erbfolge",
       "/erbschein/anfrage",
       "/erbausschlagung/anfrage",
