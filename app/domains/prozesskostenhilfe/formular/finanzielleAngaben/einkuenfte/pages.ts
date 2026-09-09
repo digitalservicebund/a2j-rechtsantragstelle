@@ -22,9 +22,11 @@ const weitereEinkuenfteArraySchema = z
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   einkuenfteStart: {
     stepId: "/finanzielle-angaben/einkuenfte/start",
+    shouldCollapseIntoParentNavItem: true,
   },
   staatlicheLeistungen: {
     stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       staatlicheLeistungen: z.enum([
         "buergergeld",
@@ -37,24 +39,29 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   buergergeld: {
     stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       buergergeld: buildMoneyValidationSchema(),
     },
   },
   arbeitslosengeld: {
     stepId: "/finanzielle-angaben/einkuenfte/arbeitslosengeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       arbeitslosengeld: buildMoneyValidationSchema(),
     },
   },
   erwerbstaetig: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
+    shouldCollapseIntoParentNavItem: true,
+
     pageSchema: {
       currentlyEmployed: YesNoAnswer,
     },
   },
   art: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/art",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       employmentType: z.enum([
         "employed",
@@ -65,12 +72,14 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   nettoEinkommen: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/netto-einkommen",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       nettoEinkuenfteAlsArbeitnehmer: buildMoneyValidationSchema(),
     },
   },
   selbststaendig: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       selbststaendigMonatlichesEinkommen: buildMoneyValidationSchema(),
       selbststaendigBruttoNetto: z.enum(["brutto", "netto"]),
@@ -78,24 +87,28 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   selbststaendigAbzuege: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/selbststaendig-abzuege",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       selbststaendigAbzuege: buildMoneyValidationSchema(),
     },
   },
   renteFrage: {
     stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       receivesPension: YesNoAnswer,
     },
   },
   rente: {
     stepId: "/finanzielle-angaben/einkuenfte/rente",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       pensionAmount: buildMoneyValidationSchema(),
     },
   },
   leistungenFrage: {
     stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       leistungen: exclusiveCheckboxesSchema([
         "wohngeld",
@@ -108,33 +121,39 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   wohngeld: {
     stepId: "/finanzielle-angaben/einkuenfte/leistungen/wohngeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       wohngeldAmount: buildMoneyValidationSchema(),
     },
   },
   krankengeld: {
     stepId: "/finanzielle-angaben/einkuenfte/leistungen/krankengeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       krankengeldAmount: buildMoneyValidationSchema(),
     },
   },
   elterngeld: {
     stepId: "/finanzielle-angaben/einkuenfte/leistungen/elterngeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       elterngeldAmount: buildMoneyValidationSchema(),
     },
   },
   kindergeld: {
     stepId: "/finanzielle-angaben/einkuenfte/leistungen/kindergeld",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       kindergeldAmount: buildMoneyValidationSchema(),
     },
   },
   weitereEinkuenfte: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte",
+    shouldCollapseIntoParentNavItem: true,
   },
   weitereEinkunft: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       weitereEinkuenfte: weitereEinkuenfteArraySchema,
     },
@@ -153,14 +172,17 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   weitereEinkuenfteFrage: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasFurtherIncome: YesNoAnswer,
     },
   },
   weitereEinkuenfteUebersicht: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
   },
   weitereEinkuenfteWarnung: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/warnung",
   },
 } as const satisfies PagesConfig;

@@ -76,7 +76,7 @@ export const einkuenfteFlowConfig = {
       target: "kindergeld",
     },
     {
-      target: "weitereEinkuenfte",
+      target: "weitereEinkuenfteFrage",
     },
   ],
   wohngeld: [
@@ -93,7 +93,7 @@ export const einkuenfteFlowConfig = {
       target: "kindergeld",
     },
     {
-      target: "weitereEinkuenfte",
+      target: "weitereEinkuenfteFrage",
     },
   ],
   krankengeld: [
@@ -106,7 +106,7 @@ export const einkuenfteFlowConfig = {
       target: "kindergeld",
     },
     {
-      target: "weitereEinkuenfte",
+      target: "weitereEinkuenfteFrage",
     },
   ],
   elterngeld: [
@@ -115,10 +115,10 @@ export const einkuenfteFlowConfig = {
       target: "kindergeld",
     },
     {
-      target: "weitereEinkuenfte",
+      target: "weitereEinkuenfteFrage",
     },
   ],
-  kindergeld: "weitereEinkuenfte",
+  kindergeld: "weitereEinkuenfteFrage",
   weitereEinkuenfte: "weitereEinkuenfteUebersicht",
   weitereEinkuenfteFrage: [
     {
@@ -165,7 +165,7 @@ export const einkuenfteFlowConfig = {
       target: "partnerschaft",
     },
   ],
-  weitereEinkunft: null,
+  weitereEinkunft: "weitereEinkuenfteUebersicht",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
