@@ -97,6 +97,16 @@ const pdfConfigs = {
       await erbscheinAnfragePdfFromUserdata(userData),
     name: `Erbschein_Anfrage`,
   },
+  "/erbausschlagung/anfrage": {
+    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
+      await erbausschlagungAnfragePdfFromUserdata(userData),
+    name: `Erbausschlagung_Anfrage`,
+  },
+  "/erbschein/anfrage": {
+    pdfFunction: async (userData: NachlassErbscheinAnfrageUserData) =>
+      await erbscheinAnfragePdfFromUserdata(userData),
+    name: `Erbschein_Anfrage`,
+  },
 } satisfies Partial<Record<FlowId, PdfConfig>>;
 
 export async function loader({ request, url }: LoaderFunctionArgs) {

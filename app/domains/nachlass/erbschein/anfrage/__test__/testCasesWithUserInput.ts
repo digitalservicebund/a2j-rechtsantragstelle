@@ -14,7 +14,7 @@ import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angeh
 
 export const nachlassErbscheinAnfrageTestCases = {
   xstateConfig: {
-    id: "/nachlass/erbschein/anfrage",
+    id: "/erbschein/anfrage",
   },
   newEngineConfig:
     nachlassErbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
