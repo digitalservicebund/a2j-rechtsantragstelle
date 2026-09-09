@@ -183,6 +183,7 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/#/sterbedatum",
       userInput: {
         "elternteile#sterbedatum": sterbedatum,
+        "elternteile#geburtsdatum": geburtsdatum,
         "elternteile#sterbeort": "Musterstadt",
       },
     },
@@ -229,12 +230,69 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/#/sterbedatum",
       userInput: {
         "elternteile#sterbedatum": sterbedatum,
+        "elternteile#geburtsdatum": geburtsdatum,
         "elternteile#sterbeort": "Musterstadt",
       },
     },
     {
       stepId: "/angehoerige/elternteile/#/hatte-kinder",
       userInput: { "elternteile#hatteKinder": "yes" },
+    },
+    {
+      stepId: "/angehoerige/elternteile/uebersicht",
+    },
+  ],
+  elternteilKind: [
+    // {
+    //   stepId: "/angehoerige/elternteile/uebersicht",
+    //   skipPageSchemaValidation: true,
+    //   userInput: {
+    //     ...happyPathData,
+    //     ...extinctKinder,
+    //   },
+    // },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/name",
+      userInput: {
+        ...happyPathData,
+        ...extinctKinder,
+        elternteile: [deceased("Elternteil", "yes", [living("Kind")])],
+        "elternteile#kinder#vorname": "Kind",
+        "elternteile#kinder#nachname": "Mustermann",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/geburtsdatum",
+      userInput: {
+        "elternteile#kinder#geburtsdatum": geburtsdatum,
+        "elternteile#kinder#geburtsort": "Musterstadt",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/lebend",
+      userInput: {
+        "elternteile#kinder#isAlive": "no",
+        elternteile: [deceased("Elternteil", "yes", [deceased("Kind", "no")])],
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/sterbedatum",
+      userInput: {
+        "elternteile#kinder#sterbedatum": sterbedatum,
+        "elternteile#kinder#geburtsdatum": geburtsdatum,
+        "elternteile#kinder#sterbeort": "Musterstadt",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/hatte-kinder",
+      userInput: {
+        "elternteile#kinder#hatteKinder": "no",
+      },
+      pageData: { arrayIndexes: [0, 0] },
     },
     {
       stepId: "/angehoerige/elternteile/uebersicht",
