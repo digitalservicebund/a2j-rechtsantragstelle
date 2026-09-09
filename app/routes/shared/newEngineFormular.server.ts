@@ -4,6 +4,7 @@ import {
   type ActionFunctionArgs,
   data,
   type LoaderFunctionArgs,
+  redirect,
   redirectDocument,
 } from "react-router";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
@@ -30,6 +31,7 @@ import {
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
+import { getRedirect } from "~/services/routing/redirects";
 
 export const loadFormularData = async <
   ExtraData extends ExtraDataWithFormElements = Record<string, never>,
@@ -38,6 +40,9 @@ export const loadFormularData = async <
   extras?: LoaderExtras<ExtraData>,
 ) => {
   const { params, request, url } = args;
+
+  const redirectDestination = getRedirect(url.pathname);
+  if (redirectDestination) return redirect(redirectDestination, 301);
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 

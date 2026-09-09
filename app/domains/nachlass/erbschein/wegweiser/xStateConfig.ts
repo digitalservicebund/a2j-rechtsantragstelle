@@ -6,7 +6,7 @@ import mapValues from "lodash/mapValues";
 const stepIds = mapValues(nachlassErbscheinWegweiserPages, (v) => v.stepId);
 
 export const nachlassErbscheinWegweiserXstateConfig = {
-  id: "/nachlass/erbschein/wegweiser",
+  id: "/erbschein/wegweiser",
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
