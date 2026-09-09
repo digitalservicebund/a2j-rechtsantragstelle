@@ -166,12 +166,7 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "verfuegbaresEinkommen",
       },
     ],
-    kinderAnzahlKurz: [
-      {
-        guard: (context) => context.kinderAnzahlKurz != null,
-        target: "verfuegbaresEinkommen",
-      },
-    ],
+    kinderAnzahlKurz: "verfuegbaresEinkommen",
     verfuegbaresEinkommen: [
       {
         guard: (context) =>
@@ -210,22 +205,8 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "unterhalt",
       },
     ],
-    kinderAnzahl: [
-      {
-        guard: (context) =>
-          context.kids?.kids6Below != undefined ||
-          context.kids?.kids7To14 != undefined ||
-          context.kids?.kids15To18 != undefined ||
-          context.kids?.kids18Above != undefined,
-        target: "einkommenKinder",
-      },
-    ],
-    einkommenKinder: [
-      {
-        guard: (context) => context.einkommenKinder != undefined,
-        target: "unterhalt",
-      },
-    ],
+    kinderAnzahl: "einkommenKinder",
+    einkommenKinder: "unterhalt",
     unterhalt: [
       {
         guard: (context) => context.unterhalt === "yes",
@@ -235,18 +216,8 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "miete",
       },
     ],
-    unterhaltSumme: [
-      {
-        guard: (context) => context.unterhaltSumme != undefined,
-        target: "miete",
-      },
-    ],
-    miete: [
-      {
-        guard: (context) => context.miete != undefined,
-        target: "weitereZahlungenSumme",
-      },
-    ],
+    unterhaltSumme: "miete",
+    miete: "weitereZahlungenSumme",
     weitereZahlungenSumme: [
       {
         guard: (context) =>
