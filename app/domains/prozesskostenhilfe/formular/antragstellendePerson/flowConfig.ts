@@ -5,8 +5,8 @@ import {
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
 } from "./guards";
-import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
-import { prozesskostenhilfeFormularPages } from "../pages";
+import { type vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
+import { type prozesskostenhilfeFormularPages } from "../pages";
 export const antragstellendePersonFlowConfig = {
   empfaenger: [
     {
@@ -21,7 +21,7 @@ export const antragstellendePersonFlowConfig = {
       target: "unterhaltsanspruch",
     },
   ],
-    ...vereinfachteErklaerungFlowConfig,
+  ...vereinfachteErklaerungFlowConfig,
   unterhaltsanspruch: [
     {
       guard: (data) => data.unterhaltsanspruch === "anspruchNoUnterhalt",

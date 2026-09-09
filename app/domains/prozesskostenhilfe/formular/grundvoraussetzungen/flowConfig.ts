@@ -6,7 +6,7 @@ import {
   verfahrenSelbststaendig,
   versandDigitalGericht,
 } from "./guards";
-import { prozesskostenhilfeFormularPages } from "../pages";
+import { type prozesskostenhilfeFormularPages } from "../pages";
 
 export const grundvoraussetzungenFlowConfig = {
   nachueberpruefungFrage: [
@@ -15,8 +15,8 @@ export const grundvoraussetzungenFlowConfig = {
       target: "nameGericht",
     },
     {
-      target: "anhaengigesGerichtsverfahrenFrage"
-    }
+      target: "anhaengigesGerichtsverfahrenFrage",
+    },
   ],
   anhaengigesGerichtsverfahrenFrage: [
     {
@@ -33,7 +33,8 @@ export const grundvoraussetzungenFlowConfig = {
   aktenzeichen: [
     {
       guard: (data) =>
-       isErstantrag({ context: data }) && data.anhaengigesGerichtsverfahrenFrage === "yes",
+        isErstantrag({ context: data }) &&
+        data.anhaengigesGerichtsverfahrenFrage === "yes",
       target: "klageersteller",
     },
     {
@@ -47,7 +48,7 @@ export const grundvoraussetzungenFlowConfig = {
     },
     {
       guard: (data) => grundvoraussetzungenDone({ context: data }),
-      target: "empfaenger", 
+      target: "empfaenger",
     },
   ],
   hinweis: [

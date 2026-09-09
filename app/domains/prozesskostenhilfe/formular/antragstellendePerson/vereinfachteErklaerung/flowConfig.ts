@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { prozesskostenhilfeFormularPages } from "../../pages";
+import { type prozesskostenhilfeFormularPages } from "../../pages";
 
 export const vereinfachteErklaerungFlowConfig = {
   kind: [],

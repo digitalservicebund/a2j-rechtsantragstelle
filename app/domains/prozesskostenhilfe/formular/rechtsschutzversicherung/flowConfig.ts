@@ -1,5 +1,5 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { prozesskostenhilfeFormularPages } from "../pages";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type prozesskostenhilfeFormularPages } from "../pages";
 
 export const rechtsschutzversicherungFlowConfig = {
   rsvFrage: [
@@ -37,8 +37,8 @@ export const rechtsschutzversicherungFlowConfig = {
       target: "orgDeckung",
     },
     {
-      target: "einkuenfteStart"
-    }
+      target: "einkuenfteStart",
+    },
   ],
   orgDeckung: [
     {
