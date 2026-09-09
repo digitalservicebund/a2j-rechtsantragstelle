@@ -8,7 +8,7 @@ import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
-import { Badge } from "~/components/common/Badge";
+import { Badge } from "~/components/content/Badge";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
