@@ -3,7 +3,7 @@ import { getAmtsgerichtStrings, getPlzStrings } from "./stringReplacements";
 import { type ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
 import { erbscheinNachlassgerichtFlowConfig } from "./flowConfig";
 
-export const nachlassErbscheinNachlassgericht = {
+export const erbscheinNachlassgericht = {
   flowType: "vorabCheck",
   config: { states: {} },
   stringReplacements: (context: ErbscheinNachlassGerichtUserData) => ({

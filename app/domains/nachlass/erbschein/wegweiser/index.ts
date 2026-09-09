@@ -2,7 +2,7 @@ import { type ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/we
 import type { Flow } from "~/domains/flows.server";
 import { erbscheinWegweiserFlowConfig } from "./flowConfig";
 
-export const nachlassErbscheinWegweiser = {
+export const erbscheinWegweiser = {
   flowType: "vorabCheck",
   config: { states: {} },
   guards: {},

@@ -7,7 +7,7 @@ import {
 import { type ErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
 import { erbausschlagungGerichtFindenFlowConfig } from "./flowConfig";
 
-export const nachlassErbausschlagungGerichtFinden = {
+export const erbausschlagungGerichtFinden = {
   flowType: "vorabCheck",
   config: { states: {} },
   stringReplacements: (context: ErbausschlagungGerichtFindenUserData) => ({
