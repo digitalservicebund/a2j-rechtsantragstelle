@@ -36,7 +36,7 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("correctly calls getPrunedUserData for new engine flows", async () => {
-    const url = "https://mock-url.de/nachlass/erbschein/anfrage/download/pdf";
+    const url = "https://mock-url.de/erbschein/anfrage/download/pdf";
     await loader(mockRouteArgsFromRequest(new Request(url)));
 
     expect(getPrunedUserDataForPdfSpy).toHaveBeenCalled();

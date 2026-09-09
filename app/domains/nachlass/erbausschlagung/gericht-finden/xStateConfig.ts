@@ -11,7 +11,7 @@ const stepIds = mapValues(
 );
 
 export const nachlassErbausschlagungGerichtFindenXstateConfig = {
-  id: "/nachlass/erbausschlagung/gericht-finden",
+  id: "/erbausschlagung/gericht-finden",
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
