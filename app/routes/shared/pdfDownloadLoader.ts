@@ -87,16 +87,6 @@ const pdfConfigs = {
       await geldEinklagenPdfFromUserdata(userData),
     name: `Geld_Einklagen_Klage`,
   },
-  "/nachlass/erbausschlagung/anfrage": {
-    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
-      await erbausschlagungAnfragePdfFromUserdata(userData),
-    name: `Erbausschlagung_Anfrage`,
-  },
-  "/nachlass/erbschein/anfrage": {
-    pdfFunction: async (userData: NachlassErbscheinAnfrageUserData) =>
-      await erbscheinAnfragePdfFromUserdata(userData),
-    name: `Erbschein_Anfrage`,
-  },
   "/erbausschlagung/anfrage": {
     pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
       await erbausschlagungAnfragePdfFromUserdata(userData),
