@@ -17,6 +17,8 @@ export function Badge({
   variant,
   className,
 }: Readonly<BadgeProps>) {
+  if (!children) return null;
+
   return (
     <span
       className={classNames("kern-badge gap-kern-space-small", className, {
