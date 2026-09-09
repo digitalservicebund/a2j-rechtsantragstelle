@@ -12,7 +12,7 @@ import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import trackNotDoneStateAbgabeUeberpruefung from "../services/trackNotDoneStateAbgabeUeberpruefung";
 import { prozesskostenhilfeFormularFlowConfig } from "./flowConfig";
-import { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",

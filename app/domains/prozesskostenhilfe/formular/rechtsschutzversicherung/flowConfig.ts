@@ -1,5 +1,5 @@
 import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { pkhFormularRechtsschutzversicherungPages } from "./pages";
+import { prozesskostenhilfeFormularPages } from "../pages";
 
 export const rechtsschutzversicherungFlowConfig = {
   rsvFrage: [
@@ -36,6 +36,9 @@ export const rechtsschutzversicherungFlowConfig = {
       guard: (context) => context.hasRsvThroughOrg === "yes",
       target: "orgDeckung",
     },
+    {
+      target: "einkuenfteStart"
+    }
   ],
   orgDeckung: [
     {
@@ -60,5 +63,5 @@ export const rechtsschutzversicherungFlowConfig = {
   orgDeckungNein: null,
   orgDeckungTeilweise: null,
 } satisfies Partial<
-  TransitionConfigMap<typeof pkhFormularRechtsschutzversicherungPages>
+  TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;

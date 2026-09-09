@@ -1,11 +1,12 @@
-import { TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { pkhFormularGrundvoraussetzungenPages } from "./pages";
+import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import {
   grundvoraussetzungenDone,
   isErstantrag,
   isNachueberpruefung,
+  verfahrenSelbststaendig,
   versandDigitalGericht,
 } from "./guards";
+import { prozesskostenhilfeFormularPages } from "../pages";
 
 export const grundvoraussetzungenFlowConfig = {
   nachueberpruefungFrage: [
@@ -41,12 +42,12 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   klageersteller: [
     {
-      guard: (context) => context.verfahrenArt === "verfahrenSelbststaendig",
+      guard: (data) => verfahrenSelbststaendig({ context: data }),
       target: "hinweis",
     },
     {
       guard: (data) => grundvoraussetzungenDone({ context: data }),
-      target: null,
+      target: "empfaenger", 
     },
   ],
   hinweis: [
@@ -71,15 +72,15 @@ export const grundvoraussetzungenFlowConfig = {
   hinweisPapierEinreichung: [
     {
       guard: (data) => grundvoraussetzungenDone({ context: data }),
-      target: null,
+      target: "empfaenger",
     },
   ],
   hinweisDigitalEinreichung: [
     {
       guard: (data) => grundvoraussetzungenDone({ context: data }),
-      target: null,
+      target: "empfaenger",
     },
   ],
 } satisfies Partial<
-  TransitionConfigMap<typeof pkhFormularGrundvoraussetzungenPages>
+  TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;

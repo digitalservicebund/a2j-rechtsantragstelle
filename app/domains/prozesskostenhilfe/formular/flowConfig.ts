@@ -6,6 +6,8 @@ import {
 import { prozesskostenhilfeFormularPages } from "./pages";
 import { grundvoraussetzungenFlowConfig } from "./grundvoraussetzungen/flowConfig";
 import { rechtsschutzversicherungFlowConfig } from "./rechtsschutzversicherung/flowConfig";
+import { antragstellendePersonFlowConfig } from "./antragstellendePerson/flowConfig";
+import { gesetzlicheVertretungFlowConfig } from "./gesetzlicheVertretung/flowConfig";
 
 export const prozesskostenhilfeFormularFlowConfig = compileFlow({
   pages: prozesskostenhilfeFormularPages,
@@ -14,6 +16,8 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     start: "nachueberpruefungFrage",
     ...grundvoraussetzungenFlowConfig,
     ...rechtsschutzversicherungFlowConfig,
+    ...gesetzlicheVertretungFlowConfig,
+    ...antragstellendePersonFlowConfig,
     einkuenfteStart: null,
     staatlicheLeistungen: null,
     buergergeld: null,
@@ -49,7 +53,6 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     partnerZusammenleben: null,
     zusammenleben: null,
     partnerUnterhalt: null,
-    unterhalt: null,
     partnerUnterhaltsSumme: null,
     partnerKeineRolle: null,
     partnerEinkommen: null,
@@ -155,16 +158,7 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     ausgabenSonstigeAusgabe: null,
     ausgabenSonstigeAusgabenWarnung: null,
     ausgabenBesondereBelastungen: null,
-    gesetzlicheVertretungFrage: null,
-    gesetzlicheVertretungDaten: null,
     telefonnummer: null,
-    empfaenger: null,
-    kind: null,
-    veUnterhalt: null,
-    minderjaehrig: null,
-    veGeburtsdatum: null,
-    worumGehts: null,
-    rechtlichesThema: null,
     einnahmenFrage: null,
     einnahmenValue: null,
     einnahmenUebersicht: null,
@@ -176,17 +170,6 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     vermoegenUebersicht: null,
     vermoegenEintrag: null,
     vermoegenWarnung: null,
-    hinweisWeiteresFormular: null,
-    hinweisVereinfachteErklaerung: null,
-    unterhaltsanspruch: null,
-    unterhaltsbeschreibung: null,
-    unterhaltLebenFrage: null,
-    unterhaltspflichtigePersonBeziehung: null,
-    warumKeinerUnterhalt: null,
-    unterhaltHauptsaechlichesLeben: null,
-    unterhaltspflichtigePerson: null,
-    eigenesExemplar: null,
-    zweiFormulare: null,
     persoenlicheDatenStart: null,
     adresse: null,
     beruf: null,
@@ -195,6 +178,7 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     abgabeUeberpruefung: null,
     zusammenfassung: null,
     ende: null,
+    hinweisWeiteresFormular: null,
   },
   pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;
