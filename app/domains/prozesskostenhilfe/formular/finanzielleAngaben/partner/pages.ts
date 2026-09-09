@@ -262,7 +262,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       ]),
     },
   },
-
   partnerWohngeld: {
     stepId:
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen/partner-wohngeld",

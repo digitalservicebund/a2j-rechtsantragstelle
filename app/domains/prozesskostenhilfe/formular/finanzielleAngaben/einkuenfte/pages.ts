@@ -82,7 +82,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
       selbststaendigAbzuege: buildMoneyValidationSchema(),
     },
   },
-
   renteFrage: {
     stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
     pageSchema: {
