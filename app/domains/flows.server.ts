@@ -16,7 +16,7 @@ import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { nachlassErbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
 import { nachlassErbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { type Session } from "react-router";
-import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
+import { erbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import {
@@ -93,6 +93,6 @@ export const flows = {
   "/erbschein/wegweiser": nachlassErbscheinWegweiser,
   "/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
   "/erbschein/anfrage": nachlassErbscheinAnfrage,
-  "/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
+  "/erbausschlagung/anfrage": erbausschlagungAnfrage,
   "/erbausschlagung/gericht-finden": nachlassErbausschlagungGerichtFinden,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

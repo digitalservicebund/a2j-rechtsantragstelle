@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_REGULAR,
   FONTS_BUNDESSANS_BOLD,
@@ -9,7 +9,7 @@ import { toDateString } from "~/services/validation/dateObject";
 export const addDeceasedPersonNotificationDetails = (
   doc: typeof PDFDocument,
   deceasedPersonNotificationParagraph: PDFKit.PDFStructureElement,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) => {
   deceasedPersonNotificationParagraph.add(
     doc.struct("Span", {}, () => {

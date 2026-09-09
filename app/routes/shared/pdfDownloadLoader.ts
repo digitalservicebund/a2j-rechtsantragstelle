@@ -10,7 +10,7 @@ import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/p
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
@@ -35,7 +35,7 @@ type PdfFlowContexts =
   | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularUserData
   | GeldEinklagenFormularUserData
-  | NachlassErbausschlagungAnfrageUserData
+  | ErbausschlagungAnfrageUserData
   | NachlassErbscheinAnfrageUserData
   | KontopfaendungPkontoAntragUserData;
 
@@ -88,7 +88,7 @@ const pdfConfigs = {
     name: `Geld_Einklagen_Klage`,
   },
   "/erbausschlagung/anfrage": {
-    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
+    pdfFunction: async (userData: ErbausschlagungAnfrageUserData) =>
       await erbausschlagungAnfragePdfFromUserdata(userData),
     name: `Erbausschlagung_Anfrage`,
   },

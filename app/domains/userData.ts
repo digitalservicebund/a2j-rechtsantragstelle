@@ -8,7 +8,7 @@ import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/w
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
 import type { ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
 import type { ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
-import { type NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
@@ -35,5 +35,5 @@ export type AllUserDataKeys = KeysOfUnion<
   | ErbscheinWegweiserUserData
   | ErbscheinNachlassGerichtUserData
   | NachlassErbscheinAnfrageUserData
-  | NachlassErbausschlagungAnfrageUserData
+  | ErbausschlagungAnfrageUserData
 >;

@@ -19,7 +19,7 @@ import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
-import { nachlassErbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
+import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
@@ -29,7 +29,7 @@ const flowSchemaTests = {
   kontopfaendungPkontoAntragTestCases,
   erbausschlagungGerichtFindenTestCases,
   erbscheinNachlassgerichtTestCases,
-  nachlassErbausschlagungAnfrageTestCases,
+  erbausschlagungAnfrageTestCases,
   erbscheinWegweiserTestCases,
 };
 

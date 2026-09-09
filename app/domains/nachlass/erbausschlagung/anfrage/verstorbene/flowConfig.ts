@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbausschlagungAnfragePages } from "../pages";
+import { type ErbausschlagungAnfragePages } from "../pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const verstorbenePersonFlowConfig = {
@@ -87,4 +87,4 @@ export const verstorbenePersonFlowConfig = {
       target: "awarenessDate",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbausschlagungAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbausschlagungAnfragePages>>;

@@ -3,14 +3,14 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addChildOfRenunciantPersonDetails } from "../addChildOfRenunciantPersonDetails";
-import { type NachlassErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
 
 const childrenOfRenunciantPersonMock = {
   vorname: "Max",
   nachname: "Mustermann",
   wohnortBeiAntragsteller: "yes",
   geburtsdatum: { day: "01", month: "01", year: "2000" },
-} satisfies NachlassErbausschlagungAnfrageKind;
+} satisfies ErbausschlagungAnfrageKind;
 
 describe("addChildOfRenunciantPersonDetails", () => {
   it("should add the details of the child of renunciant person to the pdf document", () => {

@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
 import { addChildOfRenunciantPersonCustodyDetails } from "../addChildOfRenunciantPersonCustodyDetails";
 
 describe("addChildOfRenunciantPersonCustodyDetails", () => {
@@ -25,7 +25,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       organizationHausnummerSorgerecht: "1",
       organizationPlzSorgerecht: "12345",
       organizationOrtSorgerecht: "Sorgerechtsstadt",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,
@@ -68,7 +68,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       hausnummerSorgerecht: "1",
       plzSorgerecht: "12345",
       ortSorgerecht: "Musterstadt",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,
@@ -107,7 +107,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       hasSorgerechtSameAddress: "yes",
       vornameSorgerecht: "Max",
       nachnameSorgerecht: "Mustermann",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,
@@ -147,7 +147,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       hasSorgerechtSameAddress: "yes",
       vornameSorgerecht: "Max",
       nachnameSorgerecht: "Mustermann",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,
@@ -191,7 +191,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       hausnummerSorgerecht: "1",
       plzSorgerecht: "12345",
       ortSorgerecht: "Musterstadt",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,
@@ -227,7 +227,7 @@ describe("addChildOfRenunciantPersonCustodyDetails", () => {
       },
       wohnortBeiAntragsteller: "yes",
       optionSorgerecht: "yes",
-    } satisfies NachlassErbausschlagungAnfrageKind);
+    } satisfies ErbausschlagungAnfrageKind);
 
     expect(mockDoc.text).toHaveBeenCalledWith("Sorgerecht: ", {
       continued: true,

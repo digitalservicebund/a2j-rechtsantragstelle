@@ -3,7 +3,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
 
 const LIVE_SAME_PLACE_RENUNCIANT_PERSON_TEXT =
   "Wohnt zusammen mit der ausschlagenden Person";
@@ -18,7 +18,7 @@ export const addChildOfRenunciantPersonAddress = (
     plz,
     ort,
     wohnortBeiAntragsteller,
-  }: NachlassErbausschlagungAnfrageKind,
+  }: ErbausschlagungAnfrageKind,
 ) => {
   childrenOfRenunciantPersonSection.add(
     doc.struct("P", {}, () => {
