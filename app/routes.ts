@@ -8,13 +8,7 @@ import {
 } from "./services/routing/flowRoutes";
 
 export default [
-  ...(await flatRoutes({
-    ignoredRouteFiles: [
-      "**/nachlass.erbschein.erbfolge.$.tsx",
-      "**/nachlass.erbschein.erbfolge.ergebnis.$.tsx",
-      "**/geld-einklagen.formular.$.tsx",
-    ],
-  })), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
+  ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
     ...prefix("antrag", flowRoutes("BHA")),
