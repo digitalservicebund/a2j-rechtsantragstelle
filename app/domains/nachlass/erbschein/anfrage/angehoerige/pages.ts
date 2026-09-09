@@ -5,6 +5,7 @@ import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas"
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -85,7 +86,7 @@ export const angehoerigePages = {
     pageSchema: {
       "angehoerige#geburtsdatum": commonAngehoerigeFields.geburtsdatum,
       "angehoerige#sterbedatum": hiddenInputSchema(
-        deceasedAngehoerigeFields.sterbedatum.optional(),
+        schemaOrEmptyStringOptional(deceasedAngehoerigeFields.sterbedatum),
       ),
       "angehoerige#geburtsort": commonAngehoerigeFields.geburtsort,
     },
