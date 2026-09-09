@@ -18,10 +18,10 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
   transitions: {
     start: "nachueberpruefungFrage",
     ...grundvoraussetzungenFlowConfig,
+    ...antragstellendePersonFlowConfig,
     ...rechtsschutzversicherungFlowConfig,
     ...finanzielleAngabenFlowConfig,
     ...gesetzlicheVertretungFlowConfig,
-    ...antragstellendePersonFlowConfig,
     ...persoenlicheDatenFlowConfig,
     weitereAngaben: null,
     ...abgabeFlowConfig,
