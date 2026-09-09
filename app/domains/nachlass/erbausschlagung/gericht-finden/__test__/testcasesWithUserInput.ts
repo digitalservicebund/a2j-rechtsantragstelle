@@ -3,7 +3,7 @@ import { nachlassErbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
 import type { NachlassErbausschlagungGerichtFindenUserData } from "../userData";
 
 export const nachlassErbausschlagungGerichtFindenTestCases = {
-  xstateConfig: { id: "/nachlass/erbausschlagung/gericht-finden" },
+  xstateConfig: { id: "/erbausschlagung/gericht-finden" },
   newEngineConfig: nachlassErbausschlagungGerichtFindenFlowConfig,
   testcases: {
     auslandLebensmittelpunkt: [

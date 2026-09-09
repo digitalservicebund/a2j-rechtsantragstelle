@@ -102,7 +102,7 @@ describe("getMigrationData", () => {
   it("should call migrateSourceFlowDataToDestinationFlow if migrating a new engine flow", async () => {
     await getMigrationData(
       migrationKey,
-      "/nachlass/erbschein/anfrage",
+      "/erbschein/anfrage",
       nachlassErbscheinAnfrage,
       "cooookie",
     );
