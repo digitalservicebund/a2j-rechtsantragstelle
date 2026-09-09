@@ -135,7 +135,7 @@ function cmsToReact(
         <Badge
           variant={componentProps.variant}
           icon={componentProps.variant as IconName}
-          className="py-kern-space-small! px-kern-space-default! border-2!"
+          className="py-kern-space-small! px-kern-space-default! border-2! w-full"
         >
           {componentProps.content}
         </Badge>
