@@ -91,6 +91,7 @@ const deceasedAngehoerigeToGrundbesitz = (
     stepId: "/angehoerige/#/sterbedatum",
     userInput: {
       "angehoerige#sterbedatum": validAngehoerige[0].sterbedatum,
+      "angehoerige#geburtsdatum": validAngehoerige[0].geburtsdatum,
       "angehoerige#sterbeort": "Musterstadt",
     },
   },
