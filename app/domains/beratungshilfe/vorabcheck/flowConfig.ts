@@ -26,7 +26,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "rechtsschutzversicherungDetails",
       },
       {
-        guard: (context) => context.rechtsschutzversicherung === "no",
         target: "wurdeVerklagt",
       },
     ],
@@ -57,7 +56,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "wurdeVerklagtAbbruch",
       },
       {
-        guard: (context) => context.wurdeVerklagt === "no",
         target: "klageEingereicht",
       },
     ],
@@ -68,7 +66,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "hamburgOderBremen",
       },
       {
-        guard: (context) => context.klageEingereicht === "yes",
         target: "klageEingereichtAbbruch",
       },
     ],
@@ -79,7 +76,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "beratungshilfeBeantragt",
       },
       {
-        guard: (context) => context.hamburgOderBremen === "yes",
         target: "hamburgOderBremenAbbruch",
       },
     ],
@@ -90,7 +86,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "eigeninitiative",
       },
       {
-        guard: (context) => context.beratungshilfeBeantragt === "yes",
         target: "beratungshilfeBeantragtAbbruch",
       },
     ],
@@ -101,7 +96,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "bereich",
       },
       {
-        guard: (context) => context.eigeninitiative === "no",
         target: "eigeninitiativeWarnung",
       },
     ],
@@ -160,7 +154,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderKurz",
       },
       {
-        guard: (context) => context.genauigkeit === "yes",
         target: "einkommen",
       },
     ],
@@ -170,7 +163,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderAnzahlKurz",
       },
       {
-        guard: (context) => context.kinderKurz === "no",
         target: "verfuegbaresEinkommen",
       },
     ],
@@ -205,7 +197,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "einkommenPartner",
       },
       {
-        guard: (context) => context.partnerschaft === "no",
         target: "kinder",
       },
     ],
@@ -216,7 +207,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderAnzahl",
       },
       {
-        guard: (context) => context.kinder === "no",
         target: "unterhalt",
       },
     ],
@@ -242,7 +232,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "unterhaltSumme",
       },
       {
-        guard: (context) => context.unterhalt === "no",
         target: "miete",
       },
     ],
