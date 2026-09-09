@@ -54,6 +54,30 @@ export default [
       }),
     ]),
   ]),
+  ...prefix("erbausschlagung", [
+    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
+    ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
+  ]),
+  ...prefix("erbschein", [
+    ...prefix("wegweiser", newEngineVorabcheckRoutes("ESW")),
+    ...prefix("nachlassgericht", newEngineVorabcheckRoutes("ESN")),
+    ...prefix("erbfolge", [
+      route("ergebnis/*", "routes/erbschein.erbfolge.ergebnis.$.tsx", {
+        id: "erbfolgeResult",
+      }),
+      route("*", "routes/erbschein.erbfolge.$.tsx", {
+        id: "erbfolgeFlow",
+      }),
+    ]),
+    ...prefix("anfrage", [
+      route("*", "routes/erbschein.anfrage.$.tsx", {
+        id: "ErbscheinAnfrageFlow",
+      }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: `pdfErbscheinAnfrageFlow`,
+      }),
+    ]),
+  ]),
   ...prefix("kontopfaendung", [
     ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),

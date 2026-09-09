@@ -6,15 +6,21 @@ export const flowIds = [
   "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
-  "/nachlass/erbschein/wegweiser",
-  "/nachlass/erbschein/nachlassgericht",
-  "/nachlass/erbschein/anfrage",
-  "/nachlass/erbausschlagung/anfrage",
-  "/nachlass/erbausschlagung/gericht-finden",
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",
-  "/nachlass/erbschein/erbfolge",
+  "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
+  "/nachlass/erbschein/wegweiser", // Delete after /nachlass migration
+  "/nachlass/erbschein/nachlassgericht", // Delete after /nachlass migration
+  "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
+  "/nachlass/erbausschlagung/anfrage", // Delete after /nachlass migration
+  "/nachlass/erbausschlagung/gericht-finden", // Delete after /nachlass migration
+  "/erbschein/erbfolge",
+  "/erbschein/wegweiser",
+  "/erbschein/nachlassgericht",
+  "/erbschein/anfrage",
+  "/erbausschlagung/anfrage",
+  "/erbausschlagung/gericht-finden",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
@@ -31,8 +37,8 @@ export function parsePathname(pathname: string) {
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
   // TODO: remove after migration to new flow engine
   const arrayFlows: FlowId[] = [
-    "/nachlass/erbschein/erbfolge",
-    "/nachlass/erbschein/anfrage",
+    "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
+    "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
     "/geld-einklagen/formular",
     "/nachlass/erbausschlagung/anfrage",
     "/prozesskostenhilfe/formular",

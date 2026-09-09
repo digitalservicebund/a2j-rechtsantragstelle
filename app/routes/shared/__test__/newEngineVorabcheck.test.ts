@@ -54,7 +54,7 @@ beforeEach(() => {
     Result.ok({
       userData: { pageData: { arrayIndexes: [0] } },
       flow: {
-        id: "/nachlass/erbschein/erbfolge",
+        id: "/erbschein/erbfolge",
         flowSessionEngine: {
           currentStepId: "/kinder/0/daten",
           stepConfigMap: {},
@@ -81,7 +81,7 @@ beforeEach(() => {
 describe("loadVorabcheckData (new engine array flow)", () => {
   it("Optionally allows for injection of flow extras", async () => {
     const request = new Request(
-      "http://localhost/nachlass/erbschein/erbfolge/kinder/0/daten",
+      "http://localhost/erbschein/erbfolge/kinder/0/daten",
       { method: "POST", body: new FormData() },
     );
     const mockReplacements: Replacements = { replacement1: "value1" };
@@ -109,7 +109,7 @@ describe("loadVorabcheckData (new engine array flow)", () => {
     expect(extrasBuildReplacementsMock).toHaveBeenCalled();
     expect(mockRetrieveContentData).toHaveBeenCalledWith(
       "vorab-check-pages",
-      "/nachlass/erbschein/erbfolge/kinder/0/daten",
+      "/erbschein/erbfolge/kinder/0/daten",
       {},
       { pageData: { arrayIndexes: [0] } },
       undefined,
@@ -124,7 +124,7 @@ describe("loadVorabcheckData (new engine array flow)", () => {
 describe("runVorabcheckAction (new engine array flow)", () => {
   it("routes a dead child from /kinder/#/daten on to /kinder/#/hatteKinder", async () => {
     const request = new Request(
-      "http://localhost/nachlass/erbschein/erbfolge/kinder/0/daten",
+      "http://localhost/erbschein/erbfolge/kinder/0/daten",
       { method: "POST", body: new FormData() },
     );
 
@@ -134,7 +134,7 @@ describe("runVorabcheckAction (new engine array flow)", () => {
 
     assertResponse(response);
     expect(response.headers.get("Location")).toBe(
-      "/nachlass/erbschein/erbfolge/kinder/0/hatteKinder",
+      "/erbschein/erbfolge/kinder/0/hatteKinder",
     );
   });
 });

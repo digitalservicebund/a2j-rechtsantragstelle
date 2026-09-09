@@ -7,7 +7,7 @@ import { erbausschlagungAnfrageFlowConfig } from "../flowConfig";
 import { happyPathData } from "./testcaseData";
 
 export const nachlassErbausschlagungAnfrageTestCases = {
-  xstateConfig: { id: "/nachlass/erbausschlagung/anfrage" },
+  xstateConfig: { id: "/erbausschlagung/anfrage" },
   newEngineConfig: erbausschlagungAnfrageFlowConfig,
   testcases: {
     defaultStartNachlassErbausschlagungAnfrage: [

@@ -5,7 +5,7 @@ import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
-const FLOW_ID = "/nachlass/erbschein/erbfolge";
+const FLOW_ID = "/erbschein/erbfolge";
 
 function contextFor(
   userData: UserData,
