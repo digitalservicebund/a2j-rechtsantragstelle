@@ -5,7 +5,9 @@ import {
   autoSuggestStringRequiredSchema,
 } from "~/services/validation/autoSuggest";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { postcodeSchema } from "~/services/validation/postcode";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -27,12 +29,26 @@ export const verstorbenePersonPages = {
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),
+      verstorbeneGeburtsdatum: hiddenInputSchema(
+        schemaOrEmptyStringOptional(
+          createSplitDateSchema({
+            earliest: () => addYears(today(), -150),
+            latest: () => today(),
+          }),
+        ),
+      ),
       sterbeort: stringRequiredSchema,
     },
   },
   verstorbeneGeburtsdatumOrt: {
     stepId: "/verstorbene/geburtsdatum-ort",
     pageSchema: {
+      sterbedatum: hiddenInputSchema(
+        createSplitDateSchema({
+          earliest: () => addYears(today(), -150),
+          latest: () => today(),
+        }),
+      ),
       verstorbeneGeburtsdatum: createSplitDateSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),

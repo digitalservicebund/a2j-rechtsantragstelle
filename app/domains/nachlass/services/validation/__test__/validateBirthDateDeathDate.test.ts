@@ -1,0 +1,99 @@
+import { z } from "zod";
+import {
+  validateBirthDate,
+  validateDeathDate,
+} from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
+import { translations } from "~/services/translations/translations";
+import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
+
+const dateSchema = createSplitDateSchema({
+  earliest: () => new Date(1900, 0, 1),
+  latest: () => new Date(2024, 0, 1),
+});
+
+const schema = z.object({
+  birthDate: dateSchema,
+  deathDate: dateSchema,
+});
+describe("validateBirthDate", () => {
+  it("shouldn't return any errors if the birth date is before the death date", () => {
+    const birthDate = { day: "1", month: "1", year: "2000" };
+    const deathDate = { day: "1", month: "1", year: "2020" };
+    const result = z.validate(
+      validateBirthDate("birthDate", "deathDate")(schema),
+      { birthDate, deathDate },
+    );
+    expect(result).toBe(true);
+  });
+
+  it("shouldn't return any errors when testing the birth date and death date isn't defined", () => {
+    const birthDate = { day: "1", month: "1", year: "2000" };
+    const result = z.validate(
+      validateBirthDate(
+        "birthDate",
+        "deathDate",
+      )(
+        schema.extend({
+          deathDate: schemaOrEmptyStringOptional(dateSchema),
+        }),
+      ),
+      { birthDate },
+    );
+    expect(result).toBe(true);
+  });
+
+  it("should return an error if the birth date is after the death date", () => {
+    const birthDate = { day: "1", month: "1", year: "2020" };
+    const deathDate = { day: "1", month: "1", year: "2000" };
+    const result = validateBirthDate(
+      "birthDate",
+      "deathDate",
+    )(schema).safeParse({ birthDate, deathDate });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe(
+      translations.nachlass.birthDateAfterDeathDateError.de,
+    );
+  });
+});
+
+describe("validateDeathDate", () => {
+  it("shouldn't return any errors when testing the death date and birth date isn't defined", () => {
+    const deathDate = { day: "1", month: "1", year: "2000" };
+    const result = z.validate(
+      validateDeathDate(
+        "birthDate",
+        "deathDate",
+      )(
+        schema.extend({
+          birthDate: schemaOrEmptyStringOptional(dateSchema),
+        }),
+      ),
+      { deathDate },
+    );
+    expect(result).toBe(true);
+  });
+
+  it("shouldn't return any errors if the death date is after the birth date", () => {
+    const birthDate = { day: "1", month: "1", year: "2000" };
+    const deathDate = { day: "1", month: "1", year: "2020" };
+    const result = z.validate(
+      validateDeathDate("birthDate", "deathDate")(schema),
+      { birthDate, deathDate },
+    );
+    expect(result).toBe(true);
+  });
+
+  it("should return an error if the death date is before the birth date", () => {
+    const birthDate = { day: "1", month: "1", year: "2020" };
+    const deathDate = { day: "1", month: "1", year: "2019" };
+    const result = validateDeathDate(
+      "birthDate",
+      "deathDate",
+    )(schema).safeParse({ birthDate, deathDate });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe(
+      translations.nachlass.deathDateBeforeBirthDateError.de,
+    );
+  });
+});
