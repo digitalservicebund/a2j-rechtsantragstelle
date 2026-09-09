@@ -45,8 +45,9 @@ describe("SplitDateInput", () => {
 
   it("renders legend", () => {
     render(<SplitDateInput name="birthdate" label="Geburtsdatum" />);
-
-    expect(screen.getByText("Geburtsdatum")).toBeInTheDocument();
+    const legend = screen.getByText("Geburtsdatum");
+    expect(legend).toBeInTheDocument();
+    expect(legend.tagName).toBe("LEGEND");
   });
   it("renders suffix when provided", () => {
     render(

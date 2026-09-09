@@ -86,14 +86,21 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser,
-  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage,
-  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
-  "/nachlass/erbausschlagung/gericht-finden":
-    nachlassErbausschlagungGerichtFinden,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": nachlassErbfolge,
+  "/nachlass/erbschein/erbfolge": nachlassErbfolge, // Delete after /nachlass migration
+  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser, // Delete after /nachlass migration
+  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht, // Delete after /nachlass migration
+  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage, // Delete after /nachlass migration
+  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage, // Delete after /nachlass migration
+  // Delete after /nachlass migration
+  "/nachlass/erbausschlagung/gericht-finden":
+    nachlassErbausschlagungGerichtFinden,
+  "/erbschein/erbfolge": nachlassErbfolge,
+  "/erbschein/wegweiser": nachlassErbscheinWegweiser,
+  "/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
+  "/erbschein/anfrage": nachlassErbscheinAnfrage,
+  "/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
+  "/erbausschlagung/gericht-finden": nachlassErbausschlagungGerichtFinden,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

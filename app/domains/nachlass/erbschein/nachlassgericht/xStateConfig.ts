@@ -11,7 +11,7 @@ const stepIds = mapValues(
 );
 
 export const nachlassErbscheinNachlassgerichtXstateConfig = {
-  id: "/nachlass/erbschein/nachlassgericht",
+  id: "/erbschein/nachlassgericht",
   initial: stepIds.start,
   states: {
     [stepIds.start]: {
