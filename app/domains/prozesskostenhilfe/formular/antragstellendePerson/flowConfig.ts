@@ -5,7 +5,7 @@ import {
   couldLiveFromUnterhalt,
   unterhaltBekommeIch,
 } from "./guards";
-import { type vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
+import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
 import { type prozesskostenhilfeFormularPages } from "../pages";
 export const antragstellendePersonFlowConfig = {
   empfaenger: [
