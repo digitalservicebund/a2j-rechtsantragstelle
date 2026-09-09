@@ -54,7 +54,7 @@ const buildElternteilKinderMultiFieldsValidation =
     return elternteilKinderMultiFieldsValidation;
   };
 
-export const nachlassErbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdValidation =
+export const erbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdValidation =
   {
     "/verstorbene/geburtsdatum-ort": validateBirthDateDeathDate(
       "verstorbeneGeburtsdatum",

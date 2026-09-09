@@ -4,7 +4,7 @@ import { fluggastrechtMultiFieldsValidation } from "./fluggastrechte/formular/mu
 import { fluggastrechtVorabcheckMultiFieldsValidation } from "./fluggastrechte/vorabcheck/multiFieldsValidation";
 import { type MultiFieldsStepIdValidation } from "./types";
 import { geldEinklagenMultiFieldsValidation } from "./geldEinklagen/formular/multiFieldsValidation";
-import { nachlassErbscheinAnfrageMultiFieldsValidation } from "~/domains/nachlass/erbschein/anfrage/multiFieldsValidation";
+import { erbscheinAnfrageMultiFieldsValidation } from "~/domains/nachlass/erbschein/anfrage/multiFieldsValidation";
 
 const multiFieldsFlowValidation = {
   "/fluggastrechte/vorabcheck":
@@ -13,7 +13,8 @@ const multiFieldsFlowValidation = {
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/geld-einklagen/formular":
     geldEinklagenMultiFieldsValidation as MultiFieldsStepIdValidation,
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrageMultiFieldsValidation,
+  "/erbschein/anfrage": erbscheinAnfrageMultiFieldsValidation,
+  "/nachlass/erbschein/anfrage": erbscheinAnfrageMultiFieldsValidation, // delete after migration to new route
 } as const satisfies Partial<Record<FlowId, MultiFieldsStepIdValidation>>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>

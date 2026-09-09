@@ -24,7 +24,7 @@ describe("HiddenInput", () => {
 
     const { getByTestId } = render(<HiddenInput name="hiddenInput" />);
 
-    expect(getByTestId("hidden-input-key1.hiddenInput")).toBeInTheDocument();
-    expect(getByTestId("hidden-input-key2.hiddenInput")).toBeInTheDocument();
+    expect(getByTestId("hidden-input-hiddenInput.key1")).toBeInTheDocument();
+    expect(getByTestId("hidden-input-hiddenInput.key2")).toBeInTheDocument();
   });
 });
