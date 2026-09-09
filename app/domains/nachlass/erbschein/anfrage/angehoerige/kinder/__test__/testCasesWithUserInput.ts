@@ -164,6 +164,7 @@ export const kinderTestCases = {
       stepId: "/angehoerige/kinder/#/sterbedatum",
       userInput: {
         "kinder#sterbedatum": sterbedatum,
+        "kinder#geburtsdatum": geburtsdatum,
         "kinder#sterbeort": "Musterstadt",
       },
     },
@@ -210,6 +211,7 @@ export const kinderTestCases = {
       stepId: "/angehoerige/kinder/#/sterbedatum",
       userInput: {
         "kinder#sterbedatum": sterbedatum,
+        "kinder#geburtsdatum": geburtsdatum,
         "kinder#sterbeort": "Musterstadt",
       },
     },
