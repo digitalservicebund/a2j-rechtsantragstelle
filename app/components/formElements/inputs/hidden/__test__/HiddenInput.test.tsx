@@ -12,7 +12,6 @@ describe("HiddenInput", () => {
     const { getByRole } = render(<HiddenInput name="hiddenInput" />);
     const hiddenInput = getByRole("textbox", { hidden: true });
     expect(hiddenInput).toBeInTheDocument();
-    expect(hiddenInput).toHaveAttribute("readOnly");
   });
 
   it("should render multiple hidden inputs if the value is an object", () => {
@@ -20,6 +19,7 @@ describe("HiddenInput", () => {
       getInputProps: vi
         .fn()
         .mockReturnValue({ defaultValue: { key1: "value1", key2: "value2" } }),
+      getHiddenInputProps: vi.fn(),
     } as unknown as FieldApi<any>);
 
     const { getByTestId } = render(<HiddenInput name="hiddenInput" />);

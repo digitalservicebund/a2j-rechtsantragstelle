@@ -3,24 +3,17 @@ import { type SchemaObject } from "~/domains/userData";
 import { translations } from "~/services/translations/translations";
 import { type DateObject, toDate } from "~/services/validation/dateObject";
 
-export function validateBirthDateDeathDate(
+export function validateBirthDate(
   birthDateFieldName: string,
   deathDateFieldName: string,
-  type: "birthDate" | "deathDate",
 ) {
   return function (baseSchema: z.ZodObject<SchemaObject>) {
     return baseSchema.check((ctx) => {
+      const geburtsdatum = ctx.value[birthDateFieldName] as DateObject;
       const sterbedatum = ctx.value[deathDateFieldName] as
         DateObject | undefined;
-      const geburtsdatum = ctx.value[birthDateFieldName] as
-        DateObject | undefined;
 
-      if (
-        type === "birthDate" &&
-        geburtsdatum &&
-        sterbedatum &&
-        toDate(geburtsdatum) > toDate(sterbedatum)
-      ) {
+      if (sterbedatum && toDate(geburtsdatum) > toDate(sterbedatum)) {
         ctx.issues.push({
           code: "custom",
           message: translations.nachlass.birthDateAfterDeathDateError.de,
@@ -28,12 +21,24 @@ export function validateBirthDateDeathDate(
           fatal: true,
           input: ctx.value[birthDateFieldName],
         });
-      } else if (
-        type === "deathDate" &&
-        geburtsdatum &&
-        sterbedatum &&
-        toDate(geburtsdatum) > toDate(sterbedatum)
-      ) {
+      }
+
+      return z.NEVER;
+    });
+  };
+}
+
+export function validateDeathDate(
+  birthDateFieldName: string,
+  deathDateFieldName: string,
+) {
+  return function (baseSchema: z.ZodObject<SchemaObject>) {
+    return baseSchema.check((ctx) => {
+      const sterbedatum = ctx.value[deathDateFieldName] as DateObject;
+      const geburtsdatum = ctx.value[birthDateFieldName] as
+        DateObject | undefined;
+
+      if (geburtsdatum && toDate(sterbedatum) < toDate(geburtsdatum)) {
         ctx.issues.push({
           code: "custom",
           message: translations.nachlass.deathDateBeforeBirthDateError.de,

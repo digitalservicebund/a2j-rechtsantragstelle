@@ -1,4 +1,7 @@
-import { validateBirthDateDeathDate } from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
+import {
+  validateBirthDate,
+  validateDeathDate,
+} from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
 import { type MultiFieldsStepIdValidation } from "~/domains/types";
 
 const buildKinderMultiFieldsValidation = (): MultiFieldsStepIdValidation => {
@@ -9,18 +12,10 @@ const buildKinderMultiFieldsValidation = (): MultiFieldsStepIdValidation => {
     const fieldName = `kinder#`.repeat(idx);
 
     kinderMultiFieldsValidation[`/angehoerige${path}/geburtsdatum`] =
-      validateBirthDateDeathDate(
-        `${fieldName}geburtsdatum`,
-        `${fieldName}sterbedatum`,
-        "birthDate",
-      );
+      validateBirthDate(`${fieldName}geburtsdatum`, `${fieldName}sterbedatum`);
 
     kinderMultiFieldsValidation[`/angehoerige${path}/sterbedatum`] =
-      validateBirthDateDeathDate(
-        `${fieldName}geburtsdatum`,
-        `${fieldName}sterbedatum`,
-        "deathDate",
-      );
+      validateDeathDate(`${fieldName}geburtsdatum`, `${fieldName}sterbedatum`);
   }
 
   return kinderMultiFieldsValidation;
@@ -37,17 +32,15 @@ const buildElternteilKinderMultiFieldsValidation =
 
       elternteilKinderMultiFieldsValidation[
         `/angehoerige${path}/geburtsdatum`
-      ] = validateBirthDateDeathDate(
+      ] = validateBirthDate(
         `${fieldName}geburtsdatum`,
         `${fieldName}sterbedatum`,
-        "birthDate",
       );
 
       elternteilKinderMultiFieldsValidation[`/angehoerige${path}/sterbedatum`] =
-        validateBirthDateDeathDate(
+        validateDeathDate(
           `${fieldName}geburtsdatum`,
           `${fieldName}sterbedatum`,
-          "deathDate",
         );
     }
 
@@ -56,48 +49,39 @@ const buildElternteilKinderMultiFieldsValidation =
 
 export const erbscheinAnfrageMultiFieldsValidation: MultiFieldsStepIdValidation =
   {
-    "/verstorbene/geburtsdatum-ort": validateBirthDateDeathDate(
+    "/verstorbene/geburtsdatum-ort": validateBirthDate(
       "verstorbeneGeburtsdatum",
       "sterbedatum",
-      "birthDate",
     ),
-    "/verstorbene/sterbedatum-ort": validateBirthDateDeathDate(
+    "/verstorbene/sterbedatum-ort": validateDeathDate(
       "verstorbeneGeburtsdatum",
       "sterbedatum",
-      "deathDate",
     ),
     "/testament-oder-erbvertrag/beguenstigten/#/geburtsdatum":
-      validateBirthDateDeathDate(
+      validateBirthDate(
         "beguenstigten#geburtsdatum",
         "beguenstigten#sterbedatum",
-        "birthDate",
       ),
-    "/testament-oder-erbvertrag/beguenstigten/#/sterbedatum":
-      validateBirthDateDeathDate(
-        "beguenstigten#geburtsdatum",
-        "beguenstigten#sterbedatum",
-        "deathDate",
-      ),
-    ...buildKinderMultiFieldsValidation(),
-    "/angehoerige/elternteile/#/geburtsdatum": validateBirthDateDeathDate(
-      "elternteile#geburtsdatum",
-      "elternteile#sterbedatum",
-      "birthDate",
+    "/testament-oder-erbvertrag/beguenstigten/#/sterbedatum": validateDeathDate(
+      "beguenstigten#geburtsdatum",
+      "beguenstigten#sterbedatum",
     ),
-    "/angehoerige/elternteile/#/sterbedatum": validateBirthDateDeathDate(
+    ...buildKinderMultiFieldsValidation(),
+    "/angehoerige/elternteile/#/geburtsdatum": validateBirthDate(
       "elternteile#geburtsdatum",
       "elternteile#sterbedatum",
-      "deathDate",
+    ),
+    "/angehoerige/elternteile/#/sterbedatum": validateDeathDate(
+      "elternteile#geburtsdatum",
+      "elternteile#sterbedatum",
     ),
     ...buildElternteilKinderMultiFieldsValidation(),
-    "/angehoerige/#/geburtsdatum": validateBirthDateDeathDate(
+    "/angehoerige/#/geburtsdatum": validateBirthDate(
       "angehoerige#geburtsdatum",
       "angehoerige#sterbedatum",
-      "birthDate",
     ),
-    "/angehoerige/#/sterbedatum": validateBirthDateDeathDate(
+    "/angehoerige/#/sterbedatum": validateDeathDate(
       "angehoerige#geburtsdatum",
       "angehoerige#sterbedatum",
-      "deathDate",
     ),
   };
