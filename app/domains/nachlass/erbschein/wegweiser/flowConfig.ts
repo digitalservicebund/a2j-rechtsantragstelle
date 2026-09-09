@@ -1,16 +1,17 @@
 import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
-import { nachlassErbscheinWegweiserPages } from "./pages";
+import { erbscheinWegweiserPages } from "./pages";
 import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
-const nachlassErbscheinWegweiserPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(nachlassErbscheinWegweiserPages);
+const erbscheinWegweiserPagesWithLeadingSlash = addLeadingSlashToPageSchemas(
+  erbscheinWegweiserPages,
+);
 
-export const nachlassErbscheinWegweiserFlowConfig = compileFlow({
-  pages: nachlassErbscheinWegweiserPagesWithLeadingSlash,
+export const erbscheinWegweiserFlowConfig = compileFlow({
+  pages: erbscheinWegweiserPagesWithLeadingSlash,
   initialStep: "start",
   transitions: {
     start: "staatsangehoerigkeit",

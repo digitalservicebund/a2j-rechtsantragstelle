@@ -1,15 +1,15 @@
-import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
+import { type ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import type { Flow } from "~/domains/flows.server";
-import { nachlassErbscheinWegweiserFlowConfig } from "./flowConfig";
+import { erbscheinWegweiserFlowConfig } from "./flowConfig";
 
 export const nachlassErbscheinWegweiser = {
   flowType: "vorabCheck",
   config: { states: {} },
   guards: {},
-  stringReplacements: (userData: NachlassErbscheinWegweiserUserData) => ({
+  stringReplacements: (userData: ErbscheinWegweiserUserData) => ({
     hasGrundeigentumAndHandwrittenTestament:
       userData.testamentType === "handwritten" &&
       userData.hasGrundeigentum === "yes",
   }),
-  newEngineConfig: nachlassErbscheinWegweiserFlowConfig,
-} satisfies Flow<typeof nachlassErbscheinWegweiserFlowConfig.pages>;
+  newEngineConfig: erbscheinWegweiserFlowConfig,
+} satisfies Flow<typeof erbscheinWegweiserFlowConfig.pages>;

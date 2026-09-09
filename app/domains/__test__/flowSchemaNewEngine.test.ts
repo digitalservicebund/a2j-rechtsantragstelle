@@ -17,20 +17,20 @@ import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
-import { nachlassErbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
-import { nachlassErbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
+import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 import { nachlassErbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
-import { nachlassErbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
   nachlassErbscheinAnfrageTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
-  nachlassErbausschlagungGerichtFindenTestCases,
-  nachlassErbscheinNachlassgerichtTestCases,
+  erbausschlagungGerichtFindenTestCases,
+  erbscheinNachlassgerichtTestCases,
   nachlassErbausschlagungAnfrageTestCases,
-  nachlassErbscheinWegweiserTestCases,
+  erbscheinWegweiserTestCases,
 };
 
 type VisitedSteps = Record<
