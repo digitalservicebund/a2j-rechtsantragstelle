@@ -17,7 +17,7 @@ import { InlineNotice } from "../content/InlineNotice";
 import { EmailCapture } from "./emailCapture/EmailCapture";
 import Table from "./Table";
 import { Badge } from "./Badge";
-import { IconName } from "../common/utils";
+import { type IconName } from "../common/utils";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
