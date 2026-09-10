@@ -1,14 +1,14 @@
 import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addHeaderSenderAndDate } from "./addHeaderSenderAndDate";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const MAIN_TITLE = "Datenblatt zur Vorbereitung eines Erbscheinsantrags";
 
 export const createHeaderAndSubject = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   addHeaderSenderAndDate(doc, documentStruct, userData);
 

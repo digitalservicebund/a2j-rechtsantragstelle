@@ -1,12 +1,12 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import {
   mockBeguenstigtenArray,
-  nachlassErbscheinAnfrageHappyPathData,
+  erbscheinAnfrageHappyPathData,
 } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
 };
 
@@ -274,4 +274,4 @@ export const ehepartnerTestCases = {
       stepId: "/angehoerige/hatte-kinder",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

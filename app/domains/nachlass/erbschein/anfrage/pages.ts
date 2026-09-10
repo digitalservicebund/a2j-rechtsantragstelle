@@ -9,7 +9,7 @@ import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
-export const nachlassErbscheinAnfragePages = {
+export const erbscheinAnfragePages = {
   start: {
     stepId: "/start",
   },
@@ -39,5 +39,4 @@ export const nachlassErbscheinAnfragePages = {
   },
 } as const satisfies PageConfigMap;
 
-export type NachlassErbscheinAnfragePages =
-  typeof nachlassErbscheinAnfragePages;
+export type ErbscheinAnfragePages = typeof erbscheinAnfragePages;

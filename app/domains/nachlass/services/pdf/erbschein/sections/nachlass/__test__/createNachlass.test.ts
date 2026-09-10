@@ -2,10 +2,10 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createNachlass } from "~/domains/nachlass/services/pdf/erbschein/sections/nachlass/createNachlass";
 
-const userDataMock: NachlassErbscheinAnfrageUserData = {
+const userDataMock: ErbscheinAnfrageUserData = {
   verstorbeneLebensmittelpunkt: "deutschland",
   hasUnternehmen: "no",
   hasVermoegen: "no",

@@ -2,7 +2,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/newFlowEngine/compileFlow";
-import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { verstorbenePersonFlowConfig } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/flowConfig";
 import { antragstellendePersonFlowConfig } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/flowConfig";
 import { testamentOderErbvertragFlowConfig } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/flowConfig";
@@ -11,8 +11,8 @@ import { angehoerigeFlowConfig } from "~/domains/nachlass/erbschein/anfrage/ange
 import { nachlassFlowConfig } from "~/domains/nachlass/erbschein/anfrage/nachlass/flowConfig";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
-export const nachlassErbscheinAnfrageFlowConfig = compileFlow({
-  pages: nachlassErbscheinAnfragePages,
+export const erbscheinAnfrageFlowConfig = compileFlow({
+  pages: erbscheinAnfragePages,
   initialStep: "start",
   transitions: {
     start: "datenverarbeitung",

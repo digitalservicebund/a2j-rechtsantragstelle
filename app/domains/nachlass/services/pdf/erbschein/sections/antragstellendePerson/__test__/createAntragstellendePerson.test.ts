@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createAntragstellendePerson } from "~/domains/nachlass/services/pdf/erbschein/sections/antragstellendePerson/createAntragstellendePerson";
 import { printRelationshipToDeceased } from "~/domains/nachlass/services/pdf/shared/printRelationshipToDeceased";
 
@@ -19,7 +19,7 @@ const userDataMock = {
   antragstellendePersonPlz: "12345",
   antragstellendePersonOrt: "Beispielstadt",
   antragstellendePersonRelationshipToErblasser: "cousin",
-} satisfies NachlassErbscheinAnfrageUserData;
+} satisfies ErbscheinAnfrageUserData;
 
 describe("createAntragstellendePerson", () => {
   it("should add the antragstellende Person's details to the PDF document", () => {

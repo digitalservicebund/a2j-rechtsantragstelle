@@ -1,7 +1,7 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-export const verstorbenePersonTestCases: FlowTestCases<NachlassErbscheinAnfrageUserData> =
+export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData> =
   {
     singleNationality: [
       {

@@ -1,23 +1,22 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
 import { antragstellendePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/antragstellende-person/__test__/testCasesWithUserInput";
 import { ehepartnerTestCases } from "~/domains/nachlass/erbschein/anfrage/ehepartner/__test__/testCasesWithUserInput";
-import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { erbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
 import { kinderTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/__test__/testCasesWithUserInput";
 import { elternteilTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/elternteil/__test__/testCasesWithUserInput";
 import { nachlassTestCases } from "~/domains/nachlass/erbschein/anfrage/nachlass/__test__/testCasesWithUserInput";
 import { testamentOderErbvertragTestCases } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/__test__/testCasesWithUserInput";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { verstorbenePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/__test__/testCasesWithUserInput";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/__test__/testCasesWithUserInput";
 
-export const nachlassErbscheinAnfrageTestCases = {
+export const erbscheinAnfrageTestCases = {
   xstateConfig: {
     id: "/erbschein/anfrage",
   },
-  newEngineConfig:
-    nachlassErbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
+  newEngineConfig: erbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
   testcases: {
     datenverarbeitung: [
       {
@@ -40,4 +39,4 @@ export const nachlassErbscheinAnfrageTestCases = {
     ...angehoerigeTestCases,
     ...nachlassTestCases,
   },
-} satisfies FlowTestConfig<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestConfig<ErbscheinAnfrageUserData>;
