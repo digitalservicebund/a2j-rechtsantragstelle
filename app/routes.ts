@@ -10,7 +10,7 @@ import {
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
-    ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
+    ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
     ...prefix("antrag", flowRoutes("BHA")),
   ]),
   ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
