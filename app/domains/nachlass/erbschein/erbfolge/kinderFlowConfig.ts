@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbfolgePages } from "./pages";
+import { type ErbfolgePages } from "./pages";
 import { collectMissingChildrenNames } from "../shared/missingChildren";
 import {
   allDescendantsDead,
@@ -139,4 +139,4 @@ export const kinderFlowConfig = {
     },
     { target: "kind1Summary", guard: () => true },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;
+} satisfies Partial<TransitionConfigMap<ErbfolgePages>>;

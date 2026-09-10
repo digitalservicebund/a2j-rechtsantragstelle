@@ -4,7 +4,7 @@ import {
   type alivePersonSchema,
   personUnion,
 } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pageSchemaHelpers";
-import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
+import { type ErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 // #region Base Erbfolge types, used in the Erbfolge Vorabcheck.
@@ -126,4 +126,4 @@ export type Elternteil =
 // #endregion
 
 export type ErbfolgeData =
-  NachlassErbscheinErbfolgeUserData | NachlassErbscheinAnfrageUserData;
+  ErbscheinErbfolgeUserData | NachlassErbscheinAnfrageUserData;

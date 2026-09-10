@@ -1,5 +1,5 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbfolgeStaticFlow } from "../flowConfig";
+import { erbfolgeStaticFlow } from "../flowConfig";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -12,7 +12,7 @@ const baseUserData = {
 describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
   it("is shown when a spouse exists and no 1st/2nd order heirs were found", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       { ...baseUserData, ehepartnerVorname: "Partner" } as UserData,
       "/elternteile",
     );
@@ -22,7 +22,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
 
   it("is skipped (goes straight to nichtErmitteltWeitereOrdnungen) without a spouse", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       baseUserData as UserData,
       "/elternteile",
     );
@@ -34,7 +34,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
 
   it("routes to the further-orders exit page when grandparents are alive", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       {
         ...baseUserData,
         ehepartnerVorname: "Partner",
@@ -50,7 +50,7 @@ describe("grosseltern question (spouse + no 1st/2nd order heirs)", () => {
 
   it("routes to the result page when no grandparents are alive", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       {
         ...baseUserData,
         ehepartnerVorname: "Partner",

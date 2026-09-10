@@ -24,7 +24,7 @@ import {
   type PageConfigMap,
 } from "~/services/flow/newFlowEngine/types";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
-import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
+import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
   sourceData: InferredUserData<PageConfigMap>,
@@ -89,7 +89,7 @@ export const flows = {
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/erbschein/erbfolge": nachlassErbfolge,
+  "/erbschein/erbfolge": erbscheinErbfolge,
   "/erbschein/wegweiser": erbscheinWegweiser,
   "/erbschein/nachlassgericht": erbscheinNachlassgericht,
   "/erbschein/anfrage": nachlassErbscheinAnfrage,

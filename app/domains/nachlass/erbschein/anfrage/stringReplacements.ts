@@ -4,7 +4,7 @@ import {
   type PersonDocuments,
   collectRequiredDocuments,
 } from "~/domains/nachlass/erbschein/requiredDocuments";
-import { nachlassErbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
+import { erbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
@@ -135,7 +135,7 @@ export const getAngehoerigeStrings = (
 ): Replacements => {
   return {
     ...angehoerigeName(context),
-    ...nachlassErbfolgeStringReplacements(context),
+    ...erbfolgeStringReplacements(context),
     requiredDocumentsHtml: buildRequiredDocumentsHtml(
       collectRequiredDocuments(context),
     ),

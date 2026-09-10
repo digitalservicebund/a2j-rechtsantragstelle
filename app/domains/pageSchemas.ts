@@ -14,7 +14,7 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
-import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
+import { erbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
@@ -34,7 +34,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/wegweiser": erbscheinWegweiserPages,
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/erbausschlagung/anfrage": erbausschlagungAnfragePages,
-  "/erbschein/erbfolge": nachlassErbfolgePages,
+  "/erbschein/erbfolge": erbfolgePages,
   "/erbschein/anfrage": nachlassErbscheinAnfragePages,
   "/erbausschlagung/gericht-finden": erbausschlagungGerichtFindenPages,
 } as const;

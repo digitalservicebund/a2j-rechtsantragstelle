@@ -1,5 +1,5 @@
 import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
-import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
+import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 import type { LoaderFunctionArgs } from "react-router";
 import { redirect } from "react-router";
@@ -23,7 +23,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const migratedData = migrateSourceFlowDataToDestinationFlow(
     sourceSession.data,
-    nachlassErbfolge,
+    erbscheinErbfolge,
     nachlassErbscheinAnfrage,
     destinationFlowId,
   );

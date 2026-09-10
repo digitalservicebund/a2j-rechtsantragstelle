@@ -10,7 +10,7 @@ import {
   getVerstorbenePostcodeCity,
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
-import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
+import { type ErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { migrateElternteil, migrateKind } from "./personMigration";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
@@ -35,7 +35,7 @@ export const nachlassErbscheinAnfrage = {
       "elternteile",
     ],
     migrationDataMerger: (
-      sourceData: NachlassErbscheinErbfolgeUserData,
+      sourceData: ErbscheinErbfolgeUserData,
     ): NachlassErbscheinAnfrageUserData => {
       return {
         verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
