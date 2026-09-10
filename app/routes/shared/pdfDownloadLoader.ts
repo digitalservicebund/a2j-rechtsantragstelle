@@ -22,7 +22,7 @@ import {
 } from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { today, pdfDateFormat } from "~/util/date";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 import { type UserData } from "~/domains/userData";
 import { flows } from "~/domains/flows.server";
@@ -36,7 +36,7 @@ type PdfFlowContexts =
   | ProzesskostenhilfeFormularUserData
   | GeldEinklagenFormularUserData
   | ErbausschlagungAnfrageUserData
-  | NachlassErbscheinAnfrageUserData
+  | ErbscheinAnfrageUserData
   | KontopfaendungPkontoAntragUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
@@ -93,7 +93,7 @@ const pdfConfigs = {
     name: `Erbausschlagung_Anfrage`,
   },
   "/erbschein/anfrage": {
-    pdfFunction: async (userData: NachlassErbscheinAnfrageUserData) =>
+    pdfFunction: async (userData: ErbscheinAnfrageUserData) =>
       await erbscheinAnfragePdfFromUserdata(userData),
     name: `Erbschein_Anfrage`,
   },

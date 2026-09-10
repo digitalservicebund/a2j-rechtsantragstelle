@@ -1,4 +1,4 @@
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
@@ -67,4 +67,4 @@ export const ehepartnerFlowConfig = {
       target: "grundbesitz",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

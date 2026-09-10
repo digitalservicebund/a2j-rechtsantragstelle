@@ -4,7 +4,7 @@ import {
   type Heir,
 } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 import { personName } from "./shared/personName";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { translations } from "~/services/translations/translations";
 
 type FamilyMember = {
@@ -46,9 +46,7 @@ function walkFamilyTree(members: FamilyMember[]): PersonDocuments[] {
 // The spouse's documents depend on the familienstand. Divorced and widowed
 // spouses were never asked by name, so they get a generic label. A spouse
 // never needs a Geburtsurkunde.
-function spouseEntries(
-  data: NachlassErbscheinAnfrageUserData,
-): PersonDocuments[] {
+function spouseEntries(data: ErbscheinAnfrageUserData): PersonDocuments[] {
   switch (data.verstorbeneFamilienstand) {
     case "verheiratet":
       return [
@@ -115,7 +113,7 @@ function addErbanteile(entry: PersonDocuments, heirs: Heir[]) {
 // One entry per person. With second-order heirs the deceased also needs their
 // own Geburtsurkunde as proof of who the parents are.
 export function collectRequiredDocuments(
-  data: NachlassErbscheinAnfrageUserData,
+  data: ErbscheinAnfrageUserData,
 ): PersonDocuments[] {
   const hasSecondOrderHeirs = (data.elternteile ?? []).length > 0;
   const heirs = determineHeirs(data);

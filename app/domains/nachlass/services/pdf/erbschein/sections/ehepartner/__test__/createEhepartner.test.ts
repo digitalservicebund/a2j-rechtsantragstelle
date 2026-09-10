@@ -2,10 +2,10 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createEhepartner } from "~/domains/nachlass/services/pdf/erbschein/sections/ehepartner/createEhepartner";
 
-const userDataMock: NachlassErbscheinAnfrageUserData = {
+const userDataMock: ErbscheinAnfrageUserData = {
   ehepartnerVorname: "Maria",
   ehepartnerNachname: "Mustermann",
 };

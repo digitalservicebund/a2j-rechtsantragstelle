@@ -1,4 +1,4 @@
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
@@ -68,4 +68,4 @@ export const testamentOderErbvertragFlowConfig = {
   namedBeneficiaryAddress: "namedBeneficiariesOverview",
   namedBeneficiarySterbedatum: "namedBeneficiariesOverview",
   namedBeneficiariesWarning: "namedBeneficiariesOverview",
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addDeceasedPersonDetails } from "../addDeceasedPersonDetails";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const userDataMock = {
   verstorbeneVorname: "Max",
@@ -14,7 +14,7 @@ const userDataMock = {
   sterbedatum: { day: "01", month: "01", year: "2020" },
   sterbeort: "Musterstadt",
   verstorbeneFamilienstand: "ledig",
-} satisfies NachlassErbscheinAnfrageUserData;
+} satisfies ErbscheinAnfrageUserData;
 
 describe("addDeceasedPersonDetails", () => {
   it("should add the deceased person details to the PDF document", () => {

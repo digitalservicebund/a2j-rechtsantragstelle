@@ -1,10 +1,10 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -223,4 +223,4 @@ export const kinderTestCases = {
       stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

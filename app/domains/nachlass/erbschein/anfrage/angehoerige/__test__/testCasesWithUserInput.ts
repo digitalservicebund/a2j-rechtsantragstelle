@@ -2,13 +2,13 @@ import {
   type ExpectedStep,
   type FlowTestCases,
 } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type Angehoerige } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -30,7 +30,7 @@ const validAngehoerige = [
  * entirely deceased, triggering a "3rd Order" inheritance scenario,
  * not handled by the flow, but instead handled by the "Angehörige" section.
  */
-const dataToReachAngehoerige: NachlassErbscheinAnfrageUserData = {
+const dataToReachAngehoerige: ErbscheinAnfrageUserData = {
   ...happyPathData,
   hatteKinder: "yes",
   kinder: [
@@ -59,8 +59,8 @@ const depthFiveDeadKind = () => {
 };
 
 const deceasedAngehoerigeToGrundbesitz = (
-  startingData?: NachlassErbscheinAnfrageUserData,
-): Array<ExpectedStep<NachlassErbscheinAnfrageUserData>> => [
+  startingData?: ErbscheinAnfrageUserData,
+): Array<ExpectedStep<ErbscheinAnfrageUserData>> => [
   {
     stepId: "/angehoerige/uebersicht",
     addArrayItemEvent: "add-angehoerige",
@@ -238,4 +238,4 @@ export const angehoerigeTestCases = {
       stepId: "/angehoerige/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

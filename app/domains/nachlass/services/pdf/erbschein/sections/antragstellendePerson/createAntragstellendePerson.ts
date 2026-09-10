@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { printRelationshipToDeceased } from "~/domains/nachlass/services/pdf/shared/printRelationshipToDeceased";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -12,7 +12,7 @@ const TITLE = "Antragstellende Person";
 export const createAntragstellendePerson = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const antragstellendePersonSection = doc.struct("Sect");
 
