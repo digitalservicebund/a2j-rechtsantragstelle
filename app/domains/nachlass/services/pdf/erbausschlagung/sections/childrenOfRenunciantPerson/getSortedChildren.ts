@@ -1,10 +1,8 @@
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
-import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
 import { toDate } from "~/services/validation/dateObject";
 
-export const getChildBirthDate = (
-  child: NachlassErbausschlagungAnfrageKind,
-) => {
+export const getChildBirthDate = (child: ErbausschlagungAnfrageKind) => {
   if (!child.geburtsdatum) {
     return undefined;
   }
@@ -19,7 +17,7 @@ export const getChildBirthDate = (
 };
 
 export const getSortedChildren = (
-  kinder: NachlassErbausschlagungAnfrageUserData["kinder"],
+  kinder: ErbausschlagungAnfrageUserData["kinder"],
 ) => {
   return (kinder ?? []).toSorted((leftChild, rightChild) => {
     const leftBirthTimestamp = getChildBirthDate(leftChild)?.getTime();

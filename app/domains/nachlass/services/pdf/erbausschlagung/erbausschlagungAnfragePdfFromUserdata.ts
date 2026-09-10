@@ -2,7 +2,7 @@ import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { createHeaderAndSubject } from "./sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "./sections/deceasedPerson/createDeceasedPerson";
 import { createRenunciantPerson } from "./sections/renunciantPerson/createRenunciantPerson";
@@ -14,7 +14,7 @@ const SUBJECT = "Erbausschlagung";
 const KEYWORDS = "Erbausschlagung";
 
 const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
-  NachlassErbausschlagungAnfrageUserData
+  ErbausschlagungAnfrageUserData
 > = (doc, documentStruct, userData) => {
   doc.page.margins.bottom = 70;
   doc.on("pageAdded", () => {
@@ -31,7 +31,7 @@ const buildErbausschlagungPDFDocument: PDFDocumentBuilder<
 };
 
 export function erbausschlagungAnfragePdfFromUserdata(
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) {
   return pdfFromUserData(userData, buildErbausschlagungPDFDocument);
 }
