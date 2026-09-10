@@ -3,7 +3,7 @@ import { createRequestHandler } from "@react-router/express";
 import * as Sentry from "@sentry/react-router";
 import compression from "compression";
 import express, { type RequestHandler } from "express";
-import type { ServerBuild } from "react-router";
+import { RouterContextProvider, type ServerBuild } from "react-router";
 import type { ViteDevServer } from "vite";
 import { shutdownPosthog } from "./services/analytics/posthogClient.server";
 import { config } from "./services/env/public";
@@ -11,6 +11,7 @@ import { createPinoHttpLogger } from "./services/logging/createPinoHttpLogger";
 import { createRateLimitRequestHandler } from "./services/rateLimit";
 import { getRedisInstance, quitRedis } from "./services/redis/redisClient";
 import { createPrometheusMetricsMiddleware } from "./services/logging/createPrometheusMetrics";
+import { clientIpContext } from "./services/requestContext.server";
 
 // expressApp() itself is not hot reloaded
 export const expressApp = (
@@ -18,7 +19,11 @@ export const expressApp = (
   viteDevServer: ViteDevServer,
 ) => {
   const redisClient = getRedisInstance();
-  const reactRouterHandler = createRequestHandler({ build }) as RequestHandler; // express 5 doesn't handle returned promises
+  const reactRouterHandler = createRequestHandler({
+    build,
+    getLoadContext: (req) =>
+      new RouterContextProvider(new Map([[clientIpContext, req.ip]])),
+  }) as RequestHandler; // express 5 doesn't handle returned promises
 
   const app = express();
 

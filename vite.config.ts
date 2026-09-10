@@ -52,6 +52,10 @@ export default defineConfig((config) => ({
     // creating a second DataRouterContext and breaking hooks like
     // useActionData with "must be used within a data router". Bundling them
     // through Vite's SSR graph keeps a single react-router instance.
+    // @react-router/express hits the same issue: its externalized copy of
+    // react-router creates a RouterContextProvider class distinct from the
+    // one used in expressApp.ts's getLoadContext, failing the adapter's
+    // `context instanceof RouterContextProvider` check.
     // Only needed for the actual app (dev/build), not under Vitest, where
     // forcing them through vite-node's transform pipeline instead splits
     // @rvf/react into a separate instance from the one used directly in
@@ -59,7 +63,12 @@ export default defineConfig((config) => ({
     // FormProvider".
     noExternal: isVitest
       ? ["@digitalservicebund/icons"]
-      : ["@digitalservicebund/icons", "@rvf/react-router", "@rvf/react"],
+      : [
+          "@digitalservicebund/icons",
+          "@rvf/react-router",
+          "@rvf/react",
+          "@react-router/express",
+        ],
   },
   test: {
     globals: true,
