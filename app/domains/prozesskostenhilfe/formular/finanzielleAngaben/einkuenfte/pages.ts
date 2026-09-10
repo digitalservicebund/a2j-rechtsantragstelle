@@ -152,22 +152,15 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     shouldCollapseIntoParentNavItem: true,
   },
   weitereEinkunft: {
-    stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft",
+    stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      weitereEinkuenfte: weitereEinkuenfteArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "weitereEinkuenfte#beschreibung":
-            weitereEinkuenfteArraySchema.element.shape.beschreibung,
-          "weitereEinkuenfte#zahlungsfrequenz":
-            weitereEinkuenfteArraySchema.element.shape.zahlungsfrequenz,
-          "weitereEinkuenfte#betrag":
-            weitereEinkuenfteArraySchema.element.shape.betrag,
-        },
-      },
+      "weitereEinkuenfte#beschreibung":
+        weitereEinkuenfteArraySchema.element.shape.beschreibung,
+      "weitereEinkuenfte#zahlungsfrequenz":
+        weitereEinkuenfteArraySchema.element.shape.zahlungsfrequenz,
+      "weitereEinkuenfte#betrag":
+        weitereEinkuenfteArraySchema.element.shape.betrag,
     },
   },
   weitereEinkuenfteFrage: {
@@ -180,6 +173,11 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   weitereEinkuenfteUebersicht: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/uebersicht",
     shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "weitereEinkuenfte",
+      schema: weitereEinkuenfteArraySchema,
+      fieldName: "hasFurtherIncome",
+    },
   },
   weitereEinkuenfteWarnung: {
     shouldCollapseIntoParentNavItem: true,
