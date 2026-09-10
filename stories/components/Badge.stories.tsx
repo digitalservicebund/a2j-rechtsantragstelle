@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Badge } from "~/components/common/Badge";
+import { Badge } from "~/components/content/Badge";
 import { type IconName } from "~/components/common/utils";
 
 const variants = ["info", "success", "warning", "danger"] as const;

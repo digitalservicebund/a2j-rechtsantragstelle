@@ -14,6 +14,7 @@ import { StrapiSummaryOverviewSectionSchema } from "../content/StrapiSummaryOver
 import { StrapiTableOfContentsSchema } from "../content/StrapiTableOfContents";
 import { StrapiUserFeedbackSchema } from "../content/StrapiUserFeedback";
 import { StrapiTableSchema } from "../content/StrapiTable";
+import { StrapiBadgeSchema } from "../content/StrapiBadge";
 
 export const StrapiContentComponentSchema = z.union([
   StrapiBoxSchema,
@@ -31,6 +32,7 @@ export const StrapiContentComponentSchema = z.union([
   StrapiSummaryOverviewSectionSchema,
   StrapiEmailCaptureSchema,
   StrapiTableSchema,
+  StrapiBadgeSchema,
 ]);
 
 export type StrapiContentComponent = z.infer<
