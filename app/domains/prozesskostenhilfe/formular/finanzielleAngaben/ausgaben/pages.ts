@@ -94,22 +94,22 @@ export const sonstigeZahlungArraySchema = z
 
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
     pageSchema: {
       hasAusgaben: YesNoAnswer,
     },
   },
   ausgabenVersicherungenFrage: {
-    stepId: "finanzielle-angaben/ausgaben/versicherungen-frage",
+    stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
     pageSchema: {
       hasVersicherungen: YesNoAnswer,
     },
   },
   ausgabenVersicherungenUebersicht: {
-    stepId: "finanzielle-angaben/ausgaben/versicherungen-uebersicht",
+    stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
   },
   ausgabenVersicherung: {
-    stepId: "finanzielle-angaben/ausgaben/versicherungen",
+    stepId: "/finanzielle-angaben/ausgaben/versicherungen",
     pageSchema: {
       versicherungen: versicherungenArraySchema,
     },
@@ -130,19 +130,19 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenVersicherungenWarnung: {
-    stepId: "finanzielle-angaben/ausgaben/versicherungen-warnung",
+    stepId: "/finanzielle-angaben/ausgaben/versicherungen-warnung",
   },
   ausgabenRatenzahlungenFrage: {
-    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
     pageSchema: {
       hasRatenzahlungen: YesNoAnswer,
     },
   },
   ausgabenRatenzahlungenUebersicht: {
-    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
+    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
   },
   ausgabenRatenzahlung: {
-    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen",
+    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen",
     pageSchema: { ratenzahlungen: ratenZahlungArraySchema },
     arrayPages: {
       daten: {
@@ -185,19 +185,19 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenRatenzahlungenWarnung: {
-    stepId: "finanzielle-angaben/ausgaben/ratenzahlungen-warnung",
+    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-warnung",
   },
   ausgabenSonstigeAusgabenFrage: {
-    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+    stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
     pageSchema: {
       hasSonstigeAusgaben: YesNoAnswer,
     },
   },
   ausgabenSonstigeAusgabenUebersicht: {
-    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
+    stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
   },
   ausgabenSonstigeAusgabe: {
-    stepId: "finanzielle-angaben/ausgaben/sonstigeAusgaben",
+    stepId: "/finanzielle-angaben/ausgaben/sonstigeAusgaben",
     pageSchema: { sonstigeAusgaben: sonstigeZahlungArraySchema },
     arrayPages: {
       daten: {
@@ -232,10 +232,10 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenSonstigeAusgabenWarnung: {
-    stepId: "finanzielle-angaben/ausgaben/sonstige-ausgaben-warnung",
+    stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-warnung",
   },
   ausgabenBesondereBelastungen: {
-    stepId: "finanzielle-angaben/ausgaben/besondere-belastungen",
+    stepId: "/finanzielle-angaben/ausgaben/besondere-belastungen",
     pageSchema: {
       besondereBelastungen: besondereBelastungenInputSchema,
     },

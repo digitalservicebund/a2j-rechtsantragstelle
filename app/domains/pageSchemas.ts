@@ -102,12 +102,10 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
 
   if (
     [
-      "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
-      "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
-      "/nachlass/erbausschlagung/anfrage", // Delete after /nachlass migration
-      "/erbschein/erbfolge",
-      "/erbschein/anfrage",
-      "/erbausschlagung/anfrage",
+      "/nachlass/erbschein/erbfolge",
+      "/nachlass/erbschein/anfrage",
+      "/nachlass/erbausschlagung/anfrage",
+      "/prozesskostenhilfe/formular",
     ].includes(flowId)
   ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);

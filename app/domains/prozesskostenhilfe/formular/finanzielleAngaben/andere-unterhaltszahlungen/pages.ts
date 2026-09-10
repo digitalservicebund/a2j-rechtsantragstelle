@@ -35,19 +35,19 @@ const unterhaltszahlungenArraySchema = z
 
 export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/frage",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     pageSchema: {
       hasWeitereUnterhaltszahlungen: YesNoAnswer,
     },
   },
   andereUnterhaltszahlungenUebersicht: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
   },
   andereUnterhaltszahlungenWarnung: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
   },
   andereUnterhaltszahlungenPerson: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/person",
     pageSchema: {
       unterhaltszahlungen: unterhaltszahlungenArraySchema,
     },

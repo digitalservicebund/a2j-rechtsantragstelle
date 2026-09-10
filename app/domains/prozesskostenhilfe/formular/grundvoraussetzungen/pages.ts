@@ -4,50 +4,60 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const pkhFormularGrundvoraussetzungenPages = {
   nachueberpruefungFrage: {
-    stepId: "grundvoraussetzungen/nachueberpruefung-frage",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
     pageSchema: {
       formularArt: z.enum(["nachueberpruefung", "erstantrag"]),
     },
   },
   anhaengigesGerichtsverfahrenFrage: {
+    shouldCollapseIntoParentNavItem: true,
     stepId:
-      "grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
+      "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/anhaengiges-gerichtsverfahren-frage",
     pageSchema: {
       anhaengigesGerichtsverfahrenFrage: z.enum(["yes", "no", "dontKnow"]),
     },
   },
   nameGericht: {
-    stepId: "grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/name-gericht",
     pageSchema: {
       gerichtName: stringOptionalSchema,
     },
   },
   aktenzeichen: {
-    stepId: "grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/anhaengiges-gerichtsverfahren/aktenzeichen",
     pageSchema: {
       aktenzeichen: stringOptionalSchema,
     },
   },
   klageersteller: {
-    stepId: "grundvoraussetzungen/antrag/klageersteller",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/antrag/klageersteller",
     pageSchema: {
       verfahrenArt: z.enum(["verfahrenSelbststaendig", "verfahrenAnwalt"]),
     },
   },
   hinweis: {
-    stepId: "grundvoraussetzungen/antrag/hinweis",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/antrag/hinweis",
   },
   hinweisDigitalEinreichung: {
-    stepId: "grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/einreichung/hinweis-digital-einreichung",
   },
   mjp: {
-    stepId: "grundvoraussetzungen/einreichung/mjp",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/einreichung/mjp",
   },
   hinweisPapierEinreichung: {
-    stepId: "grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/einreichung/hinweis-papier-einreichung",
   },
   fall: {
-    stepId: "grundvoraussetzungen/einreichung/fall",
+    shouldCollapseIntoParentNavItem: true,
+    stepId: "/grundvoraussetzungen/einreichung/fall",
     pageSchema: {
       versandArt: z.enum(["digital", "analog"]),
     },

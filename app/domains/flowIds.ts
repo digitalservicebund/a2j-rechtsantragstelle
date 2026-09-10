@@ -40,10 +40,8 @@ export function parsePathname(pathname: string) {
     "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
     "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
     "/geld-einklagen/formular",
-    "/nachlass/erbausschlagung/anfrage", // Delete after /nachlass migration
-    "/erbschein/erbfolge",
-    "/erbschein/anfrage",
-    "/erbausschlagung/anfrage",
+    "/nachlass/erbausschlagung/anfrage",
+    "/prozesskostenhilfe/formular",
   ];
   const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
   const stepId = pathname
