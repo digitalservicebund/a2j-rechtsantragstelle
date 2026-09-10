@@ -17,9 +17,11 @@ import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/r
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { prozesskostenhilfeFormularFlowConfig } from "../flowConfig";
 
 export const prozesskostenhilfeFormularTestCases = {
-  xstateConfig: prozesskostenhilfeFormular.config,
+  xstateConfig: { id: "/prozesskostenhilfe/formular" },
+  newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   testcases: {
     shortHappyPath: [
       {
@@ -137,4 +139,7 @@ export const prozesskostenhilfeFormularTestCases = {
       },
     ],
   },
-} satisfies FlowTestConfig<ProzesskostenhilfeFormularUserData>;
+} satisfies FlowTestConfig<
+  ProzesskostenhilfeFormularUserData,
+  typeof prozesskostenhilfeFormularFlowConfig.pages
+>;

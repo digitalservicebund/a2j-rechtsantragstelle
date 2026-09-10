@@ -152,7 +152,8 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     shouldCollapseIntoParentNavItem: true,
   },
   weitereEinkunft: {
-    stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/#/daten",
+    stepId:
+      "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/einkunft/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "weitereEinkuenfte#beschreibung":
