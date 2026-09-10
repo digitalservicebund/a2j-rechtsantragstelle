@@ -1,5 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   getArrayIndexStrings,
   getAusschlagendePersonName,
@@ -25,11 +25,11 @@ import {
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
-export const nachlassErbausschlagungAnfrage = {
+export const erbausschlagungAnfrage = {
   flowType: "formFlow",
   config: { states: {} },
   newEngineConfig: erbausschlagungAnfrageFlowConfig,
-  stringReplacements: (context: NachlassErbausschlagungAnfrageUserData) => ({
+  stringReplacements: (context: ErbausschlagungAnfrageUserData) => ({
     ...getVerstorbeneName(context),
     ...getAusschlagendePersonName(context),
     ...getKinderName(context),

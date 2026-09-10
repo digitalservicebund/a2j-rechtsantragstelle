@@ -1,4 +1,4 @@
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { getSortedChildren } from "../getSortedChildren";
 
 describe("getSortedChildren", () => {
@@ -22,10 +22,7 @@ describe("getSortedChildren", () => {
         wohnortBeiAntragsteller: "yes",
         geburtsdatum: { day: "01", month: "01", year: "1990" },
       },
-    ] satisfies Exclude<
-      NachlassErbausschlagungAnfrageUserData["kinder"],
-      undefined
-    >;
+    ] satisfies Exclude<ErbausschlagungAnfrageUserData["kinder"], undefined>;
 
     const sortedChildren = getSortedChildren(children);
 

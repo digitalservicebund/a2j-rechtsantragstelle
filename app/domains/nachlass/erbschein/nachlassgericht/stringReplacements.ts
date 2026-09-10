@@ -1,9 +1,9 @@
-import { type NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import { type ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
 export const getAmtsgerichtStrings = (
-  userData: NachlassErbscheinNachlassGerichtUserData,
+  userData: ErbscheinNachlassGerichtUserData,
 ) => {
   const zipCode =
     userData.plzLebensmittelpunkt ??
@@ -26,9 +26,7 @@ export const getAmtsgerichtStrings = (
   };
 };
 
-export const getPlzStrings = (
-  userData: NachlassErbscheinNachlassGerichtUserData,
-) => ({
+export const getPlzStrings = (userData: ErbscheinNachlassGerichtUserData) => ({
   plzPflegeheim: userData.plzPflegeheim,
   plzHospiz: userData.plzHospiz,
   plzLebensmittelpunkt: userData.plzLebensmittelpunkt,

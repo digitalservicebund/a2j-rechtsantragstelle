@@ -5,7 +5,7 @@ import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber
 import { postcodeSchema } from "~/services/validation/postcode";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
-export const nachlassErbscheinNachlassgerichtPages = {
+export const erbscheinNachlassgerichtPages = {
   start: {
     stepId: "start",
   },
