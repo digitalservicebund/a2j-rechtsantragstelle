@@ -5,7 +5,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const CREATION_PDF_TEXT = "Erstellt am:";
 const SENDER_TEXT = "Absender";
@@ -13,7 +13,7 @@ const SENDER_TEXT = "Absender";
 export const addHeaderSenderAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateString(today())}`;
 

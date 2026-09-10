@@ -19,7 +19,7 @@ import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
 import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
-import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
 export const pages: Record<FlowId, PagesConfig> = {
@@ -35,7 +35,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
   "/erbausschlagung/anfrage": erbausschlagungAnfragePages,
   "/erbschein/erbfolge": erbfolgePages,
-  "/erbschein/anfrage": nachlassErbscheinAnfragePages,
+  "/erbschein/anfrage": erbscheinAnfragePages,
   "/erbausschlagung/gericht-finden": erbausschlagungGerichtFindenPages,
 } as const;
 

@@ -1,6 +1,6 @@
 import type z from "zod";
 import { type AsyncFlowAction } from "~/domains/flows.server";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   type ElternteilKind,
   type Kind,
@@ -34,7 +34,7 @@ type AntragstellendePerson = {
 
 function antragstellendePersonToEhepartner(
   antragstellendePerson: AntragstellendePerson,
-): Partial<NachlassErbscheinAnfrageUserData> {
+): Partial<ErbscheinAnfrageUserData> {
   return {
     ehepartnerVorname: antragstellendePerson.vorname,
     ehepartnerNachname: antragstellendePerson.nachname,
@@ -90,7 +90,7 @@ function antragstellendePersonToDescendant(
  */
 function convertAntragstellendePersonToAngehoerige(
   antragstellendePerson: AntragstellendePerson,
-): Partial<NachlassErbscheinAnfrageUserData> {
+): Partial<ErbscheinAnfrageUserData> {
   const relationshipToErblasser = antragstellendePerson.verhaeltnis;
   switch (relationshipToErblasser) {
     case "wife-husband":
@@ -133,7 +133,7 @@ function convertAntragstellendePersonToAngehoerige(
  * an array item, to reduce the redundant data entry for the user.
  */
 export const copyAntragstellendePersonData: AsyncFlowAction<
-  NachlassErbscheinAnfrageUserData
+  ErbscheinAnfrageUserData
 > = async (_request, userData, flowSession) => {
   const antragstellendePerson: AntragstellendePerson = {
     vorname: userData.antragstellendePersonVorname ?? "",

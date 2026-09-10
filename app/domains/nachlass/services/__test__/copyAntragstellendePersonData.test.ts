@@ -1,8 +1,8 @@
 import { createSession } from "react-router";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyAntragstellendePersonData";
 
-const mockAntragstellendePersonData: NachlassErbscheinAnfrageUserData = {
+const mockAntragstellendePersonData: ErbscheinAnfrageUserData = {
   antragstellendePersonVorname: "John",
   antragstellendePersonNachname: "Doe",
   antragstellendePersonGeburtsdatum: {
@@ -24,7 +24,7 @@ const mockAntragstellendePersonData: NachlassErbscheinAnfrageUserData = {
 
 describe("copyAntragstellendePersonData", () => {
   it("should copy the antragstellende person data to the angehoerige section", async () => {
-    const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+    const flowSession = createSession<ErbscheinAnfrageUserData>();
     await copyAntragstellendePersonData(
       {} as Request,
       mockAntragstellendePersonData,
@@ -59,7 +59,7 @@ describe("copyAntragstellendePersonData", () => {
 
   describe("Dynamic relationship handling", () => {
     it("Should copy the antragstellende person data to ehepartner, if the relationship is spousal", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {
@@ -82,7 +82,7 @@ describe("copyAntragstellendePersonData", () => {
     });
 
     it("Should copy the antragstellende person data to kind, if the relationship is child", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {
@@ -119,7 +119,7 @@ describe("copyAntragstellendePersonData", () => {
     });
 
     it("Should copy the antragstellende person data to Elternteil, if the relationship is parent", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {
@@ -156,7 +156,7 @@ describe("copyAntragstellendePersonData", () => {
     });
 
     it("Should copy the antragstellende person data to Enkelkind, if the relationship is enkelkind", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {
@@ -196,7 +196,7 @@ describe("copyAntragstellendePersonData", () => {
     });
 
     it("Should copy the antragstellende person data to sister or brother, if the relationship is sibling", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {
@@ -235,7 +235,7 @@ describe("copyAntragstellendePersonData", () => {
     });
 
     it("Should copy the antragstellende person data to niece or nephew, if the relationship is niece or nephew", async () => {
-      const flowSession = createSession<NachlassErbscheinAnfrageUserData>();
+      const flowSession = createSession<ErbscheinAnfrageUserData>();
       await copyAntragstellendePersonData(
         {} as Request,
         {

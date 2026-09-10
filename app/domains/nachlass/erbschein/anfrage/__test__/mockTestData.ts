@@ -1,15 +1,14 @@
 import { type beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
-import type { NachlassErbscheinAnfrageUserData } from "../userData";
+import type { ErbscheinAnfrageUserData } from "../userData";
 import type z from "zod";
 
-export const nachlassErbscheinAnfrageHappyPathData: NachlassErbscheinAnfrageUserData =
-  {
-    datenverarbeitungZustimmung: "on",
-    verstorbenePersonStrasse: "Musterstraße",
-    verstorbenePersonHausnummer: "1",
-    verstorbenePersonOrt: "Musterstadt",
-    antragstellendePersonRelationshipToErblasser: "daughter-son",
-  };
+export const erbscheinAnfrageHappyPathData: ErbscheinAnfrageUserData = {
+  datenverarbeitungZustimmung: "on",
+  verstorbenePersonStrasse: "Musterstraße",
+  verstorbenePersonHausnummer: "1",
+  verstorbenePersonOrt: "Musterstadt",
+  antragstellendePersonRelationshipToErblasser: "daughter-son",
+};
 
 export const mockBeguenstigtenArray: z.infer<typeof beguenstigtenArray> = [
   {

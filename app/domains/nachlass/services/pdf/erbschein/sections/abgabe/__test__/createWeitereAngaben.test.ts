@@ -2,10 +2,10 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createWeitereAngaben } from "~/domains/nachlass/services/pdf/erbschein/sections/abgabe/createWeitereAngaben";
 
-const userDataMock: NachlassErbscheinAnfrageUserData = {
+const userDataMock: ErbscheinAnfrageUserData = {
   weitereAngaben:
     "A lot of text explaining my very long and complicated situation that requires a lot of explanation.",
 };
