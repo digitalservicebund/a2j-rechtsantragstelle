@@ -1,15 +1,14 @@
 import { z } from "zod";
-import type { NachlassErbausschlagungAnfrageUserData } from "../userData";
+import type { ErbausschlagungAnfrageUserData } from "../userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { type DateObject, toDate } from "~/services/validation/dateObject";
 import { addYears, today } from "~/util/date";
 import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/schema";
 
-type NachlassErbausschlagungAnfrageDaten =
-  GenericGuard<NachlassErbausschlagungAnfrageUserData>;
+type ErbausschlagungAnfrageDaten = GenericGuard<ErbausschlagungAnfrageUserData>;
 
-export const isKinderWohnortBeiAntragstellerYes: NachlassErbausschlagungAnfrageDaten =
+export const isKinderWohnortBeiAntragstellerYes: ErbausschlagungAnfrageDaten =
   ({ context: { pageData, kinder } }) => {
     const arrayIndex = firstArrayIndex(pageData);
     if (arrayIndex === undefined) return false;
@@ -27,7 +26,7 @@ export const isBirthDateAbove18Years = (birthDateObject: DateObject) => {
   return birthDate <= eighteenYearsAgo;
 };
 
-export const isKinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
+export const isKinderAbove18YearsOld: ErbausschlagungAnfrageDaten = ({
   context: { pageData, kinder },
 }) => {
   const arrayIndex = firstArrayIndex(pageData);
@@ -38,7 +37,7 @@ export const isKinderAbove18YearsOld: NachlassErbausschlagungAnfrageDaten = ({
   return isBirthDateAbove18Years(currentKid.geburtsdatum);
 };
 
-export const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
+export const kinderNotFilled: ErbausschlagungAnfrageDaten = ({
   context: { hasKid, numberOfKids, kinder },
 }) => {
   if (hasKid === "no" || numberOfKids === 0) {
@@ -48,25 +47,26 @@ export const kinderNotFilled: NachlassErbausschlagungAnfrageDaten = ({
   return numberOfKids !== kinder?.length;
 };
 
-export const hasKinderSorgerechtSameAddressNo: NachlassErbausschlagungAnfrageDaten =
-  ({ context: { pageData, kinder } }) => {
-    const arrayIndex = firstArrayIndex(pageData);
-    if (arrayIndex === undefined) return false;
-    const kinderHasSorgerechtSameAddress =
-      kinder?.at(arrayIndex)?.hasSorgerechtSameAddress;
-    return kinderHasSorgerechtSameAddress === "no";
-  };
+export const hasKinderSorgerechtSameAddressNo: ErbausschlagungAnfrageDaten = ({
+  context: { pageData, kinder },
+}) => {
+  const arrayIndex = firstArrayIndex(pageData);
+  if (arrayIndex === undefined) return false;
+  const kinderHasSorgerechtSameAddress =
+    kinder?.at(arrayIndex)?.hasSorgerechtSameAddress;
+  return kinderHasSorgerechtSameAddress === "no";
+};
 
 export const getOptionSorgerecht = ({
   pageData,
   kinder,
-}: NachlassErbausschlagungAnfrageUserData) => {
+}: ErbausschlagungAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(pageData);
   if (arrayIndex === undefined) return undefined;
   return kinder?.at(arrayIndex)?.optionSorgerecht;
 };
 
-export const isKinderUebersichtFilled: NachlassErbausschlagungAnfrageDaten = ({
+export const isKinderUebersichtFilled: ErbausschlagungAnfrageDaten = ({
   context: { numberOfKids, kinder },
 }) => {
   if (numberOfKids === undefined || kinder === undefined) return false;

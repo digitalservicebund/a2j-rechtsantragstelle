@@ -53,9 +53,6 @@ type ErrorResult = {
 };
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
-  "/nachlass/erbausschlagung/anfrage": "showErbausschlagungFlow", // Delete after /nachlass migration
-  "/nachlass/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow", // Delete after /nachlass migration
-  "/nachlass/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow", // Delete after /nachlass migration
   "/erbausschlagung/anfrage": "showErbausschlagungFlow",
   "/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
   "/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow",

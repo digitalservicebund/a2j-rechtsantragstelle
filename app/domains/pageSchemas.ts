@@ -11,14 +11,14 @@ import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
 import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
-import { nachlassErbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
-import { nachlassErbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
-import { nachlassErbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
+import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
+import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { nachlassErbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import { type MaybePromise } from "p-map";
 import { type FieldApi } from "@rvf/react";
 import { type Dispatch, type SetStateAction } from "react";
-import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 import { nachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
 
@@ -31,20 +31,12 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,
-  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiserPages, // Delete after /nachlass migration
-  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages, // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages, // Delete after /nachlass migration
-  "/nachlass/erbschein/erbfolge": nachlassErbfolgePages, // Delete after /nachlass migration
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfragePages, // Delete after /nachlass migration
-  // Delete after /nachlass migration
-  "/nachlass/erbausschlagung/gericht-finden":
-    nachlassErbausschlagungGerichtFindenPages,
-  "/erbschein/wegweiser": nachlassErbscheinWegweiserPages,
-  "/erbschein/nachlassgericht": nachlassErbscheinNachlassgerichtPages,
-  "/erbausschlagung/anfrage": nachlassErbausschlagungAnfragePages,
+  "/erbschein/wegweiser": erbscheinWegweiserPages,
+  "/erbschein/nachlassgericht": erbscheinNachlassgerichtPages,
+  "/erbausschlagung/anfrage": erbausschlagungAnfragePages,
   "/erbschein/erbfolge": nachlassErbfolgePages,
   "/erbschein/anfrage": nachlassErbscheinAnfragePages,
-  "/erbausschlagung/gericht-finden": nachlassErbausschlagungGerichtFindenPages,
+  "/erbausschlagung/gericht-finden": erbausschlagungGerichtFindenPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
@@ -102,9 +94,6 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
 
   if (
     [
-      "/nachlass/erbschein/erbfolge", // Delete after /nachlass migration
-      "/nachlass/erbschein/anfrage", // Delete after /nachlass migration
-      "/nachlass/erbausschlagung/anfrage", // Delete after /nachlass migration
       "/erbschein/erbfolge",
       "/erbschein/anfrage",
       "/erbausschlagung/anfrage",

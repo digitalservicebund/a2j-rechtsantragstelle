@@ -1,8 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import type { NachlassErbausschlagungAnfrageUserData } from "../../userData";
+import type { ErbausschlagungAnfrageUserData } from "../../userData";
 import { happyPathData } from "../../__test__/testcaseData";
 
-export const verstorbeneTestCases: FlowTestCases<NachlassErbausschlagungAnfrageUserData> =
+export const verstorbeneTestCases: FlowTestCases<ErbausschlagungAnfrageUserData> =
   {
     defaultStartVerstorbene: [
       {
