@@ -22,6 +22,7 @@ import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagu
 import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
+import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
@@ -33,6 +34,7 @@ const flowSchemaTests = {
   erbausschlagungAnfrageTestCases,
   erbscheinWegweiserTestCases,
   beratungshilfeVorabcheckTestCases,
+  fluggastrechteVorabcheckTestCases,
 };
 
 type VisitedSteps = Record<
