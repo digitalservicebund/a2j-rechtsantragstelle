@@ -53,7 +53,7 @@ export const expressApp = (
 
   // For the rate limiting to work, we have to set how many load balancers aka proxy hubs
   // we have in front of our express, which is 2 - experimentally found out.
-  app.set("trust proxy", 3);
+  app.set("trust proxy", 2);
 
   // Limit calls to routes ending in /pdf or /pdf/, as they are expensive
   // Express 5 must have the wildcard * with name. Check https://expressjs.com/en/guide/migrating-5.html#path-syntax

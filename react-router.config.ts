@@ -7,6 +7,6 @@ export default {
   allowedActionOrigins: [
     "id.bund.de",
     "int.id.bund.de",
-    "*.tech.digitalservice.dev",
+    "**.tech.digitalservice.dev",
   ],
 } satisfies Config;
