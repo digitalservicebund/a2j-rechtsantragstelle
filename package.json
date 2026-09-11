@@ -142,7 +142,7 @@
   },
   "packageManager": "pnpm@11.24.0",
   "engines": {
-    "node": "24.19.0",
+    "node": "24.21.0",
     "pnpm": "11.24.0"
   },
   "engineStrict": true,

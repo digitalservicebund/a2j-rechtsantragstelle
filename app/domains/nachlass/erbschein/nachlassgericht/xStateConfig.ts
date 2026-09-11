@@ -1,16 +1,13 @@
 import mapValues from "lodash/mapValues";
-import { nachlassErbscheinNachlassgerichtPages } from "./pages";
+import { erbscheinNachlassgerichtPages } from "./pages";
 import type { Config } from "~/services/flow/server/types";
-import type { NachlassErbscheinNachlassGerichtUserData } from "./userData";
+import type { ErbscheinNachlassGerichtUserData } from "./userData";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
-const stepIds = mapValues(
-  nachlassErbscheinNachlassgerichtPages,
-  (v) => v.stepId,
-);
+const stepIds = mapValues(erbscheinNachlassgerichtPages, (v) => v.stepId);
 
-export const nachlassErbscheinNachlassgerichtXstateConfig = {
+export const erbscheinNachlassgerichtXstateConfig = {
   id: "/erbschein/nachlassgericht",
   initial: stepIds.start,
   states: {
@@ -152,4 +149,4 @@ export const nachlassErbscheinNachlassgerichtXstateConfig = {
       },
     },
   },
-} satisfies Config<NachlassErbscheinNachlassGerichtUserData>;
+} satisfies Config<ErbscheinNachlassGerichtUserData>;

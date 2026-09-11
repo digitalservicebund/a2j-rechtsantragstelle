@@ -6,10 +6,10 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
-import type { NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
-import type { NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
-import { type NachlassErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import type { ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import type { ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
+import { type ErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
@@ -32,8 +32,8 @@ export type AllUserDataKeys = KeysOfUnion<
   | ProzesskostenhilfeFormularUserData
   | KontopfaendungWegweiserUserData
   | KontopfaendungPkontoAntragUserData
-  | NachlassErbscheinWegweiserUserData
-  | NachlassErbscheinNachlassGerichtUserData
-  | NachlassErbscheinAnfrageUserData
-  | NachlassErbausschlagungAnfrageUserData
+  | ErbscheinWegweiserUserData
+  | ErbscheinNachlassGerichtUserData
+  | ErbscheinAnfrageUserData
+  | ErbausschlagungAnfrageUserData
 >;

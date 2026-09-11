@@ -16,6 +16,8 @@ import TableOfContents from "../content/TableOfContents";
 import { InlineNotice } from "../content/InlineNotice";
 import { EmailCapture } from "./emailCapture/EmailCapture";
 import Table from "./Table";
+import { Badge } from "./Badge";
+import { type IconName } from "../common/utils";
 
 function getContentBackgroundColor(el: StrapiContentComponent): string {
   if ("contentBackgroundColor" in el) {
@@ -128,6 +130,16 @@ function cmsToReact(
       );
     case "page.table":
       return <Table {...componentProps} />;
+    case "page.badge":
+      return (
+        <Badge
+          variant={componentProps.variant}
+          icon={componentProps.variant as IconName}
+          className="py-kern-space-small! px-kern-space-default! border-2! w-full"
+        >
+          {componentProps.content}
+        </Badge>
+      );
     default:
       return <></>;
   }

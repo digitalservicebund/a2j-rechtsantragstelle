@@ -1,10 +1,10 @@
-import { nachlassErbfolgeStringReplacements } from "../stringReplacements";
+import { erbfolgeStringReplacements } from "../stringReplacements";
 
-type Context = Parameters<typeof nachlassErbfolgeStringReplacements>[0];
+type Context = Parameters<typeof erbfolgeStringReplacements>[0];
 
-describe("nachlassErbfolgeStringReplacements", () => {
+describe("erbfolgeStringReplacements", () => {
   it("spreads the raw answers so CMS text can reference them (e.g. {{verstorbeneVorname}})", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Verstorbene",
       verstorbeneNachname: "Person",
       familienstand: "ledig",
@@ -19,7 +19,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
   });
 
   it("lists a dead person who stated kids but added none as a missing child", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Oma",
       hatteKinder: "yes",
       kinder: [],
@@ -31,7 +31,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
   });
 
   it("collects missing children from the elternteile tree too", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Erblasser",
       hatteKinder: "no",
       elternteile: [
@@ -43,7 +43,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
   });
 
   it("omits the missingChildren keys when nothing is missing", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Erblasser",
       hatteKinder: "yes",
       kinder: [{ vorname: "Kind", nachname: "", isAlive: "yes" }],
@@ -55,7 +55,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
   });
 
   it("marks hasMultipleHeirs when more than one heir inherits (Erbengemeinschaft)", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Erblasser",
       hatteKinder: "yes",
       kinder: [
@@ -69,7 +69,7 @@ describe("nachlassErbfolgeStringReplacements", () => {
   });
 
   it("does not mark hasMultipleHeirs when a single heir inherits everything", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "Erblasser",
       hatteKinder: "yes",
       kinder: [{ vorname: "Kind", nachname: "1", isAlive: "yes" }],
@@ -81,17 +81,17 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("exposes hasTestament for a will (handwritten or notarial), not for an Erbvertrag", () => {
     expect(
-      nachlassErbfolgeStringReplacements({
+      erbfolgeStringReplacements({
         testamentArt: "handwritten",
       } as Context).hasTestament,
     ).toBe(true);
     expect(
-      nachlassErbfolgeStringReplacements({
+      erbfolgeStringReplacements({
         testamentArt: "notarized",
       } as Context).hasTestament,
     ).toBe(true);
     expect(
-      nachlassErbfolgeStringReplacements({
+      erbfolgeStringReplacements({
         testamentArt: "erbvertrag",
       } as Context).hasTestament,
     ).toBe(false);
@@ -99,19 +99,19 @@ describe("nachlassErbfolgeStringReplacements", () => {
 
   it("exposes hasErbvertrag only for an Erbvertrag", () => {
     expect(
-      nachlassErbfolgeStringReplacements({
+      erbfolgeStringReplacements({
         testamentArt: "erbvertrag",
       } as Context).hasErbvertrag,
     ).toBe(true);
     expect(
-      nachlassErbfolgeStringReplacements({
+      erbfolgeStringReplacements({
         testamentArt: "handwritten",
       } as Context).hasErbvertrag,
     ).toBe(false);
   });
 
   it("escapes HTML in names for the raw-HTML placeholder", () => {
-    const result = nachlassErbfolgeStringReplacements({
+    const result = erbfolgeStringReplacements({
       verstorbeneVorname: "<b>Opa</b> & Co",
       hatteKinder: "yes",
       kinder: [],

@@ -2,14 +2,14 @@ import type PDFDocument from "pdfkit";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addDeceasedPersonDetails } from "./addDeceasedPersonDetails";
 import { addDeceasedPersonLastStay } from "./addDeceasedPersonLastStay";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const TITLE = "Verstorbene Person / Erblasser";
 
 export const createDeceasedPerson = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const deceasedPersonSection = doc.struct("Sect");
 

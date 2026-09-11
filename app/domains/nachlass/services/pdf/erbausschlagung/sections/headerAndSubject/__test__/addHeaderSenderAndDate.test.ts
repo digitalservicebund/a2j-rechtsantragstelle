@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addHeaderSenderAndDate } from "../addHeaderSenderAndDate";
 
 beforeEach(() => {
@@ -20,7 +20,7 @@ const userData = {
   ausschlagendePersonHausnummer: "1",
   ausschlagendePersonPlz: "12345",
   ausschlagendePersonOrt: "Musterstadt",
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addHeaderSenderAndDate", () => {
   it("should add the date to the document structure", () => {

@@ -7,6 +7,9 @@ import { FooterInternalLinks } from "./FooterInternalLinks";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
 import { translations } from "~/services/translations/translations";
+import classNames from "classnames";
+import { isFlowIdInPathname } from "~/util/url";
+import { useLocation } from "react-router";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
@@ -19,8 +22,13 @@ export default function Footer({
   showDeletionBanner = false,
   ariaLabel,
 }: FooterProps) {
+  const { pathname } = useLocation();
   return (
-    <GridSection className="border-t border-t-[#DFE1EA]">
+    <GridSection
+      className={classNames("border-t border-t-[#DFE1EA]", {
+        "mb-80 lg:mb-0": isFlowIdInPathname(pathname),
+      })}
+    >
       <Grid className="pt-kern-space-x-large flex flex-col gap-y-32 pl-0! pr-0! print:pb-0">
         <GridItem
           row={1}

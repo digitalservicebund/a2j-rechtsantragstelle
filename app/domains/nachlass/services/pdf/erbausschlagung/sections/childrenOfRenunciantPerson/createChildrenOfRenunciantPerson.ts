@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -15,7 +15,7 @@ const getSubtitle = (index: number) => `Kind ${index + 1}`;
 const RENUNCIANT_CHILD_TEXT =
   "Das Erbe soll auch für das Kind ausgeschlagen werden: ";
 
-const isChildUnder18YearsOld = (child: NachlassErbausschlagungAnfrageKind) => {
+const isChildUnder18YearsOld = (child: ErbausschlagungAnfrageKind) => {
   const birthDate = getChildBirthDate(child);
   if (birthDate === undefined) return false;
 
@@ -24,15 +24,15 @@ const isChildUnder18YearsOld = (child: NachlassErbausschlagungAnfrageKind) => {
   return birthDate > eighteenYearsAgo;
 };
 
-export type NachlassErbausschlagungAnfrageKind = Exclude<
-  NachlassErbausschlagungAnfrageUserData["kinder"],
+export type ErbausschlagungAnfrageKind = Exclude<
+  ErbausschlagungAnfrageUserData["kinder"],
   undefined
 >[number];
 
 export const createChildrenOfRenunciantPerson = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  { hasKid, kinder }: NachlassErbausschlagungAnfrageUserData,
+  { hasKid, kinder }: ErbausschlagungAnfrageUserData,
 ) => {
   if (hasKid === "no" || !kinder || kinder.length === 0) {
     return;

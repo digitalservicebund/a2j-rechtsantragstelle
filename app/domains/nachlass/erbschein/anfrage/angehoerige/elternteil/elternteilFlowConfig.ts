@@ -1,4 +1,4 @@
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 import {
   MAX_SUPPORTED_DESCENDANT_DEPTH,
@@ -39,31 +39,31 @@ function elternteilKindAt(
 
 type ElternteilKindLevelTransitionConfigs<D extends number> = Record<
   `elternteilKind${D}Name`,
-  TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
 > &
   Record<
     `elternteilKind${D}Geburtsdatum`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `elternteilKind${D}IsAlive`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `elternteilKind${D}Address`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `elternteilKind${D}Sterbedatum`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `elternteilKind${D}HatteKinder`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   >;
 
 const elternteilGuard = (
-  guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
+  guard: (data: InferredUserData<ErbscheinAnfragePages>) => boolean,
 ) => guard;
 
 // The pageConfigs for one sibling depth (1–4).
@@ -175,4 +175,4 @@ export const elternteilFlowConfig = {
   ...elternteilKindLevelTransitionConfigs(3),
   ...elternteilKindLevelTransitionConfigs(4),
   ...elternteilKindLevelTransitionConfigs(5),
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

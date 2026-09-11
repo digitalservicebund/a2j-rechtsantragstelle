@@ -90,10 +90,10 @@ const topLevelPages = {
   },
 } as const;
 
-export const nachlassErbfolgePages = {
+export const erbfolgePages = {
   ...topLevelPages,
   ...kinderPages,
   ...elternteilePages,
 } as const;
 
-export type NachlassErbfolgePages = typeof nachlassErbfolgePages;
+export type ErbfolgePages = typeof erbfolgePages;

@@ -1,16 +1,13 @@
 import type { Config } from "~/services/flow/server/types";
 import mapValues from "lodash/mapValues";
-import { type NachlassErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
-import { nachlassErbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { type ErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
+import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
-const stepIds = mapValues(
-  nachlassErbausschlagungGerichtFindenPages,
-  (v) => v.stepId,
-);
+const stepIds = mapValues(erbausschlagungGerichtFindenPages, (v) => v.stepId);
 
-export const nachlassErbausschlagungGerichtFindenXstateConfig = {
+export const erbausschlagungGerichtFindenXstateConfig = {
   id: "/erbausschlagung/gericht-finden",
   initial: stepIds.start,
   states: {
@@ -211,4 +208,4 @@ export const nachlassErbausschlagungGerichtFindenXstateConfig = {
       },
     },
   },
-} satisfies Config<NachlassErbausschlagungGerichtFindenUserData>;
+} satisfies Config<ErbausschlagungGerichtFindenUserData>;

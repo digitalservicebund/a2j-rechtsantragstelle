@@ -2,13 +2,13 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addDeceasedPersonDetails } from "../addDeceasedPersonDetails";
 
 const userDataMock = {
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addDeceasedPersonDetails", () => {
   it("should add the deceased person details to the PDF document", () => {

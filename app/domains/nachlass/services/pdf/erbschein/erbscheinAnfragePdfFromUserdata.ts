@@ -2,7 +2,7 @@ import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createHeaderAndSubject } from "~/domains/nachlass/services/pdf/erbschein/sections/headerAndSubject/createHeaderAndSubject";
 import { createDeceasedPerson } from "~/domains/nachlass/services/pdf/erbschein/sections/verstorbenePerson/createDeceasedPerson";
 import { createAntragstellendePerson } from "~/domains/nachlass/services/pdf/erbschein/sections/antragstellendePerson/createAntragstellendePerson";
@@ -17,7 +17,7 @@ const SUBJECT = "Erbschein Anfrage";
 const KEYWORDS = "Erbschein Anfrage";
 
 const buildErbscheinAnfragePDFDocument: PDFDocumentBuilder<
-  NachlassErbscheinAnfrageUserData
+  ErbscheinAnfrageUserData
 > = (doc, documentStruct, userData) => {
   doc.page.margins.bottom = 70;
   doc.on("pageAdded", () => {
@@ -42,7 +42,7 @@ const buildErbscheinAnfragePDFDocument: PDFDocumentBuilder<
 };
 
 export function erbscheinAnfragePdfFromUserdata(
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) {
   return pdfFromUserData(userData, buildErbscheinAnfragePDFDocument);
 }

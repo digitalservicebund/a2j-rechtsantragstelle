@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { dynamicSelectZodDescription } from "~/services/validation/dynamicSelect";
-import { nachlassErbfolgePages } from "../pages";
+import { erbfolgePages } from "../pages";
 
 const parentKindIndexSchema =
-  nachlassErbfolgePages.kind2Daten.pageSchema["kinder#kinder#parentKindIndex"];
+  erbfolgePages.kind2Daten.pageSchema["kinder#kinder#parentKindIndex"];
 const parentElternteilIndexSchema =
-  nachlassErbfolgePages.elternteilKind1Daten.pageSchema[
+  erbfolgePages.elternteilKind1Daten.pageSchema[
     "elternteile#kinder#parentElternteilIndex"
   ];
 

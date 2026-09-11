@@ -1,6 +1,6 @@
 import type PDFDocument from "pdfkit";
 import { type Angehoerige } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { collectDescendantsWithParentName } from "~/domains/nachlass/erbschein/shared/components/summaryTree";
 import { addAngehoerige } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/addAngehoerige";
 import { addDescendant } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/addDescendant";
@@ -11,7 +11,7 @@ const TITLE = "Angehörige";
 export const createAngehoerigeSection = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const angehoerigeSection = doc.struct("Sect");
 

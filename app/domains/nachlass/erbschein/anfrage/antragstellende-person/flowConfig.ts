@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbscheinAnfragePages } from "../pages";
+import { type ErbscheinAnfragePages } from "../pages";
 
 export const antragstellendePersonFlowConfig = {
   antragstellendePersonName: "antragstellendePersonGeburtsdatumOrt",
@@ -35,4 +35,4 @@ export const antragstellendePersonFlowConfig = {
       target: "testamentArt",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

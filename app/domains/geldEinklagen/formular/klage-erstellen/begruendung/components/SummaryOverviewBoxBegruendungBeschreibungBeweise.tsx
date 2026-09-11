@@ -1,4 +1,4 @@
-import { Badge } from "~/components/common/Badge";
+import { Badge } from "~/components/content/Badge";
 import { type UserData } from "~/domains/userData";
 import { translations } from "~/services/translations/translations";
 import { arrayIsNonEmpty } from "~/util/array";

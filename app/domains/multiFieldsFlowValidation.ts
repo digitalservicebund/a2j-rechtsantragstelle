@@ -14,7 +14,6 @@ const multiFieldsFlowValidation = {
   "/geld-einklagen/formular":
     geldEinklagenMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/erbschein/anfrage": erbscheinAnfrageMultiFieldsValidation,
-  "/nachlass/erbschein/anfrage": erbscheinAnfrageMultiFieldsValidation, // delete after migration to new route
 } as const satisfies Partial<Record<FlowId, MultiFieldsStepIdValidation>>;
 
 export const getMultiFieldsValidation = (flowId: FlowId) =>
