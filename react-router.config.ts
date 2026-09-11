@@ -4,5 +4,9 @@ export default {
   ssr: true,
   routeDiscovery: { mode: "initial" }, // Disable lazy route discovery (see ADR 28)
   splitRouteModules: true,
-  allowedActionOrigins: ["id.bund.de", "int.id.bund.de"],
+  allowedActionOrigins: [
+    "id.bund.de",
+    "int.id.bund.de",
+    "*.tech.digitalservice.dev",
+  ],
 } satisfies Config;
