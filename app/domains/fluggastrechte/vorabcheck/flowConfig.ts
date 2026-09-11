@@ -1,0 +1,67 @@
+import { fluggastrechteVorabcheckPages } from "~/domains/fluggastrechte/vorabcheck/pages";
+import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+import {
+  type CompiledFlow,
+  compileFlow,
+} from "~/services/flow/newFlowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+
+const fluggastrechteVorabcheckPagesWithLeadingSlash =
+  addLeadingSlashToPageSchemas(fluggastrechteVorabcheckPages);
+
+export const fluggastrechteVorabcheckFlowConfig = compileFlow({
+  pages: fluggastrechteVorabcheckPagesWithLeadingSlash,
+  initialStep: "start",
+  transitions: {
+    start: "bereich",
+    bereich: [],
+    "bereich-abbruch": null,
+    verspaetung: null,
+    ausgleich: null,
+    ankuendigung: null,
+    "vertretbare-gruende-annullierung": null,
+    ersatzflug: null,
+    "ersatzflug-starten-eine-stunde": null,
+    "ersatzflug-landen-zwei-stunden": null,
+    "ersatzflug-starten-zwei-stunden": null,
+    "ersatzflug-landen-vier-stunden": null,
+    ausgleichAngenommen: null,
+    "ausgleich-angenommen-info": null,
+    "ersatzflug-starten-eine-landen-zwei-abbruch": null,
+    "ersatzflug-starten-zwei-landen-vier-abbruch": null,
+    gruende: null,
+    "gruende-hinweis": null,
+    verjaehrung: null,
+    "verjaehrung-abbruch": null,
+    "ankuendigung-abbruch": null,
+    flughaefen: null,
+    "flughaefen-abbruch": null,
+    "flughaefen-entfernung-abbruch": null,
+    fluggesellschaft: null,
+    "fluggesellschaft-abbruch": null,
+    "fluggesellschaft-nicht-eu-abbruch": null,
+    "fluggesellschaft-abbruch-eu": null,
+    "verspaetung-abbruch": null,
+    checkin: null,
+    "checkin-nicht-befoerderung": null,
+    "checkin-abbruch": null,
+    "vertretbare-gruende": null,
+    "vertretbare-gruende-info": null,
+    kostenlos: null,
+    "kostenlos-abbruch": null,
+    rabatt: null,
+    "rabatt-abbruch": null,
+    buchung: null,
+    "buchung-abbruch": null,
+    abtretung: null,
+    "abtretung-abbruch": null,
+    entschaedigung: null,
+    "erfolg-kontakt": null,
+    gericht: null,
+    "erfolg-gericht": null,
+    erfolg: null,
+    "erfolg-eu": null,
+    "erfolg-analog": null,
+    "erfolg-per-post-klagen": null,
+  },
+}) as CompiledFlow<PageConfigMap>;
