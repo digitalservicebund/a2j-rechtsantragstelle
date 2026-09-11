@@ -90,8 +90,10 @@ export const partnerFlowConfig = {
   partnerSelbststaendigAbzuege: [
     {
       guard: (context) =>
-        context["partner-currentlyEmployed"] === "yes" &&
-        context["partner-staatlicheLeistungen"] === "buergergeld",
+        !(
+          context["partner-currentlyEmployed"] === "yes" &&
+          context["partner-staatlicheLeistungen"] === "buergergeld"
+        ),
       target: "partnerAbzuege",
     },
     { target: "partnerRenteFrage" },
@@ -239,9 +241,9 @@ export const partnerFlowConfig = {
       guard: (context) => context.partnerHasBesondersAusgaben === "yes",
       target: "partnerAddBesondersAusgaben",
     },
-    { target: "kinder" },
+    { target: "kinderFrage" },
   ],
-  partnerAddBesondersAusgaben: "kinder",
+  partnerAddBesondersAusgaben: "kinderFrage",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;

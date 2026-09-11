@@ -354,6 +354,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerWeitereEinkuenfteUebersicht: {
     stepId:
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "partnerWeitereEinkuenfte",
       schema: partnerWeitereEinkuenfteArraySchema,
