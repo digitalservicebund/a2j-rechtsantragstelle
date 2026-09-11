@@ -1,13 +1,12 @@
 import { deriveCipherKey, pack, unpack } from "./encryption";
 import { getRedisInstance } from "../redis/redisClient";
 
-const timeToLiveSeconds = 60 * 60 * 24;
-
 type RedisData = Record<string, unknown>;
 
 export async function setDataForSession(
   uuid: string,
   data: RedisData,
+  timeToLiveSeconds: number,
   vaultKey?: string,
 ) {
   const payload = pack(data, deriveCipherKey(uuid, vaultKey));
@@ -17,10 +16,16 @@ export async function setDataForSession(
 export async function updateDataForSession(
   uuid: string,
   data: RedisData,
+  timeToLiveSeconds: number,
   vaultKey?: string,
 ) {
   const currentData = await getDataForSession(uuid, vaultKey);
-  return setDataForSession(uuid, { ...currentData, ...data }, vaultKey);
+  return setDataForSession(
+    uuid,
+    { ...currentData, ...data },
+    timeToLiveSeconds,
+    vaultKey,
+  );
 }
 
 export async function getDataForSession(uuid: string, vaultKey?: string) {
