@@ -153,9 +153,9 @@ export const partnerFlowConfig = {
       guard: (context) => context["partner-receivesSupport"] === "yes",
       target: "partnerEinkuenfteUnterhalt",
     },
-    { target: "partnerEinkuenfteLeistungen" },
+    { target: "partnerLeistungFrage" },
   ],
-  partnerEinkuenfteUnterhalt: "partnerEinkuenfteLeistungen",
+  partnerEinkuenfteUnterhalt: "partnerLeistungFrage",
   partnerEinkuenfteKeineRolle: null,
   partnerEinkuenfteLeistungen: "partnerLeistungFrage",
   partnerLeistungFrage: [
@@ -172,10 +172,10 @@ export const partnerFlowConfig = {
       target: "partnerElterngeld",
     },
     {
-      guard: (context) => context.partnerLeistungen?.kinderFragegeld === "on",
+      guard: (context) => context.partnerLeistungen?.kindergeld === "on",
       target: "partnerKindergeld",
     },
-    { target: "partnerWeitereEinkuenfte" },
+    { target: "partnerWeitereEinkuenfteFrage" },
   ],
   partnerWohngeld: [
     {
