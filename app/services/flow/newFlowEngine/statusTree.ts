@@ -55,6 +55,19 @@ export const buildStatusTree = <C extends PageConfigMap>(
   { reachableSet }: SimulationResult,
   doneNodeKeys: Set<string>,
 ): Record<string, StatusNode> => {
+  // Sections introduced by pages that are NOT collapsed. A collapsed page never
+  // creates a section of its own; it only attaches to an existing one. Combined
+  // with the wildcard boundary below this stays purely subtractive (it can only
+  // drop spurious sections, never add or move real ones). It also handles array
+  // item URLs that carry an extra folder before the "#" (e.g. array group
+  // "bankkonten" plus item base "bankkonto"), which the boundary alone keeps as a
+  // stray "bankkonten" section even though nothing labels it.
+  const nonCollapsedPrefixes = new Set<string>(
+    _.flatMap(config, ({ stepId, shouldCollapseIntoParentNavItem }) =>
+      shouldCollapseIntoParentNavItem ? [] : getPrefixes(stepId),
+    ),
+  );
+
   const prefixPairs = _.flatMap(
     config,
     ({ stepId: path, shouldCollapseIntoParentNavItem }, key) => {
@@ -62,7 +75,11 @@ export const buildStatusTree = <C extends PageConfigMap>(
       if (shouldCollapseIntoParentNavItem) {
         const boundary = getSegmentsBeforeFirstWildcard(path);
         return prefixes
-          .filter((prefix) => prefix.split("/").length < boundary)
+          .filter(
+            (prefix) =>
+              prefix.split("/").length < boundary &&
+              nonCollapsedPrefixes.has(prefix),
+          )
           .map((prefix) => ({ prefix, key: key }));
       }
       return prefixes.map((prefix) => ({ prefix, key: key }));
