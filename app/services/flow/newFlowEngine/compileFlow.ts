@@ -179,9 +179,9 @@ export const compileFlow = <C extends PageConfigMap>({
   const getNodeKeyFromPath = (path: string): NodeKey<C> | undefined =>
     pathMap[path];
 
-  const getPathFromNodeKey = (nodeKey?: NodeKey<C>): string | undefined => {
+  const getPathFromNodeKey = (nodeKey?: string): string | undefined => {
     if (nodeKey == null) return undefined;
-    return pages[nodeKey].stepId;
+    return pages[nodeKey as NodeKey<C>]?.stepId;
   };
 
   return {
@@ -210,10 +210,10 @@ export const compileFlow = <C extends PageConfigMap>({
       const nodeKey = getNodeKeyFromPath(path);
       return nodeKey == null ? [] : (fieldNamesCache[nodeKey] ?? []);
     },
-    getFieldNamesByNodeKey: (nodeKey: NodeKey<C>): string[] =>
-      fieldNamesCache[nodeKey] ?? [],
-    getSchemaByNodeKey: (nodeKey: NodeKey<C>): z.ZodTypeAny | undefined =>
-      schemaCache[nodeKey],
+    getFieldNamesByNodeKey: (nodeKey: string): string[] =>
+      fieldNamesCache[nodeKey as NodeKey<C>] ?? [],
+    getSchemaByNodeKey: (nodeKey: string): z.ZodTypeAny | undefined =>
+      schemaCache[nodeKey as NodeKey<C>],
 
     getNodeKeyFromPath,
     getPathFromNodeKey,
