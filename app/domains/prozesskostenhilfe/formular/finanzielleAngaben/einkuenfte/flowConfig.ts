@@ -44,9 +44,9 @@ export const einkuenfteFlowConfig = {
       guard: (context) =>
         context.employmentType === "selfEmployed" ||
         context.employmentType === "employedAndSelfEmployed",
-      target: "renteFrage",
+      target: "selbststaendig",
     },
-    { target: "art" },
+    { target: "renteFrage" },
   ],
   selbststaendig: "selbststaendigAbzuege",
   selbststaendigAbzuege: "renteFrage",

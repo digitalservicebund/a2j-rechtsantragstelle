@@ -54,7 +54,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   erwerbstaetig: {
     stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
     shouldCollapseIntoParentNavItem: true,
-
     pageSchema: {
       currentlyEmployed: YesNoAnswer,
     },
