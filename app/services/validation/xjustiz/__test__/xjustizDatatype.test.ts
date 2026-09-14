@@ -40,9 +40,18 @@ describe("character sets of the xjustiz datatypes", () => {
     const schema = z.string().check(datatypeA);
 
     it("should accept latin letters, spaces, hyphens and apostrophes", () => {
-      expect(schema.safeParse("Erika Musterfrau").success).toBe(true);
-      expect(schema.safeParse("Müller-Lüdenscheidt").success).toBe(true);
-      expect(schema.safeParse("O'Brien").success).toBe(true);
+      expect(schema.safeParse("Erika Musterfrau")).toEqual({
+        data: "Erika Musterfrau",
+        success: true,
+      });
+      expect(schema.safeParse("Müller-Lüdenscheidt")).toEqual({
+        data: "Müller-Lüdenscheidt",
+        success: true,
+      });
+      expect(schema.safeParse("O'Brien")).toEqual({
+        data: "O'Brien",
+        success: true,
+      });
     });
 
     it("should reject digits", () => {
@@ -62,8 +71,14 @@ describe("character sets of the xjustiz datatypes", () => {
     const schema = z.string().check(datatypeB);
 
     it("should accept digits and common symbols", () => {
-      expect(schema.safeParse("Hauptstraße 1a").success).toBe(true);
-      expect(schema.safeParse("Müller & Söhne GmbH").success).toBe(true);
+      expect(schema.safeParse("Hauptstraße 1a")).toEqual({
+        data: "Hauptstraße 1a",
+        success: true,
+      });
+      expect(schema.safeParse("Müller & Söhne GmbH")).toEqual({
+        data: "Müller & Söhne GmbH",
+        success: true,
+      });
     });
 
     it("should reject line breaks", () => {
@@ -83,8 +98,14 @@ describe("character sets of the xjustiz datatypes", () => {
     const schema = z.string().check(datatypeC);
 
     it("should accept line breaks and fractions", () => {
-      expect(schema.safeParse("Zeile1\nZeile2").success).toBe(true);
-      expect(schema.safeParse("½ Anteil").success).toBe(true);
+      expect(schema.safeParse("Zeile1\nZeile2")).toEqual({
+        data: "Zeile1\nZeile2",
+        success: true,
+      });
+      expect(schema.safeParse("½ Anteil")).toEqual({
+        data: "½ Anteil",
+        success: true,
+      });
     });
 
     it("should reject typographic quotation marks", () => {
@@ -104,8 +125,14 @@ describe("character sets of the xjustiz datatypes", () => {
     const schema = z.string().check(datatypeD);
 
     it("should accept greek letters and typographic quotation marks", () => {
-      expect(schema.safeParse("Εταιρεία Α.Ε.").success).toBe(true);
-      expect(schema.safeParse("Er sagte „nein“").success).toBe(true);
+      expect(schema.safeParse("Εταιρεία Α.Ε.")).toEqual({
+        data: "Εταιρεία Α.Ε.",
+        success: true,
+      });
+      expect(schema.safeParse("Er sagte „nein“")).toEqual({
+        data: "Er sagte „nein“",
+        success: true,
+      });
     });
 
     it("should reject line breaks", () => {
@@ -125,9 +152,18 @@ describe("character sets of the xjustiz datatypes", () => {
     const schema = z.string().check(datatypeE);
 
     it("should accept cyrillic and greek letters as well as line breaks", () => {
-      expect(schema.safeParse("Невский 15").success).toBe(true);
-      expect(schema.safeParse("Εταιρεία Α.Ε.").success).toBe(true);
-      expect(schema.safeParse("Zeile1\nZeile2").success).toBe(true);
+      expect(schema.safeParse("Невский 15")).toEqual({
+        data: "Невский 15",
+        success: true,
+      });
+      expect(schema.safeParse("Εταιρεία Α.Ε.")).toEqual({
+        data: "Εταιρεία Α.Ε.",
+        success: true,
+      });
+      expect(schema.safeParse("Zeile1\nZeile2")).toEqual({
+        data: "Zeile1\nZeile2",
+        success: true,
+      });
     });
 
     it("should reject characters outside the norm", () => {
