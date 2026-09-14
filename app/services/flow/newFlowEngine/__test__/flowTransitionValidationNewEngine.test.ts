@@ -14,7 +14,7 @@ import { getSessionData } from "~/services/session.server";
 
 vi.mock("~/services/session.server/index");
 
-const mockFlowId: FlowId = "/nachlass/erbschein/anfrage";
+const mockFlowId: FlowId = "/erbschein/anfrage";
 const mockFlowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: mockFlowId,
   eligibleSourcePages: ["/ergebnis/erfolg-totally", "/ergebnis/erfolg"],
@@ -76,7 +76,7 @@ describe("flowTransitionValidation", () => {
 
     expect(result).toStrictEqual({
       isEligible: false,
-      redirectTo: "/nachlass/erbschein/anfrage",
+      redirectTo: "/erbschein/anfrage",
     });
   });
 

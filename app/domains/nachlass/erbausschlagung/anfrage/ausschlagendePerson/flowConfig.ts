@@ -1,13 +1,12 @@
-import { type NachlassErbausschlagungAnfragePages } from "../pages";
+import { type ErbausschlagungAnfragePages } from "../pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbausschlagungAnfrageUserData } from "../userData";
+import { type ErbausschlagungAnfrageUserData } from "../userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-type NachlassErbausschlagungAnfrageDaten =
-  GenericGuard<NachlassErbausschlagungAnfrageUserData>;
+type ErbausschlagungAnfrageDaten = GenericGuard<ErbausschlagungAnfrageUserData>;
 
-const hasFilledAusschlagendePerson: NachlassErbausschlagungAnfrageDaten = ({
+const hasFilledAusschlagendePerson: ErbausschlagungAnfrageDaten = ({
   context,
 }) => {
   return (
@@ -34,4 +33,4 @@ export const ausschlagendePersonFlowConfig = {
       target: "kinderHasKid",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbausschlagungAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbausschlagungAnfragePages>>;

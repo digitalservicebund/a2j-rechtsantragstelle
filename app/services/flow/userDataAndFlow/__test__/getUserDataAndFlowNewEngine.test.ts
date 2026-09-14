@@ -50,8 +50,8 @@ describe("getUserDataAndFlowNewEngine", () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
     await expect(
       getUserDataAndFlowNewEngine(
-        new Request("http://example.com/nachlass/erbausschlagung/anfrage"),
-        new URL("http://example.com/nachlass/erbausschlagung/anfrage"),
+        new Request("http://example.com/erbausschlagung/anfrage"),
+        new URL("http://example.com/erbausschlagung/anfrage"),
       ),
     ).rejects.toThrow(expect.anything());
   });

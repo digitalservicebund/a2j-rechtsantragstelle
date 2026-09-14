@@ -5,10 +5,15 @@ export const redirectMap = {
   "/beratungshilfe/datenschutz": "/datenschutzerklaerung",
   "/prozesskostenhilfe/datenschutz": "/datenschutzerklaerung",
   "/fluggastrechte/datenschutz": "/datenschutzerklaerung",
-  "/erbschein/nachlassgericht/start":
-    "/nachlass/erbschein/nachlassgericht/start",
-  "/erbschein/wegweiser/start": "/nachlass/erbschein/wegweiser/start",
-  "/erbschein": "/nachlass/erbschein",
+  "/nachlass/erbschein/nachlassgericht/start":
+    "/erbschein/nachlassgericht/start",
+  "/nachlass/erbschein/wegweiser/start": "/erbschein/wegweiser/start",
+  "/nachlass/erbschein": "/erbschein",
+  "/nachlass/erbausschlagung": "/erbausschlagung",
+  "/nachlass/erbausschlagung/gericht-finden/start":
+    "/erbausschlagung/gericht-finden/start",
+  "/nachlass/erbausschlagung/anfrage/start/start":
+    "/erbausschlagung/anfrage/start/start",
 } as const;
 
 export const getRedirect = (pathname: string) =>

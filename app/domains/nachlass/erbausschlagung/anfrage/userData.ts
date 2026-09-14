@@ -1,5 +1,5 @@
 import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbausschlagungAnfragePages } from "./pages";
+import { type ErbausschlagungAnfragePages } from "./pages";
 
-export type NachlassErbausschlagungAnfrageUserData =
-  InferredUserData<NachlassErbausschlagungAnfragePages>;
+export type ErbausschlagungAnfrageUserData =
+  InferredUserData<ErbausschlagungAnfragePages>;

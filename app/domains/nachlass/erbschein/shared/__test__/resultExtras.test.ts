@@ -20,7 +20,7 @@ function contextFor(
   return {
     request: new Request("http://localhost"),
     url: new URL("http://localhost"),
-    flowId: "/nachlass/erbschein/erbfolge",
+    flowId: "/erbschein/erbfolge",
     stepId,
     userData: userData as ResultExtrasContext["userData"],
     flowSessionEngine: {} as ResultExtrasContext["flowSessionEngine"],

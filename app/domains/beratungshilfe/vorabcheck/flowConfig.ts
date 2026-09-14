@@ -26,7 +26,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "rechtsschutzversicherungDetails",
       },
       {
-        guard: (context) => context.rechtsschutzversicherung === "no",
         target: "wurdeVerklagt",
       },
     ],
@@ -57,7 +56,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "wurdeVerklagtAbbruch",
       },
       {
-        guard: (context) => context.wurdeVerklagt === "no",
         target: "klageEingereicht",
       },
     ],
@@ -68,7 +66,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "hamburgOderBremen",
       },
       {
-        guard: (context) => context.klageEingereicht === "yes",
         target: "klageEingereichtAbbruch",
       },
     ],
@@ -79,7 +76,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "beratungshilfeBeantragt",
       },
       {
-        guard: (context) => context.hamburgOderBremen === "yes",
         target: "hamburgOderBremenAbbruch",
       },
     ],
@@ -90,7 +86,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "eigeninitiative",
       },
       {
-        guard: (context) => context.beratungshilfeBeantragt === "yes",
         target: "beratungshilfeBeantragtAbbruch",
       },
     ],
@@ -101,7 +96,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "bereich",
       },
       {
-        guard: (context) => context.eigeninitiative === "no",
         target: "eigeninitiativeWarnung",
       },
     ],
@@ -160,7 +154,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderKurz",
       },
       {
-        guard: (context) => context.genauigkeit === "yes",
         target: "einkommen",
       },
     ],
@@ -170,16 +163,10 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderAnzahlKurz",
       },
       {
-        guard: (context) => context.kinderKurz === "no",
         target: "verfuegbaresEinkommen",
       },
     ],
-    kinderAnzahlKurz: [
-      {
-        guard: (context) => context.kinderAnzahlKurz != null,
-        target: "verfuegbaresEinkommen",
-      },
-    ],
+    kinderAnzahlKurz: "verfuegbaresEinkommen",
     verfuegbaresEinkommen: [
       {
         guard: (context) =>
@@ -205,7 +192,6 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "einkommenPartner",
       },
       {
-        guard: (context) => context.partnerschaft === "no",
         target: "kinder",
       },
     ],
@@ -216,48 +202,22 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
         target: "kinderAnzahl",
       },
       {
-        guard: (context) => context.kinder === "no",
         target: "unterhalt",
       },
     ],
-    kinderAnzahl: [
-      {
-        guard: (context) =>
-          context.kids?.kids6Below != undefined ||
-          context.kids?.kids7To14 != undefined ||
-          context.kids?.kids15To18 != undefined ||
-          context.kids?.kids18Above != undefined,
-        target: "einkommenKinder",
-      },
-    ],
-    einkommenKinder: [
-      {
-        guard: (context) => context.einkommenKinder != undefined,
-        target: "unterhalt",
-      },
-    ],
+    kinderAnzahl: "einkommenKinder",
+    einkommenKinder: "unterhalt",
     unterhalt: [
       {
         guard: (context) => context.unterhalt === "yes",
         target: "unterhaltSumme",
       },
       {
-        guard: (context) => context.unterhalt === "no",
         target: "miete",
       },
     ],
-    unterhaltSumme: [
-      {
-        guard: (context) => context.unterhaltSumme != undefined,
-        target: "miete",
-      },
-    ],
-    miete: [
-      {
-        guard: (context) => context.miete != undefined,
-        target: "weitereZahlungenSumme",
-      },
-    ],
+    unterhaltSumme: "miete",
+    miete: "weitereZahlungenSumme",
     weitereZahlungenSumme: [
       {
         guard: (context) =>

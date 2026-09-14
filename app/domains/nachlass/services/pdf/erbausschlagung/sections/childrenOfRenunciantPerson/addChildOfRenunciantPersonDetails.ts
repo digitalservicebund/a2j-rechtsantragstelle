@@ -4,12 +4,12 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 import { toDateString } from "~/services/validation/dateObject";
-import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
 
 export const addChildOfRenunciantPersonDetails = (
   doc: typeof PDFDocument,
   childrenOfRenunciantPersonSection: PDFKit.PDFStructureElement,
-  { vorname, nachname, geburtsdatum }: NachlassErbausschlagungAnfrageKind,
+  { vorname, nachname, geburtsdatum }: ErbausschlagungAnfrageKind,
 ) => {
   childrenOfRenunciantPersonSection.add(
     doc.struct("P", {}, () => {

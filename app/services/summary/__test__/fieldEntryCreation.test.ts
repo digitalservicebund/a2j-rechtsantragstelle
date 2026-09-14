@@ -158,7 +158,7 @@ describe("fieldEntryCreation", () => {
         "kinder[0].kinder[1].vorname",
         userData,
         {},
-        "/nachlass/erbschein/anfrage",
+        "/erbschein/anfrage",
       );
 
       expect(mockSummaryFieldOverride).toHaveBeenCalled();

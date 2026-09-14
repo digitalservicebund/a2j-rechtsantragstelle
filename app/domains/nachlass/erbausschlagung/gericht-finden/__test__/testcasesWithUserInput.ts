@@ -1,10 +1,10 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { nachlassErbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
-import type { NachlassErbausschlagungGerichtFindenUserData } from "../userData";
+import { erbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
+import type { ErbausschlagungGerichtFindenUserData } from "../userData";
 
-export const nachlassErbausschlagungGerichtFindenTestCases = {
-  xstateConfig: { id: "/nachlass/erbausschlagung/gericht-finden" },
-  newEngineConfig: nachlassErbausschlagungGerichtFindenFlowConfig,
+export const erbausschlagungGerichtFindenTestCases = {
+  xstateConfig: { id: "/erbausschlagung/gericht-finden" },
+  newEngineConfig: erbausschlagungGerichtFindenFlowConfig,
   testcases: {
     auslandLebensmittelpunkt: [
       {
@@ -351,6 +351,6 @@ export const nachlassErbausschlagungGerichtFindenTestCases = {
     ],
   },
 } satisfies FlowTestConfig<
-  NachlassErbausschlagungGerichtFindenUserData,
-  typeof nachlassErbausschlagungGerichtFindenFlowConfig.pages
+  ErbausschlagungGerichtFindenUserData,
+  typeof erbausschlagungGerichtFindenFlowConfig.pages
 >;

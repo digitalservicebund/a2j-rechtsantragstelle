@@ -3,7 +3,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import { type NachlassErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "./createChildrenOfRenunciantPerson";
 
 const NAME_ORGANIZATION_CUSTODY_TEXT =
   "Name der Organisation mit dem Sorgerecht: ";
@@ -21,7 +21,7 @@ const SAME_ADDRESS_CUSTODY_TEXT =
   "Wohnt zusammen mit der ausschlagenden Person";
 
 const getCustodyText = (
-  optionSorgerecht: NachlassErbausschlagungAnfrageKind["optionSorgerecht"],
+  optionSorgerecht: ErbausschlagungAnfrageKind["optionSorgerecht"],
 ) => {
   switch (optionSorgerecht) {
     case "anotherOrganization":
@@ -49,7 +49,7 @@ const addCustodySharedOrAnotherPersonDetails = (
     vornameSorgerecht,
     optionSorgerecht,
     hasSorgerechtSameAddress,
-  }: NachlassErbausschlagungAnfrageKind,
+  }: ErbausschlagungAnfrageKind,
 ) => {
   doc
     .font(FONTS_BUNDESSANS_REGULAR)
@@ -94,7 +94,7 @@ const addCustodyOrganizationDetails = (
     organizationHausnummerSorgerecht,
     organizationPlzSorgerecht,
     organizationOrtSorgerecht,
-  }: NachlassErbausschlagungAnfrageKind,
+  }: ErbausschlagungAnfrageKind,
 ) => {
   doc
     .font(FONTS_BUNDESSANS_REGULAR)
@@ -123,7 +123,7 @@ const addCustodyOrganizationDetails = (
 export const addChildOfRenunciantPersonCustodyDetails = (
   doc: typeof PDFDocument,
   childrenOfRenunciantPersonSection: PDFKit.PDFStructureElement,
-  kind: NachlassErbausschlagungAnfrageKind,
+  kind: ErbausschlagungAnfrageKind,
 ) => {
   childrenOfRenunciantPersonSection.add(
     doc.struct("P", {}, () => {

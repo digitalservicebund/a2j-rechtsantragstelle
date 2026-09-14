@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { firstArrayIndex } from "~/services/flow/pageData";
-import { type NachlassErbausschlagungAnfrageUserData } from "./userData";
+import { type ErbausschlagungAnfrageUserData } from "./userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { erbausschlagungKinderArraySchema } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/schema";
@@ -8,25 +8,21 @@ import { toDate } from "~/services/validation/dateObject";
 import { addDays, today } from "~/util/date";
 import { isBirthDateAbove18Years } from "~/domains/nachlass/erbausschlagung/anfrage/kinder/guards";
 
-export const getVerstorbeneName = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const getVerstorbeneName = (context: ErbausschlagungAnfrageUserData) => {
   return {
     verstorbeneName: `${context.verstorbeneVorname} ${context.verstorbeneNachname}`,
   };
 };
 
 export const getAusschlagendePersonName = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   return {
     ausschlagendePersonName: `${context.ausschlagendePersonVorname} ${context.ausschlagendePersonNachname}`,
   };
 };
 
-export const getKinderName = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const getKinderName = (context: ErbausschlagungAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
@@ -41,7 +37,7 @@ export const getKinderName = (
 };
 
 export const getKinderOrganizationName = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
@@ -58,7 +54,7 @@ export const getKinderOrganizationName = (
 };
 
 export const getKinderNameSorgerecht = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
@@ -74,7 +70,7 @@ export const getKinderNameSorgerecht = (
 };
 
 export const isKinderAnotherPerson = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
@@ -90,9 +86,7 @@ export const isKinderAnotherPerson = (
     };
 };
 
-export const isKinderShared = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const isKinderShared = (context: ErbausschlagungAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
@@ -107,9 +101,7 @@ export const isKinderShared = (
     };
 };
 
-export const getNumberOfKids = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const getNumberOfKids = (context: ErbausschlagungAnfrageUserData) => {
   return {
     numberOfKidsAdded: (context.kinder?.length ?? 0).toString(),
     numberOfKids: (context.numberOfKids ?? 0).toString(),
@@ -117,15 +109,13 @@ export const getNumberOfKids = (
     hasOneKidAdded: context.kinder?.length === 1,
   };
 };
-export const hasAnyKids = (context: NachlassErbausschlagungAnfrageUserData) => {
+export const hasAnyKids = (context: ErbausschlagungAnfrageUserData) => {
   return {
     hasAnyKids: context.kinder !== undefined && context.kinder.length > 0,
   };
 };
 
-export const hasAnyMinorKids = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const hasAnyMinorKids = (context: ErbausschlagungAnfrageUserData) => {
   return {
     hasAnyMinorKids:
       context.kinder?.some(
@@ -134,9 +124,7 @@ export const hasAnyMinorKids = (
   };
 };
 
-export const hasAnyAdultKids = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const hasAnyAdultKids = (context: ErbausschlagungAnfrageUserData) => {
   return {
     hasAnyAdultKids:
       context.kinder?.some((kid) =>
@@ -146,7 +134,7 @@ export const hasAnyAdultKids = (
 };
 
 export const getArrayIndexStrings = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   return arrayIndex === undefined
@@ -155,7 +143,7 @@ export const getArrayIndexStrings = (
 };
 
 export const getAusschlagendePersonCourtData = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   const ausschlagendePersonCourt = findCourt({
     zipCode: context.ausschlagendePersonPlz,
@@ -174,7 +162,7 @@ export const getAusschlagendePersonCourtData = (
 };
 
 export const getMissingFilledKidNames = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   if (!context.kinder || context.kinder.length === 0) return {};
 
@@ -187,7 +175,7 @@ export const getMissingFilledKidNames = (
 };
 
 export const getVerstorbenenPersonCourtData = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   if (context.verstorbeneLebensmittelpunkt === "ausland") {
     return {};
@@ -213,9 +201,7 @@ export const getVerstorbenenPersonCourtData = (
   };
 };
 
-export const awarenessDate = (
-  context: NachlassErbausschlagungAnfrageUserData,
-) => {
+export const awarenessDate = (context: ErbausschlagungAnfrageUserData) => {
   if (!context.awarenessDate) return {};
   return {
     awarenessDate: toDate(context.awarenessDate).toLocaleDateString("de-DE", {
@@ -227,7 +213,7 @@ export const awarenessDate = (
 };
 
 export const awarenessDateGreaterThan6Weeks = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   if (!context.awarenessDate) return {};
   return {
@@ -237,7 +223,7 @@ export const awarenessDateGreaterThan6Weeks = (
 };
 
 export const awarenessDateGreater5WeeksLessThan6Weeks = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   if (!context.awarenessDate) return {};
   return {
@@ -248,7 +234,7 @@ export const awarenessDateGreater5WeeksLessThan6Weeks = (
 };
 
 export const erblasserOutsideGermany = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   return {
     erblasserOutsideGermany: context.verstorbeneLebensmittelpunkt === "ausland",
@@ -256,7 +242,7 @@ export const erblasserOutsideGermany = (
 };
 
 export const hasVerstorbeneNotification = (
-  context: NachlassErbausschlagungAnfrageUserData,
+  context: ErbausschlagungAnfrageUserData,
 ) => {
   return {
     hasVerstorbeneNotification: context.verstorbeneNotification === "yes",

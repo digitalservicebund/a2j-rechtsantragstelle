@@ -13,18 +13,18 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { UserData, AllowedUserTypes } from "./userData";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
-import { nachlassErbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
-import { nachlassErbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
+import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
+import { erbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { type Session } from "react-router";
-import { nachlassErbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
-import { nachlassErbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
+import { erbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
+import { erbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import {
   type InferredUserData,
   type PageConfigMap,
 } from "~/services/flow/newFlowEngine/types";
-import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
-import { nachlassErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
+import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
   sourceData: InferredUserData<PageConfigMap>,
@@ -86,14 +86,13 @@ export const flows = {
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheck,
   "/fluggastrechte/formular": fluggastrechtFlow,
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
-  "/nachlass/erbschein/wegweiser": nachlassErbscheinWegweiser,
-  "/nachlass/erbschein/nachlassgericht": nachlassErbscheinNachlassgericht,
-  "/nachlass/erbschein/anfrage": nachlassErbscheinAnfrage,
-  "/nachlass/erbausschlagung/anfrage": nachlassErbausschlagungAnfrage,
-  "/nachlass/erbausschlagung/gericht-finden":
-    nachlassErbausschlagungGerichtFinden,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
-  "/nachlass/erbschein/erbfolge": nachlassErbfolge,
+  "/erbschein/erbfolge": erbscheinErbfolge,
+  "/erbschein/wegweiser": erbscheinWegweiser,
+  "/erbschein/nachlassgericht": erbscheinNachlassgericht,
+  "/erbschein/anfrage": erbscheinAnfrage,
+  "/erbausschlagung/anfrage": erbausschlagungAnfrage,
+  "/erbausschlagung/gericht-finden": erbausschlagungGerichtFinden,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

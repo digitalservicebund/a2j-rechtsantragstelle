@@ -125,8 +125,7 @@ describe("buildStatusTree", () => {
     };
     const tree = buildStatusTree(config, simulation(), new Set());
 
-    const eigentum =
-      tree["/finanzielle-angaben"].children?.["/eigentum"];
+    const eigentum = tree["/finanzielle-angaben"].children?.["/eigentum"];
     expect(eigentum).toBeDefined();
     expect(eigentum?.children ?? {}).not.toHaveProperty("/bankkonten");
   });

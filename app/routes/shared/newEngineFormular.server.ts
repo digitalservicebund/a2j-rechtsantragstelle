@@ -4,6 +4,7 @@ import {
   type ActionFunctionArgs,
   data,
   type LoaderFunctionArgs,
+  redirect,
   redirectDocument,
 } from "react-router";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
@@ -30,6 +31,7 @@ import {
   uploadUserFile,
 } from "~/services/upload/fileUploadHelpers.server";
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
+import { getRedirect } from "~/services/routing/redirects";
 
 // Whether every top-level section is done except the given one. Used to decide
 // if a validation gate page can be skipped (its own section is still open).
@@ -51,6 +53,9 @@ export const loadFormularData = async <
   extras?: LoaderExtras<ExtraData>,
 ) => {
   const { params, request, url } = args;
+
+  const redirectDestination = getRedirect(url.pathname);
+  if (redirectDestination) return redirect(redirectDestination, 301);
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 

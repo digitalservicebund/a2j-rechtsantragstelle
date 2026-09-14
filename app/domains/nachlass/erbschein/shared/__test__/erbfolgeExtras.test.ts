@@ -1,11 +1,11 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbfolgeStaticFlow } from "../../erbfolge/flowConfig";
+import { erbfolgeStaticFlow } from "../../erbfolge/flowConfig";
 import { erbfolgeLoaderExtras } from "../erbfolgeExtras";
 import { type LoaderExtrasContext } from "~/services/flow/server/loaderExtras";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
-const FLOW_ID = "/nachlass/erbschein/erbfolge";
+const FLOW_ID = "/erbschein/erbfolge";
 
 function contextFor(
   userData: UserData,
@@ -13,7 +13,7 @@ function contextFor(
   arrayIndexes: number[] = [],
 ): LoaderExtrasContext {
   const flowSessionEngine = createFlowSession(
-    nachlassErbfolgeStaticFlow,
+    erbfolgeStaticFlow,
     userData,
     stepId,
   );

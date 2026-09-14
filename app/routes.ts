@@ -8,13 +8,7 @@ import {
 } from "./services/routing/flowRoutes";
 
 export default [
-  ...(await flatRoutes({
-    ignoredRouteFiles: [
-      "**/nachlass.erbschein.erbfolge.$.tsx",
-      "**/nachlass.erbschein.erbfolge.ergebnis.$.tsx",
-      "**/geld-einklagen.formular.$.tsx",
-    ],
-  })), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
+  ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
     ...prefix("antrag", newEngineFlowRoutes("BHA")),
@@ -24,31 +18,27 @@ export default [
     ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
-  ...prefix("nachlass", [
-    ...prefix("erbausschlagung/anfrage", newEngineFlowRoutes("NAA")),
-    ...prefix(
-      "erbausschlagung/gericht-finden",
-      newEngineVorabcheckRoutes("NAGF"),
-    ),
-    ...prefix("erbschein/wegweiser", newEngineVorabcheckRoutes("NESW")),
-    ...prefix("erbschein/nachlassgericht", newEngineVorabcheckRoutes("NESN")),
-    ...prefix("erbschein/erbfolge", [
-      route("ergebnis/*", "routes/nachlass.erbschein.erbfolge.ergebnis.$.tsx", {
-        id: "nachlassErbfolgeResult",
+  ...prefix("erbausschlagung", [
+    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
+    ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
+  ]),
+  ...prefix("erbschein", [
+    ...prefix("wegweiser", newEngineVorabcheckRoutes("ESW")),
+    ...prefix("nachlassgericht", newEngineVorabcheckRoutes("ESN")),
+    ...prefix("erbfolge", [
+      route("ergebnis/*", "routes/erbschein.erbfolge.ergebnis.$.tsx", {
+        id: "erbfolgeResult",
       }),
-      route("*", "routes/nachlass.erbschein.erbfolge.$.tsx", {
-        id: "nachlassErbfolgeFlow",
+      route("*", "routes/erbschein.erbfolge.$.tsx", {
+        id: "erbfolgeFlow",
       }),
     ]),
-    ...prefix("erbschein/anfrage", [
-      route("*", "routes/nachlass.erbschein.anfrage.$.tsx", {
-        id: "nachlassAnfrageFlow",
+    ...prefix("anfrage", [
+      route("*", "routes/erbschein.anfrage.$.tsx", {
+        id: "ErbscheinAnfrageFlow",
       }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
-        id: `pdfNachlassAnfrageFlow`,
-      }),
-      route("visualisierung", "routes/shared/visualisierung.ts", {
-        id: `visNachlassAnfrageFlow`,
+        id: `pdfErbscheinAnfrageFlow`,
       }),
     ]),
   ]),
