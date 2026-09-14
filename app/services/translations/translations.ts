@@ -567,6 +567,18 @@ export const translations = {
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
     },
+    begruendungBeschreibungBeweiseDialogDeleteCancel: {
+      de: "Nein, behalten",
+    },
+    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
+      de: "Ja, löschen",
+    },
+    begruendungBeschreibungDeleteDialogTitle: {
+      de: "und dazugehörige Beweise löschen?",
+    },
+    begruendungBeschreibungDeleteDialogDescription: {
+      de: "Falls Sie hier genannte Beweise auch in einem anderen Abschnitt angegeben haben, bleiben sie dort erhalten.",
+    },
   },
   nachlass: {
     childOf: {

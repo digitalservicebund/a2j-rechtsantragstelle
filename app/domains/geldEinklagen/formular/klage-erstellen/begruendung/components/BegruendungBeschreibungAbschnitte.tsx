@@ -6,6 +6,9 @@ import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import { useRef } from "react";
+import { DeleteDialog } from "./DeleteDialog";
 
 export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndexAbschnitte: number;
@@ -20,8 +23,18 @@ const BegruendungBeschreibungAbschnitte = ({
   abschnitte,
 }: BegruendungBeschreibungAbschnitteProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
+  const jsAvailable = useJsAvailable();
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitte + 1}`;
+
+  const onDeleteClicked = () => {
+    if (!jsAvailable) {
+      onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitte);
+    }
+
+    dialogRef.current?.showModal();
+  };
 
   return (
     <div
@@ -62,18 +75,14 @@ const BegruendungBeschreibungAbschnitte = ({
           <div className="flex flex-row-reverse">
             <Button
               type="button"
+              aria-haspopup="dialog"
               look="secondary"
               className="border-0!"
               textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
               iconLeft={
                 <Icon name={"trash"} className="fill-kern-feedback-danger!" />
               }
-              onClick={() =>
-                onAbschnittDelete(
-                  BASE_URL_BESCHREIBUNG_ABSCHNITTE,
-                  itemIndexAbschnitte,
-                )
-              }
+              onClick={onDeleteClicked}
               aria-label={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de}`}
             >
               {
@@ -81,6 +90,21 @@ const BegruendungBeschreibungAbschnitte = ({
                   .de
               }
             </Button>
+            <DeleteDialog
+              title={`${headingText} ${translations.geldEinklagen.begruendungBeschreibungDeleteDialogTitle.de}`}
+              description={
+                translations.geldEinklagen
+                  .begruendungBeschreibungDeleteDialogDescription.de
+              }
+              onClickDelete={() =>
+                onAbschnittDelete(
+                  BASE_URL_BESCHREIBUNG_ABSCHNITTE,
+                  itemIndexAbschnitte,
+                )
+              }
+              closeSurvey={() => dialogRef.current?.close()}
+              dialogRef={dialogRef}
+            />
           </div>
         </div>
       </div>
