@@ -94,11 +94,10 @@ export const partnerFlowConfig = {
           context["partner-currentlyEmployed"] === "yes" &&
           context["partner-staatlicheLeistungen"] === "buergergeld"
         ),
-      target: "partnerAbzuege",
+      target: "partnerArbeitsweg",
     },
     { target: "partnerRenteFrage" },
   ],
-  partnerAbzuege: "partnerArbeitsweg",
   partnerArbeitsweg: [
     {
       guard: (context) => context["partner-arbeitsweg"] === "publicTransport",
@@ -114,12 +113,11 @@ export const partnerFlowConfig = {
         context["partner-arbeitsweg"] === "walking",
       target: "partnerArbeitswegKeineRolle",
     },
-    { target: "partnerArbeitsausgaben" },
+    { target: "partnerArbeitsausgabenFrage" },
   ],
   partnerOpnvKosten: "partnerArbeitsplatzEntfernung",
-  partnerArbeitsplatzEntfernung: "partnerArbeitsausgaben",
-  partnerArbeitswegKeineRolle: "partnerArbeitsausgaben",
-  partnerArbeitsausgaben: "partnerArbeitsausgabenFrage",
+  partnerArbeitsplatzEntfernung: "partnerArbeitsausgabenFrage",
+  partnerArbeitswegKeineRolle: "partnerArbeitsausgabenFrage",
   partnerArbeitsausgabenFrage: [
     {
       guard: (context) => context["partner-hasArbeitsausgaben"] === "yes",
@@ -135,7 +133,7 @@ export const partnerFlowConfig = {
     {
       guard: (context) =>
         context["partner-hasArbeitsausgaben"] === "yes" &&
-        !arrayIsNonEmpty(context.partnerArbeitsausgabe),
+        !arrayIsNonEmpty(context["partner-arbeitsausgaben"]),
       target: "partnerArbeitsausgabenWarnung",
     },
     { target: "partnerRenteFrage" },
@@ -192,7 +190,7 @@ export const partnerFlowConfig = {
       guard: (context) => context.partnerLeistungen?.kinderFragegeld === "on",
       target: "partnerKindergeld",
     },
-    { target: "partnerWeitereEinkuenfte" },
+    { target: "partnerWeitereEinkuenfteFrage" },
   ],
   partnerKrankengeld: [
     {
@@ -203,17 +201,16 @@ export const partnerFlowConfig = {
       guard: (context) => context.partnerLeistungen?.kinderFragegeld === "on",
       target: "partnerKindergeld",
     },
-    { target: "partnerWeitereEinkuenfte" },
+    { target: "partnerWeitereEinkuenfteFrage" },
   ],
   partnerElterngeld: [
     {
       guard: (context) => context.partnerLeistungen?.kindergeld === "on",
       target: "partnerKindergeld",
     },
-    { target: "partnerWeitereEinkuenfte" },
+    { target: "partnerWeitereEinkuenfteFrage" },
   ],
-  partnerKindergeld: "partnerWeitereEinkuenfte",
-  partnerWeitereEinkuenfte: "partnerWeitereEinkuenfteUebersicht",
+  partnerKindergeld: "partnerWeitereEinkuenfteFrage",
   partnerWeitereEinkuenfteFrage: [
     {
       guard: (context) => context["partner-hasFurtherIncome"] === "yes",
@@ -229,7 +226,7 @@ export const partnerFlowConfig = {
     {
       guard: (context) =>
         context["partner-hasFurtherIncome"] === "yes" &&
-        !arrayIsNonEmpty(context.partnerWeitereEinkuenfte),
+        !arrayIsNonEmpty(context["partner-weitereEinkuenfte"]),
       target: "partnerWeitereEinkuenfteWarnung",
     },
     { target: "partnerBesondersAusgaben" },

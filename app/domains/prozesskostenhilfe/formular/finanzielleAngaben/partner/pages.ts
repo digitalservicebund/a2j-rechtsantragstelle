@@ -167,10 +167,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-selbststaendigBruttoNetto": z.enum(["brutto", "netto"]),
     },
   },
-  partnerAbzuege: {
-    stepId: "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege",
-    shouldCollapseIntoParentNavItem: true,
-  },
   partnerSelbststaendigAbzuege: {
     stepId:
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-selbststaendig-abzuege",
@@ -233,14 +229,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-keine-rolle",
     shouldCollapseIntoParentNavItem: true,
   },
-  partnerArbeitsausgaben: {
-    stepId:
-      "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben",
-    shouldCollapseIntoParentNavItem: true,
-  },
   partnerArbeitsausgabe: {
     stepId:
-      "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/#/daten",
+      "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgabe/#/partner-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "partner-arbeitsausgaben#beschreibung":
@@ -264,9 +255,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
-      name: "partnerArbeitsausgabe",
+      name: "partner-arbeitsausgaben",
       schema: partnerArbeitsausgabenArraySchema,
-      fieldName: "partner-arbeitsausgaben",
+      fieldName: "partner-hasArbeitsausgaben",
     },
   },
   partnerArbeitsausgabenWarnung: {
@@ -325,14 +316,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "partner-kindergeldAmount": buildMoneyValidationSchema(),
     },
   },
-  partnerWeitereEinkuenfte: {
-    stepId:
-      "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte",
-    shouldCollapseIntoParentNavItem: true,
-  },
   partnerWeitereEinkunft: {
     stepId:
-      "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft/#/daten",
+      "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-einkunft/#/partner-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "partner-weitereEinkuenfte#beschreibung":
@@ -356,7 +342,7 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
       "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
-      name: "partnerWeitereEinkuenfte",
+      name: "partner-weitereEinkuenfte",
       schema: partnerWeitereEinkuenfteArraySchema,
       fieldName: "partner-hasFurtherIncome",
     },
