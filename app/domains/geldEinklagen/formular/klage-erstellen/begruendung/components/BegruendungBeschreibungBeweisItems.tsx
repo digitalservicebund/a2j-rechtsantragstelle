@@ -12,6 +12,7 @@ import { Badge } from "~/components/content/Badge";
 import { useRef } from "react";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { DeleteDialog } from "./DeleteDialog";
+import classNames from "classnames";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
@@ -92,6 +93,7 @@ type ItemButtonsProps = {
   };
   shouldRenderEditButton?: boolean;
   deleteDialogTitle: string;
+  deleteDialogDescription: React.ReactNode;
 };
 
 const ItemButtons = ({
@@ -100,6 +102,7 @@ const ItemButtons = ({
   ariaLabel,
   shouldRenderEditButton = true,
   deleteDialogTitle,
+  deleteDialogDescription,
 }: ItemButtonsProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const jsAvailable = useJsAvailable();
@@ -134,10 +137,7 @@ const ItemButtons = ({
       />
       <DeleteDialog
         title={deleteDialogTitle}
-        description={
-          translations.geldEinklagen
-            .begruendungBeschreibungBeweiseDeleteDialogDescription.de
-        }
+        description={deleteDialogDescription}
         onClickDelete={onDelete}
         closeSurvey={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
@@ -223,17 +223,38 @@ export const BegruendungBeschreibungBeweisItems = ({
         dokumenten.map((dokument, dokumentIndex) => {
           const dokumentItemIndex = String(dokumentIndex);
           const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${dokumentItemIndex}/daten`;
+          const contentDescription = (
+            <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
+              {dokument.beschreibung}
+            </span>
+          );
+
+          const deleteDialogDescription = (
+            <>
+              <span>
+                {
+                  translations.geldEinklagen
+                    .begruendungBeschreibungBeweiseDeleteDialogDocumentDescription
+                    .de
+                }
+              </span>
+              <div
+                className={classNames(
+                  "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+                )}
+              >
+                <Icon name="draft" className="shrink-0" />
+                {contentDescription}
+              </div>
+            </>
+          );
 
           return (
             <BeweisItemRow
               key={editDocumentUrl}
               icon="draft"
               classNameParent="border-b border-kern-neutral-200"
-              content={
-                <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
-                  {dokument.beschreibung}
-                </span>
-              }
+              content={contentDescription}
               buttons={
                 <ItemButtons
                   editUrl={editDocumentUrl}
@@ -250,6 +271,7 @@ export const BegruendungBeschreibungBeweisItems = ({
                       .begruendungBeschreibungBeweiseDocumentDeleteDialogTitle
                       .de
                   }
+                  deleteDialogDescription={deleteDialogDescription}
                 />
               }
             />
@@ -265,6 +287,27 @@ export const BegruendungBeschreibungBeweisItems = ({
 
           const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/daten`;
           const hasDetails = hasPersonDetails(person);
+          const contentDescription = renderPersonItem(person);
+
+          const deleteDialogDescription = (
+            <>
+              <span>
+                {
+                  translations.geldEinklagen
+                    .begruendungBeschreibungBeweiseDeleteDialogPersonDescription
+                    .de
+                }
+              </span>
+              <div
+                className={classNames(
+                  "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+                )}
+              >
+                <Icon name="person" className="shrink-0" />
+                {contentDescription}
+              </div>
+            </>
+          );
 
           return (
             <BeweisItemRow
@@ -272,7 +315,7 @@ export const BegruendungBeschreibungBeweisItems = ({
               icon="person"
               classNameParent="border-b border-kern-neutral-200"
               classNameChild={hasDetails ? "" : "sm:items-center!"}
-              content={renderPersonItem(person)}
+              content={contentDescription}
               buttons={
                 <ItemButtons
                   editUrl={editPersonUrl}
@@ -289,6 +332,7 @@ export const BegruendungBeschreibungBeweisItems = ({
                     translations.geldEinklagen
                       .begruendungBeschreibungBeweisePersonDeleteDialogTitle.de
                   }
+                  deleteDialogDescription={deleteDialogDescription}
                 />
               }
             />
