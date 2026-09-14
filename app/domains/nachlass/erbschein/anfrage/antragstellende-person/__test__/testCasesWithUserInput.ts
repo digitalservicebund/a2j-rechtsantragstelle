@@ -4,7 +4,7 @@ import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfr
 
 export const antragstellendePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData> =
   {
-    singleNationality: [
+    singleNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/name",
         userInput: {
@@ -63,7 +63,7 @@ export const antragstellendePersonTestCases: FlowTestCases<ErbscheinAnfrageUserD
         stepId: "/testament-oder-erbvertrag/art",
       },
     ],
-    dualNationality: [
+    dualNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/zweite-staatsangehoerigkeit-frage",
         userInput: {
@@ -87,7 +87,7 @@ export const antragstellendePersonTestCases: FlowTestCases<ErbscheinAnfrageUserD
         stepId: "/antragstellende-person/anschrift",
       },
     ],
-    tripleNationality: [
+    tripleNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/dritte-staatsangehoerigkeit-frage",
         userInput: {
