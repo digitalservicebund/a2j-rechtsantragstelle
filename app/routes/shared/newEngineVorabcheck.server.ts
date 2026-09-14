@@ -1,6 +1,6 @@
 import { validationError } from "@rvf/react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { data, redirectDocument } from "react-router";
+import { data, redirect, redirectDocument } from "react-router";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
@@ -18,6 +18,7 @@ import type {
   LoaderExtras,
   ExtraDataWithFormElements,
 } from "~/services/flow/server/loaderExtras";
+import { getRedirect } from "~/services/routing/redirects";
 
 export const loadVorabcheckData = async <
   ExtraData extends ExtraDataWithFormElements = Record<string, never>,
@@ -26,6 +27,9 @@ export const loadVorabcheckData = async <
   extras?: LoaderExtras<ExtraData>,
 ) => {
   const { params, request, url } = args;
+
+  const redirectDestination = getRedirect(url.pathname);
+  if (redirectDestination) return redirect(redirectDestination, 301);
 
   const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
 

@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiWidthSchema } from "../StrapiWidth";
 
 describe("strapiWidthSchema", () => {
@@ -8,8 +9,7 @@ describe("strapiWidthSchema", () => {
   });
 
   it("rejects invalid widths", () => {
-    const parsed = StrapiWidthSchema.safeParse("characters2");
-    expect(parsed.success).toBe(false);
+    expect(z.validate(StrapiWidthSchema, "characters2")).toBe(false);
   });
 
   it("transforms null to undefined", () => {

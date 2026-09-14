@@ -46,6 +46,8 @@ export function createArrayGroupItems(
     question: "", // Empty for array items
     answer: "", // Empty for array items
     editUrl: firstField.editUrl,
+    // Preserve the box key so consumers can tell items apart by nesting depth.
+    arrayBoxKey: firstField.arrayBoxKey,
     multipleQuestions: groupFields.map((field) => ({
       id: crypto.randomUUID().split("-")[0],
       question: field.question,

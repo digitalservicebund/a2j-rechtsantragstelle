@@ -1,7 +1,8 @@
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
+import { z } from "zod";
 
 export const testamentOderErbvertragFlowConfig = {
   testamentArt: [
@@ -26,8 +27,7 @@ export const testamentOderErbvertragFlowConfig = {
   namedBeneficiariesOverview: [
     { type: "addArrayItem", target: "namedBeneficiaryName" },
     {
-      guard: (data) =>
-        !beguenstigtenArray.safeParse(data.beguenstigten).success,
+      guard: (data) => !z.validate(beguenstigtenArray, data.beguenstigten),
       target: "namedBeneficiariesWarning",
     },
     {
@@ -35,18 +35,18 @@ export const testamentOderErbvertragFlowConfig = {
         (data.verstorbeneFamilienstand === "verheiratet" ||
           data.verstorbeneFamilienstand === "verwitwet" ||
           data.verstorbeneFamilienstand === "geschieden") &&
-        beguenstigtenArray.safeParse(data.beguenstigten).success,
+        z.validate(beguenstigtenArray, data.beguenstigten),
       target: "spouseName",
     },
     {
       guard: (data) =>
         data.verstorbeneFamilienstand === "ledig" &&
         data.testamentArt === "none" &&
-        beguenstigtenArray.safeParse(data.beguenstigten).success,
+        z.validate(beguenstigtenArray, data.beguenstigten),
       target: "hatteKinder",
     },
     {
-      guard: (data) => beguenstigtenArray.safeParse(data.beguenstigten).success,
+      guard: (data) => z.validate(beguenstigtenArray, data.beguenstigten),
       target: "grundbesitz",
     },
   ],
@@ -68,4 +68,4 @@ export const testamentOderErbvertragFlowConfig = {
   namedBeneficiaryAddress: "namedBeneficiariesOverview",
   namedBeneficiarySterbedatum: "namedBeneficiariesOverview",
   namedBeneficiariesWarning: "namedBeneficiariesOverview",
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

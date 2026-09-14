@@ -49,7 +49,7 @@ export const serviceCards: CardGroupItem[] = [
   },
   {
     span: 4,
-    link: "/nachlass/erbschein",
+    link: "/erbschein",
     id: "erbschein-card",
     preline: translations.homepage.cardPrelineErbschein.de,
     heading: translations.homepage.cardHeadingErbschein.de,

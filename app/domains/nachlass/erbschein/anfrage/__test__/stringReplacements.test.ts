@@ -1,5 +1,5 @@
 import { getAngehoerigeStrings } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
 describe("getAngehoerigeStrings", () => {
@@ -10,7 +10,7 @@ describe("getAngehoerigeStrings", () => {
       hatteKinder: "yes",
       kinder: [{ vorname: "Kind", nachname: "Eins", isAlive: "yes" }] as Kind[],
       elternteile: [],
-    } as NachlassErbscheinAnfrageUserData);
+    } as ErbscheinAnfrageUserData);
 
     expect(result.requiredDocumentsHtml).toContain("<table");
     expect(result.requiredDocumentsHtml).toContain("Kind Eins");

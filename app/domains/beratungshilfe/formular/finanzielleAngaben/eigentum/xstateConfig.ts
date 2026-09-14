@@ -1,4 +1,5 @@
 import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
+import { z } from "zod";
 import { type Config } from "~/services/flow/server/types";
 import {
   bankkontenArraySchema,
@@ -96,7 +97,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  !bankkontenArraySchema.safeParse(context.bankkonten).success,
+                  !z.validate(bankkontenArraySchema, context.bankkonten),
                 target: "warnung",
               },
               "#eigentum.geldanlagen",
@@ -150,8 +151,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  !geldanlagenArraySchema.safeParse(context.geldanlagen)
-                    .success,
+                  !z.validate(geldanlagenArraySchema, context.geldanlagen),
                 target: "warnung",
               },
               "#eigentum.kraftfahrzeuge",
@@ -276,8 +276,10 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  !kraftfahrzeugeArraySchema.safeParse(context.kraftfahrzeuge)
-                    .success,
+                  !z.validate(
+                    kraftfahrzeugeArraySchema,
+                    context.kraftfahrzeuge,
+                  ),
                 target: "warnung",
               },
               "#eigentum.wertgegenstaende",
@@ -349,7 +351,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  !wertsachenArraySchema.safeParse(context.wertsachen).success,
+                  !z.validate(wertsachenArraySchema, context.wertsachen),
                 target: "warnung",
               },
               "#eigentum.grundeigentum.grundeigentum-frage",
@@ -407,8 +409,7 @@ export const berhAntragFinanzielleAngabenEigentumXstateConfig = {
             SUBMIT: [
               {
                 guard: ({ context }) =>
-                  !grundeigentumArraySchema.safeParse(context.grundeigentum)
-                    .success,
+                  !z.validate(grundeigentumArraySchema, context.grundeigentum),
                 target: steps.eigentumGrundeigentumWarnung.relative,
               },
               {

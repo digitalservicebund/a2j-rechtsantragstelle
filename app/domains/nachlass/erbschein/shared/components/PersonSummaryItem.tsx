@@ -1,4 +1,4 @@
-import { Badge } from "~/components/common/Badge";
+import { Badge } from "~/components/content/Badge";
 import { type PersonItem } from "~/domains/nachlass/erbschein/shared/components/types";
 import { personName } from "~/domains/nachlass/erbschein/shared/personName";
 import { toDateString } from "~/services/validation/dateObject";

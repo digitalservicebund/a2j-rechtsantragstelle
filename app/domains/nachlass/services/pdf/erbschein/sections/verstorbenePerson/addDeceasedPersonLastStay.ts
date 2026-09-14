@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -7,7 +7,7 @@ import {
 
 const LAST_RESIDENCE_TITLE = "Letzter gewöhnlicher Aufenthalt";
 
-const getPlz = (userData: NachlassErbscheinAnfrageUserData) => {
+const getPlz = (userData: ErbscheinAnfrageUserData) => {
   if (userData.verstorbeneLivedInPflegeheim === "yes") {
     return userData.verstorbenePflegeheimPlz;
   }
@@ -17,7 +17,7 @@ const getPlz = (userData: NachlassErbscheinAnfrageUserData) => {
   return userData.verstorbenePlz;
 };
 
-const getAddress = (userData: NachlassErbscheinAnfrageUserData) => {
+const getAddress = (userData: ErbscheinAnfrageUserData) => {
   if (userData.verstorbeneLebensmittelpunkt === "ausland") {
     return {
       additionalAddress:
@@ -39,7 +39,7 @@ const getAddress = (userData: NachlassErbscheinAnfrageUserData) => {
 export const addDeceasedPersonLastStay = (
   doc: typeof PDFDocument,
   deceasedPersonSection: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   deceasedPersonSection.add(
     doc.struct("H3", {}, () => {

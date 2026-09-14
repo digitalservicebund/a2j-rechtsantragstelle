@@ -1,9 +1,10 @@
 import { elternteilFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/elternteil/elternteilFlowConfig";
 import { kinderFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderFlowConfig";
 import { angehoerigeArray } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
+import { z } from "zod";
 
 export const angehoerigeFlowConfig = {
   ...kinderFlowConfig,
@@ -11,11 +12,11 @@ export const angehoerigeFlowConfig = {
   angehoerigeOverview: [
     { type: "addArrayItem", target: "angehoerigeName" },
     {
-      guard: (data) => !angehoerigeArray.safeParse(data.angehoerige).success,
+      guard: (data) => !z.validate(angehoerigeArray, data.angehoerige),
       target: "angehoerigeWarning",
     },
     {
-      guard: (data) => angehoerigeArray.safeParse(data.angehoerige).success,
+      guard: (data) => z.validate(angehoerigeArray, data.angehoerige),
       target: "grundbesitz",
     },
   ],
@@ -38,4 +39,4 @@ export const angehoerigeFlowConfig = {
   angehoerigeAddress: "angehoerigeRelationship",
   angehoerigeRelationship: "angehoerigeOverview",
   angehoerigeSterbedatum: "angehoerigeOverview",
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

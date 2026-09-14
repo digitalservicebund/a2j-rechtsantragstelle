@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import type { NachlassErbausschlagungAnfragePages } from "../pages";
+import type { ErbausschlagungAnfragePages } from "../pages";
 import {
   getOptionSorgerecht,
   hasKinderSorgerechtSameAddressNo,
@@ -100,4 +100,4 @@ export const kinderFlowConfig = {
   sorgerechtOrganisationName: "sorgerechtOrganisationAdresse",
   sorgerechtOrganisationAdresse: "kinderUebersicht",
   erbeAusschlagende: "kinderUebersicht",
-} satisfies Partial<TransitionConfigMap<NachlassErbausschlagungAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbausschlagungAnfragePages>>;

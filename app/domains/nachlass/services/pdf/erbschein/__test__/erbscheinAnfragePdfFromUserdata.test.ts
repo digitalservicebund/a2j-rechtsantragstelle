@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import type * as CreatePdfKitDocumentModule from "~/services/pdf/createPdfKitDocument";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 
 const mockDocumentStructure = mockPdfKitDocumentStructure();
@@ -23,7 +23,7 @@ const userDataMock = {
   verstorbeneFamilienstand: "ledig",
   verstorbeneVorname: "Max",
   testamentArt: "handwritten",
-} satisfies NachlassErbscheinAnfrageUserData;
+} satisfies ErbscheinAnfrageUserData;
 
 describe("erbscheinAnfragePdfFromUserdata", () => {
   beforeEach(() => {

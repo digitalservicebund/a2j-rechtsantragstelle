@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { createSplitDateSchema, toDate } from "../dateObject";
 
 describe("createSplitDateSchema", () => {
@@ -129,34 +130,40 @@ describe("createSplitDateSchema", () => {
   });
 
   test("too early", () => {
-    const actual = createSplitDateSchema({
-      earliest: () =>
-        toDate({
-          day: "02",
-          month: "01",
-          year: "2025",
-        }),
-    }).safeParse({
-      day: "01",
-      month: "01",
-      year: "2025",
-    });
-    expect(actual.success).toEqual(false);
+    const actual = z.validate(
+      createSplitDateSchema({
+        earliest: () =>
+          toDate({
+            day: "02",
+            month: "01",
+            year: "2025",
+          }),
+      }),
+      {
+        day: "01",
+        month: "01",
+        year: "2025",
+      },
+    );
+    expect(actual).toBe(false);
   });
 
   test("too early", () => {
-    const actual = createSplitDateSchema({
-      latest: () =>
-        toDate({
-          day: "01",
-          month: "01",
-          year: "2025",
-        }),
-    }).safeParse({
-      day: "02",
-      month: "01",
-      year: "2025",
-    });
-    expect(actual.success).toEqual(false);
+    const actual = z.validate(
+      createSplitDateSchema({
+        latest: () =>
+          toDate({
+            day: "01",
+            month: "01",
+            year: "2025",
+          }),
+      }),
+      {
+        day: "02",
+        month: "01",
+        year: "2025",
+      },
+    );
+    expect(actual).toBe(false);
   });
 });

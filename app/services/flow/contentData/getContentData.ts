@@ -27,6 +27,8 @@ import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer"
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
+import { arrayIsNonEmpty } from "~/util/array";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 type ContentParameters = {
   cmsContent: CMSContent;
@@ -81,6 +83,26 @@ function buildStepsStepper(
       state: navStateStepper(stepStepper.navItems.map(({ state }) => state)),
     }));
 }
+
+const getBackButtonDestinationNewEngine = (
+  flowId: FlowId,
+  flowSessionEngine: FlowSession<PageConfigMap>,
+  arrayIndexes: number[] | undefined = [],
+) => {
+  const backDestination = flowSessionEngine.prevPath
+    ? flowId +
+      resolveArrayCharacter(flowSessionEngine.prevPath, arrayIndexes, false)
+    : undefined;
+  const arrayInfoNextStepId = flowSessionEngine.getArrayInfoByPath(
+    flowSessionEngine.prevPath ?? "",
+  );
+
+  if (arrayIsNonEmpty(arrayIndexes) && arrayInfoNextStepId) {
+    return `${backDestination}#${EDIT_BUTTON_ID_PREFIX}${arrayInfoNextStepId.name}-${arrayIndexes[0]}`;
+  }
+
+  return backDestination;
+};
 
 export const getContentData = (
   { cmsContent, translations }: ContentParameters,
@@ -165,10 +187,11 @@ export const getContentData = (
       arrayIndexes: number[] | undefined = [],
     ) => {
       const buttonNavigationTranslation = translationCode.buttonNavigation;
-      const backDestination = flowSessionEngine.prevPath
-        ? flowId +
-          resolveArrayCharacter(flowSessionEngine.prevPath, arrayIndexes, false)
-        : undefined;
+      const backDestination = getBackButtonDestinationNewEngine(
+        flowId,
+        flowSessionEngine,
+        arrayIndexes,
+      );
 
       return getButtonNavigationProps({
         backButtonLabel:

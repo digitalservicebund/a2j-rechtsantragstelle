@@ -4,6 +4,7 @@ node_modules
 /build
 /coverage
 .env
+.envrc
 tsconfig.tsbuildinfo
 **/content.json
 

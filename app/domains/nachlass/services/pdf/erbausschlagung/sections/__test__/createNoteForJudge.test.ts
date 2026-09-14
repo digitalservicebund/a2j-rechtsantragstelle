@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { createNoteForJudge } from "../createNoteForJudge";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 
 describe("createNoteForJudge", () => {
   it("should not add note for judge section if there is no weitereInformationen", () => {
@@ -11,7 +11,7 @@ describe("createNoteForJudge", () => {
     const mockDoc = mockPdfKitDocument(mockStruct);
     const mockUserData = {
       weitereInformationen: "",
-    } as NachlassErbausschlagungAnfrageUserData;
+    } as ErbausschlagungAnfrageUserData;
 
     createNoteForJudge(mockDoc, mockStruct, mockUserData);
 
@@ -24,7 +24,7 @@ describe("createNoteForJudge", () => {
     const mockUserData = {
       hasKid: "yes",
       weitereInformationen: "Some information for the judge.",
-    } as NachlassErbausschlagungAnfrageUserData;
+    } as ErbausschlagungAnfrageUserData;
 
     createNoteForJudge(mockDoc, mockStruct, mockUserData);
 
@@ -43,7 +43,7 @@ describe("createNoteForJudge", () => {
     const mockUserData = {
       hasKid: "no",
       weitereInformationen: "Some information for the judge.",
-    } as NachlassErbausschlagungAnfrageUserData;
+    } as ErbausschlagungAnfrageUserData;
 
     createNoteForJudge(mockDoc, mockStruct, mockUserData);
 

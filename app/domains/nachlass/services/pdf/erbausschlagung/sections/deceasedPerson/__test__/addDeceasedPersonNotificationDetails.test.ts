@@ -1,4 +1,4 @@
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addDeceasedPersonNotificationDetails } from "../addDeceasedPersonNotificationDetails";
 import {
   mockPdfKitDocument,
@@ -21,7 +21,7 @@ const userDataMock = {
     month: "01",
     year: "2020",
   },
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addDeceasedPersonNotificationDetails", () => {
   it("should add notification details in case the user has received notification", () => {

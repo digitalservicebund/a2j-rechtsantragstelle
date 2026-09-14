@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { parentKindIndexSchema } from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -69,6 +71,9 @@ export const nameFieldsHelper = (prefix: string) => ({
 
 export const geburtsdatumFieldsHelper = (prefix: string) => ({
   [`${prefix}geburtsdatum`]: splitDateSchema,
+  [`${prefix}sterbedatum`]: hiddenInputSchema(
+    schemaOrEmptyStringOptional(splitDateSchema),
+  ),
   [`${prefix}geburtsort`]: stringRequiredSchema,
 });
 
@@ -90,6 +95,7 @@ export const addressFieldsHelper = (prefix: string) => ({
 
 export const deathDateFieldsHelper = (prefix: string) => ({
   [`${prefix}sterbedatum`]: splitDateSchema,
+  [`${prefix}geburtsdatum`]: hiddenInputSchema(splitDateSchema),
   [`${prefix}sterbeort`]: stringRequiredSchema,
 });
 

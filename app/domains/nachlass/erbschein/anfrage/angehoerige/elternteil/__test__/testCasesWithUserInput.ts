@@ -1,13 +1,13 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -60,7 +60,7 @@ const extinctKinder = {
       hatteKinder: "no",
     } as Kind,
   ],
-} satisfies Pick<NachlassErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
+} satisfies Pick<ErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
 
 export const elternteilTestCases = {
   // A living Elternteil inherits, so the flow leaves the Angehoerige section.
@@ -183,6 +183,7 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/#/sterbedatum",
       userInput: {
         "elternteile#sterbedatum": sterbedatum,
+        "elternteile#geburtsdatum": geburtsdatum,
         "elternteile#sterbeort": "Musterstadt",
       },
     },
@@ -229,6 +230,7 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/#/sterbedatum",
       userInput: {
         "elternteile#sterbedatum": sterbedatum,
+        "elternteile#geburtsdatum": geburtsdatum,
         "elternteile#sterbeort": "Musterstadt",
       },
     },
@@ -240,4 +242,60 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+  elternteilKind: [
+    // {
+    //   stepId: "/angehoerige/elternteile/uebersicht",
+    //   skipPageSchemaValidation: true,
+    //   userInput: {
+    //     ...happyPathData,
+    //     ...extinctKinder,
+    //   },
+    // },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/name",
+      userInput: {
+        ...happyPathData,
+        ...extinctKinder,
+        elternteile: [deceased("Elternteil", "yes", [living("Kind")])],
+        "elternteile#kinder#vorname": "Kind",
+        "elternteile#kinder#nachname": "Mustermann",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/geburtsdatum",
+      userInput: {
+        "elternteile#kinder#geburtsdatum": geburtsdatum,
+        "elternteile#kinder#geburtsort": "Musterstadt",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/lebend",
+      userInput: {
+        "elternteile#kinder#isAlive": "no",
+        elternteile: [deceased("Elternteil", "yes", [deceased("Kind", "no")])],
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/sterbedatum",
+      userInput: {
+        "elternteile#kinder#sterbedatum": sterbedatum,
+        "elternteile#kinder#geburtsdatum": geburtsdatum,
+        "elternteile#kinder#sterbeort": "Musterstadt",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/#/kinder/#/hatte-kinder",
+      userInput: {
+        "elternteile#kinder#hatteKinder": "no",
+      },
+      pageData: { arrayIndexes: [0, 0] },
+    },
+    {
+      stepId: "/angehoerige/elternteile/uebersicht",
+    },
+  ],
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

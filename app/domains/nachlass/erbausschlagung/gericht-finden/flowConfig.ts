@@ -1,5 +1,5 @@
 import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
-import { nachlassErbausschlagungGerichtFindenPages } from "./pages";
+import { erbausschlagungGerichtFindenPages } from "./pages";
 import {
   type CompiledFlow,
   compileFlow,
@@ -8,12 +8,11 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
-const nachlassGerichtFindenPagesWithLeadingSlash = addLeadingSlashToPageSchemas(
-  nachlassErbausschlagungGerichtFindenPages,
-);
+const erbausschlagungGerichtFindenPagesWithLeadingSlash =
+  addLeadingSlashToPageSchemas(erbausschlagungGerichtFindenPages);
 
-export const nachlassErbausschlagungGerichtFindenFlowConfig = compileFlow({
-  pages: nachlassGerichtFindenPagesWithLeadingSlash,
+export const erbausschlagungGerichtFindenFlowConfig = compileFlow({
+  pages: erbausschlagungGerichtFindenPagesWithLeadingSlash,
   initialStep: "start",
   transitions: {
     start: "lebensmittelpunkt",

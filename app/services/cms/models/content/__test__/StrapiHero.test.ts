@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { StrapiHeroSchema } from "../StrapiHero";
 
 describe("StrapiHero", () => {
@@ -7,9 +8,7 @@ describe("StrapiHero", () => {
       content: null,
     };
 
-    const actual = StrapiHeroSchema.safeParse(undefinedHeading);
-
-    expect(actual.success).toBe(false);
+    expect(z.validate(StrapiHeroSchema, undefinedHeading)).toBe(false);
   });
 
   it("should return true given all the correct data", () => {

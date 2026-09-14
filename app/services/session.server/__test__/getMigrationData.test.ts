@@ -3,7 +3,7 @@ import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../getMigrationData";
 import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
-import { nachlassErbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 
 vi.mock("~/services/session.server");
 const getSessionDataMock = vi.mocked(getSessionData);
@@ -102,8 +102,8 @@ describe("getMigrationData", () => {
   it("should call migrateSourceFlowDataToDestinationFlow if migrating a new engine flow", async () => {
     await getMigrationData(
       migrationKey,
-      "/nachlass/erbschein/anfrage",
-      nachlassErbscheinAnfrage,
+      "/erbschein/anfrage",
+      erbscheinAnfrage,
       "cooookie",
     );
     expect(migrateSourceFlowDataToDestinationFlowMock).toHaveBeenCalled();

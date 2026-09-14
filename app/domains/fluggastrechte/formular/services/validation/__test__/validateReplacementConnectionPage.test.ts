@@ -22,7 +22,7 @@ describe("validateReplacementConnectionPage", () => {
     validateReplacementConnectionPage(baseSchema);
 
   it("should return success false given undefined values", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: undefined,
       direktAnkunftsZeit: undefined,
       andereErsatzverbindungAnkunftsDatum: undefined,
@@ -30,11 +30,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival time after the arrival", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "01.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "01.01.2024",
@@ -42,11 +42,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival date after the arrival", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "01.01.2024",
@@ -54,11 +54,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success false given an original arrival date before three hours after the arrival and bereich verspaetet", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
@@ -66,11 +66,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(false);
+    expect(result).toBe(false);
   });
 
   it("should return success true given an original arrival date after three hours after the arrival and bereich verspaetet", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
@@ -78,11 +78,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "verspaetet",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich annullierung", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
@@ -90,11 +90,11 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "annullierung",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich nichtbefoerderung", () => {
-    const result = validatorReplacementConnectionPage.safeParse({
+    const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
       direktAnkunftsZeit: "14:00",
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
@@ -102,6 +102,6 @@ describe("validateReplacementConnectionPage", () => {
       bereich: "nichtbefoerderung",
     });
 
-    expect(result.success).toBe(true);
+    expect(result).toBe(true);
   });
 });

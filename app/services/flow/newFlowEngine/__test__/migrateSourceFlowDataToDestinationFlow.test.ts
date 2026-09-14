@@ -29,7 +29,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
         states: {},
       },
       migration: {
-        source: "/nachlass/erbschein/erbfolge",
+        source: "/erbschein/erbfolge",
         sortedFields: [],
         migrationDataMerger: mockMigrationDataMerger,
       },
@@ -39,7 +39,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
       {},
       sourceFlow,
       destinationFlow,
-      "/nachlass/erbschein/anfrage",
+      "/erbschein/anfrage",
     );
 
     expect(destinationFlow.migration?.migrationDataMerger).toHaveBeenCalled();
@@ -80,7 +80,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
       },
       newEngineConfig: {} as CompiledFlow<PageConfigMap>,
       migration: {
-        source: "/nachlass/erbschein/erbfolge",
+        source: "/erbschein/erbfolge",
         sortedFields: [],
       },
     } satisfies Flow;
@@ -94,7 +94,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
       mockUserData,
       sourceFlow,
       destinationFlow,
-      "/nachlass/erbschein/anfrage",
+      "/erbschein/anfrage",
     );
 
     expect(migrationData).toEqual(mockUserData);

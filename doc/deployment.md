@@ -48,3 +48,14 @@ flowchart TD
     end
 
 ```
+
+#### Deployment on non main branch
+
+Sometimes we need to deploy a non-main branch so UX or Product can validate changes or a new feature before it's merged into main. See this [ADR](/doc/adr/0032-environment-testing-feature.md) for background. To deploy a non-main branch, follow these steps:
+
+1. Create a local branch whose name starts with `testing-feature/`, e.g. `git checkout -b testing-feature/new-awesome-feature`.
+2. Push the branch to GitHub.
+3. On GitHub, go to `Actions -> buildAppImage`, select your branch in the `Run workflow` dropdown, and click `Run workflow`.
+4. Wait for the workflow to finish, then open the [testing feature instance](https://a2j-testing-feature.staging.tech.digitalservice.dev/).
+
+Before doing so, check whether another A2J engineer is already using this instance for a different feature branch — otherwise their changes will be overwritten.

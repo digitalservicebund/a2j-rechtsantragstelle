@@ -85,8 +85,7 @@ function testPageSchema<T extends UserData>(
     expect(pageSchema).toBeUndefined();
   } else {
     expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
-    const validationResult = z.object(pageSchema).safeParse(userInput);
-    expect(validationResult.error).toBeUndefined();
+    expect(z.validate(z.object(pageSchema), userInput)).toBe(true);
   }
 }
 

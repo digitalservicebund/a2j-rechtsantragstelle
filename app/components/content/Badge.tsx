@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { Icon } from "./Icon";
-import type { IconName } from "./utils";
+import { Icon } from "../common/Icon";
+import type { IconName } from "../common/utils";
 
 type BadgeVariant = "info" | "success" | "warning" | "danger";
 
@@ -17,6 +17,8 @@ export function Badge({
   variant,
   className,
 }: Readonly<BadgeProps>) {
+  if (!children) return null;
+
   return (
     <span
       className={classNames("kern-badge gap-kern-space-small", className, {

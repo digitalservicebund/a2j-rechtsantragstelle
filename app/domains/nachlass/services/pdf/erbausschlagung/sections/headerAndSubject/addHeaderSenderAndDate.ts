@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { today, toGermanDateString } from "~/util/date";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -13,7 +13,7 @@ const SENDER_TEXT = "Absender";
 export const addHeaderSenderAndDate = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) => {
   const creationDate = `${CREATION_PDF_TEXT} ${toGermanDateString(today())}`;
 

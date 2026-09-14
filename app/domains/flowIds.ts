@@ -6,15 +6,15 @@ export const flowIds = [
   "/geld-einklagen/formular",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
-  "/nachlass/erbschein/wegweiser",
-  "/nachlass/erbschein/nachlassgericht",
-  "/nachlass/erbschein/anfrage",
-  "/nachlass/erbausschlagung/anfrage",
-  "/nachlass/erbausschlagung/gericht-finden",
   "/prozesskostenhilfe/formular",
   "/kontopfaendung/wegweiser",
   "/kontopfaendung/pkonto/antrag",
-  "/nachlass/erbschein/erbfolge",
+  "/erbschein/erbfolge",
+  "/erbschein/wegweiser",
+  "/erbschein/nachlassgericht",
+  "/erbschein/anfrage",
+  "/erbausschlagung/anfrage",
+  "/erbausschlagung/gericht-finden",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];
@@ -31,10 +31,10 @@ export function parsePathname(pathname: string) {
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
   // TODO: remove after migration to new flow engine
   const arrayFlows: FlowId[] = [
-    "/nachlass/erbschein/erbfolge",
-    "/nachlass/erbschein/anfrage",
     "/geld-einklagen/formular",
-    "/nachlass/erbausschlagung/anfrage",
+    "/erbschein/erbfolge",
+    "/erbschein/anfrage",
+    "/erbausschlagung/anfrage",
   ];
   const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
   const stepId = pathname

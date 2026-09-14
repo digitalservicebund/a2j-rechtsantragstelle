@@ -2,8 +2,9 @@ import {
   grundbesitzArraySchema,
   unternehmenArraySchema,
 } from "~/domains/nachlass/erbschein/anfrage/nachlass/pages";
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { z } from "zod";
 
 export const nachlassFlowConfig = {
   grundbesitz: [
@@ -21,8 +22,7 @@ export const nachlassFlowConfig = {
       target: "grundbesitzAdresse",
     },
     {
-      guard: (data) =>
-        !grundbesitzArraySchema.safeParse(data.grundbesitz).success,
+      guard: (data) => !z.validate(grundbesitzArraySchema, data.grundbesitz),
       target: "grundbesitzWarnung",
     },
     {
@@ -46,8 +46,7 @@ export const nachlassFlowConfig = {
       target: "unternehmenName",
     },
     {
-      guard: (data) =>
-        !unternehmenArraySchema.safeParse(data.unternehmen).success,
+      guard: (data) => !z.validate(unternehmenArraySchema, data.unternehmen),
       target: "unternehmenWarnung",
     },
     {
@@ -62,4 +61,4 @@ export const nachlassFlowConfig = {
       target: "weitereAngaben",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

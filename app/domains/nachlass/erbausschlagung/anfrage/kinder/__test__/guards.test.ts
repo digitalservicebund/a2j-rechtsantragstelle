@@ -1,4 +1,4 @@
-import { type NachlassErbausschlagungAnfrageKind } from "~/domains/nachlass/services/pdf/erbausschlagung/sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "~/domains/nachlass/services/pdf/erbausschlagung/sections/childrenOfRenunciantPerson/createChildrenOfRenunciantPerson";
 import { isKinderUebersichtFilled } from "../guards";
 
 describe("guards", () => {
@@ -73,7 +73,7 @@ describe("guards", () => {
           year: new Date().getFullYear() - 10 + "",
         },
         wohnortBeiAntragsteller: "yes",
-      } satisfies NachlassErbausschlagungAnfrageKind;
+      } satisfies ErbausschlagungAnfrageKind;
 
       it("should return false if it is missing the optionSorgerecht", () => {
         const actual = isKinderUebersichtFilled({
