@@ -54,7 +54,7 @@ const sharedBeklagteAddress = {
 
 const beweiseDokumentenArray = z.array(
   z.object({
-    beschreibung: stringRequiredSchema,
+    beschreibung: stringRequiredSchema.check(datatypeC),
   }),
 );
 
@@ -88,7 +88,7 @@ const beweisePersonenArray = z.array(
 
 export const abschnitteArray = z.array(
   z.object({
-    beschreibung: stringRequiredMaxSchema({ max: 12000 }),
+    beschreibung: stringRequiredMaxSchema({ max: 12000 }).check(datatypeC),
     personIdAsBeklagte: personIdOnAbschnittSchema,
     personIdAsKlagende: personIdOnAbschnittSchema,
     dokumenten: beweiseDokumentenArray.optional(),
