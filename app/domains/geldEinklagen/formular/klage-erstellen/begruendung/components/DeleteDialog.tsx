@@ -5,7 +5,7 @@ import { translations } from "~/services/translations/translations";
 
 type Props = {
   title: string;
-  description: string;
+  description: React.ReactNode;
   onClickDelete: () => void;
   closeSurvey: () => void;
   dialogRef: React.RefObject<HTMLDialogElement | null>;

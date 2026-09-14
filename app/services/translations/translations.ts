@@ -573,6 +573,15 @@ export const translations = {
     begruendungBeschreibungBeweiseDialogDeleteConfirm: {
       de: "Ja, löschen",
     },
+    begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
+      de: "Beweis: Dokument löschen?",
+    },
+    begruendungBeschreibungBeweisePersonDeleteDialogTitle: {
+      de: "Beweis: Person löschen?",
+    },
+    begruendungBeschreibungBeweiseDeleteDialogDescription: {
+      de: "Der ausgewählte Beweis wird unwiderruflich gelöscht.",
+    },
     begruendungBeschreibungDeleteDialogTitle: {
       de: "und dazugehörige Beweise löschen?",
     },

@@ -2,6 +2,15 @@ import { render } from "@testing-library/react";
 import { BegruendungBeschreibungBeweisItems } from "../BegruendungBeschreibungBeweisItems";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
 
+// Needed as jsdom doesn't support dialog API yet
+// https://github.com/jsdom/jsdom/issues/3294
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
+
 vi.mock("../useBegruendungBeschreibung");
 
 beforeEach(() => {
@@ -63,8 +72,10 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    const deleteButton = getByRole("button");
-    deleteButton.click();
+    getByRole("button", {
+      name: "Dieses Dokument löschen: beschreibung und so weiter",
+    }).click();
+    getByRole("button", { name: "Ja, löschen" }).click();
 
     expect(onAbschnittDocumentDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten",
@@ -183,8 +194,8 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    const deleteButton = getByRole("button");
-    deleteButton.click();
+    getByRole("button", { name: "Klagende Person als Beweis löschen" }).click();
+    getByRole("button", { name: "Ja, löschen" }).click();
 
     expect(onAbschnittPersonDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen",

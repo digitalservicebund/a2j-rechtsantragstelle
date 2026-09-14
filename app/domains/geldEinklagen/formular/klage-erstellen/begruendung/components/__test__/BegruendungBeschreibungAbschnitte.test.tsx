@@ -2,6 +2,15 @@ import BegruendungBeschreibungAbschnitte from "../BegruendungBeschreibungAbschni
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
 
+// Needed as jsdom doesn't support dialog API yet
+// https://github.com/jsdom/jsdom/issues/3294
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
+
 vi.mock("../useBegruendungBeschreibung");
 
 beforeEach(() => {
@@ -58,8 +67,8 @@ describe("BegruendungBeschreibungAbschnitte", () => {
       />,
     );
 
-    const deleteButton = getByText("Abschnitt löschen");
-    deleteButton.click();
+    getByText("Abschnitt löschen").click();
+    getByText("Ja, löschen").click();
 
     expect(onAbschnittDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte",
