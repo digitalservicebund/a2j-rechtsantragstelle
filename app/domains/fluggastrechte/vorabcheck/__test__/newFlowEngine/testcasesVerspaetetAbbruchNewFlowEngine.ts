@@ -1,443 +1,342 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const verspaetetAbbruch1Context: FluggastrechtVorabcheckUserData = {
-  bereich: "anderes",
-};
-
-const verspaetetAbbruch2Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "no",
-};
-
-const verspaetetAbbruch3Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "JFK",
-  endAirport: "MUC",
-  fluggesellschaft: "AF",
-  checkin: "no",
-};
-
-const verspaetetAbbruch4Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  startAirport: "GRU",
-  endAirport: "JFK",
-};
-
-const verspaetetAbbruch5Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "JFK",
-  endAirport: "MUC",
-  fluggesellschaft: "DL",
-};
-
-const verspaetetAbbruch6Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "XXX",
-  endAirport: "XXX",
-};
-
-const verspaetetAbbruch7Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "yes",
-  checkin: "yes",
-};
-
-const verspaetetAbbruch8Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  checkin: "yes",
-  kostenlos: "no",
-  rabatt: "yes",
-};
-
-const verspaetetAbbruch9Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  checkin: "yes",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "no",
-};
-
-const verspaetetAbbruch10Context: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  checkin: "yes",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "yes",
-};
-
 export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "verspaetet-abbruch-1": [
+    "bereich-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch1Context,
+        userInput: { bereich: "anderes" },
       },
       {
         stepId: "/ergebnis/bereich-abbruch",
       },
     ],
-    "verspaetet-abbruch-2": [
+    "verspaetung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch2Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch2Context,
+        userInput: { verspaetung: "no" },
       },
       {
         stepId: "/ergebnis/verspaetung-abbruch",
       },
     ],
-    "verspaetet-abbruch-3": [
+    "checkin-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { fluggesellschaft: "AF" },
       },
       {
         stepId: "/checkin",
-        userInput: verspaetetAbbruch3Context,
+        userInput: { checkin: "no" },
       },
       {
         stepId: "/ergebnis/checkin-abbruch",
       },
     ],
-    "verspaetet-abbruch-4": [
+    "flughaefen-outside-eu-abbruch": [
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch4Context,
+        userInput: { startAirport: "GRU", endAirport: "JFK" },
       },
       {
         stepId: "/ergebnis/flughaefen-abbruch",
       },
     ],
-    "verspaetet-abbruch-5": [
+    "fluggesellschaft-nicht-eu-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch5Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
       },
     ],
-    "verspaetet-abbruch-6": [
+    "flughaefen-entfernung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch6Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch6Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch6Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch6Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch6Context,
+        userInput: { startAirport: "XXX", endAirport: "XXX" },
         skipPageSchemaValidation: true,
       },
       {
         stepId: "/ergebnis/flughaefen-entfernung-abbruch",
       },
     ],
-    "verspaetet-abbruch-7": [
+    "kostenlos-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: verspaetetAbbruch7Context,
+        userInput: { kostenlos: "yes" },
       },
       {
         stepId: "/ergebnis/kostenlos-abbruch",
       },
     ],
-    "verspaetet-abbruch-8": [
+    "rabatt-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: verspaetetAbbruch8Context,
+        userInput: { rabatt: "yes" },
       },
       {
         stepId: "/ergebnis/rabatt-abbruch",
       },
     ],
-    "verspaetet-abbruch-9": [
+    "buchung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: verspaetetAbbruch9Context,
+        userInput: { buchung: "no" },
       },
       {
         stepId: "/ergebnis/buchung-abbruch",
       },
     ],
-    "verspaetet-abbruch-10": [
+    "abtretung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: verspaetetAbbruch10Context,
+        userInput: { abtretung: "yes" },
       },
       {
         stepId: "/ergebnis/abtretung-abbruch",

@@ -1,50 +1,40 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const nichtbefoerderungVertretbareGruende1Context: FluggastrechtVorabcheckUserData =
-  {
-    bereich: "nichtbefoerderung",
-    ausgleich: "yes",
-    ausgleichAngenommen: "yes",
-    checkin: "yes",
-    vertretbareGruende: "yes",
-  };
-
 export const testCasesFluggastrechteNichtBefoerderungVertretbareGruendeNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "nichtbefoerderung-vertretbare-gruende-1": [
+    "nichtbefoerderung-vertretbare-gruende-hinweis": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
+        userInput: { ausgleichAngenommen: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen-info",
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
+        userInput: { vertretbareGruende: "yes" },
       },
       {
         stepId: "/vertretbare-gruende-info",
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungVertretbareGruende1Context,
       },
     ],
   };

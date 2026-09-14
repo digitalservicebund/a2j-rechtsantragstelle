@@ -1,316 +1,257 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const baseContext: FluggastrechtVorabcheckUserData = {
-  verjaehrung: "yes",
-  fluggesellschaft: "AF",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "no",
-};
-
-const otherErfolgs1Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  startAirport: "JFK",
-  endAirport: "MUC",
-  checkin: "yes",
-  entschaedigung: "no",
-};
-
-const otherErfolgs2Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  startAirport: "JFK",
-  endAirport: "MUC",
-  checkin: "yes",
-  entschaedigung: "yes",
-  gericht: "yes",
-};
-
-const otherErfolgs3Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  bereich: "annullierung",
-  ankuendigung: "between7And13Days",
-  ersatzflug: "yes",
-  ersatzflugStartenZweiStunden: "yes",
-  ersatzflugLandenVierStunden: "no",
-  vertretbareGruendeAnnullierung: "no",
-  startAirport: "MUC",
-  endAirport: "MUN",
-  entschaedigung: "yes",
-  gericht: "yes",
-};
-
-const otherErfolgs4Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  startAirport: "JFK",
-  endAirport: "MUC",
-  checkin: "yes",
-  entschaedigung: "yes",
-  gericht: "yes",
-};
-
 export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "other-erfolgs-1": [
+    "verspaetet-erfolg-kontakt": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: otherErfolgs1Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: otherErfolgs1Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: otherErfolgs1Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: otherErfolgs1Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: otherErfolgs1Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: otherErfolgs1Context,
+        userInput: { fluggesellschaft: "AF" },
       },
       {
         stepId: "/checkin",
-        userInput: otherErfolgs1Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: otherErfolgs1Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: otherErfolgs1Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: otherErfolgs1Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: otherErfolgs1Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: otherErfolgs1Context,
+        userInput: { entschaedigung: "no" },
       },
       {
         stepId: "/ergebnis/erfolg-kontakt",
       },
     ],
-    "other-erfolgs-2": [
+    "verspaetet-erfolg-gericht": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: otherErfolgs2Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: otherErfolgs2Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: otherErfolgs2Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: otherErfolgs2Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: otherErfolgs2Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: otherErfolgs2Context,
+        userInput: { fluggesellschaft: "AF" },
       },
       {
         stepId: "/checkin",
-        userInput: otherErfolgs2Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: otherErfolgs2Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: otherErfolgs2Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: otherErfolgs2Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: otherErfolgs2Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: otherErfolgs2Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: otherErfolgs2Context,
+        userInput: { gericht: "yes" },
       },
       {
         stepId: "/ergebnis/erfolg-gericht",
       },
     ],
-    "other-erfolgs-3": [
+    "annullierung-erfolg-gericht": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: otherErfolgs3Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: otherErfolgs3Context,
+        userInput: { ankuendigung: "between7And13Days" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: otherErfolgs3Context,
+        userInput: { ersatzflug: "yes" },
       },
       {
         stepId: "/ersatzflug-starten-zwei-stunden",
-        userInput: otherErfolgs3Context,
+        userInput: { ersatzflugStartenZweiStunden: "yes" },
       },
       {
         stepId: "/ersatzflug-landen-vier-stunden",
-        userInput: otherErfolgs3Context,
+        userInput: { ersatzflugLandenVierStunden: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: otherErfolgs3Context,
+        userInput: { vertretbareGruendeAnnullierung: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: otherErfolgs3Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: otherErfolgs3Context,
+        userInput: { startAirport: "MUC", endAirport: "MUN" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: otherErfolgs3Context,
+        userInput: { fluggesellschaft: "AF" },
       },
       {
         stepId: "/kostenlos",
-        userInput: otherErfolgs3Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: otherErfolgs3Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: otherErfolgs3Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: otherErfolgs3Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: otherErfolgs3Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: otherErfolgs3Context,
+        userInput: { gericht: "yes" },
       },
       {
         stepId: "/ergebnis/erfolg-gericht",
       },
     ],
-    "other-erfolgs-4": [
+    "nichtbefoerderung-erfolg-gericht": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: otherErfolgs4Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: otherErfolgs4Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: otherErfolgs4Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: otherErfolgs4Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: otherErfolgs4Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: otherErfolgs4Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: otherErfolgs4Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: otherErfolgs4Context,
+        userInput: { fluggesellschaft: "AF" },
       },
       {
         stepId: "/kostenlos",
-        userInput: otherErfolgs4Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: otherErfolgs4Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: otherErfolgs4Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: otherErfolgs4Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: otherErfolgs4Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: otherErfolgs4Context,
+        userInput: { gericht: "yes" },
       },
       {
         stepId: "/ergebnis/erfolg-gericht",

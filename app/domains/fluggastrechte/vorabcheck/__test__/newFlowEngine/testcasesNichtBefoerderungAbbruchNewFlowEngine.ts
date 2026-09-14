@@ -1,345 +1,267 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const nichtbefoerderungAbbruch1Context: FluggastrechtVorabcheckUserData = {
-  bereich: "anderes",
-};
-
-const nichtbefoerderungAbbruch2Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "no",
-  ausgleichAngenommen: "no",
-  checkin: "no",
-};
-
-const nichtbefoerderungAbbruch3Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  checkin: "yes",
-  verjaehrung: "no",
-};
-
-const nichtbefoerderungAbbruch4Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  checkin: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "yes",
-};
-
-const nichtbefoerderungAbbruch5Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  checkin: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "yes",
-};
-
-const nichtbefoerderungAbbruch6Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  checkin: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "no",
-};
-
-const nichtbefoerderungAbbruch7Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "no",
-  vertretbareGruende: "no",
-  checkin: "yes",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "yes",
-};
-
 export const testCasesFluggastrechteNichtBefoerderungAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "nichtbefoerderung-abbruch-1": [
+    "bereich-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch1Context,
+        userInput: { bereich: "anderes" },
       },
       {
         stepId: "/ergebnis/bereich-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-2": [
+    "checkin-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch2Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch2Context,
+        userInput: { ausgleich: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch2Context,
+        userInput: { checkin: "no" },
       },
       {
         stepId: "/ergebnis/checkin-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-3": [
+    "verjaehrung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungAbbruch3Context,
+        userInput: { verjaehrung: "no" },
       },
       {
         stepId: "/ergebnis/verjaehrung-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-4": [
+    "kostenlos-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: nichtbefoerderungAbbruch4Context,
+        userInput: { kostenlos: "yes" },
       },
       {
         stepId: "/ergebnis/kostenlos-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-5": [
+    "rabatt-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: nichtbefoerderungAbbruch5Context,
+        userInput: { rabatt: "yes" },
       },
       {
         stepId: "/ergebnis/rabatt-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-6": [
+    "buchung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: nichtbefoerderungAbbruch6Context,
+        userInput: { buchung: "no" },
       },
       {
         stepId: "/ergebnis/buchung-abbruch",
       },
     ],
-    "nichtbefoerderung-abbruch-7": [
+    "abtretung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { ausgleichAngenommen: "no" },
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: nichtbefoerderungAbbruch7Context,
+        userInput: { abtretung: "yes" },
       },
       {
         stepId: "/ergebnis/abtretung-abbruch",

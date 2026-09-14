@@ -1,448 +1,342 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const annullierungAbbruch1Context: FluggastrechtVorabcheckUserData = {
-  bereich: "anderes",
-};
-
-const annullierungAbbruch2Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  ersatzflug: "yes",
-  ersatzflugStartenEinStunde: "no",
-  ersatzflugLandenZweiStunden: "no",
-};
-
-const annullierungAbbruch3Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "until6Days",
-  ersatzflug: "yes",
-  ersatzflugStartenEinStunde: "no",
-  ersatzflugLandenZweiStunden: "no",
-};
-
-const annullierungAbbruch4Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "between7And13Days",
-  ersatzflug: "yes",
-  ersatzflugStartenZweiStunden: "no",
-  ersatzflugLandenVierStunden: "no",
-  vertretbareGruendeAnnullierung: "no",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "AF",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "no",
-  entschaedigung: "yes",
-  gericht: "yes",
-};
-
-const annullierungAbbruch5Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "moreThan13Days",
-};
-
-const annullierungAbbruch6Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  vertretbareGruendeAnnullierung: "yes",
-  verjaehrung: "no",
-  ersatzflug: "no",
-};
-
-const annullierungAbbruch7Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  vertretbareGruendeAnnullierung: "yes",
-  verjaehrung: "yes",
-  ersatzflug: "no",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "yes",
-};
-
-const annullierungAbbruch8Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  vertretbareGruendeAnnullierung: "yes",
-  verjaehrung: "yes",
-  ersatzflug: "no",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "yes",
-};
-
-const annullierungAbbruch9Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  vertretbareGruendeAnnullierung: "yes",
-  verjaehrung: "yes",
-  ersatzflug: "no",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "no",
-};
-
-const annullierungAbbruch10Context: FluggastrechtVorabcheckUserData = {
-  bereich: "annullierung",
-  ankuendigung: "no",
-  vertretbareGruendeAnnullierung: "yes",
-  verjaehrung: "yes",
-  ersatzflug: "no",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "yes",
-};
-
 export const testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "annullierung-abbruch-1": [
+    "bereich-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch1Context,
+        userInput: { bereich: "anderes" },
       },
       {
         stepId: "/ergebnis/bereich-abbruch",
       },
     ],
-    "annullierung-abbruch-2": [
+    "ersatzflug-starten-eine-landen-zwei-abbruch-no": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch2Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch2Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch2Context,
+        userInput: { ersatzflug: "yes" },
       },
       {
         stepId: "/ersatzflug-starten-eine-stunde",
-        userInput: annullierungAbbruch2Context,
+        userInput: { ersatzflugStartenEinStunde: "no" },
       },
       {
         stepId: "/ersatzflug-landen-zwei-stunden",
-        userInput: annullierungAbbruch2Context,
+        userInput: { ersatzflugLandenZweiStunden: "no" },
       },
       {
         stepId: "/ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
       },
     ],
-    "annullierung-abbruch-3": [
+    "ersatzflug-starten-eine-landen-zwei-abbruch-until-6-days": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch3Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch3Context,
+        userInput: { ankuendigung: "until6Days" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch3Context,
+        userInput: { ersatzflug: "yes" },
       },
       {
         stepId: "/ersatzflug-starten-eine-stunde",
-        userInput: annullierungAbbruch3Context,
+        userInput: { ersatzflugStartenEinStunde: "no" },
       },
       {
         stepId: "/ersatzflug-landen-zwei-stunden",
-        userInput: annullierungAbbruch3Context,
+        userInput: { ersatzflugLandenZweiStunden: "no" },
       },
       {
         stepId: "/ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
       },
     ],
-    "annullierung-abbruch-4": [
+    "ersatzflug-starten-zwei-landen-vier-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch4Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch4Context,
+        userInput: { ankuendigung: "between7And13Days" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch4Context,
+        userInput: { ersatzflug: "yes" },
       },
       {
         stepId: "/ersatzflug-starten-zwei-stunden",
-        userInput: annullierungAbbruch4Context,
+        userInput: { ersatzflugStartenZweiStunden: "no" },
       },
       {
         stepId: "/ersatzflug-landen-vier-stunden",
-        userInput: annullierungAbbruch4Context,
+        userInput: { ersatzflugLandenVierStunden: "no" },
       },
       {
         stepId: "/ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
       },
     ],
-    "annullierung-abbruch-5": [
+    "ankuendigung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch5Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch5Context,
+        userInput: { ankuendigung: "moreThan13Days" },
       },
       {
         stepId: "/ergebnis/ankuendigung-abbruch",
       },
     ],
-    "annullierung-abbruch-6": [
+    "verjaehrung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch6Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch6Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch6Context,
+        userInput: { ersatzflug: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: annullierungAbbruch6Context,
+        userInput: { vertretbareGruendeAnnullierung: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: annullierungAbbruch6Context,
+        userInput: { verjaehrung: "no" },
       },
       {
         stepId: "/ergebnis/verjaehrung-abbruch",
       },
     ],
-    "annullierung-abbruch-7": [
+    "kostenlos-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch7Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch7Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch7Context,
+        userInput: { ersatzflug: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: annullierungAbbruch7Context,
+        userInput: { vertretbareGruendeAnnullierung: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: annullierungAbbruch7Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: annullierungAbbruch7Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: annullierungAbbruch7Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: annullierungAbbruch7Context,
+        userInput: { kostenlos: "yes" },
       },
       {
         stepId: "/ergebnis/kostenlos-abbruch",
       },
     ],
-    "annullierung-abbruch-8": [
+    "rabatt-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch8Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch8Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch8Context,
+        userInput: { ersatzflug: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: annullierungAbbruch8Context,
+        userInput: { vertretbareGruendeAnnullierung: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: annullierungAbbruch8Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: annullierungAbbruch8Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: annullierungAbbruch8Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: annullierungAbbruch8Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: annullierungAbbruch8Context,
+        userInput: { rabatt: "yes" },
       },
       {
         stepId: "/ergebnis/rabatt-abbruch",
       },
     ],
-    "annullierung-abbruch-9": [
+    "buchung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch9Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch9Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch9Context,
+        userInput: { ersatzflug: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: annullierungAbbruch9Context,
+        userInput: { vertretbareGruendeAnnullierung: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: annullierungAbbruch9Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: annullierungAbbruch9Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: annullierungAbbruch9Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: annullierungAbbruch9Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: annullierungAbbruch9Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: annullierungAbbruch9Context,
+        userInput: { buchung: "no" },
       },
       {
         stepId: "/ergebnis/buchung-abbruch",
       },
     ],
-    "annullierung-abbruch-10": [
+    "abtretung-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: annullierungAbbruch10Context,
+        userInput: { bereich: "annullierung" },
       },
       {
         stepId: "/ankuendigung",
-        userInput: annullierungAbbruch10Context,
+        userInput: { ankuendigung: "no" },
       },
       {
         stepId: "/ersatzflug",
-        userInput: annullierungAbbruch10Context,
+        userInput: { ersatzflug: "no" },
       },
       {
         stepId: "/vertretbare-gruende-annullierung",
-        userInput: annullierungAbbruch10Context,
+        userInput: { vertretbareGruendeAnnullierung: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: annullierungAbbruch10Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: annullierungAbbruch10Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: annullierungAbbruch10Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: annullierungAbbruch10Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: annullierungAbbruch10Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: annullierungAbbruch10Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: annullierungAbbruch10Context,
+        userInput: { abtretung: "yes" },
       },
       {
         stepId: "/ergebnis/abtretung-abbruch",

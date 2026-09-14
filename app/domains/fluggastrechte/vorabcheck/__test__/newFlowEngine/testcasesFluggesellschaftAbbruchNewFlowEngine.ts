@@ -1,257 +1,213 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const baseContext: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  startAirport: "JFK",
-};
-
-const fluggesellschaftAbbruch1Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "MUC",
-  fluggesellschaft: "DL",
-};
-
-const fluggesellschaftAbbruch2Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "DRS",
-  fluggesellschaft: "DL",
-};
-
-const fluggesellschaftAbbruch3Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "CDG",
-  fluggesellschaft: "DL",
-};
-
-const fluggesellschaftAbbruch4Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "MUC",
-  fluggesellschaft: "sonstiges",
-};
-
-const fluggesellschaftAbbruch5Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "DRS",
-  fluggesellschaft: "sonstiges",
-};
-
-const fluggesellschaftAbbruch6Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  endAirport: "AMS",
-  fluggesellschaft: "sonstiges",
-};
-
 export const testCasesFluggastrechteFluggesellschaftAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "fluggesellschaft-abbruch-1": [
+    "fluggesellschaft-nicht-eu-airline-destination-germany-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch1Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
       },
     ],
-    "fluggesellschaft-abbruch-2": [
+    "fluggesellschaft-nicht-eu-airline-destination-dresden-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { startAirport: "JFK", endAirport: "DRS" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch2Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
       },
     ],
-    "fluggesellschaft-abbruch-3": [
+    "fluggesellschaft-nicht-eu-airline-destination-eu-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { startAirport: "JFK", endAirport: "CDG" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch3Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
       },
     ],
-    "fluggesellschaft-abbruch-4": [
+    "fluggesellschaft-sonstiges-airline-destination-germany-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch4Context,
+        userInput: { fluggesellschaft: "sonstiges" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-abbruch",
       },
     ],
-    "fluggesellschaft-abbruch-5": [
+    "fluggesellschaft-sonstiges-airline-destination-dresden-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { startAirport: "JFK", endAirport: "DRS" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch5Context,
+        userInput: { fluggesellschaft: "sonstiges" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-abbruch",
       },
     ],
-    "fluggesellschaft-abbruch-6": [
+    "fluggesellschaft-sonstiges-airline-destination-eu-abbruch": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { startAirport: "JFK", endAirport: "AMS" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: fluggesellschaftAbbruch6Context,
+        userInput: { fluggesellschaft: "sonstiges" },
       },
       {
         stepId: "/ergebnis/fluggesellschaft-abbruch-eu",

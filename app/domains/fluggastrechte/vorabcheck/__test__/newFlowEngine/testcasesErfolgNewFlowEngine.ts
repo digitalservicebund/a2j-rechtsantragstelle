@@ -1,647 +1,570 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const baseContext: FluggastrechtVorabcheckUserData = {
-  bereich: "verspaetet",
-  verspaetung: "yes",
-  gruende: "yes",
-  verjaehrung: "yes",
-  checkin: "yes",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "no",
-  entschaedigung: "yes",
-  gericht: "no",
-};
-
-const erfolg1Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "JFK",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-};
-
-const erfolg2Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "JFK",
-  fluggesellschaft: "LH",
-};
-
-const erfolg3Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "AMS",
-  fluggesellschaft: "LH",
-};
-
-const erfolg4Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "JFK",
-  fluggesellschaft: "DL",
-};
-
-const erfolg5Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "AMS",
-  fluggesellschaft: "DL",
-};
-
-const erfolg6Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-};
-
-const erfolg7Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "DL",
-};
-
-const erfolg8Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "AMS",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-};
-
-const erfolg9Context: FluggastrechtVorabcheckUserData = {
-  ...baseContext,
-  startAirport: "AMS",
-  endAirport: "MUC",
-  fluggesellschaft: "DL",
-};
-
 export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "erfolg-1": [
+    "start-outside-eu-destination-germany-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg1Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg1Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg1Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg1Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg1Context,
+        userInput: { startAirport: "JFK", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg1Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg1Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg1Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg1Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg1Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg1Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg1Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg1Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-2": [
+    "start-germany-destination-outside-eu-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg2Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg2Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg2Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg2Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg2Context,
+        userInput: { startAirport: "FRA", endAirport: "JFK" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg2Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg2Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg2Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg2Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg2Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg2Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg2Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg2Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-3": [
+    "start-germany-destination-eu-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg3Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg3Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg3Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg3Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg3Context,
+        userInput: { startAirport: "FRA", endAirport: "AMS" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg3Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg3Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg3Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg3Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg3Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg3Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg3Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg3Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-4": [
+    "start-germany-destination-outside-eu-non-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg4Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg4Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg4Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg4Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg4Context,
+        userInput: { startAirport: "FRA", endAirport: "JFK" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg4Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg4Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg4Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg4Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg4Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg4Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg4Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg4Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-5": [
+    "start-germany-destination-eu-non-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg5Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg5Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg5Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg5Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg5Context,
+        userInput: { startAirport: "FRA", endAirport: "AMS" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg5Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg5Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg5Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg5Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg5Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg5Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg5Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg5Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-6": [
+    "domestic-germany-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg6Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg6Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg6Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg6Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg6Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg6Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg6Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg6Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg6Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg6Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg6Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg6Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg6Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-7": [
+    "domestic-germany-non-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg7Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg7Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg7Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg7Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg7Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg7Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg7Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg7Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg7Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg7Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg7Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg7Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg7Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-8": [
+    "start-eu-destination-germany-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg8Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg8Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg8Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg8Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg8Context,
+        userInput: { startAirport: "AMS", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg8Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg8Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg8Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg8Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg8Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg8Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg8Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg8Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
       },
     ],
-    "erfolg-9": [
+    "start-eu-destination-germany-non-eu-airline": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: erfolg9Context,
+        userInput: { bereich: "verspaetet" },
       },
       {
         stepId: "/verspaetung",
-        userInput: erfolg9Context,
+        userInput: { verspaetung: "yes" },
       },
       {
         stepId: "/gruende",
-        userInput: erfolg9Context,
+        userInput: { gruende: "yes" },
       },
       {
         stepId: "/gruende-hinweis",
       },
       {
         stepId: "/verjaehrung",
-        userInput: erfolg9Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: erfolg9Context,
+        userInput: { startAirport: "AMS", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: erfolg9Context,
+        userInput: { fluggesellschaft: "DL" },
       },
       {
         stepId: "/checkin",
-        userInput: erfolg9Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/kostenlos",
-        userInput: erfolg9Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: erfolg9Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: erfolg9Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: erfolg9Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: erfolg9Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: erfolg9Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",

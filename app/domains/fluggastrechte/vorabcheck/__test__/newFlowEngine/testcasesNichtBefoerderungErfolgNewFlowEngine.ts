@@ -1,88 +1,70 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-const nichtbefoerderungErfolg1Context: FluggastrechtVorabcheckUserData = {
-  bereich: "nichtbefoerderung",
-  ausgleich: "yes",
-  ausgleichAngenommen: "yes",
-  checkin: "yes",
-  vertretbareGruende: "no",
-  verjaehrung: "yes",
-  startAirport: "FRA",
-  endAirport: "MUC",
-  fluggesellschaft: "LH",
-  kostenlos: "no",
-  rabatt: "no",
-  buchung: "yes",
-  abtretung: "no",
-  entschaedigung: "yes",
-  gericht: "no",
-};
-
 export const testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "nichtbefoerderung-erfolg-1": [
+    "nichtbefoerderung-erfolg": [
       {
         stepId: "/start",
       },
       {
         stepId: "/bereich",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { bereich: "nichtbefoerderung" },
       },
       {
         stepId: "/ausgleich",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { ausgleich: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { ausgleichAngenommen: "yes" },
       },
       {
         stepId: "/ausgleich-angenommen-info",
       },
       {
         stepId: "/checkin-nicht-befoerderung",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { checkin: "yes" },
       },
       {
         stepId: "/vertretbare-gruende",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { vertretbareGruende: "no" },
       },
       {
         stepId: "/verjaehrung",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { verjaehrung: "yes" },
       },
       {
         stepId: "/flughaefen",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { startAirport: "FRA", endAirport: "MUC" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { fluggesellschaft: "LH" },
       },
       {
         stepId: "/kostenlos",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { kostenlos: "no" },
       },
       {
         stepId: "/rabatt",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { rabatt: "no" },
       },
       {
         stepId: "/buchung",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { buchung: "yes" },
       },
       {
         stepId: "/abtretung",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { abtretung: "no" },
       },
       {
         stepId: "/entschaedigung",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { entschaedigung: "yes" },
       },
       {
         stepId: "/gericht",
-        userInput: nichtbefoerderungErfolg1Context,
+        userInput: { gericht: "no" },
       },
       {
         stepId: "/ergebnis/erfolg",
