@@ -21,12 +21,6 @@ export const erbausschlagungAnfrageTestCases = {
         },
       },
       {
-        stepId: "/start/datenverarbeitung",
-        userInput: {
-          datenverarbeitungZustimmung: "on",
-        },
-      },
-      {
         stepId: "/verstorbene/name",
       },
     ],
