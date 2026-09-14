@@ -15,7 +15,7 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
-import { nachlassErbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
+import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
@@ -25,7 +25,7 @@ import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
-  nachlassErbscheinAnfrageTestCases,
+  erbscheinAnfrageTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
   erbausschlagungGerichtFindenTestCases,

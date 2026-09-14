@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -10,7 +10,7 @@ const TITLE = "Letzter Ehepartner oder letzte Ehepartnerin";
 const SAME_ADDRESS_TEXT = "Entspricht der Adresse des Erblassers";
 
 const getSpouseStaatsangehoerigkeiten = (
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const secondNationality =
     userData.ehepartnerHadSecondNationality === "yes"
@@ -22,7 +22,7 @@ const getSpouseStaatsangehoerigkeiten = (
 export const createEhepartner = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const ehepartnerSection = doc.struct("Sect");
 

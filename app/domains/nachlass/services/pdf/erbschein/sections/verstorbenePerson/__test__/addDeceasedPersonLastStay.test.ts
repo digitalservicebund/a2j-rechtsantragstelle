@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addDeceasedPersonLastStay } from "../addDeceasedPersonLastStay";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const userDataMock = {
   verstorbeneLivedInPflegeheim: "no",
@@ -12,7 +12,7 @@ const userDataMock = {
   verstorbenePersonHausnummer: "1",
   verstorbenePlz: "12345",
   verstorbenePersonOrt: "Musterstadt",
-} satisfies NachlassErbscheinAnfrageUserData;
+} satisfies ErbscheinAnfrageUserData;
 
 describe("addDeceasedPersonLastStay", () => {
   it("should last residence title", () => {

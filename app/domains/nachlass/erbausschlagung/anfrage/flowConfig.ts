@@ -19,16 +19,10 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
         target: "gerichtsterminVereinbaren",
       },
       {
-        target: "datenverarbeitung",
-      },
-    ],
-    gerichtsterminVereinbaren: null,
-    datenverarbeitung: [
-      {
-        guard: (context) => context.datenverarbeitungZustimmung === "on",
         target: "verstorbeneName",
       },
     ],
+    gerichtsterminVereinbaren: null,
     ...verstorbenePersonFlowConfig,
     ...ausschlagendePersonFlowConfig,
     ...kinderFlowConfig,

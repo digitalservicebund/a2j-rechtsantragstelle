@@ -43,9 +43,7 @@ function missingChildrenReplacements(data: ErbfolgeData): Replacements {
   };
 }
 
-export function nachlassErbfolgeStringReplacements(
-  context: UserData,
-): Replacements {
+export function erbfolgeStringReplacements(context: UserData): Replacements {
   return {
     // The raw answers, so CMS text can reference them directly (e.g. {{name}}
     // is the deceased's name). Page-specific values that these can't express

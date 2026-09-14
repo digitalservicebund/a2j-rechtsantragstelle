@@ -4,11 +4,9 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-const getStaatsangehoerigkeiten = (
-  userData: NachlassErbscheinAnfrageUserData,
-) => {
+const getStaatsangehoerigkeiten = (userData: ErbscheinAnfrageUserData) => {
   const secondNationality =
     userData.verstorbeneHadSecondNationality === "yes"
       ? `, ${userData.verstorbeneZweiteStaatsangehoerigkeit}`
@@ -23,7 +21,7 @@ const getStaatsangehoerigkeiten = (
 export const addDeceasedPersonDetails = (
   doc: typeof PDFDocument,
   deceasedPersonParagraph: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   deceasedPersonParagraph.add(
     doc.struct("Span", {}, () => {

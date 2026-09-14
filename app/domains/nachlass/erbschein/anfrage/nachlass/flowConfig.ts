@@ -2,7 +2,7 @@ import {
   grundbesitzArraySchema,
   unternehmenArraySchema,
 } from "~/domains/nachlass/erbschein/anfrage/nachlass/pages";
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { z } from "zod";
 
@@ -61,4 +61,4 @@ export const nachlassFlowConfig = {
       target: "weitereAngaben",
     },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

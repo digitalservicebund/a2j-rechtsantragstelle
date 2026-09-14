@@ -1,10 +1,14 @@
-import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import {
+  type ExpectedStep,
+  type FlowTestCases,
+} from "~/domains/__test__/TestCases";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -42,6 +46,146 @@ const deceasedKind = (
     hatteKinder,
     ...(kinder ? { kinder } : {}),
   }) as Kind;
+
+const nestedKindDepths = [2, 3, 4, 5] as const;
+
+const nestedKindPath = (depth: number, page: string) =>
+  `/angehoerige${"/kinder/#".repeat(depth)}/${page}`;
+
+const nestedKindPrefix = (depth: number) => "kinder#".repeat(depth);
+
+const nestedKindTree = (depth: number, leaf: Kind) => {
+  let node = leaf;
+  for (let level = depth; level > 1; level--) {
+    node = deceasedKind(`Vorfahre ${level}`, "yes", [node]);
+  }
+
+  return {
+    ...happyPathData,
+    hatteKinder: "yes" as const,
+    kinder: [node],
+  };
+};
+
+const nestedKindNameInput = (depth: number, leaf: Kind) => {
+  const prefix = nestedKindPrefix(depth);
+  return {
+    ...nestedKindTree(depth, leaf),
+    [`${prefix}vorname`]: leaf.vorname,
+    [`${prefix}nachname`]: leaf.nachname,
+    [`${prefix}parentKindIndex`]: "0",
+  };
+};
+
+const nestedKindPageData = (depth: number) => ({
+  arrayIndexes: Array.from({ length: depth }, () => 0),
+});
+
+const nestedLivingKindSteps = (
+  depth: number,
+): Array<ExpectedStep<ErbscheinAnfrageUserData>> => {
+  const leaf = livingKind(`Nachkomme ${depth}`);
+  const prefix = nestedKindPrefix(depth);
+  const pageData = nestedKindPageData(depth);
+
+  return [
+    {
+      stepId: nestedKindPath(depth, "name"),
+      userInput: nestedKindNameInput(depth, leaf),
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "geburtsdatum"),
+      userInput: {
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}geburtsort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "lebend"),
+      userInput: {
+        ...nestedKindTree(depth, leaf),
+        [`${prefix}isAlive`]: "yes",
+      },
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "adresse"),
+      userInput: {
+        [`${prefix}strasse`]: "Musterstraße",
+        [`${prefix}hausnummer`]: "1",
+        [`${prefix}plz`]: "12345",
+        [`${prefix}ort`]: "Musterstadt",
+        [`${prefix}land`]: "Deutschland",
+      },
+      pageData,
+    },
+    {
+      stepId: "/angehoerige/kinder/uebersicht",
+    },
+  ];
+};
+
+const nestedDeceasedKindSteps = (
+  depth: number,
+): Array<ExpectedStep<ErbscheinAnfrageUserData>> => {
+  const leaf = deceasedKind(`Nachkomme ${depth}`, "no");
+  const prefix = nestedKindPrefix(depth);
+  const pageData = nestedKindPageData(depth);
+
+  return [
+    {
+      stepId: nestedKindPath(depth, "name"),
+      userInput: nestedKindNameInput(depth, leaf),
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "geburtsdatum"),
+      userInput: {
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}geburtsort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "lebend"),
+      userInput: {
+        ...nestedKindTree(depth, leaf),
+        [`${prefix}isAlive`]: "no",
+      },
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "sterbedatum"),
+      userInput: {
+        [`${prefix}sterbedatum`]: sterbedatum,
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}sterbeort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: nestedKindPath(depth, "hatte-kinder"),
+      userInput: { [`${prefix}hatteKinder`]: "no" },
+      pageData,
+    },
+    {
+      stepId: "/angehoerige/kinder/uebersicht",
+    },
+  ];
+};
+
+const nestedKindTestCases = Object.fromEntries(
+  nestedKindDepths.flatMap((depth) => [
+    [`livingKindAtDepth${depth}`, nestedLivingKindSteps(depth)],
+    [`deceasedKindAtDepth${depth}`, nestedDeceasedKindSteps(depth)],
+  ]),
+) as FlowTestCases<ErbscheinAnfrageUserData>;
+
+if (nestedKindDepths.at(-1) !== MAX_SUPPORTED_DESCENDANT_DEPTH) {
+  throw new Error("Nested kinder test depths must match the supported depth.");
+}
 
 export const kinderTestCases = {
   keineKinder: [
@@ -223,4 +367,5 @@ export const kinderTestCases = {
       stepId: "/angehoerige/kinder/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+  ...nestedKindTestCases,
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

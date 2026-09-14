@@ -1,13 +1,17 @@
-import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import {
+  type ExpectedStep,
+  type FlowTestCases,
+} from "~/domains/__test__/TestCases";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import {
   type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -46,6 +50,18 @@ const deceased = (
     ...(kinder ? { kinder } : {}),
   }) as Elternteil;
 
+const incompleteLivingElternteil = {
+  ...person,
+  vorname: "Elternteil",
+  nachname: "Mustermann",
+  isAlive: "yes",
+  strasse: "",
+  hausnummer: "1",
+  plz: "12345",
+  ort: "Musterstadt",
+  land: "Deutschland",
+} as Elternteil;
+
 // The 2nd order is only reached once the 1st order is extinct.
 const extinctKinder = {
   hatteKinder: "yes",
@@ -60,7 +76,154 @@ const extinctKinder = {
       hatteKinder: "no",
     } as Kind,
   ],
-} satisfies Pick<NachlassErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
+} satisfies Pick<ErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
+
+const elternteilKindDepths = [1, 2, 3, 4, 5] as const;
+
+const elternteilKindPath = (depth: number, page: string) =>
+  `/angehoerige/elternteile/#${"/kinder/#".repeat(depth)}/${page}`;
+
+const elternteilKindPrefix = (depth: number) =>
+  `elternteile#${"kinder#".repeat(depth)}`;
+
+const elternteilKindTree = (depth: number, leaf: Elternteil) => {
+  let node = leaf;
+  for (let level = depth; level > 1; level--) {
+    node = deceased(`Vorfahre ${level}`, "yes", [node]);
+  }
+
+  return {
+    ...happyPathData,
+    ...extinctKinder,
+    elternteile: [deceased("Elternteil", "yes", [node])],
+  };
+};
+
+const elternteilKindNameInput = (depth: number, leaf: Elternteil) => {
+  const prefix = elternteilKindPrefix(depth);
+  return {
+    ...elternteilKindTree(depth, leaf),
+    [`${prefix}vorname`]: leaf.vorname,
+    [`${prefix}nachname`]: leaf.nachname,
+    [`${prefix}${depth === 1 ? "parentElternteilIndex" : "parentKindIndex"}`]:
+      "0",
+  };
+};
+
+const elternteilKindPageData = (depth: number) => ({
+  arrayIndexes: Array.from({ length: depth + 1 }, () => 0),
+});
+
+const livingElternteilKindSteps = (
+  depth: number,
+): Array<ExpectedStep<ErbscheinAnfrageUserData>> => {
+  const leaf = living(`Nachkomme ${depth}`);
+  const prefix = elternteilKindPrefix(depth);
+  const pageData = elternteilKindPageData(depth);
+
+  return [
+    {
+      stepId: elternteilKindPath(depth, "name"),
+      userInput: elternteilKindNameInput(depth, leaf),
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "geburtsdatum"),
+      userInput: {
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}geburtsort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "lebend"),
+      userInput: {
+        ...elternteilKindTree(depth, leaf),
+        [`${prefix}isAlive`]: "yes",
+      },
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "adresse"),
+      userInput: {
+        [`${prefix}strasse`]: "Musterstraße",
+        [`${prefix}hausnummer`]: "1",
+        [`${prefix}plz`]: "12345",
+        [`${prefix}ort`]: "Musterstadt",
+        [`${prefix}land`]: "Deutschland",
+      },
+      pageData,
+    },
+    {
+      stepId: "/angehoerige/elternteile/uebersicht",
+    },
+  ];
+};
+
+const deceasedElternteilKindSteps = (
+  depth: number,
+): Array<ExpectedStep<ErbscheinAnfrageUserData>> => {
+  const leaf = deceased(`Nachkomme ${depth}`, "no");
+  const prefix = elternteilKindPrefix(depth);
+  const pageData = elternteilKindPageData(depth);
+
+  return [
+    {
+      stepId: elternteilKindPath(depth, "name"),
+      userInput: elternteilKindNameInput(depth, leaf),
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "geburtsdatum"),
+      userInput: {
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}geburtsort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "lebend"),
+      userInput: {
+        ...elternteilKindTree(depth, leaf),
+        [`${prefix}isAlive`]: "no",
+      },
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "sterbedatum"),
+      userInput: {
+        [`${prefix}sterbedatum`]: sterbedatum,
+        [`${prefix}geburtsdatum`]: geburtsdatum,
+        [`${prefix}sterbeort`]: "Musterstadt",
+      },
+      pageData,
+    },
+    {
+      stepId: elternteilKindPath(depth, "hatte-kinder"),
+      userInput: { [`${prefix}hatteKinder`]: "no" },
+      pageData,
+    },
+    {
+      stepId: "/angehoerige/elternteile/uebersicht",
+    },
+  ];
+};
+
+const elternteilKindTestCases = Object.fromEntries(
+  elternteilKindDepths.flatMap((depth) => [
+    [`livingElternteilKindAtDepth${depth}`, livingElternteilKindSteps(depth)],
+    [
+      `deceasedElternteilKindAtDepth${depth}`,
+      deceasedElternteilKindSteps(depth),
+    ],
+  ]),
+) as FlowTestCases<ErbscheinAnfrageUserData>;
+
+if (elternteilKindDepths.at(-1) !== MAX_SUPPORTED_DESCENDANT_DEPTH) {
+  throw new Error(
+    "Nested elternteil-kind test depths must match the supported depth.",
+  );
+}
 
 export const elternteilTestCases = {
   // A living Elternteil inherits, so the flow leaves the Angehoerige section.
@@ -105,6 +268,20 @@ export const elternteilTestCases = {
     },
     {
       stepId: "/angehoerige/kinder-fehlen",
+    },
+  ],
+  elternteileFehlen: [
+    {
+      stepId: "/angehoerige/elternteile/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...happyPathData,
+        ...extinctKinder,
+        elternteile: [incompleteLivingElternteil],
+      },
+    },
+    {
+      stepId: "/angehoerige/elternteile-fehlen",
     },
   ],
   lebendesElternteilErfassen: [
@@ -243,14 +420,6 @@ export const elternteilTestCases = {
     },
   ],
   elternteilKind: [
-    // {
-    //   stepId: "/angehoerige/elternteile/uebersicht",
-    //   skipPageSchemaValidation: true,
-    //   userInput: {
-    //     ...happyPathData,
-    //     ...extinctKinder,
-    //   },
-    // },
     {
       stepId: "/angehoerige/elternteile/#/kinder/#/name",
       userInput: {
@@ -298,4 +467,5 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+  ...elternteilKindTestCases,
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;
