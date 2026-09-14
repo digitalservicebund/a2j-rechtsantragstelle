@@ -157,4 +157,12 @@ export const nachlassTestCases = {
       stepId: "/abgabe/weitere-angaben",
     },
   ],
+  abgabe: [
+    {
+      stepId: "/abgabe/zusammenfassung",
+    },
+    {
+      stepId: "/abgabe/ende",
+    },
+  ],
 } satisfies FlowTestCases<ErbscheinAnfrageUserData>;
