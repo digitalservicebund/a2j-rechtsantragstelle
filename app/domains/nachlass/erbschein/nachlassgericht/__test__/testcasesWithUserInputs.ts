@@ -1,10 +1,10 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { type NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
-import { nachlassErbscheinNachlassgerichtFlowConfig } from "../flowConfig";
+import { type ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import { erbscheinNachlassgerichtFlowConfig } from "../flowConfig";
 
-export const nachlassErbscheinNachlassgerichtTestCases = {
+export const erbscheinNachlassgerichtTestCases = {
   xstateConfig: { id: "/erbschein/nachlassgericht" },
-  newEngineConfig: nachlassErbscheinNachlassgerichtFlowConfig,
+  newEngineConfig: erbscheinNachlassgerichtFlowConfig,
   testcases: {
     auslaendischeErbfall: [
       {
@@ -167,6 +167,6 @@ export const nachlassErbscheinNachlassgerichtTestCases = {
     ],
   },
 } satisfies FlowTestConfig<
-  NachlassErbscheinNachlassGerichtUserData,
-  typeof nachlassErbscheinNachlassgerichtFlowConfig.pages
+  ErbscheinNachlassGerichtUserData,
+  typeof erbscheinNachlassgerichtFlowConfig.pages
 >;

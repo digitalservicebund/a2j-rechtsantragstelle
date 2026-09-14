@@ -10,7 +10,7 @@ import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/p
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
 import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { fetchTranslations } from "~/services/cms/index.server";
@@ -22,7 +22,7 @@ import {
 } from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { today, pdfDateFormat } from "~/util/date";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 import { type UserData } from "~/domains/userData";
 import { flows } from "~/domains/flows.server";
@@ -35,8 +35,8 @@ type PdfFlowContexts =
   | FluggastrechteFlugdatenUserData
   | ProzesskostenhilfeFormularUserData
   | GeldEinklagenFormularUserData
-  | NachlassErbausschlagungAnfrageUserData
-  | NachlassErbscheinAnfrageUserData
+  | ErbausschlagungAnfrageUserData
+  | ErbscheinAnfrageUserData
   | KontopfaendungPkontoAntragUserData;
 
 type PdfConfig = PdfFlowContexts extends infer T
@@ -87,23 +87,13 @@ const pdfConfigs = {
       await geldEinklagenPdfFromUserdata(userData),
     name: `Geld_Einklagen_Klage`,
   },
-  "/nachlass/erbausschlagung/anfrage": {
-    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
-      await erbausschlagungAnfragePdfFromUserdata(userData),
-    name: `Erbausschlagung_Anfrage`,
-  },
-  "/nachlass/erbschein/anfrage": {
-    pdfFunction: async (userData: NachlassErbscheinAnfrageUserData) =>
-      await erbscheinAnfragePdfFromUserdata(userData),
-    name: `Erbschein_Anfrage`,
-  },
   "/erbausschlagung/anfrage": {
-    pdfFunction: async (userData: NachlassErbausschlagungAnfrageUserData) =>
+    pdfFunction: async (userData: ErbausschlagungAnfrageUserData) =>
       await erbausschlagungAnfragePdfFromUserdata(userData),
     name: `Erbausschlagung_Anfrage`,
   },
   "/erbschein/anfrage": {
-    pdfFunction: async (userData: NachlassErbscheinAnfrageUserData) =>
+    pdfFunction: async (userData: ErbscheinAnfrageUserData) =>
       await erbscheinAnfragePdfFromUserdata(userData),
     name: `Erbschein_Anfrage`,
   },

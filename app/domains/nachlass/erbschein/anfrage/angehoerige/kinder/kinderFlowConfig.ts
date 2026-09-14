@@ -9,36 +9,36 @@ import {
   kinderRequireFurtherGenerations,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { collectMissingChildrenNames } from "~/domains/nachlass/erbschein/shared/missingChildren";
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 type KinderLevelPageConfigs<D extends number> = Record<
   `kind${D}Name`,
-  TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+  TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
 > &
   Record<
     `kind${D}Geburtsdatum`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `kind${D}IsAlive`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `kind${D}Address`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `kind${D}Sterbedatum`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   > &
   Record<
     `kind${D}HatteKinder`,
-    TransitionConfigMap<NachlassErbscheinAnfragePages>[keyof TransitionConfigMap<NachlassErbscheinAnfragePages>]
+    TransitionConfigMap<ErbscheinAnfragePages>[keyof TransitionConfigMap<ErbscheinAnfragePages>]
   >;
 
 const kinderGuard = (
-  guard: (data: InferredUserData<NachlassErbscheinAnfragePages>) => boolean,
+  guard: (data: InferredUserData<ErbscheinAnfragePages>) => boolean,
 ) => guard;
 
 const kinderLevelTransitionConfigs = <D extends number>(depth: D) => {
@@ -130,4 +130,4 @@ export const kinderFlowConfig = {
   ...kinderLevelTransitionConfigs(3),
   ...kinderLevelTransitionConfigs(4),
   ...kinderLevelTransitionConfigs(5),
-} satisfies Partial<TransitionConfigMap<NachlassErbscheinAnfragePages>>;
+} satisfies Partial<TransitionConfigMap<ErbscheinAnfragePages>>;

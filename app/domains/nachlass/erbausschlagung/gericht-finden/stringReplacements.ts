@@ -1,9 +1,9 @@
-import { type NachlassErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
+import { type ErbausschlagungGerichtFindenUserData } from "~/domains/nachlass/erbausschlagung/gericht-finden/userData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
 export const shouldUseApplicantsCourt = (
-  userData: NachlassErbausschlagungGerichtFindenUserData,
+  userData: ErbausschlagungGerichtFindenUserData,
 ) => ({
   shouldUseApplicantsCourt:
     userData.lebensmittelpunkt === "ausland" ||
@@ -11,7 +11,7 @@ export const shouldUseApplicantsCourt = (
 });
 
 export const getAmtsgerichtStrings = (
-  userData: NachlassErbausschlagungGerichtFindenUserData,
+  userData: ErbausschlagungGerichtFindenUserData,
 ) => {
   const zipCode =
     userData.plz ??
@@ -36,7 +36,7 @@ export const getAmtsgerichtStrings = (
   };
 };
 
-export const plz = (userData: NachlassErbausschlagungGerichtFindenUserData) => {
+export const plz = (userData: ErbausschlagungGerichtFindenUserData) => {
   if (
     userData.lebensmittelpunkt === "ausland" ||
     userData.ausschlagungsOrt === "courtNearMe"

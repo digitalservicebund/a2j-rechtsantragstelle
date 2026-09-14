@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -14,10 +14,7 @@ const TITLE = "II. Ausschlagende Person";
 
 const addAcknowledgmentDetails = (
   doc: typeof PDFDocument,
-  {
-    awarenessDate,
-    awarenessDateRemarks,
-  }: NachlassErbausschlagungAnfrageUserData,
+  { awarenessDate, awarenessDateRemarks }: ErbausschlagungAnfrageUserData,
 ) => {
   doc
     .moveDown()
@@ -38,7 +35,7 @@ const addAcknowledgmentDetails = (
 export const createRenunciantPerson = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) => {
   const renunciantPersonSection = doc.struct("Sect");
 

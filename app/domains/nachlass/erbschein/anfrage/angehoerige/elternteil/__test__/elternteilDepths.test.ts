@@ -1,13 +1,13 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { MAX_SUPPORTED_DESCENDANT_DEPTH } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -49,7 +49,7 @@ const treeTo = (depth: number, leaf: object): object => {
 
 const sessionAt = (depth: number, page: string, leaf: object) =>
   createFlowSession(
-    nachlassErbscheinAnfrageFlowConfig,
+    erbscheinAnfrageFlowConfig,
     {
       ...treeTo(depth, leaf),
       pageData: { arrayIndexes: Array(depth + 1).fill(0) },

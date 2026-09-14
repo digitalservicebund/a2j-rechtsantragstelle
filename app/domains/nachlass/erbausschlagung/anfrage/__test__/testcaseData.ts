@@ -1,12 +1,11 @@
-import { type NachlassErbausschlagungAnfrageUserData } from "../userData";
+import { type ErbausschlagungAnfrageUserData } from "../userData";
 
-export const happyPathData: Partial<NachlassErbausschlagungAnfrageUserData> = {
+export const happyPathData: Partial<ErbausschlagungAnfrageUserData> = {
   pageData: {
     subflowDoneStates: {
       "/ausschlagende-person": true,
     },
   },
-  datenverarbeitungZustimmung: "on",
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
   verstorbeneGeburtsdatum: {

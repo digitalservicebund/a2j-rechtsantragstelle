@@ -4,6 +4,24 @@ import type {
 } from "~/domains/__test__/TestCases";
 import { beratungshilfeVorabcheckXstateConfig } from "../xstateConfig";
 import { type BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
+import { beratungshilfeVorabcheckFlowConfig } from "../flowConfig";
+
+// Upstream answers needed to reach the detailed income branch
+// (genauigkeit === "yes"), so pages after it are reachable from /start.
+const reachEinkommenBranch = {
+  rechtsschutzversicherung: "no",
+  wurdeVerklagt: "no",
+  klageEingereicht: "no",
+  hamburgOderBremen: "no",
+  beratungshilfeBeantragt: "no",
+  eigeninitiative: "yes",
+  staatlicheLeistungen: "keine",
+  vermoegen: "below_10k",
+  erwerbstaetigkeit: "no",
+  partnerschaft: "no",
+  genauigkeit: "yes",
+  einkommen: "0",
+} satisfies BeratungshilfeVorabcheckUserData;
 
 const rsvTestCases = {
   rsvYes: [
@@ -89,7 +107,14 @@ const staatlicheLeistungenTestCases = {
   buergergeld: [
     {
       stepId: "/staatliche-leistungen",
-      userInput: { staatlicheLeistungen: "buergergeld" },
+      userInput: {
+        staatlicheLeistungen: "buergergeld",
+        rechtsschutzversicherung: "no",
+        wurdeVerklagt: "no",
+        klageEingereicht: "no",
+        hamburgOderBremen: "no",
+        beratungshilfeBeantragt: "no",
+      },
     },
     {
       stepId: "/vermoegen",
@@ -101,6 +126,7 @@ const staatlicheLeistungenTestCases = {
 
 export const beratungshilfeVorabcheckTestCases = {
   xstateConfig: beratungshilfeVorabcheckXstateConfig,
+  newEngineConfig: beratungshilfeVorabcheckFlowConfig,
   testcases: {
     fullFlow: [
       { stepId: "/start" },
@@ -191,7 +217,17 @@ export const beratungshilfeVorabcheckTestCases = {
       { stepId: "/ergebnis/beratungshilfe-beantragt-abbruch" },
     ],
     eigeninitiative: [
-      { stepId: "/eigeninitiative", userInput: { eigeninitiative: "no" } },
+      {
+        stepId: "/eigeninitiative",
+        userInput: {
+          eigeninitiative: "no",
+          rechtsschutzversicherung: "no",
+          wurdeVerklagt: "no",
+          klageEingereicht: "no",
+          hamburgOderBremen: "no",
+          beratungshilfeBeantragt: "no",
+        },
+      },
       { stepId: "/eigeninitiative-warnung" },
       { stepId: "/bereich" },
     ],
@@ -274,7 +310,7 @@ export const beratungshilfeVorabcheckTestCases = {
     kinderYes: [
       {
         stepId: "/kinder",
-        userInput: { kinder: "yes" },
+        userInput: { ...reachEinkommenBranch, kinder: "yes" },
       },
       {
         stepId: "/kinder-anzahl",
@@ -305,7 +341,7 @@ export const beratungshilfeVorabcheckTestCases = {
     unterhaltYes: [
       {
         stepId: "/unterhalt",
-        userInput: { unterhalt: "yes" },
+        userInput: { ...reachEinkommenBranch, kinder: "no", unterhalt: "yes" },
       },
       { stepId: "/unterhalt-summe", userInput: { unterhaltSumme: "100" } },
       { stepId: "/miete" },
