@@ -1,6 +1,6 @@
 import { type Flow } from "~/domains/flows.server";
-import { nachlassErbscheinAnfrageFlowConfig } from "./flowConfig";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageFlowConfig } from "./flowConfig";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   getAmtsgerichtStrings,
   getAngehoerigeStrings,
@@ -10,13 +10,13 @@ import {
   getVerstorbenePostcodeCity,
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
-import { type NachlassErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
+import { type ErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { migrateElternteil, migrateKind } from "./personMigration";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyAntragstellendePersonData";
 
-export const nachlassErbscheinAnfrage = {
+export const erbscheinAnfrage = {
   flowType: "formFlow",
   config: {
     states: {},
@@ -35,8 +35,8 @@ export const nachlassErbscheinAnfrage = {
       "elternteile",
     ],
     migrationDataMerger: (
-      sourceData: NachlassErbscheinErbfolgeUserData,
-    ): NachlassErbscheinAnfrageUserData => {
+      sourceData: ErbscheinErbfolgeUserData,
+    ): ErbscheinAnfrageUserData => {
       return {
         verstorbeneVorname: sourceData.verstorbeneVorname ?? "",
         verstorbeneNachname: sourceData.verstorbeneNachname ?? "",
@@ -64,7 +64,7 @@ export const nachlassErbscheinAnfrage = {
   asyncFlowActions: {
     "/antragstellende-person/verhaeltnis": copyAntragstellendePersonData,
   },
-  stringReplacements: (context: NachlassErbscheinAnfrageUserData) => ({
+  stringReplacements: (context: ErbscheinAnfrageUserData) => ({
     ...getVerstorbeneName(context),
     ...getVerstorbeneStreetnameHousenumber(context),
     ...getVerstorbenePostcodeCity(context),
@@ -74,5 +74,5 @@ export const nachlassErbscheinAnfrage = {
     ...getAmtsgerichtStrings(context),
   }),
   summaryFieldOverride: getParentIndexSummaryOverride,
-  newEngineConfig: nachlassErbscheinAnfrageFlowConfig,
+  newEngineConfig: erbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;

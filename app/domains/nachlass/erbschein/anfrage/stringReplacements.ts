@@ -1,25 +1,23 @@
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import escape from "lodash/escape";
 import {
   type PersonDocuments,
   collectRequiredDocuments,
 } from "~/domains/nachlass/erbschein/requiredDocuments";
-import { nachlassErbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
+import { erbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 
-export const getVerstorbeneName = (
-  context: NachlassErbscheinAnfrageUserData,
-) => {
+export const getVerstorbeneName = (context: ErbscheinAnfrageUserData) => {
   return {
     verstorbeneName: `${context.verstorbeneVorname} ${context.verstorbeneNachname}`,
   };
 };
 
 export const getVerstorbeneStreetnameHousenumber = (
-  context: NachlassErbscheinAnfrageUserData,
+  context: ErbscheinAnfrageUserData,
 ) => ({
   verstorbeneStreetnameHousenumber:
     context.verstorbeneLebensmittelpunkt === "deutschland"
@@ -28,7 +26,7 @@ export const getVerstorbeneStreetnameHousenumber = (
 });
 
 export const getVerstorbenePostcodeCity = (
-  context: NachlassErbscheinAnfrageUserData,
+  context: ErbscheinAnfrageUserData,
 ) => {
   let plz: string;
   if (context.verstorbeneLivedInPflegeheim == "yes") {
@@ -46,17 +44,13 @@ export const getVerstorbenePostcodeCity = (
   };
 };
 
-export const getEhepartnerName = (
-  context: NachlassErbscheinAnfrageUserData,
-) => {
+export const getEhepartnerName = (context: ErbscheinAnfrageUserData) => {
   return {
     ehepartnerName: `${context.ehepartnerVorname} ${context.ehepartnerNachname}`,
   };
 };
 
-export const getBeguenstigteStrings = (
-  context: NachlassErbscheinAnfrageUserData,
-) => {
+export const getBeguenstigteStrings = (context: ErbscheinAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
@@ -71,9 +65,7 @@ export const getBeguenstigteStrings = (
     };
 };
 
-export const getAmtsgerichtStrings = (
-  userData: NachlassErbscheinAnfrageUserData,
-) => {
+export const getAmtsgerichtStrings = (userData: ErbscheinAnfrageUserData) => {
   const zipCode =
     userData.verstorbenePlz ??
     userData.verstorbeneHospizPlz ??
@@ -95,7 +87,7 @@ export const getAmtsgerichtStrings = (
   };
 };
 
-const angehoerigeName = (context: NachlassErbscheinAnfrageUserData) => {
+const angehoerigeName = (context: ErbscheinAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
     arrayIndex === undefined ||
@@ -131,11 +123,11 @@ function buildRequiredDocumentsHtml(
 }
 
 export const getAngehoerigeStrings = (
-  context: NachlassErbscheinAnfrageUserData,
+  context: ErbscheinAnfrageUserData,
 ): Replacements => {
   return {
     ...angehoerigeName(context),
-    ...nachlassErbfolgeStringReplacements(context),
+    ...erbfolgeStringReplacements(context),
     requiredDocumentsHtml: buildRequiredDocumentsHtml(
       collectRequiredDocuments(context),
     ),

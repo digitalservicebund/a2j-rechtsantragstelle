@@ -1,6 +1,6 @@
 import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import type { nachlassErbscheinNachlassgerichtPages } from "./pages";
+import type { erbscheinNachlassgerichtPages } from "./pages";
 
-export type NachlassErbscheinNachlassGerichtUserData = UserDataFromPagesSchema<
-  typeof nachlassErbscheinNachlassgerichtPages
+export type ErbscheinNachlassGerichtUserData = UserDataFromPagesSchema<
+  typeof erbscheinNachlassgerichtPages
 >;

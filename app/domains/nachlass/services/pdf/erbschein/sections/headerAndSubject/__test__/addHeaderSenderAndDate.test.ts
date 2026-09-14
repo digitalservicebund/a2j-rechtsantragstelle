@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addHeaderSenderAndDate } from "../addHeaderSenderAndDate";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -20,7 +20,7 @@ const userData = {
   antragstellendePersonHausnummer: "1",
   antragstellendePersonPlz: "10557",
   antragstellendePersonOrt: "Musterstadt",
-} satisfies NachlassErbscheinAnfrageUserData;
+} satisfies ErbscheinAnfrageUserData;
 
 describe("addHeaderSenderAndDate", () => {
   it("should add the date to the document structure", () => {

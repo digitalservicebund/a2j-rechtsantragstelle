@@ -1,12 +1,12 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
 // Guards on kindSummary read the pruned user data, so every ancestor page has to
 // stay reachable — otherwise the fields they inspect are stripped before the guard runs.
-const happyPathData: NachlassErbscheinAnfrageUserData = {
+const happyPathData: ErbscheinAnfrageUserData = {
   datenverarbeitungZustimmung: "on",
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
@@ -44,7 +44,7 @@ const dead = (vorname: string, nachname: string) => ({
 describe("kinderFehlen: a dead person stated to have kids but none were added", () => {
   it("routes from kindSummary to kinderFehlen when the deceased stated hatteKinder=yes but kinder is empty", () => {
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",
@@ -59,7 +59,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
 
   it("routes from kindSummary to kinderFehlen when a dead kind's kinder array is empty", () => {
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",
@@ -74,7 +74,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
 
   it("does not route to kinderFehlen once the missing kinder are filled in", () => {
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",
@@ -99,7 +99,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
     // it's physically stored under Kind 1 (the array-add flow's shared entry
     // point). Kind 1's own branch is now the empty one, not Kind 2's.
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",
@@ -121,7 +121,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
 
   it("no longer routes to kinderFehlen once every branch has a reassigned descendant", () => {
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",
@@ -146,7 +146,7 @@ describe("kinderFehlen: a dead person stated to have kids but none were added", 
 
   it("prioritizes the depth-limit exit page over kinderFehlen at the deepest supported generation", () => {
     const session = createFlowSession(
-      nachlassErbscheinAnfrageFlowConfig,
+      erbscheinAnfrageFlowConfig,
       {
         ...happyPathData,
         hatteKinder: "yes",

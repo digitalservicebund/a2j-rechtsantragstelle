@@ -1,10 +1,10 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { type NachlassErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
-import { nachlassErbscheinWegweiserFlowConfig } from "../flowConfig";
+import { type ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
+import { erbscheinWegweiserFlowConfig } from "../flowConfig";
 
 const happyPath: Array<{
   stepId: string;
-  userInput?: Partial<NachlassErbscheinWegweiserUserData>;
+  userInput?: Partial<ErbscheinWegweiserUserData>;
 }> = [
   {
     stepId: "/start",
@@ -23,9 +23,9 @@ const happyPath: Array<{
   },
 ];
 
-export const nachlassErbscheinWegweiserTestCases = {
+export const erbscheinWegweiserTestCases = {
   xstateConfig: { id: "/erbschein/wegweiser" },
-  newEngineConfig: nachlassErbscheinWegweiserFlowConfig,
+  newEngineConfig: erbscheinWegweiserFlowConfig,
   testcases: {
     severalNationalities: [
       {
@@ -209,6 +209,6 @@ export const nachlassErbscheinWegweiserTestCases = {
     ],
   },
 } satisfies FlowTestConfig<
-  NachlassErbscheinWegweiserUserData,
-  typeof nachlassErbscheinWegweiserFlowConfig.pages
+  ErbscheinWegweiserUserData,
+  typeof erbscheinWegweiserFlowConfig.pages
 >;

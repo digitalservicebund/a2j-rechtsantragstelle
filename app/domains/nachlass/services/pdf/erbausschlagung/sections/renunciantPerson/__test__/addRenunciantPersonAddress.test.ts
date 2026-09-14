@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addRenunciantPersonAddress } from "../addRenunciantPersonAddress";
 
 const userDataMock = {
@@ -10,7 +10,7 @@ const userDataMock = {
   ausschlagendePersonHausnummer: "1",
   ausschlagendePersonPlz: "12345",
   ausschlagendePersonOrt: "Musterstadt",
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addRenunciantPersonAddress", () => {
   it("should add the renunciant person address to the document", () => {

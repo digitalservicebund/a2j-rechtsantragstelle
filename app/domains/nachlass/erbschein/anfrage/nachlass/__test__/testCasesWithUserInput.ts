@@ -1,12 +1,12 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import {
   mockBeguenstigtenArray,
-  nachlassErbscheinAnfrageHappyPathData,
+  erbscheinAnfrageHappyPathData,
 } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "handwritten",
   verstorbeneFamilienstand: "ledig",
   beguenstigten: mockBeguenstigtenArray,
@@ -157,4 +157,4 @@ export const nachlassTestCases = {
       stepId: "/abgabe/weitere-angaben",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

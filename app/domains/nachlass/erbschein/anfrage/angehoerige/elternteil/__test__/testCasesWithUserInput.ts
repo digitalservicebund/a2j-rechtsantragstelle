@@ -1,13 +1,13 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -60,7 +60,7 @@ const extinctKinder = {
       hatteKinder: "no",
     } as Kind,
   ],
-} satisfies Pick<NachlassErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
+} satisfies Pick<ErbscheinAnfrageUserData, "hatteKinder" | "kinder">;
 
 export const elternteilTestCases = {
   // A living Elternteil inherits, so the flow leaves the Angehoerige section.
@@ -298,4 +298,4 @@ export const elternteilTestCases = {
       stepId: "/angehoerige/elternteile/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

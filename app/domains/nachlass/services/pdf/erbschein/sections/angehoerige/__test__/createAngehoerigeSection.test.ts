@@ -2,12 +2,12 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { createAngehoerigeSection } from "~/domains/nachlass/services/pdf/erbschein/sections/angehoerige/createAngehoerigeSection";
 
 describe("createAngehoerigeSection", () => {
   it("Should enumerate all first-order descendants in the PDF", () => {
-    const userDataMock: NachlassErbscheinAnfrageUserData = {
+    const userDataMock: ErbscheinAnfrageUserData = {
       kinder: [
         {
           vorname: "Max",
@@ -74,7 +74,7 @@ describe("createAngehoerigeSection", () => {
   });
 
   it("Should enumerate all second-order descendants in the PDF", () => {
-    const userDataMock: NachlassErbscheinAnfrageUserData = {
+    const userDataMock: ErbscheinAnfrageUserData = {
       elternteile: [
         {
           vorname: "Papa",
@@ -141,7 +141,7 @@ describe("createAngehoerigeSection", () => {
   });
 
   it("Should enumerate each additional Angehoerige in the PDF", () => {
-    const userDataMock: NachlassErbscheinAnfrageUserData = {
+    const userDataMock: ErbscheinAnfrageUserData = {
       angehoerige: [
         {
           vorname: "Max",

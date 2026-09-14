@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -7,7 +7,7 @@ import {
 
 const LAST_RESIDENCE_TITLE = "Letzter gewöhnlicher Aufenthalt";
 
-const getAddress = (userData: NachlassErbausschlagungAnfrageUserData) => {
+const getAddress = (userData: ErbausschlagungAnfrageUserData) => {
   if (userData.verstorbeneLebensmittelpunkt === "ausland") {
     return {
       streetAndNumber: `${userData.verstorbeneAuslaendischeAdresseStrasse ?? ""} ${userData.verstorbeneAuslaendischeAdresseHausnummer ?? ""}`,
@@ -28,7 +28,7 @@ const getAddress = (userData: NachlassErbausschlagungAnfrageUserData) => {
 export const addDeceasedPersonLastStay = (
   doc: typeof PDFDocument,
   deceasedPersonSection: PDFKit.PDFStructureElement,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) => {
   deceasedPersonSection.add(
     doc.struct("H3", {}, () => {

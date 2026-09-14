@@ -3,7 +3,7 @@ import {
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
 import { addChildOfRenunciantPersonAddress } from "../addChildOfRenunciantPersonAddress";
-import { type NachlassErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
+import { type ErbausschlagungAnfrageKind } from "../createChildrenOfRenunciantPerson";
 
 const childrenOfRenunciantPersonMock = {
   adresseZusatz: "c/o Max Mustermann",
@@ -19,7 +19,7 @@ const childrenOfRenunciantPersonMock = {
   plz: "12345",
   ort: "Musterstadt",
   wohnortBeiAntragsteller: "no",
-} satisfies NachlassErbausschlagungAnfrageKind;
+} satisfies ErbausschlagungAnfrageKind;
 
 describe("addChildOfRenunciantPersonAddress", () => {
   it("should add the text same address as the parent of the child of renunciant person to the pdf document", () => {
