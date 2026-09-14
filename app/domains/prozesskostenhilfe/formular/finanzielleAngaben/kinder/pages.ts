@@ -61,10 +61,6 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
     stepId: "/finanzielle-angaben/kinder/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
-  kinder: {
-    stepId: "/finanzielle-angaben/kinder/kinder/#/daten",
-    shouldCollapseIntoParentNavItem: true,
-  },
   name: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/name",
     pageSchema: {

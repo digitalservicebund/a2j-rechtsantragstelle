@@ -20,7 +20,7 @@ export const kinderFlowConfig = {
   kinderUebersicht: [
     {
       type: "addArrayItem",
-      target: "kinder",
+      target: "name",
     },
     {
       guard: (context) =>
@@ -30,7 +30,6 @@ export const kinderFlowConfig = {
     { target: "andereUnterhaltszahlungenFrage" },
   ],
   kinderWarnung: "andereUnterhaltszahlungenFrage",
-  kinder: "kinderUebersicht",
   name: "wohnort",
   wohnort: [
     {
