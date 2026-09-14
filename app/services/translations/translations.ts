@@ -581,6 +581,12 @@ export const translations = {
     deceased: {
       de: "verstorben",
     },
+    deathDateBeforeBirthDateError: {
+      de: "Der Zeitpunkt des Todes kann nicht vor dem Geburtsdatum liegen.",
+    },
+    birthDateAfterDeathDateError: {
+      de: "Der Zeitpunkt der Geburt kann nicht nach dem Todeszeitpunkt liegen.",
+    },
   },
   personSummaryItem: {
     missingData: {

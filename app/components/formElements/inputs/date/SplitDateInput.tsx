@@ -3,7 +3,6 @@ import { useField } from "@rvf/react-router";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import InputError from "../error/InputError";
-import { InputLabel } from "../label/InputLabel";
 import { type ErrorMessageProps } from "~/components/common/types";
 
 type SplitDateInputProps = {
@@ -57,7 +56,12 @@ const SplitDateInput = ({
         "kern-fieldset--error": hasError,
       })}
     >
-      {label && <InputLabel name={name} label={label} suffix={suffix} />}
+      {label && (
+        <legend className="kern-label">
+          {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
+        </legend>
+      )}
       <div className="kern-hint">
         {translations.splitDateComponent.hintText.de}
       </div>

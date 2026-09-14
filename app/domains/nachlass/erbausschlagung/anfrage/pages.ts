@@ -22,7 +22,7 @@ import {
   sorgerechtOrganizationRequired,
 } from "./kinder/schema";
 
-export const nachlassErbausschlagungAnfragePages = {
+export const erbausschlagungAnfragePages = {
   start: {
     stepId: "/start/start",
   },
@@ -34,12 +34,6 @@ export const nachlassErbausschlagungAnfragePages = {
   },
   gerichtsterminVereinbaren: {
     stepId: "/start/gerichtstermin-vereinbaren",
-  },
-  datenverarbeitung: {
-    stepId: "/start/datenverarbeitung",
-    pageSchema: {
-      datenverarbeitungZustimmung: checkedRequired,
-    },
   },
   verstorbeneName: {
     stepId: "/verstorbene/name",
@@ -361,5 +355,4 @@ export const nachlassErbausschlagungAnfragePages = {
   },
 } as const satisfies PageConfigMap;
 
-export type NachlassErbausschlagungAnfragePages =
-  typeof nachlassErbausschlagungAnfragePages;
+export type ErbausschlagungAnfragePages = typeof erbausschlagungAnfragePages;

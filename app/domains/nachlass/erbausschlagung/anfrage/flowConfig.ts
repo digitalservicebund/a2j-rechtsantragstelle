@@ -1,5 +1,5 @@
 import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { nachlassErbausschlagungAnfragePages } from "./pages";
+import { erbausschlagungAnfragePages } from "./pages";
 import {
   type CompiledFlow,
   compileFlow,
@@ -9,7 +9,7 @@ import { kinderFlowConfig } from "./kinder/flowConfig";
 import { verstorbenePersonFlowConfig } from "./verstorbene/flowConfig";
 
 export const erbausschlagungAnfrageFlowConfig = compileFlow({
-  pages: nachlassErbausschlagungAnfragePages,
+  pages: erbausschlagungAnfragePages,
   initialStep: "start",
   transitions: {
     start: "gerichtsterminBestaetigt",
@@ -19,16 +19,10 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
         target: "gerichtsterminVereinbaren",
       },
       {
-        target: "datenverarbeitung",
-      },
-    ],
-    gerichtsterminVereinbaren: null,
-    datenverarbeitung: [
-      {
-        guard: (context) => context.datenverarbeitungZustimmung === "on",
         target: "verstorbeneName",
       },
     ],
+    gerichtsterminVereinbaren: null,
     ...verstorbenePersonFlowConfig,
     ...ausschlagendePersonFlowConfig,
     ...kinderFlowConfig,

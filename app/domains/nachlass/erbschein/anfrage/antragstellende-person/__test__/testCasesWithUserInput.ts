@@ -1,14 +1,14 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
-export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfrageUserData> =
+export const antragstellendePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData> =
   {
-    singleNationality: [
+    singleNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/name",
         userInput: {
-          ...nachlassErbscheinAnfrageHappyPathData,
+          ...erbscheinAnfrageHappyPathData,
           antragstellendePersonVorname: "Max",
           antragstellendePersonNachname: "Mustermann",
         },
@@ -63,11 +63,11 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         stepId: "/testament-oder-erbvertrag/art",
       },
     ],
-    dualNationality: [
+    dualNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/zweite-staatsangehoerigkeit-frage",
         userInput: {
-          ...nachlassErbscheinAnfrageHappyPathData,
+          ...erbscheinAnfrageHappyPathData,
           antragstellendePersonHasSecondNationality: "yes",
         },
       },
@@ -87,11 +87,11 @@ export const antragstellendePersonTestCases: FlowTestCases<NachlassErbscheinAnfr
         stepId: "/antragstellende-person/anschrift",
       },
     ],
-    tripleNationality: [
+    tripleNationalityAntragstellendePerson: [
       {
         stepId: "/antragstellende-person/dritte-staatsangehoerigkeit-frage",
         userInput: {
-          ...nachlassErbscheinAnfrageHappyPathData,
+          ...erbscheinAnfrageHappyPathData,
           antragstellendePersonHasSecondNationality: "yes",
           antragstellendePersonHasThirdNationality: "yes",
         },

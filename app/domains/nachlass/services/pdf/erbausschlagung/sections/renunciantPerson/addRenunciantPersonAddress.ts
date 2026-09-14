@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
@@ -7,7 +7,7 @@ import {
 
 export const addRenunciantPersonAddress = (
   doc: typeof PDFDocument,
-  userData: NachlassErbausschlagungAnfrageUserData,
+  userData: ErbausschlagungAnfrageUserData,
 ) => {
   doc
     .moveDown()

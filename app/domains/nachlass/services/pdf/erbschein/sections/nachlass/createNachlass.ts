@@ -1,5 +1,5 @@
 import type PDFDocument from "pdfkit";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { addGrundbesitz } from "~/domains/nachlass/services/pdf/erbschein/sections/nachlass/addGrundbesitz";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -17,7 +17,7 @@ const yesNoUnknownMap = {
 export const createNachlass = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
-  userData: NachlassErbscheinAnfrageUserData,
+  userData: ErbscheinAnfrageUserData,
 ) => {
   const nachlassSection = doc.struct("Sect");
 

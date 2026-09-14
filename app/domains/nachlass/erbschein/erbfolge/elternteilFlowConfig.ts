@@ -4,15 +4,15 @@ import {
   type TransitionConfig,
   type TransitionConfigMap,
 } from "~/services/flow/newFlowEngine/types";
-import { type NachlassErbfolgePages } from "./pages";
+import { type ErbfolgePages } from "./pages";
 import {
   elternteilKindAt,
   isDead,
   isDeadWithKinder,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 
-type GuardData = InferredUserData<NachlassErbfolgePages>;
-type NodeKeys = NodeKey<NachlassErbfolgePages>;
+type GuardData = InferredUserData<ErbfolgePages>;
+type NodeKeys = NodeKey<ErbfolgePages>;
 
 // The daten / hatteKinder transitions for one sibling depth (1–4).
 // Same shape as the kinder line: descend while each node is a dead parent-with-kids,
@@ -94,4 +94,4 @@ export const elternteilFlowConfig = {
     },
     { target: "elternteilSummary", guard: () => true },
   ],
-} satisfies Partial<TransitionConfigMap<NachlassErbfolgePages>>;
+} satisfies Partial<TransitionConfigMap<ErbfolgePages>>;

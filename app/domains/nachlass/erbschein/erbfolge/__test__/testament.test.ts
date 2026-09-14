@@ -1,5 +1,5 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbfolgeStaticFlow } from "../flowConfig";
+import { erbfolgeStaticFlow } from "../flowConfig";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
@@ -9,7 +9,7 @@ const emptyPageData = { pageData: { arrayIndexes: [] } };
 describe("testament / Erbvertrag entry question", () => {
   it("is the first question after the start page", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       emptyPageData as UserData,
       "/start",
     );
@@ -19,7 +19,7 @@ describe("testament / Erbvertrag entry question", () => {
 
   it("continues into the flow when nothing exists", () => {
     const session = createFlowSession(
-      nachlassErbfolgeStaticFlow,
+      erbfolgeStaticFlow,
       { ...emptyPageData, testamentArt: "none" } as UserData,
       "/testamentOderErbvertrag",
     );
@@ -31,7 +31,7 @@ describe("testament / Erbvertrag entry question", () => {
     "exits to the no-statutory-succession page for '%s'",
     (testamentArt) => {
       const session = createFlowSession(
-        nachlassErbfolgeStaticFlow,
+        erbfolgeStaticFlow,
         { ...emptyPageData, testamentArt } as UserData,
         "/testamentOderErbvertrag",
       );

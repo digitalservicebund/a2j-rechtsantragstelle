@@ -1,5 +1,5 @@
 import { kinderFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderFlowConfig";
-import { type NachlassErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import {
   evaluateAllBranches,
@@ -7,7 +7,7 @@ import {
 } from "~/services/flow/newFlowEngine/routing";
 import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 
-type GuardData = InferredUserData<NachlassErbscheinAnfragePages>;
+type GuardData = InferredUserData<ErbscheinAnfragePages>;
 
 const kindAtDepth = (depth: number, livingAncestorAt?: number): Kind[] => {
   let kind = {

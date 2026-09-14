@@ -2,7 +2,7 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addDeceasedPersonLastStay } from "../addDeceasedPersonLastStay";
 
 const userDataMock = {
@@ -12,7 +12,7 @@ const userDataMock = {
   verstorbeneAdresseHausnummer: "1",
   plzBeforeHospiz: "12345",
   verstorbeneAdresseOrt: "Musterstadt",
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addDeceasedPersonLastStay", () => {
   it("should last residence title", () => {

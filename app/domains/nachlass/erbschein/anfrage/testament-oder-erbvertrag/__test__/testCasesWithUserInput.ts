@@ -1,16 +1,16 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import {
   mockBeguenstigtenArray,
-  nachlassErbscheinAnfrageHappyPathData,
+  erbscheinAnfrageHappyPathData,
 } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 export const testamentOderErbvertragTestCases = {
   noTestamentOrErbvertragSingle: [
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
-        ...nachlassErbscheinAnfrageHappyPathData,
+        ...erbscheinAnfrageHappyPathData,
         testamentArt: "none",
         verstorbeneFamilienstand: "ledig",
       },
@@ -23,7 +23,7 @@ export const testamentOderErbvertragTestCases = {
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
-        ...nachlassErbscheinAnfrageHappyPathData,
+        ...erbscheinAnfrageHappyPathData,
         testamentArt: "none",
         verstorbeneFamilienstand: "verheiratet",
       },
@@ -36,7 +36,7 @@ export const testamentOderErbvertragTestCases = {
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
-        ...nachlassErbscheinAnfrageHappyPathData,
+        ...erbscheinAnfrageHappyPathData,
         testamentArt: "erbvertrag",
       },
     },
@@ -54,7 +54,7 @@ export const testamentOderErbvertragTestCases = {
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
-        ...nachlassErbscheinAnfrageHappyPathData,
+        ...erbscheinAnfrageHappyPathData,
         testamentArt: "erbvertrag",
       },
     },
@@ -94,6 +94,11 @@ export const testamentOderErbvertragTestCases = {
           month: "01",
           year: "2020",
         },
+        "beguenstigten#geburtsdatum": {
+          day: "01",
+          month: "01",
+          year: "1950",
+        },
         "beguenstigten#sterbeort": "Musterstadt",
       },
     },
@@ -105,7 +110,7 @@ export const testamentOderErbvertragTestCases = {
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
-        ...nachlassErbscheinAnfrageHappyPathData,
+        ...erbscheinAnfrageHappyPathData,
         testamentArt: "erbvertrag",
       },
     },
@@ -155,4 +160,4 @@ export const testamentOderErbvertragTestCases = {
       stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
     },
   ],
-} satisfies FlowTestCases<NachlassErbscheinAnfrageUserData>;
+} satisfies FlowTestCases<ErbscheinAnfrageUserData>;

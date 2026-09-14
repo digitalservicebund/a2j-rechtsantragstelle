@@ -1,14 +1,14 @@
 import type { Flow } from "~/domains/flows.server";
 import { getAmtsgerichtStrings, getPlzStrings } from "./stringReplacements";
-import { type NachlassErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
-import { nachlassErbscheinNachlassgerichtFlowConfig } from "./flowConfig";
+import { type ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import { erbscheinNachlassgerichtFlowConfig } from "./flowConfig";
 
-export const nachlassErbscheinNachlassgericht = {
+export const erbscheinNachlassgericht = {
   flowType: "vorabCheck",
   config: { states: {} },
-  stringReplacements: (context: NachlassErbscheinNachlassGerichtUserData) => ({
+  stringReplacements: (context: ErbscheinNachlassGerichtUserData) => ({
     ...getAmtsgerichtStrings(context),
     ...getPlzStrings(context),
   }),
-  newEngineConfig: nachlassErbscheinNachlassgerichtFlowConfig,
-} satisfies Flow<typeof nachlassErbscheinNachlassgerichtFlowConfig.pages>;
+  newEngineConfig: erbscheinNachlassgerichtFlowConfig,
+} satisfies Flow<typeof erbscheinNachlassgerichtFlowConfig.pages>;

@@ -1,13 +1,13 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { nachlassErbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
-import { nachlassErbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
-import { type NachlassErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage/flowConfig";
+import { erbscheinAnfrageHappyPathData } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { BOTH_PARENTS_VALUE } from "~/domains/nachlass/erbschein/shared/buildParentOptions";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
-const happyPathData: NachlassErbscheinAnfrageUserData = {
-  ...nachlassErbscheinAnfrageHappyPathData,
+const happyPathData: ErbscheinAnfrageUserData = {
+  ...erbscheinAnfrageHappyPathData,
   testamentArt: "none",
   verstorbeneFamilienstand: "ledig",
 };
@@ -42,7 +42,7 @@ const dead = (vorname: string, nachname: string) => ({
 // case carries a kinder branch with no living descendants.
 const sessionAtSummary = (elternteile: object[]) =>
   createFlowSession(
-    nachlassErbscheinAnfrageFlowConfig,
+    erbscheinAnfrageFlowConfig,
     {
       ...happyPathData,
       hatteKinder: "yes",

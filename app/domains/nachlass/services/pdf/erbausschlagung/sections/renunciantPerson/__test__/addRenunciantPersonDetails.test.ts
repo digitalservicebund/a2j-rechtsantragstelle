@@ -2,14 +2,14 @@ import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 import { addRenunciantPersonDetails } from "../addRenunciantPersonDetails";
 
 const userDataMock = {
   ausschlagendePersonVorname: "Max",
   ausschlagendePersonNachname: "Mustermann",
   ausschlagendePersonGeburtsdatum: { day: "01", month: "01", year: "1990" },
-} satisfies NachlassErbausschlagungAnfrageUserData;
+} satisfies ErbausschlagungAnfrageUserData;
 
 describe("addRenunciantPersonDetails", () => {
   it("should add the renunciant person details to the PDF document", () => {

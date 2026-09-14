@@ -4,13 +4,13 @@ import {
 } from "tests/factories/mockPdfKit";
 import {
   createChildrenOfRenunciantPerson,
-  type NachlassErbausschlagungAnfrageKind,
+  type ErbausschlagungAnfrageKind,
 } from "../createChildrenOfRenunciantPerson";
 import { addChildOfRenunciantPersonAddress } from "../addChildOfRenunciantPersonAddress";
 import { addChildOfRenunciantPersonDetails } from "../addChildOfRenunciantPersonDetails";
 import { addChildOfRenunciantPersonCustodyDetails } from "../addChildOfRenunciantPersonCustodyDetails";
 import { today } from "~/util/date";
-import { type NachlassErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
 
 const mockKinder = [
   {
@@ -29,7 +29,7 @@ const mockKinder = [
     wohnortBeiAntragsteller: "yes",
     geburtsdatum: { day: "02", month: "02", year: "1900" },
   },
-] satisfies NachlassErbausschlagungAnfrageUserData["kinder"];
+] satisfies ErbausschlagungAnfrageUserData["kinder"];
 
 vi.mock("../addChildOfRenunciantPersonDetails");
 vi.mock("../addChildOfRenunciantPersonAddress");
@@ -136,7 +136,7 @@ describe("createChildrenOfRenunciantPerson", () => {
         year: today().getFullYear().toString(),
       },
       hasRenouncedInheritance: "yes" as const,
-    } satisfies NachlassErbausschlagungAnfrageKind;
+    } satisfies ErbausschlagungAnfrageKind;
 
     createChildrenOfRenunciantPerson(mockDoc, documentStruct, {
       hasKid: "yes",
