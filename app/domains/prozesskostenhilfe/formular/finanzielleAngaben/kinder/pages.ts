@@ -54,6 +54,7 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
     arraySummary: {
       name: "kinder",
       schema: kinderArraySchema,
+      fieldName: "hasKinder",
     },
   },
   kinderWarnung: {
@@ -66,12 +67,12 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
   },
   name: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/name",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#vorname": sharedKinderFields.vorname,
       "kinder#nachname": sharedKinderFields.nachname,
       "kinder#geburtsdatum": sharedKinderFields.geburtsdatum,
     },
+    shouldCollapseIntoParentNavItem: true,
   },
   wohnort: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/wohnort",

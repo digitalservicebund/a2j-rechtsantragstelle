@@ -20,7 +20,7 @@ export const kinderFlowConfig = {
   kinderUebersicht: [
     {
       type: "addArrayItem",
-      target: "name",
+      target: "kinder",
     },
     {
       guard: (context) =>
@@ -61,7 +61,6 @@ export const kinderFlowConfig = {
     },
   ],
   "kind-unterhalt": "kinderUebersicht",
-  "kind-unterhalt-ende": "kinderUebersicht",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
