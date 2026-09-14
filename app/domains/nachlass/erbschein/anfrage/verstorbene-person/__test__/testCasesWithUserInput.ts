@@ -3,7 +3,7 @@ import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfr
 
 export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData> =
   {
-    singleNationality: [
+    singleNationalityVerstorbenePerson: [
       {
         stepId: "/verstorbene/name",
         userInput: {
@@ -22,6 +22,7 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/geburtsdatum-ort",
         userInput: {
+          sterbedatum: { day: "01", month: "01", year: "2020" },
           verstorbeneGeburtsdatum: { day: "01", month: "01", year: "1980" },
           verstorbeneGeburtsort: "Hamburg",
         },
@@ -48,7 +49,7 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
         stepId: "/verstorbene/lebensmittelpunkt",
       },
     ],
-    dualNationality: [
+    dualNationalityVerstorbenePerson: [
       {
         stepId: "/verstorbene/zweite-staatsangehoerigkeit-frage",
         userInput: {
@@ -72,7 +73,7 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
         stepId: "/verstorbene/lebensmittelpunkt",
       },
     ],
-    tripleNationality: [
+    tripleNationalityVerstorbenePerson: [
       {
         stepId: "/verstorbene/dritte-staatsangehoerigkeit-frage",
         userInput: {
