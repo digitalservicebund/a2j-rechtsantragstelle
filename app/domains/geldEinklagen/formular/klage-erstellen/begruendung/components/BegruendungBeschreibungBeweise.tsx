@@ -5,24 +5,45 @@ import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschr
 import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
+import { useBegruendungAbschnitte } from "./begruendungAbschnitteContext";
+import {
+  hasDocumentsToBeReusedFromOtherAbschnitte,
+  hasPersonenToBeReusedFromOtherAbschnitte,
+} from "./reuseBeweise";
+import { useRef } from "react";
+import { ReuseBeweiseDialog } from "./ReuseBeweiseDialog";
 
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndexAbschnitte,
-  abschnitte,
+  abschnitt,
 }: BegruendungBeschreibungAbschnitteProps) => {
-  const nextDocumentItemIndex = arrayIsNonEmpty(abschnitte.dokumenten)
-    ? abschnitte.dokumenten.length
+  const nextDocumentItemIndex = arrayIsNonEmpty(abschnitt.dokumenten)
+    ? abschnitt.dokumenten.length
     : 0;
 
-  const nextPersonItemIndex = arrayIsNonEmpty(abschnitte.personen)
-    ? abschnitte.personen.length
+  const nextPersonItemIndex = arrayIsNonEmpty(abschnitt.personen)
+    ? abschnitt.personen.length
     : 0;
 
   const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${nextDocumentItemIndex}/daten`;
   const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${nextPersonItemIndex}/auswahl`;
+
+  const { abschnitte } = useBegruendungAbschnitte();
+
+  const dialogDocumentRef = useRef<HTMLDialogElement>(null);
+  const hasDocumentsToBeReused = hasDocumentsToBeReusedFromOtherAbschnitte(
+    abschnitte,
+    itemIndexAbschnitte,
+  );
+
+  const dialogPersonRef = useRef<HTMLDialogElement>(null);
+  const hasPersonsToBeReused = hasPersonenToBeReusedFromOtherAbschnitte(
+    abschnitte,
+    itemIndexAbschnitte,
+  );
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
@@ -44,14 +65,18 @@ export const BegruendungBeschreibungBeweise = ({
         </div>
 
         <BegruendungBeschreibungBeweisItems
-          dokumenten={abschnitte.dokumenten}
-          personen={abschnitte.personen}
+          dokumenten={abschnitt.dokumenten}
+          personen={abschnitt.personen}
           itemIndexAbschnitte={itemIndexAbschnitte}
         />
 
         <div className="flex sm:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">
           <Button
-            href={addDocumentUrl}
+            href={!hasDocumentsToBeReused ? addDocumentUrl : undefined}
+            onClick={() =>
+              hasDocumentsToBeReused && dialogDocumentRef.current?.showModal()
+            }
+            aria-haspopup={hasDocumentsToBeReused ? "dialog" : undefined}
             look="secondary"
             className="text-wrap"
             fullWidth
@@ -66,8 +91,17 @@ export const BegruendungBeschreibungBeweise = ({
                 .begruendungBeschreibungEvidenceAddButton.de
             }
           </Button>
+          <ReuseBeweiseDialog
+            dialogRef={dialogDocumentRef}
+            title={"Beweis: Bereits genannte Dokumente erneut angeben?"}
+            closeDialog={() => dialogDocumentRef.current?.close()}
+          />
           <Button
-            href={addPersonUrl}
+            href={!hasPersonsToBeReused ? addPersonUrl : undefined}
+            onClick={() =>
+              hasPersonsToBeReused && dialogPersonRef.current?.showModal()
+            }
+            aria-haspopup={hasPersonsToBeReused ? "dialog" : undefined}
             look="secondary"
             className="text-wrap"
             fullWidth
@@ -82,6 +116,13 @@ export const BegruendungBeschreibungBeweise = ({
                 .begruendungBeschreibungEvidenceAddPersonButton.de
             }
           </Button>
+          <ReuseBeweiseDialog
+            dialogRef={dialogPersonRef}
+            title={
+              "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?"
+            }
+            closeDialog={() => dialogPersonRef.current?.close()}
+          />
         </div>
       </div>
     </div>

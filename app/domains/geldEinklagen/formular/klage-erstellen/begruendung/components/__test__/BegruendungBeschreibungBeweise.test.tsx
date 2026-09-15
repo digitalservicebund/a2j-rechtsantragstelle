@@ -13,7 +13,7 @@ describe("BegruendungBeschreibungBeweise", () => {
   it("should render the title and description texts", () => {
     const { getByRole, getByText } = render(
       <BegruendungBeschreibungBeweise
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );
@@ -38,7 +38,7 @@ describe("BegruendungBeschreibungBeweise", () => {
 
     const { getByTestId } = render(
       <BegruendungBeschreibungBeweise
-        abschnitte={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
+        abschnitt={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
         itemIndexAbschnitte={0}
       />,
     );
@@ -49,7 +49,7 @@ describe("BegruendungBeschreibungBeweise", () => {
   it("should render the buttons for adding dokumenten and personen", () => {
     const { getByText } = render(
       <BegruendungBeschreibungBeweise
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );
@@ -76,7 +76,7 @@ describe("BegruendungBeschreibungBeweise", () => {
 
     const { getByText } = render(
       <BegruendungBeschreibungBeweise
-        abschnitte={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
+        abschnitt={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
         itemIndexAbschnitte={0}
       />,
     );

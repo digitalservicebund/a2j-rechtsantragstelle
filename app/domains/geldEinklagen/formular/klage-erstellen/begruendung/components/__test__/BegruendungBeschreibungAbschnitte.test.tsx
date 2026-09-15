@@ -26,7 +26,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
   it("should render the correct heading and description texts", () => {
     const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );
@@ -38,7 +38,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
   it("should render the edit and delete buttons", () => {
     const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );
@@ -62,7 +62,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
 
     const { getByText } = render(
       <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitte={0}
       />,
     );

@@ -12,7 +12,7 @@ import { DeleteDialog } from "./DeleteDialog";
 
 export type BegruendungBeschreibungAbschnitteProps = {
   readonly itemIndexAbschnitte: number;
-  readonly abschnitte: Exclude<
+  readonly abschnitt: Exclude<
     GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
     undefined
   >[number];
@@ -20,7 +20,7 @@ export type BegruendungBeschreibungAbschnitteProps = {
 
 const BegruendungBeschreibungAbschnitte = ({
   itemIndexAbschnitte,
-  abschnitte,
+  abschnitt,
 }: BegruendungBeschreibungAbschnitteProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
   const jsAvailable = useJsAvailable();
@@ -57,7 +57,7 @@ const BegruendungBeschreibungAbschnitte = ({
             {translations.geldEinklagen.begruendungBeschreibungTitle.de}
           </span>
           <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
-            {abschnitte.beschreibung}
+            {abschnitt.beschreibung}
           </span>
           <a
             id={`${EDIT_BUTTON_ID_PREFIX}abschnitte-${itemIndexAbschnitte}`}
@@ -70,7 +70,7 @@ const BegruendungBeschreibungAbschnitte = ({
           </a>
           <BegruendungBeschreibungBeweise
             itemIndexAbschnitte={itemIndexAbschnitte}
-            abschnitte={abschnitte}
+            abschnitt={abschnitt}
           />
           <div className="flex flex-row-reverse">
             <Button
