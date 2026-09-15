@@ -1,46 +1,12 @@
-import { xStateTargetsFromPagesConfig } from "~/domains/pageSchemas";
 import type { Config } from "~/services/flow/server/types";
-import { abgabeXstateConfig } from "./abgabe/xstateConfig";
-import { anwaltlicheVertretungXstateConfig } from "./anwaltlicheVertretung/xstateConfig";
-import { finanzielleAngabenArrayConfig as beratungshilfeFormularFinanzielleAngabenArrayConfig } from "./finanzielleAngaben/arrayConfiguration";
-import { finanzielleAngabenXstateConfig } from "./finanzielleAngaben/xstateConfig";
-import { grundvorraussetzungXstateConfig } from "./grundvoraussetzung/xstateConfig";
-import { beratungshilfeAntragPages } from "./pages";
-import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import { rechtsproblemXstateConfig } from "./rechtsproblem/xstateConfig";
 import type { BeratungshilfeFormularUserData } from "./userData";
 
-const steps = xStateTargetsFromPagesConfig(beratungshilfeAntragPages);
-
+// This flow runs on the new flow engine (see flowConfig.ts). The XState config
+// is kept only as a minimal stub: the `Flow` type still requires a `config`, and
+// the flow test harness reads `config.id` as the flowId. The full XState state
+// chart was removed during the new-engine migration.
 export const beratungshilfeXstateConfig = {
   id: "/beratungshilfe/antrag",
   initial: "start",
-  meta: {
-    arrays: beratungshilfeFormularFinanzielleAngabenArrayConfig(
-      "/beratungshilfe/antrag/finanzielle-angaben",
-    ),
-  },
-  states: {
-    start: {
-      id: "antragStart",
-      initial: "start",
-      states: {
-        [steps.start.relative]: { on: { SUBMIT: "#grundvoraussetzungen" } },
-      },
-    },
-    grundvoraussetzungen: grundvorraussetzungXstateConfig,
-    "anwaltliche-vertretung": anwaltlicheVertretungXstateConfig,
-    rechtsproblem: rechtsproblemXstateConfig,
-    "finanzielle-angaben": finanzielleAngabenXstateConfig,
-    "persoenliche-daten": persoenlicheDatenXstateConfig,
-    "weitere-angaben": {
-      id: "weitere-angaben",
-      meta: { shouldAppearAsMenuNavigation: true },
-      on: {
-        BACK: "#persoenliche-daten.nachbefragung",
-        SUBMIT: "#abgabe",
-      },
-    },
-    abgabe: abgabeXstateConfig,
-  },
+  states: { start: {} },
 } satisfies Config<BeratungshilfeFormularUserData>;

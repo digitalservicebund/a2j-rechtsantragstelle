@@ -2,9 +2,6 @@ import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 
 export const berHAntragAbgabePages = {
-  abgabe: {
-    stepId: "abgabe",
-  },
   ueberpruefung: {
     stepId: "abgabe/ueberpruefung",
   },

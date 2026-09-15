@@ -1,12 +1,16 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/andereUnterhaltszahlungen/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachUnterhaltszahlungen } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlungen =
   {
     noWeitereUnterhaltszahlungen: [
       {
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-        userInput: { hasWeitereUnterhaltszahlungen: "no" },
+        userInput: {
+          ...reachUnterhaltszahlungen,
+          hasWeitereUnterhaltszahlungen: "no",
+        },
       },
       {
         stepId: "/finanzielle-angaben/wohnung/wohnsituation",
@@ -17,6 +21,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
         skipPageSchemaValidation: true,
         userInput: {
+          ...reachUnterhaltszahlungen,
           hasWeitereUnterhaltszahlungen: "yes",
           unterhaltszahlungen: [
             {
@@ -38,6 +43,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
         skipPageSchemaValidation: true,
         userInput: {
+          ...reachUnterhaltszahlungen,
           hasWeitereUnterhaltszahlungen: "yes",
         },
       },
@@ -50,6 +56,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
         addArrayItemEvent: "add-unterhaltszahlungen",
         userInput: {
+          ...reachUnterhaltszahlungen,
           hasWeitereUnterhaltszahlungen: "yes",
         },
       },
@@ -68,4 +75,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenUnterhaltszahlunge
         stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
       },
     ],
-  } satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData>;
+  } satisfies FlowTestCases<BeratungshilfeFormularUserData>;

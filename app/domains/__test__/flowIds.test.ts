@@ -10,9 +10,11 @@ describe("parsePathname", () => {
   });
 
   it("returns multiple array indexes", () => {
+    // /beratungshilfe/antrag is a new-engine array flow, so URL indexes are
+    // normalized to the "#" wildcard rather than stripped.
     expect(parsePathname("/beratungshilfe/antrag/test123/0/asd/1")).toEqual({
       flowId: "/beratungshilfe/antrag",
-      stepId: "/test123/asd",
+      stepId: "/test123/#/asd/#",
       arrayIndexes: [0, 1],
     });
   });

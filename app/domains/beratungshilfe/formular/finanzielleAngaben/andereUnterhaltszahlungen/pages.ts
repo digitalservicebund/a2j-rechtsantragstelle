@@ -8,7 +8,7 @@ import { addYears, today } from "~/util/date";
 
 const MINUS_150_YEARS = -150;
 
-const unterhaltszahlungenArraySchema = z
+export const unterhaltszahlungenArraySchema = z
   .object({
     familyRelationship: z.enum([
       "mother",
@@ -40,30 +40,31 @@ export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenUebersicht: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "unterhaltszahlungen",
+      schema: unterhaltszahlungenArraySchema,
+      fieldName: "hasWeitereUnterhaltszahlungen",
+    },
   },
   andereUnterhaltszahlungenWarnung: {
     stepId: "finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   andereUnterhaltszahlungenPerson: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person",
+    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      unterhaltszahlungen: unterhaltszahlungenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "unterhaltszahlungen#familyRelationship":
-            unterhaltszahlungenArraySchema.element.shape.familyRelationship,
-          "unterhaltszahlungen#firstName":
-            unterhaltszahlungenArraySchema.element.shape.firstName,
-          "unterhaltszahlungen#surname":
-            unterhaltszahlungenArraySchema.element.shape.surname,
-          "unterhaltszahlungen#birthday":
-            unterhaltszahlungenArraySchema.element.shape.birthday,
-          "unterhaltszahlungen#monthlyPayment":
-            unterhaltszahlungenArraySchema.element.shape.monthlyPayment,
-        },
-      },
+      "unterhaltszahlungen#familyRelationship":
+        unterhaltszahlungenArraySchema.element.shape.familyRelationship,
+      "unterhaltszahlungen#firstName":
+        unterhaltszahlungenArraySchema.element.shape.firstName,
+      "unterhaltszahlungen#surname":
+        unterhaltszahlungenArraySchema.element.shape.surname,
+      "unterhaltszahlungen#birthday":
+        unterhaltszahlungenArraySchema.element.shape.birthday,
+      "unterhaltszahlungen#monthlyPayment":
+        unterhaltszahlungenArraySchema.element.shape.monthlyPayment,
     },
   },
 } as const satisfies PagesConfig;
