@@ -16,13 +16,11 @@ import {
 import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { getResponsibleCourt } from "../formular/stringReplacements/legalCourts";
 import { fluggastrechteVorabcheckFlowConfig } from "~/domains/fluggastrechte/vorabcheck/flowConfig";
+import { fluggastrechteVorabcheckXstateConfig } from "~/domains/fluggastrechte/vorabcheck/xstateConfig";
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
-  config: {
-    id: "/fluggastrechte/vorabcheck",
-    states: {},
-  },
+  config: fluggastrechteVorabcheckXstateConfig,
   newEngineConfig: fluggastrechteVorabcheckFlowConfig,
   guards: fluggastrechteVorabcheckGuards,
   stringReplacements: (context: FluggastrechtVorabcheckUserData) => ({
