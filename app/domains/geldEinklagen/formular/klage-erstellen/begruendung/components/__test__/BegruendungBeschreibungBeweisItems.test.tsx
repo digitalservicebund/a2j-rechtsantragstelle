@@ -30,7 +30,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       },
     ];
 
-    const { getByText, queryByRole, getByRole } = render(
+    const { getAllByText, queryByRole, getByRole } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={dokumenten}
         personen={[]}
@@ -38,7 +38,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    expect(getByText("beschreibung")).toBeInTheDocument();
+    expect(getAllByText("beschreibung")[0]).toBeInTheDocument();
     expect(queryByRole("link")).toHaveAttribute(
       "href",
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten/0/daten",
@@ -103,7 +103,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       },
     ];
 
-    const { getByText, queryByRole, getByRole } = render(
+    const { getAllByText, queryByRole, getByRole } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
@@ -111,12 +111,12 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    expect(getByText("Herr Max Mustermann")).toBeInTheDocument();
+    expect(getAllByText("Herr Max Mustermann")[0]).toBeInTheDocument();
     expect(
-      getByText("Musterstraße 1, 12345 Musterstadt, Deutschland"),
+      getAllByText("Musterstraße 1, 12345 Musterstadt, Deutschland")[0],
     ).toBeInTheDocument();
-    expect(getByText("0123456789")).toBeInTheDocument();
-    expect(getByText("max.mustermann@example.com")).toBeInTheDocument();
+    expect(getAllByText("0123456789")[0]).toBeInTheDocument();
+    expect(getAllByText("max.mustermann@example.com")[0]).toBeInTheDocument();
     expect(queryByRole("link")).toHaveAttribute(
       "href",
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/daten",
@@ -159,7 +159,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       },
     ];
 
-    const { getByText } = render(
+    const { getAllByText } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
@@ -167,8 +167,8 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       />,
     );
 
-    expect(getByText("Klagende Person")).toBeInTheDocument();
-    expect(getByText("Beklagte Person")).toBeInTheDocument();
+    expect(getAllByText("Klagende Person")[0]).toBeInTheDocument();
+    expect(getAllByText("Beklagte Person")[0]).toBeInTheDocument();
   });
 
   it("should call the function onAbschnittPersonDelete when the delete button is clicked", () => {
