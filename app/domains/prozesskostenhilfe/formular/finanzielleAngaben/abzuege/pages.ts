@@ -17,7 +17,8 @@ export const arbeitsausgabenArraySchema = z
 
 export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsweg: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsweg",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       arbeitsweg: z.enum([
         "publicTransport",
@@ -29,13 +30,15 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   opnvKosten: {
-    stepId: "finanzielle-angaben/abzuege/opnv-kosten",
+    stepId: "/finanzielle-angaben/abzuege/opnv-kosten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       monatlicheOPNVKosten: buildMoneyValidationSchema(),
     },
   },
   arbeitsplatzEntfernung: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       arbeitsplatz: z.object({
         strasseHausnummer: stringRequiredSchema,
@@ -49,38 +52,42 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitswegKeineRolle: {
-    stepId: "finanzielle-angaben/abzuege/keine-rolle",
+    stepId: "/finanzielle-angaben/abzuege/keine-rolle",
+    shouldCollapseIntoParentNavItem: true,
   },
   arbeitsausgaben: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben",
+    shouldCollapseIntoParentNavItem: true,
   },
   arbeitsausgabe: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe",
+    stepId:
+      "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe/#/daten",
     pageSchema: {
-      arbeitsausgaben: arbeitsausgabenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "arbeitsausgaben#beschreibung": stringRequiredSchema,
-          "arbeitsausgaben#zahlungsfrequenz":
-            arbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
-          "arbeitsausgaben#betrag":
-            arbeitsausgabenArraySchema.element.shape.betrag,
-        },
-      },
+      "arbeitsausgaben#beschreibung": stringRequiredSchema,
+      "arbeitsausgaben#zahlungsfrequenz":
+        arbeitsausgabenArraySchema.element.shape.zahlungsfrequenz,
+      "arbeitsausgaben#betrag": arbeitsausgabenArraySchema.element.shape.betrag,
     },
   },
   arbeitsausgabenFrage: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
+    stepId:
+      "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasArbeitsausgaben: YesNoAnswer,
     },
   },
   arbeitsausgabenUebersicht: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "arbeitsausgaben",
+      schema: arbeitsausgabenArraySchema,
+      fieldName: "hasArbeitsausgaben",
+    },
   },
   arbeitsausgabenWarnung: {
-    stepId: "finanzielle-angaben/abzuege/arbeitsausgaben/warnung",
+    stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PagesConfig;

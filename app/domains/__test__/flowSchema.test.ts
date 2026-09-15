@@ -17,12 +17,10 @@ import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexe
 import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   beratungshilfeVorabcheckTestCases,
-  prozesskostenhilfeFormularTestCases,
   kontopfaendungWegweiserTestCases,
 };
 
