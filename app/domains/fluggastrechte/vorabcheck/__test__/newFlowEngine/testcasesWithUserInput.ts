@@ -1,7 +1,6 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { fluggastrechteVorabcheckFlowConfig } from "../../flowConfig";
-import { fluggastrechteVorabcheckXstateConfig } from "../../xstateConfig";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 import { testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine } from "./testcasesAnnullierungAbbruchNewFlowEngine";
 import { testCasesFluggastrechteErfolgNewFlowEngine } from "./testcasesErfolgNewFlowEngine";
@@ -15,7 +14,9 @@ import { testcasesFluggastrechtOtherErfolgsNewFlowEngine } from "./testcasesOthe
 import { testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine } from "./testcasesVerspaetetAbbruchNewFlowEngine";
 
 export const fluggastrechteVorabcheckTestCases = {
-  xstateConfig: fluggastrechteVorabcheckXstateConfig,
+  xstateConfig: {
+    id: "/fluggastrechte/vorabcheck",
+  },
   newEngineConfig: fluggastrechteVorabcheckFlowConfig,
   testcases: {
     ...testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine,
