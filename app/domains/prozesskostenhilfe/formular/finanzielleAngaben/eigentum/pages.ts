@@ -339,6 +339,11 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumKraftfahrzeugeUebersicht: {
     stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
     shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "kraftfahrzeuge",
+      schema: kraftfahrzeugeArraySchema,
+      fieldName: "hasKraftfahrzeug",
+    },
   },
   eigentumKraftfahrzeug: {
     stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug",
@@ -346,35 +351,32 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     pageSchema: {
       kraftfahrzeuge: kraftfahrzeugeArraySchema,
     },
-    arrayPages: {
-      arbeitsweg: {
-        pageSchema: {
-          "kraftfahrzeuge#hasArbeitsweg":
-            sharedKraftfahrzeugeFields.hasArbeitsweg,
-        },
-      },
-      wert: {
-        pageSchema: {
-          "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
-        },
-      },
-      fahrzeuge: {
-        pageSchema: {
-          "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
-          "kraftfahrzeuge#marke":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
-          "kraftfahrzeuge#eigentuemer":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
-          "kraftfahrzeuge#verkaufswert":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
-          "kraftfahrzeuge#kilometerstand":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
-          "kraftfahrzeuge#anschaffungsjahr":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
-          "kraftfahrzeuge#baujahr":
-            kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
-        },
-      },
+  },
+  eigentumKraftfahrzeugArbeitsweg: {
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-arbeitsweg",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#hasArbeitsweg": sharedKraftfahrzeugeFields.hasArbeitsweg,
+    },
+  },
+  eigentumKraftfahrzeugWert: {
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-wert",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
+    },
+  },
+  eigentumKraftfahrzeugFahrzeuge: {
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-fahrzeuge",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
+      "kraftfahrzeuge#marke": kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
+      "kraftfahrzeuge#eigentuemer": kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
+      "kraftfahrzeuge#verkaufswert": kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
+      "kraftfahrzeuge#kilometerstand": kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
+      "kraftfahrzeuge#anschaffungsjahr": kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
+      "kraftfahrzeuge#baujahr": kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
     },
   },
   eigentumKraftfahrzeugeWarnung: {

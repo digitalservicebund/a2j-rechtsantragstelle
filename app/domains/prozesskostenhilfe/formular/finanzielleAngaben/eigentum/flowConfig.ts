@@ -11,6 +11,7 @@ import {
   isGeldanlageGuthabenkontoKrypto,
   isGeldanlageSonstiges,
   isGeldanlageWertpapiere,
+  isKraftfahrzeugWertAbove10000OrUnsure,
 } from "../guards";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -75,7 +76,8 @@ export const eigentumFlowConfig = {
     },
     {
       guard: (context) => {
-        const geldanlagen = (context as { geldanlagen?: unknown[] }).geldanlagen ?? [];
+        const geldanlagen =
+          (context as { geldanlagen?: unknown[] }).geldanlagen ?? [];
         return context.hasGeldanlage === "yes" && !arrayIsNonEmpty(geldanlagen);
       },
       target: "eigentumGeldanlagenWarnung",
@@ -122,7 +124,6 @@ export const eigentumFlowConfig = {
   eigentumGeldanlageBefristet: "eigentumGeldanlagenUebersicht",
   eigentumGeldanlageForderung: "eigentumGeldanlagenUebersicht",
   eigentumGeldanlageSonstiges: "eigentumGeldanlagenUebersicht",
-  eigentumKraftfahrzeuge: [],
   eigentumKraftfahrzeugeFrage: [
     {
       guard: (context) => hasKraftfahrzeugYes({ context }),
@@ -132,8 +133,25 @@ export const eigentumFlowConfig = {
       target: "eigentumWertgegenstaende",
     },
   ],
-  eigentumKraftfahrzeugeUebersicht: [],
+  eigentumKraftfahrzeugeUebersicht: [
+    {
+      guard: (context) =>
+        hasKraftfahrzeugYes({ context }) &&
+        !arrayIsNonEmpty(context.kraftfahrzeuge),
+      target: "eigentumKraftfahrzeugeWarnung",
+    },
+    { target: "eigentumWertgegenstaende" },
+  ],
   eigentumKraftfahrzeug: "eigentumKraftfahrzeugeUebersicht",
+  eigentumKraftfahrzeugArbeitsweg: "eigentumKraftfahrzeugWert",
+  eigentumKraftfahrzeugWert: [
+    {
+      guard: (context) => isKraftfahrzeugWertAbove10000OrUnsure({ context }),
+      target: "eigentumKraftfahrzeugFahrzeuge",
+    },
+    { target: "eigentumKraftfahrzeugeUebersicht" },
+  ],
+  eigentumKraftfahrzeugFahrzeuge: "eigentumKraftfahrzeugeUebersicht",
   eigentumKraftfahrzeugeWarnung: "eigentumWertgegenstaende",
   eigentumWertgegenstaende: "eigentumWertgegenstaendeUebersicht",
   eigentumWertgegenstaendeFrage: [
