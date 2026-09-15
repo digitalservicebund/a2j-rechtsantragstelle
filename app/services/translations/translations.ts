@@ -594,6 +594,12 @@ export const translations = {
     begruendungBeschreibungDeleteDialogDescription: {
       de: "Falls Sie hier genannte Beweise auch in einem anderen Abschnitt angegeben haben, bleiben sie dort erhalten.",
     },
+    begruendungBeschreibungReuseDocumentDialogTitle: {
+      de: "Beweis: Welches Dokument möchten Sie angeben?",
+    },
+    begruendungBeschreibungReusePersonDialogTitle: {
+      de: "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?",
+    },
   },
   nachlass: {
     childOf: {

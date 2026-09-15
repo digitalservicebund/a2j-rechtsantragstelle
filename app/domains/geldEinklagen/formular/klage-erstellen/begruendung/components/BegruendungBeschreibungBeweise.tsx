@@ -12,9 +12,31 @@ import {
 } from "./reuseBeweise";
 import { useRef } from "react";
 import { ReuseBeweiseDialog } from "./ReuseBeweiseDialog";
+import z from "zod";
 
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
+
+const reuseDialogSchema = z.object({
+  "reuse-option": z.enum(["reuse", "new"]),
+});
+
+const reuseDocumentsDialogOptions = [
+  { text: "Ein bereits genanntes Dokument erneut angeben", value: "reuse" },
+  { text: "Ein neues Dokument beschreiben", value: "new" },
+];
+
+const reusePersonsDialogOptions = [
+  { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
+  { text: "Eine neue Person", value: "new" },
+];
+
+const errorMessages = [
+  {
+    code: "required" as const,
+    text: translations.feedback["validation-error"].de,
+  },
+];
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndexAbschnitt,
@@ -93,8 +115,17 @@ export const BegruendungBeschreibungBeweise = ({
           </Button>
           <ReuseBeweiseDialog
             dialogRef={dialogDocumentRef}
-            title={"Beweis: Bereits genannte Dokumente erneut angeben?"}
+            title={
+              translations.geldEinklagen
+                .begruendungBeschreibungReuseDocumentDialogTitle.de
+            }
             closeDialog={() => dialogDocumentRef.current?.close()}
+            formSchema={reuseDialogSchema}
+            options={reuseDocumentsDialogOptions}
+            itemIndexAbschnitt={itemIndexAbschnitt}
+            nextItemBeweis={nextDocumentItemIndex}
+            errorMessages={errorMessages}
+            beweiseType="document"
           />
           <Button
             href={!hasPersonsToBeReused ? addPersonUrl : undefined}
@@ -119,9 +150,16 @@ export const BegruendungBeschreibungBeweise = ({
           <ReuseBeweiseDialog
             dialogRef={dialogPersonRef}
             title={
-              "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?"
+              translations.geldEinklagen
+                .begruendungBeschreibungReusePersonDialogTitle.de
             }
             closeDialog={() => dialogPersonRef.current?.close()}
+            formSchema={reuseDialogSchema}
+            options={reusePersonsDialogOptions}
+            itemIndexAbschnitt={itemIndexAbschnitt}
+            nextItemBeweis={nextPersonItemIndex}
+            errorMessages={errorMessages}
+            beweiseType="person"
           />
         </div>
       </div>
