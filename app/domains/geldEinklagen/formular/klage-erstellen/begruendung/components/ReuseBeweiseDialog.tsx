@@ -105,7 +105,12 @@ export const ReuseBeweiseDialog = ({
           >
             {translations.feedback.cancel.de}
           </Button>
-          <Button type="submit" name="_action" value="next" className="w-fit">
+          <Button
+            type="submit"
+            name="_dialog_action"
+            value="next"
+            className="w-fit"
+          >
             {translations.buttonNavigation.nextButtonDefaultLabel.de}
           </Button>
         </footer>
