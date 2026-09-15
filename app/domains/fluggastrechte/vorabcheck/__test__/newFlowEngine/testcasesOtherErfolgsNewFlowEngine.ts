@@ -1,31 +1,11 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
+import { anspruchVoraussetzungenHappyPath, fluggastrechteSteps, verspaetetAnspruchHappyPath, verspaetetHappyPath } from "./happyPaths";
 
 export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
     "verspaetet-erfolg-kontakt": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "JFK", endAirport: "MUC" },
@@ -34,57 +14,14 @@ export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<Flug
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "AF" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
-      {
-        stepId: "/abtretung",
-        userInput: { abtretung: "no" },
-      },
-      {
-        stepId: "/entschaedigung",
-        userInput: { entschaedigung: "no" },
-      },
+      ...verspaetetAnspruchHappyPath,
+      fluggastrechteSteps.entschaedigungNo,
       {
         stepId: "/ergebnis/erfolg-kontakt",
       },
     ],
     "verspaetet-erfolg-gericht": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "JFK", endAirport: "MUC" },
@@ -93,34 +30,9 @@ export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<Flug
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "AF" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
-      {
-        stepId: "/abtretung",
-        userInput: { abtretung: "no" },
-      },
-      {
-        stepId: "/entschaedigung",
-        userInput: { entschaedigung: "yes" },
-      },
-      {
-        stepId: "/gericht",
-        userInput: { gericht: "yes" },
-      },
+      ...verspaetetAnspruchHappyPath,
+      fluggastrechteSteps.entschaedigungYes,
+      fluggastrechteSteps.gerichtYes,
       {
         stepId: "/ergebnis/erfolg-gericht",
       },
@@ -165,30 +77,9 @@ export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<Flug
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "AF" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
-      {
-        stepId: "/abtretung",
-        userInput: { abtretung: "no" },
-      },
-      {
-        stepId: "/entschaedigung",
-        userInput: { entschaedigung: "yes" },
-      },
-      {
-        stepId: "/gericht",
-        userInput: { gericht: "yes" },
-      },
+      ...anspruchVoraussetzungenHappyPath,
+      fluggastrechteSteps.entschaedigungYes,
+      fluggastrechteSteps.gerichtYes,
       {
         stepId: "/ergebnis/erfolg-gericht",
       },
@@ -229,30 +120,9 @@ export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<Flug
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "AF" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
-      {
-        stepId: "/abtretung",
-        userInput: { abtretung: "no" },
-      },
-      {
-        stepId: "/entschaedigung",
-        userInput: { entschaedigung: "yes" },
-      },
-      {
-        stepId: "/gericht",
-        userInput: { gericht: "yes" },
-      },
+      ...anspruchVoraussetzungenHappyPath,
+      fluggastrechteSteps.entschaedigungYes,
+      fluggastrechteSteps.gerichtYes,
       {
         stepId: "/ergebnis/erfolg-gericht",
       },

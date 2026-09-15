@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
+import { fluggastrechteSteps, verspaetetHappyPath } from "./happyPaths";
 
 export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
@@ -32,28 +33,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "checkin-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "JFK", endAirport: "MUC" },
@@ -80,28 +60,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "fluggesellschaft-nicht-eu-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "JFK", endAirport: "MUC" },
@@ -115,28 +74,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "flughaefen-entfernung-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "XXX", endAirport: "XXX" },
@@ -147,28 +85,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "kostenlos-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "FRA", endAirport: "MUC" },
@@ -177,10 +94,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
+      fluggastrechteSteps.checkinYes,
       {
         stepId: "/kostenlos",
         userInput: { kostenlos: "yes" },
@@ -190,28 +104,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "rabatt-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "FRA", endAirport: "MUC" },
@@ -220,14 +113,8 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
+      fluggastrechteSteps.checkinYes,
+      fluggastrechteSteps.kostenlosNo,
       {
         stepId: "/rabatt",
         userInput: { rabatt: "yes" },
@@ -237,28 +124,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "buchung-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "FRA", endAirport: "MUC" },
@@ -267,18 +133,9 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
+      fluggastrechteSteps.checkinYes,
+      fluggastrechteSteps.kostenlosNo,
+      fluggastrechteSteps.rabattNo,
       {
         stepId: "/buchung",
         userInput: { buchung: "no" },
@@ -288,28 +145,7 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
       },
     ],
     "abtretung-abbruch": [
-      {
-        stepId: "/start",
-      },
-      {
-        stepId: "/bereich",
-        userInput: { bereich: "verspaetet" },
-      },
-      {
-        stepId: "/verspaetung",
-        userInput: { verspaetung: "yes" },
-      },
-      {
-        stepId: "/gruende",
-        userInput: { gruende: "yes" },
-      },
-      {
-        stepId: "/gruende-hinweis",
-      },
-      {
-        stepId: "/verjaehrung",
-        userInput: { verjaehrung: "yes" },
-      },
+      ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
         userInput: { startAirport: "FRA", endAirport: "MUC" },
@@ -318,22 +154,10 @@ export const testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine: FlowTestCase
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/checkin",
-        userInput: { checkin: "yes" },
-      },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
+      fluggastrechteSteps.checkinYes,
+      fluggastrechteSteps.kostenlosNo,
+      fluggastrechteSteps.rabattNo,
+      fluggastrechteSteps.buchungYes,
       {
         stepId: "/abtretung",
         userInput: { abtretung: "yes" },

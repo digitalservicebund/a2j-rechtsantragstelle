@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
+import { anspruchVoraussetzungenHappyPath, fluggastrechteSteps } from "./happyPaths";
 
 export const testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
@@ -42,30 +43,9 @@ export const testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine: FlowTe
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
-      {
-        stepId: "/abtretung",
-        userInput: { abtretung: "no" },
-      },
-      {
-        stepId: "/entschaedigung",
-        userInput: { entschaedigung: "yes" },
-      },
-      {
-        stepId: "/gericht",
-        userInput: { gericht: "no" },
-      },
+      ...anspruchVoraussetzungenHappyPath,
+      fluggastrechteSteps.entschaedigungYes,
+      fluggastrechteSteps.gerichtNo,
       {
         stepId: "/ergebnis/erfolg",
       },

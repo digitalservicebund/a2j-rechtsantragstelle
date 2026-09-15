@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
+import { fluggastrechteSteps } from "./happyPaths";
 
 export const testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
@@ -224,10 +225,7 @@ export const testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine: FlowTestCa
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
+      fluggastrechteSteps.kostenlosNo,
       {
         stepId: "/rabatt",
         userInput: { rabatt: "yes" },
@@ -271,14 +269,8 @@ export const testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine: FlowTestCa
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
+      fluggastrechteSteps.kostenlosNo,
+      fluggastrechteSteps.rabattNo,
       {
         stepId: "/buchung",
         userInput: { buchung: "no" },
@@ -322,18 +314,9 @@ export const testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine: FlowTestCa
         stepId: "/fluggesellschaft",
         userInput: { fluggesellschaft: "LH" },
       },
-      {
-        stepId: "/kostenlos",
-        userInput: { kostenlos: "no" },
-      },
-      {
-        stepId: "/rabatt",
-        userInput: { rabatt: "no" },
-      },
-      {
-        stepId: "/buchung",
-        userInput: { buchung: "yes" },
-      },
+      fluggastrechteSteps.kostenlosNo,
+      fluggastrechteSteps.rabattNo,
+      fluggastrechteSteps.buchungYes,
       {
         stepId: "/abtretung",
         userInput: { abtretung: "yes" },

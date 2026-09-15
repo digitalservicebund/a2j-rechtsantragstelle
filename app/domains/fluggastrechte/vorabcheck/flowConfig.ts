@@ -41,7 +41,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     ausgleich: [
       {
         target: "ausgleichAngenommen",
-        guard: (context) => guards.ausgleichYes({ context }),
+        guard: ({ ausgleich }) => ausgleich === "yes",
       },
       { target: "checkin-nicht-befoerderung" },
     ],
@@ -63,7 +63,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     ersatzflug: [
       {
         target: "vertretbare-gruende-annullierung",
-        guard: (context) => guards.ersatzflugNo({ context }),
+        guard: ({ ersatzflug }) => ersatzflug === "no",
       },
       {
         target: "ersatzflug-starten-eine-stunde",
@@ -108,7 +108,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     gruende: [
       {
         target: "verjaehrung",
-        guard: (context) => guards.gruendeNo({ context }),
+        guard: ({ gruende }) => gruende === "no",
       },
       { target: "gruende-hinweis" },
     ],
@@ -116,7 +116,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     verjaehrung: [
       {
         target: "verjaehrung-abbruch",
-        guard: (context) => guards.verjaehrungNo({ context }),
+        guard: ({ verjaehrung }) => verjaehrung === "no",
       },
       { target: "flughaefen" },
     ],
@@ -171,14 +171,14 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     checkin: [
       {
         target: "kostenlos",
-        guard: (context) => guards.checkinYes({ context }),
+        guard: ({ checkin }) => checkin === "yes",
       },
       { target: "checkin-abbruch" },
     ],
     "checkin-nicht-befoerderung": [
       {
         target: "vertretbare-gruende",
-        guard: (context) => guards.checkinYes({ context }),
+        guard: ({ checkin }) => checkin === "yes",
       },
       { target: "checkin-abbruch" },
     ],
@@ -202,7 +202,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     rabatt: [
       {
         target: "buchung",
-        guard: (context) => guards.rabattNo({ context }),
+        guard: ({ rabatt }) => rabatt === "no",
       },
       { target: "rabatt-abbruch" },
     ],
@@ -210,7 +210,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     buchung: [
       {
         target: "abtretung",
-        guard: (context) => guards.buchungYes({ context }),
+        guard: ({ buchung }) => buchung === "yes",
       },
       { target: "buchung-abbruch" },
     ],
@@ -218,7 +218,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     abtretung: [
       {
         target: "entschaedigung",
-        guard: (context) => guards.abtretungNo({ context }),
+        guard: ({ abtretung }) => abtretung === "no",
       },
       { target: "abtretung-abbruch" },
     ],
@@ -226,7 +226,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     entschaedigung: [
       {
         target: "gericht",
-        guard: (context) => guards.entschaedigungYes({ context }),
+        guard: ({ entschaedigung }) => entschaedigung === "yes",
       },
       { target: "erfolg-kontakt" },
     ],
