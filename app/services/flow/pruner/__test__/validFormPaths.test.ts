@@ -74,7 +74,9 @@ const config = {
 describe("validFormPaths", () => {
   it("returns base path with reachable steps", () => {
     expect(
-      validFormPaths(buildFlowController({ config, data: { ersteFrage: "no" } })),
+      validFormPaths(
+        buildFlowController({ config, data: { ersteFrage: "no" } }),
+      ),
     ).toStrictEqual([
       {
         stepIds: [
