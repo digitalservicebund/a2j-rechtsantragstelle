@@ -1,6 +1,15 @@
-import BegruendungBeschreibungAbschnitte from "../BegruendungBeschreibungAbschnitte";
+import BegruendungBeschreibungAbschnitt from "../BegruendungBeschreibungAbschnitt";
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
+
+// Needed as jsdom doesn't support dialog API yet
+// https://github.com/jsdom/jsdom/issues/3294
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
 
 vi.mock("../useBegruendungBeschreibung");
 
@@ -13,12 +22,12 @@ beforeEach(() => {
   }));
 });
 
-describe("BegruendungBeschreibungAbschnitte", () => {
+describe("BegruendungBeschreibungAbschnitt", () => {
   it("should render the correct heading and description texts", () => {
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
+      <BegruendungBeschreibungAbschnitt
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -28,9 +37,9 @@ describe("BegruendungBeschreibungAbschnitte", () => {
 
   it("should render the edit and delete buttons", () => {
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
+      <BegruendungBeschreibungAbschnitt
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -52,14 +61,14 @@ describe("BegruendungBeschreibungAbschnitte", () => {
     }));
 
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
+      <BegruendungBeschreibungAbschnitt
+        abschnitt={{ beschreibung: "Test Beschreibung" }}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    const deleteButton = getByText("Abschnitt löschen");
-    deleteButton.click();
+    getByText("Abschnitt löschen").click();
+    getByText("Ja, löschen").click();
 
     expect(onAbschnittDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte",

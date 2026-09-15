@@ -4,8 +4,10 @@ import Button from "~/components/common/Button";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { arrayIsNonEmpty } from "~/util/array";
-import BegruendungBeschreibungAbschnitte from "./BegruendungBeschreibungAbschnitte";
+import BegruendungBeschreibungAbschnitt from "./BegruendungBeschreibungAbschnitt";
 import { InlineNotice } from "~/components/content/InlineNotice";
+import { BegruendungAbschnitteContext } from "./begruendungAbschnitteContext";
+import { useMemo } from "react";
 
 export const BASE_URL_BESCHREIBUNG_ABSCHNITTE =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
@@ -22,6 +24,11 @@ const BegruendungBeschreibungUebersicht = () => {
   const userDataGeldEinklagen =
     userData as GeldEinklagenFormularKlageErstellenUserData;
 
+  const abschnitteContextValue = useMemo(
+    () => ({ abschnitte: userDataGeldEinklagen.abschnitte ?? [] }),
+    [userDataGeldEinklagen.abschnitte],
+  );
+
   const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.abschnitte)
     ? (userDataGeldEinklagen.abschnitte?.length ?? 0)
     : 0;
@@ -33,15 +40,18 @@ const BegruendungBeschreibungUebersicht = () => {
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
-        {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) &&
-          userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
-            <BegruendungBeschreibungAbschnitte
-              // oxlint-disable-next-line react/no-array-index-key
-              key={index}
-              itemIndexAbschnitte={index}
-              abschnitte={abschnitt}
-            />
-          ))}
+        {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) && (
+          <BegruendungAbschnitteContext.Provider value={abschnitteContextValue}>
+            {userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
+              <BegruendungBeschreibungAbschnitt
+                // oxlint-disable-next-line react/no-array-index-key
+                key={index}
+                itemIndexAbschnitt={index}
+                abschnitt={abschnitt}
+              />
+            ))}
+          </BegruendungAbschnitteContext.Provider>
+        )}
         <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
           {shouldDisableAddButton && (
             <InlineNotice

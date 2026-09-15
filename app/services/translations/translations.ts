@@ -570,6 +570,36 @@ export const translations = {
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
     },
+    begruendungBeschreibungBeweiseDialogDeleteCancel: {
+      de: "Nein, behalten",
+    },
+    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
+      de: "Ja, löschen",
+    },
+    begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
+      de: "Beweis: Dokument löschen?",
+    },
+    begruendungBeschreibungBeweisePersonDeleteDialogTitle: {
+      de: "Beweis: Person löschen?",
+    },
+    begruendungBeschreibungBeweiseDeleteDialogDocumentDescription: {
+      de: "Das folgende Dokument wird aus diesem Abschnitt entfernt:",
+    },
+    begruendungBeschreibungBeweiseDeleteDialogPersonDescription: {
+      de: "Die folgende Person wird aus diesem Abschnitt entfernt:",
+    },
+    begruendungBeschreibungDeleteDialogTitle: {
+      de: "und dazugehörige Beweise löschen?",
+    },
+    begruendungBeschreibungDeleteDialogDescription: {
+      de: "Falls Sie hier genannte Beweise auch in einem anderen Abschnitt angegeben haben, bleiben sie dort erhalten.",
+    },
+    begruendungBeschreibungReuseDocumentDialogTitle: {
+      de: "Beweis: Welches Dokument möchten Sie angeben?",
+    },
+    begruendungBeschreibungReusePersonDialogTitle: {
+      de: "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?",
+    },
   },
   nachlass: {
     childOf: {

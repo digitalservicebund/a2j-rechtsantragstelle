@@ -218,6 +218,16 @@ export const geldEinklagenKlageErstellenPages = {
         abschnitteArray.element.shape.personIdAsKlagende,
     },
   },
+  begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
+  },
+  begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
+  },
   begruendungBeschreibungAbschnitteBeweisDocument: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
