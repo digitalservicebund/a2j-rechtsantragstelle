@@ -195,6 +195,26 @@ describe("createFlowSession", () => {
         /Invalid path/,
       );
     });
+
+    it("throws when an array index exceeds the array length", () => {
+      const data = {
+        items: [{ vorname: "A", nachname: "B" }],
+        pageData: { arrayIndexes: [5] },
+      };
+      expect(() => createFlowSession(flow, data, "/array/#/daten")).toThrow(
+        /out of bounds/i,
+      );
+    });
+
+    it("allows an array index equal to the length (adding a new item)", () => {
+      const data = {
+        items: [{ vorname: "A", nachname: "B" }],
+        pageData: { arrayIndexes: [1] },
+      };
+      expect(() =>
+        createFlowSession(flow, data, "/array/#/daten"),
+      ).not.toThrow();
+    });
   });
 
   describe("nodeKey", () => {
