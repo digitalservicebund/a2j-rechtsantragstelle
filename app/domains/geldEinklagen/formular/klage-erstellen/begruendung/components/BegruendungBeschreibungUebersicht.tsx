@@ -4,7 +4,7 @@ import Button from "~/components/common/Button";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { arrayIsNonEmpty } from "~/util/array";
-import BegruendungBeschreibungAbschnitte from "./BegruendungBeschreibungAbschnitte";
+import BegruendungBeschreibungAbschnitt from "./BegruendungBeschreibungAbschnitt";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { BegruendungAbschnitteContext } from "./begruendungAbschnitteContext";
 import { useMemo } from "react";
@@ -43,7 +43,7 @@ const BegruendungBeschreibungUebersicht = () => {
         {arrayIsNonEmpty(userDataGeldEinklagen.abschnitte) && (
           <BegruendungAbschnitteContext.Provider value={abschnitteContextValue}>
             {userDataGeldEinklagen.abschnitte.map((abschnitt, index) => (
-              <BegruendungBeschreibungAbschnitte
+              <BegruendungBeschreibungAbschnitt
                 // oxlint-disable-next-line react/no-array-index-key
                 key={index}
                 itemIndexAbschnitt={index}

@@ -10,27 +10,27 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useRef } from "react";
 import { DeleteDialog } from "./DeleteDialog";
 
-export type BegruendungBeschreibungAbschnitteProps = {
-  readonly itemIndexAbschnitte: number;
+export type BegruendungBeschreibungAbschnittProps = {
+  readonly itemIndexAbschnitt: number;
   readonly abschnitt: Exclude<
     GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
     undefined
   >[number];
 };
 
-const BegruendungBeschreibungAbschnitte = ({
-  itemIndexAbschnitte,
+const BegruendungBeschreibungAbschnitt = ({
+  itemIndexAbschnitt,
   abschnitt,
-}: BegruendungBeschreibungAbschnitteProps) => {
+}: BegruendungBeschreibungAbschnittProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
   const jsAvailable = useJsAvailable();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitte + 1}`;
+  const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitt + 1}`;
 
   const onDeleteClicked = () => {
     if (!jsAvailable) {
-      onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitte);
+      onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitt);
     }
 
     dialogRef.current?.showModal();
@@ -45,7 +45,7 @@ const BegruendungBeschreibungAbschnitte = ({
       <div className="kern-summary__header">
         <h2
           className="kern-body kern-body--large kern-body--bold p-0!"
-          id={`abschnitt-${itemIndexAbschnitte}`}
+          id={`abschnitt-${itemIndexAbschnitt}`}
           tabIndex={-1}
         >
           {headingText}
@@ -60,16 +60,16 @@ const BegruendungBeschreibungAbschnitte = ({
             {abschnitt.beschreibung}
           </span>
           <a
-            id={`${EDIT_BUTTON_ID_PREFIX}abschnitte-${itemIndexAbschnitte}`}
+            id={`${EDIT_BUTTON_ID_PREFIX}abschnitte-${itemIndexAbschnitt}`}
             className="kern-link kern-link--default kern-link--bold p-0! no-underline! hover:underline!"
-            href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/daten`}
+            href={`${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/daten`}
             aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
           >
             <Icon name="edit" className="size-[1em] mb-[3.5px]! inline! mr-4" />
             {translations.geldEinklagen.begruendungBeschreibungEditButton.de}
           </a>
           <BegruendungBeschreibungBeweise
-            itemIndexAbschnitte={itemIndexAbschnitte}
+            itemIndexAbschnitt={itemIndexAbschnitt}
             abschnitt={abschnitt}
           />
           <div className="flex flex-row-reverse">
@@ -99,7 +99,7 @@ const BegruendungBeschreibungAbschnitte = ({
               onClickDelete={() =>
                 onAbschnittDelete(
                   BASE_URL_BESCHREIBUNG_ABSCHNITTE,
-                  itemIndexAbschnitte,
+                  itemIndexAbschnitt,
                 )
               }
               closeSurvey={() => dialogRef.current?.close()}
@@ -112,4 +112,4 @@ const BegruendungBeschreibungAbschnitte = ({
   );
 };
 
-export default BegruendungBeschreibungAbschnitte;
+export default BegruendungBeschreibungAbschnitt;

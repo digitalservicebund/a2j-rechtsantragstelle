@@ -1,5 +1,5 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
+import { type BegruendungBeschreibungAbschnittProps } from "./BegruendungBeschreibungAbschnitt";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
@@ -15,8 +15,8 @@ import { DeleteDialog } from "./DeleteDialog";
 import classNames from "classnames";
 
 type Props = {
-  dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitt"]["dokumenten"];
-  personen: BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"];
+  dokumenten: BegruendungBeschreibungAbschnittProps["abschnitt"]["dokumenten"];
+  personen: BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"];
 } & {
   itemIndexAbschnitt: number;
 };
@@ -148,7 +148,7 @@ const ItemButtons = ({
 
 export const renderPersonItem = (
   person: Exclude<
-    BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"],
+    BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"],
     undefined
   >[number],
 ) => {

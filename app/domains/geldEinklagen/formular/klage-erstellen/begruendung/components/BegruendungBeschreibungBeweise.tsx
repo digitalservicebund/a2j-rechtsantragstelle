@@ -1,7 +1,7 @@
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
-import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
+import { type BegruendungBeschreibungAbschnittProps } from "./BegruendungBeschreibungAbschnitt";
 import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
@@ -17,9 +17,9 @@ const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
 
 export const BegruendungBeschreibungBeweise = ({
-  itemIndexAbschnitte,
+  itemIndexAbschnitt,
   abschnitt,
-}: BegruendungBeschreibungAbschnitteProps) => {
+}: BegruendungBeschreibungAbschnittProps) => {
   const nextDocumentItemIndex = arrayIsNonEmpty(abschnitt.dokumenten)
     ? abschnitt.dokumenten.length
     : 0;
@@ -28,21 +28,21 @@ export const BegruendungBeschreibungBeweise = ({
     ? abschnitt.personen.length
     : 0;
 
-  const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${nextDocumentItemIndex}/daten`;
-  const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${nextPersonItemIndex}/auswahl`;
+  const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten/${nextDocumentItemIndex}/daten`;
+  const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen/${nextPersonItemIndex}/auswahl`;
 
   const { abschnitte } = useBegruendungAbschnitte();
 
   const dialogDocumentRef = useRef<HTMLDialogElement>(null);
   const hasDocumentsToBeReused = hasDocumentsToBeReusedFromOtherAbschnitte(
     abschnitte,
-    itemIndexAbschnitte,
+    itemIndexAbschnitt,
   );
 
   const dialogPersonRef = useRef<HTMLDialogElement>(null);
   const hasPersonsToBeReused = hasPersonenToBeReusedFromOtherAbschnitte(
     abschnitte,
-    itemIndexAbschnitte,
+    itemIndexAbschnitt,
   );
 
   return (
@@ -51,7 +51,7 @@ export const BegruendungBeschreibungBeweise = ({
         <div className="flex flex-col gap-kern-space-small">
           <h3
             className="kern-body kern-body--default kern-body--bold p-0!"
-            id={`abschnitt-beweis-${itemIndexAbschnitte}`}
+            id={`abschnitt-beweis-${itemIndexAbschnitt}`}
             tabIndex={-1}
           >
             {translations.geldEinklagen.begruendungBeschreibungEvidenceTitle.de}
@@ -67,7 +67,7 @@ export const BegruendungBeschreibungBeweise = ({
         <BegruendungBeschreibungBeweisItems
           dokumenten={abschnitt.dokumenten}
           personen={abschnitt.personen}
-          itemIndexAbschnitte={itemIndexAbschnitte}
+          itemIndexAbschnitt={itemIndexAbschnitt}
         />
 
         <div className="flex sm:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">

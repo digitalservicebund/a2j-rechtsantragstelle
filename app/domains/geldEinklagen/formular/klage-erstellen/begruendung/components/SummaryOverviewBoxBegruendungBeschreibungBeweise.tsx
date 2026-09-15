@@ -5,7 +5,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { BeweisItemRow } from "./BeweisItemRow";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { renderPersonItem } from "./BegruendungBeschreibungBeweisItems";
-import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
+import { type BegruendungBeschreibungAbschnittProps } from "./BegruendungBeschreibungAbschnitt";
 
 type Props = {
   readonly userData: UserData;
@@ -68,7 +68,7 @@ const renderItems = (userData: UserData) => {
               icon="person"
               content={renderPersonItem(
                 person as Exclude<
-                  BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"],
+                  BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"],
                   undefined
                 >[number],
               )}

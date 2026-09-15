@@ -34,7 +34,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={dokumenten}
         personen={[]}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -68,7 +68,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={dokumenten}
         personen={[]}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -107,7 +107,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -140,7 +140,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -163,7 +163,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -190,7 +190,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 

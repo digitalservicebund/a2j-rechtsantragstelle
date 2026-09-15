@@ -1,4 +1,4 @@
-import BegruendungBeschreibungAbschnitte from "../BegruendungBeschreibungAbschnitte";
+import BegruendungBeschreibungAbschnitt from "../BegruendungBeschreibungAbschnitt";
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
 
@@ -22,10 +22,10 @@ beforeEach(() => {
   }));
 });
 
-describe("BegruendungBeschreibungAbschnitte", () => {
+describe("BegruendungBeschreibungAbschnitt", () => {
   it("should render the correct heading and description texts", () => {
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
+      <BegruendungBeschreibungAbschnitt
         abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitt={0}
       />,
@@ -37,7 +37,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
 
   it("should render the edit and delete buttons", () => {
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
+      <BegruendungBeschreibungAbschnitt
         abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitt={0}
       />,
@@ -61,7 +61,7 @@ describe("BegruendungBeschreibungAbschnitte", () => {
     }));
 
     const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
+      <BegruendungBeschreibungAbschnitt
         abschnitt={{ beschreibung: "Test Beschreibung" }}
         itemIndexAbschnitt={0}
       />,
