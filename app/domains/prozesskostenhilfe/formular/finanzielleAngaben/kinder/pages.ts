@@ -61,7 +61,7 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
     stepId: "/finanzielle-angaben/kinder/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
-  name: {
+  kindName: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/name",
     pageSchema: {
       "kinder#vorname": sharedKinderFields.vorname,
@@ -70,7 +70,7 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
     },
     shouldCollapseIntoParentNavItem: true,
   },
-  wohnort: {
+  kindWohnort: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/wohnort",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
@@ -78,35 +78,35 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
         sharedKinderFields.wohnortBeiAntragsteller,
     },
   },
-  "kind-eigene-einnahmen-frage": {
+  kindEigeneEinnahmenFrage: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/kind-eigene-einnahmen-frage",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#eigeneEinnahmen": YesNoAnswer,
     },
   },
-  "kind-eigene-einnahmen": {
+  kindEigeneEinnahmen: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/kind-eigene-einnahmen",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#einnahmen": buildMoneyValidationSchema(),
     },
   },
-  "kind-unterhalt-frage": {
+  kindUnterhaltFrage: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/kind-unterhalt-frage",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#unterhalt": YesNoAnswer,
     },
   },
-  "kind-unterhalt": {
+  kindUnterhalt: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/kind-unterhalt",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kinder#unterhaltsSumme": buildMoneyValidationSchema(),
     },
   },
-  "kind-unterhalt-ende": {
+  kindUnterhaltEnde: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/kind-unterhalt-ende",
     shouldCollapseIntoParentNavItem: true,
   },

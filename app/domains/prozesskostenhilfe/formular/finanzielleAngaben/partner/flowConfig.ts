@@ -8,7 +8,7 @@ export const partnerFlowConfig = {
       guard: (context) => context.partnerschaft === "yes",
       target: "partnerZusammenleben",
     },
-    { target: "kinder" },
+    { target: "kinderFrage" },
   ],
   partnerZusammenleben: [
     {

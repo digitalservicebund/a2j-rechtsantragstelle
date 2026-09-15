@@ -20,7 +20,7 @@ export const kinderFlowConfig = {
   kinderUebersicht: [
     {
       type: "addArrayItem",
-      target: "name",
+      target: "kindName",
     },
     {
       guard: (context) =>
@@ -30,36 +30,36 @@ export const kinderFlowConfig = {
     { target: "andereUnterhaltszahlungenFrage" },
   ],
   kinderWarnung: "andereUnterhaltszahlungenFrage",
-  name: "wohnort",
-  wohnort: [
+  kindName: "kindWohnort",
+  kindWohnort: [
     {
       guard: (context) => kindWohnortBeiAntragstellerYes({ context }),
-      target: "kind-eigene-einnahmen-frage",
+      target: "kindEigeneEinnahmenFrage",
     },
     {
       guard: (context) => kindWohnortBeiAntragstellerNo({ context }),
-      target: "kind-unterhalt-frage",
+      target: "kindUnterhaltFrage",
     },
   ],
-  "kind-eigene-einnahmen-frage": [
+  kindEigeneEinnahmenFrage: [
     {
       guard: (context) => kindEigeneEinnahmenYes({ context }),
-      target: "kind-eigene-einnahmen",
+      target: "kindEigeneEinnahmen",
     },
     { target: "kinderUebersicht" },
   ],
-  "kind-eigene-einnahmen": "kinderUebersicht",
-  "kind-unterhalt-frage": [
+  kindEigeneEinnahmen: "kinderUebersicht",
+  kindUnterhaltFrage: [
     {
       guard: (context) => kindUnterhaltYes({ context }),
-      target: "kind-unterhalt",
+      target: "kindUnterhalt",
     },
     {
       guard: (context) => kindUnterhaltNo({ context }),
-      target: "kind-unterhalt-ende",
+      target: "kindUnterhaltEnde",
     },
   ],
-  "kind-unterhalt": "kinderUebersicht",
+  kindUnterhalt: "kinderUebersicht",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
