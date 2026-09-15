@@ -176,6 +176,7 @@ function App() {
         )}
         <script
           nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `window.ENV = ${JSON.stringify(configPublic())}`,
           }}
