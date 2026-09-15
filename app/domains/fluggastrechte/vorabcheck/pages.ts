@@ -204,3 +204,6 @@ export const fluggastrechteVorabcheckPages = {
     stepId: "ergebnis/erfolg-per-post-klagen",
   },
 } as const satisfies PagesConfig;
+
+export type FluggastrechteVorabcheckPages =
+  typeof fluggastrechteVorabcheckPages;
