@@ -71,5 +71,3 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
     },
   },
 } as const satisfies PagesConfig;
-
-console.log(pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages);
