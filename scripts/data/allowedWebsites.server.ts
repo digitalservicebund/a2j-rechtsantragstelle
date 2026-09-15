@@ -79,4 +79,5 @@ export const allowedWebsites = [
   "https://www.online-mahnantrag.de",
   "https://www.handelsregister.de",
   "https://ds-a2j-strapi-media-storage.object.storage.eu01.onstackit.cloud",
+  "https://erbsth.bundesfinanzministerium.de",
 ];
