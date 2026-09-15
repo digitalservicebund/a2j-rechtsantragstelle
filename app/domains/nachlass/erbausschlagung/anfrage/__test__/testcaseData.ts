@@ -6,7 +6,6 @@ export const happyPathData: Partial<ErbausschlagungAnfrageUserData> = {
       "/ausschlagende-person": true,
     },
   },
-  datenverarbeitungZustimmung: "on",
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
   verstorbeneGeburtsdatum: {

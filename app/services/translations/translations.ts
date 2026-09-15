@@ -395,7 +395,7 @@ export const translations = {
       de: "Ihr Flug war verspätet, wurde annulliert oder Sie wurden nicht mitgenommen? Hier finden Sie Informationen darüber, welche Ansprüche und Handlungsoptionen Sie haben. Nach dem Vorab-Check können Sie direkt eine Klage erstellen, wenn sich das ermittelte Amtsgericht am Pilotprojekt beteiligt. Im Anschluss können Sie Ihre Klage selbst digital bei Gericht einreichen und ein Online-Verfahren eröffnen.",
     },
     cardButtonLabelFGR: {
-      de: "Klage erstellen",
+      de: "Zu den Fluggastrechten",
     },
     cardPrelineTGA: {
       de: "Digitale Zahlungsklage",
@@ -407,7 +407,7 @@ export const translations = {
       de: "Wenn Ihnen jemand Geld schuldet, können Sie vor Gericht klagen. Hier finden Sie Informationen zur allgemeinen Zahlungsklage im Online-Verfahren und welche Voraussetzungen es dafür gibt. Dieser Onlinedienst unterstützt Sie in bestimmten Fällen dabei, eine Klage zu erstellen. Im Anschluss können Sie Ihre Klage selbst digital bei Gericht einreichen und ein Online-Verfahren eröffnen.",
     },
     cardButtonLabelTGA: {
-      de: "Klage erstellen",
+      de: "Zur Zahlungsklage",
     },
     cardPrelineBerH: {
       de: "Beratungshilfe",
@@ -445,17 +445,8 @@ export const translations = {
     cardButtonLabelKontopfaendung: {
       de: "Zum Wegweiser Kontopfändung",
     },
-    cardPrelineErbschein: {
-      de: "Erbschein",
-    },
-    cardHeadingErbschein: {
-      de: "Notwendigkeit für Erbschein prüfen",
-    },
-    cardDescriptionErbschein: {
-      de: "Wenn Sie erben, brauchen Sie in einigen Fällen einen Erbschein. Sie erfahren hier, ob Sie für Ihren Erbfall einen Erbschein benötigen. Sie erfahren auch, was Sie dafür tun müssen und zu welchem Gericht Sie gehen müssen.",
-    },
-    cardButtonLabelErbschein: {
-      de: "Zum Wegweiser Erbschein",
+    headingLebenslagen: {
+      de: "Lebenslagen",
     },
     headingHilfreicheInformationen: {
       de: "Hilfreiche Informationen",
@@ -471,6 +462,18 @@ export const translations = {
     },
     cardButtonLabelRechtsprobleme: {
       de: "Zu den finanziellen Hilfen",
+    },
+    cardPrelineNachlass: {
+      de: "Nachlass",
+    },
+    cardHeadingNachlass: {
+      de: "Einen Nachlass regeln",
+    },
+    cardDescriptionNachlass: {
+      de: "Wenn jemand stirbt, müssen Angehörige entscheiden, ob sie ein Erbe annehmen oder ausschlagen. Hier erfahren Sie die wichtigsten Schritte.",
+    },
+    cardButtonLabelNachlass: {
+      de: "Zum Nachlass",
     },
     headingMitmachen: {
       de: "Mitmachen",

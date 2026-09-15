@@ -35,12 +35,6 @@ export const erbausschlagungAnfragePages = {
   gerichtsterminVereinbaren: {
     stepId: "/start/gerichtstermin-vereinbaren",
   },
-  datenverarbeitung: {
-    stepId: "/start/datenverarbeitung",
-    pageSchema: {
-      datenverarbeitungZustimmung: checkedRequired,
-    },
-  },
   verstorbeneName: {
     stepId: "/verstorbene/name",
     pageSchema: {
