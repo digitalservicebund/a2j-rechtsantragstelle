@@ -68,7 +68,7 @@ const renderItems = (userData: UserData) => {
               icon="person"
               content={renderPersonItem(
                 person as Exclude<
-                  BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"],
+                  BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"],
                   undefined
                 >[number],
               )}

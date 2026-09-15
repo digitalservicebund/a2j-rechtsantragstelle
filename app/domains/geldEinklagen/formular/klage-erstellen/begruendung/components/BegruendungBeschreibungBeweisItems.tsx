@@ -15,8 +15,8 @@ import { DeleteDialog } from "./DeleteDialog";
 import classNames from "classnames";
 
 type Props = {
-  dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
-  personen: BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"];
+  dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitt"]["dokumenten"];
+  personen: BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"];
 } & {
   itemIndexAbschnitte: number;
 };
@@ -148,7 +148,7 @@ const ItemButtons = ({
 
 export const renderPersonItem = (
   person: Exclude<
-    BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"],
+    BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"],
     undefined
   >[number],
 ) => {
