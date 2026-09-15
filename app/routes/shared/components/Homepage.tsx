@@ -8,7 +8,12 @@ import { Icon } from "~/components/common/Icon";
 import Box from "~/components/content/Box";
 import Hero from "~/components/content/Hero";
 import BMJVLogo from "~/assets/BMJV_Logo.svg?raw";
-import { infoCards, serviceCards, feedbackCard } from "./homepageContent";
+import {
+  infoCards,
+  serviceCards,
+  feedbackCard,
+  lebenslagenCards,
+} from "./homepageContent";
 
 const Homepage = () => {
   return (
@@ -78,6 +83,24 @@ const Homepage = () => {
               managedByParent
             />
             <CardGroup cards={serviceCards} />
+          </GridItem>
+        </Grid>
+      </GridSection>
+      <GridSection pt="0" pb="80">
+        <Grid>
+          <GridItem
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
+          >
+            <Heading
+              tagName="h2"
+              text={translations.homepage.headingLebenslagen.de}
+              managedByParent
+              className="kern-heading-x-large p-0! outline-none pt-40! pb-40!"
+            />
+            <CardGroup cards={lebenslagenCards} />
           </GridItem>
         </Grid>
       </GridSection>

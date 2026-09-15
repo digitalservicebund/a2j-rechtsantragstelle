@@ -1,5 +1,6 @@
-import Button from "../../common/Button";
+import classNames from "classnames";
 import Heading from "~/components/common/Heading";
+import { Icon } from "~/components/common/Icon";
 
 type CardProps = {
   id: string;
@@ -8,6 +9,7 @@ type CardProps = {
   description?: string;
   buttonLabel?: string;
   link: string;
+  cardStyleOverrides?: string;
 };
 
 export type CardGroupItem = CardProps & {
@@ -21,10 +23,15 @@ const Card = ({
   description,
   buttonLabel,
   link,
+  cardStyleOverrides,
 }: CardProps) => {
   return (
     <article className="kern-card">
-      <div className="kern-card__container p-kern-space-x-large! bg-kern-neutral-025! rounded-sm">
+      <div
+        className={classNames(
+          `kern-card__container p-kern-space-x-large! bg-kern-neutral-025 rounded-sm ${cardStyleOverrides}`,
+        )}
+      >
         <header className="kern-card__header">
           <hgroup className="kern-hgroup">
             {preline && (
@@ -49,13 +56,18 @@ const Card = ({
         )}
         {buttonLabel && (
           <footer className="kern-card__footer pt-kern-space-x-large!">
-            <Button
-              aria-describedby={id}
-              text={buttonLabel}
-              look="secondary"
-              className="md:flex-none!"
+            <a
               href={link}
-            />
+              className="kern-link no-underline! hover:underline!"
+              aria-describedby={id}
+              aria-label={buttonLabel}
+            >
+              <Icon
+                name="arrow-forward"
+                className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
+              />
+              {buttonLabel}
+            </a>
           </footer>
         )}
       </div>
