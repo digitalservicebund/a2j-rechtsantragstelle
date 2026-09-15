@@ -113,20 +113,22 @@ export const BegruendungBeschreibungBeweise = ({
                 .begruendungBeschreibungEvidenceAddButton.de
             }
           </Button>
-          <ReuseBeweiseDialog
-            dialogRef={dialogDocumentRef}
-            title={
-              translations.geldEinklagen
-                .begruendungBeschreibungReuseDocumentDialogTitle.de
-            }
-            closeDialog={() => dialogDocumentRef.current?.close()}
-            formSchema={reuseDialogSchema}
-            options={reuseDocumentsDialogOptions}
-            itemIndexAbschnitt={itemIndexAbschnitt}
-            nextItemBeweis={nextDocumentItemIndex}
-            errorMessages={errorMessages}
-            beweiseType="document"
-          />
+          {hasDocumentsToBeReused && (
+            <ReuseBeweiseDialog
+              dialogRef={dialogDocumentRef}
+              title={
+                translations.geldEinklagen
+                  .begruendungBeschreibungReuseDocumentDialogTitle.de
+              }
+              closeDialog={() => dialogDocumentRef.current?.close()}
+              formSchema={reuseDialogSchema}
+              options={reuseDocumentsDialogOptions}
+              itemIndexAbschnitt={itemIndexAbschnitt}
+              nextItemBeweis={nextDocumentItemIndex}
+              errorMessages={errorMessages}
+              beweiseType="document"
+            />
+          )}
           <Button
             href={!hasPersonsToBeReused ? addPersonUrl : undefined}
             onClick={() =>
@@ -147,20 +149,22 @@ export const BegruendungBeschreibungBeweise = ({
                 .begruendungBeschreibungEvidenceAddPersonButton.de
             }
           </Button>
-          <ReuseBeweiseDialog
-            dialogRef={dialogPersonRef}
-            title={
-              translations.geldEinklagen
-                .begruendungBeschreibungReusePersonDialogTitle.de
-            }
-            closeDialog={() => dialogPersonRef.current?.close()}
-            formSchema={reuseDialogSchema}
-            options={reusePersonsDialogOptions}
-            itemIndexAbschnitt={itemIndexAbschnitt}
-            nextItemBeweis={nextPersonItemIndex}
-            errorMessages={errorMessages}
-            beweiseType="person"
-          />
+          {hasPersonsToBeReused && (
+            <ReuseBeweiseDialog
+              dialogRef={dialogPersonRef}
+              title={
+                translations.geldEinklagen
+                  .begruendungBeschreibungReusePersonDialogTitle.de
+              }
+              closeDialog={() => dialogPersonRef.current?.close()}
+              formSchema={reuseDialogSchema}
+              options={reusePersonsDialogOptions}
+              itemIndexAbschnitt={itemIndexAbschnitt}
+              nextItemBeweis={nextPersonItemIndex}
+              errorMessages={errorMessages}
+              beweiseType="person"
+            />
+          )}
         </div>
       </div>
     </div>
