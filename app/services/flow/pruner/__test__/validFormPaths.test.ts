@@ -1,5 +1,5 @@
 import { buildFlowController } from "../../server/buildFlowController";
-import type { Config } from "../../server/types";
+import type { Config, NavigationEvent } from "../../server/types";
 import { validFormPaths } from "../validFormPaths";
 
 // Self-contained xState config so these tests do not depend on any real flow's
@@ -56,7 +56,7 @@ const config = {
       initial: "overview",
       states: {
         overview: {
-          on: { SUBMIT: "done", "add-konten": "konten" },
+          on: { SUBMIT: "done", ["add-konten" as NavigationEvent]: "konten" },
         },
         konten: {
           initial: "daten",

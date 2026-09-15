@@ -3,6 +3,10 @@ import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import type {
+  InferredUserData,
+  PageConfigMap,
+} from "~/services/flow/newFlowEngine/types";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
   pruneUserData,
@@ -48,7 +52,7 @@ describe("pdfDownloadLoader", () => {
     getPrunedUserDataForPdfSpy.mockReturnValueOnce({
       vorname: "Zoe",
       nachname: "Müller",
-    });
+    } as InferredUserData<PageConfigMap>);
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
