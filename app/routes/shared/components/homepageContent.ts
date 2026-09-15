@@ -47,14 +47,28 @@ export const serviceCards: CardGroupItem[] = [
     description: translations.homepage.cardDescriptionKontopfaendung.de,
     buttonLabel: translations.homepage.cardButtonLabelKontopfaendung.de,
   },
+];
+
+export const lebenslagenCards: CardGroupItem[] = [
   {
-    span: 4,
-    link: "/erbschein",
-    id: "erbschein-card",
-    preline: translations.homepage.cardPrelineErbschein.de,
-    heading: translations.homepage.cardHeadingErbschein.de,
-    description: translations.homepage.cardDescriptionErbschein.de,
-    buttonLabel: translations.homepage.cardButtonLabelErbschein.de,
+    span: 6,
+    link: "/finanzielle-hilfen",
+    id: "finanzielle-hilfen-card",
+    preline: translations.homepage.cardPrelineRechtsprobleme.de,
+    heading: translations.homepage.cardHeadingRechtsprobleme.de,
+    description: translations.homepage.cardDescriptionRechtsprobleme.de,
+    buttonLabel: translations.homepage.cardButtonLabelRechtsprobleme.de,
+    cardStyleOverrides: "bg-kern-darkblue-050!",
+  },
+  {
+    span: 6,
+    link: "/nachlass",
+    id: "nachlass-card",
+    preline: translations.homepage.cardPrelineNachlass.de,
+    heading: translations.homepage.cardHeadingNachlass.de,
+    description: translations.homepage.cardDescriptionNachlass.de,
+    buttonLabel: translations.homepage.cardButtonLabelNachlass.de,
+    cardStyleOverrides: "bg-kern-darkblue-050!",
   },
 ];
 
@@ -67,15 +81,6 @@ export const infoCards: CardGroupItem[] = [
     heading: translations.homepage.cardHeadingAnleitung.de,
     description: translations.homepage.cardDescriptionAnleitung.de,
     buttonLabel: translations.homepage.cardButtonLabelAnleitung.de,
-  },
-  {
-    span: 6,
-    link: "/finanzielle-hilfen",
-    id: "finanzielle-hilfen-card",
-    preline: translations.homepage.cardPrelineRechtsprobleme.de,
-    heading: translations.homepage.cardHeadingRechtsprobleme.de,
-    description: translations.homepage.cardDescriptionRechtsprobleme.de,
-    buttonLabel: translations.homepage.cardButtonLabelRechtsprobleme.de,
   },
 ];
 
