@@ -46,7 +46,7 @@ const BegruendungBeschreibungUebersicht = () => {
               <BegruendungBeschreibungAbschnitte
                 // oxlint-disable-next-line react/no-array-index-key
                 key={index}
-                itemIndexAbschnitte={index}
+                itemIndexAbschnitt={index}
                 abschnitt={abschnitt}
               />
             ))}

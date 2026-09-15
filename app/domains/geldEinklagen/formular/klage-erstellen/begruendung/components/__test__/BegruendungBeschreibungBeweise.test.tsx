@@ -14,7 +14,7 @@ describe("BegruendungBeschreibungBeweise", () => {
     const { getByRole, getByText } = render(
       <BegruendungBeschreibungBeweise
         abschnitt={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -39,7 +39,7 @@ describe("BegruendungBeschreibungBeweise", () => {
     const { getByTestId } = render(
       <BegruendungBeschreibungBeweise
         abschnitt={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -50,7 +50,7 @@ describe("BegruendungBeschreibungBeweise", () => {
     const { getByText } = render(
       <BegruendungBeschreibungBeweise
         abschnitt={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -77,7 +77,7 @@ describe("BegruendungBeschreibungBeweise", () => {
     const { getByText } = render(
       <BegruendungBeschreibungBeweise
         abschnitt={{ beschreibung: "Test Beschreibung", dokumenten, personen }}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 

@@ -18,7 +18,7 @@ type Props = {
   dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitt"]["dokumenten"];
   personen: BegruendungBeschreibungAbschnitteProps["abschnitt"]["personen"];
 } & {
-  itemIndexAbschnitte: number;
+  itemIndexAbschnitt: number;
 };
 
 const editButtonLabelLowercase =
@@ -205,7 +205,7 @@ export const renderPersonItem = (
 export const BegruendungBeschreibungBeweisItems = ({
   dokumenten,
   personen,
-  itemIndexAbschnitte,
+  itemIndexAbschnitt,
 }: Props) => {
   const { onAbschnittDocumentDelete, onAbschnittPersonDelete } =
     useBegruendungBeschreibung();
@@ -222,7 +222,7 @@ export const BegruendungBeschreibungBeweisItems = ({
       {hasDocumentItems &&
         dokumenten.map((dokument, dokumentIndex) => {
           const dokumentItemIndex = String(dokumentIndex);
-          const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${dokumentItemIndex}/daten`;
+          const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten/${dokumentItemIndex}/daten`;
           const contentDescription = (
             <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
               {dokument.beschreibung}
@@ -260,8 +260,8 @@ export const BegruendungBeschreibungBeweisItems = ({
                   editUrl={editDocumentUrl}
                   onDelete={() =>
                     onAbschnittDocumentDelete(
-                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
-                      itemIndexAbschnitte,
+                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten`,
+                      itemIndexAbschnitt,
                       dokumentIndex,
                     )
                   }
@@ -285,7 +285,7 @@ export const BegruendungBeschreibungBeweisItems = ({
           const shouldRenderEditButton =
             person.personAuswahl === "anotherPerson";
 
-          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/daten`;
+          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen/${personItemIndex}/daten`;
           const hasDetails = hasPersonDetails(person);
           const contentDescription = renderPersonItem(person);
 
@@ -321,8 +321,8 @@ export const BegruendungBeschreibungBeweisItems = ({
                   editUrl={editPersonUrl}
                   onDelete={() =>
                     onAbschnittPersonDelete(
-                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
-                      itemIndexAbschnitte,
+                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen`,
+                      itemIndexAbschnitt,
                       personIndex,
                     )
                   }
