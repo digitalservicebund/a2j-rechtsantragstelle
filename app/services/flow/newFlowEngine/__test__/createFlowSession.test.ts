@@ -97,7 +97,7 @@ const buildNestedArrayFlow = (optional: boolean) => {
       list: {
         stepId: "/list",
         arraySummary: {
-          name: "items",
+          name: "items" as const,
           schema: z.array(
             z.object({
               name: z.string(),
