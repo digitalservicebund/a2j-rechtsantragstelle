@@ -109,7 +109,7 @@ export const ausgabenFlowConfig = {
   ausgabenSonstigeAusgabenUebersicht: [
     {
       type: "addArrayItem",
-      target: "ausgabenSonstigeAusgabenFrage",
+      target: "ausgabenSonstigeAusgabe",
     },
     {
       guard: (context) =>
@@ -122,7 +122,7 @@ export const ausgabenFlowConfig = {
     },
   ],
   ausgabenSonstigeAusgabenWarnung: "ausgabenBesondereBelastungen",
-  ausgabenSonstigeAusgabe: null,
+  ausgabenSonstigeAusgabe: "ausgabenSonstigeAusgabeZahlungspflichtiger",
   ausgabenSonstigeAusgabeZahlungspflichtiger: [
     {
       guard: (context: any) => sonstigeAusgabeAnteiligYes({ context }),

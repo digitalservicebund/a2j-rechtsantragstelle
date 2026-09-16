@@ -114,7 +114,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     }
   },
   ausgabenVersicherung: {
-    stepId: "/finanzielle-angaben/ausgaben/versicherungen",
+    stepId: "/finanzielle-angaben/ausgaben/versicherungen/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "versicherungen#art": versicherungenArtSchema,
@@ -224,7 +224,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenSonstigeAusgabe: {
-    stepId: "/finanzielle-angaben/ausgaben/sonstigeAusgaben",
+    stepId: "/finanzielle-angaben/ausgaben/sonstigeAusgaben/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "sonstigeAusgaben#art": sharedSonstigeZahlungFields.art,
