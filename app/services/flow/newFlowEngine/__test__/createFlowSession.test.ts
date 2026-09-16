@@ -215,6 +215,28 @@ describe("createFlowSession", () => {
         createFlowSession(flow, data, "/array/#/daten"),
       ).not.toThrow();
     });
+
+    it("throws when the inner index of a 2-level nested array is out of bounds", () => {
+      const nestedFlow = buildNestedArrayFlow(false);
+      const data = {
+        items: [{ name: "x", sub: [{ label: "a" }] }],
+        pageData: { arrayIndexes: [0, 5] },
+      };
+      expect(() =>
+        createFlowSession(nestedFlow, data, "/items/#/sub/#/daten"),
+      ).toThrow(/out of bounds/i);
+    });
+
+    it("throws when the outer index of a 2-level nested array is out of bounds", () => {
+      const nestedFlow = buildNestedArrayFlow(false);
+      const data = {
+        items: [{ name: "x", sub: [{ label: "a" }] }],
+        pageData: { arrayIndexes: [3, 0] },
+      };
+      expect(() =>
+        createFlowSession(nestedFlow, data, "/items/#/sub/#/daten"),
+      ).toThrow(/out of bounds/i);
+    });
   });
 
   describe("nodeKey", () => {
