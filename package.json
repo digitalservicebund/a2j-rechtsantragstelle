@@ -92,7 +92,7 @@
     "true-myth": "^9.4.0",
     "validator": "^13.15.35",
     "xss": "^1.0.15",
-    "xstate": "^5.32.6",
+    "xstate": "^5.33.0",
     "zod": "^4.6.2"
   },
   "devDependencies": {
