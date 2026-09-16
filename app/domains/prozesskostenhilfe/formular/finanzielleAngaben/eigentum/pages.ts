@@ -181,7 +181,6 @@ const wertsachenArraySchema = z.array(wertsacheSchema).min(1);
 export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumInfo: {
     stepId: "/finanzielle-angaben/eigentum/eigentum-info",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumHeiratInfo: {
     stepId: "/finanzielle-angaben/eigentum/heirat-info",

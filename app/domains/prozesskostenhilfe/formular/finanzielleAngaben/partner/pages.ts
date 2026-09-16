@@ -19,7 +19,6 @@ const partnerWeitereEinkuenfteArraySchema = z.array(paymentSchema).min(1);
 export const pkhFormularFinanzielleAngabenPartnerPages = {
   partnerschaft: {
     stepId: "/finanzielle-angaben/partner/partnerschaft",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       partnerschaft: z.enum(["yes", "no", "separated", "widowed"]),
     },

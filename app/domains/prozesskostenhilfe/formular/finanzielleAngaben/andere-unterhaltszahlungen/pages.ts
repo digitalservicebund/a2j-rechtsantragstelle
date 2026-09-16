@@ -36,7 +36,6 @@ const unterhaltszahlungenArraySchema = z
 export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
     stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasWeitereUnterhaltszahlungen: YesNoAnswer,
     },

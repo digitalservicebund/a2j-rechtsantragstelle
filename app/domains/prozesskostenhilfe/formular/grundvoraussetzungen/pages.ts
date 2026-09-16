@@ -4,7 +4,6 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const pkhFormularGrundvoraussetzungenPages = {
   nachueberpruefungFrage: {
-    shouldCollapseIntoParentNavItem: true,
     stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
     pageSchema: {
       formularArt: z.enum(["nachueberpruefung", "erstantrag"]),

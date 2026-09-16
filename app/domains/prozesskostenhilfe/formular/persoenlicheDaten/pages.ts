@@ -11,7 +11,6 @@ import { addYears, today } from "~/util/date";
 export const pkhFormularPersoenlicheDatenPages = {
   persoenlicheDatenStart: {
     stepId: "/persoenliche-daten/start",
-    shouldCollapseIntoParentNavItem: true,
   },
   name: {
     stepId: "/persoenliche-daten/name",

@@ -22,7 +22,6 @@ const weitereEinkuenfteArraySchema = z
 export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   einkuenfteStart: {
     stepId: "/finanzielle-angaben/einkuenfte/start",
-    shouldCollapseIntoParentNavItem: true,
   },
   staatlicheLeistungen: {
     stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",

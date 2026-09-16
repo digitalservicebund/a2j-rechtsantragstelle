@@ -45,7 +45,6 @@ export type KinderArraySchema = z.infer<typeof kinderArraySchema>[number];
 export const pkhFormularFinanzielleAngabenKinderPages = {
   kinderFrage: {
     stepId: "/finanzielle-angaben/kinder/kinder-frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: { hasKinder: YesNoAnswer },
   },
   kinderUebersicht: {

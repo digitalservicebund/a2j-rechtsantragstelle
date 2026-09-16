@@ -18,7 +18,6 @@ export const arbeitsausgabenArraySchema = z
 export const pkhFormularFinanzielleAngabenAbzuegePages = {
   arbeitsweg: {
     stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       arbeitsweg: z.enum([
         "publicTransport",

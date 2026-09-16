@@ -95,21 +95,18 @@ export const sonstigeZahlungArraySchema = z
 export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenFrage: {
     stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasAusgaben: YesNoAnswer,
     },
   },
   ausgabenVersicherungenFrage: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasVersicherungen: YesNoAnswer,
     },
   },
   ausgabenVersicherungenUebersicht: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "versicherungen",
       schema: versicherungenArraySchema,
