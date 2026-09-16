@@ -4,7 +4,6 @@ import {
   flowRoutes,
   newEngineFlowRoutes,
   newEngineVorabcheckRoutes,
-  vorabcheckRoutes,
 } from "./services/routing/flowRoutes";
 
 export default [
@@ -17,7 +16,7 @@ export default [
     ...prefix("formular", newEngineFlowRoutes("PKH")),
   ]),
   ...prefix("fluggastrechte", [
-    ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
+    ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
