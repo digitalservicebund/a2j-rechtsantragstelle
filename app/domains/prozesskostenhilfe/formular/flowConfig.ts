@@ -23,7 +23,7 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     ...finanzielleAngabenFlowConfig,
     ...gesetzlicheVertretungFlowConfig,
     ...persoenlicheDatenFlowConfig,
-    weitereAngaben: null,
+    weitereAngaben: "zusammenfassung",
     ...abgabeFlowConfig,
   },
   pruningStrategy: "cascading",
