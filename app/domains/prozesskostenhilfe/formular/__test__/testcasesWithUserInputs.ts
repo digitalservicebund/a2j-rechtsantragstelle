@@ -1,5 +1,4 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
