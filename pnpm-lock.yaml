@@ -94,8 +94,8 @@ importers:
         specifier: ^4.18.1
         version: 4.18.1
       marked:
-        specifier: ^18.0.12
-        version: 18.0.12
+        specifier: ^18.0.13
+        version: 18.0.13
       match-sorter:
         specifier: ^8.3.0
         version: 8.3.0
@@ -112,8 +112,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.430.2
-        version: 1.430.2(@types/react@19.3.0)(react@19.3.0)
+        specifier: 1.430.3
+        version: 1.430.3(@types/react@19.3.0)(react@19.3.0)
       posthog-node:
         specifier: 5.52.1
         version: 5.52.1
@@ -157,8 +157,8 @@ importers:
         specifier: ^5.33.0
         version: 5.33.0
       zod:
-        specifier: ^4.6.2
-        version: 4.6.2
+        specifier: ^4.6.4
+        version: 4.6.4
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.13.0
@@ -263,8 +263,8 @@ importers:
         specifier: ^1.82.0
         version: 1.82.0
       p-map:
-        specifier: ^7.0.7
-        version: 7.0.7
+        specifier: ^7.0.8
+        version: 7.0.8
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -3880,8 +3880,8 @@ packages:
     resolution: {integrity: sha512-Je0fLJ0F5atA7F+eIlLzk+Wkcl57JDf4kf+EW8xiP5E31xOQxkIxTbgf1Oi1Lw9tRI9UEMRdI5Vz2xTzoNU1Jw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  marked@18.0.12:
-    resolution: {integrity: sha512-LEm4ga2YeI2T3GVHj9b0BaDPPk93LLTHMFeMyQbNIzPxc8vCI0y/scy0ZA6z6lXKyT9j9Nhl/OC6ZYKYGuFScA==}
+  marked@18.0.13:
+    resolution: {integrity: sha512-xTxVzZsBFwunP6HDmtBkabUQEYArnP7/rMDGmPj9SlrKlQ4i8MdYVow+nJL0eOqwpUqhzBoTBRADGN6uYwPyOw==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -4129,8 +4129,8 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
-  p-map@7.0.7:
-    resolution: {integrity: sha512-VaWRu2i4FJNRtiRWCuuQRgfQ1B7a6+gMSrO+3j0EQi/k0ULfS9kosRxGoiqwzIjZTDI02tGfk5mXXltLg6QtfQ==}
+  p-map@7.0.8:
+    resolution: {integrity: sha512-MitaVsCuCFIvOLLPIU7NnfrZvS9H9h7kwMUkDo+T2pEISaJD48IV9S8iIdXB7PsvvdxyYcsSTTrr90XKsbulNw==}
     engines: {node: '>=18'}
 
   package-manager-detector@1.8.0:
@@ -4249,8 +4249,8 @@ packages:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.430.2:
-    resolution: {integrity: sha512-JwNTuFyNu2HwTFxcO/4SJJlnr1CkdZdmKxeg2PvuKUO5RMW3xw0sCCBKOMg/76pANUWk4+z1UrMJVLfpJY0KsQ==}
+  posthog-js@1.430.3:
+    resolution: {integrity: sha512-+j/0wa36fXdXsiKhN7ghHOA4z9/ik893ZpMOLeqCluqXZSt/oe+iClIavWqLRcYhvvmJvl2D3EfKpt8Kg8GbUQ==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -5125,8 +5125,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@4.6.2:
-    resolution: {integrity: sha512-lh5RCAGFa1Cm2hjtNwLQhSs/AsqdWnTQaBER9fEwN/88pSh7KOtJavtBx/0VlkN/uFd61SwYmljLMDAsHlvzBQ==}
+  zod@4.6.4:
+    resolution: {integrity: sha512-AXSD6hvGdvRjajG/l1cC+d6IrhH+sjmPKtYeQdJIK8MFJl3LyClzS+o/YsVC+zQZPupAaeH5skwwm8YqYH7BqA==}
 
   zustand@5.0.14:
     resolution: {integrity: sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g==}
@@ -6487,7 +6487,7 @@ snapshots:
       isbot: 5.2.2
       jsesc: 3.1.0
       lodash: 4.18.1
-      p-map: 7.0.7
+      p-map: 7.0.8
       pathe: 2.0.3
       picocolors: 1.1.1
       pkg-types: 2.3.1
@@ -7610,7 +7610,7 @@ snapshots:
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
       minipass-pipeline: 1.2.4
-      p-map: 7.0.7
+      p-map: 7.0.8
       ssri: 13.0.1
 
   call-bind-apply-helpers@1.0.2:
@@ -8330,7 +8330,7 @@ snapshots:
       tinyglobby: 0.2.17
       unbash: 4.0.11
       yaml: 2.9.0
-      zod: 4.6.2
+      zod: 4.6.4
 
   lefthook-darwin-arm64@2.1.12:
     optional: true
@@ -8562,7 +8562,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  marked@18.0.12: {}
+  marked@18.0.13: {}
 
   match-sorter@8.3.0:
     dependencies:
@@ -8877,7 +8877,7 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
-  p-map@7.0.7: {}
+  p-map@7.0.8: {}
 
   package-manager-detector@1.8.0: {}
 
@@ -9025,7 +9025,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.430.2(@types/react@19.3.0)(react@19.3.0):
+  posthog-js@1.430.3(@types/react@19.3.0)(react@19.3.0):
     dependencies:
       '@posthog/browser-common': 0.8.3
       '@posthog/core': 1.53.2
@@ -9888,7 +9888,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@4.6.2: {}
+  zod@4.6.4: {}
 
   zustand@5.0.14(@types/react@19.3.0)(immer@10.2.0)(react@19.3.0)(use-sync-external-store@1.6.0):
     optionalDependencies:
