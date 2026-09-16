@@ -1,6 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
 import { guards as fluggastrechteVorabcheckGuards } from "~/domains/fluggastrechte/vorabcheck/guards";
-import { fluggastrechteVorabcheckXstateConfig } from "~/domains/fluggastrechte/vorabcheck/xstateConfig";
 import {
   getButtonURLForClaimViaPost,
   getCompensationPaymentString,
@@ -16,10 +15,13 @@ import {
 } from "./stringReplacements";
 import type { FluggastrechtVorabcheckUserData } from "./userData";
 import { getResponsibleCourt } from "../formular/stringReplacements/legalCourts";
+import { fluggastrechteVorabcheckFlowConfig } from "~/domains/fluggastrechte/vorabcheck/flowConfig";
+import { fluggastrechteVorabcheckXstateConfig } from "~/domains/fluggastrechte/vorabcheck/xstateConfig";
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
   config: fluggastrechteVorabcheckXstateConfig,
+  newEngineConfig: fluggastrechteVorabcheckFlowConfig,
   guards: fluggastrechteVorabcheckGuards,
   stringReplacements: (context: FluggastrechtVorabcheckUserData) => ({
     ...getCompensationPaymentString(context),
