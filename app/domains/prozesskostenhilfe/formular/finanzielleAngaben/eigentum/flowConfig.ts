@@ -27,14 +27,7 @@ export const eigentumFlowConfig = {
     },
   ],
   eigentumHeiratInfo: "eigentumBankkontenFrage",
-  eigentumBankkonten: [
-    {
-      guard: (context) =>
-        context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten),
-      target: "eigentumBankkontoWarnung",
-    },
-    { target: "eigentumGeldanlagen" },
-  ],
+  eigentumBankkonten: "eigentumBankkontenUebersicht",
   eigentumBankkontenFrage: [
     {
       guard: (context) => context.hasBankkonto === "yes",
@@ -55,7 +48,7 @@ export const eigentumFlowConfig = {
       target: "eigentumBankkontoWarnung",
     },
     {
-      target: "eigentumGeldanlagen",
+      target: "eigentumGeldanlagenFrage",
     },
   ],
   eigentumBankkonto: "eigentumBankkontenUebersicht",
@@ -137,9 +130,13 @@ export const eigentumFlowConfig = {
   ],
   eigentumKraftfahrzeugeUebersicht: [
     {
+      type: "addArrayItem",
+      target: "eigentumKraftfahrzeugArbeitsweg",
+    },
+    {
       guard: (context) =>
         hasKraftfahrzeugYes({ context }) &&
-      !arrayIsNonEmpty(context.kraftfahrzeuge),
+        !arrayIsNonEmpty(context.kraftfahrzeuge),
       target: "eigentumKraftfahrzeugeWarnung",
     },
     { target: "eigentumWertgegenstaendeFrage" },
@@ -199,11 +196,10 @@ export const eigentumFlowConfig = {
     {
       guard: (context) =>
         hasGrundeigentumYes({ context }) &&
-        !arrayIsNonEmpty(
-          (context as { grundeigentum?: unknown[] }).grundeigentum,
-        ),
+        !arrayIsNonEmpty(context.grundeigentum),
       target: "eigentumGrundeigentumWarnung",
     },
+    { target: "ausgabenFrage" },
   ],
   eigentumGrundeigentumBewohntFrage: [
     {

@@ -354,14 +354,14 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeugArbeitsweg: {
     stepId:
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-arbeitsweg",
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/arbeitsweg",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kraftfahrzeuge#hasArbeitsweg": sharedKraftfahrzeugeFields.hasArbeitsweg,
     },
   },
   eigentumKraftfahrzeugWert: {
-    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-wert",
+    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/wert",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kraftfahrzeuge#wert": kraftfahrzeugWertSchema,
@@ -369,7 +369,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeugFahrzeuge: {
     stepId:
-      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-fahrzeuge",
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug/#/fahrzeuge",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
@@ -460,14 +460,16 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumGrundeigentumBewohntFrage: {
-    stepId: "/finanzielle-angaben/eigentum/grundeigentum/bewohnt-frage",
+    stepId:
+      "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/bewohnt-frage",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "grundeigentum#isBewohnt": grundeigentumIsBewohntSchema,
     },
   },
   eigentumGrundeigentumBewohntDaten: {
-    stepId: "/finanzielle-angaben/eigentum/grundeigentum/bewohnt-daten",
+    stepId:
+      "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/bewohnt-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "grundeigentum#art": sharedGrundeigentumFields.art,
