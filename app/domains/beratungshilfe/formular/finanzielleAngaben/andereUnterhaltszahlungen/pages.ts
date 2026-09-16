@@ -8,7 +8,7 @@ import { addYears, today } from "~/util/date";
 
 const MINUS_150_YEARS = -150;
 
-export const unterhaltszahlungenArraySchema = z
+const unterhaltszahlungenArraySchema = z
   .object({
     familyRelationship: z.enum([
       "mother",

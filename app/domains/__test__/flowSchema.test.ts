@@ -18,8 +18,6 @@ import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
-// beratungshilfeAntrag has migrated to the new flow engine; it is validated in
-// flowSchemaNewEngine.test.ts. Its XState config is now a stub.
 const flowSchemaTests = {
   beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,

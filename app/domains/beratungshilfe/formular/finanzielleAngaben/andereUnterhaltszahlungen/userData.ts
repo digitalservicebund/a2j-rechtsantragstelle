@@ -1,13 +1,7 @@
-import { type z } from "zod";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import {
-  type berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages,
-  type unterhaltszahlungenArraySchema,
-} from "./pages";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+import { type berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages } from "./pages";
 
 export type BeratungshilfeFinanzielleAngabenAndereUnterhaltszahlungenUserData =
-  UserDataFromPagesSchema<
+  InferredUserData<
     typeof berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages
-  > & {
-    unterhaltszahlungen?: z.infer<typeof unterhaltszahlungenArraySchema>;
-  };
+  >;

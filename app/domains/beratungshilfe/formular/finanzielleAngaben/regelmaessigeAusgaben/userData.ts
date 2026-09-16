@@ -1,13 +1,7 @@
-import { type z } from "zod";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import {
-  type ausgabenArraySchema,
-  type berhAntragFinanzielleAngabenRegelmassigeAusgabenPages,
-} from "./pages";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+import { type berhAntragFinanzielleAngabenRegelmassigeAusgabenPages } from "./pages";
 
 export type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData =
-  UserDataFromPagesSchema<
+  InferredUserData<
     typeof berhAntragFinanzielleAngabenRegelmassigeAusgabenPages
-  > & {
-    ausgaben?: z.infer<typeof ausgabenArraySchema>;
-  };
+  >;

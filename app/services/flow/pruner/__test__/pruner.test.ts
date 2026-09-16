@@ -50,7 +50,7 @@ describe("pruner", () => {
   describe("pruneIrrelevantData", () => {
     it("prunes irrelevant data", () => {
       // Mock the config-derived pieces so the pruning logic is exercised
-      // independently of any flow's engine. Reachable pages: the grundvor /
+      // independently of any flow's engine. Reachable pages: the grundvoraussetzungen /
       // statement questions plus the geldanlagen array (two entries); the
       // bankkonten and kinder arrays are not reachable, so they get pruned.
       const getFieldsSpy = vi

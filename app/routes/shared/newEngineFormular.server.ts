@@ -35,13 +35,16 @@ import { getRedirect } from "~/services/routing/redirects";
 
 // Whether every top-level section is done except the given one. Used to decide
 // if a validation gate page can be skipped (its own section is still open).
-const allOtherSectionsDone = (
-  statusTree: Record<string, { isDone: boolean }>,
+// Unreachable ("disabled") sections are ignored: they can never be completed,
+// so they must not block the skip. This mirrors how a section's own isDone
+// already ignores its unreachable child nodes.
+export const allOtherSectionsDone = (
+  statusTree: Record<string, { isDone: boolean; isReachable: boolean }>,
   excludedSection: string,
 ): boolean =>
   Object.entries(statusTree)
     .filter(([section]) => section !== excludedSection)
-    .every(([, node]) => node.isDone);
+    .every(([, node]) => node.isDone || !node.isReachable);
 
 // The top-level section a stepId belongs to, e.g. "/abgabe/ueberpruefung" gives "/abgabe".
 const topLevelSection = (stepId: string): string => `/${stepId.split("/")[1]}`;
