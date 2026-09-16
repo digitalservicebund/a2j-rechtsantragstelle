@@ -62,30 +62,28 @@ export const DeleteDialog = ({
         {description}
       </section>
       <footer className="kern-dialog__footer">
-        <>
-          <Button
-            look="secondary"
-            className="kern-btn--large"
-            type="button"
-            onClick={closeDialog}
-          >
-            {
-              translations.geldEinklagen
-                .begruendungBeschreibungBeweiseDialogDeleteCancel.de
-            }
-          </Button>
+        <Button
+          look="secondary"
+          className="kern-btn--large"
+          type="button"
+          onClick={closeDialog}
+        >
+          {
+            translations.geldEinklagen
+              .begruendungBeschreibungBeweiseDialogDeleteCancel.de
+          }
+        </Button>
 
-          <Button
-            className="bg-kern-feedback-danger!"
-            type="button"
-            onClick={onClickDelete}
-          >
-            {
-              translations.geldEinklagen
-                .begruendungBeschreibungBeweiseDialogDeleteConfirm.de
-            }
-          </Button>
-        </>
+        <Button
+          className="bg-kern-feedback-danger!"
+          type="button"
+          onClick={onClickDelete}
+        >
+          {
+            translations.geldEinklagen
+              .begruendungBeschreibungBeweiseDialogDeleteConfirm.de
+          }
+        </Button>
       </footer>
     </dialog>
   );
