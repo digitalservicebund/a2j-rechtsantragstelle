@@ -139,7 +139,7 @@ const ItemButtons = ({
         title={deleteDialogTitle}
         description={deleteDialogDescription}
         onClickDelete={onDelete}
-        closeSurvey={() => dialogRef.current?.close()}
+        closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
       />
     </>

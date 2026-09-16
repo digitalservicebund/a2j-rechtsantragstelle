@@ -7,7 +7,7 @@ type Props = {
   title: string;
   description: React.ReactNode;
   onClickDelete: () => void;
-  closeSurvey: () => void;
+  closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement | null>;
 };
 
@@ -18,7 +18,7 @@ export const DeleteDialog = ({
   title,
   description,
   onClickDelete,
-  closeSurvey,
+  closeDialog,
   dialogRef,
 }: Props) => {
   useEffect(() => {
@@ -55,7 +55,7 @@ export const DeleteDialog = ({
           look="ghost"
           iconLeft={<Icon name="close" className="fill-kern-action-default!" />}
           aria-label={translations.feedback.close.de}
-          onClick={closeSurvey}
+          onClick={closeDialog}
         />
       </header>
       <section id={dialogDescriptionId} className="kern-dialog__body text-wrap">
@@ -67,7 +67,7 @@ export const DeleteDialog = ({
             look="secondary"
             className="kern-btn--large"
             type="button"
-            onClick={closeSurvey}
+            onClick={closeDialog}
           >
             {
               translations.geldEinklagen

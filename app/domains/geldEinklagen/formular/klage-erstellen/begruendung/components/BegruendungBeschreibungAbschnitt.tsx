@@ -102,7 +102,7 @@ const BegruendungBeschreibungAbschnitt = ({
                   itemIndexAbschnitt,
                 )
               }
-              closeSurvey={() => dialogRef.current?.close()}
+              closeDialog={() => dialogRef.current?.close()}
               dialogRef={dialogRef}
             />
           </div>
