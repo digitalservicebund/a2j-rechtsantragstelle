@@ -1,6 +1,6 @@
 import { type ActionFunctionArgs } from "react-router";
 import { logWarning } from "~/services/logging";
-import { redirect } from "react-router";
+import { redirectDocument } from "react-router";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
 
@@ -33,5 +33,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         : `/personen/${nextItemBeweis}/auswahl`;
   }
 
-  return redirect(redirectUrl);
+  return redirectDocument(redirectUrl);
 };

@@ -192,7 +192,7 @@ export const renderSpecialMetaDescriptions = (
         );
       }
 
-      let beweisOptions: Array<{ label: string; value: string }> = [];
+      let beweisOptions: Array<{ label: string; option: string }> = [];
 
       const abschnitte =
         (userData as GeldEinklagenFormularUserData).abschnitte ?? [];

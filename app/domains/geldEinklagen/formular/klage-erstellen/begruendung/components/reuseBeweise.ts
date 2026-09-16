@@ -24,7 +24,7 @@ export const getDocumentsToBeReusedFromOtherAbschnitte = (
 
     return abschnitt.dokumenten.map((dokument, documentIndex) => ({
       label: dokument.beschreibung,
-      value: `${abschnittIndex}-${documentIndex}`,
+      option: `${abschnittIndex}-${documentIndex}`,
     }));
   });
 
@@ -53,7 +53,7 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
       .map(({ person, personIndex }) => ({
         // hasPersonDetails only passes for "anotherPerson" entries, which carry vorname/nachname.
         label: `${(person as { vorname: string }).vorname} ${(person as { nachname: string }).nachname}`,
-        value: `${abschnittIndex}-${personIndex}`,
+        option: `${abschnittIndex}-${personIndex}`,
       }));
   });
 

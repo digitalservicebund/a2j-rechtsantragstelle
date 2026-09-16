@@ -25,8 +25,8 @@ describe("reuseBeweise", () => {
         itemIndexAbschnitte,
       );
       expect(result).toEqual([
-        { label: "doc1", value: "1-0" },
-        { label: "doc2", value: "1-1" },
+        { label: "doc1", option: "1-0" },
+        { label: "doc2", option: "1-1" },
       ]);
     });
 
@@ -151,7 +151,9 @@ describe("reuseBeweise", () => {
         abschnitte,
         itemIndexAbschnitte,
       );
-      expect(result).toEqual([{ label: "Vorname 1 Nachname 1", value: "1-1" }]);
+      expect(result).toEqual([
+        { label: "Vorname 1 Nachname 1", option: "1-1" },
+      ]);
     });
 
     it("should exclude persons from the current abschnitt", () => {
