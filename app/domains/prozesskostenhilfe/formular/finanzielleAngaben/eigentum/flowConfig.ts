@@ -1,6 +1,7 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { prozesskostenhilfeFormularPages } from "../../pages";
 import {
+  grundeigentumIsBewohnt,
   hasGrundeigentumYes,
   hasKraftfahrzeugYes,
   hasWertsacheYes,
@@ -188,8 +189,30 @@ export const eigentumFlowConfig = {
       target: "ausgabenFrage",
     },
   ],
-  eigentumGrundeigentumUebersicht: [],
-  eigentumGrundeigentumGrundeigentum: [],
+  eigentumGrundeigentumUebersicht: [
+    {
+      type: "addArrayItem",
+      target: "eigentumGrundeigentumBewohntFrage",
+    },
+    {
+      guard: (context) =>
+        hasGrundeigentumYes({ context }) &&
+        !arrayIsNonEmpty(
+          (context as { grundeigentum?: unknown[] }).grundeigentum,
+        ),
+      target: "eigentumGrundeigentumWarnung",
+    },
+  ],
+  eigentumGrundeigentumBewohntFrage: [
+    {
+      guard: (context) => grundeigentumIsBewohnt({ context }),
+      target: "eigentumGrundeigentumBewohntDaten",
+    },
+    {
+      target: "eigentumGrundeigentumUebersicht",
+    },
+  ],
+  eigentumGrundeigentumBewohntDaten: "eigentumGrundeigentumUebersicht",
   eigentumGrundeigentumWarnung: "ausgabenFrage",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>

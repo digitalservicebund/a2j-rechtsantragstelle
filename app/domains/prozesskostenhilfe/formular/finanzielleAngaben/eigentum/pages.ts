@@ -440,39 +440,41 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumGrundeigentumUebersicht: {
     stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
     shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "grundeigentum",
+      schema: grundeigentumArraySchema,
+      fieldName: "hasGrundeigentum",
+    },
   },
   eigentumGrundeigentumGrundeigentum: {
-    stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum",
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      grundeigentum: grundeigentumArraySchema,
+      "grundeigentum#art": sharedGrundeigentumFields.art,
+      "grundeigentum#eigentuemer": sharedGrundeigentumFields.eigentuemer,
+      "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
+      "grundeigentum#verkaufswert": sharedGrundeigentumFields.verkaufswert,
+      "grundeigentum#strassehausnummer": stringRequiredSchema,
+      "grundeigentum#plz": stringOptionalSchema,
+      "grundeigentum#ort": stringRequiredSchema,
+      "grundeigentum#land": stringRequiredSchema,
     },
-    arrayPages: {
-      "bewohnt-frage": {
-        pageSchema: {
-          "grundeigentum#isBewohnt": grundeigentumIsBewohntSchema,
-        },
-      },
-      daten: {
-        pageSchema: {
-          "grundeigentum#art": sharedGrundeigentumFields.art,
-          "grundeigentum#eigentuemer": sharedGrundeigentumFields.eigentuemer,
-          "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
-          "grundeigentum#verkaufswert": sharedGrundeigentumFields.verkaufswert,
-          "grundeigentum#strassehausnummer": stringRequiredSchema,
-          "grundeigentum#plz": stringOptionalSchema,
-          "grundeigentum#ort": stringRequiredSchema,
-          "grundeigentum#land": stringRequiredSchema,
-        },
-      },
-      "bewohnt-daten": {
-        pageSchema: {
-          "grundeigentum#art": sharedGrundeigentumFields.art,
-          "grundeigentum#eigentuemer": sharedGrundeigentumFields.eigentuemer,
-          "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
-          "grundeigentum#verkaufswert": sharedGrundeigentumFields.verkaufswert,
-        },
-      },
+  },
+  eigentumGrundeigentumBewohntFrage: {
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/bewohnt-frage",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "grundeigentum#isBewohnt": grundeigentumIsBewohntSchema,
+    },
+  },
+  eigentumGrundeigentumBewohntDaten: {
+    stepId: "/finanzielle-angaben/eigentum/grundeigentum/bewohnt-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "grundeigentum#art": sharedGrundeigentumFields.art,
+      "grundeigentum#eigentuemer": sharedGrundeigentumFields.eigentuemer,
+      "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
+      "grundeigentum#verkaufswert": sharedGrundeigentumFields.verkaufswert,
     },
   },
   eigentumGrundeigentumWarnung: {
