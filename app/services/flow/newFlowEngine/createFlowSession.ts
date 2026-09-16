@@ -32,6 +32,29 @@ const resolveScopeAtIndexes = (
     return (item ?? {}) as Record<string, unknown>;
   }, data);
 
+// True when every array index sits within its array's bounds. An index equal to
+// the array length is allowed: that is the slot of a not-yet-added item.
+const arrayIndexesInBounds = (
+  data: Record<string, unknown>,
+  arrayPath: string[],
+  indexes: number[],
+): boolean => {
+  let scope: Record<string, unknown> = data;
+
+  for (const [level, arrayName] of arrayPath.entries()) {
+    const requestedIndex = indexes[level];
+    if (requestedIndex === undefined) break;
+
+    const items = scope[arrayName];
+    const itemCount = Array.isArray(items) ? items.length : 0;
+    if (requestedIndex > itemCount) return false;
+
+    scope = (Array.isArray(items) ? items[requestedIndex] : undefined) ?? {};
+  }
+
+  return true;
+};
+
 const arrayWildcardCount = (stepId: string) =>
   stepId.split(ARRAY_WILDCARD).length - 1;
 
@@ -49,6 +72,23 @@ export const createFlowSession = <C extends PageConfigMap>(
 ) => {
   const nodeKey = compiledFlow.getNodeKeyFromPath(currentPath);
   if (nodeKey == null) throw new Error(`Invalid path: ${currentPath}`);
+
+  // Reject out-of-bounds array indexes (e.g. a hand-edited URL pointing at an
+  // item that does not exist), so the loader redirects to the flow start
+  // instead of rendering a page for a nonexistent item.
+  const currentArrayPath = arrayDataPath(
+    compiledFlow.getFieldNamesByNodeKey(nodeKey),
+  );
+  if (
+    currentArrayPath.length > 0 &&
+    !arrayIndexesInBounds(
+      userData as Record<string, unknown>,
+      currentArrayPath,
+      userData.pageData?.arrayIndexes ?? [],
+    )
+  ) {
+    throw new Error(`Array index out of bounds: ${currentPath}`);
+  }
 
   let simulation = runSimulation(userData, compiledFlow);
   let effectiveUserData = userData;
