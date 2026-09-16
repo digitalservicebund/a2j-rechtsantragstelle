@@ -13,7 +13,7 @@ export const andereUnterhaltszahlungenFlowConfig = {
   andereUnterhaltszahlungenUebersicht: [
     {
       type: "addArrayItem",
-      target: "andereUnterhaltszahlungenPerson"
+      target: "andereUnterhaltszahlungenPerson",
     },
     {
       guard: (context) =>

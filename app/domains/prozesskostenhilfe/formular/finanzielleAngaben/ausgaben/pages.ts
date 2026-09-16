@@ -111,7 +111,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       name: "versicherungen",
       schema: versicherungenArraySchema,
       fieldName: "hasVersicherungen",
-    }
+    },
   },
   ausgabenVersicherung: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen/#/daten",
