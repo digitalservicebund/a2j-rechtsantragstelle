@@ -264,7 +264,8 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumGeldanlageWertpapiere: {
-    stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/wertpapiere",
+    stepId:
+      "/finanzielle-angaben/eigentum/geldanlagen/geldanlage/#/wertpapiere",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "geldanlagen#eigentuemer": sharedGeldanlagenFields.eigentuemer,
@@ -353,7 +354,8 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumKraftfahrzeugArbeitsweg: {
-    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-arbeitsweg",
+    stepId:
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-arbeitsweg",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kraftfahrzeuge#hasArbeitsweg": sharedKraftfahrzeugeFields.hasArbeitsweg,
@@ -367,16 +369,22 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     },
   },
   eigentumKraftfahrzeugFahrzeuge: {
-    stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-fahrzeuge",
+    stepId:
+      "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeug-fahrzeuge",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "kraftfahrzeuge#art": kraftfahrzeugOver10000OrUnsureSchema.shape.art,
       "kraftfahrzeuge#marke": kraftfahrzeugOver10000OrUnsureSchema.shape.marke,
-      "kraftfahrzeuge#eigentuemer": kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
-      "kraftfahrzeuge#verkaufswert": kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
-      "kraftfahrzeuge#kilometerstand": kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
-      "kraftfahrzeuge#anschaffungsjahr": kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
-      "kraftfahrzeuge#baujahr": kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
+      "kraftfahrzeuge#eigentuemer":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.eigentuemer,
+      "kraftfahrzeuge#verkaufswert":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.verkaufswert,
+      "kraftfahrzeuge#kilometerstand":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.kilometerstand,
+      "kraftfahrzeuge#anschaffungsjahr":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.anschaffungsjahr,
+      "kraftfahrzeuge#baujahr":
+        kraftfahrzeugOver10000OrUnsureSchema.shape.baujahr,
     },
   },
   eigentumKraftfahrzeugeWarnung: {
@@ -398,21 +406,20 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   eigentumWertgegenstaendeUebersicht: {
     stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
     shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "wertsachen",
+      schema: wertsachenArraySchema,
+      fieldName: "hasWertsache",
+    },
   },
   eigentumWertgegenstand: {
-    stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand",
+    stepId:
+      "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstand/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      wertsachen: wertsachenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "wertsachen#art": wertsacheSchema.shape.art,
-          "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
-          "wertsachen#wert": wertsacheSchema.shape.wert,
-        },
-      },
+      "wertsachen#art": wertsacheSchema.shape.art,
+      "wertsachen#eigentuemer": wertsacheSchema.shape.eigentuemer,
+      "wertsachen#wert": wertsacheSchema.shape.wert,
     },
   },
   eigentumWertgegenstaendeWarnung: {

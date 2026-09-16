@@ -130,7 +130,7 @@ export const eigentumFlowConfig = {
       target: "eigentumKraftfahrzeugeUebersicht",
     },
     {
-      target: "eigentumWertgegenstaende",
+      target: "eigentumWertgegenstaendeFrage",
     },
   ],
   eigentumKraftfahrzeugeUebersicht: [
@@ -140,7 +140,7 @@ export const eigentumFlowConfig = {
         !arrayIsNonEmpty(context.kraftfahrzeuge),
       target: "eigentumKraftfahrzeugeWarnung",
     },
-    { target: "eigentumWertgegenstaende" },
+    { target: "eigentumWertgegenstaendeFrage" },
   ],
   eigentumKraftfahrzeug: "eigentumKraftfahrzeugeUebersicht",
   eigentumKraftfahrzeugArbeitsweg: "eigentumKraftfahrzeugWert",
@@ -152,7 +152,7 @@ export const eigentumFlowConfig = {
     { target: "eigentumKraftfahrzeugeUebersicht" },
   ],
   eigentumKraftfahrzeugFahrzeuge: "eigentumKraftfahrzeugeUebersicht",
-  eigentumKraftfahrzeugeWarnung: "eigentumWertgegenstaende",
+  eigentumKraftfahrzeugeWarnung: "eigentumWertgegenstaendeFrage",
   eigentumWertgegenstaende: "eigentumWertgegenstaendeUebersicht",
   eigentumWertgegenstaendeFrage: [
     {
@@ -163,9 +163,21 @@ export const eigentumFlowConfig = {
       target: "eigentumGrundeigentum",
     },
   ],
-  eigentumWertgegenstaendeUebersicht: [],
+  eigentumWertgegenstaendeUebersicht: [
+    {
+      type: "addArrayItem",
+      target: "eigentumWertgegenstand",
+    },
+    {
+      guard: (context) =>
+        hasWertsacheYes({ context }) &&
+        !arrayIsNonEmpty((context as { wertsachen?: unknown[] }).wertsachen),
+      target: "eigentumWertgegenstaendeWarnung",
+    },
+    { target: "eigentumGrundeigentumFrage" },
+  ],
   eigentumWertgegenstand: "eigentumWertgegenstaendeUebersicht",
-  eigentumWertgegenstaendeWarnung: "eigentumGrundeigentum",
+  eigentumWertgegenstaendeWarnung: "eigentumGrundeigentumFrage",
   eigentumGrundeigentum: "eigentumGrundeigentumUebersicht",
   eigentumGrundeigentumFrage: [
     {
