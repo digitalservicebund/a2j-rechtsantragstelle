@@ -34,42 +34,49 @@ const childSchema = z
 export const pkhFormularVereinfachteErklaerungPages = {
   kind: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       child: childSchema.pick({ vorname: true, nachname: true }),
     },
   },
   zusammenleben: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/zusammenleben",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       livesTogether: YesNoAnswer,
     },
   },
   veUnterhalt: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/unterhalt",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       child: childSchema.pick({ unterhaltsSumme: true }),
     },
   },
   minderjaehrig: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       minderjaehrig: YesNoAnswer,
     },
   },
   veGeburtsdatum: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       child: childSchema.pick({ geburtsdatum: true }),
     },
   },
   worumGehts: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/worum-gehts",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       unterhaltsOrAbstammungssachen: YesNoAnswer,
     },
   },
   rechtlichesThema: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/rechtliches-thema",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       rechtlichesThema: z.enum([
         "unterhalt",
@@ -81,10 +88,12 @@ export const pkhFormularVereinfachteErklaerungPages = {
   },
   einnahmen: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen",
+    shouldCollapseIntoParentNavItem: true,
   },
   einnahmenFrage: {
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasEinnahmen: YesNoAnswer,
     },
@@ -92,6 +101,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
   einnahmenValue: {
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hohesEinkommen: YesNoAnswer,
     },
@@ -99,38 +109,42 @@ export const pkhFormularVereinfachteErklaerungPages = {
   einnahmenUebersicht: {
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "einnahmen",
+      schema: einnahmenArraySchema,
+      fieldName: "hasEinnahmen",
+    },
   },
   einnahme: {
     stepId:
-      "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme",
+      "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      einnahmen: einnahmenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "einnahmen#beschreibung": stringRequiredSchema,
-          "einnahmen#betrag": buildMoneyValidationSchema(),
-          "einnahmen#zahlungsfrequenz":
-            einnahmenArraySchema.element.shape.zahlungsfrequenz,
-        },
-      },
+      "einnahmen#beschreibung": stringRequiredSchema,
+      "einnahmen#betrag": buildMoneyValidationSchema(),
+      "einnahmen#zahlungsfrequenz":
+        einnahmenArraySchema.element.shape.zahlungsfrequenz,
     },
   },
   einnahmenWarnung: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/einnahmen/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   vermoegen: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen",
+    shouldCollapseIntoParentNavItem: true,
   },
   vermoegenFrage: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasVermoegen: YesNoAnswer,
     },
   },
   vermoegenValue: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       vermoegenUnder10000: YesNoAnswer,
     },
@@ -138,29 +152,33 @@ export const pkhFormularVereinfachteErklaerungPages = {
   vermoegenUebersicht: {
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "vermoegen",
+      schema: vermoegenArraySchema,
+      fieldName: "hasVermoegen",
+    },
   },
   vermoegenEintrag: {
-    stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag",
+    stepId:
+      "/antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      vermoegen: vermoegenArraySchema,
-    },
-    arrayPages: {
-      daten: {
-        pageSchema: {
-          "vermoegen#beschreibung": stringRequiredSchema,
-          "vermoegen#wert": buildMoneyValidationSchema(),
-        },
-      },
+      "vermoegen#beschreibung": stringRequiredSchema,
+      "vermoegen#wert": buildMoneyValidationSchema(),
     },
   },
   vermoegenWarnung: {
     stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   hinweisWeiteresFormular: {
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    shouldCollapseIntoParentNavItem: true,
   },
   hinweisVereinfachteErklaerung: {
+    shouldCollapseIntoParentNavItem: true,
     stepId:
       "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
   },

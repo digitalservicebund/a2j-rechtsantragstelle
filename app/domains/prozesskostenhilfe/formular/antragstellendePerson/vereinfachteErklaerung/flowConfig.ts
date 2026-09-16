@@ -29,9 +29,9 @@ export const vereinfachteErklaerungFlowConfig = {
       guard: (context) => unterhaltsOrAbstammungssachen({ context }),
       target: "rechtlichesThema",
     },
-    { target: "einnahmen" },
+    { target: "einnahmenFrage" },
   ],
-  rechtlichesThema: "einnahmen",
+  rechtlichesThema: "einnahmenFrage",
   einnahmen: "einnahmenFrage",
   einnahmenFrage: [
     {
@@ -53,7 +53,7 @@ export const vereinfachteErklaerungFlowConfig = {
     },
     {
       guard: (context) => frageVermoegen({ context }),
-      target: "vermoegen",
+      target: "vermoegenFrage",
     },
     { target: "hinweisWeiteresFormular" },
   ],
@@ -61,7 +61,7 @@ export const vereinfachteErklaerungFlowConfig = {
   einnahmenWarnung: [
     {
       guard: (context) => frageVermoegen({ context }),
-      target: "vermoegen",
+      target: "vermoegenFrage",
     },
     { target: "hinweisWeiteresFormular" },
   ],
