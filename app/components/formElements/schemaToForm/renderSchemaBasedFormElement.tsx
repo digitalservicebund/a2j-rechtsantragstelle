@@ -26,6 +26,13 @@ import {
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 import { useFlowLoaderDataContext } from "~/components/hooks/useFlowLoaderDataContext";
 import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
+import { reuseBeweisZodDescription } from "~/services/validation/reuseBeweis";
+import { ReuseBeweisCheckbox } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/ReuseBeweisCheckbox";
+import {
+  getDocumentsToBeReusedFromOtherAbschnitte,
+  getPersonenToBeReusedFromOtherAbschnitte,
+} from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
+import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -35,6 +42,7 @@ const specialComponentDescriptions = [
   numberIncrementZodDescription,
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
+  reuseBeweisZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -172,6 +180,45 @@ export const renderSpecialMetaDescriptions = (
           dataList={dataListType}
           dataListArgument={dataListArgument}
           key={fieldName}
+        />
+      );
+    }
+    case reuseBeweisZodDescription: {
+      const beweisType = fieldSchema.meta()?.beweisType;
+
+      if (!beweisType) {
+        throw new Error(
+          `ReuseBeweisCheckbox field ${fieldName} is missing a beweisType in the Zod schema.`,
+        );
+      }
+
+      let beweisOptions: Array<{ label: string; value: string }> = [];
+
+      const abschnitte =
+        (userData as GeldEinklagenFormularUserData).abschnitte ?? [];
+      const arrayIndexes = (userData as GeldEinklagenFormularUserData).pageData
+        ?.arrayIndexes;
+      const itemIndexAbschnitte = arrayIndexes?.[0] ?? 0;
+
+      if (beweisType === "document") {
+        beweisOptions = getDocumentsToBeReusedFromOtherAbschnitte(
+          abschnitte,
+          itemIndexAbschnitte,
+        );
+      }
+
+      if (beweisType === "person") {
+        beweisOptions = getPersonenToBeReusedFromOtherAbschnitte(
+          abschnitte,
+          itemIndexAbschnitte,
+        );
+      }
+
+      return (
+        <ReuseBeweisCheckbox
+          key={fieldName}
+          name={fieldName}
+          options={beweisOptions}
         />
       );
     }

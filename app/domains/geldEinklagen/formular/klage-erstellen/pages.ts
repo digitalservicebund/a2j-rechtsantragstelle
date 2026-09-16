@@ -18,6 +18,7 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { reuseBeweisSchema } from "~/services/validation/reuseBeweis";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -222,11 +223,17 @@ export const geldEinklagenKlageErstellenPages = {
     shouldCollapseIntoParentNavItem: true,
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweiseDokument": reuseBeweisSchema("document"),
+    },
   },
   begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweisePerson": reuseBeweisSchema("person"),
+    },
   },
   begruendungBeschreibungAbschnitteBeweisDocument: {
     shouldCollapseIntoParentNavItem: true,
