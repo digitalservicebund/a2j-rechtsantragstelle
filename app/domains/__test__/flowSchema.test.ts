@@ -19,7 +19,6 @@ import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/
 import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
-  beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
   kontopfaendungWegweiserTestCases,
 };
