@@ -2,13 +2,13 @@ import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { prozesskostenhilfeFormularPages } from "../pages";
 
 export const persoenlicheDatenFlowConfig = {
-  persoenlicheDatenStart: [],
-  name: [],
-  geburtsdatum: [],
-  plz: [],
-  adresse: [],
-  telefonnummer: [],
-  beruf: [],
+  persoenlicheDatenStart: "name",
+  name: "geburtsdatum",
+  geburtsdatum: "plz",
+  plz: "adresse",
+  adresse: "telefonnummer",
+  telefonnummer: "beruf",
+  beruf: "weitereAngaben",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
