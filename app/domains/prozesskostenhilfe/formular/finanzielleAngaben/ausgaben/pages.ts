@@ -110,6 +110,11 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   ausgabenVersicherungenUebersicht: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
     shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "versicherungen",
+      schema: versicherungenArraySchema,
+      fieldName: "hasVersicherungen",
+    }
   },
   ausgabenVersicherung: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen",
