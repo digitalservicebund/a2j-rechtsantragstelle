@@ -58,6 +58,7 @@ export const ausgabenFlowConfig = {
     },
   ],
   ausgabenVersicherungSonstigeArt: "ausgabenVersicherungenUebersicht",
+  ausgabenRatenzahlung: null,
   ausgabenRatenzahlungenFrage: [
     {
       guard: (context) => hasRatenzahlungenYes({ context }),
@@ -121,6 +122,7 @@ export const ausgabenFlowConfig = {
     },
   ],
   ausgabenSonstigeAusgabenWarnung: "ausgabenBesondereBelastungen",
+  ausgabenSonstigeAusgabe: null,
   ausgabenSonstigeAusgabeZahlungspflichtiger: [
     {
       guard: (context: any) => sonstigeAusgabeAnteiligYes({ context }),

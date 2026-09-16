@@ -125,6 +125,7 @@ export const eigentumFlowConfig = {
   eigentumGeldanlageBefristet: "eigentumGeldanlagenUebersicht",
   eigentumGeldanlageForderung: "eigentumGeldanlagenUebersicht",
   eigentumGeldanlageSonstiges: "eigentumGeldanlagenUebersicht",
+  eigentumGeldanlage: "eigentumGeldanlagenUebersicht",
   eigentumKraftfahrzeugeFrage: [
     {
       guard: (context) => hasKraftfahrzeugYes({ context }),
@@ -138,7 +139,7 @@ export const eigentumFlowConfig = {
     {
       guard: (context) =>
         hasKraftfahrzeugYes({ context }) &&
-        !arrayIsNonEmpty(context.kraftfahrzeuge),
+      !arrayIsNonEmpty(context.kraftfahrzeuge),
       target: "eigentumKraftfahrzeugeWarnung",
     },
     { target: "eigentumWertgegenstaendeFrage" },
@@ -154,6 +155,7 @@ export const eigentumFlowConfig = {
   ],
   eigentumKraftfahrzeugFahrzeuge: "eigentumKraftfahrzeugeUebersicht",
   eigentumKraftfahrzeugeWarnung: "eigentumWertgegenstaendeFrage",
+  eigentumKraftfahrzeuge: "eigentumKraftfahrzeugeUebersicht",
   eigentumWertgegenstaende: "eigentumWertgegenstaendeUebersicht",
   eigentumWertgegenstaendeFrage: [
     {
@@ -214,6 +216,7 @@ export const eigentumFlowConfig = {
   ],
   eigentumGrundeigentumBewohntDaten: "eigentumGrundeigentumUebersicht",
   eigentumGrundeigentumWarnung: "ausgabenFrage",
+  eigentumGrundeigentumGrundeigentum: "eigentumGrundeigentumUebersicht",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
