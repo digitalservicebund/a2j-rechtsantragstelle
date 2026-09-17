@@ -18,12 +18,14 @@ const dialogLabelId = "dialog-label";
 const dialogDescriptionId = "dialog-description";
 
 const reuseDialogSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new"]),
+  "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
 });
 
 const dialogOptions = [
-  { text: "Ein bereits genanntes Dokument erneut angeben", value: "reuse" },
-  { text: "Ein neues Dokument beschreiben", value: "new" },
+  { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
+  { text: "Eine neue Person", value: "new" },
+  { text: "Die klagende Person (mich selbst)", value: "klagende" },
+  { text: "Die beklagte Person", value: "beklagte" },
 ];
 
 const errorMessages = [
@@ -33,7 +35,7 @@ const errorMessages = [
   },
 ];
 
-export const ReuseBeweiseDialogDocument = ({
+export const ReuseBeweiseDialogPerson = ({
   closeDialog,
   dialogRef,
   itemIndexAbschnitt,
@@ -56,7 +58,8 @@ export const ReuseBeweiseDialogDocument = ({
       schema={reuseDialogSchema}
       defaultValues={{ "reuse-option": "reuse" }}
       method="post"
-      action={"/action/geld-einklagen/reuse-beweise-document"}
+      action={"/action/geld-einklagen/reuse-beweise-person"}
+      onSubmitSuccess={closeDialog}
     >
       <dialog
         aria-modal="true"
@@ -74,7 +77,7 @@ export const ReuseBeweiseDialogDocument = ({
           >
             {
               translations.geldEinklagen
-                .begruendungBeschreibungReuseDocumentDialogTitle.de
+                .begruendungBeschreibungReusePersonDialogTitle.de
             }
           </h2>
           <Button
@@ -110,7 +113,7 @@ export const ReuseBeweiseDialogDocument = ({
           </Button>
           <Button
             type="submit"
-            name="_dialog_action_2"
+            name="_dialog_action"
             value="next"
             className="w-fit"
           >

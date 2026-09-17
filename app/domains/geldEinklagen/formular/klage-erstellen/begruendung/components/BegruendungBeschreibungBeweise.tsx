@@ -6,25 +6,20 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungAbschnitte } from "./begruendungAbschnitteContext";
-import {
-  hasDocumentsToBeReusedFromOtherAbschnitte,
-  hasPersonenToBeReusedFromOtherAbschnitte,
-} from "./reuseBeweise";
+import { hasDocumentsToBeReusedFromOtherAbschnitte } from "./reuseBeweise";
 import { useRef } from "react";
 import { ReuseBeweiseDialogDocument } from "./ReuseBeweiseDialogDocument";
+import { ReuseBeweiseDialogPerson } from "./ReuseBeweiseDialogPerson";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
-
-const reusePersonsDialogOptions = [
-  { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
-  { text: "Eine neue Person", value: "new" },
-];
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndexAbschnitt,
   abschnitt,
 }: BegruendungBeschreibungAbschnittProps) => {
+  const jsAvailable = useJsAvailable();
   const nextDocumentItemIndex = arrayIsNonEmpty(abschnitt.dokumenten)
     ? abschnitt.dokumenten.length
     : 0;
@@ -45,10 +40,6 @@ export const BegruendungBeschreibungBeweise = ({
   );
 
   const dialogPersonRef = useRef<HTMLDialogElement>(null);
-  const hasPersonsToBeReused = hasPersonenToBeReusedFromOtherAbschnitte(
-    abschnitte,
-    itemIndexAbschnitt,
-  );
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
@@ -79,9 +70,13 @@ export const BegruendungBeschreibungBeweise = ({
           <Button
             href={!hasDocumentsToBeReused ? addDocumentUrl : undefined}
             onClick={() =>
-              hasDocumentsToBeReused && dialogDocumentRef.current?.showModal()
+              hasDocumentsToBeReused &&
+              jsAvailable &&
+              dialogDocumentRef.current?.showModal()
             }
-            aria-haspopup={hasDocumentsToBeReused ? "dialog" : undefined}
+            aria-haspopup={
+              hasDocumentsToBeReused && jsAvailable ? "dialog" : undefined
+            }
             look="secondary"
             className="text-wrap"
             fullWidth
@@ -105,11 +100,9 @@ export const BegruendungBeschreibungBeweise = ({
             />
           )}
           <Button
-            href={!hasPersonsToBeReused ? addPersonUrl : undefined}
-            onClick={() =>
-              hasPersonsToBeReused && dialogPersonRef.current?.showModal()
-            }
-            aria-haspopup={hasPersonsToBeReused ? "dialog" : undefined}
+            href={jsAvailable ? undefined : addPersonUrl}
+            onClick={() => jsAvailable && dialogPersonRef.current?.showModal()}
+            aria-haspopup={jsAvailable ? "dialog" : undefined}
             look="secondary"
             className="text-wrap"
             fullWidth
@@ -124,14 +117,12 @@ export const BegruendungBeschreibungBeweise = ({
                 .begruendungBeschreibungEvidenceAddPersonButton.de
             }
           </Button>
-          {hasPersonsToBeReused && (
-            <ReuseBeweiseDialogDocument
-              dialogRef={dialogPersonRef}
-              closeDialog={() => dialogPersonRef.current?.close()}
-              itemIndexAbschnitt={itemIndexAbschnitt}
-              nextItemBeweis={nextPersonItemIndex}
-            />
-          )}
+          <ReuseBeweiseDialogPerson
+            dialogRef={dialogPersonRef}
+            closeDialog={() => dialogPersonRef.current?.close()}
+            itemIndexAbschnitt={itemIndexAbschnitt}
+            nextItemBeweis={nextPersonItemIndex}
+          />
         </div>
       </div>
     </div>
