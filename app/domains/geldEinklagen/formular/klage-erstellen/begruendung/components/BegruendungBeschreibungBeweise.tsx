@@ -95,7 +95,11 @@ export const BegruendungBeschreibungBeweise = ({
 
         <div className="flex sm:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">
           <Button
-            href={!hasDocumentsToBeReused ? addDocumentUrl : undefined}
+            href={
+              !hasDocumentsToBeReused || !jsAvailable
+                ? addDocumentUrl
+                : undefined
+            }
             onClick={() =>
               hasDocumentsToBeReused &&
               jsAvailable &&
