@@ -4,7 +4,6 @@ import type { FlowTransitionConfig } from "~/services/flow/server/flowTransition
 import { abgabeXstateConfig } from "./abgabe/xstateConfig";
 import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
 import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
-import { fluggastrechteGuards } from "./guards";
 import { introXstateConfig } from "./intro/xstateConfig";
 import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
 import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
@@ -126,6 +125,5 @@ export const fluggastrechtFlow = {
       abgabe: abgabeXstateConfig,
     },
   },
-  guards: fluggastrechteGuards,
   flowTransitionConfig,
 } satisfies Flow<FluggastrechteFormularPages>;
