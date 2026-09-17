@@ -1,11 +1,12 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenKinderUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/kinder/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachKinder } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
   hasUnenteredChildren: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: { ...reachKinder, hasKinder: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -17,7 +18,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
   doesntHaveChildren: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "no" },
+      userInput: { ...reachKinder, hasKinder: "no" },
     },
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
@@ -26,7 +27,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
   kinderUebersichtTransition: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: { ...reachKinder, hasKinder: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -53,6 +54,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       addArrayItemEvent: "add-kinder",
+      userInput: { ...reachKinder, hasKinder: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -83,6 +85,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
+      userInput: { ...reachKinder, hasKinder: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -112,6 +115,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       addArrayItemEvent: "add-kinder",
+      userInput: { ...reachKinder, hasKinder: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/kinder/kinder/0/name",
@@ -137,4 +141,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt",
     },
   ],
-} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenKinderUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;
