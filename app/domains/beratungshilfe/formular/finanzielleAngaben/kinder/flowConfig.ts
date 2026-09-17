@@ -36,6 +36,7 @@ export const kinderFlowConfig = {
       guard: (context) => kindWohnortBeiAntragstellerNo({ context }),
       target: "kinderUnterhaltFrage",
     },
+    { target: "kinderUebersicht" },
   ],
   kinderEigeneEinnahmenFrage: [
     {
@@ -54,6 +55,7 @@ export const kinderFlowConfig = {
       guard: (context) => kindUnterhaltNo({ context }),
       target: "kinderUnterhaltEnde",
     },
+    { target: "kinderUebersicht" },
   ],
   kinderUnterhalt: "kinderUebersicht",
   kinderUnterhaltEnde: "kinderUebersicht",
