@@ -91,7 +91,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       };
 
       const updatedUserData = merge({}, flowSession.data, {
-        currentAbschnitte: currentAbschnitte,
+        abschnitte: currentAbschnitte,
       });
 
       updateSession(flowSession, updatedUserData);
