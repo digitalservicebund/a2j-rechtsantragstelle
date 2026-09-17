@@ -8,12 +8,7 @@ export const wohnungFlowConfig = {
       guard: (context) => context.livingSituation === "alone",
       target: "wohnkostenAllein",
     },
-    {
-      guard: (context) =>
-        context.livingSituation === "withRelatives" ||
-        context.livingSituation === "withOthers",
-      target: "personenAnzahl",
-    },
+    { target: "personenAnzahl" },
   ],
   wohnkostenAllein: "eigentumInfo",
   personenAnzahl: "wohnkostenGeteilt",
