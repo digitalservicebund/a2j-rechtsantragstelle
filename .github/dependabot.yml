@@ -39,6 +39,10 @@ updates:
           - "@types/react-dom"
       patch-updates:
         update-types: ["patch"]
+        ## Exclude react-router updates from patch-updates group temporary
+        exclude-patterns:
+          - "@react-router/*"
+          - "react-router*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
