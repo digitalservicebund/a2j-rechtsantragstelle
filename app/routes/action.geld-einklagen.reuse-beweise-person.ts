@@ -10,7 +10,7 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 import merge from "lodash/merge";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
-const BASE_URL_PAGE_REUSE_PERSON = "beweis-personen-wiederverwenden";
+const BASE_URL_PAGE_REUSE_PERSON = "beweis-person-wiederverwenden";
 const BASE_URL_PAGE_UEBERSICHT =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/uebersicht#array-summary-item-edit-abschnitte-";
 
