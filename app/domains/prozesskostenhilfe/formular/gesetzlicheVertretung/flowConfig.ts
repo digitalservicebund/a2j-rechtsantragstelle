@@ -1,11 +1,9 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type prozesskostenhilfeFormularPages } from "../pages";
-import { hasGesetzlicheVertretungYes } from "./guards";
-
 export const gesetzlicheVertretungFlowConfig = {
   gesetzlicheVertretungFrage: [
     {
-      guard: (context) => hasGesetzlicheVertretungYes({ context }),
+      guard: (context) => context.hasGesetzlicheVertretung === "yes",
       target: "gesetzlicheVertretungDaten",
     },
     { target: "persoenlicheDatenStart" },
