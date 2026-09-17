@@ -44,9 +44,10 @@ const partialFlowContext: FluggastrechteUserData = {
   plz: "10115",
   ort: "Berlin",
   isWeiterePersonen: "no",
+  fluggesellschaft: "LH",
 };
 
-const partialFlowUserInput = (
+const reachPartialFlowInput = (
   userData: FluggastrechteUserData,
 ): FluggastrechteUserData => ({
   ...partialFlowContext,
@@ -80,10 +81,10 @@ const toExpectedSteps = ([userData, stepIds]: LegacyTestCase): Array<
 > => {
   const isPartialFlow = stepIds[0] !== "/intro/start";
 
-  return stepIds.map((stepId, index) => {
-    const isFirstStepOfPartialFlow = index === 0 && isPartialFlow;
-    const userInput = isFirstStepOfPartialFlow
-      ? partialFlowUserInput(userData)
+  return stepIds.map((stepId) => {
+    // If we're starting the test midway through the flow, we need to seed the userData to reach the first desired step
+    const userInput = isPartialFlow
+      ? reachPartialFlowInput(userData)
       : getPageUserInput(userData, stepId);
     const pageSchema = getPageSchema(FLOW_ID + stepId);
     const hasInvalidPageInput =
@@ -122,7 +123,7 @@ export const fluggastrechteFormularTestCases = {
     weiterePersonHinzufuegen: [
       {
         stepId: "/persoenliche-daten/weitere-personen/uebersicht",
-        userInput: partialFlowUserInput({
+        userInput: reachPartialFlowInput({
           isWeiterePersonen: "yes",
           weiterePersonen: [],
         }),
