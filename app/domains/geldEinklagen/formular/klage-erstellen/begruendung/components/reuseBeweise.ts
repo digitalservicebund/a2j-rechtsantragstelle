@@ -51,8 +51,8 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
       .map((person, personIndex) => ({ person, personIndex }))
       .filter(({ person }) => hasPersonDetails(person))
       .map(({ person, personIndex }) => ({
-        // hasPersonDetails only passes for "anotherPerson" entries, which carry vorname/nachname.
-        label: `${(person as { vorname: string }).vorname} ${(person as { nachname: string }).nachname}`,
+        labelBold: `${(person as { vorname: string }).vorname} ${(person as { nachname: string }).nachname}`,
+        label: `${(person as { strasse: string }).strasse} ${(person as { hausnummer: string }).hausnummer}, ${(person as { plz: string }).plz} ${(person as { ort: string }).ort}, ${(person as { land: string }).land}`,
         option: `${abschnittIndex}-${personIndex}`,
       }));
   });
