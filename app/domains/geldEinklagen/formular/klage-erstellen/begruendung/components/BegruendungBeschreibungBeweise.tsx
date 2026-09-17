@@ -21,13 +21,11 @@ const reuseDialogPersonSchema = z.object({
 });
 
 const uncheckedRadios = () => {
-  const checkedRadio = document.querySelectorAll(
-    'input[type="radio"][name="reuse-option"]:checked',
-  );
-
-  checkedRadio.forEach(
-    (radio) => ((radio as HTMLInputElement).checked = false),
-  );
+  document
+    .querySelectorAll<HTMLInputElement>(
+      'input[type="radio"][name="reuse-option"]:checked',
+    )
+    .forEach((radio) => (radio.checked = false));
 };
 
 export const BegruendungBeschreibungBeweise = ({
