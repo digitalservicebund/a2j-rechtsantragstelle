@@ -184,7 +184,13 @@ export const renderSpecialMetaDescriptions = (
       );
     }
     case reuseBeweisZodDescription: {
-      const beweisType = fieldSchema.meta()?.beweisType;
+      let beweisType = fieldSchema.meta()?.beweisType;
+
+      if (fieldSchema instanceof z.ZodUnion && !beweisType) {
+        beweisType = fieldSchema.options
+          .map((innerSchema) => (innerSchema as z.ZodType).meta()?.beweisType)
+          .find(Boolean);
+      }
 
       if (!beweisType) {
         throw new Error(
