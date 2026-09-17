@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useEffect } from "react";
-import z from "zod";
+import type z from "zod";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -14,14 +14,11 @@ type Props = {
   itemIndexAbschnitt: number;
   nextItemBeweis: number;
   abschnittPersons: BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"];
+  formSchema: z.ZodObject<any>;
 };
 
 const dialogLabelId = "dialog-label";
 const dialogDescriptionId = "dialog-description";
-
-const reuseDialogSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
-});
 
 const errorMessages = [
   {
@@ -36,6 +33,7 @@ export const ReuseBeweiseDialogPerson = ({
   itemIndexAbschnitt,
   nextItemBeweis,
   abschnittPersons,
+  formSchema,
 }: Props) => {
   useEffect(() => {
     const dialog = dialogRef?.current;
@@ -73,8 +71,8 @@ export const ReuseBeweiseDialogPerson = ({
 
   return (
     <ValidatedForm
-      schema={reuseDialogSchema}
-      defaultValues={{ "reuse-option": "reuse" }}
+      schema={formSchema}
+      defaultValues={{ "reuse-option": "" }}
       method="post"
       action={"/action/geld-einklagen/reuse-beweise-person"}
       onSubmitSuccess={closeDialog}

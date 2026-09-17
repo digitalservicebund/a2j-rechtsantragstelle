@@ -11,9 +11,24 @@ import { useRef } from "react";
 import { ReuseBeweiseDialogDocument } from "./ReuseBeweiseDialogDocument";
 import { ReuseBeweiseDialogPerson } from "./ReuseBeweiseDialogPerson";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
+import z from "zod";
 
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
+
+const reuseDialogPersonSchema = z.object({
+  "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
+});
+
+const uncheckedRadios = () => {
+  const checkedRadio = document.querySelectorAll(
+    'input[type="radio"][name="reuse-option"]:checked',
+  );
+
+  checkedRadio.forEach(
+    (radio) => ((radio as HTMLInputElement).checked = false),
+  );
+};
 
 export const BegruendungBeschreibungBeweise = ({
   itemIndexAbschnitt,
@@ -40,6 +55,16 @@ export const BegruendungBeschreibungBeweise = ({
   );
 
   const dialogPersonRef = useRef<HTMLDialogElement>(null);
+
+  const closePersonDialog = () => {
+    dialogPersonRef.current?.close();
+    uncheckedRadios();
+  };
+
+  const closeDocumentDialog = () => {
+    dialogDocumentRef.current?.close();
+    uncheckedRadios();
+  };
 
   return (
     <div className="flex flex-col p-kern-space-default border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)]">
@@ -94,7 +119,7 @@ export const BegruendungBeschreibungBeweise = ({
           {hasDocumentsToBeReused && (
             <ReuseBeweiseDialogDocument
               dialogRef={dialogDocumentRef}
-              closeDialog={() => dialogDocumentRef.current?.close()}
+              closeDialog={closeDocumentDialog}
               itemIndexAbschnitt={itemIndexAbschnitt}
               nextItemBeweis={nextDocumentItemIndex}
             />
@@ -119,10 +144,11 @@ export const BegruendungBeschreibungBeweise = ({
           </Button>
           <ReuseBeweiseDialogPerson
             dialogRef={dialogPersonRef}
-            closeDialog={() => dialogPersonRef.current?.close()}
+            closeDialog={closePersonDialog}
             itemIndexAbschnitt={itemIndexAbschnitt}
             nextItemBeweis={nextPersonItemIndex}
             abschnittPersons={abschnitt.personen}
+            formSchema={reuseDialogPersonSchema}
           />
         </div>
       </div>
