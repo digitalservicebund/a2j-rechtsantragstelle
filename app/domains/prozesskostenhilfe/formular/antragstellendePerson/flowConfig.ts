@@ -1,6 +1,7 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
 import { type prozesskostenhilfeFormularPages } from "../pages";
+
 export const antragstellendePersonFlowConfig = {
   empfaenger: [
     {
