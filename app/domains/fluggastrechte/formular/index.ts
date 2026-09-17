@@ -44,7 +44,8 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
-import { type fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { fluggastrechteFormularFlowConfig } from "./flowConfig";
+import { type FluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pagesNewFlowEngine";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -53,6 +54,7 @@ const flowTransitionConfig: FlowTransitionConfig = {
 
 export const fluggastrechtFlow = {
   flowType: "formFlow",
+  newEngineConfig: fluggastrechteFormularFlowConfig,
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [
@@ -126,4 +128,4 @@ export const fluggastrechtFlow = {
   },
   guards: fluggastrechteGuards,
   flowTransitionConfig,
-} satisfies Flow<typeof fluggastrechteFormularPages>;
+} satisfies Flow<FluggastrechteFormularPages>;
