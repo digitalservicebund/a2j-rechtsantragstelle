@@ -10,7 +10,10 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import {
+  schemaOrEmptyString,
+  schemaOrEmptyStringOptional,
+} from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import {
@@ -204,7 +207,9 @@ export const geldEinklagenKlageErstellenPages = {
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
     pageSchema: {
-      "abschnitte#reuseBeweiseDokument": reuseBeweisSchema("document"),
+      "abschnitte#reuseBeweiseDokument": schemaOrEmptyStringOptional(
+        reuseBeweisSchema("document"),
+      ),
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
@@ -212,7 +217,9 @@ export const geldEinklagenKlageErstellenPages = {
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
     pageSchema: {
-      "abschnitte#reuseBeweisePerson": reuseBeweisSchema("person"),
+      "abschnitte#reuseBeweisePerson": schemaOrEmptyStringOptional(
+        reuseBeweisSchema("person"),
+      ),
     },
   },
   begruendungBeschreibungAbschnitteBeweisDocument: {
