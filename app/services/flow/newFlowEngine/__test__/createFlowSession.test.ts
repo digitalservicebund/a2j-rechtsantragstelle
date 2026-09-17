@@ -770,10 +770,7 @@ describe("createFlowSession", () => {
       initialStep: "start",
       transitions: {
         start: "list",
-        list: [
-          { type: "addArrayItem", target: "item" },
-          { target: "after" },
-        ],
+        list: [{ type: "addArrayItem", target: "item" }, { target: "after" }],
         // Guarded-only, no fallback: with no item data this dead-ends the walk.
         item: [
           {
