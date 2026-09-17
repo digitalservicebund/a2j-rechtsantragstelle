@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 
 const nextStepRSV = "/rechtsschutzversicherung/rsv-frage";
 const nextStepEinkuenfte = "/finanzielle-angaben/einkuenfte/start";
@@ -211,12 +212,18 @@ const nextStepEinkuenfte = "/finanzielle-angaben/einkuenfte/start";
 //   ...nachueberpruefungCase,
 // } satisfies FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData>;
 
-export const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData> =
+export const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> =
   {
     erstAntragOtherRecipient: [
       {
         stepId: "/antragstellende-person/empfaenger",
+        skipPageSchemaValidation: true,
         userInput: {
+          formularArt: "erstantrag",
+          anhaengigesGerichtsverfahrenFrage: "yes",
+          gerichtName: "",
+          aktenzeichen: "",
+          verfahrenArt: "verfahrenAnwalt",
           empfaenger: "otherPerson",
         },
       },

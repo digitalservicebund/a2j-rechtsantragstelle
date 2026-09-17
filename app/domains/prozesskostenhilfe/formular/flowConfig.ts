@@ -26,5 +26,4 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     weitereAngaben: "zusammenfassung",
     ...abgabeFlowConfig,
   },
-  pruningStrategy: "cascading",
 }) as CompiledFlow<PageConfigMap>;

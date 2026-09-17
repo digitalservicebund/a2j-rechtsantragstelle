@@ -110,6 +110,7 @@ export const eigentumFlowConfig = {
       target: "eigentumGeldanlageSonstiges",
       guard: (context) => isGeldanlageSonstiges({ context }),
     },
+    { target: "eigentumGeldanlagenUebersicht" },
   ],
   eigentumGeldanlageBargeld: "eigentumGeldanlagenUebersicht",
   eigentumGeldanlageWertpapiere: "eigentumGeldanlagenUebersicht",

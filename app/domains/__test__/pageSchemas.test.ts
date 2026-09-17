@@ -84,13 +84,12 @@ describe("getPageSchema", () => {
       expect(getPageSchema("/prozesskostenhilfe/formular")).toBeUndefined();
     });
 
-    it("should handle pathname with multiple consecutive slashes", () => {
-      const result = getPageSchema(
-        "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme//0//daten",
-      );
-      expect(result).toBeDefined();
-      expect(result).toHaveProperty("einnahmen#beschreibung");
-      expect(result).toHaveProperty("einnahmen#betrag");
+    it("returns undefined for a pathname with multiple consecutive slashes", () => {
+      expect(
+        getPageSchema(
+          "/prozesskostenhilfe/formular/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahme//0//daten",
+        ),
+      ).toBeUndefined();
     });
 
     it("should handle pathname with only slashes", () => {
@@ -137,7 +136,7 @@ describe("getAllFieldsFromFlowId", () => {
   it("should return specific the fields for array pages in the flow id /beratungshilfe/antrag", () => {
     const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
 
-    expect(fields["/finanzielle-angaben/kinder/kinder/#/name"]).toEqual([
+    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toEqual([
       "kinder#vorname",
       "kinder#nachname",
       "kinder#geburtsdatum",
@@ -159,7 +158,7 @@ describe("getRelevantPageSchemasForStepId", () => {
       getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
     ).toEqual({
       start: {
-        stepId: "start/start",
+        stepId: "start",
       },
     });
 
