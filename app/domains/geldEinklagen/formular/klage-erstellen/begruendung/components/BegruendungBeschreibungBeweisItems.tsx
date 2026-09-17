@@ -10,7 +10,6 @@ import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { Badge } from "~/components/content/Badge";
 import { useRef } from "react";
-import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { DeleteDialog } from "./DeleteDialog";
 import classNames from "classnames";
 
@@ -105,15 +104,14 @@ const ItemButtons = ({
   deleteDialogDescription,
 }: ItemButtonsProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const jsAvailable = useJsAvailable();
 
   const onDeleteClicked = () => {
-    if (!jsAvailable) {
-      onDelete();
-      return;
-    }
-
     dialogRef.current?.showModal();
+  };
+
+  const onClickDeleteDialog = () => {
+    onDelete();
+    dialogRef.current?.close();
   };
 
   return (
@@ -138,7 +136,7 @@ const ItemButtons = ({
       <DeleteDialog
         title={deleteDialogTitle}
         description={deleteDialogDescription}
-        onClickDelete={onDelete}
+        onClick={onClickDeleteDialog}
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
       />

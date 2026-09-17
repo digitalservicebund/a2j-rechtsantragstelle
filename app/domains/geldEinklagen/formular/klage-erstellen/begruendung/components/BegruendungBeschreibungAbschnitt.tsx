@@ -96,7 +96,7 @@ const BegruendungBeschreibungAbschnitt = ({
                 translations.geldEinklagen
                   .begruendungBeschreibungDeleteDialogDescription.de
               }
-              onClickDelete={() =>
+              onClick={() =>
                 onAbschnittDelete(
                   BASE_URL_BESCHREIBUNG_ABSCHNITTE,
                   itemIndexAbschnitt,

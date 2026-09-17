@@ -6,7 +6,7 @@ import { translations } from "~/services/translations/translations";
 type Props = {
   title: string;
   description: React.ReactNode;
-  onClickDelete: () => void;
+  onClick: () => void;
   closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement | null>;
 };
@@ -17,7 +17,7 @@ const dialogDescriptionId = "dialog-description";
 export const DeleteDialog = ({
   title,
   description,
-  onClickDelete,
+  onClick,
   closeDialog,
   dialogRef,
 }: Props) => {
@@ -77,7 +77,7 @@ export const DeleteDialog = ({
         <Button
           className="bg-kern-feedback-danger!"
           type="button"
-          onClick={onClickDelete}
+          onClick={onClick}
         >
           {
             translations.geldEinklagen
