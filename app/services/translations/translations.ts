@@ -318,7 +318,7 @@ export const translations = {
   },
   xjustiz: {
     invalidCharacters: {
-      de: "Die folgenden Sonderzeichen sind für dieses Feld nicht erlaubt und müssen gelöscht oder ersetzt werden:",
+      de: "Folgende Zeichen sind in diesem Feld nicht erlaubt:",
     },
   },
   arraySummary: {
