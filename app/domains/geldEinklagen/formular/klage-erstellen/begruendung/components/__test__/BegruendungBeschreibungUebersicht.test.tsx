@@ -3,15 +3,23 @@ import { type FlowId } from "~/domains/flowIds";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../../userData";
 import BegruendungBeschreibungUebersicht from "../BegruendungBeschreibungUebersicht";
 import { render } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router";
 
 vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 
-vi.mock("react-router", () => ({
-  useRouteLoaderData: vi.fn(() => ({ csrf: "csrf" })),
-  useRevalidator: vi.fn(),
-}));
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+
+  return {
+    ...actual,
+    useRouteLoaderData: () => ({
+      csrfToken: "test-token",
+    }),
+    useRevalidator: vi.fn(),
+  };
+});
 
 const mockUseFormFlow = (
   userData: GeldEinklagenFormularKlageErstellenUserData,
@@ -39,6 +47,25 @@ beforeEach(() => {
   );
 });
 
+function renderBegruendungBeschreibungUebersicht() {
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: <BegruendungBeschreibungUebersicht />,
+
+        action() {
+          return true;
+        },
+      },
+    ],
+    {
+      initialEntries: ["/"],
+    },
+  );
+  return render(<RouterProvider router={router} />);
+}
+
 describe("BegruendungBeschreibungUebersicht", () => {
   it("should not render when flowId is not '/geld-einklagen/formular'", () => {
     mockUseFormFlow(
@@ -52,7 +79,7 @@ describe("BegruendungBeschreibungUebersicht", () => {
       "/beratungshilfe/antrag",
     );
 
-    const { container } = render(<BegruendungBeschreibungUebersicht />);
+    const { container } = renderBegruendungBeschreibungUebersicht();
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -64,14 +91,14 @@ describe("BegruendungBeschreibungUebersicht", () => {
       "/geld-einklagen/formular",
     );
 
-    const { queryAllByTestId } = render(<BegruendungBeschreibungUebersicht />);
+    const { queryAllByTestId } = renderBegruendungBeschreibungUebersicht();
     expect(
       queryAllByTestId("begruendung-beschreibung-abschnitte"),
     ).toHaveLength(0);
   });
 
   it("should render the correct number of BegruendungBeschreibungAbschnitte components", () => {
-    const { getAllByTestId } = render(<BegruendungBeschreibungUebersicht />);
+    const { getAllByTestId } = renderBegruendungBeschreibungUebersicht();
     const abschnitteComponents = getAllByTestId(
       "begruendung-beschreibung-abschnitte",
     );
@@ -79,7 +106,7 @@ describe("BegruendungBeschreibungUebersicht", () => {
   });
 
   it("should render the add button with correct URL", () => {
-    const { getByTestId } = render(<BegruendungBeschreibungUebersicht />);
+    const { getByTestId } = renderBegruendungBeschreibungUebersicht();
     const addButton = getByTestId("add-abschnitt");
     expect(addButton).toHaveAttribute(
       "href",
@@ -97,9 +124,8 @@ describe("BegruendungBeschreibungUebersicht", () => {
       "/geld-einklagen/formular",
     );
 
-    const { getByTestId, getByRole, getByText } = render(
-      <BegruendungBeschreibungUebersicht />,
-    );
+    const { getByTestId, getByRole, getByText } =
+      renderBegruendungBeschreibungUebersicht();
     const addButton = getByTestId("add-abschnitt");
     expect(addButton).toHaveClass("kern-btn--disabled pointer-events-none");
     expect(getByRole("note")).toBeInTheDocument();

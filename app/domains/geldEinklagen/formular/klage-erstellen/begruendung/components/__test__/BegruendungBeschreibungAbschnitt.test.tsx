@@ -1,6 +1,8 @@
 import BegruendungBeschreibungAbschnitt from "../BegruendungBeschreibungAbschnitt";
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import { type GeldEinklagenFormularKlageErstellenUserData } from "../../../userData";
 
 // Needed as jsdom doesn't support dialog API yet
 // https://github.com/jsdom/jsdom/issues/3294
@@ -22,26 +24,49 @@ beforeEach(() => {
   }));
 });
 
+function renderBegruendungBeschreibungAbschnitt(
+  abschnitt: Exclude<
+    GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
+    undefined
+  >[number],
+) {
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <BegruendungBeschreibungAbschnitt
+            abschnitt={abschnitt}
+            itemIndexAbschnitt={0}
+          />
+        ),
+
+        action() {
+          return true;
+        },
+      },
+    ],
+    {
+      initialEntries: ["/"],
+    },
+  );
+  return render(<RouterProvider router={router} />);
+}
+
 describe("BegruendungBeschreibungAbschnitt", () => {
   it("should render the correct heading and description texts", () => {
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitt
-        abschnitt={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitt={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
     expect(getByText("Abschnitt 1")).toBeInTheDocument();
     expect(getByText("Test Beschreibung")).toBeInTheDocument();
   });
 
   it("should render the edit and delete buttons", () => {
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitt
-        abschnitt={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitt={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
     const editButton = getByText("Beschreibung bearbeiten");
     expect(editButton).toHaveAttribute(
@@ -60,12 +85,9 @@ describe("BegruendungBeschreibungAbschnitt", () => {
       onAbschnittPersonDelete: vi.fn(),
     }));
 
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitt
-        abschnitt={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitt={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
     getByText("Abschnitt löschen").click();
     getByText("Ja, löschen").click();

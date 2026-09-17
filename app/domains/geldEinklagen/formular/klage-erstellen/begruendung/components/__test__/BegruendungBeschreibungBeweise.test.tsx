@@ -61,8 +61,8 @@ describe("BegruendungBeschreibungBeweise", () => {
       { beschreibung: "Dokument 2" },
     ];
     const personen = [
-      { personAuswahl: "beklagte" as const, personId: "beklagte-person-id" },
-      { personAuswahl: "klagende" as const, personId: "klagende-person-id" },
+      { personAuswahl: "beklagte" as const },
+      { personAuswahl: "klagende" as const },
     ];
 
     const { getByTestId } = renderBegruendungBeschreibungBeweise({
@@ -84,19 +84,15 @@ describe("BegruendungBeschreibungBeweise", () => {
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten/0/daten",
     );
 
-    expect(getByText("Person angeben").closest("a")).toHaveAttribute(
-      "href",
-      "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/auswahl",
-    );
+    expect(getByText("Person angeben").closest("button")).toBeInTheDocument();
   });
 
   it("should disable the add buttons when the maximum number of items is reached", () => {
     const dokumenten = Array.from({ length: 20 }, (_, i) => ({
       beschreibung: `Dokument ${i + 1}`,
     }));
-    const personen = Array.from({ length: 10 }, (_, i) => ({
+    const personen = Array.from({ length: 10 }, (_) => ({
       personAuswahl: "beklagte" as const,
-      personId: `beklagte-person-id-${i}`,
     }));
 
     const { getByText } = renderBegruendungBeschreibungBeweise({
@@ -109,7 +105,7 @@ describe("BegruendungBeschreibungBeweise", () => {
       "aria-disabled",
       "true",
     );
-    expect(getByText("Person angeben").closest("a")).toHaveAttribute(
+    expect(getByText("Person angeben").closest("button")).toHaveAttribute(
       "aria-disabled",
       "true",
     );
