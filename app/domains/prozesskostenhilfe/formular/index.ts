@@ -28,6 +28,10 @@ export const prozesskostenhilfeFormular = {
     ...belegeStrings(context),
     ...getGrundvoraussetzungenStringReplacements(context),
   }),
+  metaConfiguration: {
+    "/abgabe": { excludedFromValidation: true },
+    "/abgabe/ueberpruefung": { triggerValidation: true },
+  },
   asyncFlowActions: {
     "/weitere-angaben": trackNotDoneStateAbgabeUeberpruefung,
   },
