@@ -122,6 +122,7 @@ export const BegruendungBeschreibungBeweise = ({
             closeDialog={() => dialogPersonRef.current?.close()}
             itemIndexAbschnitt={itemIndexAbschnitt}
             nextItemBeweis={nextPersonItemIndex}
+            abschnittPersons={abschnitt.personen}
           />
         </div>
       </div>

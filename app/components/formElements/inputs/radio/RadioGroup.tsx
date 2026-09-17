@@ -11,6 +11,7 @@ type RadioGroupProps = Readonly<{
   options: Array<{
     value: string;
     text?: ReactNode;
+    disabled?: boolean;
   }>;
   label?: ReactNode;
   altLabel?: string;
@@ -54,6 +55,7 @@ const RadioGroup = ({
             name={name}
             value={o.value}
             text={o.text}
+            disabled={o.disabled}
             // Only assign the ref to the first radio button (https://www.w3.org/WAI/ARIA/apg/patterns/radio/)
             ref={index === 0 && hasError ? field.refs.transient() : null}
           />

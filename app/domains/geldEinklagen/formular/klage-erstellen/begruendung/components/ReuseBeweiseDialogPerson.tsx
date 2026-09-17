@@ -6,12 +6,14 @@ import { Icon } from "~/components/common/Icon";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import RadioGroup from "~/components/formElements/inputs/radio/RadioGroup";
 import { translations } from "~/services/translations/translations";
+import { type BegruendungBeschreibungAbschnittProps } from "./BegruendungBeschreibungAbschnitt";
 
 type Props = {
   closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   itemIndexAbschnitt: number;
   nextItemBeweis: number;
+  abschnittPersons: BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"];
 };
 
 const dialogLabelId = "dialog-label";
@@ -20,13 +22,6 @@ const dialogDescriptionId = "dialog-description";
 const reuseDialogSchema = z.object({
   "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
 });
-
-const dialogOptions = [
-  { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
-  { text: "Eine neue Person", value: "new" },
-  { text: "Die klagende Person (mich selbst)", value: "klagende" },
-  { text: "Die beklagte Person", value: "beklagte" },
-];
 
 const errorMessages = [
   {
@@ -40,6 +35,7 @@ export const ReuseBeweiseDialogPerson = ({
   dialogRef,
   itemIndexAbschnitt,
   nextItemBeweis,
+  abschnittPersons,
 }: Props) => {
   useEffect(() => {
     const dialog = dialogRef?.current;
@@ -52,6 +48,28 @@ export const ReuseBeweiseDialogPerson = ({
       });
     }
   }, [dialogRef]);
+
+  const hasBeklagtePerson = abschnittPersons?.some(
+    (person) => person.personAuswahl === "beklagte",
+  );
+  const hasKlagendePerson = abschnittPersons?.some(
+    (person) => person.personAuswahl === "klagende",
+  );
+
+  const dialogOptions = [
+    { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
+    { text: "Eine neue Person", value: "new" },
+    {
+      text: "Die klagende Person (mich selbst)",
+      value: "klagende",
+      disabled: hasKlagendePerson,
+    },
+    {
+      text: "Die beklagte Person",
+      value: "beklagte",
+      disabled: hasBeklagtePerson,
+    },
+  ];
 
   return (
     <ValidatedForm
