@@ -6,7 +6,10 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { BegruendungBeschreibungBeweisItems } from "./BegruendungBeschreibungBeweisItems";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungAbschnitte } from "./begruendungAbschnitteContext";
-import { hasDocumentsToBeReusedFromOtherAbschnitte } from "./reuseBeweise";
+import {
+  hasDocumentsToBeReusedFromOtherAbschnitte,
+  hasPersonenToBeReusedFromOtherAbschnitte,
+} from "./reuseBeweise";
 import { useRef } from "react";
 import { ReuseBeweiseDialogDocument } from "./ReuseBeweiseDialogDocument";
 import { ReuseBeweiseDialogPerson } from "./ReuseBeweiseDialogPerson";
@@ -47,11 +50,17 @@ export const BegruendungBeschreibungBeweise = ({
 
   const addDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten/${nextDocumentItemIndex}/daten`;
   const addPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen/${nextPersonItemIndex}/auswahl`;
+  const reuseDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/beweis-dokument-wiederverwenden`;
+  const reusePersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/beweis-person-wiederverwenden`;
 
   const { abschnitte } = useBegruendungAbschnitte();
 
   const dialogDocumentRef = useRef<HTMLDialogElement>(null);
   const hasDocumentsToBeReused = hasDocumentsToBeReusedFromOtherAbschnitte(
+    abschnitte,
+    itemIndexAbschnitt,
+  );
+  const hasPersonsToBeReused = hasPersonenToBeReusedFromOtherAbschnitte(
     abschnitte,
     itemIndexAbschnitt,
   );
@@ -93,70 +102,126 @@ export const BegruendungBeschreibungBeweise = ({
           itemIndexAbschnitt={itemIndexAbschnitt}
         />
 
-        <div className="flex sm:flex-row flex-col gap-24 w-full justify-between py-kern-space-large md:py-0">
-          <Button
-            href={
-              !hasDocumentsToBeReused || !jsAvailable
-                ? addDocumentUrl
-                : undefined
-            }
-            onClick={() =>
-              hasDocumentsToBeReused &&
-              jsAvailable &&
-              dialogDocumentRef.current?.showModal()
-            }
-            aria-haspopup={
-              hasDocumentsToBeReused && jsAvailable ? "dialog" : undefined
-            }
-            look="secondary"
-            className="text-wrap"
-            fullWidth
-            disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
-            aria-disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
-            iconLeft={
-              <Icon name={"draft"} className="fill-kern-action-default!" />
-            }
-          >
-            {
-              translations.geldEinklagen
-                .begruendungBeschreibungEvidenceAddButton.de
-            }
-          </Button>
-          {hasDocumentsToBeReused && (
-            <ReuseBeweiseDialogDocument
-              dialogRef={dialogDocumentRef}
-              closeDialog={closeDocumentDialog}
-              itemIndexAbschnitt={itemIndexAbschnitt}
-              nextItemBeweis={nextDocumentItemIndex}
-              formSchema={reuseDialogDocumentSchema}
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-24 w-full py-kern-space-large md:py-0">
+          <div className="order-1">
+            <Button
+              href={
+                !hasDocumentsToBeReused || !jsAvailable
+                  ? addDocumentUrl
+                  : undefined
+              }
+              onClick={() =>
+                hasDocumentsToBeReused &&
+                jsAvailable &&
+                dialogDocumentRef.current?.showModal()
+              }
+              aria-haspopup={
+                hasDocumentsToBeReused && jsAvailable ? "dialog" : undefined
+              }
+              look="secondary"
+              className="text-wrap"
+              fullWidth
+              disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
+              aria-disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
+              iconLeft={
+                <Icon name={"draft"} className="fill-kern-action-default!" />
+              }
+            >
+              {
+                translations.geldEinklagen
+                  .begruendungBeschreibungEvidenceAddDocumentButton.de
+              }
+            </Button>
+            {hasDocumentsToBeReused && jsAvailable && (
+              <ReuseBeweiseDialogDocument
+                dialogRef={dialogDocumentRef}
+                closeDialog={closeDocumentDialog}
+                itemIndexAbschnitt={itemIndexAbschnitt}
+                nextItemBeweis={nextDocumentItemIndex}
+                formSchema={reuseDialogDocumentSchema}
+              />
+            )}
+          </div>
+
+          <div className="order-3 sm:order-2">
+            <Button
+              href={jsAvailable ? undefined : addPersonUrl}
+              onClick={() =>
+                jsAvailable && dialogPersonRef.current?.showModal()
+              }
+              aria-haspopup={jsAvailable ? "dialog" : undefined}
+              look="secondary"
+              className="text-wrap"
+              fullWidth
+              disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
+              aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
+              iconLeft={
+                <Icon name={"person"} className="fill-kern-action-default!" />
+              }
+            >
+              {
+                translations.geldEinklagen
+                  .begruendungBeschreibungEvidenceAddPersonButton.de
+              }
+            </Button>
+
+            {jsAvailable && (
+              <ReuseBeweiseDialogPerson
+                dialogRef={dialogPersonRef}
+                closeDialog={closePersonDialog}
+                itemIndexAbschnitt={itemIndexAbschnitt}
+                nextItemBeweis={nextPersonItemIndex}
+                abschnittPersons={abschnitt.personen}
+                formSchema={reuseDialogPersonSchema}
+              />
+            )}
+          </div>
+
+          {!jsAvailable && (
+            <>
+              {hasDocumentsToBeReused && (
+                <div className="order-2 sm:order-3">
+                  <Button
+                    href={reuseDocumentUrl}
+                    look="secondary"
+                    className="text-wrap"
+                    fullWidth
+                    disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
+                    aria-disabled={nextDocumentItemIndex >= MAX_DOCUMENT_ITEMS}
+                    iconLeft={
+                      <Icon
+                        name={"draft"}
+                        className="fill-kern-action-default!"
+                      />
+                    }
+                  >
+                    Dokument wiederverwenden
+                  </Button>
+                </div>
+              )}
+
+              {hasPersonsToBeReused && (
+                <div className="order-4">
+                  <Button
+                    href={reusePersonUrl}
+                    look="secondary"
+                    className="text-wrap"
+                    fullWidth
+                    disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
+                    aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
+                    iconLeft={
+                      <Icon
+                        name={"person"}
+                        className="fill-kern-action-default!"
+                      />
+                    }
+                  >
+                    Person wiederverwenden
+                  </Button>
+                </div>
+              )}
+            </>
           )}
-          <Button
-            href={jsAvailable ? undefined : addPersonUrl}
-            onClick={() => jsAvailable && dialogPersonRef.current?.showModal()}
-            aria-haspopup={jsAvailable ? "dialog" : undefined}
-            look="secondary"
-            className="text-wrap"
-            fullWidth
-            disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
-            aria-disabled={nextPersonItemIndex >= MAX_PERSON_ITEMS}
-            iconLeft={
-              <Icon name={"person"} className="fill-kern-action-default!" />
-            }
-          >
-            {
-              translations.geldEinklagen
-                .begruendungBeschreibungEvidenceAddPersonButton.de
-            }
-          </Button>
-          <ReuseBeweiseDialogPerson
-            dialogRef={dialogPersonRef}
-            closeDialog={closePersonDialog}
-            itemIndexAbschnitt={itemIndexAbschnitt}
-            nextItemBeweis={nextPersonItemIndex}
-            abschnittPersons={abschnitt.personen}
-            formSchema={reuseDialogPersonSchema}
-          />
         </div>
       </div>
     </div>
