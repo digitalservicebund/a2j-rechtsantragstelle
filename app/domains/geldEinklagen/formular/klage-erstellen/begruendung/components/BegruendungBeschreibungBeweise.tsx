@@ -20,6 +20,10 @@ const reuseDialogPersonSchema = z.object({
   "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
 });
 
+const reuseDialogDocumentSchema = z.object({
+  "reuse-option": z.enum(["reuse", "new"]),
+});
+
 const uncheckedRadios = () => {
   document
     .querySelectorAll<HTMLInputElement>(
@@ -120,6 +124,7 @@ export const BegruendungBeschreibungBeweise = ({
               closeDialog={closeDocumentDialog}
               itemIndexAbschnitt={itemIndexAbschnitt}
               nextItemBeweis={nextDocumentItemIndex}
+              formSchema={reuseDialogDocumentSchema}
             />
           )}
           <Button

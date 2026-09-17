@@ -12,14 +12,11 @@ type Props = {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   itemIndexAbschnitt: number;
   nextItemBeweis: number;
+  formSchema: z.ZodObject<any>;
 };
 
 const dialogLabelId = "dialog-label";
 const dialogDescriptionId = "dialog-description";
-
-const reuseDialogSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new"]),
-});
 
 const dialogOptions = [
   { text: "Ein bereits genanntes Dokument erneut angeben", value: "reuse" },
@@ -38,6 +35,7 @@ export const ReuseBeweiseDialogDocument = ({
   dialogRef,
   itemIndexAbschnitt,
   nextItemBeweis,
+  formSchema,
 }: Props) => {
   useEffect(() => {
     const dialog = dialogRef?.current;
@@ -53,8 +51,8 @@ export const ReuseBeweiseDialogDocument = ({
 
   return (
     <ValidatedForm
-      schema={reuseDialogSchema}
-      defaultValues={{ "reuse-option": "reuse" }}
+      schema={formSchema}
+      defaultValues={{ "reuse-option": "" }}
       method="post"
       action={"/action/geld-einklagen/reuse-beweise-document"}
     >
