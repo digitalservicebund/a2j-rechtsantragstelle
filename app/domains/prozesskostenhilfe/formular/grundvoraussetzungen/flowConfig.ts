@@ -38,7 +38,7 @@ export const grundvoraussetzungenFlowConfig = {
       target: "klageersteller",
     },
     {
-      target: "hinweis",
+      target: "fall",
     },
   ],
   klageersteller: [

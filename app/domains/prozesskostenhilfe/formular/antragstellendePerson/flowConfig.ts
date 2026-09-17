@@ -1,20 +1,14 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import {
-  empfaengerIsChild,
-  empfaengerIsAnderePerson,
-  couldLiveFromUnterhalt,
-  unterhaltBekommeIch,
-} from "./guards";
 import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
 import { type prozesskostenhilfeFormularPages } from "../pages";
 export const antragstellendePersonFlowConfig = {
   empfaenger: [
     {
-      guard: (data) => empfaengerIsChild({ context: data }),
+      guard: (context) => context.empfaenger === "child",
       target: "kind",
     },
     {
-      guard: (data) => empfaengerIsAnderePerson({ context: data }),
+      guard: (context) => context.empfaenger === "otherPerson",
       target: "zweiFormulare",
     },
     {
@@ -39,7 +33,7 @@ export const antragstellendePersonFlowConfig = {
   ],
   unterhaltLebenFrage: [
     {
-      guard: (data) => couldLiveFromUnterhalt({ context: data }),
+      guard: (context) => context.couldLiveFromUnterhalt === "yes",
       target: "unterhaltspflichtigePersonBeziehung",
     },
     { target: "rsvFrage" },
@@ -50,7 +44,7 @@ export const antragstellendePersonFlowConfig = {
   unterhaltsbeschreibung: "rsvFrage",
   unterhaltHauptsaechlichesLeben: [
     {
-      guard: (data) => unterhaltBekommeIch({ context: data }),
+      guard: (context) => context.livesPrimarilyFromUnterhalt === "yes",
       target: "unterhaltspflichtigePerson",
     },
     { target: "rsvFrage" },

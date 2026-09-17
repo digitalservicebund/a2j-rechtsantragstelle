@@ -23,6 +23,7 @@ export const prozesskostenhilfeFormularTestCases = {
   newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   testcases: {
     shortHappyPath: [
+      { stepId: "/start/start" },
       {
         stepId: "/gesetzliche-vertretung/frage",
         userInput: {
