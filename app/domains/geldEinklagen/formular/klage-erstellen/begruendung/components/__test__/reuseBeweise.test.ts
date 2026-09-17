@@ -111,7 +111,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 0",
@@ -127,12 +126,11 @@ describe("reuseBeweise", () => {
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte", personId: "personId1" },
+            { personAuswahl: "beklagte" },
             {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email1@example.com",
-              personId: "personId2",
               title: "",
               telefonnummer: "Telefonnummer 1",
               vorname: "Vorname 1",
@@ -165,7 +163,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 0",
@@ -194,8 +191,8 @@ describe("reuseBeweise", () => {
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte", personId: "personId1" },
-            { personAuswahl: "klagende", personId: "personId2" },
+            { personAuswahl: "beklagte" },
+            { personAuswahl: "klagende" },
           ],
         },
       ] satisfies GeldEinklagenFormularKlageErstellenUserData["abschnitte"];
@@ -218,7 +215,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 0",
@@ -238,7 +234,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 1",
@@ -269,7 +264,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 0",
@@ -303,7 +297,6 @@ describe("reuseBeweise", () => {
               personAuswahl: "anotherPerson",
               anrede: "none",
               email: "email0@example.com",
-              personId: "personId0",
               title: "",
               telefonnummer: "Telefonnummer 0",
               vorname: "Vorname 0",
@@ -319,8 +312,8 @@ describe("reuseBeweise", () => {
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte", personId: "personId1" },
-            { personAuswahl: "klagende", personId: "personId2" },
+            { personAuswahl: "beklagte" },
+            { personAuswahl: "klagende" },
           ],
         },
       ] satisfies GeldEinklagenFormularKlageErstellenUserData["abschnitte"];

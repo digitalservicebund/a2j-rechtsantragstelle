@@ -26,18 +26,6 @@ const statePrefilled = z
   .enum(["prefilled", "filledByUser", "unfilled"])
   .default("filledByUser");
 
-const personIdOnAbschnittSchema = hiddenInputSchema(
-  schemaOrEmptyString(z.string().optional()),
-);
-
-const personIdSchema = hiddenInputSchema(
-  z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? crypto.randomUUID() : val))
-    .default(() => crypto.randomUUID()),
-);
-
 const sharedBeklagteAddress = {
   beklagteStrasse: stringRequiredSchema,
   beklagteHausnummer: germanHouseNumberSchema,
@@ -70,12 +58,10 @@ const beweisePersonenArray = z.array(
   z.union([
     z.object({
       personAuswahl: z.enum(["beklagte", "klagende"]),
-      personId: personIdSchema,
     }),
     z.object({
       personAuswahl: z.literal("anotherPerson"),
       ...beweisePersonenSchema.shape,
-      personId: personIdSchema,
     }),
   ]),
 );
@@ -83,8 +69,6 @@ const beweisePersonenArray = z.array(
 export const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredMaxSchema({ max: 12000 }),
-    personIdAsBeklagte: personIdOnAbschnittSchema,
-    personIdAsKlagende: personIdOnAbschnittSchema,
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
   }),
@@ -213,10 +197,6 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
-      "abschnitte#personIdAsBeklagte":
-        abschnitteArray.element.shape.personIdAsBeklagte,
-      "abschnitte#personIdAsKlagende":
-        abschnitteArray.element.shape.personIdAsKlagende,
     },
   },
   begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: {
@@ -254,11 +234,6 @@ export const geldEinklagenKlageErstellenPages = {
         "beklagte",
         "anotherPerson",
       ]),
-      "abschnitte#personIdAsBeklagte":
-        abschnitteArray.element.shape.personIdAsBeklagte,
-      "abschnitte#personIdAsKlagende":
-        abschnitteArray.element.shape.personIdAsKlagende,
-      "abschnitte#personen#personId": personIdSchema,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPerson: {

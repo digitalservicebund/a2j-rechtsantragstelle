@@ -69,7 +69,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         reuseOption === "new"
           ? {
               personAuswahl: "anotherPerson",
-              personId: "",
               anrede: "",
               title: "",
               vorname: "",
@@ -84,7 +83,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             }
           : {
               personAuswahl: reuseOption,
-              personId: "",
             };
 
       currentAbschnitte[itemIndexAbschnitt] = {
