@@ -29,7 +29,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        kinder: [],
         hasKinder: "yes",
       },
     },
