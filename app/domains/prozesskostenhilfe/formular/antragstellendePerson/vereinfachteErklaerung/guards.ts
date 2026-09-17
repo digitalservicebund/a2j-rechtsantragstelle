@@ -3,7 +3,7 @@ import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains
 import { arrayIsNonEmpty } from "~/util/array";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
-export const childLivesSeparately: GenericGuard<
+ const childLivesSeparately: GenericGuard<
   ProzesskostenhilfeVereinfachteErklaerungUserData
 > = ({ context }) => context.livesTogether === "no";
 
