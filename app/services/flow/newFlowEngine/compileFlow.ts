@@ -115,6 +115,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryNodeKey?: NodeKey<C>;
         fieldName?: string;
         isArrayRelevant?: (userData: UserData) => boolean;
+        shouldDisableAddButton?: (context: UserData) => boolean;
         indexOffset?: number;
         hiddenFields?: string[];
       }
@@ -155,6 +156,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryNodeKey: addTransition?.target ?? undefined,
         fieldName: pageNode.arraySummary.fieldName,
         isArrayRelevant: pageNode.arraySummary.isArrayRelevant,
+        shouldDisableAddButton: pageNode.arraySummary.shouldDisableAddButton,
         indexOffset: pageNode.arraySummary.indexOffset,
         hiddenFields: pageNode.arraySummary.hiddenFields,
       };

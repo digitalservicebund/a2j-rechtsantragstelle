@@ -23,7 +23,7 @@ const persoenlicheDatenSchema = {
   kontoinhaber: stringOptionalSchema,
 };
 
-const weiterePersonenArraySchema = z.array(
+export const weiterePersonenArraySchema = z.array(
   z
     .object({
       buchungsnummer: schemaOrEmptyString(stringRequiredSchema),

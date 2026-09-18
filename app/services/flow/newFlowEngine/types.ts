@@ -44,6 +44,7 @@ export type NewFlowEnginePageConfig = {
      */
     fieldName?: string;
     isArrayRelevant?: (userData: UserData) => boolean;
+    shouldDisableAddButton?: (context: UserData) => boolean;
     indexOffset?: number;
     hiddenFields?: string[];
   };

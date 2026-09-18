@@ -25,6 +25,7 @@ describe("buildArrayConfigServer", () => {
         fieldName: "fieldName",
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
+        shouldDisableAddButton: false,
       },
       nextArrayPath:
         "/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
@@ -43,6 +44,7 @@ describe("buildArrayConfigServer", () => {
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
         initialInputUrl: "daten",
         statementKey: "fieldName",
+        shouldDisableAddButton: false,
         displayIndexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
