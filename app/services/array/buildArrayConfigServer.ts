@@ -26,6 +26,7 @@ export const buildArrayConfigServer = (
       initialInputUrl: arrayInfo.entryPoint,
       statementKey: arrayInfo.fieldName,
       isArrayRelevant: arrayInfo.isArrayRelevant,
+      shouldDisableAddButton: arrayInfo.shouldDisableAddButton,
       displayIndexOffset: arrayInfo.indexOffset,
       hiddenFields: arrayInfo.hiddenFields,
     },

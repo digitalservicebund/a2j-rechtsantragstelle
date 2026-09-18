@@ -91,6 +91,7 @@ describe("compileFlow", () => {
         arraySummary: {
           name: "items",
           schema: z.array(z.string()),
+          shouldDisableAddButton: () => false,
         },
       },
       item: { stepId: "/items/#/daten" },
@@ -118,6 +119,12 @@ describe("compileFlow", () => {
 
     it("returns the array name from arraySummary", () => {
       expect(arrayFlow.getArrayInfo("/list")?.name).toBe("items");
+    });
+
+    it("returns the shouldDisableAddButton from arraySummary", () => {
+      expect(
+        arrayFlow.getArrayInfo("/list")?.shouldDisableAddButton,
+      ).toBeDefined();
     });
 
     it("returns the entryPoint derived from the addArrayItem target stepId", () => {
