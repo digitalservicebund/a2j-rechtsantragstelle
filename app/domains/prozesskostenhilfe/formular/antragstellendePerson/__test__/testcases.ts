@@ -210,7 +210,6 @@ const nachueberpruefungCase = Object.fromEntries(
     })),
   ]),
 ) satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
-console.log(JSON.stringify(nachueberpruefungCase, null, 2));
 
 export const testCasesPKHFormularAntragstellendePersonTransitions = {
   ...erstAntragCase,
