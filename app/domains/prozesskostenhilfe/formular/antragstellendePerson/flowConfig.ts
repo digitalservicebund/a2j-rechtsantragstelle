@@ -1,6 +1,7 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
 import { type prozesskostenhilfeFormularPages } from "../pages";
+import { isNachueberpruefung } from "../grundvoraussetzungen/guards";
 
 export const antragstellendePersonFlowConfig = {
   empfaenger: [
@@ -30,28 +31,70 @@ export const antragstellendePersonFlowConfig = {
       guard: (data) => data.unterhaltsanspruch === "sonstiges",
       target: "unterhaltsbeschreibung",
     },
-    { target: "rsvFrage" },
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
   ],
   unterhaltLebenFrage: [
     {
       guard: (context) => context.couldLiveFromUnterhalt === "yes",
       target: "unterhaltspflichtigePersonBeziehung",
     },
-    { target: "rsvFrage" },
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
   ],
   unterhaltspflichtigePersonBeziehung: "warumKeinerUnterhalt",
-  warumKeinerUnterhalt: "rsvFrage",
+  warumKeinerUnterhalt: [
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
+  ],
   unterhalt: "unterhaltHauptsaechlichesLeben",
-  unterhaltsbeschreibung: "rsvFrage",
+  unterhaltsbeschreibung: [
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
+  ],
   unterhaltHauptsaechlichesLeben: [
     {
       guard: (context) => context.livesPrimarilyFromUnterhalt === "yes",
       target: "unterhaltspflichtigePerson",
     },
-    { target: "rsvFrage" },
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
   ],
   unterhaltspflichtigePerson: "eigenesExemplar",
-  eigenesExemplar: "rsvFrage",
+  eigenesExemplar: [
+    {
+      guard: (data) => isNachueberpruefung({ context: data }),
+      target: "einkuenfteStart",
+    },
+    {
+      target: "rsvFrage",
+    },
+  ],
   zweiFormulare: "einkuenfteStart",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
