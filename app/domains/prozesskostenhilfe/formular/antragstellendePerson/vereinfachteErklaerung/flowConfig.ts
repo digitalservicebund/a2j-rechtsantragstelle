@@ -40,7 +40,7 @@ export const vereinfachteErklaerungFlowConfig = {
     },
     {
       guard: (context) => frageVermoegen({ context }),
-      target: "vermoegen",
+      target: "vermoegenFrage",
     },
     { target: "hinweisWeiteresFormular" },
   ],

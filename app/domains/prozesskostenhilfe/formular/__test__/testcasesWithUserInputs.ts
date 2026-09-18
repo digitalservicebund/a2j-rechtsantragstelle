@@ -1,5 +1,5 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { erstAntragCase, testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
+import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
@@ -106,10 +106,8 @@ export const prozesskostenhilfeFormularTestCases = {
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,
-
-    // ...testCasesPKHFormularAntragstellendePersonTransitions,
-    // ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
-    // ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
+    ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
+    ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
     // ...testCasesPKHFormularRsv,
     // ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
     // ...testCasesPKHFormularFinanzielleAngabenPartner,

@@ -1,13 +1,15 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
-import { type ProzesskostenhilfeVereinfachteErklaerungUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/userData";
+import { type ProzesskostenhilfeFormularUserData } from "../../../userData";
+import { vereinfachteErklaerungTestcaseData } from "./testcaseData";
 
 const frageVermoegenFulfilled = {
   frageVermoegenFulfilledUnterhalt: [
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -46,7 +48,9 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -85,7 +89,9 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -124,7 +130,9 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -194,14 +202,16 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
     },
   ],
-} satisfies FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
 
 const frageVermoegenNotFulfilled = {
   frageVermoegenNotFulfilledAdultChild: [
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "no",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -241,7 +251,9 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "no",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -274,7 +286,9 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -314,7 +328,9 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        empfaenger: "child",
         minderjaehrig: "yes",
+        ...vereinfachteErklaerungTestcaseData,
       },
     },
     {
@@ -385,18 +401,16 @@ const frageVermoegenNotFulfilled = {
         "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
     },
   ],
-} satisfies FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
 
-export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases<ProzesskostenhilfeVereinfachteErklaerungUserData> =
+export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases<ProzesskostenhilfeFormularUserData> =
   {
     veChildData: [
       {
         stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
         userInput: {
-          child: {
-            vorname: "Max",
-            nachname: "Mustermann",
-          },
+          empfaenger: "child",
+          ...vereinfachteErklaerungTestcaseData,
         },
       },
       {
@@ -415,6 +429,9 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
       },
       {
         stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+        userInput: {
+          minderjaehrig: "yes",
+        },
       },
     ],
     ...frageVermoegenFulfilled,
@@ -424,6 +441,9 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
         userInput: {
+          ...vereinfachteErklaerungTestcaseData,
+          empfaenger: "child",
+          minderjaehrig: "yes",
           hasEinnahmen: "yes",
         },
       },
@@ -448,6 +468,10 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
+          ...vereinfachteErklaerungTestcaseData,
+          empfaenger: "child",
+          livesTogether: "no",
+          minderjaehrig: "yes",
           hasVermoegen: "no",
         },
       },
@@ -461,6 +485,12 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
+          ...vereinfachteErklaerungTestcaseData,
+          empfaenger: "child",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "unterhalt",
+          hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
       },
@@ -481,6 +511,12 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
+          ...vereinfachteErklaerungTestcaseData,
+          empfaenger: "child",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "unterhalt",
+          hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
       },
@@ -500,11 +536,17 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
       },
     ],
-    veVrmoegenUnder10000: [
+    veVermoegenUnder10000: [
       {
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
+          ...vereinfachteErklaerungTestcaseData,
+          empfaenger: "child",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "unterhalt",
+          hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
       },
@@ -587,7 +629,4 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       },
       { stepId: "/antragstellende-person/unterhaltsanspruch" },
     ],
-  } satisfies FlowTestCases<
-    ProzesskostenhilfeVereinfachteErklaerungUserData &
-      ProzesskostenhilfeAntragstellendePersonUserData
-  >;
+  } satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
