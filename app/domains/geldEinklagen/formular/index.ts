@@ -27,6 +27,7 @@ import {
 } from "../services/prefillZipCodeAndCity";
 import { copyOrRemoveReferenceDocuments } from "../services/copyOrRemoveReferenceDocuments";
 import { geldEinklagenFlowConfig } from "./flowConfig";
+import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferencePersons";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -78,5 +79,7 @@ export const geldEinklagenFormular = {
       updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden":
       copyOrRemoveReferenceDocuments,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden":
+      copyOrRemoveReferencePersons,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;
