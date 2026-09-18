@@ -2,6 +2,15 @@ import { render } from "@testing-library/react";
 import { BegruendungBeschreibungBeweisItems } from "../BegruendungBeschreibungBeweisItems";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
 
+// Needed as jsdom doesn't support dialog API yet
+// https://github.com/jsdom/jsdom/issues/3294
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
+
 vi.mock("../useBegruendungBeschreibung");
 
 beforeEach(() => {
@@ -21,15 +30,15 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       },
     ];
 
-    const { getByText, queryByRole, getByRole } = render(
+    const { getAllByText, queryByRole, getByRole } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={dokumenten}
         personen={[]}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    expect(getByText("beschreibung")).toBeInTheDocument();
+    expect(getAllByText("beschreibung")[0]).toBeInTheDocument();
     expect(queryByRole("link")).toHaveAttribute(
       "href",
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten/0/daten",
@@ -59,12 +68,14 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={dokumenten}
         personen={[]}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    const deleteButton = getByRole("button");
-    deleteButton.click();
+    getByRole("button", {
+      name: "Dieses Dokument löschen: beschreibung und so weiter",
+    }).click();
+    getByRole("button", { name: "Ja, löschen" }).click();
 
     expect(onAbschnittDocumentDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/dokumenten",
@@ -88,24 +99,23 @@ describe("BegruendungBeschreibungBeweisItems", () => {
         land: "Deutschland",
         telefonnummer: "0123456789",
         email: "max.mustermann@example.com",
-        personId: "person-id",
       },
     ];
 
-    const { getByText, queryByRole, getByRole } = render(
+    const { getAllByText, queryByRole, getByRole } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    expect(getByText("Herr Max Mustermann")).toBeInTheDocument();
+    expect(getAllByText("Herr Max Mustermann")[0]).toBeInTheDocument();
     expect(
-      getByText("Musterstraße 1, 12345 Musterstadt, Deutschland"),
+      getAllByText("Musterstraße 1, 12345 Musterstadt, Deutschland")[0],
     ).toBeInTheDocument();
-    expect(getByText("0123456789")).toBeInTheDocument();
-    expect(getByText("max.mustermann@example.com")).toBeInTheDocument();
+    expect(getAllByText("0123456789")[0]).toBeInTheDocument();
+    expect(getAllByText("max.mustermann@example.com")[0]).toBeInTheDocument();
     expect(queryByRole("link")).toHaveAttribute(
       "href",
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen/0/daten",
@@ -121,7 +131,6 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
-        personId: "person-id",
       },
     ];
 
@@ -129,7 +138,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
@@ -140,24 +149,22 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
-        personId: "person-id",
       },
       {
         personAuswahl: "beklagte" as const,
-        personId: "person-id",
       },
     ];
 
-    const { getByText } = render(
+    const { getAllByText } = render(
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    expect(getByText("Klagende Person")).toBeInTheDocument();
-    expect(getByText("Beklagte Person")).toBeInTheDocument();
+    expect(getAllByText("Klagende Person")[0]).toBeInTheDocument();
+    expect(getAllByText("Beklagte Person")[0]).toBeInTheDocument();
   });
 
   it("should call the function onAbschnittPersonDelete when the delete button is clicked", () => {
@@ -171,7 +178,6 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
-        personId: "person-id",
       },
     ];
 
@@ -179,12 +185,12 @@ describe("BegruendungBeschreibungBeweisItems", () => {
       <BegruendungBeschreibungBeweisItems
         dokumenten={[]}
         personen={personen}
-        itemIndexAbschnitte={0}
+        itemIndexAbschnitt={0}
       />,
     );
 
-    const deleteButton = getByRole("button");
-    deleteButton.click();
+    getByRole("button", { name: "Klagende Person als Beweis löschen" }).click();
+    getByRole("button", { name: "Ja, löschen" }).click();
 
     expect(onAbschnittPersonDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/0/personen",

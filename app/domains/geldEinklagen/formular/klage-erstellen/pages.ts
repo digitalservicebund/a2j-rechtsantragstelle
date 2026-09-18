@@ -10,7 +10,10 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import {
+  schemaOrEmptyString,
+  schemaOrEmptyStringOptional,
+} from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import {
@@ -18,6 +21,7 @@ import {
   stringRequiredMaxSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { reuseBeweisSchema } from "~/services/validation/reuseBeweis";
 import {
   datatypeA,
   datatypeB,
@@ -32,18 +36,6 @@ const statePrefilled = z
   .enum(["prefilled", "filledByUser", "unfilled"])
   .default("filledByUser");
 
-const personIdOnAbschnittSchema = hiddenInputSchema(
-  schemaOrEmptyString(z.string().optional()),
-);
-
-const personIdSchema = hiddenInputSchema(
-  z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? crypto.randomUUID() : val))
-    .default(() => crypto.randomUUID()),
-);
-
 const sharedBeklagteAddress = {
   beklagteStrasse: stringRequiredSchema.check(datatypeB),
   beklagteHausnummer: germanHouseNumberSchema.check(datatypeB),
@@ -55,6 +47,9 @@ const sharedBeklagteAddress = {
 const beweiseDokumentenArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema.check(datatypeC),
+    dokumentReference: hiddenInputSchema(
+      schemaOrEmptyString(stringOptionalSchema),
+    ),
   }),
 );
 
@@ -70,18 +65,17 @@ const beweisePersonenSchema = z.object({
   land: stringRequiredSchema,
   telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
   email: schemaOrEmptyString(emailSchema).check(datatypeC),
+  personReference: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
 });
 
 const beweisePersonenArray = z.array(
   z.union([
     z.object({
       personAuswahl: z.enum(["beklagte", "klagende"]),
-      personId: personIdSchema,
     }),
     z.object({
       personAuswahl: z.literal("anotherPerson"),
       ...beweisePersonenSchema.shape,
-      personId: personIdSchema,
     }),
   ]),
 );
@@ -89,10 +83,14 @@ const beweisePersonenArray = z.array(
 export const abschnitteArray = z.array(
   z.object({
     beschreibung: stringRequiredMaxSchema({ max: 12000 }).check(datatypeC),
-    personIdAsBeklagte: personIdOnAbschnittSchema,
-    personIdAsKlagende: personIdOnAbschnittSchema,
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
+    reuseBeweiseDokument: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("document"),
+    ),
+    reuseBeweisePerson: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("person"),
+    ),
   }),
 );
 
@@ -230,10 +228,24 @@ export const geldEinklagenKlageErstellenPages = {
     stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
-      "abschnitte#personIdAsBeklagte":
-        abschnitteArray.element.shape.personIdAsBeklagte,
-      "abschnitte#personIdAsKlagende":
-        abschnitteArray.element.shape.personIdAsKlagende,
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweiseDokument":
+        abschnitteArray.element.shape.reuseBeweiseDokument,
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweisePerson":
+        abschnitteArray.element.shape.reuseBeweisePerson,
     },
   },
   begruendungBeschreibungAbschnitteBeweisDocument: {
@@ -243,6 +255,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
+      dokumentReference: beweiseDokumentenArray.element.shape.dokumentReference,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
@@ -255,11 +268,6 @@ export const geldEinklagenKlageErstellenPages = {
         "beklagte",
         "anotherPerson",
       ]),
-      "abschnitte#personIdAsBeklagte":
-        abschnitteArray.element.shape.personIdAsBeklagte,
-      "abschnitte#personIdAsKlagende":
-        abschnitteArray.element.shape.personIdAsKlagende,
-      "abschnitte#personen#personId": personIdSchema,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPerson: {
