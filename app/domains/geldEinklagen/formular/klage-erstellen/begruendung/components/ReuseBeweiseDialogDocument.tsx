@@ -1,6 +1,6 @@
 import { ValidatedForm } from "@rvf/react-router";
 import { useEffect } from "react";
-import z from "zod";
+import type z from "zod";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -19,8 +19,14 @@ const dialogLabelId = "dialog-label";
 const dialogDescriptionId = "dialog-description";
 
 const dialogOptions = [
-  { text: "Ein bereits genanntes Dokument erneut angeben", value: "reuse" },
-  { text: "Ein neues Dokument beschreiben", value: "new" },
+  {
+    text: translations.geldEinklagen.dialogDocumentReuseOption.de,
+    value: "reuse",
+  },
+  {
+    text: translations.geldEinklagen.dialogDocumentNewOption.de,
+    value: "new",
+  },
 ];
 
 const errorMessages = [

@@ -195,7 +195,11 @@ export const BegruendungBeschreibungBeweise = ({
                       />
                     }
                   >
-                    Dokument wiederverwenden
+                    {
+                      translations.geldEinklagen
+                        .begruendungBeschreibungReuseDocumentDialogDescription
+                        .de
+                    }
                   </Button>
                 </div>
               )}
@@ -216,7 +220,10 @@ export const BegruendungBeschreibungBeweise = ({
                       />
                     }
                   >
-                    Person wiederverwenden
+                    {
+                      translations.geldEinklagen
+                        .begruendungBeschreibungReusePersonDialogDescription.de
+                    }
                   </Button>
                 </div>
               )}

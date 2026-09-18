@@ -605,6 +605,30 @@ export const translations = {
     begruendungBeschreibungReusePersonDialogTitle: {
       de: "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?",
     },
+    begruendungBeschreibungReuseDocumentDialogDescription: {
+      de: "Dokument wiederverwenden",
+    },
+    begruendungBeschreibungReusePersonDialogDescription: {
+      de: "Person wiederverwenden",
+    },
+    dialogDocumentReuseOption: {
+      de: "Ein bereits genanntes Dokument erneut angeben",
+    },
+    dialogDocumentNewOption: {
+      de: "Ein neues Dokument beschreiben",
+    },
+    dialogPersonReuseOption: {
+      de: "Eine bereits genannte Person erneut angeben",
+    },
+    dialogPersonNewOption: {
+      de: "Eine neue Person beschreiben",
+    },
+    dialogPersonKlagendeOption: {
+      de: "Die klagende Person (mich selbst)",
+    },
+    dialogPersonBeklagteOption: {
+      de: "Die beklagte Person",
+    },
   },
   nachlass: {
     childOf: {

@@ -55,15 +55,21 @@ export const ReuseBeweiseDialogPerson = ({
   );
 
   const dialogOptions = [
-    { text: "Eine bereits genannte Person erneut angeben", value: "reuse" },
-    { text: "Eine neue Person", value: "new" },
     {
-      text: "Die klagende Person (mich selbst)",
+      text: translations.geldEinklagen.dialogPersonReuseOption.de,
+      value: "reuse",
+    },
+    {
+      text: translations.geldEinklagen.dialogPersonNewOption.de,
+      value: "new",
+    },
+    {
+      text: translations.geldEinklagen.dialogPersonKlagendeOption.de,
       value: "klagende",
       disabled: hasKlagendePerson,
     },
     {
-      text: "Die beklagte Person",
+      text: translations.geldEinklagen.dialogPersonBeklagteOption.de,
       value: "beklagte",
       disabled: hasBeklagtePerson,
     },
