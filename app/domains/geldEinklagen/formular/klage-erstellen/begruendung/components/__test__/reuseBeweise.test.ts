@@ -150,7 +150,11 @@ describe("reuseBeweise", () => {
         itemIndexAbschnitte,
       );
       expect(result).toEqual([
-        { label: "Vorname 1 Nachname 1", option: "1-1" },
+        {
+          label: "Strasse 1 Hausnummer 1, PLZ 1 Ort 1, Land 1",
+          labelBold: " Vorname 1 Nachname 1",
+          option: "1-1",
+        },
       ]);
     });
 
