@@ -1,11 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
+import { rsvTestcaseData } from "./testcaseData";
 
 export const testCasesPKHFormularRsv = {
   noRsv: [
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsv: "no",
       },
     },
@@ -17,6 +19,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -34,6 +37,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -51,6 +55,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -71,6 +76,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -91,6 +97,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -108,6 +115,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -125,6 +133,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -142,6 +151,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...rsvTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },

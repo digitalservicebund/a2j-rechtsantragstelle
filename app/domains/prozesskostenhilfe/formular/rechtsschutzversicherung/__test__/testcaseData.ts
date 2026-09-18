@@ -1,10 +1,12 @@
 import { ProzesskostenhilfeFormularUserData } from "../../userData";
 
-export const antragTestcaseData: Partial<ProzesskostenhilfeFormularUserData> = {
+export const rsvTestcaseData: Partial<ProzesskostenhilfeFormularUserData> = {
   formularArt: "erstantrag",
   anhaengigesGerichtsverfahrenFrage: "yes",
   gerichtName: "",
   aktenzeichen: "",
-  verfahrenArt: "verfahrenAnwalt",
+  verfahrenArt: "verfahrenSelbststaendig",
   versandArt: "digital",
+  empfaenger: "myself",
+  unterhaltsanspruch: "keine",
 };
