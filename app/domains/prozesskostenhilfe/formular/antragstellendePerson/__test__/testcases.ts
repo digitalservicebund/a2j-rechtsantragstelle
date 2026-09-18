@@ -1,15 +1,15 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { antragTestcaseData } from "./testcaseData";
 
-const nextStepRSV = "/rechtsschutzversicherung/rsv-frage";
-const nextStepEinkuenfte = "/finanzielle-angaben/einkuenfte/start";
-
-const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData> =
+export const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> =
   {
     erstAntragOtherRecipient: [
       {
         stepId: "/antragstellende-person/empfaenger",
+        skipPageSchemaValidation: true,
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "otherPerson",
         },
       },
@@ -19,13 +19,14 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         skipPageSchemaValidation: true,
       },
       {
-        stepId: nextStepEinkuenfte,
+        stepId: "/finanzielle-angaben/einkuenfte/start",
       },
     ],
     erstAntragSelfRecipientNoUnterhaltsanspruch: [
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "myself",
         },
       },
@@ -36,13 +37,14 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         },
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
     erstAntragSelfRecipientUnterhaltsanspruch: [
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "myself",
         },
       },
@@ -65,13 +67,14 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         },
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
     erstAntragSelfRecipientLivesFromUnterhalt: [
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "myself",
         },
       },
@@ -109,13 +112,14 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         skipPageSchemaValidation: true,
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
     erstAntragAnspruchNoUnterhalt: [
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "myself",
         },
       },
@@ -132,13 +136,14 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         },
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
     erstAntragAnspruchLiveable: [
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...antragTestcaseData,
           empfaenger: "myself",
         },
       },
@@ -167,13 +172,15 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         },
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
     erstAntragSonstigesUnterhaltsanspruch: [
       {
         stepId: "/antragstellende-person/unterhaltsanspruch",
         userInput: {
+          ...antragTestcaseData,
+          empfaenger: "myself",
           unterhaltsanspruch: "sonstiges",
         },
       },
@@ -185,7 +192,7 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserD
         },
       },
       {
-        stepId: nextStepRSV,
+        stepId: "/rechtsschutzversicherung/rsv-frage",
       },
     ],
   };
@@ -194,19 +201,17 @@ const nachueberpruefungCase = Object.fromEntries(
   Object.entries(erstAntragCase).map(([testName, testSteps]) => [
     testName.replace("erstAntrag", "nachueberpruefung"),
     testSteps.map(({ stepId, userInput, skipPageSchemaValidation }) => ({
-      stepId: stepId === nextStepRSV ? nextStepEinkuenfte : stepId,
+      stepId:
+        stepId === "/rechtsschutzversicherung/rsv-frage"
+          ? "/finanzielle-angaben/einkuenfte/start"
+          : stepId,
       skipPageSchemaValidation: skipPageSchemaValidation,
       userInput: { ...userInput, formularArt: "nachueberpruefung" },
     })),
   ]),
-) satisfies FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData>;
+) satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
 
-/**
- * Specifically test the "BACK" transitions pointing to antragstellende-person,
- * as there are two places they can happen: Rechtsschutzversicherung and Finanzielle Angaben
- * (in the case of a Nachueberpruefung)
- */
 export const testCasesPKHFormularAntragstellendePersonTransitions = {
   ...erstAntragCase,
   ...nachueberpruefungCase,
-} satisfies FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

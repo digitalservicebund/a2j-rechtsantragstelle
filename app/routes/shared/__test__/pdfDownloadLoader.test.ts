@@ -3,6 +3,10 @@ import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import type {
+  InferredUserData,
+  PageConfigMap,
+} from "~/services/flow/newFlowEngine/types";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
   pruneUserData,
@@ -58,6 +62,10 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Prozesskostenhilfe", async () => {
+    getPrunedUserDataForPdfSpy.mockReturnValueOnce({
+      vorname: "Herman",
+      nachname: "Müller",
+    } as InferredUserData<PageConfigMap>);
     const url = "https://mock-url.de/prozesskostenhilfe/formular/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
@@ -69,6 +77,6 @@ describe("pdfDownloadLoader", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("application/pdf");
     expect(pdfDoc.getPageCount()).toBe(10);
-    expect(nameField.getText()).toBe("Müller, Zoe");
+    expect(nameField.getText()).toBe("Müller, Herman");
   });
 });

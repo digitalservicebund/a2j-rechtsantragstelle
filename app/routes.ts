@@ -12,7 +12,9 @@ export default [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
     ...prefix("antrag", flowRoutes("BHA")),
   ]),
-  ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
+  ...prefix("prozesskostenhilfe", [
+    ...prefix("formular", newEngineFlowRoutes("PKH")),
+  ]),
   ...prefix("fluggastrechte", [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
     ...prefix("formular", flowRoutes("FGRF")),

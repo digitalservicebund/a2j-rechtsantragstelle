@@ -746,6 +746,58 @@ describe("createFlowSession", () => {
     });
   });
 
+  describe("reachablePaths", () => {
+    // A flow where the linear walk dives into the array item (addArrayItem is
+    // taken first) and dead-ends there because the item page has only a failing
+    // guard and no fallback. The page after the array is still reachable via the
+    // summary's regular branch, but the linear walk never reaches it.
+    const deadEndFlow = compileFlow({
+      pages: {
+        start: { stepId: "/start" },
+        list: {
+          stepId: "/list",
+          arraySummary: {
+            name: "items" as const,
+            schema: z.array(z.object({ gate: z.string() })),
+          },
+        },
+        item: {
+          stepId: "/list/#/daten",
+          pageSchema: { "items#gate": z.string() },
+        },
+        after: { stepId: "/after" },
+      },
+      initialStep: "start",
+      transitions: {
+        start: "list",
+        list: [{ type: "addArrayItem", target: "item" }, { target: "after" }],
+        // Guarded-only, no fallback: with no item data this dead-ends the walk.
+        item: [
+          {
+            guard: (d) =>
+              (d as { items?: Array<{ gate?: string }> }).items?.[0]?.gate ===
+              "x",
+            target: "list",
+          },
+        ],
+        after: null,
+      },
+    });
+
+    it("includes a page reachable only via a branch the linear walk skipped", () => {
+      const session = createFlowSession(deadEndFlow, noData, "/list");
+      // The linear walk dead-ended inside the empty array item.
+      expect(session.paths).not.toContain("/after");
+      // But "after" is reachable via the summary's regular branch.
+      expect(session.reachablePaths).toContain("/after");
+    });
+
+    it("excludes array-item (#) pages", () => {
+      const session = createFlowSession(deadEndFlow, noData, "/list");
+      expect(session.reachablePaths).not.toContain("/list/#/daten");
+    });
+  });
+
   describe("statusTree", () => {
     it("is populated for flows with nested stepIds", () => {
       const nestedPages = {

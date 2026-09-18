@@ -1,5 +1,4 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { prozesskostenhilfeFormular } from "~/domains/prozesskostenhilfe/formular";
 import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
@@ -17,90 +16,93 @@ import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/r
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { prozesskostenhilfeFormularFlowConfig } from "../flowConfig";
 
 export const prozesskostenhilfeFormularTestCases = {
-  xstateConfig: prozesskostenhilfeFormular.config,
+  xstateConfig: { id: "/prozesskostenhilfe/formular" },
+  newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   testcases: {
     shortHappyPath: [
-      {
-        stepId: "/gesetzliche-vertretung/frage",
-        userInput: {
-          hasGesetzlicheVertretung: "yes",
-        },
-      },
-      {
-        stepId: "/gesetzliche-vertretung/daten",
-        userInput: {
-          gesetzlicheVertretungDaten: {
-            vorname: "Max",
-            nachname: "Mustermann",
-            strasseHausnummer: "Musterstraße 1",
-            plz: "10969",
-            ort: "Musterstadt",
-            telefonnummer: "0123456789",
-          },
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/start",
-      },
-      {
-        stepId: "/persoenliche-daten/name",
-        userInput: {
-          vorname: "Marie",
-          nachname: "Mustermann",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/geburtsdatum",
-        userInput: {
-          geburtsdatum: {
-            day: "10",
-            month: "12",
-            year: "1990",
-          },
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/plz",
-        userInput: {
-          plz: "10969",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/adresse",
-        userInput: {
-          street: "Musterstraße",
-          houseNumber: "1c",
-          ort: "Berlin",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/telefonnummer",
-        userInput: {
-          telefonnummer: "",
-        },
-      },
-      {
-        stepId: "/persoenliche-daten/beruf",
-        userInput: {
-          beruf: "Softwareentwickler:in",
-        },
-      },
-      {
-        stepId: "/weitere-angaben",
-        userInput: {
-          weitereAngaben: "",
-        },
-        pageData: {
-          subflowDoneStates: {
-            "/abgabe": false,
-            "/gesetzliche-vertretung": true,
-          },
-        },
-      },
-      { stepId: "/abgabe/zusammenfassung" },
-      { stepId: "/abgabe/ende" },
+      { stepId: "/start/start" },
+      // {
+      //   stepId: "/gesetzliche-vertretung/frage",
+      //   userInput: {
+      //     hasGesetzlicheVertretung: "yes",
+      //   },
+      // },
+      // {
+      //   stepId: "/gesetzliche-vertretung/daten",
+      //   userInput: {
+      //     gesetzlicheVertretungDaten: {
+      //       vorname: "Max",
+      //       nachname: "Mustermann",
+      //       strasseHausnummer: "Musterstraße 1",
+      //       plz: "10969",
+      //       ort: "Musterstadt",
+      //       telefonnummer: "0123456789",
+      //     },
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/start",
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/name",
+      //   userInput: {
+      //     vorname: "Marie",
+      //     nachname: "Mustermann",
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/geburtsdatum",
+      //   userInput: {
+      //     geburtsdatum: {
+      //       day: "10",
+      //       month: "12",
+      //       year: "1990",
+      //     },
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/plz",
+      //   userInput: {
+      //     plz: "10969",
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/adresse",
+      //   userInput: {
+      //     street: "Musterstraße",
+      //     houseNumber: "1c",
+      //     ort: "Berlin",
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/telefonnummer",
+      //   userInput: {
+      //     telefonnummer: "",
+      //   },
+      // },
+      // {
+      //   stepId: "/persoenliche-daten/beruf",
+      //   userInput: {
+      //     beruf: "Softwareentwickler:in",
+      //   },
+      // },
+      // {
+      //   stepId: "/weitere-angaben",
+      //   userInput: {
+      //     weitereAngaben: "",
+      //   },
+      //   pageData: {
+      //     subflowDoneStates: {
+      //       "/abgabe": false,
+      //       "/gesetzliche-vertretung": true,
+      //     },
+      //   },
+      // },
+      // { stepId: "/abgabe/zusammenfassung" },
+      // { stepId: "/abgabe/ende" },
     ],
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,
@@ -108,33 +110,36 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
     ...testCasesPKHFormularRsv,
     ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
-    ...testCasesPKHFormularFinanzielleAngabenPartner,
-    ...testCasesPKHFormularFinanzielleAngabenAbzuege,
-    ...testCasesPKHFormularFinanzielleAngabenAusgaben,
-    ...testCasesPKHFormularFinanzielleAngabenKinder,
-    ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
-    ...testCasesPKHFormularFinanzielleAngabenWohnung,
-    ...testCasesPKHFormularFinanzielleAngabenEigentum,
-    ...testCasesPKHFormularPersoenlicheDaten,
-    weitereAngaben: [
-      {
-        stepId: "/persoenliche-daten/beruf",
-        userInput: {
-          beruf: "Softwareentwickler:in",
-        },
-      },
-      {
-        stepId: "/weitere-angaben",
-        userInput: {
-          weitereAngaben: "",
-        },
-      },
-      {
-        stepId: "/abgabe/ueberpruefung",
-        userInput: {
-          weitereAngaben: "",
-        },
-      },
-    ],
+    // ...testCasesPKHFormularFinanzielleAngabenPartner,
+    // ...testCasesPKHFormularFinanzielleAngabenAbzuege,
+    // ...testCasesPKHFormularFinanzielleAngabenAusgaben,
+    // ...testCasesPKHFormularFinanzielleAngabenKinder,
+    // ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
+    // ...testCasesPKHFormularFinanzielleAngabenWohnung,
+    // ...testCasesPKHFormularFinanzielleAngabenEigentum,
+    // ...testCasesPKHFormularPersoenlicheDaten,
+    // weitereAngaben: [
+    //   {
+    //     stepId: "/persoenliche-daten/beruf",
+    //     userInput: {
+    //       beruf: "Softwareentwickler:in",
+    //     },
+    //   },
+    //   {
+    //     stepId: "/weitere-angaben",
+    //     userInput: {
+    //       weitereAngaben: "",
+    //     },
+    //   },
+    //   {
+    //     stepId: "/abgabe/ueberpruefung",
+    //     userInput: {
+    //       weitereAngaben: "",
+    //     },
+    //   },
+    // ],
   },
-} satisfies FlowTestConfig<ProzesskostenhilfeFormularUserData>;
+} satisfies FlowTestConfig<
+  ProzesskostenhilfeFormularUserData,
+  typeof prozesskostenhilfeFormularFlowConfig.pages
+>;

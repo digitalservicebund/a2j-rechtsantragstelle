@@ -261,7 +261,7 @@ export const getContentData = (
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
         flowId,
-        flowSessionEngine.paths,
+        flowSessionEngine.reachablePaths,
       );
 
       const expandAll = getMetaConfigurationByStepId(
@@ -331,7 +331,7 @@ export const getContentData = (
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
         flowId,
-        flowSessionEngine.paths,
+        flowSessionEngine.reachablePaths,
       );
       return await generateSummaryFromUserData(
         userDataWithPageData,
