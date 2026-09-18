@@ -22,6 +22,9 @@ const HiddenSubfieldInput = ({
 const HiddenInput = ({ name }: { name: string }) => {
   const { getInputProps } = useField(name);
   const inputProps = getInputProps();
+  if (!inputProps.defaultValue) {
+    return null;
+  }
   if (typeof inputProps.defaultValue === "object") {
     return (
       <>

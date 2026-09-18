@@ -24,6 +24,7 @@ import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { buildFlowController } from "~/services/flow/server/buildFlowController";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 
 export const loader = async ({ params, request, url }: LoaderFunctionArgs) => {
   const resultUserAndFlow = await getUserDataAndFlow(request, url);
@@ -111,7 +112,8 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
   }
 
   const { pathname } = url;
-  const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
+  const { stepId, flowId, currentFlow } =
+    getPageAndFlowDataFromPathname(pathname);
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
@@ -153,11 +155,10 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     });
   }
 
-  const resultFormUserData = await validateFormUserData(
-    formData,
-    pathname,
-    cookieHeader,
-  );
+  const [resultFormUserData, migrationData] = await Promise.all([
+    validateFormUserData(formData, pathname),
+    getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+  ]);
 
   if (resultFormUserData.isErr) {
     return validationError(
@@ -170,7 +171,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
     {},
     flowSession.data,
     resultFormUserData.value.userData,
-    resultFormUserData.value.migrationData,
+    migrationData,
   );
 
   const subflowDoneStates = stepStatesToSubflowDoneStates(
