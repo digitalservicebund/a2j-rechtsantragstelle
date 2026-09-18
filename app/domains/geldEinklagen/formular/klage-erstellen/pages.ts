@@ -85,8 +85,12 @@ export const abschnitteArray = z.array(
     beschreibung: stringRequiredMaxSchema({ max: 12000 }).check(datatypeC),
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
-    reuseBeweiseDokument: reuseBeweisSchema("document"),
-    reuseBeweisePerson: reuseBeweisSchema("person"),
+    reuseBeweiseDokument: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("document"),
+    ),
+    reuseBeweisePerson: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("person"),
+    ),
   }),
 );
 
@@ -231,9 +235,8 @@ export const geldEinklagenKlageErstellenPages = {
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
     pageSchema: {
-      "abschnitte#reuseBeweiseDokument": schemaOrEmptyStringOptional(
-        reuseBeweisSchema("document"),
-      ),
+      "abschnitte#reuseBeweiseDokument":
+        abschnitteArray.element.shape.reuseBeweiseDokument,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
@@ -241,9 +244,8 @@ export const geldEinklagenKlageErstellenPages = {
     stepId:
       "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
     pageSchema: {
-      "abschnitte#reuseBeweisePerson": schemaOrEmptyStringOptional(
-        reuseBeweisSchema("person"),
-      ),
+      "abschnitte#reuseBeweisePerson":
+        abschnitteArray.element.shape.reuseBeweisePerson,
     },
   },
   begruendungBeschreibungAbschnitteBeweisDocument: {
